@@ -46,13 +46,43 @@ export default defineAppConfig({
         items: [
           {
             name: 'Dashboard',
-            icon: { name: 'ph:sidebar-duotone', class: 'w-5 h-5' },
+            icon: { name: 'mdi:view-dashboard', class: 'w-5 h-5' },
             to: '/dashboard',
           },
           {
             name: 'Citizens',
-            icon: { name: 'ph:sidebar-duotone', class: 'w-5 h-5' },
+            icon: { name: 'pepicons-pencil:people', class: 'w-5 h-5' },
             to: '/citizens',
+          },
+          {
+            name: 'Calendar',
+            icon: { name: 'mdi:calendar', class: 'w-5 h-5' },
+            to: '/calendar',
+          },
+          {
+            name: 'Duty Schedule',
+            icon: { name: 'mdi:calendar-clock', class: 'w-5 h-5' },
+            to: '/schedules',
+          },
+          {
+            name: 'Employees',
+            icon: { name: 'f7:person-3-fill', class: 'w-5 h-5' },
+            to: '/employees',
+          },
+          {
+            name: 'Messages',
+            icon: { name: 'mdi:chat', class: 'w-5 h-5' },
+            to: '/messages',
+          },
+          {
+            name: 'Protocols',
+            icon: { name: 'ic:outline-shield', class: 'w-5 h-5' },
+            to: '/protocols',
+          },
+          {
+            name: 'Apps',
+            icon: { name: 'ic:baseline-apps', class: 'w-5 h-5' },
+            to: '/apps',
           },
         ]
       }

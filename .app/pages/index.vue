@@ -140,7 +140,7 @@ const login = handleSubmit(async (values) => {
         if (response) {
             userStore.setUser(response?.data?.user)
             localStorage.setItem("_token", response?.data?.token)
-            navigateTo('/citizens')
+            navigateTo('/dashboard')
         }
     } catch (error: any) {
         errorMessage = error.message
