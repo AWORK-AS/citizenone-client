@@ -1,7 +1,7 @@
 <template>
     <TairoContentWrapper>
         <template #right>
-            <BaseButton color="primary" shape="full">
+            <BaseButton color="primary" shape="full" @click="navigateTo('citizens/new')">
                 <Icon name="lucide:plus" class="h-4 w-4" />
                 <span>New Citizen</span>
             </BaseButton>
