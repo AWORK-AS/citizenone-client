@@ -1,32 +1,32 @@
 <template>
     <div class="mb-6">
         <div
-            class="bg-white flex items-center w-full flex-wrap mb-3 border border-primary relative px-3 py-1 rounded-md dark:bg-primary dark:border-slate-400">
+            class="bg-white flex items-center w-full flex-wrap mb-3 border border-sky-500 relative px-3 py-1 rounded-md dark:bg-transparent dark:border-slate-400">
             <span class="flex items-center gap-x-1 absolute text-gray-800 dark:text-white">
-                <FunnelIcon class="w-4" /> <span>Filter</span>
+                <Icon name="heroicons:funnel" class="w-4" /> <span>Filter</span>
             </span>
             <div class="flex flex-wrap flex-grow-0 ml-16">
                 <div v-for="(filter, index) in state.filters" :key="index"
-                    class="bg-primary flex items-center justify-center text-white rounded-full text-sm pl-3 pr-2 py-1 mx-1 dark:bg-sky-500">
+                    class="bg-sky-500 flex items-center justify-center text-white rounded-full text-sm pl-3 pr-2 py-1 mx-1 dark:bg-sky-500">
                     {{ columnViewingFilter(filter.column) }}: {{ filter.value }}
                     <div class="cursor-pointer">
-                        <XCircleIcon class="h-4 m-1" @click="deleteFilter(index)" />
+                        <Icon name="heroicons:x-circle" class="h-4 m-1" @click="deleteFilter(index)" />
                     </div>
                 </div>
             </div>
             <input list="list" type="text" name="input" @keyup.enter="addFilter" @keyup.tab="addFilter"
                 v-model="state.searchInput" autocomplete="off" class="
                     flex-grow
-                    text-primary 
+                    text-sky-500 
                     text-sm 
                     border-0
                     border-b-gray-300
                     outline-none
                     focus:outline-none
                     focus:ring-transparent
-                    focus:border-primary
+                    focus:border-sky-500
                     py-3
-                    dark:bg-primary
+                    dark:bg-transparent
                     dark:text-white" />
             <datalist id="list" class="appearance-none">
                 <span v-for="column in props.columnFilter" :key="column.index">
@@ -44,11 +44,6 @@
 </template>
 
 <script setup lang="ts">
-import {
-    FunnelIcon,
-    XCircleIcon,
-} from '@heroicons/vue/24/outline'
-
 const props = defineProps({
     columnFilter: {
         type: Object,
@@ -104,7 +99,6 @@ function deleteFilter(key: Number) {
     emit('handleFilter', state.tableFilter)
 }
 
-
 function filterValue(column: String) {
     let string = column.replaceAll('_', ' ')
     let wordList = string.split(" ")
@@ -143,7 +137,6 @@ function columnViewingFilter(column: any) {
     }
     return string.charAt(0).toUpperCase() + string.slice(1)
 }
-
 </script>
 
 <style scoped>

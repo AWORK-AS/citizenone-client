@@ -1,6 +1,15 @@
 <template>
-    <div class="relative">
-        <div class="h-full">
+    <TairoContentWrapper>
+        <template #right>
+            <BaseButton color="primary" shape="full">
+                <Icon name="lucide:plus" class="h-4 w-4" />
+                <span>New Citizen</span>
+            </BaseButton>
+        </template>
+        <div class="space-y-3">
+            <BaseMessage color="danger" icon v-if="state.error" :message="state.error?.message" />
+            <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
+                @handleFilter="handleFilter" />
             <div class="table-responsive">
                 <Table :columnHeaders="state.columnHeaders" :data="state.citizens" :isLoading="state.isTableLoading"
                     :sortData="state.sortData" @sort="sort">
@@ -36,7 +45,7 @@
                 </BasePlaceholderPage>
             </div>
         </div>
-    </div>
+    </TairoContentWrapper>
 </template>
 
 <script setup lang="ts">
@@ -50,12 +59,18 @@ definePageMeta({
 let currentTablePage = 1
 
 const state = reactive({
+    columnFilter: [
+        { column: 'name' },
+        { column: 'email' },
+        { column: 'phone' },
+    ],
     columnHeaders: [
         { name: 'Name', sorter: true, key: 'firstname' },
         { name: 'Email', sorter: true, key: 'email' },
         { name: 'Phone', sorter: true, key: 'phone' },
         { name: '' },
     ],
+    dataFilter: [],
     error: null,
     isTableLoading: false,
     citizens: [],
@@ -77,6 +92,7 @@ async function fetchCitizens() {
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
+            ...state.dataFilter
         }
         const response = await citizenService.getCitizens(params)
         if (response) {
@@ -104,6 +120,12 @@ function sort(sortingData: any) {
         sortField: sortingData.column,
         sortOrder: sortingData.sort,
     }
+    fetchCitizens()
+}
+
+function handleFilter(value: any) {
+    currentTablePage = 1
+    state.dataFilter = value
     fetchCitizens()
 }
 </script>
