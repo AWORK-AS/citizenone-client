@@ -10,6 +10,7 @@ export default defineNuxtConfig({
    * @see https://fontsource.org/
    */
   css: [
+    '~/assets/css/main.css',
     '@fontsource-variable/inter/index.css',
     '@fontsource-variable/karla/index.css',
   ],

@@ -17,6 +17,7 @@
     "clean": "rimraf .nuxt .output node_modules"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.5.1"
+    "@pinia/nuxt": "^0.5.1",
+    "moment": "^2.30.1"
   }
 }

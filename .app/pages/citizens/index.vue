@@ -1,10 +1,109 @@
 <template>
-    <h1>Citizens</h1>
+    <div class="relative">
+        <div class="h-full">
+            <div class="table-responsive">
+                <Table :columnHeaders="state.columnHeaders" :data="state.citizens" :isLoading="state.isTableLoading"
+                    :sortData="state.sortData" @sort="sort">
+                    <template #body v-if="!(state.isTableLoading || (state.citizens?.data?.length === 0))">
+                        <tr v-for="(citizen, index) in state.citizens?.data" :key="index">
+                            <td width="25%">
+                                <span>{{ citizen?.firstname }} {{ citizen?.lastname }}</span>
+                            </td>
+                            <td width="35%">
+                                <span>{{ citizen?.email }}</span>
+                            </td>
+                            <td width="25%">
+                                <span>{{ citizen?.phone }}</span>
+                            </td>
+                            <td width="15%">
+
+                            </td>
+                        </tr>
+                    </template>
+                </Table>
+            </div>
+            <Pagination :data="state.citizens" @previous="previous" @next="next" />
+            <div v-if="!state.citizens?.data">
+                <BasePlaceholderPage title="No data available" subtitle="There is no data to show you right now.">
+                    <template #image>
+                        <img class="block dark:hidden"
+                            src="/img/illustrations/placeholders/flat/placeholder-projects.svg"
+                            alt="Placeholder image" />
+                        <img class="hidden dark:block"
+                            src="/img/illustrations/placeholders/flat/placeholder-projects-dark.svg"
+                            alt="Placeholder image" />
+                    </template>
+                </BasePlaceholderPage>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
+import { citizenService } from '@/components/api/CitizenService'
+
 definePageMeta({
     layout: 'user',
     title: 'Citizens',
 })
+
+let currentTablePage = 1
+
+const state = reactive({
+    columnHeaders: [
+        { name: 'Name', sorter: true, key: 'firstname' },
+        { name: 'Email', sorter: true, key: 'email' },
+        { name: 'Phone', sorter: true, key: 'phone' },
+        { name: '' },
+    ],
+    error: null,
+    isTableLoading: false,
+    citizens: [],
+    sortData: {
+        sortField: 'id',
+        sortOrder: 'descend',
+    },
+})
+
+onMounted(() => {
+    fetchCitizens()
+})
+
+async function fetchCitizens() {
+    state.isTableLoading = true
+    state.error = null
+    try {
+        const params = {
+            page: currentTablePage,
+            sortField: state.sortData.sortField,
+            sortOrder: state.sortData.sortOrder,
+        }
+        const response = await citizenService.getCitizens(params)
+        if (response) {
+            state.citizens = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function previous() {
+    currentTablePage--
+    fetchCitizens()
+}
+
+function next() {
+    currentTablePage++
+    fetchCitizens()
+}
+
+function sort(sortingData: any) {
+    currentTablePage = 1
+    state.sortData = {
+        sortField: sortingData.column,
+        sortOrder: sortingData.sort,
+    }
+    fetchCitizens()
+}
 </script>
