@@ -35,9 +35,9 @@
                                                                     :src="preview(files.item(0)!).value"
                                                                     alt="Upload preview"
                                                                     class="bg-muted-200 dark:bg-muted-700/60 size-28 rounded-full object-cover object-center">
-                                                                <img v-else src="/img/avatars/user.svg"
+                                                                <img v-else :src="state.citizenAvatar"
                                                                     alt="Upload preview"
-                                                                    class="bg-muted-200 dark:bg-muted-700/60 size-28 rounded-full object-cover object-center dark:invert">
+                                                                    class="bg-muted-200 dark:bg-muted-700/60 size-28 rounded-full object-cover object-center">
                                                                 <div v-if="files?.length && files.item(0)"
                                                                     class="absolute bottom-1 end-1 z-20">
                                                                     <BaseButtonIcon size="sm" rounded="full"
@@ -225,11 +225,12 @@
                                         <div class="text-right md:col-span-5">
                                             <div
                                                 class="-mt-4 inline-flex w-full items-center justify-end gap-2 sm:w-auto">
-                                                <BaseButton class="!h-12 w-full sm:w-40"
-                                                    @click="navigateTo('/citizens')">
+                                                <BaseButton class="!h-12 w-full sm:w-40" :disabled="isSubmitting"
+                                                    :loading="isSubmitting" @click="navigateTo('/citizens')">
                                                     Cancel
                                                 </BaseButton>
-                                                <BaseButton type="submit" color="primary" class="!h-12 w-full sm:w-40">
+                                                <BaseButton type="submit" color="primary" class="!h-12 w-full sm:w-40"
+                                                    :disabled="isSubmitting" :loading="isSubmitting">
                                                     Update Citizen
                                                 </BaseButton>
                                             </div>
@@ -261,13 +262,17 @@ definePageMeta({
 })
 
 const runtimeConfig = useRuntimeConfig()
+const route = useRoute()
+const citizenUuid = route.params.slug
 
 const state = reactive({
+    citizenAvatar: '/img/avatars/user.svg',
     cities: [],
     error: null,
     isPageLoading: false,
     municipalities: [],
     regions: [],
+    selectedCitizen: null,
     selectedRegion: null,
     selectedMunicipality: null,
     selectedCity: null
@@ -288,10 +293,39 @@ function changeSelectedCity(event: any) {
 }
 
 onMounted(() => {
+    fetchSelectedCitizen()
     fetchRegions()
-    fetchMunicipalities(1)
-    fetchCities(1)
 })
+
+async function fetchSelectedCitizen() {
+    state.isPageLoading = true
+    try {
+        const response = await citizenService.getCitizen(citizenUuid)
+        if (response) {
+            state.selectedCitizen = response
+            fetchMunicipalities(response?.data?.address?.region_id)
+            fetchCities(response?.data?.address?.municipality_id)
+            if (response?.data?.image) {
+                state.citizenAvatar = response?.data?.image
+            }
+            setFieldValue('citizen.firstname', response?.data?.firstname ?? '')
+            setFieldValue('citizen.lastname', response?.data?.lastname ?? '')
+            setFieldValue('citizen.email', response?.data?.email ?? '')
+            setFieldValue('citizen.socialSecurityNumber', response?.data?.social_security_number ?? '')
+            setFieldValue('citizen.birthday', response?.data?.birthday ?? '')
+            setFieldValue('citizen.phone', response?.data?.phone ?? '')
+            setFieldValue('citizen.address', response?.data?.address?.street ?? '')
+            setFieldValue('citizen.region', response?.data?.address?.region_id.toString() ?? '')
+            setFieldValue('citizen.municipality', response?.data?.address?.municipality_id.toString() ?? '')
+            setFieldValue('citizen.city', response?.data?.address?.city_id.toString() ?? '')
+            setFieldValue('citizen.postcode', response?.data?.address?.post_code ?? '')
+            setFieldValue('citizen.note', response?.data?.address?.post_code ?? '')
+        }
+    } catch (error: any) {
+        errorMessage = error.message
+    }
+    state.isPageLoading = false
+}
 
 async function fetchRegions() {
     state.isPageLoading = true
@@ -337,15 +371,6 @@ async function fetchCities(municipalityId: any) {
     }
     state.isPageLoading = false
 }
-
-const dates = ref({
-    start: new Date(),
-    end: new Date(),
-})
-
-const masks = ref({
-    input: 'YYYY-MM-DD',
-})
 
 // This is the object that will contain the validation messages
 const TWO_MB = 2000000
@@ -460,9 +485,6 @@ const {
     initialValues,
 })
 
-const success = ref(false)
-const fieldsWithErrors = computed(() => Object.keys(errors.value).length)
-
 // BaseInputFileHeadless gives us a listfile input, but we need to
 // extract the file from the list and set it to the form
 const inputFile = ref<FileList | null>()
@@ -472,13 +494,6 @@ watch(inputFile, (value) => {
     setFieldValue('avatar', file)
 })
 
-// Ask the user for confirmation before leaving the page if the form has unsaved changes
-onBeforeRouteLeave(() => {
-    if (meta.value.dirty) {
-        return confirm('You have unsaved changes. Are you sure you want to leave?')
-    }
-})
-
 const toaster = useToaster()
 let errorMessage = ''
 
@@ -486,6 +501,7 @@ let errorMessage = ''
 const onSubmit = handleSubmit(async (values) => {
     errorMessage = ''
     try {
+        isSubmitting.value = true
         let formData = new FormData()
         formData.append('image', values.avatar)
         formData.append('firstname', values.citizen.firstname)
@@ -500,21 +516,21 @@ const onSubmit = handleSubmit(async (values) => {
         formData.append('city_id', values.citizen.city)
         formData.append('post_code', values.citizen.postcode)
         formData.append('note', values.citizen.note)
-        const response = await citizenService.saveCitizen(formData)
+        const response = await citizenService.updateCitizen(citizenUuid, formData)
         if (response.data) {
             toaster.clearAll()
             toaster.show({
                 title: 'Success',
-                message: 'Citizen successfully added.',
+                message: 'Citizen successfully updated.',
                 color: 'success',
                 icon: 'ph:check',
                 closable: true,
             })
-            resetForm()
-            navigateTo('/citizens')
+            isSubmitting.value = false
         }
     } catch (error: any) {
         errorMessage = error.message
+        isSubmitting.value = false
         setFieldError('citizen.firstname', error?.errors?.firstname)
         setFieldError('citizen.lastname', error?.errors?.lastname)
         setFieldError('citizen.email', error?.errors?.email)

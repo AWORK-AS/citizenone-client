@@ -27,20 +27,22 @@
                                 <td width="35%">
                                     <span>{{ citizen?.email }}</span>
                                 </td>
-                                <td width="25%">
+                                <td width="20%">
                                     <span>{{ citizen?.phone }}</span>
                                 </td>
-                                <td width="15%">
-                                    <div class="flex justify-end">
-                                        <BaseDropdown variant="context" label="Dropdown" placement="bottom-end"
-                                            rounded="md">
-                                            <BaseDropdownItem :to="`/citizens/details/${citizen.id}`" title="View"
-                                                text="View citizen details" rounded="md" />
-                                            <BaseDropdownItem :to="`/citizens/edit/${citizen.id}`" title="Edit"
-                                                text="Edit citizen records" rounded="md" />
-                                            <BaseDropdownItem to="#" title="Show" text="Show citizen note"
-                                                rounded="md" />
-                                        </BaseDropdown>
+                                <td width="20%">
+                                    <div class="flex flex-wrap items-end gap-2">
+                                        <BaseButtonIcon rounded="md" data-nui-tooltip="View citizen details"
+                                            :to="`/citizens/details/${citizen.uuid}`">
+                                            <Icon name="ph:eye" class="size-5 text-sky-500" />
+                                        </BaseButtonIcon>
+                                        <BaseButtonIcon rounded="md" data-nui-tooltip="Edit citizen"
+                                            :to="`/citizens/edit/${citizen.uuid}`">
+                                            <Icon name="ph:pencil-simple" class="size-5 text-sky-500" />
+                                        </BaseButtonIcon>
+                                        <BaseButtonIcon rounded="md" data-nui-tooltip="Show citizen note">
+                                            <Icon name="ph:note-blank" class="size-5 text-sky-500" />
+                                        </BaseButtonIcon>
                                     </div>
                                 </td>
                             </tr>

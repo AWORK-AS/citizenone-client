@@ -37,7 +37,7 @@
                                                                     class="bg-muted-200 dark:bg-muted-700/60 size-28 rounded-full object-cover object-center">
                                                                 <img v-else src="/img/avatars/user.svg"
                                                                     alt="Upload preview"
-                                                                    class="bg-muted-200 dark:bg-muted-700/60 size-28 rounded-full object-cover object-center dark:invert">
+                                                                    class="bg-muted-200 dark:bg-muted-700/60 size-28 rounded-full object-cover object-center">
                                                                 <div v-if="files?.length && files.item(0)"
                                                                     class="absolute bottom-1 end-1 z-20">
                                                                     <BaseButtonIcon size="sm" rounded="full"
@@ -225,11 +225,12 @@
                                         <div class="text-right md:col-span-5">
                                             <div
                                                 class="-mt-4 inline-flex w-full items-center justify-end gap-2 sm:w-auto">
-                                                <BaseButton class="!h-12 w-full sm:w-40"
-                                                    @click="navigateTo('/citizens')">
+                                                <BaseButton class="!h-12 w-full sm:w-40" :disabled="isSubmitting"
+                                                    :loading="isSubmitting" @click="navigateTo('/citizens')">
                                                     Cancel
                                                 </BaseButton>
-                                                <BaseButton type="submit" color="primary" class="!h-12 w-full sm:w-40">
+                                                <BaseButton type="submit" color="primary" class="!h-12 w-full sm:w-40"
+                                                    :disabled="isSubmitting" :loading="isSubmitting">
                                                     Save Citizen
                                                 </BaseButton>
                                             </div>
@@ -421,15 +422,6 @@ async function fetchCities(municipalityId: any) {
     state.isPageLoading = false
 }
 
-const dates = ref({
-    start: new Date(),
-    end: new Date(),
-})
-
-const masks = ref({
-    input: 'YYYY-MM-DD',
-})
-
 // This is the object that will contain the validation messages
 const TWO_MB = 2000000
 const VALIDATION_TEXT = {
@@ -543,9 +535,6 @@ const {
     initialValues,
 })
 
-const success = ref(false)
-const fieldsWithErrors = computed(() => Object.keys(errors.value).length)
-
 // BaseInputFileHeadless gives us a listfile input, but we need to
 // extract the file from the list and set it to the form
 const inputFile = ref<FileList | null>()
@@ -569,6 +558,7 @@ let errorMessage = ''
 const onSubmit = handleSubmit(async (values) => {
     errorMessage = ''
     try {
+        isSubmitting.value = true
         let formData = new FormData()
         formData.append('image', values.avatar)
         formData.append('firstname', values.citizen.firstname)
@@ -593,11 +583,13 @@ const onSubmit = handleSubmit(async (values) => {
                 icon: 'ph:check',
                 closable: true,
             })
+            isSubmitting.value = false
             resetForm()
             navigateTo('/citizens')
         }
     } catch (error: any) {
         errorMessage = error.message
+        isSubmitting.value = false
         setFieldError('citizen.firstname', error?.errors?.firstname)
         setFieldError('citizen.lastname', error?.errors?.lastname)
         setFieldError('citizen.email', error?.errors?.email)
