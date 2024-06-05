@@ -40,7 +40,8 @@
                                             :to="`/citizens/edit/${citizen.uuid}`">
                                             <Icon name="ph:pencil-simple" class="size-5 text-sky-500" />
                                         </BaseButtonIcon>
-                                        <BaseButtonIcon rounded="md" data-nui-tooltip="Show citizen note">
+                                        <BaseButtonIcon rounded="md" data-nui-tooltip="Show citizen note"
+                                            @click="showCitizenNote(citizen)">
                                             <Icon name="ph:note-blank" class="size-5 text-sky-500" />
                                         </BaseButtonIcon>
                                     </div>
@@ -64,6 +65,31 @@
                 </div>
             </div>
         </TairoContentWrapper>
+
+        <TairoModal :open="isModalNoteOpen" size="lg" @close="isModalNoteOpen = false">
+            <template #header>
+                <div class="flex w-full items-center justify-between p-4 md:p-6">
+                    <h3 class="font-heading text-muted-900 text-lg font-medium leading-6 dark:text-white">
+                        Citizen note
+                    </h3>
+                    <BaseButtonClose @click="isModalNoteOpen = false" />
+                </div>
+            </template>
+
+            <div class="p-4 md:px-6 md:py-2">
+                {{ state.selectedCitizen?.note }}
+            </div>
+
+            <template #footer>
+                <div class="p-4 md:p-6">
+                    <div class="flex gap-x-2">
+                        <BaseButton @click="isModalNoteOpen = false">
+                            Close
+                        </BaseButton>
+                    </div>
+                </div>
+            </template>
+        </TairoModal>
     </div>
 </template>
 
@@ -76,6 +102,7 @@ definePageMeta({
 })
 
 const runtimeConfig = useRuntimeConfig()
+const isModalNoteOpen = ref(false)
 let currentTablePage = 1
 
 const state = reactive({
@@ -94,6 +121,9 @@ const state = reactive({
     error: null,
     isTableLoading: false,
     citizens: [],
+    selectedCitizen: {
+        note: null
+    },
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -147,5 +177,10 @@ function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
     fetchCitizens()
+}
+
+function showCitizenNote(citizen: any) {
+    state.selectedCitizen.note = citizen?.note
+    isModalNoteOpen.value = true
 }
 </script>

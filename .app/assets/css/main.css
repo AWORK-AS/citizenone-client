@@ -44,7 +44,7 @@ table tr:last-child td:last-child {
 }
 
 table tbody tr {
-    @apply bg-white border-b border-sky-100 dark:bg-transparent;
+    @apply bg-white border-b border-sky-50 dark:bg-transparent dark:border-slate-400;
     vertical-align: middle;
 }
 
