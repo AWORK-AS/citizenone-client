@@ -57,13 +57,12 @@
                         </NuxtLink>
                         </MenuItem> -->
                         <MenuItem as="div" v-slot="{ active }">
-                        <NuxtLink to="/"
-                            class="group flex w-full items-center rounded-md p-3 text-sm transition-colors duration-300"
+                        <div class="group flex w-full items-center rounded-md p-3 text-sm transition-colors duration-300 cursor-pointer"
                             :class="[
                                 active
                                     ? 'bg-muted-100 dark:bg-muted-700 text-primary-500'
                                     : 'text-muted-400',
-                            ]" @click.passive="close">
+                            ]" @click="logout()">
                             <Icon name="material-symbols:logout" class="h-5 w-5" />
                             <div class="ms-3">
                                 <h6
@@ -71,7 +70,7 @@
                                     Logout
                                 </h6>
                             </div>
-                        </NuxtLink>
+                        </div>
                         </MenuItem>
                     </div>
                 </MenuItems>
@@ -82,9 +81,30 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { userService } from '@/components/api/UserService'
 import { useUserStore } from '@/store/user'
 const props = defineProps<{
     horizontal?: boolean
 }>()
 const userStore = useUserStore()
+
+const state = reactive({
+    error: null,
+    isPageLoading: false,
+})
+
+async function logout() {
+    state.isPageLoading = true
+    state.error = null
+    try {
+        const response = await userService.logout()
+        if (response) {
+            localStorage.removeItem("_token")
+            navigateTo('/')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 </script>

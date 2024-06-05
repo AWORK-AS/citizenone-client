@@ -1,5 +1,10 @@
 <template>
-    <div class="relative">
+    <div>
+
+        <Head>
+            <Title>Employees - {{ runtimeConfig?.public?.appName }}</Title>
+        </Head>
+
         <div class="h-full">
             <div class="table-responsive">
                 <Table :columnHeaders="state.columnHeaders" :data="state.employees" :isLoading="state.isTableLoading"
@@ -57,6 +62,7 @@ definePageMeta({
     title: 'Employees',
 })
 
+const runtimeConfig = useRuntimeConfig()
 let currentTablePage = 1
 
 const state = reactive({

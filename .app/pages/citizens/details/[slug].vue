@@ -2,7 +2,7 @@
     <div>
 
         <Head>
-            <Title>New citizen - {{ runtimeConfig?.public?.appName }}</Title>
+            <Title>Citizen details - {{ runtimeConfig?.public?.appName }}</Title>
         </Head>
 
         <LoadingSpinner :isActive="state.isPageLoading">
@@ -230,7 +230,7 @@
                                                     Cancel
                                                 </BaseButton>
                                                 <BaseButton type="submit" color="primary" class="!h-12 w-full sm:w-40">
-                                                    Save Citizen
+                                                    Update Citizen
                                                 </BaseButton>
                                             </div>
                                         </div>
@@ -238,89 +238,6 @@
                                 </div>
                             </BaseCard>
                         </div>
-                        <!-- <div class="ltablet:col-span-4 col-span-12 lg:col-span-4">
-                            <BaseCard class="ptablet:p-8 p-6 lg:p-8">
-                                <BaseText size="xs" weight="medium"
-                                    class="text-muted-400 mb-6 block uppercase tracking-wider">
-                                    Record preview
-                                </BaseText>
-                                <div class="mb-4 flex">
-                                    <div class="grow space-y-1">
-                                        <div>
-                                            <BaseHeading as="h3" weight="medium">
-                                                {{ values.citizen?.firstname }} {{ values.citizen?.lastname }}
-                                            </BaseHeading>
-                                        </div>
-                                        <div class="text-muted-400 flex items-center gap-2">
-                                            <Icon name="lucide:mail" class="size-4" />
-                                            <BaseText size="xs" v-if="values.citizen?.email">
-                                                {{ values.citizen?.email }}
-                                            </BaseText>
-                                            <BaseText v-else size="xs" class="opacity-50">
-                                                Fill up email
-                                            </BaseText>
-                                        </div>
-                                        <div class="text-muted-400 flex items-center gap-2">
-                                            <Icon name="ph:credit-card-light" class="size-4" />
-                                            <BaseText size="xs" v-if="values.citizen?.socialSecurityNumber">
-                                                {{ values.citizen?.socialSecurityNumber }}
-                                            </BaseText>
-                                            <BaseText v-else size="xs" class="opacity-50">
-                                                Fill up social security number
-                                            </BaseText>
-                                        </div>
-                                        <div class="text-muted-400 flex items-center gap-2">
-                                            <Icon name="lucide:calendar" class="size-4" />
-                                            <BaseText size="xs" v-if="values.citizen?.birthday">
-                                                {{ values.citizen?.birthday }}
-                                            </BaseText>
-                                            <BaseText v-else size="xs" class="opacity-50">
-                                                Fill up birthday
-                                            </BaseText>
-                                        </div>
-                                        <div class="text-muted-400 flex items-center gap-2">
-                                            <Icon name="lucide:phone" class="size-4" />
-                                            <BaseText size="xs" v-if="values.citizen?.phone">
-                                                {{ values.citizen?.phone }}
-                                            </BaseText>
-                                            <BaseText v-else size="xs" class="opacity-50">
-                                                Fill up phone number
-                                            </BaseText>
-                                        </div>
-                                    </div>
-                                    <div class="shrink-0">
-                                        <BaseAvatar size="lg" src="/img/avatars/user.svg" />
-                                    </div>
-                                </div>
-                                <div class="divide-muted-200 dark:divide-muted-700 flex w-full items-center divide-x py-1">
-                                    <div class="xxl:pe-6 flex flex-1 flex-col gap-1 pe-4">
-                                        <div class="w-24 text-xs uppercase leading-tight">
-                                            Address
-                                        </div>
-                                        <BaseText size="sm" class="text-muted-400">
-                                            {{ values.citizen?.address }}
-                                            {{ state.regions?.data }}
-                                            {{ values.citizen?.region }}
-                                            {{ state.regions?.data?.find((region: any) => region['id'] ===
-                                                state.selectedRegion) }}
-                                            {{ state.municipalities?.data?.[values.citizen?.municipality]?.name }}
-                                            {{ state.cities?.data?.[values.citizen?.city]?.name }}
-                                            {{ values.citizen?.postcode }}
-                                        </BaseText>
-                                    </div>
-                                </div>
-                                <div class="divide-muted-200 dark:divide-muted-700 flex w-full items-center divide-x py-3">
-                                    <div class="xxl:pe-6 flex flex-1 flex-col gap-1 pe-4">
-                                        <div class="w-24 text-xs uppercase leading-tight">
-                                            Note
-                                        </div>
-                                        <BaseText size="sm" class="text-muted-400">
-                                            {{ values.citizen?.note }}
-                                        </BaseText>
-                                    </div>
-                                </div>
-                            </BaseCard>
-                        </div> -->
                     </form>
                 </div>
             </div>
@@ -340,7 +257,7 @@ import { citizenService } from '@/components/api/CitizenService'
 
 definePageMeta({
     layout: 'user',
-    title: 'New citizen',
+    title: 'Edit citizen',
 })
 
 const runtimeConfig = useRuntimeConfig()
