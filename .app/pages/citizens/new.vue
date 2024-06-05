@@ -65,7 +65,7 @@
                                                 </Field>
                                             </div>
 
-                                            <div class="col-span-12">
+                                            <div class="col-span-12 md:col-span-6">
                                                 <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
                                                     name="citizen.phone">
                                                     <AddonInputPhone ref="inputPhoneRef" label="Phone"
@@ -75,138 +75,115 @@
                                                 </Field>
                                             </div>
 
-                                            <div class="col-span-12 md:col-span-4">
-                                                <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
-                                                    name="citizen.status">
-                                                    <BaseSelect label="Status" icon="ph:heartbeat-duotone"
-                                                        :model-value="field.value" :error="errorMessage"
-                                                        :disabled="isSubmitting" @update:model-value="handleChange"
-                                                        @blur="handleBlur">
-                                                        <option value="" hidden />
-                                                        <option value="intern">
-                                                            Intern
-                                                        </option>
-                                                        <option value="resident">
-                                                            Resident
-                                                        </option>
-                                                        <option value="titular">
-                                                            Titular
-                                                        </option>
-                                                    </BaseSelect>
-                                                </Field>
+                                            <div class="col-span-12 grid grid-cols-12 gap-4">
+                                                <div class="col-span-12">
+                                                    <div class="col-span-12">
+                                                        <Field
+                                                            v-slot="{ field, errorMessage, handleChange, handleBlur }"
+                                                            name="citizen.address">
+                                                            <BaseInput label="Address" icon="ph:map-pin-duotone"
+                                                                placeholder="Ex: App 2 suite g3 santa monica"
+                                                                :model-value="field.value" :error="errorMessage"
+                                                                :disabled="isSubmitting"
+                                                                @update:model-value="handleChange" @blur="handleBlur" />
+                                                        </Field>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-span-12 sm:col-span-6">
+                                                    <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
+                                                        name="citizen.region">
+                                                        <BaseSelect label="Region" icon="ph:globe"
+                                                            :model-value="field.value" :error="errorMessage"
+                                                            :disabled="isSubmitting" @update:model-value="handleChange"
+                                                            @blur="handleBlur">
+                                                            <option value="" hidden />
+                                                            <option value="intern">
+                                                                Intern
+                                                            </option>
+                                                            <option value="resident">
+                                                                Resident
+                                                            </option>
+                                                            <option value="titular">
+                                                                Titular
+                                                            </option>
+                                                        </BaseSelect>
+                                                    </Field>
+                                                </div>
+
+                                                <div class="col-span-12 sm:col-span-6">
+                                                    <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
+                                                        name="citizen.municipality">
+                                                        <BaseSelect label="Municipality" icon="ph:globe"
+                                                            :model-value="field.value" :error="errorMessage"
+                                                            :disabled="isSubmitting" @update:model-value="handleChange"
+                                                            @blur="handleBlur">
+                                                            <option value="" hidden />
+                                                            <option value="intern">
+                                                                Intern
+                                                            </option>
+                                                            <option value="resident">
+                                                                Resident
+                                                            </option>
+                                                            <option value="titular">
+                                                                Titular
+                                                            </option>
+                                                        </BaseSelect>
+                                                    </Field>
+                                                </div>
+
+                                                <div class="col-span-12 sm:col-span-6">
+                                                    <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
+                                                        name="citizen.city">
+                                                        <BaseSelect label="City" icon="ph:globe"
+                                                            :model-value="field.value" :error="errorMessage"
+                                                            :disabled="isSubmitting" @update:model-value="handleChange"
+                                                            @blur="handleBlur">
+                                                            <option value="" hidden />
+                                                            <option value="intern">
+                                                                Intern
+                                                            </option>
+                                                            <option value="resident">
+                                                                Resident
+                                                            </option>
+                                                            <option value="titular">
+                                                                Titular
+                                                            </option>
+                                                        </BaseSelect>
+                                                    </Field>
+                                                </div>
+
+                                                <div class="col-span-12 sm:col-span-6">
+                                                    <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
+                                                        name="citizen.postcode">
+                                                        <BaseInput type="text" label="Post Code"
+                                                            icon="ph:paper-plane-tilt-duotone" placeholder="Ex: 912656"
+                                                            :model-value="field.value" :error="errorMessage"
+                                                            :disabled="isSubmitting" @update:model-value="handleChange"
+                                                            @blur="handleBlur" :maxlength="10" />
+                                                    </Field>
+                                                </div>
                                             </div>
 
-                                            <div class="col-span-12 md:col-span-4">
-                                                <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
-                                                    name="citizen.experience">
-                                                    <BaseSelect label="Experience" icon="ph:trophy-duotone"
-                                                        :model-value="field.value" :error="errorMessage"
-                                                        :disabled="isSubmitting" @update:model-value="handleChange"
-                                                        @blur="handleBlur">
-                                                        <option value="" hidden />
-                                                        <option value="0-5">
-                                                            0-5
-                                                        </option>
-                                                        <option value="5-10">
-                                                            5-10
-                                                        </option>
-                                                        <option value="10-15">
-                                                            10-15
-                                                        </option>
-                                                        <option value="15+">
-                                                            15+
-                                                        </option>
-                                                    </BaseSelect>
-                                                </Field>
-                                            </div>
-
-                                            <div class="col-span-12 md:col-span-4">
-                                                <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
-                                                    name="citizen.rating">
-                                                    <BaseSelect label="Rating" icon="ph:star-duotone"
-                                                        :model-value="field.value" :error="errorMessage"
-                                                        :disabled="isSubmitting" @update:model-value="handleChange"
-                                                        @blur="handleBlur">
-                                                        <option value="" hidden />
-                                                        <option value="1">
-                                                            B+
-                                                        </option>
-                                                        <option value="2">
-                                                            A
-                                                        </option>
-                                                        <option value="3">
-                                                            A+
-                                                        </option>
-                                                        <option value="4">
-                                                            S
-                                                        </option>
-                                                        <option value="5">
-                                                            S+
-                                                        </option>
-                                                    </BaseSelect>
-                                                </Field>
-                                            </div>
-                                        </div>
-
-                                        <div class="grid grid-cols-12 gap-4">
                                             <div class="col-span-12">
                                                 <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
-                                                    name="citizen.address">
-                                                    <BaseInput label="Address / Street" icon="ph:map-pin-duotone"
-                                                        placeholder="Ex: App 2 suite g3 santa monica"
+                                                    name="citizen.note">
+                                                    <BaseTextarea label="Note" placeholder="" rows="4"
                                                         :model-value="field.value" :error="errorMessage"
                                                         :disabled="isSubmitting" @update:model-value="handleChange"
                                                         @blur="handleBlur" />
                                                 </Field>
                                             </div>
-                                            <div class="col-span-12 sm:col-span-4">
-                                                <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
-                                                    name="citizen.city">
-                                                    <BaseInput label="City" icon="ph:buildings-duotone"
-                                                        placeholder="Ex: Los Angeles" :model-value="field.value"
-                                                        :error="errorMessage" :disabled="isSubmitting" type="text"
-                                                        @update:model-value="handleChange" @blur="handleBlur" />
-                                                </Field>
-                                            </div>
-                                            <div class="col-span-12 sm:col-span-4">
-                                                <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
-                                                    name="citizen.state">
-                                                    <BaseInput label="State/Province" icon="ph:globe-duotone"
-                                                        placeholder="Ex: CA" :model-value="field.value"
-                                                        :error="errorMessage" :disabled="isSubmitting" type="text"
-                                                        @update:model-value="handleChange" @blur="handleBlur" />
-                                                </Field>
-                                            </div>
-                                            <div class="col-span-12 sm:col-span-4">
-                                                <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
-                                                    name="citizen.zipcode">
-                                                    <BaseInput type="text" label="Zip Code"
-                                                        icon="ph:paper-plane-tilt-duotone" placeholder="Ex: 912656"
-                                                        :model-value="field.value" :error="errorMessage"
-                                                        :disabled="isSubmitting" @update:model-value="handleChange"
-                                                        @blur="handleBlur" />
-                                                </Field>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-span-12">
-                                            <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
-                                                name="citizen.note">
-                                                <BaseTextarea label="Note" placeholder="" rows="4"
-                                                    :model-value="field.value" :error="errorMessage"
-                                                    :disabled="isSubmitting" @update:model-value="handleChange"
-                                                    @blur="handleBlur" />
-                                            </Field>
                                         </div>
                                     </TairoFormGroup>
 
                                     <div class="text-right md:col-span-5">
                                         <div class="-mt-4 inline-flex w-full items-center justify-end gap-2 sm:w-auto">
-                                            <BaseButton class="!h-12 w-full sm:w-40">
+                                            <BaseButton class="!h-12 w-full sm:w-40" @click="navigateTo('/citizens')">
                                                 Cancel
                                             </BaseButton>
                                             <BaseButton type="submit" color="primary" class="!h-12 w-full sm:w-40">
-                                                Submit
+                                                Save Citizen
                                             </BaseButton>
                                         </div>
                                     </div>
@@ -221,121 +198,74 @@
                                 Record preview
                             </BaseText>
                             <div class="mb-4 flex">
-                                <div class="grow">
-                                    <BaseHeading as="h3" weight="medium">
-                                        Dr. {{ values.citizen?.firstName }}
-                                        {{ values.citizen?.lastName }}
-                                    </BaseHeading>
-                                    <BaseText size="sm" class="text-muted-400">
-                                        {{ values.citizen?.city === '' ? 'City' : values.citizen?.city }},
-                                        {{
-                                            values.citizen?.state === '' ? 'State' : values.citizen?.state
-                                        }}
-                                    </BaseText>
+                                <div class="grow space-y-1">
+                                    <div>
+                                        <BaseHeading as="h3" weight="medium">
+                                            {{ values.citizen?.firstName }} {{ values.citizen?.lastName }}
+                                        </BaseHeading>
+                                    </div>
+                                    <div class="text-muted-400 flex items-center gap-2">
+                                        <Icon name="lucide:mail" class="size-4" />
+                                        <BaseText size="xs" v-if="values.citizen?.email">
+                                            {{ values.citizen?.email }}
+                                        </BaseText>
+                                        <BaseText v-else size="xs" class="opacity-50">
+                                            Fill up email
+                                        </BaseText>
+                                    </div>
+                                    <div class="text-muted-400 flex items-center gap-2">
+                                        <Icon name="ph:credit-card-light" class="size-4" />
+                                        <BaseText size="xs" v-if="values.citizen?.socialSecurityNumber">
+                                            {{ values.citizen?.socialSecurityNumber }}
+                                        </BaseText>
+                                        <BaseText v-else size="xs" class="opacity-50">
+                                            Fill up social security number
+                                        </BaseText>
+                                    </div>
+                                    <div class="text-muted-400 flex items-center gap-2">
+                                        <Icon name="lucide:calendar" class="size-4" />
+                                        <BaseText size="xs" v-if="values.citizen?.birthday">
+                                            {{ values.citizen?.birthday }}
+                                        </BaseText>
+                                        <BaseText v-else size="xs" class="opacity-50">
+                                            Fill up birthday
+                                        </BaseText>
+                                    </div>
+                                    <div class="text-muted-400 flex items-center gap-2">
+                                        <Icon name="lucide:phone" class="size-4" />
+                                        <BaseText size="xs" v-if="values.citizen?.phone">
+                                            {{ values.citizen?.phone }}
+                                        </BaseText>
+                                        <BaseText v-else size="xs" class="opacity-50">
+                                            Fill up phone number
+                                        </BaseText>
+                                    </div>
                                 </div>
                                 <div class="shrink-0">
-                                    <BaseAvatar size="lg" src="/img/avatars/20.svg" />
+                                    <BaseAvatar size="lg" src="/img/avatars/user.svg" />
                                 </div>
                             </div>
-                            <div>
-                                <BaseText size="sm" class="text-muted-400">
-                                    {{
-                                        values.citizen?.note === ''
-                                            ? ''
-                                            : values.citizen?.note
-                                    }}
-                                </BaseText>
-                            </div>
-                            <div class="divide-muted-200 dark:divide-muted-700 flex w-full items-center divide-x py-6">
+                            <div class="divide-muted-200 dark:divide-muted-700 flex w-full items-center divide-x py-1">
                                 <div class="xxl:pe-6 flex flex-1 flex-col gap-1 pe-4">
-                                    <BaseHeading as="h3" size="sm" weight="medium" lead="none">
-                                        {{
-                                            values.citizen?.status === null ? 'n/a' : values.citizen?.status
-                                        }}
-                                    </BaseHeading>
-                                    <BaseText size="xs" class="text-muted-400">
-                                        Role status
-                                    </BaseText>
-                                </div>
-                                <div class="xxl:px-6 flex flex-1 flex-col gap-1 px-4">
-                                    <BaseHeading as="h3" size="sm" weight="medium" lead="none">
-                                        {{
-                                            values.citizen?.experience === null
-                                                ? 'n/a'
-                                                : values.citizen?.experience
-                                        }}
-                                    </BaseHeading>
-                                    <BaseText size="xs" class="text-muted-400">
-                                        Years of exp.
-                                    </BaseText>
-                                </div>
-                                <div class="xxl:ps-6 flex flex-1 flex-col gap-1 ps-4">
-                                    <BaseHeading as="h3" size="sm" weight="medium" lead="none">
-                                        Lvl.
-                                        {{
-                                            values.citizen?.rating === null ? 'n/a' : values.citizen?.rating
-                                        }}
-                                    </BaseHeading>
-                                    <BaseText size="xs" class="text-muted-400">
-                                        Global rating
-                                    </BaseText>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex items-end justify-between">
                                     <div class="w-24 text-xs uppercase leading-tight">
-                                        Rating
+                                        Address
                                     </div>
-                                    <div class="text-success-600 font-sans text-xs font-semibold">
-                                        {{ currentRatingText }}
-                                    </div>
-                                </div>
-                                <div class="mt-1 flex">
-                                    <div class="dark:border-muted-800 h-3 grow border-x border-white" :class="currentRating > 0
-                                        ? 'bg-success-600'
-                                        : 'bg-muted-200 dark:bg-muted-700'
-                                        " />
-                                    <div class="dark:border-muted-800 h-3 grow border-x border-white" :class="currentRating >= 2
-                                        ? 'bg-success-600'
-                                        : 'bg-muted-200 dark:bg-muted-700'
-                                        " />
-                                    <div class="dark:border-muted-800 h-3 grow border-x border-white" :class="currentRating >= 3
-                                        ? 'bg-success-600'
-                                        : 'bg-muted-200 dark:bg-muted-700'
-                                        " />
-                                    <div class="dark:border-muted-800 h-3 grow border-x border-white" :class="currentRating >= 4
-                                        ? 'bg-success-600'
-                                        : 'bg-muted-200 dark:bg-muted-700'
-                                        " />
-                                    <div class="dark:border-muted-800 h-3 grow border-x border-white" :class="currentRating === 5
-                                        ? 'bg-success-600'
-                                        : 'bg-muted-200 dark:bg-muted-700'
-                                        " />
+                                    <BaseText size="sm" class="text-muted-400">
+                                        {{ values.citizen?.address }} {{ values.citizen?.region }}
+                                        {{ values.citizen?.municipality }} {{ values.citizen?.city }}
+                                        {{ values.citizen?.postcode }}
+                                    </BaseText>
                                 </div>
                             </div>
-                            <div class="text-muted-400 mt-6 flex items-center gap-2">
-                                <Icon name="lucide:mail" class="size-4" />
-                                <BaseLink v-if="values.citizen?.email" class="block"
-                                    :href="`mailto:${values.citizen?.email}`">
-                                    <BaseText size="xs">
-                                        {{ values.citizen?.email }}
+                            <div class="divide-muted-200 dark:divide-muted-700 flex w-full items-center divide-x py-3">
+                                <div class="xxl:pe-6 flex flex-1 flex-col gap-1 pe-4">
+                                    <div class="w-24 text-xs uppercase leading-tight">
+                                        Note
+                                    </div>
+                                    <BaseText size="sm" class="text-muted-400">
+                                        {{ values.citizen?.note }}
                                     </BaseText>
-                                </BaseLink>
-                                <BaseText v-else size="xs" class="opacity-50">
-                                    Fill up your email
-                                </BaseText>
-                            </div>
-                            <div class="text-muted-400 mt-6 flex items-center gap-2">
-                                <Icon name="lucide:phone" class="size-4" />
-                                <BaseLink v-if="values.citizen?.phone" class="block"
-                                    :href="`tel:${values.citizen?.phone}`">
-                                    <BaseText size="xs">
-                                        {{ values.citizen?.phone }}
-                                    </BaseText>
-                                </BaseLink>
-                                <BaseText v-else size="xs" class="opacity-50">
-                                    Fill up your emergency phone
-                                </BaseText>
+                                </div>
                             </div>
                         </BaseCard>
                     </div>
@@ -379,12 +309,12 @@ const VALIDATION_TEXT = {
     EMAIL_REQUIRED: 'This field is required',
     SSN_REQUIRED: 'This field is required',
     BIRTHDAY_REQUIRED: 'This field is required',
-    OPTION_REQUIRED: 'Please select an option',
+    PHONE_REQUIRED: 'Please select an option',
     ADDRESS_REQUIRED: 'This field is required',
+    REGION_REQUIRED: 'This field is required',
+    MUNICIPALITY_REQUIRED: 'This field is required',
     CITY_REQUIRED: 'This field is required',
-    STATE_REQUIRED: 'This field is required',
-    ZIPCODE_REQUIRED: 'This field is required',
-    STATUS_REQUIRED: 'This field is required',
+    POSTCODE_REQUIRED: 'This field is required',
     AVATAR_TOO_BIG: `Avatar size must be less than 1MB`,
 }
 
@@ -414,40 +344,16 @@ const zodSchema = z
         citizen: z.object({
             firstName: z.string().min(1, VALIDATION_TEXT.FIRSTNAME_REQUIRED),
             lastName: z.string().min(1, VALIDATION_TEXT.LASTNAME_REQUIRED),
-            socialSecurityNumber: z.string().min(1, VALIDATION_TEXT.SSN_REQUIRED),
             email: z.string().min(1, VALIDATION_TEXT.EMAIL_REQUIRED),
+            socialSecurityNumber: z.string().min(1, VALIDATION_TEXT.SSN_REQUIRED),
             birthday: z.string().min(1, VALIDATION_TEXT.BIRTHDAY_REQUIRED),
-            note: z.string().optional(),
-            phone: z.string().optional(),
-            status: z
-                .union([
-                    z.literal('intern'),
-                    z.literal('resident'),
-                    z.literal('titular'),
-                ])
-                .nullable(),
-            experience: z
-                .union([
-                    z.literal('0-5'),
-                    z.literal('5-10'),
-                    z.literal('10-15'),
-                    z.literal('15+'),
-                ])
-                .nullable(),
-            rating: z
-                .union([
-                    z.literal('1'),
-                    z.literal('2'),
-                    z.literal('3'),
-                    z.literal('4'),
-                    z.literal('5'),
-                ])
-                .nullable(),
+            phone: z.string().min(1, VALIDATION_TEXT.PHONE_REQUIRED),
             address: z.string().min(1, VALIDATION_TEXT.ADDRESS_REQUIRED),
+            region: z.string().min(1, VALIDATION_TEXT.REGION_REQUIRED),
+            municipality: z.string().min(1, VALIDATION_TEXT.MUNICIPALITY_REQUIRED),
             city: z.string().min(1, VALIDATION_TEXT.CITY_REQUIRED),
-            state: z.string().min(1, VALIDATION_TEXT.STATE_REQUIRED),
-            zipcode: z.string().min(5, VALIDATION_TEXT.ZIPCODE_REQUIRED),
-            country: z.string(),
+            postcode: z.string().min(1, VALIDATION_TEXT.POSTCODE_REQUIRED),
+            note: z.string().optional(),
         }),
     })
     .superRefine((data, ctx) => {
@@ -460,32 +366,11 @@ const zodSchema = z
                 path: ['avatar'],
             })
         }
-        if (!data.citizen.status) {
-            ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: VALIDATION_TEXT.OPTION_REQUIRED,
-                path: ['citizen.status'],
-            })
-        }
-        if (!data.citizen.experience) {
-            ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: VALIDATION_TEXT.OPTION_REQUIRED,
-                path: ['citizen.experience'],
-            })
-        }
-        if (!data.citizen.rating) {
-            ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: VALIDATION_TEXT.OPTION_REQUIRED,
-                path: ['citizen.rating'],
-            })
-        }
 
         if (!inputPhoneRef.value?.validation?.valid) {
             ctx.addIssue({
                 code: z.ZodIssueCode.custom,
-                message: phoneErrorMessage(inputPhoneRef.value?.validation?.error) || VALIDATION_TEXT.OPTION_REQUIRED,
+                message: phoneErrorMessage(inputPhoneRef.value?.validation?.error) || VALIDATION_TEXT.PHONE_REQUIRED,
                 path: ['citizen.phone'],
             })
         }
@@ -501,18 +386,16 @@ const initialValues = {
     citizen: {
         firstName: '',
         lastName: '',
-        socialSecurityNumber: '',
         email: '',
+        socialSecurityNumber: '',
         birthday: '',
-        note: '',
-        status: null,
-        experience: null,
-        rating: null,
+        phone: '',
         address: '',
+        region: '',
+        municipality: '',
         city: '',
-        state: '',
-        zipcode: '',
-        country: 'United States',
+        postcode: '',
+        note: '',
     },
 } satisfies FormInput
 
