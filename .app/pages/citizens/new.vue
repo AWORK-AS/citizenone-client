@@ -6,6 +6,8 @@
                 <span>Back</span>
             </NuxtLink>
             <div class="space-y-3">
+                <BaseMessage color="danger" icon v-if="state.error" :message="state.error?.message" />
+                <BaseMessage color="danger" icon v-if="errorMessage" :message="errorMessage" />
                 <form action="" method="POST" class="grid grid-cols-12 gap-6" @submit.prevent="onSubmit">
                     <div class="ltablet:col-span-8 col-span-12 lg:col-span-8">
                         <BaseCard rounded="sm" class="p-4 md:p-8">
@@ -14,9 +16,49 @@
                                     <TairoFormGroup label="Citizen's Information"
                                         sublabel="Register new citizen. Ensure accurate and complete citizen details are entered.">
                                         <div class="grid grid-cols-12 gap-4">
+                                            <div class="col-span-12">
+                                                <div
+                                                    class="relative mb-5 flex flex-col items-center justify-center gap-4">
+                                                    <BaseFullscreenDropfile icon="ph:image-duotone"
+                                                        :filter-file-dropped="(file) => file.type.startsWith('image')"
+                                                        @drop="(value) => { inputFile = value }" />
+                                                    <BaseInputFileHeadless v-slot="{ open, remove, preview, files }"
+                                                        v-model="inputFile" accept="image/*">
+                                                        <div class="relative size-28">
+                                                            <img v-if="files?.length && files.item(0)"
+                                                                :src="preview(files.item(0)!).value"
+                                                                alt="Upload preview"
+                                                                class="bg-muted-200 dark:bg-muted-700/60 size-28 rounded-full object-cover object-center">
+                                                            <img v-else src="/img/avatars/user.svg" alt="Upload preview"
+                                                                class="bg-muted-200 dark:bg-muted-700/60 size-28 rounded-full object-cover object-center dark:invert">
+                                                            <div v-if="files?.length && files.item(0)"
+                                                                class="absolute bottom-1 end-1 z-20">
+                                                                <BaseButtonIcon size="sm" rounded="full"
+                                                                    data-tooltip="Remove image" class="scale-90"
+                                                                    @click="remove(files.item(0)!)">
+                                                                    <Icon name="lucide:x" class="size-4" />
+                                                                </BaseButtonIcon>
+                                                            </div>
+                                                            <div v-else class="absolute bottom-1 end-1 z-20">
+                                                                <div class="relative" data-tooltip="Upload image">
+                                                                    <BaseButtonIcon size="sm" rounded="full"
+                                                                        @click="open">
+                                                                        <Icon name="lucide:plus" class="size-4" />
+                                                                    </BaseButtonIcon>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </BaseInputFileHeadless>
+                                                    <div v-if="fileError"
+                                                        class="text-danger-600 inline-block font-sans text-[.8rem]">
+                                                        {{ fileError }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-span-12 md:col-span-6">
                                                 <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
-                                                    name="citizen.firstName">
+                                                    name="citizen.firstname">
                                                     <BaseInput label="First name" icon="ph:user-duotone"
                                                         placeholder="Ex: John" :model-value="field.value"
                                                         :error="errorMessage" :disabled="isSubmitting" type="text"
@@ -26,7 +68,7 @@
 
                                             <div class="col-span-12 md:col-span-6">
                                                 <Field v-slot="{ field, errorMessage, handleChange, handleBlur }"
-                                                    name="citizen.lastName">
+                                                    name="citizen.lastname">
                                                     <BaseInput label="Last name" icon="ph:user-duotone"
                                                         placeholder="Ex: Doe" :model-value="field.value"
                                                         :error="errorMessage" :disabled="isSubmitting" type="text"
@@ -96,16 +138,11 @@
                                                         <BaseSelect label="Region" icon="ph:globe"
                                                             :model-value="field.value" :error="errorMessage"
                                                             :disabled="isSubmitting" @update:model-value="handleChange"
-                                                            @blur="handleBlur">
-                                                            <option value="" hidden />
-                                                            <option value="intern">
-                                                                Intern
-                                                            </option>
-                                                            <option value="resident">
-                                                                Resident
-                                                            </option>
-                                                            <option value="titular">
-                                                                Titular
+                                                            @blur="handleBlur" @change="changeSelectedRegion">
+                                                            <option value="" hidden></option>
+                                                            <option v-for="region in state.regions?.data"
+                                                                :value="region?.id.toString()">
+                                                                {{ region.name }}
                                                             </option>
                                                         </BaseSelect>
                                                     </Field>
@@ -117,16 +154,11 @@
                                                         <BaseSelect label="Municipality" icon="ph:globe"
                                                             :model-value="field.value" :error="errorMessage"
                                                             :disabled="isSubmitting" @update:model-value="handleChange"
-                                                            @blur="handleBlur">
-                                                            <option value="" hidden />
-                                                            <option value="intern">
-                                                                Intern
-                                                            </option>
-                                                            <option value="resident">
-                                                                Resident
-                                                            </option>
-                                                            <option value="titular">
-                                                                Titular
+                                                            @blur="handleBlur" @change="changeSelectedMunicipality">
+                                                            <option value="" hidden></option>
+                                                            <option v-for="municipality in state.municipalities?.data"
+                                                                :value="municipality?.id.toString()">
+                                                                {{ municipality.name }}
                                                             </option>
                                                         </BaseSelect>
                                                     </Field>
@@ -138,16 +170,11 @@
                                                         <BaseSelect label="City" icon="ph:globe"
                                                             :model-value="field.value" :error="errorMessage"
                                                             :disabled="isSubmitting" @update:model-value="handleChange"
-                                                            @blur="handleBlur">
-                                                            <option value="" hidden />
-                                                            <option value="intern">
-                                                                Intern
-                                                            </option>
-                                                            <option value="resident">
-                                                                Resident
-                                                            </option>
-                                                            <option value="titular">
-                                                                Titular
+                                                            @blur="handleBlur" @change="changeSelectedCity">
+                                                            <option value="" hidden></option>
+                                                            <option v-for="city in state.cities?.data"
+                                                                :value="city?.id.toString()">
+                                                                {{ city.name }}
                                                             </option>
                                                         </BaseSelect>
                                                     </Field>
@@ -191,7 +218,7 @@
                             </div>
                         </BaseCard>
                     </div>
-                    <div class="ltablet:col-span-4 col-span-12 lg:col-span-4">
+                    <!-- <div class="ltablet:col-span-4 col-span-12 lg:col-span-4">
                         <BaseCard class="ptablet:p-8 p-6 lg:p-8">
                             <BaseText size="xs" weight="medium"
                                 class="text-muted-400 mb-6 block uppercase tracking-wider">
@@ -201,7 +228,7 @@
                                 <div class="grow space-y-1">
                                     <div>
                                         <BaseHeading as="h3" weight="medium">
-                                            {{ values.citizen?.firstName }} {{ values.citizen?.lastName }}
+                                            {{ values.citizen?.firstname }} {{ values.citizen?.lastname }}
                                         </BaseHeading>
                                     </div>
                                     <div class="text-muted-400 flex items-center gap-2">
@@ -251,8 +278,13 @@
                                         Address
                                     </div>
                                     <BaseText size="sm" class="text-muted-400">
-                                        {{ values.citizen?.address }} {{ values.citizen?.region }}
-                                        {{ values.citizen?.municipality }} {{ values.citizen?.city }}
+                                        {{ values.citizen?.address }}
+                                        {{ state.regions?.data }}
+                                        {{ values.citizen?.region }}
+                                        {{ state.regions?.data?.find((region: any) => region['id'] ===
+                                            state.selectedRegion) }}
+                                        {{ state.municipalities?.data?.[values.citizen?.municipality]?.name }}
+                                        {{ state.cities?.data?.[values.citizen?.city]?.name }}
                                         {{ values.citizen?.postcode }}
                                     </BaseText>
                                 </div>
@@ -268,7 +300,7 @@
                                 </div>
                             </div>
                         </BaseCard>
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </div>
@@ -280,6 +312,9 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { Field, useFieldError, useForm } from 'vee-validate'
 import { z } from 'zod'
 import { AddonInputPhone } from '#components'
+import { regionService } from '@/components/api/RegionService'
+import { municipalityService } from '@/components/api/MunicipalityService'
+import { cityService } from '@/components/api/CityService'
 import { citizenService } from '@/components/api/CitizenService'
 
 definePageMeta({
@@ -288,9 +323,80 @@ definePageMeta({
 })
 
 const state = reactive({
+    cities: [],
     error: null,
     isPageLoading: false,
+    municipalities: [],
+    regions: [],
+    selectedRegion: null,
+    selectedMunicipality: null,
+    selectedCity: null
 })
+
+function changeSelectedRegion(event: any) {
+    state.selectedRegion = event.target.value
+    fetchMunicipalities(state.selectedRegion)
+}
+
+function changeSelectedMunicipality(event: any) {
+    state.selectedMunicipality = event.target.value
+    fetchCities(state.selectedMunicipality)
+}
+
+function changeSelectedCity(event: any) {
+    state.selectedCity = event.target.value
+}
+
+onMounted(() => {
+    fetchRegions()
+    fetchMunicipalities(1)
+    fetchCities(1)
+})
+
+async function fetchRegions() {
+    state.isPageLoading = true
+    try {
+        const response = await regionService.getAllRegions()
+        if (response) {
+            state.regions = response
+        }
+    } catch (error: any) {
+        errorMessage = error.message
+    }
+    state.isPageLoading = false
+}
+
+async function fetchMunicipalities(regionId: any) {
+    state.isPageLoading = true
+    try {
+        const params = {
+            region_id: regionId
+        }
+        const response = await municipalityService.getAllMunicipalities(params)
+        if (response) {
+            state.municipalities = response
+        }
+    } catch (error: any) {
+        errorMessage = error.message
+    }
+    state.isPageLoading = false
+}
+
+async function fetchCities(municipalityId: any) {
+    state.isPageLoading = true
+    try {
+        const params = {
+            municipality_id: municipalityId
+        }
+        const response = await cityService.getAllCities(params)
+        if (response) {
+            state.cities = response
+        }
+    } catch (error: any) {
+        errorMessage = error.message
+    }
+    state.isPageLoading = false
+}
 
 const dates = ref({
     start: new Date(),
@@ -302,7 +408,7 @@ const masks = ref({
 })
 
 // This is the object that will contain the validation messages
-const ONE_MB = 1000000
+const TWO_MB = 2000000
 const VALIDATION_TEXT = {
     FIRSTNAME_REQUIRED: 'This field is required',
     LASTNAME_REQUIRED: 'This field is required',
@@ -315,7 +421,7 @@ const VALIDATION_TEXT = {
     MUNICIPALITY_REQUIRED: 'This field is required',
     CITY_REQUIRED: 'This field is required',
     POSTCODE_REQUIRED: 'This field is required',
-    AVATAR_TOO_BIG: `Avatar size must be less than 1MB`,
+    AVATAR_TOO_BIG: `Image size must be less than 2MB`,
 }
 
 const inputPhoneRef = ref<InstanceType<typeof AddonInputPhone>>()
@@ -342,8 +448,8 @@ const zodSchema = z
     .object({
         avatar: z.custom<File>(v => v instanceof File).nullable(),
         citizen: z.object({
-            firstName: z.string().min(1, VALIDATION_TEXT.FIRSTNAME_REQUIRED),
-            lastName: z.string().min(1, VALIDATION_TEXT.LASTNAME_REQUIRED),
+            firstname: z.string().min(1, VALIDATION_TEXT.FIRSTNAME_REQUIRED),
+            lastname: z.string().min(1, VALIDATION_TEXT.LASTNAME_REQUIRED),
             email: z.string().min(1, VALIDATION_TEXT.EMAIL_REQUIRED),
             socialSecurityNumber: z.string().min(1, VALIDATION_TEXT.SSN_REQUIRED),
             birthday: z.string().min(1, VALIDATION_TEXT.BIRTHDAY_REQUIRED),
@@ -359,7 +465,7 @@ const zodSchema = z
     .superRefine((data, ctx) => {
         // This is a custom validation function that will be called
         // before the form is submitted
-        if (data.avatar && data.avatar.size > ONE_MB) {
+        if (data.avatar && data.avatar.size > TWO_MB) {
             ctx.addIssue({
                 code: z.ZodIssueCode.custom,
                 message: VALIDATION_TEXT.AVATAR_TOO_BIG,
@@ -384,8 +490,8 @@ const validationSchema = toTypedSchema(zodSchema)
 const initialValues = {
     avatar: null,
     citizen: {
-        firstName: '',
-        lastName: '',
+        firstname: '',
+        lastname: '',
         email: '',
         socialSecurityNumber: '',
         birthday: '',
@@ -434,93 +540,54 @@ onBeforeRouteLeave(() => {
 })
 
 const toaster = useToaster()
+let errorMessage = ''
 
 // This is where you would send the form data to the server
-const onSubmit = handleSubmit(
-    async (values) => {
-        success.value = false
-
-        // here you have access to the validated form values
-        console.log('citizen-create-success', values)
-
-        try {
+const onSubmit = handleSubmit(async (values) => {
+    errorMessage = ''
+    try {
+        let formData = new FormData()
+        formData.append('image', values.avatar)
+        formData.append('firstname', values.citizen.firstname)
+        formData.append('lastname', values.citizen.lastname)
+        formData.append('email', values.citizen.email)
+        formData.append('social_security_number', values.citizen.socialSecurityNumber)
+        formData.append('birthday', values.citizen.birthday)
+        formData.append('phone', values.citizen.phone)
+        formData.append('street', values.citizen.address)
+        formData.append('region_id', values.citizen.region)
+        formData.append('municipality_id', values.citizen.municipality)
+        formData.append('city_id', values.citizen.city)
+        formData.append('post_code', values.citizen.postcode)
+        formData.append('note', values.citizen.note)
+        const response = await citizenService.saveCitizen(formData)
+        if (response.data) {
             toaster.clearAll()
             toaster.show({
                 title: 'Success',
-                message: `Citizen has been added!`,
+                message: 'Citizen successfully added.',
                 color: 'success',
                 icon: 'ph:check',
                 closable: true,
             })
+            resetForm()
+            navigateTo('/citizens')
         }
-        catch (error: any) {
-            // this will set the error on the form
-            if (error.message === 'Fake backend validation error') {
-
-                document.documentElement.scrollTo({
-                    top: 0,
-                    behavior: 'smooth',
-                })
-
-                toaster.clearAll()
-                toaster.show({
-                    title: 'Oops!',
-                    message: 'Please review the errors in the form',
-                    color: 'danger',
-                    icon: 'lucide:alert-triangle',
-                    closable: true,
-                })
-            }
-            return
-        }
-
-        resetForm()
-
-        document.documentElement.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        })
-
-        success.value = true
-        setTimeout(() => {
-            success.value = false
-        }, 3000)
-    },
-    (error) => {
-        // this callback is optional and called only if the form has errors
-        success.value = false
-
-        // here you have access to the error
-        console.log('citizen-create-error', error)
-
-        // you can use it to scroll to the first error
-        document.documentElement.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        })
-    },
-)
-
-const currentRating = computed(() => {
-    if (values.citizen?.rating === undefined || values.citizen?.rating === null)
-        return 0
-    return parseInt(values.citizen?.rating)
-})
-
-const currentRatingText = computed(() => {
-    switch (currentRating.value) {
-        case 1:
-            return 'Standard'
-        case 2:
-            return 'Good'
-        case 3:
-            return 'Advanced'
-        case 4:
-            return 'Expert'
-        case 5:
-            return 'Top 3%'
-        default:
-            return 'n/a'
+    } catch (error: any) {
+        errorMessage = error.message
+        setFieldError('citizen.firstname', error?.errors?.firstname)
+        setFieldError('citizen.lastname', error?.errors?.lastname)
+        setFieldError('citizen.email', error?.errors?.email)
+        setFieldError('citizen.socialSecurityNumber', error?.errors?.social_security_number)
+        setFieldError('citizen.birthday', error?.errors?.birthday)
+        setFieldError('citizen.phone', error?.errors?.phone)
+        setFieldError('citizen.address', error?.errors?.street)
+        setFieldError('citizen.region', error?.errors?.region_id)
+        setFieldError('citizen.municipality', error?.errors?.municipality_id)
+        setFieldError('citizen.city', error?.errors?.city_id)
+        setFieldError('citizen.postcode', error?.errors?.post_code)
+        setFieldError('citizen.note', error?.errors?.note)
+        return
     }
 })
 </script>
