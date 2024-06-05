@@ -77,7 +77,7 @@
             </template>
 
             <div class="p-4 md:px-6 md:py-2">
-                {{ state.selectedCitizen?.note }}
+                {{ state.selectedCitizen?.note ?? 'No note to display' }}
             </div>
 
             <template #footer>
