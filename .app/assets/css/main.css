@@ -44,12 +44,9 @@ table tr:last-child td:last-child {
 }
 
 table tbody tr {
-    @apply bg-white border-b border-sky-50 dark:bg-transparent dark:border-slate-400;
+    @apply bg-white border-b border-sky-50 dark:bg-slate-800 dark:border-slate-400;
+    @apply hover:bg-gray-100 dark:hover:bg-muted-700/60;
     vertical-align: middle;
-}
-
-table tbody tr:hover {
-    @apply bg-gray-50 dark:bg-transparent;
 }
 
 table tbody tr:last-child {
@@ -57,7 +54,7 @@ table tbody tr:last-child {
 }
 
 table td {
-    @apply text-sm font-normal px-10 py-5 text-left dark:bg-slate-800 dark:text-white;
+    @apply text-sm font-normal px-10 py-5 text-left;
 }
 
 

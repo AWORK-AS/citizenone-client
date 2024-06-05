@@ -31,7 +31,7 @@
                                     <span>{{ citizen?.phone }}</span>
                                 </td>
                                 <td width="20%">
-                                    <div class="flex flex-wrap items-end gap-2">
+                                    <div class="flex items-end gap-2">
                                         <BaseButtonIcon rounded="md" data-nui-tooltip="View citizen details"
                                             :to="`/citizens/details/${citizen.uuid}`">
                                             <Icon name="ph:eye" class="size-5 text-sky-500" />
