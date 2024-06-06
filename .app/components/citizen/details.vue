@@ -27,7 +27,7 @@
                             <NuxtLink :to="`/citizens/details/${citizenUuid}/journal`"
                                 exact-active-class="!text-primary-500 !bg-primary-500/10"
                                 class="text-muted-400 hover:text-muted-600 dark:hover:text-muted-200 hover:bg-muted-50 dark:hover:bg-muted-700/50 flex items-center gap-2 rounded-lg p-3 transition-colors duration-300">
-                                <Icon name="ph:file" class="size-4" />
+                                <Icon name="ph:book-open-duotone" class="size-4" />
                                 <span>Journal</span>
                             </NuxtLink>
                         </li>
