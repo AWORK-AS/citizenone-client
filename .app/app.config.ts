@@ -46,7 +46,7 @@ export default defineAppConfig({
         items: [
           {
             name: 'Dashboard',
-            icon: { name: 'mdi:view-dashboard', class: 'w-5 h-5' },
+            icon: { name: 'mdi:view-dashboard-outline', class: 'w-5 h-5' },
             to: '/dashboard',
           },
           {
@@ -56,22 +56,22 @@ export default defineAppConfig({
           },
           {
             name: 'Calendar',
-            icon: { name: 'mdi:calendar', class: 'w-5 h-5' },
+            icon: { name: 'ph:calendar-blank', class: 'w-5 h-5' },
             to: '/calendar',
           },
           {
             name: 'Duty Schedule',
-            icon: { name: 'mdi:calendar-clock', class: 'w-5 h-5' },
+            icon: { name: 'ph:calendar-dots', class: 'w-5 h-5' },
             to: '/schedules',
           },
           {
             name: 'Employees',
-            icon: { name: 'f7:person-3-fill', class: 'w-5 h-5' },
+            icon: { name: 'ph:users-three', class: 'w-5 h-5' },
             to: '/employees',
           },
           {
             name: 'Messages',
-            icon: { name: 'mdi:chat', class: 'w-5 h-5' },
+            icon: { name: 'ph:chat-circle', class: 'w-5 h-5' },
             to: '/messages',
           },
           {

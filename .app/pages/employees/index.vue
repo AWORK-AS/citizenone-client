@@ -47,6 +47,10 @@
                                             :to="`/employees/edit/${employee.uuid}`">
                                             <Icon name="ph:pencil-simple" class="size-5 text-sky-500" />
                                         </BaseButtonIcon>
+                                        <BaseButtonIcon rounded="md" data-nui-tooltip="Message employee"
+                                            :to="`/messages`">
+                                            <Icon name="ph:chat-circle" class="size-5 text-sky-500" />
+                                        </BaseButtonIcon>
                                     </div>
                                 </td>
                             </tr>
