@@ -5,8 +5,8 @@ class CitizenService extends BaseAPIService {
         return await this.request(`/user/citizens`, 'GET', params)
     }
 
-    async getCitizen(citizenId: number): Promise<any> {
-        return await this.request(`/user/citizens/${citizenId}`, 'GET')
+    async getCitizen(employeeUuid: any): Promise<any> {
+        return await this.request(`/user/citizens/${employeeUuid}`, 'GET')
     }
 
     async saveCitizen(params: object): Promise<any> {

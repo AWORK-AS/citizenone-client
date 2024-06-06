@@ -38,7 +38,7 @@
                                 <td width="20%">
                                     <div class="flex items-end gap-2">
                                         <BaseButtonIcon rounded="md" data-nui-tooltip="View citizen details"
-                                            :to="`/citizens/details/${citizen.uuid}`">
+                                            :to="`/citizens/details/${citizen.uuid}/journal`">
                                             <Icon name="ph:eye" class="size-5 text-sky-500" />
                                         </BaseButtonIcon>
                                         <BaseButtonIcon rounded="md" data-nui-tooltip="Edit citizen"
