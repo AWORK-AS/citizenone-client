@@ -26,8 +26,8 @@
                                                     <div
                                                         class="relative mb-5 flex flex-col items-center justify-center gap-4">
                                                         <BaseFullscreenDropfile icon="ph:image-duotone"
-                                                            :filter-file-dropped="(file) => file.type.startsWith('image')"
-                                                            @drop="(value) => { inputFile = value }" />
+                                                            :filter-file-dropped="(file: any) => file.type.startsWith('image')"
+                                                            @drop="(value: any) => { inputFile = value }" />
                                                         <BaseInputFileHeadless v-slot="{ open, remove, preview, files }"
                                                             v-model="inputFile" accept="image/*">
                                                             <div class="relative size-28">
@@ -262,8 +262,10 @@ definePageMeta({
 })
 
 const runtimeConfig = useRuntimeConfig()
+const toaster = useToaster()
 const route = useRoute()
 const citizenUuid = route.params.slug
+let errorMessage = ''
 
 const state = reactive({
     citizenAvatar: '/img/avatars/user.svg',
@@ -493,9 +495,6 @@ watch(inputFile, (value) => {
     const file = value?.item(0) || null
     setFieldValue('avatar', file)
 })
-
-const toaster = useToaster()
-let errorMessage = ''
 
 // This is where you would send the form data to the server
 const onSubmit = handleSubmit(async (values) => {

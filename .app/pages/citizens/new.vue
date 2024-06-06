@@ -345,6 +345,8 @@ definePageMeta({
 })
 
 const runtimeConfig = useRuntimeConfig()
+const toaster = useToaster()
+let errorMessage = ''
 
 const state = reactive({
     cities: [],
@@ -550,9 +552,6 @@ onBeforeRouteLeave(() => {
         return confirm('You have unsaved changes. Are you sure you want to leave?')
     }
 })
-
-const toaster = useToaster()
-let errorMessage = ''
 
 // This is where you would send the form data to the server
 const onSubmit = handleSubmit(async (values) => {
