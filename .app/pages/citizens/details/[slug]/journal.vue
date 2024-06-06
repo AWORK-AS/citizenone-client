@@ -25,20 +25,23 @@
                             </div>
                             <div class="ms-auto flex flex-wrap items-center gap-2">
                                 <BaseButtonIcon rounded="full" size="md"
-                                    data-nui-tooltip="Sort journal by date (ascending)">
+                                    data-nui-tooltip="Sort journal by date (ascending)" @click="sortJournalAscending">
                                     <Icon name="mdi:sort-ascending" class="size-4" />
                                 </BaseButtonIcon>
                                 <BaseButtonIcon rounded="full" size="md"
-                                    data-nui-tooltip="Sort journal by date (descending)">
+                                    data-nui-tooltip="Sort journal by date (descending)" @click="sortJournalDescending">
                                     <Icon name="mdi:sort-descending" class="size-4" />
                                 </BaseButtonIcon>
-                                <BaseButtonIcon rounded="full" size="md" data-nui-tooltip="Show locked journals">
+                                <BaseButtonIcon rounded="full" size="md" data-nui-tooltip="Show locked journals"
+                                    @click="fetchLockedJournals">
                                     <Icon name="ph:lock" class="size-4" />
                                 </BaseButtonIcon>
-                                <BaseButtonIcon rounded="full" size="md" data-nui-tooltip="Show favorite journals">
+                                <BaseButtonIcon rounded="full" size="md" data-nui-tooltip="Show favorite journals"
+                                    @click="fetchFavoriteJournals">
                                     <Icon name="ph:star" class="size-4" />
                                 </BaseButtonIcon>
-                                <BaseButtonIcon rounded="full" size="md" data-nui-tooltip="Reset Filter">
+                                <BaseButtonIcon rounded="full" size="md" data-nui-tooltip="Reset Filter"
+                                    @click="resetFilter">
                                     <Icon name="mdi:refresh" class="size-4" />
                                 </BaseButtonIcon>
                                 <BaseButtonIcon rounded="full" size="md" data-nui-tooltip="Add new journal"
@@ -121,6 +124,7 @@ let currentTablePage = 1
 let errorMessage = ''
 
 const state = reactive({
+    dataFilter: [],
     isPageLoading: false,
     modal: {
         isAddJournalOpen: false,
@@ -144,6 +148,7 @@ async function fetchJournals() {
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
+            ...state.dataFilter
         }
         const response = await journalService.getJournals(params)
         if (response) {
@@ -153,6 +158,50 @@ async function fetchJournals() {
         errorMessage = error.message
     }
     state.isPageLoading = false
+}
+
+function sortJournalAscending() {
+    currentTablePage = 1
+    state.sortData = {
+        sortField: 'date',
+        sortOrder: 'descend',
+    }
+    fetchJournals()
+}
+
+function sortJournalDescending() {
+    currentTablePage = 1
+    state.sortData = {
+        sortField: 'date',
+        sortOrder: 'ascend',
+    }
+    fetchJournals()
+}
+
+function fetchLockedJournals() {
+    currentTablePage = 1
+    state.dataFilter = {
+        lock: true
+    }
+    fetchJournals()
+}
+
+function fetchFavoriteJournals() {
+    currentTablePage = 1
+    state.dataFilter = {
+        favorite: true
+    }
+    fetchJournals()
+}
+
+function resetFilter() {
+    currentTablePage = 1
+    state.dataFilter = []
+    state.sortData = {
+        sortField: 'date',
+        sortOrder: 'descend',
+    }
+    fetchJournals()
 }
 
 function previous() {
