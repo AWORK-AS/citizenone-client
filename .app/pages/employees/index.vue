@@ -21,7 +21,7 @@
                         :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                         <template #body v-if="!(state.isTableLoading || (state.employees?.data?.length === 0))">
                             <tr v-for="(employee, index) in state.employees?.data" :key="index">
-                                <td width="20%">
+                                <td width="25%">
                                     <div class="flex items-center gap-x-2">
                                         <BaseAvatar
                                             :src="`https://ui-avatars.com/api/?background=0ea5e9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
@@ -35,7 +35,7 @@
                                 <td width="20%">
                                     <span>{{ employee?.phone }}</span>
                                 </td>
-                                <td width="20%">
+                                <td width="15%">
                                     <div class="flex items-center gap-x-2" v-for="(role, index) in employee?.roles"
                                         :key="index">
                                         <span>{{ role.name }}</span>
@@ -86,8 +86,8 @@ let currentTablePage = 1
 const state = reactive({
     columnFilter: [
         { column: 'name' },
-        { column: 'phone' },
         { column: 'email' },
+        { column: 'phone' },
     ],
     columnHeaders: [
         { name: 'Name', sorter: true, key: 'firstname' },

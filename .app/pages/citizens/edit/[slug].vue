@@ -274,7 +274,6 @@ const state = reactive({
     isPageLoading: false,
     municipalities: [],
     regions: [],
-    selectedCitizen: null,
     selectedRegion: null,
     selectedMunicipality: null,
     selectedCity: null
@@ -304,7 +303,6 @@ async function fetchSelectedCitizen() {
     try {
         const response = await citizenService.getCitizen(citizenUuid)
         if (response) {
-            state.selectedCitizen = response
             fetchMunicipalities(response?.data?.address?.region_id)
             fetchCities(response?.data?.address?.municipality_id)
             if (response?.data?.image) {
