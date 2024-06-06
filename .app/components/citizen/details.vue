@@ -4,7 +4,7 @@
             <Icon name="ph:arrow-left" class="text-black h-6 w-6 dark:text-white" />
             <span>Back</span>
         </NuxtLink>
-        <div class="grid gap-8 sm:grid-cols-12">
+        <div class="grid sm:grid-cols-12 md:gap-8">
             <div class="col-span-12 sm:col-span-4">
                 <div class="flex w-full items-center gap-2">
                     <BaseAvatar :src="state.citizenAvatar" size="md" />
