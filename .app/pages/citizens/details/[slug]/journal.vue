@@ -9,21 +9,31 @@
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div class="space-y-3">
                     <BaseMessage color="danger" icon v-if="errorMessage" :message="errorMessage" />
-                    <BaseCard rounded="md" class="p-10">
-                        <div
-                            class="border-muted-200 dark:border-muted-700 mb-8 w-full flex gap-2 border-b pb-8 flex-col md:flex-row md:items-center">
-                            <div class="flex items-center gap-2">
-                                <div
-                                    class="bg-muted-100 dark:bg-muted-700/60 text-muted-400 flex size-[50px] items-center justify-center rounded-full">
-                                    <Icon name="ph:book-open-duotone" class="size-5" />
+                    <BaseCard rounded="md" class="p-4 md:p-10">
+                        <div class="border-muted-200 dark:border-muted-700 mb-8 w-full border-b pb-8 space-y-3">
+                            <div class="flex gap-2 items-center">
+                                <div class="flex items-center gap-2">
+                                    <div
+                                        class="bg-muted-100 dark:bg-muted-700/60 text-muted-400 flex size-[50px] items-center justify-center rounded-full">
+                                        <Icon name="ph:book-open-duotone" class="size-5" />
+                                    </div>
+                                    <div>
+                                        <BaseHeading tag="h3" size="md" weight="medium">
+                                            Journal
+                                        </BaseHeading>
+                                    </div>
                                 </div>
-                                <div>
-                                    <BaseHeading tag="h3" size="md" weight="medium">
-                                        Journal
-                                    </BaseHeading>
+
+                                <div class="ms-auto flex flex-wrap items-center gap-2">
+                                    <BaseButton color="primary" shape="full"
+                                        @click="state.modal.isAddJournalOpen = true">
+                                        <Icon name="lucide:plus" class="h-4 w-4" />
+                                        <span>New Journal</span>
+                                    </BaseButton>
                                 </div>
                             </div>
-                            <div class="ms-auto flex flex-wrap items-center gap-2">
+
+                            <div class="flex gap-2 justify-center md:justify-end">
                                 <BaseButtonIcon rounded="full" size="md"
                                     data-nui-tooltip="Sort journal by date (ascending)" @click="sortJournalAscending">
                                     <Icon name="mdi:sort-ascending" class="size-4" />
@@ -43,10 +53,6 @@
                                 <BaseButtonIcon rounded="full" size="md" data-nui-tooltip="Reset Filter"
                                     @click="resetFilter">
                                     <Icon name="mdi:refresh" class="size-4" />
-                                </BaseButtonIcon>
-                                <BaseButtonIcon rounded="full" size="md" data-nui-tooltip="Add new journal"
-                                    @click="state.modal.isAddJournalOpen = true">
-                                    <Icon name="lucide:plus" class="size-4" />
                                 </BaseButtonIcon>
                             </div>
                         </div>
