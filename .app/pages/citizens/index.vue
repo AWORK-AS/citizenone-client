@@ -22,7 +22,12 @@
                         <template #body v-if="!(state.isTableLoading || (state.citizens?.data?.length === 0))">
                             <tr v-for="(citizen, index) in state.citizens?.data" :key="index">
                                 <td width="25%">
-                                    <span>{{ citizen?.firstname }} {{ citizen?.lastname }}</span>
+                                    <div class="flex items-center gap-x-2">
+                                        <BaseAvatar
+                                            :src="citizen?.image ?? `https://ui-avatars.com/api/?background=0ea5e9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
+                                            rounded="full" size="sm" />
+                                        <span>{{ citizen?.firstname }} {{ citizen?.lastname }}</span>
+                                    </div>
                                 </td>
                                 <td width="35%">
                                     <span>{{ citizen?.email }}</span>
