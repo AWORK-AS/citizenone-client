@@ -22,7 +22,8 @@
                                 </BaseHeading>
                             </div>
                             <div class="ms-auto">
-                                <BaseButtonIcon rounded="full" size="sm" data-nui-tooltip="Add new journal">
+                                <BaseButtonIcon rounded="full" size="sm" data-nui-tooltip="Add new journal"
+                                    @click="state.modal.isAddJournalOpen = true">
                                     <Icon name="lucide:plus" class="size-4" />
                                 </BaseButtonIcon>
                             </div>
@@ -77,6 +78,8 @@
                 </div>
             </LoadingSpinner>
         </CitizenDetails>
+        <ModulesCitizenJournalModalNewJournal :isModalOpen="state.modal.isAddJournalOpen"
+            @close="state.modal.isAddJournalOpen = false" @refreshJournal="fetchJournals" />
     </div>
 </template>
 
@@ -96,6 +99,9 @@ let errorMessage = ''
 
 const state = reactive({
     isPageLoading: false,
+    modal: {
+        isAddJournalOpen: false,
+    },
     journals: [],
 })
 
