@@ -4,10 +4,10 @@
   "version": "1.5.0",
   "type": "module",
   "main": "./nuxt.config.ts",
-  "packageManager": "pnpm@8.14.0",
+  "packageManager": "pnpm@9.2.0",
   "engines": {
-    "node": ">=18",
-    "pnpm": ">=8"
+    "node": ">=20",
+    "pnpm": ">=9"
   },
   "workspaces": [
     ".demo",
@@ -29,20 +29,20 @@
     "lint:eslint:fix-demo": "eslint -c layers/documentation/examples/.eslintrc.cjs --fix layers/documentation/examples"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^1.5.4",
-    "@typescript-eslint/eslint-plugin": "7.6.0",
-    "eslint": "8.57.0",
-    "eslint-plugin-sonarjs": "^0.25.1",
-    "eslint-plugin-tailwindcss": "3.15.1",
-    "eslint-plugin-vue": "9.24.1",
-    "eslint-plugin-vuejs-accessibility": "2.2.1",
-    "lint-staged": "15.2.2",
+    "@stylistic/eslint-plugin": "^2.1.0",
+    "@typescript-eslint/eslint-plugin": "7.12.0",
+    "eslint": "9.4.0",
+    "eslint-plugin-sonarjs": "^1.0.3",
+    "eslint-plugin-tailwindcss": "3.17.3",
+    "eslint-plugin-vue": "9.26.0",
+    "eslint-plugin-vuejs-accessibility": "2.3.0",
+    "lint-staged": "15.2.5",
     "npm-run-all": "4.1.5",
-    "rimraf": "5.0.5",
+    "rimraf": "5.0.7",
     "std-env": "3.7.0",
-    "tailwindcss": "3.4.3",
+    "tailwindcss": "3.4.4",
     "typescript": "5.4.5",
-    "vue-tsc": "2.0.12"
+    "vue-tsc": "2.0.19"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
