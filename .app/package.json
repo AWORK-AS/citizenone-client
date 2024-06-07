@@ -17,6 +17,7 @@
     "clean": "rimraf .nuxt .output node_modules"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.19",
     "@pinia/nuxt": "^0.5.1",
     "moment": "^2.30.1"
   }

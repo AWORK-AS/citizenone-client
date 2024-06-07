@@ -61,9 +61,6 @@
         "@unhead/vue",
         "webpack"
       ]
-    },
-    "patchedDependencies": {
-      "smooth-dnd@0.12.1": "patches/smooth-dnd@0.12.1.patch"
     }
   }
 }
