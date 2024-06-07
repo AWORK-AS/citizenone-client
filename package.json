@@ -10,7 +10,6 @@
     "pnpm": ">=9"
   },
   "workspaces": [
-    ".demo",
     ".app",
     "layers/*"
   ],
