@@ -34,12 +34,12 @@
                                                 {{ formatAmount(app?.price) }}
                                             </p>
                                         </div>
-                                        <h4 class="text-muted-800 dark:text-muted-100 font-sans text-sm">
+                                        <p class="text-muted-800 dark:text-muted-100 font-sans text-sm">
                                             {{ app?.description }}
-                                        </h4>
+                                        </p>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <BaseButton rounded="md" class="w-full">
+                                        <BaseButton rounded="md" class="w-full" @click="readMore(app)">
                                             Read More
                                         </BaseButton>
                                         <BaseButton rounded="md" class="w-full" color="primary">
@@ -67,6 +67,8 @@
                         </BasePlaceholderPage>
                     </div>
                 </div>
+                <ModulesAppModalAppDetails :isModalOpen="state.modal.showAppDetails" :selectedApp="state.selectedApp"
+                    @close="state.modal.showAppDetails = false" />
             </TairoContentWrapper>
         </LoadingSpinner>
     </div>
@@ -87,6 +89,10 @@ const state = reactive({
     apps: [],
     error: null,
     isPageLoading: false,
+    modal: {
+        showAppDetails: false,
+    },
+    selectedApp: []
 })
 
 onMounted(() => {
@@ -118,6 +124,11 @@ function previous() {
 function next() {
     currentTablePage++
     fetchApps()
+}
+
+function readMore(app: any) {
+    state.selectedApp = app
+    state.modal.showAppDetails = true
 }
 
 function formatAmount(amount: any) {
