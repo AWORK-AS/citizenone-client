@@ -84,7 +84,6 @@ definePageMeta({
 })
 
 const runtimeConfig = useRuntimeConfig()
-const isModalNoteOpen = ref(false)
 let currentTablePage = 1
 
 const state = reactive({
