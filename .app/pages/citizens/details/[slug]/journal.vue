@@ -150,7 +150,7 @@ async function fetchJournals() {
     state.isPageLoading = true
     try {
         const params = {
-            uuid: citizenUuid,
+            citizen_uuid: citizenUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,

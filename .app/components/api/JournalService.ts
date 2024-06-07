@@ -8,6 +8,14 @@ class JournalService extends BaseAPIService {
     async saveJournal(params: object): Promise<any> {
         return await this.request(`/user/citizen-journals`, 'POST', params)
     }
+
+    async updateJournalFavorite(journalUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-journals/${journalUuid}/favorite`, 'PUT', params)
+    }
+
+    async updateJournalLock(journalUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-journals/${journalUuid}/lock`, 'PUT', params)
+    }
 }
 
 export const journalService = new JournalService()
