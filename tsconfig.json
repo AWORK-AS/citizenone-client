@@ -5,5 +5,5 @@
   // - ./.app/.nuxt/tsconfig.json - for the quickstarter app
   // - ./.demo/.nuxt/tsconfig.json - for the demo app
   //
-  "extends": "./.demo/.nuxt/tsconfig.json"
+  "extends": "./.app/.nuxt/tsconfig.json"
 }
