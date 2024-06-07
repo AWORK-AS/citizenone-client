@@ -120,8 +120,8 @@
         <ModulesCitizenJournalModalNewJournal :isModalOpen="state.modal.isAddJournalOpen"
             @close="state.modal.isAddJournalOpen = false" @refreshJournal="fetchJournals" />
         <ModulesCitizenJournalModalEditJournal :isModalOpen="state.modal.isEditJournalOpen"
-            :selectedJournal="state.selectedJournal" @close="state.modal.isEditJournalOpen = false"
-            @refreshJournal="fetchJournals" />
+            :selectedJournal="state.selectedJournal" @resetSelectedJournal="state.selectedJournal = []"
+            @close="closeEditJournalModal" @refreshJournal="fetchJournals" />
         <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalOpen" title="Confirm Deletion"
             message="Are you sure you want to delete this journal?" @close="state.modal.isDeleteJournalOpen = false"
             @confirm="deleteJournal" />
@@ -241,6 +241,11 @@ function next() {
 function editJournal(journal: any) {
     state.selectedJournal = journal
     state.modal.isEditJournalOpen = true
+}
+
+function closeEditJournalModal() {
+    state.modal.isEditJournalOpen = false
+    state.selectedJournal = []
 }
 
 async function addRemoveJournalToFavorite(journalUuid: any) {

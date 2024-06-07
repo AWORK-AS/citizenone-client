@@ -3,7 +3,7 @@
         <template #header>
             <div class="flex w-full items-center justify-between p-4 md:p-6">
                 <h3 class="font-heading text-muted-900 text-lg font-medium leading-6 dark:text-white">
-                    Add new journal
+                    Edit journal
                 </h3>
 
                 <BaseButtonClose @click="closeModal" />
@@ -43,7 +43,7 @@
 
                             <BaseButton color="primary" type="submit" variant="solid" :disabled="isSubmitting"
                                 :loading="isSubmitting">
-                                Save Journal
+                                Update Journal
                             </BaseButton>
                         </div>
                     </div>
@@ -123,6 +123,7 @@ watch(() => props.selectedJournal, (newValue: any) => {
 })
 
 function closeModal() {
+    resetForm()
     emit('close')
 }
 
@@ -151,7 +152,6 @@ const onSubmit = handleSubmit(async (values) => {
                 closable: true,
             })
             isSubmitting.value = false
-            resetForm()
             refreshJournal()
             closeModal()
         }
