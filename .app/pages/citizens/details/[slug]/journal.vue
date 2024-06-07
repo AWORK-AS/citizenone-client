@@ -95,12 +95,13 @@
                                                     <Icon name="ph:lock" class="me-2 block size-5" v-else />
                                                 </template>
                                             </BaseDropdownItem>
-                                            <BaseDropdownItem title="Print" text="Print journal">
+                                            <!-- <BaseDropdownItem title="Print" text="Print journal">
                                                 <template #start>
                                                     <Icon name="ph:printer" class="me-2 block size-5" />
                                                 </template>
-                                            </BaseDropdownItem>
-                                            <BaseDropdownItem title="Delete" text="Delete journal">
+                                            </BaseDropdownItem> -->
+                                            <BaseDropdownItem title="Delete" text="Delete journal"
+                                                @click="confirmJournalDeletion(journal.uuid)">
                                                 <template #start>
                                                     <Icon name="ph:trash-duotone" class="me-2 block size-5" />
                                                 </template>
@@ -245,6 +246,29 @@ async function lockUnlockJournal(journalUuid: any) {
         const response = await journalService.updateJournalLock(journalUuid)
         if (response?.data) {
             fetchJournals()
+        }
+    } catch (error: any) {
+        errorMessage = error.message
+    }
+    state.isPageLoading = false
+}
+
+function confirmJournalDeletion(journalUuid: any) {
+    if (confirm('Are you sure you want to delete this journal?')) {
+        deleteJournal(journalUuid)
+    }
+}
+
+async function deleteJournal(journalUuid: any) {
+    state.isPageLoading = true
+    try {
+        const response = await journalService.deleteJournal(journalUuid)
+        if (response?.message === 'Success') {
+            if (state.journals?.data?.length === 1) {
+                resetFilter()
+            } else {
+                fetchJournals()
+            }
         }
     } catch (error: any) {
         errorMessage = error.message

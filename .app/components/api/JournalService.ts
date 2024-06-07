@@ -16,6 +16,10 @@ class JournalService extends BaseAPIService {
     async updateJournalLock(journalUuid: any): Promise<any> {
         return await this.request(`/user/citizen-journals/${journalUuid}/lock`, 'PUT')
     }
+
+    async deleteJournal(journalUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-journals/${journalUuid}`, 'DELETE')
+    }
 }
 
 export const journalService = new JournalService()
