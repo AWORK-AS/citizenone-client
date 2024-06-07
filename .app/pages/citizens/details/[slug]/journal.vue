@@ -74,7 +74,8 @@
                                     <div class="ms-auto">
                                         <BaseDropdown variant="context" label="Dropdown" placement="bottom-end"
                                             size="md" class="z-20" rounded="lg">
-                                            <BaseDropdownItem title="Edit" text="Edit journal">
+                                            <BaseDropdownItem title="Edit" text="Edit journal"
+                                                @click="editJournal(journal)">
                                                 <template #start>
                                                     <Icon name="ph:pencil-duotone" class="me-2 block size-5" />
                                                 </template>
@@ -101,7 +102,7 @@
                                                 </template>
                                             </BaseDropdownItem> -->
                                             <BaseDropdownItem title="Delete" text="Delete journal"
-                                                @click="confirmJournalDeletion(journal.uuid)">
+                                                @click="confirmJournalDeletion(journal)">
                                                 <template #start>
                                                     <Icon name="ph:trash-duotone" class="me-2 block size-5" />
                                                 </template>
@@ -118,6 +119,12 @@
         </CitizenDetails>
         <ModulesCitizenJournalModalNewJournal :isModalOpen="state.modal.isAddJournalOpen"
             @close="state.modal.isAddJournalOpen = false" @refreshJournal="fetchJournals" />
+        <ModulesCitizenJournalModalEditJournal :isModalOpen="state.modal.isEditJournalOpen"
+            :selectedJournal="state.selectedJournal" @close="state.modal.isEditJournalOpen = false"
+            @refreshJournal="fetchJournals" />
+        <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalOpen" title="Confirm Deletion"
+            message="Are you sure you want to delete this journal?" @close="state.modal.isDeleteJournalOpen = false"
+            @confirm="deleteJournal" />
     </div>
 </template>
 
@@ -133,6 +140,7 @@ definePageMeta({
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const citizenUuid = route.params.slug
+const toaster = useToaster()
 let currentTablePage = 1
 let errorMessage = ''
 
@@ -141,8 +149,11 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isAddJournalOpen: false,
+        isDeleteJournalOpen: false,
+        isEditJournalOpen: false,
     },
     journals: [],
+    selectedJournal: [],
     sortData: {
         sortField: 'date',
         sortOrder: 'descend',
@@ -227,6 +238,11 @@ function next() {
     fetchJournals()
 }
 
+function editJournal(journal: any) {
+    state.selectedJournal = journal
+    state.modal.isEditJournalOpen = true
+}
+
 async function addRemoveJournalToFavorite(journalUuid: any) {
     state.isPageLoading = true
     try {
@@ -253,22 +269,29 @@ async function lockUnlockJournal(journalUuid: any) {
     state.isPageLoading = false
 }
 
-function confirmJournalDeletion(journalUuid: any) {
-    if (confirm('Are you sure you want to delete this journal?')) {
-        deleteJournal(journalUuid)
-    }
+function confirmJournalDeletion(journal: any) {
+    state.selectedJournal = journal
+    state.modal.isDeleteJournalOpen = true
 }
 
-async function deleteJournal(journalUuid: any) {
+async function deleteJournal() {
     state.isPageLoading = true
     try {
-        const response = await journalService.deleteJournal(journalUuid)
+        const response = await journalService.deleteJournal(state.selectedJournal.uuid)
         if (response?.message === 'Success') {
             if (state.journals?.data?.length === 1) {
                 resetFilter()
             } else {
                 fetchJournals()
             }
+            toaster.clearAll()
+            toaster.show({
+                title: 'Success',
+                message: 'Journal successfully deleted.',
+                color: 'success',
+                icon: 'ph:check',
+                closable: true,
+            })
         }
     } catch (error: any) {
         errorMessage = error.message

@@ -64,10 +64,12 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    selectedJournal: {
+        type: Object,
+        required: true,
+    }
 })
 
-const route = useRoute()
-const citizenUuid = route.params.slug
 const toaster = useToaster()
 const emit = defineEmits(['close', 'refreshJournal'])
 let errorMessage = ''
@@ -112,6 +114,14 @@ const {
     initialValues,
 })
 
+watch(() => props.selectedJournal, (newValue: any) => {
+    if (newValue != null) {
+        setFieldValue('journal.title', newValue?.title)
+        setFieldValue('journal.date', newValue?.date)
+        setFieldValue('journal.content', newValue?.content)
+    }
+})
+
 function closeModal() {
     emit('close')
 }
@@ -124,18 +134,18 @@ const onSubmit = handleSubmit(async (values) => {
     errorMessage = ''
     try {
         isSubmitting.value = true
+        const journalUuid = props.selectedJournal.uuid
         const params = {
-            citizen_uuid: citizenUuid,
             title: values.journal.title,
             date: values.journal.date,
             content: values.journal.content,
         }
-        const response = await journalService.saveJournal(params)
+        const response = await journalService.updateJournal(journalUuid, params)
         if (response.data) {
             toaster.clearAll()
             toaster.show({
                 title: 'Success',
-                message: 'Journal successfully added.',
+                message: 'Journal successfully updated.',
                 color: 'success',
                 icon: 'ph:check',
                 closable: true,
