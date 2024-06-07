@@ -9,12 +9,12 @@ class JournalService extends BaseAPIService {
         return await this.request(`/user/citizen-journals`, 'POST', params)
     }
 
-    async updateJournalFavorite(journalUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/citizen-journals/${journalUuid}/favorite`, 'PUT', params)
+    async updateJournalFavorite(journalUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-journals/${journalUuid}/favorite`, 'PUT')
     }
 
-    async updateJournalLock(journalUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/citizen-journals/${journalUuid}/lock`, 'PUT', params)
+    async updateJournalLock(journalUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-journals/${journalUuid}/lock`, 'PUT')
     }
 }
 

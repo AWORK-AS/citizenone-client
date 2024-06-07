@@ -79,14 +79,20 @@
                                                     <Icon name="ph:pencil-duotone" class="me-2 block size-5" />
                                                 </template>
                                             </BaseDropdownItem>
-                                            <BaseDropdownItem title="Favorite" text="Add journal to favorite">
+                                            <BaseDropdownItem :title="journal.is_favorite ? 'Unfavorite' : 'Favorite'"
+                                                :text="journal.is_locked ? 'Remove journal to favorite' : 'Add journal to favorite'"
+                                                @click="addRemoveJournalToFavorite(journal.uuid)">
                                                 <template #start>
                                                     <Icon name="ph:star" class="me-2 block size-5" />
                                                 </template>
                                             </BaseDropdownItem>
-                                            <BaseDropdownItem title="Lock" text="Lock journal">
+                                            <BaseDropdownItem :title="journal.is_locked ? 'Unlock' : 'Lock'"
+                                                :text="journal.is_locked ? 'Unlock journal' : 'Lock journal'"
+                                                @click="lockUnlockJournal(journal.uuid)">
                                                 <template #start>
-                                                    <Icon name="ph:lock" class="me-2 block size-5" />
+                                                    <Icon name="ph:lock-open" class="me-2 block size-5"
+                                                        v-if="journal.is_locked" />
+                                                    <Icon name="ph:lock" class="me-2 block size-5" v-else />
                                                 </template>
                                             </BaseDropdownItem>
                                             <BaseDropdownItem title="Print" text="Print journal">
@@ -218,6 +224,32 @@ function previous() {
 function next() {
     currentTablePage++
     fetchJournals()
+}
+
+async function addRemoveJournalToFavorite(journalUuid: any) {
+    state.isPageLoading = true
+    try {
+        const response = await journalService.updateJournalFavorite(journalUuid)
+        if (response?.data) {
+            fetchJournals()
+        }
+    } catch (error: any) {
+        errorMessage = error.message
+    }
+    state.isPageLoading = false
+}
+
+async function lockUnlockJournal(journalUuid: any) {
+    state.isPageLoading = true
+    try {
+        const response = await journalService.updateJournalLock(journalUuid)
+        if (response?.data) {
+            fetchJournals()
+        }
+    } catch (error: any) {
+        errorMessage = error.message
+    }
+    state.isPageLoading = false
 }
 
 function formatDateToReadable(datetime: string) {
