@@ -1,0 +1,82 @@
+<template>
+    <div>
+        <Modal size="md" :title="$t('citizens.citizenJournals.newJournal')" :show="props.isModalOpen"
+            @close="closeModal">
+            <template #modal-body>
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <ModulesCitizenJournalForm formType="create" :selectedJournal="state.formJournal"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @closeModal="closeModal" @submitForm="saveJournal" />
+                </LoadingSpinner>
+            </template>
+        </Modal>
+    </div>
+</template>
+
+
+<script setup lang="ts">
+import { journalService } from '@/components/api/JournalService'
+import { useI18n } from "vue-i18n"
+import { notify } from "@kyvg/vue3-notification"
+
+const { t } = useI18n()
+
+const props = defineProps({
+    isModalOpen: {
+        type: Boolean,
+        required: true,
+    },
+})
+const router = useRouter()
+const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const emit = defineEmits(['close', 'refreshJournal'])
+
+const state = reactive({
+    error: [],
+    isPageLoading: false,
+    formJournal: {
+        id: '',
+        uuid: '',
+        content: '',
+        date: '',
+        title: '',
+    },
+})
+
+function closeModal() {
+    emit('close')
+}
+
+function refreshJournal() {
+    emit('refreshJournal')
+}
+
+async function saveJournal(journalDetails: any) {
+    state.isPageLoading = true
+    try {
+        const params = {
+            citizen_uuid: citizenUuid,
+            title: journalDetails.title,
+            date: journalDetails.date,
+            content: journalDetails.content,
+        }
+        const response = await journalService.saveJournal(params)
+        if (response?.data) {
+            refreshJournal()
+            closeModal()
+            successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.alert.successfullyAdded')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function successAlert(title: string, message: string) {
+    notify({
+        title: title,
+        text: message,
+        type: 'success',
+    })
+}
+</script>

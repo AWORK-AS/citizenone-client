@@ -1,0 +1,226 @@
+{
+    "alert": {
+        "forgotPasswordSuccess": "A forgot password email has been sent to your email address",
+        "resetPassword": {
+            "confirmPasswordNotTheSame": "Confirm password is not the same as new password",
+            "invalidPasswordResetToken": "Invalid password reset token",
+            "passwordUpdatedSucessfully": "Password updated successfully",
+            "required8Characters": "This field should be at least 8 characters long"
+        },
+        "somethingWentWrong": "Something went wrong",
+        "success": "Success"
+    },
+    "back": "Back",
+    "cancel": "Cancel",
+    "citizens": {
+        "citizens": "Citizens",
+        "citizenJournals": {
+            "alert": {
+                "addedToFavorites": "Journal successfully added to favorites",
+                "deletedSuccessfully": "Journal successfully deleted",
+                "lockJournal": "Journal successfully locked",
+                "removedToFavorites": "Journal successfully removed from favorites",
+                "successfullyAdded": "New journal successfully saved",
+                "successfullyUpdated": "Journal successfully updated",
+                "unlockJournal": "Journal successfully unlocked"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this journal"
+            },
+            "form": {
+                "content": "Content",
+                "date": "Date",
+                "title": "Title"
+            },
+            "editJournal": "Edit Journal",
+            "newJournal": "New Journal"
+        },
+        "editCitizen": "Edit Citizen",
+        "form": {
+            "alert": {
+                "successfullyAdded": "New citizens successfully saved",
+                "successfullyUpdate": "Citizen successfully updated"
+            },
+            "birthday": "Birthday",
+            "city": "City",
+            "emailAddress": "Email address",
+            "firstname": "First name",
+            "lastname": "Last name",
+            "municipality": "Municipality",
+            "note": "Note",
+            "phone": "Phone",
+            "postCode": "Post Code",
+            "region": "Region",
+            "ssn": "Social security number",
+            "street": "Street"
+        },
+        "medicineJournals": {
+            "alert": {
+                "successfullyAdded": "Medicine successfully added",
+                "successfullyDeleted": "Medicine successfully deleted",
+                "successfullyUpdated": "Medicine successfully update"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this medicine"
+            },
+            "form": {
+                "dateGiven": "Date Given",
+                "editMedicine": "Edit Medicine",
+                "medicineDetails": "Medicine Details",
+                "name": "Name",
+                "reason": "Reason"
+            },
+            "giveMedicine": "Give Medicine",
+            "table": {
+                "actions": {
+                    "edit": "Edit",
+                    "delete": "Delete"
+                },
+                "dateGiven": "Date Given",
+                "name": "Name",
+                "reason": "Reason"
+            }
+        },
+        "newCitizen": "New Citizen",
+        "note": {
+            "citizenNote": "Citizen note",
+            "noNoteToDisplay": "No note to display"
+        },
+        "table": {
+            "actions": {
+                "edit": "Edit",
+                "view": "View",
+                "viewNote": "View Note"
+            },
+            "email": "Email",
+            "name": "Name",
+            "phone": "Phone"
+        },
+        "tabs": {
+            "attendance": "Attendance",
+            "citizenJournals": "Citizen Journals",
+            "documents": "Documents",
+            "logs": "Logs",
+            "medicineJournals": "Medicine Journals",
+            "plansAndGoals": "Plans and Goals"
+        }
+    },
+    "confirm": "Confirm",
+    "confirmation": "Confirmation",
+    "close": "Close",
+    "employees": {
+        "editEmployee": "Edit Employee",
+        "employees": "Employees",
+        "form": {
+            "address": "Address",
+            "birthday": "Birthday",
+            "city": "City",
+            "emailAddress": "Email address",
+            "firstname": "First name",
+            "lastname": "Last name",
+            "phone": "Phone",
+            "role": "Role"
+        },
+        "newEmployee": "New Employee",
+        "table": {
+            "actions": {
+                "edit": "Edit",
+                "message": "Message"
+            },
+            "email": "Email",
+            "name": "Name",
+            "phone": "Phone",
+            "role": "Role"
+        }
+    },
+    "filter": "Filter",
+    "forgotPassword": {
+        "emailAddress": "Email address",
+        "enterEmailAssociated": "Enter the email address associated with your account to reset your password",
+        "loginHereInstead": "Login here instead",
+        "or": "Or",
+        "requestPasswordReset": "Request password reset"
+    },
+    "languageSwitcher": {
+        "selectLanguage": "Select Language"
+    },
+    "login": {
+        "SignInToYourAccount": "Sign in to your account",
+        "form": {
+            "emailAddress": "Email address",
+            "dontHaveAnAccount": "Don't have an account",
+            "forgotPassword": "Forgot password",
+            "login": "Login",
+            "password": "Password",
+            "registerHere": "Register here",
+            "rememberMe": "Remember me"
+        }
+    },
+    "navbar": {
+        "logout": "Log out"
+    },
+    "pagination": {
+        "of": "of",
+        "next": "Next",
+        "previous": "Previous",
+        "showingFrom": "Showing from",
+        "to": "to"
+    },
+    "plansandgoals": {
+        "alert": {
+            "planSuccessfullyAdded": "Plan successfully added",
+            "planSuccessfullyDeleted": "Plan successfully deleted",
+            "planSuccessfullyUpdated": "Plan successfully updated",
+            "goalSuccessfullyAdded": "Goal successfully added",
+            "goalSuccessfullyUpdated": "Goal successfully updated",
+            "subgoalSuccessfullyAdded": "Subgoal successfully added",
+            "subgoalSuccessfullyUpdated": "Subgoal successfully updated"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this plan"
+        },
+        "completed": "Completed",
+        "completionDate": "Completion Date",
+        "dateCompleted": "Date Completed",
+        "editGoal": "Edit Goal",
+        "editPlan": "Edit Plan",
+        "editSubgoal": "Edit Subgoal",
+        "form": {
+            "completed": "Completed",
+            "completionDate": "Completion Date",
+            "dateCompleted": "Date Completed",
+            "goalName": "Goal Name",
+            "planName": "Plan Name",
+            "subgoalName": "Subgoal Name"
+        },
+        "inProgress": "In Progress",
+        "newGoal": "New Goal",
+        "newPlan": "New Plan",
+        "newSubgoal": "New Subgoal",
+        "noAvailableSubgoals": "There's no subgoals available to display",
+        "subgoals": "Subgoals"
+    },
+    "save": "save",
+    "resetPassword": {
+        "form": {
+            "confirmPassword": "Confirm password",
+            "password": "Password"
+        },
+        "loginHereInstead": "Login here instead",
+        "resetPassword": "Reset password",
+        "or": "Or"
+    },
+    "sidebar": {
+        "citizens": "Citizens",
+        "calendar": "Calendar",
+        "dutySchedules": "Duty Schedules",
+        "employees": "Employees",
+        "protocols": "Protocols",
+        "apps": "Apps"
+    },
+    "theresNoDataAvailableToDisplay": "There's no data available to display",
+    "update": "Update",
+    "validation": {
+        "thisFieldIsRequired": "This field is required"
+    }
+}

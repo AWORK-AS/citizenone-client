@@ -1,0 +1,226 @@
+{
+    "alert": {
+        "forgotPasswordSuccess": "En e-mail til nulstilling af adgangskode er blevet sendt til din e-mailadresse",
+        "resetPassword": {
+            "confirmPasswordNotTheSame": "Bekræft adgangskode er ikke den samme som ny adgangskode",
+            "invalidPasswordResetToken": "Ugyldig token til nulstilling af adgangskode",
+            "passwordUpdatedSucessfully": "Adgangskode opdateret med succes",
+            "required8Characters": "Dette felt skal være mindst 8 tegn langt"
+        },
+        "somethingWentWrong": "Noget gik galt",
+        "success": "Succes"
+    },
+    "back": "Tilbage",
+    "cancel": "Annuller",
+    "citizens": {
+        "citizens": "Borgere",
+        "citizenJournals": {
+            "alert": {
+                "addedToFavorites": "Journal tilføjet til favoritter med succes",
+                "deletedSuccessfully": "Journal slettet med succes",
+                "lockJournal": "Journal låst med succes",
+                "removedToFavorites": "Journal fjernet fra favoritter med succes",
+                "successfullyAdded": "Ny journal gemt med succes",
+                "successfullyUpdated": "Journal opdateret med succes",
+                "unlockJournal": "Journal låst op med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne journal"
+            },
+            "form": {
+                "content": "Indhold",
+                "date": "Dato",
+                "title": "Titel"
+            },
+            "editJournal": "Rediger Journal",
+            "newJournal": "Ny Journal"
+        },
+        "editCitizen": "Rediger Borger",
+        "form": {
+            "alert": {
+                "successfullyAdded": "Nye borgere gemt med succes",
+                "successfullyUpdate": "Borger opdateret med succes"
+            },
+            "birthday": "Fødselsdag",
+            "city": "By",
+            "emailAddress": "E-mail adresse",
+            "firstname": "Fornavn",
+            "lastname": "Efternavn",
+            "municipality": "Kommune",
+            "note": "Note",
+            "phone": "Telefon",
+            "postCode": "Postnummer",
+            "region": "Region",
+            "ssn": "CPR-nummer",
+            "street": "Gade"
+        },
+        "medicineJournals": {
+            "alert": {
+                "successfullyAdded": "Medicin tilføjet med succes",
+                "successfullyDeleted": "Medicin slettet med succes",
+                "successfullyUpdated": "Medicin opdateret med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne medicin"
+            },
+            "form": {
+                "dateGiven": "Dato Givet",
+                "editMedicine": "Rediger Medicin",
+                "medicineDetails": "Medicindetaljer",
+                "name": "Navn",
+                "reason": "Årsag"
+            },
+            "giveMedicine": "Giv Medicin",
+            "table": {
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                },
+                "dateGiven": "Dato Givet",
+                "name": "Navn",
+                "reason": "Årsag"
+            }
+        },
+        "newCitizen": "Ny Borger",
+        "note": {
+            "citizenNote": "Borgernote",
+            "noNoteToDisplay": "Ingen note at vise"
+        },
+        "table": {
+            "actions": {
+                "edit": "Rediger",
+                "view": "Se",
+                "viewNote": "Se Note"
+            },
+            "email": "E-mail",
+            "name": "Navn",
+            "phone": "Telefon"
+        },
+        "tabs": {
+            "attendance": "Fremmøde",
+            "citizenJournals": "Borgerjournaler",
+            "documents": "Dokumenter",
+            "logs": "Logfiler",
+            "medicineJournals": "Medicinjournaler",
+            "plansAndGoals": "Planer og mål"
+        }
+    },
+    "confirm": "Bekræft",
+    "confirmation": "Bekræftelse",
+    "close": "Luk",
+    "employees": {
+        "editEmployee": "Rediger Medarbejder",
+        "employees": "Medarbejdere",
+        "form": {
+            "address": "Adresse",
+            "birthday": "Fødselsdag",
+            "city": "By",
+            "emailAddress": "E-mail adresse",
+            "firstname": "Fornavn",
+            "lastname": "Efternavn",
+            "phone": "Telefon",
+            "role": "Rolle"
+        },
+        "newEmployee": "Ny Medarbejder",
+        "table": {
+            "actions": {
+                "edit": "Rediger",
+                "message": "Besked"
+            },
+            "email": "E-mail",
+            "name": "Navn",
+            "phone": "Telefon",
+            "role": "Rolle"
+        }
+    },
+    "filter": "Filter",
+    "forgotPassword": {
+        "emailAddress": "E-mail adresse",
+        "enterEmailAssociated": "Indtast e-mailadressen, der er tilknyttet din konto, for at nulstille din adgangskode",
+        "loginHereInstead": "Log ind her i stedet",
+        "or": "Eller",
+        "requestPasswordReset": "Anmod om nulstilling af adgangskode"
+    },
+    "languageSwitcher": {
+        "selectLanguage": "Vælg sprog"
+    },
+    "login": {
+        "SignInToYourAccount": "Log ind på din konto",
+        "form": {
+            "emailAddress": "E-mail adresse",
+            "dontHaveAnAccount": "Har du ikke en konto",
+            "forgotPassword": "Glemt adgangskode",
+            "login": "Log ind",
+            "password": "Adgangskode",
+            "registerHere": "Registrer dig her",
+            "rememberMe": "Husk mig"
+        }
+    },
+    "navbar": {
+        "logout": "Log ud"
+    },
+    "pagination": {
+        "of": "af",
+        "next": "Næste",
+        "previous": "Forrige",
+        "showingFrom": "Viser fra",
+        "to": "til"
+    },
+    "plansandgoals": {
+        "alert": {
+            "planSuccessfullyAdded": "Plan tilføjet med succes",
+            "planSuccessfullyDeleted": "Plan slettet med succes",
+            "planSuccessfullyUpdated": "Plan opdateret med succes",
+            "goalSuccessfullyAdded": "Mål tilføjet med succes",
+            "goalSuccessfullyUpdated": "Mål opdateret med succes",
+            "subgoalSuccessfullyAdded": "Delmål tilføjet med succes",
+            "subgoalSuccessfullyUpdated": "Delmål opdateret med succes"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne plan?"
+        },
+        "completed": "Fuldført",
+        "completionDate": "Afslutningsdato",
+        "dateCompleted": "Dato Fuldført",
+        "editGoal": "Rediger Mål",
+        "editPlan": "Rediger Plan",
+        "editSubgoal": "Rediger Delmål",
+        "form": {
+            "completed": "Fuldført",
+            "completionDate": "Afslutningsdato",
+            "dateCompleted": "Dato Fuldført",
+            "goalName": "Målnavn",
+            "planName": "Plannavn",
+            "subgoalName": "Delmålnavn"
+        },
+        "inProgress": "I gang",
+        "newGoal": "Nyt Mål",
+        "newPlan": "Ny Plan",
+        "newSubgoal": "Nyt Delmål",
+        "noAvailableSubgoals": "Der er ingen delmål til rådighed at vise",
+        "subgoals": "Delmål"
+    },
+    "save": "Gem",
+    "resetPassword": {
+        "form": {
+            "confirmPassword": "Bekræft adgangskode",
+            "password": "Adgangskode"
+        },
+        "loginHereInstead": "Log ind her i stedet",
+        "resetPassword": "Nulstil adgangskode",
+        "or": "Eller"
+    },
+    "sidebar": {
+        "citizens": "Borgere",
+        "calendar": "Kalender",
+        "dutySchedules": "Vagtskema",
+        "employees": "Medarbejdere",
+        "protocols": "Protokol",
+        "apps": "Apps"
+    },
+    "theresNoDataAvailableToDisplay": "Der er ingen data til rådighed at vise",
+    "update": "Opdater",
+    "validation": {
+        "thisFieldIsRequired": "Dette felt er påkrævet"
+    }
+}

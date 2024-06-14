@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+    font-family: "Lato", sans-serif;
+}
+
+input:disabled {
+    @apply cursor-not-allowed;
+}
+
+/* ----------------------------------------------------------------------------------------------------
+    Table
+---------------------------------------------------------------------------------------------------- */
+
+.table-responsive {
+   @apply w-full overflow-scroll;
+}
+
+table {
+    @apply w-full;
+}
+
+table th {
+    @apply bg-tertiary text-white font-normal border-b border-tertiary-50 px-10 py-5 text-left text-sm;
+}
+
+table th:first-child {
+    @apply rounded-tl-lg;
+}
+
+table th:last-child {
+    @apply rounded-tr-lg;
+}
+
+table tbody tr {
+    @apply border-b border-tertiary-50;
+    vertical-align: middle;
+}
+
+table tbody tr:hover {
+    @apply bg-gray-50;
+}
+
+table tbody tr:last-child {
+    @apply border-0;
+}
+
+table td {
+    @apply text-sm font-normal px-10 py-3 text-left;
+}
+
+
+/* ----------------------------------------------------------------------------------------------------
+    @vueform/multiselect
+---------------------------------------------------------------------------------------------------- */
+.multiselect {
+    border: 1px solid #000000 !important;
+}
+
+.multiselect-dropdown {
+    border: 1px solid #000000 !important;
+}
+
+.multiselect-tag {
+    background: #000000 !important;
+}
+
+.multiselect.is-active {
+    box-shadow: none !important;
+    border: 1px solid #000000 !important;
+}
+
+.multiselect-option.is-selected,
+.multiselect-option.is-selected.is-pointed {
+    background: #000000 !important;
+}

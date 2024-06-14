@@ -1,0 +1,21 @@
+import BaseAPIService from '@/components/api/BaseAPIService'
+
+class MedicineJournalService extends BaseAPIService {
+    async getMedicines(params: object): Promise<any> {
+        return await this.request(`/user/citizen-medicines`, 'GET', params)
+    }
+
+    async saveMedicine(params: object): Promise<any> {
+        return await this.request(`/user/citizen-medicines`, 'POST', params)
+    }
+
+    async updateMedicine(medicineUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-medicines/${medicineUuid}`, 'PUT', params)
+    }
+
+    async deleteMedicine(medicineUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-medicines/${medicineUuid}`, 'DELETE')
+    }
+}
+
+export const medicineJournalService = new MedicineJournalService()
