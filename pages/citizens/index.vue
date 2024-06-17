@@ -52,7 +52,7 @@
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="showCitizenNote(citizen)">
                                                 <Icon name="ph:note-blank" class="size-4" />
-                                                {{ $t('citizens.table.actions.viewNote') }}
+                                                {{ $t('citizens.table.actions.latestJournalEntry') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -64,8 +64,8 @@
                 </div>
             </div>
 
-            <ModulesCitizenModalViewNote :isModalOpen="state.modal.showNote" :selectedCitizen="state.selectedCitizen"
-                @close="state.modal.showNote = false" />
+            <ModulesCitizenModalLatestJournal :isModalOpen="state.modal.showNote"
+                :selectedCitizen="state.selectedCitizen" @close="state.modal.showNote = false" />
         </NuxtLayout>
     </div>
 </template>

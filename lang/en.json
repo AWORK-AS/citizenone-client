@@ -84,13 +84,13 @@
         "newCitizen": "New Citizen",
         "note": {
             "citizenNote": "Citizen note",
-            "noNoteToDisplay": "No note to display"
+            "noJournalToDisplay": "No journal to display"
         },
         "table": {
             "actions": {
                 "edit": "Edit",
-                "view": "View",
-                "viewNote": "View Note"
+                "latestJournalEntry": "Latest journal entry",
+                "view": "View"
             },
             "email": "Email",
             "name": "Name",
@@ -200,7 +200,7 @@
         "noAvailableSubgoals": "There's no subgoals available to display",
         "subgoals": "Subgoals"
     },
-    "save": "save",
+    "save": "Save",
     "resetPassword": {
         "form": {
             "confirmPassword": "Confirm password",

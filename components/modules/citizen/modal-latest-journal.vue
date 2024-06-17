@@ -2,8 +2,9 @@
     <div>
         <Modal size="sm" :title="$t('citizens.note.citizenNote')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <p>
-                    {{ props.selectedCitizen?.note ?? $t('citizens.note.noNoteToDisplay') }}
+                <p v-if="props.selectedCitizen?.note" v-html="props.selectedCitizen?.note"></p>
+                <p v-else>
+                    {{ $t('citizens.note.noJournalToDisplay') }}
                 </p>
                 <div class="mt-5 flex gap-x-3 justify-end">
                     <FormButton buttonStyle="primary" @click="closeModal" class="rounded-md">

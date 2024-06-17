@@ -84,13 +84,13 @@
         "newCitizen": "Ny Borger",
         "note": {
             "citizenNote": "Borgernote",
-            "noNoteToDisplay": "Ingen note at vise"
+            "noJournalToDisplay": "Ingen journal at vise"
         },
         "table": {
             "actions": {
                 "edit": "Rediger",
-                "view": "Se",
-                "viewNote": "Se Note"
+                "latestJournalEntry": "Seneste journalnotat",
+                "view": "Se"
             },
             "email": "E-mail",
             "name": "Navn",
