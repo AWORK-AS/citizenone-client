@@ -5,6 +5,10 @@ class UserService extends BaseAPIService {
         return await this.request(`/auth/logout`, 'POST')
     }
 
+    async fetchUser(): Promise<any> {
+        return await this.request(`/user`, 'GET')
+    }
+
     async checkin(): Promise<any> {
         return await this.request(`/user/time-logs/time/in`, 'POST')
     }

@@ -6,6 +6,11 @@ export const useUserStore = defineStore('userStore',
         state: () => ({
             isLoggedIn: false,
             language: 'dk',
+            timer: {
+                hours: 0,
+                minutes: 0,
+                seconds: 0,
+            },
             user: null,
         }),
         actions: {
@@ -14,6 +19,15 @@ export const useUserStore = defineStore('userStore',
             },
             setLanguage(language) {
                 this.language = language
+            },
+            setHours(hours) {
+                this.timer.hours = hours
+            },
+            setMinutes(minutes) {
+                this.timer.minutes = minutes
+            },
+            setSeconds(seconds) {
+                this.timer.seconds = seconds
             },
             setUser(user) {
                 this.user = user
@@ -24,6 +38,13 @@ export const useUserStore = defineStore('userStore',
             resetLanguage() {
                 this.language = 'en'
             },
+            resetTimer() {
+                this.timer = {
+                    hours: 0,
+                    minutes: 0,
+                    seconds: 0,
+                }
+            },
             resetUser() {
                 this.user = null
             },
@@ -31,6 +52,7 @@ export const useUserStore = defineStore('userStore',
         getters: {
             getIsLoggedIn: (state) => state.isLoggedIn,
             getLanguage: (state) => state.language,
+            getTimer: (state) => state.timer,
             getUser: (state) => state.user,
         },
     },
