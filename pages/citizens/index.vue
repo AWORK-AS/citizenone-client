@@ -95,9 +95,7 @@ const state = reactive({
     modal: {
         showNote: false,
     },
-    selectedCitizen: {
-        note: null
-    },
+    selectedCitizen: [],
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -154,7 +152,7 @@ function handleFilter(value: any) {
 }
 
 function showCitizenNote(citizen: any) {
-    state.selectedCitizen.note = citizen?.note
+    state.selectedCitizen = citizen
     state.modal.showNote = true
 }
 </script>

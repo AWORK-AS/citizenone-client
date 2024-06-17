@@ -83,7 +83,7 @@
         },
         "newCitizen": "Ny Borger",
         "note": {
-            "citizenNote": "Borgernote",
+            "latestJournalEntry": "Seneste journalnotat",
             "noJournalToDisplay": "Ingen journal at vise"
         },
         "table": {

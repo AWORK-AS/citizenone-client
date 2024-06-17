@@ -83,7 +83,7 @@
         },
         "newCitizen": "New Citizen",
         "note": {
-            "citizenNote": "Citizen note",
+            "latestJournalEntry": "Latest journal entry",
             "noJournalToDisplay": "No journal to display"
         },
         "table": {
