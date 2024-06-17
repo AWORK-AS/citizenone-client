@@ -138,7 +138,6 @@ import { useI18n } from "vue-i18n"
 
 const { t } = useI18n()
 const language = useI18n()
-console.log(language.locale.value)
 const image = ref(null)
 const avatarUrl = ref('/img/avatars/user.svg')
 
