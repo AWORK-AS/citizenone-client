@@ -12,7 +12,8 @@ export default defineNuxtConfig({
     'nuxt-icon',
   ],
   plugins: [
-    '@/plugins/vue-notification.js'
+    '@/plugins/vue-notification.ts',
+    '@/plugins/ckeditor.ts'
   ],
   postcss: {
     plugins: {

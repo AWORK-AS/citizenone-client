@@ -50,14 +50,16 @@
                                 v-for="(journal, index) in state.journals?.data" :key="index">
                                 <div class="space-y-3">
                                     <div class="space-y-1.5">
-                                        <h3 class="text-md font-semibold">
-                                            {{ journal.title }}
-                                        </h3>
+                                        <div>
+                                            <h3 class="text-md font-semibold">
+                                                {{ journal.title }}
+                                            </h3>
+                                            <p class="text-xs text-muted-400">
+                                                <span>{{ formatDateToReadable(journal.date) }}</span>
+                                            </p>
+                                        </div>
                                         <p class="text-sm text-muted-400">
-                                            <span>{{ journal.content }}</span>
-                                        </p>
-                                        <p class="text-xs text-muted-400">
-                                            <span>{{ formatDateToReadable(journal.date) }}</span>
+                                            <div v-html="journal.content" id="content" />
                                         </p>
                                     </div>
                                     <div class="ms-auto">

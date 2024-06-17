@@ -20,8 +20,7 @@
             </div>
             <div class="space-y-1">
                 <FormLabel for="content" :label="$t('citizens.citizenJournals.form.content')" />
-                <FormTextArea id="content" name="content" :placeholder="$t('citizens.citizenJournals.form.content')"
-                    v-model="state.formJournal.content" />
+                <ckeditor :editor="editor" v-model="state.formJournal.content" :config="editorConfig"></ckeditor>
                 <FormError :error="v$?.formJournal?.content?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.content?.[0]" />
             </div>
@@ -41,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -62,6 +62,21 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'submitForm'])
 
 const { t } = useI18n()
+
+const editor = ref(ClassicEditor);
+const editorConfig = ref({
+    // Add your custom configuration here
+    toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
+    heading: {
+        options: [
+            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+        ]
+    },
+    height: 500  // Set the editor height here
+})
 
 const state = reactive({
     formJournal: {
