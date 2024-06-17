@@ -68,12 +68,7 @@
                                             </ul>
                                         </li>
                                         <li class="mt-auto">
-                                            <div @click="logout()"
-                                                class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-secondary-100">
-                                                <Icon name="heroicons:arrow-left-end-on-rectangle"
-                                                    class="h-6 w-6 shrink-0" aria-hidden="true" />
-                                                {{ $t('navbar.logout') }}
-                                            </div>
+                                            <ModulesTimeRegistrationCheckInOut />
                                         </li>
                                     </ul>
                                 </nav>
@@ -142,12 +137,7 @@
                             </ul>
                         </li>
                         <li class="mt-auto">
-                            <div @click="logout()"
-                                class="cursor-pointer group -mx-2 flex gap-x-3 rounded-md px-3 py-3 text-sm font-semibold leading-6 text-secondary-100 hover:text-secondary-25">
-                                <Icon name="heroicons:arrow-left-end-on-rectangle" class="h-6 w-6 shrink-0"
-                                    aria-hidden="true" />
-                                {{ $t('navbar.logout') }}
-                            </div>
+                            <ModulesTimeRegistrationCheckInOut />
                         </li>
                     </ul>
                 </nav>
@@ -324,7 +314,7 @@ const state = reactive({
     isPageLoading: false,
     slideOver: {
         isLanguageSwitcherOpen: false
-    }
+    },
 })
 
 async function logout() {

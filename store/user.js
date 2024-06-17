@@ -4,15 +4,22 @@ export const useUserStore = defineStore('userStore',
     {
         persist: true,
         state: () => ({
-            language: 'en',
+            isLoggedIn: false,
+            language: 'dk',
             user: null,
         }),
         actions: {
+            setIsLoggedIn(status) {
+                this.isLoggedIn = status
+            },
             setLanguage(language) {
                 this.language = language
             },
             setUser(user) {
                 this.user = user
+            },
+            resetIsLoggedIn() {
+                this.isLoggedIn = false
             },
             resetLanguage() {
                 this.language = 'en'
@@ -22,6 +29,7 @@ export const useUserStore = defineStore('userStore',
             },
         },
         getters: {
+            getIsLoggedIn: (state) => state.isLoggedIn,
             getLanguage: (state) => state.language,
             getUser: (state) => state.user,
         },
