@@ -15,7 +15,7 @@
                         {{ $t('employees.newEmployee') }}
                     </FormButton>
                 </div>
-                <div class="space-y-3">
+                <div class="space-y-5">
                     <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
                     <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                         @handleFilter="handleFilter" />

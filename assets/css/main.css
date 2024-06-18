@@ -62,25 +62,25 @@ table td {
     @vueform/multiselect
 ---------------------------------------------------------------------------------------------------- */
 .multiselect {
-    border: 1px solid #000000 !important;
+    @apply border border-primary rounded-md min-h-11 !important;
 }
 
 .multiselect-dropdown {
-    border: 1px solid #000000 !important;
+    @apply border border-primary rounded-tl-md rounded-tr-md !important;
 }
 
 .multiselect-tag {
-    background: #000000 !important;
+    @apply bg-primary !important;
 }
 
 .multiselect.is-active {
     box-shadow: none !important;
-    border: 1px solid #000000 !important;
+    @apply border border-primary !important;
 }
 
 .multiselect-option.is-selected,
 .multiselect-option.is-selected.is-pointed {
-    background: #000000 !important;
+    @apply bg-primary !important;
 }
 
 /* ----------------------------------------------------------------------------------------------------

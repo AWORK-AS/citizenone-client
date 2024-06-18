@@ -59,7 +59,7 @@ async function saveEmployee(employeeDetails: any) {
         }
         const response = await employeeService.saveEmployee(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, 'New employee successfully saved.')
+            successAlert(`${t('alert.success')}!`, `${t('employees.form.alert.newEmployeeSuccessfullySaved')}.`)
             navigateTo('/employees')
         }
     } catch (error: any) {

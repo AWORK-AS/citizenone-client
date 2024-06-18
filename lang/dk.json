@@ -112,6 +112,10 @@
         "editEmployee": "Rediger Medarbejder",
         "employees": "Medarbejdere",
         "form": {
+            "alert": {
+                "employeeSuccessfullyUpdated": "Medarbejder opdateret med succes",
+                "newEmployeeSuccessfullySaved": "Ny medarbejder gemt med succes"
+            },
             "address": "Adresse",
             "birthday": "Fødselsdag",
             "city": "By",
@@ -200,6 +204,38 @@
         "noAvailableSubgoals": "Der er ingen delmål til rådighed at vise",
         "subgoals": "Delmål"
     },
+    "protocols": {
+        "editProtocol": "Rediger Protokol",
+        "form": {
+            "alert": {
+                "protocolSuccessfullyUpdated": "Protokol opdateret med succes",
+                "newProtocolSuccessfullySaved": "Ny protokol gemt med succes"
+            },
+            "citizens": "Borgere",
+            "endDate": "Slutdato",
+            "protocolName": "Protokolnavn",
+            "startDate": "Startdato"
+        },
+        "newProtocol": "Ny Protokol",
+        "protocols": "Protokol",
+        "table": {
+            "actions": {
+                "edit": "Rediger",
+                "markCitizenAsAbent": "Marker borger som fraværende",
+                "markCitizenAsAttended": "Marker borger som tilstede",
+                "removeCitizenForThisDate": "Fjern borger for denne dato",
+                "view": "Se"
+            },
+            "citizens": {
+                "citizen": "Borger",
+                "date": "Dato",
+                "status": "Status"
+            },
+            "endDate": "Slutdato",
+            "protocolName": "Protokolnavn",
+            "startDate": "Startdato"
+        }
+    },
     "save": "Gem",
     "resetPassword": {
         "form": {
@@ -210,6 +246,7 @@
         "resetPassword": "Nulstil adgangskode",
         "or": "Eller"
     },
+    "search": "Søg",
     "sidebar": {
         "citizens": "Borgere",
         "calendar": "Kalender",
@@ -217,6 +254,10 @@
         "employees": "Medarbejdere",
         "protocols": "Protokol",
         "apps": "Apps"
+    },
+    "timeRegistration": {
+        "checkIn": "Tjek Ind",
+        "checkOut": "Tjek Ud"
     },
     "theresNoDataAvailableToDisplay": "Der er ingen data til rådighed at vise",
     "update": "Opdater",

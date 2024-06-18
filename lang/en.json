@@ -112,6 +112,10 @@
         "editEmployee": "Edit Employee",
         "employees": "Employees",
         "form": {
+            "alert": {
+                "employeeSuccessfullyUpdated": "Employee successfully updated",
+                "newEmployeeSuccessfullySaved": "New employee successfully saved"
+            },
             "address": "Address",
             "birthday": "Birthday",
             "city": "City",
@@ -200,6 +204,38 @@
         "noAvailableSubgoals": "There's no subgoals available to display",
         "subgoals": "Subgoals"
     },
+    "protocols": {
+        "editProtocol": "Edit Protocol",
+        "form": {
+            "alert": {
+                "protocolSuccessfullyUpdated": "Protcol successfully updated",
+                "newProtocolSuccessfullySaved": "New protocol successfully saved"
+            },
+            "citizens": "Citizens",
+            "endDate": "End Date",
+            "protocolName": "Protocol Name",
+            "startDate": "Start Date"
+        },
+        "newProtocol": "New Protocol",
+        "protocols": "Protocols",
+        "table": {
+            "actions": {
+                "edit": "Edit",
+                "markCitizenAsAbent": "Mark citizen as absent",
+                "markCitizenAsAttended": "Mark citizen as attended",
+                "removeCitizenForThisDate": "Remove citizen for this date",
+                "view": "View"
+            },
+            "citizens": {
+                "citizen": "Citizen",
+                "date": "Date",
+                "status": "Status"
+            },
+            "endDate": "End Date",
+            "protocolName": "Protocol Name",
+            "startDate": "Start Date"
+        }
+    },
     "save": "Save",
     "resetPassword": {
         "form": {
@@ -210,6 +246,7 @@
         "resetPassword": "Reset password",
         "or": "Or"
     },
+    "search": "Search",
     "sidebar": {
         "citizens": "Citizens",
         "calendar": "Calendar",
@@ -217,6 +254,10 @@
         "employees": "Employees",
         "protocols": "Protocols",
         "apps": "Apps"
+    },
+    "timeRegistration": {
+        "checkIn": "Check In",
+        "checkOut": "Check Out"
     },
     "theresNoDataAvailableToDisplay": "There's no data available to display",
     "update": "Update",

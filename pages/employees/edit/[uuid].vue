@@ -87,7 +87,7 @@ async function updateEmployee(employeeDetails: any) {
         }
         const response = await employeeService.updateEmployee(uuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, 'Employee successfully updated.')
+            successAlert(`${t('alert.success')}!`, `${t('employees.form.alert.employeeSuccessfullyUpdated')}.`)
             navigateTo('/employees')
         }
     } catch (error: any) {

@@ -3,7 +3,7 @@
         <div
             class="mb-2 flex items-center justify-between gap-x-2 border-b border-t py-4 px-2 border-tertiary-25 border-dashed">
             <p class="text-sm text-white">
-                {{ userStore.getIsLoggedIn ? 'Checked in' : 'Check out' }}
+                {{ userStore.getIsLoggedIn ? $t('timeRegistration.checkIn') : $t('timeRegistration.checkOut') }}
             </p>
             <div class="flex items-center gap-x-1">
                 <p class="text-xs text-white">{{ formattedTime }}</p>
