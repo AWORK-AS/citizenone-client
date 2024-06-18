@@ -3,44 +3,21 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('protocols.protocols') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('citizens.tabs.attendance') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('protocols.protocols') }}</template>
+            <template #header>{{ $t('citizens.tabs.attendance') }}</template>
 
-            <div>
-                <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/protocols/new')">
-                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('protocols.newProtocol') }}
-                    </FormButton>
-                </div>
+            <div class="space-y-5">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
+                    <Icon name="ph:arrow-left" size="20" class="text-black" />
+                    <span>{{ $t('back') }}</span>
+                </NuxtLink>
+
+                <ModulesCitizenJournalTabs />
+
                 <div class="space-y-5">
                     <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
-                    <div class="grid grid-cols-1 md:grid-cols-11 gap-3">
-                        <div class="space-y-1 col-span-1 md:col-span-3">
-                            <FormLabel for="start_date" :label="$t('protocols.form.startDate')" />
-                            <FormDateField id="start_date" name="start_date"
-                                :placeholder="$t('protocols.table.startDate')"
-                                v-model="state.searchFilter.start_date" />
-                        </div>
-                        <div class="space-y-1 col-span-1 md:col-span-3">
-                            <FormLabel for="end_date" :label="$t('protocols.form.endDate')" />
-                            <FormDateField id="end_date" name="end_date" :placeholder="$t('protocols.table.endDate')"
-                                v-model="state.searchFilter.end_date" />
-                        </div>
-                        <div class="space-y-1 col-span-1 md:col-span-3">
-                            <FormLabel for="citizens" :label="$t('protocols.form.citizens')" />
-                            <FormSelectMultiple id="citizens" name="citizens" :options="state.citizenOptions"
-                                v-model="state.searchFilter.citizens" />
-                        </div>
-                        <div class="space-y-1 flex items-end col-span-1 md:col-span-2">
-                            <FormButton type="button" buttonStyle="primary" class="w-full rounded-md"
-                                @click="handleSearch">
-                                {{ $t('search') }}
-                            </FormButton>
-                        </div>
-                    </div>
                     <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                         @handleFilter="handleFilter" />
                     <div class="table-responsive">
@@ -60,15 +37,10 @@
                                     <td width="25%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/protocols/${protocol.uuid}`)">
+                                                @click="navigateTo(`/citizens/${citizenUuid}/attendance/${protocol.uuid}`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('protocols.table.actions.view') }}
                                             </FormButton>
-                                            <!-- <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/protocols/${protocol.uuid}/edit`)">
-                                                <Icon name="ph:pencil" class="size-4" />
-                                                {{ $t('protocols.table.actions.edit') }}
-                                            </FormButton> -->
                                         </div>
                                     </td>
                                 </tr>
@@ -84,14 +56,14 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { citizenService } from '@/components/api/CitizenService'
 import { protocolService } from '@/components/api/ProtocolService'
 
 const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
+const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
 
 const state = reactive({
-    citizenOptions: [],
     columnFilter: [
         { column: 'name' },
     ],
@@ -103,14 +75,8 @@ const state = reactive({
     ],
     dataFilter: [],
     error: [],
-    isPageLoading: false,
     isTableLoading: false,
     protocols: [],
-    searchFilter: {
-        'end_date': '',
-        'start_date': '',
-        'citizens': [],
-    },
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -119,7 +85,6 @@ const state = reactive({
 
 onMounted(() => {
     fetchProtocols()
-    fetchAllCitizens()
 })
 
 async function fetchProtocols() {
@@ -131,11 +96,6 @@ async function fetchProtocols() {
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
-            date: {
-                end_date: state.searchFilter.end_date,
-                start_date: state.searchFilter.start_date,
-            },
-            ...(state.searchFilter.citizens.length > 0 && { citizen_ids: Array(state.searchFilter.citizens) }),
         }
         const response = await protocolService.getProtocols(params)
         if (response) {
@@ -145,27 +105,6 @@ async function fetchProtocols() {
         state.error = error
     }
     state.isTableLoading = false
-}
-
-async function fetchAllCitizens() {
-    state.isPageLoading = true
-    state.error = []
-    try {
-        const response = await citizenService.getAllCitizens()
-        if (response.data) {
-            let options: any = []
-            response.data.forEach(
-                (citizen: any) => options.push({
-                    value: citizen?.id,
-                    label: citizen?.firstname + " " + citizen?.lastname,
-                })
-            )
-            state.citizenOptions = options
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
 }
 
 function previous() {
@@ -190,11 +129,6 @@ function sort(sortingData: any) {
 function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
-    fetchProtocols()
-}
-
-function handleSearch() {
-    currentTablePage = 1
     fetchProtocols()
 }
 
