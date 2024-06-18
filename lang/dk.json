@@ -233,10 +233,15 @@
             },
             "endDate": "Slutdato",
             "protocolName": "Protokolnavn",
-            "startDate": "Startdato"
+            "startDate": "Startdato",
+            "status": {
+                "absent": "Fraværende",
+                "attended": "Tilstede"
+            }
         }
     },
     "save": "Gem",
+    "selectADate": "Vælg en dato",
     "resetPassword": {
         "form": {
             "confirmPassword": "Bekræft adgangskode",

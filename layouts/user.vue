@@ -294,7 +294,9 @@ const navigation = [
         href: '/protocols',
         icon: 'ic:outline-shield',
         activeRouteNames: [
-            'protocols'
+            'protocols',
+            'protocols-new',
+            'protocols-uuid'
         ]
     },
     {

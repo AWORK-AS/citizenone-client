@@ -34,8 +34,11 @@
                                     <Badge :type="citizenProtocol?.status === 'attended' ? 'primary' : 'inactive'"
                                         class="w-fit" v-if="citizenProtocol?.status">
                                         <p class="text-xs">
-                                            <span>
-                                                {{ citizenProtocol?.status }}
+                                            <span v-if="citizenProtocol?.status === 'attended'">
+                                                {{ $t('protocols.table.status.attended') }}
+                                            </span>
+                                            <span v-if="citizenProtocol?.status === 'absent'">
+                                                {{ $t('protocols.table.status.absent') }}
                                             </span>
                                         </p>
                                     </Badge>
@@ -45,19 +48,19 @@
                                     <div class="flex items-end gap-2">
                                         <Tooltip :text="$t('protocols.table.actions.markCitizenAsAttended')"
                                             @click="markAsPresent(citizenProtocol?.uuid)">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md">
+                                            <FormButton type="button" buttonStyle="primary" class="rounded-md">
                                                 <Icon name="material-symbols:event-available-outline" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
                                         <Tooltip :text="$t('protocols.table.actions.markCitizenAsAbent')"
                                             @click="markAsAbsent(citizenProtocol?.uuid)">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md">
+                                            <FormButton type="button" buttonStyle="warning" class="rounded-md">
                                                 <Icon name="material-symbols:event-busy-outline" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
                                         <Tooltip :text="$t('protocols.table.actions.removeCitizenForThisDate')"
                                             @click="confirmRemoving(citizenProtocol)">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md">
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md">
                                                 <Icon name="ph:trash" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
@@ -89,8 +92,8 @@ let currentTablePage = 1
 const state = reactive({
     citizenProtocols: [],
     columnFilter: [
-        { column: 'status' },
         { column: 'citizen' },
+        { column: 'status' },
     ],
     columnHeaders: [
         { name: 'protocols.table.citizens.date', sorter: true, key: 'date' },

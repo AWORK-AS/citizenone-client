@@ -4,7 +4,7 @@
             props.buttonStyle === 'primary' && 'bg-tertiary text-white hover:bg-tertiary-500/90',
             props.buttonStyle === 'action' && 'border bg-tertiary text-white hover:bg-tertiary-500/90',
             props.buttonStyle === 'success' && 'bg-green-800 text-white hover:bg-green-900',
-            props.buttonStyle === 'warning' && 'bg-orange-600 text-white hover:bg-orange-500',
+            props.buttonStyle === 'warning' && 'bg-orange-500 text-white hover:bg-orange-400',
             props.buttonStyle === 'danger' && 'bg-red-800 text-white hover:bg-red-700',
             props.buttonStyle === 'link' && 'text-gray-800 hover:text-primary',
             props.buttonStyle === 'back' && 'text-primary hover:text-primary/90 pl-0',

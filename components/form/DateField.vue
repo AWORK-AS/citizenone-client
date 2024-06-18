@@ -6,8 +6,10 @@
             @click="openDateInput" />
         <div v-if="props.modelValue" class="absolute top-3 left-3 bg-white w-2/3" @click="openDateInput">{{
             formattedDate
-            }}</div>
-        <div v-else class="absolute top-3 left-3 bg-white w-2/3" @click="openDateInput">Select a date</div>
+        }}</div>
+        <div v-else class="absolute top-3 left-3 bg-white w-2/3" @click="openDateInput">
+            {{ $t('selectADate') }}
+        </div>
     </div>
 </template>
 

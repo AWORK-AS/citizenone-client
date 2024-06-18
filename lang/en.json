@@ -233,10 +233,15 @@
             },
             "endDate": "End Date",
             "protocolName": "Protocol Name",
-            "startDate": "Start Date"
+            "startDate": "Start Date",
+            "status": {
+                "absent": "Absent",
+                "attended": "Attended"
+            }
         }
     },
     "save": "Save",
+    "selectADate": "Select a date",
     "resetPassword": {
         "form": {
             "confirmPassword": "Confirm password",
