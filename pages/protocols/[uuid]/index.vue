@@ -31,7 +31,15 @@
                                     </span>
                                 </td>
                                 <td width="25%">
-                                    <span class="capitalize">{{ citizenProtocol?.status ?? '-' }}</span>
+                                    <Badge :type="citizenProtocol?.status === 'attended' ? 'primary' : 'inactive'"
+                                        class="w-fit" v-if="citizenProtocol?.status">
+                                        <p class="text-xs">
+                                            <span>
+                                                {{ citizenProtocol?.status }}
+                                            </span>
+                                        </p>
+                                    </Badge>
+                                    <span v-else>-</span>
                                 </td>
                                 <td width="25%">
                                     <div class="flex items-end gap-2">
