@@ -25,25 +25,34 @@
                                     <span>{{ formatDateToReadable(citizenProtocol?.date) }}</span>
                                 </td>
                                 <td width="25%">
-                                    <span>{{ citizenProtocol?.citizen }}</span>
+                                    <span>
+                                        {{ citizenProtocol?.citizen?.firstname }}
+                                        {{ citizenProtocol?.citizen?.lastname }}
+                                    </span>
                                 </td>
                                 <td width="25%">
-                                    <span>{{ citizenProtocol?.status }}</span>
+                                    <span class="capitalize">{{ citizenProtocol?.status ?? '-' }}</span>
                                 </td>
                                 <td width="25%">
                                     <div class="flex items-end gap-2">
-                                        <FormButton type="button" buttonStyle="action" class="rounded-md">
-                                            <Icon name="material-symbols:event-available-outline" class="size-4" />
-                                            {{ $t('protocols.table.actions.markCitizenAsAttended') }}
-                                        </FormButton>
-                                        <FormButton type="button" buttonStyle="action" class="rounded-md">
-                                            <Icon name="material-symbols:event-busy-outline" class="size-4" />
-                                            {{ $t('protocols.table.actions.markCitizenAsAbent') }}
-                                        </FormButton>
-                                        <FormButton type="button" buttonStyle="action" class="rounded-md">
-                                            <Icon name="ph:trash" class="size-4" />
-                                            {{ $t('protocols.table.actions.removeCitizenForThisDate') }}
-                                        </FormButton>
+                                        <Tooltip :text="$t('protocols.table.actions.markCitizenAsAttended')"
+                                            @click="markAsPresent(citizenProtocol?.uuid)">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md">
+                                                <Icon name="material-symbols:event-available-outline" class="size-4" />
+                                            </FormButton>
+                                        </Tooltip>
+                                        <Tooltip :text="$t('protocols.table.actions.markCitizenAsAbent')"
+                                            @click="markAsAbsent(citizenProtocol?.uuid)">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md">
+                                                <Icon name="material-symbols:event-busy-outline" class="size-4" />
+                                            </FormButton>
+                                        </Tooltip>
+                                        <Tooltip :text="$t('protocols.table.actions.removeCitizenForThisDate')"
+                                            @click="confirmRemoving(citizenProtocol)">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md">
+                                                <Icon name="ph:trash" class="size-4" />
+                                            </FormButton>
+                                        </Tooltip>
                                     </div>
                                 </td>
                             </tr>
@@ -52,12 +61,16 @@
                 </div>
                 <Pagination :data="state.citizenProtocols" @previous="previous" @next="next" />
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isRemoveCitizenOpen"
+                :message="$t('citizens.citizenJournals.confirmation.deleteConfirmation') + '?'"
+                @close="state.modal.isRemoveCitizenOpen = false" @confirm="removeCitizen" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import moment from 'moment'
+import { citizenProtocolService } from '@/components/api/CitizenProtocolService'
 import { protocolService } from '@/components/api/ProtocolService'
 
 const runtimeConfig = useRuntimeConfig()
@@ -68,13 +81,12 @@ let currentTablePage = 1
 const state = reactive({
     citizenProtocols: [],
     columnFilter: [
-        { column: 'date' },
-        { column: 'name' },
         { column: 'status' },
+        { column: 'citizen' },
     ],
     columnHeaders: [
         { name: 'protocols.table.citizens.date', sorter: true, key: 'date' },
-        { name: 'protocols.table.citizens.citizen', sorter: true, key: 'name' },
+        { name: 'protocols.table.citizens.citizen' },
         { name: 'protocols.table.citizens.status', sorter: true, key: 'status' },
         { name: '' },
     ],
@@ -82,6 +94,10 @@ const state = reactive({
     error: [],
     isPageLoading: false,
     isTableLoading: false,
+    modal: {
+        isRemoveCitizenOpen: false
+    },
+    selectedCitizenProtocol: [],
     selectedProtocol: [],
     searchFilter: [],
     sortData: {
@@ -156,5 +172,59 @@ function handleFilter(value: any) {
 
 function formatDateToReadable(datetime: string) {
     return moment(datetime).format('LL')
+}
+
+async function markAsAbsent(citizenProtocolUuid: string) {
+    state.isTableLoading = true
+    state.error = []
+    try {
+        const params = {
+            status: 'absent',
+        }
+        const response = await citizenProtocolService.updateCitizenProtocol(citizenProtocolUuid, params)
+        if (response?.data) {
+            fetchCitizenProtocols()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function markAsPresent(citizenProtocolUuid: string) {
+    state.isTableLoading = true
+    state.error = []
+    try {
+        const params = {
+            status: 'attended',
+        }
+        const response = await citizenProtocolService.updateCitizenProtocol(citizenProtocolUuid, params)
+        if (response?.data) {
+            fetchCitizenProtocols()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function confirmRemoving(citizenProtocol: any) {
+    state.selectedCitizenProtocol = citizenProtocol
+    state.modal.isRemoveCitizenOpen = true
+}
+
+async function removeCitizen() {
+    state.isTableLoading = true
+    state.error = []
+    try {
+        const citizenProtocolUuid = state.selectedCitizenProtocol?.uuid
+        const response = await citizenProtocolService.deleteCitizenProtocol(citizenProtocolUuid)
+        if (response) {
+            fetchCitizenProtocols()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>
