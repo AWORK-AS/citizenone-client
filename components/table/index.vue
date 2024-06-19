@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th v-for="(item, index) in props.columnHeaders" :key="index" :width="props.width">
-                    <div class="flex items-center gap-x-2" :class="[
+                    <div class="flex items-center gap-x-2 capitalize" :class="[
                         item.textAlign === 'left' && 'text-left',
                         item.textAlign === 'right' && 'text-right',
                         item.textAlign === 'center' && 'text-center']">

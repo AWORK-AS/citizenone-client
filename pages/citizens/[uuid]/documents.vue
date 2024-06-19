@@ -41,11 +41,11 @@
                                         <span>{{ document?.name }}</span>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ formatDateTimeToReadable(document?.created_at) }}</span>
-                                    </td>
-                                    <td width="20%">
                                         <span>{{ document?.user?.firstname }}</span>
                                         <span>{{ document?.user?.lastname }}</span>
+                                    </td>
+                                    <td width="20%">
+                                        <span>{{ formatDateTimeToReadable(document?.created_at) }}</span>
                                     </td>
                                     <td width="20%">
                                         <span>
@@ -108,8 +108,8 @@ const state = reactive({
     ],
     columnHeaders: [
         { name: 'citizens.documents.table.name', sorter: true, key: 'name' },
-        { name: 'citizens.documents.table.dateCreated', sorter: true, key: 'created_at' },
         { name: 'citizens.documents.table.owner' },
+        { name: 'citizens.documents.table.dateCreated', sorter: true, key: 'created_at' },
         { name: 'citizens.documents.table.lastModified', sorter: true, key: 'updated_at' },
         { name: '' },
     ],
