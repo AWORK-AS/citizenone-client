@@ -25,16 +25,10 @@
                         :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                         <template #body v-if="!(state.isTableLoading || (state.citizenProtocols?.data?.length === 0))">
                             <tr v-for="(citizenProtocol, index) in state.citizenProtocols?.data" :key="index">
-                                <td width="25%">
+                                <td width="50%">
                                     <span>{{ formatDateToReadable(citizenProtocol?.date) }}</span>
                                 </td>
-                                <td width="25%">
-                                    <span>
-                                        {{ citizenProtocol?.citizen?.firstname }}
-                                        {{ citizenProtocol?.citizen?.lastname }}
-                                    </span>
-                                </td>
-                                <td width="25%">
+                                <td width="50%">
                                     <Badge :type="citizenProtocol?.status === 'attended' ? 'primary' : 'inactive'"
                                         class="w-fit" v-if="citizenProtocol?.status">
                                         <p class="text-xs">
@@ -47,28 +41,6 @@
                                         </p>
                                     </Badge>
                                     <span v-else>-</span>
-                                </td>
-                                <td width="25%">
-                                    <div class="flex items-end gap-2">
-                                        <Tooltip :text="$t('protocols.table.actions.markCitizenAsAttended')"
-                                            @click="markAsPresent(citizenProtocol?.uuid)">
-                                            <FormButton type="button" buttonStyle="primary" class="rounded-md">
-                                                <Icon name="material-symbols:event-available-outline" class="size-4" />
-                                            </FormButton>
-                                        </Tooltip>
-                                        <Tooltip :text="$t('protocols.table.actions.markCitizenAsAbent')"
-                                            @click="markAsAbsent(citizenProtocol?.uuid)">
-                                            <FormButton type="button" buttonStyle="warning" class="rounded-md">
-                                                <Icon name="material-symbols:event-busy-outline" class="size-4" />
-                                            </FormButton>
-                                        </Tooltip>
-                                        <Tooltip :text="$t('protocols.table.actions.removeCitizenForThisDate')"
-                                            @click="confirmRemoving(citizenProtocol)">
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md">
-                                                <Icon name="ph:trash" class="size-4" />
-                                            </FormButton>
-                                        </Tooltip>
-                                    </div>
                                 </td>
                             </tr>
                         </template>
@@ -91,7 +63,7 @@ import { protocolService } from '@/components/api/ProtocolService'
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
-const uuid = router?.currentRoute?.value?.params?.citizen_protocol_uuid
+const citizenProtocolUuid = router?.currentRoute?.value?.params?.citizen_protocol_uuid
 let currentTablePage = 1
 
 const state = reactive({
@@ -102,9 +74,7 @@ const state = reactive({
     ],
     columnHeaders: [
         { name: 'protocols.table.citizens.date', sorter: true, key: 'date' },
-        { name: 'protocols.table.citizens.citizen' },
         { name: 'protocols.table.citizens.status', sorter: true, key: 'status' },
-        { name: '' },
     ],
     dataFilter: [],
     error: [],
@@ -131,7 +101,7 @@ async function fetchProtocol() {
     state.isPageLoading = true
     state.error = []
     try {
-        const response = await protocolService.getProtocol(uuid)
+        const response = await protocolService.getProtocol(citizenProtocolUuid)
         if (response) {
             state.selectedProtocol = response
         }
@@ -146,12 +116,13 @@ async function fetchCitizenProtocols() {
     state.error = []
     try {
         const params = {
+            protocol_uuid: citizenProtocolUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await protocolService.getCitizenProtocols(uuid, params)
+        const response = await protocolService.getCitizenProtocols(citizenUuid, params)
         if (response) {
             state.citizenProtocols = response
         }

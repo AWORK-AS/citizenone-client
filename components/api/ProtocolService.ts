@@ -17,8 +17,12 @@ class ProtocolService extends BaseAPIService {
         return await this.request(`/user/protocols/${protocolUuid}`, 'PUT', params)
     }
 
-    async getCitizenProtocols(protocolUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/protocols/${protocolUuid}/citizen-protocols`, 'GET', params)
+    async getProtocolsByCitizen(citizenUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/protocols`, 'GET', params)
+    }
+
+    async getCitizenProtocols(citizenUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/citizen-protocols`, 'GET', params)
     }
 }
 

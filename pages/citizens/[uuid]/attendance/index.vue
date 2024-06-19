@@ -97,7 +97,7 @@ async function fetchProtocols() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
         }
-        const response = await protocolService.getProtocols(params)
+        const response = await protocolService.getProtocolsByCitizen(citizenUuid, params)
         if (response) {
             state.protocols = response
         }
