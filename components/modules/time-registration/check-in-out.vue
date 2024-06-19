@@ -91,6 +91,8 @@ async function toggleLogin() {
         }
     } catch (error: any) {
         state.error = error
+        userStore.setIsLoggedIn(!userStore.getIsLoggedIn)
+        stopTimer()
     }
     state.isPageLoading = false
 }
