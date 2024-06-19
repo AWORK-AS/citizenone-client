@@ -192,11 +192,10 @@ function triggerFileInput() {
 async function uploadFile(event: any) {
     state.isPageLoading = true
     try {
-        const params = {
-            citizen_uuid: citizenUuid,
-            type: 'file',
-            file: event.target.files[0],
-        }
+        let params = new FormData()
+        params.append('citizen_uuid', citizenUuid)
+        params.append('type', 'file')
+        params.append('file', event.target.files[0])
         const response = await documentService.saveCitizenFileFolder(params)
         if (response?.data) {
             fetchDocuments()
