@@ -15,6 +15,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
+                <ModulesCitizenDetailsHeader />
                 <ModulesCitizenJournalTabs />
 
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />

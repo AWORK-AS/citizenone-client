@@ -17,6 +17,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
+                <ModulesCitizenDetailsHeader />
                 <ModulesCitizenJournalTabs />
 
                 <LoadingSpinner :isActive="state.isPageLoading">
