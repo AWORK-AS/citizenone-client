@@ -18,16 +18,17 @@ import { documentService } from '@/components/api/DocumentService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 
-const { t } = useI18n()
-
 const props = defineProps({
     isModalOpen: {
         type: Boolean,
         required: true,
     },
 })
+
+const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const documentUuid = router?.currentRoute?.value?.params?.document_uuid
 const emit = defineEmits(['close', 'refreshDocuments'])
 
 const state = reactive({
@@ -55,6 +56,7 @@ async function saveDirectory(directoryDetails: any) {
     try {
         const params = {
             citizen_uuid: citizenUuid,
+            folder_uuid: documentUuid,
             name: directoryDetails.name,
             type: 'folder',
         }

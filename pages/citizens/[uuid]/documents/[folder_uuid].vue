@@ -103,6 +103,7 @@ const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const folderUuid = router?.currentRoute?.value?.params?.folder_uuid
 const documentFile = ref(null)
 let currentTablePage = 1
 
@@ -145,6 +146,7 @@ async function fetchDocuments() {
     try {
         const params = {
             citizen_uuid: citizenUuid,
+            folder_uuid: folderUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
@@ -194,6 +196,7 @@ async function uploadFile(event: any) {
     try {
         let params = new FormData()
         params.append('citizen_uuid', citizenUuid)
+        params.append('folder_uuid', folderUuid)
         params.append('type', 'file')
         params.append('file', event.target.files[0])
         const response = await documentService.saveCitizenFileFolder(params)
@@ -208,7 +211,7 @@ async function uploadFile(event: any) {
 }
 
 function viewDirectory(document: any) {
-    fetchDocuments()
+    navigateTo(`/citizens/${citizenUuid}/documents/${document.uuid}`)
 }
 
 function editDirectory(document: any) {

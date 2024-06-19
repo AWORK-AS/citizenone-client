@@ -259,6 +259,7 @@ const navigation = [
             'citizens-uuid-medicine-journals',
             'citizens-uuid-plans-and-goals',
             'citizens-uuid-documents',
+            'citizens-uuid-documents-document_uuid',
             'citizens-uuid-attendance',
             'citizens-uuid-attendance-citizen_protocol_uuid',
             'citizens-uuid-logs',
