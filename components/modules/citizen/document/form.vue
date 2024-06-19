@@ -3,14 +3,12 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error && props.error.length > 0 || props.error?.message" />
         <div class="grid grid-cols-1 gap-y-3">
-            <div class="grid grid-cols-2 gap-x-3">
-                <div class="space-y-1">
-                    <FormLabel for="name" :label="$t('citizens.medicineJournals.form.name')" />
-                    <FormTextField id="name" name="name" :placeholder="$t('citizens.medicineJournals.form.name')"
-                        v-model="state.formDirectory.name" />
-                    <FormError :error="v$?.formDirectory?.name?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.name?.[0]" />
-                </div>
+            <div class="space-y-1">
+                <FormLabel for="name" :label="$t('citizens.medicineJournals.form.name')" />
+                <FormTextField id="name" name="name" :placeholder="$t('citizens.medicineJournals.form.name')"
+                    v-model="state.formDirectory.name" />
+                <FormError :error="v$?.formDirectory?.name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
         </div>
         <div class="mt-6">
