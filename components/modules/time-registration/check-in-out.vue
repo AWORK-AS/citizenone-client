@@ -35,12 +35,13 @@ const formattedTime = computed<string>(() => {
 })
 
 onMounted(() => {
-    if (userStore.getIsLoggedIn) {
-        setTimer()
-        startTimer()
-    } else {
-        fetchUser()
-    }
+    startTimer()
+    // if (userStore.getIsLoggedIn) {
+    //     fetchUser()
+    //     startTimer()
+    // } else {
+    //     fetchUser()
+    // }
 })
 
 async function fetchUser() {
@@ -48,12 +49,13 @@ async function fetchUser() {
     try {
         const response = await userService.fetchUser()
         if (response?.data) {
-            if (response?.data?.time_log?.total_time) {
-                const totalTime = response?.data?.time_log?.total_time.split(":")
+            if (response?.data?.time_summary) {
+                const totalTime = response?.data?.time_summary.split(":")
                 hours.value = totalTime[0]
                 minutes.value = totalTime[1]
                 seconds.value = totalTime[2]
             }
+            console.log('response?.data?.time_summary', response?.data)
         }
     } catch (error: any) {
         state.error = error
@@ -67,25 +69,25 @@ async function toggleLogin() {
         if (!userStore.getIsLoggedIn) {
             const response = await userService.checkin()
             if (response?.data) {
-                if (response?.data?.total_time) {
-                    const totalTime = response?.data?.total_time.split(":")
+                userStore.setIsLoggedIn(!userStore.getIsLoggedIn)
+                if (response?.data?.running_time) {
+                    const totalTime = response?.data?.running_time.split(":")
                     hours.value = totalTime[0]
                     minutes.value = totalTime[1]
                     seconds.value = totalTime[2]
                 }
-                userStore.setIsLoggedIn(!userStore.getIsLoggedIn)
                 startTimer()
             }
         } else {
             const response = await userService.checkout()
             if (response?.data) {
-                if (response?.data?.total_time) {
-                    const totalTime = response?.data?.total_time.split(":")
+                userStore.setIsLoggedIn(!userStore.getIsLoggedIn)
+                if (response?.data?.running_time) {
+                    const totalTime = response?.data?.running_time.split(":")
                     hours.value = totalTime[0]
                     minutes.value = totalTime[1]
                     seconds.value = totalTime[2]
                 }
-                userStore.setIsLoggedIn(!userStore.getIsLoggedIn)
                 stopTimer()
             }
         }
@@ -115,9 +117,9 @@ function setTimer(hoursValue: any = null, minutesValue: any = null, secondsValue
 const startTimer = (): void => {
     if (timer) return
     timer = window.setInterval(() => {
-        if (minutes.value === 59) {
-            if (seconds.value === 59) {
-                seconds.value = 0
+        if (seconds.value === 59) {
+            seconds.value = 0
+            if (minutes.value === 59) {
                 minutes.value = 0
                 hours.value++
             } else {
@@ -126,7 +128,6 @@ const startTimer = (): void => {
         } else {
             seconds.value++
         }
-        setTimer(hours.value, minutes.value, seconds.value)
     }, 1000)
 }
 

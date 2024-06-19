@@ -199,6 +199,6 @@ function handleSearch() {
 }
 
 function formatDateToReadable(datetime: string) {
-    return moment(datetime).format('LL')
+    return moment(datetime).format('DD MMM, YYYY')
 }
 </script>

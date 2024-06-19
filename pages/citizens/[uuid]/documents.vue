@@ -23,7 +23,7 @@
                         {{ $t('citizens.documents.createNewFolder') }}
                     </FormButton>
                     <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isUploadFileOpen = true">
-                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                        <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.documents.uploadFile') }}
                     </FormButton>
                 </div>
@@ -41,25 +41,33 @@
                                         <span>{{ document?.name }}</span>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ formatDateToReadable(document?.created_at) }}</span>
+                                        <span>{{ formatDateTimeToReadable(document?.created_at) }}</span>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ document?.owner }}</span>
+                                        <span>{{ document?.user?.firstname }}</span>
+                                        <span>{{ document?.user?.lastname }}</span>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ formatDateToReadable(document?.updated_at) }}</span>
+                                        <span>
+                                            {{ document?.updated_at && formatDateTimeToReadable(document?.updated_at) }}
+                                        </span>
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
+                                            <!-- <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="viewDirectory(document)">
+                                                <Icon name="ph:pencil-simple" class="size-4" />
+                                                {{ $t('citizens.documents.table.actions.view') }}
+                                            </FormButton> -->
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editDirectory(document)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.documents.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="viewDirectory(document)">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('citizens.documents.table.actions.view') }}
+                                                @click="deleteDirectoryConfirmation(document)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('citizens.documents.table.actions.edit') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -71,12 +79,12 @@
                 </div>
                 <ModulesCitizenDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
                     @close="state.modal.isAddDirectoryOpen = false" @refreshDocuments="fetchDocuments" />
-                <!-- <ModulesCitizenMedicineModalEdit :isModalOpen="state.modal.isEditMedicineOpen"
-                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isEditMedicineOpen = false"
-                    @refreshDocuments="fetchCitizenMedicines" />
-                <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineOpen"
-                    :message="$t('citizens.medicineJournals.confirmation.deleteConfirmation') + '?'"
-                    @close="state.modal.isDeleteMedicineOpen = false" @confirm="deleteMedicne" /> -->
+                <ModulesCitizenDocumentModalEditDirectory :isModalOpen="state.modal.isEditDirectoryOpen"
+                    :selectedDirectory="state.selectedDirectory" @close="state.modal.isEditDirectoryOpen = false"
+                    @refreshDocuments="fetchDocuments" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteDirectoryOpen"
+                    :message="$t('citizens.documents.confirmation.deleteFolderConfirmation') + '?'"
+                    @close="state.modal.isDeleteDirectoryOpen = false" @confirm="deleteDirectory" />
             </div>
         </NuxtLayout>
     </div>
@@ -99,7 +107,7 @@ const state = reactive({
         { column: 'name' },
     ],
     columnHeaders: [
-        { name: 'citizens.documents.table.filename', sorter: true, key: 'name' },
+        { name: 'citizens.documents.table.name', sorter: true, key: 'name' },
         { name: 'citizens.documents.table.dateCreated', sorter: true, key: 'created_at' },
         { name: 'citizens.documents.table.owner' },
         { name: 'citizens.documents.table.lastModified', sorter: true, key: 'updated_at' },
@@ -172,8 +180,32 @@ function handleFilter(value: any) {
     fetchDocuments()
 }
 
-function formatDateToReadable(datetime: string) {
-    return moment(datetime).format('LL')
+function formatDateTimeToReadable(datetime: string) {
+    return moment(datetime).format('DD MMM, YYYY hh:mm:ss A')
+}
+
+function editDirectory(document: any) {
+    state.selectedDirectory = document
+    state.modal.isEditDirectoryOpen = true
+}
+
+function deleteDirectoryConfirmation(document: any) {
+    state.selectedDirectory = document
+    state.modal.isDeleteDirectoryOpen = true
+}
+
+async function deleteDirectory() {
+    state.isTableLoading = true
+    try {
+        const response = await documentService.deleteDocument(state.selectedDirectory.uuid)
+        if (response?.message === 'Success') {
+            fetchDocuments()
+            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.deletedFolderSuccessfully')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 function successAlert(title: string, message: string) {

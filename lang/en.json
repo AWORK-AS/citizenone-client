@@ -16,10 +16,16 @@
         "citizens": "Citizens",
         "documents": {
             "alert": {
+                "deletedFileSuccessfully": "File successfully delete",
+                "deletedFolderSuccessfully": "Folder successfully delete",
                 "successfullyAdded": "New folder successfully saved",
                 "successfullyUpdated": "Folder successfully updated"
             },
             "createNewFolder": "Create new folder",
+            "confirmation": {
+                "deleteFileConfirmation": "Are you sure you want to delete this file",
+                "deleteFolderConfirmation": "Are you sure you want to delete this folder"
+            },
             "form": {
                 "editFolder": "Edit folder",
                 "newFolder": "New folder"
@@ -30,8 +36,8 @@
                     "view": "View"
                 },
                 "dateCreated": "Date created",
-                "filename": "File name",
                 "lastModified": "Last modified",
+                "name": "Name",
                 "owner": "Owner"
             },
             "uploadFile": "Upload file"

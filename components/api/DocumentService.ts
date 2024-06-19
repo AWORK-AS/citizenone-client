@@ -12,6 +12,10 @@ class DocumentService extends BaseAPIService {
     async updateCitizenFileFolder(directoryUuid: any, params: object): Promise<any> {
         return await this.request(`/user/citizen-file-folders/${directoryUuid}`, 'PUT', params)
     }
+
+    async deleteDocument(citizenFileFolderUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-file-folders/${citizenFileFolderUuid}`, 'DELETE')
+    }
 }
 
 export const documentService = new DocumentService()

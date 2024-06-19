@@ -56,6 +56,7 @@ async function saveDirectory(directoryDetails: any) {
         const params = {
             citizen_uuid: citizenUuid,
             name: directoryDetails.name,
+            type: 'folder',
         }
         const response = await documentService.saveCitizenFileFolder(params)
         if (response?.data) {
