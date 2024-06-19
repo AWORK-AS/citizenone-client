@@ -1,0 +1,75 @@
+<template>
+    <div>
+        <Modal size="sm" :title="$t('citizens.documents.form.editFolder')" :show="props.isModalOpen"
+            @close="closeModal">
+            <template #modal-body>
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <ModulesCitizenDocumentForm formType="update" :selectedDirectory="props.selectedDirectory"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @closeModal="closeModal" @submitForm="updateDirectory" />
+                </LoadingSpinner>
+            </template>
+        </Modal>
+    </div>
+</template>
+
+
+<script setup lang="ts">
+import { documentService } from '@/components/api/DocumentService'
+import { useI18n } from "vue-i18n"
+import { notify } from "@kyvg/vue3-notification"
+
+const { t } = useI18n()
+
+const props = defineProps({
+    isModalOpen: {
+        type: Boolean,
+        required: true,
+    },
+    selectedDirectory: {
+        type: Object,
+        required: true,
+    },
+})
+const emit = defineEmits(['close', 'refreshDocuments'])
+
+const state = reactive({
+    error: [],
+    isPageLoading: false
+})
+
+function closeModal() {
+    emit('close')
+}
+
+function refreshDocuments() {
+    emit('refreshDocuments')
+}
+
+async function updateDirectory(directoryDetails: any) {
+    state.isPageLoading = true
+    try {
+        const directoryUuid = directoryDetails.uuid
+        const params = {
+            name: directoryDetails.name,
+        }
+        const response = await documentService.updateCitizenFileFolder(directoryUuid, params)
+        if (response?.data) {
+            refreshDocuments()
+            closeModal()
+            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.successfullyUpdated')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function successAlert(title: string, message: string) {
+    notify({
+        title: title,
+        text: message,
+        type: 'success',
+    })
+}
+</script>

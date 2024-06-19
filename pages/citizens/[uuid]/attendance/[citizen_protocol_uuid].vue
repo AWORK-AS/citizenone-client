@@ -70,7 +70,6 @@ let currentTablePage = 1
 const state = reactive({
     citizenProtocols: [],
     columnFilter: [
-        { column: 'citizen' },
         { column: 'status' },
     ],
     columnHeaders: [

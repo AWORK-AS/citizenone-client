@@ -1,6 +1,6 @@
 <template>
-    <button type="button" class="flex items-center justify-center gap-x-2 outline-none rounded-md text-xs truncate"
-        :class="[
+    <button type="button"
+        class="capitalize flex items-center justify-center gap-x-2 outline-none rounded-md text-xs truncate" :class="[
             props.buttonStyle === 'primary' && 'bg-tertiary text-white hover:bg-tertiary-500/90',
             props.buttonStyle === 'action' && 'border bg-tertiary text-white hover:bg-tertiary-500/90',
             props.buttonStyle === 'success' && 'bg-green-800 text-white hover:bg-green-900',

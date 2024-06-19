@@ -1,12 +1,11 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('citizens.medicineJournals.form.medicineDetails')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="sm" :title="$t('citizens.documents.form.newFolder')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenMedicineForm formType="create" :selectedMedicine="state.formMedicine"
+                    <ModulesCitizenDocumentForm formType="create" :selectedDirectory="state.formDirectory"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveMedicine" />
+                        @closeModal="closeModal" @submitForm="saveDirectory" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -15,7 +14,7 @@
 
 
 <script setup lang="ts">
-import { medicineJournalService } from '@/components/api/MedicineJournalService'
+import { documentService } from '@/components/api/DocumentService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 
@@ -29,12 +28,12 @@ const props = defineProps({
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
-const emit = defineEmits(['close', 'refreshMedicines'])
+const emit = defineEmits(['close', 'refreshDocuments'])
 
 const state = reactive({
     error: [],
     isPageLoading: false,
-    formMedicine: {
+    formDirectory: {
         id: '',
         uuid: '',
         name: '',
@@ -47,24 +46,22 @@ function closeModal() {
     emit('close')
 }
 
-function refreshMedicines() {
-    emit('refreshMedicines')
+function refreshDocuments() {
+    emit('refreshDocuments')
 }
 
-async function saveMedicine(medicineDetails: any) {
+async function saveDirectory(directoryDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
             citizen_uuid: citizenUuid,
-            name: medicineDetails.name,
-            date_given: medicineDetails.date_given,
-            description: medicineDetails.description,
+            name: directoryDetails.name,
         }
-        const response = await medicineJournalService.saveMedicine(params)
+        const response = await documentService.saveCitizenFileFolder(params)
         if (response?.data) {
-            refreshMedicines()
+            refreshDocuments()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.alert.successfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.successfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error

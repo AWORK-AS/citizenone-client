@@ -260,6 +260,7 @@ const navigation = [
             'citizens-uuid-plans-and-goals',
             'citizens-uuid-documents',
             'citizens-uuid-attendance',
+            'citizens-uuid-attendance-citizen_protocol_uuid',
             'citizens-uuid-logs',
         ]
     },

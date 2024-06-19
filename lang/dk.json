@@ -14,6 +14,28 @@
     "cancel": "Annuller",
     "citizens": {
         "citizens": "Borgere",
+        "documents": {
+            "alert": {
+                "successfullyAdded": "Ny mappe gemt med succes",
+                "successfullyUpdated": "Mappe opdateret med succes"
+            },
+            "createNewFolder": "Opret ny mappe",
+            "form": {
+                "editFolder": "Rediger mappe",
+                "newFolder": "Ny mappe"
+            },
+            "table": {
+                "actions": {
+                    "edit": "Rediger",
+                    "view": "Se"
+                },
+                "dateCreated": "Oprettelsesdato",
+                "filename": "Filnavn",
+                "lastModified": "Sidst ændret",
+                "owner": "Ejer"
+            },
+            "uploadFile": "Upload fil"
+        },
         "citizenJournals": {
             "alert": {
                 "addedToFavorites": "Journal tilføjet til favoritter med succes",

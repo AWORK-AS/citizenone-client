@@ -14,6 +14,28 @@
     "cancel": "Cancel",
     "citizens": {
         "citizens": "Citizens",
+        "documents": {
+            "alert": {
+                "successfullyAdded": "New folder successfully saved",
+                "successfullyUpdated": "Folder successfully updated"
+            },
+            "createNewFolder": "Create new folder",
+            "form": {
+                "editFolder": "Edit folder",
+                "newFolder": "New folder"
+            },
+            "table": {
+                "actions": {
+                    "edit": "Edit",
+                    "view": "View"
+                },
+                "dateCreated": "Date created",
+                "filename": "File name",
+                "lastModified": "Last modified",
+                "owner": "Owner"
+            },
+            "uploadFile": "Upload file"
+        },
         "citizenJournals": {
             "alert": {
                 "addedToFavorites": "Journal successfully added to favorites",
