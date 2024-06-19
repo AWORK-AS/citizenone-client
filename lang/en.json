@@ -18,8 +18,9 @@
             "alert": {
                 "deletedFileSuccessfully": "File successfully delete",
                 "deletedFolderSuccessfully": "Folder successfully delete",
-                "successfullyAdded": "New folder successfully saved",
-                "successfullyUpdated": "Folder successfully updated"
+                "fileSuccessfullyAdded": "New file successfully saved",
+                "folderSuccessfullyAdded": "New folder successfully saved",
+                "folderSuccessfullyUpdated": "Folder successfully updated"
             },
             "createNewFolder": "Create new folder",
             "confirmation": {

@@ -22,10 +22,13 @@
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.documents.createNewFolder') }}
                     </FormButton>
-                    <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isUploadFileOpen = true">
-                        <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('citizens.documents.uploadFile') }}
-                    </FormButton>
+                    <LoadingSpinner :isActive="state.isPageLoading">
+                        <FormButton buttonStyle="action" class="rounded-md" @click="triggerFileInput">
+                            <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.documents.uploadFile') }}
+                        </FormButton>
+                        <input type="file" ref="documentFile" @change="uploadFile" class="hidden" />
+                    </LoadingSpinner>
                 </div>
 
                 <div class="space-y-5">
@@ -53,12 +56,12 @@
                                         </span>
                                     </td>
                                     <td width="15%">
-                                        <div class="flex items-end gap-2">
-                                            <!-- <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="viewDirectory(document)">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
+                                        <div class="flex items-end justify-end gap-2">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="viewDirectory(document)" v-if="document?.type === 'folder'">
+                                                <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('citizens.documents.table.actions.view') }}
-                                            </FormButton> -->
+                                            </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editDirectory(document)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
@@ -100,6 +103,7 @@ const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const documentFile = ref(null)
 let currentTablePage = 1
 
 const state = reactive({
@@ -115,6 +119,7 @@ const state = reactive({
     ],
     dataFilter: [],
     error: [],
+    isPageLoading: false,
     isTableLoading: false,
     documents: [],
     modal: {
@@ -180,8 +185,31 @@ function handleFilter(value: any) {
     fetchDocuments()
 }
 
-function formatDateTimeToReadable(datetime: string) {
-    return moment(datetime).format('DD MMM, YYYY hh:mm:ss A')
+function triggerFileInput() {
+    documentFile.value.click()
+}
+
+async function uploadFile(event: any) {
+    state.isPageLoading = true
+    try {
+        const params = {
+            citizen_uuid: citizenUuid,
+            type: 'file',
+            file: event.target.files[0],
+        }
+        const response = await documentService.saveCitizenFileFolder(params)
+        if (response?.data) {
+            fetchDocuments()
+            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.fileSuccessfullyAdded')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function viewDirectory(document: any) {
+    fetchDocuments()
 }
 
 function editDirectory(document: any) {
@@ -206,6 +234,10 @@ async function deleteDirectory() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function formatDateTimeToReadable(datetime: string) {
+    return moment(datetime).format('DD MMM, YYYY hh:mm:ss A')
 }
 
 function successAlert(title: string, message: string) {

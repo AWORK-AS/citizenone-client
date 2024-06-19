@@ -16,10 +16,11 @@
         "citizens": "Borgere",
         "documents": {
             "alert": {
-                "deletedFileSuccessfully": "Fil slettet med succes",
-                "deletedFolderSuccessfully": "Mappe slettet med succes",
-                "successfullyAdded": "Ny mappe gemt med succes",
-                "successfullyUpdated": "Mappe opdateret med succes"
+                "deletedFileSuccessfully": "File successfully deleted",
+                "deletedFolderSuccessfully": "Folder successfully deleted",
+                "fileSuccessfullyAdded": "New file successfully saved",
+                "folderSuccessfullyAdded": "New folder successfully saved",
+                "successfullyUpdated": "Folder successfully updated"
             },
             "createNewFolder": "Opret ny mappe",
             "confirmation": {

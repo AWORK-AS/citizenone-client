@@ -57,7 +57,7 @@ async function updateDirectory(directoryDetails: any) {
         if (response?.data) {
             refreshDocuments()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.successfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.folderSuccessfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error

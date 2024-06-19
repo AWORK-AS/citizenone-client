@@ -62,7 +62,7 @@ async function saveDirectory(directoryDetails: any) {
         if (response?.data) {
             refreshDocuments()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.successfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.folderSuccessfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error
