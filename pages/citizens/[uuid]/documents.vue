@@ -103,7 +103,6 @@ const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
-const folderUuid = router?.currentRoute?.value?.params?.folder_uuid
 const documentFile = ref(null)
 let currentTablePage = 1
 
@@ -141,16 +140,25 @@ onMounted(() => {
     fetchDocuments()
 })
 
-async function fetchDocuments() {
+watch(() => router?.currentRoute?.value?.query, (newParams, oldParams) => {
+    handleRouteChange()
+}, { deep: true })
+
+const handleRouteChange = () => {
+    const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
+    fetchDocuments(folderUuid)
+}
+
+async function fetchDocuments(folderUuid: any = null) {
     state.isTableLoading = true
     try {
         const params = {
             citizen_uuid: citizenUuid,
-            folder_uuid: folderUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
-            ...state.dataFilter
+            ...state.dataFilter,
+            ...(folderUuid && { folder_uuid: folderUuid }),
         }
         const response = await documentService.getCitizenFileFolders(params)
         if (response) {
@@ -194,11 +202,14 @@ function triggerFileInput() {
 async function uploadFile(event: any) {
     state.isPageLoading = true
     try {
+        const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
         let params = new FormData()
         params.append('citizen_uuid', citizenUuid)
-        params.append('folder_uuid', folderUuid)
         params.append('type', 'file')
         params.append('file', event.target.files[0])
+        if (folderUuid) {
+            params.append('folder_uuid', folderUuid)
+        }
         const response = await documentService.saveCitizenFileFolder(params)
         if (response?.data) {
             fetchDocuments()
@@ -211,7 +222,7 @@ async function uploadFile(event: any) {
 }
 
 function viewDirectory(document: any) {
-    navigateTo(`/citizens/${citizenUuid}/documents/${document.uuid}`)
+    navigateTo(`/citizens/${citizenUuid}/documents?folder_uuid=${document.uuid}`)
 }
 
 function editDirectory(document: any) {

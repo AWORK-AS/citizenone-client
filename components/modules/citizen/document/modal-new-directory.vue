@@ -28,7 +28,6 @@ const props = defineProps({
 const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
-const documentUuid = router?.currentRoute?.value?.params?.document_uuid
 const emit = defineEmits(['close', 'refreshDocuments'])
 
 const state = reactive({
@@ -54,9 +53,10 @@ function refreshDocuments() {
 async function saveDirectory(directoryDetails: any) {
     state.isPageLoading = true
     try {
+        const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
         const params = {
             citizen_uuid: citizenUuid,
-            folder_uuid: documentUuid,
+            ...(folderUuid && { folder_uuid: folderUuid }),
             name: directoryDetails.name,
             type: 'folder',
         }
