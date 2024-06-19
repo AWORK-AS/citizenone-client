@@ -123,7 +123,7 @@ async function fetchCitizenProtocols() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await protocolService.getCitizenProtocols(citizenUuid, params)
+        const response = await protocolService.getCitizenProtocolsByCitizen(citizenUuid, params)
         if (response) {
             state.citizenProtocols = response
         }
