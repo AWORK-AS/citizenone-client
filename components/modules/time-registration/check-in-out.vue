@@ -35,13 +35,7 @@ const formattedTime = computed<string>(() => {
 })
 
 onMounted(() => {
-    startTimer()
-    // if (userStore.getIsLoggedIn) {
-    //     fetchUser()
-    //     startTimer()
-    // } else {
-    //     fetchUser()
-    // }
+    fetchUser()
 })
 
 async function fetchUser() {
@@ -55,7 +49,9 @@ async function fetchUser() {
                 minutes.value = totalTime[1]
                 seconds.value = totalTime[2]
             }
-            console.log('response?.data?.time_summary', response?.data)
+            if (userStore.getIsLoggedIn) {
+                startTimer()
+            }
         }
     } catch (error: any) {
         state.error = error
