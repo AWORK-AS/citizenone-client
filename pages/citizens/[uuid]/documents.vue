@@ -46,7 +46,11 @@
                             <template #body v-if="!(state.isTableLoading || (state.documents?.data?.length === 0))">
                                 <tr v-for="(document, index) in state.documents?.data" :key="index">
                                     <td width="25%">
-                                        <span>{{ document?.name }}</span>
+                                        <span class="text-tertiary hover:text-tertiary-700 cursor-pointer"
+                                            v-if="document?.file_url" @click="openFile(document)">
+                                            {{ document?.name }}
+                                        </span>
+                                        <span v-else>{{ document?.name }}</span>
                                     </td>
                                     <td width="20%">
                                         <span>{{ document?.user?.firstname }}</span>
@@ -198,6 +202,15 @@ function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
     fetchDocuments()
+}
+
+function openFile(document: any) {
+    navigateTo(document?.file_url, {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 
 function triggerFileInput() {
