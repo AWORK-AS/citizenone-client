@@ -239,8 +239,8 @@ async function uploadFile(event: any) {
     state.isPageLoading = false
 }
 
-function viewDirectory(document: any) {
-    navigateTo(`/citizens/${citizenUuid}/documents?folder_uuid=${document.uuid}`)
+async function viewDirectory(document: any) {
+    await navigateTo(`/citizens/${citizenUuid}/documents?folder_uuid=${document.uuid}`)
 }
 
 function editDirectory(document: any) {
