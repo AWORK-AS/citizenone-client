@@ -36,6 +36,11 @@
                     <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                         @handleFilter="handleFilter" />
                     <div class="table-responsive">
+                        <div class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                            @click="$router.back()" v-if="router?.currentRoute?.value?.query?.folder_uuid">
+                            <Icon name="ph:arrow-left" size="16" class="text-black" />
+                            <span class="text-sm">{{ $t('back') }}</span>
+                        </div>
                         <Table :columnHeaders="state.columnHeaders" :data="state.documents"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.documents?.data?.length === 0))">
@@ -145,13 +150,13 @@ watch(() => router?.currentRoute?.value?.query, (newParams, oldParams) => {
 }, { deep: true })
 
 const handleRouteChange = () => {
-    const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
-    fetchDocuments(folderUuid)
+    fetchDocuments()
 }
 
 async function fetchDocuments(folderUuid: any = null) {
     state.isTableLoading = true
     try {
+        const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
         const params = {
             citizen_uuid: citizenUuid,
             page: currentTablePage,
