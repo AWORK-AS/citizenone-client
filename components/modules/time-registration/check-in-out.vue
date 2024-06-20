@@ -49,6 +49,11 @@ async function fetchUser() {
                 minutes.value = totalTime[1]
                 seconds.value = totalTime[2]
             }
+            if (response?.data?.is_checked_in) {
+                userStore.setIsLoggedIn(true)
+            } else {
+                userStore.setIsLoggedIn(false)
+            }
             if (userStore.getIsLoggedIn) {
                 startTimer()
             }
@@ -93,21 +98,6 @@ async function toggleLogin() {
         stopTimer()
     }
     state.isPageLoading = false
-}
-
-function setTimer(hoursValue: any = null, minutesValue: any = null, secondsValue: any = null) {
-    if (hoursValue != null) {
-        userStore.setHours(hoursValue)
-    }
-    if (minutesValue != null) {
-        userStore.setMinutes(minutesValue)
-    }
-    if (secondsValue != null) {
-        userStore.setSeconds(secondsValue)
-    }
-    hours.value = userStore.getTimer.hours
-    minutes.value = userStore.getTimer.minutes
-    seconds.value = userStore.getTimer.seconds
 }
 
 const startTimer = (): void => {
