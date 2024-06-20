@@ -1,12 +1,12 @@
 <template>
-    <div class="bg-white flex items-center w-full flex-wrap mb-3 border border-tertiary relative px-3 py-1 rounded-md">
+    <div class="bg-white flex items-center w-full flex-wrap mb-3 border border-primary relative px-3 py-1 rounded-md">
         <span class="flex items-center gap-x-1 absolute text-gray-800">
             <Icon name="heroicons:funnel" class="w-4" />
             <span>{{ $t('filter') }}</span>
         </span>
         <div class="flex flex-wrap flex-grow-0 ml-16">
             <div v-for="(filter, index) in state.filters" :key="index"
-                class="bg-tertiary flex items-center justify-center text-white rounded-full text-sm pl-3 pr-2 py-1 mx-1">
+                class="bg-primary flex items-center justify-center text-white rounded-full text-sm pl-3 pr-2 py-1 mx-1">
                 {{ columnViewingFilter(filter.column) }}: {{ filter.value }}
                 <div class="cursor-pointer">
                     <Icon name="heroicons:x-circle" class="h-4 m-1" @click="deleteFilter(index)" />
@@ -22,7 +22,7 @@
                 outline-none
                 focus:outline-none
                 focus:ring-transparent
-                focus:border-tertiary
+                focus:border-primary
                 py-2.5" />
         <datalist id="list" class="appearance-none">
             <span v-for="column in props.columnFilter" :key="column.index">

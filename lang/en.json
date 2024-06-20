@@ -1,5 +1,6 @@
 {
     "alert": {
+        "accountSuccessfullyCreated": "Your account has been created successfully",
         "forgotPasswordSuccess": "A forgot password email has been sent to your email address",
         "resetPassword": {
             "confirmPasswordNotTheSame": "Confirm password is not the same as new password",
@@ -271,6 +272,35 @@
     },
     "save": "Save",
     "selectADate": "Select a date",
+    "register": {
+        "form": {
+            "country": "Country",
+            "firstname": "First name",
+            "lastname": "Last name",
+            "emailAddress": "Email address",
+            "password": "Password",
+            "confirmPassword": "Confirm Password",
+            "phone": "Phone",
+            "birthday": "Birthday",
+            "street": "Street",
+            "region": "Region",
+            "municipality": "Municipality",
+            "city": "City",
+            "postCode": "Post Code",
+            "companyName": "Company Name",
+            "companyCVR": "Company CVR",
+            "companyWebsite": "Company Website",
+            "companyAddress": "Company Address",
+            "companyRegion": "Company Region",
+            "companyMunicipality": "Company Municipality",
+            "companyCity": "Company City",
+            "companyPostCode": "Company PostCode",
+            "iAcceptTAA": "I accept the terms and conditions",
+            "register": "Register",
+            "alreadyHaveAnAcoount": "Already have an account",
+            "loginHere": "Login here"
+        }
+    },
     "resetPassword": {
         "form": {
             "confirmPassword": "Confirm password",

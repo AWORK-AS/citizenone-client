@@ -62,7 +62,8 @@
                                 {{ $t('login.form.login') }}
                             </FormButton>
                         </div>
-                        <p class="text-center text-sm leading-6 text-gray-500">
+                        <p class="text-center text-sm leading-6 text-gray-500 cursor-pointer"
+                            @click="navigateTo('/register')">
                             {{ $t('login.form.dontHaveAnAccount') }}?
                             {{ ' ' }}
                             <a class="text-primary hover:text-primary-800 cursor-pointer">

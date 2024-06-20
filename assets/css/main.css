@@ -29,7 +29,7 @@ table {
 }
 
 table th {
-    @apply bg-tertiary text-white font-normal border-b border-tertiary-50 px-10 py-5 text-left text-sm;
+    @apply bg-primary text-white font-normal border-b border-primary-50 px-10 py-5 text-left text-sm;
 }
 
 table th:first-child {

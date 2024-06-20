@@ -1,5 +1,6 @@
 {
     "alert": {
+        "accountSuccessfullyCreated": "Din konto er blevet oprettet med succes",
         "forgotPasswordSuccess": "En e-mail til nulstilling af adgangskode er blevet sendt til din e-mailadresse",
         "resetPassword": {
             "confirmPasswordNotTheSame": "Bekræft adgangskode er ikke den samme som ny adgangskode",
@@ -271,6 +272,35 @@
     },
     "save": "Gem",
     "selectADate": "Vælg en dato",
+    "register": {
+        "form": {
+            "country": "Country",
+            "firstname": "First name",
+            "lastname": "Last name",
+            "emailAddress": "Email address",
+            "password": "Password",
+            "confirmPassword": "Confirm Password",
+            "phone": "Phone",
+            "birthday": "Birthday",
+            "street": "Street",
+            "region": "Region",
+            "municipality": "Municipality",
+            "city": "City",
+            "postCode": "Post Code",
+            "companyName": "Company Name",
+            "companyCVR": "Company CVR",
+            "companyWebsite": "Company Website",
+            "companyAddress": "Company Address",
+            "companyRegion": "Company Region",
+            "companyMunicipality": "Company Municipality",
+            "companyCity": "Company City",
+            "companyPostCode": "Company PostCode",
+            "iAcceptTAA": "I accept the terms and conditions",
+            "register": "Register",
+            "alreadyHaveAnAcoount": "Already have an account",
+            "loginHere": "Login here"
+        }
+    },
     "resetPassword": {
         "form": {
             "confirmPassword": "Bekræft adgangskode",
