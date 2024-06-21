@@ -1,0 +1,196 @@
+<template>
+    <div>
+        <NuxtLayout name="user">
+
+            <Head>
+                <Title>Subscription - {{ runtimeConfig?.public?.appName }}</Title>
+            </Head>
+
+            <template #header>Subscription</template>
+
+            <div>
+                <div class="mt-16 flex justify-center">
+                    <fieldset aria-label="Payment frequency">
+                        <RadioGroup v-model="frequency"
+                            class="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
+                            <RadioGroupOption as="template" v-for="option in frequencies" :key="option.value"
+                                :value="option" v-slot="{ checked }">
+                                <div
+                                    :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1']">
+                                    {{ option.label }}</div>
+                            </RadioGroupOption>
+                        </RadioGroup>
+                    </fieldset>
+                </div>
+                <div v-if="state.deals?.data?.length <= 2">
+                    <div
+                        class="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
+                        <div v-for="(deal, index) in state.deals?.data" :key="index"
+                            :class="[index === 0 ? 'relative bg-white shadow-2xl' : 'bg-white/60 sm:mx-8 lg:mx-0', index === 0 ? '' : index === 0 ? 'rounded-t-3xl sm:rounded-b-none lg:rounded-bl-3xl lg:rounded-tr-none' : 'sm:rounded-t-none lg:rounded-bl-none lg:rounded-tr-3xl', 'rounded-3xl p-8 ring-1 ring-gray-900/10 sm:p-10']">
+                            <h3 :id="deal.id" class="text-base font-semibold leading-7 text-tertiary">{{ deal.name }}
+                            </h3>
+                            <p class="mt-4 flex items-baseline gap-x-2">
+                                <span class="text-3xl font-bold tracking-tight text-gray-900">
+                                    {{ frequency.value === 'monthly' ? formatAmount(deal.monthly_price) :
+                                        formatAmount(deal.yearly_price) }}
+                                </span>
+                                <span class="text-base text-gray-500">
+                                    /{{ frequency.value === 'monthly' ? 'month' : 'year' }}
+                                </span>
+                            </p>
+                            <div class="mt-6 text-base leading-7 text-gray-600">
+                                <span v-if="index === 0">
+                                    The perfect plan if you're just getting started with our product.
+                                </span>
+                                <span v-else>
+                                    A plan that scales with your rapidly growing business.
+                                </span>
+                            </div>
+                            <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-10">
+                                <li class="flex gap-x-3">
+                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                    {{ deal?.storage_size }} storage size
+                                </li>
+                                <li class="flex gap-x-3">
+                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                    {{ formatAmount(deal?.extra_users) }} for extra user
+                                </li>
+                                <li class="flex gap-x-3">
+                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                    {{ formatAmount(deal?.departments) }} for extra department
+                                </li>
+                                <li class="flex gap-x-3" v-if="index === 0">
+                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                    Recommended for starter
+                                </li>
+                            </ul>
+                            <div class="mt-8">
+                                <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0">
+                                    Subscribe
+                                </FormButton>
+                                <FormButton type="button" class="w-full" v-else>
+                                    Subscribe
+                                </FormButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-else>
+                    <div
+                        class="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                        <div v-for="(deal, index) in state.deals?.data" :key="index"
+                            :class="[deal.mostPopular ? 'ring-2 ring-indigo-600' : 'ring-1 ring-gray-200', 'rounded-3xl p-8 xl:p-10']">
+                            <div class="flex items-center justify-between gap-x-4">
+                                <h3 :id="deal.id" class="text-base font-semibold leading-7 text-tertiary">
+                                    {{ deal.name }}
+                                </h3>
+                            </div>
+                            <p class="mt-4 flex items-baseline gap-x-2">
+                                <span class="text-3xl font-bold tracking-tight text-gray-900">
+                                    {{ frequency.value === 'monthly' ? formatAmount(deal.monthly_price) :
+                                        formatAmount(deal.yearly_price) }}
+                                </span>
+                                <span class="text-base text-gray-500">
+                                    /{{ frequency.value === 'monthly' ? 'month' : 'year' }}
+                                </span>
+                            </p>
+                            <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-10">
+                                <li class="flex gap-x-3">
+                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                    {{ deal?.storage_size }} storage size
+                                </li>
+                                <li class="flex gap-x-3">
+                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                    {{ formatAmount(deal?.extra_users) }} for extra user
+                                </li>
+                                <li class="flex gap-x-3">
+                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                    {{ formatAmount(deal?.departments) }} for extra department
+                                </li>
+                            </ul>
+                            <div class="mt-8">
+                                <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0">
+                                    Subscribe
+                                </FormButton>
+                                <FormButton type="button" class="w-full" v-else>
+                                    Subscribe
+                                </FormButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </NuxtLayout>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { dealService } from '@/components/api/DealService'
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
+
+const runtimeConfig = useRuntimeConfig()
+
+const state = reactive({
+    deals: [],
+    isPageLoading: false,
+})
+
+const frequencies = [
+    { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
+    { value: 'annually', label: 'Annually', priceSuffix: '/year' },
+]
+const frequency = ref(frequencies[0])
+const deals = [
+    {
+        name: 'Hobby',
+        id: 'deal-hobby',
+        href: '#',
+        priceMonthly: '$19',
+        description: "The perfect plan if you're just getting started with our product.",
+        features: ['25 products', 'Up to 10,000 subscribers', 'Advanced analytics', '24-hour support response time'],
+        featured: false,
+    },
+    {
+        name: 'Enterprise',
+        id: 'deal-enterprise',
+        href: '#',
+        priceMonthly: '$49',
+        description: 'Dedicated support and infrastructure for your company.',
+        features: [
+            'Unlimited products',
+            'Unlimited subscribers',
+            'Advanced analytics',
+            'Dedicated support representative',
+            'Marketing automations',
+            'Custom integrations',
+        ],
+        featured: true,
+    },
+]
+
+onMounted(() => {
+    fetchDeals()
+})
+
+async function fetchDeals() {
+    state.isPageLoading = true
+    state.error = []
+    try {
+        const response = await dealService.getDeals()
+        if (response) {
+            state.deals = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function formatAmount(amount: any) {
+    return 'Kr' + numberWithCommas(parseFloat(amount).toFixed(2))
+}
+
+function numberWithCommas(number: string) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+</script>

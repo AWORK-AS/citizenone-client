@@ -125,7 +125,11 @@ async function login() {
             if (response.data) {
                 localStorage.setItem("_token", response.data?.token)
                 userStore.setUser(response?.data?.user)
-                navigateTo('/citizens')
+                if (response?.data?.user?.user_subscription === null) {
+                    navigateTo('/subscription')
+                } else {
+                    navigateTo('/citizens')
+                }
             }
         } catch (error: any) {
             state.error = error
