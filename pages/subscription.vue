@@ -26,50 +26,66 @@
                     <div
                         class="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
                         <div v-for="(deal, index) in state.deals?.data" :key="index"
-                            :class="[index === 0 ? 'relative bg-white shadow-2xl' : 'bg-white/60 sm:mx-8 lg:mx-0', index === 0 ? '' : index === 0 ? 'rounded-t-3xl sm:rounded-b-none lg:rounded-bl-3xl lg:rounded-tr-none' : 'sm:rounded-t-none lg:rounded-bl-none lg:rounded-tr-3xl', 'rounded-3xl p-8 ring-1 ring-gray-900/10 sm:p-10']">
-                            <h3 :id="deal.id" class="text-base font-semibold leading-7 text-tertiary">{{ deal.name }}
+                            :class="[index === 1 ? 'relative bg-tertiary shadow-2xl' : 'bg-white/60 sm:mx-8 lg:mx-0', index === 1 ? '' : index === 0 ? 'rounded-t-3xl sm:rounded-b-none lg:rounded-bl-3xl lg:rounded-tr-none' : 'sm:rounded-t-none lg:rounded-bl-none lg:rounded-tr-3xl', 'rounded-3xl p-8 ring-1 ring-gray-900/10 sm:p-10']">
+                            <h3 :id="deal.id"
+                                :class="[index === 1 ? 'text-white' : 'text-tertiary', 'text-base font-semibold leading-7']">
+                                {{ deal.name }}
                             </h3>
-                            <p class="mt-4 flex items-baseline gap-x-2">
-                                <span class="text-3xl font-bold tracking-tight text-gray-900">
-                                    {{ frequency.value === 'monthly' ? formatAmount(deal.monthly_price) :
-                                        formatAmount(deal.yearly_price) }}
+                            <div class="mt-4 flex items-baseline gap-x-2">
+                                <span
+                                    :class="[index === 1 ? 'text-white' : 'text-gray-900', 'text-2xl font-bold tracking-tight']">
+                                    <span>
+                                        {{ frequency.value === 'monthly' ? formatAmount(deal.monthly_price) :
+                                            formatAmount(deal.yearly_price) }}
+                                    </span>
                                 </span>
-                                <span class="text-base text-gray-500">
+                                <span :class="[index === 1 ? 'text-gray-100' : 'text-gray-500', 'text-base']">
                                     /{{ frequency.value === 'monthly' ? 'month' : 'year' }}
                                 </span>
-                            </p>
-                            <div class="mt-6 text-base leading-7 text-gray-600">
+                            </div>
+                            <p :class="[index === 1 ? 'text-white' : 'text-gray-600', 'mt-6 text-base leading-7']">
                                 <span v-if="index === 0">
                                     The perfect plan if you're just getting started with our product.
                                 </span>
                                 <span v-else>
                                     A plan that scales with your rapidly growing business.
                                 </span>
-                            </div>
-                            <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-10">
-                                <li class="flex gap-x-3">
-                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                            </p>
+                            <ul role="list"
+                                :class="[index === 1 ? 'text-gray-300' : 'text-gray-600', 'mt-8 space-y-3 text-sm leading-6 sm:mt-10']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                    <Icon name="ph:check"
+                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
+                                        aria-hidden="true" />
                                     {{ deal?.storage_size }} storage size
                                 </li>
-                                <li class="flex gap-x-3">
-                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                    <Icon name="ph:check"
+                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
+                                        aria-hidden="true" />
                                     {{ formatAmount(deal?.extra_users) }} for extra user
                                 </li>
-                                <li class="flex gap-x-3">
-                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                    <Icon name="ph:check"
+                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
+                                        aria-hidden="true" />
                                     {{ formatAmount(deal?.departments) }} for extra department
                                 </li>
-                                <li class="flex gap-x-3" v-if="index === 0">
-                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
-                                    Recommended for starter
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']"
+                                    v-if="index === 1">
+                                    <Icon name="ph:check"
+                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
+                                        aria-hidden="true" />
+                                    Recommended
                                 </li>
                             </ul>
                             <div class="mt-8">
-                                <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0"
-                                    @click="subscribe(deal)">
+                                <FormButton type="button" class="w-full" buttonStyle="primary" @click="subscribe(deal)"
+                                    v-if="index === 0">
                                     Subscribe
                                 </FormButton>
-                                <FormButton type="button" class="w-full" v-else @click="subscribe(deal)">
+                                <FormButton type="button" class="w-full" buttonStyle="white" @click="subscribe(deal)"
+                                    v-else>
                                     Subscribe
                                 </FormButton>
                             </div>
@@ -133,8 +149,19 @@ import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 
+useHead({
+    script: [
+        {
+            src: 'https://test.checkout.dibspayment.eu/v1/checkout.js?v=1',
+            async: true,
+            defer: true,
+        },
+    ],
+})
+
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
+// var checkout = new Dibs.Checkout(checkoutOptions)
 
 const state = reactive({
     deals: [],
@@ -203,8 +230,9 @@ async function subscribe(deal: any) {
         }
         const response = await userSubscriptionService.subscribe(params)
         if (response?.data) {
-            successAlert(`${t('alert.success')}!`, `${t('alert.successfullySubscribed')}.`)
-            navigateTo('/citizens')
+            console.log('response', response?.data)
+            // successAlert(`${t('alert.success')}!`, `${t('alert.successfullySubscribed')}.`)
+            // navigateTo('/citizens')
         }
     } catch (error: any) {
         state.error = error
