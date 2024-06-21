@@ -9,6 +9,7 @@
             <template #header>Subscription</template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
+                <div id="checkout-container-div"></div>
                 <div class="mt-16 flex justify-center">
                     <fieldset aria-label="Payment frequency">
                         <RadioGroup v-model="frequency"
@@ -149,19 +150,8 @@ import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 
-useHead({
-    script: [
-        {
-            src: 'https://test.checkout.dibspayment.eu/v1/checkout.js?v=1',
-            async: true,
-            defer: true,
-        },
-    ],
-})
-
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
-// var checkout = new Dibs.Checkout(checkoutOptions)
 
 const state = reactive({
     deals: [],
@@ -229,15 +219,26 @@ async function subscribe(deal: any) {
             'user_uuid': '78ad0fcb-6550-40cf-8f67-249966ec4fd3',
         }
         const response = await userSubscriptionService.subscribe(params)
-        if (response?.data) {
-            console.log('response', response?.data)
-            // successAlert(`${t('alert.success')}!`, `${t('alert.successfullySubscribed')}.`)
-            // navigateTo('/citizens')
+        if (response) {
+            var checkoutOptions = {
+                checkoutKey: runtimeConfig?.public?.checkoutKey,
+                paymentId: response?.paymentId,
+                containerId: "checkout-container-div",
+                language: "en-GB",
+                theme: {
+                    buttonRadius: "5px"
+                }
+            }
+            var checkout = new Dibs.Checkout(checkoutOptions)
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function onPaymentCompletedEvent() {
+    alert('Success')
 }
 
 function formatAmount(amount: any) {
