@@ -9,7 +9,8 @@
             "required8Characters": "Dette felt skal være mindst 8 tegn langt"
         },
         "somethingWentWrong": "Noget gik galt",
-        "success": "Succes"
+        "success": "Succes",
+        "successfullySubscribed": "Du har abonneret med succes"
     },
     "back": "Tilbage",
     "cancel": "Annuller",

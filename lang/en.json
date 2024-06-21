@@ -9,7 +9,8 @@
             "required8Characters": "This field should be at least 8 characters long"
         },
         "somethingWentWrong": "Something went wrong",
-        "success": "Success"
+        "success": "Success",
+        "successfullySubscribed": "You have successfully subscribed"
     },
     "back": "Back",
     "cancel": "Cancel",

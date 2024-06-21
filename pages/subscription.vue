@@ -8,7 +8,7 @@
 
             <template #header>Subscription</template>
 
-            <div>
+            <LoadingSpinner :isActive="state.isPageLoading">
                 <div class="mt-16 flex justify-center">
                     <fieldset aria-label="Payment frequency">
                         <RadioGroup v-model="frequency"
@@ -65,10 +65,11 @@
                                 </li>
                             </ul>
                             <div class="mt-8">
-                                <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0">
+                                <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0"
+                                    @click="subscribe(deal)">
                                     Subscribe
                                 </FormButton>
-                                <FormButton type="button" class="w-full" v-else>
+                                <FormButton type="button" class="w-full" v-else @click="subscribe(deal)">
                                     Subscribe
                                 </FormButton>
                             </div>
@@ -109,26 +110,31 @@
                                 </li>
                             </ul>
                             <div class="mt-8">
-                                <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0">
+                                <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0"
+                                    @click="subscribe(deal)">
                                     Subscribe
                                 </FormButton>
-                                <FormButton type="button" class="w-full" v-else>
+                                <FormButton type="button" class="w-full" v-else @click="subscribe(deal)">
                                     Subscribe
                                 </FormButton>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </LoadingSpinner>
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { dealService } from '@/components/api/DealService'
+import { userSubscriptionService } from '@/components/api/UserSubscriptionService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
+import { useI18n } from "vue-i18n"
+import { notify } from "@kyvg/vue3-notification"
 
 const runtimeConfig = useRuntimeConfig()
+const { t } = useI18n()
 
 const state = reactive({
     deals: [],
@@ -186,11 +192,39 @@ async function fetchDeals() {
     state.isPageLoading = false
 }
 
+async function subscribe(deal: any) {
+    state.isPageLoading = true
+    state.error = []
+    try {
+        const params = {
+            'deal_uuid': deal.uuid,
+            'type': frequency.value.value === 'monthly' ? 'monthly' : 'yearly',
+            'user_uuid': '78ad0fcb-6550-40cf-8f67-249966ec4fd3',
+        }
+        const response = await userSubscriptionService.subscribe(params)
+        if (response?.data) {
+            successAlert(`${t('alert.success')}!`, `${t('alert.successfullySubscribed')}.`)
+            navigateTo('/citizens')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 function formatAmount(amount: any) {
     return 'Kr' + numberWithCommas(parseFloat(amount).toFixed(2))
 }
 
 function numberWithCommas(number: string) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function successAlert(title: string, message: string) {
+    notify({
+        title: title,
+        text: message,
+        type: 'success',
+    })
 }
 </script>
