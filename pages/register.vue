@@ -196,19 +196,13 @@
                             </div>
                         </div>
                         <div class="space-y-1">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <input id="iAcceptTAA" name="iAcceptTAA" type="checkbox"
-                                        class="w-5 h-5 accent-primary cursor-pointer focus:ring-transparent" />
-                                    <label for="iAcceptTAA"
-                                        class="ml-3 block text-sm leading-6 text-gray-700 cursor-pointer">
-                                        {{ $t('register.form.iAcceptTAA') }}
-                                    </label>
-                                </div>
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.formRegister.agreeToTerms = !state.formRegister.agreeToTerms">
+                                <FormCheckbox :value="state.formRegister.agreeToTerms" />
+                                {{ $t('register.form.iAcceptTAA') }}
                             </div>
-                            <span
-                                v-if="!v$?.formRegister?.agreeToTerms?.required && v$?.formRegister?.agreeToTerms?.$error">
-                                You must agree to the terms and conditions
+                            <span v-if="state.agreeToTermsValidation" class="text-sm text-red-500">
+                                {{ $t('register.form.agreetoTAC') }}
                             </span>
                         </div>
                         <div>
@@ -248,6 +242,7 @@ const { t } = useI18n()
 language.locale.value = userStore.getLanguage
 
 const state = reactive({
+    agreeToTermsValidation: false,
     error: [],
     formRegister: {
         country: '',
@@ -352,7 +347,6 @@ const rules = computed(() => {
             company_post_code: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            agreeToTerms: { required },
         }
     }
 })
@@ -516,36 +510,41 @@ async function register() {
     v$.value.$validate()
     if (!v$.value.$error) {
         state.isPageLoading = true
-        try {
-            const params = {
-                country_id: state.formRegister.country,
-                firstname: state.formRegister.firstname,
-                lastname: state.formRegister.lastname,
-                email: state.formRegister.email,
-                password: state.formRegister.password,
-                phone: state.formRegister.phone,
-                birthday: state.formRegister.birthday,
-                street: state.formRegister.street,
-                region_id: state.formRegister.region,
-                municipality_id: state.formRegister.municipality,
-                city_id: state.formRegister.city,
-                post_code: state.formRegister.post_code,
-                company_name: state.formRegister.company_name,
-                company_cvr: state.formRegister.company_cvr,
-                company_website: state.formRegister.company_website,
-                company_street: state.formRegister.company_address,
-                company_region_id: state.formRegister.company_region,
-                company_municipality_id: state.formRegister.company_municipality,
-                company_city_id: state.formRegister.company_city,
-                company_post_code: state.formRegister.company_post_code,
+        if (!state.formRegister.agreeToTerms) {
+            state.agreeToTermsValidation = true
+        } else {
+            state.agreeToTermsValidation = false
+            try {
+                const params = {
+                    country_id: state.formRegister.country,
+                    firstname: state.formRegister.firstname,
+                    lastname: state.formRegister.lastname,
+                    email: state.formRegister.email,
+                    password: state.formRegister.password,
+                    phone: state.formRegister.phone,
+                    birthday: state.formRegister.birthday,
+                    street: state.formRegister.street,
+                    region_id: state.formRegister.region,
+                    municipality_id: state.formRegister.municipality,
+                    city_id: state.formRegister.city,
+                    post_code: state.formRegister.post_code,
+                    company_name: state.formRegister.company_name,
+                    company_cvr: state.formRegister.company_cvr,
+                    company_website: state.formRegister.company_website,
+                    company_street: state.formRegister.company_address,
+                    company_region_id: state.formRegister.company_region,
+                    company_municipality_id: state.formRegister.company_municipality,
+                    company_city_id: state.formRegister.company_city,
+                    company_post_code: state.formRegister.company_post_code,
+                }
+                const response = await authService.register(params)
+                if (response.data) {
+                    successAlert(`${t('alert.success')}!`, `${t('alert.accountSuccessfullyCreated')}.`)
+                    navigateTo('/')
+                }
+            } catch (error: any) {
+                state.error = error
             }
-            const response = await authService.register(params)
-            if (response.data) {
-                successAlert(`${t('alert.success')}!`, `${t('alert.accountSuccessfullyCreated')}.`)
-                navigateTo('/')
-            }
-        } catch (error: any) {
-            state.error = error
         }
         state.isPageLoading = false
     }

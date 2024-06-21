@@ -298,7 +298,8 @@
             "iAcceptTAA": "I accept the terms and conditions",
             "register": "Register",
             "alreadyHaveAnAcoount": "Already have an account",
-            "loginHere": "Login here"
+            "loginHere": "Login here",
+            "agreetoTAC": "You must agree to the terms and conditions"
         }
     },
     "resetPassword": {
