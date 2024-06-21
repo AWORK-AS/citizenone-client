@@ -195,15 +195,21 @@
                                 <FormError :error="state?.error?.errors?.company_post_code?.[0]" />
                             </div>
                         </div>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <input id="iAcceptTAA" name="iAcceptTAA" type="checkbox"
-                                    class="w-5 h-5 accent-primary cursor-pointer focus:ring-transparent" />
-                                <label for="iAcceptTAA"
-                                    class="ml-3 block text-sm leading-6 text-gray-700 cursor-pointer">
-                                    {{ $t('register.form.iAcceptTAA') }}
-                                </label>
+                        <div class="space-y-1">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <input id="iAcceptTAA" name="iAcceptTAA" type="checkbox"
+                                        class="w-5 h-5 accent-primary cursor-pointer focus:ring-transparent" />
+                                    <label for="iAcceptTAA"
+                                        class="ml-3 block text-sm leading-6 text-gray-700 cursor-pointer">
+                                        {{ $t('register.form.iAcceptTAA') }}
+                                    </label>
+                                </div>
                             </div>
+                            <span
+                                v-if="!v$?.formRegister?.agreeToTerms?.required && v$?.formRegister?.agreeToTerms?.$error">
+                                You must agree to the terms and conditions
+                            </span>
                         </div>
                         <div>
                             <FormButton type="submit" buttonStyle="primary" class="w-full">
@@ -249,7 +255,7 @@ const state = reactive({
         lastname: '',
         email: '',
         password: '',
-        confirmPassword: '',
+        confirm_password: '',
         phone: '',
         birthday: '',
         street: '',
@@ -265,6 +271,7 @@ const state = reactive({
         company_municipality: '',
         company_city: '',
         company_post_code: '',
+        agreeToTerms: false
     },
     isPageLoading: false,
     options: {
@@ -296,7 +303,7 @@ const rules = computed(() => {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 minLength: helpers.withMessage(`${t('alert.resetPassword.required8Characters')}.`, minLength(8))
             },
-            confirmPassword: {
+            confirm_password: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 sameAsPassword: helpers.withMessage(`${t('alert.resetPassword.confirmPasswordNotTheSame')}.`, sameAs(state.formRegister.password)),
             },
@@ -345,6 +352,7 @@ const rules = computed(() => {
             company_post_code: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            agreeToTerms: { required },
         }
     }
 })
@@ -518,17 +526,17 @@ async function register() {
                 phone: state.formRegister.phone,
                 birthday: state.formRegister.birthday,
                 street: state.formRegister.street,
-                region: state.formRegister.region,
-                municipality: state.formRegister.municipality,
-                city: state.formRegister.city,
+                region_id: state.formRegister.region,
+                municipality_id: state.formRegister.municipality,
+                city_id: state.formRegister.city,
                 post_code: state.formRegister.post_code,
                 company_name: state.formRegister.company_name,
                 company_cvr: state.formRegister.company_cvr,
                 company_website: state.formRegister.company_website,
-                company_address: state.formRegister.company_address,
-                company_region: state.formRegister.company_region,
-                company_municipality: state.formRegister.company_municipality,
-                company_city: state.formRegister.company_city,
+                company_street: state.formRegister.company_address,
+                company_region_id: state.formRegister.company_region,
+                company_municipality_id: state.formRegister.company_municipality,
+                company_city_id: state.formRegister.company_city,
                 company_post_code: state.formRegister.company_post_code,
             }
             const response = await authService.register(params)

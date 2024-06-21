@@ -14,7 +14,7 @@ class GeolocationService extends BaseAPIService {
     }
 
     async getAllCities(params: object): Promise<any> {
-        return await this.request(`/geolocation/municipalities`, 'GET', params)
+        return await this.request(`/geolocation/cities`, 'GET', params)
     }
 }
 
