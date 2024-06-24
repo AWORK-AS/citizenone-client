@@ -46,11 +46,15 @@
                             <template #body v-if="!(state.isTableLoading || (state.documents?.data?.length === 0))">
                                 <tr v-for="(document, index) in state.documents?.data" :key="index">
                                     <td width="25%">
-                                        <span class="text-tertiary hover:text-tertiary-700 cursor-pointer"
+                                        <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                             v-if="document?.file_url" @click="openFile(document)">
+                                            <Icon name="ph:file" class="size-6" />
+                                            {{ document?.name }}
+                                        </div>
+                                        <span v-else class="flex items-center gap-x-1">
+                                            <Icon name="ph:folder-notch-open-light" class="size-6" />
                                             {{ document?.name }}
                                         </span>
-                                        <span v-else>{{ document?.name }}</span>
                                     </td>
                                     <td width="20%">
                                         <span>{{ document?.user?.firstname }}</span>
