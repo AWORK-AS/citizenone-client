@@ -6,8 +6,11 @@
 
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
-            <div class="sm:mx-auto sm:w-full sm:max-w-md">
+            <div class="sm:mx-auto sm:w-full sm:max-w-3xl relative">
                 <Logo @click="navigateTo('/')" class="mx-auto" />
+                <button type="button" class="-m-2.5 rounded-full w-8 absolute right-5 top-5" @click="selectLanguage">
+                    <img :src="identifyFlag()" alt="flag">
+                </button>
             </div>
 
             <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-3xl">
@@ -93,12 +96,13 @@
                 </div>
             </div>
         </div>
+        <ModulesLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
+            @close="state.slideOver.isLanguageSwitcherOpen = false" />
     </LoadingSpinner>
 </template>
 
 <script setup lang="ts">
 import { authService } from '@/components/api/AuthService'
-import { geolocationService } from '@/components/api/GeolocationService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers, minLength, sameAs } from '@vuelidate/validators'
 import { useUserStore } from '@/store/user'
@@ -126,6 +130,9 @@ const state = reactive({
         agreeToTerms: false
     },
     isPageLoading: false,
+    slideOver: {
+        isLanguageSwitcherOpen: false
+    },
 })
 
 const rules = computed(() => {
@@ -183,6 +190,21 @@ async function register() {
             }
         }
         state.isPageLoading = false
+    }
+}
+
+function selectLanguage() {
+    state.slideOver.isLanguageSwitcherOpen = true
+}
+
+function identifyFlag() {
+    const selectedLanguage = userStore.getLanguage
+    if (selectedLanguage === 'en') {
+        return '/img/icons/flags/united-states-of-america.svg'
+    } else {
+        if (selectedLanguage === 'dk') {
+            return '/img/icons/flags/denmark.svg'
+        }
     }
 }
 
