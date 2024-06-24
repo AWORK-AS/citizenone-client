@@ -191,6 +191,11 @@
             "rememberMe": "Remember me"
         }
     },
+    "logs": {
+        "table": {
+            "createdAt": "Created at"
+        }
+    },
     "navbar": {
         "logout": "Log out",
         "switchLanguage": "Switch Language"

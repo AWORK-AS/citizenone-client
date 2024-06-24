@@ -191,6 +191,11 @@
             "rememberMe": "Husk mig"
         }
     },
+    "logs": {
+        "table": {
+            "createdAt": "Oprettet den"
+        }
+    },
     "navbar": {
         "logout": "Log ud",
         "switchLanguage": "Skift sprog"
