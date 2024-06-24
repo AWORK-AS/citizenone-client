@@ -1,4 +1,11 @@
 {
+    "activityLogs": {
+        "activityLogs": "Activity Logs",
+        "table": {
+            "createdAt": "Created at",
+            "description": "Description"
+        }
+    },
     "alert": {
         "accountSuccessfullyCreated": "Your account has been created successfully",
         "forgotPasswordSuccess": "A forgot password email has been sent to your email address",
@@ -197,6 +204,7 @@
         }
     },
     "navbar": {
+        "activityLogs": "Activity Logs",
         "logout": "Log out",
         "switchLanguage": "Switch Language"
     },

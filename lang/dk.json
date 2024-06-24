@@ -1,4 +1,11 @@
 {
+    "activityLogs": {
+        "activityLogs": "Aktivitetslogfiler",
+        "table": {
+            "createdAt": "Oprettet den",
+            "description": "Beskrivelse"
+        }
+    },
     "alert": {
         "accountSuccessfullyCreated": "Din konto er blevet oprettet med succes",
         "forgotPasswordSuccess": "En e-mail til nulstilling af adgangskode er blevet sendt til din e-mailadresse",
@@ -197,6 +204,7 @@
         }
     },
     "navbar": {
+        "activityLogs": "Aktivitetslogfiler",
         "logout": "Log ud",
         "switchLanguage": "Skift sprog"
     },
