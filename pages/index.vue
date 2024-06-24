@@ -13,8 +13,11 @@
             </div>
             <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
                 <div class="mx-auto w-full max-w-sm lg:w-96">
-                    <div>
+                    <div class="flex items-center justify-between">
                         <Logo @click="navigateTo('/')" />
+                        <button type="button" class="-m-2.5 rounded-full w-8" @click="selectLanguage">
+                            <img :src="identifyFlag()" alt="flag">
+                        </button>
                     </div>
 
                     <form class="mt-5 space-y-3" method="POST" @submit.prevent="login">
@@ -74,6 +77,8 @@
                 </div>
             </div>
         </div>
+        <ModulesLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
+            @close="state.slideOver.isLanguageSwitcherOpen = false" />
     </LoadingSpinner>
 </template>
 
@@ -97,6 +102,9 @@ const state = reactive({
     error: [],
     isPageLoading: false,
     password: null,
+    slideOver: {
+        isLanguageSwitcherOpen: false
+    },
 })
 
 const rules = computed(() => {
@@ -125,16 +133,27 @@ async function login() {
             if (response.data) {
                 localStorage.setItem("_token", response.data?.token)
                 userStore.setUser(response?.data?.user)
-                if (response?.data?.user?.user_subscription === null) {
-                    navigateTo('/subscription')
-                } else {
-                    navigateTo('/citizens')
-                }
+                navigateTo('/citizens')
             }
         } catch (error: any) {
             state.error = error
         }
         state.isPageLoading = false
+    }
+}
+
+function selectLanguage() {
+    state.slideOver.isLanguageSwitcherOpen = true
+}
+
+function identifyFlag() {
+    const selectedLanguage = userStore.getLanguage
+    if (selectedLanguage === 'en') {
+        return '/img/icons/flags/united-states-of-america.svg'
+    } else {
+        if (selectedLanguage === 'dk') {
+            return '/img/icons/flags/denmark.svg'
+        }
     }
 }
 </script>
