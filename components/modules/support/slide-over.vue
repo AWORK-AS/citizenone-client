@@ -16,7 +16,7 @@
                                     <div class="px-4 sm:px-6">
                                         <div class="flex items-start justify-between">
                                             <DialogTitle class="text-base font-semibold leading-6 text-gray-900">
-                                                {{ $t('languageSwitcher.selectLanguage') }}
+                                                {{ $t('support') }}
                                             </DialogTitle>
                                             <div class="ml-3 flex h-7 items-center">
                                                 <button type="button"
@@ -24,39 +24,36 @@
                                                     @click="closeSlide">
                                                     <span class="absolute -inset-2.5" />
                                                     <span class="sr-only">Close panel</span>
-                                                    <Icon name="material-symbols-light:arrow-forward-ios"
-                                                        class="h-6 w-6" aria-hidden="true" />
+                                                    <Icon name="ph:x" class="h-6 w-6" aria-hidden="true" />
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="relative mt-10 flex-1 px-4 sm:px-6">
-                                        <div class="flex items-center gap-5">
-                                            <button class="relative rounded-full p-1 border-2 border-gray-200"
-                                                @click="switchLanguage('en')">
-                                                <img src="/img/icons/flags/united-states-of-america.svg" alt="flag"
-                                                    class="w-12 h-12">
-                                                <div class="bg-white rounded-full absolute -end-3 -top-3 p-1 w-fit h-fit"
-                                                    v-if="userStore.getLanguage === 'en'">
-                                                    <div
-                                                        class="bg-tertiary text-white rounded-full p-1 flex items-center justify-center">
-                                                        <Icon name="material-symbols:check-rounded" class="h-4 w-4"
-                                                            aria-hidden="true" />
-                                                    </div>
+                                        <div class="space-y-3">
+                                            <img src="https://app.citizenone.dk/wp-content/uploads/2024/01/1.png"
+                                                alt="Support">
+                                            <p class="text-xl">Mads Frederiksen</p>
+                                            <div class="space-y-1.5">
+                                                <div class="flex items-center gap-x-1">
+                                                    <Icon name="ph:phone" class="h-4 w-4" aria-hidden="true" />
+                                                    <span class="text-sm">+45 80 83 01 14</span>
                                                 </div>
-                                            </button>
-                                            <button class="relative rounded-full p-1 border-2 border-gray-200"
-                                                @click="switchLanguage('dk')">
-                                                <img src="/img/icons/flags/denmark.svg" alt="flag" class="w-12 h-12">
-                                                <div class="bg-white rounded-full absolute -end-3 -top-3 p-1 w-fit h-fit"
-                                                    v-if="userStore.getLanguage === 'dk'">
-                                                    <div
-                                                        class="bg-tertiary text-white rounded-full p-1 flex items-center justify-center">
-                                                        <Icon name="material-symbols:check-rounded" class="h-4 w-4"
-                                                            aria-hidden="true" />
-                                                    </div>
+                                                <div class="flex items-center gap-x-1">
+                                                    <Icon name="ph:envelope" class="h-4 w-4" aria-hidden="true" />
+                                                    <span class="text-sm">service@citizenone.dk</span>
                                                 </div>
-                                            </button>
+                                                <div>
+                                                    <p>
+                                                        Get support
+                                                        <span
+                                                            class="text-tertiary hover:text-tertiary-700 cursor-pointer"
+                                                            @click="navigateToSupport()">
+                                                            here.
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -71,11 +68,6 @@
 
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { useUserStore } from '@/store/user'
-import { useI18n } from "vue-i18n"
-
-const userStore = useUserStore()
-const language = useI18n()
 
 const props = defineProps({
     isOpen: {
@@ -89,14 +81,12 @@ function closeSlide() {
     emit('close')
 }
 
-function switchLanguage(languageCode: any) {
-    userStore.setLanguage(languageCode)
-    if (languageCode === 'en') {
-        // English
-        language.locale.value = 'en'
-    } else if (languageCode === 'dk') {
-        // Danish
-        language.locale.value = 'dk'
-    }
+async function navigateToSupport() {
+    await navigateTo('https://citizenone.dk/support', {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 </script>

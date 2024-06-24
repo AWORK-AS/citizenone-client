@@ -157,10 +157,14 @@
 
                 <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                     <div class="flex-1"></div>
-                    <div class="flex items-center gap-x-4 lg:gap-x-6">
+                    <div class="flex items-center gap-x-4 lg:gap-x-3">
                         <!-- <button type="button" class="-m-2.5 p-2.5 text-secondary-25 hover:text-gray-500">
                             <BellIcon class="h-6 w-6" aria-hidden="true" />
                         </button> -->
+
+                        <button type="button" class="-m-2.5 p-2.5 text-sm hover:text-tertiary" @click="openSupport">
+                            Support
+                        </button>
 
                         <!-- Separator -->
                         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
@@ -229,6 +233,8 @@
         </div>
         <ModulesLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
+        <ModulesSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
+            @close="state.slideOver.isSupportOpen = false" />
     </LoadingSpinner>
 </template>
 
@@ -326,7 +332,8 @@ const state = reactive({
     error: [],
     isPageLoading: false,
     slideOver: {
-        isLanguageSwitcherOpen: false
+        isLanguageSwitcherOpen: false,
+        isSupportOpen: false
     },
 })
 
@@ -343,6 +350,10 @@ async function logout() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function openSupport() {
+    state.slideOver.isSupportOpen = true
 }
 
 function selectLanguage() {
