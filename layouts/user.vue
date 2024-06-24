@@ -185,20 +185,20 @@
                                 <MenuItems
                                     class="absolute right-0 z-10 mt-2.5 w-48 origin-top-right rounded-sm bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                                     <MenuItem>
-                                    <div @click="logout()"
-                                        class="cursor-pointer bg-gray-50 block px-3 py-2 text-sm leading-6 text-gray-900 hover:bg-gray-200">
-                                        <div class="flex items-center gap-x-3">
-                                            <Icon name="ph:sign-out" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.logout') }}
-                                        </div>
-                                    </div>
-                                    </MenuItem>
-                                    <MenuItem>
-                                    <div class="cursor-pointer bg-gray-50 block px-3 py-2 text-sm leading-6 text-gray-900 hover:bg-gray-200"
+                                    <div class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100"
                                         @click="selectLanguage">
                                         <div class="flex items-center gap-x-2">
                                             <img :src="identifyFlag()" alt="flag" class="w-6 h-6">
                                             Switch Language
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                    <div @click="logout()"
+                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                        <div class="flex items-center gap-x-3">
+                                            <Icon name="ph:sign-out" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.logout') }}
                                         </div>
                                     </div>
                                     </MenuItem>
