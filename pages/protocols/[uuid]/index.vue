@@ -45,15 +45,17 @@
                                     <span v-else>-</span>
                                 </td>
                                 <td width="25%">
-                                    <div class="flex items-end gap-2">
+                                    <div class="flex items-center gap-2">
                                         <Tooltip :text="$t('protocols.table.actions.markCitizenAsAttended')"
-                                            @click="markAsPresent(citizenProtocol?.uuid)">
+                                            @click="markAsPresent(citizenProtocol?.uuid)"
+                                            v-if="disableIfFutureDate(citizenProtocol)">
                                             <FormButton type="button" buttonStyle="primary" class="rounded-md">
                                                 <Icon name="material-symbols:event-available-outline" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
                                         <Tooltip :text="$t('protocols.table.actions.markCitizenAsAbent')"
-                                            @click="markAsAbsent(citizenProtocol?.uuid)">
+                                            @click="markAsAbsent(citizenProtocol?.uuid)"
+                                            v-if="disableIfFutureDate(citizenProtocol)">
                                             <FormButton type="button" buttonStyle="warning" class="rounded-md">
                                                 <Icon name="material-symbols:event-busy-outline" class="size-4" />
                                             </FormButton>
@@ -237,5 +239,9 @@ async function removeCitizen() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function disableIfFutureDate(citizenProtocol: any) {
+    return moment() > moment(citizenProtocol?.date)
 }
 </script>
