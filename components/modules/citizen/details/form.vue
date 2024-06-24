@@ -46,7 +46,8 @@
                 <div class="space-y-1">
                     <FormLabel for="social_security_number" :label="$t('citizens.form.ssn')" />
                     <FormTextField id="social_security_number" name="social_security_number"
-                        :placeholder="$t('citizens.form.ssn')" v-model="state.formCitizen.social_security_number" />
+                        :placeholder="$t('citizens.form.ssn')" v-model="formattedSocialSecurityNumber"
+                        @input="updateSocialSecurityNumber" />
                     <FormError :error="v$?.formCitizen?.social_security_number?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.social_security_number?.[0]" />
                 </div>
@@ -173,6 +174,7 @@ const state = reactive({
         post_code: '',
         note: '',
     },
+    formattedSocialSecurityNumber: '',
     options: {
         cities: [],
         municipalities: [],
@@ -347,4 +349,28 @@ function onFileChange() {
         reader.readAsDataURL(file)
     }
 }
+
+const formattedSocialSecurityNumber = computed<string>({
+    get() {
+        const ssn = state.formCitizen.social_security_number
+        if (ssn.length === 10) {
+            return ssn.slice(0, 6) + '-' + ssn.slice(6)
+        }
+        return ssn
+    },
+    set(value: string) {
+        state.formCitizen.social_security_number = value.replace(/-/g, '')
+    }
+})
+
+function updateSocialSecurityNumber(event: Event) {
+    const target = event.target as HTMLInputElement
+    state.formCitizen.social_security_number = target.value.replace(/-/g, '')
+}
+
+watch(() => state.formCitizen.social_security_number, (newValue) => {
+    if (newValue.length === 10) {
+        state.formCitizen.social_security_number = newValue.slice(0, 6) + '-' + newValue.slice(6)
+    }
+})
 </script>
