@@ -161,9 +161,6 @@
                         <!-- <button type="button" class="-m-2.5 p-2.5 text-secondary-25 hover:text-gray-500">
                             <BellIcon class="h-6 w-6" aria-hidden="true" />
                         </button> -->
-                        <button type="button" class="-m-2.5 rounded-full w-8" @click="selectLanguage">
-                            <img :src="identifyFlag()" alt="flag">
-                        </button>
 
                         <!-- Separator -->
                         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
@@ -186,11 +183,23 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
-                                    class="absolute right-0 z-10 mt-2.5 w-44 origin-top-right rounded-sm bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                                    class="absolute right-0 z-10 mt-2.5 w-48 origin-top-right rounded-sm bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                                     <MenuItem>
                                     <div @click="logout()"
                                         class="cursor-pointer bg-gray-50 block px-3 py-2 text-sm leading-6 text-gray-900 hover:bg-gray-200">
-                                        {{ $t('navbar.logout') }}
+                                        <div class="flex items-center gap-x-3">
+                                            <Icon name="ph:sign-out" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.logout') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                    <div class="cursor-pointer bg-gray-50 block px-3 py-2 text-sm leading-6 text-gray-900 hover:bg-gray-200"
+                                        @click="selectLanguage">
+                                        <div class="flex items-center gap-x-2">
+                                            <img :src="identifyFlag()" alt="flag" class="w-6 h-6">
+                                            Switch Language
+                                        </div>
                                     </div>
                                     </MenuItem>
                                 </MenuItems>

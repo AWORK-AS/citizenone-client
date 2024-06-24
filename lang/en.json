@@ -192,7 +192,8 @@
         }
     },
     "navbar": {
-        "logout": "Log out"
+        "logout": "Log out",
+        "switchLanguage": "Switch Language"
     },
     "pagination": {
         "of": "of",
