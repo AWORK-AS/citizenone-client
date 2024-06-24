@@ -200,7 +200,8 @@
     },
     "logs": {
         "table": {
-            "createdAt": "Created at"
+            "createdAt": "Created at",
+            "description": "Description"
         }
     },
     "navbar": {

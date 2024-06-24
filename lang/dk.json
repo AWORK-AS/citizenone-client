@@ -200,7 +200,8 @@
     },
     "logs": {
         "table": {
-            "createdAt": "Oprettet den"
+            "createdAt": "Oprettet den",
+            "description": "Beskrivelse"
         }
     },
     "navbar": {

@@ -19,8 +19,6 @@
 
                 <div class="space-y-5">
                     <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
-                    <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
-                        @handleFilter="handleFilter" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.logs" :isLoading="state.isTableLoading"
                             :sortData="state.sortData" @sort="sort">
@@ -53,14 +51,10 @@ const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'name' },
-    ],
     columnHeaders: [
         { name: 'logs.table.createdAt', sorter: true, key: 'created_at' },
-        { name: '' },
+        { name: 'logs.table.description' },
     ],
-    dataFilter: [],
     error: [],
     isTableLoading: false,
     logs: [],
@@ -82,7 +76,6 @@ async function fetchCitizenLogs() {
     //         page: currentTablePage,
     //         sortField: state.sortData.sortField,
     //         sortOrder: state.sortData.sortOrder,
-    //         ...state.dataFilter,
     //     }
     //     const response = await citizenLogService.getCitizenLogs(citizenUuid, params)
     //     if (response) {
@@ -110,12 +103,6 @@ function sort(sortingData: any) {
         sortField: sortingData.column,
         sortOrder: sortingData.sort,
     }
-    fetchCitizenLogs()
-}
-
-function handleFilter(value: any) {
-    currentTablePage = 1
-    state.dataFilter = value
     fetchCitizenLogs()
 }
 
