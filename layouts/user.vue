@@ -69,6 +69,7 @@
                                         </li>
                                         <li class="mt-auto">
                                             <ModulesTimeRegistrationCheckInOut />
+                                            <ModulesStorageIndicator />
                                         </li>
                                     </ul>
                                 </nav>
@@ -138,6 +139,7 @@
                         </li>
                         <li class="mt-auto">
                             <ModulesTimeRegistrationCheckInOut />
+                            <ModulesStorageIndicator />
                         </li>
                     </ul>
                 </nav>
