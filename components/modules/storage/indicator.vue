@@ -5,13 +5,10 @@
                 <span>Storage</span>
                 <span>{{ state.usage?.total_storage }}</span>
             </h2>
-            <div class="w-full bg-gray-200 rounded-full h-4 mb-4 relative">
-                <div class="absolute top-0 h-full bg-yellow-500 rounded-l-full" style="width: 70%;">
-                </div>
-                <div class="absolute top-0 -right-0 h-full bg-gray-300 rounded-r-full" style="width: 30%;">
-                </div>
-            </div>
             <div class="space-y-2 text-xs text-white">
+                <div class="w-full bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-4 bg-yellow-500 rounded-full" :style="{ width: `${usedStoragePercentage}%` }"></div>
+                </div>
                 <div class="flex items-center">
                     <span class="inline-block w-3 h-3 bg-yellow-500 mr-2"></span>
                     Documents {{ state.usage?.used_storage }}
@@ -32,6 +29,14 @@ const state = reactive({
     error: [],
     isPageLoading: false,
     usage: []
+})
+
+const usedStoragePercentage = computed(() => {
+    const avaiableStorage = state.usage?.available_storage?.replace(/\s+GB/g, '')
+    const totalStorage = state.usage?.total_storage?.replace(/\s+GB/g, '')
+    if (avaiableStorage && totalStorage) {
+        return (avaiableStorage / totalStorage) * 100
+    }
 })
 
 onMounted(() => {

@@ -48,12 +48,16 @@
                                     <td width="25%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                             v-if="document?.file_url" @click="openFile(document)">
-                                            <Icon name="ph:file" class="size-6" />
-                                            {{ document?.name }}
+                                            <div>
+                                                <Icon name="ph:file" class="size-6" />
+                                            </div>
+                                            <span>{{ document?.name }}</span>
                                         </div>
                                         <span v-else class="flex items-center gap-x-1">
-                                            <Icon name="ph:folder-notch-open-light" class="size-6" />
-                                            {{ document?.name }}
+                                            <div>
+                                                <Icon name="ph:folder-notch-open-light" class="size-6" />
+                                            </div>
+                                            <span>{{ document?.name }}</span>
                                         </span>
                                     </td>
                                     <td width="20%">
@@ -234,6 +238,7 @@ async function uploadFile(event: any) {
         }
         const response = await documentService.saveCitizenFileFolder(params)
         if (response?.data) {
+            resetFileInput()
             fetchDocuments()
             successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.fileSuccessfullyAdded')}.`)
         }
@@ -241,6 +246,10 @@ async function uploadFile(event: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+const resetFileInput = () => {
+    documentFile.value.value = null
 }
 
 async function viewDirectory(document: any) {
