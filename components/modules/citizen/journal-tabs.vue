@@ -13,7 +13,6 @@ const tabs = [
     { name: 'citizens.tabs.plansAndGoals', href: `/citizens/${uuid}/plans-and-goals`, routeName: 'citizens-uuid-plans-and-goals' },
     { name: 'citizens.tabs.documents', href: `/citizens/${uuid}/documents`, routeName: 'citizens-uuid-documents' },
     { name: 'citizens.tabs.attendance', href: `/citizens/${uuid}/attendance`, routeName: 'citizens-uuid-attendance' },
-    { name: 'citizens.tabs.logs', href: `/citizens/${uuid}/logs`, routeName: 'citizens-uuid-logs' },
 ]
 
 function changeTab(value) {
@@ -31,9 +30,6 @@ function changeTab(value) {
     }
     else if (value === 'Attendance') {
         navigateTo(`/citizens/${uuid}/attendance`)
-    }
-    else if (value === 'Logs') {
-        navigateTo(`/citizens/${uuid}/logs`)
     }
 }
 </script>
