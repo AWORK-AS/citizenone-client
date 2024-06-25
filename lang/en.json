@@ -334,9 +334,19 @@
         "dutySchedules": "Duty Schedules",
         "employees": "Employees",
         "protocols": "Protocols",
-        "apps": "Apps"
+        "apps": "Apps",
+        "timeLogs": "Time Logs"
     },
     "support": "Support",
+    "timeLogs": {
+        "table": {
+            "createdAt": "Created at",
+            "timein": "Time in",
+            "timeout": "Time out",
+            "summary": "Time summary"
+        },
+        "timeLogs": "Time Logs"
+    },
     "timeRegistration": {
         "checkIn": "Check In",
         "checkOut": "Check Out"

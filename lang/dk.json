@@ -334,9 +334,19 @@
         "dutySchedules": "Vagtskema",
         "employees": "Medarbejdere",
         "protocols": "Protokol",
-        "apps": "Apps"
+        "apps": "Apps",
+        "timeLogs": "Tidslogfiler"
     },
     "support": "Support",
+    "timeLogs": {
+        "table": {
+            "createdAt": "Oprettet den",
+            "timein": "Tid ind",
+            "timeout": "Tid ud",
+            "summary": "Tidsoversigt"
+        },
+        "timeLogs": "Tidslogfiler"
+    },
     "timeRegistration": {
         "checkIn": "Tjek Ind",
         "checkOut": "Tjek Ud"

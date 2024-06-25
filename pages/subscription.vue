@@ -154,6 +154,7 @@ const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 
 const state = reactive({
+    error: [],
     deals: [],
     isPageLoading: false,
 })
@@ -163,36 +164,12 @@ const frequencies = [
     { value: 'annually', label: 'Annually', priceSuffix: '/year' },
 ]
 const frequency = ref(frequencies[0])
-const deals = [
-    {
-        name: 'Hobby',
-        id: 'deal-hobby',
-        href: '#',
-        priceMonthly: '$19',
-        description: "The perfect plan if you're just getting started with our product.",
-        features: ['25 products', 'Up to 10,000 subscribers', 'Advanced analytics', '24-hour support response time'],
-        featured: false,
-    },
-    {
-        name: 'Enterprise',
-        id: 'deal-enterprise',
-        href: '#',
-        priceMonthly: '$49',
-        description: 'Dedicated support and infrastructure for your company.',
-        features: [
-            'Unlimited products',
-            'Unlimited subscribers',
-            'Advanced analytics',
-            'Dedicated support representative',
-            'Marketing automations',
-            'Custom integrations',
-        ],
-        featured: true,
-    },
-]
 
 onMounted(() => {
     fetchDeals()
+    // setupPaymentFrame({
+    //     onPaymentCompleted: onPaymentCompletedEvent
+    // })
 })
 
 async function fetchDeals() {
@@ -229,7 +206,7 @@ async function subscribe(deal: any) {
                     buttonRadius: "5px"
                 }
             }
-            var checkout = new Dibs.Checkout(checkoutOptions)
+            new Dibs.Checkout(checkoutOptions)
         }
     } catch (error: any) {
         state.error = error
@@ -237,8 +214,9 @@ async function subscribe(deal: any) {
     state.isPageLoading = false
 }
 
-function onPaymentCompletedEvent() {
-    alert('Success')
+const onPaymentCompletedEvent = () => {
+    console.log('Payment completed event triggered');
+    // your code here
 }
 
 function formatAmount(amount: any) {

@@ -41,7 +41,27 @@
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
                                                             :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100']"
                                                             aria-hidden="true" />
-                                                        {{ item.name }}
+                                                        <span v-if="item.name === 'Citizens'">
+                                                            {{ $t('sidebar.citizens') }}
+                                                        </span>
+                                                        <span v-if="item.name === 'Calendar'">
+                                                            {{ $t('sidebar.calendar') }}
+                                                        </span>
+                                                        <span v-if="item.name === 'Duty Schedules'">
+                                                            {{ $t('sidebar.dutySchedules') }}
+                                                        </span>
+                                                        <span v-if="item.name === 'Employees'">
+                                                            {{ $t('sidebar.employees') }}
+                                                        </span>
+                                                        <span v-if="item.name === 'Protocols'">
+                                                            {{ $t('sidebar.protocols') }}
+                                                        </span>
+                                                        <span v-if="item.name === 'Apps'">
+                                                            {{ $t('sidebar.apps') }}
+                                                        </span>
+                                                        <span v-if="item.name === 'Time Logs'">
+                                                            {{ $t('sidebar.timeLogs') }}
+                                                        </span>
                                                     </div>
                                                     <Disclosure as="div" v-else v-slot="{ open }">
                                                         <DisclosureButton
@@ -113,6 +133,9 @@
                                         </span>
                                         <span v-if="item.name === 'Apps'">
                                             {{ $t('sidebar.apps') }}
+                                        </span>
+                                        <span v-if="item.name === 'Time Logs'">
+                                            {{ $t('sidebar.timeLogs') }}
                                         </span>
                                     </div>
                                     <Disclosure as="div" v-else v-slot="{ open }">
@@ -333,6 +356,14 @@ const navigation = [
         icon: 'ic:baseline-apps',
         activeRouteNames: [
             'apps'
+        ]
+    },
+    {
+        name: 'Time Logs',
+        href: '/time-logs',
+        icon: 'ph:clock',
+        activeRouteNames: [
+            'time-logs'
         ]
     },
 ]

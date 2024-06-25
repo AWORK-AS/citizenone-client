@@ -1,6 +1,9 @@
 <template>
     <div class="mt-4">
-        <h2 class="text-md mb-2 text-white">Storage</h2>
+        <h2 class="text-sm mb-2 text-white flex justify-between">
+            <span>Storage</span>
+            <span>5Gb</span>
+        </h2>
         <div class="w-full bg-gray-200 rounded-full h-4 mb-4 relative">
             <div class="absolute top-0 h-full bg-yellow-500 rounded-l-full" style="width: 70%;">
             </div>
