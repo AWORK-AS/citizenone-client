@@ -2,7 +2,7 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="mt-4">
             <h2 class="text-sm mb-2 text-white flex justify-between">
-                <span>Storage</span>
+                <span>{{ $t('storage.storage') }}</span>
                 <span>{{ state.usage?.total_storage }}</span>
             </h2>
             <div class="space-y-2 text-xs text-white">
@@ -11,11 +11,11 @@
                 </div>
                 <div class="flex items-center">
                     <span class="inline-block w-3 h-3 bg-yellow-500 mr-2"></span>
-                    Documents {{ state.usage?.used_storage }}
+                    {{ $t('storage.documents') }} {{ state.usage?.used_storage }}
                 </div>
                 <div class="flex items-center">
                     <span class="inline-block w-3 h-3 bg-gray-300 mr-2"></span>
-                    Available {{ state.usage?.available_storage }}
+                    {{ $t('storage.available') }} {{ state.usage?.available_storage }}
                 </div>
             </div>
         </div>

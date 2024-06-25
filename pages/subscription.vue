@@ -3,10 +3,10 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>Subscription - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('subscription.subscription') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>Subscription</template>
+            <template #header>{{ $t('subscription.subscription') }}</template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div id="checkout-container-div"></div>
@@ -18,7 +18,16 @@
                                 :value="option" v-slot="{ checked }">
                                 <div
                                     :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1']">
-                                    {{ option.label }}</div>
+                                    <span v-if="option.label === 'Monthly'">
+                                        {{ $t('subscription.deal.monthly') }}
+                                    </span>
+                                    <span v-else-if="option.label === 'Annually'">
+                                        {{ $t('subscription.deal.annually') }}
+                                    </span>
+                                    <span v-else>
+                                        {{ option.label }}
+                                    </span>
+                                </div>
                             </RadioGroupOption>
                         </RadioGroup>
                     </fieldset>
@@ -41,15 +50,17 @@
                                     </span>
                                 </span>
                                 <span :class="[index === 1 ? 'text-gray-100' : 'text-gray-500', 'text-base']">
-                                    /{{ frequency.value === 'monthly' ? 'month' : 'year' }}
+                                    /{{ frequency.value === 'monthly' ? $t('subscription.deal.month') :
+                                        $t('subscription.deal.year')
+                                    }}
                                 </span>
                             </div>
                             <p :class="[index === 1 ? 'text-white' : 'text-gray-600', 'mt-6 text-base leading-7']">
                                 <span v-if="index === 0">
-                                    The perfect plan if you're just getting started with our product.
+                                    {{ $t('subscription.deal.thePerfectPlan') }}.
                                 </span>
                                 <span v-else>
-                                    A plan that scales with your rapidly growing business.
+                                    {{ $t('subscription.deal.aPlanThatScales') }}.
                                 </span>
                             </p>
                             <ul role="list"
@@ -58,36 +69,37 @@
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ deal?.storage_size }} storage size
+                                    {{ deal?.storage_size }} {{ $t('subscription.deal.storageSize') }}
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ formatAmount(deal?.extra_users) }} for extra user
+                                    {{ formatAmount(deal?.extra_users) }} {{ $t('subscription.deal.forExtraUser') }}
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ formatAmount(deal?.departments) }} for extra department
+                                    {{ formatAmount(deal?.departments) }}
+                                    {{ $t('subscription.deal.forExtraDepartment') }}
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']"
                                     v-if="index === 1">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    Recommended
+                                    {{ $t('subscription.deal.recommended') }}
                                 </li>
                             </ul>
                             <div class="mt-8">
                                 <FormButton type="button" class="w-full" buttonStyle="primary" @click="subscribe(deal)"
                                     v-if="index === 0">
-                                    Subscribe
+                                    {{ $t('subscription.deal.subscribe') }}
                                 </FormButton>
                                 <FormButton type="button" class="w-full" buttonStyle="white" @click="subscribe(deal)"
                                     v-else>
-                                    Subscribe
+                                    {{ $t('subscription.deal.subscribe') }}
                                 </FormButton>
                             </div>
                         </div>
@@ -109,30 +121,34 @@
                                         formatAmount(deal.yearly_price) }}
                                 </span>
                                 <span class="text-base text-gray-500">
-                                    /{{ frequency.value === 'monthly' ? 'month' : 'year' }}
+                                    /{{ frequency.value === 'monthly' ? $t('subscription.deal.month') :
+                                        $t('subscription.deal.year')
+                                    }}
                                 </span>
                             </p>
                             <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-10">
                                 <li class="flex gap-x-3">
                                     <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
-                                    {{ deal?.storage_size }} storage size
+                                    {{ deal?.storage_size }} {{ $t('subscription.deal.storageSize') }}
                                 </li>
                                 <li class="flex gap-x-3">
                                     <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
-                                    {{ formatAmount(deal?.extra_users) }} for extra user
+                                    {{ formatAmount(deal?.extra_users) }}
+                                    {{ $t('subscription.deal.forExtraUser') }}
                                 </li>
                                 <li class="flex gap-x-3">
                                     <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
-                                    {{ formatAmount(deal?.departments) }} for extra department
+                                    {{ formatAmount(deal?.departments) }}
+                                    {{ $t('subscription.deal.forExtraDepartment') }}
                                 </li>
                             </ul>
                             <div class="mt-8">
                                 <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0"
                                     @click="subscribe(deal)">
-                                    Subscribe
+                                    {{ $t('subscription.deal.subscribe') }}
                                 </FormButton>
                                 <FormButton type="button" class="w-full" v-else @click="subscribe(deal)">
-                                    Subscribe
+                                    {{ $t('subscription.deal.subscribe') }}
                                 </FormButton>
                             </div>
                         </div>
@@ -147,11 +163,8 @@
 import { dealService } from '@/components/api/DealService'
 import { userSubscriptionService } from '@/components/api/UserSubscriptionService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
-import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
 
 const runtimeConfig = useRuntimeConfig()
-const { t } = useI18n()
 
 const state = reactive({
     error: [],
@@ -167,9 +180,6 @@ const frequency = ref(frequencies[0])
 
 onMounted(() => {
     fetchDeals()
-    // setupPaymentFrame({
-    //     onPaymentCompleted: onPaymentCompletedEvent
-    // })
 })
 
 async function fetchDeals() {
@@ -206,17 +216,16 @@ async function subscribe(deal: any) {
                     buttonRadius: "5px"
                 }
             }
-            new Dibs.Checkout(checkoutOptions)
+            var checkout = new Dibs.Checkout(checkoutOptions)
+            checkout.on('payment-completed', function (response: any) {
+                const paymentId = response['paymentId']
+                navigateTo(`/subscribed?=paymentId=${paymentId}`)
+            })
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
-}
-
-const onPaymentCompletedEvent = () => {
-    console.log('Payment completed event triggered');
-    // your code here
 }
 
 function formatAmount(amount: any) {
@@ -225,13 +234,5 @@ function formatAmount(amount: any) {
 
 function numberWithCommas(number: string) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
 }
 </script>

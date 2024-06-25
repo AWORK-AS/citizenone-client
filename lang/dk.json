@@ -337,7 +337,36 @@
         "apps": "Apps",
         "timeLogs": "Tidslogfiler"
     },
+    "subscription": {
+        "deal": {
+            "annually": "Årligt",
+            "aPlanThatScales": "En plan, der skalerer med din hurtigt voksende virksomhed",
+            "forExtraDepartment": "For ekstra afdeling",
+            "forExtraUser": "For ekstra bruger",
+            "month": "Måned",
+            "monthly": "Månedligt",
+            "recommended": "Anbefalet",
+            "storageSize": "Lagerstørrelse",
+            "subscribe": "Abonner",
+            "thePerfectPlan": "Den perfekte plan, hvis du lige er startet med vores produkt",
+            "year": "År"
+        },
+        "subscribed": {
+            "goHome": "Gå hjem",
+            "subscriptionSuccessful": "Abonnement succesfuldt",
+            "thankYouForSubscribing": "Tak fordi du abonnerer",
+            "paymentSuccessful": "Betaling gennemført med succes",
+            "yourPaymentHasBeenSuccessfullyProcessed": "Din betaling er blevet behandlet med succes",
+            "yourSubscriptionIsNowActive": "Dit abonnement er nu aktivt"
+        },
+        "subscription": "Abonnement"
+    },
     "support": "Support",
+    "storage": {
+        "available": "Tilgængelig",
+        "documents": "Dokumenter",
+        "storage": "Lager"
+    },
     "timeLogs": {
         "table": {
             "createdAt": "Oprettet den",

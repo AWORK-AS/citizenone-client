@@ -337,7 +337,36 @@
         "apps": "Apps",
         "timeLogs": "Time Logs"
     },
+    "subscription": {
+        "deal": {
+            "annually": "Annually",
+            "aPlanThatScales": "A plan that scales with your rapidly growing business",
+            "forExtraDepartment": "For extra department",
+            "forExtraUser": "For extra user",
+            "month": "Month",
+            "monthly": "Monthly",
+            "recommended": "Recommended",
+            "storageSize": "Storage size",
+            "subscribe": "Subscribe",
+            "thePerfectPlan": "The perfect plan if you're just getting started with our product",
+            "year": "Year"
+        },
+        "subscribed": {
+            "goHome": "Go home",
+            "subscriptionSuccessful": "Subscription Successful",
+            "thankYouForSubscribing": "Thank you for subscribing",
+            "paymentSuccessful": "Payment successful",
+            "yourPaymentHasBeenSuccessfullyProcessed": "Your payment has been successfully processed",
+            "yourSubscriptionIsNowActive": "Your subscription is now active"
+        },
+        "subscription": "Subscription"
+    },
     "support": "Support",
+    "storage": {
+        "available": "Available",
+        "documents": "Documents",
+        "storage": "Storage"
+    },
     "timeLogs": {
         "table": {
             "createdAt": "Created at",
