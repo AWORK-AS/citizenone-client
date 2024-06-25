@@ -3,7 +3,8 @@
         "activityLogs": "Activity Logs",
         "table": {
             "createdAt": "Created at",
-            "description": "Description"
+            "description": "Description",
+            "user": "User"
         }
     },
     "alert": {

@@ -11,14 +11,17 @@
             <div class="space-y-5">
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
                 <div class="table-responsive">
-                    <Table :columnHeaders="state.columnHeaders" :data="state.logs" :isLoading="state.isTableLoading"
+                    <Table :columnHeaders="filteredColumnHeaders" :data="state.logs" :isLoading="state.isTableLoading"
                         :sortData="state.sortData" @sort="sort">
                         <template #body v-if="!(state.isTableLoading || (state.logs?.data?.length === 0))">
                             <tr v-for="(log, index) in state.logs?.data" :key="index">
-                                <td width="50%">
+                                <td :width="isUserLoggedInAdmin ? '20%' : '50%'">
                                     <span>{{ formatDateTimeToReadable(log?.created_at) }}</span>
                                 </td>
-                                <td width="50%">
+                                <td width="20%" v-if="isUserLoggedInAdmin">
+                                    <span>{{ log?.causer?.firstname + ' ' + log?.causer?.lastname }}</span>
+                                </td>
+                                <td :width="isUserLoggedInAdmin ? '40%' : '50%'">
                                     <span>{{ log?.description }}</span>
                                 </td>
                             </tr>
@@ -34,14 +37,17 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { activityLogService } from '@/components/api/ActivityLogService'
+import { useUserStore } from '@/store/user'
 
 const runtimeConfig = useRuntimeConfig()
-const router = useRouter()
+const userStore = useUserStore()
+const isUserLoggedInAdmin = userStore.getUser?.roles.some(role => role.name === 'Admin')
 let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
         { name: 'activityLogs.table.createdAt', sorter: true, key: 'created_at' },
+        { name: 'activityLogs.table.user' },
         { name: 'activityLogs.table.description' },
     ],
     dataFilter: [],
@@ -54,6 +60,22 @@ const state = reactive({
     },
 })
 
+// Define the condition for 'activityLogs.table.user'
+const isUserColumnVisible = computed(() => {
+    const userLoggedIn = isUserLoggedInAdmin
+    return userLoggedIn
+})
+
+// Filter column headers based on the condition
+const filteredColumnHeaders = computed(() => {
+    return state.columnHeaders.filter((column) => {
+        if (column.name === 'activityLogs.table.user') {
+            return isUserColumnVisible.value
+        }
+        return true
+    })
+})
+
 onMounted(() => {
     fetchActivityLogs()
 })
@@ -62,14 +84,26 @@ async function fetchActivityLogs() {
     state.isTableLoading = true
     state.error = []
     try {
-        const params = {
-            page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
-        }
-        const response = await activityLogService.getActivityLogs(params)
-        if (response) {
-            state.logs = response
+        if (isUserLoggedInAdmin) {
+            const params = {
+                page: currentTablePage,
+                sortField: state.sortData.sortField,
+                sortOrder: state.sortData.sortOrder,
+            }
+            const response = await activityLogService.getActivityLogs(params)
+            if (response) {
+                state.logs = response
+            }
+        } else {
+            const params = {
+                page: currentTablePage,
+                sortField: state.sortData.sortField,
+                sortOrder: state.sortData.sortOrder,
+            }
+            const response = await activityLogService.getActivityLogPerUser(params)
+            if (response) {
+                state.logs = response
+            }
         }
     } catch (error: any) {
         state.error = error

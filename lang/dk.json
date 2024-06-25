@@ -3,7 +3,8 @@
         "activityLogs": "Aktivitetslogfiler",
         "table": {
             "createdAt": "Oprettet den",
-            "description": "Beskrivelse"
+            "description": "Beskrivelse",
+            "user": "Bruger"
         }
     },
     "alert": {
