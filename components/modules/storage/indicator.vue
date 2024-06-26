@@ -32,10 +32,10 @@ const state = reactive({
 })
 
 const usedStoragePercentage = computed(() => {
-    const avaiableStorage = state.usage?.available_storage?.replace(/\s+GB/g, '')
+    const availableStorage = state.usage?.available_storage?.replace(/\s+GB/g, '')
     const totalStorage = state.usage?.total_storage?.replace(/\s+GB/g, '')
-    if (avaiableStorage && totalStorage) {
-        return (avaiableStorage / totalStorage) * 100
+    if (availableStorage && totalStorage) {
+        return availableStorage / totalStorage
     }
 })
 
