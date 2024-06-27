@@ -39,7 +39,6 @@ const state = reactive({
         phone: '',
         birthday: '',
         role: '',
-        address: '',
     },
     isPageLoading: false,
 })
@@ -55,7 +54,7 @@ async function saveEmployee(employeeDetails: any) {
             phone: employeeDetails.phone,
             birthday: employeeDetails.birthday,
             role: employeeDetails.role,
-            address: employeeDetails.address,
+            permission: employeeDetails.permissions,
         }
         const response = await employeeService.saveEmployee(params)
         if (response.data) {

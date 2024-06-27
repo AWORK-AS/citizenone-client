@@ -160,6 +160,13 @@
             "emailAddress": "E-mail adresse",
             "firstname": "Fornavn",
             "lastname": "Efternavn",
+            "permissions": {
+                "create": "Opret",
+                "delete": "Slet",
+                "permissions": "Tilladelser",
+                "read": "Læs",
+                "update": "Opdater"
+            },
             "phone": "Telefon",
             "role": "Rolle"
         },

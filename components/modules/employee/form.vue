@@ -51,11 +51,25 @@
                 </div>
             </div>
             <div class="space-y-1">
-                <FormLabel for="address" :label="$t('employees.form.address')" />
-                <FormTextField id="address" name="address" :placeholder="$t('employees.form.address')"
-                    v-model="state.formEmployee.address" />
-                <FormError :error="v$?.formEmployee?.address?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.address?.[0]" />
+                <FormLabel for="permissions" :label="$t('employees.form.permissions.permissions')" />
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+                    <div class="w-fit flex items-center cursor-pointer" @click="changePermissionRead()">
+                        <FormCheckbox id="permissions" :value="state.permissions.read" />
+                        {{ $t('employees.form.permissions.read') }}
+                    </div>
+                    <div class="w-fit flex items-center cursor-pointer" @click="changePermissionCreate()">
+                        <FormCheckbox id="permissions_create" :value="state.permissions.create" />
+                        {{ $t('employees.form.permissions.create') }}
+                    </div>
+                    <div class="w-fit flex items-center cursor-pointer" @click="changePermissionUpdate()">
+                        <FormCheckbox id="permissions_update" :value="state.permissions.update" />
+                        {{ $t('employees.form.permissions.update') }}
+                    </div>
+                    <div class="w-fit flex items-center cursor-pointer" @click="changePermissionDelete()">
+                        <FormCheckbox id="permissions_delete" :value="state.permissions.delete" />
+                        {{ $t('employees.form.permissions.delete') }}
+                    </div>
+                </div>
             </div>
         </div>
         <div class="mt-6">
@@ -104,7 +118,13 @@ const state = reactive({
         phone: '',
         birthday: '',
         role: '',
-        address: '',
+        permissions: [],
+    },
+    permissions: {
+        read: false,
+        create: false,
+        update: false,
+        delete: false,
     },
     roleOptions: [
         { value: 'Admin', label: 'Admin' },
@@ -121,8 +141,23 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             phone: newValue.phone,
             birthday: newValue.birthday,
             role: newValue.role,
-            address: newValue.address,
+            permissions: [],
         }
+        newValue?.permissions.forEach((permission: any) => {
+            if (permission?.name === 'read') {
+                state.permissions.read = true
+                state.formEmployee.permissions.push("read")
+            } else if (permission?.name === 'create') {
+                state.permissions.create = true
+                state.formEmployee.permissions.push("create")
+            } else if (permission?.name === 'update') {
+                state.permissions.update = true
+                state.formEmployee.permissions.push("update")
+            } else if (permission?.name === 'delete') {
+                state.permissions.delete = true
+                state.formEmployee.permissions.push("delete")
+            }
+        })
     }
 })
 
@@ -147,9 +182,6 @@ const rules = computed(() => {
             role: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            address: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            }
         },
     }
 })
@@ -161,5 +193,45 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', state.formEmployee)
     }
+}
+
+function changePermissionRead() {
+    state.permissions.read = !state.permissions.read
+    if (state.permissions.read) {
+        state.formEmployee.permissions.push("read")
+    } else {
+        removePermission('read')
+    }
+}
+
+function changePermissionCreate() {
+    state.permissions.create = !state.permissions.create
+    if (state.permissions.create) {
+        state.formEmployee.permissions.push("create")
+    } else {
+        removePermission('create')
+    }
+}
+
+function changePermissionUpdate() {
+    state.permissions.update = !state.permissions.update
+    if (state.permissions.update) {
+        state.formEmployee.permissions.push("update")
+    } else {
+        removePermission('update')
+    }
+}
+
+function changePermissionDelete() {
+    state.permissions.delete = !state.permissions.delete
+    if (state.permissions.delete) {
+        state.formEmployee.permissions.push("delete")
+    } else {
+        removePermission('delete')
+    }
+}
+
+function removePermission(permissionToRemove: string) {
+    state.formEmployee.permissions = state.formEmployee.permissions.filter((permission: any) => permission !== permissionToRemove);
 }
 </script>

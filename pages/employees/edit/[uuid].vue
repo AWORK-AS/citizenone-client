@@ -41,7 +41,7 @@ const state = reactive({
         phone: '',
         birthday: '',
         role: '',
-        address: '',
+        permissions: [],
     },
     isPageLoading: false,
 })
@@ -62,8 +62,8 @@ async function fetchEmployee() {
                 email: response?.data?.email ?? '',
                 phone: response?.data?.phone ?? '',
                 birthday: response?.data?.birthday ?? '',
-                address: response?.data?.address ?? '',
-                role: response?.data?.roles?.[0]?.name ?? ''
+                role: response?.data?.roles?.[0]?.name ?? '',
+                permissions: response?.data?.permissions ?? [],
             }
         }
     } catch (error: any) {
@@ -83,7 +83,7 @@ async function updateEmployee(employeeDetails: any) {
             phone: employeeDetails.phone,
             birthday: employeeDetails.birthday,
             role: employeeDetails.role,
-            address: employeeDetails.address,
+            permission: employeeDetails.permissions,
         }
         const response = await employeeService.updateEmployee(uuid, params)
         if (response.data) {
