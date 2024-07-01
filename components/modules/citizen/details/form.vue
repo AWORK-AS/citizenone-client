@@ -46,7 +46,7 @@
                 <div class="space-y-1">
                     <FormLabel for="social_security_number" :label="$t('citizens.form.ssn')" />
                     <FormTextField id="social_security_number" name="social_security_number"
-                        :placeholder="$t('citizens.form.ssn')" v-model="formattedSocialSecurityNumber"
+                        :placeholder="$t('citizens.form.ssn')" :maxLength="10" v-model="formattedSocialSecurityNumber"
                         @input="updateSocialSecurityNumber" />
                     <FormError :error="v$?.formCitizen?.social_security_number?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.social_security_number?.[0]" />

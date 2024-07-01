@@ -1,5 +1,5 @@
 <template>
-    <input type="text" :id="props.id" :name="props.name" :autocomplete="props.name"
+    <input type="text" :id="props.id" :name="props.name" :maxlength="props.maxLength" :autocomplete="props.name"
         class="appearance-none block w-full px-4 py-2.5 border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm"
         :placeholder="props.placeholder" :value="props.modelValue" @input="updateValue($event)" />
 </template>
@@ -8,6 +8,10 @@
 const props = defineProps({
     id: {
         type: String,
+        required: false,
+    },
+    maxLength: {
+        type: Number,
         required: false,
     },
     name: {
