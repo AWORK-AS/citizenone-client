@@ -214,6 +214,7 @@
     "navbar": {
         "activityLogs": "Aktivitetslogfiler",
         "logout": "Log ud",
+        "settings": "Indstillinger",
         "switchLanguage": "Skift sprog"
     },
     "pagination": {
@@ -295,6 +296,20 @@
     },
     "save": "Gem",
     "selectADate": "Vælg en dato",
+    "settings": {
+        "form": {
+            "alert": {
+                "successfullyUpdated": "Profil opdateret med succes"
+            },
+            "firstname": "Fornavn",
+            "lastname": "Efternavn",
+            "emailAddress": "E-mail adresse",
+            "phone": "Telefon",
+            "birthday": "Fødselsdag",
+            "language": "Sprog"
+        },
+        "settings": "Indstillinger"
+    },
     "register": {
         "form": {
             "country": "Country",

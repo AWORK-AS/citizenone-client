@@ -214,6 +214,7 @@
     "navbar": {
         "activityLogs": "Activity Logs",
         "logout": "Log out",
+        "settings": "Settings",
         "switchLanguage": "Switch Language"
     },
     "pagination": {
@@ -295,6 +296,20 @@
     },
     "save": "Save",
     "selectADate": "Select a date",
+    "settings": {
+        "form": {
+            "alert": {
+                "successfullyUpdated": "Profile successfully updated"
+            },
+            "firstname": "First name",
+            "lastname": "Last name",
+            "emailAddress": "Email address",
+            "phone": "Phone",
+            "birthday": "Birthday",
+            "language": "Language"
+        },
+        "settings": "Settings"
+    },
     "register": {
         "form": {
             "country": "Country",
