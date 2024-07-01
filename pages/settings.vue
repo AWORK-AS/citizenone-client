@@ -87,7 +87,7 @@
                                 <div class="space-y-1">
                                     <FormLabel for="phone" :label="$t('settings.form.language')" />
                                     <FormSelect id="language" :options="state.options.languages"
-                                        v-model="state.formProfile.language_uuid" />
+                                        v-model="state.formProfile.language_id" />
                                     <FormError :error="v$?.formProfile?.language?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.language_id?.[0]" />
                                 </div>
@@ -127,7 +127,7 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
-        language_uuid: '',
+        language_id: '',
     },
     isPageLoading: false,
     options: {
@@ -153,7 +153,7 @@ const rules = computed(() => {
             birthday: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            language_uuid: {
+            language_id: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
@@ -161,8 +161,30 @@ const rules = computed(() => {
 })
 
 onMounted(() => {
+    fetchUser()
     fetchLanguages()
 })
+
+async function fetchUser() {
+    state.isPageLoading = true
+    try {
+        const response = await userService.getUser()
+        if (response.data) {
+            state.formProfile = {
+                image: '',
+                firstname: response.data?.firstname,
+                lastname: response.data?.lastname,
+                email: response.data?.email,
+                phone: response.data?.phone,
+                birthday: response.data?.birthday,
+                language_id: response.data?.language_id,
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 
 async function fetchLanguages() {
     state.isPageLoading = true
@@ -199,7 +221,7 @@ async function submitForm() {
             params.append('email', state.formProfile.email)
             params.append('phone', state.formProfile.phone)
             params.append('birthday', state.formProfile.birthday)
-            params.append('language_uuid', state.formProfile.language_uuid)
+            params.append('language_id', state.formProfile.language_id)
             const response = await userService.updateUser(params)
             if (response.data) {
                 alert('Success')

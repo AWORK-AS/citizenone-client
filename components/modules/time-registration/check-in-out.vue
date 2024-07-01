@@ -41,7 +41,7 @@ onMounted(() => {
 async function fetchUser() {
     state.isPageLoading = true
     try {
-        const response = await userService.fetchUser()
+        const response = await userService.getUser()
         if (response?.data) {
             if (response?.data?.time_summary) {
                 const totalTime = response?.data?.time_summary.split(":")
