@@ -46,7 +46,7 @@ const state = reactive({
         municipality_id: '',
         city_id: '',
         post_code: '',
-        note: '',
+        diagnosis: '',
     },
     isPageLoading: false,
 })
@@ -68,7 +68,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('municipality_id', citizenDetails.municipality)
         params.append('city_id', citizenDetails.city)
         params.append('post_code', citizenDetails.post_code)
-        params.append('note', citizenDetails.note)
+        params.append('diagnosis', citizenDetails.diagnosis)
         const response = await citizenService.saveCitizen(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyAdded')}.`)

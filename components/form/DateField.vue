@@ -6,7 +6,7 @@
             @click="openDateInput" />
         <div v-if="props.modelValue" class="absolute top-3 left-3 bg-white w-2/3" @click="openDateInput">{{
             formattedDate
-        }}</div>
+            }}</div>
         <div v-else class="absolute top-3 left-3 bg-white w-2/3" @click="openDateInput">
             {{ $t('selectADate') }}
         </div>
@@ -42,9 +42,9 @@ watch(() => props.modelValue, (newValue: any) => {
     if (newValue != null) {
         const date = new Date(newValue)
         const day = String(date.getDate()).padStart(2, '0')
-        const month = date.toLocaleString('default', { month: 'long' })
+        const month = date.toLocaleString('default', { month: 'short' })
         const year = date.getFullYear()
-        formattedDate.value = `${day}, ${month} ${year}`
+        formattedDate.value = `${day}. ${month} ${year}`
     }
 })
 

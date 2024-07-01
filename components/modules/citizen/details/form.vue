@@ -107,11 +107,11 @@
                 </div>
             </div>
             <div class="space-y-1">
-                <FormLabel for="note" :label="$t('citizens.form.note')" />
-                <FormTextArea id="note" name="note" :placeholder="$t('citizens.form.note')"
-                    v-model="state.formCitizen.note" />
-                <FormError :error="v$?.formCitizen?.note?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.note?.[0]" />
+                <FormLabel for="diagnosis" :label="$t('citizens.form.diagnosis')" />
+                <FormTextArea id="diagnosis" name="diagnosis" :placeholder="$t('citizens.form.diagnosis')"
+                    v-model="state.formCitizen.diagnosis" />
+                <FormError :error="v$?.formCitizen?.diagnosis?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.diagnosis?.[0]" />
             </div>
         </div>
         <div class="mt-6">
@@ -172,7 +172,7 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
-        note: '',
+        diagnosis: '',
     },
     formattedSocialSecurityNumber: '',
     options: {
@@ -202,7 +202,7 @@ watch(() => props.selectedCitizen, (newValue: any) => {
             municipality: newValue.municipality_id,
             city: newValue.city_id,
             post_code: newValue.post_code,
-            note: newValue.note,
+            diagnosis: newValue.diagnosis,
         }
     }
 })

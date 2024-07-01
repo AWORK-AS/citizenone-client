@@ -48,7 +48,7 @@ const state = reactive({
         municipality_id: '',
         city_id: '',
         post_code: '',
-        note: '',
+        diagnosis: '',
     },
     isPageLoading: false,
 })
@@ -76,7 +76,7 @@ async function fetchCitizen() {
                 municipality_id: response?.data?.address?.municipality_id.toString() ?? '',
                 city_id: response?.data?.address?.city_id.toString() ?? '',
                 post_code: response?.data?.address?.post_code ?? '',
-                note: response?.data?.note ?? '',
+                diagnosis: response?.data?.diagnosis ?? '',
             }
         }
     } catch (error: any) {
@@ -102,7 +102,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('municipality_id', citizenDetails.municipality)
         params.append('city_id', citizenDetails.city)
         params.append('post_code', citizenDetails.post_code)
-        params.append('note', citizenDetails.note)
+        params.append('diagnosis', citizenDetails.diagnosis)
         const response = await citizenService.updateCitizen(citizenUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyUpdate')}.`)
