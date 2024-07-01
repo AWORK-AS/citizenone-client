@@ -9,18 +9,20 @@
                         <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
                     </div>
                 </div>
-                <div class="pt-1.5">
+                <div class="pt-1.5 space-y-1">
                     <h1 class="text-2xl font-bold text-gray-900">
                         {{ state.selectedCitizen?.data?.firstname }}
                         {{ state.selectedCitizen?.data?.lastname }}
                     </h1>
-                    <p class="text-sm font-medium text-gray-500">
+                    <p class="text-sm font-medium text-gray-700">
                         {{ state.selectedCitizen?.data?.email }}
                     </p>
-                    <p class="text-sm font-medium text-gray-500">
+                    <p class="text-sm font-medium text-gray-700">
                         {{ state.selectedCitizen?.data?.phone }}
                     </p>
-                    {{ }}
+                    <p class="text-xs font-medium text-gray-700">
+                        {{ state.selectedCitizen?.data?.diagnosis }}
+                    </p>
                 </div>
             </div>
         </div>
