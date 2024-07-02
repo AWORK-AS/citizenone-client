@@ -231,6 +231,7 @@ async function submitForm() {
             const response = await userService.updateUser(params)
             if (response.data) {
                 userStore.setLanguage(response?.data?.language?.code)
+                userStore.setUser(response?.data)
                 language.locale.value = response?.data?.language?.code
                 successAlert(`${t('alert.success')}!`, `${t('settings.form.alert.successfullyUpdated')}.`)
             }

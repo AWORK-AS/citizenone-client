@@ -43,6 +43,7 @@ async function fetchUser() {
     try {
         const response = await userService.getUser()
         if (response?.data) {
+            userStore.setUser(response?.data)
             if (response?.data?.time_summary) {
                 const totalTime = response?.data?.time_summary.split(":")
                 hours.value = totalTime[0]
