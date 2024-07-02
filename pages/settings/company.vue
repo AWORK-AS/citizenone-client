@@ -8,12 +8,14 @@
 
             <template #header>{{ $t('settings.settings') }}</template>
 
+            <ModulesSettingsTab />
+
             <LoadingSpinner :isActive="state.isPageLoading">
                 <form @submit.prevent="submitForm()" class="mt-6 max-w-3xl">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error && state.error.length > 0 || state.error?.message" />
-                    <div class="grid grid-cols-8 gap-3">
-                        <div class="col-span-2">
+                    <div class="grid grid-cols-1 md:grid-cols-8 gap-3">
+                        <div class="md:col-span-2">
                             <div class="space-y-1">
                                 <div class="flex flex-col items-center">
                                     <input type="file" ref="image" @change="onFileChange" class="hidden" />
@@ -31,7 +33,7 @@
                                 <FormError :error="state?.error?.errors?.image?.[0]" class="text-center" />
                             </div>
                         </div>
-                        <div class="col-span-6 grid grid-cols-2 gap-3">
+                        <div class="md:col-span-6 grid md:grid-cols-2 gap-3">
                             <div class="">
                                 <div class="space-y-1">
                                     <FormLabel for="firstname" :label="$t('settings.form.firstname')" />
@@ -72,7 +74,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-span-8 grid grid-cols-2 gap-3">
+                        <div class="md:col-span-8 grid md:grid-cols-2 gap-3">
                             <div>
                                 <div class="space-y-1">
                                     <FormLabel for="birthday" :label="$t('settings.form.birthday')" />

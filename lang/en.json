@@ -308,7 +308,11 @@
             "birthday": "Birthday",
             "language": "Language"
         },
-        "settings": "Settings"
+        "settings": "Settings",
+        "tabs": {
+            "company": "Company",
+            "profile": "Profile"
+        }
     },
     "register": {
         "form": {

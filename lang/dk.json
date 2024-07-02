@@ -308,7 +308,11 @@
             "birthday": "Fødselsdag",
             "language": "Sprog"
         },
-        "settings": "Indstillinger"
+        "settings": "Indstillinger",
+        "tabs": {
+            "company": "Firma",
+            "profile": "Profil"
+        }
     },
     "register": {
         "form": {

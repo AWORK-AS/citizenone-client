@@ -2,7 +2,7 @@
     <Tabs :tabs="tabs" @changeTab="changeTab" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 const router = useRouter()
 const uuid = router?.currentRoute?.value?.params?.uuid
@@ -15,7 +15,7 @@ const tabs = [
     { name: 'citizens.tabs.attendance', href: `/citizens/${uuid}/attendance`, routeName: 'citizens-uuid-attendance' },
 ]
 
-function changeTab(value) {
+function changeTab(value: any) {
     if (value === 'Journals') {
         navigateTo(`/citizens/${uuid}/journals`)
     }
