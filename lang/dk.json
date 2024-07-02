@@ -4,6 +4,7 @@
         "table": {
             "createdAt": "Oprettet den",
             "description": "Beskrivelse",
+            "ipAddress": "IP-adresse",
             "user": "Bruger"
         }
     },

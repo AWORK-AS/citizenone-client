@@ -21,8 +21,11 @@
                                 <td width="20%" v-if="isUserLoggedInAdmin">
                                     <span>{{ log?.causer?.firstname + ' ' + log?.causer?.lastname }}</span>
                                 </td>
-                                <td :width="isUserLoggedInAdmin ? '40%' : '50%'">
+                                <td :width="isUserLoggedInAdmin ? '30%' : '40%'">
                                     <span>{{ log?.description }}</span>
+                                </td>
+                                <td width="10%">
+                                    <span>{{ log?.properties?.ip_address }}</span>
                                 </td>
                             </tr>
                         </template>
@@ -49,6 +52,7 @@ const state = reactive({
         { name: 'activityLogs.table.createdAt', sorter: true, key: 'created_at' },
         { name: 'activityLogs.table.user' },
         { name: 'activityLogs.table.description' },
+        { name: 'activityLogs.table.ipAddress' },
     ],
     dataFilter: [],
     error: [],

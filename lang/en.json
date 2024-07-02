@@ -4,6 +4,7 @@
         "table": {
             "createdAt": "Created at",
             "description": "Description",
+            "ipAddress": "Ip address",
             "user": "User"
         }
     },
