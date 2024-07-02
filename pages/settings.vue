@@ -170,6 +170,9 @@ async function fetchUser() {
     try {
         const response = await userService.getUser()
         if (response.data) {
+            if (response.data.profile_image) {
+                avatarUrl.value = response.data.profile_image
+            }
             state.formProfile = {
                 image: '',
                 firstname: response.data?.firstname,
@@ -194,7 +197,7 @@ async function fetchLanguages() {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.uuid,
+                    value: item.id,
                     label: item.name,
                 })
             )
@@ -224,7 +227,6 @@ async function submitForm() {
             params.append('language_id', state.formProfile.language_id)
             const response = await userService.updateUser(params)
             if (response.data) {
-                alert('Success')
                 successAlert(`${t('alert.success')}!`, `${t('settings.form.alert.successfullyUpdated')}.`)
             }
         } catch (error: any) {
