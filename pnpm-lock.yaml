@@ -8,6 +8,24 @@ importers:
 
   .:
     dependencies:
+      '@fullcalendar/core':
+        specifier: ^6.1.14
+        version: 6.1.14
+      '@fullcalendar/daygrid':
+        specifier: ^6.1.14
+        version: 6.1.14(@fullcalendar/core@6.1.14)
+      '@fullcalendar/interaction':
+        specifier: ^6.1.14
+        version: 6.1.14(@fullcalendar/core@6.1.14)
+      '@fullcalendar/list':
+        specifier: ^6.1.14
+        version: 6.1.14(@fullcalendar/core@6.1.14)
+      '@fullcalendar/timegrid':
+        specifier: ^6.1.14
+        version: 6.1.14(@fullcalendar/core@6.1.14)
+      '@fullcalendar/vue3':
+        specifier: ^6.1.14
+        version: 6.1.14(@fullcalendar/core@6.1.14)(vue@3.4.28)
       vue:
         specifier: ^3.4.27
         version: 3.4.28
@@ -748,6 +766,35 @@ packages:
 
   '@floating-ui/utils@0.2.2':
     resolution: {integrity: sha512-J4yDIIthosAsRZ5CPYP/jQvUAQtlZTTD/4suA08/FEnlxqW3sKS9iAhgsa9VYLZ6vDHn/ixJgIqRQPotoBjxIw==}
+
+  '@fullcalendar/core@6.1.14':
+    resolution: {integrity: sha512-hIPRBevm0aMc2aHy1hRIJgXmI1QTvQM1neQa9oxtuqUmF1+ApYC3oAdwcQMTuI7lHHw3pKJDyJFkKLPPnL6HXA==}
+
+  '@fullcalendar/daygrid@6.1.14':
+    resolution: {integrity: sha512-DSyjiA1dEM8k3bOCrZpZOmAOZu71KGtH02ze+4QKuhxkmn/zQghmmLRdfzpOrcyJg6xGKkoB4pBcO+2lXar8XQ==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.14
+
+  '@fullcalendar/interaction@6.1.14':
+    resolution: {integrity: sha512-rXum5XCjq+WEPNctFeYL/JKZGeU2rlxrElygocdMegcrIBJQW5hnWWVE+i4/1dOmUKF80CbGVlXUyYXoqK2eFg==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.14
+
+  '@fullcalendar/list@6.1.14':
+    resolution: {integrity: sha512-eV0/6iCumYfvlPzIUTAONWH17/JlQCyCChUz8m06L4E/sOiNjkHGz8vlVTmZKqXzx9oWOOyV/Nm3pCtHmVZh+Q==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.14
+
+  '@fullcalendar/timegrid@6.1.14':
+    resolution: {integrity: sha512-ZByc3BVAtxWSVfyaNedROLlg/Tb2NQ43+MZZAfBSrVwVm2xyfQ+Bsx3pJyCXsRsUh2TFFTO07q7nMWe0jet3KQ==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.14
+
+  '@fullcalendar/vue3@6.1.14':
+    resolution: {integrity: sha512-cD4tGlXOoIfRn5sz/+uT+50rAuCtPEgXfG3O5LJXI4xRWztAXqkmZetcuTEDb3OOy/D03IdtpjvoayCHib7rZg==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.14
+      vue: ^3.0.11
 
   '@headlessui/vue@1.7.22':
     resolution: {integrity: sha512-Hoffjoolq1rY+LOfJ+B/OvkhuBXXBFgd8oBlN+l1TApma2dB0En0ucFZrwQtb33SmcCqd32EQd0y07oziXWNYg==}
@@ -3505,6 +3552,9 @@ packages:
     resolution: {integrity: sha512-Wglpdk03BSfXkHoQa3b/oulrotAkwrlLDRSOb9D0bN86FdRyE9lppSp33aHNPgBa0JKCoB+drFLZkQoRRYae5A==}
     engines: {node: ^10 || ^12 || >=14}
 
+  preact@10.12.1:
+    resolution: {integrity: sha512-l8386ixSsBdbreOAkqtrwqHwdvR35ID8c3rKPa8lCWuO86dBi32QWHV4vfsZK1utLLFMvw+Z5Ad4XLkZzchscg==}
+
   pretty-bytes@6.1.1:
     resolution: {integrity: sha512-mQUvGU6aUFQ+rNvTIAcZuWGRT9a6f6Yrg9bHs4ImKF+HZCEK+plBvnAZYSIQztknZF2qnzNtr6F8s0+IuptdlQ==}
     engines: {node: ^14.13.1 || >=16.0.0}
@@ -4780,6 +4830,11 @@ snapshots:
       '@ckeditor/ckeditor5-table': 41.4.2
       '@ckeditor/ckeditor5-typing': 41.4.2
       '@ckeditor/ckeditor5-ui': 41.4.2
+    transitivePeerDependencies:
+      - bufferutil
+      - canvas
+      - supports-color
+      - utf-8-validate
 
   '@ckeditor/ckeditor5-build-balloon@41.4.2':
     dependencies:
@@ -4803,6 +4858,11 @@ snapshots:
       '@ckeditor/ckeditor5-paste-from-office': 41.4.2
       '@ckeditor/ckeditor5-table': 41.4.2
       '@ckeditor/ckeditor5-typing': 41.4.2
+    transitivePeerDependencies:
+      - bufferutil
+      - canvas
+      - supports-color
+      - utf-8-validate
 
   '@ckeditor/ckeditor5-build-classic@41.4.2':
     dependencies:
@@ -4884,6 +4944,11 @@ snapshots:
       '@ckeditor/ckeditor5-paste-from-office': 41.4.2
       '@ckeditor/ckeditor5-table': 41.4.2
       '@ckeditor/ckeditor5-typing': 41.4.2
+    transitivePeerDependencies:
+      - bufferutil
+      - canvas
+      - supports-color
+      - utf-8-validate
 
   '@ckeditor/ckeditor5-build-multi-root@41.4.2':
     dependencies:
@@ -4907,6 +4972,11 @@ snapshots:
       '@ckeditor/ckeditor5-paste-from-office': 41.4.2
       '@ckeditor/ckeditor5-table': 41.4.2
       '@ckeditor/ckeditor5-typing': 41.4.2
+    transitivePeerDependencies:
+      - bufferutil
+      - canvas
+      - supports-color
+      - utf-8-validate
 
   '@ckeditor/ckeditor5-ckbox@41.4.2':
     dependencies:
@@ -5130,6 +5200,11 @@ snapshots:
   '@ckeditor/ckeditor5-language@41.4.2':
     dependencies:
       ckeditor5: 41.4.2
+    transitivePeerDependencies:
+      - bufferutil
+      - canvas
+      - supports-color
+      - utf-8-validate
 
   '@ckeditor/ckeditor5-link@41.4.2':
     dependencies:
@@ -5186,10 +5261,20 @@ snapshots:
   '@ckeditor/ckeditor5-minimap@41.4.2':
     dependencies:
       ckeditor5: 41.4.2
+    transitivePeerDependencies:
+      - bufferutil
+      - canvas
+      - supports-color
+      - utf-8-validate
 
   '@ckeditor/ckeditor5-page-break@41.4.2':
     dependencies:
       ckeditor5: 41.4.2
+    transitivePeerDependencies:
+      - bufferutil
+      - canvas
+      - supports-color
+      - utf-8-validate
 
   '@ckeditor/ckeditor5-paragraph@41.4.2':
     dependencies:
@@ -5209,6 +5294,11 @@ snapshots:
   '@ckeditor/ckeditor5-remove-format@41.4.2':
     dependencies:
       ckeditor5: 41.4.2
+    transitivePeerDependencies:
+      - bufferutil
+      - canvas
+      - supports-color
+      - utf-8-validate
 
   '@ckeditor/ckeditor5-restricted-editing@41.4.2':
     dependencies:
@@ -5459,6 +5549,32 @@ snapshots:
       '@floating-ui/core': 1.6.2
 
   '@floating-ui/utils@0.2.2': {}
+
+  '@fullcalendar/core@6.1.14':
+    dependencies:
+      preact: 10.12.1
+
+  '@fullcalendar/daygrid@6.1.14(@fullcalendar/core@6.1.14)':
+    dependencies:
+      '@fullcalendar/core': 6.1.14
+
+  '@fullcalendar/interaction@6.1.14(@fullcalendar/core@6.1.14)':
+    dependencies:
+      '@fullcalendar/core': 6.1.14
+
+  '@fullcalendar/list@6.1.14(@fullcalendar/core@6.1.14)':
+    dependencies:
+      '@fullcalendar/core': 6.1.14
+
+  '@fullcalendar/timegrid@6.1.14(@fullcalendar/core@6.1.14)':
+    dependencies:
+      '@fullcalendar/core': 6.1.14
+      '@fullcalendar/daygrid': 6.1.14(@fullcalendar/core@6.1.14)
+
+  '@fullcalendar/vue3@6.1.14(@fullcalendar/core@6.1.14)(vue@3.4.28)':
+    dependencies:
+      '@fullcalendar/core': 6.1.14
+      vue: 3.4.28
 
   '@headlessui/vue@1.7.22(vue@3.4.28)':
     dependencies:
@@ -8861,6 +8977,8 @@ snapshots:
       nanoid: 3.3.7
       picocolors: 1.0.1
       source-map-js: 1.2.0
+
+  preact@10.12.1: {}
 
   pretty-bytes@6.1.1: {}
 
