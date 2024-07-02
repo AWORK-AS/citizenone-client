@@ -110,10 +110,13 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { languageService } from '@/components/api/LanguageService'
 import { userService } from "@/components/api/UserService";
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 
 const runtimeConfig = useRuntimeConfig()
+const userStore = useUserStore()
+const language = useI18n()
 const { t } = useI18n()
 const image = ref(null)
 const avatarUrl = ref('/img/avatars/user.svg')
@@ -227,6 +230,8 @@ async function submitForm() {
             params.append('language_id', state.formProfile.language_id)
             const response = await userService.updateUser(params)
             if (response.data) {
+                userStore.setLanguage(response?.data?.language?.code)
+                language.locale.value = response?.data?.language?.code
                 successAlert(`${t('alert.success')}!`, `${t('settings.form.alert.successfullyUpdated')}.`)
             }
         } catch (error: any) {

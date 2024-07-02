@@ -133,6 +133,8 @@ async function login() {
             if (response.data) {
                 localStorage.setItem("_token", response.data?.token)
                 userStore.setUser(response?.data?.user)
+                userStore.setLanguage(response?.data?.user?.language?.code)
+                language.locale.value = response?.data?.user?.language?.code
                 navigateTo('/citizens')
             }
         } catch (error: any) {
