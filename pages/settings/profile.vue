@@ -99,7 +99,7 @@
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { languageService } from '@/components/api/LanguageService'
-import { userService } from "@/components/api/UserService";
+import { userService } from "@/components/api/UserService"
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
@@ -154,33 +154,25 @@ const rules = computed(() => {
 })
 
 onMounted(() => {
-    fetchUser()
     fetchLanguages()
 })
 
-async function fetchUser() {
-    state.isPageLoading = true
-    try {
-        const response = await userService.getUser()
-        if (response.data) {
-            if (response.data.profile_image) {
-                avatarUrl.value = response.data.profile_image
-            }
-            state.formProfile = {
-                image: '',
-                firstname: response.data?.firstname,
-                lastname: response.data?.lastname,
-                email: response.data?.email,
-                phone: response.data?.phone,
-                birthday: response.data?.birthday,
-                language_id: response.data?.language_id,
-            }
+watch(() => userStore.getUser, (newValue: any) => {
+    if (newValue != null) {
+        if (newValue.profile_image) {
+            avatarUrl.value = newValue.profile_image
         }
-    } catch (error: any) {
-        state.error = error
+        state.formProfile = {
+            image: '',
+            firstname: newValue?.firstname,
+            lastname: newValue?.lastname,
+            email: newValue?.email,
+            phone: newValue?.phone,
+            birthday: newValue?.birthday,
+            language_id: newValue?.language_id,
+        }
     }
-    state.isPageLoading = false
-}
+})
 
 async function fetchLanguages() {
     state.isPageLoading = true

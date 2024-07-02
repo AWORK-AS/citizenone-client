@@ -297,8 +297,9 @@ import {
     TransitionRoot,
 } from '@headlessui/vue'
 import { authService } from '@/components/api/AuthService'
-import { useI18n } from "vue-i18n"
+import { userService } from '@/components/api/UserService'
 import { useUserStore } from '@/store/user'
+import { useI18n } from "vue-i18n"
 
 const userStore = useUserStore()
 const language = useI18n()
@@ -387,6 +388,23 @@ const state = reactive({
         isSupportOpen: false
     },
 })
+
+onMounted(() => {
+    fetchUser()
+})
+
+async function fetchUser() {
+    state.isPageLoading = true
+    try {
+        const response = await userService.getUser()
+        if (response?.data) {
+            userStore.setUser(response?.data)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 
 async function logout() {
     state.isPageLoading = true

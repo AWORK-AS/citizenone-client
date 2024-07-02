@@ -97,13 +97,13 @@ import { userService } from "@/components/api/UserService";
 import { regionService } from '@/components/api/RegionService'
 import { municipalityService } from '@/components/api/MunicipalityService'
 import { cityService } from '@/components/api/CityService'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 
 const runtimeConfig = useRuntimeConfig()
+const userStore = useUserStore()
 const { t } = useI18n()
-const image = ref(null)
-const avatarUrl = ref('/img/avatars/user.svg')
 
 const state = reactive({
     error: [],
@@ -154,8 +154,24 @@ const rules = computed(() => {
 })
 
 onMounted(() => {
-    fetchUser()
     fetchRegions()
+})
+
+watch(() => userStore.getUser, (newValue: any) => {
+    if (newValue != null) {
+        state.formCompany = {
+            name: newValue?.company?.name,
+            cvr: newValue?.company?.cvr,
+            website: newValue?.company?.website,
+            street: newValue?.company?.company_address?.street,
+            region: newValue?.company?.company_address?.region_id,
+            municipality: newValue?.company?.company_address?.municipality_id,
+            city: newValue?.company?.company_address?.city_id,
+            post_code: newValue?.company?.company_address?.post_code,
+        }
+        fetchMunicipalities(newValue?.company?.company_address?.region_id)
+        fetchCities(newValue?.company?.company_address?.municipality_id)
+    }
 })
 
 async function fetchUser() {

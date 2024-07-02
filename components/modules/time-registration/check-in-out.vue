@@ -34,36 +34,24 @@ const formattedTime = computed<string>(() => {
     return `${formatNumber(hours.value)}:${formatNumber(minutes.value)}:${formatNumber(seconds.value)}`
 })
 
-onMounted(() => {
-    fetchUser()
-})
-
-async function fetchUser() {
-    state.isPageLoading = true
-    try {
-        const response = await userService.getUser()
-        if (response?.data) {
-            userStore.setUser(response?.data)
-            if (response?.data?.time_summary) {
-                const totalTime = response?.data?.time_summary.split(":")
-                hours.value = totalTime[0]
-                minutes.value = totalTime[1]
-                seconds.value = totalTime[2]
-            }
-            if (response?.data?.is_checked_in) {
-                userStore.setIsLoggedIn(true)
-            } else {
-                userStore.setIsLoggedIn(false)
-            }
-            if (userStore.getIsLoggedIn) {
-                startTimer()
-            }
+watch(() => userStore.getUser, (newValue: any) => {
+    if (newValue != null) {
+        if (newValue?.time_summary) {
+            const totalTime = newValue?.time_summary.split(":")
+            hours.value = totalTime[0]
+            minutes.value = totalTime[1]
+            seconds.value = totalTime[2]
         }
-    } catch (error: any) {
-        state.error = error
+        if (newValue?.is_checked_in) {
+            userStore.setIsLoggedIn(true)
+        } else {
+            userStore.setIsLoggedIn(false)
+        }
+        if (userStore.getIsLoggedIn) {
+            startTimer()
+        }
     }
-    state.isPageLoading = false
-}
+})
 
 async function toggleLogin() {
     state.isPageLoading = true
