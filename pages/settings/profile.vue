@@ -34,65 +34,53 @@
                             </div>
                         </div>
                         <div class="md:col-span-6 grid md:grid-cols-2 gap-3">
-                            <div class="">
-                                <div class="space-y-1">
-                                    <FormLabel for="firstname" :label="$t('settings.form.firstname')" />
-                                    <FormTextField id="firstname" name="firstname"
-                                        :placeholder="$t('settings.form.firstname')"
-                                        v-model="state.formProfile.firstname" />
-                                    <FormError :error="v$?.formProfile?.firstname?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.firstname?.[0]" />
-                                </div>
+                            <div class="space-y-1">
+                                <FormLabel for="firstname" :label="$t('settings.profile.form.firstname')" />
+                                <FormTextField id="firstname" name="firstname"
+                                    :placeholder="$t('settings.profile.form.firstname')"
+                                    v-model="state.formProfile.firstname" />
+                                <FormError :error="v$?.formProfile?.firstname?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.firstname?.[0]" />
                             </div>
-                            <div class="">
-                                <div class="space-y-1">
-                                    <FormLabel for="lastname" :label="$t('settings.form.lastname')" />
-                                    <FormTextField id="lastname" name="lastname"
-                                        :placeholder="$t('settings.form.lastname')"
-                                        v-model="state.formProfile.lastname" />
-                                    <FormError :error="v$?.formProfile?.lastname?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.lastname?.[0]" />
-                                </div>
+                            <div class="space-y-1">
+                                <FormLabel for="lastname" :label="$t('settings.profile.form.lastname')" />
+                                <FormTextField id="lastname" name="lastname"
+                                    :placeholder="$t('settings.profile.form.lastname')"
+                                    v-model="state.formProfile.lastname" />
+                                <FormError :error="v$?.formProfile?.lastname?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.lastname?.[0]" />
                             </div>
-                            <div>
-                                <div class="space-y-1">
-                                    <FormLabel for="email" :label="$t('settings.form.emailAddress')" />
-                                    <FormTextField id="email" name="email"
-                                        :placeholder="$t('settings.form.emailAddress')"
-                                        v-model="state.formProfile.email" />
-                                    <FormError :error="v$?.formProfile?.email?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.email?.[0]" />
-                                </div>
+                            <div class="space-y-1">
+                                <FormLabel for="email" :label="$t('settings.profile.form.emailAddress')" />
+                                <FormTextField id="email" name="email"
+                                    :placeholder="$t('settings.profile.form.emailAddress')"
+                                    v-model="state.formProfile.email" />
+                                <FormError :error="v$?.formProfile?.email?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.email?.[0]" />
                             </div>
-                            <div>
-                                <div class="space-y-1">
-                                    <FormLabel for="phone" :label="$t('settings.form.phone')" />
-                                    <FormTextField id="phone" name="phone" :placeholder="$t('settings.form.phone')"
-                                        v-model="state.formProfile.phone" />
-                                    <FormError :error="v$?.formProfile?.phone?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.phone?.[0]" />
-                                </div>
+                            <div class="space-y-1">
+                                <FormLabel for="phone" :label="$t('settings.profile.form.phone')" />
+                                <FormTextField id="phone" name="phone" :placeholder="$t('settings.profile.form.phone')"
+                                    v-model="state.formProfile.phone" />
+                                <FormError :error="v$?.formProfile?.phone?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.phone?.[0]" />
                             </div>
                         </div>
                         <div class="md:col-span-8 grid md:grid-cols-2 gap-3">
-                            <div>
-                                <div class="space-y-1">
-                                    <FormLabel for="birthday" :label="$t('settings.form.birthday')" />
-                                    <FormDateField id="birthday" name="birthday"
-                                        :placeholder="$t('settings.form.birthday')"
-                                        v-model="state.formProfile.birthday" />
-                                    <FormError :error="v$?.formProfile?.birthday?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.birthday?.[0]" />
-                                </div>
+                            <div class="space-y-1">
+                                <FormLabel for="birthday" :label="$t('settings.profile.form.birthday')" />
+                                <FormDateField id="birthday" name="birthday"
+                                    :placeholder="$t('settings.profile.form.birthday')"
+                                    v-model="state.formProfile.birthday" />
+                                <FormError :error="v$?.formProfile?.birthday?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.birthday?.[0]" />
                             </div>
-                            <div>
-                                <div class="space-y-1">
-                                    <FormLabel for="phone" :label="$t('settings.form.language')" />
-                                    <FormSelect id="language" :options="state.options.languages"
-                                        v-model="state.formProfile.language_id" />
-                                    <FormError :error="v$?.formProfile?.language?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.language_id?.[0]" />
-                                </div>
+                            <div class="space-y-1">
+                                <FormLabel for="phone" :label="$t('settings.profile.form.language')" />
+                                <FormSelect id="language" :options="state.options.languages"
+                                    v-model="state.formProfile.language_id" />
+                                <FormError :error="v$?.formProfile?.language?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.language_id?.[0]" />
                             </div>
                         </div>
                     </div>
@@ -235,7 +223,7 @@ async function submitForm() {
                 userStore.setLanguage(response?.data?.language?.code)
                 userStore.setUser(response?.data)
                 language.locale.value = response?.data?.language?.code
-                successAlert(`${t('alert.success')}!`, `${t('settings.form.alert.successfullyUpdated')}.`)
+                successAlert(`${t('alert.success')}!`, `${t('settings.profile.form.alert.successfullyUpdated')}.`)
             }
         } catch (error: any) {
             state.error = error

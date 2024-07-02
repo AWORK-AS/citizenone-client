@@ -297,16 +297,33 @@
     "save": "Gem",
     "selectADate": "Vælg en dato",
     "settings": {
-        "form": {
-            "alert": {
-                "successfullyUpdated": "Profil opdateret med succes"
-            },
-            "firstname": "Fornavn",
-            "lastname": "Efternavn",
-            "emailAddress": "E-mail adresse",
-            "phone": "Telefon",
-            "birthday": "Fødselsdag",
-            "language": "Sprog"
+        "company": {
+            "form": {
+                "alert": {
+                    "successfullyUpdated": "Firma opdateret med succes"
+                },
+                "city": "By",
+                "companyName": "Firmanavn",
+                "cvr": "CVR",
+                "municipality": "Kommune",
+                "postCode": "Postnummer",
+                "region": "Region",
+                "street": "Gade",
+                "website": "Hjemmeside"
+            }
+        },
+        "profile": {
+            "form": {
+                "alert": {
+                    "successfullyUpdated": "Profil opdateret med succes"
+                },
+                "firstname": "Fornavn",
+                "lastname": "Efternavn",
+                "emailAddress": "E-mail adresse",
+                "phone": "Telefon",
+                "birthday": "Fødselsdag",
+                "language": "Sprog"
+            }
         },
         "settings": "Indstillinger",
         "tabs": {

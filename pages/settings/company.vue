@@ -14,85 +14,68 @@
                 <form @submit.prevent="submitForm()" class="mt-6 max-w-3xl">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error && state.error.length > 0 || state.error?.message" />
-                    <div class="grid grid-cols-1 md:grid-cols-8 gap-3">
-                        <div class="md:col-span-2">
+                    <div class="grid grid-cols-1 gap-3">
+                        <div class="space-y-1">
+                            <FormLabel for="name" :label="$t('settings.company.form.companyName')" />
+                            <FormTextField id="name" name="name" :placeholder="$t('settings.company.form.companyName')"
+                                v-model="state.formCompany.name" />
+                            <FormError :error="v$?.formCompany?.name?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.name?.[0]" />
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div class="space-y-1">
-                                <div class="flex flex-col items-center">
-                                    <input type="file" ref="image" @change="onFileChange" class="hidden" />
-                                    <div class="relative cursor-pointer" @click="triggerFileInput">
-                                        <img :src="avatarUrl" alt="Avatar"
-                                            class="w-36 h-36 rounded-full object-cover border-2 border-tertiary-25" />
-                                        <div
-                                            class="rounded-full absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
-                                            <div class="flex items-center w-full h-full justify-center text-xs">
-                                                Change Image
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <FormError :error="state?.error?.errors?.image?.[0]" class="text-center" />
+                                <FormLabel for="cvr" :label="$t('settings.company.form.cvr')" />
+                                <FormTextField id="cvr" name="cvr" :placeholder="$t('settings.company.form.cvr')"
+                                    v-model="state.formCompany.cvr" />
+                                <FormError :error="v$?.formCompany?.cvr?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.cvr?.[0]" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="website" :label="$t('settings.company.form.website')" />
+                                <FormTextField id="website" name="website"
+                                    :placeholder="$t('settings.company.form.website')"
+                                    v-model="state.formCompany.website" />
+                                <FormError :error="v$?.formCompany?.website?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.website?.[0]" />
                             </div>
                         </div>
-                        <div class="md:col-span-6 grid md:grid-cols-2 gap-3">
-                            <div class="">
-                                <div class="space-y-1">
-                                    <FormLabel for="firstname" :label="$t('settings.form.firstname')" />
-                                    <FormTextField id="firstname" name="firstname"
-                                        :placeholder="$t('settings.form.firstname')"
-                                        v-model="state.formProfile.firstname" />
-                                    <FormError :error="v$?.formProfile?.firstname?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.firstname?.[0]" />
-                                </div>
+                        <div class="space-y-1">
+                            <FormLabel for="street" :label="$t('citizens.form.street')" />
+                            <FormTextField id="street" name="street" :placeholder="$t('citizens.form.street')"
+                                v-model="state.formCompany.street" />
+                            <FormError :error="v$?.formCompany?.street?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.street?.[0]" />
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="space-y-1">
+                                <FormLabel for="region" :label="$t('citizens.form.region')" />
+                                <FormSelect id="region" :options="state.options.regions"
+                                    v-model="state.formCompany.region" @change="changeSelectedRegion" />
+                                <FormError :error="v$?.formCompany?.region?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.region_id?.[0]" />
                             </div>
-                            <div class="">
-                                <div class="space-y-1">
-                                    <FormLabel for="lastname" :label="$t('settings.form.lastname')" />
-                                    <FormTextField id="lastname" name="lastname"
-                                        :placeholder="$t('settings.form.lastname')"
-                                        v-model="state.formProfile.lastname" />
-                                    <FormError :error="v$?.formProfile?.lastname?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.lastname?.[0]" />
-                                </div>
-                            </div>
-                            <div>
-                                <div class="space-y-1">
-                                    <FormLabel for="email" :label="$t('settings.form.emailAddress')" />
-                                    <FormTextField id="email" name="email"
-                                        :placeholder="$t('settings.form.emailAddress')"
-                                        v-model="state.formProfile.email" />
-                                    <FormError :error="v$?.formProfile?.email?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.email?.[0]" />
-                                </div>
-                            </div>
-                            <div>
-                                <div class="space-y-1">
-                                    <FormLabel for="phone" :label="$t('settings.form.phone')" />
-                                    <FormTextField id="phone" name="phone" :placeholder="$t('settings.form.phone')"
-                                        v-model="state.formProfile.phone" />
-                                    <FormError :error="v$?.formProfile?.phone?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.phone?.[0]" />
-                                </div>
+                            <div class="space-y-1">
+                                <FormLabel for="municipality" :label="$t('citizens.form.municipality')" />
+                                <FormSelect id="municipality" :options="state.options.municipalities"
+                                    v-model="state.formCompany.municipality" @change="changeSelectedMunicipality" />
+                                <FormError :error="v$?.formCompany?.municipality?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.municipality_id?.[0]" />
                             </div>
                         </div>
-                        <div class="md:col-span-8 grid md:grid-cols-2 gap-3">
-                            <div>
-                                <div class="space-y-1">
-                                    <FormLabel for="birthday" :label="$t('settings.form.birthday')" />
-                                    <FormDateField id="birthday" name="birthday"
-                                        :placeholder="$t('settings.form.birthday')"
-                                        v-model="state.formProfile.birthday" />
-                                    <FormError :error="v$?.formProfile?.birthday?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.birthday?.[0]" />
-                                </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="space-y-1">
+                                <FormLabel for="city" :label="$t('citizens.form.city')" />
+                                <FormSelect id="city" :options="state.options.cities"
+                                    v-model="state.formCompany.city" />
+                                <FormError :error="v$?.formCompany?.city?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.city_id?.[0]" />
                             </div>
-                            <div>
-                                <div class="space-y-1">
-                                    <FormLabel for="phone" :label="$t('settings.form.language')" />
-                                    <FormSelect id="language" :options="state.options.languages"
-                                        v-model="state.formProfile.language_id" />
-                                    <FormError :error="v$?.formProfile?.language?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.language_id?.[0]" />
-                                </div>
+                            <div class="space-y-1">
+                                <FormLabel for="post_code" :label="$t('citizens.form.postCode')" />
+                                <FormTextField id="post_code" name="post_code"
+                                    :placeholder="$t('citizens.form.postCode')" v-model="state.formCompany.post_code" />
+                                <FormError :error="v$?.formCompany?.post_code?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.post_code?.[0]" />
                             </div>
                         </div>
                     </div>
@@ -110,55 +93,60 @@
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
-import { languageService } from '@/components/api/LanguageService'
 import { userService } from "@/components/api/UserService";
-import { useUserStore } from '@/store/user'
+import { regionService } from '@/components/api/RegionService'
+import { municipalityService } from '@/components/api/MunicipalityService'
+import { cityService } from '@/components/api/CityService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 
 const runtimeConfig = useRuntimeConfig()
-const userStore = useUserStore()
-const language = useI18n()
 const { t } = useI18n()
 const image = ref(null)
 const avatarUrl = ref('/img/avatars/user.svg')
 
 const state = reactive({
     error: [],
-    formProfile: {
-        image: '',
-        firstname: '',
-        lastname: '',
-        email: '',
-        phone: '',
-        birthday: '',
-        language_id: '',
+    formCompany: {
+        name: '',
+        cvr: '',
+        website: '',
+        street: '',
+        region: '',
+        municipality: '',
+        city: '',
+        post_code: '',
     },
     isPageLoading: false,
     options: {
-        languages: [],
+        cities: [],
+        municipalities: [],
+        regions: [],
     }
 })
 
 const rules = computed(() => {
     return {
-        formProfile: {
-            firstname: {
+        formCompany: {
+            name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            lastname: {
+            cvr: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            email: {
+            street: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            phone: {
+            region: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            birthday: {
+            municipality: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            language_id: {
+            city: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            post_code: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
@@ -167,7 +155,7 @@ const rules = computed(() => {
 
 onMounted(() => {
     fetchUser()
-    fetchLanguages()
+    fetchRegions()
 })
 
 async function fetchUser() {
@@ -175,18 +163,18 @@ async function fetchUser() {
     try {
         const response = await userService.getUser()
         if (response.data) {
-            if (response.data.profile_image) {
-                avatarUrl.value = response.data.profile_image
+            state.formCompany = {
+                name: response.data?.company?.name,
+                cvr: response.data?.company?.cvr,
+                website: response.data?.company?.website,
+                street: response.data?.company?.company_address?.street,
+                region: response.data?.company?.company_address?.region_id,
+                municipality: response.data?.company?.company_address?.municipality_id,
+                city: response.data?.company?.company_address?.city_id,
+                post_code: response.data?.company?.company_address?.post_code,
             }
-            state.formProfile = {
-                image: '',
-                firstname: response.data?.firstname,
-                lastname: response.data?.lastname,
-                email: response.data?.email,
-                phone: response.data?.phone,
-                birthday: response.data?.birthday,
-                language_id: response.data?.language_id,
-            }
+            fetchMunicipalities(response.data?.company?.company_address?.region_id)
+            fetchCities(response.data?.company?.company_address?.municipality_id)
         }
     } catch (error: any) {
         state.error = error
@@ -194,10 +182,10 @@ async function fetchUser() {
     state.isPageLoading = false
 }
 
-async function fetchLanguages() {
+async function fetchRegions() {
     state.isPageLoading = true
     try {
-        const response = await languageService.getLanguages()
+        const response = await regionService.getAllRegions()
         if (response.data) {
             let options: any = []
             response.data.forEach(
@@ -206,12 +194,66 @@ async function fetchLanguages() {
                     label: item.name,
                 })
             )
-            state.options.languages = options
+            state.options.regions = options
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function fetchMunicipalities(regionId: any) {
+    state.isPageLoading = true
+    try {
+        const params = {
+            region_id: regionId
+        }
+        const response = await municipalityService.getAllMunicipalities(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.id,
+                    label: item.name,
+                })
+            )
+            state.options.municipalities = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchCities(municipalityId: any) {
+    state.isPageLoading = true
+    try {
+        const params = {
+            municipality_id: municipalityId
+        }
+        const response = await cityService.getAllCities(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.id,
+                    label: item.name,
+                })
+            )
+            state.options.cities = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function changeSelectedRegion(regionId: number) {
+    fetchMunicipalities(regionId)
+}
+
+function changeSelectedMunicipality(municipalityId: number) {
+    fetchCities(municipalityId)
 }
 
 const v$ = useVuelidate(rules, state)
@@ -222,41 +264,24 @@ async function submitForm() {
         state.error = []
         state.isPageLoading = true
         try {
-            let params = new FormData()
-            params.append('profile_image', state.formProfile.image)
-            params.append('firstname', state.formProfile.firstname)
-            params.append('lastname', state.formProfile.lastname)
-            params.append('email', state.formProfile.email)
-            params.append('phone', state.formProfile.phone)
-            params.append('birthday', state.formProfile.birthday)
-            params.append('language_id', state.formProfile.language_id)
-            const response = await userService.updateUser(params)
+            const params = {
+                name: state.formCompany.name,
+                cvr: state.formCompany.cvr,
+                website: state.formCompany.website,
+                street: state.formCompany.street,
+                region_id: state.formCompany.region,
+                municipality_id: state.formCompany.municipality,
+                city_id: state.formCompany.city,
+                post_code: state.formCompany.post_code,
+            }
+            const response = await userService.updateCompany(params)
             if (response.data) {
-                userStore.setLanguage(response?.data?.language?.code)
-                userStore.setUser(response?.data)
-                language.locale.value = response?.data?.language?.code
-                successAlert(`${t('alert.success')}!`, `${t('settings.form.alert.successfullyUpdated')}.`)
+                successAlert(`${t('alert.success')}!`, `${t('settings.company.form.alert.successfullyUpdated')}.`)
             }
         } catch (error: any) {
             state.error = error
         }
         state.isPageLoading = false
-    }
-}
-
-function triggerFileInput() {
-    image.value.click()
-}
-
-function onFileChange(event: any) {
-    const file = event.target.files[0]
-    state.formProfile.image = event.target.files[0]
-    if (file) {
-        const reader = new FileReader()
-        reader.onload = (e: any) => {
-            avatarUrl.value = e.target.result
-        }
-        reader.readAsDataURL(file)
     }
 }
 
