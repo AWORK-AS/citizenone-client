@@ -296,7 +296,21 @@
         }
     },
     "save": "Save",
+    "schedules": {
+        "alert": {
+            "successfullyAdded": "New schedule successfully added",
+            "successfullyUpdated": "Schedule successfully updated"
+        },
+        "form": {
+            "endDateTime": "End datetime",
+            "startDateTime": "Start datetime",
+            "private": "Private",
+            "title": "Title"
+        },
+        "newSchedule": "New schedule"
+    },
     "selectADate": "Select a date",
+    "selectADateAndTime": "Select a date and time",
     "settings": {
         "company": {
             "form": {

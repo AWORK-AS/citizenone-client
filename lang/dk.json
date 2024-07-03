@@ -296,7 +296,21 @@
         }
     },
     "save": "Gem",
+    "schedules": {
+        "alert": {
+            "successfullyAdded": "Ny tidsplan tilføjet med succes",
+            "successfullyUpdated": "Tidsplan opdateret med succes"
+        },
+        "form": {
+            "endDateTime": "Slut dato og tid",
+            "startDateTime": "Start dato og tid",
+            "private": "Privat",
+            "title": "Titel"
+        },
+        "newSchedule": "Ny tidsplan"
+    },
     "selectADate": "Vælg en dato",
+    "selectADateAndTime": "Vælg en dato og tid",
     "settings": {
         "company": {
             "form": {

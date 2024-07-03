@@ -8,6 +8,22 @@ importers:
 
   .:
     dependencies:
+      vue:
+        specifier: ^3.4.27
+        version: 3.4.28
+      vue-i18n:
+        specifier: '9'
+        version: 9.13.1(vue@3.4.28)
+      vue-router:
+        specifier: ^4.3.3
+        version: 4.3.3(vue@3.4.28)
+    devDependencies:
+      '@ckeditor/ckeditor5-build-classic':
+        specifier: ^41.4.2
+        version: 41.4.2
+      '@ckeditor/ckeditor5-vue':
+        specifier: ^5.1.0
+        version: 5.1.0
       '@fullcalendar/core':
         specifier: ^6.1.14
         version: 6.1.14
@@ -26,22 +42,6 @@ importers:
       '@fullcalendar/vue3':
         specifier: ^6.1.14
         version: 6.1.14(@fullcalendar/core@6.1.14)(vue@3.4.28)
-      vue:
-        specifier: ^3.4.27
-        version: 3.4.28
-      vue-i18n:
-        specifier: '9'
-        version: 9.13.1(vue@3.4.28)
-      vue-router:
-        specifier: ^4.3.3
-        version: 4.3.3(vue@3.4.28)
-    devDependencies:
-      '@ckeditor/ckeditor5-build-classic':
-        specifier: ^41.4.2
-        version: 41.4.2
-      '@ckeditor/ckeditor5-vue':
-        specifier: ^5.1.0
-        version: 5.1.0
       '@headlessui/vue':
         specifier: ^1.7.22
         version: 1.7.22(vue@3.4.28)
@@ -5171,11 +5171,6 @@ snapshots:
     dependencies:
       ckeditor5: 41.4.2
       lodash-es: 4.17.21
-    transitivePeerDependencies:
-      - bufferutil
-      - canvas
-      - supports-color
-      - utf-8-validate
 
   '@ckeditor/ckeditor5-image@41.4.2':
     dependencies:
@@ -5261,20 +5256,10 @@ snapshots:
   '@ckeditor/ckeditor5-minimap@41.4.2':
     dependencies:
       ckeditor5: 41.4.2
-    transitivePeerDependencies:
-      - bufferutil
-      - canvas
-      - supports-color
-      - utf-8-validate
 
   '@ckeditor/ckeditor5-page-break@41.4.2':
     dependencies:
       ckeditor5: 41.4.2
-    transitivePeerDependencies:
-      - bufferutil
-      - canvas
-      - supports-color
-      - utf-8-validate
 
   '@ckeditor/ckeditor5-paragraph@41.4.2':
     dependencies:
@@ -5294,11 +5279,6 @@ snapshots:
   '@ckeditor/ckeditor5-remove-format@41.4.2':
     dependencies:
       ckeditor5: 41.4.2
-    transitivePeerDependencies:
-      - bufferutil
-      - canvas
-      - supports-color
-      - utf-8-validate
 
   '@ckeditor/ckeditor5-restricted-editing@41.4.2':
     dependencies:
