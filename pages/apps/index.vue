@@ -3,10 +3,10 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>Apps - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('apps.apps') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>Apps</template>
+            <template #header>{{ $t('apps.apps') }}</template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div v-if="state.apps?.data">
@@ -33,10 +33,10 @@
                             </div>
                             <div class="flex items-center gap-2">
                                 <FormButton type="button" buttonStyle="action" class="w-full" @click="readMore(app)">
-                                    Read More
+                                    {{ $t('apps.readMore') }}
                                 </FormButton>
                                 <FormButton type="button" buttonStyle="action" class="w-full" color="primary">
-                                    Activate
+                                    {{ $t('apps.activate') }}
                                 </FormButton>
                             </div>
                         </div>

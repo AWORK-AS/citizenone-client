@@ -21,6 +21,12 @@
         "success": "Succes",
         "successfullySubscribed": "Du har abonneret med succes"
     },
+    "apps": {
+        "activate": "Aktivér",
+        "contactUs": "Kontakt os",
+        "readMore": "Læs mere",
+        "apps": "Apps"
+    },
     "back": "Tilbage",
     "cancel": "Annuller",
     "citizens": {
@@ -147,6 +153,9 @@
     "confirm": "Bekræft",
     "confirmation": "Bekræftelse",
     "close": "Luk",
+    "dutySchedules": {
+        "dutySchedules": "Vagtplaner"
+    },
     "employees": {
         "editEmployee": "Rediger Medarbejder",
         "employees": "Medarbejdere",
@@ -301,6 +310,7 @@
             "successfullyAdded": "Ny tidsplan tilføjet med succes",
             "successfullyUpdated": "Tidsplan opdateret med succes"
         },
+        "calendar": "Kalender",
         "editSchedule": "Rediger tidsplan",
         "form": {
             "datetimeStart": "Start dato og tid",

@@ -3,10 +3,10 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>Duty Schedules - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('dutySchedules.dutySchedules') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>Duty Schedules</template>
+            <template #header>{{ $t('dutySchedules.dutySchedules') }}</template>
 
             <div>
 

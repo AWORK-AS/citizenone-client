@@ -21,6 +21,12 @@
         "success": "Success",
         "successfullySubscribed": "You have successfully subscribed"
     },
+    "apps": {
+        "activate": "Activate",
+        "contactUs": "Contact us",
+        "readMore": "Read more",
+        "apps": "Apps"
+    },
     "back": "Back",
     "cancel": "Cancel",
     "citizens": {
@@ -147,6 +153,9 @@
     "confirm": "Confirm",
     "confirmation": "Confirmation",
     "close": "Close",
+    "dutySchedules": {
+        "dutySchedules": "Duty Schedules"
+    },
     "employees": {
         "editEmployee": "Edit Employee",
         "employees": "Employees",
@@ -301,6 +310,7 @@
             "successfullyAdded": "New schedule successfully added",
             "successfullyUpdated": "Schedule successfully updated"
         },
+        "calendar": "Calendar",
         "editSchedule": "Edit schedule",
         "form": {
             "datetimeStart": "Date time start",

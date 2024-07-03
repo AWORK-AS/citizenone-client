@@ -19,10 +19,10 @@
                 </div>
                 <div class="mt-5 flex gap-x-3">
                     <FormButton buttonStyle="primary" @click="closeModal" class="w-full rounded-md">
-                        Contact Us
+                        {{ $t('apps.contactUs') }}
                     </FormButton>
                     <FormButton buttonStyle="primary" @click="closeModal" class="w-full rounded-md">
-                        Activate
+                        {{ $t('apps.activate') }}
                     </FormButton>
                 </div>
             </template>
