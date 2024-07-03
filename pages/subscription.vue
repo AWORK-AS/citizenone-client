@@ -203,7 +203,6 @@ async function subscribe(deal: any) {
         const params = {
             'deal_uuid': deal.uuid,
             'type': frequency.value.value === 'monthly' ? 'monthly' : 'yearly',
-            'user_uuid': '78ad0fcb-6550-40cf-8f67-249966ec4fd3',
         }
         const response = await userSubscriptionService.subscribe(params)
         if (response) {

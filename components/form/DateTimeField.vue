@@ -4,9 +4,9 @@
             class="appearance-none block w-full px-3 py-2.5 border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
             :placeholder="props.placeholder" :value="props.modelValue" @input="updateValue($event)" ref="dateInput"
             @click="openDateInput" />
-        <div v-if="props.modelValue" class="absolute top-3 left-3 bg-white w-2/3" @click="openDateInput">{{
-            formattedDate
-        }}</div>
+        <div v-if="props.modelValue" class="absolute top-3 left-3 bg-white w-2/3" @click="openDateInput">
+            {{ formattedDate }}
+        </div>
         <div v-else class="absolute top-3 left-3 bg-white w-2/3" @click="openDateInput">
             {{ $t('selectADateAndTime') }}
         </div>
@@ -33,9 +33,10 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 const formattedDate = ref('')
 
-const dateInput = ref(null)
+const dateInput = ref<HTMLInputElement | null>(null)
+
 function openDateInput() {
-    dateInput.value.showPicker()
+    dateInput.value?.showPicker()
 }
 
 watch(() => props.modelValue, (newValue: any) => {
@@ -44,11 +45,11 @@ watch(() => props.modelValue, (newValue: any) => {
         const day = String(date.getDate()).padStart(2, '0')
         const month = date.toLocaleString('default', { month: 'short' })
         const year = date.getFullYear()
-        let hour = date.getHours()
-        hour = hour % 12 || 12
+        const hour = date.getHours()
         const minute = String(date.getMinutes()).padStart(2, '0')
-        const ampm = date.getHours() >= 12 ? 'PM' : 'AM'
-        formattedDate.value = `${day}. ${month} ${year} ${hour}:${minute} ${ampm}`
+        const ampm = hour >= 12 ? 'PM' : 'AM'
+        const formattedHour = hour % 12 || 12
+        formattedDate.value = `${day}. ${month} ${year} ${String(formattedHour).padStart(2, '0')}:${minute} ${ampm}`
     }
 })
 
@@ -57,7 +58,11 @@ function updateValue(event: any) {
     const day = String(date.getDate()).padStart(2, '0')
     const month = date.toLocaleString('default', { month: 'long' })
     const year = date.getFullYear()
-    formattedDate.value = `${day}, ${month} ${year}`
+    const hour = date.getHours()
+    const minute = String(date.getMinutes()).padStart(2, '0')
+    const ampm = hour >= 12 ? 'PM' : 'AM'
+    const formattedHour = hour % 12 || 12
+    formattedDate.value = `${day}. ${month} ${year} ${String(formattedHour).padStart(2, '0')}:${minute} ${ampm}`
     emit('update:modelValue', event.target.value)
 }
 </script>

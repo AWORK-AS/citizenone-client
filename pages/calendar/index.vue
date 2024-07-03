@@ -18,6 +18,9 @@
             </div>
             <ModulesCalendarModalNew :isModalOpen="state.modal.isAddEventOpen"
                 @close="state.modal.isAddEventOpen = false" @refreshSchedules="fetchSchedules" />
+            <ModulesCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
+                :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
+                @refreshSchedules="fetchSchedules" />
         </NuxtLayout>
     </div>
 </template>
@@ -29,7 +32,6 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
-import { reactive, onMounted } from 'vue'
 
 interface Schedule {
     id: string
@@ -37,6 +39,7 @@ interface Schedule {
     title: string
     date_time_start: string
     date_time_end: string
+    is_private: boolean
 }
 
 interface CalendarEvent {
@@ -45,6 +48,7 @@ interface CalendarEvent {
     title: string
     start: string
     end: string
+    is_private: boolean
 }
 
 interface ErrorState {
@@ -53,6 +57,7 @@ interface ErrorState {
 
 interface ModalState {
     isAddEventOpen: boolean
+    isEditEventOpen: boolean
 }
 
 interface State {
@@ -66,31 +71,43 @@ interface State {
         plugins: any[]
         initialView: string
         events: CalendarEvent[]
+        eventClick?: (info: any) => void
     }
     error: ErrorState | null
     isPageLoading: boolean
     modal: ModalState
+    selectedSchedule: CalendarEvent
 }
 
 const runtimeConfig = useRuntimeConfig()
 
 const state = reactive<State>({
     calendarOptions: {
+        events: [],
         headerToolbar: {
             start: 'dayGridMonth,timeGridWeek,listWeek', // will normally be on the left. if RTL, will be on the right
             center: 'title',
             end: 'today prev,next' // will normally be on the right. if RTL, will be on the left
         },
         height: 700,
-        plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
         initialView: 'dayGridMonth',
-        events: []
+        plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
+        eventClick: handleEventClick,
     },
     error: null,
     isPageLoading: false,
     modal: {
         isAddEventOpen: false,
+        isEditEventOpen: false
     },
+    selectedSchedule: {
+        id: '',
+        uuid: '',
+        title: '',
+        start: '',
+        end: '',
+        is_private: false,
+    }
 })
 
 onMounted(() => {
@@ -103,13 +120,13 @@ async function fetchSchedules() {
         const response = await scheduleService.getSchedules()
         if (response.data) {
             response.data.forEach((schedule: Schedule) => {
-                console.log('schedule', schedule)
                 state.calendarOptions.events.push({
                     id: schedule.id,
                     uuid: schedule.uuid,
                     title: schedule.title,
                     start: schedule.date_time_start,
-                    end: schedule.date_time_end
+                    end: schedule.date_time_end,
+                    is_private: schedule.is_private,
                 })
             })
         }
@@ -117,5 +134,15 @@ async function fetchSchedules() {
         state.error = { message: error.message }
     }
     state.isPageLoading = false
+}
+
+function handleEventClick(info: any) {
+    state.selectedSchedule.id = info.event.id
+    state.selectedSchedule.uuid = info.event.extendedProps.uuid
+    state.selectedSchedule.title = info.event.title
+    state.selectedSchedule.start = info.event.start
+    state.selectedSchedule.end = info.event.end
+    state.selectedSchedule.is_private = info.event.extendedProps.is_private ? true : false
+    state.modal.isEditEventOpen = true
 }
 </script>

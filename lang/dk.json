@@ -301,9 +301,10 @@
             "successfullyAdded": "Ny tidsplan tilføjet med succes",
             "successfullyUpdated": "Tidsplan opdateret med succes"
         },
+        "editSchedule": "Rediger tidsplan",
         "form": {
-            "endDateTime": "Slut dato og tid",
-            "startDateTime": "Start dato og tid",
+            "datetimeStart": "Start dato og tid",
+            "dateTimeEnd": "Slut dato og tid",
             "private": "Privat",
             "title": "Titel"
         },

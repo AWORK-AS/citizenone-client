@@ -11,16 +11,16 @@
                 <FormError :error="props?.error?.errors?.title?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="date_time_start" :label="$t('schedules.form.startDateTime')" />
+                <FormLabel for="date_time_start" :label="$t('schedules.form.datetimeStart')" />
                 <FormDateTimeField id="date_time_start" name="date_time_start"
-                    :placeholder="$t('schedules.form.startDateTime')" v-model="state.formSchedule.date_time_start" />
+                    :placeholder="$t('schedules.form.datetimeStart')" v-model="state.formSchedule.date_time_start" />
                 <FormError :error="v$?.formSchedule?.date_time_start?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date_time_start?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="date_time_end" :label="$t('schedules.form.endDateTime')" />
+                <FormLabel for="date_time_end" :label="$t('schedules.form.dateTimeEnd')" />
                 <FormDateTimeField id="date_time_end" name="date_time_end"
-                    :placeholder="$t('schedules.form.endDateTime')" v-model="state.formSchedule.date_time_end" />
+                    :placeholder="$t('schedules.form.dateTimeEnd')" v-model="state.formSchedule.date_time_end" />
                 <FormError :error="v$?.formSchedule?.date_time_end?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date_time_end?.[0]" />
             </div>
@@ -85,22 +85,9 @@ onMounted(() => {
         id: props.selectedSchedule.id,
         uuid: props.selectedSchedule.uuid,
         title: props.selectedSchedule.title,
-        date_time_start: props.selectedSchedule.date_time_start,
-        date_time_end: props.selectedSchedule.date_time_end,
+        date_time_start: props.selectedSchedule.start ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.start) : formatDateToYYYYmmddHHmm('', false),
+        date_time_end: props.selectedSchedule.end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.end) : formatDateToYYYYmmddHHmm('', true),
         is_private: props.selectedSchedule.is_private,
-    }
-})
-
-watch(() => props.selectedSchedule, (newValue: any) => {
-    if (newValue != null) {
-        state.formSchedule = {
-            id: newValue.id,
-            uuid: newValue.uuid,
-            title: newValue.title,
-            date_time_start: newValue.date_time_start,
-            date_time_end: newValue.date_time_end,
-            is_private: newValue.is_private,
-        }
     }
 })
 
@@ -127,5 +114,50 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', state.formSchedule)
     }
+}
+
+function formatDateTimeToYYYYmmddHHmm(inputDate: string): string {
+    const date = new Date(inputDate)
+
+    // Extract date components
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0') // January is 0
+    const day = String(date.getDate()).padStart(2, '0')
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+
+    // Construct formatted date string without semicolons
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`
+
+    return formattedDate
+}
+
+function formatDateToYYYYmmddHHmm(dateString: string, is_end_date_time: boolean = false): string {
+    let date: Date
+
+    if (!dateString) {
+        // If dateString is null or empty, use today's date
+        date = new Date() // Current date and time
+    } else {
+        date = new Date(dateString)
+    }
+
+    if (is_end_date_time) {
+        // Set time to 11:59:59.999 PM
+        date.setHours(23, 59, 59, 999)
+    } else {
+        // Default behavior: set time to 00:00:00.000 AM
+        date.setHours(0, 0, 0, 0)
+    }
+
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2) // Months are zero indexed
+    const day = ('0' + date.getDate()).slice(-2)
+    const hours = ('0' + date.getHours()).slice(-2)
+    const minutes = ('0' + date.getMinutes()).slice(-2)
+
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`
+
+    return formattedDate
 }
 </script>

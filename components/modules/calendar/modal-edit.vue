@@ -1,0 +1,77 @@
+<template>
+    <div>
+        <Modal size="xs" :title="$t('schedules.editSchedule')" :show="props.isModalOpen" @close="closeModal">
+            <template #modal-body>
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <ModulesCalendarForm formType="update" :selectedSchedule="props.selectedSchedule"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @closeModal="closeModal" @submitForm="updateSchedule" />
+                </LoadingSpinner>
+            </template>
+        </Modal>
+    </div>
+</template>
+
+
+<script setup lang="ts">
+import { scheduleService } from '@/components/api/ScheduleService'
+import { useI18n } from "vue-i18n"
+import { notify } from "@kyvg/vue3-notification"
+
+const { t } = useI18n()
+
+const props = defineProps({
+    isModalOpen: {
+        type: Boolean,
+        required: true,
+    },
+    selectedSchedule: {
+        type: Object,
+        required: true,
+    }
+})
+const emit = defineEmits(['close', 'refreshSchedules'])
+
+const state = reactive({
+    error: [],
+    isPageLoading: false,
+})
+
+function closeModal() {
+    emit('close')
+}
+
+function refreshSchedules() {
+    emit('refreshSchedules')
+}
+
+async function updateSchedule(scheduleDetails: any) {
+    state.isPageLoading = true
+    try {
+        const scheduleUuid = scheduleDetails.uuid
+        const params = {
+            title: scheduleDetails.title,
+            date_time_start: scheduleDetails.date_time_start,
+            date_time_end: scheduleDetails.date_time_end,
+            is_private: scheduleDetails.is_private,
+        }
+        const response = await scheduleService.updateSchedule(scheduleUuid, params)
+        if (response?.data) {
+            refreshSchedules()
+            closeModal()
+            successAlert(`${t('alert.success')}!`, `${t('schedules.alert.successfullyUpdated')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function successAlert(title: string, message: string) {
+    notify({
+        title: title,
+        text: message,
+        type: 'success',
+    })
+}
+</script>

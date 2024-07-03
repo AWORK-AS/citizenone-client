@@ -301,9 +301,10 @@
             "successfullyAdded": "New schedule successfully added",
             "successfullyUpdated": "Schedule successfully updated"
         },
+        "editSchedule": "Edit schedule",
         "form": {
-            "endDateTime": "End datetime",
-            "startDateTime": "Start datetime",
+            "datetimeStart": "Date time start",
+            "dateTimeEnd": "Date time end",
             "private": "Private",
             "title": "Title"
         },
