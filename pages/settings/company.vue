@@ -174,30 +174,6 @@ watch(() => userStore.getUser, (newValue: any) => {
     }
 })
 
-async function fetchUser() {
-    state.isPageLoading = true
-    try {
-        const response = await userService.getUser()
-        if (response.data) {
-            state.formCompany = {
-                name: response.data?.company?.name,
-                cvr: response.data?.company?.cvr,
-                website: response.data?.company?.website,
-                street: response.data?.company?.company_address?.street,
-                region: response.data?.company?.company_address?.region_id,
-                municipality: response.data?.company?.company_address?.municipality_id,
-                city: response.data?.company?.company_address?.city_id,
-                post_code: response.data?.company?.company_address?.post_code,
-            }
-            fetchMunicipalities(response.data?.company?.company_address?.region_id)
-            fetchCities(response.data?.company?.company_address?.municipality_id)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
 async function fetchRegions() {
     state.isPageLoading = true
     try {

@@ -303,7 +303,6 @@ import { useI18n } from "vue-i18n"
 
 const userStore = useUserStore()
 const language = useI18n()
-language.locale.value = userStore.getLanguage
 
 const navigation = [
     {
@@ -399,6 +398,8 @@ async function fetchUser() {
         const response = await userService.getUser()
         if (response?.data) {
             userStore.setUser(response?.data)
+            userStore.setLanguage(response?.data?.language?.code)
+            language.locale.value = response?.data?.language?.code
         }
     } catch (error: any) {
         state.error = error
