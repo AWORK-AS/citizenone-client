@@ -2,8 +2,15 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="mt-4">
             <h2 class="text-sm mb-2 text-white flex justify-between">
-                <span>{{ $t('storage.storage') }}</span>
-                <span>{{ state.usage?.total_storage }}</span>
+                <div>
+                    {{ $t('storage.storage') }}
+                    ({{ state.usage?.total_storage }})
+                </div>
+                <div class="cursor-pointer hover:text-gray-300 flex items-center gap-1"
+                    @click="navigateTo('/storage/upgrade')">
+                    <Icon name="ph:arrow-circle-up" class="h-5 w-5" aria-hidden="true" />
+                    <span class="text-xs">Upgrade</span>
+                </div>
             </h2>
             <div class="space-y-2 text-xs text-white">
                 <div class="w-full bg-gray-200 rounded-full overflow-hidden">

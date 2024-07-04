@@ -1,7 +1,7 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
         <div
-            class="mb-2 flex items-center justify-between gap-x-2 border-b border-t py-4 px-2 border-tertiary-25 border-dashed">
+            class="mb-2 flex items-center justify-between gap-x-2 border-b border-t py-4 border-tertiary-25 border-dashed">
             <p class="text-sm text-white">
                 {{ userStore.getIsLoggedIn ? $t('timeRegistration.checkIn') : $t('timeRegistration.checkOut') }}
             </p>
