@@ -313,6 +313,7 @@
         "calendar": "Kalender",
         "editSchedule": "Rediger tidsplan",
         "form": {
+            "citizens_users": "Borgere/Brugere",
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",
             "description": "Beskrivelse",

@@ -313,6 +313,7 @@
         "calendar": "Calendar",
         "editSchedule": "Edit schedule",
         "form": {
+            "citizens_users": "Citizens/Users",
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
             "description": "Description",

@@ -38,6 +38,13 @@
                     {{ $t('schedules.form.private') }}
                 </div>
             </div>
+            <div class="space-y-1">
+                <FormLabel for="user_uuid" :label="$t('schedules.form.citizens_users')" />
+                <FormSelectMultiple id="user_uuid" name="user_uuid" :options="state.options.citizenUsers"
+                    v-model="state.formSchedule.user_uuid" />
+                <FormError :error="v$?.formProtocol?.user_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.user_uuid?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -54,6 +61,8 @@
 </template>
 
 <script setup lang="ts">
+import { citizenService } from '@/components/api/CitizenService'
+import { userService } from '@/components/api/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -76,7 +85,14 @@ const emit = defineEmits(['closeModal', 'submitForm'])
 
 const { t } = useI18n()
 
+interface Option {
+    value: string
+    label: string
+}
+
 const state = reactive({
+    error: [],
+    isPageLoading: false,
     formSchedule: {
         id: '',
         uuid: '',
@@ -85,10 +101,16 @@ const state = reactive({
         date_time_start: '',
         date_time_end: '',
         is_private: false,
+        user_uuid: [],
     },
+    options: {
+        citizenUsers: [] as Option[]
+    }
 })
 
 onMounted(() => {
+    fetchAllCitizens()
+    fetchAllUsers()
     state.formSchedule = {
         id: props.selectedSchedule.id,
         uuid: props.selectedSchedule.uuid,
@@ -97,6 +119,7 @@ onMounted(() => {
         date_time_start: props.selectedSchedule.start ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.start) : formatDateToYYYYmmddHHmm('', false),
         date_time_end: props.selectedSchedule.end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.end) : formatDateToYYYYmmddHHmm('', true),
         is_private: props.selectedSchedule.is_private,
+        user_uuid: props.selectedSchedule.user_uuid,
     }
 })
 
@@ -168,5 +191,47 @@ function formatDateToYYYYmmddHHmm(dateString: string, is_end_date_time: boolean 
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`
 
     return formattedDate
+}
+
+async function fetchAllCitizens() {
+    state.error = []
+    state.isPageLoading = true
+    try {
+        const response = await citizenService.getAllCitizens()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (citizen: any) => options.push({
+                    value: citizen?.uuid,
+                    label: citizen?.firstname + " " + citizen?.lastname,
+                })
+            )
+            state.options.citizenUsers = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllUsers() {
+    state.error = []
+    state.isPageLoading = true
+    try {
+        const response = await userService.getAllUsers()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (user: any) => options.push({
+                    value: user?.uuid,
+                    label: user?.firstname + " " + user?.lastname,
+                })
+            )
+            state.options.citizenUsers.push(...options)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>

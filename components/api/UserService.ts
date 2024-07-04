@@ -24,6 +24,10 @@ class UserService extends BaseAPIService {
     async updateCompany(params: object): Promise<any> {
         return await this.request(`/user/company/update/details`, 'PUT', params)
     }
+
+    async getAllUsers(): Promise<any> {
+        return await this.request(`/user/employees/all/list`, 'GET')
+    }
 }
 
 export const userService = new UserService()
