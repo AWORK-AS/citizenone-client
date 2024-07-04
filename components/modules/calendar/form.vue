@@ -11,6 +11,13 @@
                 <FormError :error="props?.error?.errors?.title?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="description" :label="$t('schedules.form.description')" />
+                <FormTextArea id="title" name="title" :placeholder="$t('schedules.form.description')"
+                    v-model="state.formSchedule.description" />
+                <FormError :error="v$?.formSchedule?.title?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.title?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="date_time_start" :label="$t('schedules.form.datetimeStart')" />
                 <FormDateTimeField id="date_time_start" name="date_time_start"
                     :placeholder="$t('schedules.form.datetimeStart')" v-model="state.formSchedule.date_time_start" />
@@ -74,6 +81,7 @@ const state = reactive({
         id: '',
         uuid: '',
         title: '',
+        description: '',
         date_time_start: '',
         date_time_end: '',
         is_private: false,
@@ -85,6 +93,7 @@ onMounted(() => {
         id: props.selectedSchedule.id,
         uuid: props.selectedSchedule.uuid,
         title: props.selectedSchedule.title,
+        description: props.selectedSchedule.description,
         date_time_start: props.selectedSchedule.start ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.start) : formatDateToYYYYmmddHHmm('', false),
         date_time_end: props.selectedSchedule.end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.end) : formatDateToYYYYmmddHHmm('', true),
         is_private: props.selectedSchedule.is_private,

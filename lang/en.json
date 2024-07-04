@@ -315,6 +315,7 @@
         "form": {
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
+            "description": "Description",
             "private": "Private",
             "title": "Title"
         },

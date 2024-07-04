@@ -51,6 +51,7 @@ async function updateSchedule(scheduleDetails: any) {
         const scheduleUuid = scheduleDetails.uuid
         const params = {
             title: scheduleDetails.title,
+            description: scheduleDetails.description,
             date_time_start: scheduleDetails.date_time_start,
             date_time_end: scheduleDetails.date_time_end,
             is_private: scheduleDetails.is_private,

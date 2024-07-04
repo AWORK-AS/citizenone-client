@@ -37,6 +37,7 @@ interface Schedule {
     id: string
     uuid: string
     title: string
+    description: string
     date_time_start: string
     date_time_end: string
     is_private: boolean
@@ -46,6 +47,7 @@ interface CalendarEvent {
     id: string
     uuid: string
     title: string
+    description: string
     start: string
     end: string
     is_private: boolean
@@ -104,6 +106,7 @@ const state = reactive<State>({
         id: '',
         uuid: '',
         title: '',
+        description: '',
         start: '',
         end: '',
         is_private: false,
@@ -124,6 +127,7 @@ async function fetchSchedules() {
                     id: schedule.id,
                     uuid: schedule.uuid,
                     title: schedule.title,
+                    description: schedule.description,
                     start: schedule.date_time_start,
                     end: schedule.date_time_end,
                     is_private: schedule.is_private,
@@ -140,6 +144,7 @@ function handleEventClick(info: any) {
     state.selectedSchedule.id = info.event.id
     state.selectedSchedule.uuid = info.event.extendedProps.uuid
     state.selectedSchedule.title = info.event.title
+    state.selectedSchedule.description = info.event.extendedProps.description
     state.selectedSchedule.start = info.event.start
     state.selectedSchedule.end = info.event.end
     state.selectedSchedule.is_private = info.event.extendedProps.is_private ? true : false
