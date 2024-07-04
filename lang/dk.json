@@ -154,7 +154,26 @@
     "confirmation": "Bekræftelse",
     "close": "Luk",
     "dutySchedules": {
-        "dutySchedules": "Vagtplaner"
+        "alert": {
+            "successfullyAdded": "Ny tidsplan tilføjet med succes",
+            "successfullyDeleted": "Tidsplan slettet med succes",
+            "successfullyUpdated": "Tidsplan opdateret med succes"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne tidsplan"
+        },
+        "deleteSchedule": "Slet tidsplan",
+        "dutySchedules": "Vagtplaner",
+        "editSchedule": "Rediger tidsplan",
+        "form": {
+            "datetimeStart": "Start dato og tid",
+            "dateTimeEnd": "Slut dato og tid",
+            "description": "Beskrivelse",
+            "private": "Privat",
+            "title": "Titel",
+            "users": "Brugere"
+        },
+        "newSchedule": "Ny tidsplan"
     },
     "employees": {
         "editEmployee": "Rediger Medarbejder",

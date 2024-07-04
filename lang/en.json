@@ -154,7 +154,26 @@
     "confirmation": "Confirmation",
     "close": "Close",
     "dutySchedules": {
-        "dutySchedules": "Duty Schedules"
+        "alert": {
+            "successfullyAdded": "New schedule successfully added",
+            "successfullyDeleted": "Schedule successfully deleted",
+            "successfullyUpdated": "Schedule successfully updated"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this schedule"
+        },
+        "deleteSchedule": "Delete schedule",
+        "dutySchedules": "Duty Schedules",
+        "editSchedule": "Edit schedule",
+        "form": {
+            "datetimeStart": "Date time start",
+            "dateTimeEnd": "Date time end",
+            "description": "Description",
+            "private": "Private",
+            "title": "Title",
+            "users": "Users"
+        },
+        "newSchedule": "New schedule"
     },
     "employees": {
         "editEmployee": "Edit Employee",
