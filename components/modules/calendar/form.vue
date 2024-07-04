@@ -12,10 +12,10 @@
             </div>
             <div class="space-y-1">
                 <FormLabel for="description" :label="$t('schedules.form.description')" />
-                <FormTextArea id="title" name="title" :placeholder="$t('schedules.form.description')"
+                <FormTextArea id="description" name="description" :placeholder="$t('schedules.form.description')"
                     v-model="state.formSchedule.description" />
-                <FormError :error="v$?.formSchedule?.title?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.title?.[0]" />
+                <FormError :error="v$?.formSchedule?.description?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.description?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="date_time_start" :label="$t('schedules.form.datetimeStart')" />
@@ -39,11 +39,11 @@
                 </div>
             </div>
             <div class="space-y-1">
-                <FormLabel for="user_uuid" :label="$t('schedules.form.citizens_users')" />
-                <FormSelectMultiple id="user_uuid" name="user_uuid" :options="state.options.citizenUsers"
-                    v-model="state.formSchedule.user_uuid" />
-                <FormError :error="v$?.formProtocol?.user_uuid?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.user_uuid?.[0]" />
+                <FormLabel for="citizen_user_uuid" :label="$t('schedules.form.citizens_users')" />
+                <FormSelectMultiple id="citizen_user_uuid" name="citizen_user_uuid"
+                    :options="state.options.citizenUsers" v-model="state.formSchedule.citizen_user_uuid" />
+                <FormError :error="v$?.formProtocol?.citizen_user_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.citizen_user_uuid?.[0]" />
             </div>
         </div>
         <div class="mt-6">
@@ -101,7 +101,7 @@ const state = reactive({
         date_time_start: '',
         date_time_end: '',
         is_private: false,
-        user_uuid: [],
+        citizen_user_uuid: [],
     },
     options: {
         citizenUsers: [] as Option[]
@@ -119,7 +119,7 @@ onMounted(() => {
         date_time_start: props.selectedSchedule.start ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.start) : formatDateToYYYYmmddHHmm('', false),
         date_time_end: props.selectedSchedule.end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.end) : formatDateToYYYYmmddHHmm('', true),
         is_private: props.selectedSchedule.is_private,
-        user_uuid: props.selectedSchedule.user_uuid,
+        citizen_user_uuid: props.selectedSchedule.citizen_user_uuid,
     }
 })
 

@@ -41,7 +41,7 @@ interface Schedule {
     date_time_start: string
     date_time_end: string
     is_private: boolean
-    user_uuid: object
+    citizen_user_uuid: object
 }
 
 interface CalendarEvent {
@@ -52,7 +52,7 @@ interface CalendarEvent {
     start: string
     end: string
     is_private: boolean
-    user_uuid: object
+    citizen_user_uuid: object
 }
 
 interface ErrorState {
@@ -112,7 +112,7 @@ const state = reactive<State>({
         start: '',
         end: '',
         is_private: false,
-        user_uuid: [],
+        citizen_user_uuid: [],
     }
 })
 
@@ -134,7 +134,7 @@ async function fetchSchedules() {
                     start: schedule.date_time_start,
                     end: schedule.date_time_end,
                     is_private: schedule.is_private,
-                    user_uuid: schedule.user_uuid,
+                    citizen_user_uuid: schedule.citizen_user_uuid,
                 })
             })
         }
