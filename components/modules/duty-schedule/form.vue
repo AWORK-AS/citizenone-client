@@ -43,7 +43,7 @@
                 <FormLabel for="user_uuid" :label="$t('dutySchedules.form.users')" />
                 <FormSelect id="user_uuid" name="user_uuid" :options="state.options.citizenUsers"
                     v-model="state.formSchedule.user_uuid" />
-                <FormError :error="v$?.formProtocol?.user_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="v$?.formSchedule?.user_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.user_uuid?.[0]" />
             </div>
         </div>
@@ -132,6 +132,9 @@ const rules = computed(() => {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             date_time_end: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            user_uuid: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
