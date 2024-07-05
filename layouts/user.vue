@@ -26,9 +26,9 @@
                             </TransitionChild>
                             <div
                                 class="flex grow flex-col gap-y-5 overflow-y-auto bg-primary px-6 pb-4 ring-1 ring-white/10">
-                                <div class="flex h-16 shrink-0 items-center">
-                                    <span class="text-white font-medium" @click="navigateTo('/citizens')">
-                                        <Logo />
+                                <div class="mt-5">
+                                    <span @click="navigateTo('/citizens')">
+                                        <LogoWhite />
                                     </span>
                                 </div>
                                 <nav class="flex flex-1 flex-col">
@@ -103,9 +103,9 @@
         <!-- Static sidebar for desktop -->
         <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
             <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-primary border-r border-gray-200 px-6 pb-4">
-                <div class="flex h-16 shrink-0 items-center">
-                    <span class="text-secondary-25 font-medium" @click="navigateTo('/citizens')">
-                        <Logo />
+                <div class="mt-5">
+                    <span @click="navigateTo('/citizens')">
+                        <LogoWhite />
                     </span>
                 </div>
                 <nav class="flex flex-1 flex-col">
@@ -393,7 +393,6 @@ onMounted(() => {
 })
 
 async function fetchUser() {
-    state.isPageLoading = true
     try {
         const response = await userService.getUser()
         if (response?.data) {
@@ -404,7 +403,6 @@ async function fetchUser() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
 }
 
 async function logout() {

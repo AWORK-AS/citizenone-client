@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260.65 52.01">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        fill: #3fadd8;
+        font-family: Lato-Bold, Lato;
+        font-weight: 700;
+      }
+
+      .cls-2 {
+        letter-spacing: 0em;
+      }
+
+      .cls-5 {
+        fill: #00607a;
+        font-family: Lato-Regular, Lato;
+        letter-spacing: 0em;
+      }
+
+      .cls-3 {
+        letter-spacing: 0em;
+      }
+
+      .cls-4 {
+        letter-spacing: 0em;
+      }
+
+      .cls-6 {
+        font-size: 45.36px;
+      }
+    </style>
+  </defs>
+  <g id="Lag_1" data-name="Lag 1">
+    <text class="cls-6" transform="translate(0 39.08)"><tspan class="cls-1" x="0" y="0">Citi</tspan><tspan class="cls-4" x="70.72" y="0">z</tspan><tspan class="cls-1" x="91.16" y="0">e</tspan><tspan class="cls-2" x="115.38" y="0">n</tspan><tspan class="cls-3" x="140.53" y="0">O</tspan><tspan class="cls-1" x="176.8" y="0">ne</tspan><tspan class="cls-5" x="226.61" y="0">™</tspan></text>
+  </g>
+</svg>
