@@ -17,6 +17,12 @@
             "passwordUpdatedSucessfully": "Adgangskode opdateret med succes",
             "required8Characters": "Dette felt skal være mindst 8 tegn langt"
         },
+        "setupPassword": {
+            "confirmPasswordNotTheSame": "Bekræft adgangskode er ikke den samme som ny adgangskode",
+            "invalidPasswordSetupToken": "Ugyldig token til oprettelse af adgangskode",
+            "passwordSetupSucessfully": "Adgangskode oprettet med succes",
+            "required8Characters": "Dette felt skal være mindst 8 tegn langt"
+        },
         "somethingWentWrong": "Noget gik galt",
         "success": "Succes",
         "successfullySubscribed": "Du har abonneret med succes"
@@ -404,6 +410,16 @@
         "or": "Eller"
     },
     "search": "Søg",
+    "setupPassword": {
+        "form": {
+            "confirmPassword": "Bekræft adgangskode",
+            "password": "Adgangskode"
+        },
+        "loginHereInstead": "Log ind her i stedet",
+        "or": "Eller",
+        "setPassword": "Opret adgangskode",
+        "setupPassword": "Opret adgangskode"
+    },
     "sidebar": {
         "citizens": "Borgere",
         "calendar": "Kalender",

@@ -116,14 +116,6 @@ async function forgotPassword() {
     }
 }
 
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
-}
-
 function selectLanguage() {
     state.slideOver.isLanguageSwitcherOpen = true
 }
@@ -137,5 +129,13 @@ function identifyFlag() {
             return '/img/icons/flags/denmark.svg'
         }
     }
+}
+
+function successAlert(title: string, message: string) {
+    notify({
+        title: title,
+        text: message,
+        type: 'success',
+    })
 }
 </script>

@@ -17,6 +17,12 @@
             "passwordUpdatedSucessfully": "Password updated successfully",
             "required8Characters": "This field should be at least 8 characters long"
         },
+        "setupPassword": {
+            "confirmPasswordNotTheSame": "Confirm password is not the same as new password",
+            "invalidPasswordSetupToken": "Invalid password setup token",
+            "passwordSetupSucessfully": "Password setup successfully",
+            "required8Characters": "This field should be at least 8 characters long"
+        },
         "somethingWentWrong": "Something went wrong",
         "success": "Success",
         "successfullySubscribed": "You have successfully subscribed"
@@ -404,6 +410,16 @@
         "or": "Or"
     },
     "search": "Search",
+    "setupPassword": {
+        "form": {
+            "confirmPassword": "Confirm password",
+            "password": "Password"
+        },
+        "loginHereInstead": "Login here instead",
+        "or": "Or",
+        "setPassword": "Set password",
+        "setupPassword": "Setup password"
+    },
     "sidebar": {
         "citizens": "Citizens",
         "calendar": "Calendar",

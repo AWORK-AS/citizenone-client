@@ -1,7 +1,7 @@
 <template>
 
     <Head>
-        <Title>Reset Password - {{ runtimeConfig?.public?.appName }}</Title>
+        <Title>{{ $t('setupPassword.setupPassword') }} - {{ runtimeConfig?.public?.appName }}</Title>
     </Head>
 
     <LoadingSpinner :isActive="state.isPageLoading">
@@ -24,33 +24,33 @@
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <h3 class="font-medium">
-                            {{ $t('resetPassword.resetPassword') }}
+                            {{ $t('setupPassword.setupPassword') }}
                         </h3>
                         <div class="space-y-1">
-                            <FormLabel for="password" :label="$t('resetPassword.form.password')" />
+                            <FormLabel for="password" :label="$t('setupPassword.form.password')" />
                             <FormPasswordField id="password" name="password"
-                                :placeholder="$t('resetPassword.form.password')" v-model="state.formUser.password" />
+                                :placeholder="$t('setupPassword.form.password')" v-model="state.formUser.password" />
                             <FormError :error="v$?.formUser?.password?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.password?.[0]" />
                         </div>
                         <div class="space-y-1">
-                            <FormLabel for="confirm_password" :label="$t('resetPassword.form.confirmPassword')" />
+                            <FormLabel for="confirm_password" :label="$t('setupPassword.form.confirmPassword')" />
                             <FormPasswordField id="confirm_password" name="confirm_password"
-                                :placeholder="$t('resetPassword.form.confirmPassword')"
+                                :placeholder="$t('setupPassword.form.confirmPassword')"
                                 v-model="state.formUser.confirm_password" />
                             <FormError :error="v$?.formUser?.confirm_password?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.confirm_password?.[0]" />
                         </div>
                         <div>
                             <FormButton type="submit" buttonStyle="primary" class="w-full">
-                                {{ $t('resetPassword.resetPassword') }}
+                                {{ $t('setupPassword.setPassword') }}
                             </FormButton>
                         </div>
                         <p class="text-center text-sm leading-6 text-gray-500">
-                            {{ $t('resetPassword.or') }}
+                            {{ $t('setupPassword.or') }}
                             {{ ' ' }}
                             <a class="text-primary hover:text-primary-800 cursor-pointer" @click="navigateTo('/')">
-                                {{ $t('resetPassword.loginHereInstead') }}.
+                                {{ $t('setupPassword.loginHereInstead') }}.
                             </a>
                         </p>
                     </form>
@@ -104,11 +104,11 @@ const rules = computed(() => {
         formUser: {
             password: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                minLength: helpers.withMessage(`${t('alert.resetPassword.required8Characters')}.`, minLength(8))
+                minLength: helpers.withMessage(`${t('alert.setupPassword.required8Characters')}.`, minLength(8))
             },
             confirm_password: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                sameAsPassword: helpers.withMessage(`${t('alert.resetPassword.confirmPasswordNotTheSame')}.`, sameAs(state.formUser.password)),
+                sameAsPassword: helpers.withMessage(`${t('alert.setupPassword.confirmPasswordNotTheSame')}.`, sameAs(state.formUser.password)),
             }
         }
     }
@@ -121,7 +121,7 @@ onMounted(() => {
         state.token = token
         verifyPasswordResetToken()
     } else {
-        errorAlert(`${t('alert.somethingWentWrong')}.`, `${t('alert.resetPassword.invalidPasswordResetToken')}.`)
+        errorAlert(`${t('alert.somethingWentWrong')}.`, `${t('alert.setupPassword.invalidPasswordSetupToken')}.`)
         navigateTo('/forgot-password')
     }
 })
@@ -137,7 +137,7 @@ async function verifyPasswordResetToken() {
             state.error = err
             if (err.hasOwnProperty('message')) {
                 if (err.message === 'Invalid password reset token.') {
-                    errorAlert(`${t('alert.somethingWentWrong')}.`, `${t('alert.resetPassword.invalidPasswordResetToken')}.`)
+                    errorAlert(`${t('alert.somethingWentWrong')}.`, `${t('alert.setupPassword.invalidPasswordSetupToken')}.`)
                 } else {
                     errorAlert(`${t('alert.somethingWentWrong')}.`, err.message ?? '')
                 }
@@ -159,7 +159,7 @@ async function resetPassword() {
         }
         try {
             await authService.resetPassword(params)
-            successAlert(`${t('alert.success')}!`, `${t('alert.resetPassword.passwordUpdatedSucessfully')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('alert.setupPassword.passwordUpdatedSucessfully')}.`)
             navigateTo('/')
         } catch (error) {
             const err = error as ResetPasswordError
