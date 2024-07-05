@@ -18,9 +18,17 @@
                     <form class="mt-5 space-y-3" method="POST" @submit.prevent="register">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error && state.error.length > 0 || state.error?.message" />
-                        <h3 class="font-medium">
+                        <h3 class="font-medium text-xl">
                             {{ $t('register.form.register') }}
                         </h3>
+                        <div class="space-y-1">
+                            <FormLabel for="company_name" :label="$t('register.form.companyName')" />
+                            <FormTextField id="company_name" name="company_name"
+                                :placeholder="$t('register.form.companyName')"
+                                v-model="state.formRegister.company_name" />
+                            <FormError :error="v$?.formRegister?.company_name?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.company_name?.[0]" />
+                        </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div class="space-y-1">
                                 <FormLabel for="firstname" :label="$t('register.form.firstname')" />
@@ -74,10 +82,12 @@
                             <div class="w-fit flex items-center cursor-pointer"
                                 @click="state.formRegister.agreeToTerms = !state.formRegister.agreeToTerms">
                                 <FormCheckbox :value="state.formRegister.agreeToTerms" />
-                                {{ $t('register.form.iAcceptTAA') }}
+                                <span class="text-sm">
+                                    {{ $t('register.form.iAcceptTAA') }}
+                                </span>
                             </div>
                             <span v-if="state.agreeToTermsValidation" class="text-sm text-red-500">
-                                {{ $t('register.form.agreetoTAC') }}
+                                <span>{{ $t('register.form.agreetoTAC') }}</span>
                             </span>
                         </div>
                         <div>
