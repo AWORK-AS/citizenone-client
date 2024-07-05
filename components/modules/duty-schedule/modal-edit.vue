@@ -84,12 +84,12 @@ async function updateSchedule(scheduleDetails: any) {
 async function deleteSchedule() {
     state.isPageLoading = true
     try {
-        const scheduleUuid = props.selectedSchedule.user_uuid
+        const scheduleUuid = props.selectedSchedule.uuid
         const response = await dutyScheduleService.deleteDutySchedule(scheduleUuid)
-        if (response?.data) {
+        if (response?.message === 'Success.') {
             refreshSchedules()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('schedules.alert.successfullyDeleted')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.alert.successfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error

@@ -124,6 +124,7 @@ onMounted(() => {
 
 async function fetchDutySchedules() {
     state.isPageLoading = true
+    state.calendarOptions.events = []
     try {
         const response = await dutyScheduleService.getDutySchedules()
         if (response.data) {
