@@ -454,8 +454,11 @@
     "support": "Support",
     "storage": {
         "available": "Available",
+        "currentPlan": "Current plan",
         "documents": "Documents",
-        "storage": "Storage"
+        "storage": "Storage",
+        "upgrade": "Upgrade",
+        "upgradeOptions": "Upgrade options"
     },
     "timeLogs": {
         "table": {

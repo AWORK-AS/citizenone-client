@@ -12,7 +12,9 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
                     <div class="space-y-2">
-                        <p class="text-sm font-medium">Current Plan</p>
+                        <p class="text-sm font-medium">
+                            {{ $t('storage.currentPlan') }}
+                        </p>
                         <div class="space-y-3">
                             <div class="bg-gray-50 p-4 rounded-md space-y-2">
                                 <div>
@@ -43,7 +45,9 @@
                     </div>
 
                     <div class="space-y-2">
-                        <p class="text-sm font-medium">Upgrade Options</p>
+                        <p class="text-sm font-medium">
+                            {{ $t('storage.upgradeOptions') }}
+                        </p>
                         <div class="space-y-3">
                             <div v-for="(deal, index) in state.storageDeals?.data" :key="index">
                                 <div class="bg-gray-100 p-4 rounded-md flex items-center gap-x-3">
@@ -53,7 +57,7 @@
                                     </p>
                                     <div>
                                         <FormButton class="rounded-md">
-                                            Upgrade
+                                            {{ $t('storage.upgrade') }}
                                         </FormButton>
                                     </div>
                                 </div>

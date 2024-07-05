@@ -454,8 +454,11 @@
     "support": "Support",
     "storage": {
         "available": "Tilgængelig",
+        "currentPlan": "Nuværende plan",
         "documents": "Dokumenter",
-        "storage": "Lager"
+        "storage": "Lager",
+        "upgrade": "Opgrader",
+        "upgradeOptions": "Opgraderingsmuligheder"
     },
     "timeLogs": {
         "table": {

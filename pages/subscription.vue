@@ -9,6 +9,11 @@
             <template #header>{{ $t('subscription.subscription') }}</template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
+                <div class="max-w-4xl mx-auto space-y-2">
+                    <Alert type="danger" :text="error" v-if="error && error.length > 0" />
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error && state.error.length > 0 || state.error?.message" />
+                </div>
                 <div id="checkout-container-div"></div>
                 <div class="mt-16 flex justify-center">
                     <fieldset aria-label="Payment frequency">
@@ -165,6 +170,8 @@ import { userSubscriptionService } from '@/components/api/UserSubscriptionServic
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 
 const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
+const error = router?.currentRoute?.value?.query?.error
 
 const state = reactive({
     error: [],

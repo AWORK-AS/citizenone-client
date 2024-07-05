@@ -64,7 +64,7 @@ async function saveEmployee(employeeDetails: any) {
     } catch (error: any) {
         state.error = error
         if (error.message === 'You have no available user license to create a new employee.') {
-            navigateTo('/subscription')
+            navigateTo(`/subscription?error=${error?.message}`)
         }
     }
     state.isPageLoading = false
