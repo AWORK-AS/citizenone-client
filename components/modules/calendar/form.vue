@@ -38,7 +38,7 @@
                     {{ $t('schedules.form.private') }}
                 </div>
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1" v-if="props.formType === 'create'">
                 <FormLabel for="citizen_user_uuid" :label="$t('schedules.form.citizens_users')" />
                 <FormSelectMultiple id="citizen_user_uuid" name="citizen_user_uuid"
                     :options="state.options.citizenUsers" v-model="state.formSchedule.citizen_user_uuid" />

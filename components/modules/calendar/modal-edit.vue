@@ -55,7 +55,6 @@ async function updateSchedule(scheduleDetails: any) {
             date_time_start: scheduleDetails.date_time_start,
             date_time_end: scheduleDetails.date_time_end,
             is_private: scheduleDetails.is_private,
-            citizen_user_uuid: scheduleDetails.citizen_user_uuid,
         }
         const response = await scheduleService.updateSchedule(scheduleUuid, params)
         if (response?.data) {
