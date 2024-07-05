@@ -72,12 +72,12 @@ async function fetchDeals() {
     state.isPageLoading = true
     state.error = []
     try {
-        const response = await userSubscriptionService.validateSubscription(paymentId)
-        if (!response || paymentId !== response?.payment?.paymentId) {
-            navigateTo(`/subscription?error=Invalid payment details`)
-        }
+        await userSubscriptionService.validateSubscription(paymentId)
     } catch (error: any) {
         state.error = error
+        if (error?.message === 'Payment is invalid.') {
+            navigateTo(`/subscription?error=Invalid payment details`)
+        }
     }
     state.isPageLoading = false
 }
