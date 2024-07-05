@@ -17,17 +17,16 @@
                 <div class="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
                     <form class="mt-5 space-y-3" method="POST" @submit.prevent="register">
                         <Alert type="danger" :text="state?.error?.message"
-                            v-if="state.error && state.error.length > 0 || state.error?.message" />
+                            v-if="state.error?.message && state.error.message.length > 0" />
                         <h3 class="font-medium text-xl">
                             {{ $t('register.form.register') }}
                         </h3>
                         <div class="space-y-1">
-                            <FormLabel for="company_name" :label="$t('register.form.companyName')" />
-                            <FormTextField id="company_name" name="company_name"
-                                :placeholder="$t('register.form.companyName')"
-                                v-model="state.formRegister.company_name" />
-                            <FormError :error="v$?.formRegister?.company_name?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.company_name?.[0]" />
+                            <FormLabel for="name" :label="$t('register.form.companyName')" />
+                            <FormTextField id="name" name="name" :placeholder="$t('register.form.companyName')"
+                                v-model="state.formRegister.name" />
+                            <FormError :error="v$?.formRegister?.name?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.name?.[0]" />
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div class="space-y-1">
@@ -124,13 +123,21 @@ const userStore = useUserStore()
 const language = useI18n()
 const { t } = useI18n()
 
+interface RegisterError {
+    message?: string;
+    errors?: {
+        [key: string]: string[];
+    };
+}
+
 // Set language
 language.locale.value = userStore.getLanguage
 
 const state = reactive({
     agreeToTermsValidation: false,
-    error: [],
+    error: {} as RegisterError,
     formRegister: {
+        name: '',
         firstname: '',
         lastname: '',
         phone: '',
@@ -148,6 +155,9 @@ const state = reactive({
 const rules = computed(() => {
     return {
         formRegister: {
+            name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
             firstname: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
@@ -174,7 +184,7 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 async function register() {
-    state.error = []
+    state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
         state.isPageLoading = true
@@ -184,6 +194,7 @@ async function register() {
             state.agreeToTermsValidation = false
             try {
                 const params = {
+                    name: state.formRegister.name,
                     firstname: state.formRegister.firstname,
                     lastname: state.formRegister.lastname,
                     phone: state.formRegister.phone,

@@ -22,7 +22,7 @@
 
                     <form class="mt-5 space-y-3" method="POST" @submit.prevent="forgotPassword">
                         <Alert type="danger" :text="state?.error?.message"
-                            v-if="state.error && state.error.length > 0 || state.error?.message" />
+                            v-if="state.error?.message && state.error.message.length > 0" />
                         <p>
                             {{ $t('forgotPassword.enterEmailAssociated') }}
                         </p>
@@ -30,10 +30,8 @@
                             <FormLabel for="email" :label="$t('forgotPassword.emailAddress')" />
                             <FormTextField id="email" name="email" :placeholder="$t('forgotPassword.emailAddress')"
                                 v-model="state.email" />
-                            <FormError
-                                :error="v$.email && v$.email.$errors && v$.email.$errors.length > 0 ? v$.email.$errors[0].$message : null" />
-                            <FormError
-                                :error="state.error && state.error.errors && state.error.errors.email && state.error.errors.email[0]" />
+                            <FormError :error="v$?.email?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.email?.[0]" />
                         </div>
                         <div>
                             <FormButton type="submit" buttonStyle="primary" class="w-full">
@@ -69,12 +67,19 @@ const userStore = useUserStore()
 const langugage = useI18n()
 const { t } = useI18n()
 
+interface ForgotPasswordError {
+    message?: string;
+    errors?: {
+        [key: string]: string[];
+    };
+}
+
 // Set language
 langugage.locale.value = userStore.getLanguage
 
 const state = reactive({
     email: null,
-    error: [],
+    error: {} as ForgotPasswordError,
     isPageLoading: false,
     slideOver: {
         isLanguageSwitcherOpen: false
@@ -91,7 +96,7 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 async function forgotPassword() {
-    state.error = []
+    state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
         state.isPageLoading = true

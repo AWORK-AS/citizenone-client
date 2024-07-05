@@ -19,7 +19,7 @@
 
                     <form class="mt-5 space-y-3" method="POST" @submit.prevent="resetPassword">
                         <Alert type="danger" :text="state?.error?.message"
-                            v-if="state.error && state.error.length > 0 || state.error?.message" />
+                            v-if="state.error?.message && state.error.message.length > 0" />
                         <h3 class="font-medium">
                             {{ $t('resetPassword.resetPassword') }}
                         </h3>
@@ -71,11 +71,18 @@ const route = useRoute()
 const language = useI18n()
 const { t } = useI18n()
 
+interface ResetPasswordError {
+    message?: string;
+    errors?: {
+        [key: string]: string[];
+    };
+}
+
 // Set language
 language.locale.value = userStore.getLanguage
 
 const state = reactive({
-    error: [],
+    error: {} as ResetPasswordError,
     formUser: {
         password: null,
         confirm_password: null,
@@ -101,8 +108,9 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
-    if (route.query && route.query.token) {
-        state.token = route.query.token
+    const token = route.query.token
+    if (token && typeof token === 'string') {
+        state.token = token
         verifyPasswordResetToken()
     } else {
         errorAlert(`${t('alert.somethingWentWrong')}.`, `${t('alert.resetPassword.invalidPasswordResetToken')}.`)
@@ -112,17 +120,18 @@ onMounted(() => {
 
 async function verifyPasswordResetToken() {
     state.isPageLoading = true
-    state.error = []
+    state.error = {}
     try {
         await authService.verifyResetPassword(state.token)
     } catch (error) {
         if (error) {
-            state.error = error
-            if (error.hasOwnProperty('message')) {
-                if (error.message === 'Invalid password reset token.') {
+            const err = error as ResetPasswordError
+            state.error = err
+            if (err.hasOwnProperty('message')) {
+                if (err.message === 'Invalid password reset token.') {
                     errorAlert(`${t('alert.somethingWentWrong')}.`, `${t('alert.resetPassword.invalidPasswordResetToken')}.`)
                 } else {
-                    errorAlert(`${t('alert.somethingWentWrong')}.`, error.message)
+                    errorAlert(`${t('alert.somethingWentWrong')}.`, err.message ?? '')
                 }
                 navigateTo('/')
             }
@@ -132,7 +141,7 @@ async function verifyPasswordResetToken() {
 }
 
 async function resetPassword() {
-    state.error = []
+    state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
         state.isPageLoading = true
@@ -145,7 +154,8 @@ async function resetPassword() {
             successAlert(`${t('alert.success')}!`, `${t('alert.resetPassword.passwordUpdatedSucessfully')}.`)
             navigateTo('/')
         } catch (error) {
-            state.error = error
+            const err = error as ResetPasswordError
+            state.error = err
         }
         state.isPageLoading = false
     }
@@ -162,7 +172,7 @@ function successAlert(title: string, message: string) {
 function errorAlert(title: string, message: string) {
     notify({
         title: title,
-        text: message,
+        text: message || 'An unknown error occurred.',
         type: 'error',
     })
 }

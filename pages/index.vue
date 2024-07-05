@@ -22,7 +22,7 @@
 
                     <form class="mt-5 space-y-3" method="POST" @submit.prevent="login">
                         <Alert type="danger" :text="state?.error?.message"
-                            v-if="state.error && state.error.length > 0 || state.error?.message" />
+                            v-if="state.error?.message && state.error.message.length > 0" />
                         <h3 class="font-medium">
                             {{ $t('login.SignInToYourAccount') }}
                         </h3>
@@ -30,19 +30,15 @@
                             <FormLabel for="email" :label="$t('login.form.emailAddress')" />
                             <FormTextField id="email" name="email" :placeholder="$t('login.form.emailAddress')"
                                 v-model="state.email" />
-                            <FormError
-                                :error="v$.email && v$.email.$errors && v$.email.$errors.length > 0 ? v$.email.$errors[0].$message : null" />
-                            <FormError
-                                :error="state.error && state.error.errors && state.error.errors.email && state.error.errors.email[0]" />
+                            <FormError :error="v$?.email?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.email?.[0]" />
                         </div>
                         <div class="space-y-1">
                             <FormLabel for="password" :label="$t('login.form.password')" />
                             <FormPasswordField id="password" name="password" :placeholder="$t('login.form.password')"
                                 v-model="state.password" />
-                            <FormError
-                                :error="v$.password && v$.password.$errors && v$.password.$errors.length > 0 ? v$.password.$errors[0].$message : null" />
-                            <FormError
-                                :error="state.error && state.error.errors && state.error.errors.password && state.error.errors.password[0]" />
+                            <FormError :error="v$?.password?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.password?.[0]" />
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
@@ -94,12 +90,19 @@ const userStore = useUserStore()
 const language = useI18n()
 const { t } = useI18n()
 
+interface LoginError {
+    message?: string;
+    errors?: {
+        [key: string]: string[];
+    };
+}
+
 // Set language
 language.locale.value = userStore.getLanguage
 
 const state = reactive({
     email: null,
-    error: [],
+    error: {} as LoginError,
     isPageLoading: false,
     password: null,
     slideOver: {
@@ -120,7 +123,7 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 async function login() {
-    state.error = []
+    state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
         state.isPageLoading = true
