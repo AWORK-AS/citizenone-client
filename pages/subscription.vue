@@ -171,7 +171,7 @@ import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
-const error = router?.currentRoute?.value?.query?.error
+let error = router?.currentRoute?.value?.query?.error
 
 const state = reactive({
     error: [],
@@ -206,6 +206,7 @@ async function fetchDeals() {
 async function subscribe(deal: any) {
     state.isPageLoading = true
     state.error = []
+    error = ''
     try {
         const params = {
             'deal_uuid': deal.uuid,
@@ -225,7 +226,7 @@ async function subscribe(deal: any) {
             var checkout = new Dibs.Checkout(checkoutOptions)
             checkout.on('payment-completed', function (response: any) {
                 const paymentId = response['paymentId']
-                navigateTo(`/subscribed?=paymentId=${paymentId}`)
+                navigateTo(`/subscribed?paymentId=${paymentId}`)
             })
         }
     } catch (error: any) {

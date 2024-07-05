@@ -53,11 +53,32 @@
 </template>
 
 <script setup lang="ts">
+import { userSubscriptionService } from '@/components/api/UserSubscriptionService'
 
 const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
+const paymentId = router?.currentRoute?.value?.query?.paymentId
 
 const state = reactive({
     error: [],
     isPageLoading: false,
 })
+
+onMounted(() => {
+    fetchDeals()
+})
+
+async function fetchDeals() {
+    state.isPageLoading = true
+    state.error = []
+    try {
+        const response = await userSubscriptionService.validateSubscription(paymentId)
+        if (!response || paymentId !== response?.payment?.paymentId) {
+            navigateTo(`/subscription?error=Invalid payment details`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 </script>
