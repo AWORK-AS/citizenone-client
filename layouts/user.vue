@@ -181,7 +181,15 @@
                 <div class="h-6 w-px bg-primary/10 lg:hidden" aria-hidden="true" />
 
                 <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-                    <div class="flex-1"></div>
+                    <div
+                        class="flex-1 flex flex-col justify-center gap-x-2 md:flex-row md:items-center md:justify-start">
+                        <p class="text-sm md:text-base font-medium">
+                            {{ userStore.getUser?.company?.name }}
+                        </p>
+                        <div class="text-xs">
+                            Select department
+                        </div>
+                    </div>
                     <div class="flex items-center gap-x-4 lg:gap-x-3">
                         <!-- <button type="button" class="-m-2.5 p-2.5 text-secondary-25 hover:text-gray-500">
                             <BellIcon class="h-6 w-6" aria-hidden="true" />
