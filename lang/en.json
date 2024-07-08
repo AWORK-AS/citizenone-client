@@ -159,6 +159,22 @@
     "confirm": "Confirm",
     "confirmation": "Confirmation",
     "close": "Close",
+    "departments": {
+        "departments": "Departments",
+        "form": {
+            "alert": {
+                "newDepartmentSuccessfullySaved": "New department successfully saved"
+            },
+            "name": "Name"
+        },
+        "newDepartment": "New department",
+        "table": {
+            "actions": {
+                "edit": "Edit"
+            },
+            "name": "Name"
+        }
+    },
     "dutySchedules": {
         "alert": {
             "successfullyAdded": "New schedule successfully added",
@@ -423,6 +439,7 @@
     "sidebar": {
         "citizens": "Citizens",
         "calendar": "Calendar",
+        "departments": "Departments",
         "dutySchedules": "Duty Schedules",
         "employees": "Employees",
         "protocols": "Protocols",

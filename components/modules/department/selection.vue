@@ -23,7 +23,7 @@ onMounted(() => {
 
 async function fetchDepartments() {
     try {
-        const response = await departmentService.getAllDepartment()
+        const response = await departmentService.getAllDepartments()
         if (response) {
             state.departments = response
         }

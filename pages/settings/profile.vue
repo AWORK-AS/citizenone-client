@@ -177,7 +177,7 @@ watch(() => userStore.getUser, (newValue: any) => {
 async function fetchLanguages() {
     state.isPageLoading = true
     try {
-        const response = await languageService.getLanguages()
+        const response = await languageService.getAllLanguages()
         if (response.data) {
             let options: any = []
             response.data.forEach(

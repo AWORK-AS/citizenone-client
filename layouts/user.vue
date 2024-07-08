@@ -53,6 +53,9 @@
                                                         <span v-if="item.name === 'Employees'">
                                                             {{ $t('sidebar.employees') }}
                                                         </span>
+                                                        <span v-if="item.name === 'Departments'">
+                                                            {{ $t('sidebar.departments') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Protocols'">
                                                             {{ $t('sidebar.protocols') }}
                                                         </span>
@@ -127,6 +130,9 @@
                                         </span>
                                         <span v-if="item.name === 'Employees'">
                                             {{ $t('sidebar.employees') }}
+                                        </span>
+                                        <span v-if="item.name === 'Departments'">
+                                            {{ $t('sidebar.departments') }}
                                         </span>
                                         <span v-if="item.name === 'Protocols'">
                                             {{ $t('sidebar.protocols') }}
@@ -355,6 +361,16 @@ const navigation = [
             'employees',
             'employees-new',
             'employees-edit-uuid',
+        ]
+    },
+    {
+        name: 'Departments',
+        href: '/departments',
+        icon: 'mdi:hexagon-multiple-outline',
+        activeRouteNames: [
+            'departments',
+            'departments-new',
+            'departments-edit-uuid',
         ]
     },
     {

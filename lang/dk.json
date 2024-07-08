@@ -423,6 +423,7 @@
     "sidebar": {
         "citizens": "Borgere",
         "calendar": "Kalender",
+        "departments": "Afdelinger",
         "dutySchedules": "Vagtskema",
         "employees": "Medarbejdere",
         "protocols": "Protokol",

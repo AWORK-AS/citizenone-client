@@ -120,7 +120,7 @@ async function fetchLanguages() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await languageService.getLanguages()
+        const response = await languageService.getAllLanguages()
         if (response) {
             state.options.languages = response
         }
