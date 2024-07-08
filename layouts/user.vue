@@ -187,7 +187,7 @@
                             {{ userStore.getUser?.company?.name }}
                         </p>
                         <div class="text-xs">
-                            Select department
+                            <ModulesDepartmentSelection />
                         </div>
                     </div>
                     <div class="flex items-center gap-x-4 lg:gap-x-3">

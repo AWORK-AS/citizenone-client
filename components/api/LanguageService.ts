@@ -1,7 +1,7 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class LanguageService extends BaseAPIService {
-    async getLanguages(): Promise<any> {
+    async getAllLanguages(): Promise<any> {
         return await this.request(`/languages`, 'GET')
     }
 }

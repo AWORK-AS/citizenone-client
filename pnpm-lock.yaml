@@ -11,9 +11,6 @@ importers:
       vue:
         specifier: ^3.4.27
         version: 3.4.28
-      vue-flatpickr-component:
-        specifier: ^11.0.5
-        version: 11.0.5(vue@3.4.28)
       vue-i18n:
         specifier: '9'
         version: 9.13.1(vue@3.4.28)
@@ -87,6 +84,9 @@ importers:
       tailwindcss:
         specifier: ^3.4.4
         version: 3.4.4
+      vue-flatpickr-component:
+        specifier: ^11.0.5
+        version: 11.0.5(vue@3.4.28)
 
 packages:
 
@@ -5137,6 +5137,11 @@ snapshots:
   '@ckeditor/ckeditor5-font@41.4.2':
     dependencies:
       ckeditor5: 41.4.2
+    transitivePeerDependencies:
+      - bufferutil
+      - canvas
+      - supports-color
+      - utf-8-validate
 
   '@ckeditor/ckeditor5-heading@41.4.2':
     dependencies:
@@ -5207,6 +5212,11 @@ snapshots:
   '@ckeditor/ckeditor5-language@41.4.2':
     dependencies:
       ckeditor5: 41.4.2
+    transitivePeerDependencies:
+      - bufferutil
+      - canvas
+      - supports-color
+      - utf-8-validate
 
   '@ckeditor/ckeditor5-link@41.4.2':
     dependencies:
@@ -5254,6 +5264,11 @@ snapshots:
     dependencies:
       ckeditor5: 41.4.2
       lodash-es: 4.17.21
+    transitivePeerDependencies:
+      - bufferutil
+      - canvas
+      - supports-color
+      - utf-8-validate
 
   '@ckeditor/ckeditor5-minimap@41.4.2':
     dependencies:
