@@ -1,19 +1,14 @@
 <template>
-    <div class="relative">
-        <input type="datetime-local" :id="props.id" :name="props.name" :autocomplete="props.name"
-            class="appearance-none block w-full px-3 py-2.5 border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-            :placeholder="props.placeholder" :value="props.modelValue" @input="updateValue($event)" ref="dateInput"
-            @click="openDateInput" />
-        <div v-if="props.modelValue" class="absolute top-3 left-3 bg-white w-2/3" @click="openDateInput">
-            {{ formattedDate }}
-        </div>
-        <div v-else class="absolute top-3 left-3 bg-white w-2/3" @click="openDateInput">
-            {{ $t('selectADateAndTime') }}
-        </div>
-    </div>
+    <flat-pickr v-model="state.dateValue" :config="config" :id="props.id" :name="props.name"
+        @input="updateValue($event)"
+        class="appearance-none block w-full px-3 py-2.5 border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm" />
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
+import flatPickr from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
+
 const props = defineProps({
     id: {
         type: String,
@@ -30,39 +25,40 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['update:modelValue'])
-const formattedDate = ref('')
+const config = ref({
+    enableTime: true,
+    dateFormat: 'd. F Y H:i',
+    time_24hr: true,
+    disableMobile: true
+})
 
-const dateInput = ref<HTMLInputElement | null>(null)
+const state = reactive({
+    dateValue: '',
+})
 
-function openDateInput() {
-    dateInput.value?.showPicker()
-}
 
 watch(() => props.modelValue, (newValue: any) => {
     if (newValue != null) {
-        const date = new Date(newValue)
-        const day = String(date.getDate()).padStart(2, '0')
-        const month = date.toLocaleString('default', { month: 'short' })
-        const year = date.getFullYear()
-        const hour = date.getHours()
-        const minute = String(date.getMinutes()).padStart(2, '0')
-        const ampm = hour >= 12 ? 'PM' : 'AM'
-        const formattedHour = hour % 12 || 12
-        formattedDate.value = `${day}. ${month} ${year} ${String(formattedHour).padStart(2, '0')}:${minute} ${ampm}`
+        state.dateValue = formatDateToDDMMMMYYYYHHmm(newValue)
     }
 })
 
+const emit = defineEmits(['update:modelValue'])
+
 function updateValue(event: any) {
-    const date = new Date(event.target.value)
-    const day = String(date.getDate()).padStart(2, '0')
-    const month = date.toLocaleString('default', { month: 'long' })
-    const year = date.getFullYear()
-    const hour = date.getHours()
-    const minute = String(date.getMinutes()).padStart(2, '0')
-    const ampm = hour >= 12 ? 'PM' : 'AM'
-    const formattedHour = hour % 12 || 12
-    formattedDate.value = `${day}. ${month} ${year} ${String(formattedHour).padStart(2, '0')}:${minute} ${ampm}`
-    emit('update:modelValue', event.target.value)
+    const formattedDate = formatDateToYYYYMMDDHHmm(event.target.value)
+    emit('update:modelValue', formattedDate)
+}
+
+function formatDateToYYYYMMDDHHmm(dateString: any) {
+    let date = moment(dateString, 'DD. MMMM YYYY HH:mm')
+    let formattedDate = date.format('YYYY-MM-DD H:mm')
+    return formattedDate
+}
+
+function formatDateToDDMMMMYYYYHHmm(dateString: any) {
+    let date = moment(dateString, 'YYYY-MM-DD H:mm')
+    let formattedDate = date.format('DD. MMMM YYYY HH:mm')
+    return formattedDate
 }
 </script>

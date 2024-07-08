@@ -14,6 +14,7 @@
                     {{ $t('dutySchedules.newSchedule') }}
                 </FormButton>
             </div>
+
             <div class="mt-5 space-y-5">
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
                 <FullCalendar :options="state.calendarOptions" />

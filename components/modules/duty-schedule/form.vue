@@ -120,6 +120,7 @@ onMounted(() => {
         is_private: props.selectedSchedule.is_private,
         user_uuid: props.selectedSchedule.user_uuid,
     }
+    console.log('test', state.formSchedule)
 })
 
 const rules = computed(() => {
