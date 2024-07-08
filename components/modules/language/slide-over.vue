@@ -131,28 +131,41 @@ async function fetchLanguages() {
 }
 
 async function switchLanguage(selectedLanguage: any) {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const languageUuid = selectedLanguage.uuid
-        const params = {
-            language_uuid: languageUuid,
-        }
-        const response = await userService.updateUserLangugage(params)
-        if (response) {
-            const languageCode = selectedLanguage.code
-            userStore.setLanguage(languageCode)
-            if (languageCode === 'en') {
-                // English
-                language.locale.value = 'en'
-            } else if (languageCode === 'dk') {
-                // Danish
-                language.locale.value = 'dk'
+    if (userStore.getUser) {
+
+        state.error = {}
+        state.isPageLoading = true
+        try {
+            const languageUuid = selectedLanguage.uuid
+            const params = {
+                language_uuid: languageUuid,
             }
+            const response = await userService.updateUserLangugage(params)
+            if (response) {
+                const languageCode = selectedLanguage.code
+                userStore.setLanguage(languageCode)
+                if (languageCode === 'en') {
+                    // English
+                    language.locale.value = 'en'
+                } else if (languageCode === 'dk') {
+                    // Danish
+                    language.locale.value = 'dk'
+                }
+            }
+        } catch (error: any) {
+            state.error = error
         }
-    } catch (error: any) {
-        state.error = error
+        state.isPageLoading = false
+    } else {
+        const languageCode = selectedLanguage.code
+        userStore.setLanguage(languageCode)
+        if (languageCode === 'en') {
+            // English
+            language.locale.value = 'en'
+        } else if (languageCode === 'dk') {
+            // Danish
+            language.locale.value = 'dk'
+        }
     }
-    state.isPageLoading = false
 }
 </script>
