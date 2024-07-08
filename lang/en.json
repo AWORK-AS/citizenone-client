@@ -161,8 +161,10 @@
     "close": "Close",
     "departments": {
         "departments": "Departments",
+        "editDepartment": "Edit department",
         "form": {
             "alert": {
+                "departmentSuccessfullyUpdated": "Department successfully updated",
                 "newDepartmentSuccessfullySaved": "New department successfully saved"
             },
             "name": "Name"

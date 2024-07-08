@@ -159,6 +159,24 @@
     "confirm": "Bekræft",
     "confirmation": "Bekræftelse",
     "close": "Luk",
+    "departments": {
+        "departments": "Afdelinger",
+        "editDepartment": "Rediger afdeling",
+        "form": {
+            "alert": {
+                "departmentSuccessfullyUpdated": "Afdeling opdateret med succes",
+                "newDepartmentSuccessfullySaved": "Ny afdeling gemt med succes"
+            },
+            "name": "Navn"
+        },
+        "newDepartment": "Ny afdeling",
+        "table": {
+            "actions": {
+                "edit": "Rediger"
+            },
+            "name": "Navn"
+        }
+    },
     "dutySchedules": {
         "alert": {
             "successfullyAdded": "Ny tidsplan tilføjet med succes",

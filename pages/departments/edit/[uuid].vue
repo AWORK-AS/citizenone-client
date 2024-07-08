@@ -3,19 +3,20 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('departments.editEmployee') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('departments.editDepartment') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('departments.editEmployee') }}</template>
+            <template #header>{{ $t('departments.editDepartment') }}</template>
 
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/employees">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/departments">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesEmployeeForm formType="update" :selectedEmployee="state.formEmployee" :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateEmployee" />
+                    <ModulesDepartmentForm formType="update" :selectedDepartment="state.formDepartment"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @submitForm="updateDepartment" />
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
@@ -23,47 +24,35 @@
 </template>
 
 <script setup lang="ts">
-import { employeeService } from '@/components/api/EmployeeService'
+import { departmentService } from '@/components/api/DepartmentService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const router = useRouter()
-const uuid = router?.currentRoute?.value?.params?.uuid
+const departmentUuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({
     error: [],
-    formEmployee: {
-        firstname: '',
-        lastname: '',
-        email: '',
-        phone: '',
-        birthday: '',
-        role: '',
-        permissions: [],
+    formDepartment: {
+        name: '',
     },
     isPageLoading: false,
 })
 
 onMounted(() => {
-    fetchEmployee()
+    fetchDepartment()
 })
 
-async function fetchEmployee() {
+async function fetchDepartment() {
     state.isPageLoading = true
     state.error = []
     try {
-        const response = await employeeService.getEmployee(uuid)
+        const response = await departmentService.getDepartment(departmentUuid)
         if (response) {
-            state.formEmployee = {
-                firstname: response?.data?.firstname ?? '',
-                lastname: response?.data?.lastname ?? '',
-                email: response?.data?.email ?? '',
-                phone: response?.data?.phone ?? '',
-                birthday: response?.data?.birthday ?? '',
-                role: response?.data?.roles?.[0]?.name ?? '',
-                permissions: response?.data?.permissions ?? [],
+            state.formDepartment = {
+                name: response?.data?.name ?? '',
             }
         }
     } catch (error: any) {
@@ -72,23 +61,17 @@ async function fetchEmployee() {
     state.isPageLoading = false
 }
 
-async function updateEmployee(employeeDetails: any) {
+async function updateDepartment(departmentDetails: any) {
     state.error = []
     state.isPageLoading = true
     try {
         const params = {
-            firstname: employeeDetails.firstname,
-            lastname: employeeDetails.lastname,
-            email: employeeDetails.email,
-            phone: employeeDetails.phone,
-            birthday: employeeDetails.birthday,
-            role: employeeDetails.role,
-            permission: employeeDetails.permissions,
+            name: departmentDetails.name,
         }
-        const response = await employeeService.updateEmployee(uuid, params)
+        const response = await departmentService.updateDepartment(departmentUuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('departments.form.alert.employeeSuccessfullyUpdated')}.`)
-            navigateTo('/employees')
+            successAlert(`${t('alert.success')}!`, `${t('departments.form.alert.departmentSuccessfullyUpdated')}.`)
+            navigateTo('/departments')
         }
     } catch (error: any) {
         state.error = error
