@@ -26,7 +26,7 @@
                             <div class="space-y-1">
                                 <FormLabel for="cvr" :label="$t('settings.company.form.cvr')" />
                                 <FormTextField id="cvr" name="cvr" :placeholder="$t('settings.company.form.cvr')"
-                                    v-model="state.formCompany.cvr" />
+                                    v-model="state.formCompany.cvr" :maxLength="8" @input="validateCVR" />
                                 <FormError :error="v$?.formCompany?.cvr?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.cvr?.[0]" />
                             </div>
@@ -249,6 +249,12 @@ function changeSelectedMunicipality(municipalityId: number) {
 }
 
 const v$ = useVuelidate(rules, state)
+
+function validateCVR(event: Event) {
+    const input = event.target as HTMLInputElement
+    input.value = input.value.replace(/[^0-9]/g, '').slice(0, 8)
+    state.formCompany.cvr = input.value
+}
 
 async function submitForm() {
     v$.value.$validate()

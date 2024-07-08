@@ -22,7 +22,7 @@ class UserService extends BaseAPIService {
     }
 
     async updateUserLangugage(params: object): Promise<any> {
-        return await this.request(`/user/employees/update-language`, 'PUT', params)
+        return await this.request(`/user/employees/update/language`, 'PUT', params)
     }
 
     async updateCompany(params: object): Promise<any> {
