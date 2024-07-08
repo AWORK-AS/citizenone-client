@@ -54,6 +54,7 @@
                                     <p>{{ deal?.name }}</p>
                                     <p class="grow">
                                         {{ formatAmount(deal?.monthly_price) }}
+                                        /{{ $t('storage.month') }}
                                     </p>
                                     <div>
                                         <FormButton class="rounded-md">
