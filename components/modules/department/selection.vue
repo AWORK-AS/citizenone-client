@@ -1,6 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <select v-if="state.departments?.data?.length > 0">
+        <select v-if="state.departments?.data?.length > 0" class="focus:outline-none">
             <option value="" hidden>Select Department</option>
             <option v-for="(department, index) in state.departments?.data" :key="index" :value="department.uuid">
                 {{ department.name }}
