@@ -17,7 +17,7 @@
 
             <div class="mt-5 space-y-5">
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
-                <!-- <FullCalendar :options="state.calendarOptions" /> -->
+                <FullCalendar :options="state.calendarOptions" />
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesDutyScheduleDefaultView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
                         @editDutySchedule="editDutySchedule" />
@@ -40,6 +40,10 @@ import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 
+interface User {
+    uuid: string
+}
+
 interface Schedule {
     id: string
     uuid: string
@@ -48,7 +52,7 @@ interface Schedule {
     date_time_start: string
     date_time_end: string
     is_private: boolean
-    user_uuid: string
+    user: User
 }
 
 interface CalendarEvent {
