@@ -18,7 +18,10 @@
             <div class="mt-5 space-y-5">
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
                 <!-- <FullCalendar :options="state.calendarOptions" /> -->
-                <ModulesDutyScheduleDefaultView :dutySchedules="state.dutySchedules" />
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <ModulesDutyScheduleDefaultView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
+                        @editDutySchedule="editDutySchedule" />
+                </LoadingSpinner>
             </div>
             <ModulesDutyScheduleModalNew :isModalOpen="state.modal.isAddEventOpen"
                 @close="state.modal.isAddEventOpen = false" @refreshSchedules="fetchDutySchedules" />
@@ -85,6 +88,7 @@ interface State {
     error: ErrorState | null
     isPageLoading: boolean
     modal: ModalState
+    selectedDate: string
     selectedSchedule: CalendarEvent
 }
 
@@ -110,6 +114,7 @@ const state = reactive<State>({
         isAddEventOpen: false,
         isEditEventOpen: false
     },
+    selectedDate: '',
     selectedSchedule: {
         id: '',
         uuid: '',
@@ -130,7 +135,13 @@ async function fetchDutySchedules() {
     state.isPageLoading = true
     state.calendarOptions.events = []
     try {
-        const response = await dutyScheduleService.getDutySchedules()
+        const params = {
+            date: {
+                end_date: state.selectedDate,
+                start_date: state.selectedDate,
+            }
+        }
+        const response = await dutyScheduleService.getDutySchedules(params)
         if (response.data) {
             state.dutySchedules = response
             response.data.forEach((schedule: Schedule) => {
@@ -150,6 +161,23 @@ async function fetchDutySchedules() {
         state.error = { message: error.message }
     }
     state.isPageLoading = false
+}
+
+function changeDate(date: any) {
+    state.selectedDate = date
+    fetchDutySchedules()
+}
+
+function editDutySchedule(selectedDutySchedule: any) {
+    state.selectedSchedule.id = selectedDutySchedule.id
+    state.selectedSchedule.uuid = selectedDutySchedule.uuid
+    state.selectedSchedule.title = selectedDutySchedule.title
+    state.selectedSchedule.description = selectedDutySchedule.description
+    state.selectedSchedule.start = selectedDutySchedule.date_time_start
+    state.selectedSchedule.end = selectedDutySchedule.date_time_end
+    state.selectedSchedule.is_private = selectedDutySchedule.is_private ? true : false
+    state.selectedSchedule.user_uuid = selectedDutySchedule.user.uuid
+    state.modal.isEditEventOpen = true
 }
 
 function handleEventClick(info: any) {

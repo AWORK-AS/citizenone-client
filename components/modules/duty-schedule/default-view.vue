@@ -90,12 +90,18 @@
                                 <div class="py-1">
                                     <MenuItem v-slot="{ active }">
                                     <a href="#"
-                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Edit</a>
+                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                                        @click="editDutySchedule(dutySchedule)">
+                                        Edit
+                                    </a>
                                     </MenuItem>
-                                    <MenuItem v-slot="{ active }">
+                                    <!-- <MenuItem v-slot="{ active }">
                                     <a href="#"
-                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Cancel</a>
-                                    </MenuItem>
+                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                                        @click="deleteDutySchedule(dutySchedule)">
+                                        Delete
+                                    </a>
+                                    </MenuItem> -->
                                 </div>
                             </MenuItems>
                         </transition>
@@ -117,6 +123,7 @@ const props = defineProps({
         required: true,
     },
 })
+const emit = defineEmits(['changeDate', 'editDutySchedule'])
 
 const currentMonth = ref(moment().startOf('month'))
 const currentMonthLabel = ref(currentMonth.value.format('MMMM YYYY'))
@@ -153,11 +160,15 @@ function nextMonth() {
 }
 
 function selectDay(selectedDay: any) {
-    console.log('selectedDay', selectedDay.date)
     days.value = days.value.map(day => ({
         ...day,
         isSelected: day.date === selectedDay.date,
     }))
+    emit('changeDate', selectedDay.date)
+}
+
+function editDutySchedule(dutySchedule: any) {
+    emit('editDutySchedule', dutySchedule)
 }
 
 function formatDateTimeToReadable(datetime: string) {
