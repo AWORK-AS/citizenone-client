@@ -21,7 +21,7 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
-    'nuxt-icon',
+    '@nuxt/icon',
   ],
   plugins: [
     '@/plugins/vue-notification.ts',
