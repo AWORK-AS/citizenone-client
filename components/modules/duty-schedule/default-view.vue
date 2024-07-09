@@ -50,14 +50,24 @@
                         alt="Image" class="h-14 w-14 flex-none rounded-full" />
                     <div class="flex-auto">
                         <h3 class="pr-10 font-semibold text-gray-900 xl:pr-0">
-                            {{ dutySchedule?.title }}
+                            {{ dutySchedule?.user?.firstname }}
+                            {{ dutySchedule?.user?.lastname }}
                         </h3>
+                        <div class="flex items-center gap-x-2">
+                            <dt class="flex items-center">
+                                <span class="sr-only">Date</span>
+                                <Icon name="ph:file" class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                            </dt>
+                            <dd class="pr-10 font-semibold text-gray-900 xl:pr-0">
+                                {{ dutySchedule?.title }}
+                            </dd>
+                        </div>
                         <dl class="text-gray-500">
                             <div class="text-xs">
                                 {{ dutySchedule.description }}
                             </div>
-                            <div class="flex items-start space-x-3">
-                                <dt class="mt-0.5">
+                            <div class="flex items-center space-x-3 text-xs">
+                                <dt class="flex items-center">
                                     <span class="sr-only">Date</span>
                                     <Icon name="ph:calendar" class="h-4 w-4 text-gray-400" aria-hidden="true" />
                                 </dt>
