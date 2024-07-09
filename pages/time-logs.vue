@@ -103,7 +103,7 @@ function sort(sortingData: any) {
 }
 
 function formatDateTimeToReadable(datetime: string) {
-    return moment(datetime).format('DD MMM, YYYY hh:mm:ss A')
+    return moment(datetime).format('DD. MMM YYYY HH:mm:ss')
 }
 
 function formatTimeToReadable(time: string) {

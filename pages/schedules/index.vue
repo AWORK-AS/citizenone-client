@@ -18,7 +18,7 @@
             <div class="mt-5 space-y-5">
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
                 <!-- <FullCalendar :options="state.calendarOptions" /> -->
-                <ModulesDutyScheduleDefaultView />
+                <ModulesDutyScheduleDefaultView :dutySchedules="state.dutySchedules" />
             </div>
             <ModulesDutyScheduleModalNew :isModalOpen="state.modal.isAddEventOpen"
                 @close="state.modal.isAddEventOpen = false" @refreshSchedules="fetchDutySchedules" />
@@ -81,6 +81,7 @@ interface State {
         events: CalendarEvent[]
         eventClick?: (info: any) => void
     }
+    dutySchedules: any[],
     error: ErrorState | null
     isPageLoading: boolean
     modal: ModalState
@@ -102,6 +103,7 @@ const state = reactive<State>({
         plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
         eventClick: handleEventClick,
     },
+    dutySchedules: [],
     error: null,
     isPageLoading: false,
     modal: {
@@ -130,6 +132,7 @@ async function fetchDutySchedules() {
     try {
         const response = await dutyScheduleService.getDutySchedules()
         if (response.data) {
+            state.dutySchedules = response
             response.data.forEach((schedule: Schedule) => {
                 state.calendarOptions.events.push({
                     id: schedule.id,
