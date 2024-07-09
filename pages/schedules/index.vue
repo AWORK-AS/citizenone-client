@@ -17,7 +17,8 @@
 
             <div class="mt-5 space-y-5">
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
-                <FullCalendar :options="state.calendarOptions" />
+                <!-- <FullCalendar :options="state.calendarOptions" /> -->
+                <ModulesDutyScheduleDefaultView />
             </div>
             <ModulesDutyScheduleModalNew :isModalOpen="state.modal.isAddEventOpen"
                 @close="state.modal.isAddEventOpen = false" @refreshSchedules="fetchDutySchedules" />
