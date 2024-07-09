@@ -17,9 +17,11 @@
 
             <div class="mt-5 space-y-5">
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
-                <FullCalendar :options="state.calendarOptions" />
+                <!-- <FullCalendar :options="state.calendarOptions" /> -->
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesDutyScheduleDefaultView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
+                    <!-- <ModulesDutyScheduleDefaultView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
+                        @editDutySchedule="editDutySchedule" /> -->
+                    <ModulesDutyScheduleMonthView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
                         @editDutySchedule="editDutySchedule" />
                 </LoadingSpinner>
             </div>

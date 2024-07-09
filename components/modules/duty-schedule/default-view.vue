@@ -1,19 +1,26 @@
 <template>
     <div>
         <div class="lg:grid lg:grid-cols-12 lg:gap-x-16">
-            <div class="mt-10 text-center lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
-                <div class="flex items-center text-gray-900">
-                    <button type="button" @click="previousMonth"
-                        class="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500">
-                        <span class="sr-only">Previous month</span>
-                        <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
-                    </button>
-                    <div class="flex-auto text-sm font-semibold">{{ currentMonthLabel }}</div>
-                    <button type="button" @click="nextMonth"
-                        class="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500">
-                        <span class="sr-only">Next month</span>
-                        <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
-                    </button>
+            <div class="mt-10 lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
+                <div class="flex items-center">
+                    <h2 class="flex-auto text-sm font-semibold text-gray-900">January 2022</h2>
+                    <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
+                        <button type="button" @click="previousMonth"
+                            class="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
+                            <span class="sr-only">Previous month</span>
+                            <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
+                        </button>
+                        <button type="button" @click="setToday"
+                            class="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block">
+                            Today
+                        </button>
+                        <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
+                        <button type="button" @click="nextMonth"
+                            class="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
+                            <span class="sr-only">Next month</span>
+                            <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
+                        </button>
+                    </div>
                 </div>
                 <div class="mt-6 grid grid-cols-7 text-xs leading-6 text-gray-500">
                     <div>S</div>
@@ -161,6 +168,14 @@ function previousMonth() {
     currentMonth.value = currentMonth.value.clone().subtract(1, 'month')
     currentMonthLabel.value = currentMonth.value.format('MMMM YYYY')
     days.value = generateDays(currentMonth.value)
+}
+
+function setToday() {
+    const today = moment()
+    currentMonth.value = today.clone().startOf('month')
+    currentMonthLabel.value = currentMonth.value.format('MMMM YYYY')
+    days.value = generateDays(currentMonth.value)
+    selectDay({ date: today.format('YYYY-MM-DD') })
 }
 
 function nextMonth() {
