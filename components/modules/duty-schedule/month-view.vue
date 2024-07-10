@@ -44,17 +44,18 @@
                             {{ day.date.split('-').pop().replace(/^0/, '') }}
                         </time>
                         <ol v-if="day.events.length > 0" class="mt-2">
-                            <li v-for="event in day.events" :key="event.id">
-                                <a :href="event.href" class="group flex">
-                                    <p class="flex-auto truncate font-medium text-gray-900 group-hover:text-tertiary">
-                                        {{ event.user.firstname }}
-                                        {{ event.user.lastname }}
+                            <li v-for="(dutySchedule, index) in day.events" :key="index">
+                                <div class="group flex">
+                                    <p class="flex-auto truncate font-medium text-gray-900 group-hover:text-tertiary cursor-pointer"
+                                        @click="editDutySchedule(dutySchedule)">
+                                        {{ dutySchedule.user.firstname }}
+                                        {{ dutySchedule.user.lastname }}
                                     </p>
-                                    <time :datetime="event.datetime"
+                                    <time
                                         class="ml-3 hidden flex-none text-gray-500 group-hover:text-tertiary xl:block">
-                                        {{ event.time_start }} - {{ event.time_end }}
+                                        {{ dutySchedule.time_start }} - {{ dutySchedule.time_end }}
                                     </time>
-                                </a>
+                                </div>
                             </li>
                             <!-- <li v-if="day.events.length > 2" class="text-gray-500">
                                 + {{ day.events.length - 2 }} more
@@ -89,13 +90,14 @@
                 </div>
             </div>
         </div>
+        {{ selectedDay?.events }}
         <div v-if="selectedDay?.events.length > 0" class="px-4 py-10 sm:px-6 lg:hidden">
             <ol
                 class="divide-y divide-gray-100 overflow-hidden rounded-lg bg-white text-sm shadow ring-1 ring-black ring-opacity-5">
                 <li v-for="event in selectedDay.events" :key="event.id"
                     class="group flex p-4 pr-6 focus-within:bg-gray-50 hover:bg-gray-50">
                     <div class="flex-auto">
-                        <p class="font-semibold text-gray-900">{{ event.name }}</p>
+                        <p class="font-semibold text-gray-900">{{ event }}</p>
                         <time :datetime="event.datetime" class="mt-2 flex items-center text-gray-700">
                             <Icon name="ph:clock" class="mr-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                             {{ event.time }}
@@ -231,4 +233,7 @@ const currentMonthYear = computed(() => {
 
 const currentYearMonth = computed(() => `${currentYear.value}-${String(currentMonth.value + 1).padStart(2, '0')}`)
 
+function editDutySchedule(dutySchedule: any) {
+    emit('editDutySchedule', dutySchedule)
+}
 </script>

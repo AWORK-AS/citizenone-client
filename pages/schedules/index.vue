@@ -15,14 +15,25 @@
                 </FormButton>
             </div>
 
+            <div class="flex items-center gap-x-3">
+                <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
+                    @click="state.calendarView = 'default'" class="rounded-md">
+                    Default View
+                </FormButton>
+                <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
+                    @click="state.calendarView = 'month'" class="rounded-md">
+                    Month View
+                </FormButton>
+            </div>
+
             <div class="mt-5 space-y-5">
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
-                <!-- <FullCalendar :options="state.calendarOptions" /> -->
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesDutyScheduleDefaultView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
-                        @editDutySchedule="editDutySchedule" />
+                        @editDutySchedule="editDutySchedule" v-if="state.calendarView === 'default'" />
                     <ModulesDutyScheduleMonthView :dutySchedules="state.dutySchedules"
-                        @changeMonthYear="changeMonthYear" @editDutySchedule="editDutySchedule" />
+                        @changeMonthYear="changeMonthYear" @editDutySchedule="editDutySchedule"
+                        v-if="state.calendarView === 'month'" />
                 </LoadingSpinner>
             </div>
             <ModulesDutyScheduleModalNew :isModalOpen="state.modal.isAddEventOpen"
@@ -36,26 +47,6 @@
 
 <script setup lang="ts">
 import { dutyScheduleService } from '@/components/api/DutyScheduleService'
-import FullCalendar from '@fullcalendar/vue3'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import listPlugin from '@fullcalendar/list'
-
-interface User {
-    uuid: string
-}
-
-interface Schedule {
-    id: string
-    uuid: string
-    title: string
-    description: string
-    date_time_start: string
-    date_time_end: string
-    is_private: boolean
-    user: User
-}
 
 interface CalendarEvent {
     id: string
@@ -78,18 +69,7 @@ interface ModalState {
 }
 
 interface State {
-    calendarOptions: {
-        headerToolbar: {
-            start: string
-            center: string
-            end: string
-        }
-        height: number
-        plugins: any[]
-        initialView: string
-        events: CalendarEvent[]
-        eventClick?: (info: any) => void
-    }
+    calendarView: string
     dutySchedules: any[],
     error: ErrorState | null
     isPageLoading: boolean
@@ -103,18 +83,7 @@ interface State {
 const runtimeConfig = useRuntimeConfig()
 
 const state = reactive<State>({
-    calendarOptions: {
-        events: [],
-        headerToolbar: {
-            start: 'dayGridMonth,timeGridWeek,listWeek', // will normally be on the left. if RTL, will be on the right
-            center: 'title',
-            end: 'today prev,next' // will normally be on the right. if RTL, will be on the left
-        },
-        height: 700,
-        initialView: 'dayGridMonth',
-        plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
-        eventClick: handleEventClick,
-    },
+    calendarView: 'default',
     dutySchedules: [],
     error: null,
     isPageLoading: false,
@@ -143,7 +112,6 @@ onMounted(() => {
 
 async function fetchDutySchedules() {
     state.isPageLoading = true
-    state.calendarOptions.events = []
     try {
         const params = {}
         if (state.selectedDate) {
@@ -162,18 +130,6 @@ async function fetchDutySchedules() {
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response.data) {
             state.dutySchedules = response
-            response.data.forEach((schedule: Schedule) => {
-                state.calendarOptions.events.push({
-                    id: schedule.id,
-                    uuid: schedule.uuid,
-                    title: schedule.title,
-                    description: schedule.description,
-                    start: schedule.date_time_start,
-                    end: schedule.date_time_end,
-                    is_private: schedule.is_private,
-                    user_uuid: schedule?.user?.uuid,
-                })
-            })
         }
     } catch (error: any) {
         state.error = { message: error.message }

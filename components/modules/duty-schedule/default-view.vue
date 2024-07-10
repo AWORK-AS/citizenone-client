@@ -62,17 +62,24 @@
                         </h3>
                         <div class="flex items-center gap-x-2">
                             <dt class="flex items-center">
-                                <span class="sr-only">Date</span>
-                                <Icon name="ph:file" class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                <span class="sr-only">Title</span>
+                                <Icon name="ph:clipboard" class="h-4 w-4 text-gray-400" aria-hidden="true" />
                             </dt>
-                            <dd class="pr-10 font-semibold text-gray-900 xl:pr-0">
+                            <dd class="font-semibold text-gray-900 xl:pr-0">
                                 {{ dutySchedule?.title }}
                             </dd>
                         </div>
+                        <div class="flex gap-x-2">
+                            <dt class="flex mt-1">
+                                <span class="sr-only">Description</span>
+                                <Icon name="heroicons:bars-3-bottom-left" class="h-4 w-4 text-gray-400"
+                                    aria-hidden="true" />
+                            </dt>
+                            <dd class="text-gray-900 xl:pr-0">
+                                {{ dutySchedule?.description }}
+                            </dd>
+                        </div>
                         <dl class="text-gray-500">
-                            <div class="text-xs">
-                                {{ dutySchedule.description }}
-                            </div>
                             <div class="flex items-center space-x-3 text-xs">
                                 <dt class="flex items-center">
                                     <span class="sr-only">Date</span>
