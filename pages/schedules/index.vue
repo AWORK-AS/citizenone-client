@@ -20,6 +20,10 @@
                     @click="setCalendarView('default')" class="rounded-md">
                     Default View
                 </FormButton>
+                <!-- <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
+                    @click="setCalendarView('week')" class="rounded-md">
+                    Week View
+                </FormButton> -->
                 <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
                     @click="setCalendarView('month')" class="rounded-md">
                     Month View
@@ -31,6 +35,8 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesDutyScheduleDefaultView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
                         @editDutySchedule="editDutySchedule" v-if="state.calendarView === 'default'" />
+                    <ModulesDutyScheduleWeekView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
+                        @editDutySchedule="editDutySchedule" v-if="state.calendarView === 'week'" />
                     <ModulesDutyScheduleMonthView :dutySchedules="state.dutySchedules"
                         @changeMonthYear="changeMonthYear" @editDutySchedule="editDutySchedule"
                         v-if="state.calendarView === 'month'" />
