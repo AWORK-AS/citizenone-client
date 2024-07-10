@@ -19,10 +19,10 @@
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
                 <!-- <FullCalendar :options="state.calendarOptions" /> -->
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <!-- <ModulesDutyScheduleDefaultView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
-                        @editDutySchedule="editDutySchedule" /> -->
-                    <ModulesDutyScheduleMonthView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
+                    <ModulesDutyScheduleDefaultView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
                         @editDutySchedule="editDutySchedule" />
+                    <ModulesDutyScheduleMonthView :dutySchedules="state.dutySchedules"
+                        @changeMonthYear="changeMonthYear" @editDutySchedule="editDutySchedule" />
                 </LoadingSpinner>
             </div>
             <ModulesDutyScheduleModalNew :isModalOpen="state.modal.isAddEventOpen"
@@ -95,6 +95,8 @@ interface State {
     isPageLoading: boolean
     modal: ModalState
     selectedDate: string
+    selectedYear: string
+    selectedMonth: string
     selectedSchedule: CalendarEvent
 }
 
@@ -121,6 +123,8 @@ const state = reactive<State>({
         isEditEventOpen: false
     },
     selectedDate: '',
+    selectedYear: '',
+    selectedMonth: '',
     selectedSchedule: {
         id: '',
         uuid: '',
@@ -141,12 +145,20 @@ async function fetchDutySchedules() {
     state.isPageLoading = true
     state.calendarOptions.events = []
     try {
-        const params = {
-            date: {
+        const params = {}
+        if (state.selectedDate) {
+            params.date = {
                 end_date: state.selectedDate,
                 start_date: state.selectedDate,
             }
         }
+        if (state.selectedYear) {
+            params.year = state.selectedYear;
+        }
+        if (state.selectedMonth !== '') {
+            params.month = (state.selectedMonth + 1)
+        }
+
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response.data) {
             state.dutySchedules = response
@@ -170,7 +182,16 @@ async function fetchDutySchedules() {
 }
 
 function changeDate(date: any) {
+    state.selectedYear = ''
+    state.selectedMonth = ''
     state.selectedDate = date
+    fetchDutySchedules()
+}
+
+function changeMonthYear(year: any, month: any) {
+    state.selectedDate = ''
+    state.selectedYear = year
+    state.selectedMonth = month
     fetchDutySchedules()
 }
 

@@ -3,7 +3,7 @@
         <div class="lg:grid lg:grid-cols-12 lg:gap-x-16">
             <div class="mt-10 lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
                 <div class="flex items-center">
-                    <h2 class="flex-auto text-sm font-semibold text-gray-900">January 2022</h2>
+                    <h2 class="flex-auto text-sm font-semibold text-gray-900">{{ currentMonthLabel }}</h2>
                     <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
                         <button type="button" @click="previousMonth"
                             class="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">

@@ -38,26 +38,27 @@
             <div class="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
                 <div class="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
                     <div v-for="(day, index) in days" :key="index"
-                        :class="[day.isCurrentMonth ? 'bg-white' : 'bg-gray-50 text-gray-500', 'relative px-3 py-2']">
+                        :class="[day.isCurrentMonth ? 'bg-white' : 'min-h-20 bg-gray-50 text-gray-500', 'relative px-3 py-2']">
                         <time :datetime="day.date"
                             :class="day.isToday ? 'flex h-6 w-6 items-center justify-center rounded-full bg-tertiary font-semibold text-white' : undefined">
                             {{ day.date.split('-').pop().replace(/^0/, '') }}
                         </time>
                         <ol v-if="day.events.length > 0" class="mt-2">
-                            <li v-for="event in day.events.slice(0, 2)" :key="event.id">
+                            <li v-for="event in day.events" :key="event.id">
                                 <a :href="event.href" class="group flex">
                                     <p class="flex-auto truncate font-medium text-gray-900 group-hover:text-tertiary">
-                                        {{ event.name }}
+                                        {{ event.user.firstname }}
+                                        {{ event.user.lastname }}
                                     </p>
                                     <time :datetime="event.datetime"
-                                        class="ml-3 hidden flex-none text-gray-500 group-hover:text-tertiary xl:block">{{
-                                            event.time }}
+                                        class="ml-3 hidden flex-none text-gray-500 group-hover:text-tertiary xl:block">
+                                        {{ event.time_start }} - {{ event.time_end }}
                                     </time>
                                 </a>
                             </li>
-                            <li v-if="day.events.length > 2" class="text-gray-500">
+                            <!-- <li v-if="day.events.length > 2" class="text-gray-500">
                                 + {{ day.events.length - 2 }} more
-                            </li>
+                            </li> -->
                         </ol>
                     </div>
                 </div>
@@ -110,14 +111,29 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(['changeDate', 'editDutySchedule'])
+import moment from 'moment'
+
+const props = defineProps({
+    dutySchedules: {
+        type: Object,
+        required: true,
+    },
+})
+
+const emit = defineEmits(['changeMonthYear', 'editDutySchedule'])
 
 const today = new Date()
 const currentMonth = ref(today.getMonth())
 const currentYear = ref(today.getFullYear())
 
-const days = ref(generateDays(currentYear.value, currentMonth.value))
+const days = ref(generateDays(currentYear.value, currentMonth.value, props.dutySchedules))
 const selectedDay = ref(days.value.find((day: any) => day.isSelected))
+
+watch(() => props.dutySchedules, (newValue: any) => {
+    if (newValue != null) {
+        updateDays()
+    }
+})
 
 function previousMonth() {
     if (currentMonth.value === 0) {
@@ -127,12 +143,14 @@ function previousMonth() {
         currentMonth.value -= 1
     }
     updateDays()
+    emit('changeMonthYear', currentYear.value, currentMonth.value)
 }
 
 function setToday() {
     currentMonth.value = today.getMonth()
     currentYear.value = today.getFullYear()
     updateDays()
+    emit('changeMonthYear', currentYear.value, currentMonth.value)
 }
 
 function nextMonth() {
@@ -143,13 +161,14 @@ function nextMonth() {
         currentMonth.value += 1
     }
     updateDays()
+    emit('changeMonthYear', currentYear.value, currentMonth.value)
 }
 
 function updateDays() {
-    days.value = generateDays(currentYear.value, currentMonth.value)
+    days.value = generateDays(currentYear.value, currentMonth.value, props.dutySchedules)
 }
 
-function generateDays(year: any, month: any) {
+function generateDays(year: any, month: any, dutySchedules: any) {
     const startDate = new Date(year, month, 1)
     const endDate = new Date(year, month + 1, 0)
 
@@ -162,19 +181,24 @@ function generateDays(year: any, month: any) {
     for (let i = startDay - 1; i >= 0; i--) {
         const day = new Date(startDate)
         day.setDate(day.getDate() - (i + 1))
-        daysArray.push({ date: day.toISOString().split('T')[0], events: [] })
+        daysArray.push({
+            date: day.toISOString().split('T')[0], events: []
+        })
     }
 
     // Fill current month's days
     for (let i = 1; i <= endDay; i++) {
         const day = new Date(year, month, i)
+        const dateStr = day.toISOString().split('T')[0]
         daysArray.push({
-            date: day.toISOString().split('T')[0],
+            date: dateStr,
             isCurrentMonth: true,
             isToday: isToday(day),
-            events: [
-
-            ],
+            events: dutySchedules?.data?.filter((event: any) => isWithinRange(dateStr, event.date_time_start, event.date_time_end)).map((event: any) => ({
+                ...event,
+                time_start: moment(event.date_time_start).format('HH:mm'),
+                time_end: moment(event.date_time_end).format('HH:mm'),
+            })) || [],
         })
     }
 
@@ -191,6 +215,13 @@ function generateDays(year: any, month: any) {
 function isToday(day: any) {
     const today = new Date()
     return day.getFullYear() === today.getFullYear() && day.getMonth() === today.getMonth() && day.getDate() === today.getDate()
+}
+
+function isWithinRange(dateStr: string, start: string, end: string) {
+    const date = new Date(dateStr)
+    const startDate = new Date(start)
+    const endDate = new Date(end)
+    return date >= startDate && date <= endDate
 }
 
 const currentMonthYear = computed(() => {
