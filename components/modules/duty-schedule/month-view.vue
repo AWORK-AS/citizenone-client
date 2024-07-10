@@ -90,7 +90,6 @@
                 </div>
             </div>
         </div>
-        {{ selectedDay?.events }}
         <div v-if="selectedDay?.events.length > 0" class="px-4 py-10 sm:px-6 lg:hidden">
             <ol
                 class="divide-y divide-gray-100 overflow-hidden rounded-lg bg-white text-sm shadow ring-1 ring-black ring-opacity-5">

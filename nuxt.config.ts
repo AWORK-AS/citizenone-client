@@ -16,23 +16,28 @@ export default defineNuxtConfig({
       ]
     }
   },
+
   css: ['~/assets/css/main.css'],
   devtools: { enabled: true },
+
   modules: [
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxt/icon',
   ],
+
   plugins: [
     '@/plugins/vue-notification.ts',
     '@/plugins/ckeditor.ts'
   ],
+
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
   },
+
   runtimeConfig: {
     public: {
       appName: process.env.APP_NAME,
@@ -40,8 +45,10 @@ export default defineNuxtConfig({
       checkoutKey: process.env.CHECKOUT_KEY,
     },
   },
+
   ssr: false,
   sourcemap: false,
+
   vite: {
     plugins: [
       VueI18nVitePlugin({
@@ -49,4 +56,6 @@ export default defineNuxtConfig({
       }),
     ],
   },
+
+  compatibilityDate: '2024-07-10',
 })
