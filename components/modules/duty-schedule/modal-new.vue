@@ -43,6 +43,10 @@ const state = reactive({
     },
 })
 
+watch(() => props.isModalOpen, () => {
+    state.error = []
+})
+
 function closeModal() {
     emit('close')
 }

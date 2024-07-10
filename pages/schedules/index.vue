@@ -83,7 +83,7 @@ interface State {
 const runtimeConfig = useRuntimeConfig()
 
 const state = reactive<State>({
-    calendarView: 'default',
+    calendarView: 'month',
     dutySchedules: [],
     error: null,
     isPageLoading: false,
@@ -162,7 +162,6 @@ function changeMonthYear(year: any, month: any) {
 }
 
 function editDutySchedule(selectedDutySchedule: any) {
-    state.selectedSchedule.id = selectedDutySchedule.id
     state.selectedSchedule.uuid = selectedDutySchedule.uuid
     state.selectedSchedule.title = selectedDutySchedule.title
     state.selectedSchedule.description = selectedDutySchedule.description

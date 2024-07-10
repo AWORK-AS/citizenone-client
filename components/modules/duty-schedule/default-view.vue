@@ -2,8 +2,10 @@
     <div>
         <div class="lg:grid lg:grid-cols-12 lg:gap-x-16">
             <div class="mt-10 lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
-                <div class="flex items-center">
-                    <h2 class="flex-auto text-sm font-semibold text-gray-900">{{ currentMonthLabel }}</h2>
+                <div class="flex items-center justify-between">
+                    <h3 class="text-base font-semibold leading-6 text-gray-900">
+                        {{ currentMonthLabel }}
+                    </h3>
                     <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
                         <button type="button" @click="previousMonth"
                             class="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
@@ -23,13 +25,13 @@
                     </div>
                 </div>
                 <div class="mt-6 grid grid-cols-7 text-xs leading-6 text-gray-500">
-                    <div>S</div>
-                    <div>M</div>
-                    <div>T</div>
-                    <div>W</div>
-                    <div>T</div>
-                    <div>F</div>
-                    <div>S</div>
+                    <div class="text-center">S</div>
+                    <div class="text-center">M</div>
+                    <div class="text-center">T</div>
+                    <div class="text-center">W</div>
+                    <div class="text-center">T</div>
+                    <div class="text-center">F</div>
+                    <div class="text-center">S</div>
                 </div>
                 <div class="mt-2 grid grid-cols-7 text-sm">
                     <div v-for="(day, dayIdx) in days" :key="day.date"
@@ -122,13 +124,6 @@
                                         Edit
                                     </a>
                                     </MenuItem>
-                                    <!-- <MenuItem v-slot="{ active }">
-                                    <a href="#"
-                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
-                                        @click="deleteDutySchedule(dutySchedule)">
-                                        Delete
-                                    </a>
-                                    </MenuItem> -->
                                 </div>
                             </MenuItems>
                         </transition>
@@ -140,7 +135,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import moment from 'moment'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
