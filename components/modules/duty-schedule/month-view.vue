@@ -221,6 +221,11 @@ function isWithinRange(dateStr: string, start: string, end: string) {
     const date = new Date(dateStr)
     const startDate = new Date(start)
     const endDate = new Date(end)
+
+    // Normalize the dates to midnight to compare dates without time
+    startDate.setHours(0, 0, 0, 0)
+    endDate.setHours(23, 59, 59, 999)
+
     return date >= startDate && date <= endDate
 }
 

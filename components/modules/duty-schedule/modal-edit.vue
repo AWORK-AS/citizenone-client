@@ -59,6 +59,7 @@ function refreshSchedules() {
 
 async function updateSchedule(scheduleDetails: any) {
     state.isPageLoading = true
+    state.error = []
     try {
         const scheduleUuid = scheduleDetails.uuid
         const params = {
@@ -83,6 +84,7 @@ async function updateSchedule(scheduleDetails: any) {
 
 async function deleteSchedule() {
     state.isPageLoading = true
+    state.error = []
     try {
         const scheduleUuid = props.selectedSchedule.uuid
         const response = await dutyScheduleService.deleteDutySchedule(scheduleUuid)

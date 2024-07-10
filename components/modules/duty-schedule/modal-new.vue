@@ -53,6 +53,7 @@ function refreshSchedules() {
 
 async function saveSchedule(scheduleDetails: any) {
     state.isPageLoading = true
+    state.error = []
     try {
         const params = {
             title: scheduleDetails.title,
