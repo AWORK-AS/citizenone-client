@@ -193,7 +193,7 @@ function generateDays(year: any, month: any, dutySchedules: any) {
         daysArray.push({
             date: dateStr,
             isCurrentMonth: true,
-            isToday: isToday(day),
+            isToday: isToday(dateStr),
             events: dutySchedules?.data?.filter((event: any) => isWithinRange(dateStr, event.date_time_start, event.date_time_end)).map((event: any) => ({
                 ...event,
                 time_start: moment(event.date_time_start).format('HH:mm'),
@@ -213,8 +213,7 @@ function generateDays(year: any, month: any, dutySchedules: any) {
 }
 
 function isToday(day: any) {
-    const today = new Date()
-    return day.getFullYear() === today.getFullYear() && day.getMonth() === today.getMonth() && day.getDate() === today.getDate()
+    return moment().format('YYYY-MM-DD') === moment(day).format('YYYY-MM-DD')
 }
 
 function isWithinRange(dateStr: string, start: string, end: string) {
