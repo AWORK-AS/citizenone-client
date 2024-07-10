@@ -45,9 +45,8 @@
                         </time>
                         <ol v-if="day.events.length > 0" class="mt-2">
                             <li v-for="(dutySchedule, index) in day.events" :key="index">
-                                <div class="group flex">
-                                    <p class="flex-auto truncate font-medium text-gray-900 group-hover:text-tertiary cursor-pointer"
-                                        @click="editDutySchedule(dutySchedule)">
+                                <div class="group flex cursor-pointer" @click="editDutySchedule(dutySchedule)">
+                                    <p class="flex-auto truncate font-medium text-gray-900 group-hover:text-tertiary">
                                         {{ dutySchedule.user.firstname }}
                                         {{ dutySchedule.user.lastname }}
                                     </p>
