@@ -83,7 +83,7 @@ interface State {
 const runtimeConfig = useRuntimeConfig()
 
 const state = reactive<State>({
-    calendarView: 'month',
+    calendarView: 'default',
     dutySchedules: [],
     error: null,
     isPageLoading: false,
