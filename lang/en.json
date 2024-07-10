@@ -197,7 +197,8 @@
             "title": "Title",
             "users": "Users"
         },
-        "newSchedule": "New schedule"
+        "newSchedule": "New schedule",
+        "noScheduleFound": "No schedule found"
     },
     "employees": {
         "editEmployee": "Edit Employee",

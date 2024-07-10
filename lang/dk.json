@@ -197,7 +197,8 @@
             "title": "Titel",
             "users": "Brugere"
         },
-        "newSchedule": "Ny tidsplan"
+        "newSchedule": "Ny tidsplan",
+        "noScheduleFound": "Ingen tidsplan fundet"
     },
     "employees": {
         "editEmployee": "Rediger Medarbejder",

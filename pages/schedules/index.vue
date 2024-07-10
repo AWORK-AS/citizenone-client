@@ -17,11 +17,11 @@
 
             <div class="flex items-center gap-x-3">
                 <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
-                    @click="state.calendarView = 'default'" class="rounded-md">
+                    @click="setCalendarView('default')" class="rounded-md">
                     Default View
                 </FormButton>
                 <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
-                    @click="state.calendarView = 'month'" class="rounded-md">
+                    @click="setCalendarView('month')" class="rounded-md">
                     Month View
                 </FormButton>
             </div>
@@ -137,6 +137,16 @@ async function fetchDutySchedules() {
     state.isPageLoading = false
 }
 
+function setCalendarView(viewStyle: any) {
+    if (state.calendarView !== viewStyle) {
+        state.calendarView = viewStyle
+        state.selectedDate = ''
+        state.selectedYear = ''
+        state.selectedMonth = ''
+        fetchDutySchedules()
+    }
+}
+
 function changeDate(date: any) {
     state.selectedYear = ''
     state.selectedMonth = ''
@@ -160,18 +170,6 @@ function editDutySchedule(selectedDutySchedule: any) {
     state.selectedSchedule.end = selectedDutySchedule.date_time_end
     state.selectedSchedule.is_private = selectedDutySchedule.is_private ? true : false
     state.selectedSchedule.user_uuid = selectedDutySchedule.user.uuid
-    state.modal.isEditEventOpen = true
-}
-
-function handleEventClick(info: any) {
-    state.selectedSchedule.id = info.event.id
-    state.selectedSchedule.uuid = info.event.extendedProps.uuid
-    state.selectedSchedule.title = info.event.title
-    state.selectedSchedule.description = info.event.extendedProps.description
-    state.selectedSchedule.start = info.event.start
-    state.selectedSchedule.end = info.event.end
-    state.selectedSchedule.is_private = info.event.extendedProps.is_private ? true : false
-    state.selectedSchedule.user_uuid = info.event.extendedProps.user_uuid
     state.modal.isEditEventOpen = true
 }
 </script>
