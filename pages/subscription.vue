@@ -8,8 +8,6 @@
 
             <template #header>{{ $t('subscription.subscription') }}</template>
 
-            {{ state.deals?.data }}
-
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div class="max-w-4xl mx-auto space-y-2">
                     <Alert type="danger" :text="error" v-if="error && error.length > 0" />
