@@ -8,6 +8,8 @@
 
             <template #header>{{ $t('subscription.subscription') }}</template>
 
+            {{ state.deals?.data }}
+
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div class="max-w-4xl mx-auto space-y-2">
                     <Alert type="danger" :text="error" v-if="error && error.length > 0" />
@@ -80,13 +82,27 @@
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ formatAmount(deal?.extra_users) }} {{ $t('subscription.deal.forExtraUser') }}
+                                    {{ deal?.departments }}
+                                    <span v-if="deal?.departments > 1">
+                                        {{ $t('subscription.deal.departments') }}
+                                    </span>
+                                    <span v-else>
+                                        {{ $t('subscription.deal.department') }}
+                                    </span>
+
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ formatAmount(deal?.departments) }}
+                                    {{ formatAmount(deal?.extra_users ?? 0) }} {{ $t('subscription.deal.forExtraUser')
+                                    }}
+                                </li>
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                    <Icon name="ph:check"
+                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
+                                        aria-hidden="true" />
+                                    {{ formatAmount(deal?.extra_departments ?? 0) }}
                                     {{ $t('subscription.deal.forExtraDepartment') }}
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']"

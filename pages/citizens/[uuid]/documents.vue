@@ -244,6 +244,9 @@ async function uploadFile(event: any) {
         }
     } catch (error: any) {
         state.error = error
+        if (error?.message === 'You do not have enough storage space to upload new files') {
+            navigateTo(`/storage/upgrade?error=${error?.message}`)
+        }
     }
     state.isPageLoading = false
 }

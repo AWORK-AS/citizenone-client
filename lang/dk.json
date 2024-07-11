@@ -453,6 +453,8 @@
         "deal": {
             "annually": "Årligt",
             "aPlanThatScales": "En plan, der skalerer med din hurtigt voksende virksomhed",
+            "department": "Afdeling",
+            "departments": "Afdelinger",
             "forExtraDepartment": "For ekstra afdeling",
             "forExtraUser": "For ekstra bruger",
             "month": "Måned",

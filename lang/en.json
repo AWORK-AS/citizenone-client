@@ -453,6 +453,8 @@
         "deal": {
             "annually": "Annually",
             "aPlanThatScales": "A plan that scales with your rapidly growing business",
+            "department": "Department",
+            "departments": "departments",
             "forExtraDepartment": "For extra department",
             "forExtraUser": "For extra user",
             "month": "Month",
