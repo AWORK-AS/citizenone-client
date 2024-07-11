@@ -20,10 +20,10 @@
                     @click="setCalendarView('default')" class="rounded-md">
                     Default View
                 </FormButton>
-                <!-- <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
+                <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
                     @click="setCalendarView('week')" class="rounded-md">
                     Week View
-                </FormButton> -->
+                </FormButton>
                 <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
                     @click="setCalendarView('month')" class="rounded-md">
                     Month View
@@ -35,8 +35,9 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesDutyScheduleDefaultView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
                         @editDutySchedule="editDutySchedule" v-if="state.calendarView === 'default'" />
-                    <ModulesDutyScheduleWeekView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
-                        @editDutySchedule="editDutySchedule" v-if="state.calendarView === 'week'" />
+                    <ModulesDutyScheduleWeekView :dutySchedules="state.dutySchedules"
+                        @changeDatePerWeek="changeDatePerWeek" @editDutySchedule="editDutySchedule"
+                        v-if="state.calendarView === 'week'" />
                     <ModulesDutyScheduleMonthView :dutySchedules="state.dutySchedules"
                         @changeMonthYear="changeMonthYear" @editDutySchedule="editDutySchedule"
                         v-if="state.calendarView === 'month'" />
@@ -80,7 +81,7 @@ interface State {
     error: ErrorState | null
     isPageLoading: boolean
     modal: ModalState
-    selectedDate: string
+    selectedDate: object
     selectedYear: string
     selectedMonth: string
     selectedSchedule: CalendarEvent
@@ -89,7 +90,7 @@ interface State {
 const runtimeConfig = useRuntimeConfig()
 
 const state = reactive<State>({
-    calendarView: 'default',
+    calendarView: 'week',
     dutySchedules: [],
     error: null,
     isPageLoading: false,
@@ -97,7 +98,10 @@ const state = reactive<State>({
         isAddEventOpen: false,
         isEditEventOpen: false
     },
-    selectedDate: '',
+    selectedDate: {
+        end_date: '',
+        start_date: '',
+    },
     selectedYear: '',
     selectedMonth: '',
     selectedSchedule: {
@@ -119,15 +123,12 @@ onMounted(() => {
 async function fetchDutySchedules() {
     state.isPageLoading = true
     try {
-        const params = {}
-        if (state.selectedDate) {
-            params.date = {
-                end_date: state.selectedDate,
-                start_date: state.selectedDate,
-            }
+        const params: any = {}
+        if (state.selectedDate.start_date && state.selectedDate.end_date) {
+            params.date = state.selectedDate
         }
         if (state.selectedYear) {
-            params.year = state.selectedYear;
+            params.year = state.selectedYear
         }
         if (state.selectedMonth !== '') {
             params.month = (state.selectedMonth + 1)
@@ -146,7 +147,10 @@ async function fetchDutySchedules() {
 function setCalendarView(viewStyle: any) {
     if (state.calendarView !== viewStyle) {
         state.calendarView = viewStyle
-        state.selectedDate = ''
+        state.selectedDate = {
+            end_date: '',
+            start_date: '',
+        }
         state.selectedYear = ''
         state.selectedMonth = ''
         fetchDutySchedules()
@@ -156,12 +160,28 @@ function setCalendarView(viewStyle: any) {
 function changeDate(date: any) {
     state.selectedYear = ''
     state.selectedMonth = ''
-    state.selectedDate = date
+    state.selectedDate = {
+        end_date: date,
+        start_date: date,
+    }
+    fetchDutySchedules()
+}
+
+function changeDatePerWeek(date: any) {
+    state.selectedYear = ''
+    state.selectedMonth = ''
+    state.selectedDate = {
+        end_date: date[1],
+        start_date: date[0],
+    }
     fetchDutySchedules()
 }
 
 function changeMonthYear(year: any, month: any) {
-    state.selectedDate = ''
+    state.selectedDate = {
+        end_date: '',
+        start_date: '',
+    }
     state.selectedYear = year
     state.selectedMonth = month
     fetchDutySchedules()
