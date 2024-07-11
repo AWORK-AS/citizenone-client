@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="lg:grid lg:grid-cols-12 lg:gap-x-16">
-            <div class="mt-10 lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
+            <div class="py-4 lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
                 <div class="flex items-center justify-between">
                     <h3 class="text-base font-semibold leading-6 text-gray-900">
                         {{ currentMonthLabel }}
