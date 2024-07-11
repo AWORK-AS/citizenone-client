@@ -8,65 +8,75 @@
 
             <template #header>{{ $t('storage.storage') }}</template>
 
-            <div class="max-w-3xl">
+            <LoadingSpinner :isActive="state.isPageLoading">
                 <div class="space-y-5">
-                    <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
-                    <div class="space-y-2">
-                        <p class="text-sm font-medium">
-                            {{ $t('storage.currentPlan') }}
-                        </p>
-                        <div class="space-y-3">
-                            <div class="bg-gray-50 p-4 rounded-md space-y-2">
-                                <div>
-                                    {{ $t('storage.storage') }}
-                                    ({{ state.usage?.total_storage }})
-                                </div>
-                                <div class="space-y-2 text-xs text-white">
-                                    <div class="w-full bg-gray-200 rounded-full overflow-hidden">
-                                        <div class="h-4 bg-yellow-500 rounded-full"
-                                            :style="{ width: `${usedStoragePercentage}%` }">
+                    <div class="max-w-3xl">
+                        <div class="space-y-5">
+                            <Alert type="danger" :text="error" v-if="error && error.length > 0" />
+                            <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+                        </div>
+                    </div>
+                    <div id="checkout-container-div"></div>
+                    <div class="max-w-3xl" v-if="!state.isDealsHidden">
+                        <div class="space-y-5">
+                            <div class="space-y-2">
+                                <p class="text-sm font-medium">
+                                    {{ $t('storage.currentPlan') }}
+                                </p>
+                                <div class="space-y-3">
+                                    <div class="bg-gray-50 p-4 rounded-md space-y-2">
+                                        <div>
+                                            {{ $t('storage.storage') }}
+                                            ({{ state.usage?.total_storage }})
                                         </div>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <span class="inline-block w-3 h-3 bg-yellow-500 mr-2"></span>
-                                        <span class="text-gray-800">
-                                            {{ $t('storage.documents') }} {{ state.usage?.used_storage }}
-                                        </span>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <span class="inline-block w-3 h-3 bg-gray-300 mr-2"></span>
-                                        <span class="text-gray-800">
-                                            {{ $t('storage.available') }} {{ state.usage?.available_storage }}
-                                        </span>
+                                        <div class="space-y-2 text-xs text-white">
+                                            <div class="w-full bg-gray-200 rounded-full overflow-hidden">
+                                                <div class="h-4 bg-yellow-500 rounded-full"
+                                                    :style="{ width: `${usedStoragePercentage}%` }">
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <span class="inline-block w-3 h-3 bg-yellow-500 mr-2"></span>
+                                                <span class="text-gray-800">
+                                                    {{ $t('storage.documents') }} {{ state.usage?.used_storage }}
+                                                </span>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <span class="inline-block w-3 h-3 bg-gray-300 mr-2"></span>
+                                                <span class="text-gray-800">
+                                                    {{ $t('storage.available') }} {{ state.usage?.available_storage }}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="space-y-2">
-                        <p class="text-sm font-medium">
-                            {{ $t('storage.upgradeOptions') }}
-                        </p>
-                        <div class="space-y-3">
-                            <div v-for="(deal, index) in state.storageDeals?.data" :key="index">
-                                <div class="bg-gray-100 p-4 rounded-md flex items-center gap-x-3">
-                                    <p>{{ deal?.name }}</p>
-                                    <p class="grow">
-                                        {{ formatAmount(deal?.monthly_price) }}
-                                        /{{ $t('storage.month') }}
-                                    </p>
-                                    <div>
-                                        <FormButton class="rounded-md">
-                                            {{ $t('storage.upgrade') }}
-                                        </FormButton>
+                            <div class="space-y-2">
+                                <p class="text-sm font-medium">
+                                    {{ $t('storage.upgradeOptions') }}
+                                </p>
+                                <div class="space-y-3">
+                                    <div v-for="(deal, index) in state.storageDeals?.data" :key="index">
+                                        <div class="bg-gray-100 p-4 rounded-md flex items-center gap-x-3">
+                                            <p>{{ deal?.name }}</p>
+                                            <p class="grow">
+                                                {{ formatAmount(deal?.monthly_price) }}
+                                                /{{ $t('storage.month') }}
+                                            </p>
+                                            <div>
+                                                <FormButton class="rounded-md" @click="upgrade(deal)">
+                                                    {{ $t('storage.upgrade') }}
+                                                </FormButton>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </LoadingSpinner>
 
         </NuxtLayout>
     </div>
@@ -74,14 +84,16 @@
 
 <script setup lang="ts">
 import { addOnDealsService } from '@/components/api/AddOnDealsService'
+import { userSubscriptionService } from '@/components/api/UserSubscriptionService'
 import { storageService } from '@/components/api/StorageService'
-import { useUserStore } from '@/store/user'
 
 const runtimeConfig = useRuntimeConfig()
-const userStore = useUserStore()
+const router = useRouter()
+let error = router?.currentRoute?.value?.query?.error
 
 const state = reactive({
     error: [],
+    isDealsHidden: false,
     isPageLoading: false,
     storageDeals: [],
     usage: [],
@@ -141,5 +153,38 @@ function formatAmount(amount: any) {
 
     // Combine the integer part with the decimal part
     return 'DKK' + formattedIntegerPart + ',' + decimalPart
+}
+
+async function upgrade(deal: any) {
+    state.isPageLoading = true
+    state.error = []
+    error = ''
+    try {
+        const params = {
+            'deal_uuid': deal.uuid,
+            'type': 'monthly',
+        }
+        const response = await userSubscriptionService.subscribe(params)
+        if (response) {
+            var checkoutOptions = {
+                checkoutKey: runtimeConfig?.public?.checkoutKey,
+                paymentId: response?.paymentId,
+                containerId: "checkout-container-div",
+                language: "en-GB",
+                theme: {
+                    buttonRadius: "5px"
+                }
+            }
+            var checkout = new Dibs.Checkout(checkoutOptions)
+            checkout.on('payment-completed', function (response: any) {
+                const paymentId = response['paymentId']
+                navigateTo(`/subscribed?paymentId=${paymentId}`)
+            })
+            state.isDealsHidden = true
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>

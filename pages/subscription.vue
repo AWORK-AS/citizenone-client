@@ -15,7 +15,7 @@
                         v-if="state.error && state.error.length > 0 || state.error?.message" />
                 </div>
                 <div id="checkout-container-div"></div>
-                <div class="mt-16 flex justify-center">
+                <div class="mt-16 flex justify-center" v-if="!state.isDealsHidden">
                     <fieldset aria-label="Payment frequency">
                         <RadioGroup v-model="frequency"
                             class="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
@@ -37,7 +37,7 @@
                         </RadioGroup>
                     </fieldset>
                 </div>
-                <div v-if="state.deals?.data?.length <= 2">
+                <div v-if="state.deals?.data?.length <= 2 && !state.isDealsHidden">
                     <div
                         class="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
                         <div v-for="(deal, index) in state.deals?.data" :key="index"
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-else>
+                <div v-else v-if="!state.isDealsHidden">
                     <div
                         class="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                         <div v-for="(deal, index) in state.deals?.data" :key="index"
@@ -176,6 +176,7 @@ let error = router?.currentRoute?.value?.query?.error
 const state = reactive({
     error: [],
     deals: [],
+    isDealsHidden: false,
     isPageLoading: false,
 })
 
@@ -228,6 +229,7 @@ async function subscribe(deal: any) {
                 const paymentId = response['paymentId']
                 navigateTo(`/subscribed?paymentId=${paymentId}`)
             })
+            state.isDealsHidden = true
         }
     } catch (error: any) {
         state.error = error
