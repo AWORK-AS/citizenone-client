@@ -233,7 +233,7 @@ async function subscribe(deal: any) {
                 checkoutKey: runtimeConfig?.public?.checkoutKey,
                 paymentId: response?.paymentId,
                 containerId: "checkout-container-div",
-                language: "en-GB",
+                language: "da-DK",
                 theme: {
                     buttonRadius: "5px"
                 }
