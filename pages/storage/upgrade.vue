@@ -152,7 +152,7 @@ function formatAmount(amount: any) {
     let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
 
     // Combine the integer part with the decimal part
-    return 'DKK' + formattedIntegerPart + ',' + decimalPart
+    return 'DKK ' + formattedIntegerPart + ',' + decimalPart
 }
 
 async function upgrade(deal: any) {
