@@ -80,7 +80,8 @@
                 </div>
             </div>
         </div>
-        <ol class="mt-4 divide-y divide-gray-100 text-sm leading-6 lg:col-span-7 xl:col-span-8" v-if=selectedDay>
+        <ol class="mt-4 divide-y divide-gray-100 text-sm leading-6 lg:col-span-7 xl:col-span-8 md:hidden"
+            v-if=selectedDay>
             <li v-for="(dutySchedule, index) in eventsByDay[moment(selectedDay).day()]" :key="index"
                 class="relative flex space-x-6 py-6 xl:static">
                 <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${dutySchedule?.user?.firstname + ' ' + dutySchedule?.user?.lastname}`"
