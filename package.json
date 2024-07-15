@@ -17,12 +17,6 @@
   "devDependencies": {
     "@ckeditor/ckeditor5-build-classic": "^42.0.0",
     "@ckeditor/ckeditor5-vue": "^6.0.0",
-    "@fullcalendar/core": "^6.1.14",
-    "@fullcalendar/daygrid": "^6.1.14",
-    "@fullcalendar/interaction": "^6.1.14",
-    "@fullcalendar/list": "^6.1.14",
-    "@fullcalendar/timegrid": "^6.1.14",
-    "@fullcalendar/vue3": "^6.1.14",
     "@headlessui/vue": "^1.7.22",
     "@intlify/unplugin-vue-i18n": "^4.0.0",
     "@kyvg/vue3-notification": "^3.2.1",
