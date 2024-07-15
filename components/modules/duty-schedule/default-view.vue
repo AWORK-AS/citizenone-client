@@ -4,7 +4,19 @@
             <div class="py-4 lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
                 <div class="flex items-center justify-between">
                     <h3 class="text-base font-semibold leading-6 text-gray-900">
-                        {{ currentMonthLabel }}
+                        <span v-if="month === 'January'">{{ $t('dutySchedules.month.January') }}</span>
+                        <span v-if="month === 'February'">{{ $t('dutySchedules.month.February') }}</span>
+                        <span v-if="month === 'March'">{{ $t('dutySchedules.month.March') }}</span>
+                        <span v-if="month === 'April'">{{ $t('dutySchedules.month.April') }}</span>
+                        <span v-if="month === 'May'">{{ $t('dutySchedules.month.May') }}</span>
+                        <span v-if="month === 'June'">{{ $t('dutySchedules.month.June') }}</span>
+                        <span v-if="month === 'July'">{{ $t('dutySchedules.month.July') }}</span>
+                        <span v-if="month === 'August'">{{ $t('dutySchedules.month.August') }}</span>
+                        <span v-if="month === 'September'">{{ $t('dutySchedules.month.September') }}</span>
+                        <span v-if="month === 'October'">{{ $t('dutySchedules.month.October') }}</span>
+                        <span v-if="month === 'November'">{{ $t('dutySchedules.month.November') }}</span>
+                        <span v-if="month === 'December'">{{ $t('dutySchedules.month.December') }}</span>
+                        {{ year }}
                     </h3>
                     <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
                         <button type="button" @click="previousMonth"
@@ -147,7 +159,8 @@ const props = defineProps({
 const emit = defineEmits(['changeDate', 'editDutySchedule'])
 
 const currentMonth = ref(moment().startOf('month'))
-const currentMonthLabel = ref(currentMonth.value.format('MMMM YYYY'))
+const month = ref(currentMonth.value.format('MMMM'))
+const year = ref(currentMonth.value.format('YYYY'))
 const days = ref(generateDays(currentMonth.value))
 
 function generateDays(month: any) {
@@ -170,21 +183,24 @@ function generateDays(month: any) {
 
 function previousMonth() {
     currentMonth.value = currentMonth.value.clone().subtract(1, 'month')
-    currentMonthLabel.value = currentMonth.value.format('MMMM YYYY')
+    month.value = currentMonth.value.format('MMMM')
+    year.value = currentMonth.value.format('YYYY')
     days.value = generateDays(currentMonth.value)
 }
 
 function setToday() {
     const today = moment()
     currentMonth.value = today.clone().startOf('month')
-    currentMonthLabel.value = currentMonth.value.format('MMMM YYYY')
+    month.value = currentMonth.value.format('MMMM')
+    year.value = currentMonth.value.format('YYYY')
     days.value = generateDays(currentMonth.value)
     selectDay({ date: today.format('YYYY-MM-DD') })
 }
 
 function nextMonth() {
     currentMonth.value = currentMonth.value.clone().add(1, 'month')
-    currentMonthLabel.value = currentMonth.value.format('MMMM YYYY')
+    month.value = currentMonth.value.format('MMMM')
+    year.value = currentMonth.value.format('YYYY')
     days.value = generateDays(currentMonth.value)
 }
 

@@ -2,7 +2,19 @@
     <div class="flex h-full flex-col">
         <header class="flex flex-none items-center justify-between border-b border-gray-200 py-4">
             <h3 class="text-base font-semibold leading-6 text-gray-900">
-                <time>{{ formattedDate }}</time>
+                <span v-if="month === 'January'">{{ $t('dutySchedules.month.January') }}</span>
+                <span v-if="month === 'February'">{{ $t('dutySchedules.month.February') }}</span>
+                <span v-if="month === 'March'">{{ $t('dutySchedules.month.March') }}</span>
+                <span v-if="month === 'April'">{{ $t('dutySchedules.month.April') }}</span>
+                <span v-if="month === 'May'">{{ $t('dutySchedules.month.May') }}</span>
+                <span v-if="month === 'June'">{{ $t('dutySchedules.month.June') }}</span>
+                <span v-if="month === 'July'">{{ $t('dutySchedules.month.July') }}</span>
+                <span v-if="month === 'August'">{{ $t('dutySchedules.month.August') }}</span>
+                <span v-if="month === 'September'">{{ $t('dutySchedules.month.September') }}</span>
+                <span v-if="month === 'October'">{{ $t('dutySchedules.month.October') }}</span>
+                <span v-if="month === 'November'">{{ $t('dutySchedules.month.November') }}</span>
+                <span v-if="month === 'December'">{{ $t('dutySchedules.month.December') }}</span>
+                {{ year }}
             </h3>
             <div class="flex items-center">
                 <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
@@ -247,7 +259,8 @@ function editDutySchedule(dutySchedule: any) {
     emit('editDutySchedule', dutySchedule)
 }
 
-const formattedDate = computed(() => currentDate.value.format('MMMM YYYY'))
+const month = computed(() => currentDate.value.format('MMMM'))
+const year = computed(() => currentDate.value.format('YYYY'))
 
 const weekDays = computed(() => {
     const startOfWeek = moment(currentDate.value).startOf('isoWeek')
