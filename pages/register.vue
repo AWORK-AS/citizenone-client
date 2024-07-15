@@ -82,7 +82,11 @@
                                 @click="state.formRegister.agreeToTerms = !state.formRegister.agreeToTerms">
                                 <FormCheckbox :value="state.formRegister.agreeToTerms" />
                                 <span class="text-sm">
-                                    {{ $t('register.form.iAcceptTAA') }}
+                                    {{ $t('register.form.iHaveReadAndAcceptThe') }}
+                                    <span class="cursor-pointer text-tertiary hover:text-tertiary/90"
+                                        @click="navigateToTAC">
+                                        {{ $t('register.form.termsAndConditions') }}
+                                    </span>
                                 </span>
                             </div>
                             <span v-if="state.agreeToTermsValidation" class="text-sm text-red-500">
@@ -227,6 +231,15 @@ function identifyFlag() {
             return '/img/icons/flags/denmark.svg'
         }
     }
+}
+
+async function navigateToTAC() {
+    await navigateTo('https://citizenone.dk/vilkaarogbetingelser/', {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 
 function successAlert(title: string, message: string) {
