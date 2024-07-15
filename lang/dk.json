@@ -34,6 +34,57 @@
         "apps": "Apps"
     },
     "back": "Tilbage",
+    "calendar": {
+        "days": {
+            "Monday": "Mandag",
+            "Tuesday": "Tirsdag",
+            "Wednesday": "Onsdag",
+            "Thursday": "Torsdag",
+            "Friday": "Fredag",
+            "Saturday": "Lørdag",
+            "Sunday": "Søndag"
+        },
+        "month": {
+            "January": "Januar",
+            "February": "Februar",
+            "March": "Marts",
+            "April": "April",
+            "May": "Maj",
+            "June": "Juni",
+            "July": "Juli",
+            "August": "August",
+            "September": "September",
+            "October": "Oktober",
+            "November": "November",
+            "December": "December"
+        },
+        "today": "I dag",
+        "view": {
+            "defaultView": "Standardvisning",
+            "monthView": "Månedsvisning",
+            "weekView": "Ugevisning"
+        },
+        "week": {
+            "oneLetter": {
+                "Monday": "M",
+                "Tuesday": "T",
+                "Wednesday": "O",
+                "Thursday": "T",
+                "Friday": "F",
+                "Saturday": "L",
+                "Sunday": "S"
+            },
+            "short": {
+                "Monday": "Man",
+                "Tuesday": "Tir",
+                "Wednesday": "Ons",
+                "Thursday": "Tor",
+                "Friday": "Fre",
+                "Saturday": "Lør",
+                "Sunday": "Søn"
+            }
+        }
+    },
     "cancel": "Annuller",
     "citizens": {
         "citizens": "Borgere",
@@ -186,15 +237,6 @@
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne tidsplan?"
         },
-        "days": {
-            "Monday": "Mandag",
-            "Tuesday": "Tirsdag",
-            "Wednesday": "Onsdag",
-            "Thursday": "Torsdag",
-            "Friday": "Fredag",
-            "Saturday": "Lørdag",
-            "Sunday": "Søndag"
-        },
         "deleteSchedule": "Slet tidsplan",
         "dutySchedules": "Vagtplaner",
         "editSchedule": "Rediger tidsplan",
@@ -206,48 +248,8 @@
             "title": "Titel",
             "users": "Brugere"
         },
-        "month": {
-            "January": "Januar",
-            "February": "Februar",
-            "March": "Marts",
-            "April": "April",
-            "May": "Maj",
-            "June": "Juni",
-            "July": "Juli",
-            "August": "August",
-            "September": "September",
-            "October": "Oktober",
-            "November": "November",
-            "December": "December"
-        },
         "newSchedule": "Ny tidsplan",
-        "noScheduleFound": "Ingen tidsplan fundet",
-        "today": "I dag",
-        "week": {
-            "oneLetter": {
-                "Monday": "M",
-                "Tuesday": "T",
-                "Wednesday": "O",
-                "Thursday": "T",
-                "Friday": "F",
-                "Saturday": "L",
-                "Sunday": "S"
-            },
-            "short": {
-                "Monday": "Man",
-                "Tuesday": "Tir",
-                "Wednesday": "Ons",
-                "Thursday": "Tor",
-                "Friday": "Fre",
-                "Saturday": "Lør",
-                "Sunday": "Søn"
-            }
-        },
-        "view": {
-            "defaultView": "Standardvisning",
-            "monthView": "Månedsvisning",
-            "weekView": "Ugevisning"
-        }
+        "noScheduleFound": "Ingen tidsplan fundet"
     },
     "employees": {
         "editEmployee": "Rediger Medarbejder",

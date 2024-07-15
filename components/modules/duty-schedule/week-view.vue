@@ -2,18 +2,18 @@
     <div class="flex h-full flex-col">
         <header class="flex flex-none items-center justify-between border-b border-gray-200 py-4">
             <h3 class="text-base font-semibold leading-6 text-gray-900">
-                <span v-if="month === 'January'">{{ $t('dutySchedules.month.January') }}</span>
-                <span v-if="month === 'February'">{{ $t('dutySchedules.month.February') }}</span>
-                <span v-if="month === 'March'">{{ $t('dutySchedules.month.March') }}</span>
-                <span v-if="month === 'April'">{{ $t('dutySchedules.month.April') }}</span>
-                <span v-if="month === 'May'">{{ $t('dutySchedules.month.May') }}</span>
-                <span v-if="month === 'June'">{{ $t('dutySchedules.month.June') }}</span>
-                <span v-if="month === 'July'">{{ $t('dutySchedules.month.July') }}</span>
-                <span v-if="month === 'August'">{{ $t('dutySchedules.month.August') }}</span>
-                <span v-if="month === 'September'">{{ $t('dutySchedules.month.September') }}</span>
-                <span v-if="month === 'October'">{{ $t('dutySchedules.month.October') }}</span>
-                <span v-if="month === 'November'">{{ $t('dutySchedules.month.November') }}</span>
-                <span v-if="month === 'December'">{{ $t('dutySchedules.month.December') }}</span>
+                <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
+                <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
+                <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
+                <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
+                <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
+                <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
+                <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
+                <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
+                <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
+                <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
+                <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
+                <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
                 {{ year }}
             </h3>
             <div class="flex items-center">
@@ -24,7 +24,9 @@
                         <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
                     </button>
                     <button @click="setToday" type="button"
-                        class="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block">Today</button>
+                        class="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block">
+                        {{ $t('calendar.today') }}
+                    </button>
                     <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
                     <button @click="nextWeek" type="button"
                         class="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
@@ -41,25 +43,25 @@
                         <button v-for="day in weekDays" :key="day.date" type="button"
                             class="flex flex-col items-center pb-3 pt-2" @click="setSelectedDay(day)">
                             <span v-if="day.longName === 'Mon'">
-                                {{ $t('dutySchedules.week.oneLetter.Monday') }}
+                                {{ $t('calendar.week.oneLetter.Monday') }}
                             </span>
                             <span v-if="day.longName === 'Tue'">
-                                {{ $t('dutySchedules.week.oneLetter.Tuesday') }}
+                                {{ $t('calendar.week.oneLetter.Tuesday') }}
                             </span>
                             <span v-if="day.longName === 'Wed'">
-                                {{ $t('dutySchedules.week.oneLetter.Wednesday') }}
+                                {{ $t('calendar.week.oneLetter.Wednesday') }}
                             </span>
                             <span v-if="day.longName === 'Thu'">
-                                {{ $t('dutySchedules.week.oneLetter.Thursday') }}
+                                {{ $t('calendar.week.oneLetter.Thursday') }}
                             </span>
                             <span v-if="day.longName === 'Fri'">
-                                {{ $t('dutySchedules.week.oneLetter.Friday') }}
+                                {{ $t('calendar.week.oneLetter.Friday') }}
                             </span>
                             <span v-if="day.longName === 'Sat'">
-                                {{ $t('dutySchedules.week.oneLetter.Saturday') }}
+                                {{ $t('calendar.week.oneLetter.Saturday') }}
                             </span>
                             <span v-if="day.longName === 'Sun'">
-                                {{ $t('dutySchedules.week.oneLetter.Sunday') }}
+                                {{ $t('calendar.week.oneLetter.Sunday') }}
                             </span>
                             <span
                                 :class="moment(selectedDay).format('YYYY-MM-DD') === moment(day.fullDate).format('YYYY-MM-DD') ? 'mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-tertiary font-semibold text-white' : 'mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900'">
@@ -74,25 +76,25 @@
                         <div v-for="day in weekDays" :key="day.date" class="flex items-center justify-center py-3">
                             <span class="flex gap-x-1">
                                 <span v-if="day.longName === 'Mon'">
-                                    {{ $t('dutySchedules.week.short.Monday') }}
+                                    {{ $t('calendar.week.short.Monday') }}
                                 </span>
                                 <span v-if="day.longName === 'Tue'">
-                                    {{ $t('dutySchedules.week.short.Tuesday') }}
+                                    {{ $t('calendar.week.short.Tuesday') }}
                                 </span>
                                 <span v-if="day.longName === 'Wed'">
-                                    {{ $t('dutySchedules.week.short.Wednesday') }}
+                                    {{ $t('calendar.week.short.Wednesday') }}
                                 </span>
                                 <span v-if="day.longName === 'Thu'">
-                                    {{ $t('dutySchedules.week.short.Thursday') }}
+                                    {{ $t('calendar.week.short.Thursday') }}
                                 </span>
                                 <span v-if="day.longName === 'Fri'">
-                                    {{ $t('dutySchedules.week.short.Friday') }}
+                                    {{ $t('calendar.week.short.Friday') }}
                                 </span>
                                 <span v-if="day.longName === 'Sat'">
-                                    {{ $t('dutySchedules.week.short.Saturday') }}
+                                    {{ $t('calendar.week.short.Saturday') }}
                                 </span>
                                 <span v-if="day.longName === 'Sun'">
-                                    {{ $t('dutySchedules.week.short.Sunday') }}
+                                    {{ $t('calendar.week.short.Sunday') }}
                                 </span>
                                 <span class="items-center justify-center font-semibold text-gray-900">
                                     {{ day.date }}

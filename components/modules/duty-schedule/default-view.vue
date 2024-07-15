@@ -4,18 +4,18 @@
             <div class="py-4 lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
                 <div class="flex items-center justify-between">
                     <h3 class="text-base font-semibold leading-6 text-gray-900">
-                        <span v-if="month === 'January'">{{ $t('dutySchedules.month.January') }}</span>
-                        <span v-if="month === 'February'">{{ $t('dutySchedules.month.February') }}</span>
-                        <span v-if="month === 'March'">{{ $t('dutySchedules.month.March') }}</span>
-                        <span v-if="month === 'April'">{{ $t('dutySchedules.month.April') }}</span>
-                        <span v-if="month === 'May'">{{ $t('dutySchedules.month.May') }}</span>
-                        <span v-if="month === 'June'">{{ $t('dutySchedules.month.June') }}</span>
-                        <span v-if="month === 'July'">{{ $t('dutySchedules.month.July') }}</span>
-                        <span v-if="month === 'August'">{{ $t('dutySchedules.month.August') }}</span>
-                        <span v-if="month === 'September'">{{ $t('dutySchedules.month.September') }}</span>
-                        <span v-if="month === 'October'">{{ $t('dutySchedules.month.October') }}</span>
-                        <span v-if="month === 'November'">{{ $t('dutySchedules.month.November') }}</span>
-                        <span v-if="month === 'December'">{{ $t('dutySchedules.month.December') }}</span>
+                        <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
+                        <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
+                        <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
+                        <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
+                        <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
+                        <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
+                        <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
+                        <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
+                        <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
+                        <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
+                        <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
+                        <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
                         {{ year }}
                     </h3>
                     <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
@@ -26,7 +26,7 @@
                         </button>
                         <button type="button" @click="setToday"
                             class="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block">
-                            {{ $t('dutySchedules.today') }}
+                            {{ $t('calendar.today') }}
                         </button>
                         <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
                         <button type="button" @click="nextMonth"
@@ -37,13 +37,13 @@
                     </div>
                 </div>
                 <div class="mt-6 grid grid-cols-7 text-xs leading-6 text-gray-500">
-                    <div class="text-center">{{ $t('dutySchedules.week.oneLetter.Monday') }}</div>
-                    <div class="text-center">{{ $t('dutySchedules.week.oneLetter.Tuesday') }}</div>
-                    <div class="text-center">{{ $t('dutySchedules.week.oneLetter.Wednesday') }}</div>
-                    <div class="text-center">{{ $t('dutySchedules.week.oneLetter.Thursday') }}</div>
-                    <div class="text-center">{{ $t('dutySchedules.week.oneLetter.Friday') }}</div>
-                    <div class="text-center">{{ $t('dutySchedules.week.oneLetter.Saturday') }}</div>
-                    <div class="text-center">{{ $t('dutySchedules.week.oneLetter.Sunday') }}</div>
+                    <div class="text-center">{{ $t('calendar.week.oneLetter.Monday') }}</div>
+                    <div class="text-center">{{ $t('calendar.week.oneLetter.Tuesday') }}</div>
+                    <div class="text-center">{{ $t('calendar.week.oneLetter.Wednesday') }}</div>
+                    <div class="text-center">{{ $t('calendar.week.oneLetter.Thursday') }}</div>
+                    <div class="text-center">{{ $t('calendar.week.oneLetter.Friday') }}</div>
+                    <div class="text-center">{{ $t('calendar.week.oneLetter.Saturday') }}</div>
+                    <div class="text-center">{{ $t('calendar.week.oneLetter.Sunday') }}</div>
                 </div>
                 <div class="mt-2 grid grid-cols-7 text-sm">
                     <div v-for="(day, dayIdx) in days" :key="day.date"

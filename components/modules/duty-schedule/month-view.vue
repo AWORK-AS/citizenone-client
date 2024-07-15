@@ -2,18 +2,18 @@
     <div class="lg:flex lg:h-full lg:flex-col">
         <header class="flex items-center justify-between border-b border-gray-200 py-4 lg:flex-none">
             <h3 class="text-base font-semibold leading-6 text-gray-900">
-                <span v-if="month === 'January'">{{ $t('dutySchedules.month.January') }}</span>
-                <span v-if="month === 'February'">{{ $t('dutySchedules.month.February') }}</span>
-                <span v-if="month === 'March'">{{ $t('dutySchedules.month.March') }}</span>
-                <span v-if="month === 'April'">{{ $t('dutySchedules.month.April') }}</span>
-                <span v-if="month === 'May'">{{ $t('dutySchedules.month.May') }}</span>
-                <span v-if="month === 'June'">{{ $t('dutySchedules.month.June') }}</span>
-                <span v-if="month === 'July'">{{ $t('dutySchedules.month.July') }}</span>
-                <span v-if="month === 'August'">{{ $t('dutySchedules.month.August') }}</span>
-                <span v-if="month === 'September'">{{ $t('dutySchedules.month.September') }}</span>
-                <span v-if="month === 'October'">{{ $t('dutySchedules.month.October') }}</span>
-                <span v-if="month === 'November'">{{ $t('dutySchedules.month.November') }}</span>
-                <span v-if="month === 'December'">{{ $t('dutySchedules.month.December') }}</span>
+                <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
+                <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
+                <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
+                <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
+                <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
+                <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
+                <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
+                <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
+                <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
+                <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
+                <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
+                <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
                 {{ year }}
             </h3>
             <div class="flex items-center">
@@ -25,7 +25,7 @@
                     </button>
                     <button type="button" @click="setToday"
                         class="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block">
-                        Today
+                        {{ $t('calendar.today') }}
                     </button>
                     <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
                     <button type="button" @click="nextMonth"
@@ -40,50 +40,50 @@
             <div
                 class="md:hidden grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none">
                 <div class="bg-white py-2">
-                    {{ $t('dutySchedules.week.oneLetter.Monday') }}
+                    {{ $t('calendar.week.oneLetter.Monday') }}
                 </div>
                 <div class="bg-white py-2">
-                    {{ $t('dutySchedules.week.oneLetter.Tuesday') }}
+                    {{ $t('calendar.week.oneLetter.Tuesday') }}
                 </div>
                 <div class="bg-white py-2">
-                    {{ $t('dutySchedules.week.oneLetter.Wednesday') }}
+                    {{ $t('calendar.week.oneLetter.Wednesday') }}
                 </div>
                 <div class="bg-white py-2">
-                    {{ $t('dutySchedules.week.oneLetter.Thursday') }}
+                    {{ $t('calendar.week.oneLetter.Thursday') }}
                 </div>
                 <div class="bg-white py-2">
-                    {{ $t('dutySchedules.week.oneLetter.Friday') }}
+                    {{ $t('calendar.week.oneLetter.Friday') }}
                 </div>
                 <div class="bg-white py-2">
-                    {{ $t('dutySchedules.week.oneLetter.Saturday') }}
+                    {{ $t('calendar.week.oneLetter.Saturday') }}
                 </div>
                 <div class="bg-white py-2">
-                    {{ $t('dutySchedules.week.oneLetter.Sunday') }}
+                    {{ $t('calendar.week.oneLetter.Sunday') }}
                 </div>
             </div>
             <div
                 class="hidden md:grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none">
 
                 <div class="bg-white py-2">
-                    {{ $t('dutySchedules.week.short.Monday') }}
+                    {{ $t('calendar.week.short.Monday') }}
                 </div>
                 <div class="bg-white py-2">
-                    {{ $t('dutySchedules.week.short.Tuesday') }}
+                    {{ $t('calendar.week.short.Tuesday') }}
                 </div>
                 <div class="bg-white py-2">
-                    {{ $t('dutySchedules.week.short.Wednesday') }}
+                    {{ $t('calendar.week.short.Wednesday') }}
                 </div>
                 <div class="bg-white py-2">
-                    {{ $t('dutySchedules.week.short.Thursday') }}
+                    {{ $t('calendar.week.short.Thursday') }}
                 </div>
                 <div class="bg-white py-2">
-                    {{ $t('dutySchedules.week.short.Friday') }}
+                    {{ $t('calendar.week.short.Friday') }}
                 </div>
                 <div class="bg-white py-2">
-                    {{ $t('dutySchedules.week.short.Saturday') }}
+                    {{ $t('calendar.week.short.Saturday') }}
                 </div>
                 <div class="bg-white py-2">
-                    {{ $t('dutySchedules.week.short.Sunday') }}
+                    {{ $t('calendar.week.short.Sunday') }}
                 </div>
             </div>
             <div class="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
