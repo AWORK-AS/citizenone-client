@@ -26,17 +26,56 @@
         </header>
         <div class="shadow ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
             <div
-                class="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none">
-                <div class="bg-white py-2">S<span class="sr-only sm:not-sr-only">un</span></div>
-                <div class="bg-white py-2">M<span class="sr-only sm:not-sr-only">on</span></div>
-                <div class="bg-white py-2">T<span class="sr-only sm:not-sr-only">ue</span></div>
-                <div class="bg-white py-2">W<span class="sr-only sm:not-sr-only">ed</span></div>
-                <div class="bg-white py-2">T<span class="sr-only sm:not-sr-only">hu</span></div>
-                <div class="bg-white py-2">F<span class="sr-only sm:not-sr-only">ri</span></div>
-                <div class="bg-white py-2">S<span class="sr-only sm:not-sr-only">at</span></div>
+                class="md:hidden grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none">
+                <div class="bg-white py-2">
+                    {{ $t('dutySchedules.week.oneLetter.Monday') }}
+                </div>
+                <div class="bg-white py-2">
+                    {{ $t('dutySchedules.week.oneLetter.Tuesday') }}
+                </div>
+                <div class="bg-white py-2">
+                    {{ $t('dutySchedules.week.oneLetter.Wednesday') }}
+                </div>
+                <div class="bg-white py-2">
+                    {{ $t('dutySchedules.week.oneLetter.Thursday') }}
+                </div>
+                <div class="bg-white py-2">
+                    {{ $t('dutySchedules.week.oneLetter.Friday') }}
+                </div>
+                <div class="bg-white py-2">
+                    {{ $t('dutySchedules.week.oneLetter.Saturday') }}
+                </div>
+                <div class="bg-white py-2">
+                    {{ $t('dutySchedules.week.oneLetter.Sunday') }}
+                </div>
+            </div>
+            <div
+                class="hidden md:grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none">
+
+                <div class="bg-white py-2">
+                    {{ $t('dutySchedules.week.short.Monday') }}
+                </div>
+                <div class="bg-white py-2">
+                    {{ $t('dutySchedules.week.short.Tuesday') }}
+                </div>
+                <div class="bg-white py-2">
+                    {{ $t('dutySchedules.week.short.Wednesday') }}
+                </div>
+                <div class="bg-white py-2">
+                    {{ $t('dutySchedules.week.short.Thursday') }}
+                </div>
+                <div class="bg-white py-2">
+                    {{ $t('dutySchedules.week.short.Friday') }}
+                </div>
+                <div class="bg-white py-2">
+                    {{ $t('dutySchedules.week.short.Saturday') }}
+                </div>
+                <div class="bg-white py-2">
+                    {{ $t('dutySchedules.week.short.Sunday') }}
+                </div>
             </div>
             <div class="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
-                <div class="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
+                <div class="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-5 lg:gap-px">
                     <div v-for="(day, index) in state.days" :key="index"
                         :class="[day.isCurrentMonth ? 'bg-white' : 'min-h-20 bg-gray-50 text-gray-500', 'relative px-3 py-2']">
                         <time :datetime="day.date"
@@ -58,7 +97,7 @@
                         </ol>
                     </div>
                 </div>
-                <div class="isolate grid w-full grid-cols-7 grid-rows-6 gap-px lg:hidden">
+                <div class="isolate grid w-full grid-cols-7 grid-rows-5 gap-px lg:hidden">
                     <button v-for="(day, index) in state.days" :key="index" type="button" :class="[
                         day.isCurrentMonth ? 'bg-white' : 'bg-gray-50',
                         (day.isSelected || day.isToday) && 'font-semibold',
@@ -174,12 +213,12 @@ const props = defineProps({
 
 const emit = defineEmits(['changeMonthYear', 'editDutySchedule'])
 
-const today = new Date()
+const today = moment()
 
 const state = reactive({
-    currentMonth: today.getMonth(),
-    currentYear: today.getFullYear(),
-    days: generateDays(today.getFullYear(), today.getMonth(), props.dutySchedules),
+    currentMonth: today.month(),
+    currentYear: today.year(),
+    days: generateDays(today.year(), today.month(), props.dutySchedules),
     selectedDay: null,
 })
 
@@ -195,30 +234,24 @@ function setSelectedDay(day: any) {
 }
 
 function previousMonth() {
-    if (state.currentMonth === 0) {
-        state.currentMonth = 11
-        state.currentYear -= 1
-    } else {
-        state.currentMonth -= 1
-    }
+    const previous = moment([state.currentYear, state.currentMonth]).subtract(1, 'month')
+    state.currentMonth = previous.month()
+    state.currentYear = previous.year()
     updateDays()
     emit('changeMonthYear', state.currentYear, state.currentMonth)
 }
 
 function setToday() {
-    state.currentMonth = today.getMonth()
-    state.currentYear = today.getFullYear()
+    state.currentMonth = today.month()
+    state.currentYear = today.year()
     updateDays()
     emit('changeMonthYear', state.currentYear, state.currentMonth)
 }
 
 function nextMonth() {
-    if (state.currentMonth === 11) {
-        state.currentMonth = 0
-        state.currentYear += 1
-    } else {
-        state.currentMonth += 1
-    }
+    const next = moment([state.currentYear, state.currentMonth]).add(1, 'month')
+    state.currentMonth = next.month()
+    state.currentYear = next.year()
     updateDays()
     emit('changeMonthYear', state.currentYear, state.currentMonth)
 }
@@ -228,30 +261,19 @@ function updateDays() {
 }
 
 function generateDays(year: any, month: any, dutySchedules: any) {
-    const startDate = new Date(year, month, 1)
-    const endDate = new Date(year, month + 1, 0)
-
-    const startDay = (startDate.getDay() + 6) % 7 // Adjust to make Sunday the first day of the week
-    const endDay = endDate.getDate()
+    const startOfMonth = moment([year, month]).startOf('month')
+    const endOfMonth = moment([year, month]).endOf('month')
+    const startOfWeek = startOfMonth.clone().startOf('isoWeek')
+    const endOfWeek = endOfMonth.clone().endOf('isoWeek')
 
     const daysArray = []
+    let day = startOfWeek.clone()
 
-    // Fill previous month's days
-    for (let i = startDay - 1; i >= 0; i--) {
-        const day = new Date(startDate)
-        day.setDate(day.getDate() - (i + 1))
-        daysArray.push({
-            date: day.toISOString().split('T')[0], events: []
-        })
-    }
-
-    // Fill current month's days
-    for (let i = 1; i <= endDay; i++) {
-        const day = new Date(year, month, i)
-        const dateStr = day.toISOString().split('T')[0]
+    while (day.isBefore(endOfWeek, 'day') || day.isSame(endOfWeek, 'day')) {
+        const dateStr = day.format('YYYY-MM-DD')
         daysArray.push({
             date: dateStr,
-            isCurrentMonth: true,
+            isCurrentMonth: day.isSame(startOfMonth, 'month'),
             isSelected: false,
             isToday: isToday(dateStr),
             events: dutySchedules?.data?.filter((event: any) => isWithinRange(dateStr, event.date_time_start, event.date_time_end)).map((event: any) => ({
@@ -260,37 +282,27 @@ function generateDays(year: any, month: any, dutySchedules: any) {
                 time_end: moment(event.date_time_end).format('HH:mm'),
             })) || [],
         })
-    }
-
-    // Fill next month's days
-    const remainingDays = 42 - daysArray.length
-    for (let i = 1; i <= remainingDays; i++) {
-        const day = new Date(year, month + 1, i)
-        daysArray.push({ date: day.toISOString().split('T')[0], events: [] })
+        day.add(1, 'day')
     }
 
     return daysArray
 }
 
 function isToday(day: any) {
-    return moment().format('YYYY-MM-DD') === moment(day).format('YYYY-MM-DD')
+    return moment().isSame(day, 'day')
 }
 
 function isWithinRange(dateStr: string, start: string, end: string) {
-    const date = new Date(dateStr)
-    const startDate = new Date(start)
-    const endDate = new Date(end)
+    const date = moment(dateStr)
+    const startDate = moment(start)
+    const endDate = moment(end)
 
-    // Normalize the dates to midnight to compare dates without time
-    startDate.setHours(0, 0, 0, 0)
-    endDate.setHours(23, 59, 59, 999)
-
-    return date >= startDate && date <= endDate
+    return date.isBetween(startDate, endDate, 'day', '[]')
 }
 
 const currentMonthYear = computed(() => {
-    const date = new Date(state.currentYear, state.currentMonth)
-    return date.toLocaleString('default', { month: 'long', year: 'numeric' })
+    const date = moment([state.currentYear, state.currentMonth])
+    return date.format('MMMM YYYY')
 })
 
 function editDutySchedule(dutySchedule: any) {
