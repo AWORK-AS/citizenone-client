@@ -28,7 +28,27 @@
                     <div class="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
                         <button v-for="day in weekDays" :key="day.date" type="button"
                             class="flex flex-col items-center pb-3 pt-2" @click="setSelectedDay(day)">
-                            {{ day.shortName }}
+                            <span v-if="day.longName === 'Mon'">
+                                {{ $t('dutySchedules.week.oneLetter.Monday') }}
+                            </span>
+                            <span v-if="day.longName === 'Tue'">
+                                {{ $t('dutySchedules.week.oneLetter.Tuesday') }}
+                            </span>
+                            <span v-if="day.longName === 'Wed'">
+                                {{ $t('dutySchedules.week.oneLetter.Wednesday') }}
+                            </span>
+                            <span v-if="day.longName === 'Thu'">
+                                {{ $t('dutySchedules.week.oneLetter.Thursday') }}
+                            </span>
+                            <span v-if="day.longName === 'Fri'">
+                                {{ $t('dutySchedules.week.oneLetter.Friday') }}
+                            </span>
+                            <span v-if="day.longName === 'Sat'">
+                                {{ $t('dutySchedules.week.oneLetter.Saturday') }}
+                            </span>
+                            <span v-if="day.longName === 'Sun'">
+                                {{ $t('dutySchedules.week.oneLetter.Sunday') }}
+                            </span>
                             <span
                                 :class="moment(selectedDay).format('YYYY-MM-DD') === moment(day.fullDate).format('YYYY-MM-DD') ? 'mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-tertiary font-semibold text-white' : 'mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900'">
                                 {{ day.date }}
@@ -40,8 +60,28 @@
                         class="-mr-px hidden grid-cols-7 divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-500 sm:grid">
                         <div class="col-end-1 w-14" />
                         <div v-for="day in weekDays" :key="day.date" class="flex items-center justify-center py-3">
-                            <span>
-                                {{ day.longName }}
+                            <span class="flex gap-x-1">
+                                <span v-if="day.longName === 'Mon'">
+                                    {{ $t('dutySchedules.week.short.Monday') }}
+                                </span>
+                                <span v-if="day.longName === 'Tue'">
+                                    {{ $t('dutySchedules.week.short.Tuesday') }}
+                                </span>
+                                <span v-if="day.longName === 'Wed'">
+                                    {{ $t('dutySchedules.week.short.Wednesday') }}
+                                </span>
+                                <span v-if="day.longName === 'Thu'">
+                                    {{ $t('dutySchedules.week.short.Thursday') }}
+                                </span>
+                                <span v-if="day.longName === 'Fri'">
+                                    {{ $t('dutySchedules.week.short.Friday') }}
+                                </span>
+                                <span v-if="day.longName === 'Sat'">
+                                    {{ $t('dutySchedules.week.short.Saturday') }}
+                                </span>
+                                <span v-if="day.longName === 'Sun'">
+                                    {{ $t('dutySchedules.week.short.Sunday') }}
+                                </span>
                                 <span class="items-center justify-center font-semibold text-gray-900">
                                     {{ day.date }}
                                 </span>
@@ -176,8 +216,8 @@ const selectedDay = ref(moment())
 const previousWeek = () => {
     currentDate.value = moment(currentDate.value).subtract(1, 'week')
     const dateMoment = moment(currentDate.value)
-    const startOfWeek = dateMoment.clone().startOf('week')
-    const endOfWeek = dateMoment.clone().endOf('week')
+    const startOfWeek = dateMoment.clone().startOf('isoWeek')
+    const endOfWeek = dateMoment.clone().endOf('isoWeek')
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
@@ -186,8 +226,8 @@ const previousWeek = () => {
 const setToday = () => {
     currentDate.value = moment()
     const dateMoment = moment(currentDate.value)
-    const startOfWeek = dateMoment.clone().startOf('week')
-    const endOfWeek = dateMoment.clone().endOf('week')
+    const startOfWeek = dateMoment.clone().startOf('isoWeek')
+    const endOfWeek = dateMoment.clone().endOf('isoWeek')
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
@@ -196,8 +236,8 @@ const setToday = () => {
 const nextWeek = () => {
     currentDate.value = moment(currentDate.value).add(1, 'week')
     const dateMoment = moment(currentDate.value)
-    const startOfWeek = dateMoment.clone().startOf('week')
-    const endOfWeek = dateMoment.clone().endOf('week')
+    const startOfWeek = dateMoment.clone().startOf('isoWeek')
+    const endOfWeek = dateMoment.clone().endOf('isoWeek')
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
@@ -210,7 +250,7 @@ function editDutySchedule(dutySchedule: any) {
 const formattedDate = computed(() => currentDate.value.format('MMMM YYYY'))
 
 const weekDays = computed(() => {
-    const startOfWeek = moment(currentDate.value).startOf('week') // Sunday as the first day
+    const startOfWeek = moment(currentDate.value).startOf('isoWeek')
     return Array.from({ length: 7 }).map((_, i) => {
         const day = moment(startOfWeek).add(i, 'day')
         return {
@@ -225,8 +265,8 @@ const weekDays = computed(() => {
 function setSelectedDay(day: any) {
     selectedDay.value = day.fullDate
     const dateMoment = moment(currentDate.value)
-    const startOfWeek = dateMoment.clone().startOf('week')
-    const endOfWeek = dateMoment.clone().endOf('week')
+    const startOfWeek = dateMoment.clone().startOf('isoWeek')
+    const endOfWeek = dateMoment.clone().endOf('isoWeek')
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
@@ -239,8 +279,8 @@ function isWithinRange(eventStart: moment.Moment, eventEnd: moment.Moment, daySt
 const eventsByDay = computed(() => {
     if (!props.dutySchedules?.data) return Array.from({ length: 7 }).map(() => [])
 
-    const startOfWeek = moment(currentDate.value).startOf('week')
-    const endOfWeek = moment(currentDate.value).endOf('week')
+    const startOfWeek = moment(currentDate.value).startOf('isoWeek')
+    const endOfWeek = moment(currentDate.value).endOf('isoWeek')
 
     return Array.from({ length: 7 }).map((_, i) => {
         const dayStart = moment(startOfWeek).add(i, 'day').startOf('day')
