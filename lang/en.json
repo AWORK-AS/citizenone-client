@@ -186,6 +186,15 @@
         "confirmation": {
             "deleteConfirmation": "Are you sure you want to delete this schedule"
         },
+        "days": {
+            "Monday": "Monday",
+            "Tuesday": "Tuesday",
+            "Wednesday": "Wednesday",
+            "Thursday": "Thursday",
+            "Friday": "Friday",
+            "Saturday": "Saturday",
+            "Sunday": "Sunday"
+        },
         "deleteSchedule": "Delete schedule",
         "dutySchedules": "Duty Schedules",
         "editSchedule": "Edit schedule",
@@ -197,8 +206,48 @@
             "title": "Title",
             "users": "Users"
         },
+        "month": {
+            "January": "January",
+            "February": "February",
+            "March": "March",
+            "April": "April",
+            "May": "May",
+            "June": "June",
+            "July": "July",
+            "August": "August",
+            "September": "September",
+            "October": "October",
+            "November": "November",
+            "December": "December"
+        },
         "newSchedule": "New schedule",
-        "noScheduleFound": "No schedule found"
+        "noScheduleFound": "No schedule found",
+        "today": "Today",
+        "week": {
+            "oneLetter": {
+                "Monday": "M",
+                "Tuesday": "T",
+                "Wednesday": "W",
+                "Thursday": "T",
+                "Friday": "F",
+                "Saturday": "S",
+                "Sunday": "S"
+            },
+            "short": {
+                "Monday": "Mon",
+                "Tuesday": "Tue",
+                "Wednesday": "Wed",
+                "Thursday": "Thu",
+                "Friday": "Fri",
+                "Saturday": "Sat",
+                "Sunday": "Sun"
+            }
+        },
+        "view": {
+            "defaultView": "Default view",
+            "monthView": "Month view",
+            "weekView": "Week view"
+        }
     },
     "employees": {
         "editEmployee": "Edit Employee",

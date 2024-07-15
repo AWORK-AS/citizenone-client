@@ -18,15 +18,15 @@
             <div class="flex items-center gap-x-3">
                 <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
                     @click="setCalendarView('default')" class="rounded-md">
-                    Default View
+                    {{ $t('dutySchedules.view.defaultView') }}
                 </FormButton>
                 <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
                     @click="setCalendarView('week')" class="rounded-md">
-                    Week View
+                    {{ $t('dutySchedules.view.weekView') }}
                 </FormButton>
                 <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
                     @click="setCalendarView('month')" class="rounded-md">
-                    Month View
+                    {{ $t('dutySchedules.view.monthView') }}
                 </FormButton>
             </div>
 

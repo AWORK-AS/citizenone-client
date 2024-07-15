@@ -14,7 +14,7 @@
                         </button>
                         <button type="button" @click="setToday"
                             class="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block">
-                            Today
+                            {{ $t('dutySchedules.today') }}
                         </button>
                         <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
                         <button type="button" @click="nextMonth"
@@ -25,13 +25,13 @@
                     </div>
                 </div>
                 <div class="mt-6 grid grid-cols-7 text-xs leading-6 text-gray-500">
-                    <div class="text-center">S</div>
-                    <div class="text-center">M</div>
-                    <div class="text-center">T</div>
-                    <div class="text-center">W</div>
-                    <div class="text-center">T</div>
-                    <div class="text-center">F</div>
-                    <div class="text-center">S</div>
+                    <div class="text-center">{{ $t('dutySchedules.week.oneLetter.Monday') }}</div>
+                    <div class="text-center">{{ $t('dutySchedules.week.oneLetter.Tuesday') }}</div>
+                    <div class="text-center">{{ $t('dutySchedules.week.oneLetter.Wednesday') }}</div>
+                    <div class="text-center">{{ $t('dutySchedules.week.oneLetter.Thursday') }}</div>
+                    <div class="text-center">{{ $t('dutySchedules.week.oneLetter.Friday') }}</div>
+                    <div class="text-center">{{ $t('dutySchedules.week.oneLetter.Saturday') }}</div>
+                    <div class="text-center">{{ $t('dutySchedules.week.oneLetter.Sunday') }}</div>
                 </div>
                 <div class="mt-2 grid grid-cols-7 text-sm">
                     <div v-for="(day, dayIdx) in days" :key="day.date"
@@ -151,8 +151,8 @@ const currentMonthLabel = ref(currentMonth.value.format('MMMM YYYY'))
 const days = ref(generateDays(currentMonth.value))
 
 function generateDays(month: any) {
-    const startOfMonth = month.clone().startOf('month').startOf('week')
-    const endOfMonth = month.clone().endOf('month').endOf('week')
+    const startOfMonth = month.clone().startOf('month').startOf('isoWeek')
+    const endOfMonth = month.clone().endOf('month').endOf('isoWeek')
     const date = startOfMonth.clone().subtract(1, 'day')
     const days = []
 
