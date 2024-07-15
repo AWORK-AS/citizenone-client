@@ -354,7 +354,6 @@
             "successfullyAdded": "Ny tidsplan tilføjet med succes",
             "successfullyUpdated": "Tidsplan opdateret med succes"
         },
-        "calendar": "Kalender",
         "editSchedule": "Rediger tidsplan",
         "form": {
             "citizens_users": "Borgere/Brugere",
@@ -364,6 +363,7 @@
             "private": "Privat",
             "title": "Titel"
         },
+        "myCalendar": "Min kalender",
         "newSchedule": "Ny tidsplan"
     },
     "selectADate": "Vælg en dato",

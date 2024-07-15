@@ -3,9 +3,9 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('schedules.calendar') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('schedules.myCalendar') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
-            <template #header>{{ $t('schedules.calendar') }}</template>
+            <template #header>{{ $t('schedules.myCalendar') }}</template>
 
             <div class="flex justify-end items-center mb-5">
                 <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddEventOpen = true">

@@ -354,7 +354,6 @@
             "successfullyAdded": "New schedule successfully added",
             "successfullyUpdated": "Schedule successfully updated"
         },
-        "calendar": "Calendar",
         "editSchedule": "Edit schedule",
         "form": {
             "citizens_users": "Citizens/Users",
@@ -364,6 +363,7 @@
             "private": "Private",
             "title": "Title"
         },
+        "myCalendar": "My calendar",
         "newSchedule": "New schedule"
     },
     "selectADate": "Select a date",
