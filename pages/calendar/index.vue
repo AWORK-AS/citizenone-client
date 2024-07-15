@@ -5,6 +5,7 @@
             <Head>
                 <Title>{{ $t('schedules.myCalendar') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
+
             <template #header>{{ $t('schedules.myCalendar') }}</template>
 
             <div class="flex justify-end items-center mb-5">
@@ -13,37 +14,46 @@
                     {{ $t('schedules.newSchedule') }}
                 </FormButton>
             </div>
+
+            <div class="flex items-center gap-x-3">
+                <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
+                    @click="setCalendarView('default')" class="rounded-md">
+                    {{ $t('calendar.view.defaultView') }}
+                </FormButton>
+                <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
+                    @click="setCalendarView('week')" class="rounded-md">
+                    {{ $t('calendar.view.weekView') }}
+                </FormButton>
+                <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
+                    @click="setCalendarView('month')" class="rounded-md">
+                    {{ $t('calendar.view.monthView') }}
+                </FormButton>
+            </div>
+
             <div class="mt-5 space-y-5">
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
-                <FullCalendar :options="state.calendarOptions" />
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <ModulesMyCalendarDefaultView :myCalendarEvents="state.myCalendarEvents" @changeDate="changeDate"
+                        @editMyCalendarEvent="editMyCalendarEvent" v-if="state.calendarView === 'default'" />
+                    <ModulesMyCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
+                        @changeDatePerWeek="changeDatePerWeek" @editMyCalendarEvent="editMyCalendarEvent"
+                        v-if="state.calendarView === 'week'" />
+                    <ModulesMyCalendarMonthView :myCalendarEvents="state.myCalendarEvents"
+                        @changeMonthYear="changeMonthYear" @editMyCalendarEvent="editMyCalendarEvent"
+                        v-if="state.calendarView === 'month'" />
+                </LoadingSpinner>
             </div>
-            <ModulesCalendarModalNew :isModalOpen="state.modal.isAddEventOpen"
-                @close="state.modal.isAddEventOpen = false" @refreshSchedules="fetchSchedules" />
-            <ModulesCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
+            <ModulesMyCalendarModalNew :isModalOpen="state.modal.isAddEventOpen"
+                @close="state.modal.isAddEventOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
+            <ModulesMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
-                @refreshSchedules="fetchSchedules" />
+                @refreshSchedules="fetchMyCalendarEvents" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
-import { scheduleService } from '@/components/api/ScheduleService'
-import FullCalendar from '@fullcalendar/vue3'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import listPlugin from '@fullcalendar/list'
-
-interface Schedule {
-    id: string
-    uuid: string
-    title: string
-    description: string
-    date_time_start: string
-    date_time_end: string
-    is_private: boolean
-    citizen_user_uuid: object
-}
+import { myCalendarService } from '@/components/api/MyCalendarService'
 
 interface CalendarEvent {
     id: string
@@ -53,7 +63,6 @@ interface CalendarEvent {
     start: string
     end: string
     is_private: boolean
-    citizen_user_uuid: object
 }
 
 interface ErrorState {
@@ -66,45 +75,34 @@ interface ModalState {
 }
 
 interface State {
-    calendarOptions: {
-        headerToolbar: {
-            start: string
-            center: string
-            end: string
-        }
-        height: number
-        plugins: any[]
-        initialView: string
-        events: CalendarEvent[]
-        eventClick?: (info: any) => void
-    }
+    calendarView: string
+    myCalendarEvents: any[],
     error: ErrorState | null
     isPageLoading: boolean
     modal: ModalState
+    selectedDate: object
+    selectedYear: string
+    selectedMonth: string
     selectedSchedule: CalendarEvent
 }
 
 const runtimeConfig = useRuntimeConfig()
 
 const state = reactive<State>({
-    calendarOptions: {
-        events: [],
-        headerToolbar: {
-            start: 'dayGridMonth,timeGridWeek,listWeek', // will normally be on the left. if RTL, will be on the right
-            center: 'title',
-            end: 'today prev,next' // will normally be on the right. if RTL, will be on the left
-        },
-        height: 700,
-        initialView: 'dayGridMonth',
-        plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
-        eventClick: handleEventClick,
-    },
+    calendarView: 'default',
+    myCalendarEvents: [],
     error: null,
     isPageLoading: false,
     modal: {
         isAddEventOpen: false,
         isEditEventOpen: false
     },
+    selectedDate: {
+        end_date: '',
+        start_date: '',
+    },
+    selectedYear: '',
+    selectedMonth: '',
     selectedSchedule: {
         id: '',
         uuid: '',
@@ -113,31 +111,30 @@ const state = reactive<State>({
         start: '',
         end: '',
         is_private: false,
-        citizen_user_uuid: [],
     }
 })
 
 onMounted(() => {
-    fetchSchedules()
+    fetchMyCalendarEvents()
 })
 
-async function fetchSchedules() {
+async function fetchMyCalendarEvents() {
     state.isPageLoading = true
     try {
-        const response = await scheduleService.getSchedules()
+        const params: any = {}
+        if (state.selectedDate.start_date && state.selectedDate.end_date) {
+            params.date = state.selectedDate
+        }
+        if (state.selectedYear) {
+            params.year = state.selectedYear
+        }
+        if (state.selectedMonth !== '') {
+            params.month = (state.selectedMonth + 1)
+        }
+
+        const response = await myCalendarService.getSchedules(params)
         if (response.data) {
-            response.data.forEach((schedule: Schedule) => {
-                state.calendarOptions.events.push({
-                    id: schedule.id,
-                    uuid: schedule.uuid,
-                    title: schedule.title,
-                    description: schedule.description,
-                    start: schedule.date_time_start,
-                    end: schedule.date_time_end,
-                    is_private: schedule.is_private,
-                    citizen_user_uuid: schedule.citizen_user_uuid,
-                })
-            })
+            state.myCalendarEvents = response
         }
     } catch (error: any) {
         state.error = { message: error.message }
@@ -145,14 +142,56 @@ async function fetchSchedules() {
     state.isPageLoading = false
 }
 
-function handleEventClick(info: any) {
-    state.selectedSchedule.id = info.event.id
-    state.selectedSchedule.uuid = info.event.extendedProps.uuid
-    state.selectedSchedule.title = info.event.title
-    state.selectedSchedule.description = info.event.extendedProps.description
-    state.selectedSchedule.start = info.event.start
-    state.selectedSchedule.end = info.event.end
-    state.selectedSchedule.is_private = info.event.extendedProps.is_private ? true : false
+function setCalendarView(viewStyle: any) {
+    if (state.calendarView !== viewStyle) {
+        state.calendarView = viewStyle
+        state.selectedDate = {
+            end_date: '',
+            start_date: '',
+        }
+        state.selectedYear = ''
+        state.selectedMonth = ''
+        fetchMyCalendarEvents()
+    }
+}
+
+function changeDate(date: any) {
+    state.selectedYear = ''
+    state.selectedMonth = ''
+    state.selectedDate = {
+        end_date: date,
+        start_date: date,
+    }
+    fetchMyCalendarEvents()
+}
+
+function changeDatePerWeek(date: any) {
+    state.selectedYear = ''
+    state.selectedMonth = ''
+    state.selectedDate = {
+        end_date: date[1],
+        start_date: date[0],
+    }
+    fetchMyCalendarEvents()
+}
+
+function changeMonthYear(year: any, month: any) {
+    state.selectedDate = {
+        end_date: '',
+        start_date: '',
+    }
+    state.selectedYear = year
+    state.selectedMonth = month
+    fetchMyCalendarEvents()
+}
+
+function editMyCalendarEvent(selectedCalendarEvent: any) {
+    state.selectedSchedule.uuid = selectedCalendarEvent.uuid
+    state.selectedSchedule.title = selectedCalendarEvent.title
+    state.selectedSchedule.description = selectedCalendarEvent.description
+    state.selectedSchedule.start = selectedCalendarEvent.date_time_start
+    state.selectedSchedule.end = selectedCalendarEvent.date_time_end
+    state.selectedSchedule.is_private = selectedCalendarEvent.is_private ? true : false
     state.modal.isEditEventOpen = true
 }
 </script>

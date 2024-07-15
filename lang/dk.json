@@ -415,7 +415,8 @@
             "title": "Titel"
         },
         "myCalendar": "Min kalender",
-        "newSchedule": "Ny tidsplan"
+        "newSchedule": "Ny tidsplan",
+        "noEventFound": "Ingen begivenhed fundet"
     },
     "selectADate": "Vælg en dato",
     "selectADateAndTime": "Vælg en dato og tid",

@@ -415,7 +415,8 @@
             "title": "Title"
         },
         "myCalendar": "My calendar",
-        "newSchedule": "New schedule"
+        "newSchedule": "New schedule",
+        "noEventFound": "No event found"
     },
     "selectADate": "Select a date",
     "selectADateAndTime": "Select a date and time",

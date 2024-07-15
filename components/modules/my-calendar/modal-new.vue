@@ -3,7 +3,7 @@
         <Modal size="xs" :title="$t('schedules.newSchedule')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCalendarForm formType="create" :selectedSchedule="state.formSchedule" :error="state.error"
+                    <ModulesMyCalendarForm formType="create" :selectedSchedule="state.formSchedule" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveSchedule" />
                 </LoadingSpinner>
@@ -14,7 +14,7 @@
 
 
 <script setup lang="ts">
-import { scheduleService } from '@/components/api/ScheduleService'
+import { myCalendarService } from '@/components/api/MyCalendarService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 
@@ -62,7 +62,7 @@ async function saveSchedule(scheduleDetails: any) {
             is_private: scheduleDetails.is_private,
             citizen_user_uuid: scheduleDetails.citizen_user_uuid,
         }
-        const response = await scheduleService.saveSchedule(params)
+        const response = await myCalendarService.saveSchedule(params)
         if (response?.data) {
             refreshSchedules()
             closeModal()

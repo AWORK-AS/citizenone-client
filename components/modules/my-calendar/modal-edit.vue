@@ -3,7 +3,7 @@
         <Modal size="xs" :title="$t('schedules.editSchedule')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCalendarForm formType="update" :selectedSchedule="props.selectedSchedule"
+                    <ModulesMyCalendarForm formType="update" :selectedSchedule="props.selectedSchedule"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateSchedule" />
                 </LoadingSpinner>
@@ -14,7 +14,7 @@
 
 
 <script setup lang="ts">
-import { scheduleService } from '@/components/api/ScheduleService'
+import { myCalendarService } from '@/components/api/MyCalendarService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 
@@ -56,7 +56,7 @@ async function updateSchedule(scheduleDetails: any) {
             date_time_end: scheduleDetails.date_time_end,
             is_private: scheduleDetails.is_private,
         }
-        const response = await scheduleService.updateSchedule(scheduleUuid, params)
+        const response = await myCalendarService.updateSchedule(scheduleUuid, params)
         if (response?.data) {
             refreshSchedules()
             closeModal()

@@ -1,8 +1,8 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
-class ScheduleService extends BaseAPIService {
-    async getSchedules(): Promise<any> {
-        return await this.request(`/user/my-calendars`, 'GET')
+class MyCalendarService extends BaseAPIService {
+    async getSchedules(params: object): Promise<any> {
+        return await this.request(`/user/my-calendars`, 'GET', params)
     }
 
     async saveSchedule(params: object): Promise<any> {
@@ -14,4 +14,4 @@ class ScheduleService extends BaseAPIService {
     }
 }
 
-export const scheduleService = new ScheduleService()
+export const myCalendarService = new MyCalendarService()
