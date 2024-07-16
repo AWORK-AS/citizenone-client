@@ -24,7 +24,7 @@
                                     {{ $t('storage.currentPlan') }}
                                 </p>
                                 <div class="space-y-3">
-                                    <div class="bg-gray-50 p-4 rounded-md space-y-2">
+                                    <div class="bg-white shadow-md p-6 rounded-md space-y-2">
                                         <div>
                                             {{ $t('storage.storage') }}
                                             ({{ state.usage?.total_storage }})
@@ -56,19 +56,37 @@
                                 <p class="text-sm font-medium">
                                     {{ $t('storage.upgradeOptions') }}
                                 </p>
-                                <div class="space-y-3">
+                                <div class="space-y-5">
                                     <div v-for="(deal, index) in state.storageDeals?.data" :key="index">
-                                        <div class="bg-gray-100 p-4 rounded-md flex items-center gap-x-3">
-                                            <p>{{ deal?.name }}</p>
-                                            <p class="grow">
-                                                {{ formatAmount(deal?.monthly_price) }}
-                                                /{{ $t('storage.month') }}
-                                            </p>
+                                        <div
+                                            class="bg-white shadow-md p-6 rounded-md flex justify-between items-center gap-x-3">
+                                            <div>
+                                                <h3 class="text-base font-semibold leading-7 text-tertiary">
+                                                    {{ deal?.name }}
+                                                </h3>
+                                                <div>
+                                                    <span class="text-lg font-bold tracking-tight">
+                                                        {{ formatAmount(deal?.monthly_price) }}
+                                                    </span>
+                                                    <span class="text-gray-500 text-sm leading-7 lowercase">
+                                                        /{{ $t('storage.month') }}
+                                                    </span>
+                                                </div>
+                                            </div>
                                             <div>
                                                 <FormButton class="rounded-md" @click="upgrade(deal)">
                                                     {{ $t('storage.upgrade') }}
                                                 </FormButton>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="bg-white shadow-md p-6 rounded-md flex justify-between items-center gap-x-3">
+                                        <p>{{ $t('storage.doYouNeedMoreStorage') }}?</p>
+                                        <div>
+                                            <FormButton class="rounded-md" @click="state.modal.isContactUsOpen = true">
+                                                {{ $t('storage.contactUs') }}
+                                            </FormButton>
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +95,8 @@
                     </div>
                 </div>
             </LoadingSpinner>
-
+            <ModulesStorageModalContactUs :isModalOpen="state.modal.isContactUsOpen"
+                @close="state.modal.isContactUsOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -95,6 +114,9 @@ const state = reactive({
     error: [],
     isDealsHidden: false,
     isPageLoading: false,
+    modal: {
+        isContactUsOpen: false
+    },
     storageDeals: [],
     usage: [],
 })

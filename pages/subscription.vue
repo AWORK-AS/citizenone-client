@@ -54,7 +54,7 @@
                                             formatAmount(deal.yearly_price) }}
                                     </span>
                                 </span>
-                                <span :class="[index === 1 ? 'text-gray-100' : 'text-gray-500', 'text-base']">
+                                <span :class="[index === 1 ? 'text-gray-100' : 'text-gray-500', 'text-base lowercase']">
                                     /{{ frequency.value === 'monthly' ? $t('subscription.deal.month') :
                                         $t('subscription.deal.year')
                                     }}

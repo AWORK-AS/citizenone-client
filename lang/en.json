@@ -209,6 +209,7 @@
     },
     "confirm": "Confirm",
     "confirmation": "Confirmation",
+    "contactUs": "Contact us",
     "close": "Close",
     "dailyOverview": {
         "dailyOverview": "Daily overview"
@@ -534,9 +535,18 @@
     },
     "support": "Support",
     "storage": {
+        "alert": {
+            "messageSuccessfullySent": "Message successfully sent"
+        },
         "available": "Available",
+        "contactUs": "Contact us",
         "currentPlan": "Current plan",
         "documents": "Documents",
+        "doYouNeedMoreStorage": "Do you need more storage",
+        "form": {
+            "message": "Message",
+            "sendMessage": "Send message"
+        },
         "month": "Month",
         "storage": "Storage",
         "upgrade": "Upgrade",

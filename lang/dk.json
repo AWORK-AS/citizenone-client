@@ -209,6 +209,7 @@
     },
     "confirm": "Bekræft",
     "confirmation": "Bekræftelse",
+    "contactUs": "Kontakt os",
     "close": "Luk",
     "dailyOverview": {
         "dailyOverview": "Daglig oversigt"
@@ -534,11 +535,20 @@
     },
     "support": "Support",
     "storage": {
+        "alert": {
+            "messageSuccessfullySent": "Besked sendt succesfuldt"
+        },
         "available": "Tilgængelig",
+        "contactUs": "Kontakt os",
         "currentPlan": "Nuværende plan",
         "documents": "Dokumenter",
+        "doYouNeedMoreStorage": "Har du brug for mere plads",
+        "form": {
+            "message": "Besked",
+            "sendMessage": "Send besked"
+        },
         "month": "Måned",
-        "storage": "Lager",
+        "storage": "Lagerplads",
         "upgrade": "Opgrader",
         "upgradeOptions": "Opgraderingsmuligheder"
     },
