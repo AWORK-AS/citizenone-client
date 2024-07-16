@@ -184,29 +184,29 @@ const v$ = useVuelidate(rules, state)
 async function register() {
     state.error = {}
     v$.value.$validate()
-    if (!v$.value.$error) {
+    if (!state.formRegister.agreeToTerms) {
+        state.agreeToTermsValidation = true
+    } else {
+        state.agreeToTermsValidation = false
+    }
+    if (!v$.value.$error && state.formRegister.agreeToTerms) {
         state.isPageLoading = true
-        if (!state.formRegister.agreeToTerms) {
-            state.agreeToTermsValidation = true
-        } else {
-            state.agreeToTermsValidation = false
-            try {
-                const params = {
-                    name: state.formRegister.name,
-                    firstname: state.formRegister.firstname,
-                    lastname: state.formRegister.lastname,
-                    phone: state.formRegister.phone,
-                    email: state.formRegister.email,
-                    password: state.formRegister.password,
-                }
-                const response = await authService.register(params)
-                if (response.data) {
-                    successAlert(`${t('alert.success')}!`, `${t('alert.accountSuccessfullyCreated')}.`)
-                    navigateTo('/')
-                }
-            } catch (error: any) {
-                state.error = error
+        try {
+            const params = {
+                name: state.formRegister.name,
+                firstname: state.formRegister.firstname,
+                lastname: state.formRegister.lastname,
+                phone: state.formRegister.phone,
+                email: state.formRegister.email,
+                password: state.formRegister.password,
             }
+            const response = await authService.register(params)
+            if (response.data) {
+                successAlert(`${t('alert.success')}!`, `${t('alert.accountSuccessfullyCreated')}.`)
+                navigateTo('/')
+            }
+        } catch (error: any) {
+            state.error = error
         }
         state.isPageLoading = false
     }
