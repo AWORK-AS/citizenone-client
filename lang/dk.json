@@ -210,6 +210,9 @@
     "confirm": "Bekræft",
     "confirmation": "Bekræftelse",
     "close": "Luk",
+    "dailyOverview": {
+        "dailyOverview": "Daglig oversigt"
+    },
     "departments": {
         "departments": "Afdelinger",
         "editDepartment": "Rediger afdeling",
@@ -493,8 +496,9 @@
         "setupPassword": "Opret adgangskode"
     },
     "sidebar": {
+        "dailyOverview": "Daglig oversigt",
         "citizens": "Borgere",
-        "calendar": "Kalender",
+        "myCalendar": "Min kalender",
         "departments": "Afdelinger",
         "dutySchedules": "Vagtskema",
         "employees": "Medarbejdere",

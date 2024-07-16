@@ -31,23 +31,26 @@
                                         <LogoWhite />
                                     </span>
                                 </div>
-                                <nav class="flex flex-1 flex-col">
+                                <nav class="flex flex-1 flex-col mt-3">
                                     <ul role="list" class="flex flex-1 flex-col gap-y-7">
                                         <li>
                                             <ul role="list" class="-mx-2 space-y-1">
                                                 <li v-for="item in navigation" :key="item.name">
                                                     <div v-if="!item.children" @click="navigateTo(item.href)"
-                                                        :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                                                        :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold capitalize']">
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
                                                             :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100']"
                                                             aria-hidden="true" />
+                                                        <span v-if="item.name === 'Daily overview'">
+                                                            {{ $t('sidebar.dailyOverview') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Citizens'">
                                                             {{ $t('sidebar.citizens') }}
                                                         </span>
-                                                        <span v-if="item.name === 'Calendar'">
-                                                            {{ $t('sidebar.calendar') }}
+                                                        <span v-if="item.name === 'My calendar'">
+                                                            {{ $t('sidebar.myCalendar') }}
                                                         </span>
-                                                        <span v-if="item.name === 'Duty Schedules'">
+                                                        <span v-if="item.name === 'Duty schedules'">
                                                             {{ $t('sidebar.dutySchedules') }}
                                                         </span>
                                                         <span v-if="item.name === 'Employees'">
@@ -62,7 +65,7 @@
                                                         <span v-if="item.name === 'Apps'">
                                                             {{ $t('sidebar.apps') }}
                                                         </span>
-                                                        <span v-if="item.name === 'Time Logs'">
+                                                        <span v-if="item.name === 'Time logs'">
                                                             {{ $t('sidebar.timeLogs') }}
                                                         </span>
                                                     </div>
@@ -111,21 +114,24 @@
                         <LogoWhite />
                     </span>
                 </div>
-                <nav class="flex flex-1 flex-col">
+                <nav class="flex flex-1 flex-col mt-3">
                     <ul role="list" class="flex flex-1 flex-col gap-y-7">
                         <li>
                             <ul role="list" class="-mx-2 space-y-1">
                                 <li v-for="item in navigation" :key="item.name">
                                     <div v-if="!item.children" @click="navigateTo(item.href)"
-                                        :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25', 'group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer']">
+                                        :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25', 'group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold capitalize cursor-pointer']">
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
+                                        <span v-if="item.name === 'Daily overview'">
+                                            {{ $t('sidebar.dailyOverview') }}
+                                        </span>
                                         <span v-if="item.name === 'Citizens'">
                                             {{ $t('sidebar.citizens') }}
                                         </span>
-                                        <span v-if="item.name === 'Calendar'">
-                                            {{ $t('sidebar.calendar') }}
+                                        <span v-if="item.name === 'My calendar'">
+                                            {{ $t('sidebar.myCalendar') }}
                                         </span>
-                                        <span v-if="item.name === 'Duty Schedules'">
+                                        <span v-if="item.name === 'Duty schedules'">
                                             {{ $t('sidebar.dutySchedules') }}
                                         </span>
                                         <span v-if="item.name === 'Employees'">
@@ -140,7 +146,7 @@
                                         <span v-if="item.name === 'Apps'">
                                             {{ $t('sidebar.apps') }}
                                         </span>
-                                        <span v-if="item.name === 'Time Logs'">
+                                        <span v-if="item.name === 'Time logs'">
                                             {{ $t('sidebar.timeLogs') }}
                                         </span>
                                     </div>
@@ -320,6 +326,14 @@ const language = useI18n()
 
 const navigation = [
     {
+        name: 'Daily overview',
+        href: '/daily-overview',
+        icon: 'material-symbols:dashboard',
+        activeRouteNames: [
+            'daily-overview',
+        ]
+    },
+    {
         name: 'Citizens',
         href: '/citizens',
         icon: 'pepicons-pencil:people',
@@ -338,7 +352,7 @@ const navigation = [
         ]
     },
     {
-        name: 'Calendar',
+        name: 'My calendar',
         href: '/calendar',
         icon: 'ph:calendar-blank',
         activeRouteNames: [
@@ -346,7 +360,7 @@ const navigation = [
         ]
     },
     {
-        name: 'Duty Schedules',
+        name: 'Duty schedules',
         href: '/schedules',
         icon: 'ph:calendar-dots',
         activeRouteNames: [
@@ -392,7 +406,7 @@ const navigation = [
         ]
     },
     {
-        name: 'Time Logs',
+        name: 'Time logs',
         href: '/time-logs',
         icon: 'ph:clock',
         activeRouteNames: [

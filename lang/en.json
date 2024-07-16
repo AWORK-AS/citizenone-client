@@ -210,6 +210,9 @@
     "confirm": "Confirm",
     "confirmation": "Confirmation",
     "close": "Close",
+    "dailyOverview": {
+        "dailyOverview": "Daily overview"
+    },
     "departments": {
         "departments": "Departments",
         "editDepartment": "Edit department",
@@ -493,14 +496,15 @@
         "setupPassword": "Setup password"
     },
     "sidebar": {
+        "dailyOverview": "Daily overview",
         "citizens": "Citizens",
-        "calendar": "Calendar",
+        "myCalendar": "My calendar",
         "departments": "Departments",
-        "dutySchedules": "Duty Schedules",
+        "dutySchedules": "Duty schedules",
         "employees": "Employees",
         "protocols": "Protocols",
         "apps": "Apps",
-        "timeLogs": "Time Logs"
+        "timeLogs": "Time logs"
     },
     "subscription": {
         "deal": {
