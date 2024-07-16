@@ -82,16 +82,10 @@ import { languageService } from '@/components/api/LanguageService'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/src/types'
 
 const userStore = useUserStore()
 const language = useI18n()
-
-interface LanguageSwitcherError {
-    message?: string;
-    errors?: {
-        [key: string]: string[];
-    };
-}
 
 const props = defineProps({
     isOpen: {
@@ -105,7 +99,7 @@ function closeSlide() {
     emit('close')
 }
 const state = reactive({
-    error: {} as LanguageSwitcherError,
+    error: {} as Error,
     isPageLoading: false,
     options: {
         languages: [],
