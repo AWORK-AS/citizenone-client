@@ -212,7 +212,12 @@
     "contactUs": "Contact us",
     "close": "Close",
     "dailyOverview": {
-        "dailyOverview": "Daily overview"
+        "dailyEvents": "Daily events",
+        "dailyOverview": "Daily overview",
+        "latestJournal": "Latest journal",
+        "latestNews": "Latest news",
+        "pool": "Pool",
+        "salesCampaign": "Sales campaign"
     },
     "departments": {
         "departments": "Departments",

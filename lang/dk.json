@@ -212,7 +212,12 @@
     "contactUs": "Kontakt os",
     "close": "Luk",
     "dailyOverview": {
-        "dailyOverview": "Daglig oversigt"
+        "dailyEvents": "Daglige begivenheder",
+        "dailyOverview": "Daglig oversigt",
+        "latestJournal": "Seneste journal",
+        "latestNews": "Seneste nyheder",
+        "pool": "Pool",
+        "salesCampaign": "Salgskampagne"
     },
     "departments": {
         "departments": "Afdelinger",

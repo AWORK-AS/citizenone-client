@@ -7,6 +7,28 @@
             </Head>
 
             <template #header>{{ $t('dailyOverview.dailyOverview') }}</template>
+
+            <div class="space-y-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div class="bg-white p-6 shadow-md rounded-md min-h-44">
+                        <ModulesDailyOverviewTodaysEvent />
+                    </div>
+                    <div class="bg-white p-6 shadow-md rounded-md min-h-44">
+                        <ModulesDailyOverviewLatestJournal />
+                    </div>
+                    <div class="bg-white p-6 shadow-md rounded-md min-h-44">
+                        <ModulesDailyOverviewPool />
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="bg-white p-6 shadow-md rounded-md min-h-44">
+                        <ModulesDailyOverviewSalesCampaign />
+                    </div>
+                    <div class="bg-white p-6 shadow-md rounded-md min-h-44">
+                        <ModulesDailyOverviewLatestNews />
+                    </div>
+                </div>
+            </div>
         </NuxtLayout>
     </div>
 </template>
