@@ -69,6 +69,7 @@ import { notify } from "@kyvg/vue3-notification"
 import { authService } from '@/components/api/AuthService'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import type { Error } from '@/src/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
@@ -76,18 +77,11 @@ const route = useRoute()
 const language = useI18n()
 const { t } = useI18n()
 
-interface ResetPasswordError {
-    message?: string;
-    errors?: {
-        [key: string]: string[];
-    };
-}
-
 // Set language
 language.locale.value = userStore.getLanguage
 
 const state = reactive({
-    error: {} as ResetPasswordError,
+    error: {} as Error,
     formUser: {
         password: null,
         confirm_password: null,
@@ -133,7 +127,7 @@ async function verifyPasswordResetToken() {
         await authService.verifyResetPassword(state.token)
     } catch (error) {
         if (error) {
-            const err = error as ResetPasswordError
+            const err = error as Error
             state.error = err
             if (err.hasOwnProperty('message')) {
                 if (err.message === 'Invalid password reset token.') {
@@ -162,7 +156,7 @@ async function resetPassword() {
             successAlert(`${t('alert.success')}!`, `${t('alert.setupPassword.passwordUpdatedSucessfully')}.`)
             navigateTo('/')
         } catch (error) {
-            const err = error as ResetPasswordError
+            const err = error as Error
             state.error = err
         }
         state.isPageLoading = false

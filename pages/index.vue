@@ -84,25 +84,19 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/src/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const language = useI18n()
 const { t } = useI18n()
 
-interface LoginError {
-    message?: string;
-    errors?: {
-        [key: string]: string[];
-    };
-}
-
 // Set language
 language.locale.value = userStore.getLanguage
 
 const state = reactive({
     email: null,
-    error: {} as LoginError,
+    error: {} as Error,
     isPageLoading: false,
     password: null,
     slideOver: {

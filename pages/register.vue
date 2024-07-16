@@ -121,25 +121,19 @@ import { required, helpers, minLength, sameAs } from '@vuelidate/validators'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/src/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const language = useI18n()
 const { t } = useI18n()
 
-interface RegisterError {
-    message?: string;
-    errors?: {
-        [key: string]: string[];
-    };
-}
-
 // Set language
 language.locale.value = userStore.getLanguage
 
 const state = reactive({
     agreeToTermsValidation: false,
-    error: {} as RegisterError,
+    error: {} as Error,
     formRegister: {
         name: '',
         firstname: '',

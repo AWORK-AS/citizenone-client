@@ -38,7 +38,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
-import type { ContactUsError } from '@/src/types'
+import type { Error } from '@/src/types'
 
 const props = defineProps({
     isModalOpen: {
@@ -51,7 +51,7 @@ const { t } = useI18n()
 const emit = defineEmits(['close'])
 
 const state = reactive({
-    error: {} as ContactUsError,
+    error: {} as Error,
     isPageLoading: false,
     formContactUs: {
         message: '',

@@ -61,25 +61,19 @@ import { notify } from "@kyvg/vue3-notification"
 import { authService } from '@/components/api/AuthService'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import type { Error } from '@/src/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const langugage = useI18n()
 const { t } = useI18n()
 
-interface ForgotPasswordError {
-    message?: string;
-    errors?: {
-        [key: string]: string[];
-    };
-}
-
 // Set language
 langugage.locale.value = userStore.getLanguage
 
 const state = reactive({
     email: null,
-    error: {} as ForgotPasswordError,
+    error: {} as Error,
     isPageLoading: false,
     slideOver: {
         isLanguageSwitcherOpen: false
