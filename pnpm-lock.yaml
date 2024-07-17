@@ -27,6 +27,24 @@ importers:
       '@headlessui/vue':
         specifier: ^1.7.22
         version: 1.7.22(vue@3.4.31)
+      '@iconify-json/heroicons':
+        specifier: ^1.1.22
+        version: 1.1.22
+      '@iconify-json/ic':
+        specifier: ^1.1.17
+        version: 1.1.17
+      '@iconify-json/material-symbols':
+        specifier: ^1.1.84
+        version: 1.1.84
+      '@iconify-json/mdi':
+        specifier: ^1.1.67
+        version: 1.1.67
+      '@iconify-json/pepicons-pencil':
+        specifier: ^1.1.6
+        version: 1.1.6
+      '@iconify-json/ph':
+        specifier: ^1.1.13
+        version: 1.1.13
       '@intlify/unplugin-vue-i18n':
         specifier: ^4.0.0
         version: 4.0.0(rollup@4.18.0)(vue-i18n@9.13.1(vue@3.4.31))
@@ -875,6 +893,24 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       vue: ^3.2.0
+
+  '@iconify-json/heroicons@1.1.22':
+    resolution: {integrity: sha512-UNfSBdD/JBYBvFFhce6e3FsmeqshGz8u964R36npJvIzuORhIHUXrFerulBWFmbG0V1xvMqLZVZc4bPyjP5p7A==}
+
+  '@iconify-json/ic@1.1.17':
+    resolution: {integrity: sha512-EvAjZzVESmN36zlyefylePUNaU2BQ3eRKVZ6KQSQ2bG01ppoZaiFZRri74VTyvp5Mlv2yn68ux1fgCoT+etGmA==}
+
+  '@iconify-json/material-symbols@1.1.84':
+    resolution: {integrity: sha512-Vio0Ns2rzdTsushHGBiyAcIIbGNWXI6nTNsrVqcq1EEPkfNkuchufBMvErs9vdc1vN1Fj7Ul3uWA3r988TIvfQ==}
+
+  '@iconify-json/mdi@1.1.67':
+    resolution: {integrity: sha512-00nllHES8hyACwIfgySlQgAE6MKgpr2wsKfpifMiZWZ9aXC5l4Jb0lR3lJSWwXgOW6kzAOdzC3T+2VOfBBZ13A==}
+
+  '@iconify-json/pepicons-pencil@1.1.6':
+    resolution: {integrity: sha512-chUjLH4Jy2/IX2u7/A4iZuMd2p6hHbcmd4QxfBwvSNVYOIHfw7NwZr6NQ4uYa7OKFz+UTg6TnEBWJ+4yzzpB3Q==}
+
+  '@iconify-json/ph@1.1.13':
+    resolution: {integrity: sha512-xtM4JJ63HCKj09WRqrBswXiHrpliBlqboWSZH8odcmqYXbvIFceU9/Til4V+MQr6+MoUC+KB72cxhky2+A6r/g==}
 
   '@iconify/collections@1.0.437':
     resolution: {integrity: sha512-eGY1y8dP94zAh0a8hslIsQ6GofWzNwXKXXMW5F+rEr+EL+yO0RrDxYJOKTnYYvqzNsCBbmNr9kgX17OGQWeaEA==}
@@ -4738,6 +4774,30 @@ snapshots:
     dependencies:
       '@tanstack/vue-virtual': 3.5.1(vue@3.4.31)
       vue: 3.4.31
+
+  '@iconify-json/heroicons@1.1.22':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/ic@1.1.17':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/material-symbols@1.1.84':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/mdi@1.1.67':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/pepicons-pencil@1.1.6':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/ph@1.1.13':
+    dependencies:
+      '@iconify/types': 2.0.0
 
   '@iconify/collections@1.0.437':
     dependencies:
