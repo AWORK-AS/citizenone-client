@@ -527,7 +527,15 @@
             "storageSize": "Storage size",
             "subscribe": "Subscribe",
             "thePerfectPlan": "The perfect plan if you're just getting started with our product",
+            "user": "User",
+            "users": "Users",
             "year": "Year"
+        },
+        "noSubscription": {
+            "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "It looks like you don't have an active subscription at the moment",
+            "noActiveSubscription": "No Active Subscription",
+            "toEnjoyOurFullRangeOfServicesAndBenefits": "To enjoy our full range of services and benefits, consider subscribing to one of our plans",
+            "subscribeNow": "Subscribe now"
         },
         "subscribed": {
             "goHome": "Go home",

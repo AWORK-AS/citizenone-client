@@ -527,7 +527,15 @@
             "storageSize": "Lagerstørrelse",
             "subscribe": "Abonner",
             "thePerfectPlan": "Den perfekte plan, hvis du lige er startet med vores produkt",
+            "user": "Bruger",
+            "users": "Brugere",
             "year": "År"
+        },
+        "noSubscription": {
+            "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ud til, at du ikke har et aktivt abonnement i øjeblikket",
+            "noActiveSubscription": "Ingen aktiv abonnement",
+            "toEnjoyOurFullRangeOfServicesAndBenefits": "For at nyde vores fulde udvalg af tjenester og fordele, overvej at abonnere på en af vores planer",
+            "subscribeNow": "Abonnér nu"
         },
         "subscribed": {
             "goHome": "Gå hjem",

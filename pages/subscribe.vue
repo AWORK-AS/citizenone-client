@@ -87,7 +87,6 @@
                                     <span v-else>
                                         {{ $t('subscription.deal.department') }}
                                     </span>
-
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
                                     <Icon name="ph:check"
@@ -128,7 +127,7 @@
                     <div
                         class="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                         <div v-for="(deal, index) in state.deals?.data" :key="index"
-                            :class="[deal.mostPopular ? 'ring-2 ring-indigo-600' : 'ring-1 ring-gray-200', 'rounded-3xl p-8 xl:p-10']">
+                            class="ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
                             <div class="flex items-center justify-between gap-x-4">
                                 <h3 :id="deal.id" class="text-base font-semibold leading-7 text-tertiary">
                                     {{ deal.name }}
@@ -139,7 +138,7 @@
                                     {{ frequency.value === 'monthly' ? formatAmount(deal.monthly_price) :
                                         formatAmount(deal.yearly_price) }}
                                 </span>
-                                <span class="text-base text-gray-500">
+                                <span class="text-base text-gray-500 lowercase">
                                     /{{ frequency.value === 'monthly' ? $t('subscription.deal.month') :
                                         $t('subscription.deal.year')
                                     }}
