@@ -261,6 +261,15 @@
                                     </div>
                                     </MenuItem>
                                     <MenuItem>
+                                    <div @click="navigateTo('/subscription')"
+                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                        <div class="flex items-center gap-x-3">
+                                            <Icon name="ph:calendar-check" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.subscription') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
                                     <div @click="logout()"
                                         class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
                                         <div class="flex items-center gap-x-3">

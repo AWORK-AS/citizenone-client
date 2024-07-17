@@ -328,6 +328,7 @@
     "navbar": {
         "activityLogs": "Aktivitetslogfiler",
         "logout": "Log ud",
+        "subscription": "Abonnement",
         "settings": "Indstillinger",
         "switchLanguage": "Skift sprog"
     },

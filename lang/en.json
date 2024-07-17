@@ -328,6 +328,7 @@
     "navbar": {
         "activityLogs": "Activity Logs",
         "logout": "Log out",
+        "subscription": "Subscription",
         "settings": "Settings",
         "switchLanguage": "Switch Language"
     },
