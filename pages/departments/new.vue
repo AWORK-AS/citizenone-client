@@ -54,7 +54,7 @@ async function saveDepartment(departmentDetails: any) {
     } catch (error: any) {
         state.error = error
         if (error.message === 'You have no available user license to create a new department.') {
-            navigateTo(`/subscription?error=${error?.message}`)
+            navigateTo(`/subscribe?error=${error?.message}`)
         }
     }
     state.isPageLoading = false
