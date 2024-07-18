@@ -40,8 +40,7 @@ async function fetchCitizens() {
 
         const response = await dailyOverviewService.getLatestCitizensJournal(params)
         if (response) {
-            console.log('response', response)
-            // state.citizens = response
+            state.citizens = response
         }
     } catch (error: any) {
         state.error = error
