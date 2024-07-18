@@ -515,6 +515,11 @@
         "timeLogs": "Tidslogfiler"
     },
     "subscription": {
+        "addOnDeals": {
+            "pay": "Betal",
+            "total": "Total"
+        },
+        "currentSubscription": "Nuværende abonnement",
         "deal": {
             "annually": "Årligt",
             "aPlanThatScales": "En plan, der skalerer med din hurtigt voksende virksomhed",

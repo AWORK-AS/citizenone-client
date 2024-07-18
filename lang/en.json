@@ -515,6 +515,11 @@
         "timeLogs": "Time logs"
     },
     "subscription": {
+        "addOnDeals": {
+            "pay": "Pay",
+            "total": "Total"
+        },
+        "currentSubscription": "Current subscription",
         "deal": {
             "annually": "Annually",
             "aPlanThatScales": "A plan that scales with your rapidly growing business",
