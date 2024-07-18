@@ -546,7 +546,8 @@
             "yourPaymentHasBeenSuccessfullyProcessed": "Your payment has been successfully processed",
             "yourSubscriptionIsNowActive": "Your subscription is now active"
         },
-        "subscription": "Subscription"
+        "subscription": "Subscription",
+        "upgrade": "Upgrade"
     },
     "support": "Support",
     "storage": {

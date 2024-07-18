@@ -546,7 +546,8 @@
             "yourPaymentHasBeenSuccessfullyProcessed": "Din betaling er blevet behandlet med succes",
             "yourSubscriptionIsNowActive": "Dit abonnement er nu aktivt"
         },
-        "subscription": "Abonnement"
+        "subscription": "Abonnement",
+        "upgrade": "Opgrader"
     },
     "support": "Support",
     "storage": {

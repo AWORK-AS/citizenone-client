@@ -62,12 +62,12 @@
                                 </span>
                             </p>
                             <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-10">
-                                <li class="flex gap-x-3">
+                                <li class="flex gap-x-2">
                                     <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
                                     {{ userStore.getUser?.user_subscription?.deal?.storage_size }}
                                     {{ $t('subscription.deal.storageSize') }}
                                 </li>
-                                <li class="flex gap-x-3">
+                                <li class="flex gap-x-2">
                                     <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
                                     {{ userStore.getUser?.user_subscription?.deal?.departments }}
                                     <span v-if="userStore.getUser?.user_subscription?.deal?.departments > 1">
@@ -77,7 +77,7 @@
                                         {{ $t('subscription.deal.department') }}
                                     </span>
                                 </li>
-                                <li class="flex gap-x-3">
+                                <li class="flex gap-x-2">
                                     <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
                                     {{ userStore.getUser?.user_subscription?.deal?.users }}
                                     <span v-if="userStore.getUser?.user_subscription?.deal?.users > 1">
@@ -89,13 +89,11 @@
                                 </li>
                             </ul>
                             <div class="mt-8">
-                                <!-- <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0"
-                                    @click="subscribe(deal)">
-                                    {{ $t('subscription.deal.subscribe') }}
+                                <FormButton type="button" buttonStyle="primary" class="w-full"
+                                    @click="navigateTo('/subscribe')"
+                                    v-if="!userStore.getUser?.user_subscription?.is_max">
+                                    {{ $t('subscription.upgrade') }}
                                 </FormButton>
-                                <FormButton type="button" class="w-full" v-else @click="subscribe(deal)">
-                                    {{ $t('subscription.deal.subscribe') }}
-                                </FormButton> -->
                             </div>
                         </div>
                     </div>

@@ -60,13 +60,13 @@
 
                             <ul role="list"
                                 :class="[index === 1 ? 'text-gray-300' : 'text-gray-600', 'mt-8 space-y-3 text-sm leading-6 sm:mt-10']">
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
                                     {{ deal?.storage_size }} {{ $t('subscription.deal.storageSize') }}
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
@@ -78,21 +78,21 @@
                                         {{ $t('subscription.deal.department') }}
                                     </span>
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
                                     {{ formatAmount(deal?.extra_users ?? 0) }} {{ $t('subscription.deal.forExtraUser')
                                     }}
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
                                     {{ formatAmount(deal?.extra_departments ?? 0) }}
                                     {{ $t('subscription.deal.forExtraDepartment') }}
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']"
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
                                     v-if="index === 1">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
@@ -145,13 +145,13 @@
                             </p>
                             <ul role="list"
                                 :class="[index === 1 ? 'text-gray-300' : 'text-gray-600', 'mt-8 space-y-3 text-sm leading-6 sm:mt-10']">
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
                                     {{ deal?.storage_size }} {{ $t('subscription.deal.storageSize') }}
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
@@ -163,21 +163,21 @@
                                         {{ $t('subscription.deal.department') }}
                                     </span>
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
                                     {{ formatAmount(deal?.extra_users ?? 0) }} {{ $t('subscription.deal.forExtraUser')
                                     }}
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
                                     {{ formatAmount(deal?.extra_departments ?? 0) }}
                                     {{ $t('subscription.deal.forExtraDepartment') }}
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']"
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
                                     v-if="index === 1">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
@@ -222,13 +222,13 @@
 
                             <ul role="list"
                                 :class="[index === 1 ? 'text-gray-300' : 'text-gray-600', 'mt-8 space-y-3 text-sm leading-6 sm:mt-10']">
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
                                     {{ deal?.storage_size }} {{ $t('subscription.deal.storageSize') }}
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
@@ -240,21 +240,21 @@
                                         {{ $t('subscription.deal.department') }}
                                     </span>
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
                                     {{ formatAmount(deal?.extra_users ?? 0) }} {{ $t('subscription.deal.forExtraUser')
                                     }}
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
                                     {{ formatAmount(deal?.extra_departments ?? 0) }}
                                     {{ $t('subscription.deal.forExtraDepartment') }}
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-3']"
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
                                     v-if="index === 1">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
@@ -313,6 +313,9 @@ async function fetchDeals() {
         const response = await dealService.getDeals()
         if (response) {
             state.deals = response
+            if (response?.data?.length === 0) {
+                navigateTo('/subscription')
+            }
         }
     } catch (error: any) {
         state.error = error
