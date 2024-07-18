@@ -18,10 +18,11 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { citizenService } from '@/components/api/CitizenService'
+import type { CitizenResponse } from '@/src/types'
 
 const state = reactive({
     isPageLoading: false,
-    citizens: [],
+    citizens: {} as CitizenResponse,
     error: null,
 })
 
