@@ -1,46 +1,32 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <h3 class="text-sm font-medium">{{ $t('dailyOverview.dailyEvents') }}</h3>
-        <div class="divide-y divide-gray-100 text-sm">
-            <li v-for="(myCalendarEvent, index) in state.myCalendarEvents?.data" :key="index"
-                class="relative flex space-x-6 py-6 xl:static">
-                <div class="flex-auto">
-                    <div class="flex items-center gap-x-2">
-                        <dt class="flex items-center">
-                            <span class="sr-only">Title</span>
-                            <Icon name="ph:clipboard" class="h-4 w-4 text-gray-400" aria-hidden="true" />
-                        </dt>
-                        <dd class="font-semibold text-gray-900 xl:pr-0">
-                            {{ myCalendarEvent?.title }}
-                        </dd>
+        <h3 class="text-sm font-medium pr-6">{{ $t('dailyOverview.dailyEvents') }}</h3>
+        <div class="mt-4 text-sm space-y-2 divide-y overflow-scroll min-h-44 max-h-96 pr-6">
+            <div v-for="(myCalendarEvent, index) in state.myCalendarEvents?.data" :key="index" class="p-4">
+                <div class="space-y-2">
+                    <p class="font-semibold text-gray-700 xl:pr-0">
+                        {{ myCalendarEvent?.title }}
+                    </p>
+                    <div class="text-gray-700 xl:pr-0 text-xs line-clamp-2">
+                        {{ myCalendarEvent?.description }}
                     </div>
-                    <div class="flex gap-x-2">
-                        <dt class="flex mt-1">
-                            <span class="sr-only">Description</span>
-                            <Icon name="heroicons:bars-3-bottom-left" class="h-4 w-4 text-gray-400"
-                                aria-hidden="true" />
-                        </dt>
-                        <dd class="text-gray-900 xl:pr-0">
-                            {{ myCalendarEvent?.description }}
-                        </dd>
-                    </div>
-                    <dl class="text-gray-500">
-                        <div class="flex items-center space-x-3 text-xs">
-                            <dt class="flex items-center">
-                                <span class="sr-only">Date</span>
-                                <Icon name="ph:calendar" class="h-4 w-4 text-gray-400" aria-hidden="true" />
-                            </dt>
-                            <dd>
-                                <time :datetime="myCalendarEvent.datetime">
-                                    {{ formatDateTimeToReadable(myCalendarEvent.date_time_start) }}
+                    <div class="me-auto max-w-full">
+                        <div class="flex items-center justify-end gap-x-2 text-xs ">
+                            <div class="flex items-center">
+                                <span class="sr-only">Time</span>
+                                <Icon name="ph:clock" class="h-4 w-4 text-gray-700" aria-hidden="true" />
+                            </div>
+                            <div>
+                                <p>
+                                    {{ formatTimeToReadable(myCalendarEvent.date_time_start) }}
                                     -
-                                    {{ formatDateTimeToReadable(myCalendarEvent.date_time_end) }}
-                                </time>
-                            </dd>
+                                    {{ formatTimeToReadable(myCalendarEvent.date_time_end) }}
+                                </p>
+                            </div>
                         </div>
-                    </dl>
+                    </div>
                 </div>
-            </li>
+            </div>
         </div>
     </LoadingSpinner>
 </template>
@@ -77,7 +63,7 @@ async function fetchMyCalendarEvents() {
     state.isPageLoading = false
 }
 
-function formatDateTimeToReadable(datetime: string) {
-    return moment(datetime).format('DD. MMM YYYY HH:mm')
+function formatTimeToReadable(datetime: string) {
+    return moment(datetime).format('HH:mm')
 }
 </script>

@@ -7,9 +7,12 @@
             </Head>
 
             <LoadingSpinner :isActive="state.isPageLoading">
-                <div class="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-                    <div class="sm:mx-auto sm:w-full sm:max-w-lg">
-                        <div class="text-center">
+                <div class="isolate mx-auto mt-10 grid max-w-lg">
+                    <div class="ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
+                        <div class="mx-auto max-w-fit bg-green-600 rounded-full p-4 flex items-center justify-center">
+                            <Icon name="ph:check-bold" class="h-7 w-7 text-white" aria-hidden="true" />
+                        </div>
+                        <div class="mt-4 text-center">
                             <h2 class="text-3xl font-extrabold text-gray-900">
                                 {{ $t('subscription.subscribed.subscriptionSuccessful') }}!
                             </h2>
@@ -18,24 +21,16 @@
                                 {{ $t('subscription.subscribed.yourSubscriptionIsNowActive') }}
                             </p>
                         </div>
-                        <div class="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                            <div class="rounded-md bg-green-50 p-4">
-                                <div class="flex">
-                                    <div class="flex-shrink-0">
-                                        <Icon name="ph:check-bold" class="h-10 w-10 text-green-400"
-                                            aria-hidden="true" />
-                                    </div>
-                                    <div class="ml-3">
-                                        <h3 class="text-sm font-medium text-green-800">
-                                            {{ $t('subscription.subscribed.paymentSuccessful') }}
-                                        </h3>
-                                        <div class="mt-2 text-sm text-green-700">
-                                            <p>
-                                                {{ $t('subscription.subscribed.yourPaymentHasBeenSuccessfullyProcessed')
-                                                }}.
-                                            </p>
-                                        </div>
-                                    </div>
+                        <div class="mt-8">
+                            <div class="rounded-md bg-green-50 py-4 px-8">
+                                <h3 class="text-sm font-semibold text-green-800">
+                                    {{ $t('subscription.subscribed.paymentSuccessful') }}
+                                </h3>
+                                <div class="mt-2 text-sm text-green-700">
+                                    <p>
+                                        {{ $t('subscription.subscribed.yourPaymentHasBeenSuccessfullyProcessed')
+                                        }}.
+                                    </p>
                                 </div>
                             </div>
                             <div class="mt-6">

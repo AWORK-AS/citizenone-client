@@ -10,89 +10,93 @@
 
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div v-if="userStore.getUser?.user_subscription === null">
-                    <div class="mt-20 mx-auto max-w-xl bg-white shadow-lg rounded-lg p-8">
-                        <h2 class="text-xl font-semibold text-gray-800">
-                            {{ $t('subscription.noSubscription.noActiveSubscription') }}
-                        </h2>
-                        <p class="mt-4 text-sm text-gray-600">
-                            {{ $t('subscription.noSubscription.itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment')
-                            }}.
-                        </p>
-                        <p class="mt-2 text-sm text-gray-600">
-                            {{ $t('subscription.noSubscription.toEnjoyOurFullRangeOfServicesAndBenefits') }}.
-                        </p>
-                        <div class="mt-6">
-                            <FormButton type="button" buttonStyle="primary" class="w-full"
-                                @click="navigateTo('/subscribe')">
-                                {{ $t('subscription.noSubscription.subscribeNow') }}
-                            </FormButton>
+                    <div class="isolate mx-auto mt-10 grid max-w-lg">
+                        <div class="ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
+                            <h3 class="text-xl font-semibold leading-7">
+                                {{ $t('subscription.noSubscription.noActiveSubscription') }}
+                            </h3>
+                            <p class="mt-4 text-sm text-gray-600 leading-6">
+                                {{
+                                    $t('subscription.noSubscription.itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment')
+                                }}.
+                            </p>
+                            <p class="mt-2 text-sm text-gray-600 leading-6">
+                                {{ $t('subscription.noSubscription.toEnjoyOurFullRangeOfServicesAndBenefits') }}.
+                            </p>
+                            <div class="mt-6">
+                                <FormButton type="button" buttonStyle="primary" class="w-full"
+                                    @click="navigateTo('/subscribe')">
+                                    {{ $t('subscription.noSubscription.subscribeNow') }}
+                                </FormButton>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3"
-                    v-else>
-                    <div class="ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
-                        <div class="flex items-center justify-between gap-x-4">
-                            <h3 class="text-base font-semibold leading-7 text-tertiary">
-                                {{ userStore.getUser?.user_subscription?.deal?.name }}
-                            </h3>
-                        </div>
-                        <p class="text-gray-600 mt-6 text-base leading-7">
-                            <span v-if="userStore.getUser?.user_subscription?.deal?.name === 'Basis'">
-                                {{ $t('subscription.deal.thePerfectPlan') }}.
-                            </span>
-                            <span v-else>
-                                {{ $t('subscription.deal.aPlanThatScales') }}.
-                            </span>
-                        </p>
-                        <p class="mt-4 flex items-baseline gap-x-2">
-                            <span class="text-3xl font-bold tracking-tight text-gray-900">
-                                {{ userStore.getUser?.user_subscription?.type === 'monthly' ?
-                                    formatAmount(userStore.getUser?.user_subscription?.deal?.monthly_price) :
-                                    formatAmount(userStore.getUser?.user_subscription?.deal?.yearly_price) }}
-                            </span>
-                            <span class="text-base text-gray-500 lowercase">
-                                /{{ userStore.getUser?.user_subscription?.type === 'monthly' ?
-                                    $t('subscription.deal.month') :
-                                    $t('subscription.deal.year')
-                                }}
-                            </span>
-                        </p>
-                        <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-10">
-                            <li class="flex gap-x-3">
-                                <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
-                                {{ userStore.getUser?.user_subscription?.deal?.storage_size }}
-                                {{ $t('subscription.deal.storageSize') }}
-                            </li>
-                            <li class="flex gap-x-3">
-                                <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
-                                {{ userStore.getUser?.user_subscription?.deal?.departments }}
-                                <span v-if="userStore.getUser?.user_subscription?.deal?.departments > 1">
-                                    {{ $t('subscription.deal.departments') }}
+                <div v-else>
+                    <div class="isolate mx-auto mt-10 grid max-w-md">
+                        <div class="ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
+                            <div class="flex items-center justify-between gap-x-4">
+                                <h3 class="text-base font-semibold leading-7 text-tertiary">
+                                    {{ userStore.getUser?.user_subscription?.deal?.name }}
+                                </h3>
+                            </div>
+                            <p class="text-gray-600 mt-6 text-base leading-7">
+                                <span v-if="userStore.getUser?.user_subscription?.deal?.name === 'Basis'">
+                                    {{ $t('subscription.deal.thePerfectPlan') }}.
                                 </span>
                                 <span v-else>
-                                    {{ $t('subscription.deal.department') }}
+                                    {{ $t('subscription.deal.aPlanThatScales') }}.
                                 </span>
-                            </li>
-                            <li class="flex gap-x-3">
-                                <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
-                                {{ userStore.getUser?.user_subscription?.deal?.users }}
-                                <span v-if="userStore.getUser?.user_subscription?.deal?.users > 1">
-                                    {{ $t('subscription.deal.users') }}
+                            </p>
+                            <p class="mt-4 flex items-baseline gap-x-2">
+                                <span class="text-3xl font-bold tracking-tight text-gray-900">
+                                    {{ userStore.getUser?.user_subscription?.type === 'monthly' ?
+                                        formatAmount(userStore.getUser?.user_subscription?.deal?.monthly_price) :
+                                        formatAmount(userStore.getUser?.user_subscription?.deal?.yearly_price) }}
                                 </span>
-                                <span v-else>
-                                    {{ $t('subscription.deal.user') }}
+                                <span class="text-base text-gray-500 lowercase">
+                                    /{{ userStore.getUser?.user_subscription?.type === 'monthly' ?
+                                        $t('subscription.deal.month') :
+                                        $t('subscription.deal.year')
+                                    }}
                                 </span>
-                            </li>
-                        </ul>
-                        <div class="mt-8">
-                            <!-- <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0"
-                                @click="subscribe(deal)">
-                                {{ $t('subscription.deal.subscribe') }}
-                            </FormButton>
-                            <FormButton type="button" class="w-full" v-else @click="subscribe(deal)">
-                                {{ $t('subscription.deal.subscribe') }}
-                            </FormButton> -->
+                            </p>
+                            <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-10">
+                                <li class="flex gap-x-3">
+                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                    {{ userStore.getUser?.user_subscription?.deal?.storage_size }}
+                                    {{ $t('subscription.deal.storageSize') }}
+                                </li>
+                                <li class="flex gap-x-3">
+                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                    {{ userStore.getUser?.user_subscription?.deal?.departments }}
+                                    <span v-if="userStore.getUser?.user_subscription?.deal?.departments > 1">
+                                        {{ $t('subscription.deal.departments') }}
+                                    </span>
+                                    <span v-else>
+                                        {{ $t('subscription.deal.department') }}
+                                    </span>
+                                </li>
+                                <li class="flex gap-x-3">
+                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                    {{ userStore.getUser?.user_subscription?.deal?.users }}
+                                    <span v-if="userStore.getUser?.user_subscription?.deal?.users > 1">
+                                        {{ $t('subscription.deal.users') }}
+                                    </span>
+                                    <span v-else>
+                                        {{ $t('subscription.deal.user') }}
+                                    </span>
+                                </li>
+                            </ul>
+                            <div class="mt-8">
+                                <!-- <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0"
+                                    @click="subscribe(deal)">
+                                    {{ $t('subscription.deal.subscribe') }}
+                                </FormButton>
+                                <FormButton type="button" class="w-full" v-else @click="subscribe(deal)">
+                                    {{ $t('subscription.deal.subscribe') }}
+                                </FormButton> -->
+                            </div>
                         </div>
                     </div>
                 </div>
