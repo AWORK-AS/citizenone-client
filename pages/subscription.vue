@@ -10,7 +10,7 @@
 
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div v-if="userStore.getUser?.user_subscription === null">
-                    <div class="max-w-xl bg-white shadow-lg rounded-lg p-8">
+                    <div class="mt-20 mx-auto max-w-xl bg-white shadow-lg rounded-lg p-8">
                         <h2 class="text-xl font-semibold text-gray-800">
                             {{ $t('subscription.noSubscription.noActiveSubscription') }}
                         </h2>

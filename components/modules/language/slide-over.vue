@@ -125,8 +125,7 @@ async function fetchLanguages() {
 }
 
 async function switchLanguage(selectedLanguage: any) {
-    if (userStore.getUser) {
-
+    if (localStorage.getItem('_token')) {
         state.error = {}
         state.isPageLoading = true
         try {
