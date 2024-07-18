@@ -17,7 +17,7 @@
                         <ModulesDailyOverviewLatestJournal />
                     </div>
                     <div class="bg-white p-6 shadow-md rounded-md min-h-44">
-                        <ModulesDailyOverviewPool />
+                        <ModulesDailyOverviewPoll />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">

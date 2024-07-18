@@ -1,6 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <h3 class="text-sm font-medium">{{ $t('dailyOverview.pool') }}</h3>
+        <h3 class="text-sm font-medium">{{ $t('dailyOverview.poll') }}</h3>
     </LoadingSpinner>
 </template>
 
