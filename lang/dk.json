@@ -108,6 +108,7 @@
             "table": {
                 "actions": {
                     "edit": "Rediger",
+                    "delete": "Slet",
                     "view": "Se"
                 },
                 "dateCreated": "Oprettelsesdato",

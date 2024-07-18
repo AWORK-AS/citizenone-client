@@ -262,7 +262,7 @@ async function deleteJournal() {
     state.isPageLoading = true
     try {
         const response = await journalService.deleteJournal(state.selectedJournal.uuid)
-        if (response?.message === 'Success') {
+        if (response?.message === 'Success.') {
             if (state.journals?.data?.length === 1) {
                 resetFilter()
             } else {

@@ -85,9 +85,15 @@
                                                 {{ $t('citizens.documents.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                v-if="document?.type === 'folder'"
                                                 @click="deleteDirectoryConfirmation(document)">
                                                 <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('citizens.documents.table.actions.edit') }}
+                                                {{ $t('citizens.documents.table.actions.delete') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md" v-else
+                                                @click="deleteFileConfirmation(document)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('citizens.documents.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -104,7 +110,10 @@
                     @refreshDocuments="fetchDocuments" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteDirectoryOpen"
                     :message="$t('citizens.documents.confirmation.deleteFolderConfirmation') + '?'"
-                    @close="state.modal.isDeleteDirectoryOpen = false" @confirm="deleteDirectory" />
+                    @close="state.modal.isDeleteDirectoryOpen = false" @confirm="deleteDocument" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteFileOpen"
+                    :message="$t('citizens.documents.confirmation.deleteFileConfirmation') + '?'"
+                    @close="state.modal.isDeleteFileOpen = false" @confirm="deleteDocument" />
             </div>
         </NuxtLayout>
     </div>
@@ -269,13 +278,22 @@ function deleteDirectoryConfirmation(document: any) {
     state.modal.isDeleteDirectoryOpen = true
 }
 
-async function deleteDirectory() {
+function deleteFileConfirmation(document: any) {
+    state.selectedDirectory = document
+    state.modal.isDeleteFileOpen = true
+}
+
+async function deleteDocument() {
     state.isTableLoading = true
     try {
         const response = await documentService.deleteDocument(state.selectedDirectory.uuid)
-        if (response?.message === 'Success') {
+        if (response?.message === 'Success.') {
             fetchDocuments()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.deletedFolderSuccessfully')}.`)
+            if (state.selectedDirectory.type === 'folder') {
+                successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.deletedFolderSuccessfully')}.`)
+            } else {
+                successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.deletedFileSuccessfully')}.`)
+            }
         }
     } catch (error: any) {
         state.error = error

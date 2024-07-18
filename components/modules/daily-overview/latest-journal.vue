@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { citizenService } from '@/components/api/CitizenService'
+import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { CitizenResponse } from '@/src/types'
 
 const state = reactive({
@@ -38,9 +38,10 @@ async function fetchCitizens() {
             start_date: moment(),
         }
 
-        const response = await citizenService.getCitizens(params)
-        if (response.data) {
-            state.citizens = response
+        const response = await dailyOverviewService.getLatestCitizensJournal(params)
+        if (response) {
+            console.log('response', response)
+            // state.citizens = response
         }
     } catch (error: any) {
         state.error = error

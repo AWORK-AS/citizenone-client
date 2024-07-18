@@ -108,6 +108,7 @@
             "table": {
                 "actions": {
                     "edit": "Edit",
+                    "delete": "Delete",
                     "view": "View"
                 },
                 "dateCreated": "Date created",

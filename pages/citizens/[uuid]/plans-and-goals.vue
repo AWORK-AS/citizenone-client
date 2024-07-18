@@ -197,7 +197,7 @@ async function deletePlan() {
     state.isPageLoading = true
     try {
         const response = await planService.deletePlan(state.selectedPlan.uuid)
-        if (response?.message === 'Success') {
+        if (response?.message === 'Success.') {
             if (state.plans?.data?.length === 1) {
                 resetFilter()
             } else {

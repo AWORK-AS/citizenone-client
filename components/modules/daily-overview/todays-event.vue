@@ -55,7 +55,7 @@ async function fetchMyCalendarEvents() {
         }
 
         const response = await myCalendarService.getSchedules(params)
-        if (response.data) {
+        if (response) {
             state.myCalendarEvents = response
         }
     } catch (error: any) {
