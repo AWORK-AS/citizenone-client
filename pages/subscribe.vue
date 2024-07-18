@@ -12,7 +12,7 @@
                 <div class="max-w-4xl mx-auto space-y-2">
                     <Alert type="danger" :text="error" v-if="error && error.length > 0" />
                     <Alert type="danger" :text="state?.error?.message"
-                        v-if="state.error && state.error.length > 0 || state.error?.message" />
+                        v-if="state.error?.message && state.error.message.length > 0" />
                 </div>
                 <div id="checkout-container-div"></div>
                 <div class="mt-16 flex justify-center" v-if="!state.isDealsHidden">
@@ -283,13 +283,14 @@
 import { dealService } from '@/components/api/DealService'
 import { userSubscriptionService } from '@/components/api/UserSubscriptionService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
+import type { Error } from '@/src/types'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
-let error = router?.currentRoute?.value?.query?.error
+let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     deals: [],
     isDealsHidden: false,
     isPageLoading: false,
@@ -307,7 +308,7 @@ onMounted(() => {
 
 async function fetchDeals() {
     state.isPageLoading = true
-    state.error = []
+    state.error = {}
     try {
         const response = await dealService.getDeals()
         if (response) {
@@ -321,7 +322,7 @@ async function fetchDeals() {
 
 async function subscribe(deal: any) {
     state.isPageLoading = true
-    state.error = []
+    state.error = {}
     error = ''
     try {
         const params = {
