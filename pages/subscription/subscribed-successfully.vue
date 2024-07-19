@@ -71,7 +71,7 @@ async function fetchDeals() {
     } catch (error: any) {
         state.error = error
         if (error?.message === 'Payment is invalid.') {
-            navigateTo(`/subscribe?error=Invalid payment details`)
+            navigateTo(`/subscription/subscribe?error=Invalid payment details`)
         }
     }
     state.isPageLoading = false

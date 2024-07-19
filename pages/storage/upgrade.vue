@@ -200,7 +200,7 @@ async function upgrade(deal: any) {
             var checkout = new Dibs.Checkout(checkoutOptions)
             checkout.on('payment-completed', function (response: any) {
                 const paymentId = response['paymentId']
-                navigateTo(`/subscribed?paymentId=${paymentId}`)
+                navigateTo(`/subscription/subscribed-successfully?paymentId=${paymentId}`)
             })
             state.isDealsHidden = true
         }

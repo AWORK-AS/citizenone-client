@@ -24,7 +24,7 @@
                         </p>
                         <div class="mt-6">
                             <FormButton type="button" buttonStyle="primary" class="w-full"
-                                @click="navigateTo('/subscribe')">
+                                @click="navigateTo('/subscription/subscribe')">
                                 {{ $t('subscription.noSubscription.subscribeNow') }}
                             </FormButton>
                         </div>
@@ -93,7 +93,7 @@
                             </ul>
                             <div class="mt-8">
                                 <FormButton type="button" buttonStyle="primary" class="w-full"
-                                    @click="navigateTo('/subscribe')"
+                                    @click="navigateTo('/subscription/subscribe')"
                                     v-if="!userStore.getUser?.user_subscription?.is_max">
                                     {{ $t('subscription.upgrade') }}
                                 </FormButton>

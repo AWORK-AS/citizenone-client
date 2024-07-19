@@ -1,5 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
+        <Alert type="danger" :text="error" v-if="error && error.length > 0" />
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <div id="checkout-container-div"></div>
@@ -81,6 +82,8 @@ import { cartService } from '@/components/api/CartService'
 import type { Error } from '@/src/types'
 
 const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
+let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
 
 const state = reactive({
     error: {} as Error,
@@ -161,7 +164,7 @@ async function handleSaveCart() {
             var checkout = new Dibs.Checkout(checkoutOptions)
             checkout.on('payment-completed', function (response: any) {
                 const paymentId = response['paymentId']
-                navigateTo(`/subscribed?paymentId=${paymentId}`)
+                navigateTo(`/subscription/add-on-payment-successful?paymentId=${paymentId}`)
             })
             state.isDealsHidden = true
         }
