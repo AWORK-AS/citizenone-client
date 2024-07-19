@@ -516,7 +516,7 @@
     },
     "subscription": {
         "addOnDeals": {
-            "pay": "Pay",
+            "checkout": "Checkout",
             "total": "Total"
         },
         "currentSubscription": "Current subscription",

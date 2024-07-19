@@ -516,7 +516,7 @@
     },
     "subscription": {
         "addOnDeals": {
-            "pay": "Betal",
+            "checkout": "Betaling",
             "total": "Total"
         },
         "currentSubscription": "Nuværende abonnement",
