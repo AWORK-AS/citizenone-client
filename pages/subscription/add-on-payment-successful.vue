@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { userSubscriptionService } from '@/components/api/UserSubscriptionService'
+import { addOnDealsService } from '@/components/api/AddOnDealsService'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
@@ -54,7 +54,7 @@ async function fetchDeals() {
     state.isPageLoading = true
     state.error = []
     try {
-        await userSubscriptionService.validateSubscription(paymentId)
+        await addOnDealsService.validatePayment(paymentId)
     } catch (error: any) {
         state.error = error
         if (error?.message === 'Payment is invalid.') {

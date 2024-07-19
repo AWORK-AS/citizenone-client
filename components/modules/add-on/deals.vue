@@ -20,7 +20,8 @@
                         </div>
                     </div>
                     <div class="flex items-center lg:justify-end">
-                        <FormNumberField name="department" placeholder="0" @input="validateDepartmentQuantity" />
+                        <FormNumberField name="department" placeholder="0" v-model="state.formAddOn.department"
+                            @input="validateDepartmentQuantity" />
                     </div>
                     <div class="flex items-center lg:justify-end">
                         <p class="leading-6 text-gray-900">
@@ -43,7 +44,8 @@
                         </div>
                     </div>
                     <div class="flex items-center lg:justify-end">
-                        <FormNumberField name="user" placeholder="0" @input="validateUserQuantity" />
+                        <FormNumberField name="user" placeholder="0" v-model="state.formAddOn.user"
+                            @input="validateUserQuantity" />
                     </div>
                     <div class="flex items-center lg:justify-end">
                         <p class="leading-6 text-gray-900">
@@ -102,6 +104,7 @@ const state = reactive({
 onMounted(() => {
     fetchAddOnDepartment()
     fetchAddOnUser()
+    fetchCart()
 })
 
 async function fetchAddOnDepartment() {
@@ -125,6 +128,26 @@ async function fetchAddOnUser() {
         const response = await addOnDealsService.getUserAddOnDeals()
         if (response) {
             state.addOnDeals.user = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchCart() {
+    state.isPageLoading = true
+    state.error = {}
+    try {
+        const response = await cartService.getCart()
+        if (response) {
+            response?.data?.forEach((cart: any) => {
+                if (cart?.add_on?.type === 'department') {
+                    state.formAddOn.department = cart?.quantity.toString()
+                } else if (cart?.add_on?.type === 'user') {
+                    state.formAddOn.user = cart?.quantity.toString()
+                }
+            })
         }
     } catch (error: any) {
         state.error = error
