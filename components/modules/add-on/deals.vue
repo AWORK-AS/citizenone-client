@@ -2,7 +2,7 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <div id="checkout-container-div"></div>
+        <div id="cart-checkout-container-div"></div>
         <div v-if="!state.isDealsHidden">
             <h3 class="py-3 text-sm font-semibold">Add on deals</h3>
             <div class="divide-y divide-gray-100 ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
@@ -175,7 +175,7 @@ async function handleSaveCart() {
             var checkoutOptions = {
                 checkoutKey: runtimeConfig?.public?.checkoutKey,
                 paymentId: response?.paymentId,
-                containerId: "checkout-container-div",
+                containerId: "cart-checkout-container-div",
                 language: "da-DK",
                 theme: {
                     buttonRadius: "5px"
