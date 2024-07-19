@@ -14,7 +14,7 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                 </div>
-                <div id="checkout-container-div"></div>
+                <div id="subscribe-checkout"></div>
                 <div class="mt-16 flex justify-center" v-if="!state.isDealsHidden">
                     <fieldset aria-label="Payment frequency">
                         <RadioGroup v-model="frequency"
@@ -334,16 +334,16 @@ async function subscribe(deal: any) {
         }
         const response = await userSubscriptionService.subscribe(params)
         if (response) {
-            var checkoutOptions = {
+            const checkoutOptions = {
                 checkoutKey: runtimeConfig?.public?.checkoutKey,
                 paymentId: response?.paymentId,
-                containerId: "checkout-container-div",
+                containerId: "subscribe-checkout",
                 language: "da-DK",
                 theme: {
                     buttonRadius: "5px"
                 }
             }
-            var checkout = new Dibs.Checkout(checkoutOptions)
+            const checkout = new Dibs.Checkout(checkoutOptions)
             checkout.on('payment-completed', function (response: any) {
                 const paymentId = response['paymentId']
                 navigateTo(`/subscription/subscribed-successfully?paymentId=${paymentId}`)

@@ -16,7 +16,7 @@
                             <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
                         </div>
                     </div>
-                    <div id="checkout-container-div"></div>
+                    <div id="upgrade-checkout"></div>
                     <div class="max-w-3xl" v-if="!state.isDealsHidden">
                         <div class="space-y-5">
                             <div class="space-y-2">
@@ -188,16 +188,16 @@ async function upgrade(deal: any) {
         }
         const response = await userSubscriptionService.subscribe(params)
         if (response) {
-            var checkoutOptions = {
+            const checkoutOptions = {
                 checkoutKey: runtimeConfig?.public?.checkoutKey,
                 paymentId: response?.paymentId,
-                containerId: "checkout-container-div",
+                containerId: "upgrade-checkout",
                 language: "da-DK",
                 theme: {
                     buttonRadius: "5px"
                 }
             }
-            var checkout = new Dibs.Checkout(checkoutOptions)
+            const checkout = new Dibs.Checkout(checkoutOptions)
             checkout.on('payment-completed', function (response: any) {
                 const paymentId = response['paymentId']
                 navigateTo(`/subscription/subscribed-successfully?paymentId=${paymentId}`)

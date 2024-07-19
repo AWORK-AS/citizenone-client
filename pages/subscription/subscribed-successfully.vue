@@ -60,10 +60,10 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchDeals()
+    validateSubscription()
 })
 
-async function fetchDeals() {
+async function validateSubscription() {
     state.isPageLoading = true
     state.error = []
     try {
