@@ -8,6 +8,7 @@
 
             <template #header>{{ $t('subscription.subscription') }}</template>
 
+            <Alert type="danger" :text="error" v-if="error && error.length > 0" />
             <div v-if="userStore.getUser?.user_subscription === null">
                 <div class="isolate mx-auto mt-10 grid max-w-lg">
                     <div class="ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
@@ -114,6 +115,8 @@ import { useUserStore } from '@/store/user'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
+const router = useRouter()
+let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
 
 function formatAmount(amount: any) {
     // Convert the number to a string with two decimal places
