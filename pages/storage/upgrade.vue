@@ -199,6 +199,7 @@ async function upgrade(deal: any) {
             }
             const checkout = new Dibs.Checkout(checkoutOptions)
             checkout.on('payment-completed', function (response: any) {
+                checkout.cleanup()
                 const paymentId = response['paymentId']
                 navigateTo(`/subscription/subscribed-successfully?paymentId=${paymentId}`)
             })

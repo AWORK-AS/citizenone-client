@@ -183,6 +183,7 @@ async function handleSaveCart() {
             }
             const checkout = new Dibs.Checkout(checkoutOptions)
             checkout.on('payment-completed', function (response: any) {
+                checkout.cleanup()
                 const paymentId = response['paymentId']
                 navigateTo(`/subscription/add-on-payment-successful?paymentId=${paymentId}`)
             })
