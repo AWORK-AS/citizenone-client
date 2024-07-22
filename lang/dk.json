@@ -568,8 +568,10 @@
         "documents": "Dokumenter",
         "doYouNeedMoreStorage": "Har du brug for mere plads",
         "form": {
-            "message": "Besked",
-            "sendMessage": "Send besked"
+            "howMuchStorageDoYouNeed": "Hvor meget opbevaring har du brug for",
+            "pleaseWriteHere": "Skriv venligst her",
+            "sendMessage": "Send besked",
+            "tellUsHowMuchStorage": "Fortæl os, hvor meget opbevaring du har brug for, og vi vender tilbage så hurtigt som muligt"
         },
         "month": "Måned",
         "storage": "Lagerplads",

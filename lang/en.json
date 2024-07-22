@@ -568,8 +568,10 @@
         "documents": "Documents",
         "doYouNeedMoreStorage": "Do you need more storage",
         "form": {
-            "message": "Message",
-            "sendMessage": "Send message"
+            "howMuchStorageDoYouNeed": "How much storage do you need",
+            "pleaseWriteHere": "Please write here",
+            "sendMessage": "Send message",
+            "tellUsHowMuchStorage": "Tell us how much storage you need and we will get back as soon as possible"
         },
         "month": "Month",
         "storage": "Storage",

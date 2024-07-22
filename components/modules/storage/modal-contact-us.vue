@@ -1,6 +1,7 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('contactUs')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs" :title="`${$t('storage.form.howMuchStorageDoYouNeed')}?`" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <form @submit.prevent="sendMessage()">
@@ -8,8 +9,9 @@
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="gap-y-3">
                             <div class="space-y-1">
-                                <FormLabel for="message" :label="$t('storage.form.message')" />
-                                <FormTextArea id="message" name="message" :placeholder="$t('storage.form.message')"
+                                <FormLabel for="message" :label="`${$t('storage.form.tellUsHowMuchStorage')}.`" />
+                                <FormTextArea id="message" name="message"
+                                    :placeholder="`${$t('storage.form.pleaseWriteHere')}...`"
                                     v-model="state.formContactUs.message" />
                                 <FormError :error="v$?.formContactUs?.message?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.title?.[0]" />
