@@ -14,7 +14,10 @@
                         <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
                             <p>
                                 {{ formatAmount(state.addOnDeals.department?.data?.monthly_price) }}
-                                <span class="lowercase">/{{ $t('subscription.deal.month') }}</span>
+                                <span class="lowercase">
+                                    /{{ $t('subscription.deal.month') }}
+                                    {{ $t('excludeVat') }}
+                                </span>
                             </p>
                         </div>
                     </div>
@@ -38,7 +41,10 @@
                         <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
                             <p>
                                 {{ formatAmount(state.addOnDeals.user?.data?.monthly_price) }}
-                                <span class="lowercase">/{{ $t('subscription.deal.month') }}</span>
+                                <span class="lowercase">
+                                    /{{ $t('subscription.deal.month') }}
+                                    {{ $t('excludeVat') }}
+                                </span>
                             </p>
                         </div>
                     </div>

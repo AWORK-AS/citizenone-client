@@ -55,6 +55,7 @@
                                     /{{ frequency.value === 'monthly' ? $t('subscription.deal.month') :
                                         $t('subscription.deal.year')
                                     }}
+                                    {{ $t('excludeVat') }}
                                 </span>
                             </p>
 
@@ -82,15 +83,17 @@
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ formatAmount(deal?.extra_users ?? 0) }} {{ $t('subscription.deal.forExtraUser')
-                                    }}
+                                    {{ formatAmount(deal?.extra_users ?? 0) }}
+                                    {{ $t('excludeVat') }}
+                                    <span class="lowercase">{{ $t('subscription.deal.forExtraUser') }}</span>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
                                     {{ formatAmount(deal?.extra_departments ?? 0) }}
-                                    {{ $t('subscription.deal.forExtraDepartment') }}
+                                    {{ $t('excludeVat') }}
+                                    <span class="lowercase">{{ $t('subscription.deal.forExtraDepartment') }}</span>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
                                     v-if="index === 1">
@@ -133,6 +136,7 @@
                                     /{{ frequency.value === 'monthly' ? $t('subscription.deal.month') :
                                         $t('subscription.deal.year')
                                     }}
+                                    {{ $t('excludeVat') }}
                                 </span>
                             </div>
                             <p :class="[index === 1 ? 'text-white' : 'text-gray-600', 'mt-6 text-base leading-7']">
@@ -167,15 +171,17 @@
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ formatAmount(deal?.extra_users ?? 0) }} {{ $t('subscription.deal.forExtraUser')
-                                    }}
+                                    {{ formatAmount(deal?.extra_users ?? 0) }}
+                                    {{ $t('excludeVat') }}
+                                    <span class="lowercase">{{ $t('subscription.deal.forExtraUser') }}</span>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
                                     {{ formatAmount(deal?.extra_departments ?? 0) }}
-                                    {{ $t('subscription.deal.forExtraDepartment') }}
+                                    {{ $t('excludeVat') }}
+                                    <span class="lowercase">{{ $t('subscription.deal.forExtraDepartment') }}</span>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
                                     v-if="index === 1">
@@ -217,6 +223,7 @@
                                     /{{ frequency.value === 'monthly' ? $t('subscription.deal.month') :
                                         $t('subscription.deal.year')
                                     }}
+                                    {{ $t('excludeVat') }}
                                 </span>
                             </p>
 
@@ -244,15 +251,17 @@
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ formatAmount(deal?.extra_users ?? 0) }} {{ $t('subscription.deal.forExtraUser')
-                                    }}
+                                    {{ formatAmount(deal?.extra_users ?? 0) }}
+                                    {{ $t('excludeVat') }}
+                                    <span class="lowercase">{{ $t('subscription.deal.forExtraUser') }}</span>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
                                     {{ formatAmount(deal?.extra_departments ?? 0) }}
-                                    {{ $t('subscription.deal.forExtraDepartment') }}
+                                    {{ $t('excludeVat') }}
+                                    <span class="lowercase">{{ $t('subscription.deal.forExtraDepartment') }}</span>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
                                     v-if="index === 1">

@@ -299,6 +299,7 @@
             "role": "Rolle"
         }
     },
+    "excludeVat": "ekskl. moms",
     "filter": "Filter",
     "forgotPassword": {
         "emailAddress": "E-mail adresse",

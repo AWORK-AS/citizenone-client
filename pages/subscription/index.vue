@@ -63,6 +63,7 @@
                                         $t('subscription.deal.month') :
                                         $t('subscription.deal.year')
                                     }}
+                                    {{ $t('excludeVat') }}
                                 </span>
                             </p>
                             <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-10">

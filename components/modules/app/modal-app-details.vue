@@ -10,6 +10,7 @@
                             <Icon name="material-symbols:receipt" class="size-4" />
                             <p class="font-sans text-sm">
                                 {{ formatAmount(props.selectedApp?.price) }}
+                                {{ $t('excludeVat') }}
                             </p>
                         </div>
                         <p class="text-muted-800 dark:text-muted-100 font-sans text-sm">

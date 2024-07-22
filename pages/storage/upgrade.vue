@@ -70,6 +70,7 @@
                                                     </span>
                                                     <span class="text-gray-500 text-sm leading-7 lowercase">
                                                         /{{ $t('storage.month') }}
+                                                        {{ $t('excludeVat') }}
                                                     </span>
                                                 </div>
                                             </div>

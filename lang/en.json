@@ -299,6 +299,7 @@
             "role": "Role"
         }
     },
+    "excludeVat": "excl. vat",
     "filter": "Filter",
     "forgotPassword": {
         "emailAddress": "Email address",
