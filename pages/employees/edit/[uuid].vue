@@ -40,7 +40,7 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
-        department: '',
+        department: [],
         role: '',
         permissions: [],
     },

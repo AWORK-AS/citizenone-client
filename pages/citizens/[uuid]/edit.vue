@@ -43,7 +43,7 @@ const state = reactive({
         social_security_number: '',
         birthday: '',
         phone: '',
-        department: '',
+        department: [],
         street: '',
         region_id: '',
         municipality_id: '',

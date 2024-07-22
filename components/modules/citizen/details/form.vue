@@ -75,7 +75,7 @@
                             Add New Department
                         </span>
                     </div>
-                    <FormSelect id="department" :options="state.options.departments"
+                    <FormSelectMultiple id="department" :options="state.options.departments"
                         v-model="state.formCitizen.department" />
                     <FormError :error="v$?.formCitizen?.department?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.department_id?.[0]" />
@@ -180,7 +180,7 @@ const state = reactive({
         social_security_number: '',
         birthday: '',
         phone: '',
-        department: '',
+        department: [],
         street: '',
         region: '',
         municipality: '',
