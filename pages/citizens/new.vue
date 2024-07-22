@@ -41,6 +41,7 @@ const state = reactive({
         social_security_number: '',
         birthday: '',
         phone: '',
+        department: '',
         street: '',
         region_id: '',
         municipality_id: '',
@@ -63,6 +64,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('social_security_number', citizenDetails.social_security_number)
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
+        params.append('department_id', citizenDetails.department)
         params.append('street', citizenDetails.street)
         params.append('region_id', citizenDetails.region)
         params.append('municipality_id', citizenDetails.municipality)

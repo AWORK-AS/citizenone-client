@@ -19,14 +19,14 @@
                     <FormError :error="props?.error?.errors?.lastname?.[0]" />
                 </div>
             </div>
+            <div class="space-y-1">
+                <FormLabel for="email" :label="$t('employees.form.emailAddress')" />
+                <FormTextField id="email" name="email" :placeholder="$t('employees.form.emailAddress')"
+                    v-model="state.formEmployee.email" />
+                <FormError :error="v$?.formEmployee?.email?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.email?.[0]" />
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="email" :label="$t('employees.form.emailAddress')" />
-                    <FormTextField id="email" name="email" :placeholder="$t('employees.form.emailAddress')"
-                        v-model="state.formEmployee.email" />
-                    <FormError :error="v$?.formEmployee?.email?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.email?.[0]" />
-                </div>
                 <div class="space-y-1">
                     <FormLabel for="phone" :label="$t('employees.form.phone')" />
                     <FormTextField id="phone" name="phone" :placeholder="$t('employees.form.phone')"
@@ -34,8 +34,6 @@
                     <FormError :error="v$?.formEmployee?.phone?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.phone?.[0]" />
                 </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
                     <FormLabel for="birthday" :label="$t('employees.form.birthday')" />
                     <FormDateField id="birthday" name="birthday" :placeholder="$t('employees.form.birthday')"
@@ -43,9 +41,25 @@
                     <FormError :error="v$?.formEmployee?.birthday?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.birthday?.[0]" />
                 </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="department" :label="$t('employees.form.department')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="navigateTo('/departments/new')">
+                            Add New Department
+                        </span>
+                    </div>
+                    <FormSelect id="department" :options="state.options.departments"
+                        v-model="state.formEmployee.department" />
+                    <FormError :error="v$?.formEmployee?.department?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.department_id?.[0]" />
+                </div>
                 <div class="space-y-1">
                     <FormLabel for="role" :label="$t('employees.form.role')" />
-                    <FormSelect id="role" name="role" :options="state.roleOptions" v-model="state.formEmployee.role" />
+                    <FormSelect id="role" name="role" :options="state.options.roleOptions"
+                        v-model="state.formEmployee.role" />
                     <FormError :error="v$?.formEmployee?.role?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.role?.[0]" />
                 </div>
@@ -87,6 +101,7 @@
 </template>
 
 <script setup lang="ts">
+import { departmentService } from '@/components/api/DepartmentService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -117,6 +132,7 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
+        department: '',
         role: '',
         permissions: [],
     },
@@ -126,10 +142,13 @@ const state = reactive({
         update: false,
         delete: false,
     },
-    roleOptions: [
-        { value: 'Admin', label: 'Admin' },
-        { value: 'User', label: 'User' },
-    ]
+    options: {
+        departments: [],
+        roleOptions: [
+            { value: 'Admin', label: 'Admin' },
+            { value: 'User', label: 'User' },
+        ]
+    }
 })
 
 watch(() => props.selectedEmployee, (newValue: any) => {
@@ -140,6 +159,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             email: newValue.email,
             phone: newValue.phone,
             birthday: newValue.birthday,
+            department: newValue.department,
             role: newValue.role,
             permissions: [],
         }
@@ -187,6 +207,28 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+onMounted(() => {
+    fetchDepartments()
+})
+
+async function fetchDepartments() {
+    try {
+        const response = await departmentService.getAllDepartments()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.id,
+                    label: item.name,
+                })
+            )
+            state.options.departments = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 function submitForm() {
     v$.value.$validate()

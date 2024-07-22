@@ -35,14 +35,14 @@
                     <FormError :error="props?.error?.errors?.lastname?.[0]" />
                 </div>
             </div>
+            <div class="space-y-1">
+                <FormLabel for="email" :label="$t('citizens.form.emailAddress')" />
+                <FormTextField id="email" name="email" :placeholder="$t('citizens.form.emailAddress')"
+                    v-model="state.formCitizen.email" />
+                <FormError :error="v$?.formCitizen?.email?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.email?.[0]" />
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="email" :label="$t('citizens.form.emailAddress')" />
-                    <FormTextField id="email" name="email" :placeholder="$t('citizens.form.emailAddress')"
-                        v-model="state.formCitizen.email" />
-                    <FormError :error="v$?.formCitizen?.email?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.email?.[0]" />
-                </div>
                 <div class="space-y-1">
                     <FormLabel for="social_security_number" :label="$t('citizens.form.ssn')" />
                     <FormTextField id="social_security_number" name="social_security_number"
@@ -51,8 +51,6 @@
                     <FormError :error="v$?.formCitizen?.social_security_number?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.social_security_number?.[0]" />
                 </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
                     <FormLabel for="birthday" :label="$t('citizens.form.birthday')" />
                     <FormDateField id="birthday" name="birthday" :placeholder="$t('citizens.form.birthday')"
@@ -60,12 +58,27 @@
                     <FormError :error="v$?.formCitizen?.birthday?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.birthday?.[0]" />
                 </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
                     <FormLabel for="phone" :label="$t('citizens.form.phone')" />
                     <FormTextField id="phone" name="phone" :placeholder="$t('citizens.form.phone')"
                         v-model="state.formCitizen.phone" />
                     <FormError :error="v$?.formCitizen?.phone?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.phone?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="department" :label="$t('citizens.form.department')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="navigateTo('/departments/new')">
+                            Add New Department
+                        </span>
+                    </div>
+                    <FormSelect id="department" :options="state.options.departments"
+                        v-model="state.formCitizen.department" />
+                    <FormError :error="v$?.formCitizen?.department?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.department_id?.[0]" />
                 </div>
             </div>
             <div class="space-y-1">
@@ -131,7 +144,7 @@
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
-import { ref } from 'vue'
+import { departmentService } from '@/components/api/DepartmentService'
 import { regionService } from '@/components/api/RegionService'
 import { municipalityService } from '@/components/api/MunicipalityService'
 import { cityService } from '@/components/api/CityService'
@@ -167,6 +180,7 @@ const state = reactive({
         social_security_number: '',
         birthday: '',
         phone: '',
+        department: '',
         street: '',
         region: '',
         municipality: '',
@@ -177,6 +191,7 @@ const state = reactive({
     formattedSocialSecurityNumber: '',
     options: {
         cities: [],
+        departments: [],
         municipalities: [],
         regions: [],
     }
@@ -197,6 +212,7 @@ watch(() => props.selectedCitizen, (newValue: any) => {
             social_security_number: newValue.social_security_number,
             birthday: newValue.birthday,
             phone: newValue.phone,
+            department: newValue.department,
             street: newValue.street,
             region: newValue.region_id,
             municipality: newValue.municipality_id,
@@ -208,8 +224,27 @@ watch(() => props.selectedCitizen, (newValue: any) => {
 })
 
 onMounted(() => {
+    fetchDepartments()
     fetchRegions()
 })
+
+async function fetchDepartments() {
+    try {
+        const response = await departmentService.getAllDepartments()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.id,
+                    label: item.name,
+                })
+            )
+            state.options.departments = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 async function fetchRegions() {
     emit('isPageLoading', true)

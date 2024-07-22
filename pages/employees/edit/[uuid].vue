@@ -40,6 +40,7 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
+        department: '',
         role: '',
         permissions: [],
     },
@@ -62,6 +63,7 @@ async function fetchEmployee() {
                 email: response?.data?.email ?? '',
                 phone: response?.data?.phone ?? '',
                 birthday: response?.data?.birthday ?? '',
+                department: response?.data?.department_id ?? '',
                 role: response?.data?.roles?.[0]?.name ?? '',
                 permissions: response?.data?.permissions ?? [],
             }
@@ -82,6 +84,7 @@ async function updateEmployee(employeeDetails: any) {
             email: employeeDetails.email,
             phone: employeeDetails.phone,
             birthday: employeeDetails.birthday,
+            department_id: employeeDetails.department,
             role: employeeDetails.role,
             permission: employeeDetails.permissions,
         }

@@ -38,6 +38,7 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
+        department: '',
         role: '',
     },
     isPageLoading: false,
@@ -53,6 +54,7 @@ async function saveEmployee(employeeDetails: any) {
             email: employeeDetails.email,
             phone: employeeDetails.phone,
             birthday: employeeDetails.birthday,
+            department_id: employeeDetails.department,
             role: employeeDetails.role,
             permission: employeeDetails.permissions,
         }
