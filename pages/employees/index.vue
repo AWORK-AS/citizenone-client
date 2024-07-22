@@ -69,8 +69,10 @@
 
 <script setup lang="ts">
 import { employeeService } from '@/components/api/EmployeeService'
+import { useDepartmentStore } from '@/store/department'
 
 const runtimeConfig = useRuntimeConfig()
+const departmentStore = useDepartmentStore()
 let currentTablePage = 1
 
 const state = reactive({
@@ -96,6 +98,12 @@ const state = reactive({
     },
 })
 
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchEmployees()
+    }
+})
+
 onMounted(() => {
     fetchEmployees()
 })
@@ -105,6 +113,7 @@ async function fetchEmployees() {
     state.error = []
     try {
         const params = {
+            department: departmentStore.getSelectedDepartmentName,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,

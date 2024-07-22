@@ -72,8 +72,10 @@
 
 <script setup lang="ts">
 import { citizenService } from '@/components/api/CitizenService'
+import { useDepartmentStore } from '@/store/department'
 
 const runtimeConfig = useRuntimeConfig()
+const departmentStore = useDepartmentStore()
 let currentTablePage = 1
 
 const state = reactive({
@@ -106,11 +108,18 @@ onMounted(() => {
     fetchCitizens()
 })
 
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchCitizens()
+    }
+})
+
 async function fetchCitizens() {
     state.isTableLoading = true
     state.error = []
     try {
         const params = {
+            department: departmentStore.getSelectedDepartmentName,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,

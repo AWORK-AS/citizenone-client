@@ -4,18 +4,18 @@ export const useDepartmentStore = defineStore('departmentStore',
     {
         persist: true,
         state: () => ({
-            selectedDepartmentUuid: '',
+            selectedDepartmentName: '',
         }),
         actions: {
-            setSelectedDepartmentUuid(department) {
-                this.selectedDepartmentUuid = department
+            setSelectedDepartmentName(department) {
+                this.selectedDepartmentName = department
             },
-            resetSelectedDepartmentUuid() {
-                this.selectedDepartmentUuid = ''
+            resetSelectedDepartmentName() {
+                this.selectedDepartmentName = ''
             },
         },
         getters: {
-            getSelectedDepartmentUuid: (state) => state.selectedDepartmentUuid,
+            getSelectedDepartmentName: (state) => state.selectedDepartmentName,
         },
     },
 )
