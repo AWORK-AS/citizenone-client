@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="submitForm()" class="mt-6 max-w-xl">
         <Alert type="danger" :text="props?.error?.message"
-            v-if="props.error && props.error.length > 0 || props.error?.message" />
+            v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-1">
             <FormLabel for="name" :label="$t('departments.form.name')" />
             <FormTextField id="name" name="name" :placeholder="$t('departments.form.name')"
@@ -27,6 +27,7 @@
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
 
 const props = defineProps({
     error: {
@@ -47,7 +48,7 @@ const emit = defineEmits(['isPageLoading', 'submitForm'])
 const { t } = useI18n()
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     formDepartment: {
         name: '',
     },
@@ -74,6 +75,7 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function submitForm() {
+    state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
         emit('submitForm', state.formDepartment)

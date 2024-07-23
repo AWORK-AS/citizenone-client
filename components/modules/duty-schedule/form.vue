@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="submitForm()">
         <Alert type="danger" :text="props?.error?.message"
-            v-if="props.error && props.error.length > 0 || props.error?.message" />
+            v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
             <div class="space-y-1">
                 <FormLabel for="title" :label="$t('dutySchedules.form.title')" />
@@ -66,6 +66,7 @@ import { userService } from '@/components/api/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
 
 const props = defineProps({
     error: {
@@ -91,7 +92,7 @@ interface Option {
 }
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
     formSchedule: {
         id: '',
@@ -196,7 +197,7 @@ function formatDateToYYYYmmddHHmm(dateString: string, is_end_date_time: boolean 
 }
 
 async function fetchAllUsers() {
-    state.error = []
+    state.error = {}
     emit('isPageLoading', true)
     try {
         const response = await userService.getAllUsers()

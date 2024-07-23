@@ -17,6 +17,7 @@
 import { planService } from '@/components/api/PlanService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const { t } = useI18n()
 
@@ -31,7 +32,7 @@ const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const emit = defineEmits(['close', 'refreshPlans'])
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
     formPlan: {
         id: '',
@@ -52,6 +53,7 @@ function refreshPlans() {
 }
 
 async function savePlan(planDetails: any) {
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {

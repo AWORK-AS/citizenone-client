@@ -195,9 +195,7 @@ import moment from 'moment'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { goalService } from '@/components/api/GoalService'
-
-const router = useRouter()
-const citizenUuid = router?.currentRoute?.value?.params?.uuid
+import type { Error } from '@/types'
 
 const props = defineProps({
     isOpen: {
@@ -212,7 +210,7 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     goals: [],
     modal: {
         isAddGoalOpen: false,
@@ -266,6 +264,7 @@ watch(() => props.selectedPlan, (newValue: any) => {
 })
 
 async function fetchGoals() {
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {

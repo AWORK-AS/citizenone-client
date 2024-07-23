@@ -26,12 +26,13 @@
 import { protocolService } from '@/components/api/ProtocolService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     formProtocol: {
         name: '',
         start_date: '',
@@ -42,7 +43,7 @@ const state = reactive({
 })
 
 async function saveProtocol(protocolDetails: any) {
-    state.error = []
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {

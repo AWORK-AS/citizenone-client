@@ -13,7 +13,7 @@
             <LoadingSpinner :isActive="state.isPageLoading">
                 <form @submit.prevent="submitForm()" class="mt-6 max-w-3xl">
                     <Alert type="danger" :text="state?.error?.message"
-                        v-if="state.error && state.error.length > 0 || state.error?.message" />
+                        v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="grid grid-cols-1 md:grid-cols-8 gap-3">
                         <div class="md:col-span-2">
                             <div class="space-y-1">
@@ -103,16 +103,17 @@ import { userService } from "@/components/api/UserService"
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const language = useI18n()
 const { t } = useI18n()
-const image = ref(null)
+const image = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     formProfile: {
         image: '',
         firstname: '',
@@ -175,6 +176,7 @@ watch(() => userStore.getUser, (newValue: any) => {
 })
 
 async function fetchLanguages() {
+    state.error = {}
     state.isPageLoading = true
     try {
         const response = await languageService.getAllLanguages()
@@ -199,7 +201,7 @@ const v$ = useVuelidate(rules, state)
 async function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        state.error = []
+        state.error = {}
         state.isPageLoading = true
         try {
             let params = new FormData()
@@ -225,7 +227,9 @@ async function submitForm() {
 }
 
 function triggerFileInput() {
-    image.value.click()
+    if (image.value) {
+        image.value.click()
+    }
 }
 
 function onFileChange(event: any) {

@@ -27,6 +27,7 @@
 import { departmentService } from '@/components/api/DepartmentService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
@@ -34,7 +35,7 @@ const router = useRouter()
 const departmentUuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     formDepartment: {
         name: '',
     },
@@ -46,8 +47,8 @@ onMounted(() => {
 })
 
 async function fetchDepartment() {
+    state.error = {}
     state.isPageLoading = true
-    state.error = []
     try {
         const response = await departmentService.getDepartment(departmentUuid)
         if (response) {
@@ -62,7 +63,7 @@ async function fetchDepartment() {
 }
 
 async function updateDepartment(departmentDetails: any) {
-    state.error = []
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {

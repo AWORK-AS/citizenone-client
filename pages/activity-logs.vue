@@ -9,7 +9,8 @@
             <template #header>{{ $t('activityLogs.activityLogs') }}</template>
 
             <div class="space-y-5">
-                <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+                <Alert type="danger" :text="state?.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
                 <div class="table-responsive">
                     <Table :columnHeaders="filteredColumnHeaders" :data="state.logs" :isLoading="state.isTableLoading"
                         :sortData="state.sortData" @sort="sort">
@@ -41,6 +42,7 @@
 import moment from 'moment'
 import { activityLogService } from '@/components/api/ActivityLogService'
 import { useUserStore } from '@/store/user'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
@@ -55,7 +57,7 @@ const state = reactive({
         { name: 'activityLogs.table.ipAddress' },
     ],
     dataFilter: [],
-    error: [],
+    error: {} as Error,
     isTableLoading: false,
     logs: [],
     sortData: {
@@ -85,8 +87,8 @@ onMounted(() => {
 })
 
 async function fetchActivityLogs() {
+    state.error = {}
     state.isTableLoading = true
-    state.error = []
     try {
         if (isUserLoggedInAdmin) {
             const params = {

@@ -16,7 +16,8 @@
                     </FormButton>
                 </div>
                 <div class="space-y-5">
-                    <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                         @handleFilter="handleFilter" />
                     <div class="table-responsive">
@@ -70,6 +71,7 @@
 <script setup lang="ts">
 import { employeeService } from '@/components/api/EmployeeService'
 import { useDepartmentStore } from '@/store/department'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const departmentStore = useDepartmentStore()
@@ -90,7 +92,7 @@ const state = reactive({
     ],
     dataFilter: [],
     employees: [],
-    error: [],
+    error: {} as Error,
     isTableLoading: false,
     sortData: {
         sortField: 'id',
@@ -109,8 +111,8 @@ onMounted(() => {
 })
 
 async function fetchEmployees() {
+    state.error = {}
     state.isTableLoading = true
-    state.error = []
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,

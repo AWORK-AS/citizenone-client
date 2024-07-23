@@ -31,7 +31,8 @@
             </div>
 
             <div class="mt-5 space-y-5">
-                <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+                <Alert type="danger" :text="state?.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesDutyScheduleDefaultView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
                         @editDutySchedule="editDutySchedule" v-if="state.calendarView === 'default'" />

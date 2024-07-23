@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { userService } from '@/components/api/UserService'
 import { useUserStore } from '@/store/user'
+import type { Error } from '@/types'
 
 const userStore = useUserStore()
 
@@ -25,7 +26,7 @@ const minutes = ref<number>(0)
 let timer: number | null = null
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
 })
 
@@ -54,6 +55,7 @@ watch(() => userStore.getUser, (newValue: any) => {
 })
 
 async function toggleLogin() {
+    state.error = {}
     state.isPageLoading = true
     try {
         if (!userStore.getIsLoggedIn) {

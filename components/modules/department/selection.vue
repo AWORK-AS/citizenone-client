@@ -13,12 +13,13 @@
 <script setup lang="ts">
 import { departmentService } from '@/components/api/DepartmentService'
 import { useDepartmentStore } from '@/store/department'
+import type { Error } from '@/types'
 
 const departmentStore = useDepartmentStore()
 
 const state = reactive({
     departments: [],
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
 })
 
@@ -27,6 +28,7 @@ onMounted(() => {
 })
 
 async function fetchDepartments() {
+    state.error = {}
     try {
         const response = await departmentService.getAllDepartments()
         if (response) {

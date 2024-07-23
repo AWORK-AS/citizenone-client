@@ -1,5 +1,7 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
+        <Alert type="danger" :text="state?.error?.message"
+            v-if="state.error?.message && state.error.message.length > 0" />
         <div class="md:flex md:items-center md:justify-between md:space-x-5">
             <div class="flex items-start space-x-5">
                 <div class="flex-shrink-0">
@@ -31,14 +33,15 @@
 
 <script setup lang="ts">
 import { citizenService } from '@/components/api/CitizenService'
+import type { Error } from '@/types'
 
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
-    selectedCitizen: [],
+    selectedCitizen: [] as any,
 })
 
 onMounted(() => {
@@ -46,6 +49,7 @@ onMounted(() => {
 })
 
 async function fetchCitizen() {
+    state.error = {}
     state.isPageLoading = true
     try {
         const response = await citizenService.getCitizen(citizenUuid)

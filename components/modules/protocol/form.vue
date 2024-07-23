@@ -57,6 +57,7 @@ import { citizenService } from '@/components/api/CitizenService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
 
 const props = defineProps({
     error: {
@@ -78,7 +79,7 @@ const { t } = useI18n()
 
 const state = reactive({
     citizenOptions: [],
-    error: [],
+    error: {} as Error,
     formProtocol: {
         name: '',
         start_date: '',
@@ -152,7 +153,7 @@ function changeEndDate() {
 
 async function fetchAvaiableCitizens() {
     if (state.formProtocol.start_date && state.formProtocol.end_date) {
-        state.error = []
+        state.error = {}
         emit('isPageLoading', true)
         try {
             const params = {

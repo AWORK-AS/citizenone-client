@@ -17,6 +17,7 @@
 import { subgoalService } from '@/components/api/SubgoalService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const { t } = useI18n()
 
@@ -33,7 +34,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'refreshGoals'])
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
     formSubgoal: {
         id: '',
@@ -53,6 +54,7 @@ function refreshGoals() {
 }
 
 async function saveSubgoal(subgoalDetails: any) {
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {

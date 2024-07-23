@@ -9,6 +9,8 @@
             <template #header>{{ $t('apps.apps') }}</template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
+                <Alert type="danger" :text="state?.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
                 <div v-if="state.apps?.data">
                     <div class="ltablet:grid-cols-3 grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-3">
                         <div v-for="(app, index) in state.apps?.data" :key="index" class="p-6 border rounded-md">
@@ -55,13 +57,14 @@
 
 <script setup lang="ts">
 import { appService } from '@/components/api/AppService'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 let currentTablePage = 1
 
 const state = reactive({
     apps: [],
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
     modal: {
         showAppDetails: false,
@@ -74,8 +77,8 @@ onMounted(() => {
 })
 
 async function fetchApps() {
+    state.error = {}
     state.isPageLoading = true
-    state.error = []
     try {
         const params = {
             page: currentTablePage,

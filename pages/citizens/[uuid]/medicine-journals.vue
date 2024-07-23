@@ -25,7 +25,8 @@
                 </div>
 
                 <div class="space-y-5">
-                    <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                         @handleFilter="handleFilter" />
                     <div class="table-responsive">
@@ -65,7 +66,7 @@
                 <ModulesCitizenMedicineModalNew :isModalOpen="state.modal.isAddMedicineOpen"
                     @close="state.modal.isAddMedicineOpen = false" @refreshMedicines="fetchCitizenMedicines" />
                 <ModulesCitizenMedicineModalEdit :isModalOpen="state.modal.isEditMedicineOpen"
-                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isEditMedicineOpen = false"
+                    :selectedMedicine="state.selectedMedicine" @close="closeEditMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deleteConfirmation') + '?'"
@@ -80,6 +81,7 @@ import moment from 'moment'
 import { medicineJournalService } from '@/components/api/MedicineJournalService';
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
@@ -98,7 +100,7 @@ const state = reactive({
         { name: '' },
     ],
     dataFilter: [],
-    error: [],
+    error: {} as Error,
     isTableLoading: false,
     medicines: [],
     modal: {
@@ -118,6 +120,7 @@ onMounted(() => {
 })
 
 async function fetchCitizenMedicines() {
+    state.error = {}
     state.isTableLoading = true
     try {
         const params = {
@@ -178,6 +181,7 @@ function confirmMedicineDeletion(journal: any) {
 }
 
 async function deleteMedicne() {
+    state.error = {}
     state.isTableLoading = true
     try {
         const response = await medicineJournalService.deleteMedicine(state.selectedMedicine.uuid)

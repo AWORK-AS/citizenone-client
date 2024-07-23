@@ -32,7 +32,8 @@
                 </div>
 
                 <div class="space-y-5">
-                    <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                         @handleFilter="handleFilter" />
                     <div class="table-responsive">
@@ -124,6 +125,7 @@ import moment from 'moment'
 import { documentService } from '@/components/api/DocumentService';
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
@@ -144,7 +146,7 @@ const state = reactive({
         { name: '' },
     ],
     dataFilter: [],
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
     documents: [],
@@ -175,6 +177,7 @@ const handleRouteChange = () => {
 }
 
 async function fetchDocuments(folderUuid: any = null) {
+    state.error = {}
     state.isTableLoading = true
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
@@ -235,6 +238,7 @@ function triggerFileInput() {
 }
 
 async function uploadFile(event: any) {
+    state.error = {}
     state.isPageLoading = true
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
@@ -284,6 +288,7 @@ function deleteFileConfirmation(document: any) {
 }
 
 async function deleteDocument() {
+    state.error = {}
     state.isTableLoading = true
     try {
         const response = await documentService.deleteDocument(state.selectedDirectory.uuid)

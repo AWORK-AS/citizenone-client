@@ -9,7 +9,8 @@
             <template #header>{{ $t('timeLogs.timeLogs') }}</template>
 
             <div class="space-y-5">
-                <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+                <Alert type="danger" :text="state?.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
                 <div class="table-responsive">
                     <Table :columnHeaders="state.columnHeaders" :data="state.logs" :isLoading="state.isTableLoading"
                         :sortData="state.sortData" @sort="sort">
@@ -40,6 +41,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { timeLogService } from '@/components/api/TimeLogService'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 let currentTablePage = 1
@@ -51,7 +53,7 @@ const state = reactive({
         { name: 'timeLogs.table.timeout' },
         { name: 'timeLogs.table.summary' },
     ],
-    error: [],
+    error: {} as Error,
     isTableLoading: false,
     logs: [],
     sortData: {
@@ -65,8 +67,8 @@ onMounted(() => {
 })
 
 async function fetchActivityLogs() {
+    state.error = {}
     state.isTableLoading = true
-    state.error = []
     try {
         const params = {
             page: currentTablePage,

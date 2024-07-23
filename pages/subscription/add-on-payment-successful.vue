@@ -36,13 +36,14 @@
 
 <script setup lang="ts">
 import { addOnDealsService } from '@/components/api/AddOnDealsService'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const paymentId = router?.currentRoute?.value?.query?.paymentId
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
 })
 
@@ -51,8 +52,8 @@ onMounted(() => {
 })
 
 async function fetchDeals() {
+    state.error = {}
     state.isPageLoading = true
-    state.error = []
     try {
         await addOnDealsService.validatePayment(paymentId)
     } catch (error: any) {

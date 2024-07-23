@@ -10,7 +10,7 @@
 
             <div class="space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
-                    v-if="state.error && state.error.length > 0 || state.error?.message" />
+                    v-if="state.error?.message && state.error.message.length > 0" />
 
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
@@ -99,7 +99,7 @@
             <ModulesCitizenJournalModalNew :isModalOpen="state.modal.isAddJournalOpen"
                 @close="state.modal.isAddJournalOpen = false" @refreshJournal="fetchJournals" />
             <ModulesCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
-                :selectedJournal="state.selectedJournal" @close="state.modal.isEditJournalOpen = false"
+                :selectedJournal="state.selectedJournal" @close="closeEditJournalModal"
                 @refreshJournal="fetchJournals" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalOpen"
                 :message="$t('citizens.citizenJournals.confirmation.deleteConfirmation') + '?'"
@@ -113,6 +113,7 @@ import moment from 'moment'
 import { journalService } from '@/components/api/JournalService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
@@ -122,7 +123,7 @@ let currentTablePage = 1
 
 const state = reactive({
     dataFilter: [],
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
     journals: [],
     modal: {
@@ -142,6 +143,7 @@ onMounted(() => {
 })
 
 async function fetchJournals() {
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {
@@ -226,6 +228,7 @@ function closeEditJournalModal() {
 }
 
 async function addRemoveJournalToFavorite(journalUuid: any) {
+    state.error = {}
     state.isPageLoading = true
     try {
         const response = await journalService.updateJournalFavorite(journalUuid)
@@ -240,6 +243,7 @@ async function addRemoveJournalToFavorite(journalUuid: any) {
 }
 
 async function lockUnlockJournal(journalUuid: any) {
+    state.error = {}
     state.isPageLoading = true
     try {
         const response = await journalService.updateJournalLock(journalUuid)
@@ -259,6 +263,7 @@ function confirmJournalDeletion(journal: any) {
 }
 
 async function deleteJournal() {
+    state.error = {}
     state.isPageLoading = true
     try {
         const response = await journalService.deleteJournal(state.selectedJournal.uuid)

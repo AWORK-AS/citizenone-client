@@ -16,7 +16,8 @@
                     </FormButton>
                 </div>
                 <div class="space-y-5">
-                    <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                         @handleFilter="handleFilter" />
                     <div class="table-responsive">
@@ -73,6 +74,7 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/CitizenService'
 import { useDepartmentStore } from '@/store/department'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const departmentStore = useDepartmentStore()
@@ -91,7 +93,7 @@ const state = reactive({
         { name: '' },
     ],
     dataFilter: [],
-    error: [],
+    error: {} as Error,
     isTableLoading: false,
     citizens: [],
     modal: {
@@ -115,8 +117,8 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 })
 
 async function fetchCitizens() {
+    state.error = {}
     state.isTableLoading = true
-    state.error = []
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,

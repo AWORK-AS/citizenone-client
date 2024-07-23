@@ -31,9 +31,10 @@
 
 <script setup lang="ts">
 import { storageService } from '@/components/api/StorageService'
+import type { Error } from '@/types'
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
     usage: []
 })
@@ -51,6 +52,7 @@ onMounted(() => {
 })
 
 async function fetchCitizenFileFolderCurrentUsage() {
+    state.error = {}
     state.isPageLoading = true
     try {
         const response = await storageService.getCitizenFileFolderCurrentUsage()

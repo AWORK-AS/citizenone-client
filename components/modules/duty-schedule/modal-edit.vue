@@ -26,6 +26,7 @@
 import { dutyScheduleService } from '@/components/api/DutyScheduleService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const { t } = useI18n()
 
@@ -42,7 +43,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'refreshSchedules'])
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
     modal: {
         isDeleteDutyScheduleOpen: false
@@ -50,7 +51,7 @@ const state = reactive({
 })
 
 watch(() => props.isModalOpen, () => {
-    state.error = []
+    state.error = {}
 })
 
 function closeModal() {
@@ -62,8 +63,8 @@ function refreshSchedules() {
 }
 
 async function updateSchedule(scheduleDetails: any) {
+    state.error = {}
     state.isPageLoading = true
-    state.error = []
     try {
         const scheduleUuid = scheduleDetails.uuid
         const params = {
@@ -87,11 +88,11 @@ async function updateSchedule(scheduleDetails: any) {
 }
 
 async function deleteSchedule() {
+    state.error = {}
     state.isPageLoading = true
-    state.error = []
     try {
         const scheduleUuid = props.selectedSchedule.uuid
-        const response = await dutyScheduleService.deleteDutySchedule(scheduleUuid)
+        const response = await dutyScheduleService.deleteDutySchedule(scheduleUuid + 123)
         if (response?.message === 'Success.') {
             refreshSchedules()
             closeModal()

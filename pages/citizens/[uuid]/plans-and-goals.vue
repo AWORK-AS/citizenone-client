@@ -10,7 +10,7 @@
 
             <div class="space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
-                    v-if="state.error && state.error.length > 0 || state.error?.message" />
+                    v-if="state.error?.message && state.error.message.length > 0" />
 
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
@@ -87,7 +87,7 @@
             <ModulesCitizenPlanModalNew :isModalOpen="state.modal.isAddPlanOpen"
                 @close="state.modal.isAddPlanOpen = false" @refreshPlans="fetchPlans" />
             <ModulesCitizenPlanModalEdit :isModalOpen="state.modal.isEditPlanOpen" :selectedPlan="state.selectedPlan"
-                @close="state.modal.isEditPlanOpen = false" @refreshPlans="fetchPlans" />
+                @close="closeEditPlanModal" @refreshPlans="fetchPlans" />
             <DialogConfirmation :isModalOpen="state.modal.isDeletePlanOpen"
                 :message="`${$t('plansandgoals.confirmation.deleteConfirmation')}?`"
                 @close="state.modal.isDeletePlanOpen = false" @confirm="deletePlan" />
@@ -102,6 +102,7 @@ import moment from 'moment'
 import { planService } from '@/components/api/PlanService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
@@ -111,7 +112,7 @@ let currentTablePage = 1
 
 const state = reactive({
     dataFilter: [],
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
     modal: {
         isAddPlanOpen: false,
@@ -134,6 +135,7 @@ onMounted(() => {
 })
 
 async function fetchPlans() {
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {
@@ -194,6 +196,7 @@ function confirmPlanDeletion(journal: any) {
 }
 
 async function deletePlan() {
+    state.error = {}
     state.isPageLoading = true
     try {
         const response = await planService.deletePlan(state.selectedPlan.uuid)

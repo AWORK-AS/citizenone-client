@@ -17,6 +17,7 @@
 import { documentService } from '@/components/api/DocumentService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const props = defineProps({
     isModalOpen: {
@@ -31,7 +32,7 @@ const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const emit = defineEmits(['close', 'refreshDocuments'])
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
     formDirectory: {
         id: '',
@@ -51,6 +52,7 @@ function refreshDocuments() {
 }
 
 async function saveDirectory(directoryDetails: any) {
+    state.error = {}
     state.isPageLoading = true
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid

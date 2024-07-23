@@ -49,13 +49,14 @@
 
 <script setup lang="ts">
 import { userSubscriptionService } from '@/components/api/UserSubscriptionService'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const paymentId = router?.currentRoute?.value?.query?.paymentId
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
 })
 
@@ -64,8 +65,8 @@ onMounted(() => {
 })
 
 async function validateSubscription() {
+    state.error = {}
     state.isPageLoading = true
-    state.error = []
     try {
         await userSubscriptionService.validateSubscription(paymentId)
     } catch (error: any) {

@@ -16,7 +16,8 @@
                     </FormButton>
                 </div>
                 <div class="space-y-5">
-                    <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="grid grid-cols-1 md:grid-cols-11 gap-3">
                         <div class="space-y-1 col-span-1 md:col-span-3">
                             <FormLabel for="start_date" :label="$t('protocols.form.startDate')" />
@@ -86,6 +87,7 @@
 import moment from 'moment'
 import { citizenService } from '@/components/api/CitizenService'
 import { protocolService } from '@/components/api/ProtocolService'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 let currentTablePage = 1
@@ -102,7 +104,7 @@ const state = reactive({
         { name: '' },
     ],
     dataFilter: [],
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
     protocols: [],
@@ -123,8 +125,8 @@ onMounted(() => {
 })
 
 async function fetchProtocols() {
+    state.error = {}
     state.isTableLoading = true
-    state.error = []
     try {
         const params = {
             page: currentTablePage,
@@ -148,8 +150,8 @@ async function fetchProtocols() {
 }
 
 async function fetchAllCitizens() {
+    state.error = {}
     state.isPageLoading = true
-    state.error = []
     try {
         const response = await citizenService.getAllCitizens()
         if (response.data) {

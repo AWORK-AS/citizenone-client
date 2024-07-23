@@ -27,12 +27,13 @@
 import { departmentService } from '@/components/api/DepartmentService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     formDepartment: {
         name: '',
     },
@@ -40,7 +41,7 @@ const state = reactive({
 })
 
 async function saveDepartment(departmentDetails: any) {
-    state.error = []
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {

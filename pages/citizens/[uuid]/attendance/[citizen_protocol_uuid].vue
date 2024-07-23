@@ -18,7 +18,8 @@
                 <ModulesCitizenDetailsHeader />
                 <ModulesCitizenJournalTabs />
 
-                <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+                <Alert type="danger" :text="state?.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
                 <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                     @handleFilter="handleFilter" />
                 <div class="table-responsive">
@@ -60,6 +61,7 @@
 import moment from 'moment'
 import { citizenProtocolService } from '@/components/api/CitizenProtocolService'
 import { protocolService } from '@/components/api/ProtocolService'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
@@ -77,7 +79,7 @@ const state = reactive({
         { name: 'protocols.table.citizens.status', sorter: true, key: 'status' },
     ],
     dataFilter: [],
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
     modal: {
@@ -98,8 +100,8 @@ onMounted(() => {
 })
 
 async function fetchProtocol() {
+    state.error = {}
     state.isPageLoading = true
-    state.error = []
     try {
         const response = await protocolService.getProtocol(citizenProtocolUuid)
         if (response) {
@@ -112,8 +114,8 @@ async function fetchProtocol() {
 }
 
 async function fetchCitizenProtocols() {
+    state.error = {}
     state.isTableLoading = true
-    state.error = []
     try {
         const params = {
             protocol_uuid: citizenProtocolUuid,
@@ -162,8 +164,8 @@ function formatDateToReadable(datetime: string) {
 }
 
 async function markAsAbsent(citizenProtocolUuid: string) {
+    state.error = {}
     state.isTableLoading = true
-    state.error = []
     try {
         const params = {
             status: 'absent',
@@ -179,8 +181,8 @@ async function markAsAbsent(citizenProtocolUuid: string) {
 }
 
 async function markAsPresent(citizenProtocolUuid: string) {
+    state.error = {}
     state.isTableLoading = true
-    state.error = []
     try {
         const params = {
             status: 'attended',
@@ -201,8 +203,8 @@ function confirmRemoving(citizenProtocol: any) {
 }
 
 async function removeCitizen() {
+    state.error = {}
     state.isTableLoading = true
-    state.error = []
     try {
         const citizenProtocolUuid = state.selectedCitizenProtocol?.uuid
         const response = await citizenProtocolService.deleteCitizenProtocol(citizenProtocolUuid)

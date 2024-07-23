@@ -26,6 +26,7 @@
 import { protocolService } from '@/components/api/ProtocolService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
@@ -33,7 +34,7 @@ const router = useRouter()
 const uuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     formProtocol: {
         name: '',
         start_date: '',
@@ -47,8 +48,8 @@ onMounted(() => {
 })
 
 async function fetchProtocol() {
+    state.error = {}
     state.isPageLoading = true
-    state.error = []
     try {
         const response = await protocolService.getProtocol(uuid)
         if (response) {
@@ -65,7 +66,7 @@ async function fetchProtocol() {
 }
 
 async function updateProtocol(protocolDetails: any) {
-    state.error = []
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {

@@ -27,7 +27,7 @@
                             <div
                                 class="flex grow flex-col gap-y-5 overflow-y-auto bg-primary px-6 pb-4 ring-1 ring-white/10">
                                 <div class="mt-5">
-                                    <span @click="navigateTo('/citizens')">
+                                    <span @click="navigateTo('/daily-overview')">
                                         <LogoWhite />
                                     </span>
                                 </div>
@@ -110,7 +110,7 @@
         <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
             <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-primary border-r border-gray-200 px-6 pb-4">
                 <div class="mt-5">
-                    <span @click="navigateTo('/citizens')">
+                    <span @click="navigateTo('/daily-overview')">
                         <LogoWhite />
                     </span>
                 </div>
@@ -328,6 +328,7 @@ import { authService } from '@/components/api/AuthService'
 import { userService } from '@/components/api/UserService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
 
 const userStore = useUserStore()
 const language = useI18n()
@@ -426,7 +427,7 @@ const navigation = [
 const sidebarOpen = ref(false)
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
     slideOver: {
         isLanguageSwitcherOpen: false,
@@ -439,6 +440,7 @@ onMounted(() => {
 })
 
 async function fetchUser() {
+    state.error = {}
     try {
         const response = await userService.getUser()
         if (response?.data) {
@@ -452,6 +454,7 @@ async function fetchUser() {
 }
 
 async function logout() {
+    state.error = {}
     state.isPageLoading = true
     try {
         const response = await authService.logout()

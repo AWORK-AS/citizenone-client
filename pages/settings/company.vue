@@ -13,7 +13,7 @@
             <LoadingSpinner :isActive="state.isPageLoading">
                 <form @submit.prevent="submitForm()" class="mt-6 max-w-3xl">
                     <Alert type="danger" :text="state?.error?.message"
-                        v-if="state.error && state.error.length > 0 || state.error?.message" />
+                        v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="grid grid-cols-1 gap-3">
                         <div class="space-y-1">
                             <FormLabel for="name" :label="$t('settings.company.form.companyName')" />
@@ -100,13 +100,14 @@ import { cityService } from '@/components/api/CityService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const { t } = useI18n()
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     formCompany: {
         name: '',
         cvr: '',
@@ -175,6 +176,7 @@ watch(() => userStore.getUser, (newValue: any) => {
 })
 
 async function fetchRegions() {
+    state.error = {}
     state.isPageLoading = true
     try {
         const response = await regionService.getAllRegions()
@@ -195,6 +197,7 @@ async function fetchRegions() {
 }
 
 async function fetchMunicipalities(regionId: any) {
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {
@@ -218,6 +221,7 @@ async function fetchMunicipalities(regionId: any) {
 }
 
 async function fetchCities(municipalityId: any) {
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {
@@ -259,7 +263,7 @@ function validateCVR(event: Event) {
 async function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        state.error = []
+        state.error = {}
         state.isPageLoading = true
         try {
             const params = {

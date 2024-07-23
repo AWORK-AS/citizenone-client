@@ -18,6 +18,7 @@
 import { medicineJournalService } from '@/components/api/MedicineJournalService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const { t } = useI18n()
 
@@ -32,7 +33,7 @@ const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const emit = defineEmits(['close', 'refreshMedicines'])
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
     formMedicine: {
         id: '',
@@ -52,6 +53,7 @@ function refreshMedicines() {
 }
 
 async function saveMedicine(medicineDetails: any) {
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {

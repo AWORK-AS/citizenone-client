@@ -16,7 +16,8 @@
                     </FormButton>
                 </div>
                 <div class="space-y-5">
-                    <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                         @handleFilter="handleFilter" />
                     <div class="table-responsive">
@@ -49,6 +50,7 @@
 
 <script setup lang="ts">
 import { departmentService } from '@/components/api/DepartmentService'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 let currentTablePage = 1
@@ -63,7 +65,7 @@ const state = reactive({
     ],
     dataFilter: [],
     departments: [],
-    error: [],
+    error: {} as Error,
     isTableLoading: false,
     sortData: {
         sortField: 'id',
@@ -76,8 +78,8 @@ onMounted(() => {
 })
 
 async function fetchDepartments() {
+    state.error = {}
     state.isTableLoading = true
-    state.error = []
     try {
         const params = {
             page: currentTablePage,

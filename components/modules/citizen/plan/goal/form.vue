@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="submitForm()">
         <Alert type="danger" :text="props?.error?.message"
-            v-if="props.error && props.error.length > 0 || props.error?.message" />
+            v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
             <div class="grid grid-cols-2 gap-x-3">
                 <div class="space-y-1">

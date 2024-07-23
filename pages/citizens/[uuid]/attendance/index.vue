@@ -18,7 +18,8 @@
                 <ModulesCitizenJournalTabs />
 
                 <div class="space-y-5">
-                    <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                         @handleFilter="handleFilter" />
                     <div class="table-responsive">
@@ -58,6 +59,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { protocolService } from '@/components/api/ProtocolService'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
@@ -75,7 +77,7 @@ const state = reactive({
         { name: '' },
     ],
     dataFilter: [],
-    error: [],
+    error: {} as Error,
     isTableLoading: false,
     protocols: [],
     sortData: {
@@ -89,8 +91,8 @@ onMounted(() => {
 })
 
 async function fetchProtocols() {
+    state.error = {}
     state.isTableLoading = true
-    state.error = []
     try {
         const params = {
             page: currentTablePage,

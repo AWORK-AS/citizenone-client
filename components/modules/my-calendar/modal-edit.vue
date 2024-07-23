@@ -17,6 +17,7 @@
 import { myCalendarService } from '@/components/api/MyCalendarService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const { t } = useI18n()
 
@@ -33,7 +34,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'refreshSchedules'])
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     isPageLoading: false,
 })
 
@@ -46,6 +47,7 @@ function refreshSchedules() {
 }
 
 async function updateSchedule(scheduleDetails: any) {
+    state.error = {}
     state.isPageLoading = true
     try {
         const scheduleUuid = scheduleDetails.uuid

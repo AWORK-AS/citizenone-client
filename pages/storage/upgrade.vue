@@ -13,7 +13,8 @@
                     <div class="max-w-3xl">
                         <div class="space-y-5">
                             <Alert type="danger" :text="error" v-if="error && error.length > 0" />
-                            <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+                            <Alert type="danger" :text="state?.error?.message"
+                                v-if="state.error?.message && state.error.message.length > 0" />
                         </div>
                     </div>
                     <div id="upgrade-checkout"></div>
@@ -106,13 +107,14 @@
 import { addOnDealsService } from '@/components/api/AddOnDealsService'
 import { userSubscriptionService } from '@/components/api/UserSubscriptionService'
 import { storageService } from '@/components/api/StorageService'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 let error = router?.currentRoute?.value?.query?.error
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     isDealsHidden: false,
     isPageLoading: false,
     modal: {
@@ -136,8 +138,8 @@ const usedStoragePercentage = computed(() => {
 })
 
 async function fetchStorageDeals() {
+    state.error = {}
     state.isPageLoading = true
-    state.error = []
     try {
         const response = await addOnDealsService.getStorageAddOnDeals()
         if (response) {
@@ -150,6 +152,7 @@ async function fetchStorageDeals() {
 }
 
 async function fetchCitizenFileFolderCurrentUsage() {
+    state.error = {}
     state.isPageLoading = true
     try {
         const response = await storageService.getCitizenFileFolderCurrentUsage()
@@ -179,8 +182,8 @@ function formatAmount(amount: any) {
 }
 
 async function upgrade(deal: any) {
+    state.error = {}
     state.isPageLoading = true
-    state.error = []
     error = ''
     try {
         const params = {
