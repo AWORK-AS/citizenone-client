@@ -18,11 +18,10 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
-import type { CitizenResponse } from '@/types'
 
 const state = reactive({
     isPageLoading: false,
-    citizens: {} as CitizenResponse,
+    citizens: [],
     error: null,
 })
 

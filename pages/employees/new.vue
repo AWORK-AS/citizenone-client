@@ -26,12 +26,13 @@
 import { employeeService } from '@/components/api/EmployeeService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     formEmployee: {
         firstname: '',
         lastname: '',
@@ -45,7 +46,7 @@ const state = reactive({
 })
 
 async function saveEmployee(employeeDetails: any) {
-    state.error = []
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {

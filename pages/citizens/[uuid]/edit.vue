@@ -27,7 +27,7 @@
 import { citizenService } from '@/components/api/CitizenService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
-import type { Error } from '@/types'
+import type { CitizenForm, CitizenResponse, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
@@ -51,7 +51,7 @@ const state = reactive({
         city_id: '',
         post_code: '',
         diagnosis: '',
-    },
+    } as CitizenForm,
     isPageLoading: false,
 })
 
@@ -63,7 +63,7 @@ async function fetchCitizen() {
     state.isPageLoading = true
     state.error = {}
     try {
-        const response = await citizenService.getCitizen(citizenUuid)
+        const response = await citizenService.getCitizen(citizenUuid) as CitizenResponse
         if (response) {
             state.formCitizen = {
                 image: response?.data?.image ?? '',

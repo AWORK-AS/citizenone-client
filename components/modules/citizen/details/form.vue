@@ -154,7 +154,7 @@ import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const { t } = useI18n()
-const image = ref(null)
+const image = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
 
 const props = defineProps({
@@ -378,7 +378,9 @@ function submitForm() {
 }
 
 function triggerFileInput() {
-    image.value.click()
+    if (image.value) {
+        image.value.click()
+    }
 }
 
 function onFileChange(event: any) {

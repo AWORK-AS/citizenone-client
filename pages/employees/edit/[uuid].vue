@@ -26,6 +26,7 @@
 import { employeeService } from '@/components/api/EmployeeService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { EmployeeForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
@@ -33,7 +34,7 @@ const router = useRouter()
 const uuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     formEmployee: {
         firstname: '',
         lastname: '',
@@ -43,7 +44,7 @@ const state = reactive({
         departments: [],
         role: '',
         permissions: [],
-    },
+    } as EmployeeForm,
     isPageLoading: false,
 })
 
@@ -53,7 +54,7 @@ onMounted(() => {
 
 async function fetchEmployee() {
     state.isPageLoading = true
-    state.error = []
+    state.error = {}
     try {
         const response = await employeeService.getEmployee(uuid)
         if (response) {
@@ -78,7 +79,7 @@ async function fetchEmployee() {
 }
 
 async function updateEmployee(employeeDetails: any) {
-    state.error = []
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {

@@ -107,7 +107,7 @@ import { departmentService } from '@/components/api/DepartmentService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
-import type { Error } from '@/types'
+import type { EmployeeForm, Error } from '@/types'
 
 const props = defineProps({
     error: {
@@ -138,7 +138,7 @@ const state = reactive({
         departments: [],
         role: '',
         permissions: [],
-    },
+    } as EmployeeForm,
     permissions: {
         read: false,
         create: false,
