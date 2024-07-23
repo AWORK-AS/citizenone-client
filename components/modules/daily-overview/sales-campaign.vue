@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { salesCampaignService } from '@/components/api/SalesCampaignService'
+import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { Error } from '@/types'
 
 const state = reactive({
@@ -72,7 +72,7 @@ async function fetchSalesCampaign() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await salesCampaignService.getSalesCampaigns()
+        const response = await dailyOverviewService.getSalesCampaigns()
         if (response) {
             state.salesCampaigns = response
         }

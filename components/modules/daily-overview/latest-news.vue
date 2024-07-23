@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { newsService } from '@/components/api/NewsService'
+import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { Error } from '@/types'
 
 const state = reactive({
@@ -72,7 +72,7 @@ async function fetchNews() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await newsService.getNews()
+        const response = await dailyOverviewService.getNews()
         if (response) {
             state.news = response
         }
