@@ -7,9 +7,9 @@
         <Carousel v-bind="state.carouselSettings">
             <Slide v-for="(salesCampaign, index) in state.salesCampaigns?.data" :key="index">
                 <div class="w-full p-2 space-y-2">
-                    <div class="shadow-md p-4 rounded-md">
-                        <div class="flex justify-center">
-                            <img :src="salesCampaign?.image" alt="Image failed to load" class="max-h-60">
+                    <div class="shadow-md p-6 rounded-md">
+                        <div class="bg-no-repeat w-full h-60 bg-cover"
+                            :style="`background-image: url(${salesCampaign?.image});`">
                         </div>
                         <h3 class="font-semibold text-lg py-2">{{ salesCampaign?.title }}</h3>
                         <p class="text-sm text-gray-400 line-clamp-3">
@@ -18,11 +18,6 @@
                     </div>
                 </div>
             </Slide>
-
-            <template #addons>
-                <Navigation />
-                <Pagination />
-            </template>
         </Carousel>
     </LoadingSpinner>
 </template>
@@ -33,7 +28,7 @@ import type { Error } from '@/types'
 
 const state = reactive({
     carouselSettings: {
-        // autoplay: 1000,
+        autoplay: 2000,
         breakpoints: {
             // 280px and up
             280: {
