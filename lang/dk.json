@@ -339,6 +339,7 @@
     },
     "navbar": {
         "activityLogs": "Aktivitetslogfiler",
+        "newWishes": "Nye ønsker",
         "logout": "Log ud",
         "subscription": "Abonnement",
         "settings": "Indstillinger",
@@ -603,5 +604,16 @@
     "update": "Opdater",
     "validation": {
         "thisFieldIsRequired": "Dette felt er påkrævet"
+    },
+    "wish": {
+        "alert": {
+            "messageSuccessfullySent": "Besked sendt"
+        },
+        "form": {
+            "describeTheFeature": "Beskriv den funktion, du ønsker at se",
+            "pleaseDescribeTheFeature": "Beskriv venligst den funktion, du gerne vil have. Inkluder eventuelle specifikke detaljer eller krav, du har i tankerne",
+            "pleaseWriteHere": "Skriv venligst her",
+            "sendMessage": "Send besked"
+        }
     }
 }

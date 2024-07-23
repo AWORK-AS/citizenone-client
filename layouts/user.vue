@@ -270,6 +270,15 @@
                                     </div>
                                     </MenuItem>
                                     <MenuItem>
+                                    <div @click="state.modal.isContactUsOpen = true"
+                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                        <div class="flex items-center gap-x-3">
+                                            <Icon name="ph:shooting-star" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.newWishes') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
                                     <div @click="logout()"
                                         class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
                                         <div class="flex items-center gap-x-3">
@@ -307,6 +316,8 @@
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
+        <ModulesWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
+            @close="state.modal.isContactUsOpen = false" />
     </LoadingSpinner>
 </template>
 
@@ -429,6 +440,9 @@ const sidebarOpen = ref(false)
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
+    modal: {
+        isContactUsOpen: false
+    },
     slideOver: {
         isLanguageSwitcherOpen: false,
         isSupportOpen: false

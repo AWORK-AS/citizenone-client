@@ -339,6 +339,7 @@
     },
     "navbar": {
         "activityLogs": "Activity Logs",
+        "newWishes": "New wishes",
         "logout": "Log out",
         "subscription": "Subscription",
         "settings": "Settings",
@@ -603,5 +604,16 @@
     "update": "Update",
     "validation": {
         "thisFieldIsRequired": "This field is required"
+    },
+    "wish": {
+        "alert": {
+            "messageSuccessfullySent": "Message successfully sent"
+        },
+        "form": {
+            "describeTheFeature": "Describe the feature you wish to see",
+            "pleaseDescribeTheFeature": "Please describe the feature you would like to have. Include any specific details or requirements you have in mind",
+            "pleaseWriteHere": "Please write here",
+            "sendMessage": "Send message"
+        }
     }
 }
