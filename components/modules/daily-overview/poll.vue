@@ -13,7 +13,12 @@
                         <span>{{ formatDateToReadable(poll?.created_at) }}</span>
                     </p>
                 </div>
-                <Icon name="ph:thumbs-up" class="h-5 w-5 cursor-pointer" aria-hidden="true" @click="addVote(poll)" />
+                <div class="flex items-center">
+                    <Icon name="carbon:thumbs-up-filled" class="h-5 w-5 bg-tertiary cursor-pointer" aria-hidden="true"
+                        @click="deleteVote(index, poll)" v-if="poll?.user_voted" />
+                    <Icon name="carbon:thumbs-up" class="h-5 w-5 cursor-pointer" aria-hidden="true"
+                        @click="addVote(index, poll)" v-else />
+                </div>
             </div>
         </div>
     </LoadingSpinner>
@@ -48,7 +53,7 @@ async function fetchPolls() {
     state.isPageLoading = false
 }
 
-async function addVote(poll: any) {
+async function addVote(index: number, poll: any) {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -57,7 +62,7 @@ async function addVote(poll: any) {
         }
         const response = await dailyOverviewService.saveVote(params)
         if (response) {
-            state.polls = response
+            state.polls.data[index].user_voted = true
         }
     } catch (error: any) {
         state.error = error
@@ -65,14 +70,14 @@ async function addVote(poll: any) {
     state.isPageLoading = false
 }
 
-async function deleteVote(poll: any) {
+async function deleteVote(index: number, poll: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const pollUuid = poll?.uuid
         const response = await dailyOverviewService.deleteVote(pollUuid)
         if (response) {
-            state.polls = response
+            state.polls.data[index].user_voted = false
         }
     } catch (error: any) {
         state.error = error
