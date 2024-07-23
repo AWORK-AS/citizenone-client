@@ -2,7 +2,9 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="block md:hidden">
             <select v-if="state.departments?.data?.length > 0" class="focus:outline-none" @change="selectDepartment">
-                <option value="">All Department</option>
+                <option value="">
+                    {{ $t('department.allDepartment') }}
+                </option>
                 <option v-for="(department, index) in state.departments?.data" :key="index" :value="department.name"
                     :selected="department?.name === departmentStore.getSelectedDepartmentName">
                     {{ department?.name }}
@@ -14,8 +16,8 @@
                 <div>
                     <MenuButton
                         class="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md bg-white px-3 py-1.5 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                        Department:
-                        {{ departmentStore.getSelectedDepartmentName === '' ? 'All' :
+                        {{ $t('department.department') }}:
+                        {{ departmentStore.getSelectedDepartmentName === '' ? $t('department.all') :
                             departmentStore.getSelectedDepartmentName }}
                         <Icon name="heroicons:chevron-down" class="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                     </MenuButton>

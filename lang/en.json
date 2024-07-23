@@ -221,6 +221,11 @@
         "poll": "Poll",
         "salesCampaign": "Sales campaign"
     },
+    "department": {
+        "all": "All",
+        "allDepartment": "All department",
+        "department": "Department"
+    },
     "departments": {
         "departments": "Departments",
         "editDepartment": "Edit department",
@@ -328,6 +333,9 @@
             "createdAt": "Created at",
             "description": "Description"
         }
+    },
+    "messages": {
+        "messages": "Messages"
     },
     "navbar": {
         "activityLogs": "Activity Logs",

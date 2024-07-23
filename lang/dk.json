@@ -221,6 +221,11 @@
         "poll": "Afstemning",
         "salesCampaign": "Salgskampagne"
     },
+    "department": {
+        "all": "Alle",
+        "allDepartment": "Alle afdelinger",
+        "department": "Afdeling"
+    },
     "departments": {
         "departments": "Afdelinger",
         "editDepartment": "Rediger afdeling",
@@ -328,6 +333,9 @@
             "createdAt": "Oprettet den",
             "description": "Beskrivelse"
         }
+    },
+    "messages": {
+        "messages": "Beskeder"
     },
     "navbar": {
         "activityLogs": "Aktivitetslogfiler",
