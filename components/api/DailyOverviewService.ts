@@ -16,6 +16,14 @@ class DailyOverviewService extends BaseAPIService {
     async getPolls(): Promise<any> {
         return await this.request(`/user/polls`, 'GET')
     }
+
+    async saveVote(params: object): Promise<any> {
+        return await this.request(`/user/poll-votes`, 'POST', params)
+    }
+
+    async deleteVote(pollUuid: string): Promise<any> {
+        return await this.request(`/user/poll-votes/${pollUuid}`, 'DELETE')
+    }
 }
 
 export const dailyOverviewService = new DailyOverviewService()
