@@ -292,7 +292,7 @@
 import { dealService } from '@/components/api/DealService'
 import { userSubscriptionService } from '@/components/api/UserSubscriptionService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
-import type { Error } from '@/src/types'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()

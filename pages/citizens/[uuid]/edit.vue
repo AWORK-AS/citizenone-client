@@ -27,6 +27,7 @@
 import { citizenService } from '@/components/api/CitizenService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
@@ -34,7 +35,7 @@ const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     formCitizen: {
         image: '',
         firstname: '',
@@ -43,7 +44,7 @@ const state = reactive({
         social_security_number: '',
         birthday: '',
         phone: '',
-        department: [],
+        departments: [],
         street: '',
         region_id: '',
         municipality_id: '',
@@ -60,7 +61,7 @@ onMounted(() => {
 
 async function fetchCitizen() {
     state.isPageLoading = true
-    state.error = []
+    state.error = {}
     try {
         const response = await citizenService.getCitizen(citizenUuid)
         if (response) {
@@ -72,7 +73,7 @@ async function fetchCitizen() {
                 social_security_number: response?.data?.social_security_number ?? '',
                 birthday: response?.data?.birthday ?? '',
                 phone: response?.data?.phone ?? '',
-                department: response?.data?.department_id ?? '',
+                departments: [],
                 street: response?.data?.address?.street ?? '',
                 region_id: response?.data?.address?.region_id.toString() ?? '',
                 municipality_id: response?.data?.address?.municipality_id.toString() ?? '',
@@ -80,6 +81,9 @@ async function fetchCitizen() {
                 post_code: response?.data?.address?.post_code ?? '',
                 diagnosis: response?.data?.diagnosis ?? '',
             }
+            response?.data?.departments.forEach((department: any) => {
+                state.formCitizen.departments.push(department?.id)
+            })
         }
     } catch (error: any) {
         state.error = error
@@ -88,7 +92,7 @@ async function fetchCitizen() {
 }
 
 async function updateCitizen(citizenDetails: any) {
-    state.error = []
+    state.error = {}
     state.isPageLoading = true
     try {
         let params = new FormData()
@@ -99,7 +103,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('social_security_number', citizenDetails.social_security_number)
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
-        params.append('department_id', citizenDetails.department)
+        params.append('department_id', citizenDetails.departments)
         params.append('street', citizenDetails.street)
         params.append('region_id', citizenDetails.region)
         params.append('municipality_id', citizenDetails.municipality)

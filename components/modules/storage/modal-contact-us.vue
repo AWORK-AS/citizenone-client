@@ -40,7 +40,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
-import type { Error } from '@/src/types'
+import type { Error } from '@/types'
 
 const props = defineProps({
     isModalOpen: {

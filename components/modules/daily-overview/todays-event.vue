@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { myCalendarService } from '@/components/api/MyCalendarService'
-import type { CalendarEventResponse } from '@/src/types'
+import type { CalendarEventResponse } from '@/types'
 
 const state = reactive({
     isPageLoading: false,

@@ -27,12 +27,13 @@
 import { citizenService } from '@/components/api/CitizenService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     formCitizen: {
         image: '',
         firstname: '',
@@ -41,7 +42,7 @@ const state = reactive({
         social_security_number: '',
         birthday: '',
         phone: '',
-        department: [],
+        departments: [],
         street: '',
         region_id: '',
         municipality_id: '',
@@ -53,7 +54,7 @@ const state = reactive({
 })
 
 async function saveCitizen(citizenDetails: any) {
-    state.error = []
+    state.error = {}
     state.isPageLoading = true
     try {
         let params = new FormData()

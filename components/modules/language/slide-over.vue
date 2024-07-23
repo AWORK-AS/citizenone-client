@@ -82,7 +82,7 @@ import { languageService } from '@/components/api/LanguageService'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
-import type { Error } from '@/src/types'
+import type { Error } from '@/types'
 
 const userStore = useUserStore()
 const language = useI18n()

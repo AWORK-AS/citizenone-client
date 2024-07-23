@@ -84,7 +84,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
-import type { Error } from '@/src/types'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()

@@ -86,7 +86,7 @@
 <script setup lang="ts">
 import { addOnDealsService } from '@/components/api/AddOnDealsService'
 import { cartService } from '@/components/api/CartService'
-import type { Error } from '@/src/types'
+import type { Error } from '/types'
 
 const runtimeConfig = useRuntimeConfig()
 

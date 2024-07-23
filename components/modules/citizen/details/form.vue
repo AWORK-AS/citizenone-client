@@ -1,7 +1,9 @@
 <template>
     <form @submit.prevent="submitForm()" class="mt-6 max-w-3xl">
         <Alert type="danger" :text="props?.error?.message"
-            v-if="props.error && props.error.length > 0 || props.error?.message" />
+            v-if="props.error?.message && props.error.message.length > 0" />
+        <Alert type="danger" :text="state?.error?.message"
+            v-if="state.error?.message && state.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
             <div class="space-y-1">
                 <div class="flex flex-col items-center">
@@ -69,15 +71,15 @@
                 </div>
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
-                        <FormLabel for="department" :label="$t('citizens.form.department')" />
+                        <FormLabel for="departments" :label="$t('citizens.form.department')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                             @click="navigateTo('/departments/new')">
                             Add New Department
                         </span>
                     </div>
-                    <FormSelectMultiple id="department" :options="state.options.departments"
-                        v-model="state.formCitizen.department" />
-                    <FormError :error="v$?.formCitizen?.department?.$errors[0]?.$message.toString()" />
+                    <FormSelectMultiple id="departments" :options="state.options.departments"
+                        v-model="state.formCitizen.departments" />
+                    <FormError :error="v$?.formCitizen?.departments?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.department_id?.[0]" />
                 </div>
             </div>
@@ -149,6 +151,7 @@ import { regionService } from '@/components/api/RegionService'
 import { municipalityService } from '@/components/api/MunicipalityService'
 import { cityService } from '@/components/api/CityService'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
 
 const { t } = useI18n()
 const image = ref(null)
@@ -171,7 +174,7 @@ const props = defineProps({
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     formCitizen: {
         image: '',
         firstname: '',
@@ -180,7 +183,7 @@ const state = reactive({
         social_security_number: '',
         birthday: '',
         phone: '',
-        department: [],
+        departments: [],
         street: '',
         region: '',
         municipality: '',
@@ -212,7 +215,7 @@ watch(() => props.selectedCitizen, (newValue: any) => {
             social_security_number: newValue.social_security_number,
             birthday: newValue.birthday,
             phone: newValue.phone,
-            department: newValue.department,
+            departments: newValue.departments,
             street: newValue.street,
             region: newValue.region_id,
             municipality: newValue.municipality_id,
@@ -229,6 +232,8 @@ onMounted(() => {
 })
 
 async function fetchDepartments() {
+    state.error = {}
+    emit('isPageLoading', true)
     try {
         const response = await departmentService.getAllDepartments()
         if (response) {
@@ -247,6 +252,7 @@ async function fetchDepartments() {
 }
 
 async function fetchRegions() {
+    state.error = {}
     emit('isPageLoading', true)
     try {
         const response = await regionService.getAllRegions()
@@ -267,6 +273,7 @@ async function fetchRegions() {
 }
 
 async function fetchMunicipalities(regionId: any) {
+    state.error = {}
     emit('isPageLoading', true)
     try {
         const params = {
@@ -290,6 +297,7 @@ async function fetchMunicipalities(regionId: any) {
 }
 
 async function fetchCities(municipalityId: any) {
+    state.error = {}
     emit('isPageLoading', true)
     try {
         const params = {
@@ -373,7 +381,7 @@ function triggerFileInput() {
     image.value.click()
 }
 
-function onFileChange() {
+function onFileChange(event: any) {
     const file = event.target.files[0]
     state.formCitizen.image = event.target.files[0]
     if (file) {
