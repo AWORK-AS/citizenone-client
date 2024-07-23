@@ -61,7 +61,7 @@ const state = reactive({
     },
     isPageLoading: false,
     error: {} as Error,
-    salesCampaigns: [],
+    salesCampaigns: [] as any,
 })
 
 onMounted(() => {

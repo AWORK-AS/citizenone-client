@@ -24,7 +24,7 @@ import type { Error } from '@/types'
 
 const state = reactive({
     isPageLoading: false,
-    citizens: [],
+    citizens: [] as any,
     error: {} as Error,
 })
 
