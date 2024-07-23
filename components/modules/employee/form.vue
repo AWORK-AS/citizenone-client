@@ -1,7 +1,9 @@
 <template>
     <form @submit.prevent="submitForm()" class="mt-6 max-w-3xl">
         <Alert type="danger" :text="props?.error?.message"
-            v-if="props.error && props.error.length > 0 || props.error?.message" />
+            v-if="props.error?.message && props.error.message.length > 0" />
+        <Alert type="danger" :text="state?.error?.message"
+            v-if="state.error?.message && state.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
@@ -51,9 +53,9 @@
                             Add New Department
                         </span>
                     </div>
-                    <FormSelectMultiple id="department" :options="state.options.departments"
-                        v-model="state.formEmployee.department" />
-                    <FormError :error="v$?.formEmployee?.department?.$errors[0]?.$message.toString()" />
+                    <FormSelectMultiple id="departments" :options="state.options.departments"
+                        v-model="state.formEmployee.departments" />
+                    <FormError :error="v$?.formEmployee?.departments?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.department_id?.[0]" />
                 </div>
                 <div class="space-y-1">
@@ -105,6 +107,7 @@ import { departmentService } from '@/components/api/DepartmentService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
 
 const props = defineProps({
     error: {
@@ -125,14 +128,14 @@ const emit = defineEmits(['isPageLoading', 'submitForm'])
 const { t } = useI18n()
 
 const state = reactive({
-    error: [],
+    error: {} as Error,
     formEmployee: {
         firstname: '',
         lastname: '',
         email: '',
         phone: '',
         birthday: '',
-        department: [],
+        departments: [],
         role: '',
         permissions: [],
     },
@@ -159,7 +162,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             email: newValue.email,
             phone: newValue.phone,
             birthday: newValue.birthday,
-            department: newValue.department,
+            departments: newValue.departments,
             role: newValue.role,
             permissions: [],
         }
@@ -213,6 +216,8 @@ onMounted(() => {
 })
 
 async function fetchDepartments() {
+    emit('isPageLoading', true)
+    state.error = {}
     try {
         const response = await departmentService.getAllDepartments()
         if (response) {

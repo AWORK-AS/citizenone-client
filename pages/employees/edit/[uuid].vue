@@ -40,7 +40,7 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
-        department: [],
+        departments: [],
         role: '',
         permissions: [],
     },
@@ -63,10 +63,13 @@ async function fetchEmployee() {
                 email: response?.data?.email ?? '',
                 phone: response?.data?.phone ?? '',
                 birthday: response?.data?.birthday ?? '',
-                department: response?.data?.department_id ?? '',
+                departments: [],
                 role: response?.data?.roles?.[0]?.name ?? '',
                 permissions: response?.data?.permissions ?? [],
             }
+            response?.data?.departments.forEach((department: any) => {
+                state.formEmployee.departments.push(department?.id)
+            })
         }
     } catch (error: any) {
         state.error = error
@@ -84,7 +87,7 @@ async function updateEmployee(employeeDetails: any) {
             email: employeeDetails.email,
             phone: employeeDetails.phone,
             birthday: employeeDetails.birthday,
-            department_id: employeeDetails.department,
+            department_id: employeeDetails.departments,
             role: employeeDetails.role,
             permission: employeeDetails.permissions,
         }
