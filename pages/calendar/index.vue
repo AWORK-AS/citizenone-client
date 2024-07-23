@@ -55,6 +55,7 @@
 
 <script setup lang="ts">
 import { myCalendarService } from '@/components/api/MyCalendarService'
+import type { Error } from '@/types'
 
 interface CalendarEvent {
     id: string
@@ -66,10 +67,6 @@ interface CalendarEvent {
     is_private: boolean
 }
 
-interface ErrorState {
-    message?: string
-}
-
 interface ModalState {
     isAddEventOpen: boolean
     isEditEventOpen: boolean
@@ -78,7 +75,7 @@ interface ModalState {
 interface State {
     calendarView: string
     myCalendarEvents: any[],
-    error: ErrorState | null
+    error: Error
     isPageLoading: boolean
     modal: ModalState
     selectedDate: object
@@ -92,7 +89,7 @@ const runtimeConfig = useRuntimeConfig()
 const state = reactive<State>({
     calendarView: 'default',
     myCalendarEvents: [],
-    error: null,
+    error: {},
     isPageLoading: false,
     modal: {
         isAddEventOpen: false,
@@ -120,6 +117,7 @@ onMounted(() => {
 })
 
 async function fetchMyCalendarEvents() {
+    state.error = {}
     state.isPageLoading = true
     try {
         const params: any = {}

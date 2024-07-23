@@ -1,5 +1,7 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
+        <Alert type="danger" :text="state?.error?.message"
+            v-if="state.error?.message && state.error.message.length > 0" />
         <h3 class="text-sm font-medium pr-6">{{ $t('dailyOverview.latestJournal') }}</h3>
         <div class="mt-4 text-sm space-y-2 divide-y overflow-scroll min-h-44 max-h-96 pr-6">
             <div v-for="(citizen, index) in state.citizens?.data" :key="index" class="p-4">
@@ -18,11 +20,12 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
+import type { Error } from '@/types'
 
 const state = reactive({
     isPageLoading: false,
     citizens: [],
-    error: null,
+    error: {} as Error,
 })
 
 onMounted(() => {
@@ -30,6 +33,7 @@ onMounted(() => {
 })
 
 async function fetchCitizens() {
+    state.error = {}
     state.isPageLoading = true
     try {
         const params = {

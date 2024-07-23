@@ -93,6 +93,9 @@ importers:
       vue-flatpickr-component:
         specifier: ^11.0.5
         version: 11.0.5(vue@3.4.31)
+      vue3-carousel-nuxt:
+        specifier: ^1.1.2
+        version: 1.1.2(magicast@0.3.4)(rollup@4.18.0)(vue@3.4.31)
 
 packages:
 
@@ -3893,6 +3896,14 @@ packages:
 
   vue-router@4.4.0:
     resolution: {integrity: sha512-HB+t2p611aIZraV2aPSRNXf0Z/oLZFrlygJm+sZbdJaW6lcFqEDQwnzUBXn+DApw+/QzDU/I9TeWx9izEjTmsA==}
+    peerDependencies:
+      vue: ^3.2.0
+
+  vue3-carousel-nuxt@1.1.2:
+    resolution: {integrity: sha512-Q8X0J1XMK9yITAVLfZ2OAjAdeHpXAyng3qlsDSMiBi44pKH4zapSJpy9Id9LCC/9pfiQu+WYVPeieAsUGwZt7g==}
+
+  vue3-carousel@0.3.3:
+    resolution: {integrity: sha512-VsuOBE4LG9lxAiYGR9U7ps4RyJ4oFQGzk79/49ybvoxzNpahPAVWIDHKK3a1lOv0CSplFq6u4FvaFLZ8x3FgWg==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -8313,6 +8324,20 @@ snapshots:
   vue-router@4.4.0(vue@3.4.31):
     dependencies:
       '@vue/devtools-api': 6.6.3
+      vue: 3.4.31
+
+  vue3-carousel-nuxt@1.1.2(magicast@0.3.4)(rollup@4.18.0)(vue@3.4.31):
+    dependencies:
+      '@nuxt/kit': 3.12.3(magicast@0.3.4)(rollup@4.18.0)
+      vue3-carousel: 0.3.3(vue@3.4.31)
+    transitivePeerDependencies:
+      - magicast
+      - rollup
+      - supports-color
+      - vue
+
+  vue3-carousel@0.3.3(vue@3.4.31):
+    dependencies:
       vue: 3.4.31
 
   vue@3.4.31:

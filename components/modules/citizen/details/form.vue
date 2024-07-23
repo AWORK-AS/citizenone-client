@@ -249,6 +249,7 @@ async function fetchDepartments() {
     } catch (error: any) {
         state.error = error
     }
+    emit('isPageLoading', false)
 }
 
 async function fetchRegions() {

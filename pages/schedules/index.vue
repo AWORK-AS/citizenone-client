@@ -55,6 +55,7 @@
 
 <script setup lang="ts">
 import { dutyScheduleService } from '@/components/api/DutyScheduleService'
+import type { Error } from '@/types'
 
 interface CalendarEvent {
     id: string
@@ -79,7 +80,7 @@ interface ModalState {
 interface State {
     calendarView: string
     dutySchedules: any[],
-    error: ErrorState | null
+    error: Error
     isPageLoading: boolean
     modal: ModalState
     selectedDate: object
@@ -93,7 +94,7 @@ const runtimeConfig = useRuntimeConfig()
 const state = reactive<State>({
     calendarView: 'default',
     dutySchedules: [],
-    error: null,
+    error: {},
     isPageLoading: false,
     modal: {
         isAddEventOpen: false,
@@ -122,6 +123,7 @@ onMounted(() => {
 })
 
 async function fetchDutySchedules() {
+    state.error = {}
     state.isPageLoading = true
     try {
         const params: any = {}
