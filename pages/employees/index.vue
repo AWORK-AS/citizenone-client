@@ -51,7 +51,8 @@
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('employees.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="navigateTo(`/messages/${employee.uuid}`)">
                                                 <Icon name="ph:chat-circle" class="size-4" />
                                                 {{ $t('employees.table.actions.message') }}
                                             </FormButton>

@@ -28,9 +28,14 @@
 <script setup lang="ts">
 import moment from 'moment'
 import pusher from '@/services/pusher'
+import { messageService } from '@/components/api/MessageService'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const userStore = useUserStore()
+const router = useRouter()
+const receiverUuid = router?.currentRoute?.value?.params?.receiver_uuid
 
 const state = reactive({
     error: {} as Error,
@@ -40,7 +45,8 @@ const state = reactive({
 })
 
 onMounted(() => {
-    const channel = pusher.subscribe('citizenone')
+    console.log('userStore.getUser.id', userStore.getUser.id)
+    const channel = pusher.subscribe('citizenone.' + userStore.getUser.id)
     channel.bind('chat-message', (data: any) => {
         state.messages.push(data)
         console.log('state.messages', state.messages)
@@ -48,10 +54,24 @@ onMounted(() => {
     })
 })
 
-const sendMessage = () => {
+async function sendMessage() {
     if (state.message !== '') {
         state.messages.push(state.message)
         // You would also send this message to your backend here
+        state.isPageLoading = true
+        try {
+            const params = {
+                message: state.message,
+                receiver_uuid: receiverUuid
+            }
+            const response = await messageService.sendMessage(params)
+            if (response) {
+                console.log('response', response)
+            }
+        } catch (error: any) {
+            state.error = error
+        }
+        state.isPageLoading = false
         state.message = ''
     }
 }
