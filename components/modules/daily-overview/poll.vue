@@ -4,20 +4,32 @@
             v-if="state.error?.message && state.error.message.length > 0" />
         <h3 class="text-sm font-medium pr-6">{{ $t('dailyOverview.poll') }}</h3>
         <div class="mt-4 text-sm space-y-2 divide-y overflow-scroll min-h-44 max-h-96 pr-6">
-            <div v-for="(poll, index) in state.polls?.data" :key="index" class="p-2 flex justify-between items-center">
+            <div v-for="(poll, pollIndex) in state.polls?.data" :key="pollIndex" class="py-2">
                 <div>
-                    <h3 class="text-md font-semibold">
-                        {{ poll?.feature }}
+                    <h3 class="font-semibold">
+                        {{ poll?.title }}
                     </h3>
-                    <p class="text-xs text-muted-400">
-                        <span>{{ formatDateToReadable(poll?.created_at) }}</span>
-                    </p>
-                </div>
-                <div class="flex items-center">
-                    <Icon name="carbon:thumbs-up-filled" class="h-5 w-5 bg-tertiary cursor-pointer" aria-hidden="true"
-                        @click="deleteVote(index, poll)" v-if="poll?.user_voted" />
-                    <Icon name="carbon:thumbs-up" class="h-5 w-5 cursor-pointer" aria-hidden="true"
-                        @click="addVote(index, poll)" v-else />
+                    <div class="space-y-2 divide-y divide-dashed px-2">
+                        <div class="pt-2" v-for="(item, itemIndex) in poll.items" :key="itemIndex">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-md">
+                                        {{ item?.title }}
+                                    </h3>
+                                    <p class="text-xxs text-muted-400">
+                                        <span>{{ formatDateToReadable(item?.created_at) }}</span>
+                                    </p>
+                                </div>
+                                <div class="flex items-center">
+                                    <Icon name="carbon:thumbs-up-filled" class="h-5 w-5 bg-tertiary cursor-pointer"
+                                        aria-hidden="true" @click="deleteVote(pollIndex, itemIndex, item)"
+                                        v-if="item?.user_voted" />
+                                    <Icon name="carbon:thumbs-up" class="h-5 w-5 cursor-pointer" aria-hidden="true"
+                                        @click="addVote(pollIndex, itemIndex, item)" v-else />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -53,16 +65,16 @@ async function fetchPolls() {
     state.isPageLoading = false
 }
 
-async function addVote(index: number, poll: any) {
+async function addVote(pollIndex: number, itemIndex: number, pollItem: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            poll_uuid: poll?.uuid
+            pollitem_uuid: pollItem?.uuid
         }
         const response = await dailyOverviewService.saveVote(params)
         if (response) {
-            state.polls.data[index].user_voted = true
+            state.polls.data[pollIndex].items[itemIndex].user_voted = true
         }
     } catch (error: any) {
         state.error = error
@@ -70,14 +82,14 @@ async function addVote(index: number, poll: any) {
     state.isPageLoading = false
 }
 
-async function deleteVote(index: number, poll: any) {
+async function deleteVote(pollIndex: number, itemIndex: number, pollItem: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const pollUuid = poll?.uuid
-        const response = await dailyOverviewService.deleteVote(pollUuid)
+        const pollItemUuid = pollItem?.uuid
+        const response = await dailyOverviewService.deleteVote(pollItemUuid)
         if (response) {
-            state.polls.data[index].user_voted = false
+            state.polls.data[pollIndex].items[itemIndex].user_voted = false
         }
     } catch (error: any) {
         state.error = error

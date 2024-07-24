@@ -21,8 +21,8 @@ class DailyOverviewService extends BaseAPIService {
         return await this.request(`/user/poll-votes`, 'POST', params)
     }
 
-    async deleteVote(pollUuid: string): Promise<any> {
-        return await this.request(`/user/poll-votes/${pollUuid}`, 'DELETE')
+    async deleteVote(pollItemUuid: string): Promise<any> {
+        return await this.request(`/user/poll-votes/${pollItemUuid}`, 'DELETE')
     }
 }
 
