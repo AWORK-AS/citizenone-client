@@ -1,6 +1,7 @@
 import Pusher from 'pusher-js'
 
-const pusher = new Pusher('3a64571ebf28710480fe', {
+const pusherAppKey = '8257a5564e11f06c087c'
+const pusher = new Pusher(pusherAppKey, {
     cluster: 'eu'
 })
 
