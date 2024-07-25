@@ -32,7 +32,8 @@
                         </div>
                         <div class="md:col-span-9">
                             <!-- Chat Messages -->
-                            <div class="p-4 overflow-y-auto" style="height: 73vh;" ref="scrollableDiv">
+                            <div class="p-4 overflow-y-auto" style="height: 73vh;" ref="scrollableChatHistory"
+                                @scroll="handleScroll">
                                 <div v-for="(message, index) in state.messages" :key="index">
                                     <!-- Message (Right) -->
                                     <div class="flex items-start justify-end mb-4"
@@ -102,7 +103,7 @@ const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const router = useRouter()
 const receiverUuid = router?.currentRoute?.value?.params?.receiver_uuid
-const scrollableDiv = ref(null)
+const scrollableChatHistory = ref<HTMLElement | null>(null)
 
 const state = reactive({
     chattedUsers: [],
@@ -181,7 +182,15 @@ function formatTimeToReadable(datetime: string) {
 
 function scrollToBottom() {
     nextTick(() => {
-        scrollableDiv.value.scrollTop = scrollableDiv.value.scrollHeight
+        scrollableChatHistory.value.scrollTop = scrollableChatHistory.value.scrollHeight
     })
+}
+
+function handleScroll() {
+    if (scrollableChatHistory.value) {
+        if (scrollableChatHistory.value.scrollTop === 0) {
+            console.log('Scrolled to top')
+        }
+    }
 }
 </script>
