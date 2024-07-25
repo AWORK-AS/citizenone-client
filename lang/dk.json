@@ -336,6 +336,7 @@
     },
     "messages": {
         "allMessagesAreLoaded": "Alle beskeder er indlæst",
+        "loadingMessages": "Indlæser beskeder",
         "messages": "Beskeder"
     },
     "navbar": {

@@ -37,6 +37,14 @@
                                 <div v-if="state.isLastPage" class="text-center text-gray-500 text-sm">
                                     {{ $t('messages.allMessagesAreLoaded') }}
                                 </div>
+                                <div class="text-center text-gray-500 text-sm" v-if="state.isChatLoading">
+                                    {{ $t('messages.loadingMessages') }}
+                                    <span class="dot1">.</span>
+                                    <span class="dot2">.</span>
+                                    <span class="dot3">.</span>
+                                    <span class="dot4">.</span>
+                                    <span class="dot5">.</span>
+                                </div>
                                 <div v-for="(message, index) in state.messages" :key="index">
                                     <!-- Message (Right) -->
                                     <div class="flex items-start justify-end mb-4"
@@ -79,10 +87,10 @@
                                     <input
                                         class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                         type="text" placeholder="Type a message..." v-model="state.message"
-                                        @keydown.enter="sendMessage">
+                                        @keydown.enter="!state.isPageLoading && sendMessage()">
                                     <button type="button"
                                         class="px-4 py-3 bg-primary text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:ring-opacity-50"
-                                        @click="sendMessage">
+                                        @click="sendMessage" :disabled="state.isPageLoading">
                                         Send
                                     </button>
                                 </div>
@@ -114,6 +122,7 @@ const state = reactive({
     chattedUsers: [] as ChattedUser[],
     error: {} as Error,
     isLastPage: false,
+    isChatLoading: false,
     isPageLoading: false,
     message: '',
     messages: [] as any
@@ -145,7 +154,7 @@ async function fetchChattedUsers() {
 
 async function fetchChatHistory() {
     state.error = {}
-    // state.isPageLoading = true
+    state.isChatLoading = true
     try {
         const params = {
             user_uuid: receiverUuid,
@@ -153,7 +162,6 @@ async function fetchChatHistory() {
         }
         const response = await messageService.fetchChatHistory(params)
         if (response.data) {
-            // console.log('response', response?.data?.reverse())
             response?.data?.forEach((chat: any) => {
                 state.messages.unshift(chat)
             })
@@ -167,7 +175,7 @@ async function fetchChatHistory() {
     } catch (error: any) {
         state.error = { message: error.message }
     }
-    state.isPageLoading = false
+    state.isChatLoading = false
 }
 
 async function sendMessage() {
@@ -230,3 +238,47 @@ function handleScroll() {
     }
 }
 </script>
+
+<style>
+@keyframes blink {
+    0% {
+        opacity: 0;
+    }
+
+    33% {
+        opacity: 1;
+    }
+
+    66% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.dot1 {
+    animation: blink 1.4s infinite both;
+}
+
+.dot2 {
+    animation: blink 1.4s infinite both;
+    animation-delay: 0.2s;
+}
+
+.dot3 {
+    animation: blink 1.4s infinite both;
+    animation-delay: 0.4s;
+}
+
+.dot4 {
+    animation: blink 1.4s infinite both;
+    animation-delay: 0.6s;
+}
+
+.dot5 {
+    animation: blink 1.4s infinite both;
+    animation-delay: 0.8s;
+}
+</style>
