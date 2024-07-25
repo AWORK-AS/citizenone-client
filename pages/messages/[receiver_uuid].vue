@@ -34,6 +34,9 @@
                             <!-- Chat Messages -->
                             <div class="p-4 overflow-y-auto" style="height: 73vh;" ref="scrollableChatHistory"
                                 @scroll="handleScroll">
+                                <div v-if="state.isLastPage" class="text-center text-gray-500 text-sm">
+                                    {{ $t('messages.allMessagesAreLoaded') }}
+                                </div>
                                 <div v-for="(message, index) in state.messages" :key="index">
                                     <!-- Message (Right) -->
                                     <div class="flex items-start justify-end mb-4"
@@ -105,12 +108,12 @@ const router = useRouter()
 const receiverUuid = router?.currentRoute?.value?.params?.receiver_uuid
 const scrollableChatHistory = ref<HTMLElement | null>(null)
 let currentPage = 1
-let isLastPage = false
 let scrollHeight = 0
 
 const state = reactive({
     chattedUsers: [] as ChattedUser[],
     error: {} as Error,
+    isLastPage: false,
     isPageLoading: false,
     message: '',
     messages: [] as any
@@ -158,7 +161,7 @@ async function fetchChatHistory() {
                 scrollToBottom()
             }
             if (response.links.next === null) {
-                isLastPage = true
+                state.isLastPage = true
             }
         }
     } catch (error: any) {
@@ -203,7 +206,7 @@ function scrollToBottom() {
 
 function handleScroll() {
     if (scrollableChatHistory.value) {
-        if (scrollableChatHistory.value.scrollTop === 0 && !isLastPage) {
+        if (scrollableChatHistory.value.scrollTop === 0 && !state.isLastPage) {
             // Store the current scroll height
             const previousScrollHeight = scrollableChatHistory.value.scrollHeight
 

@@ -335,6 +335,7 @@
         }
     },
     "messages": {
+        "allMessagesAreLoaded": "All messages are loaded",
         "messages": "Messages"
     },
     "navbar": {
