@@ -97,16 +97,19 @@ import moment from 'moment'
 import pusher from '@/services/pusher'
 import { messageService } from '@/components/api/MessageService'
 import { useUserStore } from '@/store/user'
-import type { Error } from '@/types'
+import type { ChattedUser, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const userStore = useUserStore()
+const userStore = useUserStore() as any
 const router = useRouter()
 const receiverUuid = router?.currentRoute?.value?.params?.receiver_uuid
 const scrollableChatHistory = ref<HTMLElement | null>(null)
+let currentPage = 1
+let isLastPage = false
+let scrollHeight = 0
 
 const state = reactive({
-    chattedUsers: [],
+    chattedUsers: [] as ChattedUser[],
     error: {} as Error,
     isPageLoading: false,
     message: '',
@@ -120,6 +123,7 @@ onMounted(() => {
     })
     fetchChattedUsers()
     fetchChatHistory()
+    scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
 })
 
 async function fetchChattedUsers() {
@@ -138,15 +142,24 @@ async function fetchChattedUsers() {
 
 async function fetchChatHistory() {
     state.error = {}
-    state.isPageLoading = true
+    // state.isPageLoading = true
     try {
         const params = {
-            user_uuid: receiverUuid
+            user_uuid: receiverUuid,
+            page: currentPage
         }
         const response = await messageService.fetchChatHistory(params)
-        if (response) {
-            state.messages = response?.data
-            scrollToBottom()
+        if (response.data) {
+            // console.log('response', response?.data?.reverse())
+            response?.data?.forEach((chat: any) => {
+                state.messages.unshift(chat)
+            })
+            if (currentPage === 1) {
+                scrollToBottom()
+            }
+            if (response.links.next === null) {
+                isLastPage = true
+            }
         }
     } catch (error: any) {
         state.error = { message: error.message }
@@ -182,14 +195,34 @@ function formatTimeToReadable(datetime: string) {
 
 function scrollToBottom() {
     nextTick(() => {
-        scrollableChatHistory.value.scrollTop = scrollableChatHistory.value.scrollHeight
+        if (scrollableChatHistory.value) {
+            scrollableChatHistory.value.scrollTop = scrollableChatHistory.value.scrollHeight
+        }
     })
 }
 
 function handleScroll() {
     if (scrollableChatHistory.value) {
-        if (scrollableChatHistory.value.scrollTop === 0) {
-            console.log('Scrolled to top')
+        if (scrollableChatHistory.value.scrollTop === 0 && !isLastPage) {
+            // Store the current scroll height
+            const previousScrollHeight = scrollableChatHistory.value.scrollHeight
+
+            // Store the position of the current scroll position relative to the scroll container
+            const currentScrollTop = scrollableChatHistory.value.scrollTop
+
+            // Increment the page number and fetch the chat history
+            currentPage++
+            fetchChatHistory().then(() => {
+                if (scrollableChatHistory.value) {
+                    // Calculate the new scroll position to maintain the current view
+                    const newScrollHeight = scrollableChatHistory.value.scrollHeight
+                    const scrollDifference = newScrollHeight - previousScrollHeight
+
+                    // Set the scrollTop to the calculated position
+
+                    scrollableChatHistory.value.scrollTop = scrollDifference + currentScrollTop
+                }
+            })
         }
     }
 }

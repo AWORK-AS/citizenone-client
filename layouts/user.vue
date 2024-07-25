@@ -341,7 +341,7 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
-const userStore = useUserStore()
+const userStore = useUserStore() as any
 const language = useI18n()
 
 const navigation = [
