@@ -153,7 +153,7 @@ async function resetPassword() {
         }
         try {
             await authService.resetPassword(params)
-            successAlert(`${t('alert.success')}!`, `${t('alert.setupPassword.passwordUpdatedSucessfully')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('alert.setupPassword.passwordSetupSucessfully')}.`)
             navigateTo('/')
         } catch (error) {
             const err = error as Error
