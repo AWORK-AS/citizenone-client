@@ -294,7 +294,7 @@
                 </div>
             </div>
 
-            <main class="min-h-screen py-10">
+            <main class="py-10">
                 <div class="px-4 sm:px-6 lg:px-8">
                     <div>
                         <h1 class="text-2xl text-gray-900">
