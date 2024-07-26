@@ -110,6 +110,7 @@ import { storageService } from '@/components/api/StorageService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+let checkout = null as any
 const router = useRouter()
 let error = router?.currentRoute?.value?.query?.error
 
@@ -127,6 +128,13 @@ const state = reactive({
 onMounted(() => {
     fetchStorageDeals()
     fetchCitizenFileFolderCurrentUsage()
+})
+
+onUnmounted(() => {
+    // Cleanup checkout instance when component is unmounted
+    if (checkout) {
+        checkout.cleanup()
+    }
 })
 
 const usedStoragePercentage = computed(() => {
@@ -201,7 +209,7 @@ async function upgrade(deal: any) {
                     buttonRadius: "5px"
                 }
             }
-            const checkout = new Dibs.Checkout(checkoutOptions)
+            checkout = new Dibs.Checkout(checkoutOptions)
             checkout.on('payment-completed', function (response: any) {
                 checkout.cleanup()
                 const paymentId = response['paymentId']

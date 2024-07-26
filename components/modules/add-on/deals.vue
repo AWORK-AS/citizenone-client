@@ -89,6 +89,7 @@ import { cartService } from '@/components/api/CartService'
 import type { Error } from '/types'
 
 const runtimeConfig = useRuntimeConfig()
+let checkout = null as any
 
 const state = reactive({
     error: {} as Error,
@@ -108,6 +109,13 @@ onMounted(() => {
     fetchAddOnDepartment()
     fetchAddOnUser()
     fetchCart()
+})
+
+onUnmounted(() => {
+    // Cleanup checkout instance when component is unmounted
+    if (checkout) {
+        checkout.cleanup()
+    }
 })
 
 async function fetchAddOnDepartment() {
@@ -187,7 +195,7 @@ async function handleSaveCart() {
                     buttonRadius: "5px"
                 }
             }
-            const checkout = new Dibs.Checkout(checkoutOptions)
+            checkout = new Dibs.Checkout(checkoutOptions)
             checkout.on('payment-completed', function (response: any) {
                 checkout.cleanup()
                 const paymentId = response['paymentId']

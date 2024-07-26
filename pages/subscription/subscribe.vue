@@ -297,6 +297,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
+let checkout = null as any
 
 const state = reactive({
     error: {} as Error,
@@ -313,6 +314,13 @@ const frequency = ref(frequencies[0])
 
 onMounted(() => {
     fetchDeals()
+})
+
+onUnmounted(() => {
+    // Cleanup checkout instance when component is unmounted
+    if (checkout) {
+        checkout.cleanup()
+    }
 })
 
 async function fetchDeals() {
@@ -352,7 +360,7 @@ async function subscribe(deal: any) {
                     buttonRadius: "5px"
                 }
             }
-            const checkout = new Dibs.Checkout(checkoutOptions)
+            checkout = new Dibs.Checkout(checkoutOptions)
             checkout.on('payment-completed', function (response: any) {
                 checkout.cleanup()
                 const paymentId = response['paymentId']
