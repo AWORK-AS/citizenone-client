@@ -368,7 +368,7 @@ const navigation = [
             'citizens-uuid-documents-document_uuid',
             'citizens-uuid-attendance',
             'citizens-uuid-attendance-citizen_protocol_uuid',
-            'citizens-uuid-logs',
+            'citizens-uuid-calendar',
         ]
     },
     {

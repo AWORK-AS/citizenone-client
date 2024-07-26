@@ -44,7 +44,7 @@
                                                     aria-hidden="true" />
                                             </dt>
                                             <dd class="font-semibold text-gray-900 xl:pr-0">
-                                                {{ state.event?.data?.calendar?.title }}
+                                                {{ state.event?.data?.my_calendar?.title }}
                                             </dd>
                                         </div>
                                         <div class="flex gap-x-2">
@@ -54,7 +54,7 @@
                                                     aria-hidden="true" />
                                             </dt>
                                             <dd class="text-gray-900 xl:pr-0">
-                                                {{ state.event?.data?.calendar?.description }}
+                                                {{ state.event?.data?.my_calendar?.description }}
                                             </dd>
                                         </div>
                                         <div>
@@ -66,11 +66,11 @@
                                                 </div>
                                                 <div>
                                                     {{
-                                                        formatDateTimeToReadable(state.event?.data?.calendar?.description.date_time_start)
+                                                        formatDateTimeToReadable(state.event?.data?.my_calendar?.description.date_time_start)
                                                     }}
                                                     -
                                                     {{
-                                                        formatDateTimeToReadable(state.event?.data?.calendar?.description.date_time_end)
+                                                        formatDateTimeToReadable(state.event?.data?.my_calendar?.description.date_time_end)
                                                     }}
                                                 </div>
                                             </div>
