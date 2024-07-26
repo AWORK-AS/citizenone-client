@@ -34,7 +34,8 @@
                             <!-- Chat Messages -->
                             <div class="p-4 overflow-y-auto" style="height: 73vh;" ref="scrollableChatHistory"
                                 @scroll="handleScroll">
-                                <div v-if="state.isLastPage" class="text-center text-gray-500 text-sm">
+                                <div v-if="state.isLastPage && currentPage !== 1"
+                                    class="text-center text-gray-500 text-sm">
                                     {{ $t('messages.allMessagesAreLoaded') }}
                                 </div>
                                 <div class="text-center text-gray-500 text-sm" v-if="state.isChatLoading">
