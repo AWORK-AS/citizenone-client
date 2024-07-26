@@ -203,6 +203,7 @@
         },
         "tabs": {
             "attendance": "Fremmøde",
+            "calendar": "Kalender",
             "citizenJournals": "Borgerjournaler",
             "documents": "Dokumenter",
             "medicineJournals": "Medicinjournaler",

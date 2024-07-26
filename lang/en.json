@@ -203,6 +203,7 @@
         },
         "tabs": {
             "attendance": "Attendance",
+            "calendar": "Calendar",
             "citizenJournals": "Citizen Journals",
             "documents": "Documents",
             "medicineJournals": "Medicine Journals",

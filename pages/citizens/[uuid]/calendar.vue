@@ -1,0 +1,143 @@
+<template>
+    <div>
+        <NuxtLayout name="user">
+
+            <Head>
+                <Title>{{ $t('citizens.tabs.calendar') }} - {{ runtimeConfig?.public?.appName }}</Title>
+            </Head>
+
+            <template #header>{{ $t('citizens.tabs.calendar') }}</template>
+
+            <div class="space-y-5">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
+                    <Icon name="ph:arrow-left" size="20" class="text-black" />
+                    <span>{{ $t('back') }}</span>
+                </NuxtLink>
+
+                <ModulesCitizenDetailsHeader />
+                <ModulesCitizenJournalTabs />
+
+                <div class="flex items-center gap-x-3">
+                    <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
+                        @click="setCalendarView('default')" class="rounded-md">
+                        {{ $t('calendar.view.defaultView') }}
+                    </FormButton>
+                    <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
+                        @click="setCalendarView('week')" class="rounded-md">
+                        {{ $t('calendar.view.weekView') }}
+                    </FormButton>
+                    <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
+                        @click="setCalendarView('month')" class="rounded-md">
+                        {{ $t('calendar.view.monthView') }}
+                    </FormButton>
+                </div>
+
+                <div class="mt-5 space-y-5">
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
+                    <LoadingSpinner :isActive="state.isPageLoading">
+                        <ModulesCitizenCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
+                            @changeDate="changeDate" v-if="state.calendarView === 'default'" />
+                        <ModulesCitizenCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
+                            @changeDatePerWeek="changeDatePerWeek" v-if="state.calendarView === 'week'" />
+                        <ModulesCitizenCalendarMonthView :myCalendarEvents="state.myCalendarEvents"
+                            @changeMonthYear="changeMonthYear" v-if="state.calendarView === 'month'" />
+                    </LoadingSpinner>
+                </div>
+            </div>
+        </NuxtLayout>
+    </div>
+</template>
+
+<script setup lang="ts">
+import type { Error } from '@/types'
+
+const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
+const citizenUuid = router?.currentRoute?.value?.params?.uuid
+
+const state = reactive({
+    calendarView: 'default',
+    error: {} as Error,
+    isPageLoading: false,
+    myCalendarEvents: [] as any,
+    selectedDate: {
+        end_date: '',
+        start_date: '',
+    },
+    selectedYear: '',
+    selectedMonth: '',
+})
+
+onMounted(() => {
+    fetchMyCalendarEvents()
+})
+
+async function fetchMyCalendarEvents() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params: any = {}
+        if (state.selectedDate.start_date && state.selectedDate.end_date) {
+            params.date = state.selectedDate
+        }
+        if (state.selectedYear) {
+            params.year = state.selectedYear
+        }
+        if (state.selectedMonth !== '') {
+            params.month = (state.selectedMonth + 1)
+        }
+
+        // const response = await myCalendarService.getSchedules(params)
+        // if (response.data) {
+        //     state.myCalendarEvents = response
+        // }
+    } catch (error: any) {
+        state.error = { message: error.message }
+    }
+    state.isPageLoading = false
+}
+
+function setCalendarView(viewStyle: any) {
+    if (state.calendarView !== viewStyle) {
+        state.calendarView = viewStyle
+        state.selectedDate = {
+            end_date: '',
+            start_date: '',
+        }
+        state.selectedYear = ''
+        state.selectedMonth = ''
+        fetchMyCalendarEvents()
+    }
+}
+
+function changeDate(date: any) {
+    state.selectedYear = ''
+    state.selectedMonth = ''
+    state.selectedDate = {
+        end_date: date,
+        start_date: date,
+    }
+    fetchMyCalendarEvents()
+}
+
+function changeDatePerWeek(date: any) {
+    state.selectedYear = ''
+    state.selectedMonth = ''
+    state.selectedDate = {
+        end_date: date[1],
+        start_date: date[0],
+    }
+    fetchMyCalendarEvents()
+}
+
+function changeMonthYear(year: any, month: any) {
+    state.selectedDate = {
+        end_date: '',
+        start_date: '',
+    }
+    state.selectedYear = year
+    state.selectedMonth = month
+    fetchMyCalendarEvents()
+}
+</script>
