@@ -49,7 +49,7 @@
                                 <div v-for="(message, index) in state.messages" :key="index">
                                     <!-- Message (Right) -->
                                     <div class="flex items-start justify-end mb-4"
-                                        v-if="message?.sender_id === userStore.getUser.id">
+                                        v-if="message?.sender_id === userStore.getUser?.id">
                                         <div class="mr-2">
                                             <div class="bg-primary text-white p-3 rounded-lg">
                                                 <p>{{ message?.message }}</p>
@@ -130,7 +130,7 @@ const state = reactive({
 })
 
 onMounted(() => {
-    const channel = pusher.subscribe('citizenone.' + userStore.getUser.id)
+    const channel = pusher.subscribe('citizenone.' + userStore.getUser?.id)
     channel.bind('chat-message', (response: any) => {
         state.messages.push(response?.data)
     })
