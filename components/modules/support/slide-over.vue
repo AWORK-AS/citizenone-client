@@ -41,7 +41,7 @@
                                                 </div>
                                                 <div class="flex items-center gap-x-1">
                                                     <Icon name="ph:envelope" class="h-4 w-4" aria-hidden="true" />
-                                                    <span class="text-sm">service@citizenone.dk</span>
+                                                    <span class="text-sm">support@citizenone.dk</span>
                                                 </div>
                                                 <div>
                                                     <p>
