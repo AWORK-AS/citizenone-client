@@ -50,6 +50,7 @@
 </template>
 
 <script setup lang="ts">
+import { citizenService } from '@/components/api/CitizenService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -77,7 +78,9 @@ async function fetchMyCalendarEvents() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params: any = {}
+        const params: any = {
+            citizen_uuid: citizenUuid
+        }
         if (state.selectedDate.start_date && state.selectedDate.end_date) {
             params.date = state.selectedDate
         }
@@ -88,10 +91,10 @@ async function fetchMyCalendarEvents() {
             params.month = (state.selectedMonth + 1)
         }
 
-        // const response = await myCalendarService.getSchedules(params)
-        // if (response.data) {
-        //     state.myCalendarEvents = response
-        // }
+        const response = await citizenService.getCitizenCalendar(params)
+        if (response.data) {
+            state.myCalendarEvents = response
+        }
     } catch (error: any) {
         state.error = { message: error.message }
     }

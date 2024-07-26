@@ -11,6 +11,9 @@
     "alert": {
         "accountSuccessfullyCreated": "Your account has been created successfully",
         "forgotPasswordSuccess": "A forgot password email has been sent to your email address",
+        "invitation": {
+            "calendarEventNotFound": "Calendar event not found"
+        },
         "resetPassword": {
             "confirmPasswordNotTheSame": "Confirm password is not the same as new password",
             "invalidPasswordResetToken": "Invalid password reset token",
@@ -313,6 +316,10 @@
         "loginHereInstead": "Login here instead",
         "or": "Or",
         "requestPasswordReset": "Request password reset"
+    },
+    "invitation": {
+        "invitationAccepted": "Invitation accepted",
+        "youHaveSuccessfullyAcceptedTheInvitation": "You have successfully accepted the invitation"
     },
     "languageSwitcher": {
         "selectLanguage": "Select Language"

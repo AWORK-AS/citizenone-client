@@ -11,6 +11,9 @@
     "alert": {
         "accountSuccessfullyCreated": "Din konto er blevet oprettet med succes",
         "forgotPasswordSuccess": "En e-mail til nulstilling af adgangskode er blevet sendt til din e-mailadresse",
+        "invitation": {
+            "calendarEventNotFound": "Kalenderbegivenhed ikke fundet"
+        },
         "resetPassword": {
             "confirmPasswordNotTheSame": "Bekræft adgangskode er ikke den samme som ny adgangskode",
             "invalidPasswordResetToken": "Ugyldig token til nulstilling af adgangskode",
@@ -313,6 +316,10 @@
         "loginHereInstead": "Log ind her i stedet",
         "or": "Eller",
         "requestPasswordReset": "Anmod om nulstilling af adgangskode"
+    },
+    "invitation": {
+        "invitationAccepted": "Invitation accepteret",
+        "youHaveSuccessfullyAcceptedTheInvitation": "Du har med succes accepteret invitationen"
     },
     "languageSwitcher": {
         "selectLanguage": "Vælg sprog"
