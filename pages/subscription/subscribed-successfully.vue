@@ -35,7 +35,7 @@
                             </div>
                             <div class="mt-6">
                                 <FormButton type="submit" buttonStyle="primary" class="w-full"
-                                    @click="navigateTo('/citizens')">
+                                    @click="navigateTo('/daily-overview')">
                                     {{ $t('subscription.subscribed.goHome') }}
                                 </FormButton>
                             </div>
