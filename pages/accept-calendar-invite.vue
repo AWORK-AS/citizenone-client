@@ -23,7 +23,7 @@
                             </div>
 
                             <div class="isolate mx-auto mt-10 grid max-w-lg">
-                                <div class="ring-1 ring-gray-200 rounded-3xl p-8 xl:p-6">
+                                <div class="ring-1 ring-gray-100 rounded-lg p-8 xl:py-12 xl:px-6">
                                     <div
                                         class="mx-auto max-w-fit bg-green-600 rounded-full p-4 flex items-center justify-center">
                                         <Icon name="ph:check-bold" class="h-5 w-5 text-white" aria-hidden="true" />
