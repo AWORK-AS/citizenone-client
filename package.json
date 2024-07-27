@@ -18,6 +18,7 @@
     "@ckeditor/ckeditor5-build-classic": "^42.0.0",
     "@ckeditor/ckeditor5-vue": "^6.0.0",
     "@headlessui/vue": "^1.7.22",
+    "@iconify-json/carbon": "^1.1.36",
     "@iconify-json/heroicons": "^1.1.22",
     "@iconify-json/ic": "^1.1.17",
     "@iconify-json/material-symbols": "^1.1.84",

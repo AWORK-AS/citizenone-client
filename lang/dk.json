@@ -228,6 +228,7 @@
     "department": {
         "all": "Alle",
         "allDepartment": "Alle afdelinger",
+        "changedDepartmentTo": "Ændrede afdeling til",
         "department": "Afdeling"
     },
     "departments": {

@@ -7,7 +7,7 @@
         <Carousel v-bind="state.carouselSettings">
             <Slide v-for="(news, index) in state.news?.data" :key="index">
                 <div class="w-full p-2 space-y-2">
-                    <div class="shadow-md p-6 rounded-md">
+                    <div class="bg-white shadow-md p-6 rounded-md">
                         <div class="bg-no-repeat w-full h-60 bg-cover"
                             :style="`background-image: url(${news?.image});`">
                         </div>

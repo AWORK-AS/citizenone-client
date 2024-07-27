@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      pusher-js:
-        specifier: 8.4.0-rc2
-        version: 8.4.0-rc2
       vue:
         specifier: ^3.4.31
         version: 3.4.31
@@ -30,6 +27,9 @@ importers:
       '@headlessui/vue':
         specifier: ^1.7.22
         version: 1.7.22(vue@3.4.31)
+      '@iconify-json/carbon':
+        specifier: ^1.1.36
+        version: 1.1.36
       '@iconify-json/heroicons':
         specifier: ^1.1.22
         version: 1.1.22
@@ -90,6 +90,9 @@ importers:
       postcss:
         specifier: ^8.4.39
         version: 8.4.39
+      pusher-js:
+        specifier: 8.4.0-rc2
+        version: 8.4.0-rc2
       tailwindcss:
         specifier: ^3.4.4
         version: 3.4.4
@@ -899,6 +902,9 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       vue: ^3.2.0
+
+  '@iconify-json/carbon@1.1.36':
+    resolution: {integrity: sha512-NC3VcqLtwLZpi7+LeXj+99/byv+asrnCQxiDNCZV6hKr9WcNh6C25kJguJYfN+dV54kOkw78e+6PitQi2Bppnw==}
 
   '@iconify-json/heroicons@1.1.22':
     resolution: {integrity: sha512-UNfSBdD/JBYBvFFhce6e3FsmeqshGz8u964R36npJvIzuORhIHUXrFerulBWFmbG0V1xvMqLZVZc4bPyjP5p7A==}
@@ -4794,6 +4800,10 @@ snapshots:
     dependencies:
       '@tanstack/vue-virtual': 3.5.1(vue@3.4.31)
       vue: 3.4.31
+
+  '@iconify-json/carbon@1.1.36':
+    dependencies:
+      '@iconify/types': 2.0.0
 
   '@iconify-json/heroicons@1.1.22':
     dependencies:

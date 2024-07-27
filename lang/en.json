@@ -228,6 +228,7 @@
     "department": {
         "all": "All",
         "allDepartment": "All department",
+        "changedDepartmentTo": "Changed department to",
         "department": "Department"
     },
     "departments": {

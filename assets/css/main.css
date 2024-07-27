@@ -54,7 +54,7 @@ table tbody tr:last-child {
 }
 
 table td {
-    @apply text-sm font-normal px-10 py-3 text-left;
+    @apply text-sm font-normal px-10 py-3 text-left bg-white;
 }
 
 /* ----------------------------------------------------------------------------------------------------
