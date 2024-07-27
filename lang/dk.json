@@ -232,6 +232,7 @@
         "department": "Afdeling"
     },
     "departments": {
+        "addNewDepartment": "Tilføj ny afdeling",
         "departments": "Afdelinger",
         "editDepartment": "Rediger afdeling",
         "form": {

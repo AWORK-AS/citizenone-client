@@ -12,7 +12,6 @@
     </div>
 </template>
 
-
 <script setup lang="ts">
 import { myCalendarService } from '@/components/api/MyCalendarService'
 import { useI18n } from "vue-i18n"

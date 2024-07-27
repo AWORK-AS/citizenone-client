@@ -80,7 +80,7 @@ async function saveCitizen(citizenDetails: any) {
     } catch (error: any) {
         state.error = error
         if (error?.message === 'One citizen can be created in Free Basis Tier.') {
-            navigateTo(`/subscription/subscribe?error=${error?.message}`)
+            navigateTo(`/subscription?error=${error?.message}`)
         }
     }
     state.isPageLoading = false

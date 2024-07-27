@@ -72,7 +72,7 @@ async function validateSubscription() {
     } catch (error: any) {
         state.error = error
         if (error?.message === 'Payment is invalid.') {
-            navigateTo(`/subscription/subscribe?error=Invalid payment details`)
+            navigateTo(`/subscription?error=Invalid payment details`)
         }
     }
     state.isPageLoading = false

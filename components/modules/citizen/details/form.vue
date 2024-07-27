@@ -73,8 +73,8 @@
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="departments" :label="$t('citizens.form.department')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                            @click="navigateTo('/departments/new')">
-                            Add New Department
+                            @click="state.modal.isAddDepartmentOpen = true">
+                            {{ $t('departments.addNewDepartment') }}
                         </span>
                     </div>
                     <FormSelectMultiple id="departments" :options="state.options.departments"
@@ -140,6 +140,8 @@
                 </FormButton>
             </div>
         </div>
+        <ModulesDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
+            @close="state.modal.isAddDepartmentOpen = false" @refreshDepartment="fetchDepartments" />
     </form>
 </template>
 
@@ -192,6 +194,9 @@ const state = reactive({
         diagnosis: '',
     },
     formattedSocialSecurityNumber: '',
+    modal: {
+        isAddDepartmentOpen: false
+    },
     options: {
         cities: [],
         departments: [],

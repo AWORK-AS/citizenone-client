@@ -232,6 +232,7 @@
         "department": "Department"
     },
     "departments": {
+        "addNewDepartment": "Add new department",
         "departments": "Departments",
         "editDepartment": "Edit department",
         "form": {
