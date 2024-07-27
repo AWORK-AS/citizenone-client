@@ -94,7 +94,7 @@ const state = reactive({
         { name: '' },
     ],
     dataFilter: [],
-    employees: [],
+    employees: [] as any,
     error: {} as Error,
     isTableLoading: false,
     sortData: {
