@@ -102,12 +102,17 @@
                             <div class="flex items-center px-4 md:px-6">
                                 <!-- Chat Input -->
                                 <div class="w-full flex justify-between gap-x-1">
+                                    <button type="button"
+                                        class="flex items-center px-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
+                                        :disabled="state.isPageLoading">
+                                        <Icon name="ph:paperclip" class="w-7 h-7 text-primary rounded-full" />
+                                    </button>
                                     <input type="text"
-                                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                        class="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                         placeholder="Type a message..." v-model="state.message"
                                         @keydown.enter="!state.isPageLoading && sendMessage()" />
                                     <button type="button"
-                                        class="px-4 py-3 bg-primary text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:ring-opacity-50"
+                                        class="px-4 py-3 bg-primary text-white rounded-md hover:bg-primary-700 focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
                                         @click="sendMessage" :disabled="state.isPageLoading">
                                         Send
                                     </button>
