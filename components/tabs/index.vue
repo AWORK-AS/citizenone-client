@@ -12,7 +12,7 @@
         </div>
         <div class="hidden md:block">
             <div class="border-b border-gray-200">
-                <nav class="-mb-px flex space-x-2">
+                <nav class="-mb-px flex flex-wrap space-x-2">
                     <a v-for="tab in props.tabs" :key="tab.name" :class="[
                         tab.routeName === $route.name
                             ? 'border-primary text-primary'

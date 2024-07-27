@@ -117,13 +117,12 @@
                                     <div v-for="myCalendarEvent in events" :key="myCalendarEvent.id"
                                         class="bg-gray-200 p-2 rounded-md cursor-pointer"
                                         @click="editMyCalendarEvent(myCalendarEvent)">
+                                        <p class="text-xs">
+                                            {{ myCalendarEvent?.title }}
+                                        </p>
                                         <p class="text-xxs">
                                             {{ moment(myCalendarEvent.date_time_start).format('HH:mm') }} -
                                             {{ moment(myCalendarEvent.date_time_end).format('HH:mm') }}
-                                        </p>
-                                        <p class="text-xs">
-                                            {{ myCalendarEvent?.user?.firstname }}
-                                            {{ myCalendarEvent?.user?.lastname }}
                                         </p>
                                     </div>
                                 </div>
@@ -134,9 +133,9 @@
                 </div>
             </div>
         </div>
-        <ol class="mt-4 divide-y divide-gray-100 text-sm leading-6 lg:col-span-7 xl:col-span-8 md:hidden"
+        <ol class="mt-4 divide-y divide-gray-100 text-sm leading-6 lg:col-span-7 xl:col-span-8 lg:hidden"
             v-if=selectedDay>
-            <li v-for="(event, index) in eventsByDay[moment(selectedDay).day()]" :key="index"
+            <li v-for="(event, index) in eventsBySelectedDay as any" :key="index"
                 class="relative flex space-x-6 py-6 xl:static">
                 <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${event?.user?.firstname + ' ' + event?.user?.lastname}`"
                     alt="Image" class="h-14 w-14 flex-none rounded-full" />
@@ -306,6 +305,18 @@ const eventsByDay = computed(() => {
             const eventEnd = moment(event.date_time_end)
             return isWithinRange(eventStart, eventEnd, dayStart, dayEnd)
         })
+    })
+})
+
+const eventsBySelectedDay = computed(() => {
+    if (!props.myCalendarEvents?.data) return Array.from({ length: 7 }).map(() => [])
+
+    const dayStart = moment(selectedDay.value).startOf('day')
+    const dayEnd = moment(selectedDay.value).endOf('day')
+    return props.myCalendarEvents.data.filter((event: any) => {
+        const eventStart = moment(event.date_time_start)
+        const eventEnd = moment(event.date_time_end)
+        return isWithinRange(eventStart, eventEnd, dayStart, dayEnd)
     })
 })
 
