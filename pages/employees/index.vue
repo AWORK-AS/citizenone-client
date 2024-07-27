@@ -52,7 +52,7 @@
                                                 {{ $t('employees.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/messages/${employee.uuid}`)">
+                                                @click="messageEmployee(employee)">
                                                 <Icon name="ph:chat-circle" class="size-4" />
                                                 {{ $t('employees.table.actions.message') }}
                                             </FormButton>
@@ -72,9 +72,11 @@
 <script setup lang="ts">
 import { employeeService } from '@/components/api/EmployeeService'
 import { useDepartmentStore } from '@/store/department'
+import { useEmployeeStore } from '@/store/employee'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const employeeStore = useEmployeeStore()
 const departmentStore = useDepartmentStore()
 let currentTablePage = 1
 
@@ -155,5 +157,10 @@ function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
     fetchEmployees()
+}
+
+function messageEmployee(employee: any) {
+    employeeStore.setSelectedEmployee(employee)
+    navigateTo(`/messages/${employee.uuid}`)
 }
 </script>

@@ -13,25 +13,40 @@
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
-                        <div class="md:col-span-4 bg-white rounded-md p-6 overflow-y-auto" style="height: 80vh;">
+                        <div class="md:col-span-5 xl:col-span-4 bg-white rounded-md p-6 overflow-y-auto"
+                            style="height: 80vh;">
                             <ul>
-                                <li class="flex items-center space-x-4 border-b px-1 py-3 cursor-pointer"
+                                <li class="flex items-center space-x-4 border-b border-gray-100 px-1 py-3 cursor-pointer"
                                     v-for="(chattedUser, index) in state.chattedUsers" :key="index"
-                                    @click="navigateTo(`/messages/${chattedUser?.uuid}`)">
+                                    @click="messageEmployee(chattedUser)">
                                     <img src="/img/avatars/user.svg" alt="Item 1" class="w-12 h-12 rounded-full">
                                     <div>
-                                        <h2 class="font-semibold">
+                                        <h4 class="font-semibold text-sm">
                                             {{ chattedUser?.firstname + " " + chattedUser?.lastname }}
-                                        </h2>
-                                        <p class="text-gray-600 text-sm">
+                                        </h4>
+                                        <p class="text-gray-600 text-xs">
                                             {{ chattedUser?.email }}
                                         </p>
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                        <div class="md:col-span-8 bg-white rounded-md py-6 space-y-4">
-                            <div class="overflow-y-auto" style="height: 68vh;" ref="scrollableChatHistory"
+                        <div class="md:col-span-7 xl:col-span-8 bg-white rounded-md pb-6">
+                            <div class="px-6 py-3 shadow-sm">
+                                <div class="flex items-center gap-x-2">
+                                    <img src="/img/avatars/user.svg" alt="Item 1" class="w-12 h-12 rounded-full">
+                                    <div>
+                                        <h4 class="font-semibold text-sm">
+                                            {{ employeeStore.getSelectedEmployee?.firstname }}
+                                            {{ employeeStore.getSelectedEmployee?.lastname }}
+                                        </h4>
+                                        <p class="text-gray-600 text-xs">
+                                            {{ employeeStore.getSelectedEmployee?.email }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="overflow-y-auto pt-4 mb-4" style="height: 62vh;" ref="scrollableChatHistory"
                                 @scroll="handleScroll">
                                 <!-- Chat Messages -->
                                 <div class="px-4 md:px-6">
@@ -111,9 +126,11 @@ import moment from 'moment'
 import pusher from '@/services/pusher'
 import { messageService } from '@/components/api/MessageService'
 import { useUserStore } from '@/store/user'
+import { useEmployeeStore } from '@/store/employee'
 import type { ChattedUser, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const employeeStore = useEmployeeStore() as any
 const userStore = useUserStore() as any
 const router = useRouter()
 const receiverUuid = router?.currentRoute?.value?.params?.receiver_uuid
@@ -240,6 +257,11 @@ function handleScroll() {
             })
         }
     }
+}
+
+function messageEmployee(employee: any) {
+    employeeStore.setSelectedEmployee(employee)
+    navigateTo(`/messages/${employee.uuid}`)
 }
 </script>
 
