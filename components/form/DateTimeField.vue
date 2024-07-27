@@ -29,7 +29,10 @@ const config = ref({
     enableTime: true,
     dateFormat: 'd. F Y H:i',
     time_24hr: true,
-    disableMobile: true
+    disableMobile: true,
+    locale: {
+        firstDayOfWeek: 1 // Set Monday as the first day of the week
+    }
 })
 
 const state = reactive({
