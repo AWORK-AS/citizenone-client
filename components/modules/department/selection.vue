@@ -63,7 +63,7 @@ const { t } = useI18n()
 const departmentStore = useDepartmentStore()
 
 const state = reactive({
-    departments: [],
+    departments: [] as any,
     error: {} as Error,
     isPageLoading: false,
 })
