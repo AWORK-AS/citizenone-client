@@ -5,7 +5,7 @@
         <div id="cart-checkout"></div>
         <div v-if="!state.isDealsHidden">
             <h3 class="py-3 text-sm font-semibold">Add on deals</h3>
-            <div class="divide-y divide-gray-100 ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
+            <div class="bg-white divide-y divide-gray-100 ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
                 <div class="grid grid-cols-1 lg:grid-cols-3 items-center gap-x-6 gap-y-4 py-5">
                     <div>
                         <p class="font-semibold leading-6 text-tertiary">

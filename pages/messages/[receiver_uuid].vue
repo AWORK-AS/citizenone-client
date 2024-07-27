@@ -12,9 +12,9 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10">
-                        <div class="md:col-span-3">
-                            <ul class="py-4">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
+                        <div class="md:col-span-4 bg-white rounded-md p-6 overflow-y-auto" style="height: 80vh;">
+                            <ul>
                                 <li class="flex items-center space-x-4 border-b px-1 py-3 cursor-pointer"
                                     v-for="(chattedUser, index) in state.chattedUsers" :key="index"
                                     @click="navigateTo(`/messages/${chattedUser?.uuid}`)">
@@ -30,65 +30,67 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="md:col-span-9">
-                            <!-- Chat Messages -->
-                            <div class="p-4 overflow-y-auto" style="height: 73vh;" ref="scrollableChatHistory"
+                        <div class="md:col-span-8 bg-white rounded-md py-6 space-y-4">
+                            <div class="overflow-y-auto" style="height: 68vh;" ref="scrollableChatHistory"
                                 @scroll="handleScroll">
-                                <div v-if="state.isLastPage && currentPage !== 1"
-                                    class="text-center text-gray-500 text-sm">
-                                    {{ $t('messages.allMessagesAreLoaded') }}
-                                </div>
-                                <div class="text-center text-gray-500 text-sm" v-if="state.isChatLoading">
-                                    {{ $t('messages.loadingMessages') }}
-                                    <span class="dot1">.</span>
-                                    <span class="dot2">.</span>
-                                    <span class="dot3">.</span>
-                                    <span class="dot4">.</span>
-                                    <span class="dot5">.</span>
-                                </div>
-                                <div v-for="(message, index) in state.messages" :key="index">
-                                    <!-- Message (Right) -->
-                                    <div class="flex items-start justify-end mb-4"
-                                        v-if="message?.sender_id === userStore.getUser?.id">
-                                        <div class="mr-2">
-                                            <div class="bg-primary text-white p-3 rounded-lg">
-                                                <p>{{ message?.message }}</p>
-                                            </div>
-                                            <span class="text-xs text-gray-500 mt-1">
-                                                {{ formatTimeToReadable(message?.created_at) }}
-                                            </span>
-                                        </div>
-                                        <div class="flex-shrink-0 flex items-center">
-                                            <img class="h-10 w-10 rounded-full mt-1" src="/img/avatars/user.svg"
-                                                alt="User">
-                                        </div>
+                                <!-- Chat Messages -->
+                                <div class="px-4 md:px-6">
+                                    <div v-if="state.isLastPage && currentPage !== 1"
+                                        class="text-center text-gray-500 text-sm">
+                                        {{ $t('messages.allMessagesAreLoaded') }}
                                     </div>
-                                    <!-- Message (Left) -->
-                                    <div class="flex items-start mb-4" v-else>
-                                        <div class="flex-shrink-0">
-                                            <img class="h-10 w-10 rounded-full mt-1" src="/img/avatars/user.svg"
-                                                alt="User">
-                                        </div>
-                                        <div class="ml-2">
-                                            <div class="bg-gray-200 p-3 rounded-lg">
-                                                <p class="text-gray-700">
-                                                <p>{{ message?.message }}</p>
-                                                </p>
+                                    <div class="text-center text-gray-500 text-sm" v-if="state.isChatLoading">
+                                        {{ $t('messages.loadingMessages') }}
+                                        <span class="dot1">.</span>
+                                        <span class="dot2">.</span>
+                                        <span class="dot3">.</span>
+                                        <span class="dot4">.</span>
+                                        <span class="dot5">.</span>
+                                    </div>
+                                    <div v-for="(message, index) in state.messages" :key="index">
+                                        <!-- Message (Right) -->
+                                        <div class="flex items-start justify-end mb-4"
+                                            v-if="message?.sender_id === userStore.getUser?.id">
+                                            <div class="mr-2">
+                                                <div class="bg-primary text-white p-3 rounded-lg">
+                                                    <p>{{ message?.message }}</p>
+                                                </div>
+                                                <span class="text-xs text-gray-500 mt-1">
+                                                    {{ formatTimeToReadable(message?.created_at) }}
+                                                </span>
                                             </div>
-                                            <span class="text-xs text-gray-500 mt-1">
-                                                {{ formatTimeToReadable(message?.created_at) }}
-                                            </span>
+                                            <div class="flex-shrink-0 flex items-center">
+                                                <img class="h-10 w-10 rounded-full mt-1" src="/img/avatars/user.svg"
+                                                    alt="User">
+                                            </div>
+                                        </div>
+                                        <!-- Message (Left) -->
+                                        <div class="flex items-start mb-4" v-else>
+                                            <div class="flex-shrink-0">
+                                                <img class="h-10 w-10 rounded-full mt-1" src="/img/avatars/user.svg"
+                                                    alt="User">
+                                            </div>
+                                            <div class="ml-2">
+                                                <div class="bg-gray-200 p-3 rounded-lg">
+                                                    <p class="text-gray-700">
+                                                    <p>{{ message?.message }}</p>
+                                                    </p>
+                                                </div>
+                                                <span class="text-xs text-gray-500 mt-1">
+                                                    {{ formatTimeToReadable(message?.created_at) }}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Chat Input -->
-                            <div class="fixed w-full bottom-4 md:right-4 md:max-w-5xl pr-7 md:pr-4">
-                                <div class="flex justify-between gap-x-2">
-                                    <input
+                            <div class="flex items-center px-4 md:px-6">
+                                <!-- Chat Input -->
+                                <div class="w-full flex justify-between gap-x-1">
+                                    <input type="text"
                                         class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                        type="text" placeholder="Type a message..." v-model="state.message"
-                                        @keydown.enter="!state.isPageLoading && sendMessage()">
+                                        placeholder="Type a message..." v-model="state.message"
+                                        @keydown.enter="!state.isPageLoading && sendMessage()" />
                                     <button type="button"
                                         class="px-4 py-3 bg-primary text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:ring-opacity-50"
                                         @click="sendMessage" :disabled="state.isPageLoading">

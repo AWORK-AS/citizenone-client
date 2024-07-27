@@ -13,7 +13,8 @@
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <div v-if="state.apps?.data">
                     <div class="ltablet:grid-cols-3 grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                        <div v-for="(app, index) in state.apps?.data" :key="index" class="p-6 border rounded-md">
+                        <div v-for="(app, index) in state.apps?.data" :key="index"
+                            class="bg-white p-6 border rounded-md">
                             <div class="mb-3 flex items-center gap-3">
                                 <img :src="app.logo" alt="App logo" class="w-10" />
                                 <div class="leading-none">
