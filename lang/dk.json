@@ -90,6 +90,9 @@
     },
     "cancel": "Annuller",
     "citizens": {
+        "calendar": {
+            "viewSchedule": "Se tidsplan"
+        },
         "citizens": "Borgere",
         "documents": {
             "alert": {

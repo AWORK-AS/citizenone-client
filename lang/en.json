@@ -90,6 +90,9 @@
     },
     "cancel": "Cancel",
     "citizens": {
+        "calendar": {
+            "viewSchedule": "View schedule"
+        },
         "citizens": "Citizens",
         "documents": {
             "alert": {

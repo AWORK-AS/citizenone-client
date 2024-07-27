@@ -39,11 +39,16 @@
                         <ModulesCitizenCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
                             @changeDate="changeDate" v-if="state.calendarView === 'default'" />
                         <ModulesCitizenCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
-                            @changeDatePerWeek="changeDatePerWeek" v-if="state.calendarView === 'week'" />
+                            @changeDatePerWeek="changeDatePerWeek" v-if="state.calendarView === 'week'"
+                            @viewMyCalendarEvent="viewMyCalendarEvent" />
                         <ModulesCitizenCalendarMonthView :myCalendarEvents="state.myCalendarEvents"
-                            @changeMonthYear="changeMonthYear" v-if="state.calendarView === 'month'" />
+                            @changeMonthYear="changeMonthYear" v-if="state.calendarView === 'month'"
+                            @viewMyCalendarEvent="viewMyCalendarEvent" />
                     </LoadingSpinner>
                 </div>
+                <ModulesCitizenCalendarModalView :isModalOpen="state.modal.isViewEventOpen"
+                    :selectedSchedule="state.selectedSchedule" @close="state.modal.isViewEventOpen = false"
+                    @refreshSchedules="fetchMyCalendarEvents" />
             </div>
         </NuxtLayout>
     </div>
@@ -62,9 +67,21 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     myCalendarEvents: [] as any,
+    modal: {
+        isViewEventOpen: false
+    },
     selectedDate: {
         end_date: '',
         start_date: '',
+    },
+    selectedSchedule: {
+        id: '',
+        uuid: '',
+        title: '',
+        description: '',
+        start: '',
+        end: '',
+        is_private: false,
     },
     selectedYear: '',
     selectedMonth: '',
@@ -142,5 +159,15 @@ function changeMonthYear(year: any, month: any) {
     state.selectedYear = year
     state.selectedMonth = month
     fetchMyCalendarEvents()
+}
+
+function viewMyCalendarEvent(selectedCalendarEvent: any) {
+    state.selectedSchedule.uuid = selectedCalendarEvent.uuid
+    state.selectedSchedule.title = selectedCalendarEvent.title
+    state.selectedSchedule.description = selectedCalendarEvent.description
+    state.selectedSchedule.start = selectedCalendarEvent.date_time_start
+    state.selectedSchedule.end = selectedCalendarEvent.date_time_end
+    state.selectedSchedule.is_private = selectedCalendarEvent.is_private ? true : false
+    state.modal.isViewEventOpen = true
 }
 </script>
