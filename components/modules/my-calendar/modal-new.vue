@@ -39,7 +39,8 @@ const state = reactive({
         date_time_start: '',
         date_time_end: '',
         is_private: false,
-        citizen_user_uuid: [],
+        citizens_uuid: [],
+        users_uuid: [],
     },
 })
 
@@ -61,7 +62,8 @@ async function saveSchedule(scheduleDetails: any) {
             date_time_start: scheduleDetails.date_time_start,
             date_time_end: scheduleDetails.date_time_end,
             is_private: scheduleDetails.is_private,
-            citizen_user_uuid: scheduleDetails.citizen_user_uuid,
+            citizens_uuid: scheduleDetails.citizens_uuid,
+            users_uuid: scheduleDetails.users_uuid,
         }
         const response = await myCalendarService.saveSchedule(params)
         if (response?.data) {

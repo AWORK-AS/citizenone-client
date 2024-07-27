@@ -442,10 +442,11 @@
         },
         "editSchedule": "Edit schedule",
         "form": {
-            "citizens_users": "Citizens/Users",
+            "citizens": "Citizens",
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
             "description": "Description",
+            "employees": "Employees",
             "private": "Private",
             "title": "Title"
         },

@@ -39,11 +39,18 @@
                 </div>
             </div>
             <div class="space-y-1" v-if="props.formType === 'create'">
-                <FormLabel for="citizen_user_uuid" :label="$t('schedules.form.citizens_users')" />
-                <FormSelectMultiple id="citizen_user_uuid" name="citizen_user_uuid"
-                    :options="state.options.citizenUsers" v-model="state.formSchedule.citizen_user_uuid" />
-                <FormError :error="v$?.formProtocol?.citizen_user_uuid?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.citizen_user_uuid?.[0]" />
+                <FormLabel for="citizens_uuid" :label="$t('schedules.form.citizens')" />
+                <FormSelectMultiple id="citizens_uuid" name="citizens_uuid" :options="state.options.citizens"
+                    v-model="state.formSchedule.citizens_uuid" />
+                <FormError :error="v$?.formProtocol?.citizens_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.citizens_uuid?.[0]" />
+            </div>
+            <div class="space-y-1" v-if="props.formType === 'create'">
+                <FormLabel for="users_uuid" :label="$t('schedules.form.employees')" />
+                <FormSelectMultiple id="users_uuid" name="users_uuid" :options="state.options.users"
+                    v-model="state.formSchedule.users_uuid" />
+                <FormError :error="v$?.formProtocol?.users_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.users_uuid?.[0]" />
             </div>
         </div>
         <div class="mt-6">
@@ -102,10 +109,12 @@ const state = reactive({
         date_time_start: '',
         date_time_end: '',
         is_private: false,
-        citizen_user_uuid: [],
+        citizens_uuid: [],
+        users_uuid: [],
     },
     options: {
-        citizenUsers: [] as Option[]
+        citizens: [] as Option[],
+        users: [] as Option[]
     }
 })
 
@@ -120,7 +129,8 @@ onMounted(() => {
         date_time_start: props.selectedSchedule.start ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.start) : formatDateToYYYYmmddHHmm('', false),
         date_time_end: props.selectedSchedule.end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.end) : formatDateToYYYYmmddHHmm('', true),
         is_private: props.selectedSchedule.is_private,
-        citizen_user_uuid: props.selectedSchedule.citizen_user_uuid,
+        citizens_uuid: props.selectedSchedule.citizens_uuid,
+        users_uuid: props.selectedSchedule.users_uuid,
     }
 })
 
@@ -207,7 +217,7 @@ async function fetchAllCitizens() {
                     label: citizen?.firstname + " " + citizen?.lastname,
                 })
             )
-            state.options.citizenUsers = options
+            state.options.citizens = options
         }
     } catch (error: any) {
         state.error = error
@@ -228,7 +238,7 @@ async function fetchAllUsers() {
                     label: user?.firstname + " " + user?.lastname,
                 })
             )
-            state.options.citizenUsers.push(...options)
+            state.options.users = options
         }
     } catch (error: any) {
         state.error = error

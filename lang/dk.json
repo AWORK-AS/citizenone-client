@@ -442,10 +442,11 @@
         },
         "editSchedule": "Rediger tidsplan",
         "form": {
-            "citizens_users": "Borgere/Brugere",
+            "citizens": "Borgere",
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",
             "description": "Beskrivelse",
+            "employees": "Medarbejdere",
             "private": "Privat",
             "title": "Titel"
         },
