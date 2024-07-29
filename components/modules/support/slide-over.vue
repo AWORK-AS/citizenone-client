@@ -45,7 +45,7 @@
                                                 </div>
                                                 <div>
                                                     <p>
-                                                        Get support
+                                                        {{ $t('support.goToSupportcenterHere') }}
                                                         <span
                                                             class="text-tertiary hover:text-tertiary-700 cursor-pointer"
                                                             @click="navigateToSupport()">

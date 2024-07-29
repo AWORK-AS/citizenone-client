@@ -622,7 +622,10 @@
         "subscription": "Abonnement",
         "upgrade": "Opgrader"
     },
-    "support": "Support",
+    "support": {
+        "goToSupportcenterHere": "Gå til supportsiden her",
+        "support": "Support"
+    },
     "storage": {
         "alert": {
             "messageSuccessfullySent": "Besked sendt succesfuldt"

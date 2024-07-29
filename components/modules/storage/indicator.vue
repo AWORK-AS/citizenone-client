@@ -9,7 +9,9 @@
                 <div class="cursor-pointer hover:text-gray-300 flex items-center gap-1"
                     @click="navigateTo('/storage/upgrade')">
                     <Icon name="ph:arrow-circle-up" class="h-5 w-5" aria-hidden="true" />
-                    <span class="text-xs">Upgrade</span>
+                    <span class="text-xs">
+                        {{ $t('storage.upgrade') }}
+                    </span>
                 </div>
             </h2>
             <div class="space-y-2 text-xs text-white">

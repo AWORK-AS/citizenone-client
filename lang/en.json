@@ -622,7 +622,10 @@
         "subscription": "Subscription",
         "upgrade": "Upgrade"
     },
-    "support": "Support",
+    "support": {
+        "goToSupportcenterHere": "Go to supportcenter here",
+        "support": "Support"
+    },
     "storage": {
         "alert": {
             "messageSuccessfullySent": "Message successfully sent"
