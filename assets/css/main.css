@@ -195,12 +195,12 @@ table td {
     Merchant
 ---------------------------------------------------------------------------------------------------- */
 
-.merchant-name-container>div>h2:before {
+.merchant-name-container > div > h2:before {
     content: "CitizenOne A/S" !important;
     font-size: 30px !important;
 }
-
-.merchant-name-container>div>h2 {
+  
+.merchant-name-container > div > h2 {
     font-size: 0px !important;
     margin: 0px !important;
 }
