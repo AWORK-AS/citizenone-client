@@ -506,7 +506,20 @@
                 "alert": {
                     "newUserSuccessfullySaved": "Ny bruger er blevet gemt",
                     "userSuccessfullyUpdated": "Bruger er blevet opdateret"
-                }
+                },
+                "birthday": "Fødselsdag",
+                "emailAddress": "Emailadresse",
+                "firstname": "Fornavn",
+                "lastname": "Efternavn",
+                "permissions": {
+                    "create": "Opret",
+                    "delete": "Slet",
+                    "permissions": "Tilladelser",
+                    "read": "Læs",
+                    "update": "Opdater"
+                },
+                "phone": "Telefon",
+                "role": "Rolle"
             },
             "newUser": "Ny bruger",
             "table": {
