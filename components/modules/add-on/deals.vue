@@ -94,7 +94,7 @@
 <script setup lang="ts">
 import { addOnDealsService } from '@/components/api/AddOnDealsService'
 import { cartService } from '@/components/api/CartService'
-import type { Error } from '/types'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 let checkout = null as any
@@ -104,7 +104,7 @@ const state = reactive({
     addOnDeals: {
         department: [],
         user: []
-    },
+    } as any,
     isDealsHidden: false,
     formAddOn: {
         department: '',
