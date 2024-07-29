@@ -584,7 +584,10 @@
     },
     "subscription": {
         "addOnDeals": {
+            "addOnDeals": "Add-on deals",
             "checkout": "Checkout",
+            "extraDepartment": "Extra department",
+            "extraUser": "Extra user",
             "total": "Total"
         },
         "currentSubscription": "Current subscription",

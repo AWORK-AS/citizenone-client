@@ -584,7 +584,10 @@
     },
     "subscription": {
         "addOnDeals": {
-            "checkout": "Betaling",
+            "addOnDeals": "Exstra brugere og afdelinger",
+            "checkout": "Betal og tilføj",
+            "extraDepartment": "Ekstra afdeling",
+            "extraUser": "Ekstra bruger",
             "total": "Total"
         },
         "currentSubscription": "Nuværende abonnement",

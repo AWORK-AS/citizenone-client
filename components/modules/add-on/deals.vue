@@ -4,12 +4,14 @@
             v-if="state.error?.message && state.error.message.length > 0" />
         <div id="cart-checkout"></div>
         <div v-if="!state.isDealsHidden">
-            <h3 class="py-3 text-sm font-semibold">Add on deals</h3>
+            <h3 class="py-3 text-sm font-semibold">
+                {{ $t('subscription.addOnDeals.addOnDeals') }}
+            </h3>
             <div class="bg-white divide-y divide-gray-100 ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
                 <div class="grid grid-cols-1 lg:grid-cols-3 items-center gap-x-6 gap-y-4 py-5">
                     <div>
                         <p class="font-semibold leading-6 text-tertiary">
-                            {{ state.addOnDeals.department?.data?.name }}
+                            {{ $t('subscription.addOnDeals.extraDepartment') }}
                         </p>
                         <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
                             <p>
@@ -36,7 +38,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 items-center gap-x-6 gap-y-4 py-5">
                     <div>
                         <p class="font-semibold leading-6 text-tertiary">
-                            {{ state.addOnDeals.user?.data?.name }}
+                            {{ $t('subscription.addOnDeals.extraUser') }}
                         </p>
                         <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
                             <p>
@@ -64,12 +66,18 @@
                     <p class="font-semibold">
                         {{ $t('subscription.addOnDeals.total') }}
                     </p>
-                    <p class="font-semibold">
-                        {{ formatAmount((state.addOnDeals.department?.data?.monthly_price *
-                            parseInt(state.formAddOn.department === '' ? '0' :
-                                state.formAddOn.department) + (state.addOnDeals.user?.data?.monthly_price *
-                                    parseInt(state.formAddOn.user === '' ? '0' :
-                                        state.formAddOn.user)))) }}
+                    <p>
+                        <span class="font-semibold">
+                            {{ formatAmount((state.addOnDeals.department?.data?.monthly_price *
+                                parseInt(state.formAddOn.department === '' ? '0' :
+                                    state.formAddOn.department) + (state.addOnDeals.user?.data?.monthly_price *
+                                        parseInt(state.formAddOn.user === '' ? '0' :
+                                            state.formAddOn.user)))) }}
+                        </span>
+                        <span class="lowercase text-xs">
+                            /{{ $t('subscription.deal.month') }}
+                            {{ $t('excludeVat') }}
+                        </span>
                     </p>
                 </div>
                 <div class="mt-8">

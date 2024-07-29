@@ -115,7 +115,7 @@
 import { useUserStore } from '@/store/user'
 
 const runtimeConfig = useRuntimeConfig()
-const userStore = useUserStore()
+const userStore = useUserStore() as any
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
 
