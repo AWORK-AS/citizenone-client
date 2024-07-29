@@ -494,6 +494,46 @@
             "profile": "Profile"
         }
     },
+    "superadmin": {
+        "sidebar": {
+            "news": "News",
+            "salesCampaign": "Sales campaign",
+            "users": "Users"
+        },
+        "users": {
+            "editUser": "Edit user",
+            "form": {
+                "alert": {
+                    "newUserSuccessfullySaved": "New user successfully saved",
+                    "userSuccessfullyUpdated": "User successfully updated"
+                },
+                "birthday": "Birthday",
+                "emailAddress": "Email address",
+                "firstname": "First name",
+                "lastname": "Last name",
+                "permissions": {
+                    "create": "Create",
+                    "delete": "Delete",
+                    "permissions": "Permissions",
+                    "read": "Read",
+                    "update": "Update"
+                },
+                "phone": "Phone",
+                "role": "Role"
+            },
+            "newUser": "New user",
+            "table": {
+                "actions": {
+                    "edit": "Edit"
+                },
+                "role": "Role",
+                "email": "Email",
+                "name": "Name",
+                "phone": "Phone"
+            },
+            "users": "Users"
+        }
+    },
     "register": {
         "form": {
             "companyName": "Company name",

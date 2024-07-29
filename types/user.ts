@@ -1,0 +1,10 @@
+export interface UserForm {
+    firstname: string,
+    lastname: string,
+    email: string,
+    phone: string,
+    birthday: string,
+    permissions: Permission[]
+}
+
+type Permission = 'read' | 'create' | 'update' | 'delete'

@@ -494,6 +494,33 @@
             "profile": "Profil"
         }
     },
+    "superadmin": {
+        "sidebar": {
+            "news": "Nyheder",
+            "salesCampaign": "Salgs kampagne",
+            "users": "Brugere"
+        },
+        "users": {
+            "editUser": "Rediger bruger",
+            "form": {
+                "alert": {
+                    "newUserSuccessfullySaved": "Ny bruger er blevet gemt",
+                    "userSuccessfullyUpdated": "Bruger er blevet opdateret"
+                }
+            },
+            "newUser": "Ny bruger",
+            "table": {
+                "actions": {
+                    "edit": "Rediger"
+                },
+                "role": "Rolle",
+                "email": "Email",
+                "name": "Navn",
+                "phone": "Telefon"
+            },
+            "users": "Brugere"
+        }
+    },
     "register": {
         "form": {
             "agreetoTAC": "Du skal acceptere vilkårene og betingelserne",
