@@ -649,6 +649,7 @@
         "upgrade": "Upgrade",
         "upgradeOptions": "Upgrade options"
     },
+    "theListIsEmpty": "The list is empty",
     "timeLogs": {
         "table": {
             "createdAt": "Created at",

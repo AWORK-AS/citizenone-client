@@ -649,6 +649,7 @@
         "upgrade": "Opgrader",
         "upgradeOptions": "Opgraderingsmuligheder"
     },
+    "theListIsEmpty": "Listen er tom",
     "timeLogs": {
         "table": {
             "createdAt": "Oprettet den",

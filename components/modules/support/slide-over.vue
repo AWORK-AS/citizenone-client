@@ -16,7 +16,7 @@
                                     <div class="px-4 sm:px-6">
                                         <div class="flex items-start justify-between">
                                             <DialogTitle class="text-base font-semibold leading-6 text-gray-900">
-                                                {{ $t('support') }}
+                                                {{ $t('support.support') }}
                                             </DialogTitle>
                                             <div class="ml-3 flex h-7 items-center">
                                                 <button type="button"

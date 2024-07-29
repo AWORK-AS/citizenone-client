@@ -1,6 +1,6 @@
 <template>
     <div>
-        <NuxtLayout name="user">
+        <NuxtLayout name="superadmin">
 
             <Head>
                 <Title>{{ $t('superadmin.users.newUser') }} - {{ runtimeConfig?.public?.appName }}</Title>
