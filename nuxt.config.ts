@@ -29,7 +29,8 @@ export default defineNuxtConfig({
 
   plugins: [
     '@/plugins/vue-notification.ts',
-    '@/plugins/ckeditor.ts'
+    '@/plugins/ckeditor.ts',
+    { src: '~/plugins/zoho-salesiq.client.ts', mode: 'client' }
   ],
 
   postcss: {
