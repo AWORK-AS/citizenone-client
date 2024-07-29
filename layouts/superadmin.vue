@@ -322,7 +322,7 @@ async function logout() {
         if (response) {
             localStorage.removeItem("_token")
             userStore.resetUser()
-            navigateTo('/')
+            navigateTo('/superadmin')
         }
     } catch (error: any) {
         state.error = error

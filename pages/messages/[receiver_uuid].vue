@@ -11,6 +11,10 @@
             <div class="space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
+
+                <ul>
+                    <li v-for="file in files" :key="file.name">{{ file.name }}</li>
+                </ul>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
                         <div class="md:col-span-5 xl:col-span-4 bg-white rounded-md p-6 overflow-y-auto"
@@ -102,10 +106,13 @@
                             <div class="flex items-center px-4 md:px-6">
                                 <!-- Chat Input -->
                                 <div class="w-full flex justify-between gap-x-1">
+                                    <input ref="fileInput" type="file" multiple @change="handleFileChange"
+                                        class="hidden" />
                                     <button type="button"
                                         class="flex items-center px-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
                                         :disabled="state.isPageLoading">
-                                        <Icon name="ph:paperclip" class="w-7 h-7 text-primary rounded-full" />
+                                        <Icon name="ph:paperclip" class="w-7 h-7 text-primary rounded-full"
+                                            @click="triggerFileInput" />
                                     </button>
                                     <input type="text"
                                         class="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -142,6 +149,8 @@ const receiverUuid = router?.currentRoute?.value?.params?.receiver_uuid
 const scrollableChatHistory = ref<HTMLElement | null>(null)
 let currentPage = 1
 let scrollHeight = 0
+const fileInput = ref<HTMLInputElement | null>(null)
+const files = ref<File[]>([])
 
 const state = reactive({
     chattedUsers: [] as ChattedUser[],
@@ -267,6 +276,25 @@ function handleScroll() {
 function messageEmployee(employee: any) {
     employeeStore.setSelectedEmployee(employee)
     navigateTo(`/messages/${employee.uuid}`)
+}
+
+const triggerFileInput = () => {
+    fileInput.value?.click()
+}
+
+const handleFileChange = (event: any) => {
+    files.value = Array.from(event.target.files)
+    uploadFiles()
+    console.log('uploadFiles')
+}
+
+const uploadFiles = async () => {
+    const formData = new FormData()
+    files.value.forEach((file) => {
+        formData.append('files', file)
+    })
+    console.log('files.value', files.value)
+    console.log('formData', formData)
 }
 </script>
 
