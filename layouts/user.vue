@@ -433,7 +433,7 @@ const navigation = [
             'time-logs'
         ]
     },
-]
+] as any
 
 const sidebarOpen = ref(false)
 

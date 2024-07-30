@@ -284,7 +284,7 @@ const navigation = [
             'superadmin-sales-campaign-edit-uuid',
         ]
     },
-]
+] as any
 
 const sidebarOpen = ref(false)
 
