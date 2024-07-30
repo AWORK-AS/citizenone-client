@@ -83,7 +83,7 @@ interface State {
     error: Error
     isPageLoading: boolean
     modal: ModalState
-    selectedDate: object
+    selectedDate: any
     selectedYear: string
     selectedMonth: string
     selectedSchedule: CalendarEvent
