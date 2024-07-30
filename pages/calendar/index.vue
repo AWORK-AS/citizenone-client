@@ -205,7 +205,8 @@ async function downloadSchedule() {
     try {
         const response = await myCalendarService.downloadCalendar()
         if (response) {
-            saveAs(response, 'my-schedule')
+            var file = new File([response], "my-schedule.ics")
+            saveAs(file, 'my-schedule.ics')
         }
     } catch (error: any) {
         state.error = error
