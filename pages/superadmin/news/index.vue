@@ -3,16 +3,16 @@
         <NuxtLayout name="superadmin">
 
             <Head>
-                <Title>{{ $t('superadmin.users.users') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('superadmin.news.news') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('superadmin.users.users') }}</template>
+            <template #header>{{ $t('superadmin.news.news') }}</template>
 
             <div>
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/superadmin/users/new')">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/superadmin/news/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('superadmin.users.newUser') }}
+                        {{ $t('superadmin.news.newNews') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -21,35 +21,38 @@
                     <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                         @handleFilter="handleFilter" />
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.users"
-                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.users?.data?.length === 0))">
-                                <tr v-for="(user, index) in state.users?.data" :key="index">
-                                    <td width="25%">
+                        <Table :columnHeaders="state.columnHeaders" :data="state.news" :isLoading="state.isTableLoading"
+                            :sortData="state.sortData" @sort="sort">
+                            <template #body v-if="!(state.isTableLoading || (state.news?.data?.length === 0))">
+                                <tr v-for="(news, index) in state.news?.data" :key="index">
+                                    <td width="20%">
+                                        <img :src="news?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${news?.title}`"
+                                            class="w-full" />
+                                    </td>
+                                    <td width="20%">
                                         <div class="flex items-center gap-x-2">
-                                            <img :src="user?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${user?.firstname + ' ' + user?.lastname}`"
-                                                class="rounded-full w-11" />
-                                            <span>{{ user?.firstname }} {{ user?.lastname }}</span>
+                                            <span>{{ news?.title }}</span>
                                         </div>
                                     </td>
-                                    <td width="20%">
-                                        <span>{{ user?.email }}</span>
+                                    <td width="35%">
+                                        <span>{{ news?.content }}</span>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ user?.phone }}</span>
-                                    </td>
-                                    <td width="15%">
-                                        <div class="flex items-center gap-x-2" v-for="(role, index) in user?.roles"
-                                            :key="index">
-                                            <span>{{ role.name }}</span>
+                                        <div class="flex items-center gap-x-2">
+                                            <Badge :type="news?.is_active ? 'active' : 'primary'">
+                                                <p class="text-xs">
+                                                    {{ news?.is_active ? $t('superadmin.news.table.active') :
+                                                        $t('superadmin.news.table.inactive') }}
+                                                </p>
+                                            </Badge>
                                         </div>
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/superadmin/users/edit/${user.uuid}`)">
+                                                @click="navigateTo(`/superadmin/news/edit/${news.uuid}`)">
                                                 <Icon name="ph:pencil" class="size-4" />
-                                                {{ $t('superadmin.users.table.actions.edit') }}
+                                                {{ $t('superadmin.news.table.actions.edit') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -57,7 +60,7 @@
                             </template>
                         </Table>
                     </div>
-                    <Pagination :data="state.users" @previous="previous" @next="next" />
+                    <Pagination :data="state.news" @previous="previous" @next="next" />
                 </div>
             </div>
         </NuxtLayout>
@@ -65,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { userService } from '@/components/api/superadmin/UserService'
+import { newsService } from '@/components/api/superadmin/NewsService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -73,19 +76,18 @@ let currentTablePage = 1
 
 const state = reactive({
     columnFilter: [
-        { column: 'name' },
-        { column: 'email' },
-        { column: 'phone' },
+        { column: 'title' },
+        { column: 'status' },
     ],
     columnHeaders: [
-        { name: 'superadmin.users.table.name', sorter: true, key: 'firstname' },
-        { name: 'superadmin.users.table.email', sorter: true, key: 'email' },
-        { name: 'superadmin.users.table.phone', sorter: true, key: 'phone' },
-        { name: 'superadmin.users.table.role' },
+        { name: 'superadmin.news.table.image' },
+        { name: 'superadmin.news.table.title', sorter: true, key: 'title' },
+        { name: 'superadmin.news.table.content' },
+        { name: 'superadmin.news.table.status', sorter: true, key: 'is_active' },
         { name: '' },
     ],
     dataFilter: [],
-    users: [] as any,
+    news: [] as any,
     error: {} as Error,
     isTableLoading: false,
     sortData: {
@@ -95,10 +97,10 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchUsers()
+    fetchNews()
 })
 
-async function fetchUsers() {
+async function fetchNews() {
     state.error = {}
     state.isTableLoading = true
     try {
@@ -108,9 +110,9 @@ async function fetchUsers() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await userService.getUsers(params)
+        const response = await newsService.getNews(params)
         if (response) {
-            state.users = response
+            state.news = response
         }
     } catch (error: any) {
         state.error = error
@@ -120,12 +122,12 @@ async function fetchUsers() {
 
 function previous() {
     currentTablePage--
-    fetchUsers()
+    fetchNews()
 }
 
 function next() {
     currentTablePage++
-    fetchUsers()
+    fetchNews()
 }
 
 function sort(sortingData: any) {
@@ -134,12 +136,12 @@ function sort(sortingData: any) {
         sortField: sortingData.column,
         sortOrder: sortingData.sort,
     }
-    fetchUsers()
+    fetchNews()
 }
 
 function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
-    fetchUsers()
+    fetchNews()
 }
 </script>

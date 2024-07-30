@@ -1,0 +1,21 @@
+import BaseAPIService from '@/components/api/BaseAPIService'
+
+class NewsService extends BaseAPIService {
+    async getNews(params: object): Promise<any> {
+        return await this.request(`/superadmin/news`, 'GET', params)
+    }
+
+    async getSelectedNews(newsUuid: any): Promise<any> {
+        return await this.request(`/superadmin/news/${newsUuid}`, 'GET')
+    }
+
+    async saveNews(params: object): Promise<any> {
+        return await this.request(`/superadmin/news`, 'POST', params)
+    }
+
+    async updateUser(newsUuid: any, params: object): Promise<any> {
+        return await this.request(`/superadmin/news/${newsUuid}`, 'PUT', params)
+    }
+}
+
+export const newsService = new NewsService()

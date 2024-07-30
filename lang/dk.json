@@ -513,8 +513,10 @@
                 "actions": {
                     "edit": "Rediger"
                 },
+                "active": "Aktiv",
                 "content": "Indhold",
                 "image": "Billede",
+                "inactive": "Inaktiv",
                 "status": "Status",
                 "title": "Titel"
             }

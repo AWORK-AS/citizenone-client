@@ -513,8 +513,10 @@
                 "actions": {
                     "edit": "Edit"
                 },
+                "active": "Active",
                 "content": "Content",
                 "image": "Image",
+                "inactive": "Inctive",
                 "status": "Status",
                 "title": "Title"
             }
