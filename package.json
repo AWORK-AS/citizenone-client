@@ -28,7 +28,7 @@
     "@intlify/unplugin-vue-i18n": "^4.0.0",
     "@kyvg/vue3-notification": "^3.2.1",
     "@mobiscroll/cli": "^1.15.0",
-    "@nuxt/icon": "^1.0.0",
+    "@nuxt/icon": "^1.4.0",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
     "@pinia/nuxt": "^0.5.1",
     "@vueform/multiselect": "^2.6.8",

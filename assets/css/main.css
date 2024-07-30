@@ -190,30 +190,3 @@ table td {
 #content blockquote {
     @apply ml-6 pl-4 border-l-2 border-gray-500;
 }
-
-/* ----------------------------------------------------------------------------------------------------
-    Merchant
----------------------------------------------------------------------------------------------------- */
-
-.merchant-name-container > div > h2:before {
-    content: "CitizenOne A/S" !important;
-    font-size: 30px !important;
-}
-  
-.merchant-name-container > div > h2 {
-    font-size: 0px !important;
-    margin: 0px !important;
-}
-
-p.microtext span {
-    font-size: 11px !important;
-}
-
-p.microtext span:nth-child(5) {
-    font-size: 0px !important;
-}
-
-p.microtext span:nth-child(5):before {
-    content: " for CitizenOne A/S." !important;
-    font-size: 11px !important;
-}
