@@ -301,7 +301,7 @@ let checkout = null as any
 
 const state = reactive({
     error: {} as Error,
-    deals: [],
+    deals: [] as any,
     isDealsHidden: false,
     isPageLoading: false,
 })
