@@ -495,6 +495,30 @@
         }
     },
     "superadmin": {
+        "news": {
+            "editNews": "Edit news",
+            "form": {
+                "active": "Active",
+                "alert": {
+                    "newNewsSuccessfullySaved": "New news successfully saved",
+                    "newsSuccessfullyUpdated": "News successfully updated"
+                },
+                "content": "Content",
+                "image": "Image",
+                "title": "Title"
+            },
+            "news": "News",
+            "newNews": "New news",
+            "table": {
+                "actions": {
+                    "edit": "Edit"
+                },
+                "content": "Content",
+                "image": "Image",
+                "status": "Status",
+                "title": "Title"
+            }
+        },
         "sidebar": {
             "news": "News",
             "salesCampaign": "Sales campaign",

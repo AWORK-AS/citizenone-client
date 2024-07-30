@@ -495,6 +495,30 @@
         }
     },
     "superadmin": {
+        "news": {
+            "editNews": "Rediger nyheder",
+            "form": {
+                "active": "Aktiv",
+                "alert": {
+                    "newNewsSuccessfullySaved": "Nyhed er blevet gemt",
+                    "newsSuccessfullyUpdated": "Nyhed er blevet opdateret"
+                },
+                "content": "Indhold",
+                "image": "Billede",
+                "title": "Titel"
+            },
+            "news": "Nyheder",
+            "newNews": "Ny nyhed",
+            "table": {
+                "actions": {
+                    "edit": "Rediger"
+                },
+                "content": "Indhold",
+                "image": "Billede",
+                "status": "Status",
+                "title": "Titel"
+            }
+        },
         "sidebar": {
             "news": "Nyheder",
             "salesCampaign": "Salgs kampagne",
