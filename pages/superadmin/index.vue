@@ -81,10 +81,10 @@ const { t } = useI18n()
 language.locale.value = userStore.getLanguage
 
 const state = reactive({
-    email: null,
+    email: null as any,
     error: {} as Error,
     isPageLoading: false,
-    password: null,
+    password: null as any,
     slideOver: {
         isLanguageSwitcherOpen: false
     },
