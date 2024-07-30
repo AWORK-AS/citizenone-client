@@ -102,6 +102,7 @@ watch(() => props.selectedNews, (newValue: any) => {
             content: newValue.content,
             is_active: newValue.is_active,
         }
+        avatarUrl.value = newValue.image
     }
 })
 
