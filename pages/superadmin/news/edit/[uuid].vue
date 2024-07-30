@@ -3,19 +3,19 @@
         <NuxtLayout name="superadmin">
 
             <Head>
-                <Title>{{ $t('superadmin.users.editUser') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('superadmin.news.editUser') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('superadmin.users.editUser') }}</template>
+            <template #header>{{ $t('superadmin.news.editUser') }}</template>
 
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/superadmin/users">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/superadmin/news">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesSuperadminUserForm formType="update" :selectedUser="state.formUser" :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateUser" />
+                    <ModulesSuperadminNewsForm formType="update" :selectedNews="state.formNews" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateNews" />
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { userService } from '@/components/api/superadmin/UserService'
+import { newsService } from '@/components/api/superadmin/NewsService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 import type { UserForm, Error } from '@/types'
@@ -35,36 +35,30 @@ const uuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({
     error: {} as Error,
-    formUser: {
-        firstname: '',
-        lastname: '',
-        email: '',
-        phone: '',
-        birthday: '',
-        role: '',
-        permissions: [],
-    } as UserForm,
+    formNews: {
+        image: '',
+        title: '',
+        content: '',
+        is_active: false,
+    },
     isPageLoading: false,
 })
 
 onMounted(() => {
-    fetchUser()
+    fetchNews()
 })
 
-async function fetchUser() {
+async function fetchNews() {
     state.isPageLoading = true
     state.error = {}
     try {
-        const response = await userService.getUser(uuid)
+        const response = await newsService.getSelectedNews(uuid)
         if (response) {
-            state.formUser = {
-                firstname: response?.data?.firstname ?? '',
-                lastname: response?.data?.lastname ?? '',
-                email: response?.data?.email ?? '',
-                phone: response?.data?.phone ?? '',
-                birthday: response?.data?.birthday ?? '',
-                role: response?.data?.roles?.[0]?.name ?? '',
-                permissions: response?.data?.permissions ?? [],
+            state.formNews = {
+                image: response?.data?.image ?? '',
+                title: response?.data?.title ?? '',
+                content: response?.data?.content ?? '',
+                is_active: response?.data?.is_active ?? '',
             }
         }
     } catch (error: any) {
@@ -73,23 +67,19 @@ async function fetchUser() {
     state.isPageLoading = false
 }
 
-async function updateUser(userDetails: any) {
+async function updateNews(newsDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            firstname: userDetails.firstname,
-            lastname: userDetails.lastname,
-            email: userDetails.email,
-            phone: userDetails.phone,
-            birthday: userDetails.birthday,
-            role: userDetails.role,
-            permission: userDetails.permissions,
-        }
-        const response = await userService.updateUser(uuid, params)
+        let params = new FormData()
+        params.append('image', newsDetails.image)
+        params.append('title', newsDetails.title)
+        params.append('content', newsDetails.content)
+        params.append('is_active', newsDetails.is_active)
+        const response = await newsService.updateNews(uuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('superadmin.users.form.alert.userSuccessfullyUpdated')}.`)
-            navigateTo('/superadmin/users')
+            successAlert(`${t('alert.success')}!`, `${t('superadmin.news.form.alert.newsSuccessfullyUpdated')}.`)
+            navigateTo('/superadmin/news')
         }
     } catch (error: any) {
         state.error = error

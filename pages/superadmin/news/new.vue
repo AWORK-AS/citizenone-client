@@ -34,11 +34,10 @@ const { t } = useI18n()
 const state = reactive({
     error: {} as Error,
     formNews: {
-        firstname: '',
-        lastname: '',
-        email: '',
-        phone: '',
-        birthday: '',
+        image: '',
+        title: '',
+        content: '',
+        is_active: false,
     },
     isPageLoading: false,
 })

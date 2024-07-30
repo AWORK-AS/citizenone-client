@@ -13,7 +13,7 @@ class NewsService extends BaseAPIService {
         return await this.request(`/superadmin/news`, 'POST', params)
     }
 
-    async updateUser(newsUuid: any, params: object): Promise<any> {
+    async updateNews(newsUuid: any, params: object): Promise<any> {
         return await this.request(`/superadmin/news/${newsUuid}`, 'PUT', params)
     }
 }
