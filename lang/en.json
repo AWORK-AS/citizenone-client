@@ -443,6 +443,7 @@
             "successfullyAdded": "New schedule successfully added",
             "successfullyUpdated": "Schedule successfully updated"
         },
+        "downloadSchedule": "Download schedule",
         "editSchedule": "Edit schedule",
         "form": {
             "citizens": "Citizens",

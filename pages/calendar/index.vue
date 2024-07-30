@@ -8,10 +8,14 @@
 
             <template #header>{{ $t('schedules.myCalendar') }}</template>
 
-            <div class="flex justify-end items-center mb-5">
-                <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddEventOpen = true">
+            <div class="flex justify-end items-center mb-5 gap-x-2">
+                <FormButton buttonStyle="" class="rounded-lg" @click="state.modal.isAddEventOpen = true">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('schedules.newSchedule') }}
+                </FormButton>
+                <FormButton buttonStyle="action" class="rounded-lg" @click="downloadSchedule">
+                    <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                    {{ $t('schedules.downloadSchedule') }}
                 </FormButton>
             </div>
 
@@ -56,6 +60,7 @@
 <script setup lang="ts">
 import { myCalendarService } from '@/components/api/MyCalendarService'
 import type { Error } from '@/types'
+import { saveAs } from 'file-saver'
 
 interface CalendarEvent {
     id: string
@@ -192,5 +197,20 @@ function editMyCalendarEvent(selectedCalendarEvent: any) {
     state.selectedSchedule.end = selectedCalendarEvent.date_time_end
     state.selectedSchedule.is_private = selectedCalendarEvent.is_private ? true : false
     state.modal.isEditEventOpen = true
+}
+
+async function downloadSchedule() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await myCalendarService.downloadCalendar()
+        if (response) {
+            console.log('response', response)
+            saveAs(response, 'my-schedule')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>

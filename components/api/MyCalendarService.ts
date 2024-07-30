@@ -12,6 +12,10 @@ class MyCalendarService extends BaseAPIService {
     async updateSchedule(scheduleUuid: any, params: object): Promise<any> {
         return await this.request(`/user/my-calendars/${scheduleUuid}`, 'PUT', params)
     }
+
+    async downloadCalendar(): Promise<any> {
+        return await this.request(`/user/my-calendars/download/calendar`, 'GET')
+    }
 }
 
 export const myCalendarService = new MyCalendarService()

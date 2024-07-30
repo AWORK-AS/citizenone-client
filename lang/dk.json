@@ -443,6 +443,7 @@
             "successfullyAdded": "Ny tidsplan tilføjet med succes",
             "successfullyUpdated": "Tidsplan opdateret med succes"
         },
+        "downloadSchedule": "Download plan",
         "editSchedule": "Rediger tidsplan",
         "form": {
             "citizens": "Borgere",
