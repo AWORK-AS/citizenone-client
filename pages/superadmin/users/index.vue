@@ -49,7 +49,7 @@
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/superadmin/users/edit/${user.uuid}`)">
                                                 <Icon name="ph:pencil" class="size-4" />
-                                                {{ $t('users.table.actions.edit') }}
+                                                {{ $t('superadmin.users.table.actions.edit') }}
                                             </FormButton>
                                         </div>
                                     </td>

@@ -97,7 +97,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedEmployee: {
+    selectedUser: {
         type: Object,
         required: false,
     },
@@ -127,7 +127,7 @@ const state = reactive({
     },
 })
 
-watch(() => props.selectedEmployee, (newValue: any) => {
+watch(() => props.selectedUser, (newValue: any) => {
     if (newValue != null) {
         state.formUser = {
             firstname: newValue.firstname,

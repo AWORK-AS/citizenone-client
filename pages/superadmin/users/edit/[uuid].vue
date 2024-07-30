@@ -85,7 +85,7 @@ async function updateUser(userDetails: any) {
         }
         const response = await userService.updateUser(uuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('superadmin.user.form.alert.userSuccessfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('superadmin.users.form.alert.userSuccessfullyUpdated')}.`)
             navigateTo('/superadmin/users')
         }
     } catch (error: any) {

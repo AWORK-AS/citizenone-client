@@ -57,7 +57,7 @@ async function saveUser(userDetails: any) {
         }
         const response = await userService.saveUser(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('superadmin.user.form.alert.newUserSuccessfullySaved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('superadmin.users.form.alert.newUserSuccessfullySaved')}.`)
             navigateTo('/superadmin/users')
         }
     } catch (error: any) {
