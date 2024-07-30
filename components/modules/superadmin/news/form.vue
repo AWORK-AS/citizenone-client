@@ -19,6 +19,7 @@
                         </div>
                     </div>
                 </div>
+                <FormError :error="v$?.formNews?.image?.$errors[0]?.$message.toString()" class="text-center" />
                 <FormError :error="props?.error?.errors?.image?.[0]" class="text-center" />
             </div>
             <div class="space-y-1">
@@ -105,15 +106,31 @@ watch(() => props.selectedNews, (newValue: any) => {
 })
 
 const rules = computed(() => {
-    return {
-        formNews: {
-            title: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (props.formType === 'create') {
+        return {
+            formNews: {
+                image: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                title: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                content: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            content: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        }
+    } else {
+        return {
+            formNews: {
+                title: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                content: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-        },
+        }
     }
 })
 
