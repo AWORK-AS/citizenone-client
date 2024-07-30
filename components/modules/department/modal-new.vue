@@ -3,9 +3,9 @@
         <Modal size="xs" :title="$t('departments.newDepartment')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesDepartmentForm formType="create" :selectedDepartment="state.formDepartment"
+                    <ModulesDepartmentModalForm formType="create" :selectedDepartment="state.formDepartment"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @submitForm="saveDepartment" />
+                        @closeModal="closeModal" @submitForm="saveDepartment" />
                 </LoadingSpinner>
             </template>
         </Modal>
