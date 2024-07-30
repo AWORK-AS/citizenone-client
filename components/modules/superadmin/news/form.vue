@@ -72,7 +72,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedUser: {
+    selectedNews: {
         type: Object,
         required: false,
     },
@@ -93,7 +93,7 @@ const state = reactive({
     } as NewsForm,
 })
 
-watch(() => props.selectedUser, (newValue: any) => {
+watch(() => props.selectedNews, (newValue: any) => {
     if (newValue != null) {
         state.formNews = {
             image: newValue.image,

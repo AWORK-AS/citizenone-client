@@ -3,10 +3,10 @@
         <NuxtLayout name="superadmin">
 
             <Head>
-                <Title>{{ $t('superadmin.news.editUser') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('superadmin.news.editNews') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('superadmin.news.editUser') }}</template>
+            <template #header>{{ $t('superadmin.news.editNews') }}</template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/superadmin/news">
@@ -26,7 +26,7 @@
 import { newsService } from '@/components/api/superadmin/NewsService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
-import type { UserForm, Error } from '@/types'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
