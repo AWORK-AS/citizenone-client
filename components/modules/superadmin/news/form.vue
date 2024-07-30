@@ -35,7 +35,7 @@
                 <FormError :error="v$?.formNews?.content?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.content?.[0]" />
             </div>
-            <div class="space-y-1" v-if="props.formType === 'update'">
+            <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer" @click="changeIsActive">
                     <FormCheckbox :value="state.formNews.is_active" />
                     {{ $t('superadmin.news.form.active') }}
@@ -89,7 +89,7 @@ const state = reactive({
         image: '',
         title: '',
         content: '',
-        is_active: false,
+        is_active: true,
     } as NewsForm,
 })
 

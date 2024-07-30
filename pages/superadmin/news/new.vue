@@ -50,6 +50,7 @@ async function saveNews(newsDetails: any) {
         params.append('image', newsDetails.image)
         params.append('title', newsDetails.title)
         params.append('content', newsDetails.content)
+        params.append('is_active', newsDetails.is_active)
         const response = await newsService.saveNews(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('superadmin.news.form.alert.newNewsSuccessfullySaved')}.`)
