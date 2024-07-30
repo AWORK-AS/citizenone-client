@@ -15,27 +15,37 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                 </div>
                 <div id="subscribe-checkout"></div>
-                <div class="mt-16 flex justify-center" v-if="!state.isDealsHidden">
-                    <fieldset aria-label="Payment frequency">
-                        <RadioGroup v-model="frequency"
-                            class="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
-                            <RadioGroupOption as="template" v-for="option in frequencies" :key="option.value"
-                                :value="option" v-slot="{ checked }">
-                                <div
-                                    :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1']">
-                                    <span v-if="option.label === 'Monthly'">
-                                        {{ $t('subscription.deal.monthly') }}
-                                    </span>
-                                    <span v-else-if="option.label === 'Annually'">
-                                        {{ $t('subscription.deal.annually') }}
-                                    </span>
-                                    <span v-else>
-                                        {{ option.label }}
-                                    </span>
-                                </div>
-                            </RadioGroupOption>
-                        </RadioGroup>
-                    </fieldset>
+                <div class="mx-auto max-w-sm md:max-w-md mt-16 relative" v-if="!state.isDealsHidden">
+                    <div class="flex justify-center">
+                        <fieldset aria-label="Payment frequency">
+                            <RadioGroup v-model="frequency"
+                                class="grid grid-cols-2 gap-x-1 rounded-full p-2 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
+                                <RadioGroupOption as="template" v-for="option in frequencies" :key="option.value"
+                                    :value="option" v-slot="{ checked }">
+                                    <div
+                                        :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1']">
+                                        <span v-if="option.label === 'Monthly'">
+                                            {{ $t('subscription.deal.monthly') }}
+                                        </span>
+                                        <span v-else-if="option.label === 'Annually'">
+                                            {{ $t('subscription.deal.annually') }}
+                                        </span>
+                                        <span v-else>
+                                            {{ option.label }}
+                                        </span>
+                                    </div>
+                                </RadioGroupOption>
+                            </RadioGroup>
+                        </fieldset>
+                    </div>
+                    <div class="absolute right-11 -top-10 sm:right-16 sm:-top-10 md:right-24 md:-top-11">
+                        <div class="relative">
+                            <img src="/img/icons/discount-badge.svg" alt="Discount" width="73px">
+                            <div class="text-xxs text-center font-semibold text-white absolute top-8 right-5 w-10">
+                                <p class="text-center">{{ $t('subscription.discount.discount') }}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div v-if="state.deals?.data?.length === 1 && !state.isDealsHidden">
                     <div class="isolate mx-auto mt-10 grid max-w-md">
@@ -46,6 +56,7 @@
                                     {{ deal.name }}
                                 </h3>
                             </div>
+
                             <p class="mt-4 flex items-baseline gap-x-2">
                                 <span class="text-3xl font-bold tracking-tight text-gray-900">
                                     {{ frequency.value === 'monthly' ? formatAmount(deal.monthly_price) :
@@ -56,6 +67,22 @@
                                         $t('subscription.deal.year')
                                     }}
                                     {{ $t('excludeVat') }}
+                                </span>
+                            </p>
+
+                            <p class="mt-0.5 text-sm text-gray-700">
+                                {{ $t('subscription.discount.save') }}
+                                <span v-if="deal.name === 'Basis'">20</span>
+                                <span v-if="deal.name === 'Pro'">10</span>% {{
+                                    $t('subscription.discount.whenChoosingYearly') }}
+                            </p>
+
+                            <p :class="[index === 1 ? 'text-white' : 'text-gray-600', 'mt-6 text-base leading-7']">
+                                <span v-if="deal.name === 'Basis'">
+                                    {{ $t('subscription.deal.thePerfectPlan') }}.
+                                </span>
+                                <span v-else>
+                                    {{ $t('subscription.deal.aPlanThatScales') }}.
                                 </span>
                             </p>
 
@@ -139,6 +166,14 @@
                                     {{ $t('excludeVat') }}
                                 </span>
                             </div>
+
+                            <p :class="[index === 1 ? 'text-white' : 'text-gray-600', 'mt-0.5 text-sm']">
+                                {{ $t('subscription.discount.save') }}
+                                <span v-if="deal.name === 'Basis'">20</span>
+                                <span v-if="deal.name === 'Pro'">10</span>% {{
+                                    $t('subscription.discount.whenChoosingYearly') }}
+                            </p>
+
                             <p :class="[index === 1 ? 'text-white' : 'text-gray-600', 'mt-6 text-base leading-7']">
                                 <span v-if="index === 0">
                                     {{ $t('subscription.deal.thePerfectPlan') }}.
@@ -225,6 +260,13 @@
                                     }}
                                     {{ $t('excludeVat') }}
                                 </span>
+                            </p>
+
+                            <p class="mt-0.5 text-sm text-gray-700">
+                                {{ $t('subscription.discount.save') }}
+                                <span v-if="deal.name === 'Basis'">20</span>
+                                <span v-if="deal.name === 'Pro'">10</span>% {{
+                                    $t('subscription.discount.whenChoosingYearly') }}
                             </p>
 
                             <ul role="list"

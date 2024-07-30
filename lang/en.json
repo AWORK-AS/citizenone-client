@@ -663,6 +663,11 @@
             "users": "Users",
             "year": "Year"
         },
+        "discount": {
+            "discount": "Discount",
+            "save": "Save",
+            "whenChoosingYearly": "When choosing yearly"
+        },
         "noSubscription": {
             "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "It looks like you don't have an active subscription at the moment",
             "noActiveSubscription": "No Active Subscription",

@@ -663,6 +663,11 @@
             "users": "Brugere",
             "year": "År"
         },
+        "discount": {
+            "discount": "Rabatt",
+            "save": "Spar",
+            "whenChoosingYearly": "Når du vælger årligt"
+        },
         "noSubscription": {
             "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ud til, at du ikke har et aktivt abonnement i øjeblikket",
             "noActiveSubscription": "Ingen aktiv abonnement",

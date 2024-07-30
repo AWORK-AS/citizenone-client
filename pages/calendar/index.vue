@@ -204,8 +204,8 @@ async function downloadSchedule() {
     state.isPageLoading = true
     try {
         const response = await myCalendarService.downloadCalendar()
-        if (response?.data) {
-            saveAs(response?.data?.link, 'my-schedule')
+        if (response) {
+            saveAs(response, 'my-schedule')
         }
     } catch (error: any) {
         state.error = error
