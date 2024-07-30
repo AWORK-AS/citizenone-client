@@ -521,6 +521,34 @@
                 "title": "Titel"
             }
         },
+        "salesCampaign": {
+            "editCampaign": "Rediger kampagne",
+            "form": {
+                "active": "Aktiv",
+                "alert": {
+                    "newCampaignSuccessfullySaved": "Ny kampagne er gemt",
+                    "campaignSuccessfullyUpdated": "Kampagne opdateret"
+                },
+                "content": "Indhold",
+                "image": "Billede",
+                "link": "Link",
+                "title": "Titel"
+            },
+            "salesCampaign": "Salgs kampagne",
+            "newCampaign": "Ny kampagne",
+            "table": {
+                "actions": {
+                    "edit": "Rediger"
+                },
+                "active": "Aktiv",
+                "content": "Indhold",
+                "image": "Billede",
+                "inactive": "Inaktiv",
+                "link": "Link",
+                "status": "Status",
+                "title": "Titel"
+            }
+        },
         "sidebar": {
             "news": "Nyheder",
             "salesCampaign": "Salgs kampagne",

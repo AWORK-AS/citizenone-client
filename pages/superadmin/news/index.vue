@@ -80,8 +80,8 @@ const state = reactive({
         { column: 'status' },
     ],
     columnHeaders: [
-        { name: 'superadmin.news.table.image' },
         { name: 'superadmin.news.table.title', sorter: true, key: 'title' },
+        { name: 'superadmin.news.table.image' },
         { name: 'superadmin.news.table.content' },
         { name: 'superadmin.news.table.status', sorter: true, key: 'is_active' },
         { name: '' },

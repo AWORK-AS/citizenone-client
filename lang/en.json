@@ -521,6 +521,34 @@
                 "title": "Title"
             }
         },
+        "salesCampaign": {
+            "editCampaign": "Edit campaign",
+            "form": {
+                "active": "Active",
+                "alert": {
+                    "newCampaignSuccessfullySaved": "New campaign successfully saved",
+                    "campaignSuccessfullyUpdated": "Campaign successfully updated"
+                },
+                "content": "Content",
+                "image": "Image",
+                "link": "Link",
+                "title": "Title"
+            },
+            "salesCampaign": "Sales campaign",
+            "newCampaign": "New campaign",
+            "table": {
+                "actions": {
+                    "edit": "Edit"
+                },
+                "active": "Active",
+                "content": "Content",
+                "image": "Image",
+                "inactive": "Inctive",
+                "link": "Link",
+                "status": "Status",
+                "title": "Title"
+            }
+        },
         "sidebar": {
             "news": "News",
             "salesCampaign": "Sales campaign",
