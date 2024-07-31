@@ -292,8 +292,8 @@ const uploadFiles = async () => {
     state.isPageLoading = true
     try {
         let params = new FormData()
-        params.append('file', files.value)
-        params.append('receiver_uuid', receiverUuid)
+        params.append('file', files.value as any)
+        params.append('receiver_uuid', receiverUuid as any)
         const response = await messageService.sendMessage(params)
         if (response) {
             state.messages.push(response?.data)
