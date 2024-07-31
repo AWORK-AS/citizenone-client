@@ -56,7 +56,7 @@ async function saveAccount(accountDetails: any) {
             email: accountDetails.email,
             phone: accountDetails.phone,
             birthday: accountDetails.birthday,
-            role: accountDetails.role,
+            role: 'admin',
             permission: accountDetails.permissions,
         }
         const response = await accountService.saveAccount(params)

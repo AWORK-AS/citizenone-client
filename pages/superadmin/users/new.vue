@@ -53,7 +53,6 @@ async function saveUser(userDetails: any) {
             email: userDetails.email,
             phone: userDetails.phone,
             birthday: userDetails.birthday,
-            permission: userDetails.permissions,
         }
         const response = await userService.saveUser(params)
         if (response.data) {

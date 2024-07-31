@@ -3,8 +3,5 @@ export interface UserForm {
     lastname: string,
     email: string,
     phone: string,
-    birthday: string,
-    permissions: Permission[]
+    birthday: string
 }
-
-type Permission = 'read' | 'create' | 'update' | 'delete'

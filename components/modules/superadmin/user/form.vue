@@ -44,27 +44,6 @@
                     <FormError :error="props?.error?.errors?.birthday?.[0]" />
                 </div>
             </div>
-            <div class="space-y-1">
-                <FormLabel for="permissions" :label="$t('superadmin.users.form.permissions.permissions')" />
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-                    <div class="w-fit flex items-center cursor-pointer" @click="changePermissionRead()">
-                        <FormCheckbox id="permissions" :value="state.permissions.read" />
-                        {{ $t('superadmin.users.form.permissions.read') }}
-                    </div>
-                    <div class="w-fit flex items-center cursor-pointer" @click="changePermissionCreate()">
-                        <FormCheckbox id="permissions_create" :value="state.permissions.create" />
-                        {{ $t('superadmin.users.form.permissions.create') }}
-                    </div>
-                    <div class="w-fit flex items-center cursor-pointer" @click="changePermissionUpdate()">
-                        <FormCheckbox id="permissions_update" :value="state.permissions.update" />
-                        {{ $t('superadmin.users.form.permissions.update') }}
-                    </div>
-                    <div class="w-fit flex items-center cursor-pointer" @click="changePermissionDelete()">
-                        <FormCheckbox id="permissions_delete" :value="state.permissions.delete" />
-                        {{ $t('superadmin.users.form.permissions.delete') }}
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -115,16 +94,9 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
-        permissions: [],
     } as UserForm,
     modal: {
         isAddDepartmentOpen: false
-    },
-    permissions: {
-        read: false,
-        create: false,
-        update: false,
-        delete: false,
     },
 })
 
@@ -136,23 +108,7 @@ watch(() => props.selectedUser, (newValue: any) => {
             email: newValue.email,
             phone: newValue.phone,
             birthday: newValue.birthday,
-            permissions: [],
         }
-        newValue?.permissions.forEach((permission: any) => {
-            if (permission?.name === 'read') {
-                state.permissions.read = true
-                state.formUser.permissions.push("read")
-            } else if (permission?.name === 'create') {
-                state.permissions.create = true
-                state.formUser.permissions.push("create")
-            } else if (permission?.name === 'update') {
-                state.permissions.update = true
-                state.formUser.permissions.push("update")
-            } else if (permission?.name === 'delete') {
-                state.permissions.delete = true
-                state.formUser.permissions.push("delete")
-            }
-        })
     }
 })
 
@@ -185,45 +141,5 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', state.formUser)
     }
-}
-
-function changePermissionRead() {
-    state.permissions.read = !state.permissions.read
-    if (state.permissions.read) {
-        state.formUser.permissions.push("read")
-    } else {
-        removePermission('read')
-    }
-}
-
-function changePermissionCreate() {
-    state.permissions.create = !state.permissions.create
-    if (state.permissions.create) {
-        state.formUser.permissions.push("create")
-    } else {
-        removePermission('create')
-    }
-}
-
-function changePermissionUpdate() {
-    state.permissions.update = !state.permissions.update
-    if (state.permissions.update) {
-        state.formUser.permissions.push("update")
-    } else {
-        removePermission('update')
-    }
-}
-
-function changePermissionDelete() {
-    state.permissions.delete = !state.permissions.delete
-    if (state.permissions.delete) {
-        state.formUser.permissions.push("delete")
-    } else {
-        removePermission('delete')
-    }
-}
-
-function removePermission(permissionToRemove: string) {
-    state.formUser.permissions = state.formUser.permissions.filter((permission: any) => permission !== permissionToRemove);
 }
 </script>

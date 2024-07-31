@@ -41,7 +41,6 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
-        permissions: [],
     } as UserForm,
     isPageLoading: false,
 })
@@ -62,7 +61,6 @@ async function fetchUser() {
                 email: response?.data?.email ?? '',
                 phone: response?.data?.phone ?? '',
                 birthday: response?.data?.birthday ?? '',
-                permissions: response?.data?.permissions ?? [],
             }
         }
     } catch (error: any) {
@@ -81,7 +79,6 @@ async function updateUser(userDetails: any) {
             email: userDetails.email,
             phone: userDetails.phone,
             birthday: userDetails.birthday,
-            permission: userDetails.permissions,
         }
         const response = await userService.updateUser(uuid, params)
         if (response.data) {

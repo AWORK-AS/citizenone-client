@@ -600,13 +600,6 @@
                 "emailAddress": "Email address",
                 "firstname": "First name",
                 "lastname": "Last name",
-                "permissions": {
-                    "create": "Create",
-                    "delete": "Delete",
-                    "permissions": "Permissions",
-                    "read": "Read",
-                    "update": "Update"
-                },
                 "phone": "Phone"
             },
             "newUser": "New user",

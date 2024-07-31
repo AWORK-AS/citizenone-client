@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
+                <div class="space-y-1" :class="props.formType === 'create' && 'col-span-2'">
                     <FormLabel for="email" :label="$t('superadmin.accounts.form.emailAddress')" />
                     <FormTextField id="email" name="email" :placeholder="$t('superadmin.accounts.form.emailAddress')"
                         v-model="state.formAccount.email" />
@@ -36,8 +36,6 @@
                     <FormError :error="v$?.formAccount?.phone?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.phone?.[0]" />
                 </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
                     <FormLabel for="birthday" :label="$t('superadmin.accounts.form.birthday')" />
                     <FormDateField id="birthday" name="birthday" :placeholder="$t('superadmin.accounts.form.birthday')"
@@ -45,7 +43,7 @@
                     <FormError :error="v$?.formAccount?.birthday?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.birthday?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="props.formType === 'update'">
                     <FormLabel for="role" :label="$t('superadmin.accounts.form.role')" />
                     <FormSelect id="role" name="role" :options="state.options.roleOptions"
                         v-model="state.formAccount.role" />
