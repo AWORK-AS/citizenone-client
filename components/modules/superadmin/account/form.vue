@@ -21,14 +21,14 @@
                     <FormError :error="props?.error?.errors?.lastname?.[0]" />
                 </div>
             </div>
+            <div class="space-y-1">
+                <FormLabel for="email" :label="$t('superadmin.accounts.form.emailAddress')" />
+                <FormTextField id="email" name="email" :placeholder="$t('superadmin.accounts.form.emailAddress')"
+                    v-model="state.formAccount.email" />
+                <FormError :error="v$?.formAccount?.email?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.email?.[0]" />
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="email" :label="$t('superadmin.accounts.form.emailAddress')" />
-                    <FormTextField id="email" name="email" :placeholder="$t('superadmin.accounts.form.emailAddress')"
-                        v-model="state.formAccount.email" />
-                    <FormError :error="v$?.formAccount?.email?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.email?.[0]" />
-                </div>
                 <div class="space-y-1">
                     <FormLabel for="phone" :label="$t('superadmin.accounts.form.phone')" />
                     <FormTextField id="phone" name="phone" :placeholder="$t('superadmin.accounts.form.phone')"
@@ -36,21 +36,12 @@
                     <FormError :error="v$?.formAccount?.phone?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.phone?.[0]" />
                 </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
                     <FormLabel for="birthday" :label="$t('superadmin.accounts.form.birthday')" />
                     <FormDateField id="birthday" name="birthday" :placeholder="$t('superadmin.accounts.form.birthday')"
                         v-model="state.formAccount.birthday" />
                     <FormError :error="v$?.formAccount?.birthday?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.birthday?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="role" :label="$t('superadmin.accounts.form.role')" />
-                    <FormSelect id="role" name="role" :options="state.options.roleOptions"
-                        v-model="state.formAccount.role" />
-                    <FormError :error="v$?.formEmployee?.role?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.role?.[0]" />
                 </div>
             </div>
             <div class="space-y-1">
@@ -124,7 +115,6 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
-        role: '',
         permissions: [],
     } as AccountForm,
     modal: {
@@ -136,12 +126,6 @@ const state = reactive({
         update: false,
         delete: false,
     },
-    options: {
-        roleOptions: [
-            { value: 'Admin', label: 'Admin' },
-            { value: 'Account', label: 'Account' },
-        ]
-    }
 })
 
 watch(() => props.selectedAccount, (newValue: any) => {
@@ -152,7 +136,6 @@ watch(() => props.selectedAccount, (newValue: any) => {
             email: newValue.email,
             phone: newValue.phone,
             birthday: newValue.birthday,
-            role: newValue.role,
             permissions: [],
         }
         newValue?.permissions.forEach((permission: any) => {

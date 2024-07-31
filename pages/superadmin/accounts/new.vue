@@ -3,14 +3,14 @@
         <NuxtLayout name="superadmin">
 
             <Head>
-                <Title>{{ $t('superadmin.account.newAccount') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('superadmin.accounts.newAccount') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('superadmin.account.newAccount') }}</template>
+            <template #header>{{ $t('superadmin.accounts.newAccount') }}</template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    to="/superadmin/account">
+                    to="/superadmin/accounts">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -59,8 +59,8 @@ async function saveAccount(accountDetails: any) {
         }
         const response = await accountService.saveAccount(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('superadmin.account.form.alert.newAccountSuccessfullySaved')}.`)
-            navigateTo('/superadmin/account')
+            successAlert(`${t('alert.success')}!`, `${t('superadmin.accounts.form.alert.newAccountSuccessfullySaved')}.`)
+            navigateTo('/superadmin/accounts')
         }
     } catch (error: any) {
         state.error = error

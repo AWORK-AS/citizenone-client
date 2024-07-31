@@ -2,19 +2,19 @@ import BaseAPIService from '@/components/api/BaseAPIService'
 
 class AccountService extends BaseAPIService {
     async getAccounts(params: object): Promise<any> {
-        return await this.request(`/superadmin/users`, 'GET', params)
+        return await this.request(`/superadmin/accounts`, 'GET', params)
     }
 
     async getAccount(accountUuid: any): Promise<any> {
-        return await this.request(`/superadmin/users/${accountUuid}`, 'GET')
+        return await this.request(`/superadmin/accounts/${accountUuid}`, 'GET')
     }
 
     async saveAccount(params: object): Promise<any> {
-        return await this.request(`/superadmin/users`, 'POST', params)
+        return await this.request(`/superadmin/accounts`, 'POST', params)
     }
 
     async updateAccount(accountUuid: any, params: object): Promise<any> {
-        return await this.request(`/superadmin/users/${accountUuid}`, 'PUT', params)
+        return await this.request(`/superadmin/accounts/${accountUuid}`, 'PUT', params)
     }
 
     async getCurrentAccount(): Promise<any> {
