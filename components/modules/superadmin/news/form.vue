@@ -97,7 +97,7 @@ const state = reactive({
 watch(() => props.selectedNews, (newValue: any) => {
     if (newValue != null) {
         state.formNews = {
-            image: newValue.image,
+            image: '',
             title: newValue.title,
             content: newValue.content,
             is_active: newValue.is_active,

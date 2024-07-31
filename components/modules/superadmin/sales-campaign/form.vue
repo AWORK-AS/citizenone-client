@@ -105,7 +105,7 @@ const state = reactive({
 watch(() => props.selectedSalesCampaign, (newValue: any) => {
     if (newValue != null) {
         state.formSalesCampaign = {
-            image: newValue.image,
+            image: '',
             title: newValue.title,
             link: newValue.link,
             content: newValue.content,
@@ -137,6 +137,9 @@ const rules = computed(() => {
         return {
             formSalesCampaign: {
                 title: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                link: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 content: {
