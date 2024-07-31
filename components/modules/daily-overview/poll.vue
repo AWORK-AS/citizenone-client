@@ -20,7 +20,10 @@
                                         <span>{{ formatDateToReadable(item?.created_at) }}</span>
                                     </p>
                                 </div>
-                                <div class="flex items-center">
+                                <div class="flex items-center gap-x-2">
+                                    <p>
+                                        {{ item?.vote_count }}
+                                    </p>
                                     <Icon name="carbon:thumbs-up-filled" class="h-5 w-5 bg-tertiary cursor-pointer"
                                         aria-hidden="true" @click="deleteVote(pollIndex, itemIndex, item)"
                                         v-if="item?.user_voted" />
@@ -75,6 +78,7 @@ async function addVote(pollIndex: number, itemIndex: number, pollItem: any) {
         const response = await dailyOverviewService.saveVote(params)
         if (response) {
             state.polls.data[pollIndex].items[itemIndex].user_voted = true
+            state.polls.data[pollIndex].items[itemIndex].vote_count = parseInt(state.polls.data[pollIndex].items[itemIndex].vote_count) + 1
         }
     } catch (error: any) {
         state.error = error
@@ -90,6 +94,7 @@ async function deleteVote(pollIndex: number, itemIndex: number, pollItem: any) {
         const response = await dailyOverviewService.deleteVote(pollItemUuid)
         if (response) {
             state.polls.data[pollIndex].items[itemIndex].user_voted = false
+            state.polls.data[pollIndex].items[itemIndex].vote_count = parseInt(state.polls.data[pollIndex].items[itemIndex].vote_count) - 1
         }
     } catch (error: any) {
         state.error = error
