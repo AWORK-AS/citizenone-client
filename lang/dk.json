@@ -221,12 +221,12 @@
     "contactUs": "Kontakt os",
     "close": "Luk",
     "dailyOverview": {
+        "campaign": "Kampagne",
         "dailyEvents": "Daglige begivenheder",
         "dailyOverview": "Daglig oversigt",
         "latestJournal": "Seneste journal",
         "latestNews": "Seneste nyheder",
-        "poll": "Afstemning",
-        "salesCampaign": "Salgskampagne"
+        "poll": "Afstemning"
     },
     "department": {
         "all": "Alle",

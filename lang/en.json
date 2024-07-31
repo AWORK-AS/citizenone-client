@@ -221,12 +221,12 @@
     "contactUs": "Contact us",
     "close": "Close",
     "dailyOverview": {
+        "campaign": "Campaign",
         "dailyEvents": "Daily events",
         "dailyOverview": "Daily overview",
         "latestJournal": "Latest journal",
         "latestNews": "Latest news",
-        "poll": "Poll",
-        "salesCampaign": "Sales campaign"
+        "poll": "Poll"
     },
     "department": {
         "all": "All",
