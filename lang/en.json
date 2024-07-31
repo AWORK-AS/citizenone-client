@@ -502,6 +502,8 @@
             "form": {
                 "alert": {
                     "newAccountSuccessfullySaved": "New account successfully saved",
+                    "accountSuccessfullyActivated": "Account successfully activated",
+                    "accountSuccessfullyDeactivated": "Account successfully deactivated",
                     "accountSuccessfullyUpdated": "Account successfully updated"
                 },
                 "birthday": "Birthday",
@@ -521,6 +523,8 @@
             "newAccount": "New account",
             "table": {
                 "actions": {
+                    "activate": "Activate",
+                    "deactivate": "Deactivate",
                     "edit": "Edit"
                 },
                 "role": "Role",

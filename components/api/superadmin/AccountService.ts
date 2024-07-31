@@ -17,6 +17,10 @@ class AccountService extends BaseAPIService {
         return await this.request(`/superadmin/accounts/${accountUuid}`, 'PUT', params)
     }
 
+    async activateDeactiveAccount(accountUuid: any, params: object): Promise<any> {
+        return await this.request(`/superadmin/accounts/${accountUuid}/update-status `, 'PUT', params)
+    }
+
     async getCurrentAccount(): Promise<any> {
         return await this.request(`/superadmin`, 'GET')
     }

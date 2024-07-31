@@ -501,8 +501,10 @@
             "editAccount": "Rediger konto",
             "form": {
                 "alert": {
-                    "newAccountSuccessfullySaved": "Ny konto blev gemt succesfuldt",
-                    "accountSuccessfullyUpdated": "Konto blev opdateret succesfuldt"
+                    "newAccountSuccessfullySaved": "Ny konto blev gemt",
+                    "accountSuccessfullyActivated": "Kontoen er blevet aktiveret",
+                    "accountSuccessfullyDeactivated": "Kontoen er blevet deaktiveret",
+                    "accountSuccessfullyUpdated": "Kontoen er blevet opdateret"
                 },
                 "birthday": "Fødselsdag",
                 "emailAddress": "E-mailadresse",
@@ -521,6 +523,8 @@
             "newAccount": "Ny konto",
             "table": {
                 "actions": {
+                    "activate": "Aktivér",
+                    "deactivate": "Deaktiver",
                     "edit": "Rediger"
                 },
                 "role": "Rolle",

@@ -51,6 +51,14 @@
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('superadmin.accounts.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton type="button"
+                                                :buttonStyle="account.is_active ? 'danger' : 'success'"
+                                                class="rounded-md" @click="activateDeactivateAccount(index, account)">
+                                                <Icon name="ph:pencil" class="size-4" />
+                                                {{ account.is_active ?
+                                                    $t('superadmin.accounts.table.actions.deactivate') :
+                                                    $t('superadmin.accounts.table.actions.activate') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -66,9 +74,12 @@
 
 <script setup lang="ts">
 import { accountService } from '@/components/api/superadmin/AccountService'
+import { useI18n } from "vue-i18n"
+import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
@@ -141,5 +152,35 @@ function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
     fetchAccounts()
+}
+
+async function activateDeactivateAccount(index: number, account: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const params = {
+            is_active: !account.is_active,
+        }
+        const response = await accountService.activateDeactiveAccount(account.uuid, params)
+        if (response) {
+            state.accounts.data[index].is_active = response?.data?.is_active
+            if (response?.data?.is_active) {
+                successAlert(`${t('alert.success')}!`, `${t('superadmin.accounts.form.alert.accountSuccessfullyActivated')}.`)
+            } else {
+                successAlert(`${t('alert.success')}!`, `${t('superadmin.accounts.form.alert.accountSuccessfullyDeactivated')}.`)
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function successAlert(title: string, message: string) {
+    notify({
+        title: title,
+        text: message,
+        type: 'success',
+    })
 }
 </script>
