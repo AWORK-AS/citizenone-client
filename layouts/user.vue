@@ -56,6 +56,9 @@
                                                         <span v-if="item.name === 'Employees'">
                                                             {{ $t('sidebar.employees') }}
                                                         </span>
+                                                        <span v-if="item.name === 'Messages'">
+                                                            {{ $t('sidebar.messages') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Departments'">
                                                             {{ $t('sidebar.departments') }}
                                                         </span>
@@ -136,6 +139,9 @@
                                         </span>
                                         <span v-if="item.name === 'Employees'">
                                             {{ $t('sidebar.employees') }}
+                                        </span>
+                                        <span v-if="item.name === 'Messages'">
+                                            {{ $t('sidebar.messages') }}
                                         </span>
                                         <span v-if="item.name === 'Departments'">
                                             {{ $t('sidebar.departments') }}
@@ -395,6 +401,15 @@ const navigation = [
             'employees',
             'employees-new',
             'employees-edit-uuid',
+        ]
+    },
+    {
+        name: 'Messages',
+        href: '/messages',
+        icon: 'ph:chat-circle',
+        activeRouteNames: [
+            'messages',
+            'messages-receiver_uuid',
         ]
     },
     {
