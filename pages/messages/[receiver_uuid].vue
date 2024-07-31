@@ -166,6 +166,7 @@ onMounted(() => {
     const channel = pusher.subscribe('citizenone.' + userStore.getUser?.id)
     channel.bind('chat-message', (response: any) => {
         state.messages.push(response?.data)
+        scrollToBottom()
         fetchChattedUsers()
     })
     fetchChattedUsers()
