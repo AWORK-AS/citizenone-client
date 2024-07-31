@@ -41,14 +41,17 @@
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
                                                             :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100']"
                                                             aria-hidden="true" />
-                                                        <span v-if="item.name === 'Users'">
-                                                            {{ $t('superadmin.sidebar.users') }}
+                                                        <span v-if="item.name === 'Accounts'">
+                                                            {{ $t('superadmin.sidebar.accounts') }}
                                                         </span>
                                                         <span v-if="item.name === 'Sales Campaign'">
                                                             {{ $t('superadmin.sidebar.salesCampaign') }}
                                                         </span>
                                                         <span v-if="item.name === 'News'">
                                                             {{ $t('superadmin.sidebar.news') }}
+                                                        </span>
+                                                        <span v-if="item.name === 'Users'">
+                                                            {{ $t('superadmin.sidebar.users') }}
                                                         </span>
                                                     </div>
                                                     <Disclosure as="div" v-else v-slot="{ open }">
@@ -100,14 +103,17 @@
                                     <div v-if="!item.children" @click="navigateTo(item.href)"
                                         :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25', 'group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold capitalize cursor-pointer']">
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
-                                        <span v-if="item.name === 'Users'">
-                                            {{ $t('superadmin.sidebar.users') }}
+                                        <span v-if="item.name === 'Accounts'">
+                                            {{ $t('superadmin.sidebar.accounts') }}
                                         </span>
                                         <span v-if="item.name === 'Sales Campaign'">
                                             {{ $t('superadmin.sidebar.salesCampaign') }}
                                         </span>
                                         <span v-if="item.name === 'News'">
                                             {{ $t('superadmin.sidebar.news') }}
+                                        </span>
+                                        <span v-if="item.name === 'Users'">
+                                            {{ $t('superadmin.sidebar.users') }}
                                         </span>
                                     </div>
                                     <Disclosure as="div" v-else v-slot="{ open }">
@@ -255,13 +261,13 @@ const language = useI18n()
 
 const navigation = [
     {
-        name: 'Users',
-        href: '/superadmin/users',
-        icon: 'ph:users-three',
+        name: 'Accounts',
+        href: '/superadmin/accounts',
+        icon: 'ph:users-four',
         activeRouteNames: [
-            'superadmin-users',
-            'superadmin-users-new',
-            'superadmin-users-edit-uuid',
+            'superadmin-accounts',
+            'superadmin-accounts-new',
+            'superadmin-accounts-edit-uuid',
         ]
     },
     {
@@ -282,6 +288,16 @@ const navigation = [
             'superadmin-sales-campaign',
             'superadmin-sales-campaign-new',
             'superadmin-sales-campaign-edit-uuid',
+        ]
+    },
+    {
+        name: 'Users',
+        href: '/superadmin/users',
+        icon: 'ph:users-three',
+        activeRouteNames: [
+            'superadmin-users',
+            'superadmin-users-new',
+            'superadmin-users-edit-uuid',
         ]
     },
 ] as any

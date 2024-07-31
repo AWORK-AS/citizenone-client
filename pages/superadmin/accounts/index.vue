@@ -1,0 +1,145 @@
+<template>
+    <div>
+        <NuxtLayout name="superadmin">
+
+            <Head>
+                <Title>{{ $t('superadmin.accounts.accounts') }} - {{ runtimeConfig?.public?.appName }}</Title>
+            </Head>
+
+            <template #header>{{ $t('superadmin.accounts.accounts') }}</template>
+
+            <div>
+                <div class="flex justify-end items-center mb-5">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/superadmin/accounts/new')">
+                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('superadmin.accounts.newAccount') }}
+                    </FormButton>
+                </div>
+                <div class="space-y-5">
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
+                    <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
+                        @handleFilter="handleFilter" />
+                    <div class="table-responsive">
+                        <Table :columnHeaders="state.columnHeaders" :data="state.accounts"
+                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
+                            <template #body v-if="!(state.isTableLoading || (state.accounts?.data?.length === 0))">
+                                <tr v-for="(account, index) in state.accounts?.data" :key="index">
+                                    <td width="25%">
+                                        <div class="flex items-center gap-x-2">
+                                            <img :src="account?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${account?.firstname + ' ' + account?.lastname}`"
+                                                class="rounded-full w-11" />
+                                            <span>{{ account?.firstname }} {{ account?.lastname }}</span>
+                                        </div>
+                                    </td>
+                                    <td width="20%">
+                                        <span>{{ account?.email }}</span>
+                                    </td>
+                                    <td width="20%">
+                                        <span>{{ account?.phone }}</span>
+                                    </td>
+                                    <td width="15%">
+                                        <div class="flex items-center gap-x-2" v-for="(role, index) in account?.roles"
+                                            :key="index">
+                                            <span>{{ role.name }}</span>
+                                        </div>
+                                    </td>
+                                    <td width="20%">
+                                        <div class="flex items-end gap-2">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="navigateTo(`/superadmin/accounts/edit/${account.uuid}`)">
+                                                <Icon name="ph:pencil" class="size-4" />
+                                                {{ $t('superadmin.accounts.table.actions.edit') }}
+                                            </FormButton>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </Table>
+                    </div>
+                    <Pagination :data="state.accounts" @previous="previous" @next="next" />
+                </div>
+            </div>
+        </NuxtLayout>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { accountService } from '@/components/api/superadmin/AccountService'
+import type { Error } from '@/types'
+
+const runtimeConfig = useRuntimeConfig()
+let currentTablePage = 1
+
+const state = reactive({
+    accounts: [] as any,
+    columnFilter: [
+        { column: 'name' },
+        { column: 'email' },
+        { column: 'phone' },
+    ],
+    columnHeaders: [
+        { name: 'superadmin.accounts.table.name', sorter: true, key: 'firstname' },
+        { name: 'superadmin.accounts.table.email', sorter: true, key: 'email' },
+        { name: 'superadmin.accounts.table.phone', sorter: true, key: 'phone' },
+        { name: 'superadmin.accounts.table.role' },
+        { name: '' },
+    ],
+    dataFilter: [],
+    error: {} as Error,
+    isTableLoading: false,
+    sortData: {
+        sortField: 'id',
+        sortOrder: 'descend',
+    },
+})
+
+onMounted(() => {
+    fetchAccounts()
+})
+
+async function fetchAccounts() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const params = {
+            page: currentTablePage,
+            sortField: state.sortData.sortField,
+            sortOrder: state.sortData.sortOrder,
+            ...state.dataFilter
+        }
+        const response = await accountService.getAccounts(params)
+        if (response) {
+            state.accounts = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function previous() {
+    currentTablePage--
+    fetchAccounts()
+}
+
+function next() {
+    currentTablePage++
+    fetchAccounts()
+}
+
+function sort(sortingData: any) {
+    currentTablePage = 1
+    state.sortData = {
+        sortField: sortingData.column,
+        sortOrder: sortingData.sort,
+    }
+    fetchAccounts()
+}
+
+function handleFilter(value: any) {
+    currentTablePage = 1
+    state.dataFilter = value
+    fetchAccounts()
+}
+</script>

@@ -1,3 +1,4 @@
+export * from './account'
 export * from './citizen'
 export * from './chat'
 export * from './daily-overview'

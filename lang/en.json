@@ -496,6 +496,39 @@
         }
     },
     "superadmin": {
+        "accounts": {
+            "accounts": "Accounts",
+            "editAccount": "Edit account",
+            "form": {
+                "alert": {
+                    "newAccountSuccessfullySaved": "New account successfully saved",
+                    "accountSuccessfullyUpdated": "Account successfully updated"
+                },
+                "birthday": "Birthday",
+                "emailAddress": "Email address",
+                "firstname": "First name",
+                "lastname": "Last name",
+                "permissions": {
+                    "create": "Create",
+                    "delete": "Delete",
+                    "permissions": "Permissions",
+                    "read": "Read",
+                    "update": "Update"
+                },
+                "phone": "Phone",
+                "role": "Role"
+            },
+            "newAccount": "New account",
+            "table": {
+                "actions": {
+                    "edit": "Edit"
+                },
+                "role": "Role",
+                "email": "Email",
+                "name": "Name",
+                "phone": "Phone"
+            }
+        },
         "news": {
             "editNews": "Edit news",
             "form": {
@@ -551,6 +584,7 @@
             }
         },
         "sidebar": {
+            "accounts": "Accounts",
             "news": "News",
             "salesCampaign": "Sales campaign",
             "users": "Users"

@@ -118,7 +118,7 @@ async function login() {
                 userStore.setUser(response?.data?.user)
                 userStore.setLanguage(response?.data?.user?.language?.code)
                 language.locale.value = response?.data?.user?.language?.code
-                navigateTo('/superadmin/users')
+                navigateTo('/superadmin/accounts')
             }
         } catch (error: any) {
             state.error = error

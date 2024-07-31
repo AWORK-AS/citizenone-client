@@ -496,6 +496,39 @@
         }
     },
     "superadmin": {
+        "accounts": {
+            "accounts": "Kontoer",
+            "editAccount": "Rediger konto",
+            "form": {
+                "alert": {
+                    "newAccountSuccessfullySaved": "Ny konto blev gemt succesfuldt",
+                    "accountSuccessfullyUpdated": "Konto blev opdateret succesfuldt"
+                },
+                "birthday": "Fødselsdag",
+                "emailAddress": "E-mailadresse",
+                "firstname": "Fornavn",
+                "lastname": "Efternavn",
+                "permissions": {
+                    "create": "Opret",
+                    "delete": "Slet",
+                    "permissions": "Tilladelser",
+                    "read": "Læs",
+                    "update": "Opdater"
+                },
+                "phone": "Telefon",
+                "role": "Rolle"
+            },
+            "newAccount": "Ny konto",
+            "table": {
+                "actions": {
+                    "edit": "Rediger"
+                },
+                "role": "Rolle",
+                "email": "E-mail",
+                "name": "Navn",
+                "phone": "Telefon"
+            }
+        },
         "news": {
             "editNews": "Rediger nyheder",
             "form": {
@@ -551,6 +584,7 @@
             }
         },
         "sidebar": {
+            "accounts": "Kontoer",
             "news": "Nyheder",
             "salesCampaign": "Salgs kampagne",
             "users": "Brugere"
