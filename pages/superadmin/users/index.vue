@@ -25,24 +25,18 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.users?.data?.length === 0))">
                                 <tr v-for="(user, index) in state.users?.data" :key="index">
-                                    <td width="25%">
+                                    <td width="30%">
                                         <div class="flex items-center gap-x-2">
                                             <img :src="user?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${user?.firstname + ' ' + user?.lastname}`"
                                                 class="rounded-full w-11" />
                                             <span>{{ user?.firstname }} {{ user?.lastname }}</span>
                                         </div>
                                     </td>
-                                    <td width="20%">
+                                    <td width="25%">
                                         <span>{{ user?.email }}</span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="25%">
                                         <span>{{ user?.phone }}</span>
-                                    </td>
-                                    <td width="15%">
-                                        <div class="flex items-center gap-x-2" v-for="(role, index) in user?.roles"
-                                            :key="index">
-                                            <span>{{ role.name }}</span>
-                                        </div>
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
@@ -81,7 +75,6 @@ const state = reactive({
         { name: 'superadmin.users.table.name', sorter: true, key: 'firstname' },
         { name: 'superadmin.users.table.email', sorter: true, key: 'email' },
         { name: 'superadmin.users.table.phone', sorter: true, key: 'phone' },
-        { name: 'superadmin.users.table.role' },
         { name: '' },
     ],
     dataFilter: [],

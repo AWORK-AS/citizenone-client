@@ -41,6 +41,7 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
+        role: '',
     },
     isPageLoading: false,
 })
@@ -55,6 +56,7 @@ async function saveAccount(accountDetails: any) {
             email: accountDetails.email,
             phone: accountDetails.phone,
             birthday: accountDetails.birthday,
+            role: accountDetails.role,
             permission: accountDetails.permissions,
         }
         const response = await accountService.saveAccount(params)

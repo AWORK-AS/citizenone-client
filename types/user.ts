@@ -4,7 +4,6 @@ export interface UserForm {
     email: string,
     phone: string,
     birthday: string,
-    role: string,
     permissions: Permission[]
 }
 

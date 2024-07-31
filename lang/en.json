@@ -607,15 +607,13 @@
                     "read": "Read",
                     "update": "Update"
                 },
-                "phone": "Phone",
-                "role": "Role"
+                "phone": "Phone"
             },
             "newUser": "New user",
             "table": {
                 "actions": {
                     "edit": "Edit"
                 },
-                "role": "Role",
                 "email": "Email",
                 "name": "Name",
                 "phone": "Phone"

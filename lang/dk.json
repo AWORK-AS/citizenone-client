@@ -607,15 +607,13 @@
                     "read": "Læs",
                     "update": "Opdater"
                 },
-                "phone": "Telefon",
-                "role": "Rolle"
+                "phone": "Telefon"
             },
             "newUser": "Ny bruger",
             "table": {
                 "actions": {
                     "edit": "Rediger"
                 },
-                "role": "Rolle",
                 "email": "Email",
                 "name": "Navn",
                 "phone": "Telefon"
