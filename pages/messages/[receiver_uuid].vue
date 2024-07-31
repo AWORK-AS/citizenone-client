@@ -289,12 +289,21 @@ const handleFileChange = (event: any) => {
 }
 
 const uploadFiles = async () => {
-    const formData = new FormData()
-    files.value.forEach((file) => {
-        formData.append('files', file)
-    })
-    console.log('files.value', files.value)
-    console.log('formData', formData)
+    state.isPageLoading = true
+    try {
+        let params = new FormData()
+        params.append('file', files.value)
+        params.append('receiver_uuid', receiverUuid)
+        const response = await messageService.sendMessage(params)
+        if (response) {
+            state.messages.push(response?.data)
+            fetchChattedUsers()
+            scrollToBottom()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>
 
