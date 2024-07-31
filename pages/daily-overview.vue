@@ -13,10 +13,10 @@
                     <div class="bg-white pt-6 pb-6 pl-6 shadow-md rounded-md">
                         <ModulesDailyOverviewTodaysEvent />
                     </div>
-                    <div class="bg-white p-6 shadow-md rounded-md min-h-44">
+                    <div class="bg-white pt-6 pb-6 pl-6 shadow-md rounded-md">
                         <ModulesDailyOverviewLatestJournal />
                     </div>
-                    <div class="bg-white p-6 shadow-md rounded-md min-h-44">
+                    <div class="bg-white pt-6 pb-6 pl-6 shadow-md rounded-md">
                         <ModulesDailyOverviewPoll />
                     </div>
                 </div>
