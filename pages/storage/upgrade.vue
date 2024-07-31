@@ -112,7 +112,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 let checkout = null as any
 const router = useRouter()
-let error = router?.currentRoute?.value?.query?.error
+let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
 
 const state = reactive({
     error: {} as Error,
@@ -121,8 +121,8 @@ const state = reactive({
     modal: {
         isContactUsOpen: false
     },
-    storageDeals: [],
-    usage: [],
+    storageDeals: [] as any,
+    usage: [] as any,
 })
 
 onMounted(() => {
