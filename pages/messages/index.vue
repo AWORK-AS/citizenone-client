@@ -43,12 +43,15 @@
 </template>
 
 <script setup lang="ts">
+import pusher from '@/services/pusher'
 import { messageService } from '@/components/api/MessageService'
 import { useEmployeeStore } from '@/store/employee'
+import { useUserStore } from '@/store/user'
 import type { ChattedUser, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const employeeStore = useEmployeeStore() as any
+const userStore = useUserStore() as any
 const fileInput = ref<HTMLInputElement | null>(null)
 const files = ref<File[]>([])
 
@@ -59,6 +62,10 @@ const state = reactive({
 })
 
 onMounted(() => {
+    const channel = pusher.subscribe('citizenone.' + userStore.getUser?.id)
+    channel.bind('chat-message', (response: any) => {
+        fetchChattedUsers()
+    })
     fetchChattedUsers()
 })
 
