@@ -318,20 +318,23 @@ const handleFileChange = (event: any) => {
 
 const uploadFiles = async (files: any) => {
     state.isPageLoading = true
-    try {
-        const params = new FormData()
-        params.append('receiver_uuid', receiverUuid as any)
-        for (let i = 0; i < files.length; i++) {
-            params.append('file[]', files[i])
+    if (files.length > 0) {
+        try {
+            const params = new FormData()
+            params.append('receiver_uuid', receiverUuid as any)
+            for (let i = 0; i < files.length; i++) {
+                params.append('file[]', files[i])
+            }
+            const response = await messageService.sendMessage(params)
+            if (response) {
+                state.messages.push(response?.data)
+                fetchChattedUsers()
+                scrollToBottom()
+                fileInput.value.value = ''
+            }
+        } catch (error: any) {
+            state.error = error
         }
-        const response = await messageService.sendMessage(params)
-        if (response) {
-            state.messages.push(response?.data)
-            fetchChattedUsers()
-            scrollToBottom()
-        }
-    } catch (error: any) {
-        state.error = error
     }
     state.isPageLoading = false
 }
