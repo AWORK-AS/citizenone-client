@@ -9,8 +9,16 @@ class AuthService extends BaseAPIService {
         return await this.request(`/auth/logout`, 'POST')
     }
 
+    async forgotPassword(params: object): Promise<any> {
+        return await this.request(`/auth/forgot-password`, 'POST', params)
+    }
+
     async verifyResetPassword(token: any): Promise<any> {
         return await this.request(`/auth/verify-token/${token}`, 'POST')
+    }
+
+    async resetPassword(params: object): Promise<any> {
+        return await this.request(`/auth/reset-password`, 'POST', params)
     }
 
     async setPassword(params: object): Promise<any> {
