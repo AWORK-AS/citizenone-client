@@ -284,17 +284,17 @@ const triggerFileInput = () => {
 }
 
 const handleFileChange = (event: any) => {
-    files.value = Array.from(event.target.files)
-    uploadFiles()
-    console.log('uploadFiles')
+    uploadFiles(event.target.files)
 }
 
-const uploadFiles = async () => {
+const uploadFiles = async (files: any) => {
     state.isPageLoading = true
     try {
-        let params = new FormData()
-        params.append('file', files.value as any)
+        const params = new FormData()
         params.append('receiver_uuid', receiverUuid as any)
+        for (let i = 0; i < files.length; i++) {
+            params.append('file[]', files[i])
+        }
         const response = await messageService.sendMessage(params)
         if (response) {
             state.messages.push(response?.data)
