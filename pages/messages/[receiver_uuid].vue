@@ -107,9 +107,23 @@
                                             </div>
                                             <div class="ml-2">
                                                 <div class="bg-gray-200 p-3 rounded-lg">
-                                                    <p class="text-gray-700">
-                                                    <p>{{ message?.message }}</p>
-                                                    </p>
+                                                    <div v-if="message?.attachments?.length > 0" class="space-y-3">
+                                                        <div v-for="(attachment, index) in message?.attachments"
+                                                            :key="index">
+                                                            <img :src="attachment?.file" alt="Image failed to load."
+                                                                v-if="isImageFile(attachment?.file_name)"
+                                                                class="w-44 cursor-pointer"
+                                                                @click="openExternalFile(attachment)">
+                                                            <div v-else
+                                                                class="flex items-center gap-x-1 w-fit cursor-pointer"
+                                                                @click="openExternalFile(attachment)">
+                                                                <Icon name="ph:file" class="h-8 w-8"
+                                                                    aria-hidden="true" />
+                                                                {{ attachment?.file_name }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p v-else class="text-gray-700">{{ message?.message }}</p>
                                                 </div>
                                                 <span class="text-xs text-gray-500 mt-1">
                                                     {{ formatTimeToReadable(message?.created_at) }}
