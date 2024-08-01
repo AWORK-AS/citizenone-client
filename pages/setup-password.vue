@@ -20,7 +20,7 @@
                         </button>
                     </div>
 
-                    <form class="mt-5 space-y-3" method="POST" @submit.prevent="resetPassword">
+                    <form class="mt-5 space-y-3" method="POST" @submit.prevent="setPassword">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <h3 class="font-medium">
@@ -142,7 +142,7 @@ async function verifyPasswordResetToken() {
     state.isPageLoading = false
 }
 
-async function resetPassword() {
+async function setPassword() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
@@ -152,7 +152,7 @@ async function resetPassword() {
             token: state.token,
         }
         try {
-            await authService.resetPassword(params)
+            await authService.setPassword(params)
             successAlert(`${t('alert.success')}!`, `${t('alert.setupPassword.passwordSetupSucessfully')}.`)
             navigateTo('/')
         } catch (error) {
