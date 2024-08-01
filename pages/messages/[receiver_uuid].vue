@@ -72,7 +72,23 @@
                                             v-if="message?.sender_id === userStore.getUser?.id">
                                             <div class="mr-2">
                                                 <div class="bg-primary text-white p-3 rounded-lg">
-                                                    <p>{{ message?.message }}</p>
+                                                    <div v-if="message?.attachments?.length > 0" class="space-y-3">
+                                                        <div v-for="(attachment, index) in message?.attachments"
+                                                            :key="index">
+                                                            <img :src="attachment?.file" alt="Image failed to load."
+                                                                v-if="isImageFile(attachment?.file_name)"
+                                                                class="w-44 cursor-pointer"
+                                                                @click="openExternalFile(attachment)">
+                                                            <div v-else
+                                                                class="flex items-center gap-x-1 w-fit cursor-pointer"
+                                                                @click="openExternalFile(attachment)">
+                                                                <Icon name="ph:file" class="h-8 w-8"
+                                                                    aria-hidden="true" />
+                                                                {{ attachment?.file_name }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p v-else>{{ message?.message }}</p>
                                                 </div>
                                                 <span class="text-xs text-gray-500 mt-1">
                                                     {{ formatTimeToReadable(message?.created_at) }}
@@ -110,9 +126,8 @@
                                         class="hidden" />
                                     <button type="button"
                                         class="flex items-center px-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
-                                        :disabled="state.isPageLoading">
-                                        <Icon name="ph:paperclip" class="w-7 h-7 text-primary rounded-full"
-                                            @click="triggerFileInput" />
+                                        :disabled="state.isPageLoading" @click="triggerFileInput">
+                                        <Icon name="ph:paperclip" class="w-7 h-7 text-primary rounded-full" />
                                     </button>
                                     <input type="text"
                                         class="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -305,6 +320,20 @@ const uploadFiles = async (files: any) => {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function isImageFile(filename: string) {
+    const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|svg|webp)$/i;
+    return imageExtensions.test(filename);
+}
+
+async function openExternalFile(attachment: any) {
+    await navigateTo(attachment?.file, {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 </script>
 
