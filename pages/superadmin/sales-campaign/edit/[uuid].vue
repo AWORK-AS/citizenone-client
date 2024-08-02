@@ -58,7 +58,6 @@ async function fetchSalesCampaign() {
     try {
         const response = await salesCampaignService.getSalesCampaign(uuid)
         if (response) {
-            console.log(response?.data)
             state.formSalesCampaign = {
                 image: response?.data?.image ?? '',
                 title: response?.data?.title ?? '',

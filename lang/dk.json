@@ -452,6 +452,7 @@
             "description": "Beskrivelse",
             "employees": "Medarbejdere",
             "private": "Privat",
+            "sendInvitation": "Send invitationen",
             "title": "Titel"
         },
         "myCalendar": "Min kalender",

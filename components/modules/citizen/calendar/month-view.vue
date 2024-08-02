@@ -98,8 +98,7 @@
                             <li v-for="(myCalendarEvent, index) in day.events" :key="index">
                                 <div class="group flex cursor-pointer" @click="viewMyCalendarEvent(myCalendarEvent)">
                                     <p class="flex-auto truncate font-medium text-gray-900 group-hover:text-tertiary">
-                                        {{ myCalendarEvent?.user?.firstname }}
-                                        {{ myCalendarEvent?.user?.lastname }}
+                                        {{ myCalendarEvent?.title }}
                                     </p>
                                     <p class="ml-3 hidden flex-none text-gray-500 group-hover:text-tertiary xl:block">
                                         {{ myCalendarEvent.time_start }} - {{ myCalendarEvent.time_end }}

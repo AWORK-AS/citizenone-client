@@ -452,6 +452,7 @@
             "description": "Description",
             "employees": "Employees",
             "private": "Private",
+            "sendInvitation": "Send invitation",
             "title": "Title"
         },
         "myCalendar": "My calendar",

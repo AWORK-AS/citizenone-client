@@ -77,6 +77,7 @@ const state = reactive({
     selectedSchedule: {
         id: '',
         uuid: '',
+        user: '',
         title: '',
         description: '',
         start: '',
@@ -163,6 +164,7 @@ function changeMonthYear(year: any, month: any) {
 
 function viewMyCalendarEvent(selectedCalendarEvent: any) {
     state.selectedSchedule.uuid = selectedCalendarEvent.uuid
+    state.selectedSchedule.user = selectedCalendarEvent.user
     state.selectedSchedule.title = selectedCalendarEvent.title
     state.selectedSchedule.description = selectedCalendarEvent.description
     state.selectedSchedule.start = selectedCalendarEvent.date_time_start

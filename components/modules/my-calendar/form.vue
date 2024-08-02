@@ -52,6 +52,13 @@
                 <FormError :error="v$?.formProtocol?.users_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.users_uuid?.[0]" />
             </div>
+            <div class="space-y-1" v-if="props.formType === 'create'">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formSchedule.send_invitation = !state.formSchedule.send_invitation">
+                    <FormCheckbox :value="state.formSchedule.send_invitation" />
+                    {{ $t('schedules.form.sendInvitation') }}
+                </div>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -111,6 +118,7 @@ const state = reactive({
         is_private: false,
         citizens_uuid: [],
         users_uuid: [],
+        send_invitation: false,
     },
     options: {
         citizens: [] as Option[],
@@ -131,6 +139,7 @@ onMounted(() => {
         is_private: props.selectedSchedule.is_private,
         citizens_uuid: props.selectedSchedule.citizens_uuid,
         users_uuid: props.selectedSchedule.users_uuid,
+        send_invitation: props.selectedSchedule.send_invitation,
     }
 })
 

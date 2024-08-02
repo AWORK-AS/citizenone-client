@@ -117,13 +117,12 @@
                                     <div v-for="myCalendarEvent in events" :key="myCalendarEvent.id"
                                         class="bg-gray-200 p-2 rounded-md cursor-pointer"
                                         @click="viewMyCalendarEvent(myCalendarEvent)">
+                                        <p class="text-xxs font-semibold">
+                                            {{ myCalendarEvent?.title }}
+                                        </p>
                                         <p class="text-xxs">
                                             {{ moment(myCalendarEvent.date_time_start).format('HH:mm') }} -
                                             {{ moment(myCalendarEvent.date_time_end).format('HH:mm') }}
-                                        </p>
-                                        <p class="text-xs">
-                                            {{ myCalendarEvent?.user?.firstname }}
-                                            {{ myCalendarEvent?.user?.lastname }}
                                         </p>
                                     </div>
                                 </div>
