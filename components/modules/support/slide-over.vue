@@ -44,13 +44,9 @@
                                                     <span class="text-sm">support@citizenone.dk</span>
                                                 </div>
                                                 <div>
-                                                    <p>
+                                                    <p class="text-tertiary hover:text-tertiary-700 cursor-pointer"
+                                                        @click="navigateToSupport()">
                                                         {{ $t('support.goToSupportcenterHere') }}
-                                                        <span
-                                                            class="text-tertiary hover:text-tertiary-700 cursor-pointer"
-                                                            @click="navigateToSupport()">
-                                                            here.
-                                                        </span>
                                                     </p>
                                                 </div>
                                             </div>
