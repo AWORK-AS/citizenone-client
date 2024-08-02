@@ -432,14 +432,14 @@ const navigation = [
             'protocols-uuid'
         ]
     },
-    {
-        name: 'Apps',
-        href: '/apps',
-        icon: 'ic:baseline-apps',
-        activeRouteNames: [
-            'apps'
-        ]
-    },
+    // {
+    //     name: 'Apps',
+    //     href: '/apps',
+    //     icon: 'ic:baseline-apps',
+    //     activeRouteNames: [
+    //         'apps'
+    //     ]
+    // },
     {
         name: 'Time logs',
         href: '/time-logs',
