@@ -10,6 +10,9 @@
     },
     "alert": {
         "accountSuccessfullyCreated": "Din konto er blevet oprettet med succes",
+        "emailVerification": {
+            "invalidEmailVerificationToken": "Ugyldig e-mail verificerings-token"
+        },
         "forgotPasswordSuccess": "En e-mail til nulstilling af adgangskode er blevet sendt til din e-mailadresse",
         "invitation": {
             "calendarEventNotFound": "Kalenderbegivenhed ikke fundet"
@@ -758,6 +761,12 @@
     "update": "Opdater",
     "validation": {
         "thisFieldIsRequired": "Dette felt er påkrævet"
+    },
+    "verifyEmail": {
+        "emailVerified": "Email verificeret",
+        "loginToContinue": "Log ind for at fortsætte",
+        "youHaveSuccessfullyVerifiedYourEmail": "Du har succesfuldt verificeret din email",
+        "verifyEmail": "Verificer email"
     },
     "wish": {
         "alert": {

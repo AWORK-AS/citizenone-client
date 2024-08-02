@@ -28,6 +28,10 @@ class AuthService extends BaseAPIService {
     async setPassword(params: object): Promise<any> {
         return await this.request(`/auth/set-password`, 'POST', params)
     }
+
+    async verifyEmail(token: any): Promise<any> {
+        return await this.request(`/auth/verify-email/${token}`, 'POST')
+    }
 }
 
 export const authService = new AuthService()

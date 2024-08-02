@@ -10,6 +10,9 @@
     },
     "alert": {
         "accountSuccessfullyCreated": "Your account has been created successfully",
+        "emailVerification": {
+            "invalidEmailVerificationToken": "Invalid email verification token"
+        },
         "forgotPasswordSuccess": "A forgot password email has been sent to your email address",
         "invitation": {
             "calendarEventNotFound": "Calendar event not found"
@@ -758,6 +761,12 @@
     "update": "Update",
     "validation": {
         "thisFieldIsRequired": "This field is required"
+    },
+    "verifyEmail": {
+        "emailVerified": "Email verified",
+        "loginToContinue": "Login to continue",
+        "youHaveSuccessfullyVerifiedYourEmail": "You have successfully verified your email",
+        "verifyEmail": "Verify email"
     },
     "wish": {
         "alert": {

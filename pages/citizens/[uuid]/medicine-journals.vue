@@ -185,7 +185,7 @@ async function deleteMedicne() {
     state.isTableLoading = true
     try {
         const response = await medicineJournalService.deleteMedicine(state.selectedMedicine.uuid)
-        if (response?.message === 'Success.') {
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
             if (state.selectedMedicine?.data?.length === 1) {
                 currentTablePage = 1
             }

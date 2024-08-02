@@ -93,7 +93,7 @@ async function deleteSchedule() {
     try {
         const scheduleUuid = props.selectedSchedule.uuid
         const response = await dutyScheduleService.deleteDutySchedule(scheduleUuid + 123)
-        if (response?.message === 'Success.') {
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
             refreshSchedules()
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.alert.successfullyDeleted')}.`)

@@ -292,7 +292,7 @@ async function deleteDocument() {
     state.isTableLoading = true
     try {
         const response = await documentService.deleteDocument(state.selectedDirectory.uuid)
-        if (response?.message === 'Success.') {
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchDocuments()
             if (state.selectedDirectory.type === 'folder') {
                 successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.deletedFolderSuccessfully')}.`)
