@@ -91,6 +91,8 @@ const userStore = useUserStore()
 const language = useI18n()
 const { t } = useI18n()
 
+console.log('Test login')
+
 // Set language
 language.locale.value = userStore.getLanguage
 
