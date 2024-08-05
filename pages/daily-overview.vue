@@ -16,7 +16,7 @@
                     <div class="bg-white pt-6 pb-6 pl-6 shadow-md rounded-md">
                         <ModulesDailyOverviewLatestJournal />
                     </div>
-                    <div class="bg-white pt-6 pb-6 pl-6 shadow-md rounded-md">
+                    <div>
                         <ModulesDailyOverviewPoll />
                     </div>
                 </div>

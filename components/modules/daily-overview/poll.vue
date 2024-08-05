@@ -3,36 +3,46 @@
         <Alert type="danger"
             :text="state?.error?.message === 'You have already voted.' ? `${$t('poll.youHaveAlreadyVoted')}.` : state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <h3 class="text-sm font-medium pr-6">{{ $t('dailyOverview.poll') }}</h3>
-        <div class="mt-4 text-sm space-y-2 divide-y overflow-scroll min-h-44 max-h-96 pr-5 mr-1">
+        <h3 class="text-lg font-medium pr-6">
+            {{ $t('dailyOverview.poll') }}
+        </h3>
+        <div class="mt-3 text-sm space-y-2 overflow-scroll min-h-44 max-h-96 pr-4 mr-1">
             <div class="flex items-center justify-center h-80" v-if="state.polls?.data?.length === 0">
                 {{ $t('dailyOverview.noPollToShow') }}
             </div>
-            <div v-for="(poll, pollIndex) in state.polls?.data" :key="pollIndex" class="py-2">
-                <div>
-                    <h3 class="font-semibold">
-                        {{ poll?.title }}
-                    </h3>
-                    <div class="space-y-2 divide-y divide-dashed px-2">
-                        <div class="pt-2" v-for="(item, itemIndex) in poll.items" :key="itemIndex">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <h3 class="text-md">
-                                        {{ item?.title }}
-                                    </h3>
-                                    <p class="text-xxs text-muted-400">
-                                        <span>{{ formatDateToReadable(item?.created_at) }}</span>
-                                    </p>
-                                </div>
-                                <div class="flex items-center gap-x-2">
-                                    <p>
-                                        {{ item?.vote_count }}
-                                    </p>
-                                    <Icon name="carbon:thumbs-up-filled" class="h-5 w-5 bg-tertiary cursor-pointer"
-                                        aria-hidden="true" @click="deleteVote(pollIndex, itemIndex, item)"
-                                        v-if="item?.user_voted" />
-                                    <Icon name="carbon:thumbs-up" class="h-5 w-5 cursor-pointer" aria-hidden="true"
-                                        @click="addVote(pollIndex, itemIndex, item)" v-else />
+            <div v-for="(poll, pollIndex) in state.polls?.data" :key="pollIndex">
+                <div class="space-y-3 px-2">
+                    <div class="flex items-center gap-x-2">
+                        <!-- <Icon name="heroicons:x-mark" class="h-6 w-6" aria-hidden="true" /> -->
+                        <div class="w-3 h-3 rounded-full bg-primary"></div>
+                        <h3 class="font-semibold w-fit">
+                            {{ poll?.title }}
+                        </h3>
+                    </div>
+                    <div class="space-y-3 pb-2">
+                        <div v-for="(item, itemIndex) in poll.items" :key="itemIndex">
+                            <div
+                                class="bg-white ring-1 ring-gray-200 shadow-sm rounded-md px-4 py-5 border-l-4 border-primary">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h3 class="text-base font-semibold">
+                                            {{ item?.title }}
+                                        </h3>
+                                        <p class="text-xxs text-muted-400">
+                                            <span>{{ formatDateToReadable(item?.created_at) }}</span>
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-x-2">
+                                        <p>
+                                            {{ item?.vote_count }}
+                                        </p>
+                                        <Icon name="carbon:thumbs-up-filled"
+                                            class="h-5 w-5 bg-tertiary cursor-pointer hover:bg-tertiary"
+                                            aria-hidden="true" @click="deleteVote(pollIndex, itemIndex, item)"
+                                            v-if="item?.user_voted" />
+                                        <Icon name="carbon:thumbs-up" class="h-5 w-5 cursor-pointer hover:bg-tertiary"
+                                            aria-hidden="true" @click="addVote(pollIndex, itemIndex, item)" v-else />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -84,6 +94,7 @@ async function addVote(pollIndex: number, itemIndex: number, pollItem: any) {
             state.polls.data[pollIndex].items[itemIndex].user_voted = true
             state.polls.data[pollIndex].items[itemIndex].vote_count = parseInt(state.polls.data[pollIndex].items[itemIndex].vote_count) + 1
         }
+        fetchPolls()
     } catch (error: any) {
         state.error = error
     }
