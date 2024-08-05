@@ -673,7 +673,7 @@
     },
     "subscription": {
         "addOnDeals": {
-            "addOnDeals": "Exstra brugere og afdelinger",
+            "addOnDeals": "Ekstra brugere og afdelinger",
             "checkout": "Betal og tilføj",
             "extraDepartment": "Ekstra afdeling",
             "extraUser": "Ekstra bruger",
