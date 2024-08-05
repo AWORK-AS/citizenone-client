@@ -71,7 +71,7 @@
                                 </span>
                             </p>
 
-                            <p class="mt-0.5 text-sm text-gray-700">
+                            <p class="mt-0.5 text-sm text-primary font-semibold">
                                 {{ $t('subscription.discount.save') }}
                                 <span v-if="deal.name === 'Basis'">20</span>
                                 <span v-if="deal.name === 'Pro'">10</span>%
@@ -133,10 +133,10 @@
                             <div class="mt-8">
                                 <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0"
                                     @click="subscribe(deal)">
-                                    {{ $t('subscription.deal.subscribe') }}
+                                    {{ $t('subscription.deal.selectPackage') }}
                                 </FormButton>
                                 <FormButton type="button" class="w-full" v-else @click="subscribe(deal)">
-                                    {{ $t('subscription.deal.subscribe') }}
+                                    {{ $t('subscription.deal.selectPackage') }}
                                 </FormButton>
                             </div>
                         </div>
@@ -167,7 +167,7 @@
                                 </span>
                             </div>
 
-                            <p :class="[index === 1 ? 'text-white' : 'text-gray-600', 'mt-0.5 text-sm']">
+                            <p :class="[index === 1 ? 'text-white' : 'text-primary', 'mt-0.5 text-sm font-semibold']">
                                 {{ $t('subscription.discount.save') }}
                                 <span v-if="deal.name === 'Basis'">20</span>
                                 <span v-if="deal.name === 'Pro'">10</span>%
@@ -228,11 +228,11 @@
                             <div class="mt-8">
                                 <FormButton type="button" class="w-full" buttonStyle="primary" @click="subscribe(deal)"
                                     v-if="index === 0">
-                                    {{ $t('subscription.deal.subscribe') }}
+                                    {{ $t('subscription.deal.selectPackage') }}
                                 </FormButton>
                                 <FormButton type="button" class="w-full" buttonStyle="white" @click="subscribe(deal)"
                                     v-else>
-                                    {{ $t('subscription.deal.subscribe') }}
+                                    {{ $t('subscription.deal.selectPackage') }}
                                 </FormButton>
                             </div>
                         </div>
@@ -261,7 +261,7 @@
                                 </span>
                             </p>
 
-                            <p class="mt-0.5 text-sm text-gray-700">
+                            <p class="mt-0.5 text-sm text-primary font-semibold">
                                 {{ $t('subscription.discount.save') }}
                                 <span v-if="deal.name === 'Basis'">20</span>
                                 <span v-if="deal.name === 'Pro'">10</span>%
@@ -313,7 +313,7 @@
                             </ul>
                             <div class="mt-8">
                                 <FormButton type="button" buttonStyle="primary" class="w-full" @click="subscribe(deal)">
-                                    {{ $t('subscription.deal.subscribe') }}
+                                    {{ $t('subscription.deal.selectPackage') }}
                                 </FormButton>
                             </div>
                         </div>
@@ -441,6 +441,6 @@ function formatKrAmount(amount: any) {
     let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
 
     // Combine the integer part with the decimal part
-    return 'kr. ' + formattedIntegerPart + ',' + decimalPart
+    return 'kr. ' + formattedIntegerPart + ',' + (decimalPart === '00' ? '-' : decimalPart)
 }
 </script>

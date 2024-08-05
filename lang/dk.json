@@ -338,12 +338,12 @@
     "login": {
         "SignInToYourAccount": "Log ind på din konto",
         "form": {
+            "createAccountHere": "Opret konto her",
             "emailAddress": "E-mail adresse",
             "dontHaveAnAccount": "Har du ikke en konto",
             "forgotPassword": "Glemt adgangskode",
             "login": "Log ind",
             "password": "Adgangskode",
-            "registerHere": "Registrer dig her",
             "rememberMe": "Husk mig"
         }
     },
@@ -635,6 +635,7 @@
             "alreadyHaveAnAcoount": "Har du allerede en konto",
             "companyName": "Firmanavn",
             "confirmPassword": "Bekræft adgangskode",
+            "createAccount": "Opret konto",
             "emailAddress": "E-mail adresse",
             "firstname": "Fornavn",
             "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
@@ -642,8 +643,7 @@
             "lastname": "Efternavn",
             "loginHere": "Log ind her",
             "password": "Adgangskode",
-            "phone": "Telefon",
-            "register": "Registrer"
+            "phone": "Telefon"
         }
     },
     "resetPassword": {
@@ -700,7 +700,7 @@
             "perfectForTheLargerSocialOffer": "Perfekt til det større sociale tilbud",
             "recommended": "Anbefalet",
             "storageSpace": "lagerplads",
-            "subscribe": "Abonner",
+            "selectPackage": "Vælg pakke",
             "telephoneSupport": "Telefonisk support",
             "user": "Bruger",
             "users": "Brugere",

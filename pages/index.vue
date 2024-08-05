@@ -66,7 +66,7 @@
                             {{ $t('login.form.dontHaveAnAccount') }}?
                             {{ ' ' }}
                             <a class="text-primary hover:text-primary-800 cursor-pointer">
-                                {{ $t('login.form.registerHere') }}
+                                {{ $t('login.form.createAccountHere') }}
                             </a>
                         </p>
                     </form>

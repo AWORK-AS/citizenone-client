@@ -338,12 +338,12 @@
     "login": {
         "SignInToYourAccount": "Sign in to your account",
         "form": {
+            "createAccountHere": "Create Account here",
             "emailAddress": "Email address",
             "dontHaveAnAccount": "Don't have an account",
             "forgotPassword": "Forgot password",
             "login": "Login",
             "password": "Password",
-            "registerHere": "Register here",
             "rememberMe": "Remember me"
         }
     },
@@ -631,6 +631,7 @@
     },
     "register": {
         "form": {
+            "createAccount": "Create account",
             "companyName": "Company name",
             "firstname": "First name",
             "lastname": "Last name",
@@ -640,7 +641,6 @@
             "phone": "Phone",
             "iHaveReadAndAcceptThe": "I have read and accept the",
             "termsAndConditions": "Terms and Conditions",
-            "register": "Register",
             "alreadyHaveAnAcoount": "Already have an account",
             "loginHere": "Login here",
             "agreetoTAC": "You must agree to the terms and conditions"
@@ -700,7 +700,7 @@
             "perfectForTheLargerSocialOffer": "Perfect for the larger social offer",
             "recommended": "Recommended",
             "storageSpace": "Storage space",
-            "subscribe": "Subscribe",
+            "selectPackage": "Select package",
             "telephoneSupport": "Telephone support",
             "user": "User",
             "users": "Users",

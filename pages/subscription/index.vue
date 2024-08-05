@@ -69,8 +69,13 @@
                             <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-10">
                                 <li class="flex gap-x-2">
                                     <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
-                                    {{ userStore.getUser?.user_subscription?.deal?.storage_size }}
-                                    {{ $t('subscription.deal.storageSpace') }}
+                                    {{ userStore.getUser?.user_subscription?.deal?.users }}
+                                    <span v-if="userStore.getUser?.user_subscription?.deal?.users > 1">
+                                        {{ $t('subscription.deal.users') }}
+                                    </span>
+                                    <span v-else>
+                                        {{ $t('subscription.deal.user') }}
+                                    </span>
                                 </li>
                                 <li class="flex gap-x-2">
                                     <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
@@ -84,13 +89,8 @@
                                 </li>
                                 <li class="flex gap-x-2">
                                     <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
-                                    {{ userStore.getUser?.user_subscription?.deal?.users }}
-                                    <span v-if="userStore.getUser?.user_subscription?.deal?.users > 1">
-                                        {{ $t('subscription.deal.users') }}
-                                    </span>
-                                    <span v-else>
-                                        {{ $t('subscription.deal.user') }}
-                                    </span>
+                                    {{ userStore.getUser?.user_subscription?.deal?.storage_size }}
+                                    {{ $t('subscription.deal.storageSpace') }}
                                 </li>
                             </ul>
                             <div class="mt-8">
