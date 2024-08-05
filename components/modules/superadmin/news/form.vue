@@ -30,6 +30,13 @@
                 <FormError :error="props?.error?.errors?.title?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="link" :label="$t('superadmin.news.form.link')" />
+                <FormTextField id="link" name="link" :placeholder="$t('superadmin.news.form.link')"
+                    v-model="state.formNews.link" />
+                <FormError :error="v$?.formNews?.link?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.link?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="content" :label="$t('superadmin.news.form.content')" />
                 <FormTextArea id="content" name="content" :placeholder="$t('superadmin.news.form.content')"
                     v-model="state.formNews.content" />
@@ -89,6 +96,7 @@ const state = reactive({
     formNews: {
         image: '',
         title: '',
+        link: '',
         content: '',
         is_active: true,
     } as NewsForm,
@@ -99,6 +107,7 @@ watch(() => props.selectedNews, (newValue: any) => {
         state.formNews = {
             image: '',
             title: newValue.title,
+            link: newValue.link,
             content: newValue.content,
             is_active: newValue.is_active,
         }

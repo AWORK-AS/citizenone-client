@@ -36,6 +36,7 @@ const state = reactive({
     formNews: {
         image: '',
         title: '',
+        link: '',
         content: '',
         is_active: false,
     },
@@ -49,6 +50,7 @@ async function saveNews(newsDetails: any) {
         let params = new FormData()
         params.append('image', newsDetails.image)
         params.append('title', newsDetails.title)
+        params.append('link', newsDetails.link)
         params.append('content', newsDetails.content)
         params.append('is_active', newsDetails.is_active)
         const response = await newsService.saveNews(params)

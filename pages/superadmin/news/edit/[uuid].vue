@@ -38,6 +38,7 @@ const state = reactive({
     formNews: {
         image: '',
         title: '',
+        link: '',
         content: '',
         is_active: false,
     },
@@ -57,6 +58,7 @@ async function fetchNews() {
             state.formNews = {
                 image: response?.data?.image ?? '',
                 title: response?.data?.title ?? '',
+                link: response?.data?.link ?? '',
                 content: response?.data?.content ?? '',
                 is_active: response?.data?.is_active ?? '',
             }
@@ -74,6 +76,7 @@ async function updateNews(newsDetails: any) {
         let params = new FormData()
         params.append('image', newsDetails.image)
         params.append('title', newsDetails.title)
+        params.append('link', newsDetails.link)
         params.append('content', newsDetails.content)
         params.append('is_active', newsDetails.is_active)
         const response = await newsService.updateNews(uuid, params)
