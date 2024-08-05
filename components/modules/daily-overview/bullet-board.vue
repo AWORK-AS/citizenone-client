@@ -1,6 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <h3 class="text-base font-medium py-2">{{ $t('dailyOverview.latestNews') }}</h3>
+        <h3 class="text-base font-medium py-2">{{ $t('dailyOverview.bulletBoard') }}</h3>
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
 
@@ -47,12 +47,12 @@ const state = reactive({
             },
             // 1025px and up
             1025: {
-                itemsToShow: 2,
+                itemsToShow: 1,
                 snapAlign: "start",
             },
             // 1367px and up
             1367: {
-                itemsToShow: 2,
+                itemsToShow: 1,
                 snapAlign: "start",
             },
         },

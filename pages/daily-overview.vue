@@ -17,7 +17,7 @@
                         <ModulesDailyOverviewLatestJournal />
                     </div>
                     <div>
-                        <ModulesDailyOverviewPoll />
+                        <ModulesDailyOverviewBulletBoard />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -25,7 +25,7 @@
                         <ModulesDailyOverviewSalesCampaign />
                     </div>
                     <div class="min-h-44">
-                        <ModulesDailyOverviewLatestNews />
+                        <ModulesDailyOverviewPoll />
                     </div>
                 </div>
             </div>

@@ -224,11 +224,11 @@
     "contactUs": "Kontakt os",
     "close": "Luk",
     "dailyOverview": {
+        "bulletBoard": "Opslagstavle",
         "campaign": "Kampagne",
         "dailyEvents": "Daglige begivenheder",
         "dailyOverview": "Daglig oversigt",
         "latestJournal": "Seneste journalnotater",
-        "latestNews": "Seneste nyheder",
         "noEventsForToday": "Ingen begivenheder for i dag",
         "noJournalsToShow": "Ingen journaler at vise",
         "noPollToShow": "Ingen afstemning at vise",
