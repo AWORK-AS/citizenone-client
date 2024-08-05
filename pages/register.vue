@@ -6,19 +6,19 @@
 
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
-            <div class="sm:mx-auto sm:w-full sm:max-w-3xl relative">
+            <div class="px-4 md:px-0 sm:mx-auto sm:w-full sm:max-w-3xl relative">
                 <Logo @click="navigateTo('/')" class="mx-auto" />
-                <button type="button" class="-m-2.5 rounded-full w-8 absolute right-5 top-5" @click="selectLanguage">
+                <button type="button" class="-m-2.5 rounded-full w-8 absolute right-5 top-1.5" @click="selectLanguage">
                     <img :src="identifyFlag()" alt="flag">
                 </button>
             </div>
 
-            <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-3xl">
-                <div class="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
+            <div class="md:mt-10 sm:mx-auto sm:w-full sm:max-w-3xl">
+                <div class="bg-white px-6 py-3 md:py-8 shadow sm:rounded-lg sm:px-12">
                     <form class="mt-5 space-y-3" method="POST" @submit.prevent="register">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
-                        <h3 class="font-medium text-xl">
+                        <h3 class="font-medium text-lg md:text-xl">
                             {{ $t('register.form.createAccount') }}
                         </h3>
                         <div class="space-y-1">
