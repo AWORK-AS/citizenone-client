@@ -31,7 +31,7 @@
                                     </div>
                                     <div class="relative mt-10 flex-1 px-4 sm:px-6">
                                         <div class="space-y-3">
-                                            <img src="https://app.citizenone.dk/wp-content/uploads/2024/01/1.png"
+                                            <img src="https://citizenone.dk/wp-content/uploads/2024/04/1.png"
                                                 alt="Support">
                                             <p class="text-xl">Mads Frederiksen</p>
                                             <div class="space-y-1.5">
