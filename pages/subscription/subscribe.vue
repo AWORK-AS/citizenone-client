@@ -80,55 +80,54 @@
 
                             <p :class="[index === 1 ? 'text-white' : 'text-gray-600', 'mt-6 text-base leading-7']">
                                 <span v-if="deal.name === 'Basis'">
-                                    {{ $t('subscription.deal.thePerfectPlan') }}.
+                                    {{ $t('subscription.deal.goodForTheSmallerSocialOffer') }}.
                                 </span>
                                 <span v-else>
-                                    {{ $t('subscription.deal.aPlanThatScales') }}.
+                                    {{ $t('subscription.deal.perfectForTheLargerSocialOffer') }}.
                                 </span>
                             </p>
 
                             <ul role="list"
                                 :class="[index === 1 ? 'text-gray-300' : 'text-gray-600', 'mt-8 space-y-3 text-sm leading-6 sm:mt-10']">
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ deal?.storage_size }} {{ $t('subscription.deal.storageSize') }}
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    {{ deal?.departments }}
-                                    <span v-if="deal?.departments > 1">
-                                        {{ $t('subscription.deal.departments') }}
-                                    </span>
-                                    <span v-else>
-                                        {{ $t('subscription.deal.department') }}
+                                    <span>
+                                        {{ deal?.users }}
+                                        {{ deal?.users > 1 ? $t('subscription.deal.users') :
+                                            $t('subscription.deal.user') }}
+                                        ({{ $t('subscription.deal.additionalPurchaseFor') }} {{
+                                            formatKrAmount(deal?.extra_users) }})
                                     </span>
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ formatAmount(deal?.extra_users ?? 0) }}
-                                    {{ $t('excludeVat') }}
-                                    <span class="lowercase">{{ $t('subscription.deal.forExtraUser') }}</span>
+                                    <span>
+                                        {{ deal?.users }}
+                                        {{ deal?.departments > 1 ? $t('subscription.deal.departments') :
+                                            $t('subscription.deal.department') }}
+                                        ({{ $t('subscription.deal.additionalPurchaseFor') }} {{
+                                            formatKrAmount(deal?.extra_departments) }})
+                                    </span>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ formatAmount(deal?.extra_departments ?? 0) }}
-                                    {{ $t('excludeVat') }}
-                                    <span class="lowercase">{{ $t('subscription.deal.forExtraDepartment') }}</span>
+                                    <span>{{ deal?.storage_size }}</span>
+                                    <span class="lowecase">
+                                        {{ $t('subscription.deal.storageSpace') }}
+                                    </span>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
-                                    v-if="index === 1">
+                                    v-if="deal.name === 'Pro'">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ $t('subscription.deal.recommended') }}
+                                    {{ $t('subscription.deal.telephoneSupport') }}
                                 </li>
                             </ul>
                             <div class="mt-8">
@@ -176,55 +175,54 @@
                             </p>
 
                             <p :class="[index === 1 ? 'text-white' : 'text-gray-600', 'mt-6 text-base leading-7']">
-                                <span v-if="index === 0">
-                                    {{ $t('subscription.deal.thePerfectPlan') }}.
+                                <span v-if="deal.name === 'Basis'">
+                                    {{ $t('subscription.deal.goodForTheSmallerSocialOffer') }}.
                                 </span>
                                 <span v-else>
-                                    {{ $t('subscription.deal.aPlanThatScales') }}.
+                                    {{ $t('subscription.deal.perfectForTheLargerSocialOffer') }}.
                                 </span>
                             </p>
                             <ul role="list"
                                 :class="[index === 1 ? 'text-gray-300' : 'text-gray-600', 'mt-8 space-y-3 text-sm leading-6 sm:mt-10']">
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ deal?.storage_size }} {{ $t('subscription.deal.storageSize') }}
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    {{ deal?.departments }}
-                                    <span v-if="deal?.departments > 1">
-                                        {{ $t('subscription.deal.departments') }}
-                                    </span>
-                                    <span v-else>
-                                        {{ $t('subscription.deal.department') }}
+                                    <span>
+                                        {{ deal?.users }}
+                                        {{ deal?.users > 1 ? $t('subscription.deal.users') :
+                                            $t('subscription.deal.user') }}
+                                        ({{ $t('subscription.deal.additionalPurchaseFor') }} {{
+                                            formatKrAmount(deal?.extra_users) }})
                                     </span>
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ formatAmount(deal?.extra_users ?? 0) }}
-                                    {{ $t('excludeVat') }}
-                                    <span class="lowercase">{{ $t('subscription.deal.forExtraUser') }}</span>
+                                    <span>
+                                        {{ deal?.users }}
+                                        {{ deal?.departments > 1 ? $t('subscription.deal.departments') :
+                                            $t('subscription.deal.department') }}
+                                        ({{ $t('subscription.deal.additionalPurchaseFor') }} {{
+                                            formatKrAmount(deal?.extra_departments) }})
+                                    </span>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ formatAmount(deal?.extra_departments ?? 0) }}
-                                    {{ $t('excludeVat') }}
-                                    <span class="lowercase">{{ $t('subscription.deal.forExtraDepartment') }}</span>
+                                    <span>{{ deal?.storage_size }}</span>
+                                    <span class="lowecase">
+                                        {{ $t('subscription.deal.storageSpace') }}
+                                    </span>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
-                                    v-if="index === 1">
+                                    v-if="deal.name === 'Pro'">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ $t('subscription.deal.recommended') }}
+                                    {{ $t('subscription.deal.telephoneSupport') }}
                                 </li>
                             </ul>
                             <div class="mt-8">
@@ -270,56 +268,51 @@
                                 <span class="lowercase">{{ $t('subscription.discount.whenChoosingYearly') }}</span>
                             </p>
 
+                            <p class="text-gray-600 mt-6 text-base leading-7">
+                                <span v-if="deal.name === 'Basis'">
+                                    {{ $t('subscription.deal.goodForTheSmallerSocialOffer') }}.
+                                </span>
+                                <span v-else>
+                                    {{ $t('subscription.deal.perfectForTheLargerSocialOffer') }}.
+                                </span>
+                            </p>
+
                             <ul role="list"
                                 :class="[index === 1 ? 'text-gray-300' : 'text-gray-600', 'mt-8 space-y-3 text-sm leading-6 sm:mt-10']">
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    {{ deal?.storage_size }} {{ $t('subscription.deal.storageSize') }}
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    {{ deal?.departments }}
-                                    <span v-if="deal?.departments > 1">
-                                        {{ $t('subscription.deal.departments') }}
-                                    </span>
-                                    <span v-else>
-                                        {{ $t('subscription.deal.department') }}
+                                <li class="text-primary flex gap-x-2 lowercase">
+                                    <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />
+                                    <span>
+                                        {{ deal?.users }}
+                                        {{ deal?.users > 1 ? $t('subscription.deal.users') :
+                                            $t('subscription.deal.user') }}
+                                        ({{ $t('subscription.deal.additionalPurchaseFor') }} {{
+                                            formatKrAmount(deal?.extra_users) }})
                                     </span>
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    {{ formatAmount(deal?.extra_users ?? 0) }}
-                                    {{ $t('excludeVat') }}
-                                    <span class="lowercase">{{ $t('subscription.deal.forExtraUser') }}</span>
+                                <li class="text-primary flex gap-x-2 lowercase">
+                                    <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />
+                                    <span>
+                                        {{ deal?.users }}
+                                        {{ deal?.departments > 1 ? $t('subscription.deal.departments') :
+                                            $t('subscription.deal.department') }}
+                                        ({{ $t('subscription.deal.additionalPurchaseFor') }} {{
+                                            formatKrAmount(deal?.extra_departments) }})
+                                    </span>
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    {{ formatAmount(deal?.extra_departments ?? 0) }}
-                                    {{ $t('excludeVat') }}
-                                    <span class="lowercase">{{ $t('subscription.deal.forExtraDepartment') }}</span>
+                                <li class="text-primary flex gap-x-2 lowercase">
+                                    <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />
+                                    <span>{{ deal?.storage_size }}</span>
+                                    <span class="lowecase">
+                                        {{ $t('subscription.deal.storageSpace') }}
+                                    </span>
                                 </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
-                                    v-if="index === 1">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    {{ $t('subscription.deal.recommended') }}
+                                <li class="text-primary flex gap-x-2 lowercase" v-if="deal.name === 'Pro'">
+                                    <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />
+                                    {{ $t('subscription.deal.telephoneSupport') }}
                                 </li>
                             </ul>
                             <div class="mt-8">
-                                <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0"
-                                    @click="subscribe(deal)">
-                                    {{ $t('subscription.deal.subscribe') }}
-                                </FormButton>
-                                <FormButton type="button" class="w-full" v-else @click="subscribe(deal)">
+                                <FormButton type="button" buttonStyle="primary" class="w-full" @click="subscribe(deal)">
                                     {{ $t('subscription.deal.subscribe') }}
                                 </FormButton>
                             </div>
@@ -433,5 +426,21 @@ function formatAmount(amount: any) {
 
     // Combine the integer part with the decimal part
     return 'DKK ' + formattedIntegerPart + ',' + decimalPart
+}
+
+function formatKrAmount(amount: any) {
+    // Convert the number to a string with two decimal places
+    let numberStr = parseFloat(amount).toFixed(2)
+
+    // Split the string into integer and decimal parts
+    let parts = numberStr.split('.')
+    let integerPart = parts[0]
+    let decimalPart = parts[1]
+
+    // Add the thousands separators
+    let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+
+    // Combine the integer part with the decimal part
+    return 'kr. ' + formattedIntegerPart + ',' + decimalPart
 }
 </script>
