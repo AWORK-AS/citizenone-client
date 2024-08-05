@@ -404,6 +404,9 @@
         "noAvailableSubgoals": "Der er ingen delmål til rådighed at vise",
         "subgoals": "Delmål"
     },
+    "poll": {
+        "youHaveAlreadyVoted": "Du har allerede stemt"
+    },
     "protocols": {
         "editProtocol": "Rediger Protokol",
         "form": {
@@ -547,6 +550,7 @@
                 },
                 "content": "Indhold",
                 "image": "Billede",
+                "link": "Link",
                 "title": "Titel"
             },
             "news": "Nyheder",

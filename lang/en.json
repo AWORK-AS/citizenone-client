@@ -404,6 +404,9 @@
         "noAvailableSubgoals": "There's no subgoals available to display",
         "subgoals": "Subgoals"
     },
+    "poll": {
+        "youHaveAlreadyVoted": "You have already voted"
+    },
     "protocols": {
         "editProtocol": "Edit Protocol",
         "form": {
@@ -547,6 +550,7 @@
                 },
                 "content": "Content",
                 "image": "Image",
+                "link": "Link",
                 "title": "Title"
             },
             "news": "News",

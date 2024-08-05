@@ -1,6 +1,7 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <Alert type="danger" :text="state?.error?.message"
+        <Alert type="danger"
+            :text="state?.error?.message === 'You have already voted.' ? `${$t('poll.youHaveAlreadyVoted')}.` : state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <h3 class="text-sm font-medium pr-6">{{ $t('dailyOverview.poll') }}</h3>
         <div class="mt-4 text-sm space-y-2 divide-y overflow-scroll min-h-44 max-h-96 pr-5 mr-1">
