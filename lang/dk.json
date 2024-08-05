@@ -227,8 +227,11 @@
         "campaign": "Kampagne",
         "dailyEvents": "Daglige begivenheder",
         "dailyOverview": "Daglig oversigt",
-        "latestJournal": "Seneste journal",
+        "latestJournal": "Seneste journalnotater",
         "latestNews": "Seneste nyheder",
+        "noEventsForToday": "Ingen begivenheder for i dag",
+        "noJournalsToShow": "Ingen journaler at vise",
+        "noPollToShow": "Ingen afstemning at vise",
         "poll": "Afstemning"
     },
     "department": {

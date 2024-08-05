@@ -227,8 +227,11 @@
         "campaign": "Campaign",
         "dailyEvents": "Daily events",
         "dailyOverview": "Daily overview",
-        "latestJournal": "Latest journal",
+        "latestJournal": "Latest journal notes",
         "latestNews": "Latest news",
+        "noEventsForToday": "No events for today",
+        "noJournalsToShow": "No journals to show",
+        "noPollToShow": "No poll to show",
         "poll": "Poll"
     },
     "department": {
