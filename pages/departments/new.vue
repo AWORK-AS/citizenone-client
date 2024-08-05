@@ -54,7 +54,9 @@ async function saveDepartment(departmentDetails: any) {
         }
     } catch (error: any) {
         state.error = error
-        if (error.message === 'You have no available user license to create a new department.') {
+        if (error?.message === 'You have no available user license to create a new department.') {
+            navigateTo(`/subscription?error=${error?.message}`)
+        } else if (error?.message === 'Du har ingen tilgængelige brugerlicenser til at oprette en ny afdeling.') {
             navigateTo(`/subscription?error=${error?.message}`)
         }
     }

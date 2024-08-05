@@ -129,7 +129,7 @@ const state = reactive({
     }
 })
 
-const rules = computed(() => {
+const rulesFormProfile = computed(() => {
     return {
         formProfile: {
             firstname: {
@@ -196,10 +196,11 @@ async function fetchLanguages() {
     state.isPageLoading = false
 }
 
-const v$ = useVuelidate(rules, state)
+const v$ = useVuelidate(rulesFormProfile, state)
 
 async function submitForm() {
     v$.value.$validate()
+    console.log(v$.value)
     if (!v$.value.$error) {
         state.error = {}
         state.isPageLoading = true

@@ -59,7 +59,9 @@ async function fetchDeals() {
     } catch (error: any) {
         state.error = error
         if (error?.message === 'Payment is invalid.') {
-            navigateTo(`/subscription?error=Invalid payment details`)
+            navigateTo(`/subscription?error=Invalid payment details.`)
+        } else if (error?.message === 'Betaling er ugyldig.') {
+            navigateTo(`/subscription?error=Ugyldige betalingsoplysninger.`)
         }
     }
     state.isPageLoading = false

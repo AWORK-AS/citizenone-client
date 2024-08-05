@@ -81,6 +81,8 @@ async function saveCitizen(citizenDetails: any) {
         state.error = error
         if (error?.message === 'One citizen can be created in Free Basis Tier.') {
             navigateTo(`/subscription?error=${error?.message}`)
+        } else if (error?.message === 'Én borger kan oprettes i Gratis Basis-niveau.') {
+            navigateTo(`/subscription?error=${error?.message}`)
         }
     }
     state.isPageLoading = false

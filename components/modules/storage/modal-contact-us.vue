@@ -13,7 +13,8 @@
                                 <FormTextArea id="message" name="message"
                                     :placeholder="`${$t('storage.form.pleaseWriteHere')}...`"
                                     v-model="state.formContactUs.message" />
-                                <FormError :error="v$?.formContactUs?.message?.$errors[0]?.$message.toString()" />
+                                <FormError
+                                    :error="vContactUsStorage$?.formContactUs?.message?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.title?.[0]" />
                             </div>
                         </div>
@@ -64,23 +65,23 @@ function closeModal() {
     emit('close')
 }
 
-const rules = computed(() => {
+const rulesContactUsStorage = computed(() => {
     return {
         formContactUs: {
-            message: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
+            // message: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
         },
     }
 })
 
-const v$ = useVuelidate(rules, state)
+const vContactUsStorage$ = useVuelidate(rulesContactUsStorage, state)
 
 async function sendMessage() {
     state.isPageLoading = true
     state.error = {}
-    v$.value.$validate()
-    if (!v$.value.$error) {
+    vContactUsStorage$.value.$validate()
+    if (!vContactUsStorage$.value.$error) {
         try {
             const params = {
                 message: state.formContactUs.message,
