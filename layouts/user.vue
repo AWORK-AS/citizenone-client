@@ -66,7 +66,7 @@
                                                             {{ $t('sidebar.protocols') }}
                                                         </span>
                                                         <span v-if="item.name === 'News'">
-                                                            {{ $t('superadmin.sidebar.news') }}
+                                                            {{ $t('sidebar.news') }}
                                                         </span>
                                                         <span v-if="item.name === 'Apps'">
                                                             {{ $t('sidebar.apps') }}
@@ -153,7 +153,7 @@
                                             {{ $t('sidebar.protocols') }}
                                         </span>
                                         <span v-if="item.name === 'News'">
-                                            {{ $t('superadmin.sidebar.news') }}
+                                            {{ $t('sidebar.news') }}
                                         </span>
                                         <span v-if="item.name === 'Apps'">
                                             {{ $t('sidebar.apps') }}
