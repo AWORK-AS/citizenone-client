@@ -8,8 +8,8 @@
             <div class="flex items-center justify-center h-80" v-if="state.citizens?.data?.length === 0">
                 {{ $t('dailyOverview.noJournalsToShow') }}
             </div>
-            <div v-for="(citizen, index) in state.citizens?.data" :key="index" class="p-4">
-                <h3 class="text-md font-semibold">
+            <div v-for="(citizen, index) in state.citizens?.data" :key="index" class="py-4">
+                <h3 class="text-base font-semibold">
                     {{ citizen?.citizen_journal?.title }}
                 </h3>
                 <div v-html="citizen?.citizen_journal?.content" id="content" class="table-responsive" />

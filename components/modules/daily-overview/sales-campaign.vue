@@ -7,7 +7,7 @@
         <Carousel v-bind="state.carouselSettings">
             <Slide v-for="(salesCampaign, index) in state.salesCampaigns?.data" :key="index">
                 <div class="w-full p-2 space-y-2">
-                    <div class="bg-white shadow-md p-6 rounded-md">
+                    <div class="bg-white shadow-md border-l-8 border-secondary p-6 rounded-md">
                         <div class="bg-no-repeat w-full h-60 bg-cover"
                             :style="`background-image: url(${salesCampaign?.image});`">
                         </div>
@@ -15,6 +15,12 @@
                         <p class="text-sm text-gray-400 line-clamp-3">
                             {{ salesCampaign?.content }}
                         </p>
+                        <div class="mt-2" v-if="salesCampaign?.link">
+                            <FormButton buttonStyle="primary" @click="navigateToExternalLink(salesCampaign?.link)"
+                                class="w-full rounded-md">
+                                {{ $t('dailyOverview.openLink') }}
+                            </FormButton>
+                        </div>
                     </div>
                 </div>
             </Slide>
@@ -80,6 +86,15 @@ async function fetchSalesCampaign() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function navigateToExternalLink(link: any) {
+    await navigateTo(link, {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 </script>
 

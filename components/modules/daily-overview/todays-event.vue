@@ -10,7 +10,7 @@
             </div>
             <div v-for="(myCalendarEvent, index) in state.myCalendarEvents?.data" :key="index" class="py-2">
                 <div class="space-y-2">
-                    <p class="font-semibold text-gray-700 xl:pr-0">
+                    <p class="text-base font-semibold text-gray-700 xl:pr-0">
                         {{ myCalendarEvent?.title }}
                     </p>
                     <div class="text-gray-700 xl:pr-0 text-xs line-clamp-2">

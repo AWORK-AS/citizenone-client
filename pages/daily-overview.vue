@@ -20,11 +20,11 @@
                         <ModulesDailyOverviewBulletBoard />
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div class="min-h-44">
+                <div class="grid grid-cols-1 md:grid-cols-7 gap-5">
+                    <div class="min-h-44 md:col-span-4">
                         <ModulesDailyOverviewSalesCampaign />
                     </div>
-                    <div class="min-h-44">
+                    <div class="min-h-44 md:col-span-3">
                         <ModulesDailyOverviewPoll />
                     </div>
                 </div>

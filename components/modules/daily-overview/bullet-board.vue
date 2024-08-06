@@ -7,14 +7,20 @@
         <Carousel v-bind="state.carouselSettings">
             <Slide v-for="(news, index) in state.news?.data" :key="index">
                 <div class="w-full p-2 space-y-2">
-                    <div class="bg-white shadow-md p-6 rounded-md">
-                        <div class="bg-no-repeat w-full h-60 bg-cover"
+                    <div class="bg-white border-l-8 border-secondary shadow-md p-6 rounded-md">
+                        <div class="bg-no-repeat w-full h-48 bg-cover"
                             :style="`background-image: url(${news?.image});`">
                         </div>
                         <h3 class="font-semibold text-lg py-2">{{ news?.title }}</h3>
-                        <p class="text-sm text-gray-400 line-clamp-3">
+                        <p class="text-xs text-gray-400 line-clamp-3">
                             {{ news?.content }}
                         </p>
+                        <div class="mt-2" v-if="news?.link">
+                            <FormButton buttonStyle="primary" @click="navigateToExternalLink(news?.link)"
+                                class="w-full rounded-md">
+                                {{ $t('dailyOverview.openLink') }}
+                            </FormButton>
+                        </div>
                     </div>
                 </div>
             </Slide>
@@ -80,6 +86,15 @@ async function fetchNews() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function navigateToExternalLink(link: any) {
+    await navigateTo(link, {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 </script>
 
