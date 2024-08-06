@@ -12,7 +12,7 @@
                             :style="`background-image: url(${salesCampaign?.image});`">
                         </div>
                         <h3 class="font-semibold text-lg py-2">{{ salesCampaign?.title }}</h3>
-                        <p class="text-sm text-gray-400 line-clamp-3">
+                        <p class="text-xs text-gray-400 line-clamp-3">
                             {{ salesCampaign?.content }}
                         </p>
                         <div class="mt-2" v-if="salesCampaign?.link">

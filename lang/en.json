@@ -667,6 +667,7 @@
         "setupPassword": "Setup password"
     },
     "sidebar": {
+        "bulletBoard": "Bullet board",
         "dailyOverview": "Daily overview",
         "citizens": "Citizens",
         "myCalendar": "My calendar",
@@ -675,7 +676,6 @@
         "employees": "Employees",
         "messages": "Messages",
         "protocols": "Protocols",
-        "news": "News",
         "apps": "Apps",
         "timeLogs": "Time logs"
     },

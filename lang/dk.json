@@ -667,6 +667,7 @@
         "setupPassword": "Opret adgangskode"
     },
     "sidebar": {
+        "bulletBoard": "Opslagstavle",
         "dailyOverview": "Daglig oversigt",
         "citizens": "Borgere",
         "myCalendar": "Min kalender",
@@ -675,7 +676,6 @@
         "employees": "Medarbejdere",
         "messages": "Beskeder",
         "protocols": "Protokol",
-        "news": "Nyheder",
         "apps": "Apps",
         "timeLogs": "Tidslogfiler"
     },

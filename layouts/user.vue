@@ -65,8 +65,8 @@
                                                         <span v-if="item.name === 'Protocols'">
                                                             {{ $t('sidebar.protocols') }}
                                                         </span>
-                                                        <span v-if="item.name === 'News'">
-                                                            {{ $t('sidebar.news') }}
+                                                        <span v-if="item.name === 'Bullet Board'">
+                                                            {{ $t('sidebar.bulletBoard') }}
                                                         </span>
                                                         <span v-if="item.name === 'Apps'">
                                                             {{ $t('sidebar.apps') }}
@@ -152,8 +152,8 @@
                                         <span v-if="item.name === 'Protocols'">
                                             {{ $t('sidebar.protocols') }}
                                         </span>
-                                        <span v-if="item.name === 'News'">
-                                            {{ $t('sidebar.news') }}
+                                        <span v-if="item.name === 'Bullet Board'">
+                                            {{ $t('sidebar.bulletBoard') }}
                                         </span>
                                         <span v-if="item.name === 'Apps'">
                                             {{ $t('sidebar.apps') }}
@@ -306,23 +306,28 @@
                 </div>
             </div>
 
-            <main class="py-10">
-                <div class="px-4 sm:px-6 lg:px-8">
-                    <div>
-                        <h1 class="text-2xl text-gray-900">
-                            <slot name="header"></slot>
-                        </h1>
+            <div class="relative overflow-clip">
+                <img src="/img/icons/asset-01.svg" alt="Image failed to load"
+                    class="w-52 md:w-64 absolute -top-10 -right-16 opacity-0 transition-opacity duration-500"
+                    id="animatedImage">
+                <main class="py-10 relative">
+                    <div class="px-4 sm:px-6 lg:px-8">
+                        <div>
+                            <h1 class="text-2xl text-gray-900">
+                                <slot name="header"></slot>
+                            </h1>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="text-lg text-gray-900">
+                                <slot name="sub-header"></slot>
+                            </h3>
+                        </div>
+                        <div>
+                            <slot />
+                        </div>
                     </div>
-                    <div class="mt-4">
-                        <h3 class="text-lg text-gray-900">
-                            <slot name="sub-header"></slot>
-                        </h3>
-                    </div>
-                    <div>
-                        <slot />
-                    </div>
-                </div>
-            </main>
+                </main>
+            </div>
         </div>
         <ModulesLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
@@ -439,7 +444,7 @@ const navigation = [
         ]
     },
     {
-        name: 'News',
+        name: 'Bullet Board',
         href: '/news',
         icon: 'ph:newspaper',
         activeRouteNames: [
@@ -482,7 +487,23 @@ const state = reactive({
 
 onMounted(() => {
     fetchUser()
+    animateAsset01()
 })
+
+function animateAsset01() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-fade-in')
+            } else {
+                entry.target.classList.remove('animate-fade-in')
+            }
+        })
+    })
+
+    const image = document.getElementById('animatedImage') as any
+    observer.observe(image)
+}
 
 async function fetchUser() {
     state.error = {}
