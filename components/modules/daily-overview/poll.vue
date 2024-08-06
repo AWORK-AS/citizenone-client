@@ -13,8 +13,7 @@
             <div v-for="(poll, pollIndex) in state.polls?.data" :key="pollIndex">
                 <div class="space-y-3 px-2">
                     <div class="flex items-center gap-x-2">
-                        <!-- <Icon name="heroicons:x-mark" class="h-6 w-6" aria-hidden="true" /> -->
-                        <div class="w-3 h-3 rounded-full bg-primary"></div>
+                        <div class="w-3 h-3 rounded-full bg-secondary"></div>
                         <h3 class="font-semibold w-fit">
                             {{ poll?.title }}
                         </h3>
