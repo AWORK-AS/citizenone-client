@@ -22,7 +22,7 @@
                     <div class="space-y-3 pb-2">
                         <div v-for="(item, itemIndex) in poll.items" :key="itemIndex">
                             <div
-                                class="bg-white ring-1 ring-gray-200 shadow-sm rounded-md px-4 py-5 border-l-4 border-primary">
+                                class="bg-white ring-1 ring-gray-200 shadow-sm rounded-md px-4 py-5 border-l-8 border-secondary">
                                 <div class="flex justify-between items-center">
                                     <div>
                                         <h3 class="text-base font-semibold">

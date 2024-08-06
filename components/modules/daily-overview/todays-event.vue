@@ -2,12 +2,13 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <h3 class="text-base font-medium pr-6">{{ $t('dailyOverview.dailyEvents') }}</h3>
-        <div class="mt-4 text-sm space-y-2 divide-y overflow-scroll min-h-44 max-h-96 pr-5 mr-1">
+        <h3 class="text-base font-medium py-2">{{ $t('dailyOverview.dailyEvents') }}</h3>
+        <div
+            class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 pr-5 pt-6 pb-6 pl-6 mr-1">
             <div class="flex items-center justify-center h-80" v-if="state.myCalendarEvents?.data?.length === 0">
                 {{ $t('dailyOverview.noEventsForToday') }}
             </div>
-            <div v-for="(myCalendarEvent, index) in state.myCalendarEvents?.data" :key="index" class="p-4">
+            <div v-for="(myCalendarEvent, index) in state.myCalendarEvents?.data" :key="index" class="py-2">
                 <div class="space-y-2">
                     <p class="font-semibold text-gray-700 xl:pr-0">
                         {{ myCalendarEvent?.title }}
@@ -16,7 +17,7 @@
                         {{ myCalendarEvent?.description }}
                     </div>
                     <div class="me-auto max-w-full">
-                        <div class="flex items-center justify-end gap-x-2 text-xs ">
+                        <div class="flex items-center gap-x-2 text-xs ">
                             <div class="flex items-center">
                                 <span class="sr-only">Time</span>
                                 <Icon name="ph:clock" class="h-4 w-4 text-gray-700" aria-hidden="true" />
