@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { myCalendarService } from '@/components/api/MyCalendarService'
+import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { CalendarEventResponse, Error } from '@/types'
 
 const state = reactive({
@@ -55,12 +55,7 @@ async function fetchMyCalendarEvents() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            end_date: moment(),
-            start_date: moment(),
-        }
-
-        const response = await myCalendarService.getSchedules(params)
+        const response = await dailyOverviewService.getDailyEvents()
         if (response) {
             state.myCalendarEvents = response
         }
