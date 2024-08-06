@@ -65,6 +65,9 @@
                                                         <span v-if="item.name === 'Protocols'">
                                                             {{ $t('sidebar.protocols') }}
                                                         </span>
+                                                        <span v-if="item.name === 'News'">
+                                                            {{ $t('superadmin.sidebar.news') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Apps'">
                                                             {{ $t('sidebar.apps') }}
                                                         </span>
@@ -148,6 +151,9 @@
                                         </span>
                                         <span v-if="item.name === 'Protocols'">
                                             {{ $t('sidebar.protocols') }}
+                                        </span>
+                                        <span v-if="item.name === 'News'">
+                                            {{ $t('superadmin.sidebar.news') }}
                                         </span>
                                         <span v-if="item.name === 'Apps'">
                                             {{ $t('sidebar.apps') }}
@@ -430,6 +436,16 @@ const navigation = [
             'protocols',
             'protocols-new',
             'protocols-uuid'
+        ]
+    },
+    {
+        name: 'News',
+        href: '/news',
+        icon: 'ph:newspaper',
+        activeRouteNames: [
+            'news',
+            'news-new',
+            'news-edit-uuid',
         ]
     },
     // {

@@ -47,9 +47,6 @@
                                                         <span v-if="item.name === 'Sales Campaign'">
                                                             {{ $t('superadmin.sidebar.salesCampaign') }}
                                                         </span>
-                                                        <span v-if="item.name === 'News'">
-                                                            {{ $t('superadmin.sidebar.news') }}
-                                                        </span>
                                                         <span v-if="item.name === 'Users'">
                                                             {{ $t('superadmin.sidebar.users') }}
                                                         </span>
@@ -108,9 +105,6 @@
                                         </span>
                                         <span v-if="item.name === 'Sales Campaign'">
                                             {{ $t('superadmin.sidebar.salesCampaign') }}
-                                        </span>
-                                        <span v-if="item.name === 'News'">
-                                            {{ $t('superadmin.sidebar.news') }}
                                         </span>
                                         <span v-if="item.name === 'Users'">
                                             {{ $t('superadmin.sidebar.users') }}
@@ -268,16 +262,6 @@ const navigation = [
             'superadmin-accounts',
             'superadmin-accounts-new',
             'superadmin-accounts-edit-uuid',
-        ]
-    },
-    {
-        name: 'News',
-        href: '/superadmin/news',
-        icon: 'ph:newspaper',
-        activeRouteNames: [
-            'superadmin-news',
-            'superadmin-news-new',
-            'superadmin-news-edit-uuid',
         ]
     },
     {

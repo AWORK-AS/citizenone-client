@@ -366,6 +366,33 @@
         "settings": "Indstillinger",
         "switchLanguage": "Skift sprog"
     },
+    "news": {
+        "editNews": "Rediger nyheder",
+        "form": {
+            "active": "Aktiv",
+            "alert": {
+                "newNewsSuccessfullySaved": "Nyhed er blevet gemt",
+                "newsSuccessfullyUpdated": "Nyhed er blevet opdateret"
+            },
+            "content": "Indhold",
+            "image": "Billede",
+            "link": "Link",
+            "title": "Titel"
+        },
+        "news": "Nyheder",
+        "newNews": "Ny nyhed",
+        "table": {
+            "actions": {
+                "edit": "Rediger"
+            },
+            "active": "Aktiv",
+            "content": "Indhold",
+            "image": "Billede",
+            "inactive": "Inaktiv",
+            "status": "Status",
+            "title": "Titel"
+        }
+    },
     "pagination": {
         "of": "af",
         "next": "Næste",
@@ -543,33 +570,6 @@
                 "phone": "Telefon"
             }
         },
-        "news": {
-            "editNews": "Rediger nyheder",
-            "form": {
-                "active": "Aktiv",
-                "alert": {
-                    "newNewsSuccessfullySaved": "Nyhed er blevet gemt",
-                    "newsSuccessfullyUpdated": "Nyhed er blevet opdateret"
-                },
-                "content": "Indhold",
-                "image": "Billede",
-                "link": "Link",
-                "title": "Titel"
-            },
-            "news": "Nyheder",
-            "newNews": "Ny nyhed",
-            "table": {
-                "actions": {
-                    "edit": "Rediger"
-                },
-                "active": "Aktiv",
-                "content": "Indhold",
-                "image": "Billede",
-                "inactive": "Inaktiv",
-                "status": "Status",
-                "title": "Titel"
-            }
-        },
         "salesCampaign": {
             "editCampaign": "Rediger kampagne",
             "form": {
@@ -600,7 +600,6 @@
         },
         "sidebar": {
             "accounts": "Kontoer",
-            "news": "Nyheder",
             "salesCampaign": "Salgs kampagne",
             "users": "Brugere"
         },
@@ -675,6 +674,7 @@
         "employees": "Medarbejdere",
         "messages": "Beskeder",
         "protocols": "Protokol",
+        "news": "Nyheder",
         "apps": "Apps",
         "timeLogs": "Tidslogfiler"
     },

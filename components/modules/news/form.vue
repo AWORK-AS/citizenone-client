@@ -23,22 +23,22 @@
                 <FormError :error="props?.error?.errors?.image?.[0]" class="text-center" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="title" :label="$t('superadmin.news.form.title')" />
-                <FormTextField id="title" name="title" :placeholder="$t('superadmin.news.form.title')"
+                <FormLabel for="title" :label="$t('news.form.title')" />
+                <FormTextField id="title" name="title" :placeholder="$t('news.form.title')"
                     v-model="state.formNews.title" />
                 <FormError :error="v$?.formNews?.title?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.title?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="link" :label="$t('superadmin.news.form.link')" />
-                <FormTextField id="link" name="link" :placeholder="$t('superadmin.news.form.link')"
+                <FormLabel for="link" :label="$t('news.form.link')" />
+                <FormTextField id="link" name="link" :placeholder="$t('news.form.link')"
                     v-model="state.formNews.link" />
                 <FormError :error="v$?.formNews?.link?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.link?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="content" :label="$t('superadmin.news.form.content')" />
-                <FormTextArea id="content" name="content" :placeholder="$t('superadmin.news.form.content')"
+                <FormLabel for="content" :label="$t('news.form.content')" />
+                <FormTextArea id="content" name="content" :placeholder="$t('news.form.content')"
                     v-model="state.formNews.content" />
                 <FormError :error="v$?.formNews?.content?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.content?.[0]" />
@@ -46,7 +46,7 @@
             <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer" @click="changeIsActive">
                     <FormCheckbox :value="state.formNews.is_active" />
-                    {{ $t('superadmin.news.form.active') }}
+                    {{ $t('news.form.active') }}
                 </div>
             </div>
         </div>

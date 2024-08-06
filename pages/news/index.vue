@@ -1,18 +1,18 @@
 <template>
     <div>
-        <NuxtLayout name="superadmin">
+        <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('superadmin.news.news') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('news.news') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('superadmin.news.news') }}</template>
+            <template #header>{{ $t('news.news') }}</template>
 
             <div>
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/superadmin/news/new')">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/news/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('superadmin.news.newNews') }}
+                        {{ $t('news.newNews') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -41,8 +41,8 @@
                                         <div class="flex items-center gap-x-2">
                                             <Badge :type="news?.is_active ? 'active' : 'primary'">
                                                 <p class="text-xs">
-                                                    {{ news?.is_active ? $t('superadmin.news.table.active') :
-                                                        $t('superadmin.news.table.inactive') }}
+                                                    {{ news?.is_active ? $t('news.table.active') :
+                                                        $t('news.table.inactive') }}
                                                 </p>
                                             </Badge>
                                         </div>
@@ -50,9 +50,9 @@
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/superadmin/news/edit/${news.uuid}`)">
+                                                @click="navigateTo(`/news/edit/${news.uuid}`)">
                                                 <Icon name="ph:pencil" class="size-4" />
-                                                {{ $t('superadmin.news.table.actions.edit') }}
+                                                {{ $t('news.table.actions.edit') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { newsService } from '@/components/api/superadmin/NewsService'
+import { newsService } from '@/components/api/NewsService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -80,10 +80,10 @@ const state = reactive({
         { column: 'status' },
     ],
     columnHeaders: [
-        { name: 'superadmin.news.table.image' },
-        { name: 'superadmin.news.table.title', sorter: true, key: 'title' },
-        { name: 'superadmin.news.table.content' },
-        { name: 'superadmin.news.table.status', sorter: true, key: 'is_active' },
+        { name: 'news.table.image' },
+        { name: 'news.table.title', sorter: true, key: 'title' },
+        { name: 'news.table.content' },
+        { name: 'news.table.status', sorter: true, key: 'is_active' },
         { name: '' },
     ],
     dataFilter: [],

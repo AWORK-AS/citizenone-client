@@ -1,15 +1,15 @@
 <template>
     <div>
-        <NuxtLayout name="superadmin">
+        <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('superadmin.news.newNews') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('news.newNews') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('superadmin.news.newNews') }}</template>
+            <template #header>{{ $t('news.newNews') }}</template>
 
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/superadmin/news">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/news">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { newsService } from '@/components/api/superadmin/NewsService'
+import { newsService } from '@/components/api/NewsService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
@@ -55,8 +55,8 @@ async function saveNews(newsDetails: any) {
         params.append('is_active', newsDetails.is_active)
         const response = await newsService.saveNews(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('superadmin.news.form.alert.newNewsSuccessfullySaved')}.`)
-            navigateTo('/superadmin/news')
+            successAlert(`${t('alert.success')}!`, `${t('news.form.alert.newNewsSuccessfullySaved')}.`)
+            navigateTo('/news')
         }
     } catch (error: any) {
         state.error = error

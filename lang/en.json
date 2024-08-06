@@ -366,6 +366,33 @@
         "settings": "Settings",
         "switchLanguage": "Switch Language"
     },
+    "news": {
+        "editNews": "Edit news",
+        "form": {
+            "active": "Active",
+            "alert": {
+                "newNewsSuccessfullySaved": "New news successfully saved",
+                "newsSuccessfullyUpdated": "News successfully updated"
+            },
+            "content": "Content",
+            "image": "Image",
+            "link": "Link",
+            "title": "Title"
+        },
+        "news": "News",
+        "newNews": "New news",
+        "table": {
+            "actions": {
+                "edit": "Edit"
+            },
+            "active": "Active",
+            "content": "Content",
+            "image": "Image",
+            "inactive": "Inctive",
+            "status": "Status",
+            "title": "Title"
+        }
+    },
     "pagination": {
         "of": "of",
         "next": "Next",
@@ -543,33 +570,6 @@
                 "phone": "Phone"
             }
         },
-        "news": {
-            "editNews": "Edit news",
-            "form": {
-                "active": "Active",
-                "alert": {
-                    "newNewsSuccessfullySaved": "New news successfully saved",
-                    "newsSuccessfullyUpdated": "News successfully updated"
-                },
-                "content": "Content",
-                "image": "Image",
-                "link": "Link",
-                "title": "Title"
-            },
-            "news": "News",
-            "newNews": "New news",
-            "table": {
-                "actions": {
-                    "edit": "Edit"
-                },
-                "active": "Active",
-                "content": "Content",
-                "image": "Image",
-                "inactive": "Inctive",
-                "status": "Status",
-                "title": "Title"
-            }
-        },
         "salesCampaign": {
             "editCampaign": "Edit campaign",
             "form": {
@@ -600,7 +600,6 @@
         },
         "sidebar": {
             "accounts": "Accounts",
-            "news": "News",
             "salesCampaign": "Sales campaign",
             "users": "Users"
         },
@@ -675,6 +674,7 @@
         "employees": "Employees",
         "messages": "Messages",
         "protocols": "Protocols",
+        "news": "News",
         "apps": "Apps",
         "timeLogs": "Time logs"
     },
