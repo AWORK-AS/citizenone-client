@@ -6,20 +6,22 @@
 
         <Carousel v-bind="state.carouselSettings">
             <Slide v-for="(news, index) in state.news?.data" :key="index">
-                <div class="w-full p-2 space-y-2">
-                    <div class="bg-white border-l-8 border-secondary shadow-md p-6 rounded-md">
-                        <div class="bg-no-repeat w-full h-48 bg-cover"
+                <div class="w-full h-full p-2 space-y-2">
+                    <div class="bg-white rounded-md shadow-md w-full h-full">
+                        <div class="bg-no-repeat w-full h-52 bg-cover rounded-t-md"
                             :style="`background-image: url(${news?.image});`">
                         </div>
-                        <h3 class="font-semibold text-lg py-2">{{ news?.title }}</h3>
-                        <p class="text-xs text-gray-400 line-clamp-3">
-                            {{ news?.content }}
-                        </p>
-                        <div class="mt-2" v-if="news?.link">
-                            <FormButton buttonStyle="primary" @click="navigateToExternalLink(news?.link)"
-                                class="w-full rounded-md">
-                                {{ $t('dailyOverview.openLink') }}
-                            </FormButton>
+                        <div class="pb-6 px-5 mt-3 text-left">
+                            <h3 class="font-semibold text-lg capitalize">{{ news?.title }}</h3>
+                            <p class="text-xs text-gray-400 line-clamp-3 mt-1">
+                                {{ news?.content }}
+                            </p>
+                            <div class="mt-4" v-if="news?.link">
+                                <FormButton buttonStyle="primary" @click="navigateToExternalLink(news?.link)"
+                                    class="w-full rounded-md">
+                                    {{ $t('dailyOverview.openLink') }}
+                                </FormButton>
+                            </div>
                         </div>
                     </div>
                 </div>
