@@ -4,6 +4,10 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
 
+        <div class="flex items-center justify-center h-80 text-sm mt-10" v-if="state.news?.data?.length === 0">
+            {{ $t('dailyOverview.noNewsToShow') }}
+        </div>
+
         <Carousel v-bind="state.carouselSettings">
             <Slide v-for="(news, index) in state.news?.data" :key="index">
                 <div class="w-full h-full p-2 space-y-2">
@@ -28,7 +32,7 @@
             </Slide>
 
             <template #addons>
-                <pagination />
+                <pagination v-if="state.news?.data?.length > 0" />
             </template>
         </Carousel>
     </LoadingSpinner>
