@@ -114,16 +114,18 @@
 
         <!-- Static sidebar for desktop -->
         <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-            <div
-                class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-primary shadow-md border-r border-gray-200 px-6 pb-4">
+            <div class="overflow-clip relative flex grow flex-col gap-y-5 bg-primary px-6 pb-4"
+                style="box-shadow: 0 0 15px rgba(0,0,0,0.75);">
+
                 <img src="/img/icons/asset-02.svg" alt="Image failed to load"
-                    class="w-52 md:w-full absolute -bottom-0 -left-0 opacity-100 transition-opacity duration-500">
-                <div class="mt-5">
+                    class="z-10 w-screen absolute -bottom-32 -left-32 opacity-25">
+
+                <div class="z-20 mt-5">
                     <span @click="navigateTo('/daily-overview')">
                         <LogoWhite />
                     </span>
                 </div>
-                <nav class="flex flex-1 flex-col mt-3">
+                <nav class="z-20 flex flex-1 flex-col mt-3">
                     <ul role="list" class="flex flex-1 flex-col gap-y-7">
                         <li>
                             <ul role="list" class="-mx-2 space-y-1">
@@ -226,7 +228,6 @@
                             class="-m-2.5 p-2.5 flex items-center gap-x-2 text-sm text-primary hover:text-primary-600"
                             @click="openSupport">
                             <Icon name="material-symbols:support" class="ml-2 h-6 w-6" aria-hidden="true" />
-                            <!-- material-symbols:support -->
                             Support
                         </button>
 

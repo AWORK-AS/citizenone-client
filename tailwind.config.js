@@ -11,6 +11,9 @@ export default {
   theme: {
     extend: {
       colors: {
+        boxShadow: {
+          'right': '0 0 15px rgba(0,0,0,0.75)',
+        },
         primary: {
           DEFAULT: '#205E77',
           25: '#EAF3F6',

@@ -22,7 +22,7 @@
                 </div>
                 <div class="mt-6">
                     <p class="text-xl font-bold text-primary">
-                        From CitizenOne&#8482;
+                        From CitizenOne<sup class="text-sm">&#8482;</sup>
                     </p>
                 </div>
                 <div class="mt-2 grid grid-cols-1 md:grid-cols-7 gap-5">
