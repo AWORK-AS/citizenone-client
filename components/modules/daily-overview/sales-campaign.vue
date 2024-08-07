@@ -30,11 +30,16 @@
                     </div>
                 </div>
             </Slide>
+
+            <template #addons>
+                <pagination />
+            </template>
         </Carousel>
     </LoadingSpinner>
 </template>
 
 <script setup lang="ts">
+import { Carousel, Slide, Pagination } from 'vue3-carousel'
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { Error } from '@/types'
 
