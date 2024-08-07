@@ -308,7 +308,7 @@
 
             <div class="relative overflow-clip">
                 <img src="/img/icons/asset-01.svg" alt="Image failed to load"
-                    class="w-52 md:w-64 absolute -top-10 -right-16 opacity-0 transition-opacity duration-500"
+                    class="w-52 md:w-1/4 absolute -top-28 -right-24 opacity-0 transition-opacity duration-500"
                     id="animatedImage">
                 <main class="py-10 relative">
                     <div class="px-4 sm:px-6 lg:px-8">

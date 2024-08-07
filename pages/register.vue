@@ -5,7 +5,14 @@
     </Head>
 
     <LoadingSpinner :isActive="state.isPageLoading">
-        <div class="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div
+            class="bg-[#f5fafe] relative overflow-clip flex min-h-screen flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
+            <img src="/img/icons/asset-01.svg" alt="Image failed to load"
+                class="w-52 md:w-1/5 absolute -top-28 -right-24 opacity-0 transition-opacity duration-500"
+                id="animatedAsset01">
+            <img src="/img/icons/asset-02.svg" alt="Image failed to load"
+                class="w-52 md:w-1/4 absolute -bottom-48 -left-44 opacity-0 transition-opacity duration-500"
+                id="animatedAsset02">
             <div class="px-4 md:px-0 sm:mx-auto sm:w-full sm:max-w-3xl relative">
                 <Logo @click="navigateTo('/')" class="mx-auto" />
                 <button type="button" class="-m-2.5 rounded-full w-8 absolute right-5 top-1.5" @click="selectLanguage">
@@ -14,7 +21,7 @@
             </div>
 
             <div class="md:mt-10 sm:mx-auto sm:w-full sm:max-w-3xl">
-                <div class="bg-white px-6 py-3 md:py-8 shadow sm:rounded-lg sm:px-12">
+                <div class="md:bg-white md:shadow-sm px-6 py-3 md:py-8 sm:rounded-lg sm:px-12">
                     <form class="mt-5 space-y-3" method="POST" @submit.prevent="register">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
@@ -180,6 +187,27 @@ const rules = computed(() => {
     }
 })
 const v$ = useVuelidate(rules, state)
+
+onMounted(() => {
+    animateAsset01()
+})
+
+function animateAsset01() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-fade-in')
+            } else {
+                entry.target.classList.remove('animate-fade-in')
+            }
+        })
+    })
+
+    const animatedAsset01 = document.getElementById('animatedAsset01') as any
+    const animatedAsset02 = document.getElementById('animatedAsset02') as any
+    observer.observe(animatedAsset01)
+    observer.observe(animatedAsset02)
+}
 
 async function register() {
     state.error = {}

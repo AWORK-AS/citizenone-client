@@ -8,6 +8,8 @@ body {
     font-family: "Montserrat", sans-serif;
 }
 
+
+
 input:disabled {
     @apply cursor-not-allowed;
 }
