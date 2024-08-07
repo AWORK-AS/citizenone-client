@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="mt-6">
-                    <p class="text-xl font-bold text-secondary">
+                    <p class="text-xl font-bold text-primary">
                         From CitizenOne&#8482;
                     </p>
                 </div>

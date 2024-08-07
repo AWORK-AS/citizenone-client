@@ -114,7 +114,10 @@
 
         <!-- Static sidebar for desktop -->
         <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-            <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-primary border-r border-gray-200 px-6 pb-4">
+            <div
+                class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-primary shadow-md border-r border-gray-200 px-6 pb-4">
+                <img src="/img/icons/asset-02.svg" alt="Image failed to load"
+                    class="w-52 md:w-full absolute -bottom-0 -left-0 opacity-100 transition-opacity duration-500">
                 <div class="mt-5">
                     <span @click="navigateTo('/daily-overview')">
                         <LogoWhite />
@@ -219,7 +222,11 @@
                             <BellIcon class="h-6 w-6" aria-hidden="true" />
                         </button> -->
 
-                        <button type="button" class="-m-2.5 p-2.5 text-sm hover:text-tertiary" @click="openSupport">
+                        <button type="button"
+                            class="-m-2.5 p-2.5 flex items-center gap-x-2 text-sm text-primary hover:text-primary-600"
+                            @click="openSupport">
+                            <Icon name="material-symbols:support" class="ml-2 h-6 w-6" aria-hidden="true" />
+                            <!-- material-symbols:support -->
                             Support
                         </button>
 
@@ -313,7 +320,7 @@
                 <main class="py-10 relative">
                     <div class="px-4 sm:px-6 lg:px-8">
                         <div>
-                            <h1 class="text-2xl text-gray-900">
+                            <h1 class="text-2xl text-primary font-bold">
                                 <slot name="header"></slot>
                             </h1>
                         </div>
