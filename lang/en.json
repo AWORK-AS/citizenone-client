@@ -228,6 +228,7 @@
         "campaign": "Campaign",
         "dailyEvents": "Daily events",
         "dailyOverview": "Daily overview",
+        "from": "From",
         "latestJournal": "Latest journal notes",
         "noEventsForToday": "No events for today",
         "noJournalsToShow": "No journals to show",
