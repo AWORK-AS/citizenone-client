@@ -114,8 +114,7 @@
 
         <!-- Static sidebar for desktop -->
         <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-            <div class="overflow-clip relative flex grow flex-col gap-y-5 bg-primary px-6 pb-4"
-                style="box-shadow: 0 0 15px rgba(0,0,0,0.75);">
+            <div class="overflow-clip relative flex grow flex-col gap-y-5 bg-primary px-6 pb-4 shadow-right">
 
                 <img src="/img/icons/asset-02.svg" alt="Image failed to load"
                     class="z-10 w-screen absolute -bottom-32 -left-32 opacity-25">
