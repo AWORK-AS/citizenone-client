@@ -189,10 +189,10 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
-    animateAsset01()
+    animateAssets()
 })
 
-function animateAsset01() {
+function animateAssets() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {

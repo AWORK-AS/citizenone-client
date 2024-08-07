@@ -11,7 +11,14 @@
                     src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     alt="Image failed to load" />
             </div>
-            <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+            <div
+                class="relative overflow-clip flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+                <img src="/img/icons/asset-01.svg" alt="Image failed to load"
+                    class="w-64 lg:w-1/2 absolute -top-32 -right-32 opacity-0 transition-opacity duration-500"
+                    id="animatedAsset01">
+                <img src="/img/icons/asset-02.svg" alt="Image failed to load"
+                    class="w-64 lg:w-1/2 absolute -bottom-32 -left-32 opacity-0 transition-opacity duration-500"
+                    id="animatedAsset02">
                 <div class="mx-auto w-full max-w-sm lg:w-96">
                     <div class="flex items-center justify-between">
                         <Logo @click="navigateTo('/')" />
@@ -85,7 +92,7 @@ const state = reactive({
     formUser: {
         password: null,
         confirm_password: null,
-    },
+    } as any,
     isPageLoading: false,
     slideOver: {
         isLanguageSwitcherOpen: false
@@ -110,6 +117,7 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
+    animateAssets()
     const token = route.query.token
     if (token && typeof token === 'string') {
         state.token = token
@@ -119,6 +127,23 @@ onMounted(() => {
         navigateTo('/forgot-password')
     }
 })
+
+function animateAssets() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-fade-in')
+            } else {
+                entry.target.classList.remove('animate-fade-in')
+            }
+        })
+    })
+
+    const animatedAsset01 = document.getElementById('animatedAsset01') as any
+    const animatedAsset02 = document.getElementById('animatedAsset02') as any
+    observer.observe(animatedAsset01)
+    observer.observe(animatedAsset02)
+}
 
 async function verifyPasswordResetToken() {
     state.isPageLoading = true

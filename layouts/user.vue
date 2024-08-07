@@ -494,10 +494,10 @@ const state = reactive({
 
 onMounted(() => {
     fetchUser()
-    animateAsset01()
+    animateAssets()
 })
 
-function animateAsset01() {
+function animateAssets() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
