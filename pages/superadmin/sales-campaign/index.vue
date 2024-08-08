@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { salesCampaignService } from '@/components/api/superadmin/SalesCampaign'
+import { salesCampaignService } from '@/components/api/superadmin/SalesCampaignService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()

@@ -230,6 +230,7 @@
         "dailyOverview": "Daglig oversigt",
         "from": "Fra",
         "latestJournal": "Seneste journalnotater",
+        "news": "Nyheder",
         "noEventsForToday": "Ingen begivenheder for i dag",
         "noJournalsToShow": "Ingen journaler at vise",
         "noNewsToShow": "Ingen nyheder at vise",
@@ -573,6 +574,35 @@
                 "phone": "Telefon"
             }
         },
+        "polls": {
+            "editPoll": "Rediger afstemning",
+            "editPollItem": "Rediger afstemningspunkt",
+            "form": {
+                "active": "Aktiv",
+                "alert": {
+                    "newPollSuccessfullySaved": "Ny afstemning gemt",
+                    "newPollItemSuccessfullySaved": "Nyt afstemningspunkt gemt",
+                    "pollSuccessfullyUpdated": "Afstemning opdateret",
+                    "pollItemSuccessfullyUpdated": "Afstemningspunkt opdateret"
+                },
+                "name": "Navn",
+                "title": "Titel"
+            },
+            "table": {
+                "actions": {
+                    "edit": "Rediger",
+                    "view": "Vis"
+                },
+                "active": "Aktiv",
+                "inactive": "Inaktiv",
+                "status": "Status",
+                "title": "Titel"
+            },
+            "polls": "Afstemninger",
+            "pollItems": "Afstemningspunkter",
+            "newPoll": "Ny afstemning",
+            "newPollItem": "Nyt afstemningspunkt"
+        },
         "salesCampaign": {
             "editCampaign": "Rediger kampagne",
             "form": {
@@ -603,6 +633,7 @@
         },
         "sidebar": {
             "accounts": "Kontoer",
+            "polls": "Afstemninger",
             "salesCampaign": "Salgs kampagne",
             "users": "Brugere"
         },

@@ -1,6 +1,6 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
-class SalesCampaign extends BaseAPIService {
+class SalesCampaignService extends BaseAPIService {
     async getSalesCampaigns(params: object): Promise<any> {
         return await this.request(`/superadmin/sales-campaigns`, 'GET', params)
     }
@@ -18,4 +18,4 @@ class SalesCampaign extends BaseAPIService {
     }
 }
 
-export const salesCampaignService = new SalesCampaign()
+export const salesCampaignService = new SalesCampaignService()

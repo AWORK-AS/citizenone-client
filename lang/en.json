@@ -230,6 +230,7 @@
         "dailyOverview": "Daily overview",
         "from": "From",
         "latestJournal": "Latest journal notes",
+        "news": "News",
         "noEventsForToday": "No events for today",
         "noJournalsToShow": "No journals to show",
         "noNewsToShow": "No news to show",
@@ -573,6 +574,35 @@
                 "phone": "Phone"
             }
         },
+        "polls": {
+            "editPoll": "Edit poll",
+            "editPollItem": "Edit poll item",
+            "form": {
+                "active": "Active",
+                "alert": {
+                    "newPollSuccessfullySaved": "New poll successfully saved",
+                    "newPollItemSuccessfullySaved": "New poll item successfully saved",
+                    "pollSuccessfullyUpdated": "Poll successfully updated",
+                    "pollItemSuccessfullyUpdated": "Poll item successfully updated"
+                },
+                "name": "Name",
+                "title": "Title"
+            },
+            "table": {
+                "actions": {
+                    "edit": "Edit",
+                    "view": "View"
+                },
+                "active": "Active",
+                "inactive": "Inctive",
+                "status": "Status",
+                "title": "Title"
+            },
+            "polls": "Polls",
+            "pollItems": "Poll items",
+            "newPoll": "New poll",
+            "newPollItem": "New poll item"
+        },
         "salesCampaign": {
             "editCampaign": "Edit campaign",
             "form": {
@@ -603,6 +633,7 @@
         },
         "sidebar": {
             "accounts": "Accounts",
+            "polls": "Polls",
             "salesCampaign": "Sales campaign",
             "users": "Users"
         },

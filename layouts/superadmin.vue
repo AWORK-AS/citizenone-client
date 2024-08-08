@@ -47,6 +47,9 @@
                                                         <span v-if="item.name === 'Sales Campaign'">
                                                             {{ $t('superadmin.sidebar.salesCampaign') }}
                                                         </span>
+                                                        <span v-if="item.name === 'Polls'">
+                                                            {{ $t('superadmin.sidebar.polls') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Users'">
                                                             {{ $t('superadmin.sidebar.users') }}
                                                         </span>
@@ -105,6 +108,9 @@
                                         </span>
                                         <span v-if="item.name === 'Sales Campaign'">
                                             {{ $t('superadmin.sidebar.salesCampaign') }}
+                                        </span>
+                                        <span v-if="item.name === 'Polls'">
+                                            {{ $t('superadmin.sidebar.polls') }}
                                         </span>
                                         <span v-if="item.name === 'Users'">
                                             {{ $t('superadmin.sidebar.users') }}
@@ -272,6 +278,20 @@ const navigation = [
             'superadmin-sales-campaign',
             'superadmin-sales-campaign-new',
             'superadmin-sales-campaign-edit-uuid',
+        ]
+    },
+    {
+        name: 'Polls',
+        href: '/superadmin/polls',
+        icon: 'ph:chart-bar-horizontal',
+        activeRouteNames: [
+            'superadmin-polls',
+            'superadmin-polls-new',
+            'superadmin-polls-pollUuid',
+            'superadmin-polls-pollUuid-edit',
+            'superadmin-polls-pollUuid-pollItemUuid',
+            'superadmin-polls-pollUuid-new',
+            'superadmin-polls-pollUuid-pollItemUuid-edit',
         ]
     },
     {

@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { salesCampaignService } from '@/components/api/superadmin/SalesCampaign'
+import { salesCampaignService } from '@/components/api/superadmin/SalesCampaignService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'

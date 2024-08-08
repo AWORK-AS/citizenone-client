@@ -1,0 +1,74 @@
+<template>
+    <div>
+        <NuxtLayout name="superadmin">
+
+            <Head>
+                <Title>{{ $t('superadmin.polls.newPollItem') }} - {{ runtimeConfig?.public?.appName }}</Title>
+            </Head>
+
+            <template #header>{{ $t('superadmin.polls.newPollItem') }}</template>
+
+            <div>
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                    :to="`/superadmin/polls/${pollUuid}`">
+                    <Icon name="ph:arrow-left" size="20" class="text-black" />
+                    <span>{{ $t('back') }}</span>
+                </NuxtLink>
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <ModulesSuperadminPollItemForm formType="create" :selectedPollItem="state.formPollItem"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @submitForm="savePollItem" />
+                </LoadingSpinner>
+            </div>
+        </NuxtLayout>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { pollItemService } from '@/components/api/superadmin/PollItemService'
+import { useI18n } from "vue-i18n"
+import { notify } from "@kyvg/vue3-notification"
+import type { Error } from '@/types'
+
+const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
+const pollUuid = router?.currentRoute?.value?.params?.pollUuid
+const { t } = useI18n()
+
+const state = reactive({
+    error: {} as Error,
+    formPollItem: {
+        title: '',
+        is_active: false,
+    },
+    isPageLoading: false,
+})
+
+async function savePollItem(pollItemDetails: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            'poll_uuid': pollUuid,
+            'title': pollItemDetails.title,
+            'is_active': pollItemDetails.is_active,
+        }
+        const response = await pollItemService.savePollItem(params)
+        if (response.data) {
+            successAlert(`${t('alert.success')}!`, `${t('superadmin.polls.form.alert.newPollItemSuccessfullySaved')}.`)
+            navigateTo(`/superadmin/polls/${pollUuid}`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function successAlert(title: string, message: string) {
+    notify({
+        title: title,
+        text: message,
+        type: 'success',
+    })
+}
+</script>
