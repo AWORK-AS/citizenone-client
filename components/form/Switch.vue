@@ -5,7 +5,7 @@
             props.disabled ? 'cursor-not-allowed' : 'cursor-pointer'
         ]">
             <span aria-hidden="true"
-                :class="[props.value ? 'translate-x-4' : 'translate-x-0', 'pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']" />
+                :class="[props.value ? 'translate-x-4 bg-white' : 'translate-x-0 bg-secondary', 'pointer-events-none inline-block h-4 w-4 rounded-full shadow transform ring-0 transition ease-in-out duration-200']" />
         </Switch>
     </div>
 </template>

@@ -1,12 +1,11 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <div
-            class="mb-2 flex items-center justify-between gap-x-2 border-b border-t py-4 border-tertiary-25 border-dashed">
-            <p class="text-sm text-white">
-                {{ userStore.getIsLoggedIn ? $t('timeRegistration.checkIn') : $t('timeRegistration.checkOut') }}
+        <div class="bg-white rounded-md mb-2 flex items-center justify-between gap-x-2 p-4">
+            <p class="text-sm text-primary font-bold">
+                {{ userStore.getIsLoggedIn ? $t('timeRegistration.checkOut') : $t('timeRegistration.checkIn') }}
             </p>
             <div class="flex items-center gap-x-1">
-                <p class="text-xs text-white">{{ formattedTime }}</p>
+                <p class="text-xs text-primary">{{ formattedTime }}</p>
                 <FormSwitch :value="userStore.getIsLoggedIn" @toggleSwitch="toggleLogin" />
             </div>
         </div>
