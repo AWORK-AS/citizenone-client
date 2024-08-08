@@ -119,8 +119,8 @@ const state = reactive({
         isDeletePlanOpen: false,
         isEditPlanOpen: false,
     },
-    plans: [],
-    selectedPlan: [],
+    plans: [] as any,
+    selectedPlan: [] as any,
     slideOver: {
         isGoalOpen: false
     },
