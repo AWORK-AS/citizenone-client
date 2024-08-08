@@ -12,17 +12,19 @@
             </div>
             <div v-for="(citizen, index) in state.citizens?.data" :key="index" class="py-4">
                 <Badge type="primary" class="w-fit">
-                    <p class="text-sm px-2">
+                    <p class="text-xs px-2">
                         {{ citizen?.firstname + ' ' + citizen?.lastname }}
                     </p>
                 </Badge>
-                <h3 class="mt-1 text-base font-semibold">
-                    {{ citizen?.citizen_journal?.title }}
-                </h3>
-                <div v-html="citizen?.citizen_journal?.content" id="content" class="table-responsive" />
-                <p class="text-xs text-muted-400">
-                    <span>{{ formatDateToReadable(citizen?.citizen_journal?.date) }}</span>
-                </p>
+                <div class="px-1">
+                    <h3 class="mt-2 text-base font-semibold">
+                        {{ citizen?.citizen_journal?.title }}
+                    </h3>
+                    <div v-html="citizen?.citizen_journal?.content" id="content" class="table-responsive" />
+                    <p class="text-xs text-muted-400">
+                        <span>{{ formatDateToReadable(citizen?.citizen_journal?.date) }}</span>
+                    </p>
+                </div>
             </div>
         </div>
     </LoadingSpinner>
