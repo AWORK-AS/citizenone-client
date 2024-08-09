@@ -681,6 +681,12 @@
             "phone": "Telefon"
         }
     },
+    "reminder": {
+        "checkinReminder": "Check-in påmindelse",
+        "dontForgetToCheckInToday": "Glem ikke at tjekke ind i dag",
+        "doNotShowAgain": "Vis ikke igen",
+        "ok": "Ok"
+    },
     "resetPassword": {
         "form": {
             "confirmPassword": "Bekræft adgangskode",

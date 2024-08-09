@@ -681,6 +681,12 @@
             "agreetoTAC": "You must agree to the terms and conditions"
         }
     },
+    "reminder": {
+        "checkinReminder": "Check-in reminder",
+        "dontForgetToCheckInToday": "Don't forget to check in today",
+        "doNotShowAgain": "Do not show again",
+        "ok": "Ok"
+    },
     "resetPassword": {
         "form": {
             "confirmPassword": "Confirm password",

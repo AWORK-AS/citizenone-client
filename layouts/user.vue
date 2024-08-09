@@ -338,6 +338,8 @@
                 </main>
             </div>
         </div>
+        <ModulesReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen"
+            @close="state.modal.isCheckinReminderOpen = false" />
         <ModulesLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
@@ -486,7 +488,8 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     modal: {
-        isContactUsOpen: false
+        isCheckinReminderOpen: false,
+        isContactUsOpen: false,
     },
     slideOver: {
         isLanguageSwitcherOpen: false,
@@ -497,6 +500,10 @@ const state = reactive({
 onMounted(() => {
     fetchUser()
     animateAssets()
+    const storedValue = localStorage.getItem('doNotShowCheckInReminder')
+    // if (storedValue === null || storedValue === 'false') {
+    //     state.modal.isCheckinReminderOpen = true
+    // }
 })
 
 function animateAssets() {
