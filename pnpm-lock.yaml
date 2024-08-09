@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      qrcode-vue3:
-        specifier: ^1.6.8
-        version: 1.6.8
       vue:
         specifier: ^3.4.34
         version: 3.4.34
@@ -99,6 +96,9 @@ importers:
       pusher-js:
         specifier: 8.4.0-rc2
         version: 8.4.0-rc2
+      qrcode-vue3:
+        specifier: ^1.6.8
+        version: 1.6.8
       tailwindcss:
         specifier: ^3.4.7
         version: 3.4.7
