@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      qrcode-vue3:
+        specifier: ^1.6.8
+        version: 1.6.8
       vue:
         specifier: ^3.4.34
         version: 3.4.34
@@ -3269,6 +3272,12 @@ packages:
 
   pusher-js@8.4.0-rc2:
     resolution: {integrity: sha512-d87GjOEEl9QgO5BWmViSqW0LOzPvybvX6WA9zLUstNdB57jVJuR27zHkRnrav2a3+zAMlHbP2Og8wug+rG8T+g==}
+
+  qrcode-generator@1.4.4:
+    resolution: {integrity: sha512-HM7yY8O2ilqhmULxGMpcHSF1EhJJ9yBj8gvDEuZ6M+KGJ0YY2hKpnXvRD+hZPLrDVck3ExIGhmPtSdcjC+guuw==}
+
+  qrcode-vue3@1.6.8:
+    resolution: {integrity: sha512-LtMnwKWi58ZqHbXBcsTF/VxDYhI6RrBIrDQw8fbDVlO8p5tJBZa7TaIaVYLY937vKO2WCEBmOKksGlpm5ccEIg==}
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -7872,6 +7881,12 @@ snapshots:
   pusher-js@8.4.0-rc2:
     dependencies:
       tweetnacl: 1.0.3
+
+  qrcode-generator@1.4.4: {}
+
+  qrcode-vue3@1.6.8:
+    dependencies:
+      qrcode-generator: 1.4.4
 
   queue-microtask@1.2.3: {}
 

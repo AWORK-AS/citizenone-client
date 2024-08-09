@@ -27,16 +27,31 @@
                     </p>
                 </div>
             </div>
+            <div class="bg-white rounded-md p-1 flex flex-col items-center justify-center">
+                <div id="qrCode">
+                    <QRCodeVue3 :value="qrValue" width="200" height="200"
+                        :dotsOptions="{ type: 'classy', color: '#205E77' }"
+                        :cornersSquareOptions="{ type: 'extra-rounded', color: '#41ADD8' }"
+                        :cornersDotOptions="{ type: 'square', color: '#205E77' }"
+                        :downloadOptions="{ name: `${state.selectedCitizen?.data?.firstname}-${state.selectedCitizen?.data?.lastname}-${citizenUuid}`, extension: 'png' }" />
+                </div>
+                <div class="w-fit cursor-pointer text-primary hover:text-primary-700" @click=downloadQRCode>
+                    {{ $t('citizens.medicineJournals.download') }}
+                </div>
+            </div>
         </div>
     </LoadingSpinner>
 </template>
 
 <script setup lang="ts">
+import QRCodeVue3 from "qrcode-vue3"
 import { citizenService } from '@/components/api/CitizenService'
 import type { Error } from '@/types'
 
+const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const qrValue = `${runtimeConfig.public.appBaseURL}/citizens/${citizenUuid}/medicine-journals`
 
 const state = reactive({
     error: {} as Error,
@@ -61,4 +76,15 @@ async function fetchCitizen() {
     }
     state.isPageLoading = false
 }
+
+const downloadQRCode = () => {
+    const qrCodeElement = document.querySelector('#qrCode img') as HTMLImageElement
+
+    if (qrCodeElement) {
+        const link = document.createElement('a')
+        link.href = qrCodeElement.src
+        link.download = `${state.selectedCitizen?.data?.firstname}-${state.selectedCitizen?.data?.lastname}-${citizenUuid}.png`
+        link.click()
+    }
+};
 </script>
