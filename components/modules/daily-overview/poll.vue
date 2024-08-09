@@ -3,13 +3,15 @@
         <Alert type="danger"
             :text="state?.error?.message === 'You have already voted.' ? `${$t('poll.youHaveAlreadyVoted')}.` : state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <h3 class="text-primary text-base font-medium pr-6">
+        <h3 class="text-primary text-base font-medium py-2">
             {{ $t('dailyOverview.poll') }}
         </h3>
-        <div class="mt-3 text-sm space-y-2 overflow-scroll min-h-44 max-h-96 pr-4 mr-1">
-            <div class="flex items-center justify-center h-80" v-if="state.polls?.data?.length === 0">
-                {{ $t('dailyOverview.noPollToShow') }}
-            </div>
+
+        <div class="flex items-center justify-center h-80 text-sm mt-10" v-if="state.polls?.data?.length === 0">
+            {{ $t('dailyOverview.noPollToShow') }}
+        </div>
+
+        <div class="mt-3 text-sm space-y-2 overflow-scroll min-h-44 max-h-96 pr-4 mr-1" v-else>
             <div v-for="(poll, pollIndex) in state.polls?.data" :key="pollIndex">
                 <div class="space-y-3 px-2">
                     <div class="flex items-center gap-x-2">

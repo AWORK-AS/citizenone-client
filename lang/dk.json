@@ -231,6 +231,7 @@
         "from": "Fra",
         "latestJournal": "Seneste journalnotater",
         "news": "Nyheder",
+        "noBulletBoardToShow": "Ingen opslagstavle at vise",
         "noEventsForToday": "Ingen begivenheder for i dag",
         "noJournalsToShow": "Ingen journaler at vise",
         "noNewsToShow": "Ingen nyheder at vise",

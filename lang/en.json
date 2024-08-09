@@ -231,6 +231,7 @@
         "from": "From",
         "latestJournal": "Latest journal notes",
         "news": "News",
+        "noBulletBoardToShow": "No bullet board to show",
         "noEventsForToday": "No events for today",
         "noJournalsToShow": "No journals to show",
         "noNewsToShow": "No news to show",
