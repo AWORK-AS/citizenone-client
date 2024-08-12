@@ -54,6 +54,7 @@ async function updateDirectory(directoryDetails: any) {
         const directoryUuid = directoryDetails.uuid
         const params = {
             name: directoryDetails.name,
+            is_admin_access: directoryDetails.is_admin_access,
         }
         const response = await documentService.updateCitizenFileFolder(directoryUuid, params)
         if (response?.data) {

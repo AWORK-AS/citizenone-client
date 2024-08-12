@@ -4,11 +4,18 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
             <div class="space-y-1">
-                <FormLabel for="name" :label="$t('citizens.medicineJournals.form.name')" />
-                <FormTextField id="name" name="name" :placeholder="$t('citizens.medicineJournals.form.name')"
+                <FormLabel for="name" :label="$t('citizens.documents.form.name')" />
+                <FormTextField id="name" name="name" :placeholder="$t('citizens.documents.form.name')"
                     v-model="state.formDirectory.name" />
                 <FormError :error="v$?.formDirectory?.name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.name?.[0]" />
+            </div>
+            <div>
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formDirectory.is_admin_access = !state.formDirectory.is_admin_access">
+                    <FormCheckbox :value="state.formDirectory.is_admin_access" />
+                    {{ $t('citizens.documents.form.isAdminAccess') }}
+                </div>
             </div>
         </div>
         <div class="mt-6">
@@ -53,6 +60,7 @@ const state = reactive({
         id: '',
         uuid: '',
         name: '',
+        is_admin_access: false,
     },
 })
 
@@ -61,6 +69,7 @@ onMounted(() => {
         id: props.selectedDirectory.id,
         uuid: props.selectedDirectory.uuid,
         name: props.selectedDirectory.name,
+        is_admin_access: props.selectedDirectory.is_admin_access,
     }
 })
 
@@ -70,6 +79,7 @@ watch(() => props.selectedDirectory, (newValue: any) => {
             id: newValue.id,
             uuid: newValue.uuid,
             name: newValue.name,
+            is_admin_access: newValue.is_admin_access,
         }
     }
 })

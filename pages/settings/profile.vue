@@ -200,7 +200,6 @@ const v$ = useVuelidate(rulesFormProfile, state)
 
 async function submitForm() {
     v$.value.$validate()
-    console.log(v$.value)
     if (!v$.value.$error) {
         state.error = {}
         state.isPageLoading = true

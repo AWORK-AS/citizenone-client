@@ -112,6 +112,8 @@
             },
             "form": {
                 "editFolder": "Edit folder",
+                "isAdminAccess": "Is admin access",
+                "name": "Name",
                 "newFolder": "New folder"
             },
             "table": {

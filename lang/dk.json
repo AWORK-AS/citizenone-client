@@ -112,6 +112,8 @@
             },
             "form": {
                 "editFolder": "Rediger mappe",
+                "isAdminAccess": "Er admin adgang",
+                "name": "Navn",
                 "newFolder": "Ny mappe"
             },
             "table": {

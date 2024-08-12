@@ -38,8 +38,7 @@ const state = reactive({
         id: '',
         uuid: '',
         name: '',
-        date_given: '',
-        description: '',
+        is_admin_access: false,
     },
 })
 
@@ -60,6 +59,7 @@ async function saveDirectory(directoryDetails: any) {
             citizen_uuid: citizenUuid,
             ...(folderUuid && { folder_uuid: folderUuid }),
             name: directoryDetails.name,
+            is_admin_access: directoryDetails.is_admin_access,
             type: 'folder',
         }
         const response = await documentService.saveCitizenFileFolder(params)

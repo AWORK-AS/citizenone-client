@@ -507,8 +507,6 @@ onMounted(() => {
 function checkModalVisibility() {
     const lastHidden = localStorage.getItem('checkInReminderHidden')
     const today = moment().format('YYYY-MM-DD')
-    console.log('lastHidden', lastHidden)
-    console.log('today', today)
 
     if (lastHidden !== today) {
         state.modal.isCheckinReminderOpen = true

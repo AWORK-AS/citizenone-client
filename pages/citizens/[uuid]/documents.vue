@@ -245,6 +245,7 @@ async function uploadFile(event: any) {
         let params = new FormData()
         params.append('citizen_uuid', citizenUuid)
         params.append('type', 'file')
+        params.append('is_admin_access', false)
         params.append('file', event.target.files[0])
         if (folderUuid) {
             params.append('folder_uuid', folderUuid)
