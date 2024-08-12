@@ -585,21 +585,28 @@
             }
         },
         "polls": {
+            "confirmation": {
+                "deletePollConfirmation": "Er du sikker på, at du vil slette denne afstemning",
+                "deletePollItemConfirmation": "Er du sikker på, at du vil slette dette afstemningselement"
+            },
             "editPoll": "Rediger afstemning",
             "editPollItem": "Rediger afstemningspunkt",
             "form": {
                 "active": "Aktiv",
                 "alert": {
-                    "newPollSuccessfullySaved": "Ny afstemning gemt",
-                    "newPollItemSuccessfullySaved": "Nyt afstemningspunkt gemt",
-                    "pollSuccessfullyUpdated": "Afstemning opdateret",
-                    "pollItemSuccessfullyUpdated": "Afstemningspunkt opdateret"
+                    "newPollSuccessfullySaved": "New poll successfully saved",
+                    "newPollItemSuccessfullySaved": "New poll item successfully saved",
+                    "pollSuccessfullyUpdated": "Poll successfully updated",
+                    "pollSuccessfullyDeleted": "Poll successfully deleted",
+                    "pollItemSuccessfullyDeleted": "Poll item successfully deleted",
+                    "pollItemSuccessfullyUpdated": "Poll item successfully updated"
                 },
                 "name": "Navn",
                 "title": "Titel"
             },
             "table": {
                 "actions": {
+                    "delete": "Slet",
                     "edit": "Rediger",
                     "view": "Vis"
                 },

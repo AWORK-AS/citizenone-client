@@ -16,6 +16,10 @@ class PollService extends BaseAPIService {
     async updatePoll(pollUuid: any, params: object): Promise<any> {
         return await this.request(`/superadmin/polls/${pollUuid}`, 'PUT', params)
     }
+
+    async deletePoll(pollUuid: any): Promise<any> {
+        return await this.request(`/superadmin/polls/${pollUuid}`, 'DELETE')
+    }
 }
 
 export const pollService = new PollService()

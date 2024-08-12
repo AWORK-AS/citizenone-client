@@ -29,17 +29,17 @@
                         <Table :columnHeaders="state.columnHeaders" :data="state.pollItems"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.pollItems?.data?.length === 0))">
-                                <tr v-for="(poll, index) in state.pollItems?.data" :key="index">
+                                <tr v-for="(pollItem, index) in state.pollItems?.data" :key="index">
                                     <td width="40%">
                                         <div>
-                                            {{ poll?.title }}
+                                            {{ pollItem?.title }}
                                         </div>
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-center gap-x-2">
-                                            <Badge :type="poll?.is_active ? 'active' : 'primary'">
+                                            <Badge :type="pollItem?.is_active ? 'active' : 'primary'">
                                                 <p class="text-xs">
-                                                    {{ poll?.is_active ?
+                                                    {{ pollItem?.is_active ?
                                                         $t('superadmin.polls.table.active') :
                                                         $t('superadmin.polls.table.inactive') }}
                                                 </p>
@@ -49,9 +49,14 @@
                                     <td width="30%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/superadmin/polls/${pollUuid}/${poll.uuid}/edit`)">
+                                                @click="navigateTo(`/superadmin/polls/${pollUuid}/${pollItem.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('superadmin.polls.table.actions.edit') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                @click="deleteConfirmation(pollItem)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('superadmin.polls.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -62,15 +67,21 @@
                     <Pagination :data="state.pollItems" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeletePollItemOpen"
+                :message="$t('superadmin.polls.confirmation.deletePollItemConfirmation') + '?'"
+                @close="state.modal.isDeletePollItemOpen = false" @confirm="deletePollItem" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { pollItemService } from '@/components/api/superadmin/PollItemService'
+import { useI18n } from "vue-i18n"
+import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { t } = useI18n()
 const router = useRouter()
 const pollUuid = router?.currentRoute?.value?.params?.pollUuid
 let currentTablePage = 1
@@ -88,7 +99,11 @@ const state = reactive({
     dataFilter: [],
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isDeletePollItemOpen: false
+    },
     pollItems: [] as any,
+    selectedPollItem: [],
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -143,5 +158,34 @@ function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
     fetchPollItems()
+}
+
+function deleteConfirmation(news: any) {
+    state.selectedPollItem = news
+    state.modal.isDeletePollItemOpen = true
+}
+
+async function deletePollItem() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const pollitemUuid = state.selectedPollItem?.uuid
+        const response = await pollItemService.deletePollItem(pollitemUuid)
+        if (response) {
+            fetchPollItems()
+            successAlert(`${t('alert.success')}!`, `${t('superadmin.polls.form.alert.pollItemSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function successAlert(title: string, message: string) {
+    notify({
+        title: title,
+        text: message,
+        type: 'success',
+    })
 }
 </script>

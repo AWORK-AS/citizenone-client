@@ -16,6 +16,10 @@ class PollItemService extends BaseAPIService {
     async updatePollItem(pollItemUuid: any, params: object): Promise<any> {
         return await this.request(`/superadmin/poll-items/${pollItemUuid}`, 'PUT', params)
     }
+
+    async deletePollItem(pollItemUuid: any): Promise<any> {
+        return await this.request(`/superadmin/poll-items/${pollItemUuid}`, 'DELETE')
+    }
 }
 
 export const pollItemService = new PollItemService()

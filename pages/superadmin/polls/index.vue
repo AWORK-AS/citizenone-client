@@ -53,6 +53,11 @@
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('superadmin.polls.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                @click="deleteConfirmation(poll)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('superadmin.polls.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -62,15 +67,21 @@
                     <Pagination :data="state.polls" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeletePollOpen"
+                :message="$t('superadmin.polls.confirmation.deletePollConfirmation') + '?'"
+                @close="state.modal.isDeletePollOpen = false" @confirm="deletePoll" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { pollService } from '@/components/api/superadmin/PollService'
+import { useI18n } from "vue-i18n"
+import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
@@ -86,7 +97,11 @@ const state = reactive({
     dataFilter: [],
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isDeletePollOpen: false
+    },
     polls: [] as any,
+    selectedPoll: [],
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -140,5 +155,34 @@ function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
     fetchPolls()
+}
+
+function deleteConfirmation(poll: any) {
+    state.selectedPoll = poll
+    state.modal.isDeletePollOpen = true
+}
+
+async function deletePoll() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const pollUuid = state.selectedPoll?.uuid
+        const response = await pollService.deletePoll(pollUuid)
+        if (response) {
+            fetchPolls()
+            successAlert(`${t('alert.success')}!`, `${t('superadmin.polls.form.alert.pollSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function successAlert(title: string, message: string) {
+    notify({
+        title: title,
+        text: message,
+        type: 'success',
+    })
 }
 </script>
