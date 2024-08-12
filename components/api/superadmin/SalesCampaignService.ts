@@ -16,6 +16,10 @@ class SalesCampaignService extends BaseAPIService {
     async updateSalesCampaign(salesCampaignUuid: any, params: object): Promise<any> {
         return await this.request(`/superadmin/sales-campaigns/${salesCampaignUuid}/update`, 'POST', params)
     }
+
+    async deleteSalesCampaign(salesCampaignUuid: any): Promise<any> {
+        return await this.request(`/superadmin/sales-campaigns/${salesCampaignUuid}`, 'DELETE')
+    }
 }
 
 export const salesCampaignService = new SalesCampaignService()

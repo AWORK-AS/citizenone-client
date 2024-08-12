@@ -614,11 +614,15 @@
             "newPollItem": "Nyt afstemningspunkt"
         },
         "salesCampaign": {
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne kampagne"
+            },
             "editCampaign": "Rediger kampagne",
             "form": {
                 "active": "Aktiv",
                 "alert": {
                     "newCampaignSuccessfullySaved": "Ny kampagne er gemt",
+                    "campaignSuccessfullyDeleted": "Kampagne blev succesfuldt slettet",
                     "campaignSuccessfullyUpdated": "Kampagne opdateret"
                 },
                 "content": "Indhold",
@@ -630,6 +634,7 @@
             "newCampaign": "Ny kampagne",
             "table": {
                 "actions": {
+                    "delete": "Slet",
                     "edit": "Rediger"
                 },
                 "active": "Aktiv",

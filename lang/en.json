@@ -614,11 +614,15 @@
             "newPollItem": "New poll item"
         },
         "salesCampaign": {
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this campaign"
+            },
             "editCampaign": "Edit campaign",
             "form": {
                 "active": "Active",
                 "alert": {
                     "newCampaignSuccessfullySaved": "New campaign successfully saved",
+                    "campaignSuccessfullyDeleted": "Campaign successfully deleted",
                     "campaignSuccessfullyUpdated": "Campaign successfully updated"
                 },
                 "content": "Content",
@@ -630,6 +634,7 @@
             "newCampaign": "New campaign",
             "table": {
                 "actions": {
+                    "delete": "Delete",
                     "edit": "Edit"
                 },
                 "active": "Active",

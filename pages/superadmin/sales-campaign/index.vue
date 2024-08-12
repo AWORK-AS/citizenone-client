@@ -65,6 +65,11 @@
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('superadmin.salesCampaign.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                @click="deleteConfirmation(salesCampaign)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('superadmin.salesCampaign.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -74,15 +79,21 @@
                     <Pagination :data="state.salesCampaigns" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteSalesCampaignOpen"
+                :message="$t('superadmin.salesCampaign.confirmation.deleteConfirmation') + '?'"
+                @close="state.modal.isDeleteSalesCampaignOpen = false" @confirm="deleteSalesCampaign" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { salesCampaignService } from '@/components/api/superadmin/SalesCampaignService'
+import { useI18n } from "vue-i18n"
+import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
@@ -101,7 +112,11 @@ const state = reactive({
     dataFilter: [],
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isDeleteSalesCampaignOpen: false
+    },
     salesCampaigns: [] as any,
+    selectedSalesCampaigns: [],
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -163,6 +178,35 @@ async function navigateToExternalLink(link: any) {
         open: {
             target: '_blank',
         }
+    })
+}
+
+function deleteConfirmation(salesCampaign: any) {
+    state.selectedSalesCampaigns = salesCampaign
+    state.modal.isDeleteSalesCampaignOpen = true
+}
+
+async function deleteSalesCampaign() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const salesCampaignUuid = state.selectedSalesCampaigns?.uuid
+        const response = await salesCampaignService.deleteSalesCampaign(salesCampaignUuid)
+        if (response) {
+            fetchSalesCampaigns()
+            successAlert(`${t('alert.success')}!`, `${t('superadmin.salesCampaign.form.alert.campaignSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function successAlert(title: string, message: string) {
+    notify({
+        title: title,
+        text: message,
+        type: 'success',
     })
 }
 </script>
