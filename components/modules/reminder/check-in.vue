@@ -6,11 +6,12 @@
                     <p>
                         {{ $t('reminder.dontForgetToCheckInToday') }}
                     </p>
-                    <div class="flex items-center mb-4">
-                        <FormCheckbox v-model="doNotShowAgain" class="mr-2" />
-                        <label class="text-sm">{{ $t('reminder.doNotShowAgain') }}</label>
+                    <div class="w-fit flex items-center cursor-pointer mb-4"
+                        @click="state.doNotShowAgain = !state.doNotShowAgain">
+                        <FormCheckbox :value="state.doNotShowAgain" class="mr-2" />
+                        <label class="text-sm cursor-pointer">{{ $t('reminder.doNotShowAgain') }}</label>
                     </div>
-                    <FormButton buttonStyle="primary" @click="closeModal" class="w-full rounded-md">
+                    <FormButton buttonStyle="primary" @click="handleOkButton" class="w-full rounded-md">
                         {{ $t('reminder.ok') }}
                     </FormButton>
                 </div>
@@ -20,6 +21,8 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
+
 const props = defineProps({
     isModalOpen: {
         type: Boolean,
@@ -27,10 +30,21 @@ const props = defineProps({
     },
 })
 
-const doNotShowAgain = ref(false)
 const emit = defineEmits(['close'])
+
+const state = reactive({
+    doNotShowAgain: false
+})
 
 function closeModal() {
     emit('close')
+}
+
+function handleOkButton() {
+    if (state.doNotShowAgain) {
+        const now = moment().format('YYYY-MM-DD')
+        localStorage.setItem('checkInReminderHidden', now)
+    }
+    closeModal()
 }
 </script>

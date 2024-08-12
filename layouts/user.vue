@@ -350,6 +350,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import {
     Dialog,
     DialogPanel,
@@ -500,11 +501,19 @@ const state = reactive({
 onMounted(() => {
     fetchUser()
     animateAssets()
-    const storedValue = localStorage.getItem('doNotShowCheckInReminder')
-    // if (storedValue === null || storedValue === 'false') {
-    //     state.modal.isCheckinReminderOpen = true
-    // }
+    checkModalVisibility()
 })
+
+function checkModalVisibility() {
+    const lastHidden = localStorage.getItem('checkInReminderHidden')
+    const today = moment().format('YYYY-MM-DD')
+    console.log('lastHidden', lastHidden)
+    console.log('today', today)
+
+    if (lastHidden !== today) {
+        state.modal.isCheckinReminderOpen = true
+    }
+}
 
 function animateAssets() {
     const observer = new IntersectionObserver((entries) => {
