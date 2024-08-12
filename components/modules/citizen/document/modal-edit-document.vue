@@ -1,7 +1,8 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('citizens.documents.form.editFolder')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="sm"
+            :title="props.selectedDirectory?.type === 'folder' ? $t('citizens.documents.form.editFolder') : $t('citizens.documents.form.editFile')"
+            :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesCitizenDocumentForm formType="update" :selectedDirectory="props.selectedDirectory"

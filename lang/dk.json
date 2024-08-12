@@ -111,6 +111,7 @@
                 "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe?"
             },
             "form": {
+                "editFile": "Rediger fil",
                 "editFolder": "Rediger mappe",
                 "isAdminAccess": "Er admin adgang",
                 "name": "Navn",

@@ -81,7 +81,7 @@
                                                 {{ $t('citizens.documents.table.actions.view') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="editDirectory(document)">
+                                                @click="editDocument(document)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.documents.table.actions.edit') }}
                                             </FormButton>
@@ -106,8 +106,8 @@
                 </div>
                 <ModulesCitizenDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
                     @close="state.modal.isAddDirectoryOpen = false" @refreshDocuments="fetchDocuments" />
-                <ModulesCitizenDocumentModalEditDirectory :isModalOpen="state.modal.isEditDirectoryOpen"
-                    :selectedDirectory="state.selectedDirectory" @close="state.modal.isEditDirectoryOpen = false"
+                <ModulesCitizenDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
+                    :selectedDirectory="state.selectedDirectory" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteDirectoryOpen"
                     :message="$t('citizens.documents.confirmation.deleteFolderConfirmation') + '?'"
@@ -154,7 +154,7 @@ const state = reactive({
         isAddDirectoryOpen: false,
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,
-        isEditDirectoryOpen: false,
+        isEditDocumentOpen: false,
         isUploadFileOpen: false,
     },
     selectedDirectory: [],
@@ -275,9 +275,9 @@ async function viewDirectory(document: any) {
     await navigateTo(`/citizens/${citizenUuid}/documents?folder_uuid=${document.uuid}`)
 }
 
-function editDirectory(document: any) {
+function editDocument(document: any) {
     state.selectedDirectory = document
-    state.modal.isEditDirectoryOpen = true
+    state.modal.isEditDocumentOpen = true
 }
 
 function deleteDirectoryConfirmation(document: any) {

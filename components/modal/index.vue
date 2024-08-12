@@ -15,7 +15,7 @@
                             :class="[props.size === 'xs' && 'max-w-lg', props.size === 'sm' && 'max-w-xl', props.size === 'md' && 'max-w-2xl', props.size === 'lg' && 'max-w-3xl', props.size === 'xl' && 'max-w-4xl', props.size === 'full' && 'max-w-full']">
                             <div>
                                 <div class="flex items-center">
-                                    <DialogTitle as="h3" class="text-lg leading-6 font-medium text-gray-900">
+                                    <DialogTitle as="h3" class="text-lg leading-6 font-medium text-gray-900 capitalize">
                                         {{ props.title }}
                                     </DialogTitle>
                                     <div class="grow flex justify-end">
