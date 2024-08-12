@@ -45,6 +45,11 @@
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('superadmin.users.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                @click="deleteConfirmation(user)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('superadmin.users.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -54,15 +59,21 @@
                     <Pagination :data="state.users" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteUserOpen"
+                :message="$t('superadmin.users.confirmation.deleteUserConfirmation') + '?'"
+                @close="state.modal.isDeleteUserOpen = false" @confirm="deleteUser" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { userService } from '@/components/api/superadmin/UserService'
+import { useI18n } from "vue-i18n"
+import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
@@ -81,6 +92,10 @@ const state = reactive({
     users: [] as any,
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isDeleteUserOpen: false
+    },
+    selectedUser: [],
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -134,5 +149,34 @@ function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
     fetchUsers()
+}
+
+function deleteConfirmation(user: any) {
+    state.selectedUser = user
+    state.modal.isDeleteUserOpen = true
+}
+
+async function deleteUser() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const userUuid = state.selectedUser?.uuid
+        const response = await userService.deleteUser(userUuid)
+        if (response) {
+            fetchUsers()
+            successAlert(`${t('alert.success')}!`, `${t('superadmin.users.form.alert.userSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function successAlert(title: string, message: string) {
+    notify({
+        title: title,
+        text: message,
+        type: 'success',
+    })
 }
 </script>

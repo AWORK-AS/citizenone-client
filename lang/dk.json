@@ -660,10 +660,14 @@
             "users": "Brugere"
         },
         "users": {
+            "confirmation": {
+                "deleteUserConfirmation": "Er du sikker på, at du vil slette denne bruger"
+            },
             "editUser": "Rediger bruger",
             "form": {
                 "alert": {
                     "newUserSuccessfullySaved": "Ny bruger er blevet gemt",
+                    "userSuccessfullyDeleted": "Bruger slettet med succes",
                     "userSuccessfullyUpdated": "Bruger er blevet opdateret"
                 },
                 "birthday": "Fødselsdag",
@@ -675,6 +679,7 @@
             "newUser": "Ny bruger",
             "table": {
                 "actions": {
+                    "delete": "Slet",
                     "edit": "Rediger"
                 },
                 "email": "Email",

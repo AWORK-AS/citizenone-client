@@ -660,10 +660,14 @@
             "users": "Users"
         },
         "users": {
+            "confirmation": {
+                "deleteUserConfirmation": "Are you sure you want to delete this user"
+            },
             "editUser": "Edit user",
             "form": {
                 "alert": {
                     "newUserSuccessfullySaved": "New user successfully saved",
+                    "userSuccessfullyDeleted": "User successfully deleted",
                     "userSuccessfullyUpdated": "User successfully updated"
                 },
                 "birthday": "Birthday",
@@ -675,6 +679,7 @@
             "newUser": "New user",
             "table": {
                 "actions": {
+                    "delete": "Delete",
                     "edit": "Edit"
                 },
                 "email": "Email",

@@ -17,6 +17,10 @@ class UserService extends BaseAPIService {
         return await this.request(`/superadmin/users/${userUuid}`, 'PUT', params)
     }
 
+    async deleteUser(userUuid: any): Promise<any> {
+        return await this.request(`/superadmin/users/${userUuid}`, 'DELETE')
+    }
+
     async getCurrentUser(): Promise<any> {
         return await this.request(`/superadmin`, 'GET')
     }
