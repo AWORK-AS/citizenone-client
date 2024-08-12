@@ -16,6 +16,10 @@ class NewsService extends BaseAPIService {
     async updateNews(newsUuid: any, params: object): Promise<any> {
         return await this.request(`/user/news/${newsUuid}/update`, 'POST', params)
     }
+
+    async deleteNews(newsUuid: any): Promise<any> {
+        return await this.request(`/user/news/${newsUuid}`, 'DELETE')
+    }
 }
 
 export const newsService = new NewsService()

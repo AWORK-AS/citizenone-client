@@ -54,6 +54,11 @@
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('news.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                @click="deleteConfirmation(news)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('news.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -63,15 +68,21 @@
                     <Pagination :data="state.news" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteNewsOpen"
+                :message="$t('news.confirmation.deleteConfirmation') + '?'"
+                @close="state.modal.isDeleteNewsOpen = false" @confirm="deleteNews" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { newsService } from '@/components/api/NewsService'
+import { useI18n } from "vue-i18n"
+import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
@@ -90,6 +101,10 @@ const state = reactive({
     news: [] as any,
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isDeleteNewsOpen: false
+    },
+    selectedNews: [],
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -143,5 +158,34 @@ function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
     fetchNews()
+}
+
+function deleteConfirmation(news: any) {
+    state.selectedNews = news
+    state.modal.isDeleteNewsOpen = true
+}
+
+async function deleteNews() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const newsUuid = state.selectedNews?.uuid
+        const response = await newsService.deleteNews(newsUuid)
+        if (response) {
+            fetchNews()
+            successAlert(`${t('alert.success')}!`, `${t('news.form.alert.newsSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function successAlert(title: string, message: string) {
+    notify({
+        title: title,
+        text: message,
+        type: 'success',
+    })
 }
 </script>

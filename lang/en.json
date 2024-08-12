@@ -377,10 +377,14 @@
     },
     "news": {
         "editNews": "Edit news",
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this news"
+        },
         "form": {
             "active": "Active",
             "alert": {
                 "newNewsSuccessfullySaved": "New news successfully saved",
+                "newsSuccessfullyDeleted": "News successfully deleted",
                 "newsSuccessfullyUpdated": "News successfully updated"
             },
             "content": "Content",
@@ -392,6 +396,7 @@
         "newNews": "New news",
         "table": {
             "actions": {
+                "delete": "Delete",
                 "edit": "Edit"
             },
             "active": "Active",

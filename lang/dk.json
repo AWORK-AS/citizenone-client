@@ -377,10 +377,14 @@
     },
     "news": {
         "editNews": "Rediger nyheder",
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne nyhed"
+        },
         "form": {
             "active": "Aktiv",
             "alert": {
                 "newNewsSuccessfullySaved": "Nyhed er blevet gemt",
+                "newsSuccessfullyDeleted": "Nyhederne blev slettet",
                 "newsSuccessfullyUpdated": "Nyhed er blevet opdateret"
             },
             "content": "Indhold",
@@ -392,6 +396,7 @@
         "newNews": "Ny nyhed",
         "table": {
             "actions": {
+                "delete": "Slet",
                 "edit": "Rediger"
             },
             "active": "Aktiv",
