@@ -42,6 +42,8 @@ const state = reactive({
         date: '',
         title: '',
         is_draft: false,
+        assessment: null,
+        note: '',
     },
 })
 
@@ -63,6 +65,8 @@ async function saveJournal(journalDetails: any) {
             date: journalDetails.date,
             content: journalDetails.content,
             is_draft: journalDetails.is_draft,
+            assessment: journalDetails.assessment,
+            note: journalDetails.note,
         }
         const response = await journalService.saveJournal(params)
         if (response?.data) {

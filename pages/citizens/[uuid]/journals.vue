@@ -52,7 +52,7 @@
                                 <div class="space-y-3">
                                     <div class="space-y-1.5">
                                         <div>
-                                            <div class="flex items-center gap-x-2 justify-between">
+                                            <div class="flex items-center gap-x-3">
                                                 <h3 class="text-md font-semibold">
                                                     {{ journal.title }}
                                                 </h3>
@@ -64,7 +64,7 @@
                                                     </Badge>
                                                 </div>
                                             </div>
-                                            <p class="text-xs text-muted-400">
+                                            <p class="mt-1 text-xs text-muted-400">
                                                 <span>{{ formatDateToReadable(journal.date) }}</span>
                                             </p>
                                         </div>
