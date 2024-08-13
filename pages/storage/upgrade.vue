@@ -3,10 +3,10 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('storage.storage') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('storage.tabs.storage') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('storage.storage') }}</template>
+            <template #header>{{ $t('storage.tabs.storage') }}</template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div class="space-y-5">
@@ -26,10 +26,10 @@
                                 </p>
                                 <div class="space-y-3">
                                     <div class="bg-white shadow-md p-6 rounded-md space-y-2">
-                                        <div>
+                                        <h2 class="text-sm mb-2 text-primary flex justify-between">
                                             {{ $t('storage.storage') }}
                                             ({{ state.usage?.total_storage }})
-                                        </div>
+                                        </h2>
                                         <div class="space-y-2 text-xs text-white">
                                             <div class="w-full bg-gray-200 rounded-full overflow-hidden">
                                                 <div class="h-4 bg-yellow-500 rounded-full"

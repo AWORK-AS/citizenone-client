@@ -18,7 +18,8 @@ const router = useRouter()
 
 const state = reactive({
     tabs: [
-        { name: 'settings.tabs.profile', href: `/settings/profile`, routeName: 'settings-profile' }
+        { name: 'settings.tabs.profile', href: `/settings/profile`, routeName: 'settings-profile' },
+        { name: 'settings.tabs.storage', href: `/settings/storage`, routeName: 'settings-storage' }
     ]
 })
 
@@ -36,6 +37,11 @@ watch(() => userStore.getUser, (newValue: User | null) => {
                     name: 'settings.tabs.company',
                     href: `/settings/company`,
                     routeName: 'settings-company'
+                },
+                {
+                    name: 'settings.tabs.storage',
+                    href: `/settings/storage`,
+                    routeName: 'settings-storage'
                 }
             ]
         } else {
@@ -53,6 +59,9 @@ function changeTab(value: any) {
     }
     else if (value === 'Company') {
         navigateTo(`/settings/company`)
+    }
+    else if (value === 'Storage') {
+        navigateTo(`/settings/storage`)
     }
 }
 </script>

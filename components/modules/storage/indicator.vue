@@ -1,6 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <div class="mt-4 bg-white p-4 rounded-md">
+        <div class="mt-6 bg-white shadow-md p-6 rounded-md space-y-2">
             <h2 class="text-sm mb-2 text-primary flex justify-between">
                 <div>
                     {{ $t('storage.storage') }}

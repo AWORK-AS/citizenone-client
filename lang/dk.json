@@ -551,7 +551,8 @@
         "settings": "Indstillinger",
         "tabs": {
             "company": "Firma",
-            "profile": "Profil"
+            "profile": "Profil",
+            "storage": "Opbevaring"
         }
     },
     "superadmin": {
