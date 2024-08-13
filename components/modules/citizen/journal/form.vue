@@ -28,7 +28,7 @@
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
-                    {{ $t('citizens.citizenJournals.form.assessment') }}
+                    {{ $t('citizens.citizenJournals.form.riskAssessment') }}
                 </p>
                 <div>
                     <RadioGroup v-model="state.formJournal.assessment"

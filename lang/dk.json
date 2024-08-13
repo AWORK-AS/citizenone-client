@@ -144,7 +144,6 @@
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne journal"
             },
             "form": {
-                "assessment": "Vurdering",
                 "content": "Indhold",
                 "date": "Dato",
                 "draft": "Udkast",
@@ -154,6 +153,7 @@
                     "none": "Ingen",
                     "noRisk": "Ingen risiko"
                 },
+                "riskAssessment": "Risikovurdering",
                 "title": "Titel"
             },
             "editJournal": "Rediger Journal",
