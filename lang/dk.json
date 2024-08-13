@@ -238,10 +238,11 @@
     "dailyOverview": {
         "bulletBoard": "Opslagstavle",
         "campaign": "Kampagne",
-        "dailyEvents": "Daglige begivenheder",
+        "citizensDailyEvents": "Borgeres daglige begivenheder",
         "dailyOverview": "Daglig oversigt",
         "from": "Fra",
         "latestJournal": "Seneste journalnotater",
+        "myDailyEvents": "Mine daglige begivenheder",
         "news": "Nyheder",
         "noBulletBoardToShow": "Ingen opslagstavle at vise",
         "noEventsForToday": "Ingen begivenheder for i dag",

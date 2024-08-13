@@ -3,16 +3,16 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('dailyOverview.dailyEvents') }}
+            {{ $t('dailyOverview.citizensDailyEvents') }}
         </h3>
 
         <div class="flex items-center justify-center h-80 text-sm mt-10"
-            v-if="state.myCalendarEvents?.data?.length === 0">
+            v-if="state.citizenCalendarEvents?.data?.length === 0">
             {{ $t('dailyOverview.noEventsForToday') }}
         </div>
         <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 pr-5 pt-6 pb-6 pl-6 mr-1"
             v-else>
-            <div v-for="(myCalendarEvent, index) in state.myCalendarEvents?.data" :key="index" class="py-2">
+            <div v-for="(myCalendarEvent, index) in state.citizenCalendarEvents?.data" :key="index" class="py-2">
                 <div class="space-y-2">
                     <p class="text-base font-semibold text-gray-700 xl:pr-0">
                         {{ myCalendarEvent?.title }}
@@ -48,21 +48,21 @@ import type { CalendarEventResponse, Error } from '@/types'
 
 const state = reactive({
     isPageLoading: false,
-    myCalendarEvents: {} as CalendarEventResponse,
+    citizenCalendarEvents: {} as CalendarEventResponse,
     error: {} as Error,
 })
 
 onMounted(() => {
-    fetchMyCalendarEvents()
+    fetchCitizenCalendarEvents()
 })
 
-async function fetchMyCalendarEvents() {
+async function fetchCitizenCalendarEvents() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await dailyOverviewService.getDailyEvents()
+        const response = await dailyOverviewService.getCitizenDailyEvents()
         if (response) {
-            state.myCalendarEvents = response
+            state.citizenCalendarEvents = response
         }
     } catch (error: any) {
         state.error = error

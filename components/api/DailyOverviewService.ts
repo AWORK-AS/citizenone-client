@@ -1,7 +1,11 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class DailyOverviewService extends BaseAPIService {
-    async getDailyEvents(): Promise<any> {
+    async getMyDailyEvents(): Promise<any> {
+        return await this.request(`/user/my-calendars/daily/events`, 'GET')
+    }
+
+    async getCitizenDailyEvents(): Promise<any> {
         return await this.request(`/user/my-calendars/daily/events`, 'GET')
     }
 

@@ -238,10 +238,11 @@
     "dailyOverview": {
         "bulletBoard": "Bullet board",
         "campaign": "Campaign",
-        "dailyEvents": "Daily events",
+        "citizensDailyEvents": "Citizens daily events",
         "dailyOverview": "Daily overview",
         "from": "From",
         "latestJournal": "Latest journal notes",
+        "myDailyEvents": "My daily events",
         "news": "News",
         "noBulletBoardToShow": "No bullet board to show",
         "noEventsForToday": "No events for today",
