@@ -24,6 +24,13 @@
                 <FormError :error="v$?.formJournal?.content?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.content?.[0]" />
             </div>
+            <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formJournal.is_draft = !state.formJournal.is_draft">
+                    <FormCheckbox :value="state.formJournal.is_draft" />
+                    {{ $t('citizens.citizenJournals.form.draft') }}
+                </div>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -85,6 +92,7 @@ const state = reactive({
         content: '',
         date: '',
         title: '',
+        is_draft: false,
     },
 })
 
@@ -95,6 +103,7 @@ onMounted(() => {
         content: props.selectedJournal.content,
         date: props.selectedJournal.date,
         title: props.selectedJournal.title,
+        is_draft: props.selectedJournal.is_draft,
     }
 })
 
@@ -106,6 +115,7 @@ watch(() => props.selectedJournal, (newValue: any) => {
             content: newValue.content,
             date: newValue.date,
             title: newValue.title,
+            is_draft: newValue.is_draft,
         }
     }
 })

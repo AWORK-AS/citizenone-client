@@ -146,6 +146,7 @@
             "form": {
                 "content": "Content",
                 "date": "Date",
+                "draft": "Draft",
                 "title": "Title"
             },
             "editJournal": "Edit Journal",

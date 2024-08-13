@@ -146,6 +146,7 @@
             "form": {
                 "content": "Indhold",
                 "date": "Dato",
+                "draft": "Udkast",
                 "title": "Titel"
             },
             "editJournal": "Rediger Journal",

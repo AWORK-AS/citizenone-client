@@ -52,9 +52,18 @@
                                 <div class="space-y-3">
                                     <div class="space-y-1.5">
                                         <div>
-                                            <h3 class="text-md font-semibold">
-                                                {{ journal.title }}
-                                            </h3>
+                                            <div class="flex items-center gap-x-2 justify-between">
+                                                <h3 class="text-md font-semibold">
+                                                    {{ journal.title }}
+                                                </h3>
+                                                <div v-if="journal.is_draft">
+                                                    <Badge type="primary">
+                                                        <p class="text-xs">
+                                                            {{ $t('citizens.citizenJournals.form.draft') }}
+                                                        </p>
+                                                    </Badge>
+                                                </div>
+                                            </div>
                                             <p class="text-xs text-muted-400">
                                                 <span>{{ formatDateToReadable(journal.date) }}</span>
                                             </p>
