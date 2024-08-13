@@ -52,14 +52,42 @@
                                 <div class="space-y-3">
                                     <div class="space-y-1.5">
                                         <div>
-                                            <div class="flex items-center gap-x-3">
-                                                <h3 class="text-md font-semibold">
-                                                    {{ journal.title }}
-                                                </h3>
-                                                <div v-if="journal.is_draft">
-                                                    <Badge type="primary">
+                                            <div class="flex items-center gap-x-3 justify-between">
+                                                <div class="flex items-center gap-x-3">
+                                                    <h3 class="text-md font-semibold">
+                                                        {{ journal.title }}
+                                                    </h3>
+                                                    <div v-if="journal.is_draft">
+                                                        <Badge type="primary">
+                                                            <p class="text-xs">
+                                                                {{ $t('citizens.citizenJournals.form.draft') }}
+                                                            </p>
+                                                        </Badge>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <Badge type="none" v-if="journal.assessment === null">
                                                         <p class="text-xs">
-                                                            {{ $t('citizens.citizenJournals.form.draft') }}
+                                                            {{ $t('citizens.citizenJournals.form.risk.none') }}
+                                                        </p>
+                                                    </Badge>
+                                                    <Badge type="no-risk" v-if="journal.assessment === 'no risk'">
+                                                        <p class="text-xs">
+                                                            {{ $t('citizens.citizenJournals.form.risk.noRisk') }}
+                                                        </p>
+                                                    </Badge>
+                                                    <Badge type="increased-risk"
+                                                        v-if="journal.assessment === 'increased risk'">
+                                                        <p class="text-xs">
+                                                            {{ $t('citizens.citizenJournals.form.risk.increasedRisk') }}
+                                                        </p>
+                                                    </Badge>
+                                                    <Badge type="acute-increased-risk"
+                                                        v-if="journal.assessment === 'acute increased risk'">
+                                                        <p class="text-xs">
+                                                            {{
+                                                                $t('citizens.citizenJournals.form.risk.acuteIncreasedRisk')
+                                                            }}
                                                         </p>
                                                     </Badge>
                                                 </div>
