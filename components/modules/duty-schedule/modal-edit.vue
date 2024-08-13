@@ -79,7 +79,7 @@ async function updateSchedule(scheduleDetails: any) {
         if (response?.data) {
             refreshSchedules()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('schedules.alert.successfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.alert.successfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error

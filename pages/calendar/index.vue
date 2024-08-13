@@ -3,19 +3,19 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('schedules.myCalendar') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('events.myCalendar') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('schedules.myCalendar') }}</template>
+            <template #header>{{ $t('events.myCalendar') }}</template>
 
             <div class="flex justify-end items-center mb-5 gap-x-2">
                 <FormButton buttonStyle="" class="rounded-lg" @click="state.modal.isAddEventOpen = true">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                    {{ $t('schedules.newSchedule') }}
+                    {{ $t('events.newEvent') }}
                 </FormButton>
-                <FormButton buttonStyle="action" class="rounded-lg" @click="downloadSchedule">
+                <FormButton buttonStyle="action" class="rounded-lg" @click="subscribe">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                    {{ $t('schedules.downloadSchedule') }}
+                    {{ $t('events.subscribe') }}
                 </FormButton>
             </div>
 
@@ -199,7 +199,7 @@ function editMyCalendarEvent(selectedCalendarEvent: any) {
     state.modal.isEditEventOpen = true
 }
 
-async function downloadSchedule() {
+async function subscribe() {
     state.error = {}
     state.isPageLoading = true
     try {

@@ -72,7 +72,7 @@ async function saveSchedule(scheduleDetails: any) {
         if (response?.data) {
             refreshSchedules()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('schedules.alert.successfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.alert.successfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error

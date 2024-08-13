@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('schedules.newSchedule')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs" :title="$t('events.newEvent')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesMyCalendarForm formType="create" :selectedSchedule="state.formSchedule" :error="state.error"
@@ -71,7 +71,7 @@ async function saveSchedule(scheduleDetails: any) {
         if (response?.data) {
             refreshSchedules()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('schedules.alert.successfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('events.alert.successfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error

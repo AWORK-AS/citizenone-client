@@ -336,6 +336,27 @@
             "role": "Rolle"
         }
     },
+    "events": {
+        "alert": {
+            "successfullyAdded": "Ny begivenhed blev tilføjet med succes",
+            "successfullyUpdated": "Begivenhed blev opdateret med succes"
+        },
+        "editEvent": "Rediger begivenhed",
+        "form": {
+            "citizens": "Borgere",
+            "datetimeStart": "Start dato og tid",
+            "dateTimeEnd": "Slut dato og tid",
+            "description": "Beskrivelse",
+            "employees": "Medarbejdere",
+            "private": "Privat",
+            "sendInvitation": "Send invitationen",
+            "title": "Titel"
+        },
+        "myCalendar": "Min kalender",
+        "newEvent": "Ny begivenhed",
+        "noEventFound": "Ingen begivenhed fundet",
+        "subscribe": "Abonner"
+    },
     "excludeVat": "ekskl. moms",
     "filter": "Filter",
     "forgotPassword": {
@@ -496,27 +517,6 @@
         }
     },
     "save": "Gem",
-    "schedules": {
-        "alert": {
-            "successfullyAdded": "Ny tidsplan tilføjet med succes",
-            "successfullyUpdated": "Tidsplan opdateret med succes"
-        },
-        "downloadSchedule": "Download plan",
-        "editSchedule": "Rediger tidsplan",
-        "form": {
-            "citizens": "Borgere",
-            "datetimeStart": "Start dato og tid",
-            "dateTimeEnd": "Slut dato og tid",
-            "description": "Beskrivelse",
-            "employees": "Medarbejdere",
-            "private": "Privat",
-            "sendInvitation": "Send invitationen",
-            "title": "Titel"
-        },
-        "myCalendar": "Min kalender",
-        "newSchedule": "Ny tidsplan",
-        "noEventFound": "Ingen begivenhed fundet"
-    },
     "selectADate": "Vælg en dato",
     "selectADateAndTime": "Vælg en dato og tid",
     "settings": {

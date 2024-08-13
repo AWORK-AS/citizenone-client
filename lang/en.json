@@ -336,6 +336,27 @@
             "role": "Role"
         }
     },
+    "events": {
+        "alert": {
+            "successfullyAdded": "New event successfully added",
+            "successfullyUpdated": "Event successfully updated"
+        },
+        "editEvent": "Edit event",
+        "form": {
+            "citizens": "Citizens",
+            "datetimeStart": "Date time start",
+            "dateTimeEnd": "Date time end",
+            "description": "Description",
+            "employees": "Employees",
+            "private": "Private",
+            "sendInvitation": "Send invitation",
+            "title": "Title"
+        },
+        "myCalendar": "My calendar",
+        "newEvent": "New event",
+        "noEventFound": "No event found",
+        "subscribe": "Subscribe"
+    },
     "excludeVat": "excl. vat",
     "filter": "Filter",
     "forgotPassword": {
@@ -496,27 +517,6 @@
         }
     },
     "save": "Save",
-    "schedules": {
-        "alert": {
-            "successfullyAdded": "New schedule successfully added",
-            "successfullyUpdated": "Schedule successfully updated"
-        },
-        "downloadSchedule": "Download schedule",
-        "editSchedule": "Edit schedule",
-        "form": {
-            "citizens": "Citizens",
-            "datetimeStart": "Date time start",
-            "dateTimeEnd": "Date time end",
-            "description": "Description",
-            "employees": "Employees",
-            "private": "Private",
-            "sendInvitation": "Send invitation",
-            "title": "Title"
-        },
-        "myCalendar": "My calendar",
-        "newSchedule": "New schedule",
-        "noEventFound": "No event found"
-    },
     "selectADate": "Select a date",
     "selectADateAndTime": "Select a date and time",
     "settings": {

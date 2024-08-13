@@ -4,30 +4,30 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
             <div class="space-y-1">
-                <FormLabel for="title" :label="$t('schedules.form.title')" />
-                <FormTextField id="title" name="title" :placeholder="$t('schedules.form.title')"
+                <FormLabel for="title" :label="$t('events.form.title')" />
+                <FormTextField id="title" name="title" :placeholder="$t('events.form.title')"
                     v-model="state.formSchedule.title" />
                 <FormError :error="v$?.formSchedule?.title?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.title?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="description" :label="$t('schedules.form.description')" />
-                <FormTextArea id="description" name="description" :placeholder="$t('schedules.form.description')"
+                <FormLabel for="description" :label="$t('events.form.description')" />
+                <FormTextArea id="description" name="description" :placeholder="$t('events.form.description')"
                     v-model="state.formSchedule.description" />
                 <FormError :error="v$?.formSchedule?.description?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.description?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="date_time_start" :label="$t('schedules.form.datetimeStart')" />
+                <FormLabel for="date_time_start" :label="$t('events.form.datetimeStart')" />
                 <FormDateTimeField id="date_time_start" name="date_time_start"
-                    :placeholder="$t('schedules.form.datetimeStart')" v-model="state.formSchedule.date_time_start" />
+                    :placeholder="$t('events.form.datetimeStart')" v-model="state.formSchedule.date_time_start" />
                 <FormError :error="v$?.formSchedule?.date_time_start?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date_time_start?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="date_time_end" :label="$t('schedules.form.dateTimeEnd')" />
-                <FormDateTimeField id="date_time_end" name="date_time_end"
-                    :placeholder="$t('schedules.form.dateTimeEnd')" v-model="state.formSchedule.date_time_end" />
+                <FormLabel for="date_time_end" :label="$t('events.form.dateTimeEnd')" />
+                <FormDateTimeField id="date_time_end" name="date_time_end" :placeholder="$t('events.form.dateTimeEnd')"
+                    v-model="state.formSchedule.date_time_end" />
                 <FormError :error="v$?.formSchedule?.date_time_end?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date_time_end?.[0]" />
             </div>
@@ -35,18 +35,18 @@
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formSchedule.is_private = !state.formSchedule.is_private">
                     <FormCheckbox :value="state.formSchedule.is_private" />
-                    {{ $t('schedules.form.private') }}
+                    {{ $t('events.form.private') }}
                 </div>
             </div>
             <div class="space-y-1" v-if="props.formType === 'create'">
-                <FormLabel for="citizens_uuid" :label="$t('schedules.form.citizens')" />
+                <FormLabel for="citizens_uuid" :label="$t('events.form.citizens')" />
                 <FormSelectMultiple id="citizens_uuid" name="citizens_uuid" :options="state.options.citizens"
                     v-model="state.formSchedule.citizens_uuid" />
                 <FormError :error="v$?.formProtocol?.citizens_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.citizens_uuid?.[0]" />
             </div>
             <div class="space-y-1" v-if="props.formType === 'create'">
-                <FormLabel for="users_uuid" :label="$t('schedules.form.employees')" />
+                <FormLabel for="users_uuid" :label="$t('events.form.employees')" />
                 <FormSelectMultiple id="users_uuid" name="users_uuid" :options="state.options.users"
                     v-model="state.formSchedule.users_uuid" />
                 <FormError :error="v$?.formProtocol?.users_uuid?.$errors[0]?.$message.toString()" />
@@ -56,7 +56,7 @@
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formSchedule.send_invitation = !state.formSchedule.send_invitation">
                     <FormCheckbox :value="state.formSchedule.send_invitation" />
-                    {{ $t('schedules.form.sendInvitation') }}
+                    {{ $t('events.form.sendInvitation') }}
                 </div>
             </div>
         </div>

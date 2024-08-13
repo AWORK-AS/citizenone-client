@@ -66,7 +66,7 @@
             </div>
             <ol class="mt-4 divide-y divide-gray-100 text-sm leading-6 lg:col-span-7 xl:col-span-8">
                 <p v-if="props.myCalendarEvents?.data?.length < 1" class="text-center py-28">
-                    {{ $t('schedules.noEventFound') }}
+                    {{ $t('events.noEventFound') }}
                 </p>
                 <li v-for="(myCalendarEvent, index) in props.myCalendarEvents?.data" :key="index"
                     class="relative flex space-x-6 py-6 xl:static">
