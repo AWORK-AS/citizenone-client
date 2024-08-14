@@ -717,10 +717,11 @@
         }
     },
     "reminder": {
+        "checkIn": "Check ind",
         "checkinReminder": "Check-in påmindelse",
         "dontForgetToCheckInToday": "Glem ikke at tjekke ind i dag",
         "doNotShowAgain": "Vis ikke igen",
-        "ok": "Ok"
+        "iDontNeedToCheckinNow": "I don't need to check in now"
     },
     "resetPassword": {
         "form": {

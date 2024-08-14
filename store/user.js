@@ -4,6 +4,7 @@ export const useUserStore = defineStore('userStore',
     {
         persist: true,
         state: () => ({
+            isCheckInNow: false,
             isLoggedIn: false,
             language: 'dk',
             timer: {
@@ -14,6 +15,9 @@ export const useUserStore = defineStore('userStore',
             user: null,
         }),
         actions: {
+            setIsCheckInNow(status) {
+                this.isCheckInNow = status
+            },
             setIsLoggedIn(status) {
                 this.isLoggedIn = status
             },
@@ -31,6 +35,9 @@ export const useUserStore = defineStore('userStore',
             },
             setUser(user) {
                 this.user = user
+            },
+            resetIsCheckInNow() {
+                this.isCheckInNow = false
             },
             resetIsLoggedIn() {
                 this.isLoggedIn = false
@@ -50,6 +57,7 @@ export const useUserStore = defineStore('userStore',
             },
         },
         getters: {
+            getIsCheckInNow: (state) => state.isCheckInNow,
             getIsLoggedIn: (state) => state.isLoggedIn,
             getLanguage: (state) => state.language,
             getTimer: (state) => state.timer,

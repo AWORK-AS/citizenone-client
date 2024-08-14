@@ -717,10 +717,11 @@
         }
     },
     "reminder": {
+        "checkIn": "Check in",
         "checkinReminder": "Check-in reminder",
         "dontForgetToCheckInToday": "Don't forget to check in today",
         "doNotShowAgain": "Do not show again",
-        "ok": "Ok"
+        "iDontNeedToCheckinNow": "I don't need to check in now"
     },
     "resetPassword": {
         "form": {

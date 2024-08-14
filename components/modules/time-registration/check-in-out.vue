@@ -53,6 +53,10 @@ watch(() => userStore.getUser, (newValue: any) => {
     }
 })
 
+watch(() => userStore.isCheckInNow, () => {
+    toggleLogin()
+})
+
 async function toggleLogin() {
     state.error = {}
     state.isPageLoading = true

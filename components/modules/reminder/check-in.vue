@@ -11,9 +11,15 @@
                         <FormCheckbox :value="state.doNotShowAgain" class="mr-2" />
                         <label class="text-sm cursor-pointer">{{ $t('reminder.doNotShowAgain') }}</label>
                     </div>
-                    <FormButton buttonStyle="primary" @click="handleOkButton" class="w-full rounded-md">
-                        {{ $t('reminder.ok') }}
-                    </FormButton>
+                    <div class="flex flex-col items-center gap-2">
+                        <FormButton buttonStyle="primary" class="w-full rounded-md" @click="handleCheckIn">
+                            {{ $t('reminder.checkIn') }}
+                        </FormButton>
+                        <p class="w-fit text-sm text-center text-primary cursor-pointer hover:text-primary-700"
+                            @click="handleIDontNeedToCheckinNow">
+                            {{ $t('reminder.iDontNeedToCheckinNow') }}
+                        </p>
+                    </div>
                 </div>
             </template>
         </Modal>
@@ -22,6 +28,9 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { useUserStore } from '@/store/user'
+
+const userStore = useUserStore()
 
 const props = defineProps({
     isModalOpen: {
@@ -40,7 +49,14 @@ function closeModal() {
     emit('close')
 }
 
-function handleOkButton() {
+function handleCheckIn() {
+    const now = moment().format('YYYY-MM-DD')
+    localStorage.setItem('checkInReminderHidden', now)
+    userStore.setIsCheckInNow(true)
+    closeModal()
+}
+
+function handleIDontNeedToCheckinNow() {
     if (state.doNotShowAgain) {
         const now = moment().format('YYYY-MM-DD')
         localStorage.setItem('checkInReminderHidden', now)
