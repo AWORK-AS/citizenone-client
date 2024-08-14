@@ -157,7 +157,14 @@
                 "title": "Titel"
             },
             "editJournal": "Rediger Journal",
-            "newJournal": "Ny Journal"
+            "filter": {
+                "date": "Dato",
+                "journalNoteView": "Journalnotatvisning",
+                "standardView": "Standardvisning",
+                "riskAssessmentView": "Risikovurderingsvisning"
+            },
+            "newJournal": "Ny Journal",
+            "riskAssessment": "Risikovurdering"
         },
         "editCitizen": "Rediger Borger",
         "form": {

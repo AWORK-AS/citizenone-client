@@ -157,7 +157,14 @@
                 "title": "Title"
             },
             "editJournal": "Edit Journal",
-            "newJournal": "New Journal"
+            "filter": {
+                "date": "Date",
+                "journalNoteView": "Journal note view",
+                "standardView": "Standard view",
+                "riskAssessmentView": "Risk assessment view"
+            },
+            "newJournal": "New Journal",
+            "riskAssessment": "Risk assessment"
         },
         "editCitizen": "Edit Citizen",
         "form": {

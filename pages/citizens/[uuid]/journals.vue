@@ -21,7 +21,7 @@
                 <ModulesCitizenJournalTabs />
 
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="space-y-3">
+                    <div class="space-y-2">
                         <div class="flex justify-end items-center">
                             <FormButton buttonStyle="action" class="rounded-md"
                                 @click="state.modal.isAddJournalOpen = true">
@@ -29,26 +29,53 @@
                                 {{ $t('citizens.citizenJournals.newJournal') }}
                             </FormButton>
                         </div>
-                        <div class="flex justify-end items-center gap-x-1 border-b border-dashed border-tertiary pb-3">
-                            <FormButton class="rounded-md" buttonSize="sm" @click="sortJournalAscending">
-                                <Icon name="mdi:sort-ascending" class="size-4" />
-                            </FormButton>
-                            <FormButton class="rounded-md" buttonSize="sm" @click="sortJournalDescending">
-                                <Icon name="mdi:sort-descending" class="size-4" />
-                            </FormButton>
-                            <FormButton class="rounded-md" buttonSize="sm" @click="fetchLockedJournals">
-                                <Icon name="ph:lock" class="size-4" />
-                            </FormButton>
-                            <FormButton class="rounded-md" buttonSize="sm" @click="fetchFavoriteJournals">
-                                <Icon name="ph:star" class="size-4" />
-                            </FormButton>
-                            <FormButton class="rounded-md" buttonSize="sm" @click="resetFilter">
-                                <Icon name="mdi:refresh" class="size-4" />
-                            </FormButton>
+                        <div class="border-b border-dashed border-tertiary">
+                            <div class="pb-4 space-y-3 md:flex md:justify-between">
+                                <div class="space-y-1">
+                                    <p>{{ $t('filter') }}:</p>
+                                    <div class="space-y-3 flex-none md:space-y-0 md:flex items-center gap-2">
+                                        <FormButton buttonSize="sm" :class="[
+                                            citizenJournalStore.getFilterView === 'Standard view' && 'border-secondary bg-secondary text-white',
+                                            'rounded-md w-full md:w-fit'
+                                        ]" @click="setFilterView('Standard view')">
+                                            {{ $t('citizens.citizenJournals.filter.standardView') }}
+                                        </FormButton>
+                                        <FormButton buttonSize="sm" :class="[
+                                            citizenJournalStore.getFilterView === 'Journal note view' && 'border-secondary bg-secondary text-white',
+                                            'rounded-md w-full md:w-fit'
+                                        ]" @click="setFilterView('Journal note view')">
+                                            {{ $t('citizens.citizenJournals.filter.journalNoteView') }}
+                                        </FormButton>
+                                        <FormButton buttonSize="sm" :class="[
+                                            citizenJournalStore.getFilterView === 'Risk assessment view' && 'border-secondary bg-secondary text-white',
+                                            'rounded-md w-full md:w-fit'
+                                        ]" @click="setFilterView('Risk assessment view')">
+                                            {{ $t('citizens.citizenJournals.filter.riskAssessmentView') }}
+                                        </FormButton>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end gap-x-1">
+                                    <FormButton class="rounded-md" buttonSize="sm" @click="sortJournalAscending">
+                                        <Icon name="mdi:sort-ascending" class="size-4" />
+                                    </FormButton>
+                                    <FormButton class="rounded-md" buttonSize="sm" @click="sortJournalDescending">
+                                        <Icon name="mdi:sort-descending" class="size-4" />
+                                    </FormButton>
+                                    <FormButton class="rounded-md" buttonSize="sm" @click="fetchLockedJournals">
+                                        <Icon name="ph:lock" class="size-4" />
+                                    </FormButton>
+                                    <FormButton class="rounded-md" buttonSize="sm" @click="fetchFavoriteJournals">
+                                        <Icon name="ph:star" class="size-4" />
+                                    </FormButton>
+                                    <FormButton class="rounded-md" buttonSize="sm" @click="resetFilter">
+                                        <Icon name="mdi:refresh" class="size-4" />
+                                    </FormButton>
+                                </div>
+                            </div>
                         </div>
                         <div class="space-y-5">
-                            <div class="mb-2 gap-2 border-b border-tertiary border-dashed pb-5 px-2"
-                                v-for="(journal, index) in state.journals?.data" :key="index">
+                            <div class="mb-2 gap-2 border-b pb-5 px-2" v-for="(journal, index) in state.journals?.data"
+                                :key="index">
                                 <div class="space-y-3">
                                     <div class="space-y-1.5">
                                         <div>
@@ -79,7 +106,9 @@
                                                     <Badge type="increased-risk"
                                                         v-if="journal.assessment === 'increased risk'">
                                                         <p class="text-xs">
-                                                            {{ $t('citizens.citizenJournals.form.risk.increasedRisk') }}
+                                                            {{
+                                                                $t('citizens.citizenJournals.form.risk.increasedRisk')
+                                                            }}
                                                         </p>
                                                     </Badge>
                                                     <Badge type="acute-increased-risk"
@@ -96,9 +125,17 @@
                                                 <span>{{ formatDateToReadable(journal.date) }}</span>
                                             </p>
                                         </div>
-                                        <p class="text-sm text-muted-400">
+                                        <p class="text-sm text-muted-400"
+                                            v-if="['Standard view', 'Journal note view'].includes(citizenJournalStore.getFilterView)">
                                             <div v-html="journal.content" id="content" />
                                         </p>
+                                        <div class="text-sm text-muted-400"
+                                            v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView)">
+                                            <p class="font-semibold">
+                                                {{ $t('citizens.citizenJournals.riskAssessment') }}:
+                                            </p>
+                                            <div v-html="journal.note" id="note" />
+                                        </div>
                                     </div>
                                     <div class="ms-auto">
                                         <div class="flex items-center gap-x-2">
@@ -150,25 +187,30 @@ import moment from 'moment'
 import { journalService } from '@/components/api/JournalService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
+import { useCitizenJournalStore } from '@/store/citizen-journal'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const citizenJournalStore = useCitizenJournalStore()
 const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
 
 const state = reactive({
-    dataFilter: [],
+    dataFilter: [] as any,
     error: {} as Error,
+    filter: {
+        view: "Standard view"
+    },
     isPageLoading: false,
-    journals: [],
+    journals: [] as any,
     modal: {
         isAddJournalOpen: false,
         isDeleteJournalOpen: false,
         isEditJournalOpen: false,
     },
-    selectedJournal: [],
+    selectedJournal: [] as any,
     sortData: {
         sortField: 'date',
         sortOrder: 'descend',
@@ -198,6 +240,10 @@ async function fetchJournals() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function setFilterView(view: any) {
+    citizenJournalStore.setFilterView(view)
 }
 
 function sortJournalAscending() {
