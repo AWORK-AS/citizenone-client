@@ -34,8 +34,8 @@
                     {{ $t('citizens.medicineJournals.download') }}
                 </div>
                 <div class="bg-white rounded-md p-2">
-                    <div id="qrCode" class="flex flex-col items-center justify-center">
-                        <QRCodeVue3 :value="qrValue" width="110" height="110" image="/img/logo.svg"
+                    <div id="qrCode" class="mx-auto w-1/2 md:w-28 flex flex-col items-center justify-center">
+                        <QRCodeVue3 :value="qrValue" width="800" height="800" image="/img/logo.svg"
                             :qrOptions="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
                             :imageOptions="{ hideBackgroundDots: true, imageSize: 10, margin: 2 }"
                             :dotsOptions="{ type: 'classy', color: '#205E77' }"
@@ -95,14 +95,14 @@ const downloadQRCode = () => {
     const citizenUuid = state.selectedCitizen?.data?.uuid || ''
 
     if (qrCodeElement) {
-        const scaleFactor = 3  // Scale factor for HD (e.g., 3x resolution)
+        const scaleFactor = 5  // Scale factor for HD (e.g., 3x resolution)
         const canvas = document.createElement('canvas')
         const ctx = canvas.getContext('2d') as any
 
         // Set canvas dimensions with the scale factor
         const qrWidth = qrCodeElement.width * scaleFactor
         const qrHeight = qrCodeElement.height * scaleFactor
-        const textPadding = 10 * scaleFactor
+        const textPadding = 5 * scaleFactor
         const fontSize = 12 * scaleFactor
         const textHeight = fontSize + textPadding
 
