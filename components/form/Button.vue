@@ -12,7 +12,8 @@
             props.buttonStyle === 'cancel' && 'bg-tertiary-50 hover:bg-tertiary-100/90',
             props.buttonStyle === 'white' && 'bg-white hover:hover:bg-tertiary-25',
             !props.buttonStyle && 'text-tertiary border border-tertiary hover:bg-tertiary hover:text-white',
-            props.buttonSize === 'sm' && 'p-2',
+            props.buttonSize === 'sm' && 'p-3',
+            props.buttonSize === 'xs' && 'p-2',
             !props.buttonSize && 'px-4 py-3.5',
             props.disabled && 'py-3.5 bg-red-400 hover:bg-red-400 cursor-not-allowed'
         ]" :disabled="props.disabled">

@@ -21,73 +21,66 @@
                 <ModulesCitizenJournalTabs />
 
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="space-y-2">
-
-                        <div class="flex justify-end items-center mb-5 gap-x-2">
-                            <FormButton buttonStyle="" class="rounded-lg bg-white"
-                                @click="state.modal.isAddJournalOpen = true">
-                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('citizens.citizenJournals.newJournal') }}
-                            </FormButton>
-                            <FormButton buttonStyle="action" class="rounded-lg" @click="showDownloadJournalModal">
-                                <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('citizens.citizenJournals.download') }}
-                            </FormButton>
+                    <div class="space-y-3">
+                        <div class="flex justify-between flex-col-reverse md:flex-row gap-3">
+                            <div class="space-y-3 flex-none md:space-y-0 md:flex items-center gap-2">
+                                <FormButton class="w-full md:w-fit"
+                                    :buttonStyle="citizenJournalStore.getFilterView === 'Standard view' ? 'primary' : ''"
+                                    @click="setFilterView('Standard view')">
+                                    {{ $t('citizens.citizenJournals.filter.standardView') }}
+                                </FormButton>
+                                <FormButton class="w-full md:w-fit"
+                                    :buttonStyle="citizenJournalStore.getFilterView === 'Journal note view' ? 'primary' : ''"
+                                    @click="setFilterView('Journal note view')">
+                                    {{ $t('citizens.citizenJournals.filter.journalNoteView') }}
+                                </FormButton>
+                                <FormButton class="w-full md:w-fit"
+                                    :buttonStyle="citizenJournalStore.getFilterView === 'Risk assessment view' ? 'primary' : ''"
+                                    @click="setFilterView('Risk assessment view')">
+                                    {{ $t('citizens.citizenJournals.filter.riskAssessmentView') }}
+                                </FormButton>
+                            </div>
+                            <div class="flex items-center gap-x-2 justify-end">
+                                <FormButton class="rounded-lg bg-white" @click="state.modal.isAddJournalOpen = true">
+                                    <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                    {{ $t('citizens.citizenJournals.newJournal') }}
+                                </FormButton>
+                                <FormButton buttonStyle="action" class="rounded-lg" @click="showDownloadJournalModal">
+                                    <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                                    {{ $t('citizens.citizenJournals.download') }}
+                                </FormButton>
+                            </div>
                         </div>
 
-                        <div class="border-b border-dashed border-tertiary">
-                            <div class="pb-4 space-y-3 md:flex md:justify-between">
-                                <div class="space-y-1">
-                                    <p>{{ $t('filter') }}:</p>
-                                    <div class="space-y-3 flex-none md:space-y-0 md:flex items-center gap-2">
-                                        <FormButton buttonSize="sm" :class="[
-                                            citizenJournalStore.getFilterView === 'Standard view' && 'border-secondary bg-secondary text-white',
-                                            'rounded-md w-full md:w-fit'
-                                        ]" @click="setFilterView('Standard view')">
-                                            {{ $t('citizens.citizenJournals.filter.standardView') }}
-                                        </FormButton>
-                                        <FormButton buttonSize="sm" :class="[
-                                            citizenJournalStore.getFilterView === 'Journal note view' && 'border-secondary bg-secondary text-white',
-                                            'rounded-md w-full md:w-fit'
-                                        ]" @click="setFilterView('Journal note view')">
-                                            {{ $t('citizens.citizenJournals.filter.journalNoteView') }}
-                                        </FormButton>
-                                        <FormButton buttonSize="sm" :class="[
-                                            citizenJournalStore.getFilterView === 'Risk assessment view' && 'border-secondary bg-secondary text-white',
-                                            'rounded-md w-full md:w-fit'
-                                        ]" @click="setFilterView('Risk assessment view')">
-                                            {{ $t('citizens.citizenJournals.filter.riskAssessmentView') }}
-                                        </FormButton>
-                                    </div>
-                                </div>
-                                <div class="flex justify-end items-end gap-x-1">
-                                    <FormButton buttonSize="sm" :class="[
-                                        ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
-                                        'rounded-md w-full md:w-fit']"
-                                        @click="sortJournalAscending('Journal ascending')">
-                                        <Icon name="mdi:sort-ascending" class="size-4" />
-                                    </FormButton>
-                                    <FormButton buttonSize="sm" :class="[
-                                        ['Journal descending'].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
-                                        'rounded-md w-full md:w-fit']"
-                                        @click="sortJournalDescending('Journal descending')">
-                                        <Icon name="mdi:sort-descending" class="size-4" />
-                                    </FormButton>
-                                    <FormButton buttonSize="sm" :class="[
-                                        citizenJournalStore.getFilterDataBy === 'Locked journals' && 'border-secondary bg-secondary text-white',
-                                        'rounded-md w-full md:w-fit']" @click="fetchLockedJournals('Locked journals')">
-                                        <Icon name="ph:lock" class="size-4" />
-                                    </FormButton>
-                                    <FormButton buttonSize="sm" :class="[
-                                        citizenJournalStore.getFilterDataBy === 'Favorite journals' && 'border-secondary bg-secondary text-white',
-                                        'rounded-md w-full md:w-fit']"
-                                        @click="fetchFavoriteJournals('Favorite journals')">
-                                        <Icon name="ph:star" class="size-4" />
-                                    </FormButton>
-                                    <FormButton class="rounded-md" buttonSize="sm" @click="resetFilter">
-                                        <Icon name="mdi:refresh" class="size-4" />
-                                    </FormButton>
-                                </div>
+                        <div class="pb-5 border-b border-dashed border-tertiary">
+                            <div class="flex flex-wrap justify-end items-end gap-2">
+                                <FormDateRangeField id="date_range" name="date_range"
+                                    :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
+                                    class="w-full md:w-96" @change="filterJournalByDate" />
+                                <FormButton buttonSize="sm" :class="[
+                                    ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
+                                    'rounded-md w-full md:w-fit']" @click="sortJournalAscending('Journal ascending')">
+                                    <Icon name="mdi:sort-ascending" class="size-4" />
+                                </FormButton>
+                                <FormButton buttonSize="sm" :class="[
+                                    ['Journal descending'].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
+                                    'rounded-md w-full md:w-fit']"
+                                    @click="sortJournalDescending('Journal descending')">
+                                    <Icon name="mdi:sort-descending" class="size-4" />
+                                </FormButton>
+                                <FormButton buttonSize="sm" :class="[
+                                    citizenJournalStore.getFilterDataBy === 'Locked journals' && 'border-secondary bg-secondary text-white',
+                                    'rounded-md w-full md:w-fit']" @click="fetchLockedJournals('Locked journals')">
+                                    <Icon name="ph:lock" class="size-4" />
+                                </FormButton>
+                                <FormButton buttonSize="sm" :class="[
+                                    citizenJournalStore.getFilterDataBy === 'Favorite journals' && 'border-secondary bg-secondary text-white',
+                                    'rounded-md w-full md:w-fit']" @click="fetchFavoriteJournals('Favorite journals')">
+                                    <Icon name="ph:star" class="size-4" />
+                                </FormButton>
+                                <FormButton class="rounded-md" buttonSize="sm" @click="resetFilter">
+                                    <Icon name="mdi:refresh" class="size-4" />
+                                </FormButton>
                             </div>
                         </div>
                         <div class="space-y-5">
@@ -110,11 +103,6 @@
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <Badge type="none" v-if="journal.assessment === null">
-                                                        <p class="text-xs">
-                                                            {{ $t('citizens.citizenJournals.form.risk.none') }}
-                                                        </p>
-                                                    </Badge>
                                                     <Badge type="no-risk" v-if="journal.assessment === 'no risk'">
                                                         <p class="text-xs">
                                                             {{ $t('citizens.citizenJournals.form.risk.noRisk') }}
@@ -156,24 +144,24 @@
                                     </div>
                                     <div class="ms-auto">
                                         <div class="flex items-center gap-x-2">
-                                            <FormButton class="rounded-md" buttonSize="sm"
+                                            <FormButton class="rounded-md" buttonSize="xs"
                                                 @click="editJournal(journal)">
                                                 <Icon name="ph:pencil-duotone" class="size-4" />
                                             </FormButton>
-                                            <FormButton buttonSize="sm" :class="[
+                                            <FormButton buttonSize="xs" :class="[
                                                 journal?.is_favorite && 'border-secondary bg-secondary text-white',
                                                 'rounded-md w-full md:w-fit']"
                                                 @click="addRemoveJournalToFavorite(journal.uuid)">
                                                 <Icon name="ph:star" class="size-4" />
                                             </FormButton>
-                                            <FormButton buttonSize="sm" :class="[
+                                            <FormButton buttonSize="xs" :class="[
                                                 journal?.is_locked && 'border-secondary bg-secondary text-white',
                                                 'rounded-md w-full md:w-fit']"
                                                 @click="lockUnlockJournal(journal.uuid)">
                                                 <Icon name="ph:lock" class="size-4" v-if="journal.is_locked" />
                                                 <Icon name="ph:lock-open" class="size-4" v-else />
                                             </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="sm"
+                                            <FormButton class="rounded-md" buttonSize="xs"
                                                 @click="confirmJournalDeletion(journal)">
                                                 <Icon name="ph:trash-duotone" class="size-4" />
                                             </FormButton>
@@ -222,6 +210,7 @@ const state = reactive({
     dataFilter: [] as any,
     error: {} as Error,
     filter: {
+        date_range: [] as any,
         view: "Standard view"
     },
     isPageLoading: false,
@@ -287,6 +276,21 @@ async function fetchJournals() {
 
 function showDownloadJournalModal() {
 
+}
+
+function filterJournalByDate(event: any) {
+    const dateRange = event.target.value
+    const dates = dateRange.split(" to ")
+    const startDate = moment(dates[0], "DD. MMMM YYYY").format("YYYY-MM-DD")
+    const endDate = dates[1] && moment(dates[1], "DD. MMMM YYYY").format("YYYY-MM-DD")
+    if (startDate && endDate) {
+        state.filter.date_range = [startDate, endDate]
+        state.dataFilter = {
+            start_date: state.filter.date_range[0],
+            end_date: state.filter.date_range[1]
+        }
+        fetchJournals()
+    }
 }
 
 function setFilterView(view: any) {

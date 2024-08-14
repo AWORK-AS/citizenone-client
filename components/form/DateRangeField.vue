@@ -26,13 +26,13 @@ const props = defineProps({
 })
 
 const config = ref({
-    enableTime: true,
-    dateFormat: 'd. F Y H:i',
-    time_24hr: true,
+    enableTime: false,
+    dateFormat: 'd. F Y',
     disableMobile: true,
     locale: {
         firstDayOfWeek: 1 // Set Monday as the first day of the week
-    }
+    },
+    mode: "range"
 })
 
 const state = reactive({
@@ -42,26 +42,26 @@ const state = reactive({
 
 watch(() => props.modelValue, (newValue: any) => {
     if (newValue != null) {
-        state.dateValue = formatDateToDDMMMMYYYYHHmm(newValue)
+        state.dateValue = formatDateToDDMMMMYYYY(newValue)
     }
 })
 
 const emit = defineEmits(['update:modelValue'])
 
 function updateValue(event: any) {
-    const formattedDate = formatDateToYYYYMMDDHHmm(event.target.value)
+    const formattedDate = formatDateToYYYYMMDD(event.target.value)
     emit('update:modelValue', formattedDate)
 }
 
-function formatDateToYYYYMMDDHHmm(dateString: any) {
-    let date = moment(dateString, 'DD. MMMM YYYY HH:mm')
-    let formattedDate = date.format('YYYY-MM-DD H:mm')
+function formatDateToYYYYMMDD(dateString: any) {
+    let date = moment(dateString, 'DD. MMMM YYYY')
+    let formattedDate = date.format('YYYY-MM-DD')
     return formattedDate
 }
 
-function formatDateToDDMMMMYYYYHHmm(dateString: any) {
-    let date = moment(dateString, 'YYYY-MM-DD H:mm')
-    let formattedDate = date.format('DD. MMMM YYYY HH:mm')
+function formatDateToDDMMMMYYYY(dateString: any) {
+    let date = moment(dateString, 'YYYY-MM-DD')
+    let formattedDate = date.format('DD. MMMM YYYY')
     return formattedDate
 }
 </script>

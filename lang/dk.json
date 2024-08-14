@@ -160,6 +160,7 @@
             "editJournal": "Rediger Journal",
             "filter": {
                 "date": "Dato",
+                "filterDate": "Filtrer dato",
                 "journalNoteView": "Journalnotatvisning",
                 "standardView": "Standardvisning",
                 "riskAssessmentView": "Risikovurderingsvisning"

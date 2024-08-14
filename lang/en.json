@@ -160,6 +160,7 @@
             "editJournal": "Edit Journal",
             "filter": {
                 "date": "Date",
+                "filterDate": "Filter date",
                 "journalNoteView": "Journal note view",
                 "standardView": "Standard view",
                 "riskAssessmentView": "Risk assessment view"
