@@ -55,16 +55,27 @@
                                     </div>
                                 </div>
                                 <div class="flex justify-end items-end gap-x-1">
-                                    <FormButton class="rounded-md" buttonSize="sm" @click="sortJournalAscending">
+                                    <FormButton buttonSize="sm" :class="[
+                                        ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
+                                        'rounded-md w-full md:w-fit']"
+                                        @click="sortJournalAscending('Journal ascending')">
                                         <Icon name="mdi:sort-ascending" class="size-4" />
                                     </FormButton>
-                                    <FormButton class="rounded-md" buttonSize="sm" @click="sortJournalDescending">
+                                    <FormButton buttonSize="sm" :class="[
+                                        ['Journal descending'].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
+                                        'rounded-md w-full md:w-fit']"
+                                        @click="sortJournalDescending('Journal descending')">
                                         <Icon name="mdi:sort-descending" class="size-4" />
                                     </FormButton>
-                                    <FormButton class="rounded-md" buttonSize="sm" @click="fetchLockedJournals">
+                                    <FormButton buttonSize="sm" :class="[
+                                        citizenJournalStore.getFilterDataBy === 'Locked journals' && 'border-secondary bg-secondary text-white',
+                                        'rounded-md w-full md:w-fit']" @click="fetchLockedJournals('Locked journals')">
                                         <Icon name="ph:lock" class="size-4" />
                                     </FormButton>
-                                    <FormButton class="rounded-md" buttonSize="sm" @click="fetchFavoriteJournals">
+                                    <FormButton buttonSize="sm" :class="[
+                                        citizenJournalStore.getFilterDataBy === 'Favorite journals' && 'border-secondary bg-secondary text-white',
+                                        'rounded-md w-full md:w-fit']"
+                                        @click="fetchFavoriteJournals('Favorite journals')">
                                         <Icon name="ph:star" class="size-4" />
                                     </FormButton>
                                     <FormButton class="rounded-md" buttonSize="sm" @click="resetFilter">
@@ -161,7 +172,7 @@
                                 </div>
                             </div>
                             <div v-if="state.journals?.data?.length === 0">
-                                <p class="text-center">
+                                <p class="text-center py-10">
                                     {{ $t('theresNoDataAvailableToDisplay') }}.
                                 </p>
                             </div>
@@ -218,6 +229,28 @@ const state = reactive({
 })
 
 onMounted(() => {
+    if (citizenJournalStore.getSortDataBy === 'Journal ascending') {
+        state.sortData = {
+            sortField: 'date',
+            sortOrder: 'ascend',
+        }
+    } else if (citizenJournalStore.getSortDataBy === 'Journal descending') {
+        state.sortData = {
+            sortField: 'date',
+            sortOrder: 'descend',
+        }
+    }
+
+    if (citizenJournalStore.getFilterDataBy === 'Locked journals') {
+        state.dataFilter = {
+            lock: true
+        }
+    } else if (citizenJournalStore.getFilterDataBy === 'Favorite journals') {
+        state.dataFilter = {
+            favorite: true
+        }
+    }
+
     fetchJournals()
 })
 
@@ -246,16 +279,8 @@ function setFilterView(view: any) {
     citizenJournalStore.setFilterView(view)
 }
 
-function sortJournalAscending() {
-    currentTablePage = 1
-    state.sortData = {
-        sortField: 'date',
-        sortOrder: 'descend',
-    }
-    fetchJournals()
-}
-
-function sortJournalDescending() {
+function sortJournalAscending(filterDataBy: any) {
+    citizenJournalStore.setSortDataBy(filterDataBy)
     currentTablePage = 1
     state.sortData = {
         sortField: 'date',
@@ -264,7 +289,18 @@ function sortJournalDescending() {
     fetchJournals()
 }
 
-function fetchLockedJournals() {
+function sortJournalDescending(filterDataBy: any) {
+    citizenJournalStore.setSortDataBy(filterDataBy)
+    currentTablePage = 1
+    state.sortData = {
+        sortField: 'date',
+        sortOrder: 'descend',
+    }
+    fetchJournals()
+}
+
+function fetchLockedJournals(filterDataBy: any) {
+    citizenJournalStore.setFilterDataBy(filterDataBy)
     currentTablePage = 1
     state.dataFilter = {
         lock: true
@@ -272,7 +308,8 @@ function fetchLockedJournals() {
     fetchJournals()
 }
 
-function fetchFavoriteJournals() {
+function fetchFavoriteJournals(filterDataBy: any) {
+    citizenJournalStore.setFilterDataBy(filterDataBy)
     currentTablePage = 1
     state.dataFilter = {
         favorite: true
@@ -281,6 +318,8 @@ function fetchFavoriteJournals() {
 }
 
 function resetFilter() {
+    citizenJournalStore.resetFilterDataBy()
+    citizenJournalStore.resetSortDataBy()
     currentTablePage = 1
     state.dataFilter = []
     state.sortData = {

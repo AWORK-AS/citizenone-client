@@ -9,7 +9,7 @@
             <template #header>{{ $t('events.myCalendar') }}</template>
 
             <div class="flex justify-end items-center mb-5 gap-x-2">
-                <FormButton buttonStyle="" class="rounded-lg" @click="state.modal.isAddEventOpen = true">
+                <FormButton buttonStyle="" class="rounded-lg bg-white" @click="state.modal.isAddEventOpen = true">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('events.newEvent') }}
                 </FormButton>
