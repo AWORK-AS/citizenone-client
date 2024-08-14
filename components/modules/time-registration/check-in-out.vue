@@ -53,8 +53,10 @@ watch(() => userStore.getUser, (newValue: any) => {
     }
 })
 
-watch(() => userStore.isCheckInNow, () => {
-    toggleLogin()
+watch(() => userStore.isCheckInNow, (newValue: any) => {
+    if (newValue && !userStore.getIsLoggedIn) {
+        toggleLogin()
+    }
 })
 
 async function toggleLogin() {

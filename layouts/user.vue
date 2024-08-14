@@ -499,14 +499,15 @@ const state = reactive({
 onMounted(() => {
     fetchUser()
     animateAssets()
-    checkModalVisibility()
+    checkInReminderModalVisibility()
 })
 
-function checkModalVisibility() {
+function checkInReminderModalVisibility() {
     const lastHidden = localStorage.getItem('checkInReminderHidden')
     const today = moment().format('YYYY-MM-DD')
 
     if (lastHidden !== today) {
+        userStore.resetIsCheckInNow()
         state.modal.isCheckinReminderOpen = true
     }
 }
