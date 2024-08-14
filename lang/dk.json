@@ -143,6 +143,7 @@
             "confirmation": {
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne journal"
             },
+            "download": "Download",
             "form": {
                 "content": "Indhold",
                 "date": "Dato",

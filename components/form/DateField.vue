@@ -1,19 +1,14 @@
 <template>
-    <div class="relative">
-        <input type="date" :id="props.id" :name="props.name" :autocomplete="props.name"
-            class="appearance-none block w-full px-3 h-11 border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-            :placeholder="props.placeholder" :value="props.modelValue" @input="updateValue($event)" ref="dateInput"
-            @click="openDateInput" />
-        <div v-if="props.modelValue" class="absolute top-3 left-3 bg-white w-2/3" @click="openDateInput">
-            {{ formattedDate }}
-        </div>
-        <div v-else class="absolute top-3 left-3 bg-white w-2/3 text-sm" @click="openDateInput">
-            {{ $t('selectADate') }}
-        </div>
-    </div>
+    <flat-pickr v-model="state.dateValue" :config="config" :id="props.id" :name="props.name"
+        @input="updateValue($event)"
+        class="appearance-none block w-full px-3 py-2.5 border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm" />
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
+import flatPickr from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
+
 const props = defineProps({
     id: {
         type: String,
@@ -30,30 +25,42 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['update:modelValue'])
-const formattedDate = ref('')
-
-const dateInput = ref(null)
-function openDateInput() {
-    dateInput.value.showPicker()
-}
-
-watch(() => props.modelValue, (newValue: any) => {
-    if (newValue != null) {
-        const date = new Date(newValue)
-        const day = String(date.getDate()).padStart(2, '0')
-        const month = date.toLocaleString('default', { month: 'short' })
-        const year = date.getFullYear()
-        formattedDate.value = `${day}. ${month} ${year}`
+const config = ref({
+    enableTime: false,
+    dateFormat: 'd. F Y',
+    disableMobile: true,
+    locale: {
+        firstDayOfWeek: 1 // Set Monday as the first day of the week
     }
 })
 
+const state = reactive({
+    dateValue: '',
+})
+
+
+watch(() => props.modelValue, (newValue: any) => {
+    if (newValue != null) {
+        state.dateValue = formatDateToDDMMMMYYYY(newValue)
+    }
+})
+
+const emit = defineEmits(['update:modelValue'])
+
 function updateValue(event: any) {
-    const date = new Date(event.target.value)
-    const day = String(date.getDate()).padStart(2, '0')
-    const month = date.toLocaleString('default', { month: 'long' })
-    const year = date.getFullYear()
-    formattedDate.value = `${day}, ${month} ${year}`
-    emit('update:modelValue', event.target.value)
+    const formattedDate = formatDateToYYYYMMDD(event.target.value)
+    emit('update:modelValue', formattedDate)
+}
+
+function formatDateToYYYYMMDD(dateString: any) {
+    let date = moment(dateString, 'DD. MMMM YYYY')
+    let formattedDate = date.format('YYYY-MM-DD')
+    return formattedDate
+}
+
+function formatDateToDDMMMMYYYY(dateString: any) {
+    let date = moment(dateString, 'YYYY-MM-DD')
+    let formattedDate = date.format('DD. MMMM YYYY')
+    return formattedDate
 }
 </script>

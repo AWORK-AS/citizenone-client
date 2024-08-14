@@ -22,13 +22,19 @@
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="space-y-2">
-                        <div class="flex justify-end items-center">
-                            <FormButton buttonStyle="action" class="rounded-md"
+
+                        <div class="flex justify-end items-center mb-5 gap-x-2">
+                            <FormButton buttonStyle="" class="rounded-lg bg-white"
                                 @click="state.modal.isAddJournalOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('citizens.citizenJournals.newJournal') }}
                             </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-lg" @click="showDownloadJournalModal">
+                                <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('citizens.citizenJournals.download') }}
+                            </FormButton>
                         </div>
+
                         <div class="border-b border-dashed border-tertiary">
                             <div class="pb-4 space-y-3 md:flex md:justify-between">
                                 <div class="space-y-1">
@@ -154,11 +160,15 @@
                                                 @click="editJournal(journal)">
                                                 <Icon name="ph:pencil-duotone" class="size-4" />
                                             </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="sm"
+                                            <FormButton buttonSize="sm" :class="[
+                                                journal?.is_favorite && 'border-secondary bg-secondary text-white',
+                                                'rounded-md w-full md:w-fit']"
                                                 @click="addRemoveJournalToFavorite(journal.uuid)">
                                                 <Icon name="ph:star" class="size-4" />
                                             </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="sm"
+                                            <FormButton buttonSize="sm" :class="[
+                                                journal?.is_locked && 'border-secondary bg-secondary text-white',
+                                                'rounded-md w-full md:w-fit']"
                                                 @click="lockUnlockJournal(journal.uuid)">
                                                 <Icon name="ph:lock" class="size-4" v-if="journal.is_locked" />
                                                 <Icon name="ph:lock-open" class="size-4" v-else />
@@ -273,6 +283,10 @@ async function fetchJournals() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function showDownloadJournalModal() {
+
 }
 
 function setFilterView(view: any) {
