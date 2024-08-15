@@ -103,7 +103,8 @@
                                                         </Badge>
                                                     </div>
                                                 </div>
-                                                <div>
+                                                <div
+                                                    v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView)">
                                                     <Badge type="no-risk" v-if="journal.assessment === 'no risk'">
                                                         <p class="text-xs">
                                                             {{ $t('citizens.citizenJournals.form.risk.noRisk') }}
