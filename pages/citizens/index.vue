@@ -95,7 +95,7 @@ const state = reactive({
     dataFilter: [],
     error: {} as Error,
     isTableLoading: false,
-    citizens: [],
+    citizens: [] as any,
     modal: {
         showNote: false,
     },

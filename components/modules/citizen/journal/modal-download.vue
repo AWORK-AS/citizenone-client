@@ -5,6 +5,8 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="space-y-3">
+                        <Alert type="danger" :text="state?.error?.message"
+                            v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="space-y-1">
                             <FormDateRangeField name="date_range"
                                 :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
