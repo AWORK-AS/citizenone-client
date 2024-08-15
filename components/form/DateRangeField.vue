@@ -1,6 +1,6 @@
 <template>
     <flat-pickr v-model="state.dateValue" :config="config" :id="props.id" :name="props.name"
-        @input="updateValue($event)" :placeholder="props.placeholder"
+        @change="updateValue($event)" :placeholder="props.placeholder"
         class="appearance-none block w-full px-3 py-2.5 border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm" />
 </template>
 
@@ -32,25 +32,30 @@ const config = ref({
     locale: {
         firstDayOfWeek: 1 // Set Monday as the first day of the week
     },
-    mode: "range"
-})
+    mode: "range",
+    wrap: true,
+}) as any
 
 const state = reactive({
-    dateValue: '',
+    dateValue: '' as any,
 })
 
 
 watch(() => props.modelValue, (newValue: any) => {
     if (newValue != null) {
         state.dateValue = formatDateToDDMMMMYYYY(newValue)
+    } else {
+        state.dateValue = null
     }
 })
 
 const emit = defineEmits(['update:modelValue'])
 
 function updateValue(event: any) {
-    const formattedDate = formatDateToYYYYMMDD(event.target.value)
-    emit('update:modelValue', formattedDate)
+    if (event.target.value) {
+        const formattedDate = formatDateToYYYYMMDD(event.target.value)
+        emit('update:modelValue', formattedDate)
+    }
 }
 
 function formatDateToYYYYMMDD(dateString: any) {

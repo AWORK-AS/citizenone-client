@@ -56,7 +56,8 @@
                             <div class="flex flex-wrap justify-end items-end gap-2">
                                 <FormDateRangeField id="date_range" name="date_range"
                                     :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
-                                    class="w-full md:w-96" @change="filterJournalByDate" />
+                                    v-model="state.filter.date_range" class="w-full md:w-96"
+                                    @change="filterJournalByDate" />
                                 <FormButton buttonSize="sm" :class="[
                                     ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
                                     'rounded-md w-full md:w-fit']" @click="sortJournalAscending('Journal ascending')">
@@ -210,7 +211,7 @@ const state = reactive({
     dataFilter: [] as any,
     error: {} as Error,
     filter: {
-        date_range: [] as any,
+        date_range: '' as any,
         view: "Standard view"
     },
     isPageLoading: false,
@@ -282,12 +283,11 @@ function filterJournalByDate(event: any) {
     const dateRange = event.target.value
     const dates = dateRange.split(" to ")
     const startDate = moment(dates[0], "DD. MMMM YYYY").format("YYYY-MM-DD")
-    const endDate = dates[1] && moment(dates[1], "DD. MMMM YYYY").format("YYYY-MM-DD")
+    const endDate = dates[1] ? moment(dates[1], "DD. MMMM YYYY").format("YYYY-MM-DD") : startDate
     if (startDate && endDate) {
-        state.filter.date_range = [startDate, endDate]
         state.dataFilter = {
-            start_date: state.filter.date_range[0],
-            end_date: state.filter.date_range[1]
+            start_date: startDate,
+            end_date: endDate
         }
         fetchJournals()
     }
@@ -344,6 +344,7 @@ function resetFilter() {
         sortField: 'date',
         sortOrder: 'descend',
     }
+    state.filter.date_range = null
     fetchJournals()
 }
 
