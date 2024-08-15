@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     head: {
       script: [
         {
-          src: 'https://test.checkout.dibspayment.eu/v1/checkout.js?v=1', // URL of the external script
+          src: process.env.CHECKOUT_SCRIPT_URL, // URL of the external script
           type: 'text/javascript',
           async: true, // Optional: Use async or defer if needed
           defer: true  // Optional: Use async or defer if needed
