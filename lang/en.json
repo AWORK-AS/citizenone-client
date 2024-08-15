@@ -144,6 +144,10 @@
                 "deleteConfirmation": "Are you sure you want to delete this journal"
             },
             "download": "Download",
+            "downloadJournals": {
+                "downloadJournals": "Download journals",
+                "includeRiskAssessment": "Include risk assessment"
+            },
             "form": {
                 "content": "Content",
                 "date": "Date",

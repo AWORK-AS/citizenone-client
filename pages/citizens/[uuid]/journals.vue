@@ -185,6 +185,8 @@
             <ModulesCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
                 :selectedJournal="state.selectedJournal" @close="closeEditJournalModal"
                 @refreshJournal="fetchJournals" />
+            <ModulesCitizenJournalModalDownload :isModalOpen="state.modal.isDownloadJournalOpen"
+                @close="state.modal.isDownloadJournalOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalOpen"
                 :message="$t('citizens.citizenJournals.confirmation.deleteConfirmation') + '?'"
                 @close="state.modal.isDeleteJournalOpen = false" @confirm="deleteJournal" />
@@ -219,6 +221,7 @@ const state = reactive({
     modal: {
         isAddJournalOpen: false,
         isDeleteJournalOpen: false,
+        isDownloadJournalOpen: false,
         isEditJournalOpen: false,
     },
     selectedJournal: [] as any,
@@ -276,7 +279,7 @@ async function fetchJournals() {
 }
 
 function showDownloadJournalModal() {
-
+    state.modal.isDownloadJournalOpen = true
 }
 
 function filterJournalByDate(event: any) {

@@ -144,6 +144,10 @@
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne journal"
             },
             "download": "Download",
+            "downloadJournals": {
+                "downloadJournals": "Download journaler",
+                "includeRiskAssessment": "Inkluder risikovurdering"
+            },
             "form": {
                 "content": "Indhold",
                 "date": "Dato",
