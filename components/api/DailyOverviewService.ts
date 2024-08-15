@@ -5,8 +5,8 @@ class DailyOverviewService extends BaseAPIService {
         return await this.request(`/user/my-calendars/daily/events`, 'GET')
     }
 
-    async getCitizenDailyEvents(): Promise<any> {
-        return await this.request(`/user/my-calendars/citizen/daily/events`, 'GET')
+    async getCitizenDailyEvents(params: object): Promise<any> {
+        return await this.request(`/user/my-calendars/citizen/daily/events`, 'GET', params)
     }
 
     async getLatestCitizensJournal(params: object): Promise<any> {

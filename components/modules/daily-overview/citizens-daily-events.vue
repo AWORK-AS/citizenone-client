@@ -44,7 +44,10 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
+import { useDepartmentStore } from '@/store/department'
 import type { CalendarEventResponse, Error } from '@/types'
+
+const departmentStore = useDepartmentStore()
 
 const state = reactive({
     isPageLoading: false,
@@ -56,11 +59,20 @@ onMounted(() => {
     fetchCitizenCalendarEvents()
 })
 
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchCitizenCalendarEvents()
+    }
+})
+
 async function fetchCitizenCalendarEvents() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await dailyOverviewService.getCitizenDailyEvents()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await dailyOverviewService.getCitizenDailyEvents(params)
         if (response) {
             state.citizenCalendarEvents = response
         }
