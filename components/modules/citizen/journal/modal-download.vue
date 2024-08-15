@@ -98,7 +98,6 @@ async function downloadJournals() {
     state.error = {}
     state.isPageLoading = true
     v$.value.$validate()
-    console.log('v$.value', v$.value)
     if (!v$.value.$error) {
         try {
             const params = {
