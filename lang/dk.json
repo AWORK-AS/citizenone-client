@@ -96,6 +96,9 @@
     },
     "cancel": "Annuller",
     "citizens": {
+        "attendance": {
+            "protocol": "Protokol"
+        },
         "calendar": {
             "viewSchedule": "Se tidsplan"
         },

@@ -6,7 +6,9 @@
                 <Title>{{ state.selectedProtocol?.data?.name }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ state.selectedProtocol?.data?.name }}</template>
+            <template #header>
+                {{ $t('citizens.attendance.protocol') + ': ' + state.selectedProtocol?.data?.name }}
+            </template>
 
             <div class="space-y-5">
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
