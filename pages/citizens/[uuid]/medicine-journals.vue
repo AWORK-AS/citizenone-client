@@ -80,11 +80,12 @@
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { medicineJournalService } from '@/components/api/MedicineJournalService'
 import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
@@ -197,13 +198,5 @@ async function deleteMedicne() {
         state.error = error
     }
     state.isTableLoading = false
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
 }
 </script>

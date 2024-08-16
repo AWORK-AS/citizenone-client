@@ -56,10 +56,11 @@ import { departmentService } from '@/components/api/DepartmentService'
 import { useDepartmentStore } from '@/store/department'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import type { Error } from '@/types'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
 
 const { t } = useI18n()
+const { successAlert } = useAlert()
 const departmentStore = useDepartmentStore()
 
 const state = reactive({
@@ -92,13 +93,5 @@ function selectDepartment(event: any) {
 function changeDepartment(departmentName: string) {
     departmentStore.setSelectedDepartmentName(departmentName)
     successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${departmentName === '' ? t('department.all').toLowerCase() : departmentName}.`)
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
 }
 </script>

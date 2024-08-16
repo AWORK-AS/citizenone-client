@@ -40,7 +40,6 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { journalService } from '@/components/api/JournalService'
-import { notify } from "@kyvg/vue3-notification"
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import type { Error } from '@/types'
@@ -115,13 +114,5 @@ async function downloadJournals() {
         }
     }
     state.isPageLoading = false
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
 }
 </script>

@@ -98,12 +98,13 @@ import { regionService } from '@/components/api/RegionService'
 import { municipalityService } from '@/components/api/MunicipalityService'
 import { cityService } from '@/components/api/CityService'
 import { useUserStore } from '@/store/user'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
+const { successAlert } = useAlert()
 const { t } = useI18n()
 
 const state = reactive({
@@ -285,13 +286,5 @@ async function submitForm() {
         }
         state.isPageLoading = false
     }
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
 }
 </script>

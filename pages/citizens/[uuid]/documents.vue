@@ -124,15 +124,16 @@
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { documentService } from '@/components/api/DocumentService'
 import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
-const citizenUuid = router?.currentRoute?.value?.params?.uuid
-const documentFile = ref(null)
+const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
+const documentFile = ref(null) as any
 let currentTablePage = 1
 
 const state = reactive({
@@ -158,7 +159,7 @@ const state = reactive({
         isEditDocumentOpen: false,
         isUploadFileOpen: false,
     },
-    selectedDirectory: [],
+    selectedDirectory: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -242,7 +243,7 @@ async function uploadFile(event: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
+        const folderUuid = router?.currentRoute?.value?.query?.folder_uuid as any
         let params = new FormData()
         params.append('citizen_uuid', citizenUuid)
         params.append('type', 'file')
@@ -308,13 +309,5 @@ async function deleteDocument() {
         state.error = error
     }
     state.isTableLoading = false
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
 }
 </script>

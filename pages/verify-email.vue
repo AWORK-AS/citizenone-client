@@ -64,16 +64,17 @@
 <script setup lang="ts">
 import { authService } from '@/components/api/AuthService'
 import { useUserStore } from '@/store/user'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { errorAlert } = useAlert()
+const { t } = useI18n()
 const userStore = useUserStore()
 const language = useI18n()
 const router = useRouter()
 const emailVerificationUuid = router?.currentRoute?.value?.query?.uuid
-const { t } = useI18n()
 
 // Set language
 language.locale.value = userStore.getLanguage
@@ -136,13 +137,5 @@ function identifyFlag() {
             return '/img/icons/flags/denmark.svg'
         }
     }
-}
-
-function errorAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'error',
-    })
 }
 </script>

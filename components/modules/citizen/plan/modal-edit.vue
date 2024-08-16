@@ -15,10 +15,11 @@
 
 <script setup lang="ts">
 import { planService } from '@/components/api/PlanService'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
+const { successAlert } = useAlert()
 const { t } = useI18n()
 
 const props = defineProps({
@@ -67,13 +68,5 @@ async function updatePlan(planDetails: any) {
         state.error = error
     }
     state.isPageLoading = false
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
 }
 </script>

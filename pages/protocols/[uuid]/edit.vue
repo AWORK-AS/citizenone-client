@@ -24,11 +24,12 @@
 
 <script setup lang="ts">
 import { protocolService } from '@/components/api/ProtocolService'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const uuid = router?.currentRoute?.value?.params?.uuid
@@ -83,13 +84,5 @@ async function updateProtocol(protocolDetails: any) {
         state.error = error
     }
     state.isPageLoading = false
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
 }
 </script>

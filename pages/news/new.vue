@@ -25,10 +25,11 @@
 <script setup lang="ts">
 import { newsService } from '@/components/api/NewsService'
 import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
 const { t } = useI18n()
 
 const state = reactive({
@@ -62,13 +63,5 @@ async function saveNews(newsDetails: any) {
         state.error = error
     }
     state.isPageLoading = false
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
 }
 </script>

@@ -26,10 +26,11 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/CitizenService'
 import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
+import { useAlert } from '@/composables/alert'
 import type { CitizenForm, CitizenResponse, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
@@ -119,13 +120,5 @@ async function updateCitizen(citizenDetails: any) {
         state.error = error
     }
     state.isPageLoading = false
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
 }
 </script>

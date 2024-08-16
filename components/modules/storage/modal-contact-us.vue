@@ -39,10 +39,11 @@
 import { contactUsService } from '@/components/api/ContactUsService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
+const { successAlert } = useAlert()
 const props = defineProps({
     isModalOpen: {
         type: Boolean,
@@ -96,13 +97,5 @@ async function sendMessage() {
         }
     }
     state.isPageLoading = false
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
 }
 </script>

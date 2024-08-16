@@ -88,11 +88,12 @@
 
 <script setup lang="ts">
 import { salesCampaignService } from '@/components/api/superadmin/SalesCampaignService'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
 
@@ -200,13 +201,5 @@ async function deleteSalesCampaign() {
         state.error = error
     }
     state.isTableLoading = false
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
 }
 </script>

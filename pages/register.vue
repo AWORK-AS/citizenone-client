@@ -126,13 +126,14 @@ import { authService } from '@/components/api/AuthService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers, minLength, sameAs } from '@vuelidate/validators'
 import { useUserStore } from '@/store/user'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const language = useI18n()
+const { successAlert } = useAlert()
 const { t } = useI18n()
 
 // Set language
@@ -261,14 +262,6 @@ async function navigateToTAC() {
         open: {
             target: '_blank',
         }
-    })
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
     })
 }
 </script>

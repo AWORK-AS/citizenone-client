@@ -72,8 +72,8 @@
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers, minLength, sameAs } from '@vuelidate/validators'
-import { notify } from "@kyvg/vue3-notification"
 import { authService } from '@/components/api/AuthService'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
@@ -82,6 +82,7 @@ const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const route = useRoute()
 const language = useI18n()
+const { errorAlert, successAlert } = useAlert()
 const { t } = useI18n()
 
 // Set language
@@ -201,21 +202,5 @@ function identifyFlag() {
             return '/img/icons/flags/denmark.svg'
         }
     }
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
-}
-
-function errorAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message || 'An unknown error occurred.',
-        type: 'error',
-    })
 }
 </script>

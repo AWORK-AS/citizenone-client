@@ -25,10 +25,11 @@
 <script setup lang="ts">
 import { employeeService } from '@/components/api/EmployeeService'
 import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
+import { useAlert } from '@/composables/alert'
 import type { EmployeeForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const uuid = router?.currentRoute?.value?.params?.uuid
@@ -101,13 +102,5 @@ async function updateEmployee(employeeDetails: any) {
         state.error = error
     }
     state.isPageLoading = false
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
 }
 </script>

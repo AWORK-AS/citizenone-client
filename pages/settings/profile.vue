@@ -101,13 +101,14 @@ import { required, helpers } from '@vuelidate/validators'
 import { languageService } from '@/components/api/LanguageService'
 import { userService } from "@/components/api/UserService"
 import { useUserStore } from '@/store/user'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const language = useI18n()
+const { successAlert } = useAlert()
 const { t } = useI18n()
 const image = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
@@ -242,13 +243,5 @@ function onFileChange(event: any) {
         }
         reader.readAsDataURL(file)
     }
-}
-
-function successAlert(title: string, message: string) {
-    notify({
-        title: title,
-        text: message,
-        type: 'success',
-    })
 }
 </script>
