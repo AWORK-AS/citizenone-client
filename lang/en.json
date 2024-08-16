@@ -1,6 +1,6 @@
 {
     "activityLogs": {
-        "activityLogs": "Activity Logs",
+        "activityLogs": "Activity logs",
         "table": {
             "createdAt": "Created at",
             "description": "Description",
@@ -40,6 +40,9 @@
         "apps": "Apps"
     },
     "back": "Back",
+    "bulletBoard": {
+        "bulletBoard": "Bullet board"
+    },
     "calendar": {
         "days": {
             "Monday": "Monday",
@@ -161,7 +164,7 @@
                 "riskAssessment": "Risk assessment",
                 "title": "Title"
             },
-            "editJournal": "Edit Journal",
+            "editJournal": "Edit journal",
             "filter": {
                 "date": "Date",
                 "filterDate": "Filter date",
@@ -169,10 +172,10 @@
                 "standardView": "Standard view",
                 "riskAssessmentView": "Risk assessment view"
             },
-            "newJournal": "New Journal",
+            "newJournal": "New journal",
             "riskAssessment": "Risk assessment"
         },
-        "editCitizen": "Edit Citizen",
+        "editCitizen": "Edit citizen",
         "form": {
             "alert": {
                 "successfullyAdded": "New citizens successfully saved",
@@ -203,24 +206,24 @@
             },
             "download": "Download",
             "form": {
-                "dateGiven": "Date Given",
-                "editMedicine": "Edit Medicine",
-                "medicineDetails": "Medicine Details",
+                "dateGiven": "Date given",
+                "editMedicine": "Edit medicine",
+                "medicineDetails": "Medicine details",
                 "name": "Name",
                 "reason": "Reason"
             },
-            "giveMedicine": "Give Medicine",
+            "giveMedicine": "Give medicine",
             "table": {
                 "actions": {
                     "edit": "Edit",
                     "delete": "Delete"
                 },
-                "dateGiven": "Date Given",
+                "dateGiven": "Date given",
                 "name": "Name",
                 "reason": "Reason"
             }
         },
-        "newCitizen": "New Citizen",
+        "newCitizen": "New citizen",
         "note": {
             "latestJournalEntry": "Latest journal entry",
             "noJournalToDisplay": "No journal to display"
@@ -238,10 +241,10 @@
         "tabs": {
             "attendance": "Attendance",
             "calendar": "Calendar",
-            "citizenJournals": "Citizen Journals",
+            "citizenJournals": "Citizen journals",
             "documents": "Documents",
-            "medicineJournals": "Medicine Journals",
-            "plansAndGoals": "Plans and Goals"
+            "medicineJournals": "Medicine journals",
+            "plansAndGoals": "Plans and goals"
         }
     },
     "confirm": "Confirm",
@@ -300,7 +303,7 @@
             "deleteConfirmation": "Are you sure you want to delete this schedule"
         },
         "deleteSchedule": "Delete schedule",
-        "dutySchedules": "Duty Schedules",
+        "dutySchedules": "Duty schedules",
         "editSchedule": "Edit schedule",
         "form": {
             "datetimeStart": "Date time start",
@@ -314,7 +317,7 @@
         "noScheduleFound": "No schedule found"
     },
     "employees": {
-        "editEmployee": "Edit Employee",
+        "editEmployee": "Edit employee",
         "employees": "Employees",
         "form": {
             "alert": {
@@ -338,7 +341,7 @@
             "phone": "Phone",
             "role": "Role"
         },
-        "newEmployee": "New Employee",
+        "newEmployee": "New employee",
         "table": {
             "actions": {
                 "edit": "Edit",
@@ -385,12 +388,12 @@
         "youHaveSuccessfullyAcceptedTheInvitation": "You have successfully accepted the invitation"
     },
     "languageSwitcher": {
-        "selectLanguage": "Select Language"
+        "selectLanguage": "Select language"
     },
     "login": {
         "SignInToYourAccount": "Sign in to your account",
         "form": {
-            "createAccountHere": "Create Account here",
+            "createAccountHere": "Create account here",
             "emailAddress": "Email address",
             "dontHaveAnAccount": "Don't have an account",
             "forgotPassword": "Forgot password",
@@ -411,12 +414,12 @@
         "messages": "Messages"
     },
     "navbar": {
-        "activityLogs": "Activity Logs",
+        "activityLogs": "Activity logs",
         "newWishes": "New wishes",
         "logout": "Log out",
         "subscription": "Subscription",
         "settings": "Settings",
-        "switchLanguage": "Switch Language"
+        "switchLanguage": "Switch language"
     },
     "news": {
         "editNews": "Edit news",
@@ -471,23 +474,23 @@
             "deleteConfirmation": "Are you sure you want to delete this plan"
         },
         "completed": "Completed",
-        "completionDate": "Completion Date",
-        "dateCompleted": "Date Completed",
-        "editGoal": "Edit Goal",
-        "editPlan": "Edit Plan",
-        "editSubgoal": "Edit Subgoal",
+        "completionDate": "Completion date",
+        "dateCompleted": "Date completed",
+        "editGoal": "Edit goal",
+        "editPlan": "Edit plan",
+        "editSubgoal": "Edit subgoal",
         "form": {
             "completed": "Completed",
-            "completionDate": "Completion Date",
-            "dateCompleted": "Date Completed",
-            "goalName": "Goal Name",
-            "planName": "Plan Name",
-            "subgoalName": "Subgoal Name"
+            "completionDate": "Completion date",
+            "dateCompleted": "Date completed",
+            "goalName": "Goal name",
+            "planName": "Plan name",
+            "subgoalName": "Subgoal name"
         },
-        "inProgress": "In Progress",
-        "newGoal": "New Goal",
-        "newPlan": "New Plan",
-        "newSubgoal": "New Subgoal",
+        "inProgress": "In progress",
+        "newGoal": "New goal",
+        "newPlan": "New plan",
+        "newSubgoal": "New subgoal",
         "noAvailableSubgoals": "There's no subgoals available to display",
         "subgoals": "Subgoals"
     },
@@ -495,18 +498,18 @@
         "youHaveAlreadyVoted": "You have already voted"
     },
     "protocols": {
-        "editProtocol": "Edit Protocol",
+        "editProtocol": "Edit protocol",
         "form": {
             "alert": {
-                "protocolSuccessfullyUpdated": "Protcol successfully updated",
+                "protocolSuccessfullyUpdated": "Protocol successfully updated",
                 "newProtocolSuccessfullySaved": "New protocol successfully saved"
             },
             "citizens": "Citizens",
-            "endDate": "End Date",
-            "protocolName": "Protocol Name",
-            "startDate": "Start Date"
+            "endDate": "End date",
+            "protocolName": "Protocol name",
+            "startDate": "Start date"
         },
-        "newProtocol": "New Protocol",
+        "newProtocol": "New protocol",
         "protocols": "Protocols",
         "table": {
             "actions": {
@@ -521,9 +524,9 @@
                 "date": "Date",
                 "status": "Status"
             },
-            "endDate": "End Date",
-            "protocolName": "Protocol Name",
-            "startDate": "Start Date",
+            "endDate": "End date",
+            "protocolName": "Protocol name",
+            "startDate": "Start date",
             "status": {
                 "absent": "Absent",
                 "attended": "Attended"
@@ -854,8 +857,8 @@
         "timeLogs": "Time Logs"
     },
     "timeRegistration": {
-        "checkIn": "Check In",
-        "checkOut": "Check Out"
+        "checkIn": "Check in",
+        "checkOut": "Check out"
     },
     "theresNoDataAvailableToDisplay": "There's no data available to display",
     "update": "Update",

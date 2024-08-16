@@ -40,6 +40,9 @@
         "apps": "Apps"
     },
     "back": "Tilbage",
+    "bulletBoard": {
+        "bulletBoard": "Opslagstavle"
+    },
     "calendar": {
         "days": {
             "Monday": "Mandag",
@@ -220,7 +223,7 @@
                 "reason": "Årsag"
             }
         },
-        "newCitizen": "Ny Borger",
+        "newCitizen": "Ny borger",
         "note": {
             "latestJournalEntry": "Seneste journalnotat",
             "noJournalToDisplay": "Ingen journal at vise"
@@ -314,7 +317,7 @@
         "noScheduleFound": "Ingen tidsplan fundet"
     },
     "employees": {
-        "editEmployee": "Rediger Medarbejder",
+        "editEmployee": "Rediger medarbejder",
         "employees": "Medarbejdere",
         "form": {
             "alert": {
@@ -338,7 +341,7 @@
             "phone": "Telefon",
             "role": "Rolle"
         },
-        "newEmployee": "Ny Medarbejder",
+        "newEmployee": "Ny medarbejder",
         "table": {
             "actions": {
                 "edit": "Rediger",
@@ -472,22 +475,22 @@
         },
         "completed": "Fuldført",
         "completionDate": "Afslutningsdato",
-        "dateCompleted": "Dato Fuldført",
-        "editGoal": "Rediger Mål",
-        "editPlan": "Rediger Plan",
-        "editSubgoal": "Rediger Delmål",
+        "dateCompleted": "Dato fuldført",
+        "editGoal": "Rediger mål",
+        "editPlan": "Rediger plan",
+        "editSubgoal": "Rediger delmål",
         "form": {
             "completed": "Fuldført",
             "completionDate": "Afslutningsdato",
-            "dateCompleted": "Dato Fuldført",
+            "dateCompleted": "Dato fuldført",
             "goalName": "Målnavn",
             "planName": "Plannavn",
             "subgoalName": "Delmålnavn"
         },
         "inProgress": "I gang",
-        "newGoal": "Nyt Mål",
-        "newPlan": "Ny Plan",
-        "newSubgoal": "Nyt Delmål",
+        "newGoal": "Nyt mål",
+        "newPlan": "Ny plan",
+        "newSubgoal": "Nyt delmål",
         "noAvailableSubgoals": "Der er ingen delmål til rådighed at vise",
         "subgoals": "Delmål"
     },
@@ -495,7 +498,7 @@
         "youHaveAlreadyVoted": "Du har allerede stemt"
     },
     "protocols": {
-        "editProtocol": "Rediger Protokol",
+        "editProtocol": "Rediger protokol",
         "form": {
             "alert": {
                 "protocolSuccessfullyUpdated": "Protokol opdateret med succes",
@@ -506,7 +509,7 @@
             "protocolName": "Protokolnavn",
             "startDate": "Startdato"
         },
-        "newProtocol": "Ny Protokol",
+        "newProtocol": "Ny protokol",
         "protocols": "Protokol",
         "table": {
             "actions": {
@@ -730,11 +733,11 @@
         }
     },
     "reminder": {
-        "checkIn": "Check ind",
+        "checkIn": "Tjek ind",
         "checkinReminder": "Check-in påmindelse",
         "dontForgetToCheckInToday": "Glem ikke at tjekke ind i dag",
         "doNotShowAgain": "Vis ikke igen",
-        "iDontNeedToCheckinNow": "I don't need to check in now"
+        "iDontNeedToCheckinNow": "Jeg behøver ikke at tjekke ind nu"
     },
     "resetPassword": {
         "form": {
@@ -854,8 +857,8 @@
         "timeLogs": "Tidslogfiler"
     },
     "timeRegistration": {
-        "checkIn": "Tjek Ind",
-        "checkOut": "Tjek Ud"
+        "checkIn": "Tjek ind",
+        "checkOut": "Tjek ud"
     },
     "theresNoDataAvailableToDisplay": "Der er ingen data til rådighed at vise",
     "update": "Opdater",

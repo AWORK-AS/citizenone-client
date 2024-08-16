@@ -3,10 +3,10 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('news.news') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('bulletBoard.bulletBoard') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('news.news') }}</template>
+            <template #header>{{ $t('bulletBoard.bulletBoard') }}</template>
 
             <div>
                 <div class="flex justify-end items-center mb-5">
