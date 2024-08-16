@@ -509,6 +509,7 @@
             },
             "citizens": "Borgere",
             "endDate": "Slutdato",
+            "excludeWeekends": "Udelad weekender",
             "protocolName": "Protokolnavn",
             "startDate": "Startdato"
         },

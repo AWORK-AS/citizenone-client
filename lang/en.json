@@ -509,6 +509,7 @@
             },
             "citizens": "Citizens",
             "endDate": "End date",
+            "excludeWeekends": "Exclude weekends",
             "protocolName": "Protocol name",
             "startDate": "Start date"
         },

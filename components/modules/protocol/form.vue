@@ -28,15 +28,21 @@
                     <FormError :error="props?.error?.errors?.end_date?.[0]" />
                 </div>
             </div>
-            <div v-if="props.formType === 'create'">
-                <div class="space-y-1">
-                    <FormLabel for="citizens" :label="$t('protocols.form.citizens')" />
-                    <FormSelectMultiple id="citizens" name="citizens" :options="state.citizenOptions"
-                        v-model="state.formProtocol.citizens" />
-                    <FormError :error="v$?.formProtocol?.citizens?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.citizens?.[0]" />
+            <div class="space-y-1" v-if="props.formType === 'create'">
+                <FormLabel for="citizens" :label="$t('protocols.form.citizens')" />
+                <FormSelectMultiple id="citizens" name="citizens" :options="state.citizenOptions"
+                    v-model="state.formProtocol.citizens" />
+                <FormError :error="v$?.formProtocol?.citizens?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.citizens?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formProtocol.exclude_weekends = !state.formProtocol.exclude_weekends">
+                    <FormCheckbox :value="state.formProtocol.exclude_weekends" />
+                    {{ $t('protocols.form.excludeWeekends') }}
                 </div>
             </div>
+
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -85,6 +91,7 @@ const state = reactive({
         start_date: '',
         end_date: '',
         citizens: [],
+        exclude_weekends: false
     },
 })
 
@@ -95,6 +102,7 @@ watch(() => props.selectedProtocol, (newValue: any) => {
             start_date: newValue.start_date,
             end_date: newValue.end_date,
             citizens: newValue.citizens,
+            exclude_weekends: newValue.citizens,
         }
     }
 })

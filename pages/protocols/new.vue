@@ -38,6 +38,7 @@ const state = reactive({
         start_date: '',
         end_date: '',
         citizens: [],
+        exclude_weekends: '',
     },
     isPageLoading: false,
 })
@@ -51,6 +52,7 @@ async function saveProtocol(protocolDetails: any) {
             start_date: protocolDetails.start_date,
             end_date: protocolDetails.end_date,
             citizen_ids: protocolDetails.citizens,
+            exclude_weekends: protocolDetails.exclude_weekends,
         }
         const response = await protocolService.saveProtocol(params)
         if (response.data) {
