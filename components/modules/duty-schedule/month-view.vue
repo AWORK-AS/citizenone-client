@@ -215,8 +215,10 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 const props = defineProps({
     dutySchedules: {
         type: Object,
@@ -325,9 +327,5 @@ const year = computed(() => {
 
 function editDutySchedule(dutySchedule: any) {
     emit('editDutySchedule', dutySchedule)
-}
-
-function formatDateTimeToReadable(datetime: string) {
-    return moment(datetime).format('DD. MMM YYYY HH:mm')
 }
 </script>

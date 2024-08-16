@@ -39,12 +39,13 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { activityLogService } from '@/components/api/ActivityLogService'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 const userStore = useUserStore()
 const isUserLoggedInAdmin = userStore.getUser?.roles.some(role => role.name === 'Admin')
 let currentTablePage = 1
@@ -134,9 +135,5 @@ function sort(sortingData: any) {
         sortOrder: sortingData.sort,
     }
     fetchActivityLogs()
-}
-
-function formatDateTimeToReadable(datetime: string) {
-    return moment(datetime).format('DD. MMM YYYY HH:mm:ss')
 }
 </script>

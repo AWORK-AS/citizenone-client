@@ -197,6 +197,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { journalService } from '@/components/api/JournalService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
@@ -204,6 +205,7 @@ import { useCitizenJournalStore } from '@/store/citizen-journal'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatDateToReadable } = useDatetimeFormatter()
 const citizenJournalStore = useCitizenJournalStore()
 const { t } = useI18n()
 const router = useRouter()
@@ -424,10 +426,6 @@ async function deleteJournal() {
         state.error = error
     }
     state.isPageLoading = false
-}
-
-function formatDateToReadable(datetime: string) {
-    return moment(datetime).format('DD MMM, YYYY')
 }
 
 function successAlert(title: string, message: string) {

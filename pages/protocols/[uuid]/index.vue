@@ -84,11 +84,13 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenProtocolService } from '@/components/api/CitizenProtocolService'
 import { protocolService } from '@/components/api/ProtocolService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatDateToReadable } = useDatetimeFormatter()
 const router = useRouter()
 const uuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
@@ -183,10 +185,6 @@ function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
     fetchCitizenProtocols()
-}
-
-function formatDateToReadable(datetime: string) {
-    return moment(datetime).format('DD MMM, YYYY')
 }
 
 async function markAsAbsent(citizenProtocolUuid: string) {

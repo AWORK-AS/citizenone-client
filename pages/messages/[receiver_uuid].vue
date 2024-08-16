@@ -163,7 +163,7 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import pusher from '@/services/pusher'
 import { messageService } from '@/components/api/MessageService'
 import { useUserStore } from '@/store/user'
@@ -171,6 +171,7 @@ import { useEmployeeStore } from '@/store/employee'
 import type { ChattedUser, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatTimeToReadable } = useDatetimeFormatter()
 const employeeStore = useEmployeeStore() as any
 const userStore = useUserStore() as any
 const router = useRouter()
@@ -263,10 +264,6 @@ async function sendMessage() {
         state.isPageLoading = false
         state.message = ''
     }
-}
-
-function formatTimeToReadable(datetime: string) {
-    return moment(datetime).format('HH:mm')
 }
 
 function scrollToBottom() {

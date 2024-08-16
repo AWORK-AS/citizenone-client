@@ -96,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { invitationService } from '@/components/api/InvitationService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -104,6 +104,7 @@ import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 const userStore = useUserStore()
 const language = useI18n()
 const router = useRouter()
@@ -175,10 +176,6 @@ function identifyFlag() {
             return '/img/icons/flags/denmark.svg'
         }
     }
-}
-
-function formatDateTimeToReadable(datetime: string) {
-    return moment(datetime).format('DD. MMM YYYY HH:mm')
 }
 
 function errorAlert(title: string, message: string) {

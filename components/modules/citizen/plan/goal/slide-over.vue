@@ -139,12 +139,17 @@
                                                                             </div>
                                                                             <p class="text-sm">
                                                                                 <span v-if="subgoal?.date_completed">
-                                                                                    Date Completed: {{
+                                                                                    {{
+                                                                                        $t('plansandgoals.dateCompleted')
+                                                                                    }}:
+                                                                                    {{
                                                                                         formatDateToReadable(subgoal?.date_completed)
                                                                                     }}
                                                                                 </span>
                                                                                 <span v-else>
-                                                                                    Completion Date: {{
+                                                                                    {{
+                                                                                        $t('plansandgoals.completionDate')
+                                                                                    }}: {{
                                                                                         formatDateToReadable(subgoal?.completion_date)
                                                                                     }}
                                                                                 </span>
@@ -191,12 +196,13 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { goalService } from '@/components/api/GoalService'
 import type { Error } from '@/types'
 
+const { formatDateToReadable } = useDatetimeFormatter()
 const props = defineProps({
     isOpen: {
         type: Boolean,
@@ -293,9 +299,5 @@ function editGoal(goal: any) {
 function editSubGoal(subgoal: any) {
     state.selectedSubgoal = subgoal
     state.modal.isEditSubgoalOpen = true
-}
-
-function formatDateToReadable(datetime: string) {
-    return moment(datetime).format('DD MMM, YYYY')
 }
 </script>

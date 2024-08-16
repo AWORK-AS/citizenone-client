@@ -42,9 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { CalendarEventResponse, Error } from '@/types'
+
+const { formatTimeToReadable } = useDatetimeFormatter()
 
 const state = reactive({
     isPageLoading: false,
@@ -68,9 +70,5 @@ async function fetchMyCalendarEvents() {
         state.error = error
     }
     state.isPageLoading = false
-}
-
-function formatTimeToReadable(datetime: string) {
-    return moment(datetime).format('HH:mm')
 }
 </script>

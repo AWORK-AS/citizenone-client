@@ -55,9 +55,10 @@
 
 
 <script setup lang="ts">
-import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 const props = defineProps({
     isModalOpen: {
         type: Boolean,
@@ -77,9 +78,5 @@ const state = reactive({
 
 function closeModal() {
     emit('close')
-}
-
-function formatDateTimeToReadable(datetime: string) {
-    return moment(datetime).format('DD. MMM YYYY HH:mm')
 }
 </script>

@@ -62,7 +62,6 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
 import { authService } from '@/components/api/AuthService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -137,10 +136,6 @@ function identifyFlag() {
             return '/img/icons/flags/denmark.svg'
         }
     }
-}
-
-function formatDateTimeToReadable(datetime: string) {
-    return moment(datetime).format('DD. MMM YYYY HH:mm')
 }
 
 function errorAlert(title: string, message: string) {

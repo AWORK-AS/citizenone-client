@@ -214,8 +214,10 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 const props = defineProps({
     myCalendarEvents: {
         type: Object,
@@ -231,7 +233,7 @@ const state = reactive({
     currentMonth: today.month(),
     currentYear: today.year(),
     days: generateDays(today.year(), today.month(), props.myCalendarEvents),
-    selectedDay: null,
+    selectedDay: null as any,
 })
 
 watch(() => props.myCalendarEvents, (newValue: any) => {
@@ -324,9 +326,5 @@ const year = computed(() => {
 
 function editMyCalendarEvent(myCalendarEvent: any) {
     emit('editMyCalendarEvent', myCalendarEvent)
-}
-
-function formatDateTimeToReadable(datetime: string) {
-    return moment(datetime).format('DD. MMM YYYY HH:mm')
 }
 </script>

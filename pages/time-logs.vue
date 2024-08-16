@@ -39,11 +39,12 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { timeLogService } from '@/components/api/TimeLogService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatDateTimeToReadable, formatTimeToReadable } = useDatetimeFormatter()
 let currentTablePage = 1
 
 const state = reactive({
@@ -102,13 +103,5 @@ function sort(sortingData: any) {
         sortOrder: sortingData.sort,
     }
     fetchActivityLogs()
-}
-
-function formatDateTimeToReadable(datetime: string) {
-    return moment(datetime).format('DD. MMM YYYY HH:mm:ss')
-}
-
-function formatTimeToReadable(time: string) {
-    return moment(time, "HH:mm:ss A").format('hh:mm:ss A')
 }
 </script>

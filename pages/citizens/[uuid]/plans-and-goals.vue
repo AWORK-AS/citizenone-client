@@ -98,13 +98,14 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { planService } from '@/components/api/PlanService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
@@ -212,10 +213,6 @@ async function deletePlan() {
         state.error = error
     }
     state.isPageLoading = false
-}
-
-function formatDateToReadable(datetime: string) {
-    return moment(datetime).format('DD MMM, YYYY')
 }
 
 function successAlert(title: string, message: string) {

@@ -121,13 +121,14 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
-import { documentService } from '@/components/api/DocumentService';
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { documentService } from '@/components/api/DocumentService'
 import { useI18n } from "vue-i18n"
 import { notify } from "@kyvg/vue3-notification"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
@@ -307,10 +308,6 @@ async function deleteDocument() {
         state.error = error
     }
     state.isTableLoading = false
-}
-
-function formatDateTimeToReadable(datetime: string) {
-    return moment(datetime).format('DD. MMM YYYY HH:mm:ss')
 }
 
 function successAlert(title: string, message: string) {

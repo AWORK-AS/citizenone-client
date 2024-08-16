@@ -214,8 +214,10 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 const props = defineProps({
     myCalendarEvents: {
         type: Object,
@@ -324,9 +326,5 @@ const year = computed(() => {
 
 function viewMyCalendarEvent(myCalendarEvent: any) {
     emit('viewMyCalendarEvent', myCalendarEvent)
-}
-
-function formatDateTimeToReadable(datetime: string) {
-    return moment(datetime).format('DD. MMM YYYY HH:mm')
 }
 </script>

@@ -28,8 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
+const { formatDateToReadable } = useDatetimeFormatter()
 const props = defineProps({
     isModalOpen: {
         type: Boolean,
@@ -45,9 +46,5 @@ const emit = defineEmits(['close'])
 
 function closeModal() {
     emit('close')
-}
-
-function formatDateToReadable(datetime: string) {
-    return moment(datetime).format('DD MMM, YYYY')
 }
 </script>

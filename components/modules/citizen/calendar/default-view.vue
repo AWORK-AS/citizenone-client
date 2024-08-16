@@ -120,7 +120,9 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 const props = defineProps({
     myCalendarEvents: {
         type: Object,
@@ -181,9 +183,5 @@ function selectDay(selectedDay: any) {
         isSelected: day.date === selectedDay.date,
     }))
     emit('changeDate', selectedDay.date)
-}
-
-function formatDateTimeToReadable(datetime: string) {
-    return moment(datetime).format('DD. MMM YYYY HH:mm')
 }
 </script>

@@ -84,12 +84,13 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenService } from '@/components/api/CitizenService'
 import { protocolService } from '@/components/api/ProtocolService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatDateToReadable } = useDatetimeFormatter()
 let currentTablePage = 1
 
 const state = reactive({
@@ -107,7 +108,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
-    protocols: [],
+    protocols: [] as any,
     searchFilter: {
         'end_date': '',
         'start_date': '',
@@ -198,9 +199,5 @@ function handleFilter(value: any) {
 function handleSearch() {
     currentTablePage = 1
     fetchProtocols()
-}
-
-function formatDateToReadable(datetime: string) {
-    return moment(datetime).format('DD MMM, YYYY')
 }
 </script>
