@@ -14,6 +14,11 @@
             v-else>
             <div v-for="(myCalendarEvent, index) in state.citizenCalendarEvents?.data" :key="index" class="py-2">
                 <div class="space-y-2">
+                    <Badge type="primary" class="w-fit">
+                        <p class="text-xs px-2">
+                            {{ myCalendarEvent?.user?.firstname + ' ' + myCalendarEvent?.user?.lastname }}
+                        </p>
+                    </Badge>
                     <p class="text-base font-semibold text-gray-700 xl:pr-0">
                         {{ myCalendarEvent?.title }}
                     </p>

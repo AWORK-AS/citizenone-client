@@ -12,7 +12,7 @@
 
         <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 pr-5 pt-6 pb-6 pl-6 mr-1"
             v-else>
-            <div v-for="(citizen, index) in state.citizens?.data" :key="index" class="py-4">
+            <div v-for="(citizen, index) in state.citizens?.data" :key="index" class="py-2">
                 <Badge type="primary" class="w-fit">
                     <p class="text-xs px-2">
                         {{ citizen?.firstname + ' ' + citizen?.lastname }}

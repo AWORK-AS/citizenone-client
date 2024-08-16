@@ -3,6 +3,7 @@ export interface CalendarEventResponse {
 }
 
 interface CalendarEvent {
+    user: any
     title: string
     description: string
     date_time_start: string

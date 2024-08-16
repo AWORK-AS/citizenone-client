@@ -3,10 +3,10 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('storage.tabs.storage') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('settings.tabs.storage') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('storage.tabs.storage') }}</template>
+            <template #header>{{ $t('settings.tabs.storage') }}</template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div class="space-y-5">
@@ -54,9 +54,6 @@
                             </div>
 
                             <div class="space-y-2">
-                                <p class="text-sm font-medium">
-                                    {{ $t('storage.upgradeOptions') }}
-                                </p>
                                 <div class="space-y-5">
                                     <div v-for="(deal, index) in state.storageDeals?.data" :key="index">
                                         <div
