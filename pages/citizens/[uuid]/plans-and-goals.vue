@@ -47,6 +47,12 @@
                                                 {{ plan?.name }}
                                             </h3>
                                         </div>
+                                        <div>
+                                            {{ plan?.description }}
+                                        </div>
+                                        <div>
+                                            {{ plan?.status }}
+                                        </div>
                                         <p class="text-sm">
                                             <span v-if="plan?.is_completed">
                                                 {{ $t('plansandgoals.dateCompleted') }}: {{

@@ -486,8 +486,10 @@
             "completed": "Completed",
             "completionDate": "Completion date",
             "dateCompleted": "Date completed",
+            "description": "Description",
             "goalName": "Goal name",
             "planName": "Plan name",
+            "status": "Status",
             "subgoalName": "Subgoal name"
         },
         "inProgress": "In progress",

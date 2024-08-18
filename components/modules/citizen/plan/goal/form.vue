@@ -20,6 +20,20 @@
                     <FormError :error="props?.error?.errors?.completion_date?.[0]" />
                 </div>
             </div>
+            <div class="space-y-1">
+                <FormLabel for="description" :label="$t('plansandgoals.form.description')" />
+                <FormTextArea id="description" name="description" :placeholder="$t('plansandgoals.form.description')"
+                    v-model="state.formGoal.description" />
+                <FormError :error="v$?.formGoal?.description?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.description?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="status" :label="$t('plansandgoals.form.status')" />
+                <FormTextArea id="status" name="status" :placeholder="$t('plansandgoals.form.status')"
+                    v-model="state.formGoal.status" />
+                <FormError :error="v$?.formGoal?.status?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.status?.[0]" />
+            </div>
             <div v-if="props.formType === 'update'">
                 <div class="w-fit flex items-center cursor-pointer" @click="changeIsCompletedCheckbox">
                     <FormCheckbox :value="state.formGoal.is_completed" />
@@ -76,6 +90,8 @@ const state = reactive({
         id: '',
         uuid: '',
         name: '',
+        description: '',
+        status: '',
         completion_date: '',
         date_completed: '',
         is_completed: false,
@@ -87,6 +103,8 @@ onMounted(() => {
         id: props.selectedGoal.id,
         uuid: props.selectedGoal.uuid,
         name: props.selectedGoal.name,
+        description: props.selectedGoal.description,
+        status: props.selectedGoal.status,
         completion_date: props.selectedGoal.completion_date,
         date_completed: props.selectedGoal.date_completed,
         is_completed: props.selectedGoal.is_completed,
@@ -104,6 +122,8 @@ watch(() => props.selectedGoal, (newValue: any) => {
             id: newValue.id,
             uuid: newValue.uuid,
             name: newValue.name,
+            description: newValue.description,
+            status: newValue.status,
             completion_date: newValue.completion_date,
             date_completed: newValue.date_completed,
             is_completed: newValue.is_completed,

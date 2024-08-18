@@ -54,6 +54,8 @@ async function updateGoal(goalDetails: any) {
         const goalUuid = goalDetails.uuid
         const params = {
             name: goalDetails.name,
+            description: goalDetails.description,
+            status: goalDetails.status,
             completion_date: goalDetails.completion_date,
             date_completed: goalDetails.date_completed,
         }

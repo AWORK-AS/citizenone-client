@@ -20,6 +20,20 @@
                     <FormError :error="props?.error?.errors?.completion_date?.[0]" />
                 </div>
             </div>
+            <div class="space-y-1">
+                <FormLabel for="description" :label="$t('plansandgoals.form.description')" />
+                <FormTextArea id="description" name="description" :placeholder="$t('plansandgoals.form.description')"
+                    v-model="state.formPlan.description" />
+                <FormError :error="v$?.formPlan?.description?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.description?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="status" :label="$t('plansandgoals.form.status')" />
+                <FormTextArea id="status" name="status" :placeholder="$t('plansandgoals.form.status')"
+                    v-model="state.formPlan.status" />
+                <FormError :error="v$?.formPlan?.status?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.status?.[0]" />
+            </div>
             <div v-if="props.formType === 'update'">
                 <div class="w-fit flex items-center cursor-pointer" @click="changeIsCompletedCheckbox">
                     <FormCheckbox :value="state.formPlan.is_completed" />
@@ -76,6 +90,8 @@ const state = reactive({
         id: '',
         uuid: '',
         name: '',
+        description: '',
+        status: '',
         completion_date: '',
         date_completed: '',
         is_completed: false,
@@ -89,6 +105,8 @@ onMounted(() => {
         name: props.selectedPlan.name,
         completion_date: props.selectedPlan.completion_date,
         date_completed: props.selectedPlan.date_completed,
+        description: props.selectedPlan.description,
+        status: props.selectedPlan.status,
         is_completed: props.selectedPlan.is_completed,
     }
 })
@@ -99,6 +117,8 @@ watch(() => props.selectedPlan, (newValue: any) => {
             id: newValue.id,
             uuid: newValue.uuid,
             name: newValue.name,
+            description: newValue.description,
+            status: newValue.status,
             completion_date: newValue.completion_date,
             date_completed: newValue.date_completed,
             is_completed: newValue.is_completed,

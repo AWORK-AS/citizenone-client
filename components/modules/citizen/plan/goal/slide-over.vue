@@ -61,48 +61,56 @@
                                             <dl class="divide-y divide-tertiary divide-dashed">
                                                 <Disclosure as="div" v-slot="{ open }"
                                                     v-for="(goal, index) in state.goals?.data" :index="index">
-                                                    <div class="flex justify-between items-center py-4">
-                                                        <div>
-                                                            <div class="flex items-center gap-x-2">
-                                                                <h3 class="text-lg font-semibold">
-                                                                    {{ goal?.name }}
-                                                                </h3>
-                                                                <div>
-                                                                    <Badge
-                                                                        :type="goal?.date_completed ? 'active' : 'primary'">
-                                                                        <p class="text-xxs">
-                                                                            <span v-if="goal?.date_completed">
-                                                                                {{ $t('plansandgoals.completed') }}
-                                                                            </span>
-                                                                            <span v-else>
-                                                                                {{ $t('plansandgoals.inProgress') }}
-                                                                            </span>
-                                                                        </p>
-                                                                    </Badge>
+                                                    <div class="py-4">
+                                                        <div class="flex justify-between items-center">
+                                                            <div>
+                                                                <div class="flex items-center gap-x-2">
+                                                                    <h3 class="text-lg font-semibold">
+                                                                        {{ goal?.name }}
+                                                                    </h3>
+                                                                    <div>
+                                                                        <Badge
+                                                                            :type="goal?.date_completed ? 'active' : 'primary'">
+                                                                            <p class="text-xxs">
+                                                                                <span v-if="goal?.date_completed">
+                                                                                    {{ $t('plansandgoals.completed') }}
+                                                                                </span>
+                                                                                <span v-else>
+                                                                                    {{ $t('plansandgoals.inProgress') }}
+                                                                                </span>
+                                                                            </p>
+                                                                        </Badge>
+                                                                    </div>
                                                                 </div>
+                                                                <p class="text-sm">
+                                                                    {{ $t('plansandgoals.completionDate') }}:
+                                                                    {{ formatDateToReadable(goal?.completion_date) }}
+                                                                </p>
                                                             </div>
-                                                            <p class="text-sm">
-                                                                {{ $t('plansandgoals.completionDate') }}:
-                                                                {{ formatDateToReadable(goal?.completion_date) }}
-                                                            </p>
-                                                        </div>
-                                                        <div class="flex gap-x-1">
-                                                            <FormButton class="rounded-md" buttonSize="sm"
-                                                                @click="addSubgoal(goal)">
-                                                                <Icon name="ph:plus" class="size-4" />
-                                                            </FormButton>
-                                                            <FormButton class="rounded-md" buttonSize="sm"
-                                                                @click="editGoal(goal)">
-                                                                <Icon name="ph:pencil-duotone" class="size-4" />
-                                                            </FormButton>
-                                                            <DisclosureButton>
-                                                                <FormButton class="rounded-md" buttonSize="sm">
-                                                                    <Icon name="ic:round-keyboard-arrow-down"
-                                                                        class="size-4" v-if="!open" />
-                                                                    <Icon name="ic:round-keyboard-arrow-up"
-                                                                        class="size-4" v-else />
+                                                            <div class="flex gap-x-1">
+                                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                                    @click="addSubgoal(goal)">
+                                                                    <Icon name="ph:plus" class="size-4" />
                                                                 </FormButton>
-                                                            </DisclosureButton>
+                                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                                    @click="editGoal(goal)">
+                                                                    <Icon name="ph:pencil-duotone" class="size-4" />
+                                                                </FormButton>
+                                                                <DisclosureButton>
+                                                                    <FormButton class="rounded-md" buttonSize="sm">
+                                                                        <Icon name="ic:round-keyboard-arrow-down"
+                                                                            class="size-4" v-if="!open" />
+                                                                        <Icon name="ic:round-keyboard-arrow-up"
+                                                                            class="size-4" v-else />
+                                                                    </FormButton>
+                                                                </DisclosureButton>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-sm">
+                                                            {{ goal?.description }}
+                                                        </div>
+                                                        <div class="text-sm">
+                                                            {{ goal?.status }}
                                                         </div>
                                                     </div>
                                                     <DisclosurePanel as="dd" class="mx-5 my-0">
@@ -117,49 +125,62 @@
                                                             <dl class="space-y-2">
                                                                 <div v-for="(subgoal, index) in goal?.citizen_subgoals"
                                                                     :key="index" class="bg-tertiary-25 p-4 rounded-md">
-                                                                    <div class="flex justify-between items-center py-4">
-                                                                        <div>
-                                                                            <div class="flex items-center gap-x-2">
-                                                                                <h3 class="text-lg font-semibold">
-                                                                                    {{ subgoal?.name }}
-                                                                                </h3>
-                                                                                <div>
-                                                                                    <Badge
-                                                                                        :type="subgoal?.date_completed ? 'active' : 'primary'">
-                                                                                        <p class="text-xxs">
-                                                                                            {{
-                                                                                                subgoal?.date_completed ?
-                                                                                                    $t('plansandgoals.completed')
-                                                                                                    :
-                                                                                                    $t('plansandgoals.inProgress')
-                                                                                            }}
-                                                                                        </p>
-                                                                                    </Badge>
+                                                                    <div class="py-4">
+                                                                        <div class="flex justify-between items-center">
+                                                                            <div>
+                                                                                <div class="flex items-center gap-x-2">
+                                                                                    <h3 class="text-lg font-semibold">
+                                                                                        {{ subgoal?.name }}
+                                                                                    </h3>
+                                                                                    <div>
+                                                                                        <Badge
+                                                                                            :type="subgoal?.date_completed ? 'active' : 'primary'">
+                                                                                            <p class="text-xxs">
+                                                                                                {{
+                                                                                                    subgoal?.date_completed
+                                                                                                        ?
+                                                                                                        $t('plansandgoals.completed')
+                                                                                                        :
+                                                                                                        $t('plansandgoals.inProgress')
+                                                                                                }}
+                                                                                            </p>
+                                                                                        </Badge>
+                                                                                    </div>
                                                                                 </div>
+                                                                                <p class="text-sm">
+                                                                                    <span
+                                                                                        v-if="subgoal?.date_completed">
+                                                                                        {{
+                                                                                            $t('plansandgoals.dateCompleted')
+                                                                                        }}:
+                                                                                        {{
+                                                                                            formatDateToReadable(subgoal?.date_completed)
+                                                                                        }}
+                                                                                    </span>
+                                                                                    <span v-else>
+                                                                                        {{
+                                                                                            $t('plansandgoals.completionDate')
+                                                                                        }}: {{
+                                                                                            formatDateToReadable(subgoal?.completion_date)
+                                                                                        }}
+                                                                                    </span>
+                                                                                </p>
                                                                             </div>
-                                                                            <p class="text-sm">
-                                                                                <span v-if="subgoal?.date_completed">
-                                                                                    {{
-                                                                                        $t('plansandgoals.dateCompleted')
-                                                                                    }}:
-                                                                                    {{
-                                                                                        formatDateToReadable(subgoal?.date_completed)
-                                                                                    }}
-                                                                                </span>
-                                                                                <span v-else>
-                                                                                    {{
-                                                                                        $t('plansandgoals.completionDate')
-                                                                                    }}: {{
-                                                                                        formatDateToReadable(subgoal?.completion_date)
-                                                                                    }}
-                                                                                </span>
-                                                                            </p>
+                                                                            <FormButton class="rounded-md"
+                                                                                buttonSize="sm"
+                                                                                @click="editSubGoal(subgoal)">
+                                                                                <Icon name="ph:pencil-duotone"
+                                                                                    class="size-4" />
+                                                                            </FormButton>
                                                                         </div>
-                                                                        <FormButton class="rounded-md" buttonSize="sm"
-                                                                            @click="editSubGoal(subgoal)">
-                                                                            <Icon name="ph:pencil-duotone"
-                                                                                class="size-4" />
-                                                                        </FormButton>
+                                                                        <div class="space-y-1">
+                                                                            <div class="text-sm">
+                                                                                {{ subgoal?.description }}
+                                                                            </div>
+                                                                            <div class="text-sm">
+                                                                                {{ subgoal?.status }}
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </dl>
@@ -217,7 +238,7 @@ const emit = defineEmits(['close'])
 
 const state = reactive({
     error: {} as Error,
-    goals: [],
+    goals: [] as any,
     modal: {
         isAddGoalOpen: false,
         isAddSubgoalOpen: false,
@@ -228,6 +249,8 @@ const state = reactive({
         id: '',
         uuid: '',
         name: '',
+        description: '',
+        status: '',
         completion_date: '',
         date_completed: '',
         is_completed: false,
@@ -236,6 +259,8 @@ const state = reactive({
         id: '',
         uuid: '',
         name: '',
+        description: '',
+        status: '',
         completion_date: '',
         date_completed: '',
         is_completed: false,
@@ -244,6 +269,8 @@ const state = reactive({
         id: '',
         uuid: '',
         name: '',
+        description: '',
+        status: '',
         completion_date: '',
         date_completed: '',
         is_completed: false,
@@ -261,6 +288,8 @@ watch(() => props.selectedPlan, (newValue: any) => {
             id: newValue.id,
             uuid: newValue.uuid,
             name: newValue.name,
+            description: newValue.description,
+            status: newValue.status,
             completion_date: newValue.completion_date,
             date_completed: newValue.date_completed,
             is_completed: newValue.is_completed,

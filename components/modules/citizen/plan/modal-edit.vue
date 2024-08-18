@@ -55,6 +55,8 @@ async function updatePlan(planDetails: any) {
         const params = {
             name: planDetails.name,
             completion_date: planDetails.completion_date,
+            description: planDetails.description,
+            status: planDetails.status,
             date_completed: planDetails.date_completed,
             is_completed: planDetails.is_completed,
         }
