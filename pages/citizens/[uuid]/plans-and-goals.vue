@@ -22,13 +22,18 @@
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="space-y-3">
-                        <div class="flex justify-end items-center">
-                            <FormButton buttonStyle="action" class="rounded-md"
+                        <div class="flex justify-end items-center mb-5 gap-x-2">
+                            <FormButton buttonStyle="" class="rounded-lg bg-white"
                                 @click="state.modal.isAddPlanOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('plansandgoals.newPlan') }}
                             </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-lg" @click="downloadPlansAndGoals">
+                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('plansandgoals.download') }}
+                            </FormButton>
                         </div>
+
                         <div class="space-y-5">
                             <div class="mb-2 gap-2 border-b border-tertiary border-dashed pb-5 px-2"
                                 v-for="(plan, index) in state.plans?.data" :key="index">
@@ -109,6 +114,7 @@ import { planService } from '@/components/api/PlanService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
+import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
@@ -215,6 +221,25 @@ async function deletePlan() {
                 fetchPlans()
             }
             successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.planSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function downloadPlansAndGoals() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            citizen_uuid: citizenUuid
+        }
+        const response = await planService.downloadPlansAndGoals(params)
+        if (response) {
+            if (response) {
+                saveAs(response, 'Plans-and-goals' + '-' + citizenUuid)
+            }
         }
     } catch (error: any) {
         state.error = error
