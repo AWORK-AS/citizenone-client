@@ -16,14 +16,14 @@
                 <div class="space-y-1">
                     <FormLabel for="start_date" :label="$t('protocols.form.startDate')" />
                     <FormDateField id="start_date" name="start_date" :placeholder="$t('protocols.form.startDate')"
-                        v-model="state.formProtocol.start_date" @change="changeStartDate" />
+                        v-model="state.formProtocol.start_date" />
                     <FormError :error="v$?.formProtocol?.start_date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.start_date?.[0]" />
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="end_date" :label="$t('protocols.form.endDate')" />
                     <FormDateField id="end_date" name="end_date" :placeholder="$t('protocols.form.endDate')"
-                        v-model="state.formProtocol.end_date" @change="changeEndDate" />
+                        v-model="state.formProtocol.end_date" />
                     <FormError :error="v$?.formProtocol?.end_date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.end_date?.[0]" />
                 </div>
@@ -151,16 +151,18 @@ function submitForm() {
     }
 }
 
-function changeStartDate() {
-    fetchAvaiableCitizens()
-}
+watch(() => state.formProtocol.start_date, () => {
+    fetchAvailableCitizens()
+})
 
-function changeEndDate() {
-    fetchAvaiableCitizens()
-}
+watch(() => state.formProtocol.end_date, () => {
+    fetchAvailableCitizens()
+})
 
-async function fetchAvaiableCitizens() {
+async function fetchAvailableCitizens() {
     if (state.formProtocol.start_date && state.formProtocol.end_date) {
+        console.log('state.formProtocol.start_date', state.formProtocol.start_date)
+        console.log('state.formProtocol.end_date', state.formProtocol.end_date)
         state.error = {}
         emit('isPageLoading', true)
         try {
