@@ -22,6 +22,23 @@
 
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
+                <div class="flex justify-between flex-col-reverse md:flex-row md:items-center gap-3">
+                    <div class="w-48 flex items-center gap-2">
+                        {{ $t('show') }}:
+                        <FormSelect id="page_limit" name="page_limit" :options="state.options.page_limit"
+                            v-model="state.page_limit" />
+                    </div>
+                    <div class="flex gap-x-2">
+                        <Badge type="primary" class="w-fit">
+                            {{ $t('protocols.table.status.attended') }}:
+                            {{ state.citizenProtocolsCount?.attended ?? 0 }}
+                        </Badge>
+                        <Badge type="inactive" class="w-fit">
+                            {{ $t('protocols.table.status.absent') }}:
+                            {{ state.citizenProtocolsCount?.absent ?? 0 }}
+                        </Badge>
+                    </div>
+                </div>
                 <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                     @handleFilter="handleFilter" />
                 <div class="table-responsive">
@@ -75,6 +92,7 @@ let currentTablePage = 1
 
 const state = reactive({
     citizenProtocols: [],
+    citizenProtocolsCount: [] as any,
     columnFilter: [
         { column: 'status' },
     ],
@@ -89,6 +107,15 @@ const state = reactive({
     modal: {
         isRemoveCitizenOpen: false
     },
+    options: {
+        page_limit: [
+            { value: 20, label: "20" },
+            { value: 50, label: "50" },
+            { value: 100, label: "100" },
+            { value: '', label: "All" },
+        ]
+    },
+    page_limit: 20,
     selectedCitizenProtocol: [],
     selectedProtocol: [],
     searchFilter: [],
@@ -100,9 +127,15 @@ const state = reactive({
 
 onMounted(() => {
     fetchProtocol()
+    fetchCitizenProtocolsCount()
     fetchCitizenProtocols()
 })
 
+watch(() => state.page_limit, (newValue: any) => {
+    if (newValue != null) {
+        fetchCitizenProtocols()
+    }
+})
 async function fetchProtocol() {
     state.error = {}
     state.isPageLoading = true
@@ -117,6 +150,20 @@ async function fetchProtocol() {
     state.isPageLoading = false
 }
 
+async function fetchCitizenProtocolsCount() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await protocolService.getCitizenProtocolsCount(citizenUuid)
+        if (response) {
+            state.citizenProtocolsCount = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 async function fetchCitizenProtocols() {
     state.error = {}
     state.isTableLoading = true
@@ -124,6 +171,7 @@ async function fetchCitizenProtocols() {
         const params = {
             protocol_uuid: citizenProtocolUuid,
             page: currentTablePage,
+            page_limit: state.page_limit,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter

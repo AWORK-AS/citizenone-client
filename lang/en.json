@@ -580,6 +580,7 @@
             "storage": "Storage"
         }
     },
+    "show": "Show",
     "superadmin": {
         "accounts": {
             "accounts": "Accounts",

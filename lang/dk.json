@@ -580,6 +580,7 @@
             "storage": "Opbevaring"
         }
     },
+    "show": "Vis",
     "superadmin": {
         "accounts": {
             "accounts": "Kontoer",
