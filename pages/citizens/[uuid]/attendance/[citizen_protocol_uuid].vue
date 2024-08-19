@@ -91,7 +91,7 @@ const citizenProtocolUuid = router?.currentRoute?.value?.params?.citizen_protoco
 let currentTablePage = 1
 
 const state = reactive({
-    citizenProtocols: [],
+    citizenProtocols: [] as any,
     citizenProtocolsCount: [] as any,
     columnFilter: [
         { column: 'status' },
@@ -100,7 +100,7 @@ const state = reactive({
         { name: 'protocols.table.citizens.date', sorter: true, key: 'date' },
         { name: 'protocols.table.citizens.status', sorter: true, key: 'status' },
     ],
-    dataFilter: [],
+    dataFilter: [] as any,
     error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
@@ -116,9 +116,9 @@ const state = reactive({
         ]
     },
     page_limit: 20,
-    selectedCitizenProtocol: [],
-    selectedProtocol: [],
-    searchFilter: [],
+    selectedCitizenProtocol: [] as any,
+    selectedProtocol: [] as any,
+    searchFilter: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
