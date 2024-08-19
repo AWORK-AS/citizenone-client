@@ -171,6 +171,7 @@
             "filter": {
                 "date": "Date",
                 "filterDate": "Filter date",
+                "filterJournal": "Filter journal",
                 "journalNoteView": "Journal note view",
                 "standardView": "Standard view",
                 "riskAssessmentView": "Risk assessment view"

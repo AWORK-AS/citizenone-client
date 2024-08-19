@@ -171,6 +171,7 @@
             "filter": {
                 "date": "Dato",
                 "filterDate": "Filtrer dato",
+                "filterJournal": "Filter journal",
                 "journalNoteView": "Journalnotatvisning",
                 "standardView": "Standardvisning",
                 "riskAssessmentView": "Risikovurderingsvisning"

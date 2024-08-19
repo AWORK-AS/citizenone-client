@@ -54,9 +54,13 @@
 
                         <div class="pb-5 border-b border-dashed border-tertiary">
                             <div class="flex flex-wrap justify-end items-end gap-2">
+                                <FormTextField id="filter_journal" name="filter_journal"
+                                    :placeholder="$t('citizens.citizenJournals.filter.filterJournal')"
+                                    v-model="state.filter.journal" class="flex-1" @blur="filterJournal"
+                                    @keyup.enter="filterJournal" />
                                 <FormDateRangeField id="date_range" name="date_range"
                                     :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
-                                    v-model="state.filter.date_range" class="w-full md:w-96"
+                                    v-model="state.filter.date_range" class="w-full md:w-96 h-11"
                                     @change="filterJournalByDate" />
                                 <FormButton buttonSize="sm" :class="[
                                     ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
@@ -217,7 +221,8 @@ const state = reactive({
     dataFilter: [] as any,
     error: {} as Error,
     filter: {
-        date_range: '' as any,
+        date_range: null as any,
+        journal: '' as any,
         view: "Standard view"
     },
     isPageLoading: false,
@@ -249,13 +254,9 @@ onMounted(() => {
     }
 
     if (citizenJournalStore.getFilterDataBy === 'Locked journals') {
-        state.dataFilter = {
-            lock: true
-        }
+        state.dataFilter.lock = true
     } else if (citizenJournalStore.getFilterDataBy === 'Favorite journals') {
-        state.dataFilter = {
-            favorite: true
-        }
+        state.dataFilter.favorite = true
     }
 
     fetchJournals()
@@ -286,16 +287,19 @@ function showDownloadJournalModal() {
     state.modal.isDownloadJournalOpen = true
 }
 
+function filterJournal() {
+    state.dataFilter.name = state.filter.journal
+    fetchJournals()
+}
+
 function filterJournalByDate(event: any) {
     const dateRange = event.target.value
     const dates = dateRange.split(" to ")
     const startDate = moment(dates[0], "DD. MMMM YYYY").format("YYYY-MM-DD")
     const endDate = dates[1] ? moment(dates[1], "DD. MMMM YYYY").format("YYYY-MM-DD") : startDate
     if (startDate && endDate) {
-        state.dataFilter = {
-            start_date: startDate,
-            end_date: endDate
-        }
+        state.dataFilter.start_date = startDate
+        state.dataFilter.end_date = endDate
         fetchJournals()
     }
 }
@@ -327,18 +331,14 @@ function sortJournalDescending(filterDataBy: any) {
 function fetchLockedJournals(filterDataBy: any) {
     citizenJournalStore.setFilterDataBy(filterDataBy)
     currentTablePage = 1
-    state.dataFilter = {
-        lock: true
-    }
+    state.dataFilter.lock = true
     fetchJournals()
 }
 
 function fetchFavoriteJournals(filterDataBy: any) {
     citizenJournalStore.setFilterDataBy(filterDataBy)
     currentTablePage = 1
-    state.dataFilter = {
-        favorite: true
-    }
+    state.dataFilter.favorite = true
     fetchJournals()
 }
 
@@ -352,6 +352,7 @@ function resetFilter() {
         sortOrder: 'descend',
     }
     state.filter.date_range = null
+    state.filter.journal = ''
     fetchJournals()
 }
 
