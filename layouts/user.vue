@@ -217,12 +217,19 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-x-4 lg:gap-x-3">
-                        <!-- <button type="button" class="-m-2.5 p-2.5 text-secondary-25 hover:text-gray-500">
-                            <BellIcon class="h-6 w-6" aria-hidden="true" />
-                        </button> -->
+                        <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
+                            @click="navigateTo('/journal-notifications')">
+                            <Icon name="ph:bell" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
+                            <Badge type="notification" class="w-fit absolute -top-4 left-4">
+                                0
+                            </Badge>
+                        </button>
+
+                        <!-- Separator -->
+                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
 
                         <button type="button"
-                            class="-m-2.5 p-2.5 flex items-center gap-x-2 text-sm text-primary hover:text-primary-600"
+                            class="-m-2.5 p-2.5 flex items-center gap-x-2 text-sm text-primary hover:text-primary-700"
                             @click="openSupport">
                             <Icon name="material-symbols:support" class="ml-2 h-6 w-6" aria-hidden="true" />
                             Support

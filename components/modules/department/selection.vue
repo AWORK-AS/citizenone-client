@@ -1,7 +1,7 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="block md:hidden">
-            <select v-if="state.departments?.data?.length > 0" class="focus:outline-none" @change="selectDepartment">
+            <select class="focus:outline-none" @change="selectDepartment">
                 <option value="">
                     {{ $t('department.allDepartment') }}
                 </option>

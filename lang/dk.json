@@ -391,6 +391,9 @@
         "invitationAccepted": "Invitation accepteret",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har med succes accepteret invitationen"
     },
+    "journalNotifications": {
+        "journalNotifications": "Journalnotifikationer"
+    },
     "languageSwitcher": {
         "selectLanguage": "Vælg sprog"
     },

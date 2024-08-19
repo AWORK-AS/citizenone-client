@@ -391,6 +391,9 @@
         "invitationAccepted": "Invitation accepted",
         "youHaveSuccessfullyAcceptedTheInvitation": "You have successfully accepted the invitation"
     },
+    "journalNotifications": {
+        "journalNotifications": "Journal notifications"
+    },
     "languageSwitcher": {
         "selectLanguage": "Select language"
     },
