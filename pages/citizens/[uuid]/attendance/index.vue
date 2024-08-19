@@ -77,10 +77,10 @@ const state = reactive({
         { name: 'protocols.table.endDate', sorter: true, key: 'end_date' },
         { name: '' },
     ],
-    dataFilter: [],
+    dataFilter: [] as any,
     error: {} as Error,
     isTableLoading: false,
-    protocols: [],
+    protocols: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
