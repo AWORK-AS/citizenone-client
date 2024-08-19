@@ -288,7 +288,7 @@ function showDownloadJournalModal() {
 }
 
 function filterJournal() {
-    state.dataFilter.name = state.filter.journal
+    state.dataFilter.title = state.filter.journal
     fetchJournals()
 }
 
