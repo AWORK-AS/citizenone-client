@@ -13,6 +13,13 @@
                 <FormError :error="props?.error?.errors?.title?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="description" :label="$t('superadmin.polls.form.description')" />
+                <FormTextField id="description" name="description"
+                    :placeholder="$t('superadmin.polls.form.description')" v-model="state.formPoll.description" />
+                <FormError :error="v$?.formPoll?.description?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.description?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer" @click="changeIsActive">
                     <FormCheckbox :value="state.formPoll.is_active" />
                     {{ $t('superadmin.polls.form.active') }}
@@ -64,6 +71,7 @@ const state = reactive({
     error: {} as Error,
     formPoll: {
         title: '',
+        description: '',
         is_active: true,
     } as PollItemForm,
 })
@@ -72,6 +80,7 @@ watch(() => props.selectedPollItem, (newValue: any) => {
     if (newValue != null) {
         state.formPoll = {
             title: newValue.title,
+            description: newValue.description,
             is_active: newValue.is_active,
         }
     }

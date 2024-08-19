@@ -635,6 +635,7 @@
                     "pollItemSuccessfullyDeleted": "Poll item successfully deleted",
                     "pollItemSuccessfullyUpdated": "Poll item successfully updated"
                 },
+                "description": "Description",
                 "name": "Name",
                 "title": "Title"
             },
@@ -645,6 +646,7 @@
                     "view": "View"
                 },
                 "active": "Active",
+                "description": "Description",
                 "inactive": "Inctive",
                 "status": "Status",
                 "title": "Title"

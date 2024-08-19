@@ -38,6 +38,7 @@ const state = reactive({
     error: {} as Error,
     formPoll: {
         title: '',
+        description: '',
         is_active: false,
     },
     isPageLoading: false,
@@ -55,6 +56,7 @@ async function fetchPoll() {
         if (response) {
             state.formPoll = {
                 title: response?.data?.title ?? '',
+                description: response?.data?.description ?? '',
                 is_active: response?.data?.is_active ?? '',
             }
         }
@@ -70,6 +72,7 @@ async function updatePoll(pollDetails: any) {
     try {
         const params = {
             'title': pollDetails.title,
+            'description': pollDetails.description,
             'is_active': pollDetails.is_active,
         }
         const response = await pollService.updatePoll(pollUuid, params)

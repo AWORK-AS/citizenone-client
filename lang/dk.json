@@ -635,6 +635,7 @@
                     "pollItemSuccessfullyDeleted": "Poll item successfully deleted",
                     "pollItemSuccessfullyUpdated": "Poll item successfully updated"
                 },
+                "description": "Beskrivelse",
                 "name": "Navn",
                 "title": "Titel"
             },
@@ -645,6 +646,7 @@
                     "view": "Vis"
                 },
                 "active": "Aktiv",
+                "description": "Beskrivelse",
                 "inactive": "Inaktiv",
                 "status": "Status",
                 "title": "Titel"

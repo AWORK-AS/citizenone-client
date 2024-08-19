@@ -25,10 +25,13 @@
                             <div
                                 class="bg-white ring-1 ring-gray-200 shadow-sm rounded-md px-4 py-5 border-l-8 border-secondary">
                                 <div class="flex justify-between items-center">
-                                    <div>
+                                    <div class="space-y-1">
                                         <h3 class="text-base font-semibold">
                                             {{ item?.title }}
                                         </h3>
+                                        <p class="text-xs">
+                                            {{ item?.description }}
+                                        </p>
                                         <p class="text-xxs text-muted-400">
                                             <span>{{ formatDateToReadable(item?.created_at) }}</span>
                                         </p>

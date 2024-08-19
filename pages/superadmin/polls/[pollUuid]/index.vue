@@ -35,7 +35,12 @@
                                             {{ pollItem?.title }}
                                         </div>
                                     </td>
-                                    <td width="30%">
+                                    <td width="20%">
+                                        <div>
+                                            {{ pollItem?.description }}
+                                        </div>
+                                    </td>
+                                    <td width="10%">
                                         <div class="flex items-center gap-x-2">
                                             <Badge :type="pollItem?.is_active ? 'active' : 'primary'">
                                                 <p class="text-xs">
@@ -94,6 +99,7 @@ const state = reactive({
     ],
     columnHeaders: [
         { name: 'superadmin.polls.table.title', sorter: true, key: 'title' },
+        { name: 'superadmin.polls.table.description' },
         { name: 'superadmin.polls.table.status', sorter: true, key: 'is_active' },
         { name: '' },
     ],
