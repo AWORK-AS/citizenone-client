@@ -11,7 +11,7 @@
                             enter-from="translate-x-full" enter-to="translate-x-0"
                             leave="transform transition ease-in-out duration-500 sm:duration-300"
                             leave-from="translate-x-0" leave-to="translate-x-full">
-                            <DialogPanel class="pointer-events-auto w-screen max-w-lg">
+                            <DialogPanel class="pointer-events-auto w-screen max-w-4xl">
                                 <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                                     <div class="bg-tertiary px-4 py-6 sm:px-6">
                                         <div class="flex items-center justify-between">
@@ -71,7 +71,7 @@
                                                                     <div>
                                                                         <Badge
                                                                             :type="goal?.date_completed ? 'active' : 'primary'">
-                                                                            <p class="text-xxs">
+                                                                            <p class="text-xxs truncate">
                                                                                 <span v-if="goal?.date_completed">
                                                                                     {{ $t('plansandgoals.completed') }}
                                                                                 </span>
@@ -82,19 +82,21 @@
                                                                         </Badge>
                                                                     </div>
                                                                 </div>
-                                                                <p class="text-sm">
-                                                                    {{ $t('plansandgoals.completionDate') }}:
-                                                                    {{ formatDateToReadable(goal?.completion_date) }}
-                                                                </p>
                                                             </div>
                                                             <div class="flex gap-x-1">
                                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                                     @click="addSubgoal(goal)">
                                                                     <Icon name="ph:plus" class="size-4" />
+                                                                    <span class="hidden md:block">
+                                                                        {{ $t('plansandgoals.newSubgoal') }}
+                                                                    </span>
                                                                 </FormButton>
                                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                                     @click="editGoal(goal)">
                                                                     <Icon name="ph:pencil-duotone" class="size-4" />
+                                                                    <span class="hidden md:block">
+                                                                        {{ $t('plansandgoals.table.edit') }}
+                                                                    </span>
                                                                 </FormButton>
                                                                 <DisclosureButton>
                                                                     <FormButton class="rounded-md" buttonSize="sm">
@@ -106,11 +108,12 @@
                                                                 </DisclosureButton>
                                                             </div>
                                                         </div>
+                                                        <p class="text-sm">
+                                                            {{ $t('plansandgoals.completionDate') }}:
+                                                            {{ formatDateToReadable(goal?.completion_date) }}
+                                                        </p>
                                                         <div class="text-sm">
                                                             {{ goal?.description }}
-                                                        </div>
-                                                        <div class="text-sm">
-                                                            {{ goal?.status }}
                                                         </div>
                                                     </div>
                                                     <DisclosurePanel as="dd" class="mx-5 my-0">
@@ -176,9 +179,6 @@
                                                                         <div class="space-y-1">
                                                                             <div class="text-sm">
                                                                                 {{ subgoal?.description }}
-                                                                            </div>
-                                                                            <div class="text-sm">
-                                                                                {{ subgoal?.status }}
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -250,7 +250,6 @@ const state = reactive({
         uuid: '',
         name: '',
         description: '',
-        status: '',
         completion_date: '',
         date_completed: '',
         is_completed: false,
@@ -260,7 +259,6 @@ const state = reactive({
         uuid: '',
         name: '',
         description: '',
-        status: '',
         completion_date: '',
         date_completed: '',
         is_completed: false,
@@ -270,7 +268,6 @@ const state = reactive({
         uuid: '',
         name: '',
         description: '',
-        status: '',
         completion_date: '',
         date_completed: '',
         is_completed: false,
@@ -289,7 +286,6 @@ watch(() => props.selectedPlan, (newValue: any) => {
             uuid: newValue.uuid,
             name: newValue.name,
             description: newValue.description,
-            status: newValue.status,
             completion_date: newValue.completion_date,
             date_completed: newValue.date_completed,
             is_completed: newValue.is_completed,

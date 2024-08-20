@@ -502,7 +502,13 @@
         "newPlan": "Ny plan",
         "newSubgoal": "Nyt delmål",
         "noAvailableSubgoals": "Der er ingen delmål til rådighed at vise",
-        "subgoals": "Delmål"
+        "subgoals": "Delmål",
+        "table": {
+            "edit": "Rediger",
+            "delete": "Slet",
+            "manageStatuses": "Håndter statusser",
+            "view": "Vis"
+        }
     },
     "poll": {
         "youHaveAlreadyVoted": "Du har allerede stemt"

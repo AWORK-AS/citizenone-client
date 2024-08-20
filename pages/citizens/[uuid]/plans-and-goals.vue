@@ -37,12 +37,12 @@
                         <div class="space-y-5">
                             <div class="mb-2 gap-2 border-b border-tertiary border-dashed pb-5 px-2"
                                 v-for="(plan, index) in state.plans?.data" :key="index">
-                                <div class="flex items-center gap-x-3">
+                                <div class="flex flex-col md:flex-row md:items-center gap-3">
                                     <div class="grow space-y-1">
                                         <div class="flex items-center gap-x-2">
                                             <div>
                                                 <Badge :type="plan?.is_completed ? 'active' : 'primary'">
-                                                    <p class="text-xxs">
+                                                    <p class="text-xxs truncate">
                                                         {{ plan?.is_completed ? $t('plansandgoals.completed') :
                                                             $t('plansandgoals.inProgress') }}
                                                     </p>
@@ -54,9 +54,6 @@
                                         </div>
                                         <div>
                                             {{ plan?.description }}
-                                        </div>
-                                        <div>
-                                            {{ plan?.status }}
                                         </div>
                                         <p class="text-sm">
                                             <span v-if="plan?.is_completed">
@@ -70,16 +67,24 @@
                                         </p>
                                     </div>
                                     <div>
-                                        <div class="flex items-center gap-x-2">
+                                        <div class="flex items-center gap-3 flex-wrap md:flex-nowrap">
                                             <FormButton class="rounded-md" buttonSize="sm" @click="editPlan(plan)">
                                                 <Icon name="ph:pencil-duotone" class="size-4" />
+                                                {{ $t('plansandgoals.table.edit') }}
                                             </FormButton>
                                             <FormButton class="rounded-md" buttonSize="sm" @click="viewPlan(plan)">
                                                 <Icon name="heroicons:chevron-right" class="size-4" />
+                                                {{ $t('plansandgoals.table.view') }}
+                                            </FormButton>
+                                            <FormButton class="rounded-md" buttonSize="sm"
+                                                @click="state.modal.isManageStatusesOpen = true">
+                                                <Icon name="ph:check-square-offset" class="size-4" />
+                                                {{ $t('plansandgoals.table.manageStatuses') }}
                                             </FormButton>
                                             <FormButton class="rounded-md" buttonSize="sm"
                                                 @click="confirmPlanDeletion(plan)">
                                                 <Icon name="heroicons:trash" class="size-4" />
+                                                {{ $t('plansandgoals.table.delete') }}
                                             </FormButton>
                                         </div>
                                     </div>
@@ -132,6 +137,7 @@ const state = reactive({
         isAddPlanOpen: false,
         isDeletePlanOpen: false,
         isEditPlanOpen: false,
+        isManageStatusesOpen: false,
     },
     plans: [] as any,
     selectedPlan: [] as any,

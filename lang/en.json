@@ -502,7 +502,13 @@
         "newPlan": "New plan",
         "newSubgoal": "New subgoal",
         "noAvailableSubgoals": "There's no subgoals available to display",
-        "subgoals": "Subgoals"
+        "subgoals": "Subgoals",
+        "table": {
+            "edit": "Edit",
+            "delete": "Delete",
+            "manageStatuses": "Manage statuses",
+            "view": "View"
+        }
     },
     "poll": {
         "youHaveAlreadyVoted": "You have already voted"

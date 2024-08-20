@@ -27,13 +27,6 @@
                 <FormError :error="v$?.formSubgoal?.description?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.description?.[0]" />
             </div>
-            <div class="space-y-1">
-                <FormLabel for="status" :label="$t('plansandgoals.form.status')" />
-                <FormTextArea id="status" name="status" :placeholder="$t('plansandgoals.form.status')"
-                    v-model="state.formSubgoal.status" />
-                <FormError :error="v$?.formSubgoal?.status?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.status?.[0]" />
-            </div>
             <div v-if="props.formType === 'update'">
                 <div class="w-fit flex items-center cursor-pointer" @click="changeIsCompletedCheckbox">
                     <FormCheckbox :value="state.formSubgoal.is_completed" />
