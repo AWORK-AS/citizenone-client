@@ -36,7 +36,7 @@
                                         <Icon name="ph:check-bold" class="h-5 w-5 text-white" aria-hidden="true" />
                                     </div>
                                     <div class="mt-4 text-center">
-                                        <h2 class="text-xl font-extrabold text-gray-900 capitalize">
+                                        <h2 class="text-xl font-extrabold text-gray-900">
                                             {{ $t('verifyEmail.emailVerified') }}!
                                         </h2>
                                         <p class="mt-2 text-sm text-gray-600">

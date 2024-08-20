@@ -40,7 +40,6 @@ const state = reactive({
         uuid: '',
         name: '',
         description: '',
-        status: '',
         completion_date: '',
         date_completed: '',
         is_completed: false,
@@ -64,7 +63,6 @@ async function savePlan(planDetails: any) {
             name: planDetails.name,
             completion_date: planDetails.completion_date,
             description: planDetails.description,
-            status: planDetails.status,
         }
         const response = await planService.savePlan(params)
         if (response?.data) {

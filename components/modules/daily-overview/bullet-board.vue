@@ -17,7 +17,7 @@
                                 :style="`background-image: url(${news?.image});`">
                             </div>
                             <div class="pb-6 px-5 mt-3 text-left">
-                                <h3 class="font-semibold text-lg capitalize">{{ news?.title }}</h3>
+                                <h3 class="font-semibold text-lg">{{ news?.title }}</h3>
                                 <p class="text-xs text-gray-400 line-clamp-3 mt-1">
                                     {{ news?.content }}
                                 </p>

@@ -37,7 +37,7 @@
                                             <ul role="list" class="-mx-2 space-y-1">
                                                 <li v-for="item in navigation" :key="item.name">
                                                     <div v-if="!item.children" @click="navigateTo(item.href)"
-                                                        :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold capitalize']">
+                                                        :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
                                                             :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100']"
                                                             aria-hidden="true" />
@@ -129,7 +129,7 @@
                             <ul role="list" class="-mx-2 space-y-1">
                                 <li v-for="item in navigation" :key="item.name">
                                     <div v-if="!item.children" @click="navigateTo(item.href)"
-                                        :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25', 'group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold capitalize cursor-pointer']">
+                                        :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25', 'group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer']">
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
                                         <span v-if="item.name === 'Daily overview'">
                                             {{ $t('sidebar.dailyOverview') }}

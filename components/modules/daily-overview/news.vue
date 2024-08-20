@@ -21,7 +21,7 @@
                                     :style="`background-image: url(${salesCampaign?.image});`">
                                 </div>
                                 <div class="pb-6 px-5 mt-3 text-left">
-                                    <h3 class="font-semibold text-lg capitalize">{{ salesCampaign?.title }}</h3>
+                                    <h3 class="font-semibold text-lg">{{ salesCampaign?.title }}</h3>
                                     <p class="text-xs text-gray-400 line-clamp-3 mt-1">
                                         {{ salesCampaign?.content }}
                                     </p>
