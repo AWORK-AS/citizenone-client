@@ -31,11 +31,11 @@
                     <div class="flex gap-x-2">
                         <Badge type="primary" class="w-fit">
                             {{ $t('protocols.table.status.attended') }}:
-                            {{ state.citizenProtocolsCount?.attended ?? 0 }}
+                            {{ state.citizenProtocolsCount?.data?.attended ?? 0 }}
                         </Badge>
                         <Badge type="inactive" class="w-fit">
                             {{ $t('protocols.table.status.absent') }}:
-                            {{ state.citizenProtocolsCount?.absent ?? 0 }}
+                            {{ state.citizenProtocolsCount?.data?.absent ?? 0 }}
                         </Badge>
                     </div>
                 </div>
@@ -77,7 +77,6 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenProtocolService } from '@/components/api/CitizenProtocolService'
 import { protocolService } from '@/components/api/ProtocolService'
@@ -112,7 +111,7 @@ const state = reactive({
             { value: 20, label: "20" },
             { value: 50, label: "50" },
             { value: 100, label: "100" },
-            { value: '', label: "All" },
+            { value: 'all', label: "All" },
         ]
     },
     page_limit: 20,
