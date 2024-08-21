@@ -469,16 +469,20 @@
     },
     "plansandgoals": {
         "alert": {
-            "planSuccessfullyAdded": "Plan tilføjet med succes",
-            "planSuccessfullyDeleted": "Plan slettet med succes",
-            "planSuccessfullyUpdated": "Plan opdateret med succes",
-            "goalSuccessfullyAdded": "Mål tilføjet med succes",
-            "goalSuccessfullyUpdated": "Mål opdateret med succes",
-            "subgoalSuccessfullyAdded": "Delmål tilføjet med succes",
-            "subgoalSuccessfullyUpdated": "Delmål opdateret med succes"
+            "planSuccessfullyAdded": "Plan blev tilføjet succesfuldt",
+            "planSuccessfullyDeleted": "Plan blev slettet succesfuldt",
+            "planSuccessfullyUpdated": "Plan blev opdateret succesfuldt",
+            "goalSuccessfullyAdded": "Mål blev tilføjet succesfuldt",
+            "goalSuccessfullyUpdated": "Mål blev opdateret succesfuldt",
+            "statusSuccessfullyAdded": "Status blev tilføjet succesfuldt",
+            "statusSuccessfullyDeleted": "Status er blevet slettet",
+            "statusSuccessfullyUpdated": "Status blev opdateret succesfuldt",
+            "subgoalSuccessfullyAdded": "Delmål blev tilføjet succesfuldt",
+            "subgoalSuccessfullyUpdated": "Delmål blev opdateret succesfuldt"
         },
         "confirmation": {
-            "deleteConfirmation": "Er du sikker på, at du vil slette denne plan?"
+            "deletePlanConfirmation": "Er du sikker på, at du vil slette denne plan",
+            "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
         },
         "completed": "Fuldført",
         "completionDate": "Afslutningsdato",
@@ -486,6 +490,7 @@
         "download": "Download",
         "editGoal": "Rediger mål",
         "editPlan": "Rediger plan",
+        "editStatus": "Rediger status",
         "editSubgoal": "Rediger delmål",
         "form": {
             "completed": "Fuldført",
@@ -500,15 +505,18 @@
         "inProgress": "I gang",
         "newGoal": "Nyt mål",
         "newPlan": "Ny plan",
+        "newStatus": "Ny status",
         "newSubgoal": "Nyt delmål",
         "noAvailableSubgoals": "Der er ingen delmål til rådighed at vise",
+        "statuses": "Statusser",
         "subgoals": "Delmål",
         "table": {
             "edit": "Rediger",
             "delete": "Slet",
-            "manageStatuses": "Håndter statusser",
+            "statuses": "Statusser",
             "view": "Vis"
-        }
+        },
+        "status": "Status"
     },
     "poll": {
         "youHaveAlreadyVoted": "Du har allerede stemt"

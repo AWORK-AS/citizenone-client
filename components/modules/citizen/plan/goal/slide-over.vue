@@ -95,8 +95,14 @@
                                                                     @click="editGoal(goal)">
                                                                     <Icon name="ph:pencil-duotone" class="size-4" />
                                                                     <span class="hidden md:block">
-                                                                        {{ $t('plansandgoals.table.edit') }}
+                                                                        {{ $t('plansandgoals.table.actions.edit') }}
                                                                     </span>
+                                                                </FormButton>
+                                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                                    @click="viewStatuses(goal)">
+                                                                    <Icon name="ph:check-square-offset"
+                                                                        class="size-4" />
+                                                                    {{ $t('plansandgoals.table.actions.statuses') }}
                                                                 </FormButton>
                                                                 <DisclosureButton>
                                                                     <FormButton class="rounded-md" buttonSize="sm">
@@ -212,6 +218,8 @@
             <ModulesCitizenPlanGoalSubgoalModalEdit :isModalOpen="state.modal.isEditSubgoalOpen"
                 :selectedGoal="state.selectedGoal" :selectedSubgoal="state.selectedSubgoal"
                 @close="state.modal.isEditSubgoalOpen = false" @refreshGoals="fetchGoals" />
+            <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
+                :selectedData="state.selectedGoal" @close="closeStatusesModal" @refreshPlans="fetchGoals" />
         </Dialog>
     </TransitionRoot>
 </template>
@@ -244,6 +252,7 @@ const state = reactive({
         isAddSubgoalOpen: false,
         isEditGoalOpen: false,
         isEditSubgoalOpen: false,
+        isStatusesOpen: false,
     },
     selectedPlan: {
         id: '',
@@ -321,8 +330,35 @@ function editGoal(goal: any) {
     state.modal.isEditGoalOpen = true
 }
 
+function viewStatuses(goal: any) {
+    state.selectedGoal = goal
+    state.modal.isStatusesOpen = true
+}
+
 function editSubGoal(subgoal: any) {
     state.selectedSubgoal = subgoal
     state.modal.isEditSubgoalOpen = true
+}
+
+function closeStatusesModal() {
+    state.modal.isStatusesOpen = false
+    state.selectedGoal = {
+        id: '',
+        uuid: '',
+        name: '',
+        description: '',
+        completion_date: '',
+        date_completed: '',
+        is_completed: false,
+    }
+    state.selectedSubgoal = {
+        id: '',
+        uuid: '',
+        name: '',
+        description: '',
+        completion_date: '',
+        date_completed: '',
+        is_completed: false,
+    }
 }
 </script>

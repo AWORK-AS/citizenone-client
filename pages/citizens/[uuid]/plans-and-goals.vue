@@ -70,21 +70,20 @@
                                         <div class="flex items-center gap-3 flex-wrap md:flex-nowrap">
                                             <FormButton class="rounded-md" buttonSize="sm" @click="editPlan(plan)">
                                                 <Icon name="ph:pencil-duotone" class="size-4" />
-                                                {{ $t('plansandgoals.table.edit') }}
+                                                {{ $t('plansandgoals.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton class="rounded-md" buttonSize="sm" @click="viewPlan(plan)">
                                                 <Icon name="heroicons:chevron-right" class="size-4" />
-                                                {{ $t('plansandgoals.table.view') }}
+                                                {{ $t('plansandgoals.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="state.modal.isManageStatusesOpen = true">
+                                            <FormButton class="rounded-md" buttonSize="sm" @click="viewStatuses(plan)">
                                                 <Icon name="ph:check-square-offset" class="size-4" />
-                                                {{ $t('plansandgoals.table.manageStatuses') }}
+                                                {{ $t('plansandgoals.table.actions.statuses') }}
                                             </FormButton>
                                             <FormButton class="rounded-md" buttonSize="sm"
                                                 @click="confirmPlanDeletion(plan)">
                                                 <Icon name="heroicons:trash" class="size-4" />
-                                                {{ $t('plansandgoals.table.delete') }}
+                                                {{ $t('plansandgoals.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </div>
@@ -104,8 +103,10 @@
                 @close="state.modal.isAddPlanOpen = false" @refreshPlans="fetchPlans" />
             <ModulesCitizenPlanModalEdit :isModalOpen="state.modal.isEditPlanOpen" :selectedPlan="state.selectedPlan"
                 @close="closeEditPlanModal" @refreshPlans="fetchPlans" />
+            <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
+                :selectedData="state.selectedPlan" @close="closeStatusesModal" @refreshPlans="fetchPlans" />
             <DialogConfirmation :isModalOpen="state.modal.isDeletePlanOpen"
-                :message="`${$t('plansandgoals.confirmation.deleteConfirmation')}?`"
+                :message="`${$t('plansandgoals.confirmation.deletePlanConfirmation')}?`"
                 @close="state.modal.isDeletePlanOpen = false" @confirm="deletePlan" />
             <ModulesCitizenPlanGoalSlideOver :isOpen="state.slideOver.isGoalOpen" :selectedPlan="state.selectedPlan"
                 @close="state.slideOver.isGoalOpen = false" />
@@ -137,7 +138,7 @@ const state = reactive({
         isAddPlanOpen: false,
         isDeletePlanOpen: false,
         isEditPlanOpen: false,
-        isManageStatusesOpen: false,
+        isStatusesOpen: false,
     },
     plans: [] as any,
     selectedPlan: [] as any,
@@ -195,13 +196,18 @@ function next() {
     fetchPlans()
 }
 
-function editPlan(journal: any) {
-    state.selectedPlan = journal
+function editPlan(plan: any) {
+    state.selectedPlan = plan
     state.modal.isEditPlanOpen = true
 }
 
-function viewPlan(journal: any) {
-    state.selectedPlan = journal
+function viewStatuses(plan: any) {
+    state.selectedPlan = plan
+    state.modal.isStatusesOpen = true
+}
+
+function viewPlan(plan: any) {
+    state.selectedPlan = plan
     state.slideOver.isGoalOpen = true
 }
 
@@ -210,8 +216,13 @@ function closeEditPlanModal() {
     state.selectedPlan = []
 }
 
-function confirmPlanDeletion(journal: any) {
-    state.selectedPlan = journal
+function closeStatusesModal() {
+    state.modal.isStatusesOpen = false
+    state.selectedPlan = []
+}
+
+function confirmPlanDeletion(plan: any) {
+    state.selectedPlan = plan
     state.modal.isDeletePlanOpen = true
 }
 
