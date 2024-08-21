@@ -18,7 +18,7 @@ class PlanService extends BaseAPIService {
     }
 
     async downloadPlansAndGoals(params: object): Promise<any> {
-        return await this.request(`/user/citizen-plans/download/report`, 'GET', params)
+        return await this.request(`/user/citizen-plans/download/reports`, 'GET', params)
     }
 }
 
