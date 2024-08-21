@@ -14,8 +14,8 @@
             </div>
             <div class="space-y-1">
                 <FormLabel for="description" :label="$t('superadmin.polls.form.description')" />
-                <FormTextField id="description" name="description"
-                    :placeholder="$t('superadmin.polls.form.description')" v-model="state.formPoll.description" />
+                <FormTextArea id="description" name="description" :placeholder="$t('superadmin.polls.form.description')"
+                    v-model="state.formPoll.description" />
                 <FormError :error="v$?.formPoll?.description?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.description?.[0]" />
             </div>
@@ -90,6 +90,9 @@ const rules = computed(() => {
     return {
         formPoll: {
             title: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            description: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
