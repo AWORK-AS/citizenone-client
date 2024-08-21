@@ -104,7 +104,7 @@
             <ModulesCitizenPlanModalEdit :isModalOpen="state.modal.isEditPlanOpen" :selectedPlan="state.selectedPlan"
                 @close="closeEditPlanModal" @refreshPlans="fetchPlans" />
             <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
-                :selectedData="state.selectedPlan" @close="closeStatusesModal" @refreshPlans="fetchPlans" />
+                :selectedData="state.selectedPlan" @close="closeStatusesModal" @refreshData="fetchPlans" />
             <DialogConfirmation :isModalOpen="state.modal.isDeletePlanOpen"
                 :message="`${$t('plansandgoals.confirmation.deletePlanConfirmation')}?`"
                 @close="state.modal.isDeletePlanOpen = false" @confirm="deletePlan" />

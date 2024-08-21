@@ -99,7 +99,7 @@
                                                                     </span>
                                                                 </FormButton>
                                                                 <FormButton class="rounded-md" buttonSize="sm"
-                                                                    @click="viewStatuses(goal)">
+                                                                    @click="viewGoalStatuses(goal)">
                                                                     <Icon name="ph:check-square-offset"
                                                                         class="size-4" />
                                                                     {{ $t('plansandgoals.table.actions.statuses') }}
@@ -175,12 +175,30 @@
                                                                                     </span>
                                                                                 </p>
                                                                             </div>
-                                                                            <FormButton class="rounded-md"
-                                                                                buttonSize="sm"
-                                                                                @click="editSubGoal(subgoal)">
-                                                                                <Icon name="ph:pencil-duotone"
-                                                                                    class="size-4" />
-                                                                            </FormButton>
+                                                                            <div class="flex gap-x-1">
+                                                                                <FormButton class="rounded-md"
+                                                                                    buttonSize="sm"
+                                                                                    @click="editSubGoal(subgoal)">
+                                                                                    <Icon name="ph:pencil-duotone"
+                                                                                        class="size-4" />
+                                                                                    <span class="hidden md:block">
+                                                                                        {{
+                                                                                            $t('plansandgoals.table.actions.edit')
+                                                                                        }}
+                                                                                    </span>
+                                                                                </FormButton>
+                                                                                <FormButton class="rounded-md"
+                                                                                    buttonSize="sm"
+                                                                                    @click="viewSubgoalStatuses(subgoal)">
+                                                                                    <Icon name="ph:check-square-offset"
+                                                                                        class="size-4" />
+                                                                                    <span class="hidden md:block">
+                                                                                        {{
+                                                                                            $t('plansandgoals.table.actions.statuses')
+                                                                                        }}
+                                                                                    </span>
+                                                                                </FormButton>
+                                                                            </div>
                                                                         </div>
                                                                         <div class="space-y-1">
                                                                             <div class="text-sm">
@@ -218,8 +236,10 @@
             <ModulesCitizenPlanGoalSubgoalModalEdit :isModalOpen="state.modal.isEditSubgoalOpen"
                 :selectedGoal="state.selectedGoal" :selectedSubgoal="state.selectedSubgoal"
                 @close="state.modal.isEditSubgoalOpen = false" @refreshGoals="fetchGoals" />
-            <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
-                :selectedData="state.selectedGoal" @close="closeStatusesModal" @refreshPlans="fetchGoals" />
+            <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isGoalStatusesOpen"
+                :selectedData="state.selectedGoal" @close="closeGoalStatusesModal" @refreshData="fetchGoals" />
+            <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isSubGoalStatusesOpen"
+                :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchGoals" />
         </Dialog>
     </TransitionRoot>
 </template>
@@ -252,7 +272,8 @@ const state = reactive({
         isAddSubgoalOpen: false,
         isEditGoalOpen: false,
         isEditSubgoalOpen: false,
-        isStatusesOpen: false,
+        isGoalStatusesOpen: false,
+        isSubGoalStatusesOpen: false,
     },
     selectedPlan: {
         id: '',
@@ -330,18 +351,23 @@ function editGoal(goal: any) {
     state.modal.isEditGoalOpen = true
 }
 
-function viewStatuses(goal: any) {
-    state.selectedGoal = goal
-    state.modal.isStatusesOpen = true
-}
-
 function editSubGoal(subgoal: any) {
     state.selectedSubgoal = subgoal
     state.modal.isEditSubgoalOpen = true
 }
 
-function closeStatusesModal() {
-    state.modal.isStatusesOpen = false
+function viewGoalStatuses(goal: any) {
+    state.selectedGoal = goal
+    state.modal.isGoalStatusesOpen = true
+}
+
+function viewSubgoalStatuses(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isSubGoalStatusesOpen = true
+}
+
+function closeGoalStatusesModal() {
+    state.modal.isGoalStatusesOpen = false
     state.selectedGoal = {
         id: '',
         uuid: '',
@@ -351,6 +377,10 @@ function closeStatusesModal() {
         date_completed: '',
         is_completed: false,
     }
+}
+
+function closeSubgoalStatusesModal() {
+    state.modal.isSubGoalStatusesOpen = false
     state.selectedSubgoal = {
         id: '',
         uuid: '',
