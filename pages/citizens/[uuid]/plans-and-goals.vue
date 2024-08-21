@@ -29,7 +29,7 @@
                                 {{ $t('plansandgoals.newPlan') }}
                             </FormButton>
                             <FormButton buttonStyle="action" class="rounded-lg" @click="downloadPlansAndGoals">
-                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('plansandgoals.download') }}
                             </FormButton>
                         </div>
