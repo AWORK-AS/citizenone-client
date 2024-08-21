@@ -102,7 +102,9 @@
                                                                     @click="viewGoalStatuses(goal)">
                                                                     <Icon name="ph:check-square-offset"
                                                                         class="size-4" />
-                                                                    {{ $t('plansandgoals.table.actions.statuses') }}
+                                                                    <span class="hidden md:block">
+                                                                        {{ $t('plansandgoals.table.actions.statuses') }}
+                                                                    </span>
                                                                 </FormButton>
                                                                 <DisclosureButton>
                                                                     <FormButton class="rounded-md" buttonSize="sm">
