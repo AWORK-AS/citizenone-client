@@ -36,8 +36,11 @@
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
+
+const departmentStore = useDepartmentStore()
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
@@ -50,11 +53,18 @@ onMounted(() => {
     fetchCitizens()
 })
 
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchCitizens()
+    }
+})
+
 async function fetchCitizens() {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
+            department: departmentStore.getSelectedDepartmentName,
             end_date: moment(),
             start_date: moment(),
         }
