@@ -250,7 +250,7 @@ class ContentUploadAdapter {
             const file = await this.loader.file
             const params = new FormData()
             params.append('file', file)
-            params.append('citizen_uuid', citizenUuid)
+            params.append('citizen_uuid', String(citizenUuid))
             const response = await journalService.uploadJournalFile(params)
             if (response?.data) {
                 return { default: response.data?.file }
@@ -276,7 +276,7 @@ class NoteUploadAdapter {
             const file = await this.loader.file
             const params = new FormData()
             params.append('file', file)
-            params.append('citizen_uuid', citizenUuid)
+            params.append('citizen_uuid', String(citizenUuid))
             const response = await journalService.uploadAssessmentFile(params)
             if (response?.data) {
                 return { default: response.data?.file }
