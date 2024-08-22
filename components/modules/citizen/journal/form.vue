@@ -22,7 +22,7 @@
                 <p class="text-sm text-gray-600">
                     {{ $t('citizens.citizenJournals.form.content') }}
                 </p>
-                <ckeditor :editor="editor" v-model="state.formJournal.content" :config="editorConfig"></ckeditor>
+                <ckeditor :editor="editor" v-model="state.formJournal.content" :config="editorContentConfig"></ckeditor>
                 <FormError :error="v$?.formJournal?.content?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.content?.[0]" />
             </div>
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="space-y-1" v-if="state.formJournal.assessment !== null">
-                <ckeditor :editor="editor" v-model="state.formJournal.note" :config="editorConfig"></ckeditor>
+                <ckeditor :editor="editor" v-model="state.formJournal.note" :config="editorNoteConfig"></ckeditor>
                 <FormError :error="props?.error?.errors?.note?.[0]" />
             </div>
             <div class="space-y-1">
@@ -95,6 +95,7 @@
 </template>
 
 <script setup lang="ts">
+import { journalService } from '@/components/api/JournalService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
@@ -118,11 +119,13 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'submitForm'])
 
 const { t } = useI18n()
+const router = useRouter()
+const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
-const editor = ref(ClassicEditor);
-const editorConfig = ref({
+const editor = ref(ClassicEditor)
+const editorContentConfig = ref({
     // Add your custom configuration here
-    toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
+    toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'imageUpload'],
     heading: {
         options: [
             { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
@@ -131,6 +134,21 @@ const editorConfig = ref({
             { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
         ]
     },
+    extraPlugins: [ContentUploadAdapterPlugin],
+    height: 500  // Set the editor height here
+})
+const editorNoteConfig = ref({
+    // Add your custom configuration here
+    toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'imageUpload'],
+    heading: {
+        options: [
+            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+        ]
+    },
+    extraPlugins: [NoteUploadAdapterPlugin],
     height: 500  // Set the editor height here
 })
 
@@ -205,6 +223,69 @@ function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
         emit('submitForm', state.formJournal)
+    }
+}
+
+function ContentUploadAdapterPlugin(editor: any) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+        return new ContentUploadAdapter(loader)
+    }
+}
+
+function NoteUploadAdapterPlugin(editor: any) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+        return new NoteUploadAdapter(loader)
+    }
+}
+
+class ContentUploadAdapter {
+    private loader: { file: Promise<File> }
+
+    constructor(loader: { file: Promise<File> }) {
+        this.loader = loader
+    }
+
+    async upload(): Promise<{ default: string }> {
+        try {
+            const file = await this.loader.file
+            const params = new FormData()
+            params.append('file', file)
+            params.append('citizen_uuid', citizenUuid)
+            const response = await journalService.uploadJournalFile(params)
+            if (response?.data) {
+                return { default: response.data?.file }
+            } else {
+                throw new Error('No data returned from the server')
+            }
+        } catch (error: any) {
+            throw new Error(`Upload failed: ${error.message}`)
+        }
+    }
+}
+
+
+class NoteUploadAdapter {
+    private loader: { file: Promise<File> }
+
+    constructor(loader: { file: Promise<File> }) {
+        this.loader = loader
+    }
+
+    async upload(): Promise<{ default: string }> {
+        try {
+            const file = await this.loader.file
+            const params = new FormData()
+            params.append('file', file)
+            params.append('citizen_uuid', citizenUuid)
+            const response = await journalService.uploadAssessmentFile(params)
+            if (response?.data) {
+                return { default: response.data?.file }
+            } else {
+                throw new Error('No data returned from the server')
+            }
+        } catch (error: any) {
+            throw new Error(`Upload failed: ${error.message}`)
+        }
     }
 }
 </script>
