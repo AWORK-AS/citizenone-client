@@ -16,18 +16,18 @@
             </div>
 
             <div class="flex items-center gap-x-3">
-                <!-- <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
+                <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
                     @click="setCalendarView('default')" class="rounded-md">
                     {{ $t('calendar.view.defaultView') }}
-                </FormButton> -->
+                </FormButton>
                 <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
                     @click="setCalendarView('week')" class="rounded-md">
                     {{ $t('calendar.view.weekView') }}
                 </FormButton>
-                <!-- <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
+                <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
                     @click="setCalendarView('month')" class="rounded-md">
                     {{ $t('calendar.view.monthView') }}
-                </FormButton> -->
+                </FormButton>
             </div>
 
             <div class="mt-5 space-y-5">
@@ -88,7 +88,7 @@ interface State {
 const runtimeConfig = useRuntimeConfig()
 
 const state = reactive<State>({
-    calendarView: 'week',
+    calendarView: 'default',
     dutySchedules: [],
     error: {},
     isPageLoading: false,

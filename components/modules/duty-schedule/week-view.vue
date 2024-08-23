@@ -72,7 +72,7 @@
 
                     <div
                         class="-mr-px hidden grid-cols-7 divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-500 sm:grid">
-                        <div class="col-end-1 w-20" />
+                        <div class="col-end-1 w-14" />
                         <div v-for="day in weekDays" :key="day.date" class="flex items-center justify-center py-3">
                             <span class="flex gap-x-1">
                                 <span v-if="day.longName === 'Mon'">
@@ -104,9 +104,7 @@
                     </div>
                 </div>
                 <div class="hidden md:flex flex-auto">
-                    <div class="sticky left-0 z-10 w-20 flex-none bg-white ring-1 ring-gray-100">
-                        asdasda
-                    </div>
+                    <div class="sticky left-0 z-10 w-14 flex-none bg-white ring-1 ring-gray-100" />
                     <div class="grid flex-auto grid-cols-1 grid-rows-1">
                         <div class="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-100"
                             style="grid-template-rows: repeat(8, minmax(3.5rem, 1fr))">
