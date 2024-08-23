@@ -39,7 +39,7 @@
                 </Slide>
 
                 <template #addons>
-                    <pagination v-if="state.salesCampaigns?.data?.length > 0" />
+                    <pagination v-if="state.salesCampaigns?.data?.length > 2" />
                 </template>
             </Carousel>
         </div>
@@ -53,7 +53,7 @@ import type { Error } from '@/types'
 
 const state = reactive({
     carouselSettings: {
-        autoplay: 2000,
+        autoplay: 0,
         breakpoints: {
             // 280px and up
             280: {
@@ -100,6 +100,9 @@ async function fetchSalesCampaign() {
         const response = await dailyOverviewService.getSalesCampaigns()
         if (response) {
             state.salesCampaigns = response
+            if (state.salesCampaigns?.data?.length > 2) {
+                state.carouselSettings.autoplay = 2000
+            }
         }
     } catch (error: any) {
         state.error = error
