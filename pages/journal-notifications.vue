@@ -4,11 +4,11 @@
 
             <Head>
                 <Title>
-                    {{ $t('journalNotifications.journalNotifications') }} - {{ runtimeConfig?.public?.appName }}
+                    {{ $t('journalNotifications.unreadJournalNotes') }} - {{ runtimeConfig?.public?.appName }}
                 </Title>
             </Head>
 
-            <template #header>{{ $t('journalNotifications.journalNotifications') }}</template>
+            <template #header>{{ $t('journalNotifications.unreadJournalNotes') }}</template>
         </NuxtLayout>
     </div>
 </template>
