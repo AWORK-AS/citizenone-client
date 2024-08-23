@@ -762,7 +762,7 @@
     },
     "reminder": {
         "checkIn": "Tjek ind",
-        "checkinReminder": "Check-in påmindelse",
+        "checkinReminder": "Påmindelse om at tjekke ind",
         "dontForgetToCheckInToday": "Glem ikke at tjekke ind i dag",
         "doNotShowAgain": "Vis ikke igen",
         "iDontNeedToCheckinNow": "Jeg behøver ikke tjekke ind nu"
