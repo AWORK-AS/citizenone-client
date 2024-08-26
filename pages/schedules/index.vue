@@ -15,7 +15,7 @@
                 </FormButton>
             </div>
 
-            <!-- <div class="flex items-center gap-x-3">
+            <div class="flex items-center gap-x-3">
                 <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
                     @click="setCalendarView('default')" class="rounded-md">
                     {{ $t('calendar.view.defaultView') }}
@@ -28,21 +28,20 @@
                     @click="setCalendarView('month')" class="rounded-md">
                     {{ $t('calendar.view.monthView') }}
                 </FormButton>
-            </div> -->
+            </div>
 
             <div class="mt-5 space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesDutyScheduleWeekViewWip />
-                    <!-- <ModulesDutyScheduleDefaultView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
+                    <ModulesDutyScheduleDefaultView :dutySchedules="state.dutySchedules" @changeDate="changeDate"
                         @editDutySchedule="editDutySchedule" v-if="state.calendarView === 'default'" />
                     <ModulesDutyScheduleWeekView :dutySchedules="state.dutySchedules"
                         @changeDatePerWeek="changeDatePerWeek" @editDutySchedule="editDutySchedule"
                         v-if="state.calendarView === 'week'" />
                     <ModulesDutyScheduleMonthView :dutySchedules="state.dutySchedules"
                         @changeMonthYear="changeMonthYear" @editDutySchedule="editDutySchedule"
-                        v-if="state.calendarView === 'month'" /> -->
+                        v-if="state.calendarView === 'month'" />
                 </LoadingSpinner>
             </div>
             <ModulesDutyScheduleModalNew :isModalOpen="state.modal.isAddEventOpen"

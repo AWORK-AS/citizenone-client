@@ -18,13 +18,13 @@
                         {{ citizen?.firstname + ' ' + citizen?.lastname }}
                     </p>
                 </Badge>
-                <p class="text-xs"
+                <p class="text-xs py-1"
                     v-if="citizen?.citizen_journal?.user?.firstname && citizen?.citizen_journal?.user?.lastname">
                     {{ $t('dailyOverview.createdBy') }}
                     {{ citizen?.citizen_journal?.user?.firstname + ' ' + citizen?.citizen_journal?.user?.lastname }}
                 </p>
                 <div class="px-1">
-                    <h3 class="mt-2 text-base font-semibold">
+                    <h3 class="text-base font-semibold">
                         {{ citizen?.citizen_journal?.title }}
                     </h3>
                     <div v-html="citizen?.citizen_journal?.content" id="content" class="table-responsive" />
