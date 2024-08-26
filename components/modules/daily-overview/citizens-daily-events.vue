@@ -12,18 +12,22 @@
         </div>
         <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 pr-5 pt-6 pb-6 pl-6 mr-1"
             v-else>
-            <div v-for="(myCalendarEvent, index) in state.citizenCalendarEvents?.data" :key="index" class="py-2">
+            <div v-for="(event, index) in state.citizenCalendarEvents?.data" :key="index" class="py-2">
                 <div class="space-y-2">
                     <Badge type="primary" class="w-fit">
                         <p class="text-xs px-2">
-                            {{ myCalendarEvent?.user?.firstname + ' ' + myCalendarEvent?.user?.lastname }}
+                            {{ event?.user?.firstname + ' ' + event?.user?.lastname }}
                         </p>
                     </Badge>
+                    <p class="text-xs">
+                        {{ $t('dailyOverview.createdBy') }}
+                        {{ event?.my_calendar?.user?.firstname + ' ' + event?.my_calendar?.user?.lastname }}
+                    </p>
                     <p class="text-base font-semibold text-gray-700 xl:pr-0">
-                        {{ myCalendarEvent?.title }}
+                        {{ event?.my_calendar?.title }}
                     </p>
                     <div class="text-gray-700 xl:pr-0 text-xs line-clamp-2">
-                        {{ myCalendarEvent?.description }}
+                        {{ event?.my_calendar?.description }}
                     </div>
                     <div class="me-auto max-w-full">
                         <div class="flex items-center gap-x-2 text-xs ">
@@ -33,9 +37,9 @@
                             </div>
                             <div>
                                 <p>
-                                    {{ formatTimeToReadable(myCalendarEvent.date_time_start) }}
+                                    {{ formatTimeToReadable(event?.my_calendar.date_time_start) }}
                                     -
-                                    {{ formatTimeToReadable(myCalendarEvent.date_time_end) }}
+                                    {{ formatTimeToReadable(event?.my_calendar.date_time_end) }}
                                 </p>
                             </div>
                         </div>
@@ -57,7 +61,7 @@ const { formatTimeToReadable } = useDatetimeFormatter()
 
 const state = reactive({
     isPageLoading: false,
-    citizenCalendarEvents: {} as CalendarEventResponse,
+    citizenCalendarEvents: [] as any,
     error: {} as Error,
 })
 

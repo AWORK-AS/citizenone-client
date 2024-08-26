@@ -152,7 +152,11 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-8 divide-x divide-y divide-gray-100">
+                            <div v-for="(employee, index) in state.employees" :key="index"
+                                class="grid grid-cols-8 divide-x divide-y divide-gray-100">
+                                <div class="text-sm font-medium">
+                                    {{ employee?.firstname }} {{ employee?.lastname }}
+                                </div>
                                 <div class="p-2">1</div>
                                 <div class="p-2">2</div>
                                 <div class="p-2">3</div>
@@ -160,16 +164,6 @@
                                 <div class="p-2">5</div>
                                 <div class="p-2">6</div>
                                 <div class="p-2">7</div>
-                                <div class="p-2">8</div>
-
-                                <div class="p-2">1</div>
-                                <div class="p-2">2</div>
-                                <div class="p-2">3</div>
-                                <div class="p-2">4</div>
-                                <div class="p-2">5</div>
-                                <div class="p-2">6</div>
-                                <div class="p-2">7</div>
-                                <div class="p-2">8</div>
                             </div>
                             <!-- <div
                                 class="col-start-1 col-end-2 row-start-1 hidden grid-cols-7 grid-rows-1 divide-x divide-gray-100 sm:grid sm:grid-cols-7">
@@ -215,13 +209,6 @@
 import moment from 'moment'
 import { userService } from '@/components/api/UserService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-
-const props = defineProps({
-    dutySchedules: {
-        type: Object,
-        required: true,
-    },
-})
 
 const currentDate = ref(moment())
 const selectedDay = ref(moment())

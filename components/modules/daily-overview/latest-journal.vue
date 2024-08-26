@@ -18,6 +18,11 @@
                         {{ citizen?.firstname + ' ' + citizen?.lastname }}
                     </p>
                 </Badge>
+                <p class="text-xs"
+                    v-if="citizen?.citizen_journal?.user?.firstname && citizen?.citizen_journal?.user?.lastname">
+                    {{ $t('dailyOverview.createdBy') }}
+                    {{ citizen?.citizen_journal?.user?.firstname + ' ' + citizen?.citizen_journal?.user?.lastname }}
+                </p>
                 <div class="px-1">
                     <h3 class="mt-2 text-base font-semibold">
                         {{ citizen?.citizen_journal?.title }}
