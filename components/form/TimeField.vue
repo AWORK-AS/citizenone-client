@@ -1,11 +1,19 @@
 <template>
-    <input type="time" :name="props.name" :autocomplete="props.name"
-        class="appearance-none block w-full px-4 py-2.5 border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm"
-        :placeholder="props.placeholder" :value="props.modelValue" @input="updateValue($event)" />
+    <flat-pickr v-model="state.dateValue" :config="config" :id="props.id" :name="props.name"
+        @input="updateValue($event)" :placeholder="props.placeholder"
+        class="w-full p-2 bg-transparent text-white border border-white focus:outline-none" />
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
+import flatPickr from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
+
 const props = defineProps({
+    id: {
+        type: String,
+        required: false,
+    },
     name: {
         type: String,
         required: true,
@@ -13,13 +21,44 @@ const props = defineProps({
     modelValue: String,
     placeholder: {
         type: String,
-        required: true,
+        required: false,
     },
+})
+
+const config = ref({
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+    time_24hr: true
+})
+
+const state = reactive({
+    dateValue: '',
+})
+
+
+watch(() => props.modelValue, (newValue: any) => {
+    if (newValue != null) {
+        state.dateValue = formatDateToDDMMMMYYYYHHmm(newValue)
+    }
 })
 
 const emit = defineEmits(['update:modelValue'])
 
 function updateValue(event: any) {
-    emit('update:modelValue', event.target.value)
+    const formattedDate = formatDateToYYYYMMDDHHmm(event.target.value)
+    emit('update:modelValue', formattedDate)
+}
+
+function formatDateToYYYYMMDDHHmm(dateString: any) {
+    let date = moment(dateString, 'DD. MMMM YYYY HH:mm')
+    let formattedDate = date.format('YYYY-MM-DD H:mm')
+    return formattedDate
+}
+
+function formatDateToDDMMMMYYYYHHmm(dateString: any) {
+    let date = moment(dateString, 'YYYY-MM-DD H:mm')
+    let formattedDate = date.format('DD. MMMM YYYY HH:mm')
+    return formattedDate
 }
 </script>

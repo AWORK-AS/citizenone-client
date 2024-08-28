@@ -4,6 +4,27 @@
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="flex h-full flex-col">
             <header class="flex flex-none items-center justify-between border-b border-gray-200 py-4">
+                <div>
+                    <p>Legend:</p>
+                    <div class="grid grid-cols-2 gap-x-4">
+                        <div class="flex items-center gap-x-2">
+                            <div class="w-3 h-3 rounded-sm bg-shifts-regular"></div>
+                            <span>Regular shift</span>
+                        </div>
+                        <div class="flex items-center gap-x-2">
+                            <div class="w-3 h-3 rounded-sm bg-shifts-night"></div>
+                            <span>Night shift</span>
+                        </div>
+                        <div class="flex items-center gap-x-2">
+                            <div class="w-3 h-3 rounded-sm bg-shifts-vacation"></div>
+                            <span>Vacation leave</span>
+                        </div>
+                        <div class="flex items-center gap-x-2">
+                            <div class="w-3 h-3 rounded-sm bg-shifts-sickleave"></div>
+                            <span>Sick leave</span>
+                        </div>
+                    </div>
+                </div>
                 <h3 class="text-base font-semibold leading-6 text-gray-900">
                     <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
                     <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
@@ -40,6 +61,27 @@
                 </div>
             </header>
             <div class="isolate flex flex-auto flex-col overflow-auto bg-white">
+                <!-- <div class="flex gap-x-10">
+                    <draggable class="grow dragArea list-group" :list="state.list1"
+                        :group="{ name: 'schedule', pull: 'clone', put: false }" @change="hangleChanges"
+                        item-key="name">
+                        <template #item="{ element }">
+                            <div class="list-group-item">
+                                {{ element.name }}
+                            </div>
+                        </template>
+</draggable>
+
+<draggable class="grow dragArea list-group" :list="state.list2" group="schedule" @change="hangleChanges"
+    item-key="name">
+    <template #item="{ element }">
+                            <div class="list-group-item">
+                                {{ element.name }}
+                            </div>
+                        </template>
+</draggable>
+</div> -->
+
                 <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
                     <div class="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
                         <div class="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
@@ -149,12 +191,14 @@
                             </div>
 
                             <div class="divide-y divide-gray-100">
-                                <div v-for="(employee, index) in state.employees" :key="index"
+                                <div v-for="(weeklySchedule, weeklyScheduleIndex) in state.weeklySchedules"
+                                    :key="weeklyScheduleIndex"
                                     class="grid grid-cols-9 divide-x divide-y divide-gray-100">
                                     <div class="p-2 col-span-2 space-y-2">
                                         <div>
                                             <p class="text-sm font-medium">
-                                                {{ employee?.firstname }} {{ employee?.lastname }}
+                                                {{ weeklySchedule?.employee?.firstname }}
+                                                {{ weeklySchedule?.employee?.lastname }}
                                             </p>
                                         </div>
                                         <div class="text-xs grid grid-cols-7">
@@ -163,37 +207,80 @@
                                                 <p>{{ $t('dutySchedules.table.holidayHours') }}</p>
                                                 <p>{{ $t('dutySchedules.table.nightShiftHours') }}</p>
                                             </div>
-                                            <div class="col-span-2 flex justify-end">
-                                                1
+                                            <div class="col-span-2 flex gap-2 flex-col items-end">
+                                                <p>0</p>
+                                                <p>0</p>
+                                                <p>0</p>
                                             </div>
-                                            <div class="col-span-2 flex justify-end">
-                                                1
+                                            <div
+                                                class="col-span-2 flex gap-2 flex-col items-end border-l-2 border-gray-200 ml-3">
+                                                <p>0</p>
+                                                <p>0</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="p-2 space-y-2 text-white text-xs">
-                                        <div class="bg-shifts-regular rounded-md p-1">
-                                            Regular
-                                        </div>
-                                        <div class="bg-shifts-night rounded-md p-1">
-                                            Night Shift
-                                        </div>
-                                        <div class="bg-shifts-vacation rounded-md p-1">
-                                            Vacation Leave
-                                        </div>
-                                        <div class="bg-shifts-sickleave rounded-md p-1">
-                                            Sick Leave
+                                    <div class="p-2 draggable" draggable="true" @change="logChanges"
+                                        v-for="(week, weekIndex) in weeklySchedule?.weeks" :key="weekIndex">
+                                        <div class="space-y-2">
+                                            <div class="flex justify-end gap-2">
+                                                <button
+                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center">
+                                                    <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
+                                                </button>
+                                                <button
+                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
+                                                    @click="openAddNewShiftModal(weeklyScheduleIndex, weekIndex, week)">
+                                                    +
+                                                </button>
+                                            </div>
+                                            <div class="space-y-2 text-xs">
+                                                <div class="bg-shifts-regular rounded-md p-1"
+                                                    v-if="week?.shifts.find((shift) => shift.name === 'regular shift')">
+                                                    <div class="flex">
+                                                        <FormTimeField name="time"
+                                                            class="rounded-tl-md rounded-bl-md" />
+                                                        <FormTimeField name="time"
+                                                            class="rounded-tr-md rounded-br-md" />
+                                                    </div>
+                                                </div>
+                                                <div class="bg-shifts-night rounded-md p-1"
+                                                    v-if="week?.shifts.find((shift) => shift.name === 'night shift')">
+                                                    <div class="flex">
+                                                        <FormTimeField name="time"
+                                                            class="rounded-tl-md rounded-bl-md" />
+                                                        <FormTimeField name="time"
+                                                            class="rounded-tr-md rounded-br-md" />
+                                                    </div>
+                                                </div>
+                                                <div class="bg-shifts-vacation rounded-md p-1"
+                                                    v-if="week?.shifts.find((shift) => shift.name === 'vacation leave')">
+                                                    <div class="flex">
+                                                        <FormTimeField name="time"
+                                                            class="rounded-tl-md rounded-bl-md" />
+                                                        <FormTimeField name="time"
+                                                            class="rounded-tr-md rounded-br-md" />
+                                                    </div>
+                                                </div>
+                                                <div class="bg-shifts-sickleave rounded-md p-1"
+                                                    v-if="week?.shifts.find((shift) => shift.name === 'sick leave')">
+                                                    <div class="flex">
+                                                        <FormTimeField name="time"
+                                                            class="rounded-tl-md rounded-bl-md" />
+                                                        <FormTimeField name="time"
+                                                            class="rounded-tr-md rounded-br-md" />
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="p-2"></div>
-                                    <div class="p-2"></div>
-                                    <div class="p-2"></div>
-                                    <div class="p-2"></div>
-                                    <div class="p-2"></div>
-                                    <div class="p-2"></div>
+                                    <!-- <div class="p-2 draggable" draggable="true" @change="logChanges"></div>
+                                    <div class="p-2 draggable" draggable="true" @change="logChanges"></div>
+                                    <div class="p-2 draggable" draggable="true" @change="logChanges"></div>
+                                    <div class="p-2 draggable" draggable="true" @change="logChanges"></div>
+                                    <div class="p-2 draggable" draggable="true" @change="logChanges"></div>
+                                    <div class="p-2 draggable" draggable="true" @change="logChanges"></div> -->
                                 </div>
                             </div>
-
 
                             <!-- <div
                                 class="bg-white shadow ring-1 ring-black ring-opacity-5 grid grid-cols-8 divide-x divide-gray-100">
@@ -279,12 +366,15 @@
                 </div>
             </div>
         </div>
+        <ModulesDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
+            @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift" />
     </div>
 </template>
 
 
 <script setup lang="ts">
 import moment from 'moment'
+import draggable from 'vuedraggable'
 import { userService } from '@/components/api/UserService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
@@ -297,6 +387,11 @@ const state = reactive({
     employees: [] as any,
     error: {} as any,
     isPageLoading: false,
+    modal: {
+        isAddShiftOpen: false
+    },
+    selectedWeeklySchedule: [],
+    weeklySchedules: [],
 })
 
 
@@ -311,11 +406,64 @@ async function fetchEmployees() {
         const response = await userService.getAllUsers()
         if (response) {
             state.employees = response?.data
+            if (state.employees) {
+                state.weeklySchedules = []
+                state.employees.forEach((employee) => {
+                    const dateMoment = moment(currentDate.value)
+                    const startOfWeek = dateMoment.clone().startOf('isoWeek')
+                    const data = {
+                        employee: employee,
+                        weeks: {
+                            monday: {
+                                date: startOfWeek.clone().add(0, 'days').format('YYYY-MM-DD'),
+                                shifts: [
+                                    { name: 'regular shift', time_in: null, time_out: null },
+                                ]
+                            },
+                            tuesday: {
+                                date: startOfWeek.clone().add(1, 'days').format('YYYY-MM-DD'),
+                                shifts: [
+                                    { name: 'night shift', time_in: null, time_out: null },
+                                ]
+                            },
+                            wednesday: {
+                                date: startOfWeek.clone().add(2, 'days').format('YYYY-MM-DD'),
+                                shifts: [
+                                    { name: 'vacation leave', time_in: null, time_out: null },
+                                ]
+                            },
+                            thursday: {
+                                date: startOfWeek.clone().add(3, 'days').format('YYYY-MM-DD'),
+                                shifts: [
+                                    { name: 'sick leave', time_in: null, time_out: null },
+                                ]
+                            },
+                            friday: {
+                                date: startOfWeek.clone().add(4, 'days').format('YYYY-MM-DD'),
+                                shifts: []
+                            },
+                            saturday: {
+                                date: startOfWeek.clone().add(5, 'days').format('YYYY-MM-DD'),
+                                shifts: []
+                            },
+                            sunday: {
+                                date: startOfWeek.clone().add(6, 'days').format('YYYY-MM-DD'),
+                                shifts: []
+                            },
+                        }
+                    }
+                    state.weeklySchedules.push(data)
+                })
+            }
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function hangleChanges() {
+    console.log('test')
 }
 
 function previousWeek() {
@@ -325,6 +473,7 @@ function previousWeek() {
     const endOfWeek = dateMoment.clone().endOf('isoWeek')
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
+    fetchEmployees()
     // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
 }
 
@@ -335,6 +484,7 @@ function setToday() {
     const endOfWeek = dateMoment.clone().endOf('isoWeek')
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
+    fetchEmployees()
     // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
 }
 
@@ -345,6 +495,7 @@ function nextWeek() {
     const endOfWeek = dateMoment.clone().endOf('isoWeek')
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
+    fetchEmployees()
     // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
 }
 
@@ -404,4 +555,22 @@ const eventsBySelectedDay = computed(() => {
         return isWithinRange(eventStart, eventEnd, dayStart, dayEnd)
     })
 })
+
+function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: string, week: any) {
+    state.modal.isAddShiftOpen = true
+    state.selectedWeeklySchedule = {
+        weeklyScheduleIndex: weeklyScheduleIndex,
+        weekIndex: weekIndex,
+        ...week
+    }
+    console.log('test', state.selectedWeeklySchedule)
+}
+
+function saveShift(shiftDetails: any) {
+    state.weeklySchedules[state.selectedWeeklySchedule.weeklyScheduleIndex].weeks[state.selectedWeeklySchedule.weekIndex].shifts.push({
+        name: shiftDetails.shift_type,
+        time_in: null,
+        time_out: null,
+    })
+}
 </script>
