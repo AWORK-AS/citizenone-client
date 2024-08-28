@@ -319,7 +319,12 @@
             "users": "Brugere"
         },
         "newSchedule": "Ny tidsplan",
-        "noScheduleFound": "Ingen tidsplan fundet"
+        "noScheduleFound": "Ingen tidsplan fundet",
+        "table": {
+            "holidayHours": "Ferietimer",
+            "nightShiftHours": "Nattevagttimer",
+            "timer": "Timer"
+        }
     },
     "employees": {
         "editEmployee": "Rediger medarbejder",

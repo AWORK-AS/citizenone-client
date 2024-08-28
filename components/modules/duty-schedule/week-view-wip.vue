@@ -114,14 +114,90 @@
                                 </p>
                             </div>
                         </div> -->
-                        <div class="min-h-96">
-                            <!-- <div class="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-100"
-                                style="grid-template-rows: repeat(8, minmax(3.5rem, 1fr))">
-                                <div class="row-end-1 h-7" />
-                            </div> -->
-                            <div
+                        <div>
+                            <div class="shadow grid grid-cols-9 divide-x divide-gray-100">
+                                <div class="col-span-2"></div>
+                                <div v-for="day in weekDays" :key="day.date"
+                                    class="flex items-center justify-center py-4">
+                                    <span class="flex gap-x-1 text-sm">
+                                        <span v-if="day.longName === 'Mon'">
+                                            {{ $t('calendar.week.short.Monday') }}
+                                        </span>
+                                        <span v-if="day.longName === 'Tue'">
+                                            {{ $t('calendar.week.short.Tuesday') }}
+                                        </span>
+                                        <span v-if="day.longName === 'Wed'">
+                                            {{ $t('calendar.week.short.Wednesday') }}
+                                        </span>
+                                        <span v-if="day.longName === 'Thu'">
+                                            {{ $t('calendar.week.short.Thursday') }}
+                                        </span>
+                                        <span v-if="day.longName === 'Fri'">
+                                            {{ $t('calendar.week.short.Friday') }}
+                                        </span>
+                                        <span v-if="day.longName === 'Sat'">
+                                            {{ $t('calendar.week.short.Saturday') }}
+                                        </span>
+                                        <span v-if="day.longName === 'Sun'">
+                                            {{ $t('calendar.week.short.Sunday') }}
+                                        </span>
+                                        <span class="items-center justify-center font-semibold text-gray-900">
+                                            {{ day.date }}
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="divide-y divide-gray-100">
+                                <div v-for="(employee, index) in state.employees" :key="index"
+                                    class="grid grid-cols-9 divide-x divide-y divide-gray-100">
+                                    <div class="p-2 col-span-2 space-y-2">
+                                        <div>
+                                            <p class="text-sm font-medium">
+                                                {{ employee?.firstname }} {{ employee?.lastname }}
+                                            </p>
+                                        </div>
+                                        <div class="text-xs grid grid-cols-7">
+                                            <div class="col-span-3 space-y-2">
+                                                <p>{{ $t('dutySchedules.table.timer') }}</p>
+                                                <p>{{ $t('dutySchedules.table.holidayHours') }}</p>
+                                                <p>{{ $t('dutySchedules.table.nightShiftHours') }}</p>
+                                            </div>
+                                            <div class="col-span-2 flex justify-end">
+                                                1
+                                            </div>
+                                            <div class="col-span-2 flex justify-end">
+                                                1
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 space-y-2 text-white text-xs">
+                                        <div class="bg-shifts-regular rounded-md p-1">
+                                            Regular
+                                        </div>
+                                        <div class="bg-shifts-night rounded-md p-1">
+                                            Night Shift
+                                        </div>
+                                        <div class="bg-shifts-vacation rounded-md p-1">
+                                            Vacation Leave
+                                        </div>
+                                        <div class="bg-shifts-sickleave rounded-md p-1">
+                                            Sick Leave
+                                        </div>
+                                    </div>
+                                    <div class="p-2"></div>
+                                    <div class="p-2"></div>
+                                    <div class="p-2"></div>
+                                    <div class="p-2"></div>
+                                    <div class="p-2"></div>
+                                    <div class="p-2"></div>
+                                </div>
+                            </div>
+
+
+                            <!-- <div
                                 class="bg-white shadow ring-1 ring-black ring-opacity-5 grid grid-cols-8 divide-x divide-gray-100">
-                                <div></div>
+                                <div />
                                 <div v-for="day in weekDays" :key="day.date"
                                     class="flex items-center justify-center py-3">
                                     <span class="flex gap-x-1 text-sm">
@@ -151,10 +227,11 @@
                                         </span>
                                     </span>
                                 </div>
-                            </div>
-                            <div v-for="(employee, index) in state.employees" :key="index"
+                            </div> -->
+
+                            <!-- <div v-for="(employee, index) in state.employees" :key="index"
                                 class="grid grid-cols-8 divide-x divide-y divide-gray-100">
-                                <div class="text-sm font-medium">
+                                <div class="text-sm font-medium p-2">
                                     {{ employee?.firstname }} {{ employee?.lastname }}
                                 </div>
                                 <div class="p-2">1</div>
@@ -164,7 +241,8 @@
                                 <div class="p-2">5</div>
                                 <div class="p-2">6</div>
                                 <div class="p-2">7</div>
-                            </div>
+                            </div> -->
+
                             <!-- <div
                                 class="col-start-1 col-end-2 row-start-1 hidden grid-cols-7 grid-rows-1 divide-x divide-gray-100 sm:grid sm:grid-cols-7">
                                 <div class="col-start-1">

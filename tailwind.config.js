@@ -42,6 +42,12 @@ export default {
           800: '#29798D',
           900: '#216773',
         },
+        shifts: {
+          regular: '#8BA687',
+          night: '#8FAAC9',
+          vacation: '#D4A373',
+          sickleave: '#B56A6A',
+        },
         sky: {
           50: '#f0f9ff',
           100: '#e0f2fe',

@@ -319,7 +319,12 @@
             "users": "Users"
         },
         "newSchedule": "New schedule",
-        "noScheduleFound": "No schedule found"
+        "noScheduleFound": "No schedule found",
+        "table": {
+            "holidayHours": "Holiday hours",
+            "nightShiftHours": "Night Shift hours",
+            "timer": "Timer"
+        }
     },
     "employees": {
         "editEmployee": "Edit employee",
