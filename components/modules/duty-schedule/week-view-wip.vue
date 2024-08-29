@@ -173,7 +173,7 @@
                                                 </button>
                                             </div>
                                             <div class="space-y-2 text-xs">
-                                                <div class="bg-shifts-regular rounded-md p-1"
+                                                <div class="bg-shifts-regular rounded-md p-1 relative"
                                                     v-if="week?.shifts.find((shift) => shift.name === 'regular shift')">
                                                     <div class="flex">
                                                         <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
@@ -181,8 +181,13 @@
                                                         <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
                                                             :value="week?.shifts.find((shift) => shift.name === 'regular shift')?.time_out" />
                                                     </div>
+                                                    <button
+                                                        class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'regular shift')">
+                                                        <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                    </button>
                                                 </div>
-                                                <div class="bg-shifts-night rounded-md p-1"
+                                                <div class="bg-shifts-night rounded-md p-1 relative"
                                                     v-if="week?.shifts.find((shift) => shift.name === 'night shift')">
                                                     <div class="flex">
                                                         <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
@@ -190,8 +195,13 @@
                                                         <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
                                                             :value="week?.shifts.find((shift) => shift.name === 'night shift')?.time_out" />
                                                     </div>
+                                                    <button
+                                                        class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'night shift')">
+                                                        <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                    </button>
                                                 </div>
-                                                <div class="bg-shifts-vacation rounded-md p-1"
+                                                <div class="bg-shifts-vacation rounded-md p-1 relative"
                                                     v-if="week?.shifts.find((shift) => shift.name === 'vacation leave')">
                                                     <div class="flex">
                                                         <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
@@ -199,8 +209,13 @@
                                                         <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
                                                             :value="week?.shifts.find((shift) => shift.name === 'vacation leave')?.time_in" />
                                                     </div>
+                                                    <button
+                                                        class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'vacation leave')">
+                                                        <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                    </button>
                                                 </div>
-                                                <div class="bg-shifts-sickleave rounded-md p-1"
+                                                <div class="bg-shifts-sickleave rounded-md p-1 relative"
                                                     v-if="week?.shifts.find((shift) => shift.name === 'sick leave')">
                                                     <div class="flex">
                                                         <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
@@ -208,6 +223,11 @@
                                                         <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
                                                             :value="week?.shifts.find((shift) => shift.name === 'sick leave')?.time_in" />
                                                     </div>
+                                                    <button
+                                                        class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'sick leave')">
+                                                        <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -305,10 +325,6 @@ async function fetchEmployees() {
         state.error = error
     }
     state.isPageLoading = false
-}
-
-function hangleChanges() {
-    console.log('test')
 }
 
 function previousWeek() {
@@ -419,6 +435,10 @@ function saveShift(shiftDetails: any) {
             time_out: '17:00',
         })
     }
-    console.log(state.weeklySchedules[state.selectedWeeklySchedule.weeklyScheduleIndex].weeks[state.selectedWeeklySchedule.weekIndex].shifts)
+}
+
+function removeShift(weeklyScheduleIndex: number, weekIndex: number, shiftType: any) {
+    const shiftIndexToRemove = state.weeklySchedules[state.selectedWeeklySchedule.weeklyScheduleIndex].weeks[state.selectedWeeklySchedule.weekIndex].shifts.findIndex((shift) => shift.name === shiftType)
+    state.weeklySchedules[state.selectedWeeklySchedule.weeklyScheduleIndex].weeks[state.selectedWeeklySchedule.weekIndex].shifts.splice(shiftIndexToRemove, 1)
 }
 </script>

@@ -36,8 +36,6 @@ const state = reactive({
     timeValue: props?.value,
 })
 
-console.log('propsValue', props?.value)
-
 watch(() => props.value, (newValue: any) => {
     if (newValue != null) {
         state.timeValue = newValue

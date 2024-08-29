@@ -53,6 +53,7 @@ const state = reactive({
 
 watch(() => props.isModalOpen, () => {
     state.error = {}
+    state.formShift.shift_type = ''
 })
 
 function closeModal() {
