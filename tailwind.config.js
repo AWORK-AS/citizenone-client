@@ -10,6 +10,10 @@ export default {
   ],
   theme: {
     extend: {
+      borderWidth: {
+        0.5: '0.5px',
+        1.5: '1.5px'
+      },
       boxShadow: {
         'right': '0 0 15px rgba(0,0,0,0.75)',
       },
