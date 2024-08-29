@@ -61,27 +61,6 @@
                 </div>
             </header>
             <div class="isolate flex flex-auto flex-col overflow-auto bg-white">
-                <!-- <div class="flex gap-x-10">
-                    <draggable class="grow dragArea list-group" :list="state.list1"
-                        :group="{ name: 'schedule', pull: 'clone', put: false }" @change="hangleChanges"
-                        item-key="name">
-                        <template #item="{ element }">
-                            <div class="list-group-item">
-                                {{ element.name }}
-                            </div>
-                        </template>
-</draggable>
-
-<draggable class="grow dragArea list-group" :list="state.list2" group="schedule" @change="hangleChanges"
-    item-key="name">
-    <template #item="{ element }">
-                            <div class="list-group-item">
-                                {{ element.name }}
-                            </div>
-                        </template>
-</draggable>
-</div> -->
-
                 <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
                     <div class="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
                         <div class="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
@@ -114,48 +93,8 @@
                                 </span>
                             </button>
                         </div>
-
-                        <div
-                            class="-mr-px hidden grid-cols-7 divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-500 sm:grid">
-                            <div class="col-end-1 w-40" />
-                            <!-- <div v-for="day in weekDays" :key="day.date" class="flex items-center justify-center py-3">
-                                <span class="flex gap-x-1">
-                                    <span v-if="day.longName === 'Mon'">
-                                        {{ $t('calendar.week.short.Monday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Tue'">
-                                        {{ $t('calendar.week.short.Tuesday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Wed'">
-                                        {{ $t('calendar.week.short.Wednesday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Thu'">
-                                        {{ $t('calendar.week.short.Thursday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Fri'">
-                                        {{ $t('calendar.week.short.Friday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Sat'">
-                                        {{ $t('calendar.week.short.Saturday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Sun'">
-                                        {{ $t('calendar.week.short.Sunday') }}
-                                    </span>
-                                    <span class="items-center justify-center font-semibold text-gray-900">
-                                        {{ day.date }}
-                                    </span>
-                                </span>
-                            </div> -->
-                        </div>
                     </div>
                     <div>
-                        <!-- <div class="sticky left-0 z-10 w-40 flex-none bg-white ring-1 ring-gray-100">
-                            <div v-for="(employee, index) in state.employees" :key="index">
-                                <p class="text-xs p-2">
-                                    {{ employee?.firstname }} {{ employee?.lastname }}
-                                </p>
-                            </div>
-                        </div> -->
                         <div>
                             <div class="shadow grid grid-cols-9 divide-x divide-gray-100">
                                 <div class="col-span-2"></div>
@@ -194,7 +133,7 @@
                                 <div v-for="(weeklySchedule, weeklyScheduleIndex) in state.weeklySchedules"
                                     :key="weeklyScheduleIndex"
                                     class="grid grid-cols-9 divide-x divide-y divide-gray-100">
-                                    <div class="p-2 col-span-2 space-y-2">
+                                    <div class="p-3 col-span-2 space-y-2">
                                         <div>
                                             <p class="text-sm font-medium">
                                                 {{ weeklySchedule?.employee?.firstname }}
@@ -219,7 +158,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="p-2 draggable" draggable="true" @change="logChanges"
+                                    <div class="p-3 draggable" draggable="true" @change="logChanges"
                                         v-for="(week, weekIndex) in weeklySchedule?.weeks" :key="weekIndex">
                                         <div class="space-y-2">
                                             <div class="flex justify-end gap-2">
@@ -237,130 +176,44 @@
                                                 <div class="bg-shifts-regular rounded-md p-1"
                                                     v-if="week?.shifts.find((shift) => shift.name === 'regular shift')">
                                                     <div class="flex">
-                                                        <FormTimeField name="time"
-                                                            class="rounded-tl-md rounded-bl-md" />
-                                                        <FormTimeField name="time"
-                                                            class="rounded-tr-md rounded-br-md" />
+                                                        <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
+                                                            :value="week?.shifts.find((shift) => shift.name === 'regular shift')?.time_in" />
+                                                        <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
+                                                            :value="week?.shifts.find((shift) => shift.name === 'regular shift')?.time_out" />
                                                     </div>
                                                 </div>
                                                 <div class="bg-shifts-night rounded-md p-1"
                                                     v-if="week?.shifts.find((shift) => shift.name === 'night shift')">
                                                     <div class="flex">
-                                                        <FormTimeField name="time"
-                                                            class="rounded-tl-md rounded-bl-md" />
-                                                        <FormTimeField name="time"
-                                                            class="rounded-tr-md rounded-br-md" />
+                                                        <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
+                                                            :value="week?.shifts.find((shift) => shift.name === 'night shift')?.time_in" />
+                                                        <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
+                                                            :value="week?.shifts.find((shift) => shift.name === 'night shift')?.time_out" />
                                                     </div>
                                                 </div>
                                                 <div class="bg-shifts-vacation rounded-md p-1"
                                                     v-if="week?.shifts.find((shift) => shift.name === 'vacation leave')">
                                                     <div class="flex">
-                                                        <FormTimeField name="time"
-                                                            class="rounded-tl-md rounded-bl-md" />
-                                                        <FormTimeField name="time"
-                                                            class="rounded-tr-md rounded-br-md" />
+                                                        <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
+                                                            :value="week?.shifts.find((shift) => shift.name === 'vacation leave')?.time_in" />
+                                                        <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
+                                                            :value="week?.shifts.find((shift) => shift.name === 'vacation leave')?.time_in" />
                                                     </div>
                                                 </div>
                                                 <div class="bg-shifts-sickleave rounded-md p-1"
                                                     v-if="week?.shifts.find((shift) => shift.name === 'sick leave')">
                                                     <div class="flex">
-                                                        <FormTimeField name="time"
-                                                            class="rounded-tl-md rounded-bl-md" />
-                                                        <FormTimeField name="time"
-                                                            class="rounded-tr-md rounded-br-md" />
+                                                        <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
+                                                            :value="week?.shifts.find((shift) => shift.name === 'sick leave')?.time_in" />
+                                                        <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
+                                                            :value="week?.shifts.find((shift) => shift.name === 'sick leave')?.time_in" />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="p-2 draggable" draggable="true" @change="logChanges"></div>
-                                    <div class="p-2 draggable" draggable="true" @change="logChanges"></div>
-                                    <div class="p-2 draggable" draggable="true" @change="logChanges"></div>
-                                    <div class="p-2 draggable" draggable="true" @change="logChanges"></div>
-                                    <div class="p-2 draggable" draggable="true" @change="logChanges"></div>
-                                    <div class="p-2 draggable" draggable="true" @change="logChanges"></div> -->
                                 </div>
                             </div>
-
-                            <!-- <div
-                                class="bg-white shadow ring-1 ring-black ring-opacity-5 grid grid-cols-8 divide-x divide-gray-100">
-                                <div />
-                                <div v-for="day in weekDays" :key="day.date"
-                                    class="flex items-center justify-center py-3">
-                                    <span class="flex gap-x-1 text-sm">
-                                        <span v-if="day.longName === 'Mon'">
-                                            {{ $t('calendar.week.short.Monday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Tue'">
-                                            {{ $t('calendar.week.short.Tuesday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Wed'">
-                                            {{ $t('calendar.week.short.Wednesday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Thu'">
-                                            {{ $t('calendar.week.short.Thursday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Fri'">
-                                            {{ $t('calendar.week.short.Friday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Sat'">
-                                            {{ $t('calendar.week.short.Saturday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Sun'">
-                                            {{ $t('calendar.week.short.Sunday') }}
-                                        </span>
-                                        <span class="items-center justify-center font-semibold text-gray-900">
-                                            {{ day.date }}
-                                        </span>
-                                    </span>
-                                </div>
-                            </div> -->
-
-                            <!-- <div v-for="(employee, index) in state.employees" :key="index"
-                                class="grid grid-cols-8 divide-x divide-y divide-gray-100">
-                                <div class="text-sm font-medium p-2">
-                                    {{ employee?.firstname }} {{ employee?.lastname }}
-                                </div>
-                                <div class="p-2">1</div>
-                                <div class="p-2">2</div>
-                                <div class="p-2">3</div>
-                                <div class="p-2">4</div>
-                                <div class="p-2">5</div>
-                                <div class="p-2">6</div>
-                                <div class="p-2">7</div>
-                            </div> -->
-
-                            <!-- <div
-                                class="col-start-1 col-end-2 row-start-1 hidden grid-cols-7 grid-rows-1 divide-x divide-gray-100 sm:grid sm:grid-cols-7">
-                                <div class="col-start-1">
-                                    <div v-for="(employee, index) in state.employees" :key="index" class="p-3">
-                                        <p class="text-sm font-medium">
-                                            {{ employee?.firstname }} {{ employee?.lastname }}
-                                        </p>
-                                        <div class="text-xs grid grid-cols-5">
-                                            <div class="col-span-3">
-                                                <p>Timer</p>
-                                                <p>Holiday hours</p>
-                                                <p>Night Shift hours</p>
-                                            </div>
-                                            <div class="col-span-1 flex justify-end">
-                                                1
-                                            </div>
-                                            <div class="col-span-1">
-                                                1
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-start-2">
-                                    <div class="p-3 h-20">
-                                        asdasdasd
-                                    </div>
-                                    <div class="p-3">
-                                        asdasdasd
-                                    </div>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -416,27 +269,19 @@ async function fetchEmployees() {
                         weeks: {
                             monday: {
                                 date: startOfWeek.clone().add(0, 'days').format('YYYY-MM-DD'),
-                                shifts: [
-                                    { name: 'regular shift', time_in: null, time_out: null },
-                                ]
+                                shifts: []
                             },
                             tuesday: {
                                 date: startOfWeek.clone().add(1, 'days').format('YYYY-MM-DD'),
-                                shifts: [
-                                    { name: 'night shift', time_in: null, time_out: null },
-                                ]
+                                shifts: []
                             },
                             wednesday: {
                                 date: startOfWeek.clone().add(2, 'days').format('YYYY-MM-DD'),
-                                shifts: [
-                                    { name: 'vacation leave', time_in: null, time_out: null },
-                                ]
+                                shifts: []
                             },
                             thursday: {
                                 date: startOfWeek.clone().add(3, 'days').format('YYYY-MM-DD'),
-                                shifts: [
-                                    { name: 'sick leave', time_in: null, time_out: null },
-                                ]
+                                shifts: []
                             },
                             friday: {
                                 date: startOfWeek.clone().add(4, 'days').format('YYYY-MM-DD'),
@@ -563,14 +408,17 @@ function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: string, we
         weekIndex: weekIndex,
         ...week
     }
-    console.log('test', state.selectedWeeklySchedule)
 }
 
 function saveShift(shiftDetails: any) {
-    state.weeklySchedules[state.selectedWeeklySchedule.weeklyScheduleIndex].weeks[state.selectedWeeklySchedule.weekIndex].shifts.push({
-        name: shiftDetails.shift_type,
-        time_in: null,
-        time_out: null,
-    })
+    // Check if shift already existed
+    if (!(state.weeklySchedules[state.selectedWeeklySchedule.weeklyScheduleIndex].weeks[state.selectedWeeklySchedule.weekIndex].shifts.find((shift) => shift.name === shiftDetails.shift_type))) {
+        state.weeklySchedules[state.selectedWeeklySchedule.weeklyScheduleIndex].weeks[state.selectedWeeklySchedule.weekIndex].shifts.push({
+            name: shiftDetails.shift_type,
+            time_in: '08:00',
+            time_out: '17:00',
+        })
+    }
+    console.log(state.weeklySchedules[state.selectedWeeklySchedule.weeklyScheduleIndex].weeks[state.selectedWeeklySchedule.weekIndex].shifts)
 }
 </script>
