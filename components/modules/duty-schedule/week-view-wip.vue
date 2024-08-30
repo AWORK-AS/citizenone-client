@@ -177,9 +177,6 @@
                                                 </button>
                                             </div>
                                             <div class="space-y-2 text-xs">
-                                                <div>
-                                                    {{ week?.shifts }}
-                                                </div>
                                                 <div class="bg-shifts-regular rounded-md p-1 relative"
                                                     v-if="week?.shifts.find((shift) => shift.name === 'regular shift')">
                                                     <div class="flex">
