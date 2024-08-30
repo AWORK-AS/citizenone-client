@@ -157,12 +157,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="p-3 border-0.5" @change="logChanges"
-                                        v-for="(week, weekIndex) in weeklySchedule?.weeks" :key="weekIndex" :class="[
+                                    <div class="p-3 border-0.5" v-for="(week, weekIndex) in weeklySchedule?.weeks"
+                                        :key="weekIndex" :class="[
                                             isScheduleCopied(weeklyScheduleIndex, weekIndex) && 'border-1.5 border-dashed border-gray-700',
-                                            !isScheduleCopied(weeklyScheduleIndex, weekIndex) & !isScheduleCopiedEmpty() && 'cursor-copy relative group'
+                                            !isScheduleCopied(weeklyScheduleIndex, weekIndex) && !isScheduleCopiedEmpty() && 'cursor-copy relative group'
                                         ]"
-                                        @click="!isScheduleCopied(weeklyScheduleIndex, weekIndex) & !isScheduleCopiedEmpty() && pasteEmployeeSchedule(weeklyScheduleIndex, weekIndex)">
+                                        @click="!isScheduleCopied(weeklyScheduleIndex, weekIndex) && !isScheduleCopiedEmpty() && pasteEmployeeSchedule(weeklyScheduleIndex, weekIndex)">
                                         <div class="space-y-2" v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex)">
                                             <div class="flex justify-end gap-2">
                                                 <button
@@ -178,12 +178,12 @@
                                             </div>
                                             <div class="space-y-2 text-xs">
                                                 <div class="bg-shifts-regular rounded-md p-1 relative"
-                                                    v-if="week?.shifts.find((shift) => shift.name === 'regular shift')">
+                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'regular shift')">
                                                     <div class="flex">
                                                         <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
-                                                            :value="week?.shifts.find((shift) => shift.name === 'regular shift')?.time_in" />
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'regular shift')?.time_in" />
                                                         <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
-                                                            :value="week?.shifts.find((shift) => shift.name === 'regular shift')?.time_out" />
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'regular shift')?.time_out" />
                                                     </div>
                                                     <button
                                                         class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
@@ -192,12 +192,12 @@
                                                     </button>
                                                 </div>
                                                 <div class="bg-shifts-night rounded-md p-1 relative"
-                                                    v-if="week?.shifts.find((shift) => shift.name === 'night shift')">
+                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'night shift')">
                                                     <div class="flex">
                                                         <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
-                                                            :value="week?.shifts.find((shift) => shift.name === 'night shift')?.time_in" />
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'night shift')?.time_in" />
                                                         <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
-                                                            :value="week?.shifts.find((shift) => shift.name === 'night shift')?.time_out" />
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'night shift')?.time_out" />
                                                     </div>
                                                     <button
                                                         class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
@@ -206,12 +206,12 @@
                                                     </button>
                                                 </div>
                                                 <div class="bg-shifts-vacation rounded-md p-1 relative"
-                                                    v-if="week?.shifts.find((shift) => shift.name === 'vacation leave')">
+                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'vacation leave')">
                                                     <div class="flex">
                                                         <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
-                                                            :value="week?.shifts.find((shift) => shift.name === 'vacation leave')?.time_in" />
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'vacation leave')?.time_in" />
                                                         <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
-                                                            :value="week?.shifts.find((shift) => shift.name === 'vacation leave')?.time_in" />
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'vacation leave')?.time_in" />
                                                     </div>
                                                     <button
                                                         class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
@@ -220,12 +220,12 @@
                                                     </button>
                                                 </div>
                                                 <div class="bg-shifts-sickleave rounded-md p-1 relative"
-                                                    v-if="week?.shifts.find((shift) => shift.name === 'sick leave')">
+                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'sick leave')">
                                                     <div class="flex">
                                                         <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
-                                                            :value="week?.shifts.find((shift) => shift.name === 'sick leave')?.time_in" />
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'sick leave')?.time_in" />
                                                         <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
-                                                            :value="week?.shifts.find((shift) => shift.name === 'sick leave')?.time_in" />
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'sick leave')?.time_in" />
                                                     </div>
                                                     <button
                                                         class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
@@ -243,7 +243,7 @@
                                             </p>
                                         </div>
                                         <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                            v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex) & !isScheduleCopiedEmpty()">
+                                            v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex) && !isScheduleCopiedEmpty()">
                                             <p class="text-white text-xs text-center">Click here to paste the schedule
                                             </p>
                                         </div>
@@ -263,9 +263,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import draggable from 'vuedraggable'
 import { userService } from '@/components/api/UserService'
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
 const currentDate = ref(moment())
 const selectedDay = ref(moment())
@@ -275,17 +273,17 @@ const year = computed(() => currentDate.value.format('YYYY'))
 const state = reactive({
     addShift: {
         selectedEmployeeSchedule: {}
-    },
+    } as any,
     copy: {
         selectedEmployeeSchedule: {}
-    },
+    } as any,
     employees: [] as any,
     error: {} as any,
     isPageLoading: false,
     modal: {
         isAddShiftOpen: false
-    },
-    weeklySchedules: [],
+    } as any,
+    weeklySchedules: [] as any,
 })
 
 
@@ -302,7 +300,7 @@ async function fetchEmployees() {
             state.employees = response?.data
             if (state.employees) {
                 state.weeklySchedules = []
-                state.employees.forEach((employee) => {
+                state.employees.forEach((employee: any) => {
                     const dateMoment = moment(currentDate.value)
                     const startOfWeek = dateMoment.clone().startOf('isoWeek')
                     const data = {
@@ -408,37 +406,7 @@ function isWithinRange(eventStart: moment.Moment, eventEnd: moment.Moment, daySt
     return eventStart.isBefore(dayEnd) && eventEnd.isAfter(dayStart)
 }
 
-const eventsByDay = computed(() => {
-    if (!props.dutySchedules?.data) return Array.from({ length: 7 }).map(() => [])
-
-    const startOfWeek = moment(currentDate.value).startOf('isoWeek')
-    const endOfWeek = moment(currentDate.value).endOf('isoWeek')
-
-    return Array.from({ length: 7 }).map((_, i) => {
-        const dayStart = moment(startOfWeek).add(i, 'day').startOf('day')
-        const dayEnd = moment(dayStart).endOf('day')
-
-        return props.dutySchedules.data.filter((event: any) => {
-            const eventStart = moment(event.date_time_start)
-            const eventEnd = moment(event.date_time_end)
-            return isWithinRange(eventStart, eventEnd, dayStart, dayEnd)
-        })
-    })
-})
-
-const eventsBySelectedDay = computed(() => {
-    if (!props.dutySchedules?.data) return Array.from({ length: 7 }).map(() => [])
-
-    const dayStart = moment(selectedDay.value).startOf('day')
-    const dayEnd = moment(selectedDay.value).endOf('day')
-    return props.dutySchedules.data.filter((event: any) => {
-        const eventStart = moment(event.date_time_start)
-        const eventEnd = moment(event.date_time_end)
-        return isWithinRange(eventStart, eventEnd, dayStart, dayEnd)
-    })
-})
-
-function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: string, week: any) {
+function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: any, week: any) {
     state.modal.isAddShiftOpen = true
     state.addShift.selectedEmployeeSchedule = {
         weeklyScheduleIndex: weeklyScheduleIndex,
@@ -452,10 +420,10 @@ function isScheduleCopiedEmpty() {
 }
 
 function isScheduleCopied(weeklyScheduleIndex: number, weekIndex: number) {
-    return state.copy.selectedEmployeeSchedule.weeklyScheduleIndex === weeklyScheduleIndex & state.copy.selectedEmployeeSchedule.weekIndex === weekIndex
+    return state.copy.selectedEmployeeSchedule.weeklyScheduleIndex === weeklyScheduleIndex && state.copy.selectedEmployeeSchedule.weekIndex === weekIndex
 }
 
-function copyEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number, weeklySchedule: any) {
+function copyEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: any, weeklySchedule: any) {
     state.copy.selectedEmployeeSchedule = {
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekIndex: weekIndex,
@@ -489,7 +457,7 @@ function saveShift(shiftDetails: any) {
     const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedule.weeklyScheduleIndex
     const weekIndex = state.addShift.selectedEmployeeSchedule.weekIndex
     // Check if shift already existed
-    if (!(state.weeklySchedules[state.addShift.selectedEmployeeSchedule.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedule.weekIndex].shifts.find((shift) => shift.name === shiftDetails.shift_type))) {
+    if (!(state.weeklySchedules[state.addShift.selectedEmployeeSchedule.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedule.weekIndex].shifts.find((shift: any) => shift.name === shiftDetails.shift_type))) {
         state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
             name: shiftDetails.shift_type,
             time_in: '08:00',
@@ -499,7 +467,7 @@ function saveShift(shiftDetails: any) {
 }
 
 function removeShift(weeklyScheduleIndex: number, weekIndex: number, shiftType: any) {
-    const shiftIndexToRemove = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift) => shift.name === shiftType)
+    const shiftIndexToRemove = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.splice(shiftIndexToRemove, 1)
 }
 </script>
