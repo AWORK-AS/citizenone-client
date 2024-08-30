@@ -1,5 +1,15 @@
 <template>
     <div class="space-y-5">
+        <div class="relative group bg-gray-200">
+            <!-- Content inside the div -->
+            <!-- <img src="/img/logo.svg" alt="Example Image" class="w-full h-full object-cover" /> -->
+            asdasdasd
+            <!-- Overlay that appears on hover -->
+            <div
+                class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p class="text-white text-lg">Hovered Text</p>
+            </div>
+        </div>
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="flex h-full flex-col">
@@ -160,7 +170,7 @@
                                     <div class="p-3 border-0.5" @change="logChanges"
                                         v-for="(week, weekIndex) in weeklySchedule?.weeks" :key="weekIndex" :class="[
                                             isScheduleCopied(weeklyScheduleIndex, weekIndex) && 'border-1.5 border-dashed border-gray-700',
-                                            !isScheduleCopied(weeklyScheduleIndex, weekIndex) & !isScheduleCopiedEmpty() && 'cursor-copy'
+                                            !isScheduleCopied(weeklyScheduleIndex, weekIndex) & !isScheduleCopiedEmpty() && 'cursor-copy relative group'
                                         ]"
                                         @click="!isScheduleCopied(weeklyScheduleIndex, weekIndex) & !isScheduleCopiedEmpty() && pasteEmployeeSchedule(weeklyScheduleIndex, weekIndex)">
                                         <div class="space-y-2" v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex)">
@@ -240,6 +250,11 @@
                                             <p class="text-center text-sm">Stop copying</p>
                                             <p class="text-center text-xxs">
                                                 Click here to stop copying the schedule
+                                            </p>
+                                        </div>
+                                        <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                            v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex) & !isScheduleCopiedEmpty()">
+                                            <p class="text-white text-xs text-center">Click here to paste the schedule
                                             </p>
                                         </div>
                                     </div>
