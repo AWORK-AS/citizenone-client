@@ -181,9 +181,11 @@
                                                     v-if="week?.shifts.find((shift: any) => shift.name === 'regular shift')">
                                                     <div class="flex">
                                                         <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'regular shift')?.time_in" />
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'regular shift')?.time_in"
+                                                            @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'regular shift')" />
                                                         <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'regular shift')?.time_out" />
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'regular shift')?.time_out"
+                                                            @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'regular shift')" />
                                                     </div>
                                                     <button
                                                         class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
@@ -435,13 +437,6 @@ function stopCopying(weeklyScheduleIndex: number, weekIndex: number) {
     state.copy.selectedEmployeeSchedule = {}
 }
 
-// function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
-//     const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeSchedule
-//     const copiedWeekIndex = copiedSelectedEmployeeSchedule.weekIndex
-//     const shiftsToPaste = copiedSelectedEmployeeSchedule.weeklySchedule.weeks[copiedWeekIndex].shifts
-//     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = shiftsToPaste
-// }
-
 function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
     const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeSchedule
     const copiedWeekIndex = copiedSelectedEmployeeSchedule.weekIndex
@@ -469,5 +464,17 @@ function saveShift(shiftDetails: any) {
 function removeShift(weeklyScheduleIndex: number, weekIndex: number, shiftType: any) {
     const shiftIndexToRemove = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.splice(shiftIndexToRemove, 1)
+}
+
+function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: any, shiftType: string) {
+    const timeIn = event.target.value
+    const shiftTimeInIndexToReplace = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
+    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeInIndexToReplace].time_in = timeIn
+}
+
+function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: any, shiftType: string) {
+    const timeOut = event.target.value
+    const shiftTimeOutIndexToReplace = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
+    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeOutIndexToReplace].time_out = timeOut
 }
 </script>
