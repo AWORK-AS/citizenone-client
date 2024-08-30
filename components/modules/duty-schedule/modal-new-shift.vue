@@ -27,6 +27,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Error } from '@/types'
+
 const props = defineProps({
     isModalOpen: {
         type: Boolean,
