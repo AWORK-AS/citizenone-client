@@ -1,15 +1,5 @@
 <template>
     <div class="space-y-5">
-        <div class="relative group bg-gray-200">
-            <!-- Content inside the div -->
-            <!-- <img src="/img/logo.svg" alt="Example Image" class="w-full h-full object-cover" /> -->
-            asdasdasd
-            <!-- Overlay that appears on hover -->
-            <div
-                class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <p class="text-white text-lg">Hovered Text</p>
-            </div>
-        </div>
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="flex h-full flex-col">
