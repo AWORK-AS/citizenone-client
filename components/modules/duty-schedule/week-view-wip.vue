@@ -161,7 +161,8 @@
                                         v-for="(week, weekIndex) in weeklySchedule?.weeks" :key="weekIndex" :class="[
                                             isScheduleCopied(weeklyScheduleIndex, weekIndex) && 'border-1.5 border-dashed border-gray-700',
                                             !isScheduleCopied(weeklyScheduleIndex, weekIndex) & !isScheduleCopiedEmpty() && 'cursor-copy'
-                                        ]">
+                                        ]"
+                                        @click="!isScheduleCopied(weeklyScheduleIndex, weekIndex) & !isScheduleCopiedEmpty() && pasteEmployeeSchedule(weeklyScheduleIndex, weekIndex)">
                                         <div class="space-y-2" v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex)">
                                             <div class="flex justify-end gap-2">
                                                 <button
@@ -176,6 +177,9 @@
                                                 </button>
                                             </div>
                                             <div class="space-y-2 text-xs">
+                                                <div>
+                                                    {{ week?.shifts }}
+                                                </div>
                                                 <div class="bg-shifts-regular rounded-md p-1 relative"
                                                     v-if="week?.shifts.find((shift) => shift.name === 'regular shift')">
                                                     <div class="flex">
@@ -461,10 +465,30 @@ function stopCopying(weeklyScheduleIndex: number, weekIndex: number) {
     state.copy.selectedEmployeeSchedule = {}
 }
 
+// function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
+//     const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeSchedule
+//     const copiedWeekIndex = copiedSelectedEmployeeSchedule.weekIndex
+//     const shiftsToPaste = copiedSelectedEmployeeSchedule.weeklySchedule.weeks[copiedWeekIndex].shifts
+//     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = shiftsToPaste
+// }
+
+function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
+    const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeSchedule
+    const copiedWeekIndex = copiedSelectedEmployeeSchedule.weekIndex
+    const shiftsToPaste = copiedSelectedEmployeeSchedule.weeklySchedule.weeks[copiedWeekIndex].shifts
+
+    // Create a deep copy of the shifts to paste
+    const copiedShifts = shiftsToPaste.map((shift: any) => ({ ...shift }))
+
+    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = copiedShifts
+}
+
 function saveShift(shiftDetails: any) {
+    const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedule.weeklyScheduleIndex
+    const weekIndex = state.addShift.selectedEmployeeSchedule.weekIndex
     // Check if shift already existed
     if (!(state.weeklySchedules[state.addShift.selectedEmployeeSchedule.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedule.weekIndex].shifts.find((shift) => shift.name === shiftDetails.shift_type))) {
-        state.weeklySchedules[state.addShift.selectedEmployeeSchedule.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedule.weekIndex].shifts.push({
+        state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
             name: shiftDetails.shift_type,
             time_in: '08:00',
             time_out: '17:00',
@@ -473,7 +497,7 @@ function saveShift(shiftDetails: any) {
 }
 
 function removeShift(weeklyScheduleIndex: number, weekIndex: number, shiftType: any) {
-    const shiftIndexToRemove = state.weeklySchedules[state.addShift.selectedEmployeeSchedule.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedule.weekIndex].shifts.findIndex((shift) => shift.name === shiftType)
-    state.weeklySchedules[state.addShift.selectedEmployeeSchedule.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedule.weekIndex].shifts.splice(shiftIndexToRemove, 1)
+    const shiftIndexToRemove = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift) => shift.name === shiftType)
+    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.splice(shiftIndexToRemove, 1)
 }
 </script>
