@@ -115,6 +115,10 @@
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteFileOpen"
                     :message="$t('citizens.documents.confirmation.deleteFileConfirmation') + '?'"
                     @close="state.modal.isDeleteFileOpen = false" @confirm="deleteDocument" />
+                <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+                    :title="$t('citizens.documents.upgradeStorage')"
+                    :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
+                    @close="state.modal.isUpgradeStorageOpen = false" @confirm="navigateTo(`/storage/upgrade`)" />
             </div>
         </NuxtLayout>
     </div>
@@ -157,6 +161,7 @@ const state = reactive({
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,
         isEditDocumentOpen: false,
+        isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
     },
     selectedDirectory: [] as any,
@@ -260,10 +265,11 @@ async function uploadFile(event: any) {
         }
     } catch (error: any) {
         state.error = error
+        resetFileInput()
         if (error?.message === 'You do not have enough storage space to upload new files.') {
-            navigateTo(`/storage/upgrade?error=${error?.message}`)
+            state.modal.isUpgradeStorageOpen = true
         } else if (error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
-            navigateTo(`/storage/upgrade?error=${error?.message}`)
+            state.modal.isUpgradeStorageOpen = true
         }
     }
     state.isPageLoading = false

@@ -114,7 +114,8 @@
             "createNewFolder": "Opret ny mappe",
             "confirmation": {
                 "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil?",
-                "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe?"
+                "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe?",
+                "upgradeStorageConfirmation": "Vil du opgradere dit lager"
             },
             "form": {
                 "editFile": "Rediger fil",
@@ -134,6 +135,7 @@
                 "name": "Navn",
                 "owner": "Ejer"
             },
+            "upgradeStorage": "Opgrader lager",
             "uploadFile": "Upload fil"
         },
         "citizenJournals": {
