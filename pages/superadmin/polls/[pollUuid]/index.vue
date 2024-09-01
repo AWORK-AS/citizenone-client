@@ -122,7 +122,7 @@ const state = reactive({
         isDeletePollItemOpen: false
     },
     pollItems: [] as any,
-    selectedPollItem: [],
+    selectedPollItem: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
