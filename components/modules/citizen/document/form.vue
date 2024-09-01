@@ -14,7 +14,7 @@
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formDirectory.is_admin_access = !state.formDirectory.is_admin_access">
                     <FormCheckbox :value="state.formDirectory.is_admin_access" />
-                    {{ $t('citizens.documents.form.isAdminAccess') }}
+                    {{ $t('citizens.documents.form.forAdministratorsOnly') }}
                 </div>
             </div>
         </div>

@@ -119,7 +119,7 @@
             "form": {
                 "editFile": "Edit file",
                 "editFolder": "Edit folder",
-                "isAdminAccess": "Is admin access",
+                "forAdministratorsOnly": "For administrator only",
                 "name": "Name",
                 "newFolder": "New folder"
             },

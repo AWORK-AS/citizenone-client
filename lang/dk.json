@@ -119,7 +119,7 @@
             "form": {
                 "editFile": "Rediger fil",
                 "editFolder": "Rediger mappe",
-                "isAdminAccess": "Er admin adgang",
+                "forAdministratorsOnly": "Kun for administratorer",
                 "name": "Navn",
                 "newFolder": "Ny mappe"
             },
