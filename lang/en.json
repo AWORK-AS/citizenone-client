@@ -157,6 +157,7 @@
                 "includeRiskAssessment": "Include risk assessment"
             },
             "form": {
+                "attachFile": "Attach file",
                 "content": "Content",
                 "date": "Date",
                 "draft": "Draft",

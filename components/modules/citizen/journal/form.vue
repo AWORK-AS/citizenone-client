@@ -2,6 +2,8 @@
     <form @submit.prevent="submitForm()">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
+        <Alert type="danger" :text="state?.error?.message"
+            v-if="state.error?.message && state.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
             <div class="grid grid-cols-2 gap-x-3">
                 <div class="space-y-1">
@@ -19,17 +21,27 @@
                 </div>
             </div>
             <div class="space-y-1">
-                <p class="text-sm text-gray-600">
-                    {{ $t('citizens.citizenJournals.form.content') }}
-                </p>
+                <div class="flex items-center">
+                    <p class="text-sm text-gray-600">
+                        {{ $t('citizens.citizenJournals.form.content') }}
+                    </p>
+                    <div class="flex-1 flex justify-end">
+                        <input ref="contentFileInput" type="file" @change="handleContentFileChange" class="hidden" />
+                        <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
+                            @click="triggerContentFileInput">
+                            <div>
+                                <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
+                            </div>
+                            {{ $t('citizens.citizenJournals.form.attachFile') }}
+                        </div>
+                    </div>
+                </div>
                 <ckeditor :editor="editor" v-model="state.formJournal.content" :config="editorContentConfig"></ckeditor>
                 <FormError :error="v$?.formJournal?.content?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.content?.[0]" />
             </div>
             <div class="space-y-1">
-                <p class="text-sm text-gray-600">
-                    {{ $t('citizens.citizenJournals.form.riskAssessment') }}
-                </p>
+                {{ $t('citizens.citizenJournals.form.riskAssessment') }}
                 <div>
                     <RadioGroup v-model="state.formJournal.assessment"
                         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -69,6 +81,17 @@
                 </div>
             </div>
             <div class="space-y-1" v-if="state.formJournal.assessment !== null">
+                <div class="flex justify-end">
+                    <input ref="riskAssessmentFileInput" type="file" @change="handleRiskAssessmentFileChange"
+                        class="hidden" />
+                    <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
+                        @click="triggerRiskAssessmentFileInput">
+                        <div>
+                            <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
+                        </div>
+                        {{ $t('citizens.citizenJournals.form.attachFile') }}
+                    </div>
+                </div>
                 <ckeditor :editor="editor" v-model="state.formJournal.note" :config="editorNoteConfig"></ckeditor>
                 <FormError :error="props?.error?.errors?.note?.[0]" />
             </div>
@@ -101,6 +124,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
 
 const props = defineProps({
     error: {
@@ -116,11 +140,13 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['closeModal', 'submitForm'])
+const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const contentFileInput = ref<HTMLInputElement | null>(null)
+const riskAssessmentFileInput = ref<HTMLInputElement | null>(null)
 
 const editor = ref(ClassicEditor)
 const editorContentConfig = ref({
@@ -153,6 +179,7 @@ const editorNoteConfig = ref({
 })
 
 const state = reactive({
+    error: {} as Error,
     formJournal: {
         id: '',
         uuid: '',
@@ -162,14 +189,14 @@ const state = reactive({
         is_draft: false,
         assessment: null,
         note: ''
-    },
+    } as any,
     options: {
         assessments: [
             { value: null, title: 'None' },
             { value: 'no risk', title: 'No risk' },
             { value: 'increased risk', title: 'Increased risk' },
             { value: 'acute increased risk', title: 'Acute increased risk' },
-        ]
+        ] as any
     }
 })
 
@@ -224,6 +251,62 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', state.formJournal)
     }
+}
+
+const triggerContentFileInput = () => {
+    contentFileInput.value?.click()
+}
+
+const handleContentFileChange = (event: Event) => {
+    const input = event.target as HTMLInputElement; // Typecasting to HTMLInputElement
+    if (input.files && input.files[0]) {
+        const file = input.files[0]
+        uploadContentAttachment(file)
+    }
+}
+
+const uploadContentAttachment = async (file: any) => {
+    emit('isPageLoading', true)
+    try {
+        const params = new FormData()
+        params.append('file', file)
+        params.append('citizen_uuid', String(citizenUuid))
+        const response = await journalService.uploadJournalFile(params)
+        if (response) {
+            state.formJournal.content += `<p><a href="${response?.data?.file}">${response?.data?.file_name}</a></p>`
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+const triggerRiskAssessmentFileInput = () => {
+    riskAssessmentFileInput.value?.click()
+}
+
+const handleRiskAssessmentFileChange = (event: Event) => {
+    const input = event.target as HTMLInputElement; // Typecasting to HTMLInputElement
+    if (input.files && input.files[0]) {
+        const file = input.files[0]
+        uploadRiskAssessmentAttachment(file)
+    }
+}
+
+const uploadRiskAssessmentAttachment = async (file: any) => {
+    emit('isPageLoading', true)
+    try {
+        const params = new FormData()
+        params.append('file', file)
+        params.append('citizen_uuid', String(citizenUuid))
+        const response = await journalService.uploadJournalFile(params)
+        if (response) {
+            state.formJournal.note += `<p><a href="${response?.data?.file}">${response?.data?.file_name}</a></p>`
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
 }
 
 function ContentUploadAdapterPlugin(editor: any) {

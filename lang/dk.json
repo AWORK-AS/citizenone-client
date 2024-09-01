@@ -157,6 +157,7 @@
                 "includeRiskAssessment": "Inkluder risikovurdering"
             },
             "form": {
+                "attachFile": "Vedhæft fil",
                 "content": "Indhold",
                 "date": "Dato",
                 "draft": "Udkast",
