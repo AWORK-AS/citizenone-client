@@ -24,6 +24,10 @@ class AccountService extends BaseAPIService {
     async getCurrentAccount(): Promise<any> {
         return await this.request(`/superadmin`, 'GET')
     }
+
+    async getAllAccountUsers(): Promise<any> {
+        return await this.request(`/superadmin/account-users/all/list`, 'GET')
+    }
 }
 
 export const accountService = new AccountService()
