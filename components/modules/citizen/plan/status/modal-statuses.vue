@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('plansandgoals.statuses')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="lg" :title="$t('plansandgoals.statuses')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
@@ -19,10 +19,13 @@
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                                 <template #body v-if="!(state.isTableLoading || (state.statuses?.data?.length === 0))">
                                     <tr v-for="(status, index) in state.statuses?.data" :key="index">
-                                        <td width="75%">
+                                        <td width="45%">
                                             <span>{{ status?.status }}</span>
                                         </td>
-                                        <td width="25%">
+                                        <td width="35%">
+                                            <span>{{ formatDateToReadable(status?.created_at) }}</span>
+                                        </td>
+                                        <td width="20%">
                                             <div class="flex items-end gap-2">
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="editStatus(status)">
@@ -60,10 +63,12 @@
 
 <script setup lang="ts">
 import { statusService } from '@/components/api/StatusService'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
+const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
@@ -87,6 +92,7 @@ const state = reactive({
     ],
     columnHeaders: [
         { name: 'plansandgoals.table.status', sorter: true, key: 'status' },
+        { name: 'plansandgoals.table.dateCreated' },
         { name: '' },
     ],
     dataFilter: [],

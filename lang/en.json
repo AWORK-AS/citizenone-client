@@ -527,6 +527,7 @@
                 "statuses": "Statuses",
                 "view": "View"
             },
+            "dateCreated": "Date created",
             "status": "Status"
         }
     },

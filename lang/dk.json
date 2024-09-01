@@ -479,16 +479,16 @@
     },
     "plansandgoals": {
         "alert": {
-            "planSuccessfullyAdded": "Plan blev tilføjet succesfuldt",
-            "planSuccessfullyDeleted": "Plan blev slettet succesfuldt",
-            "planSuccessfullyUpdated": "Plan blev opdateret succesfuldt",
-            "goalSuccessfullyAdded": "Mål blev tilføjet succesfuldt",
-            "goalSuccessfullyUpdated": "Mål blev opdateret succesfuldt",
-            "statusSuccessfullyAdded": "Status blev tilføjet succesfuldt",
-            "statusSuccessfullyDeleted": "Status er blevet slettet",
-            "statusSuccessfullyUpdated": "Status blev opdateret succesfuldt",
-            "subgoalSuccessfullyAdded": "Delmål blev tilføjet succesfuldt",
-            "subgoalSuccessfullyUpdated": "Delmål blev opdateret succesfuldt"
+            "planSuccessfullyAdded": "Planen er succesfuldt tilføjet",
+            "planSuccessfullyDeleted": "Planen er succesfuldt slettet",
+            "planSuccessfullyUpdated": "Planen er succesfuldt opdateret",
+            "goalSuccessfullyAdded": "Målet er succesfuldt tilføjet",
+            "goalSuccessfullyUpdated": "Målet er succesfuldt opdateret",
+            "statusSuccessfullyAdded": "Status er succesfuldt tilføjet",
+            "statusSuccessfullyDeleted": "Status er succesfuldt slettet",
+            "statusSuccessfullyUpdated": "Status er succesfuldt opdateret",
+            "subgoalSuccessfullyAdded": "Delmål succesfuldt tilføjet",
+            "subgoalSuccessfullyUpdated": "Delmål succesfuldt opdateret"
         },
         "confirmation": {
             "deletePlanConfirmation": "Er du sikker på, at du vil slette denne plan",
@@ -496,7 +496,7 @@
         },
         "completed": "Fuldført",
         "completionDate": "Afslutningsdato",
-        "dateCompleted": "Dato fuldført",
+        "dateCompleted": "Dato for fuldførelse",
         "download": "Download",
         "editGoal": "Rediger mål",
         "editPlan": "Rediger plan",
@@ -505,28 +505,31 @@
         "form": {
             "completed": "Fuldført",
             "completionDate": "Afslutningsdato",
-            "dateCompleted": "Dato fuldført",
+            "dateCompleted": "Dato for fuldførelse",
             "description": "Beskrivelse",
             "goalName": "Målnavn",
             "planName": "Plannavn",
             "status": "Status",
-            "subgoalName": "Delmålnavn"
+            "subgoalName": "Delmålsnavn"
         },
         "inProgress": "I gang",
         "newGoal": "Nyt mål",
         "newPlan": "Ny plan",
         "newStatus": "Ny status",
         "newSubgoal": "Nyt delmål",
-        "noAvailableSubgoals": "Der er ingen delmål til rådighed at vise",
+        "noAvailableSubgoals": "Der er ingen delmål tilgængelige at vise",
         "statuses": "Statusser",
         "subgoals": "Delmål",
         "table": {
-            "edit": "Rediger",
-            "delete": "Slet",
-            "statuses": "Statusser",
-            "view": "Vis"
-        },
-        "status": "Status"
+            "actions": {
+                "edit": "Rediger",
+                "delete": "Slet",
+                "statuses": "Statusser",
+                "view": "Se"
+            },
+            "dateCreated": "Oprettelsesdato",
+            "status": "Status"
+        }
     },
     "poll": {
         "youHaveAlreadyVoted": "Du har allerede stemt"
