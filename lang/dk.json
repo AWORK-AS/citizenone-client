@@ -269,9 +269,13 @@
         "noEventsForToday": "Ingen begivenheder for i dag",
         "noJournalsToShow": "Ingen journaler at vise",
         "noNewsToShow": "Ingen nyheder at vise",
-        "noPollToShow": "Ingen afstemning at vise",
         "openLink": "Åbn link",
-        "poll": "Afstemning"
+        "poll": {
+            "from": "Fra",
+            "noPollToShow": "Ingen afstemning at vise",
+            "poll": "Afstemning",
+            "sentBy": "Sendt af"
+        }
     },
     "department": {
         "all": "Alle",

@@ -269,9 +269,13 @@
         "noEventsForToday": "No events for today",
         "noJournalsToShow": "No journals to show",
         "noNewsToShow": "No news to show",
-        "noPollToShow": "No poll to show",
         "openLink": "Open link",
-        "poll": "Poll"
+        "poll": {
+            "from": "From",
+            "noPollToShow": "No poll to show",
+            "poll": "Poll",
+            "sentBy": "Sent by"
+        }
     },
     "department": {
         "all": "All",

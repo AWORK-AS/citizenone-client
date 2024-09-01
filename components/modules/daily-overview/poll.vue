@@ -4,11 +4,11 @@
             :text="state?.error?.message === 'You have already voted.' ? `${$t('poll.youHaveAlreadyVoted')}.` : state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('dailyOverview.poll') }}
+            {{ $t('dailyOverview.poll.poll') }}
         </h3>
 
         <div class="flex items-center justify-center h-80 text-sm mt-10" v-if="state.polls?.data?.length === 0">
-            {{ $t('dailyOverview.noPollToShow') }}
+            {{ $t('dailyOverview.poll.noPollToShow') }}
         </div>
 
         <div class="mt-3 text-sm space-y-2 overflow-scroll min-h-44 max-h-96 pr-4 mr-1" v-else>
@@ -31,6 +31,12 @@
                                         </h3>
                                         <p class="text-xs">
                                             {{ item?.description }}
+                                        </p>
+                                        <p class="text-xs">
+                                            {{ $t('dailyOverview.poll.sentBy') }}
+                                            {{ item?.sender?.firstname }} {{ item?.sender?.lastname }}
+                                            <span class="lowercase">{{ $t('dailyOverview.poll.from') }}</span>
+                                            {{ item?.region?.name }}
                                         </p>
                                         <p class="text-xxs text-muted-400">
                                             <span>{{ formatDateToReadable(item?.created_at) }}</span>
