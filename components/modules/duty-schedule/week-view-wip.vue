@@ -97,7 +97,13 @@
                     <div>
                         <div>
                             <div class="shadow grid grid-cols-9">
-                                <div class="col-span-2 border-0.5"></div>
+                                <div class="col-span-2 border-0.5">
+                                    <div class="flex items-center py-4 border-0.5">
+                                        <p class="px-3 text-sm font-medium">
+                                            Week {{ weekNumber }}
+                                        </p>
+                                    </div>
+                                </div>
                                 <div v-for="day in weekDays" :key="day.date"
                                     class="flex items-center justify-center py-4 border-0.5">
                                     <span class="flex gap-x-1 text-sm">
@@ -380,6 +386,10 @@ function nextWeek() {
     fetchEmployees()
     // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
 }
+
+const weekNumber = computed(() => {
+    return moment(currentDate.value).week()
+})
 
 const weekDays = computed(() => {
     const startOfWeek = moment(currentDate.value).startOf('isoWeek')
