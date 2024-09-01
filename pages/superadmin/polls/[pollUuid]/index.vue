@@ -30,7 +30,7 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.pollItems?.data?.length === 0))">
                                 <tr v-for="(pollItem, index) in state.pollItems?.data" :key="index">
-                                    <td width="40%">
+                                    <td width="15%">
                                         <div>
                                             {{ pollItem?.title }}
                                         </div>
@@ -38,6 +38,16 @@
                                     <td width="20%">
                                         <div>
                                             {{ pollItem?.description }}
+                                        </div>
+                                    </td>
+                                    <td width="15%">
+                                        <div>
+                                            {{ pollItem?.sender?.first_name }} {{ pollItem?.sender?.last_name }}
+                                        </div>
+                                    </td>
+                                    <td width="10%">
+                                        <div>
+                                            {{ pollItem?.region?.name }}
                                         </div>
                                     </td>
                                     <td width="10%">
@@ -51,7 +61,7 @@
                                             </Badge>
                                         </div>
                                     </td>
-                                    <td width="30%">
+                                    <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/superadmin/polls/${pollUuid}/${pollItem.uuid}/edit`)">
@@ -100,6 +110,8 @@ const state = reactive({
     columnHeaders: [
         { name: 'superadmin.polls.table.title', sorter: true, key: 'title' },
         { name: 'superadmin.polls.table.description' },
+        { name: 'superadmin.polls.table.sender' },
+        { name: 'superadmin.polls.table.region' },
         { name: 'superadmin.polls.table.status', sorter: true, key: 'is_active' },
         { name: '' },
     ],

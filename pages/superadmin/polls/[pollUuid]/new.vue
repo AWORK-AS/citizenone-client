@@ -41,6 +41,8 @@ const state = reactive({
     formPollItem: {
         title: '',
         description: '',
+        sender: '',
+        region: '',
         is_active: false,
     },
     isPageLoading: false,
@@ -54,6 +56,8 @@ async function savePollItem(pollItemDetails: any) {
             'poll_uuid': pollUuid,
             'title': pollItemDetails.title,
             'description': pollItemDetails.description,
+            'sender': pollItemDetails.sender,
+            'region': pollItemDetails.region,
             'is_active': pollItemDetails.is_active,
         }
         const response = await pollItemService.savePollItem(params)

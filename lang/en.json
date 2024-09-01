@@ -663,6 +663,8 @@
                 },
                 "description": "Description",
                 "name": "Name",
+                "region": "Region",
+                "sender": "Afsender",
                 "title": "Title"
             },
             "table": {
@@ -674,6 +676,8 @@
                 "active": "Active",
                 "description": "Description",
                 "inactive": "Inctive",
+                "region": "Region",
+                "sender": "Sender",
                 "status": "Status",
                 "title": "Title"
             },

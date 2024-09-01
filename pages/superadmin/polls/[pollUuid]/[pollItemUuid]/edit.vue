@@ -42,6 +42,8 @@ const state = reactive({
     formPollItem: {
         title: '',
         description: '',
+        sender: '',
+        region: '',
         is_active: false,
     },
     isPageLoading: false,
@@ -60,6 +62,8 @@ async function fetchPollItem() {
             state.formPollItem = {
                 title: response?.data?.title ?? '',
                 description: response?.data?.description ?? '',
+                sender: response?.data?.description ?? '',
+                region: response?.data?.description ?? '',
                 is_active: response?.data?.is_active ? true : false,
             }
         }
@@ -76,6 +80,8 @@ async function updatePollItem(pollItemDetails: any) {
         const params = {
             'title': pollItemDetails.title,
             'description': pollItemDetails.description,
+            'sender': pollItemDetails.sender,
+            'region': pollItemDetails.region,
             'is_active': pollItemDetails.is_active,
         }
         const response = await pollItemService.updatePollItem(pollItemUuid, params)
