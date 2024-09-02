@@ -455,6 +455,7 @@
             },
             "content": "Indhold",
             "image": "Billede",
+            "featured": "Fremhævet",
             "link": "Link",
             "title": "Titel"
         },

@@ -455,6 +455,7 @@
             },
             "content": "Content",
             "image": "Image",
+            "featured": "Featured",
             "link": "Link",
             "title": "Title"
         },

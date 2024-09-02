@@ -41,6 +41,7 @@ const state = reactive({
         title: '',
         link: '',
         content: '',
+        is_featured: false,
         is_active: false,
     },
     isPageLoading: false,
@@ -61,6 +62,7 @@ async function fetchNews() {
                 title: response?.data?.title ?? '',
                 link: response?.data?.link ?? '',
                 content: response?.data?.content ?? '',
+                is_featured: response?.data?.is_featured ?? '',
                 is_active: response?.data?.is_active ?? '',
             }
         }
@@ -79,6 +81,7 @@ async function updateNews(newsDetails: any) {
         params.append('title', newsDetails.title)
         params.append('link', newsDetails.link)
         params.append('content', newsDetails.content)
+        params.append('is_featured', newsDetails.is_featured)
         params.append('is_active', newsDetails.is_active)
         const response = await newsService.updateNews(uuid, params)
         if (response.data) {

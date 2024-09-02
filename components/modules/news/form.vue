@@ -44,6 +44,12 @@
                 <FormError :error="props?.error?.errors?.content?.[0]" />
             </div>
             <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer" @click="changeIsFeatured">
+                    <FormCheckbox :value="state.formNews.is_featured" />
+                    {{ $t('news.form.featured') }}
+                </div>
+            </div>
+            <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer" @click="changeIsActive">
                     <FormCheckbox :value="state.formNews.is_active" />
                     {{ $t('news.form.active') }}
@@ -52,8 +58,7 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="navigateTo('/superadmin/news')">
+                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="navigateTo('/news')">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md">
@@ -98,6 +103,7 @@ const state = reactive({
         title: '',
         link: '',
         content: '',
+        is_featured: false,
         is_active: true,
     } as NewsForm,
 })
@@ -109,6 +115,7 @@ watch(() => props.selectedNews, (newValue: any) => {
             title: newValue.title,
             link: newValue.link,
             content: newValue.content,
+            is_featured: newValue.is_featured,
             is_active: newValue.is_active,
         }
         avatarUrl.value = newValue.image
@@ -169,6 +176,10 @@ function onFileChange(event: any) {
         }
         reader.readAsDataURL(file)
     }
+}
+
+function changeIsFeatured() {
+    state.formNews.is_featured = !state.formNews.is_featured
 }
 
 function changeIsActive() {

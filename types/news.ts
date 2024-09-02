@@ -3,5 +3,6 @@ export interface NewsForm {
     title: string,
     link: string,
     content: string,
+    is_featured: boolean,
     is_active: boolean,
 }

@@ -39,6 +39,7 @@ const state = reactive({
         title: '',
         link: '',
         content: '',
+        is_featured: false,
         is_active: false,
     },
     isPageLoading: false,
@@ -53,6 +54,7 @@ async function saveNews(newsDetails: any) {
         params.append('title', newsDetails.title)
         params.append('link', newsDetails.link)
         params.append('content', newsDetails.content)
+        params.append('is_featured', newsDetails.is_featured)
         params.append('is_active', newsDetails.is_active)
         const response = await newsService.saveNews(params)
         if (response.data) {
