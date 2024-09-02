@@ -25,7 +25,7 @@
                             :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.news?.data?.length === 0))">
                                 <tr v-for="(news, index) in state.news?.data" :key="index">
-                                    <td width="20%">
+                                    <td width="15%">
                                         <img :src="news?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${news?.title}`"
                                             class="w-full" />
                                     </td>
@@ -34,10 +34,20 @@
                                             <span>{{ news?.title }}</span>
                                         </div>
                                     </td>
-                                    <td width="35%">
+                                    <td width="30%">
                                         <span>{{ news?.content }}</span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
+                                        <div class="flex items-center gap-x-2">
+                                            <Badge :type="news?.is_featured ? 'active' : 'primary'">
+                                                <p class="text-xs">
+                                                    {{ news?.is_featured ? $t('news.table.active') :
+                                                        $t('news.table.inactive') }}
+                                                </p>
+                                            </Badge>
+                                        </div>
+                                    </td>
+                                    <td width="15%">
                                         <div class="flex items-center gap-x-2">
                                             <Badge :type="news?.is_active ? 'active' : 'primary'">
                                                 <p class="text-xs">
@@ -95,6 +105,7 @@ const state = reactive({
         { name: 'news.table.image' },
         { name: 'news.table.title', sorter: true, key: 'title' },
         { name: 'news.table.content' },
+        { name: 'news.table.featured' },
         { name: 'news.table.status', sorter: true, key: 'is_active' },
         { name: '' },
     ],

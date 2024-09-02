@@ -468,6 +468,7 @@
             },
             "active": "Active",
             "content": "Content",
+            "featured": "Featured",
             "image": "Image",
             "inactive": "Inctive",
             "status": "Status",
