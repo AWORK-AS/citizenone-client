@@ -9,7 +9,7 @@
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div class="flex h-screen flex-1">
                     <div class="relative hidden w-0 flex-1 lg:block">
-                        <img class="absolute inset-0 h-full w-full object-cover"
+                        <img class="absolute inset-0 h-full w-full"
                             src="https://citizenone.dk/wp-content/uploads/2024/09/bg-CitizenOne-journalsystem.png"
                             alt="Image failed to load" />
                     </div>

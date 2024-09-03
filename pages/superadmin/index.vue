@@ -7,7 +7,7 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="flex h-screen flex-1">
             <div class="relative hidden w-0 flex-1 lg:block">
-                <img class="absolute inset-0 h-full w-full object-cover"
+                <img class="absolute inset-0 h-full w-full"
                     src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     alt="Image failed to load" />
             </div>
