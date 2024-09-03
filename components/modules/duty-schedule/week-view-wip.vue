@@ -5,7 +5,7 @@
         <div class="flex h-full flex-col">
             <header class="flex flex-none items-center justify-between border-b border-gray-200 py-4">
                 <div>
-                    <p>Legend:</p>
+                    <p>Types of shifts:</p>
                     <div class="grid grid-cols-2 gap-x-4">
                         <div class="flex items-center gap-x-2">
                             <div class="w-3 h-3 rounded-sm bg-shifts-regular"></div>
@@ -143,10 +143,11 @@
                             </div>
 
                             <div class="relative mt-0.5"
-                                @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && pasteWeeklySchedule()"
+                                @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule()"
                                 :class="[
                                     isWeeklyScheduleCopied(weekNumber) && 'border-1.5 border-dashed border-gray-700',
-                                    !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && 'cursor-copy relative group'
+                                    !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && 'cursor-copy relative group',
+                                    !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && isPastWeek() && 'cursor-not-allowed'
                                 ]">
                                 <div v-for="(weeklySchedule, weeklyScheduleIndex) in state.weeklySchedules"
                                     :key="weeklyScheduleIndex" class="grid grid-cols-9"
@@ -440,6 +441,10 @@ function setSelectedDay(day: any) {
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
+}
+
+function isPastWeek() {
+    return moment(currentDate.value).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')
 }
 
 function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: any, week: any) {
