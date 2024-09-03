@@ -8,7 +8,7 @@
         <div class="flex h-screen flex-1">
             <div class="relative hidden w-0 flex-1 lg:block">
                 <img class="absolute inset-0 h-full w-full object-cover"
-                    src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    src="https://citizenone.dk/wp-content/uploads/2024/09/bg-CitizenOne-journalsystem.png"
                     alt="Image failed to load" />
             </div>
             <div
