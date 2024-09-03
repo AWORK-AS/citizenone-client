@@ -98,10 +98,17 @@
                         <div>
                             <div class="shadow grid grid-cols-9">
                                 <div class="col-span-2 border-0.5">
-                                    <div class="flex items-center py-4 border-0.5">
-                                        <p class="px-3 text-sm font-medium">
+                                    <div class="flex items-center px-3 py-4 border-0.5">
+                                        <p class="text-sm font-medium">
                                             Week {{ weekNumber }}
                                         </p>
+                                        <div class="flex-1 flex justify-end">
+                                            <button
+                                                class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                @click="copyWeeklySchedule(weekNumber)">
+                                                <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div v-for="day in weekDays" :key="day.date"
@@ -135,9 +142,15 @@
                                 </div>
                             </div>
 
-                            <div class="mt-0.5">
+                            <div class="relative mt-0.5"
+                                @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && pasteWeeklySchedule()"
+                                :class="[
+                                    isWeeklyScheduleCopied(weekNumber) && 'border-1.5 border-dashed border-gray-700',
+                                    !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && 'cursor-copy relative group'
+                                ]">
                                 <div v-for="(weeklySchedule, weeklyScheduleIndex) in state.weeklySchedules"
-                                    :key="weeklyScheduleIndex" class="grid grid-cols-9">
+                                    :key="weeklyScheduleIndex" class="grid grid-cols-9"
+                                    v-if="!isWeeklyScheduleCopied(weekNumber)">
                                     <div class="p-3 col-span-2 space-y-2 border-0.5">
                                         <div>
                                             <p class="text-sm font-medium">
@@ -244,7 +257,7 @@
                                             </div>
                                         </div>
                                         <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer" v-else
-                                            @click="stopCopying(weeklyScheduleIndex, weekIndex)">
+                                            @click="stopCopying()">
                                             <p class="text-center text-sm">Stop copying</p>
                                             <p class="text-center text-xxs">
                                                 Click here to stop copying the schedule
@@ -252,10 +265,24 @@
                                         </div>
                                         <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                             v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex) && !isScheduleCopiedEmpty()">
-                                            <p class="text-white text-xs text-center">Click here to paste the schedule
+                                            <p class="text-white text-xs text-center">
+                                                Click here to paste the schedule
                                             </p>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer" v-else
+                                    @click="stopCopying()">
+                                    <p class="text-center text-sm pt-5">Stop copying</p>
+                                    <p class="text-center text-xxs pb-10">
+                                        Click here to stop copying the schedule
+                                    </p>
+                                </div>
+                                <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                    v-if="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty()">
+                                    <p class="text-white text-xs text-center">
+                                        Click here to paste the schedule
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -280,10 +307,11 @@ const year = computed(() => currentDate.value.format('YYYY'))
 
 const state = reactive({
     addShift: {
-        selectedEmployeeSchedule: {}
+        selectedEmployeeSchedules: {}
     } as any,
     copy: {
-        selectedEmployeeSchedule: {}
+        allEmployeeSchedules: {},
+        selectedEmployeeSchedules: {}
     } as any,
     employees: [] as any,
     error: {} as any,
@@ -414,13 +442,9 @@ function setSelectedDay(day: any) {
     emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
 }
 
-function isWithinRange(eventStart: moment.Moment, eventEnd: moment.Moment, dayStart: moment.Moment, dayEnd: moment.Moment) {
-    return eventStart.isBefore(dayEnd) && eventEnd.isAfter(dayStart)
-}
-
 function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: any, week: any) {
     state.modal.isAddShiftOpen = true
-    state.addShift.selectedEmployeeSchedule = {
+    state.addShift.selectedEmployeeSchedules = {
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekIndex: weekIndex,
         ...week
@@ -428,27 +452,28 @@ function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: any, week:
 }
 
 function isScheduleCopiedEmpty() {
-    return Object.keys(state.copy.selectedEmployeeSchedule).length === 0
+    return Object.keys(state.copy.selectedEmployeeSchedules).length === 0
 }
 
 function isScheduleCopied(weeklyScheduleIndex: number, weekIndex: number) {
-    return state.copy.selectedEmployeeSchedule.weeklyScheduleIndex === weeklyScheduleIndex && state.copy.selectedEmployeeSchedule.weekIndex === weekIndex
+    return state.copy.selectedEmployeeSchedules.weeklyScheduleIndex === weeklyScheduleIndex && state.copy.selectedEmployeeSchedules.weekIndex === weekIndex
 }
 
 function copyEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: any, weeklySchedule: any) {
-    state.copy.selectedEmployeeSchedule = {
+    state.copy.selectedEmployeeSchedules = {
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekIndex: weekIndex,
         weeklySchedule: weeklySchedule,
     }
 }
 
-function stopCopying(weeklyScheduleIndex: number, weekIndex: number) {
-    state.copy.selectedEmployeeSchedule = {}
+function stopCopying() {
+    state.copy.allEmployeeSchedules = {}
+    state.copy.selectedEmployeeSchedules = {}
 }
 
 function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
-    const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeSchedule
+    const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeSchedules
     const copiedWeekIndex = copiedSelectedEmployeeSchedule.weekIndex
     const shiftsToPaste = copiedSelectedEmployeeSchedule.weeklySchedule.weeks[copiedWeekIndex].shifts
 
@@ -458,11 +483,30 @@ function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = copiedShifts
 }
 
+function isAllWeeklyScheduleCopiedEmpty() {
+    return Object.keys(state.copy.allEmployeeSchedules).length === 0
+}
+
+function isWeeklyScheduleCopied(weekNumber: number) {
+    return state.copy.allEmployeeSchedules.weekNumber === weekNumber
+}
+
+function copyWeeklySchedule(weekNumber: number) {
+    state.copy.allEmployeeSchedules = {
+        weekNumber: weekNumber,
+        weeklySchedules: state.weeklySchedules
+    }
+}
+
+function pasteWeeklySchedule() {
+    state.weeklySchedules = state.copy.allEmployeeSchedules.weeklySchedules
+}
+
 function saveShift(shiftDetails: any) {
-    const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedule.weeklyScheduleIndex
-    const weekIndex = state.addShift.selectedEmployeeSchedule.weekIndex
+    const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex
+    const weekIndex = state.addShift.selectedEmployeeSchedules.weekIndex
     // Check if shift already existed
-    if (!(state.weeklySchedules[state.addShift.selectedEmployeeSchedule.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedule.weekIndex].shifts.find((shift: any) => shift.name === shiftDetails.shift_type))) {
+    if (!(state.weeklySchedules[state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedules.weekIndex].shifts.find((shift: any) => shift.name === shiftDetails.shift_type))) {
         state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
             name: shiftDetails.shift_type,
             time_in: '08:00',
