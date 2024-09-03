@@ -217,13 +217,13 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-x-4 lg:gap-x-3">
-                        <!-- <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
+                        <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
                             @click="navigateTo('/journal-notifications')">
                             <Icon name="ph:bell" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
                             <Badge type="notification" class="w-fit absolute -top-4 left-4">
-                                0
+                                {{ userStore.getUser?.unread_notification_count }}
                             </Badge>
-                        </button> -->
+                        </button>
 
                         <!-- Separator -->
                         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
