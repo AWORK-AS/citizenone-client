@@ -15,6 +15,9 @@ export const useUserStore = defineStore('userStore',
             user: null,
         }),
         actions: {
+            minusUserNotificationCount() {
+                this.user.unread_notification_count = this.user.unread_notification_count - 1
+            },
             setIsCheckInNow(status) {
                 this.isCheckInNow = status
             },
@@ -51,6 +54,9 @@ export const useUserStore = defineStore('userStore',
                     minutes: 0,
                     seconds: 0,
                 }
+            },
+            resetUserNotificationCount() {
+                this.user.unread_notification_count = 0
             },
             resetUser() {
                 this.user = null

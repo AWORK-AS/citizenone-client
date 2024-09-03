@@ -405,6 +405,7 @@
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har med succes accepteret invitationen"
     },
     "journalNotifications": {
+        "markAllAsRead": "Markér alle som læst",
         "unreadJournalNotes": "Ulæste journalnotater"
     },
     "languageSwitcher": {

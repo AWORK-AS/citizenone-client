@@ -405,6 +405,7 @@
         "youHaveSuccessfullyAcceptedTheInvitation": "You have successfully accepted the invitation"
     },
     "journalNotifications": {
+        "markAllAsRead": "Mark all as read",
         "unreadJournalNotes": "Unread journal notes"
     },
     "languageSwitcher": {
