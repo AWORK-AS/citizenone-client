@@ -8,10 +8,19 @@
 
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div class="flex h-screen flex-1">
-                    <div class="relative hidden w-0 flex-1 lg:block">
-                        <img class="absolute inset-0 h-full w-full"
-                            src="https://citizenone.dk/wp-content/uploads/2024/09/bg-CitizenOne-journalsystem.png"
-                            alt="Image failed to load" />
+                    <div class="relative hidden w-0 flex-1 lg:block overflow-clip">
+                        <img src="https://citizenone.dk/wp-content/uploads/2024/09/CitizenOne-6.jpg"
+                            alt="Image failed to load" class="absolute inset-0 h-full w-full object-cover" />
+                        <img src="https://citizenone.dk/wp-content/uploads/2024/09/2.svg" alt="Image failed to load"
+                            class="absolute w-1/2" style="top: -16%; left: -11%;" />
+                        <div>
+                            <img src="/img/icons/asset-01.svg" alt="Image failed to load"
+                                class="absolute w-2/4 -bottom-56 -right-12" />
+                            <p class="absolute bottom-10 right-10 text-lg text-white flex items-center gap-x-2">
+                                <img src="/img/icons/shield.svg" alt="Image failed to load" class="w-8 h-8" />
+                                ISO-certificeret serverlagring beliggende i EU
+                            </p>
+                        </div>
                     </div>
                     <div
                         class="relative overflow-clip flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
