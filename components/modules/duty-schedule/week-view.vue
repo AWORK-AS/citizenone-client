@@ -60,7 +60,7 @@
                     </div>
                 </div>
             </header>
-            <div class="bg-primary h-3 rounded-full transition-width duration-500 mb-2"
+            <div class="bg-primary h-3 rounded-full transition-width duration-500 mb-1.5"
                 :style="{ width: `${state.progress.percentage}%` }"></div>
             <div class="isolate flex flex-auto flex-col overflow-auto bg-white">
                 <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
@@ -504,19 +504,22 @@ async function saveShift(shiftDetails: any) {
         }
     } catch (error: any) {
         state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
     }
 }
 
 function identifyTheProgressPercentage() {
     if (state.progress.totalRequests === 0) {
         state.progress.percentage = 100
-        console.log('test1', state.progress.percentage)
     } else {
+        console.log('pendingRequests', state.progress.pendingRequests)
+        console.log('totalRequests', state.progress.totalRequests)
         state.progress.percentage = (state.progress.pendingRequests / state.progress.totalRequests) * 100
         if (state.progress.percentage == 100) {
             state.progress.percentage = 50
         }
-        console.log('test2', state.progress.percentage)
     }
 }
 
