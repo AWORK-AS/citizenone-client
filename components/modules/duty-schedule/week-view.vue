@@ -146,7 +146,7 @@
                                 </div>
 
                                 <div class="relative mt-0.5"
-                                    @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule()"
+                                    @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule(weekNumber)"
                                     :class="[
                                         isWeeklyScheduleCopied(weekNumber) && 'border-1.5 border-dashed border-gray-700',
                                         !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && 'cursor-copy relative group',
@@ -463,12 +463,6 @@ async function saveShift(shiftDetails: any) {
             time_in: '08:00',
             time_out: '17:00',
         })
-    }
-
-    try {
-        state.progress.totalRequests = state.progress.totalRequests + 1
-        state.progress.pendingRequests = state.progress.pendingRequests + 1
-        identifyTheProgressPercentage()
         const params = {
             shift_type: shiftDetails.shift_type,
             date: state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date,
@@ -476,6 +470,15 @@ async function saveShift(shiftDetails: any) {
             time_out: '17:00',
             user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
         }
+        saveDutySchedule(params)
+    }
+}
+
+async function saveDutySchedule(params: object) {
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
         const response = await dutyScheduleService.saveDutySchedule(params)
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
@@ -535,30 +538,17 @@ async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: num
 
     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = copiedShifts
 
-    try {
-        state.progress.totalRequests = state.progress.totalRequests + 1
-        state.progress.pendingRequests = state.progress.pendingRequests + 1
-        identifyTheProgressPercentage()
-
-        const userSource = copiedSelectedEmployeeSchedule.weeklySchedule.employee
-        const userDestination = state.weeklySchedules[weeklyScheduleIndex].employee
-        const dateSource = state.weeklySchedules[weeklyScheduleIndex].weeks[copiedWeekIndex].date
-        const dateDestination = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
-        const params = {
-            user_uuid_source: userSource.uuid,
-            user_uuid_destination: userDestination.uuid,
-            date_source: dateSource,
-            date_destination: dateDestination,
-        }
-        const response = await dutyScheduleService.saveDutySchedule(params)
-        if (response) {
-            state.progress.totalRequests = state.progress.totalRequests - 1
-            state.progress.pendingRequests = state.progress.pendingRequests - 1
-            identifyTheProgressPercentage()
-        }
-    } catch (error: any) {
-        state.error = error
+    const userSource = copiedSelectedEmployeeSchedule.weeklySchedule.employee
+    const userDestination = state.weeklySchedules[weeklyScheduleIndex].employee
+    const dateSource = state.weeklySchedules[weeklyScheduleIndex].weeks[copiedWeekIndex].date
+    const dateDestination = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
+    const params = {
+        user_uuid_source: userSource.uuid,
+        user_uuid_destination: userDestination.uuid,
+        date_source: dateSource,
+        date_destination: dateDestination,
     }
+    saveDutySchedule(params)
 }
 
 function isAllWeeklyScheduleCopiedEmpty() {
@@ -576,8 +566,13 @@ function copyWeeklySchedule(weekNumber: number) {
     }
 }
 
-function pasteWeeklySchedule() {
+function pasteWeeklySchedule(weekNumber: number) {
     state.weeklySchedules = state.copy.allEmployeeSchedules.weeklySchedules
+    const params = {
+        week_source: state.copy.allEmployeeSchedules.weekNumber,
+        week_destination: weekNumber,
+    }
+    saveDutySchedule(params)
 }
 
 function removeShift(weeklyScheduleIndex: number, weekIndex: number, shiftType: any) {
