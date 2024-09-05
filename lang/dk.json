@@ -254,10 +254,11 @@
             "plansAndGoals": "Planer og mål"
         }
     },
+    "close": "Luk",
     "confirm": "Bekræft",
     "confirmation": "Bekræftelse",
     "contactUs": "Kontakt os",
-    "close": "Luk",
+    "create": "Opret",
     "dailyOverview": {
         "bulletBoard": "Opslagstavle",
         "campaign": "Kampagne",
@@ -307,12 +308,17 @@
     },
     "dutySchedules": {
         "alert": {
-            "successfullyAdded": "Ny tidsplan tilføjet med succes",
+            "successfullyAdded": "Ny vagtplan tilføjet med succes",
             "successfullyDeleted": "Tidsplan slettet med succes",
             "successfullyUpdated": "Tidsplan opdateret med succes"
         },
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne tidsplan?"
+        },
+        "copyPaste": {
+            "clickHereToPasteTheSchedule": "Klik her for at indsætte",
+            "clickHereToStopCopyingTheSchedule": "Klik her for at stoppe med at kopiere",
+            "stopCopying": "Stop kopiering"
         },
         "deleteSchedule": "Slet tidsplan",
         "dutySchedules": "Vagtplaner",
@@ -325,8 +331,16 @@
             "title": "Titel",
             "users": "Brugere"
         },
-        "newSchedule": "Ny tidsplan",
+        "newSchedule": "Ny vagtplan",
         "noScheduleFound": "Ingen tidsplan fundet",
+        "typeofShift": "Vagttyper",
+        "typeofShifts": "Vagttyper",
+        "shifts": {
+            "nightShift": "Nattevagt",
+            "regularShift": "Almindelig vagt",
+            "sickLeave": "Sygefravær",
+            "vacationLeave": "Ferie"
+        },
         "table": {
             "holidayHours": "Ferietimer",
             "nightShiftHours": "Nattevagttimer",

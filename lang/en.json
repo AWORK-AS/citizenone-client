@@ -254,10 +254,11 @@
             "plansAndGoals": "Plans and goals"
         }
     },
+    "close": "Close",
     "confirm": "Confirm",
     "confirmation": "Confirmation",
     "contactUs": "Contact us",
-    "close": "Close",
+    "create": "Opret",
     "dailyOverview": {
         "bulletBoard": "Bullet board",
         "campaign": "Campaign",
@@ -314,6 +315,11 @@
         "confirmation": {
             "deleteConfirmation": "Are you sure you want to delete this schedule"
         },
+        "copyPaste": {
+            "clickHereToPasteTheSchedule": "Click here to paste the schedule",
+            "clickHereToStopCopyingTheSchedule": "Click here to stop copying the schedule",
+            "stopCopying": "Stop copying"
+        },
         "deleteSchedule": "Delete schedule",
         "dutySchedules": "Duty schedules",
         "editSchedule": "Edit schedule",
@@ -327,6 +333,14 @@
         },
         "newSchedule": "New schedule",
         "noScheduleFound": "No schedule found",
+        "typeofShift": "Type of shift",
+        "typeofShifts": "Type of shifts",
+        "shifts": {
+            "nightShift": "Night shift",
+            "regularShift": "Regular shift",
+            "sickLeave": "Sick leave",
+            "vacationLeave": "Vacation leave"
+        },
         "table": {
             "holidayHours": "Holiday hours",
             "nightShiftHours": "Night Shift hours",

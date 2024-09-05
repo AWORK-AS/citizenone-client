@@ -5,23 +5,23 @@
         <div class="flex h-full flex-col">
             <header class="flex flex-none items-center justify-between py-4">
                 <div>
-                    <p>Types of shifts:</p>
+                    <p>{{ $t('dutySchedules.typeofShifts') }}:</p>
                     <div class="grid grid-cols-2 gap-x-4">
                         <div class="flex items-center gap-x-2">
                             <div class="w-3 h-3 rounded-sm bg-shifts-regular"></div>
-                            <span>Regular shift</span>
+                            <span>{{ $t('dutySchedules.shifts.regularShift') }}</span>
                         </div>
                         <div class="flex items-center gap-x-2">
                             <div class="w-3 h-3 rounded-sm bg-shifts-night"></div>
-                            <span>Night shift</span>
+                            <span>{{ $t('dutySchedules.shifts.nightShift') }}</span>
                         </div>
                         <div class="flex items-center gap-x-2">
                             <div class="w-3 h-3 rounded-sm bg-shifts-vacation"></div>
-                            <span>Vacation leave</span>
+                            <span>{{ $t('dutySchedules.shifts.vacationLeave') }}</span>
                         </div>
                         <div class="flex items-center gap-x-2">
                             <div class="w-3 h-3 rounded-sm bg-shifts-sickleave"></div>
-                            <span>Sick leave</span>
+                            <span>{{ $t('dutySchedules.shifts.sickLeave') }}</span>
                         </div>
                     </div>
                 </div>
@@ -269,30 +269,34 @@
                                         </div>
                                         <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer" v-else
                                             @click="stopCopying()">
-                                            <p class="text-center text-sm">Stop copying</p>
+                                            <p class="text-center text-sm">
+                                                {{ $t('dutySchedules.copyPaste.stopCopying') }}
+                                            </p>
                                             <p class="text-center text-xxs">
-                                                Click here to stop copying the schedule
+                                                {{ $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule') }}
                                             </p>
                                         </div>
                                         <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                             v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex) && !isScheduleCopiedEmpty()">
                                             <p class="text-white text-xs text-center">
-                                                Click here to paste the schedule
+                                                {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer" v-else
                                     @click="stopCopying()">
-                                    <p class="text-center text-sm pt-5">Stop copying</p>
+                                    <p class="text-center text-sm pt-5">
+                                        {{ $t('dutySchedules.copyPaste.stopCopying') }}
+                                    </p>
                                     <p class="text-center text-xxs pb-10">
-                                        Click here to stop copying the schedule
+                                        {{ $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule') }}
                                     </p>
                                 </div>
                                 <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                     v-if="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty()">
                                     <p class="text-white text-xs text-center">
-                                        Click here to paste the schedule
+                                        {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
                                     </p>
                                 </div>
                             </div>

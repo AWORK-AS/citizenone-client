@@ -5,9 +5,10 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <form @submit.prevent="saveShift()" class="overflow-x-hidden overflow-y-auto">
                         <div class="space-y-1">
-                            <FormLabel for="shift_type" label="Shift Type" />
+                            <FormLabel for="shift_type" :label="$t('dutySchedules.typeofShift')" />
                             <FormSelect id="shift_type" name="shift_type" :options="state.options.shifts"
                                 v-model="state.formShift.shift_type" />
+                            <FormError :error="v$?.formShift?.shift_type?.$errors[0]?.$message.toString()" />
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -15,7 +16,7 @@
                                     {{ $t('cancel') }}
                                 </FormButton>
                                 <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
-                                    Create
+                                    {{ $t('create') }}
                                 </FormButton>
                             </div>
                         </div>
@@ -28,6 +29,9 @@
 
 <script setup lang="ts">
 import type { Error } from '@/types'
+import { useVuelidate } from "@vuelidate/core"
+import { required, helpers } from '@vuelidate/validators'
+import { useI18n } from "vue-i18n"
 
 const props = defineProps({
     isModalOpen: {
@@ -35,6 +39,7 @@ const props = defineProps({
         required: true,
     },
 })
+const { t } = useI18n()
 const emit = defineEmits(['close', 'saveShift'])
 
 const state = reactive({
@@ -58,12 +63,26 @@ watch(() => props.isModalOpen, () => {
     state.formShift.shift_type = ''
 })
 
+const rules = computed(() => {
+    return {
+        formShift: {
+            shift_type: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+        },
+    }
+})
+const v$ = useVuelidate(rules, state)
+
 function closeModal() {
     emit('close')
 }
 
 async function saveShift() {
-    closeModal()
-    emit('saveShift', state.formShift)
+    v$.value.$validate()
+    if (!v$.value.$error) {
+        closeModal()
+        emit('saveShift', state.formShift)
+    }
 }
 </script>
