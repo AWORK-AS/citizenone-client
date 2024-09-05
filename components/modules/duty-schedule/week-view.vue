@@ -182,16 +182,16 @@
                                         </div>
                                         <div class="p-3 border-0.5" v-for="(week, weekIndex) in weeklySchedule?.weeks"
                                             :key="weekIndex" :class="[
-                                                isScheduleCopied(weeklyScheduleIndex, weekIndex) && 'border-1.5 border-dashed border-gray-700',
-                                                !isScheduleCopied(weeklyScheduleIndex, weekIndex) && !isScheduleCopiedEmpty() && 'cursor-copy relative group'
+                                                isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && 'border-1.5 border-dashed border-gray-700',
+                                                !isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isScheduleCopiedEmpty() && 'cursor-copy relative group'
                                             ]"
-                                            @click="!isScheduleCopied(weeklyScheduleIndex, weekIndex) && !isScheduleCopiedEmpty() && pasteEmployeeSchedule(weeklyScheduleIndex, weekIndex)">
+                                            @click="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isScheduleCopiedEmpty() && pasteEmployeeSchedule(weeklyScheduleIndex, weekIndex)">
                                             <div class="space-y-2"
-                                                v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex)">
+                                                v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber)">
                                                 <div class="flex justify-end gap-2">
                                                     <button
                                                         class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                        @click="copyEmployeeSchedule(weeklyScheduleIndex, weekIndex, weeklySchedule)">
+                                                        @click="copyEmployeeSchedule(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
                                                         <Icon name="mdi:content-copy" class="h-3 w-3"
                                                             aria-hidden="true" />
                                                     </button>
@@ -281,7 +281,7 @@
                                                 </p>
                                             </div>
                                             <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                                v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex) && !isScheduleCopiedEmpty()">
+                                                v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isScheduleCopiedEmpty()">
                                                 <p class="text-white text-xs text-center">
                                                     {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
                                                 </p>
@@ -384,7 +384,7 @@ function previousWeek() {
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     fetchDutySchedule()
-    stopCopying()
+    // stopCopying()
     // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
 }
 
@@ -396,7 +396,7 @@ function setToday() {
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     fetchDutySchedule()
-    stopCopying()
+    // stopCopying()
     // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
 }
 
@@ -408,7 +408,7 @@ function nextWeek() {
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     fetchDutySchedule()
-    stopCopying()
+    // stopCopying()
     // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
 }
 
@@ -507,13 +507,14 @@ function isScheduleCopiedEmpty() {
     return Object.keys(state.copy.selectedEmployeeSchedules).length === 0
 }
 
-function isScheduleCopied(weeklyScheduleIndex: number, weekIndex: number) {
-    return state.copy.selectedEmployeeSchedules.weeklyScheduleIndex === weeklyScheduleIndex && state.copy.selectedEmployeeSchedules.weekIndex === weekIndex
+function isScheduleCopied(weeklyScheduleIndex: number, weekIndex: number, weekNumber: number) {
+    return state.copy.selectedEmployeeSchedules.weeklyScheduleIndex === weeklyScheduleIndex && state.copy.selectedEmployeeSchedules.weekIndex === weekIndex && state.copy.selectedEmployeeSchedules.weekNumber === weekNumber
 }
 
-function copyEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: any, weeklySchedule: any) {
+function copyEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
     state.copy.selectedEmployeeSchedules = {
         weeklyScheduleIndex: weeklyScheduleIndex,
+        weekNumber: weekNumber,
         weekIndex: weekIndex,
         weeklySchedule: weeklySchedule,
     }
