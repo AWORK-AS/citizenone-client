@@ -440,7 +440,7 @@ function setSelectedDay(day: any) {
     const endOfWeek = dateMoment.clone().endOf('isoWeek')
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
-    emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
+    // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
     stopCopying()
 }
 
