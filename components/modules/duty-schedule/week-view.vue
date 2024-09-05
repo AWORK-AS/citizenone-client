@@ -220,7 +220,7 @@
                                                         </div>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(weeklyScheduleIndex, weekIndex, 'regular_shift')">
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'regular_shift')">
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                         </button>
                                                     </div>
@@ -236,7 +236,7 @@
                                                         </div>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(weeklyScheduleIndex, weekIndex, 'night_shift')">
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'night_shift')">
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                         </button>
                                                     </div>
@@ -252,7 +252,7 @@
                                                         </div>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(weeklyScheduleIndex, weekIndex, 'vacation_leave')">
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'vacation_leave')">
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                         </button>
                                                     </div>
@@ -268,7 +268,7 @@
                                                         </div>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(weeklyScheduleIndex, weekIndex, 'sick_leave')">
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'sick_leave')">
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                         </button>
                                                     </div>
@@ -579,9 +579,26 @@ function pasteWeeklySchedule(weekNumber: number) {
     saveDutySchedule(params)
 }
 
-function removeShift(weeklyScheduleIndex: number, weekIndex: number, shiftType: any) {
+async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: number, shiftType: any) {
+    const scheduleUuid = week.shifts.find((shift: any) => shift.name === shiftType).schedule_uuid
     const shiftIndexToRemove = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.splice(shiftIndexToRemove, 1)
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await dutyScheduleService.deleteDutySchedule(scheduleUuid)
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+        }
+    } catch (error: any) {
+        state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
 }
 
 function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: any, shiftType: string) {

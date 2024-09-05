@@ -8,6 +8,10 @@ class DutyScheduleService extends BaseAPIService {
     async saveDutySchedule(params: object): Promise<any> {
         return await this.request(`/user/duty-schedules`, 'POST', params)
     }
+
+    async deleteDutySchedule(scheduleUuid: any): Promise<any> {
+        return await this.request(`/user/duty-schedules/${scheduleUuid}`, 'DELETE')
+    }
 }
 
 export const dutyScheduleService = new DutyScheduleService()
