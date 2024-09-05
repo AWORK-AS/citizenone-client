@@ -229,10 +229,12 @@
                                                         <div class="flex">
                                                             <FormTimeField name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'night_shift')?.time_in" />
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'night_shift')?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'night_shift')" />
                                                             <FormTimeField name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'night_shift')?.time_out" />
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'night_shift')?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'night_shift')" />
                                                         </div>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
@@ -245,10 +247,12 @@
                                                         <div class="flex">
                                                             <FormTimeField name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_in" />
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'vacation_leave')" />
                                                             <FormTimeField name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_out" />
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'vacation_leave')" />
                                                         </div>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
@@ -261,10 +265,12 @@
                                                         <div class="flex">
                                                             <FormTimeField name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_in" />
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'sick_leave')" />
                                                             <FormTimeField name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_out" />
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'sick_leave')" />
                                                         </div>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
@@ -382,38 +388,17 @@ async function fetchDutySchedule() {
 
 function previousWeek() {
     currentDate.value = moment(currentDate.value).subtract(1, 'week')
-    const dateMoment = moment(currentDate.value)
-    const startOfWeek = dateMoment.clone().startOf('isoWeek')
-    const endOfWeek = dateMoment.clone().endOf('isoWeek')
-    const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
-    const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     fetchDutySchedule()
-    // stopCopying()
-    // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
 }
 
 function setToday() {
     currentDate.value = moment()
-    const dateMoment = moment(currentDate.value)
-    const startOfWeek = dateMoment.clone().startOf('isoWeek')
-    const endOfWeek = dateMoment.clone().endOf('isoWeek')
-    const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
-    const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     fetchDutySchedule()
-    // stopCopying()
-    // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
 }
 
 function nextWeek() {
     currentDate.value = moment(currentDate.value).add(1, 'week')
-    const dateMoment = moment(currentDate.value)
-    const startOfWeek = dateMoment.clone().startOf('isoWeek')
-    const endOfWeek = dateMoment.clone().endOf('isoWeek')
-    const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
-    const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     fetchDutySchedule()
-    // stopCopying()
-    // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
 }
 
 const weekNumber = computed(() => {
@@ -435,12 +420,6 @@ const weekDays = computed(() => {
 
 function setSelectedDay(day: any) {
     selectedDay.value = day.fullDate
-    const dateMoment = moment(currentDate.value)
-    const startOfWeek = dateMoment.clone().startOf('isoWeek')
-    const endOfWeek = dateMoment.clone().endOf('isoWeek')
-    const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
-    const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
-    // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
     stopCopying()
 }
 
@@ -603,13 +582,56 @@ async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: nu
 
 function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: any, shiftType: string) {
     const timeIn = event.target.value
-    const shiftTimeInIndexToReplace = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeInIndexToReplace].time_in = timeIn
+    const shiftTimeIndexToReplace = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
+    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeIndexToReplace].time_in = timeIn
+    const timeOut = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeIndexToReplace].time_out
+    const scheduleUuid = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeIndexToReplace].schedule_uuid
+    const date = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
+    const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
+    const params = {
+        time_in: timeIn,
+        time_out: timeOut,
+        user_uuid: userUuid,
+        date: date,
+        shift_type: shiftType,
+    }
+    updateDutySchedule(scheduleUuid, params)
 }
 
 function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: any, shiftType: string) {
     const timeOut = event.target.value
-    const shiftTimeOutIndexToReplace = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeOutIndexToReplace].time_out = timeOut
+    const shiftTimeIndexToReplace = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
+    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeIndexToReplace].time_out = timeOut
+    const timeIn = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeIndexToReplace].time_in
+    const scheduleUuid = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeIndexToReplace].schedule_uuid
+    const date = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
+    const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
+    const params = {
+        time_in: timeIn,
+        time_out: timeOut,
+        user_uuid: userUuid,
+        date: date,
+        shift_type: shiftType,
+    }
+    updateDutySchedule(scheduleUuid, params)
+}
+
+async function updateDutySchedule(scheduleUuid: any, params: object) {
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await dutyScheduleService.updateDutySchedule(scheduleUuid, params)
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+        }
+    } catch (error: any) {
+        state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
 }
 </script>
