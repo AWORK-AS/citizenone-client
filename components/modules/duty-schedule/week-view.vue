@@ -202,6 +202,10 @@
                                                     </button>
                                                 </div>
                                                 <div class="space-y-2 text-xs">
+                                                    <!-- {{
+                                                        week?.shifts.find((shift: any) => shift.name ===
+                                                            'regular_shift')?.schedule_uuid
+                                                    }} -->
                                                     <div class="bg-shifts-regular rounded-md p-1 relative"
                                                         v-if="week?.shifts.find((shift: any) => shift.name === 'regular_shift')">
                                                         <div class="flex">
@@ -539,8 +543,8 @@ async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: num
     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = copiedShifts
 
     const userSource = copiedSelectedEmployeeSchedule.weeklySchedule.employee
+    const dateSource = copiedSelectedEmployeeSchedule.weeklySchedule.weeks[copiedWeekIndex].date
     const userDestination = state.weeklySchedules[weeklyScheduleIndex].employee
-    const dateSource = state.weeklySchedules[weeklyScheduleIndex].weeks[copiedWeekIndex].date
     const dateDestination = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
     const params = {
         user_uuid_source: userSource.uuid,
