@@ -2,311 +2,316 @@
     <div class="space-y-5">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <div class="flex h-full flex-col">
-            <header class="flex flex-none items-center justify-between py-4">
-                <div>
-                    <p>{{ $t('dutySchedules.typeofShifts') }}:</p>
-                    <div class="grid grid-cols-2 gap-x-4">
-                        <div class="flex items-center gap-x-2">
-                            <div class="w-3 h-3 rounded-sm bg-shifts-regular"></div>
-                            <span>{{ $t('dutySchedules.shifts.regularShift') }}</span>
-                        </div>
-                        <div class="flex items-center gap-x-2">
-                            <div class="w-3 h-3 rounded-sm bg-shifts-night"></div>
-                            <span>{{ $t('dutySchedules.shifts.nightShift') }}</span>
-                        </div>
-                        <div class="flex items-center gap-x-2">
-                            <div class="w-3 h-3 rounded-sm bg-shifts-vacation"></div>
-                            <span>{{ $t('dutySchedules.shifts.vacationLeave') }}</span>
-                        </div>
-                        <div class="flex items-center gap-x-2">
-                            <div class="w-3 h-3 rounded-sm bg-shifts-sickleave"></div>
-                            <span>{{ $t('dutySchedules.shifts.sickLeave') }}</span>
+        <LoadingSpinner :isActive="state.isPageLoading">
+            <div class="flex h-full flex-col">
+                <header class="flex flex-none items-center justify-between py-4">
+                    <div>
+                        <p>{{ $t('dutySchedules.typeofShifts') }}:</p>
+                        <div class="grid grid-cols-2 gap-x-4">
+                            <div class="flex items-center gap-x-2">
+                                <div class="w-3 h-3 rounded-sm bg-shifts-regular"></div>
+                                <span>{{ $t('dutySchedules.shifts.regularShift') }}</span>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <div class="w-3 h-3 rounded-sm bg-shifts-night"></div>
+                                <span>{{ $t('dutySchedules.shifts.nightShift') }}</span>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <div class="w-3 h-3 rounded-sm bg-shifts-vacation"></div>
+                                <span>{{ $t('dutySchedules.shifts.vacationLeave') }}</span>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <div class="w-3 h-3 rounded-sm bg-shifts-sickleave"></div>
+                                <span>{{ $t('dutySchedules.shifts.sickLeave') }}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <h3 class="text-base font-semibold leading-6 text-gray-900">
-                    <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
-                    <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
-                    <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
-                    <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
-                    <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
-                    <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
-                    <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
-                    <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
-                    <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
-                    <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
-                    <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
-                    <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
-                    {{ year }}
-                </h3>
-                <div class="flex items-center">
-                    <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
-                        <button @click="previousWeek" type="button"
-                            class="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
-                            <span class="sr-only">Previous week</span>
-                            <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
-                        </button>
-                        <button @click="setToday" type="button"
-                            class="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block">
-                            {{ $t('calendar.today') }}
-                        </button>
-                        <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
-                        <button @click="nextWeek" type="button"
-                            class="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
-                            <span class="sr-only">Next week</span>
-                            <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
-                        </button>
-                    </div>
-                </div>
-            </header>
-            <div class="bg-primary h-3 rounded-full transition-width duration-500 mb-1.5"
-                :style="{ width: `${state.progress.percentage}%` }"></div>
-            <div class="isolate flex flex-auto flex-col overflow-auto bg-white">
-                <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
-                    <div class="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
-                        <div class="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
-                            <button v-for="day in weekDays" :key="day.date" type="button"
-                                class="flex flex-col items-center pb-3 pt-2" @click="setSelectedDay(day)">
-                                <span v-if="day.longName === 'Mon'">
-                                    {{ $t('calendar.week.oneLetter.Monday') }}
-                                </span>
-                                <span v-if="day.longName === 'Tue'">
-                                    {{ $t('calendar.week.oneLetter.Tuesday') }}
-                                </span>
-                                <span v-if="day.longName === 'Wed'">
-                                    {{ $t('calendar.week.oneLetter.Wednesday') }}
-                                </span>
-                                <span v-if="day.longName === 'Thu'">
-                                    {{ $t('calendar.week.oneLetter.Thursday') }}
-                                </span>
-                                <span v-if="day.longName === 'Fri'">
-                                    {{ $t('calendar.week.oneLetter.Friday') }}
-                                </span>
-                                <span v-if="day.longName === 'Sat'">
-                                    {{ $t('calendar.week.oneLetter.Saturday') }}
-                                </span>
-                                <span v-if="day.longName === 'Sun'">
-                                    {{ $t('calendar.week.oneLetter.Sunday') }}
-                                </span>
-                                <span
-                                    :class="moment(selectedDay).format('YYYY-MM-DD') === moment(day.fullDate).format('YYYY-MM-DD') ? 'mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-tertiary font-semibold text-white' : 'mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900'">
-                                    {{ day.date }}
-                                </span>
+                    <h3 class="text-base font-semibold leading-6 text-gray-900">
+                        <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
+                        <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
+                        <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
+                        <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
+                        <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
+                        <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
+                        <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
+                        <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
+                        <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
+                        <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
+                        <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
+                        <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
+                        {{ year }}
+                    </h3>
+                    <div class="flex items-center">
+                        <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
+                            <button @click="previousWeek" type="button"
+                                class="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
+                                <span class="sr-only">Previous week</span>
+                                <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
+                            </button>
+                            <button @click="setToday" type="button"
+                                class="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block">
+                                {{ $t('calendar.today') }}
+                            </button>
+                            <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
+                            <button @click="nextWeek" type="button"
+                                class="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
+                                <span class="sr-only">Next week</span>
+                                <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
                             </button>
                         </div>
                     </div>
-                    <div>
-                        <div>
-                            <div class="shadow grid grid-cols-9">
-                                <div class="col-span-2 border-0.5">
-                                    <div class="flex items-center px-3 py-4 border-0.5">
-                                        <p class="text-sm font-medium">
-                                            Week {{ weekNumber }}
-                                        </p>
-                                        <div class="flex-1 flex justify-end">
-                                            <button
-                                                class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                @click="copyWeeklySchedule(weekNumber)">
-                                                <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div v-for="day in weekDays" :key="day.date"
-                                    class="flex items-center justify-center py-4 border-0.5">
-                                    <span class="flex gap-x-1 text-sm">
-                                        <span v-if="day.longName === 'Mon'">
-                                            {{ $t('calendar.week.short.Monday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Tue'">
-                                            {{ $t('calendar.week.short.Tuesday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Wed'">
-                                            {{ $t('calendar.week.short.Wednesday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Thu'">
-                                            {{ $t('calendar.week.short.Thursday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Fri'">
-                                            {{ $t('calendar.week.short.Friday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Sat'">
-                                            {{ $t('calendar.week.short.Saturday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Sun'">
-                                            {{ $t('calendar.week.short.Sunday') }}
-                                        </span>
-                                        <span class="items-center justify-center font-semibold text-gray-900">
-                                            {{ day.date }}
-                                        </span>
+                </header>
+                <div class="bg-primary h-3 rounded-full transition-width duration-500 mb-1.5"
+                    :style="{ width: `${state.progress.percentage}%` }"></div>
+                <div class="isolate flex flex-auto flex-col overflow-auto bg-white">
+                    <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
+                        <div class="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
+                            <div class="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
+                                <button v-for="day in weekDays" :key="day.date" type="button"
+                                    class="flex flex-col items-center pb-3 pt-2" @click="setSelectedDay(day)">
+                                    <span v-if="day.longName === 'Mon'">
+                                        {{ $t('calendar.week.oneLetter.Monday') }}
                                     </span>
-                                </div>
+                                    <span v-if="day.longName === 'Tue'">
+                                        {{ $t('calendar.week.oneLetter.Tuesday') }}
+                                    </span>
+                                    <span v-if="day.longName === 'Wed'">
+                                        {{ $t('calendar.week.oneLetter.Wednesday') }}
+                                    </span>
+                                    <span v-if="day.longName === 'Thu'">
+                                        {{ $t('calendar.week.oneLetter.Thursday') }}
+                                    </span>
+                                    <span v-if="day.longName === 'Fri'">
+                                        {{ $t('calendar.week.oneLetter.Friday') }}
+                                    </span>
+                                    <span v-if="day.longName === 'Sat'">
+                                        {{ $t('calendar.week.oneLetter.Saturday') }}
+                                    </span>
+                                    <span v-if="day.longName === 'Sun'">
+                                        {{ $t('calendar.week.oneLetter.Sunday') }}
+                                    </span>
+                                    <span
+                                        :class="moment(selectedDay).format('YYYY-MM-DD') === moment(day.fullDate).format('YYYY-MM-DD') ? 'mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-tertiary font-semibold text-white' : 'mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900'">
+                                        {{ day.date }}
+                                    </span>
+                                </button>
                             </div>
-
-                            <div class="relative mt-0.5"
-                                @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule()"
-                                :class="[
-                                    isWeeklyScheduleCopied(weekNumber) && 'border-1.5 border-dashed border-gray-700',
-                                    !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && 'cursor-copy relative group',
-                                    !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && isPastWeek() && 'cursor-not-allowed'
-                                ]">
-                                <div v-for="(weeklySchedule, weeklyScheduleIndex) in state.weeklySchedules"
-                                    :key="weeklyScheduleIndex" class="grid grid-cols-9"
-                                    v-if="!isWeeklyScheduleCopied(weekNumber)">
-                                    <div class="p-3 col-span-2 space-y-2 border-0.5">
-                                        <div>
+                        </div>
+                        <div>
+                            <div>
+                                <div class="shadow grid grid-cols-9">
+                                    <div class="col-span-2 border-0.5">
+                                        <div class="flex items-center px-3 py-4 border-0.5">
                                             <p class="text-sm font-medium">
-                                                {{ weeklySchedule?.employee?.firstname }}
-                                                {{ weeklySchedule?.employee?.lastname }}
+                                                Week {{ weekNumber }}
                                             </p>
-                                        </div>
-                                        <div class="text-xs grid grid-cols-7">
-                                            <div class="col-span-3 space-y-2">
-                                                <p>{{ $t('dutySchedules.table.timer') }}</p>
-                                                <p>{{ $t('dutySchedules.table.holidayHours') }}</p>
-                                                <p>{{ $t('dutySchedules.table.nightShiftHours') }}</p>
-                                            </div>
-                                            <div class="col-span-2 flex gap-2 flex-col items-end">
-                                                <p>0</p>
-                                                <p>0</p>
-                                                <p>0</p>
-                                            </div>
-                                            <div
-                                                class="col-span-2 flex gap-2 flex-col items-end border-l-2 border-gray-200 ml-3">
-                                                <p>0</p>
-                                                <p>0</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="p-3 border-0.5" v-for="(week, weekIndex) in weeklySchedule?.weeks"
-                                        :key="weekIndex" :class="[
-                                            isScheduleCopied(weeklyScheduleIndex, weekIndex) && 'border-1.5 border-dashed border-gray-700',
-                                            !isScheduleCopied(weeklyScheduleIndex, weekIndex) && !isScheduleCopiedEmpty() && 'cursor-copy relative group'
-                                        ]"
-                                        @click="!isScheduleCopied(weeklyScheduleIndex, weekIndex) && !isScheduleCopiedEmpty() && pasteEmployeeSchedule(weeklyScheduleIndex, weekIndex)">
-                                        <div class="space-y-2" v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex)">
-                                            <div class="flex justify-end gap-2">
+                                            <div class="flex-1 flex justify-end">
                                                 <button
                                                     class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                    @click="copyEmployeeSchedule(weeklyScheduleIndex, weekIndex, weeklySchedule)">
+                                                    @click="copyWeeklySchedule(weekNumber)">
                                                     <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
                                                 </button>
-                                                <button
-                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
-                                                    @click="openAddNewShiftModal(weeklyScheduleIndex, weekIndex, week)">
-                                                    +
-                                                </button>
                                             </div>
-                                            <div class="space-y-2 text-xs">
-                                                <div class="bg-shifts-regular rounded-md p-1 relative"
-                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'regular_shift')">
-                                                    <div class="flex">
-                                                        <FormTimeField name="time_in"
-                                                            class="rounded-tl-md rounded-bl-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'regular_shift')?.time_in"
-                                                            @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'regular_shift')" />
-                                                        <FormTimeField name="time_out"
-                                                            class="rounded-tr-md rounded-br-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'regular_shift')?.time_out"
-                                                            @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'regular_shift')" />
-                                                    </div>
-                                                    <button
-                                                        class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'regular_shift')">
-                                                        <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
-                                                    </button>
-                                                </div>
-                                                <div class="bg-shifts-night rounded-md p-1 relative"
-                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'night_shift')">
-                                                    <div class="flex">
-                                                        <FormTimeField name="time_in"
-                                                            class="rounded-tl-md rounded-bl-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'night_shift')?.time_in" />
-                                                        <FormTimeField name="time_out"
-                                                            class="rounded-tr-md rounded-br-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'night_shift')?.time_out" />
-                                                    </div>
-                                                    <button
-                                                        class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'night_shift')">
-                                                        <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
-                                                    </button>
-                                                </div>
-                                                <div class="bg-shifts-vacation rounded-md p-1 relative"
-                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')">
-                                                    <div class="flex">
-                                                        <FormTimeField name="time_in"
-                                                            class="rounded-tl-md rounded-bl-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_in" />
-                                                        <FormTimeField name="time_out"
-                                                            class="rounded-tr-md rounded-br-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_out" />
-                                                    </div>
-                                                    <button
-                                                        class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'vacation_leave')">
-                                                        <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
-                                                    </button>
-                                                </div>
-                                                <div class="bg-shifts-sickleave rounded-md p-1 relative"
-                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'sick_leave')">
-                                                    <div class="flex">
-                                                        <FormTimeField name="time_in"
-                                                            class="rounded-tl-md rounded-bl-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_in" />
-                                                        <FormTimeField name="time_out"
-                                                            class="rounded-tr-md rounded-br-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_out" />
-                                                    </div>
-                                                    <button
-                                                        class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'sick_leave')">
-                                                        <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer" v-else
-                                            @click="stopCopying()">
-                                            <p class="text-center text-sm">
-                                                {{ $t('dutySchedules.copyPaste.stopCopying') }}
-                                            </p>
-                                            <p class="text-center text-xxs">
-                                                {{ $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule') }}
-                                            </p>
-                                        </div>
-                                        <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                            v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex) && !isScheduleCopiedEmpty()">
-                                            <p class="text-white text-xs text-center">
-                                                {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
-                                            </p>
                                         </div>
                                     </div>
+                                    <div v-for="day in weekDays" :key="day.date"
+                                        class="flex items-center justify-center py-4 border-0.5">
+                                        <span class="flex gap-x-1 text-sm">
+                                            <span v-if="day.longName === 'Mon'">
+                                                {{ $t('calendar.week.short.Monday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Tue'">
+                                                {{ $t('calendar.week.short.Tuesday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Wed'">
+                                                {{ $t('calendar.week.short.Wednesday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Thu'">
+                                                {{ $t('calendar.week.short.Thursday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Fri'">
+                                                {{ $t('calendar.week.short.Friday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Sat'">
+                                                {{ $t('calendar.week.short.Saturday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Sun'">
+                                                {{ $t('calendar.week.short.Sunday') }}
+                                            </span>
+                                            <span class="items-center justify-center font-semibold text-gray-900">
+                                                {{ day.date }}
+                                            </span>
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer" v-else
-                                    @click="stopCopying()">
-                                    <p class="text-center text-sm pt-5">
-                                        {{ $t('dutySchedules.copyPaste.stopCopying') }}
-                                    </p>
-                                    <p class="text-center text-xxs pb-10">
-                                        {{ $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule') }}
-                                    </p>
-                                </div>
-                                <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                    v-if="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty()">
-                                    <p class="text-white text-xs text-center">
-                                        {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
-                                    </p>
+
+                                <div class="relative mt-0.5"
+                                    @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule()"
+                                    :class="[
+                                        isWeeklyScheduleCopied(weekNumber) && 'border-1.5 border-dashed border-gray-700',
+                                        !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && 'cursor-copy relative group',
+                                        !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && isPastWeek() && 'cursor-not-allowed'
+                                    ]">
+                                    <div v-for="(weeklySchedule, weeklyScheduleIndex) in state.weeklySchedules"
+                                        :key="weeklyScheduleIndex" class="grid grid-cols-9"
+                                        v-if="!isWeeklyScheduleCopied(weekNumber)">
+                                        <div class="p-3 col-span-2 space-y-2 border-0.5">
+                                            <div>
+                                                <p class="text-sm font-medium">
+                                                    {{ weeklySchedule?.employee?.firstname }}
+                                                    {{ weeklySchedule?.employee?.lastname }}
+                                                </p>
+                                            </div>
+                                            <div class="text-xs grid grid-cols-7">
+                                                <div class="col-span-3 space-y-2">
+                                                    <p>{{ $t('dutySchedules.table.timer') }}</p>
+                                                    <p>{{ $t('dutySchedules.table.holidayHours') }}</p>
+                                                    <p>{{ $t('dutySchedules.table.nightShiftHours') }}</p>
+                                                </div>
+                                                <div class="col-span-2 flex gap-2 flex-col items-end">
+                                                    <p>0</p>
+                                                    <p>0</p>
+                                                    <p>0</p>
+                                                </div>
+                                                <div
+                                                    class="col-span-2 flex gap-2 flex-col items-end border-l-2 border-gray-200 ml-3">
+                                                    <p>0</p>
+                                                    <p>0</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="p-3 border-0.5" v-for="(week, weekIndex) in weeklySchedule?.weeks"
+                                            :key="weekIndex" :class="[
+                                                isScheduleCopied(weeklyScheduleIndex, weekIndex) && 'border-1.5 border-dashed border-gray-700',
+                                                !isScheduleCopied(weeklyScheduleIndex, weekIndex) && !isScheduleCopiedEmpty() && 'cursor-copy relative group'
+                                            ]"
+                                            @click="!isScheduleCopied(weeklyScheduleIndex, weekIndex) && !isScheduleCopiedEmpty() && pasteEmployeeSchedule(weeklyScheduleIndex, weekIndex)">
+                                            <div class="space-y-2"
+                                                v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex)">
+                                                <div class="flex justify-end gap-2">
+                                                    <button
+                                                        class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                        @click="copyEmployeeSchedule(weeklyScheduleIndex, weekIndex, weeklySchedule)">
+                                                        <Icon name="mdi:content-copy" class="h-3 w-3"
+                                                            aria-hidden="true" />
+                                                    </button>
+                                                    <button
+                                                        class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
+                                                        @click="openAddNewShiftModal(weeklyScheduleIndex, weekIndex, week)">
+                                                        +
+                                                    </button>
+                                                </div>
+                                                <div class="space-y-2 text-xs">
+                                                    <div class="bg-shifts-regular rounded-md p-1 relative"
+                                                        v-if="week?.shifts.find((shift: any) => shift.name === 'regular_shift')">
+                                                        <div class="flex">
+                                                            <FormTimeField name="time_in"
+                                                                class="rounded-tl-md rounded-bl-md"
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'regular_shift')?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'regular_shift')" />
+                                                            <FormTimeField name="time_out"
+                                                                class="rounded-tr-md rounded-br-md"
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'regular_shift')?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'regular_shift')" />
+                                                        </div>
+                                                        <button
+                                                            class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                            @click="removeShift(weeklyScheduleIndex, weekIndex, 'regular_shift')">
+                                                            <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                        </button>
+                                                    </div>
+                                                    <div class="bg-shifts-night rounded-md p-1 relative"
+                                                        v-if="week?.shifts.find((shift: any) => shift.name === 'night_shift')">
+                                                        <div class="flex">
+                                                            <FormTimeField name="time_in"
+                                                                class="rounded-tl-md rounded-bl-md"
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'night_shift')?.time_in" />
+                                                            <FormTimeField name="time_out"
+                                                                class="rounded-tr-md rounded-br-md"
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'night_shift')?.time_out" />
+                                                        </div>
+                                                        <button
+                                                            class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                            @click="removeShift(weeklyScheduleIndex, weekIndex, 'night_shift')">
+                                                            <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                        </button>
+                                                    </div>
+                                                    <div class="bg-shifts-vacation rounded-md p-1 relative"
+                                                        v-if="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')">
+                                                        <div class="flex">
+                                                            <FormTimeField name="time_in"
+                                                                class="rounded-tl-md rounded-bl-md"
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_in" />
+                                                            <FormTimeField name="time_out"
+                                                                class="rounded-tr-md rounded-br-md"
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_out" />
+                                                        </div>
+                                                        <button
+                                                            class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                            @click="removeShift(weeklyScheduleIndex, weekIndex, 'vacation_leave')">
+                                                            <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                        </button>
+                                                    </div>
+                                                    <div class="bg-shifts-sickleave rounded-md p-1 relative"
+                                                        v-if="week?.shifts.find((shift: any) => shift.name === 'sick_leave')">
+                                                        <div class="flex">
+                                                            <FormTimeField name="time_in"
+                                                                class="rounded-tl-md rounded-bl-md"
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_in" />
+                                                            <FormTimeField name="time_out"
+                                                                class="rounded-tr-md rounded-br-md"
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_out" />
+                                                        </div>
+                                                        <button
+                                                            class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                            @click="removeShift(weeklyScheduleIndex, weekIndex, 'sick_leave')">
+                                                            <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer" v-else
+                                                @click="stopCopying()">
+                                                <p class="text-center text-sm">
+                                                    {{ $t('dutySchedules.copyPaste.stopCopying') }}
+                                                </p>
+                                                <p class="text-center text-xxs">
+                                                    {{ $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule')
+                                                    }}
+                                                </p>
+                                            </div>
+                                            <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                                v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex) && !isScheduleCopiedEmpty()">
+                                                <p class="text-white text-xs text-center">
+                                                    {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer" v-else
+                                        @click="stopCopying()">
+                                        <p class="text-center text-sm pt-5">
+                                            {{ $t('dutySchedules.copyPaste.stopCopying') }}
+                                        </p>
+                                        <p class="text-center text-xxs pb-10">
+                                            {{ $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule') }}
+                                        </p>
+                                    </div>
+                                    <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                        v-if="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty()">
+                                        <p class="text-white text-xs text-center">
+                                            {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <ModulesDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
-            @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift" />
+            <ModulesDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
+                @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift" />
+        </LoadingSpinner>
     </div>
 </template>
 
@@ -314,7 +319,6 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/DutyScheduleService'
-import { userService } from '@/components/api/UserService'
 import type { Error } from '@/types'
 
 const currentDate = ref(moment())
@@ -346,57 +350,25 @@ const state = reactive({
 
 
 onMounted(() => {
-    fetchEmployees()
+    fetchDutySchedule()
 })
 
-async function fetchEmployees() {
+async function fetchDutySchedule() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await userService.getAllUsers()
+        const dateMoment = moment(currentDate.value)
+        const startOfWeek = dateMoment.clone().startOf('isoWeek')
+        const endOfWeek = dateMoment.clone().endOf('isoWeek')
+        const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
+        const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
+        const params = {
+            date_start: startOfWeekFormatted,
+            date_end: endOfWeekFormatted
+        }
+        const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
-            state.employees = response?.data
-            if (state.employees) {
-                state.weeklySchedules = []
-                state.employees.forEach((employee: any) => {
-                    const dateMoment = moment(currentDate.value)
-                    const startOfWeek = dateMoment.clone().startOf('isoWeek')
-                    const data = {
-                        employee: employee,
-                        weeks: {
-                            monday: {
-                                date: startOfWeek.clone().add(0, 'days').format('YYYY-MM-DD'),
-                                shifts: []
-                            },
-                            tuesday: {
-                                date: startOfWeek.clone().add(1, 'days').format('YYYY-MM-DD'),
-                                shifts: []
-                            },
-                            wednesday: {
-                                date: startOfWeek.clone().add(2, 'days').format('YYYY-MM-DD'),
-                                shifts: []
-                            },
-                            thursday: {
-                                date: startOfWeek.clone().add(3, 'days').format('YYYY-MM-DD'),
-                                shifts: []
-                            },
-                            friday: {
-                                date: startOfWeek.clone().add(4, 'days').format('YYYY-MM-DD'),
-                                shifts: []
-                            },
-                            saturday: {
-                                date: startOfWeek.clone().add(5, 'days').format('YYYY-MM-DD'),
-                                shifts: []
-                            },
-                            sunday: {
-                                date: startOfWeek.clone().add(6, 'days').format('YYYY-MM-DD'),
-                                shifts: []
-                            },
-                        }
-                    }
-                    state.weeklySchedules.push(data)
-                })
-            }
+            state.weeklySchedules = response?.data
         }
     } catch (error: any) {
         state.error = error
@@ -411,7 +383,8 @@ function previousWeek() {
     const endOfWeek = dateMoment.clone().endOf('isoWeek')
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
-    fetchEmployees()
+    fetchDutySchedule()
+    stopCopying()
     // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
 }
 
@@ -422,7 +395,8 @@ function setToday() {
     const endOfWeek = dateMoment.clone().endOf('isoWeek')
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
-    fetchEmployees()
+    fetchDutySchedule()
+    stopCopying()
     // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
 }
 
@@ -433,7 +407,8 @@ function nextWeek() {
     const endOfWeek = dateMoment.clone().endOf('isoWeek')
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
-    fetchEmployees()
+    fetchDutySchedule()
+    stopCopying()
     // emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
 }
 
@@ -462,6 +437,7 @@ function setSelectedDay(day: any) {
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
+    stopCopying()
 }
 
 function isPastWeek() {
@@ -498,7 +474,7 @@ async function saveShift(shiftDetails: any) {
             date: state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date,
             time_in: '08:00',
             time_out: '17:00',
-            user_uuid: state.employees[weeklyScheduleIndex].uuid,
+            user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
         }
         const response = await dutyScheduleService.saveDutySchedule(params)
         if (response) {
