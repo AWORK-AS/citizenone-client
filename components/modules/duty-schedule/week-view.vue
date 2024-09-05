@@ -60,8 +60,8 @@
                     </div>
                 </div>
             </header>
-            <!-- <div class="bg-primary h-3 rounded-full transition-width duration-500 mb-2"
-                :style="{ width: `${state.progress}%` }"></div> -->
+            <div class="bg-primary h-3 rounded-full transition-width duration-500 mb-2"
+                :style="{ width: `${state.progress.percentage}%` }"></div>
             <div class="isolate flex flex-auto flex-col overflow-auto bg-white">
                 <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
                     <div class="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
@@ -200,60 +200,68 @@
                                             </div>
                                             <div class="space-y-2 text-xs">
                                                 <div class="bg-shifts-regular rounded-md p-1 relative"
-                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'regular shift')">
+                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'regular_shift')">
                                                     <div class="flex">
-                                                        <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'regular shift')?.time_in"
-                                                            @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'regular shift')" />
-                                                        <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'regular shift')?.time_out"
-                                                            @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'regular shift')" />
+                                                        <FormTimeField name="time_in"
+                                                            class="rounded-tl-md rounded-bl-md"
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'regular_shift')?.time_in"
+                                                            @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'regular_shift')" />
+                                                        <FormTimeField name="time_out"
+                                                            class="rounded-tr-md rounded-br-md"
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'regular_shift')?.time_out"
+                                                            @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'regular_shift')" />
                                                     </div>
                                                     <button
                                                         class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'regular shift')">
+                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'regular_shift')">
                                                         <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                     </button>
                                                 </div>
                                                 <div class="bg-shifts-night rounded-md p-1 relative"
-                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'night shift')">
+                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'night_shift')">
                                                     <div class="flex">
-                                                        <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'night shift')?.time_in" />
-                                                        <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'night shift')?.time_out" />
+                                                        <FormTimeField name="time_in"
+                                                            class="rounded-tl-md rounded-bl-md"
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'night_shift')?.time_in" />
+                                                        <FormTimeField name="time_out"
+                                                            class="rounded-tr-md rounded-br-md"
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'night_shift')?.time_out" />
                                                     </div>
                                                     <button
                                                         class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'night shift')">
+                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'night_shift')">
                                                         <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                     </button>
                                                 </div>
                                                 <div class="bg-shifts-vacation rounded-md p-1 relative"
-                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'vacation leave')">
+                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')">
                                                     <div class="flex">
-                                                        <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'vacation leave')?.time_in" />
-                                                        <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'vacation leave')?.time_in" />
+                                                        <FormTimeField name="time_in"
+                                                            class="rounded-tl-md rounded-bl-md"
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_in" />
+                                                        <FormTimeField name="time_out"
+                                                            class="rounded-tr-md rounded-br-md"
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_out" />
                                                     </div>
                                                     <button
                                                         class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'vacation leave')">
+                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'vacation_leave')">
                                                         <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                     </button>
                                                 </div>
                                                 <div class="bg-shifts-sickleave rounded-md p-1 relative"
-                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'sick leave')">
+                                                    v-if="week?.shifts.find((shift: any) => shift.name === 'sick_leave')">
                                                     <div class="flex">
-                                                        <FormTimeField name="time" class="rounded-tl-md rounded-bl-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'sick leave')?.time_in" />
-                                                        <FormTimeField name="time" class="rounded-tr-md rounded-br-md"
-                                                            :value="week?.shifts.find((shift: any) => shift.name === 'sick leave')?.time_in" />
+                                                        <FormTimeField name="time_in"
+                                                            class="rounded-tl-md rounded-bl-md"
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_in" />
+                                                        <FormTimeField name="time_out"
+                                                            class="rounded-tr-md rounded-br-md"
+                                                            :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_out" />
                                                     </div>
                                                     <button
                                                         class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'sick leave')">
+                                                        @click="removeShift(weeklyScheduleIndex, weekIndex, 'sick_leave')">
                                                         <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                     </button>
                                                 </div>
@@ -310,13 +318,6 @@ const selectedDay = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 
-const interval = setInterval(() => {
-    state.progress += 10;
-    if (state.progress >= 100) {
-        clearInterval(interval);
-    }
-}, 300)
-
 const state = reactive({
     addShift: {
         selectedEmployeeSchedules: {}
@@ -331,7 +332,11 @@ const state = reactive({
     modal: {
         isAddShiftOpen: false
     } as any,
-    progress: 50,
+    progress: {
+        percentage: 100,
+        pendingRequests: 0,
+        totalRequests: 0,
+    },
     weeklySchedules: [] as any,
 })
 
@@ -468,6 +473,53 @@ function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: any, week:
     }
 }
 
+async function saveShift(shiftDetails: any) {
+    const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex
+    const weekIndex = state.addShift.selectedEmployeeSchedules.weekIndex
+    // Check if shift already existed
+    if (!(state.weeklySchedules[state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedules.weekIndex].shifts.find((shift: any) => shift.name === shiftDetails.shift_type))) {
+        state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
+            name: shiftDetails.shift_type,
+            time_in: '08:00',
+            time_out: '17:00',
+        })
+    }
+
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const params = {
+            shift_type: shiftDetails.shift_type,
+            date: state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date,
+            time_in: '08:00',
+            time_out: '17:00',
+            user_uuid: state.employees[weeklyScheduleIndex].uuid,
+        }
+        const response = await dutyScheduleService.saveDutySchedule(params)
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+function identifyTheProgressPercentage() {
+    if (state.progress.totalRequests === 0) {
+        state.progress.percentage = 100
+        console.log('test1', state.progress.percentage)
+    } else {
+        state.progress.percentage = (state.progress.pendingRequests / state.progress.totalRequests) * 100
+        if (state.progress.percentage == 100) {
+            state.progress.percentage = 50
+        }
+        console.log('test2', state.progress.percentage)
+    }
+}
+
 function isScheduleCopiedEmpty() {
     return Object.keys(state.copy.selectedEmployeeSchedules).length === 0
 }
@@ -489,7 +541,7 @@ function stopCopying() {
     state.copy.selectedEmployeeSchedules = {}
 }
 
-function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
+async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
     const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeSchedules
     const copiedWeekIndex = copiedSelectedEmployeeSchedule.weekIndex
     const shiftsToPaste = copiedSelectedEmployeeSchedule.weeklySchedule.weeks[copiedWeekIndex].shifts
@@ -498,6 +550,31 @@ function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
     const copiedShifts = shiftsToPaste.map((shift: any) => ({ ...shift }))
 
     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = copiedShifts
+
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+
+        const userSource = copiedSelectedEmployeeSchedule.weeklySchedule.employee
+        const userDestination = state.weeklySchedules[weeklyScheduleIndex].employee
+        const dateSource = state.weeklySchedules[weeklyScheduleIndex].weeks[copiedWeekIndex].date
+        const dateDestination = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
+        const params = {
+            user_uuid_source: userSource.uuid,
+            user_uuid_destination: userDestination.uuid,
+            date_source: dateSource,
+            date_destination: dateDestination,
+        }
+        const response = await dutyScheduleService.saveDutySchedule(params)
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
 }
 
 function isAllWeeklyScheduleCopiedEmpty() {
@@ -517,24 +594,6 @@ function copyWeeklySchedule(weekNumber: number) {
 
 function pasteWeeklySchedule() {
     state.weeklySchedules = state.copy.allEmployeeSchedules.weeklySchedules
-}
-
-function saveShift(shiftDetails: any) {
-    const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex
-    const weekIndex = state.addShift.selectedEmployeeSchedules.weekIndex
-    // Check if shift already existed
-    if (!(state.weeklySchedules[state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedules.weekIndex].shifts.find((shift: any) => shift.name === shiftDetails.shift_type))) {
-        state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
-            name: shiftDetails.shift_type,
-            time_in: '08:00',
-            time_out: '17:00',
-        })
-    }
-    console.log('type_of_shift', shiftDetails.shift_type)
-    console.log('date', shiftDetails.shift_type)
-    console.log('time_in', shiftDetails.shift_type)
-    console.log('time_out', shiftDetails.shift_type)
-    console.log('employee_id', shiftDetails.shift_type)
 }
 
 function removeShift(weeklyScheduleIndex: number, weekIndex: number, shiftType: any) {

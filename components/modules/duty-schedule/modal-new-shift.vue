@@ -45,10 +45,10 @@ const state = reactive({
     },
     options: {
         shifts: [
-            { value: 'regular shift', label: 'Regular shift' },
-            { value: 'night shift', label: 'Night shift' },
-            { value: 'vacation leave', label: 'Vacation leave' },
-            { value: 'sick leave', label: 'Sick leave' },
+            { value: 'regular_shift', label: 'Regular shift' },
+            { value: 'night_shift', label: 'Night shift' },
+            { value: 'vacation_leave', label: 'Vacation leave' },
+            { value: 'sick_leave', label: 'Sick leave' },
         ]
     }
 })
