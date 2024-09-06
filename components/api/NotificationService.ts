@@ -5,8 +5,12 @@ class NotificationService extends BaseAPIService {
         return await this.request(`/user/notifications`, 'GET')
     }
 
-    async markAsRead(notificationUuid: any): Promise<any> {
-        return await this.request(`/user/notifications/${notificationUuid}`, 'PUT')
+    async getNotification(notificationId: any): Promise<any> {
+        return await this.request(`/user/notifications/${notificationId}`, 'GET')
+    }
+
+    async markAsRead(notificationId: any): Promise<any> {
+        return await this.request(`/user/notifications/${notificationId}`, 'PUT')
     }
 
     async markAllAsRead(): Promise<any> {

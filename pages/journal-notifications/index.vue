@@ -25,7 +25,7 @@
                         <!-- Notification List Container -->
                         <ul class="divide-y divide-gray-200">
                             <!-- Notification Item -->
-                            <li class="py-4 cursor-pointer" v-for="(notification, index) in state.notifications?.data"
+                            <li class="py-4 cursor-pointer" v-for="(notification, index) in state.notifications"
                                 :key="index" @click="viewNotification(notification)">
                                 <div class="flex items-center space-x-4">
                                     <div>
@@ -33,11 +33,12 @@
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <p class="text-sm font-medium text-gray-900 truncate">
-                                            {{ notification?.data?.journal?.title }}
+                                            {{ notification?.data?.title }}
                                         </p>
                                         <p class="mt-1 text-xs text-muted-400">
-                                            <span>{{ formatDateToReadable(notification?.data?.journal?.date)
-                                                }}</span>
+                                            <span>
+                                                {{ formatDateToReadable(notification?.data?.date) }}
+                                            </span>
                                         </p>
                                     </div>
                                 </div>
@@ -84,8 +85,8 @@ async function fetchNotifications() {
 }
 
 function viewNotification(notification: any) {
-    const notificationUuid = notification?.data?.journal?.uuid
-    navigateTo(`/journal-notifications/${notificationUuid}`)
+    const notificationId = notification?.id
+    navigateTo(`/journal-notifications/${notificationId}`)
 }
 
 async function markAllAsRead() {
