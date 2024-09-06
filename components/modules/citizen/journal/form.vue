@@ -114,6 +114,10 @@
                 </FormButton>
             </div>
         </div>
+        <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+            :title="$t('citizens.documents.upgradeStorage')"
+            :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
+            @close="state.modal.isUpgradeStorageOpen = false" @confirm="navigateTo(`/storage/upgrade`)" />
     </form>
 </template>
 
@@ -145,8 +149,8 @@ const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
-const contentFileInput = ref<HTMLInputElement | null>(null)
-const riskAssessmentFileInput = ref<HTMLInputElement | null>(null)
+const contentFileInput = ref(null) as any
+const riskAssessmentFileInput = ref(null) as any
 
 const editor = ref(ClassicEditor)
 const editorContentConfig = ref({
@@ -190,6 +194,9 @@ const state = reactive({
         assessment: null,
         note: ''
     } as any,
+    modal: {
+        isUpgradeStorageOpen: false
+    },
     options: {
         assessments: [
             { value: null, title: 'None' },
@@ -273,10 +280,16 @@ const uploadContentAttachment = async (file: any) => {
         params.append('citizen_uuid', String(citizenUuid))
         const response = await journalService.uploadJournalFile(params)
         if (response) {
-            state.formJournal.content += `<p><a href="${response?.data?.file}">${response?.data?.file_name}</a></p>`
+            state.formJournal.content += `<p><a href="${response?.data?.file}" target="_blank">${response?.data?.file_name}</a></p>`
         }
     } catch (error: any) {
         state.error = error
+        resetFileInput()
+        if (error?.message === 'You do not have enough storage space to upload new files.') {
+            state.modal.isUpgradeStorageOpen = true
+        } else if (error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
+            state.modal.isUpgradeStorageOpen = true
+        }
     }
     emit('isPageLoading', false)
 }
@@ -301,12 +314,23 @@ const uploadRiskAssessmentAttachment = async (file: any) => {
         params.append('citizen_uuid', String(citizenUuid))
         const response = await journalService.uploadJournalFile(params)
         if (response) {
-            state.formJournal.note += `<p><a href="${response?.data?.file}">${response?.data?.file_name}</a></p>`
+            state.formJournal.note += `<p><a href="${response?.data?.file}" target="_blank">${response?.data?.file_name}</a></p>`
         }
     } catch (error: any) {
         state.error = error
+        resetFileInput()
+        if (error?.message === 'You do not have enough storage space to upload new files.') {
+            state.modal.isUpgradeStorageOpen = true
+        } else if (error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
+            state.modal.isUpgradeStorageOpen = true
+        }
     }
     emit('isPageLoading', false)
+}
+
+const resetFileInput = () => {
+    contentFileInput.value.value = null
+    riskAssessmentFileInput.value.value = null
 }
 
 function ContentUploadAdapterPlugin(editor: any) {
@@ -341,11 +365,16 @@ class ContentUploadAdapter {
                 throw new Error('No data returned from the server')
             }
         } catch (error: any) {
-            throw new Error(`Upload failed: ${error.message}`)
+            state.error = error
+            if (error?.message === 'You do not have enough storage space to upload new files.') {
+                state.modal.isUpgradeStorageOpen = true
+            } else if (error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
+                state.modal.isUpgradeStorageOpen = true
+            }
+            throw null
         }
     }
 }
-
 
 class NoteUploadAdapter {
     private loader: { file: Promise<File> }
@@ -367,7 +396,13 @@ class NoteUploadAdapter {
                 throw new Error('No data returned from the server')
             }
         } catch (error: any) {
-            throw new Error(`Upload failed: ${error.message}`)
+            state.error = error
+            if (error?.message === 'You do not have enough storage space to upload new files.') {
+                state.modal.isUpgradeStorageOpen = true
+            } else if (error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
+                state.modal.isUpgradeStorageOpen = true
+            }
+            throw null
         }
     }
 }
