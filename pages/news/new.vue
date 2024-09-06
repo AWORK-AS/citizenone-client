@@ -17,6 +17,10 @@
                     <ModulesNewsForm formType="create" :selectedNews="state.formNews" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="saveNews" />
                 </LoadingSpinner>
+                <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+                    :title="$t('citizens.documents.upgradeStorage')"
+                    :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
+                    @close="state.modal.isUpgradeStorageOpen = false" @confirm="navigateTo(`/storage/upgrade`)" />
             </div>
         </NuxtLayout>
     </div>
@@ -43,6 +47,9 @@ const state = reactive({
         is_active: false,
     },
     isPageLoading: false,
+    modal: {
+        isUpgradeStorageOpen: false
+    },
 })
 
 async function saveNews(newsDetails: any) {
@@ -63,6 +70,11 @@ async function saveNews(newsDetails: any) {
         }
     } catch (error: any) {
         state.error = error
+        if (error?.message === 'You do not have enough storage space to upload new files.') {
+            state.modal.isUpgradeStorageOpen = true
+        } else if (error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
+            state.modal.isUpgradeStorageOpen = true
+        }
     }
     state.isPageLoading = false
 }
