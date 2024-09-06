@@ -4,7 +4,7 @@
 
             <Head>
                 <Title>
-                    {{ state.notification?.data?.title }} - {{ runtimeConfig?.public?.appName }}
+                    {{ state.journal?.data?.title }} - {{ runtimeConfig?.public?.appName }}
                 </Title>
             </Head>
 
@@ -18,12 +18,12 @@
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <h1 class="text-3xl text-primary font-bold">
-                        {{ state.notification?.data?.title }}
+                        {{ state.journal?.data?.title }}
                     </h1>
-                    <div class="text-sm truncate" v-html="state.notification?.data?.content" id="content" />
-                    <div class="text-sm truncate" v-html="state.notification?.data?.content" id="note" />
+                    <div class="text-sm truncate" v-html="state.journal?.data?.content" id="content" />
+                    <div class="text-sm truncate" v-html="state.journal?.data?.content" id="note" />
                     <p class="mt-1 text-xs text-muted-400">
-                        <span>{{ formatDateToReadable(state.notification?.data?.date) }}</span>
+                        <span>{{ formatDateToReadable(state.journal?.data?.date) }}</span>
                     </p>
                 </LoadingSpinner>
             </div>
@@ -34,6 +34,7 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { notificationService } from '@/components/api/NotificationService'
+import { journalService } from '@/components/api/JournalService'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
@@ -47,6 +48,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     notification: [] as any,
+    journal: [] as any,
 })
 
 onMounted(() => {
@@ -73,6 +75,20 @@ async function fetchNotification() {
         const response = await notificationService.getNotification(journalNotificationId)
         if (response) {
             state.notification = response
+            fetchJournal()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function fetchJournal() {
+    state.error = {}
+    try {
+        const journalUuid = state.notification?.data?.uuid
+        const response = await journalService.getJournal(journalUuid)
+        if (response) {
+            state.journal = response
         }
     } catch (error: any) {
         state.error = error
