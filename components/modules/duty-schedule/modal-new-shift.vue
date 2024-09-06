@@ -3,7 +3,7 @@
         <Modal size="xs" :title="$t('dutySchedules.newSchedule')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <form @submit.prevent="saveShift()" class="overflow-x-hidden overflow-y-auto">
+                    <form @submit.prevent="saveShift()" id="formShift">
                         <div class="space-y-1">
                             <FormLabel for="shift_type" :label="$t('dutySchedules.typeofShift')" />
                             <FormSelect id="shift_type" name="shift_type" :options="state.options.shifts"
@@ -61,6 +61,10 @@ const state = reactive({
 watch(() => props.isModalOpen, () => {
     state.error = {}
     state.formShift.shift_type = ''
+    state.options.shifts[0].label = `${t('dutySchedules.shifts.regularShift')}`
+    state.options.shifts[1].label = `${t('dutySchedules.shifts.nightShift')}`
+    state.options.shifts[2].label = `${t('dutySchedules.shifts.vacationLeave')}`
+    state.options.shifts[3].label = `${t('dutySchedules.shifts.sickLeave')}`
 })
 
 const rules = computed(() => {
@@ -86,3 +90,9 @@ async function saveShift() {
     }
 }
 </script>
+
+<style>
+#formShift .multiselect-dropdown {
+    max-height: 5rem !important;
+}
+</style>
