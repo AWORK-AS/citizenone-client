@@ -61,8 +61,8 @@
                         </div>
                     </div>
                 </header>
-                <div class="bg-primary h-3 rounded-full transition-width duration-500 mb-1.5"
-                    :style="{ width: `${state.progress.percentage}%` }"></div>
+                <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
+                    :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
                 <div class="isolate flex flex-auto flex-col overflow-auto bg-white">
                     <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
                         <div class="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
@@ -353,11 +353,22 @@ const state = reactive({
     progress: {
         percentage: 100,
         pendingRequests: 0,
+        showProgressBar: false,
         totalRequests: 0,
     },
     weeklySchedules: [] as any,
 })
 
+watch(() => state.progress.percentage, (newPercentage: any) => {
+    if (newPercentage < 100) {
+        state.progress.showProgressBar = true
+    }
+    if (newPercentage === 100) {
+        setTimeout(() => {
+            state.progress.showProgressBar = false
+        }, 2000)
+    }
+})
 
 onMounted(() => {
     fetchDutySchedule()
@@ -442,39 +453,18 @@ async function saveShift(shiftDetails: any) {
     const shiftType = shiftDetails.shift_type
     // Check if shift already existed
     if (!(state.weeklySchedules[state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedules.weekIndex].shifts.find((shift: any) => shift.name === shiftDetails.shift_type))) {
-        try {
-            state.progress.totalRequests = state.progress.totalRequests + 1
-            state.progress.pendingRequests = state.progress.pendingRequests + 1
-            identifyTheProgressPercentage()
-            const params = {
-                shift_type: shiftType,
-                date: state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date,
-                time_in: '08:00',
-                time_out: '17:00',
-                user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
-            }
-            const response = await dutyScheduleService.saveDutySchedule(params)
-            if (response) {
-                state.progress.totalRequests = state.progress.totalRequests - 1
-                state.progress.pendingRequests = state.progress.pendingRequests - 1
-                identifyTheProgressPercentage()
-                state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
-                    name: shiftType,
-                    time_in: '08:00',
-                    time_out: '17:00',
-                    schedule_uuid: response?.data?.uuid,
-                })
-            }
-        } catch (error: any) {
-            state.error = error
-            state.progress.totalRequests = state.progress.totalRequests - 1
-            state.progress.pendingRequests = state.progress.pendingRequests - 1
-            identifyTheProgressPercentage()
+        const params = {
+            shift_type: shiftType,
+            date: state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date,
+            time_in: '08:00',
+            time_out: '17:00',
+            user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
         }
+        saveDutySchedule(params, weeklyScheduleIndex, weekIndex)
     }
 }
 
-async function saveDutySchedule(params: object) {
+async function saveDutySchedule(params: object, weeklyScheduleIndex: number, weekIndex: any) {
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -484,6 +474,18 @@ async function saveDutySchedule(params: object) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
+
+            // Commented here while waiting for the backend to be updated
+            // state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
+            //     name: response?.data?.shift_type,
+            //     time_in: response?.data?.time_in,
+            //     time_out: response?.data?.time_out,
+            //     schedule_uuid: response?.data?.uuid,
+            // })
+            // console.log('test', state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts)
+
+            // Added this for the mean time while waiting for the backend
+            fetchDutySchedule()
         }
     } catch (error: any) {
         state.error = error
@@ -546,7 +548,7 @@ async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: num
         date_source: dateSource,
         date_destination: dateDestination,
     }
-    saveDutySchedule(params)
+    saveDutySchedule(params, weeklyScheduleIndex, weekIndex)
 }
 
 function isAllWeeklyScheduleCopiedEmpty() {
@@ -570,7 +572,26 @@ function pasteWeeklySchedule(weekNumber: number) {
         week_source: state.copy.allEmployeeSchedules.weekNumber,
         week_destination: weekNumber,
     }
-    saveDutySchedule(params)
+    saveCopiedWeeklyDutySchedule(params)
+}
+
+async function saveCopiedWeeklyDutySchedule(params: object) {
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await dutyScheduleService.saveDutySchedule(params)
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+        }
+    } catch (error: any) {
+        state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
 }
 
 async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: number, shiftType: any) {
