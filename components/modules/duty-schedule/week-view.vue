@@ -497,8 +497,6 @@ function identifyTheProgressPercentage() {
     if (state.progress.totalRequests === 0) {
         state.progress.percentage = 100
     } else {
-        console.log('pendingRequests', state.progress.pendingRequests)
-        console.log('totalRequests', state.progress.totalRequests)
         state.progress.percentage = (state.progress.pendingRequests / state.progress.totalRequests) * 100
         if (state.progress.percentage == 100) {
             state.progress.percentage = 50
