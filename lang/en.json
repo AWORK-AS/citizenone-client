@@ -420,7 +420,8 @@
     },
     "journalNotifications": {
         "markAllAsRead": "Mark all as read",
-        "unreadJournalNotes": "Unread journal notes"
+        "unreadJournalNotes": "Unread journal notes",
+        "youDontHaveUnreadJournalNotes": "You don't have unread journal notes"
     },
     "languageSwitcher": {
         "selectLanguage": "Select language"

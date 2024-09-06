@@ -14,7 +14,7 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="max-w-3xl">
+                    <div class="max-w-3xl" v-if="state.notifications.length > 0">
                         <div class="flex justify-end">
                             <FormButton buttonStyle="primary" buttonSize="xs" @click="markAllAsRead"
                                 class="w-fit rounded-md">
@@ -44,6 +44,11 @@
                                 </div>
                             </li>
                         </ul>
+                    </div>
+                    <div v-else class="min-h-44 flex items-center">
+                        <p class="text-center grow">
+                            {{ $t('journalNotifications.youDontHaveUnreadJournalNotes') }}.
+                        </p>
                     </div>
                 </LoadingSpinner>
             </div>

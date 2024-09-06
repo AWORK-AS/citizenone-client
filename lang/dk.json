@@ -420,7 +420,8 @@
     },
     "journalNotifications": {
         "markAllAsRead": "Markér alle som læst",
-        "unreadJournalNotes": "Ulæste journalnotater"
+        "unreadJournalNotes": "Ulæste journalnotater",
+        "youDontHaveUnreadJournalNotes": "Du har ingen ulæste journalnotater"
     },
     "languageSwitcher": {
         "selectLanguage": "Vælg sprog"
