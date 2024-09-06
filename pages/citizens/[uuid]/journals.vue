@@ -46,10 +46,10 @@
                                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.newJournal') }}
                                 </FormButton>
-                                <!-- <FormButton buttonStyle="action" class="rounded-lg" @click="showDownloadJournalModal">
+                                <FormButton buttonStyle="action" class="rounded-lg" @click="showDownloadJournalModal">
                                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.download') }}
-                                </FormButton> -->
+                                </FormButton>
                             </div>
                         </div>
 
