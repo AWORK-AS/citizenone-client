@@ -439,21 +439,38 @@ function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: any, week:
 async function saveShift(shiftDetails: any) {
     const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex
     const weekIndex = state.addShift.selectedEmployeeSchedules.weekIndex
+    const shiftType = shiftDetails.shift_type
     // Check if shift already existed
     if (!(state.weeklySchedules[state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedules.weekIndex].shifts.find((shift: any) => shift.name === shiftDetails.shift_type))) {
-        state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
-            name: shiftDetails.shift_type,
-            time_in: '08:00',
-            time_out: '17:00',
-        })
-        const params = {
-            shift_type: shiftDetails.shift_type,
-            date: state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date,
-            time_in: '08:00',
-            time_out: '17:00',
-            user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
+        try {
+            state.progress.totalRequests = state.progress.totalRequests + 1
+            state.progress.pendingRequests = state.progress.pendingRequests + 1
+            identifyTheProgressPercentage()
+            const params = {
+                shift_type: shiftType,
+                date: state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date,
+                time_in: '08:00',
+                time_out: '17:00',
+                user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
+            }
+            const response = await dutyScheduleService.saveDutySchedule(params)
+            if (response) {
+                state.progress.totalRequests = state.progress.totalRequests - 1
+                state.progress.pendingRequests = state.progress.pendingRequests - 1
+                identifyTheProgressPercentage()
+                state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
+                    name: shiftType,
+                    time_in: '08:00',
+                    time_out: '17:00',
+                    schedule_uuid: response?.data?.uuid,
+                })
+            }
+        } catch (error: any) {
+            state.error = error
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
         }
-        saveDutySchedule(params)
     }
 }
 
