@@ -21,9 +21,10 @@
             </div>
             <div class="space-y-1">
                 <FormLabel for="sender" :label="$t('superadmin.polls.form.sender')" />
-                <FormSelect id="sender" :options="state.options.accountUsers" v-model="state.formPoll.sender" />
+                <FormTextField id="sender" name="sender" :placeholder="$t('superadmin.polls.form.sender')"
+                    v-model="state.formPoll.sender" />
                 <FormError :error="v$?.formCitizen?.sender?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.sender_id?.[0]" />
+                <FormError :error="props?.error?.errors?.sender?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="region" :label="$t('superadmin.polls.form.region')" />
@@ -54,7 +55,6 @@
 </template>
 
 <script setup lang="ts">
-import { accountService } from '@/components/api/superadmin/AccountService'
 import { regionService } from '@/components/api/superadmin/RegionService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -91,7 +91,6 @@ const state = reactive({
         is_active: true,
     } as PollItemForm,
     options: {
-        accountUsers: [],
         regions: []
     }
 })
@@ -109,7 +108,6 @@ watch(() => props.selectedPollItem, (newValue: any) => {
 })
 
 onMounted(() => {
-    fetchAccountUsers()
     fetchRegions()
 })
 
@@ -133,27 +131,6 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
-
-async function fetchAccountUsers() {
-    state.error = {}
-    emit('isPageLoading', true)
-    try {
-        const response = await accountService.getAllAccountUsers()
-        if (response.data) {
-            let options: any = []
-            response.data.forEach(
-                (item: any) => options.push({
-                    value: item.id,
-                    label: item.firstname + ' ' + item.lastname,
-                })
-            )
-            state.options.accountUsers = options
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    emit('isPageLoading', false)
-}
 
 async function fetchRegions() {
     state.error = {}

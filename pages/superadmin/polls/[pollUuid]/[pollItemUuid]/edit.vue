@@ -62,7 +62,7 @@ async function fetchPollItem() {
             state.formPollItem = {
                 title: response?.data?.title ?? '',
                 description: response?.data?.description ?? '',
-                sender: response?.data?.sender_id ?? '',
+                sender: response?.data?.sender ?? '',
                 region: response?.data?.region_id ?? '',
                 is_active: response?.data?.is_active ? true : false,
             }
@@ -80,7 +80,7 @@ async function updatePollItem(pollItemDetails: any) {
         const params = {
             'title': pollItemDetails.title,
             'description': pollItemDetails.description,
-            'sender_id': pollItemDetails.sender,
+            'sender': pollItemDetails.sender,
             'region_id': pollItemDetails.region,
             'is_active': pollItemDetails.is_active,
         }

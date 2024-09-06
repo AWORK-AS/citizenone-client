@@ -34,7 +34,7 @@
                                         </p>
                                         <p class="text-xs">
                                             {{ $t('dailyOverview.poll.sentBy') }}
-                                            {{ item?.sender?.firstname }} {{ item?.sender?.lastname }}
+                                            {{ item?.sender }}
                                             <span class="lowercase">{{ $t('dailyOverview.poll.from') }}</span>
                                             {{ item?.region?.name }}
                                         </p>

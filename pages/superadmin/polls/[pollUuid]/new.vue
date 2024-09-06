@@ -56,7 +56,7 @@ async function savePollItem(pollItemDetails: any) {
             'poll_uuid': pollUuid,
             'title': pollItemDetails.title,
             'description': pollItemDetails.description,
-            'sender_id': pollItemDetails.sender,
+            'sender': pollItemDetails.sender,
             'region_id': pollItemDetails.region,
             'is_active': pollItemDetails.is_active,
         }

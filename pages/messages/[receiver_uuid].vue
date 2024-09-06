@@ -157,6 +157,10 @@
                         </div>
                     </div>
                 </LoadingSpinner>
+                <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+                    :title="$t('citizens.documents.upgradeStorage')"
+                    :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
+                    @close="state.modal.isUpgradeStorageOpen = false" @confirm="navigateTo(`/storage/upgrade`)" />
             </div>
         </NuxtLayout>
     </div>
@@ -179,7 +183,7 @@ const receiverUuid = router?.currentRoute?.value?.params?.receiver_uuid
 const scrollableChatHistory = ref<HTMLElement | null>(null)
 let currentPage = 1
 let scrollHeight = 0
-const fileInput = ref<HTMLInputElement | null>(null)
+const fileInput = ref(null) as any
 const files = ref<File[]>([])
 
 const state = reactive({
@@ -189,7 +193,10 @@ const state = reactive({
     isChatLoading: false,
     isPageLoading: false,
     message: '',
-    messages: [] as any
+    messages: [] as any,
+    modal: {
+        isUpgradeStorageOpen: false
+    },
 })
 
 onMounted(() => {
@@ -331,6 +338,11 @@ const uploadFiles = async (files: any) => {
             }
         } catch (error: any) {
             state.error = error
+            if (error?.message === 'You do not have enough storage space to upload new files.') {
+                state.modal.isUpgradeStorageOpen = true
+            } else if (error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
+                state.modal.isUpgradeStorageOpen = true
+            }
         }
     }
     state.isPageLoading = false

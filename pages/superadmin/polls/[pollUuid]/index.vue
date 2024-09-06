@@ -42,7 +42,7 @@
                                     </td>
                                     <td width="15%">
                                         <div>
-                                            {{ pollItem?.sender?.firstname }} {{ pollItem?.sender?.lastname }}
+                                            {{ pollItem?.sender }}
                                         </div>
                                     </td>
                                     <td width="10%">
