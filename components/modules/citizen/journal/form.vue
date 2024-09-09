@@ -117,7 +117,7 @@
         <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
             :title="$t('citizens.documents.upgradeStorage')"
             :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
-            @close="state.modal.isUpgradeStorageOpen = false" @confirm="navigateTo(`/storage/upgrade`)" />
+            @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
     </form>
 </template>
 
@@ -260,6 +260,11 @@ function submitForm() {
     }
 }
 
+function closeUpgradeStorageModal() {
+    state.modal.isUpgradeStorageOpen = false
+    state.error = {}
+}
+
 const triggerContentFileInput = () => {
     contentFileInput.value?.click()
 }
@@ -280,6 +285,7 @@ const uploadContentAttachment = async (file: any) => {
         params.append('citizen_uuid', String(citizenUuid))
         const response = await journalService.uploadJournalFile(params)
         if (response) {
+            console.log('response', response)
             state.formJournal.content += `<p><a href="${response?.data?.file}" target="_blank">${response?.data?.file_name}</a></p>`
         }
     } catch (error: any) {
@@ -329,8 +335,12 @@ const uploadRiskAssessmentAttachment = async (file: any) => {
 }
 
 const resetFileInput = () => {
-    contentFileInput.value.value = null
-    riskAssessmentFileInput.value.value = null
+    if (contentFileInput.value) {
+        contentFileInput.value.value = null
+    }
+    if (riskAssessmentFileInput.value) {
+        riskAssessmentFileInput.value.value = null
+    }
 }
 
 function ContentUploadAdapterPlugin(editor: any) {

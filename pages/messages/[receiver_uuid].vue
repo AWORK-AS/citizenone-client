@@ -160,7 +160,7 @@
                 <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
                     :title="$t('citizens.documents.upgradeStorage')"
                     :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
-                    @close="state.modal.isUpgradeStorageOpen = false" @confirm="navigateTo(`/storage/upgrade`)" />
+                    @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
             </div>
         </NuxtLayout>
     </div>
@@ -210,6 +210,11 @@ onMounted(() => {
     fetchChatHistory()
     scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
 })
+
+function closeUpgradeStorageModal() {
+    state.modal.isUpgradeStorageOpen = false
+    state.error = {}
+}
 
 async function fetchChattedUsers() {
     state.error = {}

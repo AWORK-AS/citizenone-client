@@ -118,7 +118,7 @@
                 <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
                     :title="$t('citizens.documents.upgradeStorage')"
                     :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
-                    @close="state.modal.isUpgradeStorageOpen = false" @confirm="navigateTo(`/storage/upgrade`)" />
+                    @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
             </div>
         </NuxtLayout>
     </div>
@@ -181,6 +181,11 @@ watch(() => router?.currentRoute?.value?.query, (newParams, oldParams) => {
 
 const handleRouteChange = () => {
     fetchDocuments()
+}
+
+function closeUpgradeStorageModal() {
+    state.modal.isUpgradeStorageOpen = false
+    state.error = {}
 }
 
 async function fetchDocuments(folderUuid: any = null) {
@@ -276,7 +281,9 @@ async function uploadFile(event: any) {
 }
 
 const resetFileInput = () => {
-    documentFile.value.value = null
+    if (documentFile.value) {
+        documentFile.value.value = null
+    }
 }
 
 async function viewDirectory(document: any) {
