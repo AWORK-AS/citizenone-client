@@ -4,7 +4,7 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <div class="grid grid-cols-1 gap-x-8 gap-y-10 pb-10 mb-10 md:grid-cols-3 border-b border-gray-900/10">
+        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
             <div>
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                     {{ $t('employees.form.header.employeeInformation') }}
@@ -13,7 +13,7 @@
                     {{ $t('employees.form.header.essentialDetailsOfTheEmployee') }}.
                 </p>
             </div>
-            <div class="grid grid-cols-1 md:col-span-2 gap-y-3">
+            <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="firstname" :label="$t('employees.form.firstname')" />
@@ -136,7 +136,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-1 gap-x-8 gap-y-10 pb-10 mb-10 md:grid-cols-3 border-b border-gray-900/10">
+        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
             <div>
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                     {{ $t('employees.form.header.employeeInformation') }}
@@ -145,7 +145,7 @@
                     {{ $t('employees.form.header.comprehensiveEmploymentDetailsWithinTheOrganization') }}.
                 </p>
             </div>
-            <div class="grid grid-cols-1 md:col-span-2 gap-y-3">
+            <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="employment_date" :label="$t('employees.form.employment.employmentDate')" />
@@ -182,7 +182,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-1 gap-x-8 gap-y-10 pb-10 md:grid-cols-3">
+        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 xl:grid-cols-3 border-b border-gray-900/10">
             <div>
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                     {{ $t('employees.form.header.emergencyInfo') }}
@@ -194,31 +194,62 @@
             <div class="grid grid-cols-1 md:col-span-2 gap-y-3">
                 <div>
                     <p class="text-sm text-gray-600 font-semibold leading-5">
-                        {{ $t('employees.form.emergencyInfo.trustee') }}
+                        {{ $t('employees.form.emergencyInfo.trustees') }}
                     </p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <div class="space-y-1">
-                            <FormLabel for="trustee_name" :label="$t('employees.form.emergencyInfo.name')" />
-                            <FormTextField id="trustee_name" name="trustee_name"
-                                :placeholder="$t('employees.form.emergencyInfo.name')" />
+                    <div class="mt-5">
+                        <div v-if="state.formEmployee.emergencyInfo.trustees.length === 0" class="mx-auto max-w-md">
+                            <FormButton buttonStyle="primary" @click="addTrustee" class="w-full rounded-md">
+                                {{ $t('employees.form.emergencyInfo.addTrustee') }}
+                            </FormButton>
                         </div>
-                        <div class="space-y-1">
-                            <FormLabel for="trustee_phone" :label="$t('employees.form.emergencyInfo.phone')" />
-                            <FormTextField id="trustee_phone" name="trustee_phone"
-                                :placeholder="$t('employees.form.emergencyInfo.phone')" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="trustee_email" :label="$t('employees.form.emergencyInfo.email')" />
-                            <FormTextField id="trustee_email" name="trustee_email"
-                                :placeholder="$t('employees.form.emergencyInfo.email')" />
+                        <div v-else class="space-y-6">
+                            <div v-for="(trustee, index) in state.formEmployee.emergencyInfo.trustees" :key="index"
+                                class="relative">
+                                <div
+                                    class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+                                    <div class="space-y-1">
+                                        <FormLabel for="trustee_name"
+                                            :label="$t('employees.form.emergencyInfo.name')" />
+                                        <FormTextField id="trustee_name" name="trustee_name"
+                                            :placeholder="$t('employees.form.emergencyInfo.name')"
+                                            :value="trustee.name" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormLabel for="trustee_phone"
+                                            :label="$t('employees.form.emergencyInfo.phone')" />
+                                        <FormTextField id="trustee_phone" name="trustee_phone"
+                                            :placeholder="$t('employees.form.emergencyInfo.phone')"
+                                            :value="trustee.phone" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormLabel for="trustee_email"
+                                            :label="$t('employees.form.emergencyInfo.email')" />
+                                        <FormTextField id="trustee_email" name="trustee_email"
+                                            :placeholder="$t('employees.form.emergencyInfo.email')"
+                                            :value="trustee.email" />
+                                    </div>
+                                </div>
+                                <button
+                                    class="absolute -top-3 -right-3 bg-red-700 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"
+                                    @click="removeTrustee(index)">
+                                    <Icon name="ph:trash" class="h-4 w-4 text-white" aria-hidden="true" />
+                                </button>
+                                <button
+                                    class="absolute -bottom-4 inset-x-1/2 shadow-md bg-secondary hover:bg-secondary-800 rounded-full w-8 h-8 flex items-center justify-center"
+                                    @click="addTrustee()"
+                                    v-if="index === state.formEmployee.emergencyInfo.trustees.length - 1">
+                                    <Icon name="ph:plus" class="h-4 w-4 text-white" aria-hidden="true" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:col-span-2 gap-y-3">
+                <div class="grid grid-cols-1 md:col-span-2 gap-y-3 mt-10">
                     <p class="text-sm text-gray-600 font-semibold leading-5">
                         {{ $t('employees.form.emergencyInfo.emergencyContacts') }}
                     </p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div
+                        class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
                         <div class="space-y-1">
                             <FormLabel for="emergency_contact_name" :label="$t('employees.form.emergencyInfo.name')" />
                             <FormTextField id="emergency_contact_name" name="emergency_contact_name"
@@ -434,6 +465,19 @@ onMounted(() => {
     fetchDepartments()
     fetchRegions()
 })
+
+function addTrustee() {
+    state.formEmployee.emergencyInfo.trustees.push({
+        name: '',
+        contact: '',
+        email: '',
+    })
+}
+
+function removeTrustee(index: number) {
+    console.log(state.formEmployee.emergencyInfo.trustees[index])
+    // state.formEmployee.emergencyInfo.trustees.splice(index, 1)
+}
 
 async function fetchDepartments() {
     emit('isPageLoading', true)

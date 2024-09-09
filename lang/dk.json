@@ -367,7 +367,7 @@
                 "email": "Email",
                 "phone": "Telefon",
                 "relation": "Relation",
-                "trustee": "Værge"
+                "trustees": "Tillidsmænd"
             },
             "employment": {
                 "employmentDate": "Ansættelsesdato",

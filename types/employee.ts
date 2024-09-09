@@ -12,6 +12,7 @@ export interface EmployeeForm {
     city: string,
     post_code: string,
     employment: any,
+    emergencyInfo: any,
     permissions: Permission[]
 }
 

@@ -362,12 +362,14 @@
             "department": "Department",
             "emailAddress": "Email address",
             "emergencyInfo": {
+                "addTrustee": "Add trustee",
+                "addEmergencyContactPerson": "Add emergency contact person",
                 "emergencyContacts": "Emergency contacts",
                 "name": "Name",
                 "email": "Email",
                 "phone": "Phone",
                 "relation": "Relation",
-                "trustee": "Trustee"
+                "trustees": "Trustees"
             },
             "employment": {
                 "employmentDate": "Employment date",
