@@ -6,6 +6,12 @@ export interface EmployeeForm {
     birthday: string,
     departments: number[],
     role: string,
+    street: string,
+    region: string,
+    municipality: string,
+    city: string,
+    post_code: string,
+    employment: any,
     permissions: Permission[]
 }
 

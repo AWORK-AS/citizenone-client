@@ -361,8 +361,31 @@
             "city": "By",
             "department": "Afdeling",
             "emailAddress": "E-mail adresse",
+            "emergencyInfo": {
+                "emergencyContacts": "Nødkontakter",
+                "name": "Navn",
+                "email": "Email",
+                "phone": "Telefon",
+                "relation": "Relation",
+                "trustee": "Værge"
+            },
+            "employment": {
+                "employmentDate": "Ansættelsesdato",
+                "employmentStatus": "Ansættelsesstatus",
+                "jobTitle": "Jobtitel",
+                "workingHours": "Arbejdstimer"
+            },
             "firstname": "Fornavn",
+            "header": {
+                "comprehensiveEmploymentDetailsWithinTheOrganization": "Omfattende ansættelsesoplysninger inden for organisationen",
+                "emergencyInfo": "Nødinformation",
+                "emergencyContactDetailsInCaseOfAnUrgentSituation": "Kontaktoplysninger i nødstilfælde",
+                "employeeInformation": "Medarbejderinformation",
+                "employmentInformation": "Ansættelsesinformation",
+                "essentialDetailsOfTheEmployee": "Væsentlige oplysninger om medarbejderen"
+            },
             "lastname": "Efternavn",
+            "municipality": "Kommune",
             "permissions": {
                 "create": "Opret",
                 "delete": "Slet",
@@ -371,7 +394,10 @@
                 "update": "Opdater"
             },
             "phone": "Telefon",
-            "role": "Rolle"
+            "postCode": "Postnummer",
+            "region": "Region",
+            "role": "Rolle",
+            "street": "Gade"
         },
         "newEmployee": "Ny medarbejder",
         "table": {

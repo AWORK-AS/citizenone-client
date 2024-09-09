@@ -1,89 +1,247 @@
 <template>
-    <form @submit.prevent="submitForm()" class="mt-6 max-w-3xl">
+    <form @submit.prevent="submitForm()" class="mt-6">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <div class="grid grid-cols-1 gap-y-3">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="firstname" :label="$t('employees.form.firstname')" />
-                    <FormTextField id="firstname" name="firstname" :placeholder="$t('employees.form.firstname')"
-                        v-model="state.formEmployee.firstname" />
-                    <FormError :error="v$?.formEmployee?.firstname?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.firstname?.[0]" />
+        <div class="grid grid-cols-1 gap-x-8 gap-y-10 pb-10 mb-10 md:grid-cols-3 border-b border-gray-900/10">
+            <div>
+                <h2 class="text-base font-semibold leading-7 text-gray-900">
+                    {{ $t('employees.form.header.employeeInformation') }}
+                </h2>
+                <p class="mt-1 text-sm leading-6 text-gray-600">
+                    {{ $t('employees.form.header.essentialDetailsOfTheEmployee') }}.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:col-span-2 gap-y-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="firstname" :label="$t('employees.form.firstname')" />
+                        <FormTextField id="firstname" name="firstname" :placeholder="$t('employees.form.firstname')"
+                            v-model="state.formEmployee.firstname" />
+                        <FormError :error="v$?.formEmployee?.firstname?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.firstname?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="lastname" :label="$t('employees.form.lastname')" />
+                        <FormTextField id="lastname" name="lastname" :placeholder="$t('employees.form.lastname')"
+                            v-model="state.formEmployee.lastname" />
+                        <FormError :error="v$?.formEmployee?.lastname?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.lastname?.[0]" />
+                    </div>
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="lastname" :label="$t('employees.form.lastname')" />
-                    <FormTextField id="lastname" name="lastname" :placeholder="$t('employees.form.lastname')"
-                        v-model="state.formEmployee.lastname" />
-                    <FormError :error="v$?.formEmployee?.lastname?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.lastname?.[0]" />
+                    <FormLabel for="email" :label="$t('employees.form.emailAddress')" />
+                    <FormTextField id="email" name="email" :placeholder="$t('employees.form.emailAddress')"
+                        v-model="state.formEmployee.email" />
+                    <FormError :error="v$?.formEmployee?.email?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.email?.[0]" />
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="phone" :label="$t('employees.form.phone')" />
+                        <FormTextField id="phone" name="phone" :placeholder="$t('employees.form.phone')"
+                            v-model="state.formEmployee.phone" />
+                        <FormError :error="v$?.formEmployee?.phone?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.phone?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="birthday" :label="$t('employees.form.birthday')" />
+                        <FormDateField id="birthday" name="birthday" :placeholder="$t('employees.form.birthday')"
+                            v-model="state.formEmployee.birthday" />
+                        <FormError :error="v$?.formEmployee?.birthday?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.birthday?.[0]" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <div class="flex justify-between items-center py-0.5">
+                            <FormLabel for="department" :label="$t('employees.form.department')" />
+                            <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                @click="state.modal.isAddDepartmentOpen = true">
+                                {{ $t('departments.addNewDepartment') }}
+                            </span>
+                        </div>
+                        <FormSelectMultiple id="departments" :options="state.options.departments"
+                            v-model="state.formEmployee.departments" />
+                        <FormError :error="v$?.formEmployee?.departments?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.department_id?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="role" :label="$t('employees.form.role')" />
+                        <FormSelect id="role" name="role" :options="state.options.roleOptions"
+                            v-model="state.formEmployee.role" />
+                        <FormError :error="v$?.formEmployee?.role?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.role?.[0]" />
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="street" :label="$t('employees.form.street')" />
+                    <FormTextField id="street" name="street" :placeholder="$t('employees.form.street')"
+                        v-model="state.formEmployee.street" />
+                    <FormError :error="v$?.formEmployee?.street?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.street?.[0]" />
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="region" :label="$t('employees.form.region')" />
+                        <FormSelect id="region" :options="state.options.regions" v-model="state.formEmployee.region"
+                            @change="changeSelectedRegion" />
+                        <FormError :error="v$?.formEmployee?.region?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.region_id?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="municipality" :label="$t('employees.form.municipality')" />
+                        <FormSelect id="municipality" :options="state.options.municipalities"
+                            v-model="state.formEmployee.municipality" @change="changeSelectedMunicipality" />
+                        <FormError :error="v$?.formEmployee?.municipality?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.municipality_id?.[0]" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="city" :label="$t('employees.form.city')" />
+                        <FormSelect id="city" :options="state.options.cities" v-model="state.formEmployee.city" />
+                        <FormError :error="v$?.formEmployee?.city?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.city_id?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="post_code" :label="$t('employees.form.postCode')" />
+                        <FormTextField id="post_code" name="post_code" :placeholder="$t('employees.form.postCode')"
+                            v-model="state.formEmployee.post_code" />
+                        <FormError :error="v$?.formEmployee?.post_code?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.post_code?.[0]" />
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="permissions" :label="$t('employees.form.permissions.permissions')" />
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+                        <div class="w-fit flex items-center cursor-pointer" @click="changePermissionRead()">
+                            <FormCheckbox id="permissions" :value="state.permissions.read" />
+                            {{ $t('employees.form.permissions.read') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer" @click="changePermissionCreate()">
+                            <FormCheckbox id="permissions_create" :value="state.permissions.create" />
+                            {{ $t('employees.form.permissions.create') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer" @click="changePermissionUpdate()">
+                            <FormCheckbox id="permissions_update" :value="state.permissions.update" />
+                            {{ $t('employees.form.permissions.update') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer" @click="changePermissionDelete()">
+                            <FormCheckbox id="permissions_delete" :value="state.permissions.delete" />
+                            {{ $t('employees.form.permissions.delete') }}
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="space-y-1">
-                <FormLabel for="email" :label="$t('employees.form.emailAddress')" />
-                <FormTextField id="email" name="email" :placeholder="$t('employees.form.emailAddress')"
-                    v-model="state.formEmployee.email" />
-                <FormError :error="v$?.formEmployee?.email?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.email?.[0]" />
+        </div>
+        <div class="grid grid-cols-1 gap-x-8 gap-y-10 pb-10 mb-10 md:grid-cols-3 border-b border-gray-900/10">
+            <div>
+                <h2 class="text-base font-semibold leading-7 text-gray-900">
+                    {{ $t('employees.form.header.employeeInformation') }}
+                </h2>
+                <p class="mt-1 text-sm leading-6 text-gray-600">
+                    {{ $t('employees.form.header.comprehensiveEmploymentDetailsWithinTheOrganization') }}.
+                </p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="phone" :label="$t('employees.form.phone')" />
-                    <FormTextField id="phone" name="phone" :placeholder="$t('employees.form.phone')"
-                        v-model="state.formEmployee.phone" />
-                    <FormError :error="v$?.formEmployee?.phone?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.phone?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="birthday" :label="$t('employees.form.birthday')" />
-                    <FormDateField id="birthday" name="birthday" :placeholder="$t('employees.form.birthday')"
-                        v-model="state.formEmployee.birthday" />
-                    <FormError :error="v$?.formEmployee?.birthday?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.birthday?.[0]" />
-                </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <div class="flex justify-between items-center py-0.5">
-                        <FormLabel for="department" :label="$t('employees.form.department')" />
-                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                            @click="state.modal.isAddDepartmentOpen = true">
-                            {{ $t('departments.addNewDepartment') }}
-                        </span>
+            <div class="grid grid-cols-1 md:col-span-2 gap-y-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="employment_date" :label="$t('employees.form.employment.employmentDate')" />
+                        <FormDateField id="employment_date" name="employment_date"
+                            :placeholder="$t('employees.form.employment.employmentDate')"
+                            v-model="state.formEmployee.employment.employment_date" />
+                        <FormError :error="v$?.formEmployee?.employment_date?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.employment_date?.[0]" />
                     </div>
-                    <FormSelectMultiple id="departments" :options="state.options.departments"
-                        v-model="state.formEmployee.departments" />
-                    <FormError :error="v$?.formEmployee?.departments?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.department_id?.[0]" />
+                    <div class="space-y-1">
+                        <FormLabel for="job_title" :label="$t('employees.form.employment.jobTitle')" />
+                        <FormTextField id="job_title" name="job_title"
+                            :placeholder="$t('employees.form.employment.jobTitle')"
+                            v-model="state.formEmployee.employment.job_title" />
+                        <FormError :error="v$?.formEmployee?.job_title?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.job_title?.[0]" />
+                    </div>
                 </div>
-                <div class="space-y-1">
-                    <FormLabel for="role" :label="$t('employees.form.role')" />
-                    <FormSelect id="role" name="role" :options="state.options.roleOptions"
-                        v-model="state.formEmployee.role" />
-                    <FormError :error="v$?.formEmployee?.role?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.role?.[0]" />
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="working_hours" :label="$t('employees.form.employment.workingHours')" />
+                        <FormSelect id="working_hours" :options="state.options.working_hours"
+                            v-model="state.formEmployee.employment.working_hours" />
+                        <FormError :error="v$?.formEmployee?.working_hours?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.working_hours?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="employment_status" :label="$t('employees.form.employment.employmentStatus')" />
+                        <FormSelect id="employment_status" :options="state.options.employment_status"
+                            v-model="state.formEmployee.employment.employment_status" />
+                        <FormError :error="v$?.formEmployee?.employment_status?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.employment_status?.[0]" />
+                    </div>
                 </div>
             </div>
-            <div class="space-y-1">
-                <FormLabel for="permissions" :label="$t('employees.form.permissions.permissions')" />
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-                    <div class="w-fit flex items-center cursor-pointer" @click="changePermissionRead()">
-                        <FormCheckbox id="permissions" :value="state.permissions.read" />
-                        {{ $t('employees.form.permissions.read') }}
+        </div>
+        <div class="grid grid-cols-1 gap-x-8 gap-y-10 pb-10 md:grid-cols-3">
+            <div>
+                <h2 class="text-base font-semibold leading-7 text-gray-900">
+                    {{ $t('employees.form.header.emergencyInfo') }}
+                </h2>
+                <p class="mt-1 text-sm leading-6 text-gray-600">
+                    {{ $t('employees.form.header.emergencyContactDetailsInCaseOfAnUrgentSituation') }}
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:col-span-2 gap-y-3">
+                <div>
+                    <p class="text-sm text-gray-600 font-semibold leading-5">
+                        {{ $t('employees.form.emergencyInfo.trustee') }}
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div class="space-y-1">
+                            <FormLabel for="trustee_name" :label="$t('employees.form.emergencyInfo.name')" />
+                            <FormTextField id="trustee_name" name="trustee_name"
+                                :placeholder="$t('employees.form.emergencyInfo.name')" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="trustee_phone" :label="$t('employees.form.emergencyInfo.phone')" />
+                            <FormTextField id="trustee_phone" name="trustee_phone"
+                                :placeholder="$t('employees.form.emergencyInfo.phone')" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="trustee_email" :label="$t('employees.form.emergencyInfo.email')" />
+                            <FormTextField id="trustee_email" name="trustee_email"
+                                :placeholder="$t('employees.form.emergencyInfo.email')" />
+                        </div>
                     </div>
-                    <div class="w-fit flex items-center cursor-pointer" @click="changePermissionCreate()">
-                        <FormCheckbox id="permissions_create" :value="state.permissions.create" />
-                        {{ $t('employees.form.permissions.create') }}
-                    </div>
-                    <div class="w-fit flex items-center cursor-pointer" @click="changePermissionUpdate()">
-                        <FormCheckbox id="permissions_update" :value="state.permissions.update" />
-                        {{ $t('employees.form.permissions.update') }}
-                    </div>
-                    <div class="w-fit flex items-center cursor-pointer" @click="changePermissionDelete()">
-                        <FormCheckbox id="permissions_delete" :value="state.permissions.delete" />
-                        {{ $t('employees.form.permissions.delete') }}
+                </div>
+                <div class="grid grid-cols-1 md:col-span-2 gap-y-3">
+                    <p class="text-sm text-gray-600 font-semibold leading-5">
+                        {{ $t('employees.form.emergencyInfo.emergencyContacts') }}
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="space-y-1">
+                            <FormLabel for="emergency_contact_name" :label="$t('employees.form.emergencyInfo.name')" />
+                            <FormTextField id="emergency_contact_name" name="emergency_contact_name"
+                                :placeholder="$t('employees.form.emergencyInfo.name')" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="emergency_contact_phone"
+                                :label="$t('employees.form.emergencyInfo.phone')" />
+                            <FormTextField id="emergency_contact_phone" name="emergency_contact_phone"
+                                :placeholder="$t('employees.form.emergencyInfo.phone')" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="emergency_contact_email"
+                                :label="$t('employees.form.emergencyInfo.email')" />
+                            <FormTextField id="emergency_contact_email" name="emergency_contact_email"
+                                :placeholder="$t('employees.form.emergencyInfo.email')" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="emergency_contact_relation"
+                                :label="$t('employees.form.emergencyInfo.relation')" />
+                            <FormTextField id="emergency_contact_relation" name="emergency_contact_relation"
+                                :placeholder="$t('employees.form.emergencyInfo.relation')" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,6 +264,9 @@
 
 <script setup lang="ts">
 import { departmentService } from '@/components/api/DepartmentService'
+import { regionService } from '@/components/api/RegionService'
+import { municipalityService } from '@/components/api/MunicipalityService'
+import { cityService } from '@/components/api/CityService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -135,10 +296,25 @@ const state = reactive({
         firstname: '',
         lastname: '',
         email: '',
+        emergencyInfo: {
+            emergency_contacts: [],
+            trustees: [],
+        },
+        employment: {
+            employment_date: '',
+            job_title: '',
+            working_hours: '',
+            employment_status: '',
+        },
         phone: '',
         birthday: '',
         departments: [],
         role: '',
+        street: '',
+        region: '',
+        municipality: '',
+        city: '',
+        post_code: '',
         permissions: [],
     } as EmployeeForm,
     modal: {
@@ -151,11 +327,23 @@ const state = reactive({
         delete: false,
     },
     options: {
+        cities: [],
         departments: [],
+        employment_status: [
+            { value: 'permanent', label: 'Permanent' },
+            { value: 'temporary', label: 'Temporary' },
+            { value: 'substitute', label: 'Substitute' },
+        ],
+        municipalities: [],
+        regions: [],
         roleOptions: [
             { value: 'Admin', label: 'Admin' },
             { value: 'User', label: 'User' },
-        ]
+        ],
+        working_hours: [
+            { value: 'full_time', label: 'Full-time' },
+            { value: 'part_time', label: 'Part-time' },
+        ],
     }
 })
 
@@ -169,7 +357,18 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             birthday: newValue.birthday,
             departments: newValue.departments,
             role: newValue.role,
+            street: newValue.street,
+            region: newValue.region_id,
+            municipality: newValue.municipality_id,
+            city: newValue.city_id,
+            post_code: newValue.post_code,
             permissions: [],
+            employment: {
+                employment_date: '',
+                job_title: '',
+                working_hours: '',
+                employment_status: '',
+            }
         }
         newValue?.permissions.forEach((permission: any) => {
             if (permission?.name === 'read') {
@@ -207,6 +406,21 @@ const rules = computed(() => {
             birthday: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            street: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            region: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            municipality: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            city: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            post_code: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
             role: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
@@ -218,6 +432,7 @@ const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
     fetchDepartments()
+    fetchRegions()
 })
 
 async function fetchDepartments() {
@@ -239,6 +454,83 @@ async function fetchDepartments() {
         state.error = error
     }
     emit('isPageLoading', false)
+}
+
+async function fetchRegions() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await regionService.getAllRegions()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.id,
+                    label: item.name,
+                })
+            )
+            state.options.regions = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchMunicipalities(regionId: any) {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const params = {
+            region_id: regionId
+        }
+        const response = await municipalityService.getAllMunicipalities(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.id,
+                    label: item.name,
+                })
+            )
+            state.options.municipalities = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchCities(municipalityId: any) {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const params = {
+            municipality_id: municipalityId
+        }
+        const response = await cityService.getAllCities(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.id,
+                    label: item.name,
+                })
+            )
+            state.options.cities = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+function changeSelectedRegion(regionId: number) {
+    fetchMunicipalities(regionId)
+}
+
+function changeSelectedMunicipality(municipalityId: number) {
+    fetchCities(municipalityId)
 }
 
 function submitForm() {

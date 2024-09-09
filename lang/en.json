@@ -361,8 +361,31 @@
             "city": "City",
             "department": "Department",
             "emailAddress": "Email address",
+            "emergencyInfo": {
+                "emergencyContacts": "Emergency contacts",
+                "name": "Name",
+                "email": "Email",
+                "phone": "Phone",
+                "relation": "Relation",
+                "trustee": "Trustee"
+            },
+            "employment": {
+                "employmentDate": "Employment date",
+                "employmentStatus": "Employment status",
+                "jobTitle": "Job title",
+                "workingHours": "Working hours"
+            },
             "firstname": "First name",
+            "header": {
+                "comprehensiveEmploymentDetailsWithinTheOrganization": "Comprehensive employment details within the organization",
+                "emergencyInfo": "Emergency info",
+                "emergencyContactDetailsInCaseOfAnUrgentSituation": "Emergency contact details in case of an urgent situation",
+                "employeeInformation": "Employee Information",
+                "employmentInformation": "Employment Information",
+                "essentialDetailsOfTheEmployee": "Essential details of the employee"
+            },
             "lastname": "Last name",
+            "municipality": "Municipality",
             "permissions": {
                 "create": "Create",
                 "delete": "Delete",
@@ -371,7 +394,10 @@
                 "update": "Update"
             },
             "phone": "Phone",
-            "role": "Role"
+            "postCode": "Post Code",
+            "region": "Region",
+            "role": "Role",
+            "street": "Street"
         },
         "newEmployee": "New employee",
         "table": {
