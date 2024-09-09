@@ -56,7 +56,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5">
-                            <FormLabel for="department" :label="$t('employees.form.department')" />
+                            <FormLabel for="departments" :label="$t('employees.form.department')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                 @click="state.modal.isAddDepartmentOpen = true">
                                 {{ $t('departments.addNewDepartment') }}
@@ -197,10 +197,13 @@
                         {{ $t('employees.form.emergencyInfo.trustees') }}
                     </p>
                     <div class="mt-5">
-                        <div v-if="state.formEmployee.emergencyInfo.trustees.length === 0" class="mx-auto max-w-md">
-                            <FormButton buttonStyle="primary" @click="addTrustee" class="w-full rounded-md">
-                                {{ $t('employees.form.emergencyInfo.addTrustee') }}
-                            </FormButton>
+                        <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8"
+                            v-if="state.formEmployee.emergencyInfo.trustees.length === 0">
+                            <div class="mx-auto max-w-md">
+                                <FormButton buttonStyle="primary" @click="addTrustee" class="w-full rounded-md">
+                                    {{ $t('employees.form.emergencyInfo.addTrustee') }}
+                                </FormButton>
+                            </div>
                         </div>
                         <div v-else class="space-y-6">
                             <div v-for="(trustee, index) in state.formEmployee.emergencyInfo.trustees" :key="index"
@@ -208,33 +211,35 @@
                                 <div
                                     class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
                                     <div class="space-y-1">
-                                        <FormLabel for="trustee_name"
+                                        <FormLabel :for="`trustee_name_${index}`"
                                             :label="$t('employees.form.emergencyInfo.name')" />
-                                        <FormTextField id="trustee_name" name="trustee_name"
-                                            :placeholder="$t('employees.form.emergencyInfo.name')"
-                                            :value="trustee.name" />
+                                        <FormTextField :id="`trustee_name_${index}`" name="trustee_name"
+                                            :placeholder="$t('employees.form.emergencyInfo.name')" :value="trustee.name"
+                                            @keyup="(event: any) => state.formEmployee.emergencyInfo.trustees[index].name = event.target.value" />
                                     </div>
                                     <div class="space-y-1">
-                                        <FormLabel for="trustee_phone"
+                                        <FormLabel :for="`trustee_phone_${index}`"
                                             :label="$t('employees.form.emergencyInfo.phone')" />
-                                        <FormTextField id="trustee_phone" name="trustee_phone"
+                                        <FormTextField :id="`trustee_phone_${index}`" name="trustee_phone"
                                             :placeholder="$t('employees.form.emergencyInfo.phone')"
-                                            :value="trustee.phone" />
+                                            :value="trustee.phone"
+                                            @keyup="(event: any) => state.formEmployee.emergencyInfo.trustees[index].phone = event.target.value" />
                                     </div>
                                     <div class="space-y-1">
-                                        <FormLabel for="trustee_email"
+                                        <FormLabel :for="`trustee_email_${index}`"
                                             :label="$t('employees.form.emergencyInfo.email')" />
-                                        <FormTextField id="trustee_email" name="trustee_email"
+                                        <FormTextField :for="`trustee_email_${index}`" name="trustee_email"
                                             :placeholder="$t('employees.form.emergencyInfo.email')"
-                                            :value="trustee.email" />
+                                            :value="trustee.email"
+                                            @keyup="(event: any) => state.formEmployee.emergencyInfo.trustees[index].email = event.target.value" />
                                     </div>
                                 </div>
-                                <button
+                                <button type="button"
                                     class="absolute -top-3 -right-3 bg-red-700 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"
                                     @click="removeTrustee(index)">
                                     <Icon name="ph:trash" class="h-4 w-4 text-white" aria-hidden="true" />
                                 </button>
-                                <button
+                                <button type="button"
                                     class="absolute -bottom-4 inset-x-1/2 shadow-md bg-secondary hover:bg-secondary-800 rounded-full w-8 h-8 flex items-center justify-center"
                                     @click="addTrustee()"
                                     v-if="index === state.formEmployee.emergencyInfo.trustees.length - 1">
@@ -248,30 +253,69 @@
                     <p class="text-sm text-gray-600 font-semibold leading-5">
                         {{ $t('employees.form.emergencyInfo.emergencyContacts') }}
                     </p>
-                    <div
-                        class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
-                        <div class="space-y-1">
-                            <FormLabel for="emergency_contact_name" :label="$t('employees.form.emergencyInfo.name')" />
-                            <FormTextField id="emergency_contact_name" name="emergency_contact_name"
-                                :placeholder="$t('employees.form.emergencyInfo.name')" />
+                    <div class="mt-5">
+                        <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8"
+                            v-if="state.formEmployee.emergencyInfo.emergency_contacts.length === 0">
+                            <div class="mx-auto max-w-md">
+                                <FormButton buttonStyle="primary" @click="addEmergencyContact"
+                                    class="w-full rounded-md">
+                                    {{ $t('employees.form.emergencyInfo.addEmergencyContactPerson') }}
+                                </FormButton>
+                            </div>
                         </div>
-                        <div class="space-y-1">
-                            <FormLabel for="emergency_contact_phone"
-                                :label="$t('employees.form.emergencyInfo.phone')" />
-                            <FormTextField id="emergency_contact_phone" name="emergency_contact_phone"
-                                :placeholder="$t('employees.form.emergencyInfo.phone')" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="emergency_contact_email"
-                                :label="$t('employees.form.emergencyInfo.email')" />
-                            <FormTextField id="emergency_contact_email" name="emergency_contact_email"
-                                :placeholder="$t('employees.form.emergencyInfo.email')" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="emergency_contact_relation"
-                                :label="$t('employees.form.emergencyInfo.relation')" />
-                            <FormTextField id="emergency_contact_relation" name="emergency_contact_relation"
-                                :placeholder="$t('employees.form.emergencyInfo.relation')" />
+                        <div v-else class="space-y-6">
+                            <div v-for="(emergency_contact, index) in state.formEmployee.emergencyInfo.emergency_contacts"
+                                :key="index" class="relative">
+                                <div
+                                    class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+                                    <div class="space-y-1">
+                                        <FormLabel :for="`emergency_contact_name_${index}`"
+                                            :label="$t('employees.form.emergencyInfo.name')" />
+                                        <FormTextField id="emergency_contact_name" name="emergency_contact_name"
+                                            :placeholder="$t('employees.form.emergencyInfo.name')"
+                                            :value="emergency_contact.name"
+                                            @keyup="(event: any) => state.formEmployee.emergencyInfo.emergency_contacts[index].name = event.target.value" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormLabel :for="`emergency_contact_phone_${index}`"
+                                            :label="$t('employees.form.emergencyInfo.phone')" />
+                                        <FormTextField :id="`emergency_contact_phone_${index}`"
+                                            name="emergency_contact_phone"
+                                            :placeholder="$t('employees.form.emergencyInfo.phone')"
+                                            :value="emergency_contact.phone"
+                                            @keyup="(event: any) => state.formEmployee.emergencyInfo.emergency_contacts[index].phone = event.target.value" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormLabel :for="`emergency_contact_email_${index}`"
+                                            :label="$t('employees.form.emergencyInfo.email')" />
+                                        <FormTextField :id="`emergency_contact_email_${index}`"
+                                            name="emergency_contact_email"
+                                            :placeholder="$t('employees.form.emergencyInfo.email')"
+                                            :value="emergency_contact.email"
+                                            @keyup="(event: any) => state.formEmployee.emergencyInfo.emergency_contacts[index].email = event.target.value" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormLabel :for="`emergency_contact_relation_${index}`"
+                                            :label="$t('employees.form.emergencyInfo.relation')" />
+                                        <FormTextField :id="`emergency_contact_relation_${index}`"
+                                            name="emergency_contact_relation"
+                                            :placeholder="$t('employees.form.emergencyInfo.relation')"
+                                            :value="emergency_contact.relation"
+                                            @keyup="(event: any) => state.formEmployee.emergencyInfo.emergency_contacts[index].relation = event.target.value" />
+                                    </div>
+                                </div>
+                                <button type="button"
+                                    class="absolute -top-3 -right-3 bg-red-700 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"
+                                    @click="removeEmergencyContact(index)">
+                                    <Icon name="ph:trash" class="h-4 w-4 text-white" aria-hidden="true" />
+                                </button>
+                                <button type="button"
+                                    class="absolute -bottom-4 inset-x-1/2 shadow-md bg-secondary hover:bg-secondary-800 rounded-full w-8 h-8 flex items-center justify-center"
+                                    @click="addEmergencyContact()"
+                                    v-if="index === state.formEmployee.emergencyInfo.emergency_contacts.length - 1">
+                                    <Icon name="ph:plus" class="h-4 w-4 text-white" aria-hidden="true" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -327,16 +371,6 @@ const state = reactive({
         firstname: '',
         lastname: '',
         email: '',
-        emergencyInfo: {
-            emergency_contacts: [],
-            trustees: [],
-        },
-        employment: {
-            employment_date: '',
-            job_title: '',
-            working_hours: '',
-            employment_status: '',
-        },
         phone: '',
         birthday: '',
         departments: [],
@@ -347,6 +381,16 @@ const state = reactive({
         city: '',
         post_code: '',
         permissions: [],
+        employment: {
+            employment_date: '',
+            job_title: '',
+            working_hours: '',
+            employment_status: '',
+        },
+        emergencyInfo: {
+            emergency_contacts: [],
+            trustees: [],
+        },
     } as EmployeeForm,
     modal: {
         isAddDepartmentOpen: false
@@ -394,11 +438,15 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             city: newValue.city_id,
             post_code: newValue.post_code,
             permissions: [],
+            emergencyInfo: {
+                emergency_contacts: newValue.emergencyInfo.emergency_contacts,
+                trustees: newValue.emergencyInfo.trustees,
+            },
             employment: {
-                employment_date: '',
-                job_title: '',
-                working_hours: '',
-                employment_status: '',
+                employment_date: newValue.employement.employment_date,
+                job_title: newValue.employement.job_title,
+                working_hours: newValue.employement.working_hours,
+                employment_status: newValue.employement.employment_status,
             }
         }
         newValue?.permissions.forEach((permission: any) => {
@@ -469,14 +517,26 @@ onMounted(() => {
 function addTrustee() {
     state.formEmployee.emergencyInfo.trustees.push({
         name: '',
-        contact: '',
+        phone: '',
         email: '',
     })
 }
 
 function removeTrustee(index: number) {
-    console.log(state.formEmployee.emergencyInfo.trustees[index])
-    // state.formEmployee.emergencyInfo.trustees.splice(index, 1)
+    state.formEmployee.emergencyInfo.trustees.splice(index, 1)
+}
+
+function addEmergencyContact() {
+    state.formEmployee.emergencyInfo.emergency_contacts.push({
+        name: '',
+        phone: '',
+        email: '',
+        relation: '',
+    })
+}
+
+function removeEmergencyContact(index: number) {
+    state.formEmployee.emergencyInfo.emergency_contacts.splice(index, 1)
 }
 
 async function fetchDepartments() {

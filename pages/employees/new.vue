@@ -26,7 +26,7 @@
 import { employeeService } from '@/components/api/EmployeeService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
-import type { Error } from '@/types'
+import type { EmployeeForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
@@ -42,7 +42,23 @@ const state = reactive({
         birthday: '',
         departments: [],
         role: '',
-    },
+        street: '',
+        region: '',
+        municipality: '',
+        city: '',
+        post_code: '',
+        permissions: [],
+        employment: {
+            employment_date: '',
+            job_title: '',
+            working_hours: '',
+            employment_status: '',
+        },
+        emergencyInfo: {
+            emergency_contacts: [],
+            trustees: [],
+        },
+    } as EmployeeForm,
     isPageLoading: false,
 })
 
@@ -59,6 +75,17 @@ async function saveEmployee(employeeDetails: any) {
             department_id: employeeDetails.departments,
             role: employeeDetails.role,
             permission: employeeDetails.permissions,
+            street: employeeDetails.street,
+            region_id: employeeDetails.region,
+            municipality_id: employeeDetails.municipality,
+            city_id: employeeDetails.city,
+            post_code: employeeDetails.post_code,
+            employment_date: employeeDetails.employment.employment_date,
+            job_title: employeeDetails.employment.job_title,
+            working_hours: employeeDetails.employment.working_hours,
+            employment_status: employeeDetails.employment.employment_status,
+            emergency_contacts: employeeDetails.emergencyInfo.emergency_contacts,
+            trustees: employeeDetails.emergencyInfo.trustees,
         }
         const response = await employeeService.saveEmployee(params)
         if (response.data) {
