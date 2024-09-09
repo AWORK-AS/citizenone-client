@@ -41,7 +41,8 @@
     },
     "back": "Tilbage",
     "bulletBoard": {
-        "bulletBoard": "Opslagstavle"
+        "bulletBoard": "Opslagstavle",
+        "featured": "Fremhævet"
     },
     "calendar": {
         "days": {

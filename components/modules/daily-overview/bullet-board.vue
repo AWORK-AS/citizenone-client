@@ -12,9 +12,15 @@
             <Carousel v-bind="state.carouselSettings">
                 <Slide v-for="(news, index) in state.news?.data" :key="index">
                     <div class="w-full h-full p-2 space-y-2">
-                        <div class="bg-white rounded-md shadow-md w-full h-full">
+                        <div class="relative bg-white rounded-md shadow-md w-full h-full">
                             <div class="bg-no-repeat w-full h-52 bg-cover rounded-t-md"
                                 :style="`background-image: url(${news?.image});`">
+                            </div>
+                            <div class="absolute top-3 right-0 bg-secondary px-3 py-1 rounded-tl-md rounded-bl-md"
+                                v-if="news?.is_featured">
+                                <p class="text-sm text-white">
+                                    {{ $t('bulletBoard.featured') }}
+                                </p>
                             </div>
                             <div class="pb-6 px-5 mt-3 text-left">
                                 <h3 class="font-semibold text-lg">{{ news?.title }}</h3>
@@ -33,6 +39,7 @@
                 </Slide>
 
                 <template #addons>
+                    <navigation v-if="state.news?.data?.length > 1" />
                     <pagination v-if="state.news?.data?.length > 1" />
                 </template>
             </Carousel>
@@ -97,7 +104,10 @@ async function fetchNews() {
         if (response) {
             state.news = response
             if (state.news?.data?.length > 1) {
-                state.carouselSettings.autoplay = 2000
+                const isFeatured = state.news?.data.find((news: any) => news?.is_featured)
+                if (isFeatured === undefined) {
+                    state.carouselSettings.autoplay = 2000
+                }
             }
         }
     } catch (error: any) {
@@ -119,5 +129,16 @@ async function navigateToExternalLink(link: any) {
 <style>
 .carousel__slide {
     align-items: start;
+}
+
+.carousel__prev,
+.carousel__next {
+    top: 7rem;
+    color: white;
+}
+
+.carousel__prev:hover,
+.carousel__next:hover {
+    color: white;
 }
 </style>
