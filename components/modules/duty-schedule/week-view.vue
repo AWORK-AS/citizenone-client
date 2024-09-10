@@ -460,11 +460,11 @@ async function saveShift(shiftDetails: any) {
             time_out: '17:00',
             user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
         }
-        saveDutySchedule(params, weeklyScheduleIndex, weekIndex)
+        saveDutySchedule(params, weeklyScheduleIndex, weekIndex, 'new_shift')
     }
 }
 
-async function saveDutySchedule(params: object, weeklyScheduleIndex: number, weekIndex: any) {
+async function saveDutySchedule(params: object, weeklyScheduleIndex: number, weekIndex: any, action: string) {
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -475,27 +475,26 @@ async function saveDutySchedule(params: object, weeklyScheduleIndex: number, wee
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
 
-            // Commented here while waiting for the backend to be updated
-            // if (response?.data?.length > 1) {
-            //     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = []
-            //     response?.data.forEach((shift: any) => {
-            //         state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
-            //             name: shift?.shift_type,
-            //             time_in: shift?.time_in,
-            //             time_out: shift?.time_out,
-            //             schedule_uuid: shift?.uuid,
-            //         })
-            //     })
-            // } else {
-            //     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
-            //         name: response?.data?.shift_type,
-            //         time_in: response?.data?.time_in,
-            //         time_out: response?.data?.time_out,
-            //         schedule_uuid: response?.data?.uuid,
-            //     })
-            // }
-            // Added this for the mean time while waiting for the backend
-            fetchDutySchedule()
+            if (action === 'new_shift') {
+                state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
+                    name: response?.data?.shift_type,
+                    time_in: response?.data?.time_in,
+                    time_out: response?.data?.time_out,
+                    schedule_uuid: response?.data?.uuid,
+                })
+                console.log(response?.data?.uuid)
+            } else if (action === 'paste_shifts') {
+                state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = []
+                response?.data.forEach((shift: any) => {
+                    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
+                        name: shift?.shift_type,
+                        time_in: shift?.time_in,
+                        time_out: shift?.time_out,
+                        schedule_uuid: shift?.uuid,
+                    })
+                    console.log(shift?.uuid)
+                })
+            }
         }
     } catch (error: any) {
         state.error = error
@@ -558,7 +557,7 @@ async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: num
         date_source: dateSource,
         date_destination: dateDestination,
     }
-    saveDutySchedule(params, weeklyScheduleIndex, weekIndex)
+    saveDutySchedule(params, weeklyScheduleIndex, weekIndex, 'paste_shifts')
 }
 
 function isAllWeeklyScheduleCopiedEmpty() {
