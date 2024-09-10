@@ -31,7 +31,7 @@
                                     </div>
                                     <div class="relative mt-10 flex-1 px-4 sm:px-6">
                                         <div>
-                                            <div class="mask-custom">
+                                            <div class="support-mask">
                                                 <img src="https://citizenone.dk/wp-content/uploads/2024/08/CitizenOne-10.jpg"
                                                     alt="Support" class="w-full h-96 object-cover" />
                                             </div>
@@ -114,16 +114,3 @@ async function navigateToCourses() {
     })
 }
 </script>
-
-<style>
-.mask-custom {
-    mask-image: url('/img/icons/support-mask.svg');
-    -webkit-mask-size: cover;
-    mask-size: cover;
-    -webkit-mask-image: url('/img/icons/support-mask.svg');
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-size: contain;
-    -webkit-mask-position-x: 0%;
-    -webkit-mask-position-y: 3px;
-}
-</style>

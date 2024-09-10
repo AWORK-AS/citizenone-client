@@ -192,6 +192,21 @@ table td {
 }
 
 /* ----------------------------------------------------------------------------------------------------
+    Support
+---------------------------------------------------------------------------------------------------- */
+
+.support-mask {
+    mask-image: url('/img/icons/support-mask.svg');
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-image: url('/img/icons/support-mask.svg');
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    -webkit-mask-position-x: 0%;
+    -webkit-mask-position-y: 3px;
+}
+
+/* ----------------------------------------------------------------------------------------------------
     Carousel
 ---------------------------------------------------------------------------------------------------- */
 
