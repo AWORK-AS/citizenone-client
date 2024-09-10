@@ -476,6 +476,15 @@ async function saveDutySchedule(params: object, weeklyScheduleIndex: number, wee
             identifyTheProgressPercentage()
 
             // Commented here while waiting for the backend to be updated
+            // response?.data.forEach((shift: any) => {
+            //     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
+            //         name: shift?.shift_type,
+            //         time_in: shift?.time_in,
+            //         time_out: shift?.time_out,
+            //         schedule_uuid: shift?.uuid,
+            //     })
+            // })
+
             // state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
             //     name: response?.data?.shift_type,
             //     time_in: response?.data?.time_in,
@@ -485,7 +494,7 @@ async function saveDutySchedule(params: object, weeklyScheduleIndex: number, wee
             // console.log('test', state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts)
 
             // Added this for the mean time while waiting for the backend
-            fetchDutySchedule()
+            // fetchDutySchedule()
         }
     } catch (error: any) {
         state.error = error
