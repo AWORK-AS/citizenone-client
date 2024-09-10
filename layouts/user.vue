@@ -499,7 +499,7 @@ const state = reactive({
     },
     slideOver: {
         isLanguageSwitcherOpen: false,
-        isSupportOpen: false
+        isSupportOpen: true
     },
 })
 

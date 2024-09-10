@@ -35,9 +35,9 @@
                                                 <img src="https://citizenone.dk/wp-content/uploads/2024/08/CitizenOne-10.jpg"
                                                     alt="Support" class="w-full h-96 object-cover" />
                                             </div>
-                                            <div class="-mt-10 space-y-3">
+                                            <div class="-mt-10 space-y-5">
                                                 <p class="text-xl ">Vi er klar til at hjælpe</p>
-                                                <div class="space-y-1.5">
+                                                <div class="space-y-2">
                                                     <div class="flex items-center gap-x-1">
                                                         <Icon name="ph:phone" class="h-4 w-4" aria-hidden="true" />
                                                         <span class="text-sm">+45 80 83 01 14</span>
@@ -47,10 +47,10 @@
                                                         <span class="text-sm">support@citizenone.dk</span>
                                                     </div>
                                                     <div>
-                                                        <p class="text-tertiary hover:text-tertiary-700 cursor-pointer"
-                                                            @click="navigateToSupport()">
-                                                            {{ $t('support.goToSupportcenterHere') }}
-                                                        </p>
+                                                        <FormButton buttonStyle="primary" @click="navigateToSupport"
+                                                            class="w-full rounded-md">
+                                                            {{ $t('support.goToSupportcenter') }}
+                                                        </FormButton>
                                                     </div>
                                                 </div>
                                                 <hr />
@@ -62,10 +62,10 @@
                                                         {{ $t('support.courseDetails') }}.
                                                     </p>
                                                     <div>
-                                                        <p class="text-tertiary hover:text-tertiary-700 cursor-pointer"
-                                                            @click="navigateToCourses()">
+                                                        <FormButton buttonStyle="primary" @click="navigateToCourses"
+                                                            class="w-full rounded-md">
                                                             {{ $t('support.viewCourses') }}
-                                                        </p>
+                                                        </FormButton>
                                                     </div>
                                                 </div>
                                             </div>
