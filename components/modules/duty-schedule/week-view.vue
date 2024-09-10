@@ -482,7 +482,6 @@ async function saveDutySchedule(params: object, weeklyScheduleIndex: number, wee
                     time_out: response?.data?.time_out,
                     schedule_uuid: response?.data?.uuid,
                 })
-                console.log(response?.data?.uuid)
             } else if (action === 'paste_shifts') {
                 state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = []
                 response?.data.forEach((shift: any) => {
@@ -492,7 +491,6 @@ async function saveDutySchedule(params: object, weeklyScheduleIndex: number, wee
                         time_out: shift?.time_out,
                         schedule_uuid: shift?.uuid,
                     })
-                    console.log(shift?.uuid)
                 })
             }
         }
