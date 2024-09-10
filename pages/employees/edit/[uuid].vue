@@ -45,9 +45,9 @@ const state = reactive({
         departments: [],
         role: '',
         street: '',
-        region: '',
-        municipality: '',
-        city: '',
+        region_id: '',
+        municipality_id: '',
+        city_id: '',
         post_code: '',
         permissions: [],
         employment: {
@@ -82,17 +82,17 @@ async function fetchEmployee() {
                 birthday: response?.data?.birthday ?? '',
                 departments: [],
                 role: response?.data?.roles?.[0]?.name ?? '',
-                street: response?.data?.street ?? '',
-                region: response?.data?.region ?? '',
-                municipality: response?.data?.municipality ?? '',
-                city: response?.data?.city ?? '',
+                street: response?.data?.address?.street ?? '',
+                region_id: response?.data?.address?.region_id.toString() ?? '',
+                municipality_id: response?.data?.address?.municipality_id.toString() ?? '',
+                city_id: response?.data?.address?.city_id.toString() ?? '',
                 post_code: response?.data?.post_code ?? '',
                 permissions: response?.data?.permissions ?? [],
                 employment: {
-                    employment_date: response?.data?.employment_date,
-                    job_title: response?.data?.job_title,
-                    working_hours: response?.data?.working_hours,
-                    employment_status: response?.data?.employment_status,
+                    employment_date: response?.data?.employee_detail?.date_of_employment,
+                    job_title: response?.data?.employee_detail?.job_title,
+                    working_hours: response?.data?.employee_detail?.working_hours,
+                    employment_status: response?.data?.employee_detail?.status,
                 },
                 emergencyInfo: {
                     emergency_contacts: [],
@@ -101,6 +101,21 @@ async function fetchEmployee() {
             }
             response?.data?.departments.forEach((department: any) => {
                 state.formEmployee.departments.push(department?.id)
+            })
+            response?.data?.employee_trustees.forEach((employee_trustee: any) => {
+                state.formEmployee.emergencyInfo.trustees.push({
+                    name: employee_trustee?.name,
+                    phone: employee_trustee?.phone,
+                    email: employee_trustee?.email,
+                })
+            })
+            response?.data?.emergency_contacts.forEach((emergency_contact: any) => {
+                state.formEmployee.emergencyInfo.emergency_contacts.push({
+                    name: emergency_contact?.name,
+                    phone: emergency_contact?.phone,
+                    email: emergency_contact?.email,
+                    relation: emergency_contact?.relation,
+                })
             })
         }
     } catch (error: any) {

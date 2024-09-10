@@ -85,7 +85,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="region" :label="$t('employees.form.region')" />
-                        <FormSelect id="region" :options="state.options.regions" v-model="state.formEmployee.region"
+                        <FormSelect id="region" :options="state.options.regions" v-model="state.formEmployee.region_id"
                             @change="changeSelectedRegion" />
                         <FormError :error="v$?.formEmployee?.region?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.region_id?.[0]" />
@@ -93,7 +93,7 @@
                     <div class="space-y-1">
                         <FormLabel for="municipality" :label="$t('employees.form.municipality')" />
                         <FormSelect id="municipality" :options="state.options.municipalities"
-                            v-model="state.formEmployee.municipality" @change="changeSelectedMunicipality" />
+                            v-model="state.formEmployee.municipality_id" @change="changeSelectedMunicipality" />
                         <FormError :error="v$?.formEmployee?.municipality?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.municipality_id?.[0]" />
                     </div>
@@ -101,7 +101,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="city" :label="$t('employees.form.city')" />
-                        <FormSelect id="city" :options="state.options.cities" v-model="state.formEmployee.city" />
+                        <FormSelect id="city" :options="state.options.cities" v-model="state.formEmployee.city_id" />
                         <FormError :error="v$?.formEmployee?.city?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.city_id?.[0]" />
                     </div>
@@ -133,6 +133,7 @@
                             {{ $t('employees.form.permissions.delete') }}
                         </div>
                     </div>
+                    <FormError :error="props?.error?.errors?.permission?.[0]" />
                 </div>
             </div>
         </div>
@@ -376,9 +377,9 @@ const state = reactive({
         departments: [],
         role: '',
         street: '',
-        region: '',
-        municipality: '',
-        city: '',
+        region_id: '',
+        municipality_id: '',
+        city_id: '',
         post_code: '',
         permissions: [],
         employment: {
@@ -433,9 +434,9 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             departments: newValue.departments,
             role: newValue.role,
             street: newValue.street,
-            region: newValue.region_id,
-            municipality: newValue.municipality_id,
-            city: newValue.city_id,
+            region_id: newValue.region_id,
+            municipality_id: newValue.municipality_id,
+            city_id: newValue.city_id,
             post_code: newValue.post_code,
             permissions: [],
             emergencyInfo: {
@@ -443,12 +444,14 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 trustees: newValue.emergencyInfo.trustees,
             },
             employment: {
-                employment_date: newValue.employement.employment_date,
-                job_title: newValue.employement.job_title,
-                working_hours: newValue.employement.working_hours,
-                employment_status: newValue.employement.employment_status,
+                employment_date: newValue.employment.employment_date,
+                job_title: newValue.employment.job_title,
+                working_hours: newValue.employment.working_hours,
+                employment_status: newValue.employment.employment_status,
             }
         }
+        fetchMunicipalities(newValue.region_id)
+        fetchCities(newValue.municipality_id)
         newValue?.permissions.forEach((permission: any) => {
             if (permission?.name === 'read') {
                 state.permissions.read = true
