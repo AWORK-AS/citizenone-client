@@ -31,9 +31,11 @@
                                     </div>
                                     <div class="relative mt-10 flex-1 px-4 sm:px-6">
                                         <div class="space-y-3">
-                                            <img src="https://citizenone.dk/wp-content/uploads/2024/04/1.png"
+                                            <img src="https://citizenone.dk/wp-content/uploads/2024/08/CitizenOne-10.jpg"
                                                 alt="Support">
-                                            <p class="text-xl">Mads Frederiksen</p>
+                                            <p class="text-xl">Vi er klar til at hjælpe</p>
+                                            <hr />
+                                            <p class="text-xl">Brug for et kursus?</p>
                                             <div class="space-y-1.5">
                                                 <div class="flex items-center gap-x-1">
                                                     <Icon name="ph:phone" class="h-4 w-4" aria-hidden="true" />
