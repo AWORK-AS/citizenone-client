@@ -8,8 +8,8 @@ const router = useRouter()
 const uuid = router?.currentRoute?.value?.params?.uuid
 
 const tabs = [
-    { name: 'citizens.tabs.citizenJournals', href: `/citizens/${uuid}/journals`, routeName: 'citizens-uuid-journals' },
-    { name: 'citizens.tabs.medicineJournals', href: `/citizens/${uuid}/medicine-journals`, routeName: 'citizens-uuid-medicine-journals' },
+    { name: 'citizens.tabs.journals', href: `/citizens/${uuid}/journals`, routeName: 'citizens-uuid-journals' },
+    { name: 'citizens.tabs.medicineCard', href: `/citizens/${uuid}/medicine-journals`, routeName: 'citizens-uuid-medicine-journals' },
     { name: 'citizens.tabs.plansAndGoals', href: `/citizens/${uuid}/plans-and-goals`, routeName: 'citizens-uuid-plans-and-goals' },
     { name: 'citizens.tabs.documents', href: `/citizens/${uuid}/documents`, routeName: 'citizens-uuid-documents' },
     { name: 'citizens.tabs.attendance', href: `/citizens/${uuid}/attendance`, routeName: 'citizens-uuid-attendance' },

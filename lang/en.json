@@ -275,13 +275,17 @@
         "tabs": {
             "attendance": "Attendance",
             "calendar": "Calendar",
-            "citizenJournals": "Citizen journals",
+            "contacts": "Kontakter",
             "documents": "Documents",
-            "medicineJournals": "Medicine journals",
+            "economy": "Economy",
+            "journals": "Journals",
+            "medicineCard": "Medicine card",
+            "nursingAreas": "Nursing areas",
             "plansAndGoals": "Plans and goals"
         }
     },
     "close": "Close",
+    "comingSoon": "Coming Soon",
     "confirm": "Confirm",
     "confirmation": "Confirmation",
     "contactUs": "Contact us",

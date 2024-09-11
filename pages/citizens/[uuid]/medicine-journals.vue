@@ -3,10 +3,10 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('citizens.tabs.medicineJournals') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('citizens.tabs.medicineCard') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('citizens.tabs.medicineJournals') }}</template>
+            <template #header>{{ $t('citizens.tabs.medicineCard') }}</template>
 
             <div class="space-y-5">
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">

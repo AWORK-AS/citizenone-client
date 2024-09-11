@@ -3,10 +3,10 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('citizens.tabs.citizenJournals') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('citizens.tabs.journals') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('citizens.tabs.citizenJournals') }}</template>
+            <template #header>{{ $t('citizens.tabs.journals') }}</template>
 
             <div class="space-y-5">
                 <Alert type="danger" :text="state?.error?.message"

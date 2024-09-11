@@ -275,13 +275,17 @@
         "tabs": {
             "attendance": "Fremmøde",
             "calendar": "Kalender",
-            "citizenJournals": "Borgerjournaler",
+            "contacts": "Contacts",
             "documents": "Dokumenter",
-            "medicineJournals": "Medicinjournaler",
+            "economy": "Økonomi",
+            "journals": "Journaler",
+            "medicineCard": "Medicinkort",
+            "nursingAreas": "Sygeplejeområder",
             "plansAndGoals": "Planer og mål"
         }
     },
     "close": "Luk",
+    "comingSoon": "Kommer snart",
     "confirm": "Bekræft",
     "confirmation": "Bekræftelse",
     "contactUs": "Kontakt os",
