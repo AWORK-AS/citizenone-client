@@ -4,7 +4,7 @@ export interface EmployeeForm {
     email: string,
     phone: string,
     birthday: string,
-    departments: number[],
+    departments: any,
     role: string,
     street: string,
     region_id: string,

@@ -403,13 +403,15 @@
         "table": {
             "actions": {
                 "edit": "Rediger",
-                "message": "Besked"
+                "message": "Besked",
+                "view": "Se"
             },
             "email": "E-mail",
             "name": "Navn",
             "phone": "Telefon",
             "role": "Rolle"
-        }
+        },
+        "viewEmployee": "Se medarbejder"
     },
     "events": {
         "alert": {

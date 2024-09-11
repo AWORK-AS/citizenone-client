@@ -428,7 +428,8 @@ const navigation = [
         activeRouteNames: [
             'employees',
             'employees-new',
-            'employees-edit-uuid',
+            'employees-employee_uuid-view',
+            'employees-employee_uuid-edit',
         ]
     },
     {

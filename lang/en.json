@@ -405,13 +405,15 @@
         "table": {
             "actions": {
                 "edit": "Edit",
-                "message": "Message"
+                "message": "Message",
+                "view": "View"
             },
             "email": "Email",
             "name": "Name",
             "phone": "Phone",
             "role": "Role"
-        }
+        },
+        "viewEmployee": "View employee"
     },
     "events": {
         "alert": {

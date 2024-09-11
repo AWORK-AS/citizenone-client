@@ -250,7 +250,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:col-span-2 gap-y-3 mt-10">
+                <div class="grid grid-cols-1 md:col-span-2 gap-y-3 mt-5">
                     <p class="text-sm text-gray-600 font-semibold leading-5">
                         {{ $t('employees.form.emergencyInfo.emergencyContacts') }}
                     </p>

@@ -47,7 +47,12 @@
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/employees/edit/${employee.uuid}`)">
+                                                @click="navigateTo(`/employees/${employee.uuid}/view`)">
+                                                <Icon name="ph:eye" class="size-4" />
+                                                {{ $t('employees.table.actions.view') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="navigateTo(`/employees/${employee.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('employees.table.actions.edit') }}
                                             </FormButton>

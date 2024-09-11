@@ -32,7 +32,7 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
-const uuid = router?.currentRoute?.value?.params?.uuid
+const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 
 const state = reactive({
     error: {} as Error,
@@ -72,7 +72,7 @@ async function fetchEmployee() {
     state.isPageLoading = true
     state.error = {}
     try {
-        const response = await employeeService.getEmployee(uuid)
+        const response = await employeeService.getEmployee(employeeUuid)
         if (response) {
             state.formEmployee = {
                 firstname: response?.data?.firstname ?? '',
@@ -149,7 +149,7 @@ async function updateEmployee(employeeDetails: any) {
             emergency_contacts: employeeDetails.emergencyInfo.emergency_contacts,
             trustees: employeeDetails.emergencyInfo.trustees,
         }
-        const response = await employeeService.updateEmployee(uuid, params)
+        const response = await employeeService.updateEmployee(employeeUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employees.form.alert.employeeSuccessfullyUpdated')}.`)
             navigateTo('/employees')
