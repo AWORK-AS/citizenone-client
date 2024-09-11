@@ -35,7 +35,7 @@
                 </div>
                 <div class="bg-white rounded-md p-2">
                     <div id="qrCode" class="mx-auto w-1/2 md:w-28 flex flex-col items-center justify-center">
-                        <QRCodeVue3 :value="qrValue" width="800" height="800" image="/img/logo.svg"
+                        <QRCodeVue3 :value="qrValue" :width="800" :height="800" image="/img/logo.svg"
                             :qrOptions="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
                             :imageOptions="{ hideBackgroundDots: true, imageSize: 10, margin: 2 }"
                             :dotsOptions="{ type: 'classy', color: '#205E77' }"
@@ -50,6 +50,7 @@
                     </div>
                 </div>
             </div>
+            <ModulesCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
         </div>
     </LoadingSpinner>
 </template>

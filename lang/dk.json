@@ -203,6 +203,30 @@
             "ssn": "CPR-nummer",
             "street": "Gade"
         },
+        "incidents": {
+            "alert": {
+                "deletedSuccessfully": "Hændelse blev slettet med succes",
+                "savedSuccessfully": "Hændelse blev gemt med succes",
+                "updatedSuccessfully": "Hændelse blev opdateret med succes"
+            },
+            "form": {
+                "date": "Dato",
+                "description": "Beskrivelse",
+                "draft": "Udkast",
+                "title": "Titel"
+            },
+            "incidents": "Hændelser",
+            "incidentRegistration": "Hændelsesregistrering",
+            "reportIncident": "Rapporter hændelse",
+            "seePreviousIncident": "Se tidligere hændelse",
+            "table": {
+                "createdBy": "Oprettet af",
+                "date": "Dato",
+                "description": "Beskrivelse",
+                "draft": "Udkast",
+                "title": "Titel"
+            }
+        },
         "medicineJournals": {
             "alert": {
                 "successfullyAdded": "Medicin tilføjet med succes",

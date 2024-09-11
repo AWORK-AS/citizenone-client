@@ -203,6 +203,30 @@
             "ssn": "Social security number",
             "street": "Street"
         },
+        "incidents": {
+            "alert": {
+                "deletedSuccessfully": "Incident successfully deleted",
+                "savedSuccessfully": "Incident successfully saved",
+                "updatedSuccessfully": "Incident successfully updated"
+            },
+            "form": {
+                "date": "Date",
+                "description": "Description",
+                "draft": "Draft",
+                "title": "Title"
+            },
+            "incidents": "Incidents",
+            "incidentRegistration": "Incident registration",
+            "reportIncident": "Report incident",
+            "seePreviousIncident": "See previous incident",
+            "table": {
+                "createdBy": "Created by",
+                "date": "Date",
+                "description": "Description",
+                "draft": "Draft",
+                "title": "Title"
+            }
+        },
         "medicineJournals": {
             "alert": {
                 "successfullyAdded": "Medicine successfully added",
