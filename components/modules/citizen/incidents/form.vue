@@ -200,6 +200,7 @@ const uploadContentAttachment = async (file: any) => {
         if (response) {
             state.formIncident.description += `<p><a href="${response?.data?.file}" target="_blank">${response?.data?.file_name}</a></p>`
         }
+        resetFileInput()
     } catch (error: any) {
         state.error = error
         resetFileInput()
