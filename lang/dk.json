@@ -392,12 +392,14 @@
             "department": "Afdeling",
             "emailAddress": "E-mail adresse",
             "emergencyInfo": {
-                "emergencyContacts": "Nødkontakter",
+                "addTrustee": "Tilføj værge",
+                "addEmergencyContactPerson": "Tilføj nød-kontaktperson",
+                "emergencyContacts": "Nød-kontakter",
                 "name": "Navn",
                 "email": "Email",
                 "phone": "Telefon",
                 "relation": "Relation",
-                "trustees": "Tillidsmænd"
+                "trustees": "Værger"
             },
             "employment": {
                 "employmentDate": "Ansættelsesdato",

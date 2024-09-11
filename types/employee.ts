@@ -1,4 +1,5 @@
 export interface EmployeeForm {
+    profile_image: any,
     firstname: string,
     lastname: string,
     email: string,

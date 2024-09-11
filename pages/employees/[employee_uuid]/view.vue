@@ -123,7 +123,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div class="space-y-1">
                                     <Label :label="$t('employees.form.employment.employmentDate')" />
-                                    <p class="font-medium">
+                                    <p class="font-medium" v-if="state.selectedEmployee.employment.employment_date">
                                         {{ formatDateToReadable(state.selectedEmployee.employment.employment_date) }}
                                     </p>
                                 </div>
@@ -138,7 +138,7 @@
                                 <div class="space-y-1">
                                     <Label :label="$t('employees.form.employment.workingHours')" />
                                     <p class="font-medium capitalize">
-                                        {{ state.selectedEmployee.employment.working_hours.replace('_', ' ') }}
+                                        {{ state.selectedEmployee.employment.working_hours?.replace('_', ' ') }}
                                     </p>
                                 </div>
                                 <div class="space-y-1">

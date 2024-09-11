@@ -14,6 +14,24 @@
                 </p>
             </div>
             <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+                <div class="space-y-1">
+                    <div class="flex flex-col items-center">
+                        <input type="file" ref="image" @change="onFileChange" class="hidden" />
+                        <div class="relative cursor-pointer" @click="triggerFileInput">
+                            <img :src="avatarUrl" alt="Avatar"
+                                class="w-36 h-36 rounded-full object-cover border-2 border-tertiary-25" />
+                            <div
+                                class="rounded-full absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
+                                <div class="flex items-center w-full h-full justify-center text-xs">
+                                    Change Image
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <FormError :error="v$?.formEmployee?.profile_image?.$errors[0]?.$message.toString()"
+                        class="text-center" />
+                    <FormError :error="props?.error?.errors?.profile_image?.[0]" class="text-center" />
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="firstname" :label="$t('employees.form.firstname')" />
@@ -87,14 +105,14 @@
                         <FormLabel for="region" :label="$t('employees.form.region')" />
                         <FormSelect id="region" :options="state.options.regions" v-model="state.formEmployee.region_id"
                             @change="changeSelectedRegion" />
-                        <FormError :error="v$?.formEmployee?.region?.$errors[0]?.$message.toString()" />
+                        <FormError :error="v$?.formEmployee?.region_id?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.region_id?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="municipality" :label="$t('employees.form.municipality')" />
                         <FormSelect id="municipality" :options="state.options.municipalities"
                             v-model="state.formEmployee.municipality_id" @change="changeSelectedMunicipality" />
-                        <FormError :error="v$?.formEmployee?.municipality?.$errors[0]?.$message.toString()" />
+                        <FormError :error="v$?.formEmployee?.municipality_id?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.municipality_id?.[0]" />
                     </div>
                 </div>
@@ -102,7 +120,7 @@
                     <div class="space-y-1">
                         <FormLabel for="city" :label="$t('employees.form.city')" />
                         <FormSelect id="city" :options="state.options.cities" v-model="state.formEmployee.city_id" />
-                        <FormError :error="v$?.formEmployee?.city?.$errors[0]?.$message.toString()" />
+                        <FormError :error="v$?.formEmployee?.city_id?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.city_id?.[0]" />
                     </div>
                     <div class="space-y-1">
@@ -363,12 +381,15 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['isPageLoading', 'submitForm'])
+const image = ref<HTMLInputElement | null>(null)
+const avatarUrl = ref('/img/avatars/user.svg')
 
 const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
     formEmployee: {
+        profile_image: '',
         firstname: '',
         lastname: '',
         email: '',
@@ -426,6 +447,7 @@ const state = reactive({
 watch(() => props.selectedEmployee, (newValue: any) => {
     if (newValue != null) {
         state.formEmployee = {
+            profile_image: newValue.profile_image,
             firstname: newValue.firstname,
             lastname: newValue.lastname,
             email: newValue.email,
@@ -516,6 +538,24 @@ onMounted(() => {
     fetchDepartments()
     fetchRegions()
 })
+
+function triggerFileInput() {
+    if (image.value) {
+        image.value.click()
+    }
+}
+
+function onFileChange(event: any) {
+    const file = event.target.files[0]
+    state.formEmployee.profile_image = event.target.files[0]
+    if (file) {
+        const reader = new FileReader()
+        reader.onload = (e: any) => {
+            avatarUrl.value = e.target.result
+        }
+        reader.readAsDataURL(file)
+    }
+}
 
 function addTrustee() {
     state.formEmployee.emergencyInfo.trustees.push({

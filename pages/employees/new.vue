@@ -35,6 +35,7 @@ const { t } = useI18n()
 const state = reactive({
     error: {} as Error,
     formEmployee: {
+        profile_image: '',
         firstname: '',
         lastname: '',
         email: '',
@@ -66,27 +67,27 @@ async function saveEmployee(employeeDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            firstname: employeeDetails.firstname,
-            lastname: employeeDetails.lastname,
-            email: employeeDetails.email,
-            phone: employeeDetails.phone,
-            birthday: employeeDetails.birthday,
-            department_id: employeeDetails.departments,
-            role: employeeDetails.role,
-            permission: employeeDetails.permissions,
-            street: employeeDetails.street,
-            region_id: employeeDetails.region_id,
-            municipality_id: employeeDetails.municipality_id,
-            city_id: employeeDetails.city_id,
-            post_code: employeeDetails.post_code,
-            employment_date: employeeDetails.employment.employment_date,
-            job_title: employeeDetails.employment.job_title,
-            working_hours: employeeDetails.employment.working_hours,
-            employment_status: employeeDetails.employment.employment_status,
-            emergency_contacts: employeeDetails.emergencyInfo.emergency_contacts,
-            trustees: employeeDetails.emergencyInfo.trustees,
-        }
+        let params = new FormData()
+        params.append('profile_image', employeeDetails.profile_image)
+        params.append('firstname', employeeDetails.firstname)
+        params.append('lastname', employeeDetails.lastname)
+        params.append('email', employeeDetails.email)
+        params.append('phone', employeeDetails.phone)
+        params.append('birthday', employeeDetails.birthday)
+        params.append('department_id', JSON.stringify(employeeDetails.departments))
+        params.append('role', employeeDetails.role)
+        params.append('permission', JSON.stringify(employeeDetails.permissions))
+        params.append('street', employeeDetails.street)
+        params.append('region_id', employeeDetails.region_id)
+        params.append('municipality_id', employeeDetails.municipality_id)
+        params.append('city_id', employeeDetails.city_id)
+        params.append('post_code', employeeDetails.post_code)
+        params.append('employment_date', employeeDetails.employment.employment_date)
+        params.append('job_title', employeeDetails.employment.job_title)
+        params.append('working_hours', employeeDetails.employment.working_hours)
+        params.append('employment_status', employeeDetails.employment.employment_status)
+        params.append('emergency_contacts', employeeDetails.emergencyInfo.emergency_contacts)
+        params.append('trustees', employeeDetails.emergencyInfo.trustees)
         const response = await employeeService.saveEmployee(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employees.form.alert.newEmployeeSuccessfullySaved')}.`)
