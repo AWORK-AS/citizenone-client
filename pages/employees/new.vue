@@ -86,8 +86,8 @@ async function saveEmployee(employeeDetails: any) {
         params.append('job_title', employeeDetails.employment.job_title)
         params.append('working_hours', employeeDetails.employment.working_hours)
         params.append('employment_status', employeeDetails.employment.employment_status)
-        params.append('emergency_contacts', employeeDetails.emergencyInfo.emergency_contacts)
-        params.append('trustees', employeeDetails.emergencyInfo.trustees)
+        params.append('emergency_contacts', JSON.stringify(employeeDetails.emergencyInfo.emergency_contacts))
+        params.append('trustees', JSON.stringify(employeeDetails.emergencyInfo.trustees))
         const response = await employeeService.saveEmployee(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employees.form.alert.newEmployeeSuccessfullySaved')}.`)
