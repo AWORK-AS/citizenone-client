@@ -27,7 +27,7 @@
                                 <tr v-for="(employee, index) in state.employees?.data" :key="index">
                                     <td width="25%">
                                         <div class="flex items-center gap-x-2">
-                                            <img :src="employee?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
                                                 class="rounded-full w-11" />
                                             <span>{{ employee?.firstname }} {{ employee?.lastname }}</span>
                                         </div>
