@@ -139,14 +139,14 @@
                                         </div>
                                         <p class="text-sm text-muted-400"
                                             v-if="['Standard view', 'Journal note view'].includes(citizenJournalStore.getFilterView)">
-                                            <div v-html="journal.content" id="content" />
+                                            <div v-html="journal.content" class="content" />
                                         </p>
                                         <div class="text-sm text-muted-400"
                                             v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView)">
                                             <p class="font-semibold">
                                                 {{ $t('citizens.citizenJournals.riskAssessment') }}:
                                             </p>
-                                            <div v-html="journal.note" id="note" />
+                                            <div v-html="journal.note" class="content" />
                                         </div>
                                     </div>
                                     <div class="ms-auto">

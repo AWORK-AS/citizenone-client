@@ -225,6 +225,7 @@
                 "date": "Date",
                 "description": "Description",
                 "draft": "Draft",
+                "reportedBy": "Reported by",
                 "title": "Title"
             }
         },

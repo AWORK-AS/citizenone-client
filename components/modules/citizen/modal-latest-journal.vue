@@ -7,8 +7,8 @@
                         <h3 class="text-md font-semibold">
                             {{ props.selectedCitizen?.citizen_journal?.title }}
                         </h3>
-                        <div v-html="props.selectedCitizen?.citizen_journal?.content" id="content"
-                            class="table-responsive" />
+                        <div v-html="props.selectedCitizen?.citizen_journal?.content"
+                            class="content table-responsive" />
                         <p class="text-xs text-muted-400">
                             <span>{{ formatDateToReadable(props.selectedCitizen?.citizen_journal?.date) }}</span>
                         </p>

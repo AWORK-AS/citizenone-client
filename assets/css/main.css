@@ -113,81 +113,81 @@ table td {
     Content
 ---------------------------------------------------------------------------------------------------- */
 
-#content a {
+.content a {
     @apply underline text-tertiary-700 hover:text-tertiary-500;
 }
 
-#content h1 {
+.content h1 {
     @apply text-3xl font-bold;
 }
 
-#content h2 {
+.content h2 {
     @apply text-2xl font-bold;
 }
 
-#content h3 {
+.content h3 {
     @apply text-xl font-bold;
 }
 
-#content h4 {
+.content h4 {
     @apply text-lg font-bold;
 }
 
-#content h5 {
+.content h5 {
     @apply text-base font-bold;
 }
 
-#content h6 {
+.content h6 {
     @apply text-sm font-bold;
 }
 
-#content strong {
+.content strong {
     @apply font-semibold;
 }
 
-#content h1, #content h2, 
-#content h3, #content h4, 
-#content h5, #content h6, 
-#content div, #content p, 
-#content ul, #content ol, 
-#content blockquote {
+.content h1, .content h2, 
+.content h3, .content h4, 
+.content h5, .content h6, 
+.content div, .content p, 
+.content ul, .content ol, 
+.content blockquote {
     margin-block-start: 0.83em;
     margin-block-end: 0.83em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
 }
 
-#content ol li {
+.content ol li {
     list-style: auto;
     list-style-position: inside;
 }
 
-#content ol li ol {
+.content ol li ol {
     margin: 0;
     padding-left: 12px;
 }
 
-#content ol li ol li {
+.content ol li ol li {
     list-style: lower-alpha;
     list-style-position: inside;
 }
 
-#content ul li {
+.content ul li {
     list-style: disc;
     list-style-position: inside;
 }
 
-#content ul li ul {
+.content ul li ul {
     margin: 0;
     padding-left: 12px;
 }
 
-#content ul li ul li {
+.content ul li ul li {
     list-style: circle;
     list-style-position: inside;
 }
 
-#content blockquote {
+.content blockquote {
     @apply ml-6 pl-4 border-l-2 border-gray-500;
 }
 

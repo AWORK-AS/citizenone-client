@@ -105,7 +105,7 @@ const editorDescriptionConfig = ref({
             { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
         ]
     },
-    // extraPlugins: [ContentUploadAdapterPlugin],
+    extraPlugins: [DescriptionUploadAdapterPlugin],
     height: 500  // Set the editor height here
 })
 const { t } = useI18n()
@@ -220,6 +220,43 @@ function closeUpgradeStorageModal() {
 const resetFileInput = () => {
     if (descriptionFileInput.value) {
         descriptionFileInput.value.value = null
+    }
+}
+
+function DescriptionUploadAdapterPlugin(editor: any) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+        return new DescriptionUploadAdapter(loader)
+    }
+}
+
+class DescriptionUploadAdapter {
+    private loader: { file: Promise<File> }
+
+    constructor(loader: { file: Promise<File> }) {
+        this.loader = loader
+    }
+
+    async upload(): Promise<{ default: string }> {
+        try {
+            const file = await this.loader.file
+            const params = new FormData()
+            params.append('file', file)
+            params.append('citizen_uuid', String(citizenUuid))
+            const response = await incidentService.uploadIncidentFile(params)
+            if (response?.data) {
+                return { default: response.data?.file }
+            } else {
+                throw new Error('No data returned from the server')
+            }
+        } catch (error: any) {
+            state.error = error
+            if (error?.message === 'You do not have enough storage space to upload new files.') {
+                state.modal.isUpgradeStorageOpen = true
+            } else if (error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
+                state.modal.isUpgradeStorageOpen = true
+            }
+            throw null
+        }
     }
 }
 </script>

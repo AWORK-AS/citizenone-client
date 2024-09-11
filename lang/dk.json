@@ -225,6 +225,7 @@
                 "date": "Dato",
                 "description": "Beskrivelse",
                 "draft": "Udkast",
+                "reportedBy": "Rapporteret af",
                 "title": "Titel"
             }
         },

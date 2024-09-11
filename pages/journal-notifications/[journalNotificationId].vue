@@ -20,8 +20,8 @@
                     <h1 class="text-3xl text-primary font-bold">
                         {{ state.journal?.data?.title }}
                     </h1>
-                    <div class="text-sm" v-html="state.journal?.data?.content" id="content" />
-                    <div class="text-sm" v-html="state.journal?.data?.note" id="note" />
+                    <div class="content text-sm" v-html="state.journal?.data?.content" />
+                    <div class="content text-sm" v-html="state.journal?.data?.note" />
                     <p class="mt-1 text-xs text-muted-400">
                         <span>{{ formatDateToReadable(state.journal?.data?.date) }}</span>
                     </p>

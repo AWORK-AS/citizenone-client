@@ -27,8 +27,8 @@
                     <h3 class="text-base font-semibold">
                         {{ citizen?.citizen_journal?.title }}
                     </h3>
-                    <div v-html="citizen?.citizen_journal?.content" id="content" class="table-responsive" />
-                    <p class="text-xs text-muted-400">
+                    <div v-html="citizen?.citizen_journal?.content" class="table-responsive" />
+                    <p class="content text-xs text-muted-400">
                         <span>{{ formatDateToReadable(citizen?.citizen_journal?.date) }}</span>
                     </p>
                 </div>

@@ -3,7 +3,7 @@
         <Modal size="md" :title="$t('citizens.incidents.editIncident')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenIncidentsForm formType="create" :selectedIncident="state.formIncident"
+                    <ModulesCitizenIncidentsForm formType="create" :selectedIncident="props.selectedIncident"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateIncident" />
                 </LoadingSpinner>
@@ -14,7 +14,7 @@
 
 
 <script setup lang="ts">
-import { journalService } from '@/components/api/JournalService'
+import { incidentService } from '@/components/api/IncidentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -32,21 +32,19 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshIncidents'])
 
 const state = reactive({
     error: {} as Error,
-    formIncident: {
-        title: '',
-        date: '',
-        description: '',
-        is_draft: false,
-    },
     isPageLoading: false,
 })
 
 function closeModal() {
     emit('close')
+}
+
+function refreshIncidents() {
+    emit('refreshIncidents')
 }
 
 async function updateIncident(incidentDetails: any) {
@@ -60,10 +58,11 @@ async function updateIncident(incidentDetails: any) {
             description: incidentDetails.description,
             is_draft: incidentDetails.is_draft,
         }
-        const response = await journalService.updateJournal(incidentUuid, params)
+        const response = await incidentService.updateIncident(incidentUuid, params)
         if (response?.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.incidents.alert.updatedSuccessfully')}.`)
             closeModal()
+            refreshIncidents()
         }
     } catch (error: any) {
         state.error = error
