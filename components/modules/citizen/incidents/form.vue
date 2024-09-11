@@ -198,7 +198,7 @@ const uploadContentAttachment = async (file: any) => {
         params.append('citizen_uuid', String(citizenUuid))
         const response = await incidentService.uploadIncidentFile(params)
         if (response) {
-            state.formIncident.description += `<p><a href="${response?.data?.file}" target="_blank">${response?.data?.file_name}</a></p>`
+            state.formIncident.description += `<p><a href="${response?.data?.file_url}" target="_blank">${response?.data?.file_name}</a></p>`
         }
         resetFileInput()
     } catch (error: any) {
@@ -238,6 +238,7 @@ class DescriptionUploadAdapter {
     }
 
     async upload(): Promise<{ default: string }> {
+        emit('isPageLoading', true)
         try {
             const file = await this.loader.file
             const params = new FormData()
@@ -245,8 +246,10 @@ class DescriptionUploadAdapter {
             params.append('citizen_uuid', String(citizenUuid))
             const response = await incidentService.uploadIncidentFile(params)
             if (response?.data) {
-                return { default: response.data?.file }
+                emit('isPageLoading', false)
+                return { default: response.data?.file_url }
             } else {
+                emit('isPageLoading', false)
                 throw new Error('No data returned from the server')
             }
         } catch (error: any) {
@@ -256,6 +259,7 @@ class DescriptionUploadAdapter {
             } else if (error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
                 state.modal.isUpgradeStorageOpen = true
             }
+            emit('isPageLoading', false)
             throw null
         }
     }

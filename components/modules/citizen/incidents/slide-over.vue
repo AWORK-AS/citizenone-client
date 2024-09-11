@@ -25,8 +25,7 @@
                                                         @click="closeSlide">
                                                         <span class="absolute -inset-2.5" />
                                                         <span class="sr-only">Close panel</span>
-                                                        <Icon name="material-symbols-light:arrow-forward-ios"
-                                                            class="h-6 w-6" aria-hidden="true" />
+                                                        <Icon name="ph:x" class="h-6 w-6" aria-hidden="true" />
                                                     </button>
                                                 </div>
                                             </div>
