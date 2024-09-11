@@ -363,6 +363,7 @@ class ContentUploadAdapter {
     }
 
     async upload(): Promise<{ default: string }> {
+        emit('isPageLoading', true)
         try {
             const file = await this.loader.file
             const params = new FormData()
@@ -370,8 +371,10 @@ class ContentUploadAdapter {
             params.append('citizen_uuid', String(citizenUuid))
             const response = await journalService.uploadJournalFile(params)
             if (response?.data) {
-                return { default: response.data?.file }
+                emit('isPageLoading', false)
+                return { default: response.data?.file_url }
             } else {
+                emit('isPageLoading', false)
                 throw new Error('No data returned from the server')
             }
         } catch (error: any) {
@@ -381,6 +384,7 @@ class ContentUploadAdapter {
             } else if (error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
                 state.modal.isUpgradeStorageOpen = true
             }
+            emit('isPageLoading', false)
             throw null
         }
     }
@@ -394,6 +398,7 @@ class NoteUploadAdapter {
     }
 
     async upload(): Promise<{ default: string }> {
+        emit('isPageLoading', true)
         try {
             const file = await this.loader.file
             const params = new FormData()
@@ -401,8 +406,10 @@ class NoteUploadAdapter {
             params.append('citizen_uuid', String(citizenUuid))
             const response = await journalService.uploadAssessmentFile(params)
             if (response?.data) {
-                return { default: response.data?.file }
+                emit('isPageLoading', false)
+                return { default: response.data?.file_url }
             } else {
+                emit('isPageLoading', false)
                 throw new Error('No data returned from the server')
             }
         } catch (error: any) {
@@ -412,6 +419,7 @@ class NoteUploadAdapter {
             } else if (error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
                 state.modal.isUpgradeStorageOpen = true
             }
+            emit('isPageLoading', false)
             throw null
         }
     }
