@@ -28,25 +28,25 @@
                             class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:px-8 sm:py-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div class="space-y-1">
-                                    <FormLabel :label="$t('employees.form.firstname')" />
+                                    <Label :label="$t('employees.form.firstname')" />
                                     <p class="font-medium">{{ state.selectedEmployee.firstname }}</p>
                                 </div>
                                 <div class="space-y-1">
-                                    <FormLabel :label="$t('employees.form.lastname')" />
+                                    <Label :label="$t('employees.form.lastname')" />
                                     <p class="font-medium">{{ state.selectedEmployee.lastname }}</p>
                                 </div>
                             </div>
                             <div class="space-y-1">
-                                <FormLabel :label="$t('employees.form.emailAddress')" />
+                                <Label :label="$t('employees.form.emailAddress')" />
                                 <p class="font-medium">{{ state.selectedEmployee.email }}</p>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div class="space-y-1">
-                                    <FormLabel :label="$t('employees.form.phone')" />
+                                    <Label :label="$t('employees.form.phone')" />
                                     <p class="font-medium">{{ state.selectedEmployee.phone }}</p>
                                 </div>
                                 <div class="space-y-1">
-                                    <FormLabel :label="$t('employees.form.birthday')" />
+                                    <Label :label="$t('employees.form.birthday')" />
                                     <p class="font-medium">
                                         {{ formatDateToReadable(state.selectedEmployee.birthday) }}
                                     </p>
@@ -74,64 +74,37 @@
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div class="space-y-1">
-                                    <FormLabel for="region" :label="$t('employees.form.region')" />
-                                    <!-- <FormSelect id="region" :options="state.options.regions"
-                                        v-model="state.selectedEmployee.region_id" @change="changeSelectedRegion" />
-                                    <FormError :error="v$?.selectedEmployee?.region?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="props?.error?.errors?.region_id?.[0]" /> -->
+                                    <Label :label="$t('employees.form.region')" />
+                                    <p class="font-medium">
+                                        {{ state.selectedEmployee?.region }}
+                                    </p>
                                 </div>
                                 <div class="space-y-1">
-                                    <FormLabel for="municipality" :label="$t('employees.form.municipality')" />
-                                    <!-- <FormSelect id="municipality" :options="state.options.municipalities"
-                                        v-model="state.selectedEmployee.municipality_id"
-                                        @change="changeSelectedMunicipality" />
-                                    <FormError
-                                        :error="v$?.selectedEmployee?.municipality?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="props?.error?.errors?.municipality_id?.[0]" /> -->
+                                    <Label :label="$t('employees.form.municipality')" />
+                                    <p class="font-medium">
+                                        {{ state.selectedEmployee?.municipality }}
+                                    </p>
                                 </div>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div class="space-y-1">
-                                    <FormLabel for="city" :label="$t('employees.form.city')" />
-                                    <!-- <FormSelect id="city" :options="state.options.cities"
-                                        v-model="state.selectedEmployee.city_id" />
-                                    <FormError :error="v$?.selectedEmployee?.city?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="props?.error?.errors?.city_id?.[0]" /> -->
+                                    <Label :label="$t('employees.form.city')" />
+                                    <p class="font-medium">
+                                        {{ state.selectedEmployee?.city }}
+                                    </p>
                                 </div>
                                 <div class="space-y-1">
-                                    <FormLabel for="post_code" :label="$t('employees.form.postCode')" />
-                                    <!-- <FormTextField id="post_code" name="post_code"
-                                        :placeholder="$t('employees.form.postCode')"
-                                        v-model="state.selectedEmployee.post_code" />
-                                    <FormError
-                                        :error="v$?.selectedEmployee?.post_code?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="props?.error?.errors?.post_code?.[0]" /> -->
+                                    <Label :label="$t('employees.form.postCode')" />
+                                    <p class="font-medium">
+                                        {{ state.selectedEmployee?.post_code }}
+                                    </p>
                                 </div>
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="permissions" :label="$t('employees.form.permissions.permissions')" />
-                                <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-                                    <div class="w-fit flex items-center cursor-pointer" @click="changePermissionRead()">
-                                        <FormCheckbox id="permissions" :value="state.permissions.read" />
-                                        {{ $t('employees.form.permissions.read') }}
-                                    </div>
-                                    <div class="w-fit flex items-center cursor-pointer"
-                                        @click="changePermissionCreate()">
-                                        <FormCheckbox id="permissions_create" :value="state.permissions.create" />
-                                        {{ $t('employees.form.permissions.create') }}
-                                    </div>
-                                    <div class="w-fit flex items-center cursor-pointer"
-                                        @click="changePermissionUpdate()">
-                                        <FormCheckbox id="permissions_update" :value="state.permissions.update" />
-                                        {{ $t('employees.form.permissions.update') }}
-                                    </div>
-                                    <div class="w-fit flex items-center cursor-pointer"
-                                        @click="changePermissionDelete()">
-                                        <FormCheckbox id="permissions_delete" :value="state.permissions.delete" />
-                                        {{ $t('employees.form.permissions.delete') }}
-                                    </div>
-                                </div>
-                                <FormError :error="props?.error?.errors?.permission?.[0]" /> -->
+                                <Label :label="$t('employees.form.permissions.permissions')" />
+                                <p class="font-medium">
+                                    {{ state.selectedEmployee?.permissions }}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -149,13 +122,13 @@
                             class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:px-8 sm:py-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div class="space-y-1">
-                                    <FormLabel :label="$t('employees.form.employment.employmentDate')" />
+                                    <Label :label="$t('employees.form.employment.employmentDate')" />
                                     <p class="font-medium">
                                         {{ formatDateToReadable(state.selectedEmployee.employment.employment_date) }}
                                     </p>
                                 </div>
                                 <div class="space-y-1">
-                                    <FormLabel :label="$t('employees.form.employment.jobTitle')" />
+                                    <Label :label="$t('employees.form.employment.jobTitle')" />
                                     <p class="font-medium">
                                         {{ state.selectedEmployee.employment.job_title }}
                                     </p>
@@ -163,13 +136,13 @@
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div class="space-y-1">
-                                    <FormLabel :label="$t('employees.form.employment.workingHours')" />
+                                    <Label :label="$t('employees.form.employment.workingHours')" />
                                     <p class="font-medium capitalize">
                                         {{ state.selectedEmployee.employment.working_hours.replace('_', ' ') }}
                                     </p>
                                 </div>
                                 <div class="space-y-1">
-                                    <FormLabel :label="$t('employees.form.employment.employmentStatus')" />
+                                    <Label :label="$t('employees.form.employment.employmentStatus')" />
                                     <p class="font-medium capitalize">
                                         {{ state.selectedEmployee.employment.employment_status }}
                                     </p>
@@ -198,19 +171,19 @@
                                             <div
                                                 class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:px-8 sm:py-6">
                                                 <div class="space-y-1">
-                                                    <FormLabel :label="$t('employees.form.emergencyInfo.name')" />
+                                                    <Label :label="$t('employees.form.emergencyInfo.name')" />
                                                     <p class="font-medium">
                                                         {{ trustee.name }}
                                                     </p>
                                                 </div>
                                                 <div class="space-y-1">
-                                                    <FormLabel :label="$t('employees.form.emergencyInfo.phone')" />
+                                                    <Label :label="$t('employees.form.emergencyInfo.phone')" />
                                                     <p class="font-medium">
                                                         {{ trustee.phone }}
                                                     </p>
                                                 </div>
                                                 <div class="space-y-1">
-                                                    <FormLabel :label="$t('employees.form.emergencyInfo.email')" />
+                                                    <Label :label="$t('employees.form.emergencyInfo.email')" />
                                                     <p class="font-medium">
                                                         {{ trustee.email }}
                                                     </p>
@@ -231,25 +204,25 @@
                                             <div
                                                 class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:px-8 sm:py-6">
                                                 <div class="space-y-1">
-                                                    <FormLabel :label="$t('employees.form.emergencyInfo.name')" />
+                                                    <Label :label="$t('employees.form.emergencyInfo.name')" />
                                                     <p class="font-medium">
                                                         {{ emergency_contact.name }}
                                                     </p>
                                                 </div>
                                                 <div class="space-y-1">
-                                                    <FormLabel :label="$t('employees.form.emergencyInfo.phone')" />
+                                                    <Label :label="$t('employees.form.emergencyInfo.phone')" />
                                                     <p class="font-medium">
                                                         {{ emergency_contact.phone }}
                                                     </p>
                                                 </div>
                                                 <div class="space-y-1">
-                                                    <FormLabel :label="$t('employees.form.emergencyInfo.email')" />
+                                                    <Label :label="$t('employees.form.emergencyInfo.email')" />
                                                     <p class="font-medium">
                                                         {{ emergency_contact.email }}
                                                     </p>
                                                 </div>
                                                 <div class="space-y-1">
-                                                    <FormLabel :label="$t('employees.form.emergencyInfo.relation')" />
+                                                    <Label :label="$t('employees.form.emergencyInfo.relation')" />
                                                     <p class="font-medium">
                                                         {{ emergency_contact.relation }}
                                                     </p>
@@ -270,7 +243,7 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { employeeService } from '@/components/api/EmployeeService'
-import type { EmployeeForm, Error } from '@/types'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
@@ -340,9 +313,9 @@ async function fetchEmployee() {
                 departments: concatenatedDepartments,
                 role: response?.data?.roles?.[0]?.name ?? '',
                 street: response?.data?.employee_address?.street ?? '',
-                region_id: response?.data?.employee_address?.region_id.toString() ?? '',
-                municipality_id: response?.data?.employee_address?.municipality_id.toString() ?? '',
-                city_id: response?.data?.employee_address?.city_id.toString() ?? '',
+                region: response?.data?.employee_address?.region?.name ?? '',
+                municipality: response?.data?.employee_address?.municipality?.name ?? '',
+                city: response?.data?.employee_address?.city?.name ?? '',
                 post_code: response?.data?.employee_address?.post_code ?? '',
                 permissions: concatenatedPermissions,
                 employment: {
