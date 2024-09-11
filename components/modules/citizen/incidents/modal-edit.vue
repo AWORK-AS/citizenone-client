@@ -1,20 +1,20 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('citizens.incidents.incidentRegistration')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="md" :title="$t('citizens.incidents.editIncident')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesCitizenIncidentsForm formType="create" :selectedIncident="state.formIncident"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveIncident" />
+                        @closeModal="closeModal" @submitForm="updateIncident" />
                 </LoadingSpinner>
             </template>
         </Modal>
     </div>
 </template>
 
+
 <script setup lang="ts">
-import { incidentService } from '@/components/api/IncidentService'
+import { journalService } from '@/components/api/JournalService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -25,6 +25,10 @@ const { t } = useI18n()
 const props = defineProps({
     isModalOpen: {
         type: Boolean,
+        required: true,
+    },
+    selectedIncident: {
+        type: Object,
         required: true,
     },
 })
@@ -45,20 +49,20 @@ function closeModal() {
     emit('close')
 }
 
-async function saveIncident(incidentDetails: any) {
+async function updateIncident(incidentDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
+        const incidentUuid = incidentDetails.uuid
         const params = {
-            citizen_uuid: incidentDetails.citizen_uuid,
             title: incidentDetails.title,
             date: incidentDetails.date,
             description: incidentDetails.description,
             is_draft: incidentDetails.is_draft,
         }
-        const response = await incidentService.saveIncident(params)
-        if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('citizens.incidents.alert.savedSuccessfully')}.`)
+        const response = await journalService.updateJournal(incidentUuid, params)
+        if (response?.data) {
+            successAlert(`${t('alert.success')}!`, `${t('citizens.incidents.alert.updatedSuccessfully')}.`)
             closeModal()
         }
     } catch (error: any) {

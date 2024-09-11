@@ -209,6 +209,7 @@
                 "savedSuccessfully": "Hændelse blev gemt med succes",
                 "updatedSuccessfully": "Hændelse blev opdateret med succes"
             },
+            "editIncident": "Rediger hændelse",
             "form": {
                 "date": "Dato",
                 "description": "Beskrivelse",

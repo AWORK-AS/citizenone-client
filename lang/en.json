@@ -209,6 +209,7 @@
                 "savedSuccessfully": "Incident successfully saved",
                 "updatedSuccessfully": "Incident successfully updated"
             },
+            "editIncident": "Edit incident",
             "form": {
                 "date": "Date",
                 "description": "Description",
