@@ -36,7 +36,9 @@
                                                     alt="Support" class="w-full h-96 object-cover" />
                                             </div>
                                             <div class="-mt-10 space-y-5">
-                                                <p class="text-xl ">Vi er klar til at hjælpe</p>
+                                                <p class="text-xl ">
+                                                    {{ $t('support.weAreReadyToHelp') }}
+                                                </p>
                                                 <div class="space-y-2">
                                                     <div class="flex items-center gap-x-1">
                                                         <Icon name="ph:phone" class="h-4 w-4" aria-hidden="true" />
