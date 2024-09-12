@@ -241,7 +241,7 @@
                         <Menu as="div" class="relative">
                             <MenuButton class="-m-1.5 flex items-center p-1.5">
                                 <span class="sr-only">Open user menu</span>
-                                <img class="h-8 w-8 rounded-full bg-gray-50"
+                                <img class="h-8 w-8 rounded-full bg-gray-50 object-cover"
                                     :src="userStore.getUser?.profile_image ? userStore.getUser?.profile_image : '/img/avatars/user.svg'"
                                     alt="User" />
                                 <span class="hidden lg:flex lg:items-center">
