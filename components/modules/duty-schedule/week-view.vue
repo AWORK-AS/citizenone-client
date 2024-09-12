@@ -169,14 +169,27 @@
                                                     <p>{{ $t('dutySchedules.table.nightShiftHours') }}</p>
                                                 </div>
                                                 <div class="col-span-2 flex gap-2 flex-col items-end">
-                                                    <p>0</p>
-                                                    <p>0</p>
-                                                    <p>0</p>
+                                                    <p>
+                                                        {{ weeklySchedule?.employee?.total_hours ?? 0 }}
+                                                    </p>
+                                                    <p>
+                                                        {{ weeklySchedule?.employee?.holiday_hours ?? 0 }}
+                                                    </p>
+                                                    <p>
+                                                        {{ weeklySchedule?.employee?.night_hours ?? 0 }}
+                                                    </p>
                                                 </div>
                                                 <div
                                                     class="col-span-2 flex gap-2 flex-col items-end border-l-2 border-gray-200 ml-3">
-                                                    <p>0</p>
-                                                    <p>0</p>
+                                                    <p>
+                                                        {{ weeklySchedule?.employee?.yearly_total_hours ?? 0 }}
+                                                    </p>
+                                                    <p>
+                                                        {{ weeklySchedule?.employee?.yearly_holiday_hours ?? 0 }}
+                                                    </p>
+                                                    <p>
+                                                        {{ weeklySchedule?.employee?.yearly_night_hours ?? 0 }}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -474,25 +487,25 @@ async function saveDutySchedule(params: object, weeklyScheduleIndex: number, wee
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
-
-            if (action === 'new_shift') {
-                state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
-                    name: response?.data?.shift_type,
-                    time_in: response?.data?.time_in,
-                    time_out: response?.data?.time_out,
-                    schedule_uuid: response?.data?.uuid,
-                })
-            } else if (action === 'paste_shifts') {
-                state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = []
-                response?.data.forEach((shift: any) => {
-                    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
-                        name: shift?.shift_type,
-                        time_in: shift?.time_in,
-                        time_out: shift?.time_out,
-                        schedule_uuid: shift?.uuid,
-                    })
-                })
-            }
+            fetchDutySchedule()
+            // if (action === 'new_shift') {
+            //     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
+            //         name: response?.data?.shift_type,
+            //         time_in: response?.data?.time_in,
+            //         time_out: response?.data?.time_out,
+            //         schedule_uuid: response?.data?.uuid,
+            //     })
+            // } else if (action === 'paste_shifts') {
+            //     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = []
+            //     response?.data.forEach((shift: any) => {
+            //         state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
+            //             name: shift?.shift_type,
+            //             time_in: shift?.time_in,
+            //             time_out: shift?.time_out,
+            //             schedule_uuid: shift?.uuid,
+            //         })
+            //     })
+            // }
         }
     } catch (error: any) {
         state.error = error
@@ -592,6 +605,7 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
+            fetchDutySchedule()
         }
     } catch (error: any) {
         state.error = error
@@ -614,6 +628,7 @@ async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: nu
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
+            fetchDutySchedule()
         }
     } catch (error: any) {
         state.error = error
@@ -669,6 +684,7 @@ async function updateDutySchedule(scheduleUuid: any, params: object) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
+            fetchDutySchedule()
         }
     } catch (error: any) {
         state.error = error
