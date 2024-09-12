@@ -28,7 +28,7 @@
                                     <td width="30%">
                                         <div class="flex items-center gap-x-2">
                                             <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
-                                                class="rounded-full w-11 h-11" />
+                                                class="rounded-full w-11 h-11 object-cover" />
                                             <span>{{ citizen?.firstname }} {{ citizen?.lastname }}</span>
                                         </div>
                                     </td>
