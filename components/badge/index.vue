@@ -3,6 +3,7 @@
         props.type === 'primary' && 'bg-primary text-white',
         props.type === 'active' && 'bg-green-700 text-white',
         props.type === 'inactive' && 'bg-red-800 text-white',
+        props.type === 'coming-soon' && 'bg-secondary text-white',
         props.type === 'notification' && 'bg-[#D27B7B] text-white',
         props.type === 'cart' && 'bg-[#D27B7B] text-white',
         props.type === 'none' && 'bg-primary text-white',
