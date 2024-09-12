@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 
