@@ -508,7 +508,10 @@
     "messages": {
         "allMessagesAreLoaded": "All messages are loaded",
         "loadingMessages": "Loading messages",
-        "messages": "Messages"
+        "looksLikeYouHaventInitiatedAConversation": "Looks like you haven't initiated a conversation",
+        "messages": "Messages",
+        "noMessagesYet": "No messages yet",
+        "startTheConversation": "Start the conversation"
     },
     "navbar": {
         "activityLogs": "Activity logs",

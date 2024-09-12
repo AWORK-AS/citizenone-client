@@ -508,7 +508,10 @@
     "messages": {
         "allMessagesAreLoaded": "Alle beskeder er indlæst",
         "loadingMessages": "Indlæser beskeder",
-        "messages": "Beskeder"
+        "looksLikeYouHaventInitiatedAConversation": "Det ser ud til, at du ikke har startet en samtale",
+        "messages": "Beskeder",
+        "noMessagesYet": "Ingen beskeder endnu",
+        "startTheConversation": "Start samtalen"
     },
     "navbar": {
         "activityLogs": "Aktivitetslogfiler",

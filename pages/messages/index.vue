@@ -11,19 +11,17 @@
             <div class="space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
-
-                <ul>
-                    <li v-for="file in files" :key="file.name">{{ file.name }}</li>
-                </ul>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4"
+                        v-if="state.chattedUsers?.length > 0">
                         <div class="md:col-span-5 xl:col-span-4 bg-white rounded-md p-6 overflow-y-auto"
                             style="height: 80vh;">
                             <ul>
                                 <li class="flex items-center space-x-4 border-b border-gray-100 px-1 py-3 cursor-pointer"
                                     v-for="(chattedUser, index) in state.chattedUsers" :key="index"
                                     @click="messageEmployee(chattedUser)">
-                                    <img src="/img/avatars/user.svg" alt="Item 1" class="w-12 h-12 rounded-full">
+                                    <img :src="chattedUser?.profile_image ?? '/img/avatars/user.svg'" alt="Item 1"
+                                        class="w-12 h-12 rounded-full object-cover">
                                     <div>
                                         <h4 class="font-semibold text-sm">
                                             {{ chattedUser?.firstname + " " + chattedUser?.lastname }}
@@ -35,6 +33,17 @@
                                 </li>
                             </ul>
                         </div>
+                    </div>
+                    <div v-else class="mx-auto max-w-lg py-20 text-center space-y-3">
+                        <h3 class="text-lg font-semibold">
+                            {{ $t('messages.noMessagesYet') }}.
+                        </h3>
+                        <p>
+                            {{ $t('messages.looksLikeYouHaventInitiatedAConversation') }}.
+                        </p>
+                        <FormButton buttonStyle="primary" @click="navigateTo('/employees')" class="w-full rounded-md">
+                            {{ $t('messages.startTheConversation') }}
+                        </FormButton>
                     </div>
                 </LoadingSpinner>
             </div>
@@ -52,8 +61,6 @@ import type { ChattedUser, Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const employeeStore = useEmployeeStore() as any
 const userStore = useUserStore() as any
-const fileInput = ref<HTMLInputElement | null>(null)
-const files = ref<File[]>([])
 
 const state = reactive({
     chattedUsers: [] as ChattedUser[],

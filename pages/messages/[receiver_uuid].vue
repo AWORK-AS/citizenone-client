@@ -23,7 +23,8 @@
                                 <li class="flex items-center space-x-4 border-b border-gray-100 px-1 py-3 cursor-pointer"
                                     v-for="(chattedUser, index) in state.chattedUsers" :key="index"
                                     @click="messageEmployee(chattedUser)">
-                                    <img src="/img/avatars/user.svg" alt="Item 1" class="w-12 h-12 rounded-full">
+                                    <img :src="chattedUser?.profile_image ?? '/img/avatars/user.svg'" alt="User"
+                                        class="w-12 h-12 rounded-full object-cover">
                                     <div>
                                         <h4 class="font-semibold text-sm">
                                             {{ chattedUser?.firstname + " " + chattedUser?.lastname }}
@@ -38,7 +39,8 @@
                         <div class="md:col-span-7 xl:col-span-8 bg-white rounded-md pb-6">
                             <div class="px-6 py-3 shadow-sm">
                                 <div class="flex items-center gap-x-2">
-                                    <img src="/img/avatars/user.svg" alt="Item 1" class="w-12 h-12 rounded-full">
+                                    <img :src="employeeStore.getSelectedEmployee?.profile_image ?? '/img/avatars/user.svg'"
+                                        alt="User" class="w-12 h-12 rounded-full object-cover">
                                     <div>
                                         <h4 class="font-semibold text-sm">
                                             {{ employeeStore.getSelectedEmployee?.firstname }}
@@ -95,15 +97,15 @@
                                                 </span>
                                             </div>
                                             <div class="flex-shrink-0 flex items-center">
-                                                <img class="h-10 w-10 rounded-full mt-1" src="/img/avatars/user.svg"
-                                                    alt="User">
+                                                <img :src="employeeStore.getSelectedEmployee?.profile_image ?? '/img/avatars/user.svg'"
+                                                    alt="User" class="w-10 h-10 rounded-full object-cover">
                                             </div>
                                         </div>
                                         <!-- Message (Left) -->
                                         <div class="flex items-start mb-4" v-else>
                                             <div class="flex-shrink-0">
-                                                <img class="h-10 w-10 rounded-full mt-1" src="/img/avatars/user.svg"
-                                                    alt="User">
+                                                <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
+                                                    alt="User" class="w-10 h-10 rounded-full object-cover">
                                             </div>
                                             <div class="ml-2">
                                                 <div class="bg-gray-200 p-3 rounded-lg">
