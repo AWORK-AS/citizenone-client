@@ -639,7 +639,7 @@ async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: nu
 }
 
 function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: any, shiftType: string) {
-    if (!isScheduleCopiedEmpty() && !isAllWeeklyScheduleCopiedEmpty()) return
+    if (!isScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
 
     const timeIn = event.target.value
     const shiftTimeIndexToReplace = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
@@ -659,7 +659,7 @@ function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: a
 }
 
 function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: any, shiftType: string) {
-    if (!isScheduleCopiedEmpty() && !isAllWeeklyScheduleCopiedEmpty()) return
+    if (!isScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
 
     const timeOut = event.target.value
     const shiftTimeIndexToReplace = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
