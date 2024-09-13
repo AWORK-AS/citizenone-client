@@ -374,8 +374,8 @@
         },
         "table": {
             "holidayHours": "Ferietimer",
-            "nightShiftHours": "Nattevagttimer",
-            "sickLeaveHours": "Sygdomsferie timer",
+            "nightShiftHours": "Nattevagtstimer",
+            "sickLeaveHours": "Sydomsfraværstimer",
             "timer": "Timer"
         }
     },
