@@ -374,7 +374,8 @@
         },
         "table": {
             "holidayHours": "Holiday hours",
-            "nightShiftHours": "Night Shift hours",
+            "nightShiftHours": "Night shift hours",
+            "sickLeaveHours": "Sick leave hours",
             "timer": "Timer"
         }
     },

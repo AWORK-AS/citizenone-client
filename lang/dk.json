@@ -375,6 +375,7 @@
         "table": {
             "holidayHours": "Ferietimer",
             "nightShiftHours": "Nattevagttimer",
+            "sickLeaveHours": "Sygdomsferie timer",
             "timer": "Timer"
         }
     },

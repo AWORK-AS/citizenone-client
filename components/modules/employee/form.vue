@@ -449,8 +449,11 @@ const state = reactive({
 
 watch(() => props.selectedEmployee, (newValue: any) => {
     if (newValue != null) {
+        if (newValue.profile_image) {
+            avatarUrl.value = newValue.profile_image
+        }
         state.formEmployee = {
-            profile_image: newValue.profile_image,
+            profile_image: '',
             firstname: newValue.firstname,
             lastname: newValue.lastname,
             email: newValue.email,
