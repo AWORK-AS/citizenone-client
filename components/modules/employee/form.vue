@@ -158,7 +158,7 @@
         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
             <div>
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
-                    {{ $t('employees.form.header.employeeInformation') }}
+                    {{ $t('employees.form.header.employmentInformation') }}
                 </h2>
                 <p class="mt-1 text-sm leading-6 text-gray-600">
                     {{ $t('employees.form.header.comprehensiveEmploymentDetailsWithinTheOrganization') }}.
