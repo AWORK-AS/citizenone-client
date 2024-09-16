@@ -377,7 +377,9 @@
             "nightShiftHours": "Nattevagtstimer",
             "sickLeaveHours": "Sygdomsfraværstimer",
             "timer": "Timer"
-        }
+        },
+        "week": "Uge",
+        "yearToDate": "År til dato"
     },
     "employees": {
         "editEmployee": "Rediger medarbejder",

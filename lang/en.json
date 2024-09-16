@@ -377,7 +377,9 @@
             "nightShiftHours": "Night shift hours",
             "sickLeaveHours": "Sick leave hours",
             "timer": "Timer"
-        }
+        },
+        "week": "Week",
+        "yearToDate": "Year to date"
     },
     "employees": {
         "editEmployee": "Edit employee",

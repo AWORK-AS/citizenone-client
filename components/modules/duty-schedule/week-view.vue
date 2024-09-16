@@ -163,6 +163,18 @@
                                                 </p>
                                             </div>
                                             <div class="text-xs grid grid-cols-7">
+                                                <div class="col-span-3 space-y-2" />
+                                                <div class="col-span-2 flex gap-2 flex-col items-end">
+                                                    <p class="text-xxs py-2">
+                                                        {{ $t('dutySchedules.week') }}
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="col-span-2 flex gap-2 flex-col items-end border-l-2 border-gray-200 ml-3">
+                                                    <p class="text-xxs py-2">
+                                                        {{ $t('dutySchedules.yearToDate') }}
+                                                    </p>
+                                                </div>
                                                 <div class="col-span-3 space-y-2">
                                                     <p>{{ $t('dutySchedules.table.timer') }}</p>
                                                     <p>{{ $t('dutySchedules.table.holidayHours') }}</p>
