@@ -737,6 +737,40 @@
                 "phone": "Telefon"
             }
         },
+        "companies": {
+            "companies": "Virksomheder",
+            "company": "Virksomhed",
+            "editCompany": "Rediger virksomhed",
+            "form": {
+                "active": "Aktiv",
+                "alert": {
+                    "newCompanySuccessfullySaved": "Ny virksomhed er gemt",
+                    "companySuccessfullyActivated": "Virksomheden er aktiveret",
+                    "companySuccessfullyDeactivated": "Virksomheden er deaktiveret",
+                    "companySuccessfullyUpdated": "Virksomheden er opdateret"
+                },
+                "cvr": "CVR",
+                "inactive": "Inaktiv",
+                "name": "Navn",
+                "status": "Status",
+                "website": "Websted"
+            },
+            "newCompany": "Ny virksomhed",
+            "table": {
+                "actions": {
+                    "activate": "Aktivér",
+                    "deactivate": "Deaktiver",
+                    "edit": "Rediger",
+                    "view": "Vis"
+                },
+                "active": "Aktiv",
+                "inactive": "Inaktiv",
+                "cvr": "CVR",
+                "name": "Navn",
+                "status": "Status",
+                "website": "Websted"
+            }
+        },
         "polls": {
             "confirmation": {
                 "deletePollConfirmation": "Er du sikker på, at du vil slette denne afstemning",
@@ -813,7 +847,7 @@
             }
         },
         "sidebar": {
-            "accounts": "Kontoer",
+            "companies": "Virksomheder",
             "polls": "Afstemninger",
             "salesCampaign": "Salgs kampagne",
             "users": "Brugere"

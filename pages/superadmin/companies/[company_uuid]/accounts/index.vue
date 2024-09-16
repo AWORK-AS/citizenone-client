@@ -9,8 +9,14 @@
             <template #header>{{ $t('superadmin.accounts.accounts') }}</template>
 
             <div>
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                    to="/superadmin/companies">
+                    <Icon name="ph:arrow-left" size="20" class="text-black" />
+                    <span>{{ $t('back') }}</span>
+                </NuxtLink>
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/superadmin/accounts/new')">
+                    <FormButton buttonStyle="action" class="rounded-lg"
+                        @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/new`)">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('superadmin.accounts.newAccount') }}
                     </FormButton>
@@ -47,7 +53,7 @@
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/superadmin/accounts/edit/${account.uuid}`)">
+                                                @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/${account.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('superadmin.accounts.table.actions.edit') }}
                                             </FormButton>
@@ -81,6 +87,8 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const router = useRouter()
+const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 let currentTablePage = 1
 
 const state = reactive({
@@ -115,6 +123,7 @@ async function fetchAccounts() {
     state.isTableLoading = true
     try {
         const params = {
+            company_uuid: companyUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,

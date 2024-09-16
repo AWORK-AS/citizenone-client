@@ -10,7 +10,7 @@
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    to="/superadmin/accounts">
+                    :to="`/superadmin/companies/${companyUuid}/accounts`">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -33,6 +33,8 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const router = useRouter()
+const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 
 const state = reactive({
     error: {} as Error,
@@ -63,7 +65,7 @@ async function saveAccount(accountDetails: any) {
         const response = await accountService.saveAccount(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('superadmin.accounts.form.alert.newAccountSuccessfullySaved')}.`)
-            navigateTo('/superadmin/accounts')
+            navigateTo(`/superadmin/companies/${companyUuid}`)
         }
     } catch (error: any) {
         state.error = error

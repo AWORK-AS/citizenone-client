@@ -10,7 +10,7 @@
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    to="/superadmin/accounts">
+                    :to="`/superadmin/companies/${companyUuid}/accounts`">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -34,7 +34,8 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
-const uuid = router?.currentRoute?.value?.params?.uuid
+const companyUuid = router?.currentRoute?.value?.params?.company_uuid
+const accountUuid = router?.currentRoute?.value?.params?.account_uuid
 
 const state = reactive({
     error: {} as Error,
@@ -58,7 +59,7 @@ async function fetchAccount() {
     state.isPageLoading = true
     state.error = {}
     try {
-        const response = await accountService.getAccount(uuid)
+        const response = await accountService.getAccount(accountUuid)
         if (response) {
             state.formAccount = {
                 firstname: response?.data?.firstname ?? '',
@@ -89,10 +90,10 @@ async function updateAccount(accountDetails: any) {
             role: accountDetails.role,
             permission: accountDetails.permissions,
         }
-        const response = await accountService.updateAccount(uuid, params)
+        const response = await accountService.updateAccount(accountUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('superadmin.accounts.form.alert.accountSuccessfullyUpdated')}.`)
-            navigateTo('/superadmin/accounts')
+            navigateTo(`/superadmin/companies/${companyUuid}/accounts`)
         }
     } catch (error: any) {
         state.error = error
