@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1" :class="props.formType === 'create' && 'col-span-2'">
+                <div class="space-y-1">
                     <FormLabel for="email" :label="$t('superadmin.accounts.form.emailAddress')" />
                     <FormTextField id="email" name="email" :placeholder="$t('superadmin.accounts.form.emailAddress')"
                         v-model="state.formAccount.email" />
@@ -43,7 +43,7 @@
                     <FormError :error="v$?.formAccount?.birthday?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.birthday?.[0]" />
                 </div>
-                <div class="space-y-1" v-if="props.formType === 'update'">
+                <div class="space-y-1">
                     <FormLabel for="role" :label="$t('superadmin.accounts.form.role')" />
                     <FormSelect id="role" name="role" :options="state.options.roleOptions"
                         v-model="state.formAccount.role" />
@@ -76,7 +76,7 @@
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="navigateTo('/superadmin/accounts')">
+                    @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts`)">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md">
@@ -113,6 +113,8 @@ const props = defineProps({
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
+const router = useRouter()
+const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 
 const state = reactive({
     error: {} as Error,

@@ -54,18 +54,19 @@ async function saveAccount(accountDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
+            company_uuid: companyUuid,
             firstname: accountDetails.firstname,
             lastname: accountDetails.lastname,
             email: accountDetails.email,
             phone: accountDetails.phone,
             birthday: accountDetails.birthday,
-            role: 'admin',
+            role: accountDetails.role,
             permission: accountDetails.permissions,
         }
         const response = await accountService.saveAccount(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('superadmin.accounts.form.alert.newAccountSuccessfullySaved')}.`)
-            navigateTo(`/superadmin/companies/${companyUuid}`)
+            navigateTo(`/superadmin/companies/${companyUuid}/accounts`)
         }
     } catch (error: any) {
         state.error = error
