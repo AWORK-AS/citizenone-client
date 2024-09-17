@@ -15,9 +15,51 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <!-- <ModulesSuperadminCompanyForm formType="update" :selectedCompany="state.formCompany"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @submitForm="updateCompany" /> -->
+                    <div class="max-w-2xl">
+                        <Alert type="danger" :text="state?.error?.message"
+                            v-if="state.error?.message && state.error.message.length > 0" />
+                        <form class="mt-5" method="POST" @submit.prevent="updateCompany">
+                            <div class="grid grid-cols-1 gap-y-3">
+                                <div class="space-y-1">
+                                    <FormLabel for="name" :label="$t('superadmin.companies.form.companyName')" />
+                                    <FormTextField id="name" name="name"
+                                        :placeholder="$t('superadmin.companies.form.companyName')"
+                                        v-model="state.formCompany.name" />
+                                    <FormError :error="v$?.formCompany?.name?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.name?.[0]" />
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div class="space-y-1">
+                                        <FormLabel for="website" :label="$t('superadmin.companies.form.website')" />
+                                        <FormTextField id="website" name="website"
+                                            :placeholder="$t('superadmin.companies.form.website')"
+                                            v-model="state.formCompany.website" />
+                                        <FormError :error="v$?.formCompany?.website?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="state?.error?.errors?.website?.[0]" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormLabel for="cvr" :label="$t('superadmin.companies.form.cvr')" />
+                                        <FormTextField id="cvr" name="cvr"
+                                            :placeholder="$t('superadmin.companies.form.cvr')"
+                                            v-model="state.formCompany.cvr" />
+                                        <FormError :error="v$?.formCompany?.cvr?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="state?.error?.errors?.cvr?.[0]" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <FormButton type="button" buttonStyle="cancel" class="rounded-md"
+                                        @click="navigateTo(`/superadmin/companies`)">
+                                        {{ $t('cancel') }}
+                                    </FormButton>
+                                    <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                                        {{ $t('update') }}
+                                    </FormButton>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
@@ -27,6 +69,8 @@
 <script setup lang="ts">
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { useAlert } from '@/composables/alert'
+import { useVuelidate } from "@vuelidate/core"
+import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -46,6 +90,17 @@ const state = reactive({
     } as any,
     isPageLoading: false,
 })
+
+const rules = computed(() => {
+    return {
+        formCompany: {
+            name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+        }
+    }
+})
+const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
     fetchCompany()
@@ -73,20 +128,23 @@ async function fetchCompany() {
 async function updateCompany(companyDetails: any) {
     state.error = {}
     state.isPageLoading = true
-    try {
-        const params = {
-            name: companyDetails.name,
-            cvr: companyDetails.cvr,
-            website: companyDetails.website,
-            is_active: companyDetails.is_active,
+    v$.value.$validate()
+    if (!v$.value.$error) {
+        try {
+            const params = {
+                name: companyDetails.name,
+                cvr: companyDetails.cvr,
+                website: companyDetails.website,
+                is_active: companyDetails.is_active,
+            }
+            const response = await companyService.updateCompany(companyUuid, params)
+            if (response.data) {
+                successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.form.alert.companySuccessfullyUpdated')}.`)
+                navigateTo('/superadmin/companies')
+            }
+        } catch (error: any) {
+            state.error = error
         }
-        const response = await companyService.updateCompany(companyUuid, params)
-        if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.form.alert.companySuccessfullyUpdated')}.`)
-            navigateTo('/superadmin/companies')
-        }
-    } catch (error: any) {
-        state.error = error
     }
     state.isPageLoading = false
 }

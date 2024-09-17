@@ -15,82 +15,89 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <form class="mt-5 space-y-3 max-w-2xl" method="POST" @submit.prevent="saveCompany">
+                    <div class="max-w-2xl">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
-                        <div class="space-y-1">
-                            <FormLabel for="name" :label="$t('superadmin.companies.form.companyName')" />
-                            <FormTextField id="name" name="name"
-                                :placeholder="$t('superadmin.companies.form.companyName')"
-                                v-model="state.formCompany.name" />
-                            <FormError :error="v$?.formCompany?.name?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.name?.[0]" />
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div class="space-y-1">
-                                <FormLabel for="firstname" :label="$t('superadmin.companies.form.firstname')" />
-                                <FormTextField id="firstname" name="firstname"
-                                    :placeholder="$t('superadmin.companies.form.firstname')"
-                                    v-model="state.formCompany.firstname" />
-                                <FormError :error="v$?.formCompany?.firstname?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.firstname?.[0]" />
+                        <form class="mt-5" method="POST" @submit.prevent="saveCompany">
+                            <div class="grid grid-cols-1 gap-y-3">
+                                <div class="space-y-1">
+                                    <FormLabel for="name" :label="$t('superadmin.companies.form.companyName')" />
+                                    <FormTextField id="name" name="name"
+                                        :placeholder="$t('superadmin.companies.form.companyName')"
+                                        v-model="state.formCompany.name" />
+                                    <FormError :error="v$?.formCompany?.name?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.name?.[0]" />
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div class="space-y-1">
+                                        <FormLabel for="firstname" :label="$t('superadmin.companies.form.firstname')" />
+                                        <FormTextField id="firstname" name="firstname"
+                                            :placeholder="$t('superadmin.companies.form.firstname')"
+                                            v-model="state.formCompany.firstname" />
+                                        <FormError
+                                            :error="v$?.formCompany?.firstname?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="state?.error?.errors?.firstname?.[0]" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormLabel for="lastname" :label="$t('superadmin.companies.form.lastname')" />
+                                        <FormTextField id="lastname" name="lastname"
+                                            :placeholder="$t('superadmin.companies.form.lastname')"
+                                            v-model="state.formCompany.lastname" />
+                                        <FormError
+                                            :error="v$?.formCompany?.lastname?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="state?.error?.errors?.lastname?.[0]" />
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div class="space-y-1">
+                                        <FormLabel for="email" :label="$t('superadmin.companies.form.emailAddress')" />
+                                        <FormTextField id="email" name="email"
+                                            :placeholder="$t('superadmin.companies.form.emailAddress')"
+                                            v-model="state.formCompany.email" />
+                                        <FormError :error="v$?.formCompany?.email?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="state?.error?.errors?.email?.[0]" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormLabel for="phone" :label="$t('superadmin.companies.form.phone')" />
+                                        <FormTextField id="phone" name="phone"
+                                            :placeholder="$t('superadmin.companies.form.phone')"
+                                            v-model="state.formCompany.phone" />
+                                        <FormError :error="v$?.formCompany?.phone?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="state?.error?.errors?.phone?.[0]" />
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div class="space-y-1">
+                                        <FormLabel for="website" :label="$t('superadmin.companies.form.website')" />
+                                        <FormTextField id="website" name="website"
+                                            :placeholder="$t('superadmin.companies.form.website')"
+                                            v-model="state.formCompany.website" />
+                                        <FormError :error="v$?.formCompany?.website?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="state?.error?.errors?.website?.[0]" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormLabel for="cvr" :label="$t('superadmin.companies.form.cvr')" />
+                                        <FormTextField id="cvr" name="cvr"
+                                            :placeholder="$t('superadmin.companies.form.cvr')"
+                                            v-model="state.formCompany.cvr" />
+                                        <FormError :error="v$?.formCompany?.cvr?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="state?.error?.errors?.cvr?.[0]" />
+                                    </div>
+                                </div>
                             </div>
-                            <div class="space-y-1">
-                                <FormLabel for="lastname" :label="$t('superadmin.companies.form.lastname')" />
-                                <FormTextField id="lastname" name="lastname"
-                                    :placeholder="$t('superadmin.companies.form.lastname')"
-                                    v-model="state.formCompany.lastname" />
-                                <FormError :error="v$?.formCompany?.lastname?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.lastname?.[0]" />
+                            <div class="mt-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <FormButton type="button" buttonStyle="cancel" class="rounded-md"
+                                        @click="navigateTo(`/superadmin/companies`)">
+                                        {{ $t('cancel') }}
+                                    </FormButton>
+                                    <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                                        {{ $t('save') }}
+                                    </FormButton>
+                                </div>
                             </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div class="space-y-1">
-                                <FormLabel for="email" :label="$t('superadmin.companies.form.emailAddress')" />
-                                <FormTextField id="email" name="email"
-                                    :placeholder="$t('superadmin.companies.form.emailAddress')"
-                                    v-model="state.formCompany.email" />
-                                <FormError :error="v$?.formCompany?.email?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.email?.[0]" />
-                            </div>
-                            <div class="space-y-1">
-                                <FormLabel for="phone" :label="$t('superadmin.companies.form.phone')" />
-                                <FormTextField id="phone" name="phone"
-                                    :placeholder="$t('superadmin.companies.form.phone')"
-                                    v-model="state.formCompany.phone" />
-                                <FormError :error="v$?.formCompany?.phone?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.phone?.[0]" />
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div class="space-y-1">
-                                <FormLabel for="website" :label="$t('superadmin.companies.form.website')" />
-                                <FormTextField id="website" name="website"
-                                    :placeholder="$t('superadmin.companies.form.website')"
-                                    v-model="state.formCompany.website" />
-                                <FormError :error="v$?.formCompany?.website?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.website?.[0]" />
-                            </div>
-                            <div class="space-y-1">
-                                <FormLabel for="cvr" :label="$t('superadmin.companies.form.cvr')" />
-                                <FormTextField id="cvr" name="cvr" :placeholder="$t('superadmin.companies.form.cvr')"
-                                    v-model="state.formCompany.cvr" />
-                                <FormError :error="v$?.formCompany?.cvr?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.cvr?.[0]" />
-                            </div>
-                        </div>
-                        <div class="mt-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                                    @click="navigateTo(`/superadmin/companies`)">
-                                    {{ $t('cancel') }}
-                                </FormButton>
-                                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
-                                    {{ $t('save') }}
-                                </FormButton>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
@@ -101,7 +108,7 @@
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { useAlert } from '@/composables/alert'
 import { useVuelidate } from "@vuelidate/core"
-import { required, helpers, minLength, sameAs } from '@vuelidate/validators'
+import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -149,23 +156,26 @@ const v$ = useVuelidate(rules, state)
 async function saveCompany() {
     state.error = {}
     state.isPageLoading = true
-    try {
-        const params = {
-            name: state.formCompany.name,
-            firstname: state.formCompany.firstname,
-            lastname: state.formCompany.lastname,
-            email: state.formCompany.email,
-            phone: state.formCompany.phone,
-            website: state.formCompany.website,
-            cvr: state.formCompany.cvr,
+    v$.value.$validate()
+    if (!v$.value.$error) {
+        try {
+            const params = {
+                name: state.formCompany.name,
+                firstname: state.formCompany.firstname,
+                lastname: state.formCompany.lastname,
+                email: state.formCompany.email,
+                phone: state.formCompany.phone,
+                website: state.formCompany.website,
+                cvr: state.formCompany.cvr,
+            }
+            const response = await companyService.saveCompany(params)
+            if (response.data) {
+                successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.form.alert.newCompanySuccessfullySaved')}.`)
+                navigateTo('/superadmin/companies')
+            }
+        } catch (error: any) {
+            state.error = error
         }
-        const response = await companyService.saveCompany(params)
-        if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.form.alert.newCompanySuccessfullySaved')}.`)
-            navigateTo('/superadmin/companies')
-        }
-    } catch (error: any) {
-        state.error = error
     }
     state.isPageLoading = false
 }
