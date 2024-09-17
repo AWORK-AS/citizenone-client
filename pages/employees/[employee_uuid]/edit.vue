@@ -14,10 +14,19 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
+                    <div class="flex justify-end">
+                        <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                            @click="confirmEmployeeDeletion">
+                            {{ $t('employees.deleteEmployee') }}
+                        </FormButton>
+                    </div>
                     <ModulesEmployeeForm formType="update" :selectedEmployee="state.formEmployee" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateEmployee" />
                 </LoadingSpinner>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteEmployeeOpen"
+                :message="$t('employees.confirmation.deletePermanentlyConfirmation') + '? ' + $t('employees.confirmation.thisCantBeUndone') + '.'"
+                @close="state.modal.isDeleteEmployeeOpen = false" @confirm="deleteEmployee" />
         </NuxtLayout>
     </div>
 </template>
@@ -63,6 +72,9 @@ const state = reactive({
         },
     } as EmployeeForm,
     isPageLoading: false,
+    modal: {
+        isDeleteEmployeeOpen: false,
+    },
 })
 
 onMounted(() => {
@@ -154,6 +166,25 @@ async function updateEmployee(employeeDetails: any) {
         const response = await employeeService.updateEmployee(employeeUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employees.form.alert.employeeSuccessfullyUpdated')}.`)
+            navigateTo('/employees')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function confirmEmployeeDeletion() {
+    state.modal.isDeleteEmployeeOpen = true
+}
+
+async function deleteEmployee() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await employeeService.deleteEmployee(employeeUuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            successAlert(`${t('alert.success')}!`, `${t('employees.alert.employeeSuccessfullyDeleted')}.`)
             navigateTo('/employees')
         }
     } catch (error: any) {

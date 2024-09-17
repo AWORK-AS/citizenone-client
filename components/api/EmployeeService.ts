@@ -16,6 +16,10 @@ class EmployeeService extends BaseAPIService {
     async updateEmployee(employeeUuid: any, params: object): Promise<any> {
         return await this.request(`/user/employees/${employeeUuid}/update`, 'POST', params)
     }
+
+    async deleteEmployee(employeeUuid: any): Promise<any> {
+        return await this.request(`/user/employees/${employeeUuid}`, 'DELETE')
+    }
 }
 
 export const employeeService = new EmployeeService()

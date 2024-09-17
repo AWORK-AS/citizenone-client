@@ -389,6 +389,14 @@
         "yearToDate": "År til dato"
     },
     "employees": {
+        "alert": {
+            "employeeSuccessfullyDeleted": "Medarbejder slettet med succes"
+        },
+        "confirmation": {
+            "deletePermanentlyConfirmation": "Er du sikker på, at du vil slette denne medarbejder permanent",
+            "thisCantBeUndone": "Dette kan ikke fortrydes"
+        },
+        "deleteEmployee": "Slet medarbejder",
         "editEmployee": "Rediger medarbejder",
         "employees": "Medarbejdere",
         "form": {

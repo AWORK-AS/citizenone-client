@@ -389,6 +389,14 @@
         "yearToDate": "Year to date"
     },
     "employees": {
+        "alert": {
+            "employeeSuccessfullyDeleted": "Employee successfully deleted"
+        },
+        "confirmation": {
+            "deletePermanentlyConfirmation": "Are you sure you want to delete this employee permanently",
+            "thisCantBeUndone": "This can't be undone"
+        },
+        "deleteEmployee": "Delete employee",
         "editEmployee": "Edit employee",
         "employees": "Employees",
         "form": {
