@@ -125,17 +125,17 @@ async function fetchCompany() {
     state.isPageLoading = false
 }
 
-async function updateCompany(companyDetails: any) {
+async function updateCompany() {
     state.error = {}
     state.isPageLoading = true
     v$.value.$validate()
     if (!v$.value.$error) {
         try {
             const params = {
-                name: companyDetails.name,
-                cvr: companyDetails.cvr,
-                website: companyDetails.website,
-                is_active: companyDetails.is_active,
+                name: state.formCompany.name,
+                cvr: state.formCompany.cvr,
+                website: state.formCompany.website,
+                is_active: state.formCompany.is_active,
             }
             const response = await companyService.updateCompany(companyUuid, params)
             if (response.data) {
