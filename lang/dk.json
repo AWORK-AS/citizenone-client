@@ -702,13 +702,17 @@
     "superadmin": {
         "accounts": {
             "accounts": "Kontoer",
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne konto?"
+            },
             "editAccount": "Rediger konto",
             "form": {
                 "alert": {
                     "newAccountSuccessfullySaved": "Ny konto blev gemt",
                     "accountSuccessfullyActivated": "Kontoen er blevet aktiveret",
                     "accountSuccessfullyDeactivated": "Kontoen er blevet deaktiveret",
-                    "accountSuccessfullyUpdated": "Kontoen er blevet opdateret"
+                    "accountSuccessfullyUpdated": "Kontoen er blevet opdateret",
+                    "deletedSuccessfully": "Konto slettet med succes"
                 },
                 "birthday": "Fødselsdag",
                 "emailAddress": "E-mailadresse",
@@ -729,6 +733,7 @@
                 "actions": {
                     "activate": "Aktivér",
                     "deactivate": "Deaktiver",
+                    "delete": "Slet",
                     "edit": "Rediger"
                 },
                 "role": "Rolle",

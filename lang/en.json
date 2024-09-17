@@ -702,13 +702,17 @@
     "superadmin": {
         "accounts": {
             "accounts": "Accounts",
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this account"
+            },
             "editAccount": "Edit account",
             "form": {
                 "alert": {
                     "newAccountSuccessfullySaved": "New account successfully saved",
                     "accountSuccessfullyActivated": "Account successfully activated",
                     "accountSuccessfullyDeactivated": "Account successfully deactivated",
-                    "accountSuccessfullyUpdated": "Account successfully updated"
+                    "accountSuccessfullyUpdated": "Account successfully updated",
+                    "deletedSuccessfully": "Account successfully deleted"
                 },
                 "birthday": "Birthday",
                 "emailAddress": "Email address",
@@ -729,6 +733,7 @@
                 "actions": {
                     "activate": "Activate",
                     "deactivate": "Deactivate",
+                    "delete": "Delete",
                     "edit": "Edit"
                 },
                 "role": "Role",

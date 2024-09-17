@@ -17,6 +17,10 @@ class AccountService extends BaseAPIService {
         return await this.request(`/superadmin/accounts/${accountUuid}`, 'PUT', params)
     }
 
+    async deleteAccount(accountUuid: any): Promise<any> {
+        return await this.request(`/superadmin/accounts/${accountUuid}`, 'DELETE')
+    }
+
     async activateDeactiveAccount(accountUuid: any, params: object): Promise<any> {
         return await this.request(`/superadmin/accounts/${accountUuid}/update-status `, 'PUT', params)
     }

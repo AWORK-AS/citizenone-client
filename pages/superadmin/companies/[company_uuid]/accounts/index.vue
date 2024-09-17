@@ -65,6 +65,11 @@
                                                     $t('superadmin.accounts.table.actions.deactivate') :
                                                     $t('superadmin.accounts.table.actions.activate') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                @click="confirmAccountDeletion(account)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('superadmin.accounts.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -74,6 +79,9 @@
                     <Pagination :data="state.accounts" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteAccountOpen"
+                :message="$t('superadmin.accounts.confirmation.deleteConfirmation') + '?'"
+                @close="state.modal.isDeleteAccountOpen = false" @confirm="deleteAccount" />
         </NuxtLayout>
     </div>
 </template>
@@ -108,6 +116,10 @@ const state = reactive({
     dataFilter: [],
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isDeleteAccountOpen: false,
+    },
+    selectedAccount: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -184,5 +196,25 @@ async function activateDeactivateAccount(index: number, account: any) {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function confirmAccountDeletion(account: any) {
+    state.selectedAccount = account
+    state.modal.isDeleteAccountOpen = true
+}
+
+async function deleteAccount() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await accountService.deleteAccount(state.selectedAccount.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchAccounts()
+            successAlert(`${t('alert.success')}!`, `${t('superadmin.accounts.form.alert.deletedSuccessfully')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>
