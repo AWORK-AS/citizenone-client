@@ -39,6 +39,7 @@
         "readMore": "Read more",
         "apps": "Apps"
     },
+    "archive": "Archive",
     "back": "Back",
     "bulletBoard": {
         "bulletBoard": "Bullet board",
@@ -97,6 +98,9 @@
     },
     "cancel": "Cancel",
     "citizens": {
+        "alert": {
+            "citizenSuccessfullyArchived": "Citizen successfully archived"
+        },
         "attendance": {
             "protocol": "Protocol"
         },
@@ -182,6 +186,9 @@
             },
             "newJournal": "New journal",
             "riskAssessment": "Risk assessment"
+        },
+        "confirmation": {
+            "archiveConfirmation": "Are you sure you want to archive this citizen"
         },
         "editCitizen": "Edit citizen",
         "form": {

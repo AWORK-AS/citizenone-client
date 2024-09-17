@@ -14,11 +14,20 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
+                    <div class="max-w-3xl flex justify-end">
+                        <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                            @click="confirmCitizenArchiving">
+                            {{ $t('archive') }}
+                        </FormButton>
+                    </div>
                     <ModulesCitizenDetailsForm formType="update" :selectedCitizen="state.formCitizen"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @submitForm="updateCitizen" />
                 </LoadingSpinner>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isArchiveCitizenOpen"
+                :message="$t('citizens.confirmation.archiveConfirmation') + '?'"
+                @close="state.modal.isArchiveCitizenOpen = false" @confirm="archiveCitizen" />
         </NuxtLayout>
     </div>
 </template>
@@ -54,6 +63,9 @@ const state = reactive({
         diagnosis: '',
     } as CitizenForm,
     isPageLoading: false,
+    modal: {
+        isArchiveCitizenOpen: false
+    }
 })
 
 onMounted(() => {
@@ -114,6 +126,25 @@ async function updateCitizen(citizenDetails: any) {
         const response = await citizenService.updateCitizen(citizenUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyUpdate')}.`)
+            navigateTo('/citizens')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function confirmCitizenArchiving() {
+    state.modal.isArchiveCitizenOpen = true
+}
+
+async function archiveCitizen() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await citizenService.archiveCitizen(citizenUuid)
+        if (response.data) {
+            successAlert(`${t('alert.success')}!`, `${t('citizens.alert.citizenSuccessfullyArchived')}.`)
             navigateTo('/citizens')
         }
     } catch (error: any) {

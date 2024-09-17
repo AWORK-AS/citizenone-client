@@ -39,6 +39,7 @@
         "readMore": "Læs mere",
         "apps": "Apps"
     },
+    "archive": "Arkiv",
     "back": "Tilbage",
     "bulletBoard": {
         "bulletBoard": "Opslagstavle",
@@ -97,6 +98,9 @@
     },
     "cancel": "Annuller",
     "citizens": {
+        "alert": {
+            "citizenSuccessfullyArchived": "Borger arkiveret med succes"
+        },
         "attendance": {
             "protocol": "Protokol"
         },
@@ -182,6 +186,9 @@
             },
             "newJournal": "Ny Journal",
             "riskAssessment": "Risikovurdering"
+        },
+        "confirmation": {
+            "archiveConfirmation": "Er du sikker på, at du vil arkivere denne borger"
         },
         "editCitizen": "Rediger Borger",
         "form": {
