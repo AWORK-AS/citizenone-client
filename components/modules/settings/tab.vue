@@ -19,7 +19,8 @@ const router = useRouter()
 const state = reactive({
     tabs: [
         { name: 'settings.tabs.profile', href: `/settings/profile`, routeName: 'settings-profile' },
-        { name: 'settings.tabs.storage', href: `/settings/storage`, routeName: 'settings-storage' }
+        { name: 'settings.tabs.storage', href: `/settings/storage`, routeName: 'settings-storage' },
+        { name: 'settings.tabs.licenseOverview', href: `/settings/license-overview`, routeName: 'setttings-license-overview' },
     ]
 })
 
@@ -42,6 +43,11 @@ watch(() => userStore.getUser, (newValue: User | null) => {
                     name: 'settings.tabs.storage',
                     href: `/settings/storage`,
                     routeName: 'settings-storage'
+                },
+                {
+                    name: 'settings.tabs.licenseOverview',
+                    href: `/settings/license-overview`,
+                    routeName: 'settings-license-overview'
                 }
             ]
         } else {

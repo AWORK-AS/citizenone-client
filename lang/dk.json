@@ -693,6 +693,14 @@
                 "website": "Hjemmeside"
             }
         },
+        "licenseOverview": {
+            "licenses": "Licenser",
+            "licenseOverview": "Licensoversigt",
+            "table": {
+                "license": "Licens",
+                "user": "Bruger"
+            }
+        },
         "profile": {
             "form": {
                 "alert": {
@@ -708,9 +716,11 @@
         },
         "settings": "Indstillinger",
         "tabs": {
-            "company": "Firma",
+            "company": "Virksomhed",
+            "licenseOverview": "Licensoversigt",
             "profile": "Profil",
-            "storage": "Opbevaring"
+            "storage": "Lager",
+            "subscription": "Abonnement"
         }
     },
     "show": "Vis",

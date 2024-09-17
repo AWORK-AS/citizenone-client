@@ -693,6 +693,14 @@
                 "website": "Website"
             }
         },
+        "licenseOverview": {
+            "licenses": "Licenses",
+            "licenseOverview": "License overview",
+            "table": {
+                "license": "License",
+                "user": "User"
+            }
+        },
         "profile": {
             "form": {
                 "alert": {
@@ -709,8 +717,10 @@
         "settings": "Settings",
         "tabs": {
             "company": "Company",
+            "licenseOverview": "License overview",
             "profile": "Profile",
-            "storage": "Storage"
+            "storage": "Storage",
+            "subscription": "Subscription"
         }
     },
     "show": "Show",
