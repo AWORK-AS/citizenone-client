@@ -39,7 +39,6 @@
         "readMore": "Read more",
         "apps": "Apps"
     },
-    "archive": "Archive",
     "back": "Back",
     "bulletBoard": {
         "bulletBoard": "Bullet board",
@@ -101,6 +100,7 @@
         "alert": {
             "citizenSuccessfullyArchived": "Citizen successfully archived"
         },
+        "archiveCitizen": "Archive citizen",
         "attendance": {
             "protocol": "Protocol"
         },

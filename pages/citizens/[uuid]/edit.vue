@@ -17,7 +17,7 @@
                     <div class="max-w-3xl flex justify-end">
                         <FormButton type="button" buttonStyle="danger" class="rounded-md"
                             @click="confirmCitizenArchiving">
-                            {{ $t('archive') }}
+                            {{ $t('citizens.archiveCitizen') }}
                         </FormButton>
                     </div>
                     <ModulesCitizenDetailsForm formType="update" :selectedCitizen="state.formCitizen"

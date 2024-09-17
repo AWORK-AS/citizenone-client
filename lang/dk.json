@@ -39,7 +39,6 @@
         "readMore": "Læs mere",
         "apps": "Apps"
     },
-    "archive": "Arkiv",
     "back": "Tilbage",
     "bulletBoard": {
         "bulletBoard": "Opslagstavle",
@@ -101,6 +100,7 @@
         "alert": {
             "citizenSuccessfullyArchived": "Borger arkiveret med succes"
         },
+        "archiveCitizen": "Arkiver borger",
         "attendance": {
             "protocol": "Protokol"
         },
