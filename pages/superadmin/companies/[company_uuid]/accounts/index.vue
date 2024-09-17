@@ -14,7 +14,10 @@
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
-                <div class="flex justify-end items-center mb-5">
+
+                <ModulesSuperadminCompanyTab />
+
+                <div class="flex justify-end items-center my-5">
                     <FormButton buttonStyle="action" class="rounded-lg"
                         @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/new`)">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -205,7 +208,7 @@ function confirmAccountDeletion(account: any) {
 
 async function deleteAccount() {
     state.error = {}
-    state.isPageLoading = true
+    state.isTableLoading = true
     try {
         const response = await accountService.deleteAccount(state.selectedAccount.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
@@ -215,6 +218,6 @@ async function deleteAccount() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
+    state.isTableLoading = false
 }
 </script>

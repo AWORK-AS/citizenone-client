@@ -788,6 +788,14 @@
                 "phone": "Phone",
                 "website": "Website"
             },
+            "licenseOverview": {
+                "licenses": "Licenses",
+                "licenseOverview": "License overview",
+                "table": {
+                    "license": "License",
+                    "user": "User"
+                }
+            },
             "newCompany": "New company",
             "table": {
                 "actions": {
@@ -802,6 +810,10 @@
                 "name": "Name",
                 "status": "Status",
                 "website": "Website"
+            },
+            "tabs": {
+                "accounts": "Accounts",
+                "licenseOverview": "License overview"
             }
         },
         "polls": {

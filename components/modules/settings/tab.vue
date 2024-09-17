@@ -3,16 +3,10 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 
-interface Role {
-    name: string
-}
-
-interface User {
-    roles: Role[]
-}
-
+const { t } = useI18n()
 const userStore = useUserStore()
 const router = useRouter()
 
@@ -24,9 +18,9 @@ const state = reactive({
     ]
 })
 
-watch(() => userStore.getUser, (newValue: User | null) => {
+watch(() => userStore.getUser, (newValue: any) => {
     if (newValue != null) {
-        const hasAdmin = newValue.roles.some((role: Role) => role.name === 'Admin')
+        const hasAdmin = newValue.roles.some((role: any) => role.name === 'Admin')
         if (hasAdmin) {
             state.tabs = [
                 {
@@ -60,14 +54,17 @@ watch(() => userStore.getUser, (newValue: User | null) => {
 })
 
 function changeTab(value: any) {
-    if (value === 'Profile') {
+    if (value === t('settings.tabs.profile')) {
         navigateTo(`/settings/profile`)
     }
-    else if (value === 'Company') {
+    else if (value === t('settings.tabs.company')) {
         navigateTo(`/settings/company`)
     }
-    else if (value === 'Storage') {
+    else if (value === t('settings.tabs.storage')) {
         navigateTo(`/settings/storage`)
+    }
+    else if (value === t('settings.tabs.licenseOverview')) {
+        navigateTo(`/settings/license-overview`)
     }
 }
 </script>

@@ -788,6 +788,14 @@
                 "phone": "Telefon",
                 "website": "Websted"
             },
+            "licenseOverview": {
+                "licenses": "Licenser",
+                "licenseOverview": "Licensoversigt",
+                "table": {
+                    "license": "Licens",
+                    "user": "Bruger"
+                }
+            },
             "newCompany": "Ny virksomhed",
             "table": {
                 "actions": {
@@ -802,6 +810,10 @@
                 "name": "Navn",
                 "status": "Status",
                 "website": "Websted"
+            },
+            "tabs": {
+                "accounts": "Kontoer",
+                "licenseOverview": "Licensoversigt"
             }
         },
         "polls": {
