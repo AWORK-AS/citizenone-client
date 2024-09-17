@@ -744,15 +744,18 @@
             "form": {
                 "active": "Aktiv",
                 "alert": {
-                    "newCompanySuccessfullySaved": "Ny virksomhed er gemt",
-                    "companySuccessfullyActivated": "Virksomheden er aktiveret",
-                    "companySuccessfullyDeactivated": "Virksomheden er deaktiveret",
-                    "companySuccessfullyUpdated": "Virksomheden er opdateret"
+                    "newCompanySuccessfullySaved": "Ny virksomhed er gemt med succes",
+                    "companySuccessfullyActivated": "Virksomheden er aktiveret med succes",
+                    "companySuccessfullyDeactivated": "Virksomheden er deaktiveret med succes",
+                    "companySuccessfullyUpdated": "Virksomheden er opdateret med succes"
                 },
                 "cvr": "CVR",
+                "companyName": "Firmanavn",
                 "inactive": "Inaktiv",
-                "name": "Navn",
-                "status": "Status",
+                "firstname": "Fornavn",
+                "lastname": "Efternavn",
+                "emailAddress": "E-mailadresse",
+                "phone": "Telefon",
                 "website": "Websted"
             },
             "newCompany": "Ny virksomhed",

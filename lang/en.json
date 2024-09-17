@@ -750,9 +750,12 @@
                     "companySuccessfullyUpdated": "Company successfully updated"
                 },
                 "cvr": "CVR",
+                "companyName": "Company name",
                 "inactive": "Inactive",
-                "name": "Name",
-                "status": "Status",
+                "firstname": "First name",
+                "lastname": "Last name",
+                "emailAddress": "Email address",
+                "phone": "Phone",
                 "website": "Website"
             },
             "newCompany": "New company",
