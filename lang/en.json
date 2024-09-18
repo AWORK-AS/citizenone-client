@@ -715,9 +715,13 @@
             }
         },
         "settings": "Settings",
+        "subscription": {
+            "subscription": "Subscription"
+        },
         "tabs": {
             "company": "Company",
             "licenseOverview": "License overview",
+            "licenseOverviewPlusSubscription": "License overview + Subscription",
             "profile": "Profile",
             "storage": "Storage",
             "subscription": "Subscription"
@@ -797,6 +801,23 @@
                 }
             },
             "newCompany": "New company",
+            "subscriptions": {
+                "deal": {
+                    "department": "Department",
+                    "departments": "departments",
+                    "goodForTheSmallerSocialOffer": "Good for the smaller social offer",
+                    "month": "Month",
+                    "perfectForTheLargerSocialOffer": "Perfect for the larger social offer",
+                    "storageSpace": "Storage space",
+                    "user": "User",
+                    "users": "Users",
+                    "year": "Year"
+                },
+                "noSubscription": {
+                    "itLooksLikeThisCompanyDontHaveAnActiveSubscriptionAtTheMoment": "It looks like this company don't have an active subscription at the moment",
+                    "noActiveSubscription": "No Active Subscription"
+                }
+            },
             "table": {
                 "actions": {
                     "activate": "Activate",
@@ -813,7 +834,8 @@
             },
             "tabs": {
                 "accounts": "Accounts",
-                "licenseOverview": "License overview"
+                "licenseOverview": "License overview",
+                "licenseOverviewPlusSubscription": "License overview + Subscription"
             }
         },
         "polls": {

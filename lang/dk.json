@@ -715,9 +715,13 @@
             }
         },
         "settings": "Indstillinger",
+        "subscription": {
+            "subscription": "Abonnement"
+        },
         "tabs": {
             "company": "Virksomhed",
             "licenseOverview": "Licensoversigt",
+            "licenseOverviewPlusSubscription": "Licensoversigt + Abonnement",
             "profile": "Profil",
             "storage": "Lager",
             "subscription": "Abonnement"
@@ -797,6 +801,23 @@
                 }
             },
             "newCompany": "Ny virksomhed",
+            "subscriptions": {
+                "deal": {
+                    "department": "Afdeling",
+                    "departments": "Afdelinger",
+                    "goodForTheSmallerSocialOffer": "God til det mindre sociale tilbud",
+                    "month": "Måned",
+                    "perfectForTheLargerSocialOffer": "Perfekt til det større sociale tilbud",
+                    "storageSpace": "lagerplads",
+                    "user": "Bruger",
+                    "users": "Brugere",
+                    "year": "År"
+                },
+                "noSubscription": {
+                    "itLooksLikeThisCompanyDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ud til, at denne virksomhed ikke har et aktivt abonnement i øjeblikket",
+                    "noActiveSubscription": "Ingen aktivt abonnement"
+                }
+            },
             "table": {
                 "actions": {
                     "activate": "Aktivér",
@@ -813,7 +834,8 @@
             },
             "tabs": {
                 "accounts": "Kontoer",
-                "licenseOverview": "Licensoversigt"
+                "licenseOverview": "Licensoversigt",
+                "licenseOverviewPlusSubscription": "Licensoversigt + Abonnement"
             }
         },
         "polls": {

@@ -55,8 +55,8 @@
                             <p class="mt-4 flex items-baseline gap-x-2">
                                 <span class="text-3xl font-bold tracking-tight text-gray-900">
                                     {{ userStore.getUser?.user_subscription?.type === 'monthly' ?
-                                        formatAmount(userStore.getUser?.user_subscription?.deal?.monthly_price) :
-                                        formatAmount(userStore.getUser?.user_subscription?.deal?.yearly_price) }}
+                                        formatAmount(userStore.getUser?.user_subscription?.deal?.monthly_price ?? 0) :
+                                        formatAmount(userStore.getUser?.user_subscription?.deal?.yearly_price ?? 0) }}
                                 </span>
                                 <span class="text-base text-gray-500 lowercase">
                                     /{{ userStore.getUser?.user_subscription?.type === 'monthly' ?

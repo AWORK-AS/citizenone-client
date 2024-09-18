@@ -14,7 +14,7 @@ const state = reactive({
     tabs: [
         { name: 'settings.tabs.profile', href: `/settings/profile`, routeName: 'settings-profile' },
         { name: 'settings.tabs.storage', href: `/settings/storage`, routeName: 'settings-storage' },
-        { name: 'settings.tabs.licenseOverview', href: `/settings/license-overview`, routeName: 'setttings-license-overview' },
+        { name: 'settings.tabs.licenseOverviewPlusSubscription', href: `/settings/license-overview`, routeName: 'setttings-license-overview' },
     ]
 })
 
@@ -39,7 +39,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                     routeName: 'settings-storage'
                 },
                 {
-                    name: 'settings.tabs.licenseOverview',
+                    name: 'settings.tabs.licenseOverviewPlusSubscription',
                     href: `/settings/license-overview`,
                     routeName: 'settings-license-overview'
                 }
@@ -63,7 +63,7 @@ function changeTab(value: any) {
     else if (value === t('settings.tabs.storage')) {
         navigateTo(`/settings/storage`)
     }
-    else if (value === t('settings.tabs.licenseOverview')) {
+    else if (value === t('settings.tabs.licenseOverviewPlusSubscription')) {
         navigateTo(`/settings/license-overview`)
     }
 }
