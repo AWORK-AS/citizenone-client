@@ -51,7 +51,7 @@
                 <div v-if="state.deals?.data?.length === 1 && !state.isDealsHidden">
                     <div class="isolate mx-auto mt-10 grid max-w-md">
                         <div v-for="(deal, index) in state.deals?.data" :key="index"
-                            class="ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
+                            class="ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
                             <div class="flex items-center justify-between gap-x-4">
                                 <h3 :id="deal.id" class="text-base font-semibold leading-7 text-tertiary">
                                     {{ deal.name }}
@@ -146,7 +146,7 @@
                     <div
                         class="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
                         <div v-for="(deal, index) in state.deals?.data" :key="index"
-                            :class="[index === 1 ? 'relative bg-tertiary shadow-2xl' : 'bg-white/60 sm:mx-8 lg:mx-0', index === 1 ? '' : index === 0 ? 'rounded-t-3xl sm:rounded-b-none lg:rounded-bl-3xl lg:rounded-tr-none' : 'sm:rounded-t-none lg:rounded-bl-none lg:rounded-tr-3xl', 'rounded-3xl p-8 ring-1 ring-gray-900/10 sm:p-10']">
+                            :class="[index === 1 ? 'relative bg-tertiary shadow-2xl' : 'bg-white/60 sm:mx-8 lg:mx-0', index === 1 ? '' : index === 0 ? 'rounded-t-3xl sm:rounded-b-none lg:rounded-bl-3xl lg:rounded-tr-none' : 'sm:rounded-t-none lg:rounded-bl-none lg:rounded-tr-3xl', 'rounded-md p-8 ring-1 ring-gray-900/10 sm:p-10']">
                             <h3 :id="deal.id"
                                 :class="[index === 1 ? 'text-white' : 'text-tertiary', 'text-base font-semibold leading-7']">
                                 {{ deal.name }}
@@ -242,7 +242,7 @@
                     <div
                         class="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                         <div v-for="(deal, index) in state.deals?.data" :key="index"
-                            class="ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
+                            class="ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
                             <div class="flex items-center justify-between gap-x-4">
                                 <h3 :id="deal.id" class="text-base font-semibold leading-7 text-tertiary">
                                     {{ deal.name }}

@@ -23,7 +23,7 @@
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <div v-if="state?.subscriptions?.data?.length === 0">
                             <div class="isolate mx-auto mt-10 grid max-w-lg">
-                                <div class="bg-white ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
+                                <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
                                     <h3 class="text-xl font-semibold leading-7">
                                         {{
                                             $t('superadmin.companies.subscriptions.noSubscription.noActiveSubscription')
@@ -44,7 +44,7 @@
                                     <h3 class="py-3 text-sm font-semibold">
                                         {{ $t('subscription.currentSubscription') }}
                                     </h3>
-                                    <div class="bg-white ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
+                                    <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
                                         <div class="flex items-center justify-between gap-x-4">
                                             <h3 class="text-base font-semibold leading-7 text-tertiary">
                                                 {{ state?.subscriptions?.data?.deal?.name }}
@@ -115,7 +115,7 @@
                                         <h3 class="py-3 text-sm font-semibold">
                                             {{ $t('settings.licenseOverview.licenses') }}
                                         </h3>
-                                        <div class="bg-white ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
+                                        <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
                                             <TableSearch :columnFilter="state.columnFilter"
                                                 :dataFilter="state.dataFilter" @handleFilter="handleFilter" />
                                             <div class="table-responsive">
