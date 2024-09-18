@@ -394,6 +394,7 @@
         },
         "confirmation": {
             "deletePermanentlyConfirmation": "Er du sikker på, at du vil slette denne medarbejder permanent",
+            "rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years": "Husk, at du skal opbevare medarbejderoplysninger i 5 år",
             "thisCantBeUndone": "Dette kan ikke fortrydes"
         },
         "deleteEmployee": "Slet medarbejder",

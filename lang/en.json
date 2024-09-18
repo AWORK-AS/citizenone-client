@@ -394,6 +394,7 @@
         },
         "confirmation": {
             "deletePermanentlyConfirmation": "Are you sure you want to delete this employee permanently",
+            "rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years": "Remember that you must hold employee information for a history of 5 years",
             "thisCantBeUndone": "This can't be undone"
         },
         "deleteEmployee": "Delete employee",

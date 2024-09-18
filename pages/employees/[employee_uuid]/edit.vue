@@ -24,8 +24,9 @@
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateEmployee" />
                 </LoadingSpinner>
             </div>
-            <DialogConfirmation :isModalOpen="state.modal.isDeleteEmployeeOpen"
-                :message="$t('employees.confirmation.deletePermanentlyConfirmation') + '? ' + $t('employees.confirmation.thisCantBeUndone') + '.'"
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteEmployeeOpen" :message="$t('employees.confirmation.deletePermanentlyConfirmation') + '? ' +
+                $t('employees.confirmation.thisCantBeUndone') + '. ' +
+                $t('employees.confirmation.rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years') + '.'"
                 @close="state.modal.isDeleteEmployeeOpen = false" @confirm="deleteEmployee" />
         </NuxtLayout>
     </div>
