@@ -390,9 +390,12 @@
     },
     "employees": {
         "alert": {
+            "employeeSuccessfullyArchived": "Medarbejder arkiveret med succes",
             "employeeSuccessfullyDeleted": "Medarbejder slettet med succes"
         },
+        "archiveEmployee": "Arkiver medarbejder",
         "confirmation": {
+            "archiveConfirmation": "Er du sikker på, at du vil arkivere denne medarbejder",
             "deletePermanentlyConfirmation": "Er du sikker på, at du vil slette denne medarbejder permanent",
             "rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years": "Husk, at du skal opbevare medarbejderoplysninger i 5 år",
             "thisCantBeUndone": "Dette kan ikke fortrydes"

@@ -14,16 +14,27 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="flex justify-end">
-                        <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                            @click="confirmEmployeeDeletion">
-                            {{ $t('employees.deleteEmployee') }}
-                        </FormButton>
+                    <div class="flex gap-x-3 justify-end">
+                        <div class="flex justify-end">
+                            <FormButton type="button" buttonStyle="warning" class="rounded-md"
+                                @click="confirmCitizenArchiving">
+                                {{ $t('employees.archiveEmployee') }}
+                            </FormButton>
+                        </div>
+                        <div class="flex justify-end">
+                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                @click="confirmEmployeeDeletion">
+                                {{ $t('employees.deleteEmployee') }}
+                            </FormButton>
+                        </div>
                     </div>
                     <ModulesEmployeeForm formType="update" :selectedEmployee="state.formEmployee" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateEmployee" />
                 </LoadingSpinner>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isArchiveEmployeeOpen"
+                :message="$t('employees.confirmation.archiveConfirmation') + '?'"
+                @close="state.modal.isArchiveEmployeeOpen = false" @confirm="archiveEmployee" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteEmployeeOpen" :message="$t('employees.confirmation.deletePermanentlyConfirmation') + '? ' +
                 $t('employees.confirmation.thisCantBeUndone') + '. ' +
                 $t('employees.confirmation.rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years') + '.'"
@@ -74,6 +85,7 @@ const state = reactive({
     } as EmployeeForm,
     isPageLoading: false,
     modal: {
+        isArchiveEmployeeOpen: false,
         isDeleteEmployeeOpen: false,
     },
 })
@@ -175,8 +187,27 @@ async function updateEmployee(employeeDetails: any) {
     state.isPageLoading = false
 }
 
+function confirmCitizenArchiving() {
+    state.modal.isArchiveEmployeeOpen = true
+}
+
 function confirmEmployeeDeletion() {
     state.modal.isDeleteEmployeeOpen = true
+}
+
+async function archiveEmployee() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await employeeService.archiveEmployee(employeeUuid)
+        if (response.data) {
+            successAlert(`${t('alert.success')}!`, `${t('employees.alert.employeeSuccessfullyArchived')}.`)
+            navigateTo('/employees')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function deleteEmployee() {

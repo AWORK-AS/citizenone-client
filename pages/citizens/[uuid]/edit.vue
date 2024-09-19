@@ -15,7 +15,7 @@
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="max-w-3xl flex justify-end">
-                        <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                        <FormButton type="button" buttonStyle="warning" class="rounded-md"
                             @click="confirmCitizenArchiving">
                             {{ $t('citizens.archiveCitizen') }}
                         </FormButton>
