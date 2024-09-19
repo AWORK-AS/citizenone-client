@@ -177,18 +177,16 @@
                     </div>
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5">
-                            <FormLabel for="departments" :label="$t('employees.form.department')" />
+                            <FormLabel for="job_id" :label="$t('employees.form.employment.jobTitle')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                                @click="state.modal.isAddDepartmentOpen = true">
-                                {{ $t('departments.addNewDepartment') }}
+                                @click="state.modal.isAddJobTitleOpen = true">
+                                {{ $t('jobTitles.addNewJobTitle') }}
                             </span>
                         </div>
-                        <FormLabel for="job_title" :label="$t('employees.form.employment.jobTitle')" />
-                        <FormTextField id="job_title" name="job_title"
-                            :placeholder="$t('employees.form.employment.jobTitle')"
-                            v-model="state.formEmployee.employment.job_title" />
-                        <FormError :error="v$?.formEmployee?.employment?.job_title?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.job_title?.[0]" />
+                        <FormSelectMultiple id="job_id" :options="state.options.jobTitles"
+                            v-model="state.formEmployee.employment.job_id" />
+                        <FormError :error="v$?.formEmployee?.employment?.job_id?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.employment?.job_id?.[0]" />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -363,11 +361,14 @@
         </div>
         <ModulesDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
             @close="state.modal.isAddDepartmentOpen = false" @refreshDepartment="fetchDepartments" />
+        <ModulesJobTitleModalNew :isModalOpen="state.modal.isAddJobTitleOpen"
+            @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitle="fetchJobTitles" />
     </form>
 </template>
 
 <script setup lang="ts">
 import { departmentService } from '@/components/api/DepartmentService'
+import { jobTitleService } from '@/components/api/JobTitleService'
 import { regionService } from '@/components/api/RegionService'
 import { municipalityService } from '@/components/api/MunicipalityService'
 import { cityService } from '@/components/api/CityService'
@@ -415,7 +416,7 @@ const state = reactive({
         permissions: [],
         employment: {
             employment_date: '',
-            job_title: '',
+            job_id: [],
             working_hours: '',
             employment_status: '',
         },
@@ -425,7 +426,8 @@ const state = reactive({
         },
     } as EmployeeForm,
     modal: {
-        isAddDepartmentOpen: false
+        isAddDepartmentOpen: false,
+        isAddJobTitleOpen: false,
     },
     permissions: {
         read: false,
@@ -441,6 +443,7 @@ const state = reactive({
             { value: 'temporary', label: 'Temporary' },
             { value: 'substitute', label: 'Substitute' },
         ],
+        jobTitles: [],
         municipalities: [],
         regions: [],
         roleOptions: [
@@ -480,7 +483,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             },
             employment: {
                 employment_date: newValue.employment.employment_date,
-                job_title: newValue.employment.job_title,
+                job_id: newValue.employment.job_id,
                 working_hours: newValue.employment.working_hours,
                 employment_status: newValue.employment.employment_status,
             }
@@ -541,20 +544,20 @@ const rules = computed(() => {
             role: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            // employment: {
-            //     employment_date: {
-            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-            //     },
-            //     job_title: {
-            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-            //     },
-            //     working_hours: {
-            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-            //     },
-            //     employment_status: {
-            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-            //     },
-            // }
+            employment: {
+                employment_date: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
+                },
+                job_id: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
+                },
+                working_hours: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
+                },
+                employment_status: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
+                },
+            }
         },
     }
 })
@@ -563,6 +566,7 @@ const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
     fetchDepartments()
+    fetchJobTitles()
     fetchRegions()
 })
 
@@ -623,6 +627,27 @@ async function fetchDepartments() {
                 })
             )
             state.options.departments = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchJobTitles() {
+    emit('isPageLoading', true)
+    state.error = {}
+    try {
+        const response = await jobTitleService.getAllJobTitles()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.id,
+                    label: item.title,
+                })
+            )
+            state.options.jobTitles = options
         }
     } catch (error: any) {
         state.error = error
