@@ -380,6 +380,47 @@
         "noScheduleFound": "No schedule found",
         "typeofShift": "Type of shift",
         "typeofShifts": "Type of shifts",
+        "scheduleSlots": {
+            "alert": {
+                "scheduleSlotSuccessfullyDeleted": "Schedule slot successfully deleted"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this schedule slot"
+            },
+            "editScheduleSlot": "Edit schedule slot",
+            "form": {
+                "alert": {
+                    "scheduleSlotSuccessfullyAdded": "Schedule slot successfully added",
+                    "scheduleSlotSuccessfullyUpdated": "Schedule slot successfully updated"
+                },
+                "availableSlots": "Available slots",
+                "date": "Date",
+                "jobTitle": "Job title",
+                "shiftType": "Shift type",
+                "status": "Status",
+                "timeIn": "Time in",
+                "timeOut": "Time out",
+                "workingHours": "Working hours"
+            },
+            "newScheduleSlot": "New schedule slot",
+            "scheduleSlots": "Schedule slots",
+            "table": {
+                "active": "Active",
+                "action": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "availableSlots": "Available slots",
+                "date": "Date",
+                "inactive": "Inactive",
+                "jobTitle": "Job title",
+                "shiftType": "Shift type",
+                "status": "Status",
+                "timeIn": "Time in",
+                "timeOut": "Time out",
+                "workingHours": "Working hours"
+            }
+        },
         "shifts": {
             "nightShift": "Night shift",
             "regularShift": "Regular shift",

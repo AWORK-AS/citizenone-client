@@ -380,6 +380,47 @@
         "noScheduleFound": "Ingen tidsplan fundet",
         "typeofShift": "Vagttyper",
         "typeofShifts": "Vagttyper",
+        "scheduleSlots": {
+            "alert": {
+                "scheduleSlotSuccessfullyDeleted": "Tidspunkt slettet med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette dette tidspunkt?"
+            },
+            "editScheduleSlot": "Rediger tidspunkt",
+            "form": {
+                "active": "Aktiv",
+                "alert": {
+                    "scheduleSlotSuccessfullyAdded": "Tidspunkt tilføjet med succes",
+                    "scheduleSlotSuccessfullyUpdated": "Tidspunkt opdateret med succes"
+                },
+                "availableSlots": "Tilgængelige tider",
+                "date": "Dato",
+                "inactive": "Inaktiv",
+                "jobTitle": "Jobtitel",
+                "shiftType": "Vagttype",
+                "status": "Status",
+                "timeIn": "Tid ind",
+                "timeOut": "Tid ud",
+                "workingHours": "Arbejdstimer"
+            },
+            "newScheduleSlot": "Nyt tidspunkt",
+            "scheduleSlots": "Tidspunkter",
+            "table": {
+                "action": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "availableSlots": "Tilgængelige tider",
+                "date": "Dato",
+                "jobTitle": "Jobtitel",
+                "shiftType": "Vagttype",
+                "status": "Status",
+                "timeIn": "Tid ind",
+                "timeOut": "Tid ud",
+                "workingHours": "Arbejdstimer"
+            }
+        },
         "shifts": {
             "nightShift": "Nattevagt",
             "regularShift": "Almindelig vagt",

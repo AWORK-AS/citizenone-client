@@ -70,7 +70,7 @@
                                 <button v-for="day in weekDays" :key="day.date" type="button"
                                     class="flex flex-col items-center pb-3 pt-2" @click="setSelectedDay(day)">
                                     <span v-if="day.longName === 'Mon'">
-                                        {{ $t('calendar.week.oneLetter.Monday') }}
+                                        {{ $t('calendar.week.oneLetter.Monday') }}asdasd
                                     </span>
                                     <span v-if="day.longName === 'Tue'">
                                         {{ $t('calendar.week.oneLetter.Tuesday') }}
@@ -115,7 +115,8 @@
                                         </div>
                                     </div>
                                     <div v-for="day in weekDays" :key="day.date"
-                                        class="flex items-center justify-center py-4 border-0.5">
+                                        class="flex items-center justify-center py-4 border-0.5 cursor-pointer hover:bg-gray-200"
+                                        @click="openManageScheduleSlotModal(day)">
                                         <span class="flex gap-x-1 text-sm">
                                             <span v-if="day.longName === 'Mon'">
                                                 {{ $t('calendar.week.short.Monday') }}
@@ -353,6 +354,9 @@
             </div>
             <ModulesDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift" />
+            <ModulesDutyScheduleScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
+                :selectedDay="state.manageScheduleSlot.selectedDay"
+                @close="state.modal.isManageScheduleSlotOpen = false" />
         </LoadingSpinner>
     </div>
 </template>
@@ -379,8 +383,12 @@ const state = reactive({
     employees: [] as any,
     error: {} as Error,
     isPageLoading: false,
+    manageScheduleSlot: {
+        selectedDay: [],
+    },
     modal: {
-        isAddShiftOpen: false
+        isAddShiftOpen: false,
+        isManageScheduleSlotOpen: false,
     } as any,
     progress: {
         percentage: 100,
@@ -477,6 +485,11 @@ function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: any, week:
         weekIndex: weekIndex,
         ...week
     }
+}
+
+function openManageScheduleSlotModal(day: any) {
+    state.manageScheduleSlot.selectedDay = day
+    state.modal.isManageScheduleSlotOpen = true
 }
 
 async function saveShift(shiftDetails: any) {
