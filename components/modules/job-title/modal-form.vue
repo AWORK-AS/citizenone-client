@@ -3,11 +3,11 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-1">
-            <FormLabel for="name" :label="$t('jobTitles.form.name')" />
-            <FormTextField id="name" name="name" :placeholder="$t('jobTitles.form.name')"
-                v-model="state.formJobTitle.name" />
-            <FormError :error="v$?.formJobTitle?.name?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.name?.[0]" />
+            <FormLabel for="title" :label="$t('jobTitles.form.title')" />
+            <FormTextField id="title" name="title" :placeholder="$t('jobTitles.form.title')"
+                v-model="state.formJobTitle.title" />
+            <FormError :error="v$?.formJobTitle?.title?.$errors[0]?.$message.toString()" />
+            <FormError :error="props?.error?.errors?.title?.[0]" />
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -50,14 +50,14 @@ const { t } = useI18n()
 const state = reactive({
     error: {} as Error,
     formJobTitle: {
-        name: '',
+        title: '',
     },
 })
 
 watch(() => props.selectedJobTitle, (newValue: any) => {
     if (newValue != null) {
         state.formJobTitle = {
-            name: newValue.name,
+            title: newValue.title,
         }
     }
 })
@@ -65,7 +65,7 @@ watch(() => props.selectedJobTitle, (newValue: any) => {
 const rules = computed(() => {
     return {
         formJobTitle: {
-            name: {
+            title: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },

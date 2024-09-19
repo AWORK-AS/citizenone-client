@@ -26,12 +26,12 @@
                             <template #body v-if="!(state.isTableLoading || (state.jobTitles?.data?.length === 0))">
                                 <tr v-for="(jobTitle, index) in state.jobTitles?.data" :key="index">
                                     <td width="50%">
-                                        <span>{{ jobTitle?.name }}</span>
+                                        <span>{{ jobTitle?.title }}</span>
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/jobTitles/edit/${jobTitle.uuid}`)">
+                                                @click="navigateTo(`/job-titles/edit/${jobTitle.uuid}`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('jobTitles.table.actions.edit') }}
                                             </FormButton>
@@ -57,10 +57,10 @@ let currentTablePage = 1
 
 const state = reactive({
     columnFilter: [
-        { column: 'name' },
+        { column: 'title' },
     ],
     columnHeaders: [
-        { name: 'jobTitles.table.name', sorter: true, key: 'name' },
+        { name: 'jobTitles.table.title', sorter: true, key: 'title' },
         { name: '' },
     ],
     dataFilter: [],

@@ -3,8 +3,8 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-1">
-            <FormLabel for="name" :label="$t('jobTitles.form.name')" />
-            <FormTextField id="name" name="name" :placeholder="$t('jobTitles.form.name')"
+            <FormLabel for="title" :label="$t('jobTitles.form.title')" />
+            <FormTextField id="title" name="title" :placeholder="$t('jobTitles.form.title')"
                 v-model="state.formJobTitle.title" />
             <FormError :error="v$?.formJobTitle?.title?.$errors[0]?.$message.toString()" />
             <FormError :error="props?.error?.errors?.title?.[0]" />

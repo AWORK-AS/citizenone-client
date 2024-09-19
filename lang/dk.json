@@ -507,14 +507,14 @@
                 "jobTitleSuccessfullyUpdated": "Jobtitel opdateret med succes",
                 "newJobTitleSuccessfullySaved": "Ny jobtitel gemt med succes"
             },
-            "name": "Navn"
+            "title": "Titel"
         },
         "newJobTitle": "Jobtitel",
         "table": {
             "actions": {
                 "edit": "Rediger"
             },
-            "name": "Navn"
+            "title": "Titel"
         }
     },
     "journalNotifications": {

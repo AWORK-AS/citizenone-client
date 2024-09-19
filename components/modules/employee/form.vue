@@ -176,6 +176,13 @@
                         <FormError :error="props?.error?.errors?.employment_date?.[0]" />
                     </div>
                     <div class="space-y-1">
+                        <div class="flex justify-between items-center py-0.5">
+                            <FormLabel for="departments" :label="$t('employees.form.department')" />
+                            <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                @click="state.modal.isAddDepartmentOpen = true">
+                                {{ $t('departments.addNewDepartment') }}
+                            </span>
+                        </div>
                         <FormLabel for="job_title" :label="$t('employees.form.employment.jobTitle')" />
                         <FormTextField id="job_title" name="job_title"
                             :placeholder="$t('employees.form.employment.jobTitle')"

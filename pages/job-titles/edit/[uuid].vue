@@ -9,7 +9,7 @@
             <template #header>{{ $t('jobTitles.editJobTitle') }}</template>
 
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/jobTitles">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/job-titles">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>

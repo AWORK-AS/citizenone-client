@@ -32,7 +32,7 @@ const emit = defineEmits(['close', 'refreshJobTitle'])
 const state = reactive({
     error: {} as Error,
     formJobTitle: {
-        name: '',
+        title: '',
     },
     isPageLoading: false,
 })
@@ -50,7 +50,7 @@ async function saveJobTitle(jobTitleDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
-            name: jobTitleDetails.name,
+            title: jobTitleDetails.title,
         }
         const response = await jobTitleService.saveJobTitle(params)
         if (response.data) {

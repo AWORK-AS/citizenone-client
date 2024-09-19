@@ -507,14 +507,14 @@
                 "jobTitleSuccessfullyUpdated": "Job title successfully updated",
                 "newJobTitleSuccessfullySaved": "New job title successfully saved"
             },
-            "name": "Name"
+            "title": "Title"
         },
         "newJobTitle": "Job title",
         "table": {
             "actions": {
                 "edit": "Edit"
             },
-            "name": "Name"
+            "title": "Title"
         }
     },
     "journalNotifications": {
