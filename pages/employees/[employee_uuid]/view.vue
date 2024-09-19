@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="space-y-1">
                                     <Label :label="$t('employees.form.birthday')" />
-                                    <p class="font-medium">
+                                    <p class="font-medium" v-if="state.selectedEmployee.birthday">
                                         {{ formatDateToReadable(state.selectedEmployee.birthday) }}
                                     </p>
                                 </div>
@@ -55,7 +55,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <div class="space-y-1">
                                     <Label :label="$t('employees.form.department')" />
-                                    <p class="font-medium">
+                                    <p class="font-medium" v-if="state.selectedEmployee?.departments?.length > 0">
                                         {{ state.selectedEmployee?.departments }}
                                     </p>
                                 </div>
@@ -102,7 +102,7 @@
                             </div>
                             <div class="space-y-1">
                                 <Label :label="$t('employees.form.permissions.permissions')" />
-                                <p class="font-medium">
+                                <p class="font-medium" v-if="state.selectedEmployee?.permissions?.length > 0">
                                     {{ state.selectedEmployee?.permissions }}
                                 </p>
                             </div>
@@ -165,7 +165,11 @@
                                     {{ $t('employees.form.emergencyInfo.trustees') }}
                                 </p>
                                 <div class="mt-5">
-                                    <div class="space-y-6">
+                                    <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:px-8 sm:py-10"
+                                        v-if="state.selectedEmployee.emergencyInfo.trustees?.length === 0">
+                                        <p class="text-center text-sm">{{ $t('theresNoDataAvailableToDisplay') }}</p>
+                                    </div>
+                                    <div class="space-y-6" v-else>
                                         <div v-for="(trustee, index) in state.selectedEmployee.emergencyInfo.trustees"
                                             :key="index">
                                             <div
@@ -198,7 +202,11 @@
                                     {{ $t('employees.form.emergencyInfo.emergencyContacts') }}
                                 </p>
                                 <div class="mt-5">
-                                    <div class="space-y-6">
+                                    <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:px-8 sm:py-10"
+                                        v-if="state.selectedEmployee.emergencyInfo.emergency_contacts?.length === 0">
+                                        <p class="text-center text-sm">{{ $t('theresNoDataAvailableToDisplay') }}</p>
+                                    </div>
+                                    <div class="space-y-6" v-else>
                                         <div v-for="(emergency_contact, index) in state.selectedEmployee.emergencyInfo.emergency_contacts"
                                             :key="index">
                                             <div
@@ -320,7 +328,7 @@ async function fetchEmployee() {
                 permissions: concatenatedPermissions,
                 employment: {
                     employment_date: response?.data?.employee_detail?.date_of_employment,
-                    job_title: response?.data?.employee_detail?.job_title,
+                    job_title: response?.data?.employee_detail?.job?.title,
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
                 },

@@ -183,7 +183,7 @@
                                 {{ $t('jobTitles.addNewJobTitle') }}
                             </span>
                         </div>
-                        <FormSelectMultiple id="job_id" :options="state.options.jobTitles"
+                        <FormSelect id="job_id" :options="state.options.jobTitles"
                             v-model="state.formEmployee.employment.job_id" />
                         <FormError :error="v$?.formEmployee?.employment?.job_id?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.employment?.job_id?.[0]" />
