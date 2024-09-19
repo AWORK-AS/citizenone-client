@@ -1,17 +1,17 @@
 <template>
-    <form @submit.prevent="submitForm()" class="max-w-xl">
+    <form @submit.prevent="submitForm()" class="mt-6 max-w-xl">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-1">
-            <FormLabel for="name" :label="$t('departments.form.name')" />
-            <FormTextField id="name" name="name" :placeholder="$t('departments.form.name')"
-                v-model="state.formDepartment.name" />
-            <FormError :error="v$?.formDepartment?.name?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.name?.[0]" />
+            <FormLabel for="name" :label="$t('jobTitles.form.name')" />
+            <FormTextField id="name" name="name" :placeholder="$t('jobTitles.form.name')"
+                v-model="state.formJobTitle.title" />
+            <FormError :error="v$?.formJobTitle?.title?.$errors[0]?.$message.toString()" />
+            <FormError :error="props?.error?.errors?.title?.[0]" />
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="navigateTo('/job-titles')">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md">
@@ -38,34 +38,34 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedDepartment: {
+    selectedJobTitle: {
         type: Object,
         required: false,
     },
 })
-const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
+const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
-    formDepartment: {
-        name: '',
+    formJobTitle: {
+        title: '',
     },
 })
 
-watch(() => props.selectedDepartment, (newValue: any) => {
+watch(() => props.selectedJobTitle, (newValue: any) => {
     if (newValue != null) {
-        state.formDepartment = {
-            name: newValue.name,
+        state.formJobTitle = {
+            title: newValue.title,
         }
     }
 })
 
 const rules = computed(() => {
     return {
-        formDepartment: {
-            name: {
+        formJobTitle: {
+            title: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
@@ -78,7 +78,7 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formDepartment)
+        emit('submitForm', state.formJobTitle)
     }
 }
 </script>

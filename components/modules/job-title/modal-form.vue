@@ -3,10 +3,10 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-1">
-            <FormLabel for="name" :label="$t('departments.form.name')" />
-            <FormTextField id="name" name="name" :placeholder="$t('departments.form.name')"
-                v-model="state.formDepartment.name" />
-            <FormError :error="v$?.formDepartment?.name?.$errors[0]?.$message.toString()" />
+            <FormLabel for="name" :label="$t('jobTitles.form.name')" />
+            <FormTextField id="name" name="name" :placeholder="$t('jobTitles.form.name')"
+                v-model="state.formJobTitle.name" />
+            <FormError :error="v$?.formJobTitle?.name?.$errors[0]?.$message.toString()" />
             <FormError :error="props?.error?.errors?.name?.[0]" />
         </div>
         <div class="mt-6">
@@ -38,7 +38,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedDepartment: {
+    selectedJobTitle: {
         type: Object,
         required: false,
     },
@@ -49,14 +49,14 @@ const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
-    formDepartment: {
+    formJobTitle: {
         name: '',
     },
 })
 
-watch(() => props.selectedDepartment, (newValue: any) => {
+watch(() => props.selectedJobTitle, (newValue: any) => {
     if (newValue != null) {
-        state.formDepartment = {
+        state.formJobTitle = {
             name: newValue.name,
         }
     }
@@ -64,7 +64,7 @@ watch(() => props.selectedDepartment, (newValue: any) => {
 
 const rules = computed(() => {
     return {
-        formDepartment: {
+        formJobTitle: {
             name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
@@ -78,7 +78,7 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formDepartment)
+        emit('submitForm', state.formJobTitle)
     }
 }
 </script>

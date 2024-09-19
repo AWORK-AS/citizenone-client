@@ -498,6 +498,25 @@
         "invitationAccepted": "Invitation accepteret",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har med succes accepteret invitationen"
     },
+    "jobTitles": {
+        "addNewJobTitle": "Tilføj ny jobtitel",
+        "jobTitles": "Jobtitler",
+        "editJobTitle": "Rediger jobtitel",
+        "form": {
+            "alert": {
+                "jobTitleSuccessfullyUpdated": "Jobtitel opdateret med succes",
+                "newJobTitleSuccessfullySaved": "Ny jobtitel gemt med succes"
+            },
+            "name": "Navn"
+        },
+        "newJobTitle": "Jobtitel",
+        "table": {
+            "actions": {
+                "edit": "Rediger"
+            },
+            "name": "Navn"
+        }
+    },
     "journalNotifications": {
         "markAllAsRead": "Markér alle som læst",
         "unreadJournalNotes": "Ulæste journalnotater",
@@ -1002,6 +1021,7 @@
         "departments": "Afdelinger",
         "dutySchedules": "Vagtskema",
         "employees": "Medarbejdere",
+        "jobTitles": "Jobtitler",
         "messages": "Beskeder",
         "protocols": "Protokol",
         "apps": "Apps",

@@ -172,7 +172,7 @@
                             :placeholder="$t('employees.form.employment.employmentDate')"
                             v-model="state.formEmployee.employment.employment_date" />
                         <FormError
-                            :error="v$?.formEmployee?.employment.employment_date?.$errors[0]?.$message.toString()" />
+                            :error="v$?.formEmployee?.employment?.employment_date?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.employment_date?.[0]" />
                     </div>
                     <div class="space-y-1">
@@ -180,7 +180,7 @@
                         <FormTextField id="job_title" name="job_title"
                             :placeholder="$t('employees.form.employment.jobTitle')"
                             v-model="state.formEmployee.employment.job_title" />
-                        <FormError :error="v$?.formEmployee?.employment.job_title?.$errors[0]?.$message.toString()" />
+                        <FormError :error="v$?.formEmployee?.employment?.job_title?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.job_title?.[0]" />
                     </div>
                 </div>
@@ -190,7 +190,7 @@
                         <FormSelect id="working_hours" :options="state.options.working_hours"
                             v-model="state.formEmployee.employment.working_hours" />
                         <FormError
-                            :error="v$?.formEmployee?.employment.working_hours?.$errors[0]?.$message.toString()" />
+                            :error="v$?.formEmployee?.employment?.working_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.working_hours?.[0]" />
                     </div>
                     <div class="space-y-1">
@@ -198,7 +198,7 @@
                         <FormSelect id="employment_status" :options="state.options.employment_status"
                             v-model="state.formEmployee.employment.employment_status" />
                         <FormError
-                            :error="v$?.formEmployee?.employment.employment_status?.$errors[0]?.$message.toString()" />
+                            :error="v$?.formEmployee?.employment?.employment_status?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.employment_status?.[0]" />
                     </div>
                 </div>
@@ -534,20 +534,20 @@ const rules = computed(() => {
             role: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            employment: {
-                employment_date: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-                },
-                job_title: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-                },
-                working_hours: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-                },
-                employment_status: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-                },
-            }
+            // employment: {
+            //     employment_date: {
+            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
+            //     },
+            //     job_title: {
+            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
+            //     },
+            //     working_hours: {
+            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
+            //     },
+            //     employment_status: {
+            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
+            //     },
+            // }
         },
     }
 })
