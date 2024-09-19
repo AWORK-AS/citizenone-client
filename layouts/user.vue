@@ -277,6 +277,15 @@
                                     </MenuItem>
                                     <MenuItem>
                                     <div class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100"
+                                        @click="navigateTo('/archived/citizens')">
+                                        <div class="flex items-center gap-x-2">
+                                            <Icon name="ph:archive" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.archived') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                    <div class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100"
                                         @click="selectLanguage">
                                         <div class="flex items-center gap-x-2">
                                             <img :src="identifyFlag()" alt="flag" class="w-5 h-5">

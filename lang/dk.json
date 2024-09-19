@@ -39,6 +39,12 @@
         "readMore": "Læs mere",
         "apps": "Apps"
     },
+    "archived": {
+        "tabs": {
+            "archivedCitizens": "Arkiverede borgere",
+            "archivedEmployees": "Arkiverede medarbejdere"
+        }
+    },
     "back": "Tilbage",
     "bulletBoard": {
         "bulletBoard": "Opslagstavle",
@@ -101,6 +107,7 @@
             "citizenSuccessfullyArchived": "Borger arkiveret med succes"
         },
         "archiveCitizen": "Arkiver borger",
+        "archivedCitizens": "Arkiverede borgere",
         "attendance": {
             "protocol": "Protokol"
         },
@@ -394,6 +401,7 @@
             "employeeSuccessfullyDeleted": "Medarbejder slettet med succes"
         },
         "archiveEmployee": "Arkiver medarbejder",
+        "archivedEmployees": "Arkiverede medarbejdere",
         "confirmation": {
             "archiveConfirmation": "Er du sikker på, at du vil arkivere denne medarbejder",
             "deletePermanentlyConfirmation": "Er du sikker på, at du vil slette denne medarbejder permanent",
@@ -556,6 +564,7 @@
     },
     "navbar": {
         "activityLogs": "Aktivitetslogfiler",
+        "archived": "Arkiveret",
         "newWishes": "Nye ønsker",
         "logout": "Log ud",
         "subscription": "Abonnement",
