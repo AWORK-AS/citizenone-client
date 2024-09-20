@@ -40,6 +40,21 @@
         "apps": "Apps"
     },
     "archived": {
+        "alert": {
+            "citizenSuccessfullyUnarchive": "Citizen successfully unarchive",
+            "employeeSuccessfullyUnarchive": "Employee successfully unarchive"
+        },
+        "confirmation": {
+            "unarchiveCitizen": "Are you sure you want to unarchive this citizen",
+            "unarchiveEmployee": "Are you sure you want to unarchive this employee"
+        },
+        "table": {
+            "actions": {
+                "unarchive": "Unarchive",
+                "unarchiveCitizen": "Unarchive citizen",
+                "unarchiveEmployee": "Unarchive employee"
+            }
+        },
         "tabs": {
             "archivedCitizens": "Archived citizens",
             "archivedEmployees": "Archived employees"

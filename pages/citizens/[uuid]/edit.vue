@@ -142,7 +142,7 @@ async function archiveCitizen() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await citizenService.archiveCitizen(citizenUuid)
+        const response = await citizenService.archiveUnarchiveCitizen(citizenUuid)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.alert.citizenSuccessfullyArchived')}.`)
             navigateTo('/citizens')

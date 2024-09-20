@@ -40,25 +40,15 @@
                                             <span>{{ role.name }}</span>
                                         </div>
                                     </td>
-                                    <!-- <td width="20%">
+                                    <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/employees/${employee.uuid}/view`)">
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('employees.table.actions.view') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/employees/${employee.uuid}/edit`)">
-                                                <Icon name="ph:pencil" class="size-4" />
-                                                {{ $t('employees.table.actions.edit') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="messageEmployee(employee)">
-                                                <Icon name="ph:chat-circle" class="size-4" />
-                                                {{ $t('employees.table.actions.message') }}
+                                                @click="confirmEmployeeUnarchiving(employee)">
+                                                <Icon name="mdi:archive-cancel-outline" class="size-4" />
+                                                {{ $t('archived.table.actions.unarchive') }}
                                             </FormButton>
                                         </div>
-                                    </td> -->
+                                    </td>
                                 </tr>
                             </template>
                         </Table>
@@ -66,19 +56,25 @@
                     <Pagination :data="state.employees" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isUnarchiveEmployeeOpen"
+                :message="$t('archived.confirmation.unarchiveEmployee') + '?'"
+                @close="state.modal.isUnarchiveEmployeeOpen = false" @confirm="unarchiveEmployee" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { employeeService } from '@/components/api/EmployeeService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import { useDepartmentStore } from '@/store/department'
 import { useEmployeeStore } from '@/store/employee'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const employeeStore = useEmployeeStore()
 const departmentStore = useDepartmentStore()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
@@ -92,12 +88,16 @@ const state = reactive({
         { name: 'employees.table.email', sorter: true, key: 'email' },
         { name: 'employees.table.phone', sorter: true, key: 'phone' },
         { name: 'employees.table.role' },
-        // { name: '' },
+        { name: '' },
     ],
     dataFilter: [],
     employees: [] as any,
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isUnarchiveEmployeeOpen: false,
+    },
+    selectedEmployee: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -160,8 +160,24 @@ function handleFilter(value: any) {
     fetchArchivedEmployees()
 }
 
-function messageEmployee(employee: any) {
-    employeeStore.setSelectedEmployee(employee)
-    navigateTo(`/messages/${employee.uuid}`)
+function confirmEmployeeUnarchiving(employee: any) {
+    state.selectedEmployee = employee
+    state.modal.isUnarchiveEmployeeOpen = true
+}
+
+async function unarchiveEmployee() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const employeeUuid = state.selectedEmployee?.uuid
+        const response = await employeeService.archiveEmployee(employeeUuid)
+        if (response.data) {
+            successAlert(`${t('alert.success')}!`, `${t('archived.alert.employeeSuccessfullyUnarchive')}.`)
+            fetchArchivedEmployees()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

@@ -35,25 +35,15 @@
                                     <td width="20%">
                                         <span>{{ citizen?.phone }}</span>
                                     </td>
-                                    <!-- <td width="20%">
+                                    <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('citizens.table.actions.view') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/citizens/${citizen.uuid}/edit`)">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('citizens.table.actions.edit') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="showCitizenNote(citizen)">
-                                                <Icon name="ph:note-blank" class="size-4" />
-                                                {{ $t('citizens.table.actions.latestJournalEntry') }}
+                                                @click="confirmCitizenUnarchiving(citizen)">
+                                                <Icon name="mdi:archive-cancel-outline" class="size-4" />
+                                                {{ $t('archived.table.actions.unarchive') }}
                                             </FormButton>
                                         </div>
-                                    </td> -->
+                                    </td>
                                 </tr>
                             </template>
                         </Table>
@@ -61,20 +51,26 @@
                     <Pagination :data="state.archivedCitizens" @previous="previous" @next="next" />
                 </div>
             </div>
-
             <ModulesCitizenModalLatestJournal :isModalOpen="state.modal.showNote"
                 :selectedCitizen="state.selectedCitizen" @close="state.modal.showNote = false" />
+            <DialogConfirmation :isModalOpen="state.modal.isUnarchiveCitizenOpen"
+                :message="$t('archived.confirmation.unarchiveCitizen') + '?'"
+                @close="state.modal.isUnarchiveCitizenOpen = false" @confirm="unarchiveCitizen" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { citizenService } from '@/components/api/CitizenService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const departmentStore = useDepartmentStore()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
@@ -87,16 +83,17 @@ const state = reactive({
         { name: 'citizens.table.name', sorter: true, key: 'firstname' },
         { name: 'citizens.table.email', sorter: true, key: 'email' },
         { name: 'citizens.table.phone', sorter: true, key: 'phone' },
-        // { name: '' },
+        { name: '' },
     ],
     dataFilter: [],
     error: {} as Error,
     isTableLoading: false,
     archivedCitizens: [] as any,
     modal: {
+        isUnarchiveCitizenOpen: false,
         showNote: false,
     },
-    selectedCitizen: [],
+    selectedCitizen: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -159,8 +156,24 @@ function handleFilter(value: any) {
     fetchArchivedCitizens()
 }
 
-function showCitizenNote(citizen: any) {
+function confirmCitizenUnarchiving(citizen: any) {
     state.selectedCitizen = citizen
-    state.modal.showNote = true
+    state.modal.isUnarchiveCitizenOpen = true
+}
+
+async function unarchiveCitizen() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const citizenUuid = state.selectedCitizen?.uuid
+        const response = await citizenService.archiveUnarchiveCitizen(citizenUuid)
+        if (response.data) {
+            successAlert(`${t('alert.success')}!`, `${t('archived.alert.citizenSuccessfullyUnarchive')}.`)
+            fetchArchivedCitizens()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

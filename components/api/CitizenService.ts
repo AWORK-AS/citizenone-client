@@ -21,7 +21,7 @@ class CitizenService extends BaseAPIService {
         return await this.request(`/user/citizens/${citizenUuid}/update`, 'POST', params)
     }
 
-    async archiveCitizen(citizenUuid: any): Promise<any> {
+    async archiveUnarchiveCitizen(citizenUuid: any): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/archive`, 'PUT')
     }
 

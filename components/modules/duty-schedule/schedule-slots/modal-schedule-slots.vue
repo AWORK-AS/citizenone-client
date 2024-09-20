@@ -155,8 +155,8 @@ async function fetchScheduleSlots() {
     state.isTableLoading = true
     try {
         const params = {
-            start_date: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
-            end_date: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
+            date_start: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
+            date_end: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
