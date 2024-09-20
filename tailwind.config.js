@@ -48,7 +48,8 @@ export default {
         },
         shifts: {
           regular: '#8BA687',
-          night: '#8FAAC9',
+          awake_night: '#8FAAC9',
+          sleeping_night: '#5C748D',
           vacation: '#D4A373',
           sickleave: '#B56A6A',
         },

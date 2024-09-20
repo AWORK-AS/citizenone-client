@@ -437,7 +437,8 @@
             }
         },
         "shifts": {
-            "nightShift": "Nattevagt",
+            "awakeNightShift": "Vågen nattevagt",
+            "sleepingNightShift": "Sovende nattevagt",
             "regularShift": "Almindelig vagt",
             "sickLeave": "Sygefravær",
             "vacationLeave": "Ferie"

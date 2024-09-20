@@ -51,7 +51,8 @@ const state = reactive({
     options: {
         shifts: [
             { value: 'regular_shift', label: 'Regular shift' },
-            { value: 'night_shift', label: 'Night shift' },
+            { value: 'awake_night_shift', label: 'Awake night shift' },
+            { value: 'sleeping_night_shift', label: 'Sleeping night shift' },
             { value: 'vacation_leave', label: 'Vacation leave' },
             { value: 'sick_leave', label: 'Sick leave' },
         ]
@@ -62,7 +63,8 @@ watch(() => props.isModalOpen, () => {
     state.error = {}
     state.formShift.shift_type = ''
     state.options.shifts[0].label = `${t('dutySchedules.shifts.regularShift')}`
-    state.options.shifts[1].label = `${t('dutySchedules.shifts.nightShift')}`
+    state.options.shifts[1].label = `${t('dutySchedules.shifts.awakeNightShift')}`
+    state.options.shifts[1].label = `${t('dutySchedules.shifts.sleepingNightShift')}`
     state.options.shifts[2].label = `${t('dutySchedules.shifts.vacationLeave')}`
     state.options.shifts[3].label = `${t('dutySchedules.shifts.sickLeave')}`
 })

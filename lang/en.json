@@ -437,7 +437,8 @@
             }
         },
         "shifts": {
-            "nightShift": "Night shift",
+            "awakeNightShift": "Awake night shift",
+            "sleepingNightShift": "Sleeping night shift",
             "regularShift": "Regular shift",
             "sickLeave": "Sick leave",
             "vacationLeave": "Vacation leave"

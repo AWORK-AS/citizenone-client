@@ -8,13 +8,17 @@
                     <div>
                         <p>{{ $t('dutySchedules.typeofShifts') }}:</p>
                         <div class="grid grid-cols-2 gap-x-4">
-                            <div class="flex items-center gap-x-2">
+                            <div class="col-span-2 flex items-center gap-x-2">
                                 <div class="w-3 h-3 rounded-sm bg-shifts-regular"></div>
                                 <span>{{ $t('dutySchedules.shifts.regularShift') }}</span>
                             </div>
                             <div class="flex items-center gap-x-2">
-                                <div class="w-3 h-3 rounded-sm bg-shifts-night"></div>
-                                <span>{{ $t('dutySchedules.shifts.nightShift') }}</span>
+                                <div class="w-3 h-3 rounded-sm bg-shifts-awake_night"></div>
+                                <span>{{ $t('dutySchedules.shifts.awakeNightShift') }}</span>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <div class="w-3 h-3 rounded-sm bg-shifts-sleeping_night"></div>
+                                <span>{{ $t('dutySchedules.shifts.sleepingNightShift') }}</span>
                             </div>
                             <div class="flex items-center gap-x-2">
                                 <div class="w-3 h-3 rounded-sm bg-shifts-vacation"></div>
@@ -257,21 +261,39 @@
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                         </button>
                                                     </div>
-                                                    <div class="bg-shifts-night rounded-md p-1 relative"
-                                                        v-if="week?.shifts.find((shift: any) => shift.name === 'night_shift')">
+                                                    <div class="bg-shifts-awake_night rounded-md p-1 relative"
+                                                        v-if="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')">
                                                         <div class="flex">
                                                             <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'night_shift')?.time_in"
-                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'night_shift')" />
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'awake_night_shift')" />
                                                             <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'night_shift')?.time_out"
-                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'night_shift')" />
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'awake_night_shift')" />
                                                         </div>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'night_shift')">
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'awake_night_shift')">
+                                                            <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                        </button>
+                                                    </div>
+                                                    <div class="bg-shifts-sleeping_night rounded-md p-1 relative"
+                                                        v-if="week?.shifts.find((shift: any) => shift.name === 'sleeping_night_shift')">
+                                                        <div class="flex">
+                                                            <FormTimeFieldTransparent name="time_in"
+                                                                class="rounded-tl-md rounded-bl-md"
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'sleeping_night_shift')?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')" />
+                                                            <FormTimeFieldTransparent name="time_out"
+                                                                class="rounded-tr-md rounded-br-md"
+                                                                :value="week?.shifts.find((shift: any) => shift.name === 'sleeping_night_shift')?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')" />
+                                                        </div>
+                                                        <button
+                                                            class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')">
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                         </button>
                                                     </div>
