@@ -1,13 +1,13 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('dutySchedules.scheduleSlots.newScheduleSlot')" :show="props.isModalOpen"
+        <Modal size="xs" :title="$t('dutySchedules.scheduleSlots.editScheduleSlot')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesDutyScheduleScheduleSlotsForm formType="create" :selectedDay="props.selectedDay"
-                        :selectedScheduleSlot="state.formScheduleSlot" :error="state.error"
+                    <ModulesDutyScheduleScheduleSlotsForm formType="update"
+                        :selectedScheduleSlot="props.selectedScheduleSlot" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="saveScheduleSlot" />
+                        @submitForm="updateScheduleSlot" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
 import { scheduleSlotService } from '@/components/api/ScheduleSlotService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
@@ -29,24 +28,15 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedDay: {
+    selectedScheduleSlot: {
         type: Object,
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshScheduleSlot', 'closeModal'])
+const emit = defineEmits(['close', 'refreshScheduleSlot'])
 
 const state = reactive({
     error: {} as Error,
-    formScheduleSlot: {
-        date: '',
-        job_id: '',
-        available_slots: '',
-        time_in: '',
-        time_out: '',
-        working_hours: '',
-        shift_type: '',
-    },
     isPageLoading: false,
 })
 
@@ -58,10 +48,11 @@ function refreshScheduleSlot() {
     emit('refreshScheduleSlot')
 }
 
-async function saveScheduleSlot(scheduleSlotDetails: any) {
+async function updateScheduleSlot(scheduleSlotDetails: any) {
     try {
+        const scheduleSlotUuid = props.selectedScheduleSlot?.uuid
         const params = {
-            date: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
+            date: scheduleSlotDetails.date,
             job_id: scheduleSlotDetails.job_id,
             available_slots: scheduleSlotDetails.available_slots,
             time_in: scheduleSlotDetails.time_in,
@@ -69,9 +60,9 @@ async function saveScheduleSlot(scheduleSlotDetails: any) {
             working_hours: scheduleSlotDetails.working_hours,
             shift_type: scheduleSlotDetails.shift_type,
         }
-        const response = await scheduleSlotService.saveScheduleSlot(params)
+        const response = await scheduleSlotService.updateScheduleSlot(scheduleSlotUuid, params)
         if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleSlots.form.alert.scheduleSlotSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleSlots.form.alert.scheduleSlotSuccessfullyUpdated')}.`)
             refreshScheduleSlot()
             closeModal()
         }

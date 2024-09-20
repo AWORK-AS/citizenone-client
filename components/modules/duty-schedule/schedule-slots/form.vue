@@ -60,7 +60,7 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="navigateTo('/departments')">
+                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md">
@@ -94,23 +94,23 @@ const props = defineProps({
     },
     selectedScheduleSlot: {
         type: Object,
-        required: false,
+        required: true,
     },
 })
-const emit = defineEmits(['isPageLoading', 'submitForm'])
+const emit = defineEmits(['isPageLoading', 'submitForm', 'closeModal'])
 
 const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
     formScheduleSlot: {
-        date: '',
-        job_id: '',
-        available_slots: '',
-        time_in: '',
-        time_out: '',
-        working_hours: '',
-        shift_type: '',
+        date: props.selectedScheduleSlot?.date,
+        job_id: props.selectedScheduleSlot?.job_id,
+        available_slots: props.selectedScheduleSlot?.available_slots.toString(),
+        time_in: props.selectedScheduleSlot?.time_in,
+        time_out: props.selectedScheduleSlot?.time_out,
+        working_hours: props.selectedScheduleSlot?.working_hours.toString(),
+        shift_type: props.selectedScheduleSlot?.shift_type,
     },
     options: {
         jobTitles: [],
@@ -123,23 +123,13 @@ const state = reactive({
     }
 })
 
-watch(() => props.selectedScheduleSlot, (newValue: any) => {
-    if (newValue != null) {
-        state.formScheduleSlot = {
-            date: newValue.date,
-            job_id: newValue.job_id,
-            available_slots: newValue.available_slots,
-            time_in: newValue.time_in,
-            time_out: newValue.time_out,
-            working_hours: newValue.working_hours,
-            shift_type: newValue.shift_type,
-        }
-    }
-})
-
 onMounted(() => {
     fetchJobTitles()
 })
+
+function closeModal() {
+    emit('closeModal')
+}
 
 async function fetchJobTitles() {
     state.error = {}

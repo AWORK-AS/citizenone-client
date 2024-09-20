@@ -35,9 +35,8 @@ const config = ref({
 })
 
 const state = reactive({
-    dateValue: '',
+    dateValue: props.modelValue ? formatDateToDDMMMMYYYY(props.modelValue) : '',
 })
-
 
 watch(() => props.modelValue, (newValue: any) => {
     if (newValue != null) {

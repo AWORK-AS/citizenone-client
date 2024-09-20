@@ -79,8 +79,9 @@
                 <ModulesDutyScheduleScheduleSlotsModalNewScheduleSlot
                     :isModalOpen="state.modal.isAddNewScheduleSlotOpen" :selectedDay="props.selectedDay"
                     @close="state.modal.isAddNewScheduleSlotOpen = false" @refreshScheduleSlot="fetchScheduleSlots" />
-                <!-- <ModulesDutyScheduleScheduleSlotsModalEditScheduleSlot :isModalOpen="state.modal.isEditScheduleSlotOpen"
-                    @close="state.modal.isEditScheduleSlotOpen = false" @updateScheduleSlot="updateScheduleSlot" /> -->
+                <ModulesDutyScheduleScheduleSlotsModalEditScheduleSlot :isModalOpen="state.modal.isEditScheduleSlotOpen"
+                    :selectedScheduleSlot="state.selectedScheduleSlot"
+                    @close="state.modal.isEditScheduleSlotOpen = false" @refreshScheduleSlot="fetchScheduleSlots" />
             </template>
         </Modal>
     </div>
@@ -199,25 +200,5 @@ function handleFilter(value: any) {
 function editScheduleSlot(slot: any) {
     state.selectedScheduleSlot = slot
     state.modal.isEditScheduleSlotOpen = true
-}
-
-async function updateScheduleSlot(scheduleSlotDetails: any) {
-    try {
-        const scheduleSlotUuid = state.selectedScheduleSlot?.uuid
-        const params = {
-            job_id: scheduleSlotDetails.job_id,
-            available_slots: scheduleSlotDetails.available_slots,
-            time_in: scheduleSlotDetails.time_in,
-            time_out: scheduleSlotDetails.time_out,
-            working_hours: scheduleSlotDetails.working_hours,
-            shift_type: scheduleSlotDetails.shift_type,
-        }
-        const response = await scheduleSlotService.updateScheduleSlot(scheduleSlotUuid, params)
-        if (response) {
-
-        }
-    } catch (error: any) {
-        state.error = error
-    }
 }
 </script>
