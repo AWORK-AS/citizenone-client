@@ -23,17 +23,28 @@
                                 <template #body
                                     v-if="!(state.isTableLoading || (state.scheduleSlots?.data?.length === 0))">
                                     <tr v-for="(slot, index) in state.scheduleSlots?.data" :key="index">
-                                        <td width="15%">
-                                            <span>{{ slot?.shift_type }}</span>
+                                        <td width="20%">
+                                            <span v-if="slot?.shift_type === 'night_shift'">
+                                                {{ $t('dutySchedules.shifts.nightShift') }}
+                                            </span>
+                                            <span v-if="slot?.shift_type === 'regular_shift'">
+                                                {{ $t('dutySchedules.shifts.regularShift') }}
+                                            </span>
+                                            <span v-if="slot?.shift_type === 'sick_leave'">
+                                                {{ $t('dutySchedules.shifts.sickLeave') }}
+                                            </span>
+                                            <span v-if="slot?.shift_type === 'vacation_leave'">
+                                                {{ $t('dutySchedules.shifts.vacationLeave') }}
+                                            </span>
                                         </td>
-                                        <td width="15%">
+                                        <td width="20%">
                                             <span>{{ slot?.job?.title }}</span>
                                         </td>
-                                        <td width="15%">
-                                            <span>{{ slot?.time_in }}</span>
+                                        <td width="10%">
+                                            <span>{{ moment(slot?.time_in, "HH:mm").format('hh:mm') }}</span>
                                         </td>
-                                        <td width="15%">
-                                            <span>{{ slot?.time_out }}</span>
+                                        <td width="10%">
+                                            <span>{{ moment(slot?.time_out, "HH:mm").format('hh:mm') }}</span>
                                         </td>
                                         <td width="10%">
                                             <span>{{ slot?.available_slots }}</span>
@@ -65,6 +76,11 @@
                         <Pagination :data="state.scheduleSlots" @previous="previous" @next="next" />
                     </div>
                 </div>
+                <ModulesDutyScheduleScheduleSlotsModalNewScheduleSlot
+                    :isModalOpen="state.modal.isAddNewScheduleSlotOpen" :selectedDay="props.selectedDay"
+                    @close="state.modal.isAddNewScheduleSlotOpen = false" @refreshScheduleSlot="fetchScheduleSlots" />
+                <!-- <ModulesDutyScheduleScheduleSlotsModalEditScheduleSlot :isModalOpen="state.modal.isEditScheduleSlotOpen"
+                    @close="state.modal.isEditScheduleSlotOpen = false" @updateScheduleSlot="updateScheduleSlot" /> -->
             </template>
         </Modal>
     </div>
@@ -115,7 +131,7 @@ const state = reactive({
         isDeleteScheduleSlotOpen: false,
     },
     scheduleSlots: [] as any,
-    selectedScheduleSlot: [],
+    selectedScheduleSlot: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -183,5 +199,25 @@ function handleFilter(value: any) {
 function editScheduleSlot(slot: any) {
     state.selectedScheduleSlot = slot
     state.modal.isEditScheduleSlotOpen = true
+}
+
+async function updateScheduleSlot(scheduleSlotDetails: any) {
+    try {
+        const scheduleSlotUuid = state.selectedScheduleSlot?.uuid
+        const params = {
+            job_id: scheduleSlotDetails.job_id,
+            available_slots: scheduleSlotDetails.available_slots,
+            time_in: scheduleSlotDetails.time_in,
+            time_out: scheduleSlotDetails.time_out,
+            working_hours: scheduleSlotDetails.working_hours,
+            shift_type: scheduleSlotDetails.shift_type,
+        }
+        const response = await scheduleSlotService.updateScheduleSlot(scheduleSlotUuid, params)
+        if (response) {
+
+        }
+    } catch (error: any) {
+        state.error = error
+    }
 }
 </script>

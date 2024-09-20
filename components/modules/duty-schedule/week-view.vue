@@ -242,11 +242,11 @@
                                                     <div class="bg-shifts-regular rounded-md p-1 relative"
                                                         v-if="week?.shifts.find((shift: any) => shift.name === 'regular_shift')">
                                                         <div class="flex">
-                                                            <FormTimeField name="time_in"
+                                                            <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'regular_shift')?.time_in"
                                                                 @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'regular_shift')" />
-                                                            <FormTimeField name="time_out"
+                                                            <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'regular_shift')?.time_out"
                                                                 @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'regular_shift')" />
@@ -260,11 +260,11 @@
                                                     <div class="bg-shifts-night rounded-md p-1 relative"
                                                         v-if="week?.shifts.find((shift: any) => shift.name === 'night_shift')">
                                                         <div class="flex">
-                                                            <FormTimeField name="time_in"
+                                                            <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'night_shift')?.time_in"
                                                                 @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'night_shift')" />
-                                                            <FormTimeField name="time_out"
+                                                            <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'night_shift')?.time_out"
                                                                 @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'night_shift')" />
@@ -278,11 +278,11 @@
                                                     <div class="bg-shifts-vacation rounded-md p-1 relative"
                                                         v-if="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')">
                                                         <div class="flex">
-                                                            <FormTimeField name="time_in"
+                                                            <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_in"
                                                                 @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'vacation_leave')" />
-                                                            <FormTimeField name="time_out"
+                                                            <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_out"
                                                                 @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'vacation_leave')" />
@@ -296,11 +296,11 @@
                                                     <div class="bg-shifts-sickleave rounded-md p-1 relative"
                                                         v-if="week?.shifts.find((shift: any) => shift.name === 'sick_leave')">
                                                         <div class="flex">
-                                                            <FormTimeField name="time_in"
+                                                            <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_in"
                                                                 @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'sick_leave')" />
-                                                            <FormTimeField name="time_out"
+                                                            <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_out"
                                                                 @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'sick_leave')" />

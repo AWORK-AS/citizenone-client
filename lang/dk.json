@@ -389,14 +389,12 @@
             },
             "editScheduleSlot": "Rediger tidspunkt",
             "form": {
-                "active": "Aktiv",
                 "alert": {
                     "scheduleSlotSuccessfullyAdded": "Tidspunkt tilføjet med succes",
                     "scheduleSlotSuccessfullyUpdated": "Tidspunkt opdateret med succes"
                 },
                 "availableSlots": "Tilgængelige tider",
                 "date": "Dato",
-                "inactive": "Inaktiv",
                 "jobTitle": "Jobtitel",
                 "shiftType": "Vagttype",
                 "status": "Status",
@@ -407,12 +405,14 @@
             "newScheduleSlot": "Nyt tidspunkt",
             "scheduleSlots": "Tidspunkter",
             "table": {
+                "active": "Aktiv",
                 "action": {
                     "delete": "Slet",
                     "edit": "Rediger"
                 },
                 "availableSlots": "Tilgængelige tider",
                 "date": "Dato",
+                "inactive": "Inaktiv",
                 "jobTitle": "Jobtitel",
                 "shiftType": "Vagttype",
                 "status": "Status",

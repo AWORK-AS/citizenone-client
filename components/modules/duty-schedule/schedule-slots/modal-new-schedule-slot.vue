@@ -1,0 +1,82 @@
+<template>
+    <div>
+        <Modal size="xs" :title="$t('dutySchedules.scheduleSlots.newScheduleSlot')" :show="props.isModalOpen"
+            @close="closeModal">
+            <template #modal-body>
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <ModulesDutyScheduleScheduleSlotsForm formType="create" :selectedDay="props.selectedDay"
+                        :selectedDepartment="state.formScheduleSlot" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
+                        @submitForm="saveScheduleSlot" />
+                </LoadingSpinner>
+            </template>
+        </Modal>
+    </div>
+</template>
+
+<script setup lang="ts">
+import moment from 'moment'
+import { scheduleSlotService } from '@/components/api/ScheduleSlotService'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
+
+const { successAlert } = useAlert()
+const { t } = useI18n()
+
+const props = defineProps({
+    isModalOpen: {
+        type: Boolean,
+        required: true,
+    },
+    selectedDay: {
+        type: Object,
+        required: true,
+    },
+})
+const emit = defineEmits(['close', 'refreshScheduleSlot'])
+
+const state = reactive({
+    error: {} as Error,
+    formScheduleSlot: {
+        date: '',
+        job_id: '',
+        available_slots: '',
+        time_in: '',
+        time_out: '',
+        working_hours: '',
+        shift_type: '',
+    },
+    isPageLoading: false,
+})
+
+function closeModal() {
+    emit('close')
+}
+
+function refreshScheduleSlot() {
+    emit('refreshScheduleSlot')
+}
+
+async function saveScheduleSlot(scheduleSlotDetails: any) {
+    try {
+        const params = {
+            date: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
+            job_id: scheduleSlotDetails.job_id,
+            available_slots: scheduleSlotDetails.available_slots,
+            time_in: scheduleSlotDetails.time_in,
+            time_out: scheduleSlotDetails.time_out,
+            working_hours: scheduleSlotDetails.working_hours,
+            shift_type: scheduleSlotDetails.shift_type,
+        }
+        const response = await scheduleSlotService.saveScheduleSlot(params)
+        if (response) {
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleSlots.form.alert.scheduleSlotSuccessfullyAdded')}.`)
+            refreshScheduleSlot()
+            closeModal()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+</script>
