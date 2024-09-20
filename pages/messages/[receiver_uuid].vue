@@ -97,7 +97,7 @@
                                                 </span>
                                             </div>
                                             <div class="flex-shrink-0 flex items-center">
-                                                <img :src="employeeStore.getSelectedEmployee?.profile_image ?? '/img/avatars/user.svg'"
+                                                <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
                                                     alt="User" class="w-10 h-10 rounded-full object-cover">
                                             </div>
                                         </div>
