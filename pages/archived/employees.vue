@@ -125,7 +125,7 @@ async function fetchArchivedEmployees() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await employeeService.getEmployees(params)
+        const response = await employeeService.getArchivedEmployees(params)
         if (response) {
             state.employees = response
         }
