@@ -64,9 +64,9 @@ watch(() => props.isModalOpen, () => {
     state.formShift.shift_type = ''
     state.options.shifts[0].label = `${t('dutySchedules.shifts.regularShift')}`
     state.options.shifts[1].label = `${t('dutySchedules.shifts.awakeNightShift')}`
-    state.options.shifts[1].label = `${t('dutySchedules.shifts.sleepingNightShift')}`
-    state.options.shifts[2].label = `${t('dutySchedules.shifts.vacationLeave')}`
-    state.options.shifts[3].label = `${t('dutySchedules.shifts.sickLeave')}`
+    state.options.shifts[2].label = `${t('dutySchedules.shifts.sleepingNightShift')}`
+    state.options.shifts[3].label = `${t('dutySchedules.shifts.vacationLeave')}`
+    state.options.shifts[4].label = `${t('dutySchedules.shifts.sickLeave')}`
 })
 
 const rules = computed(() => {
