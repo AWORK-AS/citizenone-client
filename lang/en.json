@@ -444,9 +444,10 @@
             "vacationLeave": "Vacation leave"
         },
         "table": {
+            "awakeNightShiftHours": "Awake night shift",
             "holidayHours": "Holiday hours",
-            "nightShiftHours": "Night shift hours",
             "sickLeaveHours": "Sick leave hours",
+            "sleepingNightShiftHours": "Sleeping night shift",
             "timer": "Timer"
         },
         "week": "Week",

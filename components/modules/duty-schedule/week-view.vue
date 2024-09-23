@@ -183,7 +183,8 @@
                                                 <div class="col-span-3 space-y-2">
                                                     <p>{{ $t('dutySchedules.table.timer') }}</p>
                                                     <p>{{ $t('dutySchedules.table.holidayHours') }}</p>
-                                                    <p>{{ $t('dutySchedules.table.nightShiftHours') }}</p>
+                                                    <p>{{ $t('dutySchedules.table.awakeNightShiftHours') }}</p>
+                                                    <p>{{ $t('dutySchedules.table.sleepingNightShiftHours') }}</p>
                                                     <p>{{ $t('dutySchedules.table.sickLeaveHours') }}</p>
                                                 </div>
                                                 <div class="col-span-2 flex gap-2 flex-col items-end">
@@ -194,7 +195,10 @@
                                                         {{ weeklySchedule?.employee?.holiday_hours ?? 0 }}
                                                     </p>
                                                     <p>
-                                                        {{ weeklySchedule?.employee?.night_hours ?? 0 }}
+                                                        {{ weeklySchedule?.employee?.awake_night_hours ?? 0 }}
+                                                    </p>
+                                                    <p>
+                                                        {{ weeklySchedule?.employee?.sleep_night_hours ?? 0 }}
                                                     </p>
                                                     <p>
                                                         {{ weeklySchedule?.employee?.sick_hours ?? 0 }}
@@ -209,7 +213,10 @@
                                                         {{ weeklySchedule?.employee?.yearly_holiday_hours ?? 0 }}
                                                     </p>
                                                     <p>
-                                                        {{ weeklySchedule?.employee?.yearly_night_hours ?? 0 }}
+                                                        {{ weeklySchedule?.employee?.yearly_awake_night_hours ?? 0 }}
+                                                    </p>
+                                                    <p>
+                                                        {{ weeklySchedule?.employee?.yearly_sleep_night_hours ?? 0 }}
                                                     </p>
                                                     <p>
                                                         {{ weeklySchedule?.employee?.yearly_sick_hours ?? 0 }}

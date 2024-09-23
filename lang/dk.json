@@ -444,9 +444,10 @@
             "vacationLeave": "Ferie"
         },
         "table": {
+            "awakeNightShiftHours": "Vågen nattevagt",
             "holidayHours": "Ferietimer",
-            "nightShiftHours": "Nattevagtstimer",
             "sickLeaveHours": "Sygdomsfraværstimer",
+            "sleepingNightShiftHours": "Sovende nattevagt",
             "timer": "Timer"
         },
         "week": "Uge",
