@@ -213,7 +213,7 @@ async function deleteAccount() {
         const response = await accountService.deleteAccount(state.selectedAccount.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchAccounts()
-            successAlert(`${t('alert.success')}!`, `${t('superadmin.accounts.form.alert.deletedSuccessfully')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('superadmin.accounts.alert.deletedSuccessfully')}.`)
         }
     } catch (error: any) {
         state.error = error

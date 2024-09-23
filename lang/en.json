@@ -826,6 +826,9 @@
     "superadmin": {
         "accounts": {
             "accounts": "Accounts",
+            "alert": {
+                "deletedSuccessfully": "Account successfully deleted"
+            },
             "confirmation": {
                 "deleteConfirmation": "Are you sure you want to delete this account"
             },
@@ -835,8 +838,7 @@
                     "newAccountSuccessfullySaved": "New account successfully saved",
                     "accountSuccessfullyActivated": "Account successfully activated",
                     "accountSuccessfullyDeactivated": "Account successfully deactivated",
-                    "accountSuccessfullyUpdated": "Account successfully updated",
-                    "deletedSuccessfully": "Account successfully deleted"
+                    "accountSuccessfullyUpdated": "Account successfully updated"
                 },
                 "birthday": "Birthday",
                 "emailAddress": "Email address",
@@ -864,6 +866,37 @@
                 "email": "Email",
                 "name": "Name",
                 "phone": "Phone"
+            }
+        },
+        "apps": {
+            "alert": {
+                "appSuccessfullyDeleted": "App successfully deleted"
+            },
+            "apps": "Apps",
+            "confirmation": {
+                "deleteAppConfirmation": "Are you sure you want to delete this app"
+            },
+            "editApp": "Edit app",
+            "form": {
+                "alert": {
+                    "appSuccessfullyUpdated": "App successfully updated",
+                    "newAppSuccessfullySaved": "New app successfully saved"
+                },
+                "description": "Description",
+                "image": "Image",
+                "name": "Name",
+                "price": "Price",
+                "type": "Type"
+            },
+            "newApp": "New app",
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "name": "Name",
+                "price": "Price",
+                "type": "Type"
             }
         },
         "companies": {
@@ -1011,6 +1044,7 @@
             }
         },
         "sidebar": {
+            "apps": "Apps",
             "companies": "Companies",
             "polls": "Polls",
             "salesCampaign": "Sales campaign",

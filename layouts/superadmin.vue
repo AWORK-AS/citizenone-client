@@ -50,6 +50,9 @@
                                                         <span v-if="item.name === 'Polls'">
                                                             {{ $t('superadmin.sidebar.polls') }}
                                                         </span>
+                                                        <span v-if="item.name === 'Apps'">
+                                                            {{ $t('superadmin.sidebar.apps') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Users'">
                                                             {{ $t('superadmin.sidebar.users') }}
                                                         </span>
@@ -111,6 +114,9 @@
                                         </span>
                                         <span v-if="item.name === 'Polls'">
                                             {{ $t('superadmin.sidebar.polls') }}
+                                        </span>
+                                        <span v-if="item.name === 'Apps'">
+                                            {{ $t('superadmin.sidebar.apps') }}
                                         </span>
                                         <span v-if="item.name === 'Users'">
                                             {{ $t('superadmin.sidebar.users') }}
@@ -295,6 +301,16 @@ const navigation = [
             'superadmin-polls-pollUuid-pollItemUuid',
             'superadmin-polls-pollUuid-new',
             'superadmin-polls-pollUuid-pollItemUuid-edit',
+        ]
+    },
+    {
+        name: 'Apps',
+        href: '/superadmin/apps',
+        icon: 'ic:baseline-apps',
+        activeRouteNames: [
+            'superadmin-apps',
+            'superadmin-apps-new',
+            'superadmin-apps-appUuid-edit',
         ]
     },
     {

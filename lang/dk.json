@@ -826,6 +826,9 @@
     "superadmin": {
         "accounts": {
             "accounts": "Kontoer",
+            "alert": {
+                "deletedSuccessfully": "Konto slettet med succes"
+            },
             "confirmation": {
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne konto?"
             },
@@ -835,8 +838,7 @@
                     "newAccountSuccessfullySaved": "Ny konto blev gemt",
                     "accountSuccessfullyActivated": "Kontoen er blevet aktiveret",
                     "accountSuccessfullyDeactivated": "Kontoen er blevet deaktiveret",
-                    "accountSuccessfullyUpdated": "Kontoen er blevet opdateret",
-                    "deletedSuccessfully": "Konto slettet med succes"
+                    "accountSuccessfullyUpdated": "Kontoen er blevet opdateret"
                 },
                 "birthday": "Fødselsdag",
                 "emailAddress": "E-mailadresse",
@@ -864,6 +866,37 @@
                 "email": "E-mail",
                 "name": "Navn",
                 "phone": "Telefon"
+            }
+        },
+        "apps": {
+            "alert": {
+                "appSuccessfullyDeleted": "App slettet med succes"
+            },
+            "apps": "Apps",
+            "confirmation": {
+                "deleteAppConfirmation": "Er du sikker på, at du vil slette denne app?"
+            },
+            "editApp": "Rediger app",
+            "form": {
+                "alert": {
+                    "appSuccessfullySave": "App gemt med succes",
+                    "newAppSuccessfullySaved": "Ny app gemt med succes"
+                },
+                "description": "Beskrivelse",
+                "image": "Billede",
+                "name": "Navn",
+                "price": "Pris",
+                "type": "Type"
+            },
+            "newApp": "Ny app",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "name": "Navn",
+                "price": "Pris",
+                "type": "Type"
             }
         },
         "companies": {
@@ -1011,6 +1044,7 @@
             }
         },
         "sidebar": {
+            "apps": "Apps",
             "companies": "Virksomheder",
             "polls": "Afstemninger",
             "salesCampaign": "Salgs kampagne",
