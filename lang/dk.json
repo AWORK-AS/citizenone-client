@@ -480,14 +480,14 @@
             "department": "Afdeling",
             "emailAddress": "E-mail adresse",
             "emergencyInfo": {
-                "addTrustee": "Tilføj værge",
-                "addEmergencyContactPerson": "Tilføj nød-kontaktperson",
-                "emergencyContacts": "Nød-kontakter",
+                "addTrustee": "Tilføj tillidsperson",
+                "addEmergencyContactPerson": "Tilføj nødkontakt",
+                "emergencyContacts": "Nødkontakter",
                 "name": "Navn",
                 "email": "Email",
                 "phone": "Telefon",
                 "relation": "Relation",
-                "trustees": "Værger"
+                "trustees": "Tillidspersoner"
             },
             "employment": {
                 "employmentDate": "Ansættelsesdato",
