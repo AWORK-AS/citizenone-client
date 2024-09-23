@@ -622,11 +622,14 @@
     "navbar": {
         "activityLogs": "Aktivitetslogfiler",
         "archived": "Arkiveret",
+        "departments": "Afdelinger",
+        "jobTitles": "Jobtitler",
         "newWishes": "Nye ønsker",
         "logout": "Log ud",
         "subscription": "Abonnement",
         "settings": "Indstillinger",
-        "switchLanguage": "Skift sprog"
+        "switchLanguage": "Skift sprog",
+        "timeLogs": "Tidslogfiler"
     },
     "news": {
         "editNews": "Rediger nyheder",

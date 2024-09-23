@@ -286,6 +286,34 @@
                                     </MenuItem>
                                     <MenuItem>
                                     <div class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100"
+                                        @click="navigateTo('/departments')">
+                                        <div class="flex items-center gap-x-2">
+                                            <Icon name="mdi:hexagon-multiple-outline" class="h-5 w-5"
+                                                aria-hidden="true" />
+                                            {{ $t('navbar.departments') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                    <div class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100"
+                                        @click="navigateTo('/job-titles')">
+                                        <div class="flex items-center gap-x-2">
+                                            <Icon name="ph:briefcase" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.jobTitles') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                    <div class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100"
+                                        @click="navigateTo('/time-logs')">
+                                        <div class="flex items-center gap-x-2">
+                                            <Icon name="ph:clock" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.timeLogs') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                    <div class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100"
                                         @click="selectLanguage">
                                         <div class="flex items-center gap-x-2">
                                             <img :src="identifyFlag()" alt="flag" class="w-5 h-5">
@@ -457,26 +485,26 @@ const navigation = [
             'messages-receiver_uuid',
         ]
     },
-    {
-        name: 'Departments',
-        href: '/departments',
-        icon: 'mdi:hexagon-multiple-outline',
-        activeRouteNames: [
-            'departments',
-            'departments-new',
-            'departments-edit-uuid',
-        ]
-    },
-    {
-        name: 'Job Titles',
-        href: '/job-titles',
-        icon: 'mdi:briefcase-account-outline',
-        activeRouteNames: [
-            'job-titles',
-            'job-titles-new',
-            'job-titles-edit-uuid',
-        ]
-    },
+    // {
+    //     name: 'Departments',
+    //     href: '/departments',
+    //     icon: 'mdi:hexagon-multiple-outline',
+    //     activeRouteNames: [
+    //         'departments',
+    //         'departments-new',
+    //         'departments-edit-uuid',
+    //     ]
+    // },
+    // {
+    //     name: 'Job Titles',
+    //     href: '/job-titles',
+    //     icon: 'mdi:briefcase-account-outline',
+    //     activeRouteNames: [
+    //         'job-titles',
+    //         'job-titles-new',
+    //         'job-titles-edit-uuid',
+    //     ]
+    // },
     {
         name: 'Protocols',
         href: '/protocols',
@@ -505,14 +533,14 @@ const navigation = [
     //         'apps'
     //     ]
     // },
-    {
-        name: 'Time logs',
-        href: '/time-logs',
-        icon: 'ph:clock',
-        activeRouteNames: [
-            'time-logs'
-        ]
-    },
+    // {
+    //     name: 'Time logs',
+    //     href: '/time-logs',
+    //     icon: 'ph:clock',
+    //     activeRouteNames: [
+    //         'time-logs'
+    //     ]
+    // },
 ] as any
 
 const sidebarOpen = ref(false)

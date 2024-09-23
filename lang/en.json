@@ -622,11 +622,14 @@
     "navbar": {
         "activityLogs": "Activity logs",
         "archived": "Archived",
+        "departments": "Departments",
+        "jobTitles": "Job titles",
         "newWishes": "New wishes",
         "logout": "Log out",
         "subscription": "Subscription",
         "settings": "Settings",
-        "switchLanguage": "Switch language"
+        "switchLanguage": "Switch language",
+        "timeLogs": "Time logs"
     },
     "news": {
         "editNews": "Edit news",
