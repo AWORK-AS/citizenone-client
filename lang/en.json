@@ -792,7 +792,9 @@
             "table": {
                 "license": "License",
                 "user": "User"
-            }
+            },
+            "usedLicense": "Used license",
+            "unusedLicense": "Unused license"
         },
         "profile": {
             "form": {
@@ -891,7 +893,9 @@
                 "table": {
                     "license": "License",
                     "user": "User"
-                }
+                },
+                "usedLicense": "Used license",
+                "unusedLicense": "Unused license"
             },
             "newCompany": "New company",
             "subscriptions": {

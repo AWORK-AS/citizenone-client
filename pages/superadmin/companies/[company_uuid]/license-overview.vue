@@ -116,6 +116,21 @@
                                             {{ $t('settings.licenseOverview.licenses') }}
                                         </h3>
                                         <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
+                                            <div class="mb-5 flex items-center gap-x-5 justify-end">
+                                                <div>
+                                                    <span class="text-sm font-semibold">
+                                                        {{ $t('settings.licenseOverview.usedLicense') }}:
+                                                    </span>
+                                                    {{ state.licensesCount?.data?.used ?? 0 }}
+                                                </div>
+                                                |
+                                                <div>
+                                                    <span class="text-sm font-semibold">
+                                                        {{ $t('settings.licenseOverview.unusedLicense') }}:
+                                                    </span>
+                                                    {{ state.licensesCount?.data?.unused ?? 0 }}
+                                                </div>
+                                            </div>
                                             <TableSearch :columnFilter="state.columnFilter"
                                                 :dataFilter="state.dataFilter" @handleFilter="handleFilter" />
                                             <div class="table-responsive">
@@ -175,6 +190,7 @@ const state = reactive({
     isPageLoading: false,
     isTableLoading: false,
     licenses: [] as any,
+    licensesCount: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -185,6 +201,7 @@ const state = reactive({
 onMounted(() => {
     fetchSubscription()
     fetchLicenses()
+    fetchLicensesCount()
 })
 
 async function fetchSubscription() {
@@ -194,6 +211,20 @@ async function fetchSubscription() {
         const response = await licenseService.getSubscription(companyUuid)
         if (response) {
             state.subscriptions = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function fetchLicensesCount() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await licenseService.getLicensesCount(companyUuid)
+        if (response) {
+            state.licensesCount = response
         }
     } catch (error: any) {
         state.error = error

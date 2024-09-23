@@ -792,7 +792,9 @@
             "table": {
                 "license": "Licens",
                 "user": "Bruger"
-            }
+            },
+            "usedLicense": "Brugt licens",
+            "unusedLicense": "Ubrugt licens"
         },
         "profile": {
             "form": {
@@ -891,7 +893,9 @@
                 "table": {
                     "license": "Licens",
                     "user": "Bruger"
-                }
+                },
+                "usedLicense": "Brugt licens",
+                "unusedLicense": "Ubrugt licens"
             },
             "newCompany": "Ny virksomhed",
             "subscriptions": {
