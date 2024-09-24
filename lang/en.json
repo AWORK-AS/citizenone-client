@@ -397,10 +397,13 @@
         "typeofShifts": "Type of shifts",
         "scheduleSlots": {
             "alert": {
+                "requestForThisScheduleSlotHasBennSuccessfullySent": "Request for this schedule slot has been successfully sent",
                 "scheduleSlotSuccessfullyDeleted": "Schedule slot successfully deleted"
             },
+            "availableSlots": "Available slots",
             "confirmation": {
-                "deleteConfirmation": "Are you sure you want to delete this schedule slot"
+                "deleteConfirmation": "Are you sure you want to delete this schedule slot",
+                "requestConfirmation": "Are you sure you want to request this schedule slot"
             },
             "editScheduleSlot": "Edit schedule slot",
             "form": {

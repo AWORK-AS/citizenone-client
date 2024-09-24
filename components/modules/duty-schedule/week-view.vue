@@ -109,7 +109,8 @@
                                             <p class="text-sm font-medium">
                                                 Week {{ weekNumber }}
                                             </p>
-                                            <div class="flex-1 flex justify-end">
+                                            <div class="flex-1 flex justify-end"
+                                                v-if="isAdmin(userStore.getUser?.roles)">
                                                 <button
                                                     class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                     @click="copyWeeklySchedule(weekNumber)">
@@ -118,9 +119,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div v-for="day in weekDays" :key="day.date"
-                                        class="flex items-center justify-center py-4 border-0.5 cursor-pointer hover:bg-gray-200"
-                                        @click="openManageScheduleSlotModal(day)">
+                                    <div v-for="day in weekDays" :key="day.date" :class="[
+                                        isAdmin(userStore.getUser?.roles) && 'cursor-pointer hover:bg-gray-200',
+                                        'flex items-center justify-center py-4 border-0.5'
+                                    ]" @click="isAdmin(userStore.getUser?.roles) && openManageScheduleSlotModal(day)">
                                         <span class="flex gap-x-1 text-sm">
                                             <span v-if="day.longName === 'Mon'">
                                                 {{ $t('calendar.week.short.Monday') }}
@@ -232,7 +234,8 @@
                                             @click="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isScheduleCopiedEmpty() && pasteEmployeeSchedule(weeklyScheduleIndex, weekIndex)">
                                             <div class="space-y-2"
                                                 v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber)">
-                                                <div class="flex justify-end gap-2">
+                                                <div class="flex justify-end gap-2"
+                                                    v-if="isAdmin(userStore.getUser?.roles)">
                                                     <button
                                                         class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                         @click="copyEmployeeSchedule(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
@@ -246,10 +249,6 @@
                                                     </button>
                                                 </div>
                                                 <div class="space-y-2 text-xs">
-                                                    <!-- {{
-                                                        week?.shifts.find((shift: any) => shift.name ===
-                                                            'regular_shift')?.schedule_uuid
-                                                    }} -->
                                                     <div class="bg-shifts-regular rounded-md p-1 relative"
                                                         v-if="week?.shifts.find((shift: any) => shift.name === 'regular_shift')">
                                                         <div class="flex">
@@ -340,6 +339,9 @@
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                         </button>
                                                     </div>
+                                                    <ModulesDutyScheduleScheduleSlotsRequestAvailableSlots :week="week"
+                                                        :employee="weeklySchedule?.employee"
+                                                        @error="(error: any) => state.error = error" />
                                                 </div>
                                             </div>
                                             <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer" v-else
@@ -395,7 +397,9 @@
 import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/DutyScheduleService'
 import type { Error } from '@/types'
+import { useUserStore } from '@/store/user'
 
+const userStore = useUserStore() as any
 const currentDate = ref(moment())
 const selectedDay = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
@@ -442,6 +446,10 @@ watch(() => state.progress.percentage, (newPercentage: any) => {
 onMounted(() => {
     fetchDutySchedule()
 })
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
+}
 
 async function fetchDutySchedule() {
     state.error = {}

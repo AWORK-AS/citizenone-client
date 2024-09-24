@@ -45,8 +45,8 @@
             "employeeSuccessfullyUnarchive": "Medarbejder er succesfuldt genåbnet"
         },
         "confirmation": {
-            "unarchiveCitizen": "Er du sikker på, at du vil genåbne denne borger?",
-            "unarchiveEmployee": "Er du sikker på, at du vil genåbne denne medarbejder?"
+            "unarchiveCitizen": "Er du sikker på, at du vil genåbne denne borger",
+            "unarchiveEmployee": "Er du sikker på, at du vil genåbne denne medarbejder"
         },
         "table": {
             "actions": {
@@ -140,8 +140,8 @@
             },
             "createNewFolder": "Opret ny mappe",
             "confirmation": {
-                "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil?",
-                "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe?",
+                "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil",
+                "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
                 "upgradeStorageConfirmation": "Vil du opgradere dit lager"
             },
             "form": {
@@ -373,7 +373,7 @@
             "successfullyUpdated": "Tidsplan opdateret med succes"
         },
         "confirmation": {
-            "deleteConfirmation": "Er du sikker på, at du vil slette denne tidsplan?"
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne tidsplan"
         },
         "copyPaste": {
             "clickHereToPasteTheSchedule": "Klik her for at indsætte",
@@ -397,10 +397,13 @@
         "typeofShifts": "Vagttyper",
         "scheduleSlots": {
             "alert": {
+                "requestForThisScheduleSlotHasBennSuccessfullySent": "Anmodning om dette tidsinterval er sendt med succes",
                 "scheduleSlotSuccessfullyDeleted": "Tidspunkt slettet med succes"
             },
+            "availableSlots": "Tilgængelige tider",
             "confirmation": {
-                "deleteConfirmation": "Er du sikker på, at du vil slette dette tidspunkt?"
+                "deleteConfirmation": "Er du sikker på, at du vil slette dette tidspunkt",
+                "requestConfirmation": "Er du sikker på, at du vil anmode om dette tidsinterval"
             },
             "editScheduleSlot": "Rediger tidspunkt",
             "form": {
@@ -830,7 +833,7 @@
                 "deletedSuccessfully": "Konto slettet med succes"
             },
             "confirmation": {
-                "deleteConfirmation": "Er du sikker på, at du vil slette denne konto?"
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne konto"
             },
             "editAccount": "Rediger konto",
             "form": {
@@ -874,7 +877,7 @@
             },
             "apps": "Apps",
             "confirmation": {
-                "deleteAppConfirmation": "Er du sikker på, at du vil slette denne app?"
+                "deleteAppConfirmation": "Er du sikker på, at du vil slette denne app"
             },
             "editApp": "Rediger app",
             "form": {
