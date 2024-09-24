@@ -122,12 +122,18 @@
                                         {{ $t('subscription.deal.storageSpace') }}
                                     </span>
                                 </li>
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
+                                    <Icon name="ph:check"
+                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
+                                        aria-hidden="true" />
+                                    {{ $t('subscription.deal.telephoneSupport') }}
+                                </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
                                     v-if="deal.name === 'Pro'">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ $t('subscription.deal.telephoneSupport') }}
+                                    {{ $t('subscription.deal.automaticSynchronizationWithFMK') }}
                                 </li>
                             </ul>
                             <div class="mt-8">
@@ -217,12 +223,18 @@
                                         {{ $t('subscription.deal.storageSpace') }}
                                     </span>
                                 </li>
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
+                                    <Icon name="ph:check"
+                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
+                                        aria-hidden="true" />
+                                    {{ $t('subscription.deal.telephoneSupport') }}
+                                </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
                                     v-if="deal.name === 'Pro'">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ $t('subscription.deal.telephoneSupport') }}
+                                    {{ $t('subscription.deal.automaticSynchronizationWithFMK') }}
                                 </li>
                             </ul>
                             <div class="mt-8">
@@ -306,9 +318,13 @@
                                         {{ $t('subscription.deal.storageSpace') }}
                                     </span>
                                 </li>
-                                <li class="text-primary flex gap-x-2 lowercase" v-if="deal.name === 'Pro'">
+                                <li class="text-primary flex gap-x-2 lowercase">
                                     <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />
                                     {{ $t('subscription.deal.telephoneSupport') }}
+                                </li>
+                                <li class="text-primary flex gap-x-2 lowercase" v-if="deal.name === 'Pro'">
+                                    <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />
+                                    {{ $t('subscription.deal.automaticSynchronizationWithFMK') }}
                                 </li>
                             </ul>
                             <div class="mt-8">

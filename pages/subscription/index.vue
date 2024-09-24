@@ -92,6 +92,15 @@
                                     {{ userStore.getUser?.user_subscription?.deal?.storage_size }}
                                     {{ $t('subscription.deal.storageSpace') }}
                                 </li>
+                                <li class="flex gap-x-2">
+                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                    {{ $t('subscription.deal.telephoneSupport') }}
+                                </li>
+                                <li class="flex gap-x-2"
+                                    v-if="userStore.getUser?.user_subscription?.deal?.name === 'Pro'">
+                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                    {{ $t('subscription.deal.automaticSynchronizationWithFMK') }}
+                                </li>
                             </ul>
                             <div class="mt-8">
                                 <FormButton type="button" buttonStyle="primary" class="w-full"

@@ -1155,6 +1155,7 @@
         "deal": {
             "additionalPurchaseFor": "tilkøb ekstra for",
             "annually": "Årligt",
+            "automaticSynchronizationWithFMK": "Automatisk synkronisering med FMK",
             "department": "Afdeling",
             "departments": "Afdelinger",
             "forExtraDepartment": "For ekstra afdeling",

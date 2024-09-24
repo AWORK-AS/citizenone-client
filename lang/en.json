@@ -938,12 +938,14 @@
             "newCompany": "New company",
             "subscriptions": {
                 "deal": {
+                    "automaticSynchronizationWithFMK": "Automatic synchronization with FMK",
                     "department": "Department",
                     "departments": "departments",
                     "goodForTheSmallerSocialOffer": "Good for the smaller social offer",
                     "month": "Month",
                     "perfectForTheLargerSocialOffer": "Perfect for the larger social offer",
                     "storageSpace": "Storage space",
+                    "telephoneSupport": "Telephone support",
                     "user": "User",
                     "users": "Users",
                     "year": "Year"
@@ -1155,6 +1157,7 @@
         "deal": {
             "additionalPurchaseFor": "Additional purchase for",
             "annually": "Annually",
+            "automaticSynchronizationWithFMK": "Automatic synchronization with FMK",
             "department": "Department",
             "departments": "departments",
             "forExtraDepartment": "For extra department",
