@@ -64,8 +64,7 @@
             </div>
             <div class="space-y-1">
                 <FormLabel for="type" :label="$t('superadmin.apps.form.type')" />
-                <FormTextField id="type" name="type" :placeholder="$t('superadmin.apps.form.type')"
-                    v-model="state.formApp.type" />
+                <FormSelect id="type" :options="state.options.type" v-model="state.formApp.type" />
                 <FormError :error="v$?.formApp?.type?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.type?.[0]" />
             </div>
@@ -112,6 +111,7 @@ const logo = ref<HTMLInputElement | null>(null)
 const logoUrl = ref(`https://via.placeholder.com/1024x1024.png?text=Upload+Image`)
 const image = ref<HTMLInputElement | null>(null)
 const imageUrl = ref(`https://via.placeholder.com/1024x1024.png?text=Upload+Image`)
+const language = useI18n()
 
 const state = reactive({
     error: {} as Error,
@@ -123,6 +123,13 @@ const state = reactive({
         logo: '',
         image: '',
     } as AppForm,
+    options: {
+        type: [
+            { value: 'marketing', label: `${t('superadmin.apps.form.types.marketing')}` },
+            { value: 'visual', label: `${t('superadmin.apps.form.types.visual')}` },
+            { value: 'other', label: `${t('superadmin.apps.form.types.other')}` },
+        ]
+    }
 })
 
 watch(() => props.selectedApp, (newValue: any) => {
@@ -135,6 +142,16 @@ watch(() => props.selectedApp, (newValue: any) => {
             logo: newValue.logo,
             image: newValue.image,
         }
+    }
+})
+
+watch(() => language.locale.value, (newValue: any) => {
+    if (newValue != null) {
+        state.options.type = [
+            { value: 'marketing', label: `${t('superadmin.apps.form.types.marketing')}` },
+            { value: 'visual', label: `${t('superadmin.apps.form.types.visual')}` },
+            { value: 'other', label: `${t('superadmin.apps.form.types.other')}` },
+        ]
     }
 })
 
@@ -151,12 +168,6 @@ const rules = computed(() => {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             type: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            logo: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            image: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },

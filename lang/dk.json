@@ -886,7 +886,12 @@
                 "image": "Billede",
                 "name": "Navn",
                 "price": "Pris",
-                "type": "Type"
+                "type": "Type",
+                "types": {
+                    "marketing": "Marketing",
+                    "other": "Andet",
+                    "visual": "Visuel"
+                }
             },
             "newApp": "Ny app",
             "table": {

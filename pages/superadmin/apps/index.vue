@@ -97,7 +97,7 @@ const state = reactive({
     modal: {
         isDeleteAppOpen: false
     },
-    selectedApp: [],
+    selectedApp: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -166,7 +166,7 @@ async function deleteApp() {
         const response = await appService.deleteApp(appUuid)
         if (response) {
             fetchApps()
-            successAlert(`${t('alert.success')}!`, `${t('superadmin.apps.form.alert.appSuccessfullyDeleted')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('superadmin.apps.alert.appSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error
