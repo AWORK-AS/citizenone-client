@@ -116,7 +116,8 @@ const state = reactive({
         jobTitles: [],
         shifts: [
             { value: 'regular_shift', label: `${t('dutySchedules.shifts.regularShift')}` },
-            { value: 'night_shift', label: `${t('dutySchedules.shifts.nightShift')}` },
+            { value: 'awake_night_shift', label: `${t('dutySchedules.shifts.awakeNightShift')}` },
+            { value: 'sleeping_night_shift', label: `${t('dutySchedules.shifts.sleepingNightShift')}` },
             { value: 'vacation_leave', label: `${t('dutySchedules.shifts.vacationLeave')}` },
             { value: 'sick_leave', label: `${t('dutySchedules.shifts.sickLeave')}` },
         ]
