@@ -18,7 +18,13 @@
                 <FormError :error="props?.error?.errors?.shift_type?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="job_id" :label="$t('dutySchedules.scheduleSlots.form.jobTitle')" />
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="job_id" :label="$t('dutySchedules.scheduleSlots.form.jobTitle')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddJobTitleOpen = true">
+                        {{ $t('jobTitles.addNewJobTitle') }}
+                    </span>
+                </div>
                 <FormSelect id="job_id" name="job_id" :options="state.options.jobTitles"
                     v-model="state.formScheduleSlot.job_id" />
                 <FormError :error="v$?.formScheduleSlot?.job_id?.$errors[0]?.$message.toString()" />
@@ -49,14 +55,6 @@
                 <FormError :error="v$?.formScheduleSlot?.time_out?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.time_out?.[0]" />
             </div>
-            <div class="space-y-1">
-                <FormLabel for="working_hours" :label="$t('dutySchedules.scheduleSlots.form.workingHours')" />
-                <FormTextField id="working_hours" name="working_hours"
-                    :placeholder="$t('dutySchedules.scheduleSlots.form.workingHours')"
-                    v-model="state.formScheduleSlot.working_hours" />
-                <FormError :error="v$?.formScheduleSlot?.working_hours?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.working_hours?.[0]" />
-            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -69,6 +67,8 @@
                 </FormButton>
             </div>
         </div>
+        <ModulesJobTitleModalNew :isModalOpen="state.modal.isAddJobTitleOpen"
+            @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitle="fetchJobTitles" />
     </form>
 </template>
 
@@ -109,8 +109,10 @@ const state = reactive({
         available_slots: props.selectedScheduleSlot?.available_slots.toString(),
         time_in: props.selectedScheduleSlot?.time_in,
         time_out: props.selectedScheduleSlot?.time_out,
-        working_hours: props.selectedScheduleSlot?.working_hours.toString(),
         shift_type: props.selectedScheduleSlot?.shift_type,
+    },
+    modal: {
+        isAddJobTitleOpen: false
     },
     options: {
         jobTitles: [],
@@ -169,9 +171,6 @@ const rules = computed(() => {
                 time_out: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
-                working_hours: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
                 shift_type: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
@@ -193,9 +192,6 @@ const rules = computed(() => {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 time_out: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                working_hours: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 shift_type: {

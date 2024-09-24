@@ -44,7 +44,6 @@ const state = reactive({
         available_slots: '',
         time_in: '',
         time_out: '',
-        working_hours: '',
         shift_type: '',
     },
     isPageLoading: false,
@@ -66,7 +65,6 @@ async function saveScheduleSlot(scheduleSlotDetails: any) {
             available_slots: scheduleSlotDetails.available_slots,
             time_in: scheduleSlotDetails.time_in,
             time_out: scheduleSlotDetails.time_out,
-            working_hours: scheduleSlotDetails.working_hours,
             shift_type: scheduleSlotDetails.shift_type,
         }
         const response = await scheduleSlotService.saveScheduleSlot(params)
