@@ -139,8 +139,14 @@ watch(() => props.selectedApp, (newValue: any) => {
             description: newValue.description,
             price: newValue.price,
             type: newValue.type,
-            logo: newValue.logo,
-            image: newValue.image,
+            logo: '',
+            image: '',
+        }
+        if (newValue.logo) {
+            logoUrl.value = newValue.logo
+        }
+        if (newValue.image) {
+            imageUrl.value = newValue.image
         }
     }
 })
