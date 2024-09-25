@@ -393,8 +393,23 @@
         },
         "newSchedule": "Ny vagtplan",
         "noScheduleFound": "Ingen tidsplan fundet",
-        "typeofShift": "Vagttyper",
-        "typeofShifts": "Vagttyper",
+        "requesters": {
+            "confirmation": {
+                "approveConfirmation": "Er du sikker på, at du vil godkende denne anmodning",
+                "disapproveConfirmation": "Er du sikker på, at du vil afslå denne anmodning"
+            },
+            "table": {
+                "alert": {
+                    "requestApprovedSuccessfully": "Anmodning godkendt med succes",
+                    "requestDisapprovedSuccessfully": "Anmodning afslået med succes"
+                },
+                "actions": {
+                    "approve": "Godkend",
+                    "disapprove": "Afslå"
+                },
+                "name": "Navn"
+            }
+        },
         "scheduleSlots": {
             "alert": {
                 "requestForThisScheduleSlotHasBennSuccessfullySent": "Anmodning om dette tidsinterval er sendt med succes",
@@ -424,9 +439,10 @@
             "scheduleSlots": "Tidspunkter",
             "table": {
                 "active": "Aktiv",
-                "action": {
+                "actions": {
                     "delete": "Slet",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "viewRequesters": "Se anmodere"
                 },
                 "availableSlots": "Tilgængelige tider",
                 "date": "Dato",
@@ -453,6 +469,8 @@
             "sleepingNightShiftHours": "Sovende nattevagt",
             "timer": "Timer"
         },
+        "typeofShift": "Vagttyper",
+        "typeofShifts": "Vagttyper",
         "week": "Uge",
         "yearToDate": "År til dato"
     },

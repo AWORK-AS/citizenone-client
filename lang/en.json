@@ -393,8 +393,23 @@
         },
         "newSchedule": "New schedule",
         "noScheduleFound": "No schedule found",
-        "typeofShift": "Type of shift",
-        "typeofShifts": "Type of shifts",
+        "requesters": {
+            "confirmation": {
+                "approveConfirmation": "Are you sure you want to approve this request",
+                "disapproveConfirmation": "Are you sure you want to disapprove this request"
+            },
+            "table": {
+                "alert": {
+                    "requestApprovedSuccessfully": "Request approved successfully",
+                    "requestDisapprovedSuccessfully": "Request disapproved successfully"
+                },
+                "actions": {
+                    "approve": "Approve",
+                    "disapprove": "Dispprove"
+                },
+                "name": "Name"
+            }
+        },
         "scheduleSlots": {
             "alert": {
                 "requestForThisScheduleSlotHasBennSuccessfullySent": "Request for this schedule slot has been successfully sent",
@@ -424,9 +439,10 @@
             "scheduleSlots": "Schedule slots",
             "table": {
                 "active": "Active",
-                "action": {
+                "actions": {
                     "delete": "Delete",
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "viewRequesters": "View requesters"
                 },
                 "availableSlots": "Available slots",
                 "date": "Date",
@@ -453,6 +469,8 @@
             "sleepingNightShiftHours": "Sleeping night shift",
             "timer": "Timer"
         },
+        "typeofShift": "Type of shift",
+        "typeofShifts": "Type of shifts",
         "week": "Week",
         "yearToDate": "Year to date"
     },

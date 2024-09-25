@@ -62,11 +62,21 @@
                                         </td>
                                         <td width="20%">
                                             <div class="flex items-end gap-2">
+                                                <!-- <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="editScheduleSlot(slot)">
+                                                    <Icon name="ph:eye" class="size-4" />
+                                                    {{ $t('dutySchedules.scheduleSlots.table.actions.viewRequesters') }}
+                                                </FormButton> -->
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="editScheduleSlot(slot)">
                                                     <Icon name="ph:pencil" class="size-4" />
-                                                    {{ $t('employees.table.actions.edit') }}
+                                                    {{ $t('dutySchedules.scheduleSlots.table.actions.edit') }}
                                                 </FormButton>
+                                                <!-- <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="editScheduleSlot(slot)">
+                                                    <Icon name="ph:trash" class="size-4" />
+                                                    {{ $t('dutySchedules.scheduleSlots.table.actions.delete') }}
+                                                </FormButton> -->
                                             </div>
                                         </td>
                                     </tr>
