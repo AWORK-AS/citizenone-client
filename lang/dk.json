@@ -398,6 +398,7 @@
                 "approveConfirmation": "Er du sikker på, at du vil godkende denne anmodning",
                 "disapproveConfirmation": "Er du sikker på, at du vil afslå denne anmodning"
             },
+            "requesters": "Anmodere",
             "table": {
                 "alert": {
                     "requestApprovedSuccessfully": "Anmodning godkendt med succes",
@@ -449,7 +450,8 @@
                 "inactive": "Inaktiv",
                 "jobTitle": "Jobtitel",
                 "shiftType": "Vagttype",
-                "status": "Status",
+                "status": "Tid",
+                "time": "Time",
                 "timeIn": "Tid ind",
                 "timeOut": "Tid ud",
                 "workingHours": "Arbejdstimer"

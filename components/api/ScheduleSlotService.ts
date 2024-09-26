@@ -20,6 +20,10 @@ class ScheduleSlotService extends BaseAPIService {
     async deleteScheduleSlot(scheduleSlotUuid: any): Promise<any> {
         return await this.request(`/user/schedule-slots/${scheduleSlotUuid}`, 'DELETE')
     }
+
+    async getScheduleSlotsRequesters(scheduleSlotUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/schedule-slots/${scheduleSlotUuid}/schedule-grabbers`, 'GET', params)
+    }
 }
 
 export const scheduleSlotService = new ScheduleSlotService()

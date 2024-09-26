@@ -387,7 +387,7 @@
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift" />
             <ModulesDutyScheduleScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
                 :selectedDay="state.manageScheduleSlot.selectedDay"
-                @close="state.modal.isManageScheduleSlotOpen = false" />
+                @close="state.modal.isManageScheduleSlotOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
         </LoadingSpinner>
     </div>
 </template>

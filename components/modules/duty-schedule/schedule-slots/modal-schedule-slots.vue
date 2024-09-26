@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="3xl"
+        <Modal size="4xl"
             :title="$t('dutySchedules.scheduleSlots.scheduleSlots') + ' (' + formatDateToReadable(props?.selectedDay?.fullDate) + ')'"
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
@@ -37,46 +37,33 @@
                                                 {{ $t('dutySchedules.shifts.vacationLeave') }}
                                             </span>
                                         </td>
-                                        <td width="20%">
+                                        <td width="15%">
                                             <span>{{ slot?.job?.title }}</span>
                                         </td>
-                                        <td width="10%">
-                                            <span>{{ moment(slot?.time_in, "HH:mm").format('hh:mm') }}</span>
-                                        </td>
-                                        <td width="10%">
+                                        <td width="20%">
+                                            <span>{{ moment(slot?.time_in, "HH:mm").format('hh:mm') }}</span> -
                                             <span>{{ moment(slot?.time_out, "HH:mm").format('hh:mm') }}</span>
                                         </td>
-                                        <td width="10%">
+                                        <td width="5%">
                                             <span>{{ slot?.available_slots }}</span>
                                         </td>
-                                        <td width="10%">
-                                            <Badge :type="slot?.is_active ? 'active' : 'primary'">
-                                                <p class="text-xs">
-                                                    {{
-                                                        slot?.is_active ?
-                                                            $t('dutySchedules.scheduleSlots.table.active') :
-                                                            $t('dutySchedules.scheduleSlots.table.inactive')
-                                                    }}
-                                                </p>
-                                            </Badge>
-                                        </td>
-                                        <td width="20%">
+                                        <td width="40%">
                                             <div class="flex items-end gap-2">
-                                                <!-- <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="editScheduleSlot(slot)">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="viewScheduleSlotRequesters(slot)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                     {{ $t('dutySchedules.scheduleSlots.table.actions.viewRequesters') }}
-                                                </FormButton> -->
+                                                </FormButton>
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="editScheduleSlot(slot)">
                                                     <Icon name="ph:pencil" class="size-4" />
                                                     {{ $t('dutySchedules.scheduleSlots.table.actions.edit') }}
                                                 </FormButton>
-                                                <!-- <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="editScheduleSlot(slot)">
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                    @click="confirmScheduleSlotDeletion(slot)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                     {{ $t('dutySchedules.scheduleSlots.table.actions.delete') }}
-                                                </FormButton> -->
+                                                </FormButton>
                                             </div>
                                         </td>
                                     </tr>
@@ -86,12 +73,20 @@
                         <Pagination :data="state.scheduleSlots" @previous="previous" @next="next" />
                     </div>
                 </div>
+                <ModulesDutyScheduleScheduleSlotsModalRequesters
+                    :isModalOpen="state.modal.isViewScheduleSlotRequestersOpen"
+                    :selectedScheduleSlot="state.selectedScheduleSlot"
+                    @close="state.modal.isViewScheduleSlotRequestersOpen = false"
+                    @refreshScheduleSlotAndDutySchedules="fetchScheduleSlotsAndDutySchedules" />
                 <ModulesDutyScheduleScheduleSlotsModalNewScheduleSlot
                     :isModalOpen="state.modal.isAddNewScheduleSlotOpen" :selectedDay="props.selectedDay"
                     @close="state.modal.isAddNewScheduleSlotOpen = false" @refreshScheduleSlot="fetchScheduleSlots" />
                 <ModulesDutyScheduleScheduleSlotsModalEditScheduleSlot :isModalOpen="state.modal.isEditScheduleSlotOpen"
                     :selectedScheduleSlot="state.selectedScheduleSlot"
                     @close="state.modal.isEditScheduleSlotOpen = false" @refreshScheduleSlot="fetchScheduleSlots" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleSlotOpen"
+                    :message="$t('dutySchedules.scheduleSlots.confirmation.requestConfirmation') + '?'"
+                    @close="state.modal.isDeleteScheduleSlotOpen = false" @confirm="deleteScheduleSlot" />
             </template>
         </Modal>
     </div>
@@ -101,6 +96,8 @@
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { scheduleSlotService } from '@/components/api/ScheduleSlotService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -113,9 +110,11 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshDutySchedules'])
 
 const { formatDateToReadable } = useDatetimeFormatter()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
@@ -126,10 +125,8 @@ const state = reactive({
     columnHeaders: [
         { name: 'dutySchedules.scheduleSlots.table.shiftType' },
         { name: 'dutySchedules.scheduleSlots.table.jobTitle' },
-        { name: 'dutySchedules.scheduleSlots.table.timeIn' },
-        { name: 'dutySchedules.scheduleSlots.table.timeOut' },
+        { name: 'dutySchedules.scheduleSlots.table.time' },
         { name: 'dutySchedules.scheduleSlots.table.availableSlots' },
-        { name: 'dutySchedules.scheduleSlots.table.status' },
         { name: '' },
 
     ],
@@ -140,6 +137,7 @@ const state = reactive({
         isAddNewScheduleSlotOpen: false,
         isEditScheduleSlotOpen: false,
         isDeleteScheduleSlotOpen: false,
+        isViewScheduleSlotRequestersOpen: false,
     },
     scheduleSlots: [] as any,
     selectedScheduleSlot: [] as any,
@@ -158,6 +156,11 @@ watch(() => props.isModalOpen, (isModalOpen: Boolean) => {
 
 function closeModal() {
     emit('close')
+}
+
+function fetchScheduleSlotsAndDutySchedules() {
+    fetchScheduleSlots()
+    emit('refreshDutySchedules')
 }
 
 async function fetchScheduleSlots() {
@@ -207,8 +210,34 @@ function handleFilter(value: any) {
     fetchScheduleSlots()
 }
 
+function viewScheduleSlotRequesters(slot: any) {
+    state.selectedScheduleSlot = slot
+    state.modal.isViewScheduleSlotRequestersOpen = true
+}
+
 function editScheduleSlot(slot: any) {
     state.selectedScheduleSlot = slot
     state.modal.isEditScheduleSlotOpen = true
+}
+
+function confirmScheduleSlotDeletion(slot: any) {
+    state.selectedScheduleSlot = slot
+    state.modal.isDeleteScheduleSlotOpen = true
+}
+
+async function deleteScheduleSlot() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const scheduleSlotUuid = state.selectedScheduleSlot.uuid
+        const response = await scheduleSlotService.deleteScheduleSlot(scheduleSlotUuid)
+        if (response) {
+            fetchScheduleSlots()
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleSlots.alert.scheduleSlotSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

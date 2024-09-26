@@ -398,6 +398,7 @@
                 "approveConfirmation": "Are you sure you want to approve this request",
                 "disapproveConfirmation": "Are you sure you want to disapprove this request"
             },
+            "requesters": "Requesters",
             "table": {
                 "alert": {
                     "requestApprovedSuccessfully": "Request approved successfully",
@@ -450,6 +451,7 @@
                 "jobTitle": "Job title",
                 "shiftType": "Shift type",
                 "status": "Status",
+                "time": "Time",
                 "timeIn": "Time in",
                 "timeOut": "Time out",
                 "workingHours": "Working hours"

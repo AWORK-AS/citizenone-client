@@ -51,9 +51,9 @@ const props = defineProps({
 })
 
 const state = reactive({
-    filters: [],
-    searchInput: null,
-    tableFilter: [],
+    filters: [] as any,
+    searchInput: null as any,
+    tableFilter: [] as any,
 })
 
 const emit = defineEmits(['handleFilter'])
@@ -88,8 +88,8 @@ function addFilter(event: any) {
 }
 
 function deleteFilter(key: Number) {
-    var item = state.filters.find((item, index) => index == key)
-    state.filters = state.filters.filter((data, index) => index !== key)
+    var item = state.filters.find((item: any, index: any) => index == key)
+    state.filters = state.filters.filter((data: any, index: any) => index !== key)
     delete state.tableFilter[convertToTableNaming(item.column)]
     emit('handleFilter', state.tableFilter)
 }
@@ -112,7 +112,7 @@ function convertToTableNaming(column: String) {
     return string.toLowerCase()
 }
 
-function converToFilterValue(filterData: Object) {
+function converToFilterValue(filterData: any) {
     if (filterData) {
         var dataKeys = Object.keys(filterData)
         var final = dataKeys.map(function (x) {
