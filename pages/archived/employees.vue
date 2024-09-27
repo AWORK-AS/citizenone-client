@@ -177,6 +177,11 @@ async function unarchiveEmployee() {
         }
     } catch (error: any) {
         state.error = error
+        if (error?.message === 'You have no available user license.') {
+            navigateTo(`/subscription?error=${error?.message}`)
+        } else if (error?.message === 'Du har ingen tilgængelige brugerlicenser til at oprette en ny medarbejder.') {
+            navigateTo(`/subscription?error=${error?.message}`)
+        }
     }
     state.isTableLoading = false
 }
