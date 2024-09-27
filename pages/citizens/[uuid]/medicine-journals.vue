@@ -46,7 +46,7 @@
                                     <td width="30%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="editMedicine(medicine)">
+                                                @click="editMedicine(medicine)" v-if="medicine?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.medicineJournals.table.actions.edit') }}
                                             </FormButton>

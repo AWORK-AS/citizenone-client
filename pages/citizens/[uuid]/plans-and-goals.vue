@@ -68,7 +68,8 @@
                                     </div>
                                     <div>
                                         <div class="flex items-center gap-3 flex-wrap md:flex-nowrap">
-                                            <FormButton class="rounded-md" buttonSize="sm" @click="editPlan(plan)">
+                                            <FormButton class="rounded-md" buttonSize="sm" @click="editPlan(plan)"
+                                                v-if="plan?.is_editable">
                                                 <Icon name="ph:pencil-duotone" class="size-4" />
                                                 {{ $t('plansandgoals.table.actions.edit') }}
                                             </FormButton>

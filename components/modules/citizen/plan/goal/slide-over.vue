@@ -92,7 +92,7 @@
                                                                     </span>
                                                                 </FormButton>
                                                                 <FormButton class="rounded-md" buttonSize="sm"
-                                                                    @click="editGoal(goal)">
+                                                                    @click="editGoal(goal)" v-if="goal?.is_editable">
                                                                     <Icon name="ph:pencil-duotone" class="size-4" />
                                                                     <span class="hidden md:block">
                                                                         {{ $t('plansandgoals.table.actions.edit') }}
@@ -180,7 +180,8 @@
                                                                             <div class="flex gap-x-1">
                                                                                 <FormButton class="rounded-md"
                                                                                     buttonSize="sm"
-                                                                                    @click="editSubGoal(subgoal)">
+                                                                                    @click="editSubGoal(subgoal)"
+                                                                                    v-if="subgoal?.is_editable">
                                                                                     <Icon name="ph:pencil-duotone"
                                                                                         class="size-4" />
                                                                                     <span class="hidden md:block">

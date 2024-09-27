@@ -151,8 +151,8 @@
                                     </div>
                                     <div class="ms-auto">
                                         <div class="flex items-center gap-x-2">
-                                            <FormButton class="rounded-md" buttonSize="xs"
-                                                @click="editJournal(journal)">
+                                            <FormButton class="rounded-md" buttonSize="xs" @click="editJournal(journal)"
+                                                v-if=journal?.is_editable>
                                                 <Icon name="ph:pencil-duotone" class="size-4" />
                                             </FormButton>
                                             <FormButton buttonSize="xs" :class="[

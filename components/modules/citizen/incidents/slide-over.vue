@@ -76,7 +76,8 @@
                                                                 </p>
                                                             </div>
                                                             <FormButton class="rounded-md h-fit" buttonSize="xs"
-                                                                @click="editIncident(incident)">
+                                                                @click="editIncident(incident)"
+                                                                v-if="incident?.is_editable">
                                                                 <Icon name="ph:pencil-duotone" class="size-4" />
                                                             </FormButton>
                                                         </div>
@@ -146,10 +147,6 @@ const state = reactive({
         sortField: 'date',
         sortOrder: 'descend',
     },
-})
-
-onMounted(() => {
-    fetchIncidents()
 })
 
 watch(() => props.isOpen, (isOpen: any) => {
