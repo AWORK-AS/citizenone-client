@@ -24,11 +24,14 @@
                                     v-if="!(state.isTableLoading || (state.scheduleSlots?.data?.length === 0))">
                                     <tr v-for="(slot, index) in state.scheduleSlots?.data" :key="index">
                                         <td width="20%">
-                                            <span v-if="slot?.shift_type === 'night_shift'">
-                                                {{ $t('dutySchedules.shifts.nightShift') }}
-                                            </span>
                                             <span v-if="slot?.shift_type === 'regular_shift'">
                                                 {{ $t('dutySchedules.shifts.regularShift') }}
+                                            </span>
+                                            <span v-if="slot?.shift_type === 'sleeping_night_shift'">
+                                                {{ $t('dutySchedules.shifts.sleepingNightShift') }}
+                                            </span>
+                                            <span v-if="slot?.shift_type === 'awake_night_shift'">
+                                                {{ $t('dutySchedules.shifts.awakeNightShift') }}
                                             </span>
                                             <span v-if="slot?.shift_type === 'sick_leave'">
                                                 {{ $t('dutySchedules.shifts.sickLeave') }}
