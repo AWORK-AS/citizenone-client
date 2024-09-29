@@ -106,7 +106,7 @@
                             </FormButton>
                         </div>
                         <p class="text-center text-sm leading-6 text-gray-500 cursor-pointer" @click="navigateTo('/')">
-                            {{ $t('register.form.alreadyHaveAnAcoount') }}?
+                            {{ $t('register.form.alreadyHaveAnAccount') }}?
                             {{ ' ' }}
                             <a class="text-primary hover:text-primary-800 cursor-pointer">
                                 {{ $t('register.form.loginHere') }}

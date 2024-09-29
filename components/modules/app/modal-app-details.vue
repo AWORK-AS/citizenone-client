@@ -16,6 +16,9 @@
                         <p class="text-muted-800 dark:text-muted-100 font-sans text-sm">
                             {{ props.selectedApp?.description }}
                         </p>
+                        <p class="cursor-pointer text-xs text-tertiary hover:text-tertiary/90" @click="navigateToTAC">
+                            {{ $t('apps.termsAndConditions') }}
+                        </p>
                     </div>
                 </div>
                 <div class="mt-5 flex gap-x-3">
@@ -64,5 +67,14 @@ function formatAmount(amount: any) {
 
     // Combine the integer part with the decimal part
     return 'DKK ' + formattedIntegerPart + ',' + decimalPart
+}
+
+async function navigateToTAC() {
+    await navigateTo('https://citizenone.dk/vilkaarogbetingelser/', {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 </script>

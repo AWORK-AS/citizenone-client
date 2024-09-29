@@ -35,9 +35,11 @@
     },
     "apps": {
         "activate": "Activate",
+        "apps": "Apps",
         "contactUs": "Contact us",
+        "iHaveReadAndAcceptThe": "I have read and accept the",
         "readMore": "Read more",
-        "apps": "Apps"
+        "termsAndConditions": "Terms and Conditions"
     },
     "archived": {
         "alert": {
@@ -1114,6 +1116,7 @@
     "register": {
         "form": {
             "createAccount": "Create account",
+            "alreadyHaveAnAccount": "Already have an account",
             "companyName": "Company name",
             "firstname": "First name",
             "lastname": "Last name",
@@ -1123,7 +1126,6 @@
             "phone": "Phone",
             "iHaveReadAndAcceptThe": "I have read and accept the",
             "termsAndConditions": "Terms and Conditions",
-            "alreadyHaveAnAcoount": "Already have an account",
             "loginHere": "Login here",
             "agreetoTAC": "You must agree to the terms and conditions"
         }

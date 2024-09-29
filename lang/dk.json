@@ -35,9 +35,11 @@
     },
     "apps": {
         "activate": "Aktivér",
+        "apps": "Apps",
         "contactUs": "Kontakt os",
+        "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
         "readMore": "Læs mere",
-        "apps": "Apps"
+        "termsAndConditions": "Vilkår og betingelser"
     },
     "archived": {
         "alert": {
@@ -1112,7 +1114,7 @@
     "register": {
         "form": {
             "agreetoTAC": "Du skal acceptere vilkårene og betingelserne",
-            "alreadyHaveAnAcoount": "Har du allerede en konto",
+            "alreadyHaveAnAccount": "Har du allerede en konto",
             "companyName": "Firmanavn",
             "confirmPassword": "Bekræft adgangskode",
             "createAccount": "Opret konto",
