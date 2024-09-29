@@ -23,11 +23,32 @@
                         </div>
 
                         <!-- Notification List Container -->
-                        <ul class="divide-y divide-gray-200">
+                        <ul class="mt-5 space-y-5">
                             <!-- Notification Item -->
-                            <li class="py-4 cursor-pointer" v-for="(notification, index) in state.notifications"
-                                :key="index" @click="viewNotification(notification)">
-                                <div class="flex items-center space-x-4">
+                            <li class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-8 border-secondary mt cursor-pointer"
+                                v-for="(notification, index) in state.notifications" :key="index"
+                                @click="viewNotification(notification)">
+                                <Badge type="primary" class="w-fit">
+                                    <p class="text-xs px-2">
+                                        asdasd
+                                    </p>
+                                </Badge>
+                                <p class="text-xs py-1"
+                                    v-if="notification?.data?.user?.firstname && notification?.data?.user?.lastname">
+                                    {{ $t('dailyOverview.createdBy') }}
+                                    {{ notification?.data?.user?.firstname + ' ' +
+                                        notification?.data?.user?.lastname }}
+                                </p>
+                                <div class="px-1">
+                                    <h3 class="text-base font-semibold">
+                                        {{ notification?.data?.title }}
+                                    </h3>
+                                    <div v-html="notification?.data?.content" class="text-sm line-clamp-2" />
+                                    <p class="content text-xs text-muted-400 mt-1">
+                                        <span>{{ formatDateToReadable(notification?.data?.date) }}</span>
+                                    </p>
+                                </div>
+                                <!-- <div class="mt-2 flex items-center space-x-4">
                                     <div>
                                         <Icon name="ph:note-duotone" class="h-6 w-6" aria-hidden="true" />
                                     </div>
@@ -41,7 +62,7 @@
                                             </span>
                                         </p>
                                     </div>
-                                </div>
+                                </div> -->
                             </li>
                         </ul>
                     </div>

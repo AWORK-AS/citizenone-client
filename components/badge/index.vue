@@ -4,7 +4,7 @@
         props.type === 'active' && 'bg-green-700 text-white text-xs',
         props.type === 'inactive' && 'bg-red-800 text-white text-xs',
         props.type === 'coming-soon' && 'bg-secondary text-white',
-        props.type === 'notification' && 'bg-[#D27B7B] text-white text-xs',
+        props.type === 'notification' && 'bg-[#D27B7B] text-white text-xxs',
         props.type === 'cart' && 'bg-[#D27B7B] text-white text-xs',
         props.type === 'none' && 'bg-primary text-white text-xs',
         props.type === 'no-risk' && 'bg-green-700 text-white text-xs',
