@@ -48,21 +48,6 @@
                                         <span>{{ formatDateToReadable(notification?.data?.date) }}</span>
                                     </p>
                                 </div>
-                                <!-- <div class="mt-2 flex items-center space-x-4">
-                                    <div>
-                                        <Icon name="ph:note-duotone" class="h-6 w-6" aria-hidden="true" />
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-medium text-gray-900 truncate">
-                                            {{ notification?.data?.title }}
-                                        </p>
-                                        <p class="mt-1 text-xs text-muted-400">
-                                            <span>
-                                                {{ formatDateToReadable(notification?.data?.date) }}
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div> -->
                             </li>
                         </ul>
                     </div>
