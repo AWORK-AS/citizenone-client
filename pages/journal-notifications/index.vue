@@ -35,7 +35,7 @@
                                 </Badge>
                                 <p class="text-xs py-1"
                                     v-if="notification?.data?.user?.firstname && notification?.data?.user?.lastname">
-                                    {{ $t('dailyOverview.createdBy') }}
+                                    {{ $t('journalNotifications.createdBy') }}
                                     {{ notification?.data?.user?.firstname + ' ' +
                                         notification?.data?.user?.lastname }}
                                 </p>

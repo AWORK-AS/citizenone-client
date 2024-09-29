@@ -610,6 +610,7 @@
         }
     },
     "journalNotifications": {
+        "createdBy": "Oprettet af",
         "markAllAsRead": "Markér alle som læst",
         "unreadJournalNotes": "Ulæste journalnotater",
         "youDontHaveUnreadJournalNotes": "Du har ingen ulæste journalnotater"

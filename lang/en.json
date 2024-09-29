@@ -610,6 +610,7 @@
         }
     },
     "journalNotifications": {
+        "createdBy": "Created by",
         "markAllAsRead": "Mark all as read",
         "unreadJournalNotes": "Unread journal notes",
         "youDontHaveUnreadJournalNotes": "You don't have unread journal notes"
