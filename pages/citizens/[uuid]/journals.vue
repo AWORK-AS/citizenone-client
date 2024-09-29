@@ -21,7 +21,7 @@
                 <ModulesCitizenJournalTabs />
 
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="space-y-3">
+                    <div class="space-y-5">
                         <div class="flex justify-between flex-col-reverse md:flex-row gap-3">
                             <div class="space-y-3 flex-none md:space-y-0 md:flex items-center gap-2">
                                 <FormButton class="w-full md:w-fit"
@@ -53,7 +53,7 @@
                             </div>
                         </div>
 
-                        <div class="pb-5 border-b border-dashed border-tertiary">
+                        <div class="pb-10 border-b">
                             <div class="flex flex-wrap justify-end items-end gap-2">
                                 <FormTextField id="filter_journal" name="filter_journal"
                                     :placeholder="$t('citizens.citizenJournals.filter.filterJournal')"
@@ -84,14 +84,14 @@
                                     'rounded-md w-full md:w-fit']" @click="fetchFavoriteJournals('Favorite journals')">
                                     <Icon name="ph:star" class="size-4" />
                                 </FormButton>
-                                <FormButton class="rounded-md" buttonSize="sm" @click="resetFilter">
+                                <FormButton class="rounded-md w-full md:w-fit" buttonSize="sm" @click="resetFilter">
                                     <Icon name="mdi:refresh" class="size-4" />
                                 </FormButton>
                             </div>
                         </div>
                         <div class="space-y-5">
-                            <div class="mb-2 gap-2 border-b pb-5 px-2" v-for="(journal, index) in state.journals?.data"
-                                :key="index">
+                            <div class="mb-2 gap-2 border-b border-dashed pb-5 px-2"
+                                v-for="(journal, index) in state.journals?.data" :key="index">
                                 <div class="space-y-3">
                                     <div class="space-y-1.5">
                                         <div>

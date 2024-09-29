@@ -3,7 +3,7 @@
         <LoadingSpinner :isActive="state.isPageLoading">
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
-            <div class="md:flex md:justify-between md:space-x-5">
+            <div class="md:flex md:justify-between md:space-x-5 relative">
                 <div class="flex items-start space-x-5">
                     <div class="flex-shrink-0">
                         <div class="relative">
@@ -29,7 +29,8 @@
                     </div>
                 </div>
                 <ModulesCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
-                    v-if="$route.name === 'citizens-uuid-medicine-journals'" />
+                    v-if="$route.name === 'citizens-uuid-medicine-journals'"
+                    class="lg:absolute lg:right-0 lg:-top-20" />
                 <ModulesCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
             </div>
         </LoadingSpinner>
