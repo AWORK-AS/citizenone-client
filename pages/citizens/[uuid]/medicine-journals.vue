@@ -104,13 +104,13 @@ const state = reactive({
     dataFilter: [],
     error: {} as Error,
     isTableLoading: false,
-    medicines: [],
+    medicines: [] as any,
     modal: {
         isAddMedicineOpen: false,
         isDeleteMedicineOpen: false,
         isEditMedicineOpen: false,
     },
-    selectedMedicine: [],
+    selectedMedicine: [] as any,
     sortData: {
         sortField: 'date_given',
         sortOrder: 'descend',
