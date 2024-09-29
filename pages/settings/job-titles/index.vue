@@ -8,9 +8,11 @@
 
             <template #header>{{ $t('jobTitles.jobTitles') }}</template>
 
+            <ModulesSettingsTab />
+
             <div>
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/job-titles/new')">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/job-titles/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('jobTitles.newJobTitle') }}
                     </FormButton>
@@ -31,7 +33,7 @@
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/job-titles/edit/${jobTitle.uuid}`)">
+                                                @click="navigateTo(`/settings/job-titles/edit/${jobTitle.uuid}`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('jobTitles.table.actions.edit') }}
                                             </FormButton>

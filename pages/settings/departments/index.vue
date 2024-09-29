@@ -8,9 +8,12 @@
 
             <template #header>{{ $t('departments.departments') }}</template>
 
+            <ModulesSettingsTab />
+
             <div>
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/departments/new')">
+                    <FormButton buttonStyle="action" class="rounded-lg"
+                        @click="navigateTo('/settings/departments/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('departments.newDepartment') }}
                     </FormButton>
@@ -31,7 +34,7 @@
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/departments/edit/${department.uuid}`)">
+                                                @click="navigateTo(`/settings/departments/edit/${department.uuid}`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('departments.table.actions.edit') }}
                                             </FormButton>

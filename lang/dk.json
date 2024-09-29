@@ -601,7 +601,7 @@
             },
             "title": "Titel"
         },
-        "newJobTitle": "Jobtitel",
+        "newJobTitle": "Ny Jobtitel",
         "table": {
             "actions": {
                 "edit": "Rediger"
@@ -645,9 +645,6 @@
     },
     "navbar": {
         "activityLogs": "Aktivitetslogfiler",
-        "archived": "Arkiveret",
-        "departments": "Afdelinger",
-        "jobTitles": "Jobtitler",
         "newWishes": "Nye ønsker",
         "logout": "Log ud",
         "subscription": "Abonnement",
@@ -837,7 +834,10 @@
             "subscription": "Abonnement"
         },
         "tabs": {
+            "archived": "Arkiveret",
             "company": "Virksomhed",
+            "departments": "Afdelinger",
+            "jobTitles": "Jobtitler",
             "licenseOverview": "Licensoversigt",
             "licenseOverviewPlusSubscription": "Licensoversigt + Abonnement",
             "profile": "Profil",

@@ -59,12 +59,6 @@
                                                         <span v-if="item.name === 'Messages'">
                                                             {{ $t('sidebar.messages') }}
                                                         </span>
-                                                        <span v-if="item.name === 'Departments'">
-                                                            {{ $t('sidebar.departments') }}
-                                                        </span>
-                                                        <span v-if="item.name === 'Job Titles'">
-                                                            {{ $t('sidebar.jobTitles') }}
-                                                        </span>
                                                         <span v-if="item.name === 'Protocols'">
                                                             {{ $t('sidebar.protocols') }}
                                                         </span>
@@ -151,12 +145,6 @@
                                         </span>
                                         <span v-if="item.name === 'Messages'">
                                             {{ $t('sidebar.messages') }}
-                                        </span>
-                                        <span v-if="item.name === 'Departments'">
-                                            {{ $t('sidebar.departments') }}
-                                        </span>
-                                        <span v-if="item.name === 'Job Titles'">
-                                            {{ $t('sidebar.jobTitles') }}
                                         </span>
                                         <span v-if="item.name === 'Protocols'">
                                             {{ $t('sidebar.protocols') }}
@@ -272,34 +260,6 @@
                                         <div class="flex items-center gap-x-2">
                                             <Icon name="ph:clock" class="h-5 w-5" aria-hidden="true" />
                                             {{ $t('navbar.activityLogs') }}
-                                        </div>
-                                    </div>
-                                    </MenuItem>
-                                    <MenuItem>
-                                    <div class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100"
-                                        @click="navigateTo('/archived/citizens')">
-                                        <div class="flex items-center gap-x-2">
-                                            <Icon name="ph:archive" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.archived') }}
-                                        </div>
-                                    </div>
-                                    </MenuItem>
-                                    <MenuItem>
-                                    <div class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100"
-                                        @click="navigateTo('/departments')">
-                                        <div class="flex items-center gap-x-2">
-                                            <Icon name="mdi:hexagon-multiple-outline" class="h-5 w-5"
-                                                aria-hidden="true" />
-                                            {{ $t('navbar.departments') }}
-                                        </div>
-                                    </div>
-                                    </MenuItem>
-                                    <MenuItem>
-                                    <div class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100"
-                                        @click="navigateTo('/job-titles')">
-                                        <div class="flex items-center gap-x-2">
-                                            <Icon name="ph:briefcase" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.jobTitles') }}
                                         </div>
                                     </div>
                                     </MenuItem>

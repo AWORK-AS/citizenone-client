@@ -9,7 +9,8 @@
             <template #header>{{ $t('jobTitles.editJobTitle') }}</template>
 
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/job-titles">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                    to="/settings/job-titles">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -72,7 +73,7 @@ async function updateJobTitle(jobTitleDetails: any) {
         const response = await jobTitleService.updateJobTitle(jobTitleUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('jobTitles.form.alert.jobTitleSuccessfullyUpdated')}.`)
-            navigateTo('/job-titles')
+            navigateTo('/settings/job-titles')
         }
     } catch (error: any) {
         state.error = error

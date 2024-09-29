@@ -9,7 +9,8 @@
             <template #header>{{ $t('departments.editDepartment') }}</template>
 
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/departments">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                    to="/settings/departments">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -73,7 +74,7 @@ async function updateDepartment(departmentDetails: any) {
         const response = await departmentService.updateDepartment(departmentUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('departments.form.alert.departmentSuccessfullyUpdated')}.`)
-            navigateTo('/departments')
+            navigateTo('/settings/departments')
         }
     } catch (error: any) {
         state.error = error

@@ -9,17 +9,17 @@ const { t } = useI18n()
 
 const state = reactive({
     tabs: [
-        { name: 'archived.tabs.archivedCitizens', href: `/archived/citizens`, routeName: 'archived-citizens' },
-        { name: 'archived.tabs.archivedEmployees', href: `/archived/employees`, routeName: 'archived-employees' },
+        { name: 'archived.tabs.archivedCitizens', href: `/settings/archived/citizens`, routeNames: ['settings-archived-citizens'] },
+        { name: 'archived.tabs.archivedEmployees', href: `/settings/archived/employees`, routeNames: ['settings-archived-employees'] },
     ]
 })
 
 function changeTab(value: any) {
     if (value === t('archived.tabs.archivedCitizens')) {
-        navigateTo(`/archived/citizens`)
+        navigateTo(`/settings/archived/citizens`)
     }
     else if (value === t('archived.tabs.archivedEmployees')) {
-        navigateTo(`/archived/employees`)
+        navigateTo(`/settings/archived/employees`)
     }
 }
 </script>

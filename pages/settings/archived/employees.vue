@@ -8,7 +8,9 @@
 
             <template #header>{{ $t('employees.archivedEmployees') }}</template>
 
-            <ModulesArchivedTab />
+            <ModulesSettingsTab />
+
+            <ModulesArchivedTab class="mt-5" />
 
             <div class="mt-5">
                 <div class="space-y-5">

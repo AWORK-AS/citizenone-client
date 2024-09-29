@@ -601,7 +601,7 @@
             },
             "title": "Title"
         },
-        "newJobTitle": "Job title",
+        "newJobTitle": "New job title",
         "table": {
             "actions": {
                 "edit": "Edit"
@@ -645,9 +645,6 @@
     },
     "navbar": {
         "activityLogs": "Activity logs",
-        "archived": "Archived",
-        "departments": "Departments",
-        "jobTitles": "Job titles",
         "newWishes": "New wishes",
         "logout": "Log out",
         "subscription": "Subscription",
@@ -837,7 +834,10 @@
             "subscription": "Subscription"
         },
         "tabs": {
+            "archived": "Archived",
             "company": "Company",
+            "departments": "Departments",
+            "jobTitles": "Job titles",
             "licenseOverview": "License overview",
             "licenseOverviewPlusSubscription": "License overview + Subscription",
             "profile": "Profile",
