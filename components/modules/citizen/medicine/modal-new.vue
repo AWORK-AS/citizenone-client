@@ -76,7 +76,7 @@ async function saveMedicine(medicineDetails: any) {
         if (response?.data) {
             refreshMedicines()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.alert.successfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.form.alert.successfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error

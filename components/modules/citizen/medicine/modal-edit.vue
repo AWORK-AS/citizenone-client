@@ -67,7 +67,7 @@ async function updateMedicine(medicineDetails: any) {
         if (response?.data) {
             refreshMedicines()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.alert.successfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.form.alert.successfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error
