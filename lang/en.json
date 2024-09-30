@@ -327,6 +327,11 @@
         "citizensDailyEvents": "Citizens daily events",
         "createdBy": "Created by",
         "dailyOverview": "Daily overview",
+        "filter": {
+            "endDate": "End date",
+            "show": "Show",
+            "startDate": "Start date"
+        },
         "from": "From",
         "latestJournal": "Latest journal notes",
         "myDailyEvents": "My daily events",
@@ -341,7 +346,8 @@
             "noPollToShow": "No poll to show",
             "poll": "Poll",
             "sentBy": "Sent by"
-        }
+        },
+        "viewAll": "View all"
     },
     "department": {
         "all": "All",

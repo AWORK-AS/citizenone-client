@@ -327,6 +327,11 @@
         "citizensDailyEvents": "Borgeres daglige begivenheder",
         "createdBy": "Oprettet af",
         "dailyOverview": "Daglig oversigt",
+        "filter": {
+            "endDate": "Slutdato",
+            "show": "Vis",
+            "startDate": "Startdato"
+        },
         "from": "Fra",
         "latestJournal": "Seneste journalnotater",
         "myDailyEvents": "Mine daglige begivenheder",
@@ -341,7 +346,8 @@
             "noPollToShow": "Ingen afstemning at vise",
             "poll": "Afstemning",
             "sentBy": "Sendt af"
-        }
+        },
+        "viewAll": "Se alle"
     },
     "department": {
         "all": "Alle",
