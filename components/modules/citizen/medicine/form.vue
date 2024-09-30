@@ -3,27 +3,68 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
+            <div class="space-y-1">
+                <FormLabel for="date" :label="$t('citizens.medicineJournals.form.date')" />
+                <FormDateField id="date" name="date" :placeholder="$t('citizens.medicineJournals.form.date')"
+                    v-model="state.formMedicine.date" />
+                <FormError :error="v$?.formMedicine?.date?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.date?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="medicine" :label="$t('citizens.medicineJournals.form.medicine')" />
+                <FormTextField id="medicine" name="medicine"
+                    :placeholder="$t('citizens.medicineJournals.form.medicine')"
+                    v-model="state.formMedicine.medicine" />
+                <FormError :error="v$?.formMedicine?.medicine?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.medicine?.[0]" />
+            </div>
             <div class="grid grid-cols-2 gap-x-3">
                 <div class="space-y-1">
-                    <FormLabel for="name" :label="$t('citizens.medicineJournals.form.name')" />
-                    <FormTextField id="name" name="name" :placeholder="$t('citizens.medicineJournals.form.name')"
-                        v-model="state.formMedicine.name" />
-                    <FormError :error="v$?.formMedicine?.name?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.name?.[0]" />
+                    <FormLabel for="strength" :label="$t('citizens.medicineJournals.form.strength')" />
+                    <FormTextField id="strength" name="strength"
+                        :placeholder="$t('citizens.medicineJournals.form.strength')"
+                        v-model="state.formMedicine.strength" />
+                    <FormError :error="v$?.formMedicine?.strength?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.strength?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="date_given" :label="$t('citizens.medicineJournals.form.dateGiven')" />
-                    <FormDateField id="date_given" name="date_given"
-                        :placeholder="$t('citizens.medicineJournals.form.dateGiven')"
-                        v-model="state.formMedicine.date_given" />
-                    <FormError :error="v$?.formMedicine?.date_given?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.date_given?.[0]" />
+                    <FormLabel for="dosage_id" :label="$t('citizens.medicineJournals.form.dosageForm')" />
+                    <FormSelect id="dosage_id" :options="state.options.dosage_form"
+                        v-model="state.formMedicine.dosage_id" />
+                    <FormError :error="v$?.formMedicine?.dosage_id?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.dosage_id?.[0]" />
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-x-3">
+                <div class="space-y-1">
+                    <FormLabel for="daily_dose" :label="$t('citizens.medicineJournals.form.dailyDose')" />
+                    <FormTextField id="daily_dose" name="daily_dose"
+                        :placeholder="$t('citizens.medicineJournals.form.dailyDose')"
+                        v-model="state.formMedicine.daily_dose" />
+                    <FormError :error="v$?.formMedicine?.daily_dose?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.daily_dose?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="quantity" :label="$t('citizens.medicineJournals.form.quantity')" />
+                    <FormTextField id="quantity" name="quantity"
+                        :placeholder="$t('citizens.medicineJournals.form.quantity')"
+                        v-model="state.formMedicine.quantity" />
+                    <FormError :error="v$?.formMedicine?.quantity?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.quantity?.[0]" />
                 </div>
             </div>
             <div class="space-y-1">
-                <FormLabel for="description" :label="$t('citizens.medicineJournals.form.reason')" />
+                <FormLabel for="active_ingredients" :label="$t('citizens.medicineJournals.form.activeIngredients')" />
+                <FormTextArea id="active_ingredients" name="active_ingredients"
+                    :placeholder="$t('citizens.medicineJournals.form.activeIngredients')"
+                    v-model="state.formMedicine.active_ingredients" />
+                <FormError :error="v$?.formMedicine?.active_ingredients?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.active_ingredients?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="description" :label="$t('citizens.medicineJournals.form.description')" />
                 <FormTextArea id="description" name="description"
-                    :placeholder="$t('citizens.medicineJournals.form.reason')"
+                    :placeholder="$t('citizens.medicineJournals.form.description')"
                     v-model="state.formMedicine.description" />
                 <FormError :error="v$?.formMedicine?.description?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.description?.[0]" />
@@ -44,6 +85,7 @@
 </template>
 
 <script setup lang="ts">
+import { dosageService } from '@/components/api/DosageService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -62,37 +104,53 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['closeModal', 'submitForm'])
+const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading', 'error'])
 
 const { t } = useI18n()
 
 const state = reactive({
     formMedicine: {
-        id: '',
         uuid: '',
-        name: '',
-        date_given: '',
+        date: '',
+        medicine: '',
+        strength: '',
+        dosage_id: '',
+        daily_dose: '',
+        quantity: '',
+        active_ingredients: '',
         description: '',
     },
+    options: {
+        dosage_form: []
+    }
 })
 
 onMounted(() => {
     state.formMedicine = {
-        id: props.selectedMedicine.id,
         uuid: props.selectedMedicine.uuid,
-        name: props.selectedMedicine.name,
-        date_given: props.selectedMedicine.date_given,
+        date: props.selectedMedicine.date,
+        medicine: props.selectedMedicine.medicine,
+        strength: props.selectedMedicine.strength,
+        dosage_id: props.selectedMedicine.dosage_id,
+        daily_dose: props.selectedMedicine.daily_dose,
+        quantity: props.selectedMedicine.quantity,
+        active_ingredients: props.selectedMedicine.active_ingredients,
         description: props.selectedMedicine.description,
     }
+    fetchDosageForm()
 })
 
 watch(() => props.selectedMedicine, (newValue: any) => {
     if (newValue != null) {
         state.formMedicine = {
-            id: newValue.id,
             uuid: newValue.uuid,
-            name: newValue.name,
-            date_given: newValue.date_given,
+            date: newValue.date,
+            medicine: newValue.medicine,
+            strength: newValue.strength,
+            dosage_id: newValue.dosage_id,
+            daily_dose: newValue.daily_dose,
+            quantity: newValue.quantity,
+            active_ingredients: newValue.active_ingredients,
             description: newValue.description,
         }
     }
@@ -101,10 +159,25 @@ watch(() => props.selectedMedicine, (newValue: any) => {
 const rules = computed(() => {
     return {
         formMedicine: {
-            name: {
+            date: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            date_given: {
+            medicine: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            strength: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            dosage_id: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            daily_dose: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            quantity: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            active_ingredients: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             description: {
@@ -121,5 +194,26 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', state.formMedicine)
     }
+}
+
+async function fetchDosageForm() {
+    emit('error', {})
+    emit('isPageLoading', true)
+    try {
+        const response = await dosageService.getAllDosages()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.id,
+                    label: item.name,
+                })
+            )
+            state.options.dosage_form = options
+        }
+    } catch (error: any) {
+        emit('error', error)
+    }
+    emit('isPageLoading', false)
 }
 </script>

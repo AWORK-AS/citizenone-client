@@ -34,23 +34,32 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.medicines?.data?.length === 0))">
                                 <tr v-for="(medicine, index) in state.medicines?.data" :key="index">
-                                    <td width="25%">
-                                        <span>{{ medicine?.name }}</span>
+                                    <td width="20%">
+                                        <span>{{ formatDateToReadable(medicine?.date) }}</span>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ formatDateToReadable(medicine?.date_given) }}</span>
+                                        <span>{{ medicine?.medicine }}</span>
                                     </td>
-                                    <td width="25%">
-                                        <span>{{ medicine?.description }}</span>
+                                    <td width="10%">
+                                        <span>{{ medicine?.strength }}</span>
                                     </td>
-                                    <td width="30%">
+                                    <td width="10%">
+                                        <span>{{ medicine?.dosage?.name }}</span>
+                                    </td>
+                                    <td width="10%">
+                                        <span>{{ medicine?.daily_dose }}</span>
+                                    </td>
+                                    <td width="10%">
+                                        <span>{{ medicine?.quantity }}</span>
+                                    </td>
+                                    <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editMedicine(medicine)" v-if="medicine?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.medicineJournals.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                 @click="confirmMedicineDeletion(medicine)">
                                                 <Icon name="ph:trash-duotone" class="size-4" />
                                                 {{ $t('citizens.medicineJournals.table.actions.delete') }}
@@ -93,12 +102,15 @@ let currentTablePage = 1
 
 const state = reactive({
     columnFilter: [
-        { column: 'name' },
+        { column: 'medicine' },
     ],
     columnHeaders: [
-        { name: 'citizens.medicineJournals.table.name', sorter: true, key: 'name' },
-        { name: 'citizens.medicineJournals.table.dateGiven', sorter: true, key: 'date_given' },
-        { name: 'citizens.medicineJournals.table.reason' },
+        { name: 'citizens.medicineJournals.table.date', sorter: true, key: 'date' },
+        { name: 'citizens.medicineJournals.table.medicine', sorter: true, key: 'medicine' },
+        { name: 'citizens.medicineJournals.table.strength' },
+        { name: 'citizens.medicineJournals.table.dosageForm' },
+        { name: 'citizens.medicineJournals.table.dailyDose', sorter: true, key: 'daily_dose' },
+        { name: 'citizens.medicineJournals.table.quantity', sorter: true, key: 'quantity' },
         { name: '' },
     ],
     dataFilter: [],
@@ -112,8 +124,8 @@ const state = reactive({
     },
     selectedMedicine: [] as any,
     sortData: {
-        sortField: 'date_given',
-        sortOrder: 'descend',
+        sortField: '',
+        sortOrder: '',
     },
 })
 

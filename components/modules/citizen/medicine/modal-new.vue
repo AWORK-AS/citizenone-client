@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('citizens.medicineJournals.form.medicineDetails')" :show="props.isModalOpen"
+        <Modal size="md" :title="$t('citizens.medicineJournals.giveMedicine')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -37,10 +37,14 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formMedicine: {
-        id: '',
-        uuid: '',
-        name: '',
-        date_given: '',
+        citizen_uuid: '',
+        date: '',
+        medicine: '',
+        strength: '',
+        dosage_id: '',
+        daily_dose: '',
+        quantity: '',
+        active_ingredients: '',
         description: '',
     },
 })
@@ -59,9 +63,14 @@ async function saveMedicine(medicineDetails: any) {
     try {
         const params = {
             citizen_uuid: citizenUuid,
-            name: medicineDetails.name,
-            date_given: medicineDetails.date_given,
+            dosage_id: medicineDetails.dosage_id,
+            medicine: medicineDetails.medicine,
+            strength: medicineDetails.strength,
+            daily_dose: medicineDetails.daily_dose,
+            active_ingredients: medicineDetails.active_ingredients,
             description: medicineDetails.description,
+            quantity: medicineDetails.quantity,
+            date: medicineDetails.date,
         }
         const response = await medicineJournalService.saveMedicine(params)
         if (response?.data) {

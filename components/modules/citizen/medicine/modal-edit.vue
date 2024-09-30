@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('citizens.medicineJournals.form.editMedicine')" :show="props.isModalOpen"
+        <Modal size="md" :title="$t('citizens.medicineJournals.editMedicine')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -54,9 +54,14 @@ async function updateMedicine(medicineDetails: any) {
     try {
         const MedicineUuid = medicineDetails.uuid
         const params = {
-            name: medicineDetails.name,
-            date_given: medicineDetails.date_given,
+            dosage_id: medicineDetails.dosage_id,
+            medicine: medicineDetails.medicine,
+            strength: medicineDetails.strength,
+            daily_dose: medicineDetails.daily_dose,
+            active_ingredients: medicineDetails.active_ingredients,
             description: medicineDetails.description,
+            quantity: medicineDetails.quantity,
+            date: medicineDetails.date,
         }
         const response = await medicineJournalService.updateMedicine(MedicineUuid, params)
         if (response?.data) {

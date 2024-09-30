@@ -262,20 +262,26 @@
         },
         "medicineJournals": {
             "alert": {
-                "successfullyAdded": "Medicin tilføjet med succes",
-                "successfullyDeleted": "Medicin slettet med succes",
-                "successfullyUpdated": "Medicin opdateret med succes"
+                "successfullyDeleted": "Medicin slettet med succes"
             },
             "download": "Download",
             "confirmation": {
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne medicin"
             },
+            "editMedicine": "Rediger Medicin",
             "form": {
-                "dateGiven": "Dato Givet",
-                "editMedicine": "Rediger Medicin",
-                "medicineDetails": "Medicindetaljer",
-                "name": "Navn",
-                "reason": "Årsag"
+                "activeIngredients": "Aktive ingredienser",
+                "alert": {
+                    "successfullyAdded": "Medicin tilføjet med succes",
+                    "successfullyUpdated": "Medicin opdateret med succes"
+                },
+                "dailyDose": "Daglig dosis",
+                "date": "Dato",
+                "description": "Beskrivelse",
+                "dosageForm": "Doseringsform",
+                "medicine": "Medicin",
+                "quantity": "Mængde",
+                "strength": "Styrke"
             },
             "giveMedicine": "Giv Medicin",
             "table": {
@@ -283,9 +289,14 @@
                     "edit": "Rediger",
                     "delete": "Slet"
                 },
-                "dateGiven": "Dato Givet",
-                "name": "Navn",
-                "reason": "Årsag"
+                "activeIngredients": "Aktive ingredienser",
+                "dailyDose": "Daglig dosis",
+                "date": "Dato",
+                "description": "Beskrivelse",
+                "dosageForm": "Doseringsform",
+                "medicine": "Medicin",
+                "quantity": "Mængde",
+                "strength": "Styrke"
             }
         },
         "newCitizen": "Ny borger",
