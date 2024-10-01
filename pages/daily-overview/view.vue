@@ -47,10 +47,12 @@
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                     <div v-if="dailyOverviewStore.getFilter.showCitizenDailyEvents">
-                        <ModulesDailyOverviewCitizensDailyEvents />
+                        <ModulesDailyOverviewCitizensDailyEvents :startDate="state.searchFilter.start_date"
+                            :endDate="state.searchFilter.end_date" />
                     </div>
                     <div v-if="dailyOverviewStore.getFilter.showLatestJournalNotes">
-                        <ModulesDailyOverviewLatestJournal />
+                        <ModulesDailyOverviewLatestJournal :startDate="state.searchFilter.start_date"
+                            :endDate="state.searchFilter.end_date" />
                     </div>
                 </div>
             </div>
@@ -59,6 +61,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 
 const runtimeConfig = useRuntimeConfig()
@@ -66,8 +69,8 @@ const dailyOverviewStore = useDailyOverviewStore()
 
 const state = reactive({
     searchFilter: {
-        'end_date': '',
-        'start_date': '',
+        'end_date': moment().format('YYYY-MM-DD'),
+        'start_date': moment().format('YYYY-MM-DD'),
     },
 })
 </script>

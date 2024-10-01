@@ -44,6 +44,16 @@ import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
+const props = defineProps({
+    endDate: {
+        type: String,
+        required: false,
+    },
+    startDate: {
+        type: String,
+        required: false,
+    },
+})
 
 const departmentStore = useDepartmentStore()
 const { formatDateToReadable } = useDatetimeFormatter()
@@ -52,10 +62,24 @@ const state = reactive({
     isPageLoading: false,
     citizens: [] as any,
     error: {} as Error,
+    searchFilter: {
+        end_date: props.endDate,
+        start_date: props.startDate
+    }
 })
 
-onMounted(() => {
-    fetchCitizens()
+watch(() => props.startDate, (date: any) => {
+    if (date != null) {
+        state.searchFilter.start_date = date
+        fetchCitizens()
+    }
+})
+
+watch(() => props.endDate, (date: any) => {
+    if (date != null) {
+        state.searchFilter.end_date = date
+        fetchCitizens()
+    }
 })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
@@ -64,16 +88,21 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     }
 })
 
+onMounted(() => {
+    fetchCitizens()
+})
+
 async function fetchCitizens() {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,
-            end_date: moment(),
-            start_date: moment(),
+            date: {
+                end_date: state.searchFilter.end_date,
+                start_date: state.searchFilter.start_date,
+            }
         }
-
         const response = await dailyOverviewService.getLatestCitizensJournal(params)
         if (response) {
             state.citizens = response

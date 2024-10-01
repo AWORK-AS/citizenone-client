@@ -54,7 +54,18 @@
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import { useDepartmentStore } from '@/store/department'
-import type { CalendarEventResponse, Error } from '@/types'
+import type { Error } from '@/types'
+
+const props = defineProps({
+    endDate: {
+        type: String,
+        required: false,
+    },
+    startDate: {
+        type: String,
+        required: false,
+    },
+})
 
 const departmentStore = useDepartmentStore()
 const { formatTimeToReadable } = useDatetimeFormatter()
@@ -63,10 +74,24 @@ const state = reactive({
     isPageLoading: false,
     citizenCalendarEvents: [] as any,
     error: {} as Error,
+    searchFilter: {
+        end_date: props.endDate,
+        start_date: props.startDate
+    }
 })
 
-onMounted(() => {
-    fetchCitizenCalendarEvents()
+watch(() => props.startDate, (date: any) => {
+    if (date != null) {
+        state.searchFilter.start_date = date
+        fetchCitizenCalendarEvents()
+    }
+})
+
+watch(() => props.endDate, (date: any) => {
+    if (date != null) {
+        state.searchFilter.end_date = date
+        fetchCitizenCalendarEvents()
+    }
 })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
@@ -75,12 +100,20 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     }
 })
 
+onMounted(() => {
+    fetchCitizenCalendarEvents()
+})
+
 async function fetchCitizenCalendarEvents() {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,
+            date: {
+                end_date: state.searchFilter.end_date,
+                start_date: state.searchFilter.start_date,
+            }
         }
         const response = await dailyOverviewService.getCitizenDailyEvents(params)
         if (response) {
