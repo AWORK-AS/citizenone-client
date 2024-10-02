@@ -53,7 +53,7 @@
                         :selectedMedicineHistory="state.selectedMedicineHistory" @close="closeEditMedicineHistoryModal"
                         @refreshMedicines="fetchCitizenMedicineHistories" />
                     <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineHistoryOpen"
-                        :message="$t('citizens.medicineJournals.confirmation.deleteConfirmation') + '?'"
+                        :message="$t('citizens.medicineJournals.history.confirmation.deleteConfirmation') + '?'"
                         @close="state.modal.isDeleteMedicineHistoryOpen = false" @confirm="deleteMedicineHistory" />
                 </div>
             </template>
