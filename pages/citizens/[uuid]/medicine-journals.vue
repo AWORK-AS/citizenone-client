@@ -20,7 +20,7 @@
                 <div class="flex justify-end items-center">
                     <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isAddMedicineOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('citizens.medicineJournals.giveMedicine') }}
+                        {{ $t('citizens.medicineJournals.newMedicine') }}
                     </FormButton>
                 </div>
 

@@ -283,11 +283,12 @@
                 "quantity": "Mængde",
                 "strength": "Styrke"
             },
-            "giveMedicine": "Giv Medicin",
+            "newMedicine": "Ny medicin",
             "table": {
                 "actions": {
                     "edit": "Rediger",
-                    "delete": "Slet"
+                    "delete": "Slet",
+                    "giveMedicine": "Giv Medicin"
                 },
                 "activeIngredients": "Aktive ingredienser",
                 "dailyDose": "Daglig dosis",

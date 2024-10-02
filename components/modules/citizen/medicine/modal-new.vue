@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('citizens.medicineJournals.giveMedicine')" :show="props.isModalOpen"
+        <Modal size="md" :title="$t('citizens.medicineJournals.newMedicine')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">

@@ -283,11 +283,12 @@
                 "quantity": "Quantity",
                 "strength": "Strength"
             },
-            "giveMedicine": "Give medicine",
+            "newMedicine": "New medicine",
             "table": {
                 "actions": {
                     "edit": "Edit",
-                    "delete": "Delete"
+                    "delete": "Delete",
+                    "giveMedicine": "Give medicine"
                 },
                 "activeIngredients": "Active ingredients",
                 "dailyDose": "Daily dose",

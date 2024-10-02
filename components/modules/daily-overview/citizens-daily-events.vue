@@ -108,11 +108,14 @@ async function fetchCitizenCalendarEvents() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            department: departmentStore.getSelectedDepartmentName,
-            date: {
+        const params: any = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+
+        if (state.searchFilter.end_date && state.searchFilter.start_date) {
+            params.date = {
                 end_date: state.searchFilter.end_date,
-                start_date: state.searchFilter.start_date,
+                start_date: state.searchFilter.start_date
             }
         }
         const response = await dailyOverviewService.getCitizenDailyEvents(params)
