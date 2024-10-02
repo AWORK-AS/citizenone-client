@@ -38,7 +38,6 @@ const state = reactive({
     isPageLoading: false,
     formMedicine: {
         citizen_uuid: '',
-        date: '',
         medicine: '',
         strength: '',
         dosage_id: '',
@@ -70,7 +69,6 @@ async function saveMedicine(medicineDetails: any) {
             active_ingredients: medicineDetails.active_ingredients,
             description: medicineDetails.description,
             quantity: medicineDetails.quantity,
-            date: medicineDetails.date,
         }
         const response = await medicineJournalService.saveMedicine(params)
         if (response?.data) {

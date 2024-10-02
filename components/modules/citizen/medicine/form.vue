@@ -4,13 +4,6 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
             <div class="space-y-1">
-                <FormLabel for="date" :label="$t('citizens.medicineJournals.form.date')" />
-                <FormDateField id="date" name="date" :placeholder="$t('citizens.medicineJournals.form.date')"
-                    v-model="state.formMedicine.date" />
-                <FormError :error="v$?.formMedicine?.date?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.date?.[0]" />
-            </div>
-            <div class="space-y-1">
                 <FormLabel for="medicine" :label="$t('citizens.medicineJournals.form.medicine')" />
                 <FormTextField id="medicine" name="medicine"
                     :placeholder="$t('citizens.medicineJournals.form.medicine')"
@@ -111,7 +104,6 @@ const { t } = useI18n()
 const state = reactive({
     formMedicine: {
         uuid: '',
-        date: '',
         medicine: '',
         strength: '',
         dosage_id: '',
@@ -128,7 +120,6 @@ const state = reactive({
 onMounted(() => {
     state.formMedicine = {
         uuid: props.selectedMedicine.uuid,
-        date: props.selectedMedicine.date,
         medicine: props.selectedMedicine.medicine,
         strength: props.selectedMedicine.strength,
         dosage_id: props.selectedMedicine.dosage_id,
@@ -144,7 +135,6 @@ watch(() => props.selectedMedicine, (newValue: any) => {
     if (newValue != null) {
         state.formMedicine = {
             uuid: newValue.uuid,
-            date: newValue.date,
             medicine: newValue.medicine,
             strength: newValue.strength,
             dosage_id: newValue.dosage_id,
@@ -159,9 +149,6 @@ watch(() => props.selectedMedicine, (newValue: any) => {
 const rules = computed(() => {
     return {
         formMedicine: {
-            date: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
             medicine: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },

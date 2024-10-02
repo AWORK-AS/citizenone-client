@@ -276,7 +276,6 @@
                     "successfullyUpdated": "Medicin opdateret med succes"
                 },
                 "dailyDose": "Daglig dosis",
-                "date": "Dato",
                 "description": "Beskrivelse",
                 "dosageForm": "Doseringsform",
                 "medicine": "Medicin",
@@ -288,11 +287,10 @@
                 "actions": {
                     "edit": "Rediger",
                     "delete": "Slet",
-                    "giveMedicine": "Giv Medicin"
+                    "view": "Se"
                 },
                 "activeIngredients": "Aktive ingredienser",
                 "dailyDose": "Daglig dosis",
-                "date": "Dato",
                 "description": "Beskrivelse",
                 "dosageForm": "Doseringsform",
                 "medicine": "Medicin",

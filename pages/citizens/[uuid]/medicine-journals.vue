@@ -35,9 +35,6 @@
                             <template #body v-if="!(state.isTableLoading || (state.medicines?.data?.length === 0))">
                                 <tr v-for="(medicine, index) in state.medicines?.data" :key="index">
                                     <td width="20%">
-                                        <span>{{ formatDateToReadable(medicine?.date) }}</span>
-                                    </td>
-                                    <td width="20%">
                                         <span>{{ medicine?.medicine }}</span>
                                     </td>
                                     <td width="10%">
@@ -54,6 +51,11 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="viewMedicineHistory(medicine)">
+                                                <Icon name="ph:eye" class="size-4" />
+                                                {{ $t('citizens.medicineJournals.table.actions.view') }}
+                                            </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editMedicine(medicine)" v-if="medicine?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
@@ -72,6 +74,8 @@
                     </div>
                     <Pagination :data="state.medicines" @previous="previous" @next="next" />
                 </div>
+                <ModulesCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineOpen"
+                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineOpen = false" />
                 <ModulesCitizenMedicineModalNew :isModalOpen="state.modal.isAddMedicineOpen"
                     @close="state.modal.isAddMedicineOpen = false" @refreshMedicines="fetchCitizenMedicines" />
                 <ModulesCitizenMedicineModalEdit :isModalOpen="state.modal.isEditMedicineOpen"
@@ -79,21 +83,19 @@
                     @refreshMedicines="fetchCitizenMedicines" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deleteConfirmation') + '?'"
-                    @close="state.modal.isDeleteMedicineOpen = false" @confirm="deleteMedicne" />
+                    @close="state.modal.isDeleteMedicineOpen = false" @confirm="deleteMedicine" />
             </div>
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { medicineJournalService } from '@/components/api/MedicineJournalService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
@@ -105,7 +107,6 @@ const state = reactive({
         { column: 'medicine' },
     ],
     columnHeaders: [
-        { name: 'citizens.medicineJournals.table.date', sorter: true, key: 'date' },
         { name: 'citizens.medicineJournals.table.medicine', sorter: true, key: 'medicine' },
         { name: 'citizens.medicineJournals.table.strength' },
         { name: 'citizens.medicineJournals.table.dosageForm' },
@@ -121,6 +122,7 @@ const state = reactive({
         isAddMedicineOpen: false,
         isDeleteMedicineOpen: false,
         isEditMedicineOpen: false,
+        isViewMedicineOpen: false,
     },
     selectedMedicine: [] as any,
     sortData: {
@@ -179,6 +181,11 @@ function handleFilter(value: any) {
     fetchCitizenMedicines()
 }
 
+function viewMedicineHistory(medicine: any) {
+    state.selectedMedicine = medicine
+    state.modal.isViewMedicineOpen = true
+}
+
 function editMedicine(medicine: any) {
     state.selectedMedicine = medicine
     state.modal.isEditMedicineOpen = true
@@ -194,7 +201,7 @@ function confirmMedicineDeletion(journal: any) {
     state.modal.isDeleteMedicineOpen = true
 }
 
-async function deleteMedicne() {
+async function deleteMedicine() {
     state.error = {}
     state.isTableLoading = true
     try {
