@@ -52,7 +52,7 @@ async function updateMedicine(medicineDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const MedicineUuid = medicineDetails.uuid
+        const medicineUuid = medicineDetails.uuid
         const params = {
             dosage_id: medicineDetails.dosage_id,
             medicine: medicineDetails.medicine,
@@ -62,7 +62,7 @@ async function updateMedicine(medicineDetails: any) {
             description: medicineDetails.description,
             quantity: medicineDetails.quantity,
         }
-        const response = await medicineJournalService.updateMedicine(MedicineUuid, params)
+        const response = await medicineJournalService.updateMedicine(medicineUuid, params)
         if (response?.data) {
             refreshMedicines()
             closeModal()

@@ -46,15 +46,15 @@
                         </div>
                         <Pagination :data="state.medicineHistories" @previous="previous" @next="next" />
                     </div>
-                    <!-- <ModulesCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isAddMedicineHistoryOpen"
-                        @close="state.modal.isAddMedicineHistoryOpen = false"
+                    <ModulesCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isAddMedicineHistoryOpen"
+                        :selectedMedicine="props.selectedMedicine" @close="state.modal.isAddMedicineHistoryOpen = false"
                         @refreshMedicines="fetchCitizenMedicineHistories" />
                     <ModulesCitizenMedicineHistoryModalEdit :isModalOpen="state.modal.isEditMedicineHistoryOpen"
-                        :selectedMedicine="state.selectedMedicineHistory" @close="closeEditMedicineHistoryModal"
+                        :selectedMedicineHistory="state.selectedMedicineHistory" @close="closeEditMedicineHistoryModal"
                         @refreshMedicines="fetchCitizenMedicineHistories" />
                     <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineHistoryOpen"
                         :message="$t('citizens.medicineJournals.confirmation.deleteConfirmation') + '?'"
-                        @close="state.modal.isDeleteMedicineHistoryOpen = false" @confirm="deleteMedicineHistory" /> -->
+                        @close="state.modal.isDeleteMedicineHistoryOpen = false" @confirm="deleteMedicineHistory" />
                 </div>
             </template>
         </Modal>
@@ -83,8 +83,8 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
-const emit = defineEmits(['close'])
 const selectedMedicineUuid = props.selectedMedicine?.uuid
+const emit = defineEmits(['close'])
 
 const state = reactive({
     columnHeaders: [
