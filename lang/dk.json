@@ -284,29 +284,29 @@
             },
             "history": {
                 "alert": {
-                    "successfullyDeleted": "Medicine history successfully deleted"
+                    "successfullyDeleted": "Medicinhistorik slettet med succes"
                 },
                 "confirmation": {
-                    "deleteConfirmation": "Are you sure you want to delete this medicine history"
+                    "deleteConfirmation": "Er du sikker på, at du vil slette denne medicinhistorik?"
                 },
-                "editMedicine": "Edit medicine",
+                "editMedicine": "Rediger medicin",
                 "form": {
                     "alert": {
-                        "successfullyAdded": "Medicine history successfully added",
-                        "successfullyUpdated": "Medicine history successfully update"
+                        "successfullyAdded": "Medicinhistorik tilføjet med succes",
+                        "successfullyUpdated": "Medicinhistorik opdateret med succes"
                     },
-                    "date": "Date",
-                    "quantity": "Quantity"
+                    "date": "Dato",
+                    "quantity": "Mængde"
                 },
-                "giveMedicine": "Give medicine",
-                "medicineHistory": "Medicine history",
+                "giveMedicine": "Giv medicin",
+                "medicineHistory": "Medicinhistorik",
                 "table": {
                     "actions": {
-                        "edit": "Edit",
-                        "delete": "Delete"
+                        "edit": "Rediger",
+                        "delete": "Slet"
                     },
-                    "date": "Date",
-                    "quantity": "Quantity"
+                    "date": "Dato",
+                    "quantity": "Mængde"
                 }
             },
             "newMedicine": "Ny medicin",

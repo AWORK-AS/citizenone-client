@@ -48,10 +48,10 @@
                     </div>
                     <ModulesCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isAddMedicineHistoryOpen"
                         :selectedMedicine="props.selectedMedicine" @close="state.modal.isAddMedicineHistoryOpen = false"
-                        @refreshMedicines="fetchCitizenMedicineHistories" />
+                        @refreshMedicineHistories="fetchCitizenMedicineHistories" />
                     <ModulesCitizenMedicineHistoryModalEdit :isModalOpen="state.modal.isEditMedicineHistoryOpen"
                         :selectedMedicineHistory="state.selectedMedicineHistory" @close="closeEditMedicineHistoryModal"
-                        @refreshMedicines="fetchCitizenMedicineHistories" />
+                        @refreshMedicineHistories="fetchCitizenMedicineHistories" />
                     <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineHistoryOpen"
                         :message="$t('citizens.medicineJournals.history.confirmation.deleteConfirmation') + '?'"
                         @close="state.modal.isDeleteMedicineHistoryOpen = false" @confirm="deleteMedicineHistory" />
@@ -83,7 +83,6 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
-const selectedMedicineUuid = props.selectedMedicine?.uuid
 const emit = defineEmits(['close'])
 
 const state = reactive({
@@ -108,8 +107,11 @@ const state = reactive({
     },
 })
 
-onMounted(() => {
-    fetchCitizenMedicineHistories()
+watch(() => props.selectedMedicine, (selectedMedicine: any) => {
+    if (selectedMedicine) {
+        state.error = {}
+        fetchCitizenMedicineHistories()
+    }
 })
 
 function closeModal() {
@@ -121,7 +123,7 @@ async function fetchCitizenMedicineHistories() {
     state.isTableLoading = true
     try {
         const params = {
-            medicine_uuid: selectedMedicineUuid,
+            medicine_uuid: props.selectedMedicine?.uuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder
