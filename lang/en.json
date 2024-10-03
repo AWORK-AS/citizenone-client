@@ -36,6 +36,9 @@
     "apps": {
         "activate": "Activate",
         "apps": "Apps",
+        "confirmation": {
+            "confirmationOfTerms": "I confirm that I have read and accept the terms and conditions before activating this app"
+        },
         "contactUs": "Contact us",
         "iHaveReadAndAcceptThe": "I have read and accept the",
         "readMore": "Read more",

@@ -43,7 +43,8 @@
                                 <FormButton type="button" buttonStyle="action" class="w-full" @click="readMore(app)">
                                     {{ $t('apps.readMore') }}
                                 </FormButton>
-                                <FormButton type="button" buttonStyle="action" class="w-full" color="primary">
+                                <FormButton type="button" buttonStyle="action" class="w-full" color="primary"
+                                    @click="confirmTACAcceptance(app)">
                                     {{ $t('apps.activate') }}
                                 </FormButton>
                             </div>
@@ -55,6 +56,9 @@
                 </div>
                 <ModulesAppModalAppDetails :isModalOpen="state.modal.showAppDetails" :selectedApp="state.selectedApp"
                     @close="state.modal.showAppDetails = false" />
+                <DialogConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
+                    :message="$t('apps.confirmation.confirmationOfTerms') + '.'"
+                    @close="state.modal.isAcceptTACOpen = false" @confirm="activateApp" />
             </LoadingSpinner>
         </NuxtLayout>
     </div>
@@ -72,9 +76,10 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     modal: {
+        isAcceptTACOpen: false,
         showAppDetails: false,
     },
-    selectedApp: []
+    selectedApp: [] as any,
 })
 
 onMounted(() => {
@@ -113,6 +118,11 @@ function readMore(app: any) {
     state.modal.showAppDetails = true
 }
 
+function confirmTACAcceptance(app: any) {
+    state.selectedApp = app
+    state.modal.isAcceptTACOpen = true
+}
+
 function formatAmount(amount: any) {
     // Convert the number to a string with two decimal places
     let numberStr = parseFloat(amount).toFixed(2)
@@ -136,5 +146,20 @@ async function navigateToTAC() {
             target: '_blank',
         }
     })
+}
+
+async function activateApp() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const appUuid = state.selectedApp?.uuid
+        const response = await appService.activateApp(appUuid)
+        if (response) {
+            alert(response)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>
