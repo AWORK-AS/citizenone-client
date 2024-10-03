@@ -13,6 +13,7 @@ const state = reactive({
     tabs: [
         { name: 'superadmin.companies.tabs.accounts', href: `/superadmin/companies/${companyUuid}/accounts`, routeNames: ['superadmin-companies-company_uuid-accounts'] },
         { name: 'superadmin.companies.tabs.licenseOverviewPlusSubscription', href: `/superadmin/companies/${companyUuid}/license-overview`, routeNames: ['superadmin-companies-company_uuid-license-overview'] },
+        { name: 'superadmin.companies.tabs.apps', href: `/superadmin/companies/${companyUuid}/apps`, routeNames: ['superadmin-companies-company_uuid-apps'] },
     ]
 })
 
@@ -22,6 +23,9 @@ function changeTab(value: any) {
     }
     else if (value === t('superadmin.companies.tabs.licenseOverviewPlusSubscription')) {
         navigateTo(`/superadmin/companies/${companyUuid}/license-overview`)
+    }
+    else if (value === t('superadmin.companies.tabs.apps')) {
+        navigateTo(`/superadmin/companies/${companyUuid}/apps`)
     }
 }
 </script>

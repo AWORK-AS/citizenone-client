@@ -20,6 +20,10 @@ class CompanyService extends BaseAPIService {
     async activateDeactiveCompany(companyUuid: any, params: object): Promise<any> {
         return await this.request(`/superadmin/companies/${companyUuid}/update-status`, 'PUT', params)
     }
+
+    async getCompanyApps(companyUuid: any, params: object): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/apps`, 'GET', params)
+    }
 }
 
 export const companyService = new CompanyService()

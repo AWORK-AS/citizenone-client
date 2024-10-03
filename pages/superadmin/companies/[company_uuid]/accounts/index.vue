@@ -17,7 +17,7 @@
 
                 <ModulesSuperadminCompanyTab />
 
-                <div class="flex justify-end items-center my-5">
+                <div class="flex justify-end items-center mt-10 mb-5">
                     <FormButton buttonStyle="action" class="rounded-lg"
                         @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/new`)">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />

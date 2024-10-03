@@ -277,6 +277,8 @@ const navigation = [
             'superadmin-companies-company_uuid-accounts',
             'superadmin-companies-company_uuid-accounts-new',
             'superadmin-companies-company_uuid-accounts-account_uuid-edit',
+            'superadmin-companies-company_uuid-license-overview',
+            'superadmin-companies-company_uuid-apps',
         ]
     },
     {

@@ -979,6 +979,29 @@
         "companies": {
             "companies": "Virksomheder",
             "company": "Virksomhed",
+            "companyApps": {
+                "alert": {
+                    "appSuccessfullyActivated": "App aktiveret med succes",
+                    "appSuccessfullyDeactivated": "App deaktiveret med succes"
+                },
+                "companyApps": "Virksomhedsapps",
+                "confirmation": {
+                    "activateAppConfirmation": "Er du sikker på, at du vil aktivere denne app?",
+                    "deactivateAppConfirmation": "Er du sikker på, at du vil deaktivere denne app?"
+                },
+                "table": {
+                    "action": {
+                        "activate": "Aktivér",
+                        "deactivate": "Deaktiver"
+                    },
+                    "active": "Aktiv",
+                    "inactive": "Inaktiv",
+                    "name": "Navn",
+                    "price": "Pris",
+                    "status": "Status",
+                    "type": "Type"
+                }
+            },
             "editCompany": "Rediger virksomhed",
             "form": {
                 "active": "Aktiv",
@@ -1040,6 +1063,7 @@
                 "website": "Websted"
             },
             "tabs": {
+                "apps": "Apps",
                 "accounts": "Kontoer",
                 "licenseOverview": "Licensoversigt",
                 "licenseOverviewPlusSubscription": "Licensoversigt + Abonnement"
