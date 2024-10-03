@@ -21,7 +21,7 @@
                     <LoadingSpinner :isActive="state.isPageLoading">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
-                        <div v-if="state?.subscriptions?.data?.length === 0">
+                        <div v-if="state.isPageLoading || state?.subscriptions?.data?.length === 0">
                             <div class="isolate mx-auto mt-10 grid max-w-lg">
                                 <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
                                     <h3 class="text-xl font-semibold leading-7">
@@ -221,7 +221,7 @@ onMounted(() => {
 
 async function fetchSubscription() {
     state.error = {}
-    state.isTableLoading = true
+    state.isPageLoading = true
     try {
         const response = await licenseService.getSubscription(companyUuid)
         if (response) {
@@ -230,7 +230,7 @@ async function fetchSubscription() {
     } catch (error: any) {
         state.error = error
     }
-    state.isTableLoading = false
+    state.isPageLoading = false
 }
 
 async function fetchLicensesCount() {
