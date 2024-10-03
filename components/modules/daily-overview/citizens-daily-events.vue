@@ -21,7 +21,8 @@
                     </Badge>
                     <p class="text-xs">
                         {{ $t('dailyOverview.createdBy') }}
-                        {{ event?.my_calendar?.user?.firstname + ' ' + event?.my_calendar?.user?.lastname }}
+                        <span>{{ event?.my_calendar?.user?.firstname ?? '' + ' ' }}</span>
+                        <span>{{ event?.my_calendar?.user?.lastname ?? '' }}</span>
                     </p>
                     <p class="text-base font-semibold text-gray-700 xl:pr-0">
                         {{ event?.my_calendar?.title }}
@@ -37,9 +38,9 @@
                             </div>
                             <div>
                                 <p>
-                                    {{ formatTimeToReadable(event?.my_calendar.date_time_start) }}
+                                    {{ formatTimeToReadable(event?.my_calendar?.date_time_start ?? moment()) }}
                                     -
-                                    {{ formatTimeToReadable(event?.my_calendar.date_time_end) }}
+                                    {{ formatTimeToReadable(event?.my_calendar?.date_time_end ?? moment()) }}
                                 </p>
                             </div>
                         </div>
@@ -51,6 +52,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import { useDepartmentStore } from '@/store/department'
