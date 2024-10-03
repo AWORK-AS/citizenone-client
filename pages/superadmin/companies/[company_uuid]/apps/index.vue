@@ -42,7 +42,7 @@
                                     <td width="30%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button"
-                                                :buttonStyle="companyApp.is_active ? 'danger' : 'success'"
+                                                :buttonStyle="companyApp.is_active ? 'warning' : 'success'"
                                                 class="rounded-md"
                                                 @click="activateDeactivateCompanyApp(index, companyApp)">
                                                 <Icon name="ph:pencil" class="size-4" />

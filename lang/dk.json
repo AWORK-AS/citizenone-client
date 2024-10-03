@@ -35,6 +35,7 @@
     },
     "apps": {
         "activate": "Aktivér",
+        "activated": "Aktiveret",
         "apps": "Apps",
         "confirmation": {
             "confirmationOfTerms": "Jeg bekræfter, at jeg har læst og accepterer vilkårene og betingelserne, før jeg aktiverer denne app"

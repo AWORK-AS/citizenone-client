@@ -35,6 +35,7 @@
     },
     "apps": {
         "activate": "Activate",
+        "activated": "Activated",
         "apps": "Apps",
         "confirmation": {
             "confirmationOfTerms": "I confirm that I have read and accept the terms and conditions before activating this app"

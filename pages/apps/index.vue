@@ -43,9 +43,11 @@
                                 <FormButton type="button" buttonStyle="action" class="w-full" @click="readMore(app)">
                                     {{ $t('apps.readMore') }}
                                 </FormButton>
-                                <FormButton type="button" buttonStyle="action" class="w-full" color="primary"
-                                    @click="confirmTACAcceptance(app)">
-                                    {{ $t('apps.activate') }}
+                                <FormButton type="button" :buttonStyle="app?.is_active ? 'warning' : 'action'" :class="[
+                                    app?.is_active && 'cursor-not-allowed',
+                                    'w-full'
+                                ]" color="primary" @click="!app?.is_active && confirmTACAcceptance(app)">
+                                    {{ app?.is_active ? $t('apps.activated') : $t('apps.activate') }}
                                 </FormButton>
                             </div>
                         </div>
