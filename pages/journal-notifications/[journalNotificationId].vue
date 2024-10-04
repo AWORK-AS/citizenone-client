@@ -17,14 +17,17 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <h1 class="text-3xl text-primary font-bold">
-                        {{ state.journal?.data?.title }}
-                    </h1>
-                    <div class="content text-sm" v-html="state.journal?.data?.content" />
-                    <div class="content text-sm" v-html="state.journal?.data?.note" />
-                    <p class="mt-1 text-xs text-muted-400">
-                        <span>{{ formatDateToReadable(state.journal?.data?.date) }}</span>
-                    </p>
+                    <div
+                        class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-8 border-secondary mt cursor-pointer">
+                        <h1 class="text-3xl text-primary font-bold">
+                            {{ state.journal?.data?.title }}
+                        </h1>
+                        <div class="content text-sm" v-html="state.journal?.data?.content" />
+                        <div class="content text-sm" v-html="state.journal?.data?.note" />
+                        <p class="mt-1 text-xs text-muted-400">
+                            <span>{{ formatDateToReadable(state.journal?.data?.date) }}</span>
+                        </p>
+                    </div>
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
