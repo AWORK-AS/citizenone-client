@@ -124,7 +124,7 @@ onMounted(() => {
         strength: props.selectedMedicine.strength,
         dosage_id: props.selectedMedicine.dosage_id,
         daily_dose: props.selectedMedicine.daily_dose,
-        quantity: props.selectedMedicine.quantity,
+        quantity: props.selectedMedicine.quantity?.toString(),
         active_ingredients: props.selectedMedicine.active_ingredients,
         description: props.selectedMedicine.description,
     }
@@ -139,7 +139,7 @@ watch(() => props.selectedMedicine, (newValue: any) => {
             strength: newValue.strength,
             dosage_id: newValue.dosage_id,
             daily_dose: newValue.daily_dose,
-            quantity: newValue.quantity,
+            quantity: newValue.quantity?.toString(),
             active_ingredients: newValue.active_ingredients,
             description: newValue.description,
         }

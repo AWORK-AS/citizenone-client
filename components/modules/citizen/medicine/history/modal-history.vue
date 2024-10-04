@@ -108,8 +108,8 @@ const state = reactive({
     },
 })
 
-watch(() => props.selectedMedicine, (selectedMedicine: any) => {
-    if (selectedMedicine) {
+watch(() => props.isModalOpen, (isModalOpen: any) => {
+    if (isModalOpen) {
         state.error = {}
         fetchCitizenMedicineHistories()
     }

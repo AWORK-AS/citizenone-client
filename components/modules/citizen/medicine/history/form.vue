@@ -78,7 +78,7 @@ onMounted(() => {
     state.formMedicineHistory = {
         uuid: props.selectedMedicineHistory.uuid,
         date: props.selectedMedicineHistory.date,
-        quantity: props.selectedMedicineHistory.quantity,
+        quantity: props.selectedMedicineHistory.quantity?.toString(),
     }
 })
 
@@ -87,7 +87,7 @@ watch(() => props.selectedMedicineHistory, (newValue: any) => {
         state.formMedicineHistory = {
             uuid: newValue.uuid,
             date: newValue.date,
-            quantity: newValue.quantity,
+            quantity: newValue.quantity?.toString(),
         }
     }
 })
