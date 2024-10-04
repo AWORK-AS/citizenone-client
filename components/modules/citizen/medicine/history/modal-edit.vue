@@ -4,7 +4,7 @@
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenMedicineHistoryForm formType="update"
+                    <ModulesCitizenMedicineHistoryForm formType="update" :selectedMedicine="props.selectedMedicine"
                         :selectedMedicineHistory="props.selectedMedicineHistory" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="updateMedicineHistory" />
@@ -27,6 +27,10 @@ const { t } = useI18n()
 const props = defineProps({
     isModalOpen: {
         type: Boolean,
+        required: true,
+    },
+    selectedMedicine: {
+        type: Object,
         required: true,
     },
     selectedMedicineHistory: {

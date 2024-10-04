@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submitForm()">
+    <form @submit.prevent="validateForm()">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
@@ -30,6 +30,9 @@
                 </FormButton>
             </div>
         </div>
+        <DialogConfirmation :isModalOpen="state.modal.isMoreThanMedicineQuantityConfirmationOpen"
+            :message="$t('citizens.medicineJournals.history.confirmation.rightQuantityConfirmation') + '?'"
+            @close="state.modal.isMoreThanMedicineQuantityConfirmationOpen = false" @confirm="submitForm" />
     </form>
 </template>
 
@@ -47,6 +50,10 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    selectedMedicine: {
+        type: Object,
+        required: true,
+    },
     selectedMedicineHistory: {
         type: Object,
         required: true,
@@ -62,6 +69,9 @@ const state = reactive({
         date: '',
         quantity: '',
     },
+    modal: {
+        isMoreThanMedicineQuantityConfirmationOpen: false,
+    }
 })
 
 onMounted(() => {
@@ -97,10 +107,18 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
-function submitForm() {
+function validateForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formMedicineHistory)
+        if (parseInt(state.formMedicineHistory.quantity) > parseInt(props.selectedMedicine?.quantity)) {
+            state.modal.isMoreThanMedicineQuantityConfirmationOpen = true
+        } else {
+            submitForm()
+        }
     }
+}
+
+function submitForm() {
+    emit('submitForm', state.formMedicineHistory)
 }
 </script>

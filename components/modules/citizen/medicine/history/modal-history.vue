@@ -50,6 +50,7 @@
                         :selectedMedicine="props.selectedMedicine" @close="state.modal.isAddMedicineHistoryOpen = false"
                         @refreshMedicineHistories="fetchCitizenMedicineHistories" />
                     <ModulesCitizenMedicineHistoryModalEdit :isModalOpen="state.modal.isEditMedicineHistoryOpen"
+                        :selectedMedicine="props.selectedMedicine"
                         :selectedMedicineHistory="state.selectedMedicineHistory" @close="closeEditMedicineHistoryModal"
                         @refreshMedicineHistories="fetchCitizenMedicineHistories" />
                     <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineHistoryOpen"

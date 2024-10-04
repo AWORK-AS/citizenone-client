@@ -291,7 +291,8 @@
                     "successfullyDeleted": "Medicinhistorik slettet med succes"
                 },
                 "confirmation": {
-                    "deleteConfirmation": "Er du sikker på, at du vil slette denne medicinhistorik?"
+                    "deleteConfirmation": "Er du sikker på, at du vil slette denne medicinhistorik",
+                    "rightQuantityConfirmation": "Er du sikker på, at du har angivet den korrekte mængde"
                 },
                 "editMedicine": "Rediger medicin",
                 "form": {
@@ -987,8 +988,8 @@
                 },
                 "companyApps": "Virksomhedsapps",
                 "confirmation": {
-                    "activateAppConfirmation": "Er du sikker på, at du vil aktivere denne app?",
-                    "deactivateAppConfirmation": "Er du sikker på, at du vil deaktivere denne app?"
+                    "activateAppConfirmation": "Er du sikker på, at du vil aktivere denne app",
+                    "deactivateAppConfirmation": "Er du sikker på, at du vil deaktivere denne app"
                 },
                 "table": {
                     "action": {
