@@ -25,7 +25,7 @@
                         <!-- Notification List Container -->
                         <ul class="mt-5 space-y-5">
                             <!-- Notification Item -->
-                            <li class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-8 border-secondary mt cursor-pointer"
+                            <li class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-8 border-secondary cursor-pointer"
                                 v-for="(notification, index) in state.notifications" :key="index"
                                 @click="viewNotification(notification)">
                                 <Badge type="primary" class="w-fit">

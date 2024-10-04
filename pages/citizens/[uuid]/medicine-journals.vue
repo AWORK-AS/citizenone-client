@@ -62,7 +62,8 @@
                                                 {{ $t('citizens.medicineJournals.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                @click="confirmMedicineDeletion(medicine)">
+                                                @click="confirmMedicineDeletion(medicine)"
+                                                v-if="medicine?.is_deletable">
                                                 <Icon name="ph:trash-duotone" class="size-4" />
                                                 {{ $t('citizens.medicineJournals.table.actions.delete') }}
                                             </FormButton>

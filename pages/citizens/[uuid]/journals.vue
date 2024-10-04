@@ -169,7 +169,7 @@
                                                 <Icon name="ph:lock-open" class="size-4" v-else />
                                             </FormButton>
                                             <FormButton class="rounded-md" buttonSize="xs"
-                                                @click="confirmJournalDeletion(journal)">
+                                                @click="confirmJournalDeletion(journal)" v-if="journal?.is_deletable">
                                                 <Icon name="ph:trash-duotone" class="size-4" />
                                             </FormButton>
                                         </div>

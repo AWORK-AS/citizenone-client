@@ -82,7 +82,7 @@
                                                 {{ $t('plansandgoals.table.actions.statuses') }}
                                             </FormButton>
                                             <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="confirmPlanDeletion(plan)">
+                                                @click="confirmPlanDeletion(plan)" v-if="plan?.is_deletable">
                                                 <Icon name="heroicons:trash" class="size-4" />
                                                 {{ $t('plansandgoals.table.actions.delete') }}
                                             </FormButton>

@@ -28,12 +28,12 @@
                                         <td width="20%">
                                             <div class="flex items-end gap-2">
                                                 <FormButton class="rounded-md" buttonSize="sm"
-                                                    @click="editStatus(status)">
+                                                    @click="editStatus(status)" v-if="status?.is_editable">
                                                     <Icon name="ph:pencil" class="size-4" />
                                                     {{ $t('plansandgoals.table.actions.edit') }}
                                                 </FormButton>
                                                 <FormButton class="rounded-md" buttonSize="sm"
-                                                    @click="confirmStatusDeletion(status)">
+                                                    @click="confirmStatusDeletion(status)" v-if="status?.is_deletable">
                                                     <Icon name="heroicons:trash" class="size-4" />
                                                     {{ $t('plansandgoals.table.actions.delete') }}
                                                 </FormButton>
