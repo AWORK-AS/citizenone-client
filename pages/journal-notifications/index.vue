@@ -85,6 +85,7 @@ onMounted(() => {
 
 async function fetchNotifications() {
     state.error = {}
+    state.isPageLoading = true
     try {
         const response = await notificationService.getNotifications()
         if (response) {
@@ -93,6 +94,7 @@ async function fetchNotifications() {
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
 }
 
 function viewNotification(notification: any) {
@@ -101,6 +103,7 @@ function viewNotification(notification: any) {
 }
 
 async function markAllAsRead() {
+    state.isPageLoading = true
     state.error = {}
     try {
         const response = await notificationService.markAllAsRead()
@@ -111,5 +114,6 @@ async function markAllAsRead() {
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
 }
 </script>
