@@ -21,8 +21,12 @@
                     </Badge>
                     <p class="text-xs">
                         {{ $t('dailyOverview.createdBy') }}
-                        <span>{{ event?.my_calendar?.user?.firstname ?? '' }}</span>
-                        <span>{{ ' ' + event?.my_calendar?.user?.lastname ?? '' }}</span>
+                        <span v-if="event?.my_calendar?.user?.firstname">
+                            {{ event?.my_calendar?.user?.firstname + ' ' }}
+                        </span>
+                        <span v-if="event?.my_calendar?.user?.lastname">
+                            {{ event?.my_calendar?.user?.lastname }}
+                        </span>
                     </p>
                     <p class="text-base font-semibold text-gray-700 xl:pr-0">
                         {{ event?.my_calendar?.title }}
