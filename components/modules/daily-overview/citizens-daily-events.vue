@@ -40,11 +40,11 @@
                                 <span class="sr-only">Time</span>
                                 <Icon name="ph:clock" class="h-4 w-4 text-gray-700" aria-hidden="true" />
                             </div>
-                            <div>
+                            <div class="">
                                 <p>
-                                    {{ formatTimeToReadable(event?.my_calendar?.date_time_start ?? moment()) }}
+                                    {{ formatDateTimeToReadable(event?.my_calendar?.date_time_start ?? moment()) }}
                                     -
-                                    {{ formatTimeToReadable(event?.my_calendar?.date_time_end ?? moment()) }}
+                                    {{ formatDateTimeToReadable(event?.my_calendar?.date_time_end ?? moment()) }}
                                 </p>
                             </div>
                         </div>
@@ -74,7 +74,7 @@ const props = defineProps({
 })
 
 const departmentStore = useDepartmentStore()
-const { formatTimeToReadable } = useDatetimeFormatter()
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 
 const state = reactive({
     isPageLoading: false,
