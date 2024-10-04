@@ -58,6 +58,7 @@ onMounted(() => {
 
 async function markNotificationAsRead() {
     state.error = {}
+    state.isPageLoading = true
     try {
         const response = await notificationService.markAsRead(journalNotificationId)
         if (response) {
@@ -67,10 +68,12 @@ async function markNotificationAsRead() {
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
 }
 
 async function fetchNotification() {
     state.error = {}
+    state.isPageLoading = true
     try {
         const response = await notificationService.getNotification(journalNotificationId)
         if (response) {
@@ -80,10 +83,12 @@ async function fetchNotification() {
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
 }
 
 async function fetchJournal() {
     state.error = {}
+    state.isPageLoading = true
     try {
         const journalUuid = state.notification?.data?.uuid
         const response = await journalService.getJournal(journalUuid)
@@ -93,5 +98,6 @@ async function fetchJournal() {
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
 }
 </script>
