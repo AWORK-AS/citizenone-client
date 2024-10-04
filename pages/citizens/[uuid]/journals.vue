@@ -53,7 +53,7 @@
                             </div>
                         </div>
 
-                        <div class="pb-10 border-b">
+                        <div>
                             <div class="flex flex-wrap justify-end items-end gap-2">
                                 <FormTextField id="filter_journal" name="filter_journal"
                                     :placeholder="$t('citizens.citizenJournals.filter.filterJournal')"
@@ -89,8 +89,8 @@
                                 </FormButton>
                             </div>
                         </div>
-                        <div class="space-y-5">
-                            <div class="mb-2 gap-2 border-b border-dashed pb-5 px-2"
+                        <div class="mt-5 space-y-5">
+                            <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
                                 v-for="(journal, index) in state.journals?.data" :key="index">
                                 <div class="space-y-3">
                                     <div class="space-y-1.5">

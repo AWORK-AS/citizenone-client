@@ -35,9 +35,9 @@
                         </div>
 
                         <div class="space-y-5">
-                            <div class="mb-2 gap-2 border-b border-tertiary border-dashed pb-5 px-2"
+                            <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
                                 v-for="(plan, index) in state.plans?.data" :key="index">
-                                <div class="flex flex-col md:flex-row md:items-center gap-3">
+                                <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-10">
                                     <div class="grow space-y-1">
                                         <div class="flex items-center gap-x-2">
                                             <div>
@@ -52,7 +52,7 @@
                                                 {{ plan?.name }}
                                             </h3>
                                         </div>
-                                        <div>
+                                        <div class="text-sm">
                                             {{ plan?.description }}
                                         </div>
                                         <p class="text-sm">
@@ -67,7 +67,7 @@
                                         </p>
                                     </div>
                                     <div>
-                                        <div class="flex items-center gap-3 flex-wrap md:flex-nowrap">
+                                        <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
                                             <FormButton class="rounded-md" buttonSize="sm" @click="editPlan(plan)"
                                                 v-if="plan?.is_editable">
                                                 <Icon name="ph:pencil-duotone" class="size-4" />

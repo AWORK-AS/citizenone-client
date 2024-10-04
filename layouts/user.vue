@@ -215,7 +215,7 @@
                             @click="navigateTo('/journal-notifications')">
                             <Icon name="ph:bell" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
                             <Badge type="notification" class="w-fit absolute -top-4 left-4">
-                                {{ userStore.getUser?.unread_notification_count }}
+                                {{ userStore.getUser?.unread_notification_count ?? 0 }}
                             </Badge>
                         </button>
 

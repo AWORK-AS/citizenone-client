@@ -58,10 +58,11 @@
                                             </FormButton>
                                         </div>
                                         <LoadingSpinner :isActive="state.isPageLoading">
-                                            <dl class="divide-y divide-tertiary divide-dashed">
+                                            <dl class="space-y-5">
                                                 <Disclosure as="div" v-slot="{ open }"
-                                                    v-for="(goal, index) in state.goals?.data" :index="index">
-                                                    <div class="py-4">
+                                                    v-for="(goal, index) in state.goals?.data" :index="index"
+                                                    class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary">
+                                                    <div>
                                                         <div class="flex justify-between items-center">
                                                             <div>
                                                                 <div class="flex items-center gap-x-2">
@@ -83,7 +84,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="flex gap-x-1">
+                                                            <div class="flex gap-x-2">
                                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                                     @click="addSubgoal(goal)">
                                                                     <Icon name="ph:plus" class="size-4" />
@@ -124,16 +125,17 @@
                                                             {{ goal?.description }}
                                                         </div>
                                                     </div>
-                                                    <DisclosurePanel as="dd" class="mx-5 my-0">
+                                                    <DisclosurePanel as="dd" class="mt-5 mx-5 my-0">
                                                         <div class="mb-6">
                                                             <p class="font-semibold text-sm py-1"
                                                                 v-if="goal?.citizen_subgoals?.length > 0">
                                                                 {{ $t('plansandgoals.subgoals') }}
                                                             </p>
-                                                            <p class="text-sm py-1" v-else>
+                                                            <p class="text-sm bg-tertiary-25 px-4 py-6 text-center rounded-md"
+                                                                v-else>
                                                                 {{ $t('plansandgoals.noAvailableSubgoals') }}.
                                                             </p>
-                                                            <dl class="space-y-2">
+                                                            <dl class="mt-2 space-y-3">
                                                                 <div v-for="(subgoal, index) in goal?.citizen_subgoals"
                                                                     :key="index" class="bg-tertiary-25 p-4 rounded-md">
                                                                     <div class="py-4">

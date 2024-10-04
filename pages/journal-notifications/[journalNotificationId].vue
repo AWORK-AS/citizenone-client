@@ -18,10 +18,21 @@
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div
-                        class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-8 border-secondary cursor-pointer">
+                        class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary cursor-pointer">
+                        <Badge type="primary" class="w-fit">
+                            <p class="text-xs px-2">
+                                {{ state.journal?.data?.citizen?.firstname }}
+                                {{ state.journal?.data?.citizen?.lastname }}
+                            </p>
+                        </Badge>
+                        <p class="text-xs py-1"
+                            v-if="state.journal?.data?.user?.firstname && state.journal?.data?.user?.lastname">
+                            {{ $t('journalNotifications.createdBy') }}
+                            {{ state.journal?.data?.user?.firstname + ' ' +
+                                state.journal?.data?.user?.lastname }}
+                        </p>
                         <h1 class="text-3xl text-primary font-bold">
-                            {{ state.journal?.data?.
-                            }}
+                            {{ state.journal?.data?.title }}
                         </h1>
                         <div class="content text-sm" v-html="state.journal?.data?.content" />
                         <div class="content text-sm" v-html="state.journal?.data?.note" />
