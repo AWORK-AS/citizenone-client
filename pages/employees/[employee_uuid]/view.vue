@@ -138,7 +138,12 @@
                                 <div class="space-y-1">
                                     <Label :label="$t('employees.form.employment.workingHours')" />
                                     <p class="font-medium capitalize">
-                                        {{ state.selectedEmployee.employment.working_hours?.replace('_', ' ') }}
+                                        <span v-if="state.selectedEmployee?.employment?.working_hours === 'full_time'">
+                                            {{ $t('employees.workingHours.fulltime') }}
+                                        </span>
+                                        <span v-if="state.selectedEmployee?.employment?.working_hours === 'part_time'">
+                                            {{ $t('employees.workingHours.parttime') }}
+                                        </span>
                                     </p>
                                 </div>
                                 <div class="space-y-1">

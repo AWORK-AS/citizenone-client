@@ -207,10 +207,10 @@
             "filter": {
                 "date": "Dato",
                 "filterDate": "Filtrer dato",
-                "filterJournal": "Filter journal",
                 "journalNoteView": "Journalnotatvisning",
-                "standardView": "Standardvisning",
-                "riskAssessmentView": "Risikovurderingsvisning"
+                "riskAssessmentView": "Risikovurderingsvisning",
+                "searchJournal": "Søg i journal",
+                "standardView": "Standardvisning"
             },
             "newJournal": "Ny Journal",
             "riskAssessment": "Risikovurdering"
@@ -603,6 +603,10 @@
             "name": "Navn",
             "phone": "Telefon",
             "role": "Rolle"
+        },
+        "workingHours": {
+            "fulltime": "Fuldtid",
+            "parttime": "Deltid"
         },
         "viewEmployee": "Se medarbejder"
     },

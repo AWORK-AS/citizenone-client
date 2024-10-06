@@ -56,7 +56,7 @@
                         <div>
                             <div class="flex flex-wrap justify-end items-end gap-2">
                                 <FormTextField id="filter_journal" name="filter_journal"
-                                    :placeholder="$t('citizens.citizenJournals.filter.filterJournal')"
+                                    :placeholder="$t('citizens.citizenJournals.filter.searchJournal')"
                                     v-model="state.filter.journal" class="flex-1" @blur="filterJournal"
                                     @keyup.enter="filterJournal" />
                                 <FormDateRangeField id="date_range" name="date_range"

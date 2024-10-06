@@ -394,8 +394,8 @@ const props = defineProps({
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 const image = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
-
 const { t } = useI18n()
+const language = useI18n()
 
 const state = reactive({
     error: {} as Error,
@@ -451,9 +451,18 @@ const state = reactive({
             { value: 'User', label: 'User' },
         ],
         working_hours: [
-            { value: 'full_time', label: 'Full-time' },
-            { value: 'part_time', label: 'Part-time' },
+            { value: 'full_time', label: `${t('employees.workingHours.fulltime')}` },
+            { value: 'part_time', label: `${t('employees.workingHours.parttime')}` },
         ],
+    }
+})
+
+watch(() => language.locale.value, (newValue: any) => {
+    if (newValue != null) {
+        state.options.working_hours = [
+            { value: 'full_time', label: `${t('employees.workingHours.fulltime')}` },
+            { value: 'part_time', label: `${t('employees.workingHours.parttime')}` },
+        ]
     }
 })
 

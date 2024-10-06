@@ -207,10 +207,10 @@
             "filter": {
                 "date": "Date",
                 "filterDate": "Filter date",
-                "filterJournal": "Filter journal",
                 "journalNoteView": "Journal note view",
-                "standardView": "Standard view",
-                "riskAssessmentView": "Risk assessment view"
+                "riskAssessmentView": "Risk assessment view",
+                "searchJournal": "Search journal",
+                "standardView": "Standard view"
             },
             "newJournal": "New journal",
             "riskAssessment": "Risk assessment"
@@ -603,6 +603,10 @@
             "name": "Name",
             "phone": "Phone",
             "role": "Role"
+        },
+        "workingHours": {
+            "fulltime": "Full time",
+            "parttime": "Part time"
         },
         "viewEmployee": "View employee"
     },
