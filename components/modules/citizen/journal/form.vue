@@ -244,9 +244,6 @@ const rules = computed(() => {
             date: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            content: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
         },
     }
 })
