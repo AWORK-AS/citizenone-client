@@ -1,7 +1,7 @@
 <template>
     <div v-if="props?.week?.slots?.length > 0 && isCurrentUser()">
         <p class="text-xxs">
-            {{ $t('dutySchedules.scheduleSlots.availableSlots') }}
+            {{ $t('dutySchedules.scheduleSlots.numberOfShifts') }}
         </p>
         <div class="space-y-2 mt-1">
             <div v-for="(slot, index) in props?.week?.slots" :key="index" :class="[

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('dutySchedules.scheduleSlots.editScheduleSlot')" :show="props.isModalOpen"
+        <Modal size="xs" :title="$t('dutySchedules.scheduleSlots.editOfferedShift')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">

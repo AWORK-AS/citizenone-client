@@ -466,28 +466,28 @@
                 "requestForThisScheduleSlotHasBennSuccessfullySent": "Anmodning om dette tidsinterval er sendt med succes",
                 "scheduleSlotSuccessfullyDeleted": "Tidspunkt slettet med succes"
             },
-            "availableSlots": "Tilgængelige tider",
             "confirmation": {
                 "deleteConfirmation": "Er du sikker på, at du vil slette dette tidspunkt",
                 "requestConfirmation": "Er du sikker på, at du vil anmode om dette tidsinterval"
             },
-            "editScheduleSlot": "Rediger tidspunkt",
+            "editOfferedShift": "Rediger udbudt vagt",
             "form": {
                 "alert": {
                     "scheduleSlotSuccessfullyAdded": "Tidspunkt tilføjet med succes",
                     "scheduleSlotSuccessfullyUpdated": "Tidspunkt opdateret med succes"
                 },
-                "availableSlots": "Tilgængelige tider",
                 "date": "Dato",
                 "jobTitle": "Jobtitel",
+                "numberofShift": "Antal vagter",
                 "shiftType": "Vagttype",
                 "status": "Status",
                 "timeIn": "Tid ind",
                 "timeOut": "Tid ud",
                 "workingHours": "Arbejdstimer"
             },
-            "newScheduleSlot": "Nyt tidspunkt",
-            "scheduleSlots": "Tidspunkter",
+            "numberofShift": "Antal vagter",
+            "offerNewTime": "Udbyd nye vagter",
+            "scheduleSlots": "Udbyd vagter",
             "table": {
                 "active": "Aktiv",
                 "actions": {
@@ -495,10 +495,10 @@
                     "edit": "Rediger",
                     "viewRequesters": "Se anmodere"
                 },
-                "availableSlots": "Tilgængelige tider",
                 "date": "Dato",
                 "inactive": "Inaktiv",
                 "jobTitle": "Jobtitel",
+                "numberofShift": "Antal vagter",
                 "shiftType": "Vagttype",
                 "status": "Tid",
                 "time": "Time",

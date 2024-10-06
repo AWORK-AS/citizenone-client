@@ -9,7 +9,7 @@
                         <FormButton buttonStyle="action" class="rounded-lg"
                             @click="state.modal.isAddNewScheduleSlotOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('dutySchedules.scheduleSlots.newScheduleSlot') }}
+                            {{ $t('dutySchedules.scheduleSlots.offerNewTime') }}
                         </FormButton>
                     </div>
                     <div class="space-y-5">
@@ -129,7 +129,7 @@ const state = reactive({
         { name: 'dutySchedules.scheduleSlots.table.shiftType' },
         { name: 'dutySchedules.scheduleSlots.table.jobTitle' },
         { name: 'dutySchedules.scheduleSlots.table.time' },
-        { name: 'dutySchedules.scheduleSlots.table.availableSlots' },
+        { name: 'dutySchedules.scheduleSlots.table.numberOfShifts' },
         { name: '' },
 
     ],

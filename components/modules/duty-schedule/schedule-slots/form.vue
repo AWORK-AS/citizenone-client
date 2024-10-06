@@ -31,9 +31,9 @@
                 <FormError :error="props?.error?.errors?.job_id?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="available_slots" :label="$t('dutySchedules.scheduleSlots.form.availableSlots')" />
+                <FormLabel for="available_slots" :label="$t('dutySchedules.scheduleSlots.form.numberOfShifts')" />
                 <FormTextField id="available_slots" name="available_slots"
-                    :placeholder="$t('dutySchedules.scheduleSlots.form.availableSlots')"
+                    :placeholder="$t('dutySchedules.scheduleSlots.form.numberOfShifts')"
                     v-model="state.formScheduleSlot.available_slots" />
                 <FormError :error="v$?.formScheduleSlot?.available_slots?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.available_slots?.[0]" />
