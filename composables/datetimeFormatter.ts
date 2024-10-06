@@ -63,7 +63,7 @@ export function useDatetimeFormatter() {
     }
 
     function formatTimeToReadable(time: string) {
-        return moment(time, "HH:mm:ss A").format('hh:mm:ss A')
+        return moment(time, "hh:mm:ss A").format('HH:mm:ss');
     }
 
     return { formatDateToReadable, formatDateTimeToReadable, formatTimeToReadable }
