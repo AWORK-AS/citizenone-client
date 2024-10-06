@@ -68,14 +68,14 @@
                                     </div>
                                     <div>
                                         <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
+                                            <FormButton class="rounded-md" buttonSize="sm" @click="viewPlan(plan)">
+                                                <Icon name="ph:eye" class="size-4" />
+                                                {{ $t('plansandgoals.table.actions.seeGoals') }}
+                                            </FormButton>
                                             <FormButton class="rounded-md" buttonSize="sm" @click="editPlan(plan)"
                                                 v-if="plan?.is_editable">
                                                 <Icon name="ph:pencil-duotone" class="size-4" />
                                                 {{ $t('plansandgoals.table.actions.edit') }}
-                                            </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="sm" @click="viewPlan(plan)">
-                                                <Icon name="heroicons:chevron-right" class="size-4" />
-                                                {{ $t('plansandgoals.table.actions.view') }}
                                             </FormButton>
                                             <FormButton class="rounded-md" buttonSize="sm" @click="viewStatuses(plan)">
                                                 <Icon name="ph:check-square-offset" class="size-4" />

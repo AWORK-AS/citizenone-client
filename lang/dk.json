@@ -791,8 +791,8 @@
             "actions": {
                 "edit": "Rediger",
                 "delete": "Slet",
-                "statuses": "Statusser",
-                "view": "Se"
+                "seeGoals": "Se mål",
+                "statuses": "Statusser"
             },
             "dateCreated": "Oprettelsesdato",
             "status": "Status"

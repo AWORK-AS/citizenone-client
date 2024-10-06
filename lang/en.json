@@ -791,8 +791,8 @@
             "actions": {
                 "edit": "Edit",
                 "delete": "Delete",
-                "statuses": "Statuses",
-                "view": "View"
+                "seeGoals": "See goals",
+                "statuses": "Statuses"
             },
             "dateCreated": "Date created",
             "status": "Status"
