@@ -107,7 +107,7 @@
                                     <div class="col-span-2 border-0.5">
                                         <div class="flex items-center px-3 py-4 border-0.5">
                                             <p class="text-sm font-medium">
-                                                Week {{ weekNumber }}
+                                                {{ $t('dutySchedules.week') }} {{ weekNumber }}
                                             </p>
                                             <div class="flex-1 flex justify-end"
                                                 v-if="isAdmin(userStore.getUser?.roles)">
