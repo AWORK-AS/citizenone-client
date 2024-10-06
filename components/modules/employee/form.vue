@@ -439,16 +439,16 @@ const state = reactive({
         cities: [],
         departments: [],
         employment_status: [
-            { value: 'permanent', label: 'Permanent' },
-            { value: 'temporary', label: 'Temporary' },
-            { value: 'substitute', label: 'Substitute' },
+            { value: 'permanent', label: `${t('employees.employmentStatus.permanent')}` },
+            { value: 'temporary', label: `${t('employees.employmentStatus.temporary')}` },
+            { value: 'substitute', label: `${t('employees.employmentStatus.substitute')}` },
         ],
         jobTitles: [],
         municipalities: [],
         regions: [],
         roleOptions: [
-            { value: 'Admin', label: 'Admin' },
-            { value: 'User', label: 'User' },
+            { value: 'Admin', label: `${t('employees.roles.administrator')}` },
+            { value: 'User', label: `${t('employees.roles.user')}` },
         ],
         working_hours: [
             { value: 'full_time', label: `${t('employees.workingHours.fulltime')}` },
@@ -459,6 +459,15 @@ const state = reactive({
 
 watch(() => language.locale.value, (newValue: any) => {
     if (newValue != null) {
+        state.options.employment_status = [
+            { value: 'permanent', label: `${t('employees.employmentStatus.permanent')}` },
+            { value: 'temporary', label: `${t('employees.employmentStatus.temporary')}` },
+            { value: 'substitute', label: `${t('employees.employmentStatus.substitute')}` },
+        ]
+        state.options.roleOptions = [
+            { value: 'Admin', label: `${t('employees.roles.administrator')}` },
+            { value: 'User', label: `${t('employees.roles.user')}` },
+        ]
         state.options.working_hours = [
             { value: 'full_time', label: `${t('employees.workingHours.fulltime')}` },
             { value: 'part_time', label: `${t('employees.workingHours.parttime')}` },

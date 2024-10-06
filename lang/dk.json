@@ -542,6 +542,11 @@
         "deleteEmployee": "Slet medarbejder",
         "editEmployee": "Rediger medarbejder",
         "employees": "Medarbejdere",
+        "employmentStatus": {
+            "permanent": "Fastansat​",
+            "substitute": "Vikar​",
+            "temporary": "Tidsbestemt​"
+        },
         "form": {
             "alert": {
                 "employeeSuccessfullyUpdated": "Medarbejder opdateret med succes",
@@ -593,6 +598,10 @@
             "street": "Gade"
         },
         "newEmployee": "Ny medarbejder",
+        "roles": {
+            "administrator": "Administrator",
+            "user": "Bruger"
+        },
         "table": {
             "actions": {
                 "edit": "Rediger",
