@@ -8,7 +8,9 @@
 
             <template #header>{{ $t('timeLogs.timeLogs') }}</template>
 
-            <div class="space-y-5">
+            <ModulesSettingsTab />
+
+            <div class="mt-10 space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <div class="table-responsive">
@@ -56,7 +58,7 @@ const state = reactive({
     ],
     error: {} as Error,
     isTableLoading: false,
-    logs: [],
+    logs: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',

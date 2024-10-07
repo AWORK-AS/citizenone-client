@@ -8,7 +8,9 @@
 
             <template #header>{{ $t('activityLogs.activityLogs') }}</template>
 
-            <div class="space-y-5">
+            <ModulesSettingsTab />
+
+            <div class="mt-10 space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <div class="table-responsive">
@@ -46,8 +48,8 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
-const userStore = useUserStore()
-const isUserLoggedInAdmin = userStore.getUser?.roles.some(role => role.name === 'Admin')
+const userStore = useUserStore() as any
+const isUserLoggedInAdmin = userStore.getUser?.roles.some((role: any) => role.name === 'Admin')
 let currentTablePage = 1
 
 const state = reactive({
@@ -60,7 +62,7 @@ const state = reactive({
     dataFilter: [],
     error: {} as Error,
     isTableLoading: false,
-    logs: [],
+    logs: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',

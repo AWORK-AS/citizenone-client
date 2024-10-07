@@ -3,14 +3,14 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('settings.settings') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('storage.storage') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('settings.settings') }}</template>
+            <template #header>{{ $t('storage.storage') }}</template>
 
             <ModulesSettingsTab />
 
-            <div class="max-w-3xl">
+            <div class="mt-10 max-w-3xl">
                 <ModulesStorageIndicator />
             </div>
         </NuxtLayout>

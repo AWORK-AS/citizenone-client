@@ -10,7 +10,7 @@
 
             <ModulesSettingsTab />
 
-            <div>
+            <div class="mt-5">
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/job-titles/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />

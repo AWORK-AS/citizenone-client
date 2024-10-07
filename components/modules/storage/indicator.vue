@@ -1,6 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <div class="mt-6 bg-white shadow-md p-6 rounded-md space-y-2">
+        <div class="bg-white shadow-md p-6 rounded-md space-y-2">
             <h2 class="text-sm mb-2 text-primary flex justify-between">
                 <div>
                     {{ $t('storage.storage') }}
@@ -38,7 +38,7 @@ import type { Error } from '@/types'
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
-    usage: []
+    usage: [] as any,
 })
 
 const usedStoragePercentage = computed(() => {

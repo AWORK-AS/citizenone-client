@@ -709,13 +709,11 @@
         "startTheConversation": "Start samtalen"
     },
     "navbar": {
-        "activityLogs": "Aktivitetslogfiler",
         "newWishes": "Nye ønsker",
         "logout": "Log ud",
         "subscription": "Abonnement",
         "settings": "Indstillinger",
-        "switchLanguage": "Skift sprog",
-        "timeLogs": "Tidslogfiler"
+        "switchLanguage": "Skift sprog"
     },
     "news": {
         "editNews": "Rediger nyheder",
@@ -899,6 +897,7 @@
             "subscription": "Abonnement"
         },
         "tabs": {
+            "activityLogs": "Aktivitetslogfiler",
             "archived": "Arkiveret",
             "company": "Virksomhed",
             "departments": "Afdelinger",
@@ -907,7 +906,8 @@
             "licenses": "Licenser",
             "profile": "Profil",
             "storage": "Lager",
-            "subscription": "Abonnement"
+            "subscription": "Abonnement",
+            "timeLogs": "Tidslogfiler"
         }
     },
     "show": "Vis",

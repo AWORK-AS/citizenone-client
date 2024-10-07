@@ -19,6 +19,8 @@ const state = reactive({
         { name: 'settings.tabs.archived', href: `/settings/archived/citizens`, routeNames: ['settings-archived-citizens', 'settings-archived-employees'] },
         { name: 'settings.tabs.departments', href: `/settings/departments`, routeNames: ['settings-departments'] },
         { name: 'settings.tabs.jobTitles', href: `/settings/job-titles`, routeNames: ['settings-job-titles'] },
+        { name: 'settings.tabs.activityLogs', href: `/settings/activity-logs`, routeNames: ['settings-activity-logs'] },
+        { name: 'settings.tabs.timeLogs', href: `/settings/time-logs`, routeNames: ['settings-time-logs'] },
     ]
 })
 
@@ -83,6 +85,20 @@ watch(() => userStore.getUser, (newValue: any) => {
                     routeNames: [
                         'settings-job-titles'
                     ]
+                },
+                {
+                    name: 'settings.tabs.activityLogs',
+                    href: `/settings/activity-logs`,
+                    routeNames: [
+                        'settings-activity-logs'
+                    ]
+                },
+                {
+                    name: 'settings.tabs.timeLogs',
+                    href: `/settings/time-logs`,
+                    routeNames: [
+                        'settings-time-logs'
+                    ]
                 }
             ]
         } else {
@@ -118,6 +134,12 @@ function changeTab(value: any) {
     }
     else if (value === t('settings.tabs.jobTitles')) {
         navigateTo(`/settings/archived/job-titles`)
+    }
+    else if (value === t('settings.tabs.activityLogs')) {
+        navigateTo(`/settings/activity-logs`)
+    }
+    else if (value === t('settings.tabs.timeLogs')) {
+        navigateTo(`/settings/time-logs`)
     }
 }
 </script>

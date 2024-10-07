@@ -3,10 +3,10 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('settings.settings') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('settings.tabs.profile') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('settings.settings') }}</template>
+            <template #header>{{ $t('settings.tabs.profile') }}</template>
 
             <ModulesSettingsTab />
 

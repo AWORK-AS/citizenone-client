@@ -709,13 +709,11 @@
         "startTheConversation": "Start the conversation"
     },
     "navbar": {
-        "activityLogs": "Activity logs",
         "newWishes": "New wishes",
         "logout": "Log out",
         "subscription": "Subscription",
         "settings": "Settings",
-        "switchLanguage": "Switch language",
-        "timeLogs": "Time logs"
+        "switchLanguage": "Switch language"
     },
     "news": {
         "editNews": "Edit news",
@@ -899,6 +897,7 @@
             "subscription": "Subscription"
         },
         "tabs": {
+            "activityLogs": "Activity logs",
             "archived": "Archived",
             "company": "Company",
             "departments": "Departments",
@@ -907,7 +906,8 @@
             "licenses": "Licenses",
             "profile": "Profile",
             "storage": "Storage",
-            "subscription": "Subscription"
+            "subscription": "Subscription",
+            "timeLogs": "Time logs"
         }
     },
     "show": "Show",
