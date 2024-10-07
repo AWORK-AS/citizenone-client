@@ -284,7 +284,9 @@
                 "dosageForm": "Doseringsform",
                 "medicine": "Medicin",
                 "quantity": "Mængde",
-                "strength": "Styrke"
+                "scheduleFrequency": "Planlægningsfrekvens",
+                "strength": "Styrke",
+                "time": "Tid"
             },
             "history": {
                 "alert": {
@@ -315,6 +317,20 @@
                 }
             },
             "newMedicine": "Ny medicin",
+            "scheduleFrequencies": {
+                "everyday": "Hver dag",
+                "every2Days": "Hver anden dag",
+                "every3Days": "Hver tredje dag",
+                "every4Days": "Hver fjerde dag",
+                "every5Days": "Hver femte dag",
+                "every6Days": "Hver sjette dag",
+                "weekly": "Ugentligt",
+                "biweekly": "Hver anden uge",
+                "monthly": "Månedligt",
+                "bimonthly": "Hver anden måned",
+                "quarterly": "Kvartalsvist",
+                "annually": "Årligt"
+            },
             "synchronizeWithFMK": "Synkroniser med FMK",
             "table": {
                 "actions": {

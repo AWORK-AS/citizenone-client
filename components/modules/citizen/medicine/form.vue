@@ -47,6 +47,19 @@
                 </div>
             </div>
             <div class="space-y-1">
+                <FormLabel for="schedule_frequency" :label="$t('citizens.medicineJournals.form.scheduleFrequency')" />
+                <FormSelect id="schedule_frequency" name="schedule_frequency"
+                    :options="state.options.schedule_frequencies" v-model="state.formMedicine.schedule_frequency" />
+                <FormError :error="v$?.formMedicine?.schedule_frequency?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.schedule_frequency?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="time" :label="$t('citizens.medicineJournals.form.time')" />
+                <FormSelectMultiple id="time" :options="state.options.time" v-model="state.formMedicine.time" />
+                <FormError :error="v$?.formMedicine?.time?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.time?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="active_ingredients" :label="$t('citizens.medicineJournals.form.activeIngredients')" />
                 <FormTextArea id="active_ingredients" name="active_ingredients"
                     :placeholder="$t('citizens.medicineJournals.form.activeIngredients')"
@@ -98,8 +111,8 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading', 'error'])
-
 const { t } = useI18n()
+const language = useI18n()
 
 const state = reactive({
     formMedicine: {
@@ -111,9 +124,26 @@ const state = reactive({
         quantity: '',
         active_ingredients: '',
         description: '',
+        schedule_frequency: [],
+        time: [],
     },
     options: {
-        dosage_form: []
+        dosage_form: [],
+        schedule_frequencies: [
+            { value: 'everyday', label: 'Everyday' },
+            { value: 'every2Days', label: 'Every Other Day' },
+            { value: 'every3Days', label: 'Every Third Day' },
+            { value: 'every4Days', label: 'Every 4 Days' },
+            { value: 'every5Days', label: 'Every 5 Days' },
+            { value: 'every6Days', label: 'Every 6 Days' },
+            { value: 'weekly', label: 'Weekly' },
+            { value: 'biweekly', label: 'Biweekly' },
+            { value: 'monthly', label: 'Monthly' },
+            { value: 'bimonthly', label: 'Bimonthly' },
+            { value: 'quarterly', label: 'Quarterly' },
+            { value: 'annually', label: 'Annually' },
+        ],
+        time: [] as any,
     }
 })
 
@@ -127,6 +157,8 @@ onMounted(() => {
         quantity: props.selectedMedicine.quantity?.toString(),
         active_ingredients: props.selectedMedicine.active_ingredients,
         description: props.selectedMedicine.description,
+        schedule_frequency: props.selectedMedicine.schedule_frequency,
+        time: props.selectedMedicine.time,
     }
     fetchDosageForm()
 })
@@ -142,7 +174,28 @@ watch(() => props.selectedMedicine, (newValue: any) => {
             quantity: newValue.quantity?.toString(),
             active_ingredients: newValue.active_ingredients,
             description: newValue.description,
+            schedule_frequency: newValue.schedule_frequency,
+            time: newValue.time,
         }
+    }
+})
+
+watch(() => language.locale.value, (newValue: any) => {
+    if (newValue != null) {
+        state.options.schedule_frequencies = [
+            { value: 'everyday', label: `${t('citizens.medicineJournals.scheduleFrequencies.everyday')}` },
+            { value: 'every2Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every2Days')}` },
+            { value: 'every3Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every3Days')}` },
+            { value: 'every4Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every4Days')}` },
+            { value: 'every5Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every5Days')}` },
+            { value: 'every6Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every6Days')}` },
+            { value: 'weekly', label: `${t('citizens.medicineJournals.scheduleFrequencies.weekly')}` },
+            { value: 'biweekly', label: `${t('citizens.medicineJournals.scheduleFrequencies.biweekly')}` },
+            { value: 'monthly', label: `${t('citizens.medicineJournals.scheduleFrequencies.monthly')}` },
+            { value: 'bimonthly', label: `${t('citizens.medicineJournals.scheduleFrequencies.bimonthly')}` },
+            { value: 'quarterly', label: `${t('citizens.medicineJournals.scheduleFrequencies.quarterly')}` },
+            { value: 'annually', label: `${t('citizens.medicineJournals.scheduleFrequencies.annually')}` },
+        ]
     }
 })
 
@@ -170,6 +223,12 @@ const rules = computed(() => {
             description: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            schedule_frequency: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            time: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
         },
     }
 })
@@ -181,6 +240,21 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', state.formMedicine)
     }
+}
+
+generateTimeIntervals()
+
+function generateTimeIntervals() {
+    const times = []
+    for (let hour = 0; hour < 24; hour++) {
+        for (let minute = 0; minute < 60; minute += 15) {
+            const hourStr = String(hour).padStart(2, '0')
+            const minuteStr = String(minute).padStart(2, '0')
+            const time = `${hourStr}:${minuteStr}`
+            times.push({ value: time, label: time })
+        }
+    }
+    state.options.time = times
 }
 
 async function fetchDosageForm() {

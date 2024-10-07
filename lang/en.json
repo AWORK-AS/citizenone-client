@@ -284,7 +284,9 @@
                 "dosageForm": "Dosage form",
                 "medicine": "Medicine",
                 "quantity": "Quantity",
-                "strength": "Strength"
+                "scheduleFrequency": "Schedule frequency",
+                "strength": "Strength",
+                "time": "Time"
             },
             "history": {
                 "alert": {
@@ -315,6 +317,20 @@
                 }
             },
             "newMedicine": "New medicine",
+            "scheduleFrequencies": {
+                "everyday": "Everyday",
+                "every2Days": "Every Other Day",
+                "every3Days": "Every Third Day",
+                "every4Days": "Every 4 Days",
+                "every5Days": "Every 5 Days",
+                "every6Days": "Every 6 Days",
+                "weekly": "Weekly",
+                "biweekly": "Biweekly",
+                "monthly": "Monthly",
+                "bimonthly": "Bimonthly",
+                "quarterly": "Quarterly",
+                "annually": "Annually"
+            },
             "synchronizeWithFMK": "Synchronize with FMK",
             "table": {
                 "actions": {
