@@ -45,6 +45,8 @@ const state = reactive({
         quantity: '',
         active_ingredients: '',
         description: '',
+        schedule_frequency: [],
+        time: [],
     },
 })
 
@@ -69,6 +71,8 @@ async function saveMedicine(medicineDetails: any) {
             active_ingredients: medicineDetails.active_ingredients,
             description: medicineDetails.description,
             quantity: medicineDetails.quantity,
+            schedule_frequency: medicineDetails.schedule_frequency,
+            time: medicineDetails.time,
         }
         const response = await medicineJournalService.saveMedicine(params)
         if (response?.data) {

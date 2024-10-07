@@ -61,6 +61,8 @@ async function updateMedicine(medicineDetails: any) {
             active_ingredients: medicineDetails.active_ingredients,
             description: medicineDetails.description,
             quantity: medicineDetails.quantity,
+            schedule_frequency: medicineDetails.schedule_frequency,
+            time: medicineDetails.time,
         }
         const response = await medicineJournalService.updateMedicine(medicineUuid, params)
         if (response?.data) {
