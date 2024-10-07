@@ -112,7 +112,6 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading', 'error'])
 const { t } = useI18n()
-const language = useI18n()
 
 const state = reactive({
     formMedicine: {
@@ -130,18 +129,18 @@ const state = reactive({
     options: {
         dosage_form: [],
         schedule_frequencies: [
-            { value: 'everyday', label: 'Everyday' },
-            { value: 'every2Days', label: 'Every Other Day' },
-            { value: 'every3Days', label: 'Every Third Day' },
-            { value: 'every4Days', label: 'Every 4 Days' },
-            { value: 'every5Days', label: 'Every 5 Days' },
-            { value: 'every6Days', label: 'Every 6 Days' },
-            { value: 'weekly', label: 'Weekly' },
-            { value: 'biweekly', label: 'Biweekly' },
-            { value: 'monthly', label: 'Monthly' },
-            { value: 'bimonthly', label: 'Bimonthly' },
-            { value: 'quarterly', label: 'Quarterly' },
-            { value: 'annually', label: 'Annually' },
+            { value: 'everyday', label: `${t('citizens.medicineJournals.scheduleFrequencies.everyday')}` },
+            { value: 'every2Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every2Days')}` },
+            { value: 'every3Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every3Days')}` },
+            { value: 'every4Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every4Days')}` },
+            { value: 'every5Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every5Days')}` },
+            { value: 'every6Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every6Days')}` },
+            { value: 'weekly', label: `${t('citizens.medicineJournals.scheduleFrequencies.weekly')}` },
+            { value: 'biweekly', label: `${t('citizens.medicineJournals.scheduleFrequencies.biweekly')}` },
+            { value: 'monthly', label: `${t('citizens.medicineJournals.scheduleFrequencies.monthly')}` },
+            { value: 'bimonthly', label: `${t('citizens.medicineJournals.scheduleFrequencies.bimonthly')}` },
+            { value: 'quarterly', label: `${t('citizens.medicineJournals.scheduleFrequencies.quarterly')}` },
+            { value: 'annually', label: `${t('citizens.medicineJournals.scheduleFrequencies.annually')}` },
         ],
         time: [] as any,
     }
@@ -177,25 +176,6 @@ watch(() => props.selectedMedicine, (newValue: any) => {
             schedule_frequency: newValue.schedule_frequency,
             time: newValue.time,
         }
-    }
-})
-
-watch(() => language.locale.value, (newValue: any) => {
-    if (newValue != null) {
-        state.options.schedule_frequencies = [
-            { value: 'everyday', label: `${t('citizens.medicineJournals.scheduleFrequencies.everyday')}` },
-            { value: 'every2Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every2Days')}` },
-            { value: 'every3Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every3Days')}` },
-            { value: 'every4Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every4Days')}` },
-            { value: 'every5Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every5Days')}` },
-            { value: 'every6Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every6Days')}` },
-            { value: 'weekly', label: `${t('citizens.medicineJournals.scheduleFrequencies.weekly')}` },
-            { value: 'biweekly', label: `${t('citizens.medicineJournals.scheduleFrequencies.biweekly')}` },
-            { value: 'monthly', label: `${t('citizens.medicineJournals.scheduleFrequencies.monthly')}` },
-            { value: 'bimonthly', label: `${t('citizens.medicineJournals.scheduleFrequencies.bimonthly')}` },
-            { value: 'quarterly', label: `${t('citizens.medicineJournals.scheduleFrequencies.quarterly')}` },
-            { value: 'annually', label: `${t('citizens.medicineJournals.scheduleFrequencies.annually')}` },
-        ]
     }
 })
 
