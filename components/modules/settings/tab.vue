@@ -15,6 +15,7 @@ const state = reactive({
         { name: 'settings.tabs.profile', href: `/settings/profile`, routeNames: ['settings-profile'] },
         { name: 'settings.tabs.storage', href: `/settings/storage`, routeNames: ['settings-storage'] },
         { name: 'settings.tabs.licenses', href: `/settings/license-overview`, routeNames: ['setttings-license-overview'] },
+        { name: 'settings.tabs.subscription', href: `/settings/subscription`, routeNames: ['setttings-subscription'] },
         { name: 'settings.tabs.archived', href: `/settings/archived/citizens`, routeNames: ['settings-archived-citizens', 'settings-archived-employees'] },
         { name: 'settings.tabs.departments', href: `/settings/departments`, routeNames: ['settings-departments'] },
         { name: 'settings.tabs.jobTitles', href: `/settings/job-titles`, routeNames: ['settings-job-titles'] },
@@ -52,6 +53,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                     href: `/settings/license-overview`,
                     routeNames: [
                         'settings-license-overview'
+                    ]
+                },
+                {
+                    name: 'settings.tabs.subscription',
+                    href: `/settings/subscription`,
+                    routeNames: [
+                        'settings-subscription'
                     ]
                 },
                 {
@@ -98,6 +106,9 @@ function changeTab(value: any) {
     }
     else if (value === t('settings.tabs.licenses')) {
         navigateTo(`/settings/license-overview`)
+    }
+    else if (value === t('settings.tabs.subscription')) {
+        navigateTo(`/settings/subscription`)
     }
     else if (value === t('settings.tabs.archived')) {
         navigateTo(`/settings/archived/citizens`)
