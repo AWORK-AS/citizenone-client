@@ -262,6 +262,11 @@
                                                                 @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'regular_shift')" />
                                                         </div>
                                                         <button
+                                                            class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
+                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.in_meeting">
+                                                            M
+                                                        </button>
+                                                        <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                             @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'regular_shift')">
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -279,6 +284,11 @@
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.time_out"
                                                                 @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'awake_night_shift')" />
                                                         </div>
+                                                        <button
+                                                            class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
+                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.in_meeting">
+                                                            M
+                                                        </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                             @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'awake_night_shift')">
@@ -298,6 +308,11 @@
                                                                 @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')" />
                                                         </div>
                                                         <button
+                                                            class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
+                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.in_meeting">
+                                                            M
+                                                        </button>
+                                                        <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                             @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')">
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -316,6 +331,11 @@
                                                                 @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'vacation_leave')" />
                                                         </div>
                                                         <button
+                                                            class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
+                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.in_meeting">
+                                                            M
+                                                        </button>
+                                                        <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                             @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'vacation_leave')">
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -333,6 +353,11 @@
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_out"
                                                                 @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'sick_leave')" />
                                                         </div>
+                                                        <button
+                                                            class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
+                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.in_meeting">
+                                                            M
+                                                        </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                             @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'sick_leave')">
@@ -541,6 +566,7 @@ async function saveShift(shiftDetails: any) {
             time_in: '08:00',
             time_out: '17:00',
             user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
+            in_meeting: shiftDetails.in_meeting,
         }
         saveDutySchedule(params, weeklyScheduleIndex, weekIndex, 'new_shift')
     }

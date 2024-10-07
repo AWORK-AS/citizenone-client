@@ -438,6 +438,7 @@
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
             "description": "Description",
+            "inMeeting": "In Meeting",
             "private": "Private",
             "title": "Title",
             "users": "Users"

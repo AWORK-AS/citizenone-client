@@ -3,12 +3,19 @@
         <Modal size="xs" :title="$t('dutySchedules.newSchedule')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <form @submit.prevent="saveShift()" id="formShift">
+                    <form @submit.prevent="saveShift()" id="formShift" class="space-y-3">
                         <div class="space-y-1">
                             <FormLabel for="shift_type" :label="$t('dutySchedules.typeofShift')" />
                             <FormSelect id="shift_type" name="shift_type" :options="state.options.shifts"
                                 v-model="state.formShift.shift_type" />
                             <FormError :error="v$?.formShift?.shift_type?.$errors[0]?.$message.toString()" />
+                        </div>
+                        <div>
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.formShift.in_meeting = !state.formShift.in_meeting">
+                                <FormCheckbox :value="state.formShift.in_meeting" />
+                                {{ $t('dutySchedules.form.inMeeting') }}
+                            </div>
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -46,6 +53,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formShift: {
+        in_meeting: false,
         shift_type: '',
     },
     options: {
@@ -95,6 +103,6 @@ async function saveShift() {
 
 <style>
 #formShift .multiselect-dropdown {
-    max-height: 5rem !important;
+    max-height: 6rem !important;
 }
 </style>

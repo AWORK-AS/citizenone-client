@@ -438,6 +438,7 @@
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",
             "description": "Beskrivelse",
+            "inMeeting": "I møde",
             "private": "Privat",
             "title": "Titel",
             "users": "Brugere"
