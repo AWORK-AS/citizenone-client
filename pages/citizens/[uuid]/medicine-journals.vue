@@ -14,10 +14,15 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesCitizenDetailsHeader />
+                <!-- <ModulesCitizenDetailsHeader /> -->
                 <ModulesCitizenJournalTabs />
 
-                <div class="flex justify-end items-center">
+                <div class="flex justify-end items-center gap-x-2">
+                    <FormButton buttonStyle="action" class="rounded-md cursor-not-allowed">
+                        <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
+                        ({{ $t('comingSoon') }})
+                    </FormButton>
                     <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isAddMedicineOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.medicineJournals.newMedicine') }}

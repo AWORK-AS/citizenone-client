@@ -315,6 +315,7 @@
                 }
             },
             "newMedicine": "Ny medicin",
+            "synchronizeWithFMK": "Synkroniser med FMK",
             "table": {
                 "actions": {
                     "edit": "Rediger",
