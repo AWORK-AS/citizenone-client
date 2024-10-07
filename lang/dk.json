@@ -904,7 +904,7 @@
             "departments": "Afdelinger",
             "jobTitles": "Jobtitler",
             "licenseOverview": "Licensoversigt",
-            "licenseOverviewPlusSubscription": "Licensoversigt + Abonnement",
+            "licenses": "Licenser",
             "profile": "Profil",
             "storage": "Lager",
             "subscription": "Abonnement"
@@ -1082,7 +1082,7 @@
                 "apps": "Apps",
                 "accounts": "Kontoer",
                 "licenseOverview": "Licensoversigt",
-                "licenseOverviewPlusSubscription": "Licensoversigt + Abonnement"
+                "licenses": "Licenser"
             }
         },
         "polls": {

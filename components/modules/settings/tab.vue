@@ -14,7 +14,7 @@ const state = reactive({
     tabs: [
         { name: 'settings.tabs.profile', href: `/settings/profile`, routeNames: ['settings-profile'] },
         { name: 'settings.tabs.storage', href: `/settings/storage`, routeNames: ['settings-storage'] },
-        { name: 'settings.tabs.licenseOverviewPlusSubscription', href: `/settings/license-overview`, routeNames: ['setttings-license-overview'] },
+        { name: 'settings.tabs.licenses', href: `/settings/license-overview`, routeNames: ['setttings-license-overview'] },
         { name: 'settings.tabs.archived', href: `/settings/archived/citizens`, routeNames: ['settings-archived-citizens', 'settings-archived-employees'] },
         { name: 'settings.tabs.departments', href: `/settings/departments`, routeNames: ['settings-departments'] },
         { name: 'settings.tabs.jobTitles', href: `/settings/job-titles`, routeNames: ['settings-job-titles'] },
@@ -48,7 +48,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
-                    name: 'settings.tabs.licenseOverviewPlusSubscription',
+                    name: 'settings.tabs.licenses',
                     href: `/settings/license-overview`,
                     routeNames: [
                         'settings-license-overview'
@@ -96,7 +96,7 @@ function changeTab(value: any) {
     else if (value === t('settings.tabs.storage')) {
         navigateTo(`/settings/storage`)
     }
-    else if (value === t('settings.tabs.licenseOverviewPlusSubscription')) {
+    else if (value === t('settings.tabs.licenses')) {
         navigateTo(`/settings/license-overview`)
     }
     else if (value === t('settings.tabs.archived')) {

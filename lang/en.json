@@ -904,7 +904,7 @@
             "departments": "Departments",
             "jobTitles": "Job titles",
             "licenseOverview": "License overview",
-            "licenseOverviewPlusSubscription": "License overview + Subscription",
+            "licenses": "Licenses",
             "profile": "Profile",
             "storage": "Storage",
             "subscription": "Subscription"
@@ -1084,7 +1084,7 @@
                 "accounts": "Accounts",
                 "apps": "Apps",
                 "licenseOverview": "License overview",
-                "licenseOverviewPlusSubscription": "License overview + Subscription"
+                "licenses": "Licenses"
             }
         },
         "polls": {
