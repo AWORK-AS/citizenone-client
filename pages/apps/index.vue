@@ -34,10 +34,6 @@
                                 <p class="text-muted-800 dark:text-muted-100 font-sans text-sm">
                                     {{ app?.description }}
                                 </p>
-                                <p class="cursor-pointer text-xs text-tertiary hover:text-tertiary/90"
-                                    @click="navigateToTAC">
-                                    {{ $t('apps.termsAndConditions') }}
-                                </p>
                             </div>
                             <div class="flex items-center gap-2">
                                 <FormButton type="button" buttonStyle="action" class="w-full" @click="readMore(app)">
@@ -58,8 +54,7 @@
                 </div>
                 <ModulesAppModalAppDetails :isModalOpen="state.modal.showAppDetails" :selectedApp="state.selectedApp"
                     @close="state.modal.showAppDetails = false" />
-                <DialogConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
-                    :message="$t('apps.confirmation.confirmationOfTerms') + '.'"
+                <ModulesAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     @close="state.modal.isAcceptTACOpen = false" @confirm="activateApp" />
             </LoadingSpinner>
         </NuxtLayout>
@@ -139,15 +134,6 @@ function formatAmount(amount: any) {
 
     // Combine the integer part with the decimal part
     return 'DKK ' + formattedIntegerPart + ',' + decimalPart
-}
-
-async function navigateToTAC() {
-    await navigateTo('https://citizenone.dk/vilkaarogbetingelser/', {
-        external: true,
-        open: {
-            target: '_blank',
-        }
-    })
 }
 
 async function activateApp() {

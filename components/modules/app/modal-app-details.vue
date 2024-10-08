@@ -19,10 +19,6 @@
                             <p class="text-muted-800 dark:text-muted-100 font-sans text-sm">
                                 {{ props.selectedApp?.description }}
                             </p>
-                            <p class="cursor-pointer text-xs text-tertiary hover:text-tertiary/90"
-                                @click="navigateToTAC">
-                                {{ $t('apps.termsAndConditions') }}
-                            </p>
                         </div>
                     </div>
                     <div class="mt-5 flex gap-x-3">
@@ -34,8 +30,7 @@
                         </FormButton>
                     </div>
                 </LoadingSpinner>
-                <DialogConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
-                    :message="$t('apps.confirmation.confirmationOfTerms') + '.'"
+                <ModulesAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     @close="state.modal.isAcceptTACOpen = false" @confirm="activateApp" />
             </template>
         </Modal>
