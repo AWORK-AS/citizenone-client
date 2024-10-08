@@ -136,6 +136,39 @@
             "viewSchedule": "View schedule"
         },
         "citizens": "Citizens",
+        "contacts": {
+            "alert": {
+                "contactSuccessfullyDeleted": "Contact successfully deleted"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this contact"
+            },
+            "editContact": "Edit contact",
+            "form": {
+                "alert": {
+                    "contactSuccessfullyAdded": "Contact successfully added",
+                    "contactSuccessfullyUpdated": "Contact successfully updated"
+                },
+                "address": "Address",
+                "firstname": "First name",
+                "email": "Email address",
+                "lastname": "Last name",
+                "phone": "Phone number",
+                "title": "Title"
+            },
+            "newContact": "New contact",
+            "table": {
+                "action": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "address": "Address",
+                "email": "Email address",
+                "name": "First name",
+                "phone": "Phone number",
+                "title": "Title"
+            }
+        },
         "documents": {
             "alert": {
                 "deletedFileSuccessfully": "File successfully delete",

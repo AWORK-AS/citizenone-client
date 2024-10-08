@@ -136,6 +136,39 @@
             "viewSchedule": "Se tidsplan"
         },
         "citizens": "Borgere",
+        "contacts": {
+            "alert": {
+                "contactSuccessfullyDeleted": "Kontakt slettet med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne kontakt?"
+            },
+            "editContact": "Rediger kontakt",
+            "form": {
+                "alert": {
+                    "contactSuccessfullyAdded": "Kontakt tilføjet med succes",
+                    "contactSuccessfullyUpdated": "Kontakt opdateret med succes"
+                },
+                "address": "Adresse",
+                "firstname": "Fornavn",
+                "email": "E-mailadresse",
+                "lastname": "Efternavn",
+                "phone": "Telefonnummer",
+                "title": "Titel"
+            },
+            "newContact": "Ny kontakt",
+            "table": {
+                "action": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "address": "Adresse",
+                "email": "E-mailadresse",
+                "name": "Fornavn",
+                "phone": "Telefonnummer",
+                "title": "Titel"
+            }
+        },
         "documents": {
             "alert": {
                 "deletedFileSuccessfully": "Fil slettet med succes",

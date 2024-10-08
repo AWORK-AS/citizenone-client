@@ -87,15 +87,10 @@
                             {{ $t('comingSoon') }}
                         </Badge>
                     </a>
-                    <a class="relative whitespace-nowrap px-4 py-4 border-b-2 font-medium text-sm cursor-not-allowed"
-                        :class="'citizens-uuid-contacts' === $route.name ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'">
+                    <a class="whitespace-nowrap px-4 py-4 border-b-2 font-medium text-sm cursor-pointer"
+                        :class="'citizens-uuid-contacts' === $route.name ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
+                        @click="navigateTo(`/citizens/${uuid}/contacts`)">
                         {{ $t('citizens.tabs.contacts') }}
-                        <Badge type="coming-soon" class="absolute -top-3 text-[8px]" :class="[
-                            selectedLanguage === 'en' && 'left-3',
-                            selectedLanguage === 'dk' && 'left-3.5',
-                        ]">
-                            {{ $t('comingSoon') }}
-                        </Badge>
                     </a>
                 </nav>
             </div>
