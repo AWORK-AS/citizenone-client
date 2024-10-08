@@ -124,17 +124,17 @@ const state = reactive({
         active_ingredients: '',
         description: '',
         schedule_frequency: [],
-        time: [],
+        time: [] as any,
     },
     options: {
         dosage_form: [],
         schedule_frequencies: [
             { value: 'everyday', label: `${t('citizens.medicineJournals.scheduleFrequencies.everyday')}` },
-            { value: 'every2Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every2Days')}` },
-            { value: 'every3Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every3Days')}` },
-            { value: 'every4Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every4Days')}` },
-            { value: 'every5Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every5Days')}` },
-            { value: 'every6Days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every6Days')}` },
+            { value: 'every_other_day', label: `${t('citizens.medicineJournals.scheduleFrequencies.every2Days')}` },
+            { value: 'every_third_day', label: `${t('citizens.medicineJournals.scheduleFrequencies.every3Days')}` },
+            { value: 'every_four_days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every4Days')}` },
+            { value: 'every_five_days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every5Days')}` },
+            { value: 'every_six_days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every6Days')}` },
             { value: 'weekly', label: `${t('citizens.medicineJournals.scheduleFrequencies.weekly')}` },
             { value: 'biweekly', label: `${t('citizens.medicineJournals.scheduleFrequencies.biweekly')}` },
             { value: 'monthly', label: `${t('citizens.medicineJournals.scheduleFrequencies.monthly')}` },
@@ -157,8 +157,16 @@ onMounted(() => {
         active_ingredients: props.selectedMedicine.active_ingredients,
         description: props.selectedMedicine.description,
         schedule_frequency: props.selectedMedicine.schedule_frequency,
-        time: props.selectedMedicine.time,
+        time: [],
     }
+
+    if (props.selectedMedicine.time?.length > 0) {
+        state.formMedicine.time = []
+        JSON.parse(props.selectedMedicine.time).forEach((time: any) => {
+            state.formMedicine.time.push(time)
+        })
+    }
+
     fetchDosageForm()
 })
 
@@ -174,7 +182,14 @@ watch(() => props.selectedMedicine, (newValue: any) => {
             active_ingredients: newValue.active_ingredients,
             description: newValue.description,
             schedule_frequency: newValue.schedule_frequency,
-            time: newValue.time,
+            time: [],
+        }
+
+        if (props.selectedMedicine.time?.length > 0) {
+            state.formMedicine.time = []
+            JSON.parse(props.selectedMedicine.time).forEach((time: any) => {
+                state.formMedicine.time.push(time)
+            })
         }
     }
 })
