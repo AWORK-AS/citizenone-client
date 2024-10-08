@@ -603,6 +603,34 @@
             "thisCantBeUndone": "This can't be undone"
         },
         "deleteEmployee": "Delete employee",
+        "documents": {
+            "alert": {
+                "documentSuccessfullyDeleted": "Document successfully deleted"
+            },
+            "criminalRecords": "Criminal records",
+            "childProtectionCertificates": "Child protection certificates",
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this document"
+            },
+            "documents": "Documents",
+            "documentsShortDescription": "This document contains essential personnel records, including employment contracts, criminal records, and child protection certificates, to ensure compliance and safety",
+            "employmentContracts": "Employment contracts",
+            "form": {
+                "alert": {
+                    "documentSuccessfullyUpdated": "Document successfully updated",
+                    "documentSuccessfullySaved": "Document successfully saved"
+                },
+                "file": "File",
+                "note": "Note"
+            },
+            "table": {
+                "action": {
+                    "edit": "Edit"
+                },
+                "file": "File",
+                "note": "Note"
+            }
+        },
         "editEmployee": "Edit employee",
         "employees": "Employees",
         "employmentStatus": {

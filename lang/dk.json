@@ -603,6 +603,34 @@
             "thisCantBeUndone": "Dette kan ikke fortrydes"
         },
         "deleteEmployee": "Slet medarbejder",
+        "documents": {
+            "alert": {
+                "documentSuccessfullyDeleted": "Dokument slettet med succes"
+            },
+            "criminalRecords": "Strafattester",
+            "childProtectionCertificates": "Børnebeskyttelsescertifikater",
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette dette dokument?"
+            },
+            "documents": "Dokumenter",
+            "documentsShortDescription": "Dette dokument indeholder essentielle personaleoplysninger, herunder ansættelseskontrakter, strafferegistre og børnebeskyttelsescertifikater, for at sikre overholdelse og sikkerhed",
+            "employmentContracts": "Ansættelseskontrakter",
+            "form": {
+                "alert": {
+                    "documentSuccessfullyUpdated": "Dokument opdateret med succes",
+                    "documentSuccessfullySaved": "Dokument gemt med succes"
+                },
+                "file": "Fil",
+                "note": "Note"
+            },
+            "table": {
+                "action": {
+                    "edit": "Rediger"
+                },
+                "file": "Fil",
+                "note": "Note"
+            }
+        },
         "editEmployee": "Rediger medarbejder",
         "employees": "Medarbejdere",
         "employmentStatus": {
