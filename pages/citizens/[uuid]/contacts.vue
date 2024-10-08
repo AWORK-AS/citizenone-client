@@ -38,10 +38,27 @@
                             <template #body v-if="!(state.isTableLoading || (state.contacts?.data?.length === 0))">
                                 <tr v-for="(contact, index) in state.contacts?.data" :key="index">
                                     <td width="15%">
-                                        <span>{{ contact?.title }}</span>
+                                        <span v-if="contact?.title === 'case_manager'">
+                                            {{ $t('citizens.contacts.titles.caseManager') }}
+                                        </span>
+                                        <span v-if="contact?.title === 'dentist'">
+                                            {{ $t('citizens.contacts.titles.dentist') }}
+                                        </span>
+                                        <span v-if="contact?.title === 'doctor'">
+                                            {{ $t('citizens.contacts.titles.doctor') }}
+                                        </span>
+                                        <span v-if="contact?.title === 'external_contact'">
+                                            {{ $t('citizens.contacts.titles.externalContact') }}
+                                        </span>
+                                        <span v-if="contact?.title === 'our_contact_person'">
+                                            {{ $t('citizens.contacts.titles.ourContactPerson') }}
+                                        </span>
+                                        <span v-if="contact?.title === 'relatives'">
+                                            {{ $t('citizens.contacts.titles.relatives') }}
+                                        </span>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ contact?.firstname }}</span>
+                                        <span>{{ contact?.firstname + ' ' }}</span>
                                         <span>{{ contact?.lastname }}</span>
                                     </td>
                                     <td width="15%">
@@ -51,7 +68,11 @@
                                         <span>{{ contact?.phone }}</span>
                                     </td>
                                     <td width="25%">
-                                        <span>{{ contact?.address }}</span>
+                                        <span>{{ contact?.street + ' ' }}</span>
+                                        <span>{{ contact?.region?.name + ', ' }}</span>
+                                        <span>{{ contact?.municipality?.name + ', ' }}</span>
+                                        <span>{{ contact?.city?.name + ' ' }}</span>
+                                        <span>{{ contact?.post_code }}</span>
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end justify-end gap-2">
@@ -77,29 +98,26 @@
                     @close="state.modal.isAddContactOpen = false" @refreshContacts="fetchContacts" />
                 <ModulesCitizenContactModalEdit :isModalOpen="state.modal.isEditContactOpen"
                     :selectedContact="state.selectedContact" @close="state.modal.isEditContactOpen = false"
-                    @refreshDocuments="fetchContacts" />
+                    @refreshContacts="fetchContacts" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteContactOpen"
                     :message="$t('citizens.contacts.confirmation.deleteConfirmation') + '?'"
-                    @close="state.modal.isDeleteContactOpen = false" @confirm="deleteDocument" />
+                    @close="state.modal.isDeleteContactOpen = false" @confirm="deleteContact" />
             </div>
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenContactService } from '@/components/api/CitizenContactService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
-const documentFile = ref(null) as any
 let currentTablePage = 1
 
 const state = reactive({
@@ -187,11 +205,11 @@ function editContact(contact: any) {
 }
 
 function deleteContactConfirmation(contact: any) {
-    state.selectedContact = document
+    state.selectedContact = contact
     state.modal.isDeleteContactOpen = true
 }
 
-async function deleteDocument() {
+async function deleteContact() {
     state.error = {}
     state.isTableLoading = true
     try {
