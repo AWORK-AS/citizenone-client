@@ -149,11 +149,15 @@
                     "contactSuccessfullyAdded": "Contact successfully added",
                     "contactSuccessfullyUpdated": "Contact successfully updated"
                 },
-                "address": "Address",
-                "firstname": "First name",
+                "city": "City",
                 "email": "Email address",
+                "firstname": "First name",
                 "lastname": "Last name",
+                "municipality": "Municipality",
                 "phone": "Phone number",
+                "postCode": "Post Code",
+                "region": "Region",
+                "street": "Street",
                 "title": "Title"
             },
             "newContact": "New contact",
@@ -167,6 +171,14 @@
                 "name": "First name",
                 "phone": "Phone number",
                 "title": "Title"
+            },
+            "titles": {
+                "caseManager": "Case manager",
+                "dentist": "Dentist",
+                "doctor": "Doctor",
+                "externalContact": "External contact",
+                "ourContactPerson": "Our contact person",
+                "relatives": "Relatives"
             }
         },
         "documents": {

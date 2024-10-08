@@ -2,19 +2,83 @@
     <form @submit.prevent="submitForm()">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="space-y-1">
-            <FormLabel for="name" :label="$t('plansandgoals.form.planName')" />
-            <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.form.planName')"
-                v-model="state.formContact.name" />
-            <FormError :error="v$?.formContact?.name?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.name?.[0]" />
-        </div>
-        <div class="space-y-1">
-            <FormLabel for="description" :label="$t('plansandgoals.form.description')" />
-            <FormTextArea id="description" name="description" :placeholder="$t('plansandgoals.form.description')"
-                v-model="state.formContact.description" />
-            <FormError :error="v$?.formContact?.description?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.description?.[0]" />
+        <div class="space-y-3">
+            <div class="space-y-1">
+                <FormLabel for="title" :label="$t('citizens.contacts.form.title')" />
+                <FormSelect id="title" :options="state.options.titles" v-model="state.formContact.title" />
+                <FormError :error="v$?.formContact?.title?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.title?.[0]" />
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <FormLabel for="firstname" :label="$t('citizens.contacts.form.firstname')" />
+                    <FormTextField id="firstname" name="firstname" :placeholder="$t('citizens.contacts.form.firstname')"
+                        v-model="state.formContact.firstname" />
+                    <FormError :error="v$?.formContact?.firstname?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.firstname?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="lastname" :label="$t('citizens.contacts.form.lastname')" />
+                    <FormTextField id="lastname" name="lastname" :placeholder="$t('citizens.contacts.form.lastname')"
+                        v-model="state.formContact.lastname" />
+                    <FormError :error="v$?.formContact?.lastname?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.lastname?.[0]" />
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <FormLabel for="email" :label="$t('citizens.contacts.form.email')" />
+                    <FormTextField id="email" name="email" :placeholder="$t('citizens.contacts.form.email')"
+                        v-model="state.formContact.email" />
+                    <FormError :error="v$?.formContact?.email?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.email?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="phone" :label="$t('citizens.contacts.form.phone')" />
+                    <FormTextField id="phone" name="phone" :placeholder="$t('citizens.contacts.form.phone')"
+                        v-model="state.formContact.phone" />
+                    <FormError :error="v$?.formContact?.phone?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.phone?.[0]" />
+                </div>
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="street" :label="$t('citizens.contacts.form.street')" />
+                <FormTextField id="street" name="street" :placeholder="$t('citizens.contacts.form.street')"
+                    v-model="state.formContact.street" />
+                <FormError :error="v$?.formContact?.street?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.street?.[0]" />
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <FormLabel for="region" :label="$t('citizens.contacts.form.region')" />
+                    <FormSelect id="region" :options="state.options.regions" v-model="state.formContact.region"
+                        @change="changeSelectedRegion" />
+                    <FormError :error="v$?.formContact?.region?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.region_id?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="municipality" :label="$t('citizens.contacts.form.municipality')" />
+                    <FormSelect id="municipality" :options="state.options.municipalities"
+                        v-model="state.formContact.municipality" @change="changeSelectedMunicipality" />
+                    <FormError :error="v$?.formContact?.municipality?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.municipality_id?.[0]" />
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <FormLabel for="city" :label="$t('citizens.contacts.form.city')" />
+                    <FormSelect id="city" :options="state.options.cities" v-model="state.formContact.city" />
+                    <FormError :error="v$?.formContact?.city?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.city_id?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="post_code" :label="$t('citizens.contacts.form.postCode')" />
+                    <FormTextField id="post_code" name="post_code" :placeholder="$t('citizens.form.postCode')"
+                        v-model="state.formContact.post_code" />
+                    <FormError :error="v$?.formContact?.post_code?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.post_code?.[0]" />
+                </div>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -31,9 +95,13 @@
 </template>
 
 <script setup lang="ts">
+import { regionService } from '@/components/api/RegionService'
+import { municipalityService } from '@/components/api/MunicipalityService'
+import { cityService } from '@/components/api/CityService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
 
 const props = defineProps({
     error: {
@@ -54,39 +122,74 @@ const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
 
 const state = reactive({
+    error: {} as Error,
     formContact: {
         id: '',
         uuid: '',
-        name: '',
-        description: '',
-        completion_date: '',
-        date_completed: '',
-        is_completed: false,
+        title: '',
+        firstname: '',
+        lastname: '',
+        email: '',
+        phone: '',
+        street: '',
+        region: '',
+        municipality: '',
+        city: '',
+        post_code: '',
     },
+    isPageLoading: false,
+    options: {
+        cities: [],
+        municipalities: [],
+        regions: [],
+        titles: [
+            { value: 'case_manager', label: `${t('citizens.contacts.titles.caseManager')}` },
+            { value: 'dentist', label: `${t('citizens.contacts.titles.dentist')}` },
+            { value: 'doctor', label: `${t('citizens.contacts.titles.doctor')}` },
+            { value: 'external_contact', label: `${t('citizens.contacts.titles.externalContact')}` },
+            { value: 'our_contact_person', label: `${t('citizens.contacts.titles.ourContactPerson')}` },
+            { value: 'relatives', label: `${t('citizens.contacts.titles.relatives')}` },
+        ]
+    }
 })
 
 onMounted(() => {
+    fetchRegions()
+    fetchMunicipalities(props.selectedContact?.region_id)
+    fetchCities(props.selectedContact?.municipality_id)
     state.formContact = {
-        id: props.selectedContact.id,
-        uuid: props.selectedContact.uuid,
-        name: props.selectedContact.name,
-        completion_date: props.selectedContact.completion_date,
-        date_completed: props.selectedContact.date_completed,
-        description: props.selectedContact.description,
-        is_completed: props.selectedContact.is_completed,
+        id: props.selectedContact?.id,
+        uuid: props.selectedContact?.uuid,
+        title: props.selectedContact?.title,
+        firstname: props.selectedContact?.firstname,
+        lastname: props.selectedContact?.lastname,
+        email: props.selectedContact?.email,
+        phone: props.selectedContact?.phone,
+        street: props.selectedContact?.street,
+        region: props.selectedContact?.region_id,
+        municipality: props.selectedContact?.municipality_id,
+        city: props.selectedContact?.city_id,
+        post_code: props.selectedContact?.post_code,
     }
 })
 
 watch(() => props.selectedContact, (newValue: any) => {
+    fetchMunicipalities(props.selectedContact?.region_id)
+    fetchCities(props.selectedContact?.municipality_id)
     if (newValue != null) {
         state.formContact = {
-            id: newValue.id,
-            uuid: newValue.uuid,
-            name: newValue.name,
-            description: newValue.description,
-            completion_date: newValue.completion_date,
-            date_completed: newValue.date_completed,
-            is_completed: newValue.is_completed,
+            id: props.selectedContact?.id,
+            uuid: props.selectedContact?.uuid,
+            title: props.selectedContact?.title,
+            firstname: props.selectedContact?.firstname,
+            lastname: props.selectedContact?.lastname,
+            email: props.selectedContact?.email,
+            phone: props.selectedContact?.phone,
+            street: props.selectedContact?.street,
+            region: props.selectedContact?.region_id,
+            municipality: props.selectedContact?.municipality_id,
+            city: props.selectedContact?.city_id,
+            post_code: props.selectedContact?.post_code,
         }
     }
 })
@@ -94,10 +197,34 @@ watch(() => props.selectedContact, (newValue: any) => {
 const rules = computed(() => {
     return {
         formContact: {
-            name: {
+            title: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            completion_date: {
+            firstname: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            lastname: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            email: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            phone: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            street: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            region: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            municipality: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            city: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            post_code: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
@@ -113,8 +240,80 @@ function submitForm() {
     }
 }
 
-function changeIsCompletedCheckbox() {
-    state.formContact.is_completed = !state.formContact.is_completed
-    state.formContact.date_completed = ''
+async function fetchRegions() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await regionService.getAllRegions()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.id,
+                    label: item.name,
+                })
+            )
+            state.options.regions = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchMunicipalities(regionId: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            region_id: regionId
+        }
+        const response = await municipalityService.getAllMunicipalities(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.id,
+                    label: item.name,
+                })
+            )
+            state.options.municipalities = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchCities(municipalityId: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            municipality_id: municipalityId
+        }
+        const response = await cityService.getAllCities(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.id,
+                    label: item.name,
+                })
+            )
+            state.options.cities = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function changeSelectedRegion(regionId: number) {
+    fetchMunicipalities(regionId)
+}
+
+function changeSelectedMunicipality(municipalityId: number) {
+    fetchCities(municipalityId)
 }
 </script>

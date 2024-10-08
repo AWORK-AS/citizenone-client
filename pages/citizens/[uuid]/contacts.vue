@@ -73,9 +73,9 @@
                     </div>
                     <Pagination :data="state.contacts" @previous="previous" @next="next" />
                 </div>
-                <ModulesCitizenContactModalNewContact :isModalOpen="state.modal.isAddContactOpen"
+                <ModulesCitizenContactModalNew :isModalOpen="state.modal.isAddContactOpen"
                     @close="state.modal.isAddContactOpen = false" @refreshContacts="fetchContacts" />
-                <ModulesCitizenContactModalEditContact :isModalOpen="state.modal.isEditContactOpen"
+                <ModulesCitizenContactModalEdit :isModalOpen="state.modal.isEditContactOpen"
                     :selectedContact="state.selectedContact" @close="state.modal.isEditContactOpen = false"
                     @refreshDocuments="fetchContacts" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteContactOpen"
@@ -108,11 +108,11 @@ const state = reactive({
         { column: 'name' },
     ],
     columnHeaders: [
-        { name: 'citizens.documents.table.title', sorter: true, key: 'title' },
-        { name: 'citizens.documents.table.name', sorter: true, key: 'first_name' },
-        { name: 'citizens.documents.table.email' },
-        { name: 'citizens.documents.table.phone' },
-        { name: 'citizens.documents.table.address' },
+        { name: 'citizens.contacts.table.title', sorter: true, key: 'title' },
+        { name: 'citizens.contacts.table.name', sorter: true, key: 'first_name' },
+        { name: 'citizens.contacts.table.email' },
+        { name: 'citizens.contacts.table.phone' },
+        { name: 'citizens.contacts.table.address' },
         { name: '' },
     ],
     contacts: [] as any,

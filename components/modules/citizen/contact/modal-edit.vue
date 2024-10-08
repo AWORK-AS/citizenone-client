@@ -58,7 +58,11 @@ async function updateContact(contactDetails: any) {
             lastname: contactDetails.lastname,
             email: contactDetails.email,
             phone: contactDetails.phone,
-            address: contactDetails.address,
+            street: contactDetails.street,
+            region: contactDetails.region,
+            municipality: contactDetails.municipality,
+            city: contactDetails.city,
+            post_code: contactDetails.post_code,
         }
         const response = await citizenContactService.updateContact(contactUuid, params)
         if (response?.data) {

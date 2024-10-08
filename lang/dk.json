@@ -149,11 +149,15 @@
                     "contactSuccessfullyAdded": "Kontakt tilføjet med succes",
                     "contactSuccessfullyUpdated": "Kontakt opdateret med succes"
                 },
-                "address": "Adresse",
-                "firstname": "Fornavn",
+                "city": "By",
                 "email": "E-mailadresse",
+                "firstname": "Fornavn",
                 "lastname": "Efternavn",
+                "municipality": "Kommune",
                 "phone": "Telefonnummer",
+                "postCode": "Postnummer",
+                "region": "Region",
+                "street": "Gade",
                 "title": "Titel"
             },
             "newContact": "Ny kontakt",
@@ -167,6 +171,14 @@
                 "name": "Fornavn",
                 "phone": "Telefonnummer",
                 "title": "Titel"
+            },
+            "titles": {
+                "caseManager": "Sagsbehandler",
+                "dentist": "Tandlæge",
+                "doctor": "Læge",
+                "externalContact": "Ekstern kontakt",
+                "ourContactPerson": "Vores kontaktperson",
+                "relatives": "Pårørende"
             }
         },
         "documents": {
