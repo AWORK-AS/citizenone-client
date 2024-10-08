@@ -127,7 +127,7 @@ const state = reactive({
     ],
     columnHeaders: [
         { name: 'citizens.contacts.table.title', sorter: true, key: 'title' },
-        { name: 'citizens.contacts.table.name', sorter: true, key: 'first_name' },
+        { name: 'citizens.contacts.table.name' },
         { name: 'citizens.contacts.table.email' },
         { name: 'citizens.contacts.table.phone' },
         { name: 'citizens.contacts.table.address' },
