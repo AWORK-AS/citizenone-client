@@ -270,7 +270,7 @@
                             </div>
                             <div class="grid grid-cols-3 md:col-span-2 gap-x-5 gap-y-3">
                                 <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:py-10 cursor-pointer hover:bg-gray-50"
-                                    @click="state.modal.isViewCriminalRecordsOpen = true">
+                                    @click="state.modal.isViewEmploymentContractsOpen = true">
                                     <div class="flex items-center justify-center gap-x-2">
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
@@ -278,8 +278,8 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div
-                                    class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:py-10 cursor-pointer hover:bg-gray-50">
+                                <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:py-10 cursor-pointer hover:bg-gray-50"
+                                    @click="state.modal.isViewCriminalRecordsOpen = true">
                                     <div class="flex items-center justify-center gap-x-2">
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
@@ -287,8 +287,8 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div
-                                    class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:py-10 cursor-pointer hover:bg-gray-50">
+                                <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:py-10 cursor-pointer hover:bg-gray-50"
+                                    @click="state.modal.isViewChildProtectionCertificatesOpen = true">
                                     <div class="flex items-center justify-center gap-x-2">
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
@@ -301,8 +301,13 @@
                     </LoadingSpinner>
                 </div>
             </div>
-            <ModulesEmployeeEmploymentContractModalView :isModalOpen="state.modal.isViewCriminalRecordsOpen"
+            <ModulesEmployeeEmploymentContractModalView :isModalOpen="state.modal.isViewEmploymentContractsOpen"
+                @close="state.modal.isViewEmploymentContractsOpen = false" />
+            <ModulesEmployeeCriminalRecordModalView :isModalOpen="state.modal.isViewCriminalRecordsOpen"
                 @close="state.modal.isViewCriminalRecordsOpen = false" />
+            <ModulesEmployeeChildProtectionCertificateModalView
+                :isModalOpen="state.modal.isViewChildProtectionCertificatesOpen"
+                @close="state.modal.isViewChildProtectionCertificatesOpen = false" />
         </NuxtLayout>
     </div>
 </template>
