@@ -625,6 +625,7 @@
             },
             "table": {
                 "action": {
+                    "delete": "Delete",
                     "edit": "Edit"
                 },
                 "file": "File",

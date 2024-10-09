@@ -168,7 +168,7 @@
                                     {{ $t('employees.form.header.emergencyInfo') }}
                                 </h2>
                                 <p class="mt-1 text-sm leading-6 text-gray-600">
-                                    {{ $t('employees.form.header.emergencyContactDetailsInCaseOfAnUrgentSituation') }}
+                                    {{ $t('employees.form.header.emergencyContactDetailsInCaseOfAnUrgentSituation') }}.
                                 </p>
                             </div>
                             <div class="grid grid-cols-1 md:col-span-2 gap-y-3">
@@ -179,7 +179,8 @@
                                     <div class="mt-5">
                                         <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:px-8 sm:py-10"
                                             v-if="state.selectedEmployee.emergencyInfo.trustees?.length === 0">
-                                            <p class="text-center text-sm">{{ $t('theresNoDataAvailableToDisplay') }}
+                                            <p class="text-center text-sm">
+                                                {{ $t('theresNoDataAvailableToDisplay') }}
                                             </p>
                                         </div>
                                         <div class="space-y-6" v-else>
@@ -217,7 +218,8 @@
                                     <div class="mt-5">
                                         <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:px-8 sm:py-10"
                                             v-if="state.selectedEmployee.emergencyInfo.emergency_contacts?.length === 0">
-                                            <p class="text-center text-sm">{{ $t('theresNoDataAvailableToDisplay') }}
+                                            <p class="text-center text-sm">
+                                                {{ $t('theresNoDataAvailableToDisplay') }}
                                             </p>
                                         </div>
                                         <div class="space-y-6" v-else>
@@ -263,7 +265,7 @@
                                     {{ $t('employees.documents.documents') }}
                                 </h2>
                                 <p class="mt-1 text-sm leading-6 text-gray-600">
-                                    {{ $t('employees.documents.documentsShortDescription') }}
+                                    {{ $t('employees.documents.documentsShortDescription') }}.
                                 </p>
                             </div>
                             <div class="grid grid-cols-3 md:col-span-2 gap-x-5 gap-y-3">
@@ -299,6 +301,8 @@
                     </LoadingSpinner>
                 </div>
             </div>
+            <ModulesEmployeeEmploymentContractModalView :isModalOpen="state.modal.isViewCriminalRecordsOpen"
+                @close="state.modal.isViewCriminalRecordsOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -315,6 +319,11 @@ const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 
 const state = reactive({
     error: {} as Error,
+    modal: {
+        isViewCriminalRecordsOpen: false,
+        isViewEmploymentContractsOpen: false,
+        isViewChildProtectionCertificatesOpen: false,
+    },
     selectedEmployee: {
         firstname: '',
         lastname: '',

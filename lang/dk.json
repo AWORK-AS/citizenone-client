@@ -625,6 +625,7 @@
             },
             "table": {
                 "action": {
+                    "delete": "Slet",
                     "edit": "Rediger"
                 },
                 "file": "Fil",
