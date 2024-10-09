@@ -301,7 +301,6 @@
             "reportIncident": "Report incident",
             "seePreviousIncident": "See previous incident",
             "table": {
-                "createdBy": "Created by",
                 "date": "Date",
                 "description": "Description",
                 "draft": "Draft",
@@ -417,6 +416,33 @@
             "medicineCard": "Medicine card",
             "nursingAreas": "Nursing areas",
             "plansAndGoals": "Plans and goals"
+        },
+        "useOfForce": {
+            "alert": {
+                "deletedSuccessfully": "Use of force successfully deleted",
+                "savedSuccessfully": "Use of force successfully saved",
+                "updatedSuccessfully": "Use of force successfully updated"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this use of force",
+                "reportConfirmation": "Are you sure you want to report use of force"
+            },
+            "editUseOfForce": "Edit use of force",
+            "form": {
+                "date": "Date",
+                "description": "Description",
+                "draft": "Draft",
+                "title": "Title"
+            },
+            "reportUseOfForce": "Report use of force",
+            "seePreviousUseOfForce": "See previous use of force",
+            "table": {
+                "date": "Date",
+                "description": "Description",
+                "draft": "Draft",
+                "reportedBy": "Reported by",
+                "title": "Title"
+            }
         }
     },
     "close": "Close",

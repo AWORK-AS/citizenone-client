@@ -417,6 +417,33 @@
             "medicineCard": "Medicinkort",
             "nursingAreas": "Sygeplejeområder",
             "plansAndGoals": "Planer og mål"
+        },
+        "useOfForce": {
+            "alert": {
+                "deletedSuccessfully": "Magtanvendelse slettet med succes",
+                "savedSuccessfully": "Magtanvendelse gemt med succes",
+                "updatedSuccessfully": "Magtanvendelse opdateret med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne magtanvendelse",
+                "reportConfirmation": "Er du sikker på, at du vil rapportere magtanvendelse"
+            },
+            "editUseOfForce": "Rediger magtanvendelse",
+            "form": {
+                "date": "Dato",
+                "description": "Beskrivelse",
+                "draft": "Udkast",
+                "title": "Titel"
+            },
+            "reportUseOfForce": "Rapporter magtanvendelse",
+            "seePreviousUseOfForce": "Se tidligere magtanvendelse",
+            "table": {
+                "date": "Dato",
+                "description": "Beskrivelse",
+                "draft": "Udkast",
+                "reportedBy": "Rapporteret af",
+                "title": "Titel"
+            }
         }
     },
     "close": "Luk",
