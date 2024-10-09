@@ -614,6 +614,7 @@
             },
             "documents": "Dokumenter",
             "documentsShortDescription": "Dette dokument indeholder essentielle personaleoplysninger, herunder ansættelseskontrakter, strafferegistre og børnebeskyttelsescertifikater, for at sikre overholdelse og sikkerhed",
+            "editDocument": "Rediger dokument",
             "employmentContracts": "Ansættelseskontrakter",
             "form": {
                 "alert": {
@@ -623,6 +624,7 @@
                 "file": "Fil",
                 "note": "Note"
             },
+            "newDocument": "Nyt dokument",
             "table": {
                 "action": {
                     "delete": "Slet",

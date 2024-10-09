@@ -269,8 +269,8 @@
                                 </p>
                             </div>
                             <div class="grid grid-cols-3 md:col-span-2 gap-x-5 gap-y-3">
-                                <div
-                                    class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:py-10 cursor-pointer hover:bg-gray-50">
+                                <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:py-10 cursor-pointer hover:bg-gray-50"
+                                    @click="state.modal.isViewCriminalRecordsOpen = true">
                                     <div class="flex items-center justify-center gap-x-2">
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">

@@ -1,13 +1,13 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('employees.documents.employmentContracts')" :show="props.isModalOpen"
+        <Modal size="xl" :title="$t('employees.documents.employmentContracts')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
                         <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/employees/new')">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('employees.newEmployee') }}
+                            {{ $t('employees.documents.newDocument') }}
                         </FormButton>
                     </div>
                     <div class="space-y-5">

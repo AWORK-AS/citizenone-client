@@ -614,6 +614,7 @@
             },
             "documents": "Documents",
             "documentsShortDescription": "This document contains essential personnel records, including employment contracts, criminal records, and child protection certificates, to ensure compliance and safety",
+            "editDocument": "Edit document",
             "employmentContracts": "Employment contracts",
             "form": {
                 "alert": {
@@ -623,6 +624,7 @@
                 "file": "File",
                 "note": "Note"
             },
+            "newDocument": "New document",
             "table": {
                 "action": {
                     "delete": "Delete",
