@@ -17,7 +17,7 @@
                                         <div class="px-4 sm:px-6">
                                             <div class="flex items-start justify-between">
                                                 <DialogTitle class="text-base font-semibold leading-6 text-gray-900">
-                                                    {{ $t('citizens.incidents.incidents') }}
+                                                    {{ $t('citizens.useOfForce.useOfForce') }}
                                                 </DialogTitle>
                                                 <div class="ml-3 flex h-7 items-center">
                                                     <button type="button"
@@ -36,7 +36,8 @@
                                             <div>
                                                 <div class="space-y-5">
                                                     <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
-                                                        v-for="(incident, index) in state.incidents?.data" :key="index">
+                                                        v-for="(useOfForce, index) in state.useOfForce?.data"
+                                                        :key="index">
                                                         <div class="flex gap-x-3">
                                                             <div class="grow space-y-1.5">
                                                                 <div>
@@ -44,13 +45,13 @@
                                                                         class="flex items-center gap-x-3 justify-between">
                                                                         <div class="flex items-center gap-x-3">
                                                                             <h3 class="text-md font-semibold">
-                                                                                {{ incident.title }}
+                                                                                {{ useOfForce.title }}
                                                                             </h3>
-                                                                            <div v-if="incident.is_draft">
+                                                                            <div v-if="useOfForce.is_draft">
                                                                                 <Badge type="primary">
                                                                                     <p class="text-xs">
                                                                                         {{
-                                                                                            $t('citizens.incidents.form.draft')
+                                                                                            $t('citizens.useOfForce.form.draft')
                                                                                         }}
                                                                                     </p>
                                                                                 </Badge>
@@ -59,45 +60,45 @@
                                                                     </div>
                                                                     <p class="mt-1 text-xs text-muted-400">
                                                                         <span>
-                                                                            {{ formatDateToReadable(incident.date) }}
+                                                                            {{ formatDateToReadable(useOfForce.date) }}
                                                                         </span>
                                                                     </p>
                                                                 </div>
                                                                 <p class="text-sm text-muted-400">
-                                                                    <div v-html="incident.description"
+                                                                    <div v-html="useOfForce.description"
                                                                         class="content" />
                                                                 </p>
                                                                 <p class="text-sm">
                                                                     {{
-                                                                        $t('citizens.incidents.table.reportedBy')
+                                                                        $t('citizens.useOfForce.table.reportedBy')
                                                                     }}:
-                                                                    {{ incident?.reported_by?.firstname }}
-                                                                    {{ incident?.reported_by?.lastname }}
+                                                                    {{ useOfForce?.reported_by?.firstname }}
+                                                                    {{ useOfForce?.reported_by?.lastname }}
                                                                 </p>
                                                             </div>
                                                             <div>
                                                                 <FormButton class="rounded-md h-fit" buttonSize="xs"
-                                                                    @click="editIncident(incident)"
-                                                                    v-if="incident?.is_editable">
+                                                                    @click="editUseOfForce(useOfForce)"
+                                                                    v-if="useOfForce?.is_editable">
                                                                     <Icon name="ph:pencil-duotone" class="w-4 h-4" />
                                                                 </FormButton>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div v-if="state.incidents?.data?.length === 0">
+                                                    <div v-if="state.useOfForce?.data?.length === 0">
                                                         <p class="text-center py-10">
                                                             {{ $t('theresNoDataAvailableToDisplay') }}.
                                                         </p>
                                                     </div>
-                                                    <Pagination :data="state.incidents" @previous="previous"
+                                                    <Pagination :data="state.useOfForce" @previous="previous"
                                                         @next="next" />
                                                 </div>
                                             </div>
                                         </div>
-                                        <ModulesCitizenIncidentsModalEdit :selectedIncident="state.formIncident"
-                                            :isModalOpen="state.modal.isEditIncidentOpen"
-                                            @close="state.modal.isEditIncidentOpen = false"
-                                            @refreshIncidents="fetchIncidents" />
+                                        <ModulesCitizenUseOfForceModalEdit :selectedUseOfForce="state.formUseOfForce"
+                                            :isModalOpen="state.modal.isEditUseOfForceOpen"
+                                            @close="state.modal.isEditUseOfForceOpen = false"
+                                            @refreshUseOfForce="fetchUseOfForce" />
                                     </LoadingSpinner>
                                 </div>
                             </DialogPanel>
@@ -111,7 +112,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { incidentService } from '@/components/api/IncidentService'
+import { useOfForceService } from '@/components/api/UseOfForceService'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import type { Error } from '@/types'
 
@@ -133,17 +134,17 @@ function closeSlide() {
 
 const state = reactive({
     error: {} as Error,
-    formIncident: {
+    formUseOfForce: {
         uuid: '',
         title: '',
         date: '',
         description: '',
         is_draft: false,
     },
-    incidents: [] as any,
+    useOfForce: [] as any,
     isPageLoading: false,
     modal: {
-        isEditIncidentOpen: false
+        isEditUseOfForceOpen: false
     },
     sortData: {
         sortField: 'date',
@@ -153,11 +154,11 @@ const state = reactive({
 
 watch(() => props.isOpen, (isOpen: any) => {
     if (isOpen) {
-        fetchIncidents()
+        fetchUseOfForce()
     }
 })
 
-async function fetchIncidents() {
+async function fetchUseOfForce() {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -167,9 +168,9 @@ async function fetchIncidents() {
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
         }
-        const response = await incidentService.getIncidents(params)
+        const response = await useOfForceService.getUseOfForces(params)
         if (response) {
-            state.incidents = response
+            state.useOfForce = response
         }
     } catch (error: any) {
         state.error = error
@@ -179,22 +180,22 @@ async function fetchIncidents() {
 
 function previous() {
     currentTablePage--
-    fetchIncidents()
+    fetchUseOfForce()
 }
 
 function next() {
     currentTablePage++
-    fetchIncidents()
+    fetchUseOfForce()
 }
 
-function editIncident(incident: any) {
-    state.formIncident = {
-        uuid: incident.uuid,
-        title: incident.title,
-        date: incident.date,
-        description: incident.description,
-        is_draft: incident.is_draft,
+function editUseOfForce(useOfForce: any) {
+    state.formUseOfForce = {
+        uuid: useOfForce.uuid,
+        title: useOfForce.title,
+        date: useOfForce.date,
+        description: useOfForce.description,
+        is_draft: useOfForce.is_draft,
     }
-    state.modal.isEditIncidentOpen = true
+    state.modal.isEditUseOfForceOpen = true
 }
 </script>

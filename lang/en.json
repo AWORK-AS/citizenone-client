@@ -442,7 +442,8 @@
                 "draft": "Draft",
                 "reportedBy": "Reported by",
                 "title": "Title"
-            }
+            },
+            "useOfForce": "Use of force"
         }
     },
     "close": "Close",

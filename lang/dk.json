@@ -443,7 +443,8 @@
                 "draft": "Udkast",
                 "reportedBy": "Rapporteret af",
                 "title": "Titel"
-            }
+            },
+            "useOfForce": "Magtanvendelse"
         }
     },
     "close": "Luk",

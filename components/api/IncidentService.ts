@@ -5,16 +5,16 @@ class IncidentService extends BaseAPIService {
         return await this.request(`/user/citizen-incidents`, 'GET', params)
     }
 
-    async getIncident(departmentUuid: any): Promise<any> {
-        return await this.request(`/user/citizen-incidents/${departmentUuid}`, 'GET')
+    async getIncident(incidentUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-incidents/${incidentUuid}`, 'GET')
     }
 
     async saveIncident(params: object): Promise<any> {
         return await this.request(`/user/citizen-incidents`, 'POST', params)
     }
 
-    async updateIncident(departmentUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/citizen-incidents/${departmentUuid}`, 'PUT', params)
+    async updateIncident(incidentUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-incidents/${incidentUuid}`, 'PUT', params)
     }
 
     async uploadIncidentFile(params: object): Promise<any> {

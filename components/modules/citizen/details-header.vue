@@ -31,7 +31,10 @@
                 <ModulesCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
                     v-if="$route.name === 'citizens-uuid-medicine-journals'"
                     class="lg:absolute lg:right-0 lg:-top-14 xl:-top-16" />
-                <ModulesCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
+                <div class="flex items-center gap-x-3">
+                    <ModulesCitizenUseOfForceHeader v-if="$route.name === 'citizens-uuid-journals'" />
+                    <ModulesCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
+                </div>
             </div>
         </LoadingSpinner>
     </div>
