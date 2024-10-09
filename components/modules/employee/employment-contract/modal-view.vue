@@ -5,7 +5,8 @@
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/employees/new')">
+                        <FormButton buttonStyle="action" class="rounded-lg"
+                            @click="state.modal.isAddNewDocumentOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.documents.newDocument') }}
                         </FormButton>
@@ -45,6 +46,11 @@
                         <Pagination :data="state.documents" @previous="previous" @next="next" />
                     </div>
                 </div>
+                <ModulesEmployeeEmploymentContractModalNew :isModalOpen="state.modal.isAddNewDocumentOpen"
+                    @close="state.modal.isAddNewDocumentOpen = false" @refreshEmployeeDocument="fetchDocuments" />
+                <ModulesEmployeeEmploymentContractModalEdit :isModalOpen="state.modal.isEditDocumentOpen"
+                    :selectedEmployeeDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
+                    @refreshEmployeeDocument="fetchDocuments" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteDocumentOpen"
                     :message="$t('employees.documents.confirmation.deleteConfirmation') + '?'"
                     @close="state.modal.isDeleteDocumentOpen = false" @confirm="deleteDocument" />
@@ -97,10 +103,6 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
     if (isModalOpen) {
         fetchDocuments()
     }
-})
-
-onMounted(() => {
-    fetchDocuments()
 })
 
 function closeModal() {
