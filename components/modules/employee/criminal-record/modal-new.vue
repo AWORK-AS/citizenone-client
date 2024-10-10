@@ -21,6 +21,8 @@ import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const router = useRouter()
+const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 
 const props = defineProps({
     isModalOpen: {
@@ -52,6 +54,7 @@ async function saveEmployeeDocument(employeeDocumentDetails: any) {
     state.isPageLoading = true
     try {
         let params = new FormData()
+        params.append('employee_uuid', employeeUuid.toString())
         params.append('file', employeeDocumentDetails.file)
         params.append('file_type', 'criminal_record')
         params.append('note', employeeDocumentDetails.note)
