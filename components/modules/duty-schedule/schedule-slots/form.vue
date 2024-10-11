@@ -180,6 +180,7 @@ async function fetchJobTitles() {
 }
 
 function changeJobTitle(jobTitleUuid: any) {
+    state.formScheduleSlot.job_specialty_uuid = []
     fetchJobSpecialties(jobTitleUuid)
 }
 
