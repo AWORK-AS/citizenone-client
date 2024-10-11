@@ -19,29 +19,29 @@
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
-                    <FormLabel for="job_id" :label="$t('dutySchedules.scheduleSlots.form.jobTitle')" />
+                    <FormLabel for="job_title_uuid" :label="$t('dutySchedules.scheduleSlots.form.jobTitle')" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                         @click="state.modal.isAddJobTitleOpen = true">
                         {{ $t('jobTitles.addNewJobTitle') }}
                     </span>
                 </div>
-                <FormSelect id="job_id" name="job_id" :options="state.options.jobTitles"
-                    v-model="state.formScheduleSlot.job_id" @change="changeJobTitle" />
-                <FormError :error="v$?.formScheduleSlot?.job_id?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.job_id?.[0]" />
+                <FormSelect id="job_title_uuid" name="job_title_uuid" :options="state.options.jobTitles"
+                    v-model="state.formScheduleSlot.job_title_uuid" @change="changeJobTitle" />
+                <FormError :error="v$?.formScheduleSlot?.job_title_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.job_title_uuid?.[0]" />
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
-                    <FormLabel for="job_id" :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
+                    <FormLabel for="job_specialty_uuid" :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
                     <!-- <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                         @click="state.modal.isAddJobSpecialtyOpen = true">
                         {{ $t('jobSpecialties.addNewJobSpecialty') }}
                     </span> -->
                 </div>
-                <FormSelectMultiple id="job_specialty_id" name="job_specialty_id"
-                    :options="state.options.jobSpecialties" v-model="state.formScheduleSlot.job_specialty_id" />
-                <FormError :error="v$?.formScheduleSlot?.job_specialty_id?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.job_specialty_id?.[0]" />
+                <FormSelectMultiple id="job_specialty_uuid" name="job_specialty_uuid"
+                    :options="state.options.jobSpecialties" v-model="state.formScheduleSlot.job_specialty_uuid" />
+                <FormError :error="v$?.formScheduleSlot?.job_specialty_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.job_specialty_uuid?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="available_slots" :label="$t('dutySchedules.scheduleSlots.form.numberOfShifts')" />
@@ -119,13 +119,13 @@ const state = reactive({
     error: {} as Error,
     formScheduleSlot: {
         date: props.selectedScheduleSlot?.date,
-        job_id: props.selectedScheduleSlot?.job_id,
-        job_specialty_id: props.selectedScheduleSlot?.job_specialty_id ?? [],
+        job_title_uuid: props.selectedScheduleSlot?.job?.uuid,
+        job_specialty_uuid: [],
         available_slots: props.selectedScheduleSlot?.available_slots.toString(),
         time_in: props.selectedScheduleSlot?.time_in,
         time_out: props.selectedScheduleSlot?.time_out,
         shift_type: props.selectedScheduleSlot?.shift_type,
-    },
+    } as any,
     modal: {
         isAddJobTitleOpen: false
     },
@@ -144,7 +144,14 @@ const state = reactive({
 
 onMounted(() => {
     fetchJobTitles()
-    fetchJobSpecialties(props.selectedScheduleSlot?.job_specialty_id)
+    if (props.selectedScheduleSlot?.job?.uuid) {
+        fetchJobSpecialties(props.selectedScheduleSlot?.job?.uuid)
+    }
+    if (props.selectedScheduleSlot?.job_specialties) {
+        props.selectedScheduleSlot.job_specialties.forEach((job_specialty: any) => {
+            state.formScheduleSlot.job_specialty_uuid.push(job_specialty?.uuid)
+        })
+    }
 })
 
 function closeModal() {
@@ -204,7 +211,7 @@ const rules = computed(() => {
     if (props.formType === 'create') {
         return {
             formScheduleSlot: {
-                job_id: {
+                job_title_uuid: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 available_slots: {
@@ -227,7 +234,7 @@ const rules = computed(() => {
                 date: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
-                job_id: {
+                job_title_uuid: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 available_slots: {
