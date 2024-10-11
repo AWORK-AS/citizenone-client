@@ -3,18 +3,27 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('jobTitles.jobTitles') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('jobSpecialties.jobSpecialties') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('jobTitles.jobTitles') }}</template>
+            <template #header>{{ $t('jobSpecialties.jobSpecialties') }}</template>
 
             <ModulesSettingsTab />
 
             <div class="mt-5">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                    to="/settings/job-titles">
+                    <Icon name="ph:arrow-left" size="20" class="text-black" />
+                    <span>{{ $t('back') }}</span>
+                </NuxtLink>
+            </div>
+
+            <div class="mt-5">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/job-titles/new')">
+                    <FormButton buttonStyle="action" class="rounded-lg"
+                        @click="navigateTo(`/settings/job-titles/${jobTitleUuid}/new`)">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('jobTitles.newJobTitle') }}
+                        {{ $t('jobSpecialties.newJobSpecialty') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -23,24 +32,25 @@
                     <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                         @handleFilter="handleFilter" />
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.jobTitles"
+                        <Table :columnHeaders="state.columnHeaders" :data="state.jobSpecialties"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.jobTitles?.data?.length === 0))">
-                                <tr v-for="(jobTitle, index) in state.jobTitles?.data" :key="index">
+                            <template #body
+                                v-if="!(state.isTableLoading || (state.jobSpecialties?.data?.length === 0))">
+                                <tr v-for="(jobTitle, index) in state.jobSpecialties?.data" :key="index">
                                     <td width="50%">
                                         <span>{{ jobTitle?.title }}</span>
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/job-titles/${jobTitle.uuid}`)">
+                                                @click="navigateTo(`/settings/job-titles/${jobTitle.uuid}/view`)">
                                                 <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('jobTitles.table.actions.view') }}
+                                                {{ $t('jobSpecialties.table.actions.view') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/job-titles/edit/${jobTitle.uuid}`)">
                                                 <Icon name="ph:pencil" class="size-4" />
-                                                {{ $t('jobTitles.table.actions.edit') }}
+                                                {{ $t('jobSpecialties.table.actions.edit') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -48,7 +58,7 @@
                             </template>
                         </Table>
                     </div>
-                    <Pagination :data="state.jobTitles" @previous="previous" @next="next" />
+                    <Pagination :data="state.jobSpecialties" @previous="previous" @next="next" />
                 </div>
             </div>
         </NuxtLayout>
@@ -56,22 +66,24 @@
 </template>
 
 <script setup lang="ts">
-import { jobTitleService } from '@/components/api/JobTitleService'
+import { jobSpecialtyService } from '@/components/api/JobSpecialtyService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 let currentTablePage = 1
+const router = useRouter()
+const jobTitleUuid = router?.currentRoute?.value?.params?.job_title_uuid
 
 const state = reactive({
     columnFilter: [
         { column: 'title' },
     ],
     columnHeaders: [
-        { name: 'jobTitles.table.title', sorter: true, key: 'title' },
+        { name: 'jobSpecialties.table.title', sorter: true, key: 'title' },
         { name: '' },
     ],
     dataFilter: [],
-    jobTitles: [] as any,
+    jobSpecialties: [] as any,
     error: {} as Error,
     isTableLoading: false,
     sortData: {
@@ -81,10 +93,10 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchJobTitles()
+    fetchJobSpecialties()
 })
 
-async function fetchJobTitles() {
+async function fetchJobSpecialties() {
     state.error = {}
     state.isTableLoading = true
     try {
@@ -94,9 +106,9 @@ async function fetchJobTitles() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await jobTitleService.getJobTitles(params)
+        const response = await jobSpecialtyService.getJobSpecialties(params)
         if (response) {
-            state.jobTitles = response
+            state.jobSpecialties = response
         }
     } catch (error: any) {
         state.error = error
@@ -106,12 +118,12 @@ async function fetchJobTitles() {
 
 function previous() {
     currentTablePage--
-    fetchJobTitles()
+    fetchJobSpecialties()
 }
 
 function next() {
     currentTablePage++
-    fetchJobTitles()
+    fetchJobSpecialties()
 }
 
 function sort(sortingData: any) {
@@ -120,12 +132,12 @@ function sort(sortingData: any) {
         sortField: sortingData.column,
         sortOrder: sortingData.sort,
     }
-    fetchJobTitles()
+    fetchJobSpecialties()
 }
 
 function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
-    fetchJobTitles()
+    fetchJobSpecialties()
 }
 </script>

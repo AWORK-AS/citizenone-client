@@ -18,7 +18,14 @@ const state = reactive({
         { name: 'settings.tabs.subscription', href: `/settings/subscription`, routeNames: ['setttings-subscription'] },
         { name: 'settings.tabs.archived', href: `/settings/archived/citizens`, routeNames: ['settings-archived-citizens', 'settings-archived-employees'] },
         { name: 'settings.tabs.departments', href: `/settings/departments`, routeNames: ['settings-departments'] },
-        { name: 'settings.tabs.jobTitles', href: `/settings/job-titles`, routeNames: ['settings-job-titles'] },
+        {
+            name: 'settings.tabs.jobTitles',
+            href: `/settings/job-titles`,
+            routeNames: [
+                'settings-job-titles',
+                'settings-job-titles-job_title_uuid'
+            ]
+        },
         { name: 'settings.tabs.activityLogs', href: `/settings/activity-logs`, routeNames: ['settings-activity-logs'] },
         { name: 'settings.tabs.timeLogs', href: `/settings/time-logs`, routeNames: ['settings-time-logs'] },
     ]
@@ -83,7 +90,8 @@ watch(() => userStore.getUser, (newValue: any) => {
                     name: 'settings.tabs.jobTitles',
                     href: `/settings/job-titles`,
                     routeNames: [
-                        'settings-job-titles'
+                        'settings-job-titles',
+                        'settings-job-titles-job_title_uuid'
                     ]
                 },
                 {

@@ -789,7 +789,28 @@
         "newJobTitle": "Ny Jobtitel",
         "table": {
             "actions": {
-                "edit": "Rediger"
+                "edit": "Rediger",
+                "view": "Se"
+            },
+            "title": "Titel"
+        }
+    },
+    "jobTitleSpecialties": {
+        "addNewJobSpecialty": "Tilføj ny jobspecialitet",
+        "editJobSpecialty": "Rediger jobspecialitet",
+        "form": {
+            "alert": {
+                "jobSpecialtySuccessfullyUpdated": "Jobspecialitet opdateret med succes",
+                "newJobSpecialtySuccessfullySaved": "Ny jobspecialitet gemt med succes"
+            },
+            "title": "Titel"
+        },
+        "jobSpecialties": "Jobspecialiteter",
+        "newJobSpecialty": "Ny jobspecialitet",
+        "table": {
+            "actions": {
+                "edit": "Rediger",
+                "view": "Se"
             },
             "title": "Titel"
         }

@@ -788,7 +788,28 @@
         "newJobTitle": "New job title",
         "table": {
             "actions": {
-                "edit": "Edit"
+                "edit": "Edit",
+                "view": "View"
+            },
+            "title": "Title"
+        }
+    },
+    "jobSpecialties": {
+        "addNewJobSpecialty": "Add new job specialty",
+        "editJobSpecialty": "Edit job specialty",
+        "form": {
+            "alert": {
+                "jobSpecialtySuccessfullyUpdated": "Job specialty successfully updated",
+                "newJobSpecialtySuccessfullySaved": "New job specialty successfully saved"
+            },
+            "title": "Title"
+        },
+        "jobSpecialties": "Job specialties",
+        "newJobSpecialty": "New job specialty",
+        "table": {
+            "actions": {
+                "edit": "Edit",
+                "view": "View"
             },
             "title": "Title"
         }
