@@ -60,6 +60,9 @@
                 </FormButton>
             </div>
         </div>
+        <DialogConfirmation :isModalOpen="state.modal.isSaveUseOfForceOpen"
+            :message="$t('citizens.useOfForce.confirmation.reportConfirmation') + '?'"
+            @close="state.modal.isSaveUseOfForceOpen = false" @confirm="saveUseOfForce" />
         <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
             :title="$t('citizens.documents.upgradeStorage')"
             :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
@@ -123,7 +126,8 @@ const state = reactive({
         is_draft: false,
     },
     modal: {
-        isUpgradeStorageOpen: false
+        isSaveUseOfForceOpen: false,
+        isUpgradeStorageOpen: false,
     },
 })
 
@@ -171,11 +175,23 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
+function saveUseOfForceConfirmation() {
+    state.modal.isSaveUseOfForceOpen = true
+}
+
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formUseOfForce)
+        if (props.formType === 'create') {
+            saveUseOfForceConfirmation()
+        } else {
+            emit('submitForm', state.formUseOfForce)
+        }
     }
+}
+
+function saveUseOfForce() {
+    emit('submitForm', state.formUseOfForce)
 }
 
 const triggerDescriptionFileInput = () => {

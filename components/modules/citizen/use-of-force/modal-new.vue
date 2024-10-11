@@ -29,6 +29,8 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['close'])
+const router = useRouter()
+const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({
     error: {} as Error,
@@ -50,7 +52,7 @@ async function saveUseOfForce(useOfForceDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
-            citizen_uuid: useOfForceDetails.citizen_uuid,
+            citizen_uuid: citizenUuid,
             title: useOfForceDetails.title,
             date: useOfForceDetails.date,
             description: useOfForceDetails.description,
@@ -60,10 +62,20 @@ async function saveUseOfForce(useOfForceDetails: any) {
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.useOfForce.alert.savedSuccessfully')}.`)
             closeModal()
+            navigateToSocialForm()
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function navigateToSocialForm() {
+    await navigateTo('https://www.sbst.dk/tvaergaende-omrader/magtanvendelse/skemaer-til-indberetning', {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 </script>
