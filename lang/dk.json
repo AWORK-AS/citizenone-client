@@ -568,15 +568,16 @@
                     "scheduleSlotSuccessfullyUpdated": "Tidspunkt opdateret med succes"
                 },
                 "date": "Dato",
+                "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitel",
-                "numberofShift": "Antal vagter",
+                "numberOfShifts": "Antal vagter",
                 "shiftType": "Vagttype",
                 "status": "Status",
                 "timeIn": "Tid ind",
                 "timeOut": "Tid ud",
                 "workingHours": "Arbejdstimer"
             },
-            "numberofShift": "Antal vagter",
+            "numberOfShifts": "Antal vagter",
             "offerNewTime": "Udbyd nye vagter",
             "scheduleSlots": "Udbyd vagter",
             "table": {

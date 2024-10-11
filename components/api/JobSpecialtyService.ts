@@ -17,8 +17,8 @@ class JobSpecialtyService extends BaseAPIService {
         return await this.request(`/user/job-specialties/${jobSpecialtyUuid}`, 'PUT', params)
     }
 
-    async getAllJobSpecialties(): Promise<any> {
-        return await this.request(`/user/job-specialties/all/list`, 'GET')
+    async getAllJobSpecialties(params: object): Promise<any> {
+        return await this.request(`/user/job-specialties/all/list`, 'GET', params)
     }
 }
 

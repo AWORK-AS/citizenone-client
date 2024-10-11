@@ -26,9 +26,22 @@
                     </span>
                 </div>
                 <FormSelect id="job_id" name="job_id" :options="state.options.jobTitles"
-                    v-model="state.formScheduleSlot.job_id" />
+                    v-model="state.formScheduleSlot.job_id" @change="changeJobTitle" />
                 <FormError :error="v$?.formScheduleSlot?.job_id?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.job_id?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="job_id" :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
+                    <!-- <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddJobSpecialtyOpen = true">
+                        {{ $t('jobSpecialties.addNewJobSpecialty') }}
+                    </span> -->
+                </div>
+                <FormSelectMultiple id="job_specialty_id" name="job_specialty_id"
+                    :options="state.options.jobSpecialties" v-model="state.formScheduleSlot.job_specialty_id" />
+                <FormError :error="v$?.formScheduleSlot?.job_specialty_id?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.job_specialty_id?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="available_slots" :label="$t('dutySchedules.scheduleSlots.form.numberOfShifts')" />
@@ -74,6 +87,7 @@
 
 <script setup lang="ts">
 import { jobTitleService } from '@/components/api/JobTitleService'
+import { jobSpecialtyService } from '@/components/api/JobSpecialtyService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -106,6 +120,7 @@ const state = reactive({
     formScheduleSlot: {
         date: props.selectedScheduleSlot?.date,
         job_id: props.selectedScheduleSlot?.job_id,
+        job_specialty_id: props.selectedScheduleSlot?.job_specialty_id ?? [],
         available_slots: props.selectedScheduleSlot?.available_slots.toString(),
         time_in: props.selectedScheduleSlot?.time_in,
         time_out: props.selectedScheduleSlot?.time_out,
@@ -115,6 +130,7 @@ const state = reactive({
         isAddJobTitleOpen: false
     },
     options: {
+        jobSpecialties: [],
         jobTitles: [],
         shifts: [
             { value: 'regular_shift', label: `${t('dutySchedules.shifts.regularShift')}` },
@@ -128,6 +144,7 @@ const state = reactive({
 
 onMounted(() => {
     fetchJobTitles()
+    fetchJobSpecialties(props.selectedScheduleSlot?.job_specialty_id)
 })
 
 function closeModal() {
@@ -143,11 +160,39 @@ async function fetchJobTitles() {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.title,
                 })
             )
             state.options.jobTitles = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+function changeJobTitle(jobTitleUuid: any) {
+    fetchJobSpecialties(jobTitleUuid)
+}
+
+async function fetchJobSpecialties(jobTitleUuid: any) {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const params = {
+            job_title_uuid: jobTitleUuid
+        }
+        const response = await jobSpecialtyService.getAllJobSpecialties(params)
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.title,
+                })
+            )
+            state.options.jobSpecialties = options
         }
     } catch (error: any) {
         state.error = error
