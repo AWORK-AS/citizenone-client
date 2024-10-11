@@ -41,33 +41,12 @@
                                                         <div class="flex gap-x-3">
                                                             <div class="grow space-y-1.5">
                                                                 <div>
-                                                                    <div
-                                                                        class="flex items-center gap-x-3 justify-between">
-                                                                        <div class="flex items-center gap-x-3">
-                                                                            <h3 class="text-md font-semibold">
-                                                                                {{ useOfForce.title }}
-                                                                            </h3>
-                                                                            <div v-if="useOfForce.is_draft">
-                                                                                <Badge type="primary">
-                                                                                    <p class="text-xs">
-                                                                                        {{
-                                                                                            $t('citizens.useOfForce.form.draft')
-                                                                                        }}
-                                                                                    </p>
-                                                                                </Badge>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
                                                                     <p class="mt-1 text-xs text-muted-400">
                                                                         <span>
                                                                             {{ formatDateToReadable(useOfForce.date) }}
                                                                         </span>
                                                                     </p>
                                                                 </div>
-                                                                <p class="text-sm text-muted-400">
-                                                                    <div v-html="useOfForce.description"
-                                                                        class="content" />
-                                                                </p>
                                                                 <p class="text-sm">
                                                                     {{
                                                                         $t('citizens.useOfForce.table.reportedBy')
@@ -75,13 +54,6 @@
                                                                     {{ useOfForce?.reported_by?.firstname }}
                                                                     {{ useOfForce?.reported_by?.lastname }}
                                                                 </p>
-                                                            </div>
-                                                            <div>
-                                                                <FormButton class="rounded-md h-fit" buttonSize="xs"
-                                                                    @click="editUseOfForce(useOfForce)"
-                                                                    v-if="useOfForce?.is_editable">
-                                                                    <Icon name="ph:pencil-duotone" class="w-4 h-4" />
-                                                                </FormButton>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -186,16 +158,5 @@ function previous() {
 function next() {
     currentTablePage++
     fetchUseOfForce()
-}
-
-function editUseOfForce(useOfForce: any) {
-    state.formUseOfForce = {
-        uuid: useOfForce.uuid,
-        title: useOfForce.title,
-        date: useOfForce.date,
-        description: useOfForce.description,
-        is_draft: useOfForce.is_draft,
-    }
-    state.modal.isEditUseOfForceOpen = true
 }
 </script>
