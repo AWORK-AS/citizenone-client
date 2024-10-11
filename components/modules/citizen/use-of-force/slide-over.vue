@@ -51,8 +51,8 @@
                                                                     {{
                                                                         $t('citizens.useOfForce.table.reportedBy')
                                                                     }}:
-                                                                    {{ useOfForce?.reported_by?.firstname }}
-                                                                    {{ useOfForce?.reported_by?.lastname }}
+                                                                    {{ useOfForce?.user?.firstname }}
+                                                                    {{ useOfForce?.user?.lastname }}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -119,7 +119,7 @@ const state = reactive({
         isEditUseOfForceOpen: false
     },
     sortData: {
-        sortField: 'date',
+        sortField: 'date_time',
         sortOrder: 'descend',
     },
 })
