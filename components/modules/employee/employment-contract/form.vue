@@ -56,13 +56,12 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 const file = ref<HTMLInputElement | null>(null)
-const avatarUrl = ref('/img/avatars/user.svg')
 
 const state = reactive({
     error: {} as Error,
     formEmployeeDocument: {
         file: '',
-        note: '',
+        note: props.selectedEmployeeDocument?.note,
     },
 })
 
@@ -70,7 +69,7 @@ watch(() => props.selectedEmployeeDocument, (newValue: any) => {
     if (newValue != null) {
         state.formEmployeeDocument = {
             file: '',
-            note: newValue.title,
+            note: newValue.note,
         }
     }
 })
