@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('employees.documents.employmentContracts')" :show="props.isModalOpen"
+        <Modal size="xl" :title="$t('employees.documents.criminalRecords')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div>
@@ -35,7 +35,7 @@
                                                 <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="confirmDocumentDeletion(document)">
                                                     <Icon name="ph:trash" class="size-4" />
-                                                    {{ $t('employees.table.actions.delete') }}
+                                                    {{ $t('employees.documents.table.actions.delete') }}
                                                 </FormButton>
                                             </div>
                                         </td>

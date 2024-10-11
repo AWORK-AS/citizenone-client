@@ -655,7 +655,7 @@
             },
             "newDocument": "Nyt dokument",
             "table": {
-                "action": {
+                "actions": {
                     "delete": "Slet",
                     "edit": "Rediger"
                 },

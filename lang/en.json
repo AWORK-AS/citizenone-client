@@ -654,7 +654,7 @@
             },
             "newDocument": "New document",
             "table": {
-                "action": {
+                "actions": {
                     "delete": "Delete",
                     "edit": "Edit"
                 },

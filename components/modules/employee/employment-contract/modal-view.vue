@@ -35,7 +35,7 @@
                                                 <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="confirmDocumentDeletion(document)">
                                                     <Icon name="ph:trash" class="size-4" />
-                                                    {{ $t('employees.table.actions.delete') }}
+                                                    {{ $t('employees.documents.table.actions.delete') }}
                                                 </FormButton>
                                             </div>
                                         </td>
