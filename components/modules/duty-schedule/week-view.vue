@@ -263,7 +263,7 @@
                                                         </div>
                                                         <button
                                                             class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
-                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.in_meeting">
+                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'regular_shift')?.in_meeting">
                                                             M
                                                         </button>
                                                         <button
@@ -309,7 +309,7 @@
                                                         </div>
                                                         <button
                                                             class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
-                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.in_meeting">
+                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'sleeping_night_shift')?.in_meeting">
                                                             M
                                                         </button>
                                                         <button
@@ -332,7 +332,7 @@
                                                         </div>
                                                         <button
                                                             class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
-                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.in_meeting">
+                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.in_meeting">
                                                             M
                                                         </button>
                                                         <button
@@ -355,7 +355,7 @@
                                                         </div>
                                                         <button
                                                             class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
-                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.in_meeting">
+                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.in_meeting">
                                                             M
                                                         </button>
                                                         <button
