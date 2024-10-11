@@ -101,6 +101,7 @@ async function fetchJobSpecialties() {
     state.isTableLoading = true
     try {
         const params = {
+            job_title_uuid: jobTitleUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
