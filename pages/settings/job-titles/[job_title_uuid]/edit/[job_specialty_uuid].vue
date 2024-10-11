@@ -46,10 +46,10 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchJobTitle()
+    fetchJobSpecialty()
 })
 
-async function fetchJobTitle() {
+async function fetchJobSpecialty() {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -75,7 +75,7 @@ async function updateJobSpecialty(jobSpecialtyDetails: any) {
         const response = await jobSpecialtyService.updateJobSpecialty(jobSpecialtyUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('jobSpecialties.form.alert.jobSpecialtySuccessfullyUpdated')}.`)
-            navigateTo(`/settings/job-titles/${jobTitleUuid}/view`)
+            navigateTo(`/settings/job-titles/${jobTitleUuid}`)
         }
     } catch (error: any) {
         state.error = error

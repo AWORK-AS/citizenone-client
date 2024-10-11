@@ -5,8 +5,8 @@
         <div class="space-y-1">
             <FormLabel for="title" :label="$t('jobSpecialties.form.title')" />
             <FormTextField id="title" name="title" :placeholder="$t('jobSpecialties.form.title')"
-                v-model="state.formJobTitle.title" />
-            <FormError :error="v$?.formJobTitle?.title?.$errors[0]?.$message.toString()" />
+                v-model="state.formJobSpecialty.title" />
+            <FormError :error="v$?.formJobSpecialty?.title?.$errors[0]?.$message.toString()" />
             <FormError :error="props?.error?.errors?.title?.[0]" />
         </div>
         <div class="mt-6">
@@ -39,7 +39,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedJobTitle: {
+    selectedJobSpecialty: {
         type: Object,
         required: false,
     },
@@ -51,14 +51,14 @@ const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
-    formJobTitle: {
+    formJobSpecialty: {
         title: '',
     },
 })
 
-watch(() => props.selectedJobTitle, (newValue: any) => {
+watch(() => props.selectedJobSpecialty, (newValue: any) => {
     if (newValue != null) {
-        state.formJobTitle = {
+        state.formJobSpecialty = {
             title: newValue.title,
         }
     }
@@ -66,7 +66,7 @@ watch(() => props.selectedJobTitle, (newValue: any) => {
 
 const rules = computed(() => {
     return {
-        formJobTitle: {
+        formJobSpecialty: {
             title: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
@@ -80,7 +80,7 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formJobTitle)
+        emit('submitForm', state.formJobSpecialty)
     }
 }
 </script>

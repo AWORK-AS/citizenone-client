@@ -36,19 +36,14 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body
                                 v-if="!(state.isTableLoading || (state.jobSpecialties?.data?.length === 0))">
-                                <tr v-for="(jobTitle, index) in state.jobSpecialties?.data" :key="index">
+                                <tr v-for="(jobSpecialty, index) in state.jobSpecialties?.data" :key="index">
                                     <td width="50%">
-                                        <span>{{ jobTitle?.title }}</span>
+                                        <span>{{ jobSpecialty?.title }}</span>
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/job-titles/${jobTitle.uuid}/view`)">
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('jobSpecialties.table.actions.view') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/job-titles/edit/${jobTitle.uuid}`)">
+                                                @click="navigateTo(`/settings/job-titles/${jobTitleUuid}/edit/${jobSpecialty.uuid}`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('jobSpecialties.table.actions.edit') }}
                                             </FormButton>
