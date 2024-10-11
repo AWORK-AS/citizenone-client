@@ -47,10 +47,10 @@
                     </div>
                 </div>
                 <ModulesEmployeeEmploymentContractModalNew :isModalOpen="state.modal.isAddNewDocumentOpen"
-                    @close="state.modal.isAddNewDocumentOpen = false" @refreshEmployeeDocument="fetchDocuments" />
+                    @close="state.modal.isAddNewDocumentOpen = false" @refreshEmployeeDocuments="fetchDocuments" />
                 <ModulesEmployeeEmploymentContractModalEdit :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedEmployeeDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
-                    @refreshEmployeeDocument="fetchDocuments" />
+                    @refreshEmployeeDocuments="fetchDocuments" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteDocumentOpen"
                     :message="$t('employees.documents.confirmation.deleteConfirmation') + '?'"
                     @close="state.modal.isDeleteDocumentOpen = false" @confirm="deleteDocument" />

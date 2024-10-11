@@ -30,7 +30,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshEmployeeDocument'])
+const emit = defineEmits(['close', 'refreshEmployeeDocuments'])
 
 const state = reactive({
     error: {} as Error,
@@ -45,8 +45,8 @@ function closeModal() {
     emit('close')
 }
 
-function refreshEmployeeDocument() {
-    emit('refreshEmployeeDocument')
+function refreshEmployeeDocuments() {
+    emit('refreshEmployeeDocuments')
 }
 
 async function saveEmployeeDocument(employeeDocumentDetails: any) {
@@ -61,7 +61,7 @@ async function saveEmployeeDocument(employeeDocumentDetails: any) {
         const response = await employeeDocumentService.saveDocument(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employees.documents.form.alert.documentSuccessfullySaved')}.`)
-            refreshEmployeeDocument()
+            refreshEmployeeDocuments()
             closeModal()
         }
     } catch (error: any) {
