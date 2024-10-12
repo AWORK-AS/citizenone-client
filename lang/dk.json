@@ -421,19 +421,15 @@
         "useOfForce": {
             "alert": {
                 "deletedSuccessfully": "Magtanvendelse slettet med succes",
-                "savedSuccessfully": "Magtanvendelse gemt med succes",
-                "updatedSuccessfully": "Magtanvendelse opdateret med succes"
+                "savedSuccessfully": "Magtanvendelse gemt med succes"
             },
             "confirmation": {
+                "byClickingYesText": "Ved at klikke ja, bliver du omdirigeret til formularerne på",
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne magtanvendelse",
-                "reportConfirmation": "Er du sikker på, at du vil rapportere magtanvendelse"
-            },
-            "editUseOfForce": "Rediger magtanvendelse",
-            "form": {
-                "date": "Dato",
-                "description": "Beskrivelse",
-                "draft": "Udkast",
-                "title": "Titel"
+                "inAdditionText": "Derudover vil det blive logget i historikken for brug af magt, at du har rapporteret brugen af magt.",
+                "reportConfirmation": "Er du sikker på, at du vil rapportere magtanvendelse",
+                "socialOfBoligstyrelsensWebsite": "Social- og Boligstyrelsens hjemmeside",
+                "whereYouCanDownloadText": "Where you can download the correct form and fill it out and send to your leader"
             },
             "reportUseOfForce": "Rapporter magtanvendelse",
             "seePreviousUseOfForce": "Se tidligere magtanvendelse",
@@ -1512,5 +1508,6 @@
             "pleaseWriteHere": "Skriv venligst her",
             "sendMessage": "Send besked"
         }
-    }
+    },
+    "yes": "Ja"
 }

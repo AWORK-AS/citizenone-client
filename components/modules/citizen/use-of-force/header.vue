@@ -7,12 +7,9 @@
             <FormButton buttonStyle="incident-link" @click="state.slideOver.isReportUseOfForceOpen = true">
                 {{ $t('citizens.useOfForce.seePreviousUseOfForce') }}
             </FormButton>
-            <!-- <ModulesCitizenUseOfForceModalNew :isModalOpen="state.modal.isReportUseOfForceOpen"
-            @close="state.modal.isReportUseOfForceOpen = false" /> -->
             <ModulesCitizenUseOfForceSlideOver :isOpen="state.slideOver.isReportUseOfForceOpen"
                 @close="state.slideOver.isReportUseOfForceOpen = false" />
-            <DialogConfirmation :isModalOpen="state.modal.isReportUseOfForceOpen"
-                :message="$t('citizens.useOfForce.confirmation.reportConfirmation') + '?'"
+            <ModulesCitizenUseOfForceModalReportConfirmation :isModalOpen="state.modal.isReportUseOfForceOpen"
                 @close="state.modal.isReportUseOfForceOpen = false" @confirm="saveUseOfForce" />
         </div>
     </LoadingSpinner>

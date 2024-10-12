@@ -420,19 +420,15 @@
         "useOfForce": {
             "alert": {
                 "deletedSuccessfully": "Use of force successfully deleted",
-                "savedSuccessfully": "Use of force successfully saved",
-                "updatedSuccessfully": "Use of force successfully updated"
+                "savedSuccessfully": "Use of force successfully saved"
             },
             "confirmation": {
+                "byClickingYesText": "By clicking yes, then you are being redirected to the forms on",
                 "deleteConfirmation": "Are you sure you want to delete this use of force",
-                "reportConfirmation": "Are you sure you want to report use of force"
-            },
-            "editUseOfForce": "Edit use of force",
-            "form": {
-                "date": "Date",
-                "description": "Description",
-                "draft": "Draft",
-                "title": "Title"
+                "inAdditionText": "In addition, it will be logged in the history of the use of force that you have reported the use of force",
+                "reportConfirmation": "Are you sure you want to report use of force",
+                "socialOfBoligstyrelsensWebsite": "Social- og Boligstyrelsens website",
+                "whereYouCanDownloadText": "Where you can download the correct form and fill it out and send to your leader"
             },
             "reportUseOfForce": "Report use of force",
             "seePreviousUseOfForce": "See previous use of force",
@@ -1513,5 +1509,6 @@
             "pleaseWriteHere": "Please write here",
             "sendMessage": "Send message"
         }
-    }
+    },
+    "yes": "Yes"
 }
