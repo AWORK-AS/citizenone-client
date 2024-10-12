@@ -54,7 +54,9 @@ async function updateEmployeeDocument(employeeDocumentDetails: any) {
     try {
         const selectedEmployeeDocumentUuid = props.selectedEmployeeDocument?.uuid
         let params = new FormData()
-        params.append('file', employeeDocumentDetails.file)
+        if (employeeDocumentDetails.file) {
+            params.append('file', employeeDocumentDetails.file)
+        }
         params.append('note', employeeDocumentDetails.note)
         const response = await employeeDocumentService.updateDocument(selectedEmployeeDocumentUuid, params)
         if (response.data) {

@@ -20,7 +20,13 @@
                                 <template #body v-if="!(state.isTableLoading || (state.documents?.data?.length === 0))">
                                     <tr v-for="(document, index) in state.documents?.data" :key="index">
                                         <td width="30%">
-                                            <span>{{ document?.name }}</span>
+                                            <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
+                                                v-if="document?.file_url" @click="openFile(document)">
+                                                <div>
+                                                    <Icon name="ph:file" class="size-6" />
+                                                </div>
+                                                <span>{{ document?.name }}</span>
+                                            </div>
                                         </td>
                                         <td width="40%">
                                             <span>{{ document?.note }}</span>
@@ -147,6 +153,15 @@ function sort(sortingData: any) {
         sortOrder: sortingData.sort,
     }
     fetchDocuments()
+}
+
+function openFile(document: any) {
+    navigateTo(document?.file_url, {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 
 function editDocument(document: any) {
