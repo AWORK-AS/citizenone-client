@@ -2,95 +2,98 @@
     <form @submit.prevent="submitForm()">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="space-y-3">
-            <div class="space-y-1">
-                <FormLabel for="title" :label="$t('citizens.contacts.form.title')" />
-                <FormSelect id="title" :options="state.options.titles" v-model="state.formContact.title" />
-                <FormError :error="v$?.formContact?.title?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.title?.[0]" />
+        <LoadingSpinner :isActive="state.isPageLoading">
+            <div class="space-y-3">
+                <div class="space-y-1">
+                    <FormLabel for="title" :label="$t('citizens.contacts.form.title')" />
+                    <FormSelect id="title" :options="state.options.titles" v-model="state.formContact.title" />
+                    <FormError :error="v$?.formContact?.title?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.title?.[0]" />
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="firstname" :label="$t('citizens.contacts.form.firstname')" />
+                        <FormTextField id="firstname" name="firstname"
+                            :placeholder="$t('citizens.contacts.form.firstname')"
+                            v-model="state.formContact.firstname" />
+                        <FormError :error="v$?.formContact?.firstname?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.firstname?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="lastname" :label="$t('citizens.contacts.form.lastname')" />
+                        <FormTextField id="lastname" name="lastname"
+                            :placeholder="$t('citizens.contacts.form.lastname')" v-model="state.formContact.lastname" />
+                        <FormError :error="v$?.formContact?.lastname?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.lastname?.[0]" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="email" :label="$t('citizens.contacts.form.email')" />
+                        <FormTextField id="email" name="email" :placeholder="$t('citizens.contacts.form.email')"
+                            v-model="state.formContact.email" />
+                        <FormError :error="v$?.formContact?.email?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.email?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="phone" :label="$t('citizens.contacts.form.phone')" />
+                        <FormTextField id="phone" name="phone" :placeholder="$t('citizens.contacts.form.phone')"
+                            v-model="state.formContact.phone" />
+                        <FormError :error="v$?.formContact?.phone?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.phone?.[0]" />
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="street" :label="$t('citizens.contacts.form.street')" />
+                    <FormTextField id="street" name="street" :placeholder="$t('citizens.contacts.form.street')"
+                        v-model="state.formContact.street" />
+                    <FormError :error="v$?.formContact?.street?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.street?.[0]" />
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="region" :label="$t('citizens.contacts.form.region')" />
+                        <FormSelect id="region" :options="state.options.regions" v-model="state.formContact.region"
+                            @change="changeSelectedRegion" />
+                        <FormError :error="v$?.formContact?.region?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.region_id?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="municipality" :label="$t('citizens.contacts.form.municipality')" />
+                        <FormSelect id="municipality" :options="state.options.municipalities"
+                            v-model="state.formContact.municipality" @change="changeSelectedMunicipality" />
+                        <FormError :error="v$?.formContact?.municipality?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.municipality_id?.[0]" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="city" :label="$t('citizens.contacts.form.city')" />
+                        <FormSelect id="city" :options="state.options.cities" v-model="state.formContact.city" />
+                        <FormError :error="v$?.formContact?.city?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.city_id?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="post_code" :label="$t('citizens.contacts.form.postCode')" />
+                        <FormTextField id="post_code" name="post_code" :placeholder="$t('citizens.form.postCode')"
+                            v-model="state.formContact.post_code" />
+                        <FormError :error="v$?.formContact?.post_code?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.post_code?.[0]" />
+                    </div>
+                </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="firstname" :label="$t('citizens.contacts.form.firstname')" />
-                    <FormTextField id="firstname" name="firstname" :placeholder="$t('citizens.contacts.form.firstname')"
-                        v-model="state.formContact.firstname" />
-                    <FormError :error="v$?.formContact?.firstname?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.firstname?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="lastname" :label="$t('citizens.contacts.form.lastname')" />
-                    <FormTextField id="lastname" name="lastname" :placeholder="$t('citizens.contacts.form.lastname')"
-                        v-model="state.formContact.lastname" />
-                    <FormError :error="v$?.formContact?.lastname?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.lastname?.[0]" />
+            <div class="mt-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                        {{ $t('cancel') }}
+                    </FormButton>
+                    <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                        {{ props.formType === 'create' ? $t('save') :
+                            $t('update') }}
+                    </FormButton>
                 </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="email" :label="$t('citizens.contacts.form.email')" />
-                    <FormTextField id="email" name="email" :placeholder="$t('citizens.contacts.form.email')"
-                        v-model="state.formContact.email" />
-                    <FormError :error="v$?.formContact?.email?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.email?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="phone" :label="$t('citizens.contacts.form.phone')" />
-                    <FormTextField id="phone" name="phone" :placeholder="$t('citizens.contacts.form.phone')"
-                        v-model="state.formContact.phone" />
-                    <FormError :error="v$?.formContact?.phone?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.phone?.[0]" />
-                </div>
-            </div>
-            <div class="space-y-1">
-                <FormLabel for="street" :label="$t('citizens.contacts.form.street')" />
-                <FormTextField id="street" name="street" :placeholder="$t('citizens.contacts.form.street')"
-                    v-model="state.formContact.street" />
-                <FormError :error="v$?.formContact?.street?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.street?.[0]" />
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="region" :label="$t('citizens.contacts.form.region')" />
-                    <FormSelect id="region" :options="state.options.regions" v-model="state.formContact.region"
-                        @change="changeSelectedRegion" />
-                    <FormError :error="v$?.formContact?.region?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.region_id?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="municipality" :label="$t('citizens.contacts.form.municipality')" />
-                    <FormSelect id="municipality" :options="state.options.municipalities"
-                        v-model="state.formContact.municipality" @change="changeSelectedMunicipality" />
-                    <FormError :error="v$?.formContact?.municipality?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.municipality_id?.[0]" />
-                </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="city" :label="$t('citizens.contacts.form.city')" />
-                    <FormSelect id="city" :options="state.options.cities" v-model="state.formContact.city" />
-                    <FormError :error="v$?.formContact?.city?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.city_id?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="post_code" :label="$t('citizens.contacts.form.postCode')" />
-                    <FormTextField id="post_code" name="post_code" :placeholder="$t('citizens.form.postCode')"
-                        v-model="state.formContact.post_code" />
-                    <FormError :error="v$?.formContact?.post_code?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.post_code?.[0]" />
-                </div>
-            </div>
-        </div>
-        <div class="mt-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
-                    {{ $t('cancel') }}
-                </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
-                    {{ props.formType === 'create' ? $t('save') :
-                        $t('update') }}
-                </FormButton>
-            </div>
-        </div>
+        </LoadingSpinner>
     </form>
 </template>
 

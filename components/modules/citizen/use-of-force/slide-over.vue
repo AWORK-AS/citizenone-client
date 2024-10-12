@@ -67,10 +67,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <ModulesCitizenUseOfForceModalEdit :selectedUseOfForce="state.formUseOfForce"
-                                            :isModalOpen="state.modal.isEditUseOfForceOpen"
-                                            @close="state.modal.isEditUseOfForceOpen = false"
-                                            @refreshUseOfForce="fetchUseOfForce" />
                                     </LoadingSpinner>
                                 </div>
                             </DialogPanel>
@@ -106,18 +102,8 @@ function closeSlide() {
 
 const state = reactive({
     error: {} as Error,
-    formUseOfForce: {
-        uuid: '',
-        title: '',
-        date: '',
-        description: '',
-        is_draft: false,
-    },
     useOfForce: [] as any,
     isPageLoading: false,
-    modal: {
-        isEditUseOfForceOpen: false
-    },
     sortData: {
         sortField: 'date_time',
         sortOrder: 'descend',
