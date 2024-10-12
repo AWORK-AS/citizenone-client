@@ -1,6 +1,6 @@
 <template>
     <Multiselect :close-on-select="true" :searchable="props.searchable" :options="props.options"
-        :canClear="props.canClear" />
+        :canClear="props.canClear" :no-options-text="$t('theListIsEmpty')" />
 </template>
 
 <script setup lang="ts">
