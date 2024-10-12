@@ -11,24 +11,7 @@ const userStore = useUserStore()
 const router = useRouter()
 
 const state = reactive({
-    tabs: [
-        { name: 'settings.tabs.profile', href: `/settings/profile`, routeNames: ['settings-profile'] },
-        { name: 'settings.tabs.storage', href: `/settings/storage`, routeNames: ['settings-storage'] },
-        { name: 'settings.tabs.licenses', href: `/settings/license-overview`, routeNames: ['setttings-license-overview'] },
-        { name: 'settings.tabs.subscription', href: `/settings/subscription`, routeNames: ['setttings-subscription'] },
-        { name: 'settings.tabs.archived', href: `/settings/archived/citizens`, routeNames: ['settings-archived-citizens', 'settings-archived-employees'] },
-        { name: 'settings.tabs.departments', href: `/settings/departments`, routeNames: ['settings-departments'] },
-        {
-            name: 'settings.tabs.jobTitles',
-            href: `/settings/job-titles`,
-            routeNames: [
-                'settings-job-titles',
-                'settings-job-titles-job_title_uuid'
-            ]
-        },
-        { name: 'settings.tabs.activityLogs', href: `/settings/activity-logs`, routeNames: ['settings-activity-logs'] },
-        { name: 'settings.tabs.timeLogs', href: `/settings/time-logs`, routeNames: ['settings-time-logs'] },
-    ]
+    tabs: [] as any
 })
 
 watch(() => userStore.getUser, (newValue: any) => {
@@ -114,6 +97,74 @@ watch(() => userStore.getUser, (newValue: any) => {
             if (route === 'settings-company') {
                 navigateTo('/settings/profile')
             }
+
+            state.tabs = [
+                {
+                    name: 'settings.tabs.profile',
+                    href: `/settings/profile`,
+                    routeNames: [
+                        'settings-profile'
+                    ]
+                },
+                {
+                    name: 'settings.tabs.storage',
+                    href: `/settings/storage`,
+                    routeNames: [
+                        'settings-storage'
+                    ]
+                },
+                {
+                    name: 'settings.tabs.licenses',
+                    href: `/settings/license-overview`,
+                    routeNames: [
+                        'setttings-license-overview'
+                    ]
+                },
+                {
+                    name: 'settings.tabs.subscription',
+                    href: `/settings/subscription`,
+                    routeNames: [
+                        'setttings-subscription'
+                    ]
+                },
+                {
+                    name: 'settings.tabs.archived',
+                    href: `/settings/archived/citizens`,
+                    routeNames: [
+                        'settings-archived-citizens',
+                        'settings-archived-employees'
+                    ]
+                },
+                {
+                    name: 'settings.tabs.departments',
+                    href: `/settings/departments`,
+                    routeNames: [
+                        'settings-departments'
+                    ]
+                },
+                {
+                    name: 'settings.tabs.jobTitles',
+                    href: `/settings/job-titles`,
+                    routeNames: [
+                        'settings-job-titles',
+                        'settings-job-titles-job_title_uuid'
+                    ]
+                },
+                {
+                    name: 'settings.tabs.activityLogs',
+                    href: `/settings/activity-logs`,
+                    routeNames: [
+                        'settings-activity-logs'
+                    ]
+                },
+                {
+                    name: 'settings.tabs.timeLogs',
+                    href: `/settings/time-logs`,
+                    routeNames: [
+                        'settings-time-logs'
+                    ]
+                },
+            ]
         }
     }
 })
