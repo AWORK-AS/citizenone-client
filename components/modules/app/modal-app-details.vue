@@ -22,7 +22,8 @@
                         </div>
                     </div>
                     <div class="mt-5 flex gap-x-3">
-                        <FormButton buttonStyle="primary" @click="navigateToSupport" class="w-full rounded-md">
+                        <FormButton buttonStyle="primary" @click="state.modal.isContactUsOpen = true"
+                            class="w-full rounded-md">
                             {{ $t('apps.contactUs') }}
                         </FormButton>
                         <FormButton buttonStyle="primary" @click="confirmTACAcceptance" class="w-full rounded-md">
@@ -30,6 +31,8 @@
                         </FormButton>
                     </div>
                 </LoadingSpinner>
+                <ModulesAppModalContactUs :isModalOpen="state.modal.isContactUsOpen"
+                    @close="state.modal.isContactUsOpen = false" />
                 <ModulesAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     @close="state.modal.isAcceptTACOpen = false" @confirm="activateApp" />
             </template>
@@ -60,6 +63,7 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isAcceptTACOpen: false,
+        isContactUsOpen: false,
     }
 })
 

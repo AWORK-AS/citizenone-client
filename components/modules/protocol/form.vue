@@ -161,8 +161,6 @@ watch(() => state.formProtocol.end_date, () => {
 
 async function fetchAvailableCitizens() {
     if (state.formProtocol.start_date && state.formProtocol.end_date) {
-        console.log('state.formProtocol.start_date', state.formProtocol.start_date)
-        console.log('state.formProtocol.end_date', state.formProtocol.end_date)
         state.error = {}
         emit('isPageLoading', true)
         try {

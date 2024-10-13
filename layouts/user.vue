@@ -321,7 +321,7 @@
         <ModulesSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
         <ModulesWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
-            @close="state.modal.isContactUsOpen = false" />
+            @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
     </LoadingSpinner>
 </template>
 

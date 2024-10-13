@@ -36,11 +36,19 @@
     "apps": {
         "activate": "Aktivér",
         "activated": "Aktiveret",
+        "alert": {
+            "messageSuccessfullySent": "Besked sendt med succes"
+        },
         "apps": "Apps",
         "confirmation": {
-            "confirmationOfTerms": "Jeg bekræfter, at jeg har læst og accepterer vilkårene og betingelserne, før jeg aktiverer denne app"
+            "confirmationOfTerms": "Jeg bekræfter, at jeg har læst og accepterer vilkårene og betingelserne, før jeg aktiverer denne app."
         },
         "contactUs": "Kontakt os",
+        "form": {
+            "pleaseWriteHere": "Venligst skriv her",
+            "sendMessage": "Send besked",
+            "sendUsAMessage": "Send os en besked, så vender vi tilbage hurtigst muligt"
+        },
         "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
         "readMore": "Læs mere",
         "termsAndConditions": "Vilkår og betingelser"

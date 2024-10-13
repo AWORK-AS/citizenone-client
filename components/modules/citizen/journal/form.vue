@@ -282,7 +282,6 @@ const uploadContentAttachment = async (file: any) => {
         params.append('citizen_uuid', String(citizenUuid))
         const response = await journalService.uploadJournalFile(params)
         if (response) {
-            console.log('response', response)
             state.formJournal.content += `<p><a href="${response?.data?.file_url}" target="_blank">${response?.data?.file_name}</a></p>`
         }
     } catch (error: any) {

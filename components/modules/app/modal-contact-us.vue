@@ -1,7 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="`${$t('storage.form.howMuchStorageDoYouNeed')}?`" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="xs" :title="`${$t('apps.contactUs')}`" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <form @submit.prevent="sendMessage()">
@@ -9,9 +8,9 @@
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="gap-y-3">
                             <div class="space-y-1">
-                                <FormLabel for="message" :label="`${$t('storage.form.tellUsHowMuchStorage')}.`" />
+                                <FormLabel for="message" :label="`${$t('apps.form.sendUsAMessage')}.`" />
                                 <FormTextArea id="message" name="message"
-                                    :placeholder="`${$t('storage.form.pleaseWriteHere')}...`"
+                                    :placeholder="`${$t('apps.form.pleaseWriteHere')}...`"
                                     v-model="state.formContactUs.message" />
                                 <FormError
                                     :error="vContactUsStorage$?.formContactUs?.message?.$errors[0]?.$message.toString()" />
@@ -24,7 +23,7 @@
                                     {{ $t('cancel') }}
                                 </FormButton>
                                 <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
-                                    {{ $t('storage.form.sendMessage') }}
+                                    {{ $t('apps.form.sendMessage') }}
                                 </FormButton>
                             </div>
                         </div>
@@ -87,10 +86,10 @@ async function sendMessage() {
             const params = {
                 message: state.formContactUs.message,
             }
-            const response = await contactUsService.sendStorageUpgradeMessage(params)
+            const response = await contactUsService.sendAppMessage(params)
             if (response) {
                 closeModal()
-                successAlert(`${t('alert.success')}!`, `${t('storage.alert.messageSuccessfullySent')}.`)
+                successAlert(`${t('alert.success')}!`, `${t('apps.alert.messageSuccessfullySent')}.`)
             }
         } catch (error: any) {
             state.error = error
