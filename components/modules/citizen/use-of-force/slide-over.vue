@@ -43,7 +43,9 @@
                                                                 <div>
                                                                     <p class="mt-1 text-xs text-muted-400">
                                                                         <span>
-                                                                            {{ formatDateToReadable(useOfForce.date) }}
+                                                                            {{
+                                                                                formatDateToReadable(useOfForce.date_time)
+                                                                            }}
                                                                         </span>
                                                                     </p>
                                                                 </div>
