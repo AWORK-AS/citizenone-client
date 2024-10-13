@@ -405,6 +405,49 @@
             "latestJournalEntry": "Seneste journalnotat",
             "noJournalToDisplay": "Ingen journal at vise"
         },
+        "nursingAreas": {
+            "editNursingProfessionalRecords": "Rediger sundhedsfaglig optegnelse",
+            "form": {
+                "alert": {
+                    "successfullyAdded": "Sundhedsfaglig optegnelse gemt med succes",
+                    "successfullyUpdated": "Sundhedsfaglig optegnelse opdateret med succes"
+                },
+                "date": "Dato",
+                "functional_level": "Funktionsniveau",
+                "musculoskeletal_system": "Bevægeapparat",
+                "nutrition": "Ernæring",
+                "skin_and_mucous_membranes": "Hud og slimhinder",
+                "communication": "Kommunikation",
+                "psychosocial_conditions": "Psykosociale forhold",
+                "respiration_and_circulation": "Respiration og cirkulation",
+                "sexuality": "Seksualitet",
+                "pain_and_sensory_impressions": "Smerter og sanseindtryk",
+                "sleep_and_rest": "Søvn og hvile",
+                "knowledge_and_development": "Viden og udvikling",
+                "excretion_of_waste": "Udskillelse af affaldsstoffer"
+            },
+            "newNursingProfessionalRecords": "Ny sundhedsfaglig optegnelse",
+            "nursingProfessionalRecords": "Sundhedsfaglige optegnelser",
+            "table": {
+                "action": {
+                    "edit": "Rediger"
+                },
+                "data": "Data",
+                "date": "Dato",
+                "functional_level": "Funktionsniveau",
+                "musculoskeletal_system": "Bevægeapparat",
+                "nutrition": "Ernæring",
+                "skin_and_mucous_membranes": "Hud og slimhinder",
+                "communication": "Kommunikation",
+                "psychosocial_conditions": "Psykosociale forhold",
+                "respiration_and_circulation": "Respiration og cirkulation",
+                "sexuality": "Seksualitet",
+                "pain_and_sensory_impressions": "Smerter og sanseindtryk",
+                "sleep_and_rest": "Søvn og hvile",
+                "knowledge_and_development": "Viden og udvikling",
+                "excretion_of_waste": "Udskillelse af affaldsstoffer"
+            }
+        },
         "table": {
             "actions": {
                 "edit": "Rediger",

@@ -404,6 +404,49 @@
             "latestJournalEntry": "Latest journal entry",
             "noJournalToDisplay": "No journal to display"
         },
+        "nursingAreas": {
+            "editNursingProfessionalRecords": "Edit nursing professional record",
+            "form": {
+                "alert": {
+                    "successfullyAdded": "Nursing professional record successfully saved",
+                    "successfullyUpdated": "Nursing professional record successfully updated"
+                },
+                "date": "Date",
+                "functionalLevel": "Functional level",
+                "musculoskeletalSystem": "Musculoskeletal system",
+                "nutrition": "Nutrition",
+                "skinAndMucousMembranes": "Skin and mucous membranes",
+                "communication": "Communication",
+                "psychosocialConditions": "Psychosocial conditions",
+                "respirationAndCirculation": "Respiration and circulation",
+                "sexuality": "Sexuality",
+                "painAndSensoryImpressions": "Pain and sensory impressions",
+                "sleepAndRest": "Sleep and rest",
+                "knowledgeAndDevelopment": "Knowledge and development",
+                "excretionOfWaste": "Excretion of waste"
+            },
+            "newNursingProfessionalRecords": "New nursing professional record",
+            "nursingProfessionalRecords": "Nursing professional records",
+            "table": {
+                "action": {
+                    "edit": "Edit"
+                },
+                "data": "Data",
+                "date": "Date",
+                "functionalLevel": "Functional level",
+                "musculoskeletalSystem": "Musculoskeletal system",
+                "nutrition": "Nutrition",
+                "skinAndMucousMembranes": "Skin and mucous membranes",
+                "communication": "Communication",
+                "psychosocialConditions": "Psychosocial conditions",
+                "respirationAndCirculation": "Respiration and circulation",
+                "sexuality": "Sexuality",
+                "painAndSensoryImpressions": "Pain and sensory impressions",
+                "sleepAndRest": "Sleep and rest",
+                "knowledgeAndDevelopment": "Knowledge and development",
+                "excretionOfWaste": "Excretion of waste"
+            }
+        },
         "table": {
             "actions": {
                 "edit": "Edit",

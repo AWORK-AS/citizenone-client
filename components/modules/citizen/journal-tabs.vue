@@ -14,8 +14,8 @@
                 <option value="Plans and Goals" :selected="'citizens-uuid-plans-and-goals' === $route.name">
                     {{ $t('citizens.tabs.plansAndGoals') }}
                 </option>
-                <option value="Nursing Areas" :selected="'citizens-uuid-nursing-areas' === $route.name" disabled="true">
-                    {{ $t('citizens.tabs.nursingAreas') }} ({{ $t('comingSoon') }})
+                <option value="Nursing Areas" :selected="'citizens-uuid-nursing-areas' === $route.name">
+                    {{ $t('citizens.tabs.nursingAreas') }}
                 </option>
                 <option value="Documents" :selected="'citizens-uuid-documents' === $route.name">
                     {{ $t('citizens.tabs.documents') }}
@@ -52,15 +52,10 @@
                         @click="navigateTo(`/citizens/${uuid}/plans-and-goals`)">
                         {{ $t('citizens.tabs.plansAndGoals') }}
                     </a>
-                    <a class="relative whitespace-nowrap px-4 py-4 border-b-2 font-medium text-sm cursor-not-allowed"
-                        :class="'citizens-uuid-nursing-areas' === $route.name ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'">
+                    <a class="whitespace-nowrap px-4 py-4 border-b-2 font-medium text-sm cursor-pointer"
+                        :class="'citizens-uuid-nursing-areas' === $route.name ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
+                        @click="navigateTo(`/citizens/${uuid}/nursing-areas`)">
                         {{ $t('citizens.tabs.nursingAreas') }}
-                        <Badge type="coming-soon" class="absolute -top-3 text-[8px]" :class="[
-                            selectedLanguage === 'en' && 'left-8',
-                            selectedLanguage === 'dk' && 'left-12',
-                        ]">
-                            {{ $t('comingSoon') }}
-                        </Badge>
                     </a>
                     <a class="whitespace-nowrap px-4 py-4 border-b-2 font-medium text-sm cursor-pointer"
                         :class="'citizens-uuid-documents' === $route.name ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'"
@@ -126,6 +121,9 @@ function changeTab(event: any) {
     }
     else if (value === 'Plans and Goals') {
         navigateTo(`/citizens/${uuid}/plans-and-goals`)
+    }
+    else if (value === 'Nursing Areas') {
+        navigateTo(`/citizens/${uuid}/nursing-areas`)
     }
     else if (value === 'Documents') {
         navigateTo(`/citizens/${uuid}/documents`)
