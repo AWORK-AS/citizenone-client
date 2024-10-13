@@ -1004,6 +1004,39 @@
     "poll": {
         "youHaveAlreadyVoted": "Du har allerede stemt"
     },
+    "procedures": {
+        "addNewProcedure": "Tilføj ny procedure",
+        "alert": {
+            "procedureSuccessfullyDeleted": "Procedure slettet med succes"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne procedure?"
+        },
+        "procedures": "Procedurer",
+        "editProcedure": "Rediger procedure",
+        "form": {
+            "alert": {
+                "procedureSuccessfullyUpdated": "Procedure opdateret med succes",
+                "newProcedureSuccessfullySaved": "Ny procedure gemt med succes"
+            },
+            "attachFile": "Vedhæft fil",
+            "active": "Aktiv",
+            "content": "Indhold",
+            "inactive": "Inaktiv",
+            "isActive": "Er aktiv",
+            "title": "Titel"
+        },
+        "newProcedure": "Ny procedure",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "content": "Indhold",
+            "status": "Status",
+            "title": "Titel"
+        }
+    },
     "protocols": {
         "editProtocol": "Rediger protokol",
         "form": {
@@ -1095,6 +1128,7 @@
             "jobTitles": "Jobtitler",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
+            "procedures": "Procedurer",
             "profile": "Profil",
             "storage": "Lager",
             "subscription": "Abonnement",

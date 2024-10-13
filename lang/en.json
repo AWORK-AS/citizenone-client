@@ -1003,6 +1003,39 @@
     "poll": {
         "youHaveAlreadyVoted": "You have already voted"
     },
+    "procedures": {
+        "addNewProcedure": "Add new procedure",
+        "alert": {
+            "procedureSuccessfullyDeleted": "Procedure successfully deleted"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this procedure"
+        },
+        "procedures": "Procedures",
+        "editProcedure": "Edit procedure",
+        "form": {
+            "alert": {
+                "procedureSuccessfullyUpdated": "Procedure successfully updated",
+                "newProcedureSuccessfullySaved": "New procedure successfully saved"
+            },
+            "attachFile": "Attach file",
+            "content": "Content",
+            "isActive": "Is active",
+            "title": "Title"
+        },
+        "newProcedure": "New procedure",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "active": "Active",
+            "content": "Content",
+            "inactive": "Inactive",
+            "status": "Status",
+            "title": "Title"
+        }
+    },
     "protocols": {
         "editProtocol": "Edit protocol",
         "form": {
@@ -1094,6 +1127,7 @@
             "jobTitles": "Job titles",
             "licenseOverview": "License overview",
             "licenses": "Licenses",
+            "procedures": "Procedures",
             "profile": "Profile",
             "storage": "Storage",
             "subscription": "Subscription",
