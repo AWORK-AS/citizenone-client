@@ -56,11 +56,32 @@
                 <FormError :error="props?.error?.errors?.description?.[0]" />
             </div>
             <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formApp.is_one_time_fee = !state.formApp.is_one_time_fee">
+                    <FormCheckbox :value="state.formApp.is_one_time_fee" />
+                    {{ $t('superadmin.apps.form.isOneTimeFee') }}
+                </div>
+            </div>
+            <div class="space-y-1" v-if="state.formApp.is_one_time_fee">
                 <FormLabel for="price" :label="$t('superadmin.apps.form.price')" />
                 <FormTextField id="price" name="price" :placeholder="$t('superadmin.apps.form.price')"
                     v-model="state.formApp.price" />
                 <FormError :error="v$?.formApp?.price?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.price?.[0]" />
+            </div>
+            <div class="space-y-1" v-if="!state.formApp.is_one_time_fee">
+                <FormLabel for="monthly_price" :label="$t('superadmin.apps.form.monthlyPrice')" />
+                <FormTextField id="monthly_price" name="monthly_price"
+                    :placeholder="$t('superadmin.apps.form.monthlyPrice')" v-model="state.formApp.monthly_price" />
+                <FormError :error="v$?.formApp?.monthly_price?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.monthly_price?.[0]" />
+            </div>
+            <div class="space-y-1" v-if="!state.formApp.is_one_time_fee">
+                <FormLabel for="yearly_price" :label="$t('superadmin.apps.form.yearlyPrice')" />
+                <FormTextField id="yearly_price" name="yearly_price"
+                    :placeholder="$t('superadmin.apps.form.yearlyPrice')" v-model="state.formApp.yearly_price" />
+                <FormError :error="v$?.formApp?.yearly_price?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.yearly_price?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="type" :label="$t('superadmin.apps.form.type')" />
@@ -118,7 +139,10 @@ const state = reactive({
     formApp: {
         name: '',
         description: '',
+        is_one_time_fee: false,
         price: '',
+        monthly_price: '',
+        yearly_price: '',
         type: '',
         logo: '',
         image: '',
@@ -137,7 +161,10 @@ watch(() => props.selectedApp, (newValue: any) => {
         state.formApp = {
             name: newValue.name,
             description: newValue.description,
+            is_one_time_fee: newValue.is_one_time_fee,
             price: newValue.price,
+            monthly_price: newValue.monthly_price,
+            yearly_price: newValue.yearly_price,
             type: newValue.type,
             logo: '',
             image: '',
@@ -162,21 +189,43 @@ watch(() => language.locale.value, (newValue: any) => {
 })
 
 const rules = computed(() => {
-    return {
-        formApp: {
-            name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (state.formApp.is_one_time_fee) {
+        return {
+            formApp: {
+                name: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                description: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                price: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                type: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            description: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        }
+    } else {
+        return {
+            formApp: {
+                name: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                description: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                monthly_price: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                yearly_price: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                type: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            price: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            type: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-        },
+        }
     }
 })
 

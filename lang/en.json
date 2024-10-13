@@ -1119,6 +1119,8 @@
                 },
                 "description": "Description",
                 "image": "Image",
+                "isOneTimeFee": "Is one time fee",
+                "monthlyPrice": "Monthly price",
                 "name": "Name",
                 "price": "Price",
                 "type": "Type",
@@ -1126,7 +1128,8 @@
                     "marketing": "Marketing",
                     "other": "Other",
                     "visual": "Visual"
-                }
+                },
+                "yearlyPrice": "Yearly price"
             },
             "newApp": "New app",
             "table": {

@@ -39,7 +39,10 @@ const state = reactive({
     formApp: {
         name: '',
         description: '',
+        is_one_time_fee: false,
         price: '',
+        monthly_price: '',
+        yearly_price: '',
         type: '',
         logo: '',
         image: '',
@@ -60,7 +63,10 @@ async function fetchApp() {
             state.formApp = {
                 name: response?.data?.name ?? '',
                 description: response?.data?.description ?? '',
+                is_one_time_fee: response?.data?.is_one_time_fee ?? false,
                 price: response?.data?.price ?? '',
+                monthly_price: response?.data?.monthly_price ?? '',
+                yearly_price: response?.data?.yearly_price ?? '',
                 type: response?.data?.type ?? '',
                 logo: response?.data?.logo ?? '',
                 image: response?.data?.image ?? '',
@@ -79,7 +85,10 @@ async function updateApp(appDetails: any) {
         let params = new FormData()
         params.append('name', appDetails.name)
         params.append('description', appDetails.description)
+        params.append('is_one_time_fee', appDetails.is_one_time_fee)
         params.append('price', appDetails.price)
+        params.append('monthly_price', appDetails.monthly_price)
+        params.append('yearly_price', appDetails.yearly_price)
         params.append('type', appDetails.type)
         params.append('logo', appDetails.logo)
         params.append('image', appDetails.image)
