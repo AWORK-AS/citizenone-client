@@ -655,6 +655,7 @@
                     "documentSuccessfullySaved": "Dokument gemt med succes"
                 },
                 "file": "Fil",
+                "name": "Navn",
                 "note": "Note"
             },
             "newDocument": "Nyt dokument",

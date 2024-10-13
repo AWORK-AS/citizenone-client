@@ -52,11 +52,11 @@
                         <Pagination :data="state.documents" @previous="previous" @next="next" />
                     </div>
                 </div>
-                <ModulesEmployeeEmploymentContractModalNew :isModalOpen="state.modal.isAddNewDocumentOpen"
+                <ModulesEmployeeChildProtectionCertificateModalNew :isModalOpen="state.modal.isAddNewDocumentOpen"
                     @close="state.modal.isAddNewDocumentOpen = false" @refreshEmployeeDocuments="fetchDocuments" />
                 <ModulesEmployeeEmploymentContractModalEdit :isModalOpen="state.modal.isEditDocumentOpen"
-                    :selectedEmployeeDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
-                    @refreshEmployeeDocuments="fetchDocuments" />
+                    :selectedEmployeeDocument="state.selectedEmployeeDocument"
+                    @close="state.modal.isEditDocumentOpen = false" @refreshEmployeeDocuments="fetchDocuments" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteDocumentOpen"
                     :message="$t('employees.documents.confirmation.deleteConfirmation') + '?'"
                     @close="state.modal.isDeleteDocumentOpen = false" @confirm="deleteDocument" />
@@ -98,7 +98,7 @@ const state = reactive({
         isDeleteDocumentOpen: false,
     },
     isTableLoading: false,
-    selectedDocument: [] as any,
+    selectedEmployeeDocument: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -163,13 +163,14 @@ function openFile(document: any) {
         }
     })
 }
+
 function editDocument(document: any) {
-    state.selectedDocument = document
+    state.selectedEmployeeDocument = document
     state.modal.isEditDocumentOpen = true
 }
 
 function confirmDocumentDeletion(document: any) {
-    state.selectedDocument = document
+    state.selectedEmployeeDocument = document
     state.modal.isDeleteDocumentOpen = true
 }
 
@@ -177,8 +178,8 @@ async function deleteDocument() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const selectedDocumentUuid = state.selectedDocument.uuid
-        const response = await employeeDocumentService.deleteDocument(selectedDocumentUuid)
+        const selectedEmployeeDocumentUuid = state.selectedEmployeeDocument.uuid
+        const response = await employeeDocumentService.deleteDocument(selectedEmployeeDocumentUuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             successAlert(`${t('alert.success')}!`, `${t('employees.documents.alert.documentSuccessfullyDeleted')}.`)
             fetchDocuments()

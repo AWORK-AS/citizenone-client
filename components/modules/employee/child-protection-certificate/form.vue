@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submitForm()" class="mt-6">
+    <form @submit.prevent="submitForm()" class="mt-6 space-y-3">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-1" v-if="props.formType === 'create'">
@@ -16,6 +16,13 @@
                 </div>
             </div>
             <FormError :error="props?.error?.errors?.file?.[0]" class="text-center" />
+        </div>
+        <div class="space-y-1" v-if="props.formType === 'update'">
+            <FormLabel for="name" :label="$t('employees.documents.form.name')" />
+            <FormTextField id="name" name="name" :placeholder="$t('employees.documents.form.name')"
+                v-model="state.formEmployeeDocument.name" />
+            <FormError :error="v$?.formEmployeeDocument?.name?.$errors[0]?.$message.toString()" />
+            <FormError :error="props?.error?.errors?.name?.[0]" />
         </div>
         <div class="space-y-1">
             <FormLabel for="note" :label="$t('employees.documents.form.note')" />
@@ -38,6 +45,9 @@
 </template>
 
 <script setup lang="ts">
+import { useVuelidate } from "@vuelidate/core"
+import { required, helpers } from '@vuelidate/validators'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -56,19 +66,36 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 const file = ref<HTMLInputElement | null>(null)
+const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
     formEmployeeDocument: {
         file: '',
+        name: props.selectedEmployeeDocument?.name,
         note: props.selectedEmployeeDocument?.note,
     },
 })
+
+const rules = computed(() => {
+    if (props.formType === 'update') {
+        return {
+            formEmployeeDocument: {
+                name: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            },
+        }
+    }
+})
+
+const v$ = useVuelidate(rules, state)
 
 watch(() => props.selectedEmployeeDocument, (newValue: any) => {
     if (newValue != null) {
         state.formEmployeeDocument = {
             file: '',
+            note: newValue.name,
             note: newValue.note,
         }
     }
@@ -91,6 +118,9 @@ function onFileChange(event: any) {
 
 function submitForm() {
     state.error = {}
-    emit('submitForm', state.formEmployeeDocument)
+    v$.value.$validate()
+    if (!v$.value.$error) {
+        emit('submitForm', state.formEmployeeDocument)
+    }
 }
 </script>

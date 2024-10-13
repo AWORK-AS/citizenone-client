@@ -57,6 +57,7 @@ async function updateEmployeeDocument(employeeDocumentDetails: any) {
         if (employeeDocumentDetails.file) {
             params.append('file', employeeDocumentDetails.file)
         }
+        params.append('name', employeeDocumentDetails.name)
         params.append('note', employeeDocumentDetails.note)
         const response = await employeeDocumentService.updateDocument(selectedEmployeeDocumentUuid, params)
         if (response.data) {

@@ -654,6 +654,7 @@
                     "documentSuccessfullySaved": "Document successfully saved"
                 },
                 "file": "File",
+                "name": "Name",
                 "note": "Note"
             },
             "newDocument": "New document",
