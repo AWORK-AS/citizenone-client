@@ -11,6 +11,7 @@ const state = reactive({
     tabs: [
         { name: 'archived.tabs.archivedCitizens', href: `/settings/archived/citizens`, routeNames: ['settings-archived-citizens'] },
         { name: 'archived.tabs.archivedEmployees', href: `/settings/archived/employees`, routeNames: ['settings-archived-employees'] },
+        { name: 'archived.tabs.archivedDocuments', href: `/settings/archived/documents`, routeNames: ['settings-archived-documents'] },
     ]
 })
 
@@ -20,6 +21,9 @@ function changeTab(value: any) {
     }
     else if (value === t('archived.tabs.archivedEmployees')) {
         navigateTo(`/settings/archived/employees`)
+    }
+    else if (value === t('archived.tabs.archivedDocuments')) {
+        navigateTo(`/settings/archived/documents`)
     }
 }
 </script>

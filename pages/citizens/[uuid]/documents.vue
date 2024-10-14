@@ -155,7 +155,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
-    documents: [],
+    documents: [] as any,
     modal: {
         isAddDirectoryOpen: false,
         isDeleteDirectoryOpen: false,

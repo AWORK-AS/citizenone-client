@@ -3,16 +3,16 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('employees.archivedEmployees') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('archived.tabs.archivedEmployees') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('employees.archivedEmployees') }}</template>
+            <template #header>{{ $t('archived.tabs.archivedEmployees') }}</template>
 
             <ModulesSettingsTab />
 
             <ModulesArchivedTab class="mt-5" />
 
-            <div class="mt-5">
+            <div class="mt-10">
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />

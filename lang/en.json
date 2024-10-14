@@ -56,21 +56,26 @@
     "archived": {
         "alert": {
             "citizenSuccessfullyUnarchive": "Citizen successfully unarchive",
+            "documentSuccessfullyUnarchive": "Document successfully unarchive",
             "employeeSuccessfullyUnarchive": "Employee successfully unarchive"
         },
         "confirmation": {
             "unarchiveCitizen": "Are you sure you want to unarchive this citizen",
+            "unarchiveDocument": "Are you sure you want to unarchive this document",
             "unarchiveEmployee": "Are you sure you want to unarchive this employee"
         },
         "table": {
             "actions": {
                 "unarchive": "Unarchive",
                 "unarchiveCitizen": "Unarchive citizen",
+                "unarchiveDocument": "Unarchive document",
                 "unarchiveEmployee": "Unarchive employee"
-            }
+            },
+            "name": "Name"
         },
         "tabs": {
             "archivedCitizens": "Archived citizens",
+            "archivedDocuments": "Archived documents",
             "archivedEmployees": "Archived employees"
         }
     },
@@ -176,7 +181,7 @@
                 },
                 "address": "Address",
                 "email": "Email address",
-                "name": "First name",
+                "name": "Name",
                 "phone": "Phone number",
                 "title": "Title"
             },
@@ -433,6 +438,7 @@
                 },
                 "data": "Data",
                 "date": "Date",
+                "reportedBy": "Reported by",
                 "functionalLevel": "Functional level",
                 "musculoskeletalSystem": "Musculoskeletal system",
                 "nutrition": "Nutrition",

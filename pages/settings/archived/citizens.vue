@@ -3,16 +3,16 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('citizens.archivedCitizens') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('archived.tabs.archivedCitizens') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('citizens.archivedCitizens') }}</template>
+            <template #header>{{ $t('archived.tabs.archivedCitizens') }}</template>
 
             <ModulesSettingsTab />
 
             <ModulesArchivedTab class="mt-5" />
 
-            <div class="mt-5">
+            <div class="mt-10">
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
@@ -53,8 +53,6 @@
                     <Pagination :data="state.archivedCitizens" @previous="previous" @next="next" />
                 </div>
             </div>
-            <ModulesCitizenModalLatestJournal :isModalOpen="state.modal.showNote"
-                :selectedCitizen="state.selectedCitizen" @close="state.modal.showNote = false" />
             <DialogConfirmation :isModalOpen="state.modal.isUnarchiveCitizenOpen"
                 :message="$t('archived.confirmation.unarchiveCitizen') + '?'"
                 @close="state.modal.isUnarchiveCitizenOpen = false" @confirm="unarchiveCitizen" />
@@ -93,7 +91,6 @@ const state = reactive({
     archivedCitizens: [] as any,
     modal: {
         isUnarchiveCitizenOpen: false,
-        showNote: false,
     },
     selectedCitizen: [] as any,
     sortData: {

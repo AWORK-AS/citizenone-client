@@ -39,7 +39,7 @@
                                     <td width="15%">
                                         <span>{{ formatDateToReadable(record?.date) }}</span>
                                     </td>
-                                    <td width="70%">
+                                    <td width="55%">
                                         <div>
                                             <p class="font-bold">
                                                 {{ $t('citizens.nursingAreas.functionalLevel') }}
@@ -139,6 +139,9 @@
                                         {{ record }}
                                     </td>
                                     <td width="15%">
+                                        <span>{{ record?.user?.firstname + ' ' + record?.user?.lastname }}</span>
+                                    </td>
+                                    <td width="15%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="`/citizens/${citizenUuid}/nursing-areas/${record.uuid}/edit`">
@@ -173,6 +176,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'citizens.nursingAreas.table.date', sorter: true, key: 'date' },
         { name: 'citizens.nursingAreas.table.data' },
+        { name: 'citizens.nursingAreas.table.reportedBy' },
         { name: '' },
     ],
     error: {} as Error,
