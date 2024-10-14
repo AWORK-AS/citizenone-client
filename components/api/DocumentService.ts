@@ -17,8 +17,8 @@ class DocumentService extends BaseAPIService {
         return await this.request(`/user/citizen-file-folders/${citizenFileFolderUuid}`, 'DELETE')
     }
 
-    async archiveUnarchiveDocument(documentUuid: any): Promise<any> {
-        return await this.request(`/user/documents/${documentUuid}/archive`, 'PUT')
+    async archiveUnarchiveDocument(citizenFileFolderUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-file-folders/${citizenFileFolderUuid}/archive`, 'PUT')
     }
 
     async getArchivedDocuments(params: object): Promise<any> {

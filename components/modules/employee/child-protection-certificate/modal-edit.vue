@@ -53,12 +53,10 @@ async function updateEmployeeDocument(employeeDocumentDetails: any) {
     state.isPageLoading = true
     try {
         const selectedEmployeeDocumentUuid = props.selectedEmployeeDocument?.uuid
-        let params = new FormData()
-        if (employeeDocumentDetails.file) {
-            params.append('file', employeeDocumentDetails.file)
+        const params = {
+            name: employeeDocumentDetails.name,
+            note: employeeDocumentDetails.note,
         }
-        params.append('name', employeeDocumentDetails.name)
-        params.append('note', employeeDocumentDetails.note)
         const response = await employeeDocumentService.updateDocument(selectedEmployeeDocumentUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employees.documents.form.alert.documentSuccessfullyUpdated')}.`)
