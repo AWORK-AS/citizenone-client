@@ -36,6 +36,7 @@
     "apps": {
         "activate": "Aktivér",
         "activated": "Aktiveret",
+        "agreetoTAC": "Du skal acceptere vilkårene og betingelserne",
         "alert": {
             "messageSuccessfullySent": "Besked sendt med succes"
         },
@@ -45,13 +46,17 @@
         },
         "contactUs": "Kontakt os",
         "form": {
+            "annually": "Årligt",
+            "monthly": "Månedligt",
             "pleaseWriteHere": "Venligst skriv her",
             "sendMessage": "Send besked",
             "sendUsAMessage": "Send os en besked, så vender vi tilbage hurtigst muligt"
         },
         "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
+        "month": "Måned",
         "readMore": "Læs mere",
-        "termsAndConditions": "Vilkår og betingelser"
+        "termsAndConditions": "Vilkår og betingelser",
+        "year": "År"
     },
     "archived": {
         "alert": {

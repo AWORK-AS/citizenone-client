@@ -42,8 +42,9 @@
                         <div class="relative">
                             <img src="/img/icons/discount-badge.svg" alt="Discount" width="73px">
                             <div class="text-xxs text-center font-semibold text-white absolute top-8 right-5 w-10">
-                                <p class="text-center" :class="language.locale.value === 'dk' && 'ml-1.5'">{{
-                                    $t('subscription.discount.discount') }}</p>
+                                <p class="text-center" :class="language.locale.value === 'dk' && 'ml-1.5'">
+                                    {{ $t('subscription.discount.discount') }}
+                                </p>
                             </div>
                         </div>
                     </div>

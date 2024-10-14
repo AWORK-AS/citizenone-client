@@ -11,10 +11,19 @@
                                 class="w-full rounded-md max-h-96">
                             <div class="text-muted-400 flex items-center gap-1">
                                 <Icon name="material-symbols:receipt" class="size-4" />
-                                <p class="font-sans text-sm">
+                                <div class="font-sans text-sm" v-if="props.selectedApp?.is_one_time_fee">
                                     {{ formatAmount(props.selectedApp?.price) }}
                                     {{ $t('excludeVat') }}
-                                </p>
+                                </div>
+                                <div class="font-sans text-sm" v-else>
+                                    {{ formatAmount(props.selectedApp?.monthly_price) }}
+                                    <span class="lowercase">/{{ $t('apps.month') }}</span>
+                                    <span>
+                                        ({{ formatAmount(props.selectedApp?.yearly_price) }}
+                                        <span class="lowercase">/{{ $t('apps.year') }}</span>)
+                                    </span>
+                                    {{ $t('excludeVat') }}
+                                </div>
                             </div>
                             <p class="text-muted-800 dark:text-muted-100 font-sans text-sm">
                                 {{ props.selectedApp?.description }}
@@ -34,7 +43,8 @@
                 <ModulesAppModalContactUs :isModalOpen="state.modal.isContactUsOpen"
                     @close="state.modal.isContactUsOpen = false" />
                 <ModulesAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
-                    @close="state.modal.isAcceptTACOpen = false" @confirm="activateApp" />
+                    :selectedApp="props.selectedApp" @close="state.modal.isAcceptTACOpen = false"
+                    @confirm="activateApp" />
             </template>
         </Modal>
     </div>
@@ -56,7 +66,7 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'activateApp'])
 
 const state = reactive({
     error: {} as Error,
@@ -109,18 +119,7 @@ function confirmTACAcceptance() {
     state.modal.isAcceptTACOpen = true
 }
 
-async function activateApp() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const appUuid = props.selectedApp?.uuid
-        const response = await appService.activateApp(appUuid)
-        if (response) {
-            alert(response)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
+async function activateApp(frequency: any) {
+    emit('activateApp', frequency)
 }
 </script>

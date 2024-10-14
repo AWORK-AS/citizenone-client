@@ -36,6 +36,7 @@
     "apps": {
         "activate": "Activate",
         "activated": "Activated",
+        "agreetoTAC": "You must agree to the terms and conditions",
         "alert": {
             "messageSuccessfullySent": "Message successfully sent"
         },
@@ -45,13 +46,17 @@
         },
         "contactUs": "Contact us",
         "form": {
+            "annually": "Annually",
+            "monthly": "Monthly",
             "pleaseWriteHere": "Please write here",
             "sendMessage": "Send message",
             "sendUsAMessage": "Send us a message and we will get back as soon as possible"
         },
         "iHaveReadAndAcceptThe": "I have read and accept the",
+        "month": "Month",
         "readMore": "Read more",
-        "termsAndConditions": "Terms and Conditions"
+        "termsAndConditions": "Terms and Conditions",
+        "year": "Year"
     },
     "archived": {
         "alert": {
