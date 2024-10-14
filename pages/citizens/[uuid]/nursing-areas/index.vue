@@ -163,7 +163,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { nursingProfessionalRecordService } from '@/components/api/NursingProfessionalRecordService'
+import { nursingAreasService } from '@/components/api/NursingAreasService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -202,7 +202,7 @@ async function fetchNursingProfessionalRecords() {
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
         }
-        const response = await nursingProfessionalRecordService.getNursingProfessionalRecords(params)
+        const response = await nursingAreasService.getNursingProfessionalRecords(params)
         if (response) {
             state.records = response
         }

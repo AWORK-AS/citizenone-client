@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { nursingProfessionalRecordService } from '@/components/api/NursingProfessionalRecordService'
+import { nursingAreasService } from '@/components/api/NursingAreasService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -68,7 +68,7 @@ async function fetchNursingProfessionalRecord() {
     state.isPageLoading = true
     state.error = {}
     try {
-        const response = await nursingProfessionalRecordService.getNursingProfessionalRecord(recordUuid)
+        const response = await nursingAreasService.getNursingProfessionalRecord(recordUuid)
         if (response) {
             state.formNursingProfessionalRecord = {
                 date: response?.data?.date ?? '',
@@ -111,7 +111,7 @@ async function updateRecord(recordDetails: any) {
             knowledge_and_development: recordDetails.knowledge_and_development,
             excretion_of_waste: recordDetails.excretion_of_waste,
         }
-        const response = await nursingProfessionalRecordService.updateNursingProfessionalRecord(recordUuid, params)
+        const response = await nursingAreasService.updateNursingProfessionalRecord(recordUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.nursingAreas.form.alert.successfullyUpdate')}.`)
             navigateTo(`/citizens/${citizenUuid}/nursing-areas`)

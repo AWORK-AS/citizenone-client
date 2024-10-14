@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { nursingProfessionalRecordService } from '@/components/api/NursingProfessionalRecordService'
+import { nursingAreasService } from '@/components/api/NursingAreasService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -64,6 +64,7 @@ async function saveRecord(recordDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
+            citizen_uuid: citizenUuid,
             date: recordDetails.date,
             functional_level: recordDetails.functional_level,
             musculoskeletal_system: recordDetails.musculoskeletal_system,
@@ -78,7 +79,7 @@ async function saveRecord(recordDetails: any) {
             knowledge_and_development: recordDetails.knowledge_and_development,
             excretion_of_waste: recordDetails.excretion_of_waste,
         }
-        const response = await nursingProfessionalRecordService.saveNursingProfessionalRecord(params)
+        const response = await nursingAreasService.saveNursingProfessionalRecord(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.nursingAreas.form.alert.successfullyAdded')}.`)
             navigateTo(`/citizens/${citizenUuid}/nursing-areas`)
