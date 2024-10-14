@@ -31,14 +31,14 @@
                                         <span>{{ procedure?.title }}</span>
                                     </td>
                                     <td width="60%">
-                                        <span>{{ procedure?.content }}</span>
+                                        <div v-html="procedure.content" class="content" />
                                     </td>
                                     <td width="10%">
                                         <div class="flex items-center gap-x-2">
-                                            <Badge :type="procedure?.is_active ? 'active' : 'primary'">
+                                            <Badge :type="procedure?.is_active ? 'active' : 'inactive'">
                                                 <p class="text-xs">
-                                                    {{ procedure?.is_active ? $t('procedure.table.active') :
-                                                        $t('news.table.inactive') }}
+                                                    {{ procedure?.is_active ? $t('procedures.table.active') :
+                                                        $t('procedures.table.inactive') }}
                                                 </p>
                                             </Badge>
                                         </div>
