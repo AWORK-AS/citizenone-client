@@ -86,7 +86,7 @@
                                                 {{ $t('citizens.documents.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="confirmCitizenArchiving(document)">
+                                                @click="confirmDocumentArchiving(document)">
                                                 <Icon name="ph:archive-light" class="size-4" />
                                                 {{ $t('citizens.documents.table.actions.archive') }}
                                             </FormButton>
@@ -112,7 +112,7 @@
                 <ModulesCitizenDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
                     @close="state.modal.isAddDirectoryOpen = false" @refreshDocuments="fetchDocuments" />
                 <ModulesCitizenDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
-                    :selectedDirectory="state.selectedDirectory" @close="state.modal.isEditDocumentOpen = false"
+                    :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
                     :message="$t('citizens.documents.confirmation.archiveConfirmation') + '?'"
@@ -173,7 +173,7 @@ const state = reactive({
         isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
     },
-    selectedDirectory: [] as any,
+    selectedDocument: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -300,20 +300,20 @@ async function viewDirectory(document: any) {
 }
 
 function editDocument(document: any) {
-    state.selectedDirectory = document
+    state.selectedDocument = document
     state.modal.isEditDocumentOpen = true
 }
 
-function confirmCitizenArchiving(document: any) {
-    state.selectedDirectory = document
+function confirmDocumentArchiving(document: any) {
+    state.selectedDocument = document
     state.modal.isArchiveDocumentOpen = true
 }
 
 async function archiveDocument() {
     state.error = {}
-    state.isPageLoading = true
+    state.isTableLoading = true
     try {
-        const documentUuid = state.selectedDirectory?.uuid
+        const documentUuid = state.selectedDocument?.uuid
         const response = await documentService.archiveUnarchiveDocument(documentUuid)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.documentSuccessfullyArchived')}.`)
@@ -322,16 +322,16 @@ async function archiveDocument() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
+    state.isTableLoading = false
 }
 
 function deleteDirectoryConfirmation(document: any) {
-    state.selectedDirectory = document
+    state.selectedDocument = document
     state.modal.isDeleteDirectoryOpen = true
 }
 
 function deleteFileConfirmation(document: any) {
-    state.selectedDirectory = document
+    state.selectedDocument = document
     state.modal.isDeleteFileOpen = true
 }
 
@@ -339,10 +339,10 @@ async function deleteDocument() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await documentService.deleteDocument(state.selectedDirectory.uuid)
+        const response = await documentService.deleteDocument(state.selectedDocument.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchDocuments()
-            if (state.selectedDirectory.type === 'folder') {
+            if (state.selectedDocument.type === 'folder') {
                 successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.deletedFolderSuccessfully')}.`)
             } else {
                 successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.deletedFileSuccessfully')}.`)

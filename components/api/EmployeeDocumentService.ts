@@ -16,6 +16,10 @@ class EmployeeDocumentService extends BaseAPIService {
     async deleteDocument(documentUuid: any): Promise<any> {
         return await this.request(`/user/employee-documents/${documentUuid}`, 'DELETE')
     }
+
+    async archiveUnarchiveDocument(documentUuid: any): Promise<any> {
+        return await this.request(`/user/employee-documents/${documentUuid}/archive`, 'PUT')
+    }
 }
 
 export const employeeDocumentService = new EmployeeDocumentService()

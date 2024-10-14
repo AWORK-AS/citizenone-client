@@ -690,11 +690,13 @@
         "deleteEmployee": "Slet medarbejder",
         "documents": {
             "alert": {
+                "documentSuccessfullyArchived": "Dokument arkiveret med succes",
                 "documentSuccessfullyDeleted": "Dokument slettet med succes"
             },
             "criminalRecords": "Strafattester",
             "childProtectionCertificates": "Børnebeskyttelsescertifikater",
             "confirmation": {
+                "archiveConfirmation": "Er du sikker på, at du vil arkivere dette dokument",
                 "deleteConfirmation": "Er du sikker på, at du vil slette dette dokument?"
             },
             "documents": "Dokumenter",
@@ -713,6 +715,7 @@
             "newDocument": "Nyt dokument",
             "table": {
                 "actions": {
+                    "archive": "Arkiv",
                     "delete": "Slet",
                     "edit": "Rediger"
                 },

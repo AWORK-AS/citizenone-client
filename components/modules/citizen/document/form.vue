@@ -46,7 +46,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedDirectory: {
+    selectedDocument: {
         type: Object,
         required: true,
     },
@@ -66,14 +66,14 @@ const state = reactive({
 
 onMounted(() => {
     state.formDirectory = {
-        id: props.selectedDirectory.id,
-        uuid: props.selectedDirectory.uuid,
-        name: props.selectedDirectory.name,
-        is_admin_access: props.selectedDirectory.is_admin_access,
+        id: props.selectedDocument.id,
+        uuid: props.selectedDocument.uuid,
+        name: props.selectedDocument.name,
+        is_admin_access: props.selectedDocument.is_admin_access,
     }
 })
 
-watch(() => props.selectedDirectory, (newValue: any) => {
+watch(() => props.selectedDocument, (newValue: any) => {
     if (newValue != null) {
         state.formDirectory = {
             id: newValue.id,

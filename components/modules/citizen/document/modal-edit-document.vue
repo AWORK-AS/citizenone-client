@@ -1,11 +1,11 @@
 <template>
     <div>
         <Modal size="sm"
-            :title="props.selectedDirectory?.type === 'folder' ? $t('citizens.documents.form.editFolder') : $t('citizens.documents.form.editFile')"
+            :title="props.selectedDocument?.type === 'folder' ? $t('citizens.documents.form.editFolder') : $t('citizens.documents.form.editFile')"
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenDocumentForm formType="update" :selectedDirectory="props.selectedDirectory"
+                    <ModulesCitizenDocumentForm formType="update" :selectedDocument="props.selectedDocument"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateDirectory" />
                 </LoadingSpinner>
@@ -29,7 +29,7 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedDirectory: {
+    selectedDocument: {
         type: Object,
         required: true,
     },

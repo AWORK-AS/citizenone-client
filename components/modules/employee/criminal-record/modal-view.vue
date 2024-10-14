@@ -36,7 +36,12 @@
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="editDocument(document)">
                                                     <Icon name="ph:pencil" class="size-4" />
-                                                    {{ $t('employees.table.actions.edit') }}
+                                                    {{ $t('employees.documents.table.actions.edit') }}
+                                                </FormButton>
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="confirmDocumentArchiving(document)">
+                                                    <Icon name="ph:archive-light" class="size-4" />
+                                                    {{ $t('employees.documents.table.actions.archive') }}
                                                 </FormButton>
                                                 <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="confirmDocumentDeletion(document)">
@@ -57,6 +62,9 @@
                 <ModulesEmployeeEmploymentContractModalEdit :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedEmployeeDocument="state.selectedEmployeeDocument"
                     @close="state.modal.isEditDocumentOpen = false" @refreshEmployeeDocuments="fetchDocuments" />
+                <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
+                    :message="$t('employees.documents.confirmation.archiveConfirmation') + '?'"
+                    @close="state.modal.isArchiveDocumentOpen = false" @confirm="archiveDocument" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteDocumentOpen"
                     :message="$t('employees.documents.confirmation.deleteConfirmation') + '?'"
                     @close="state.modal.isDeleteDocumentOpen = false" @confirm="deleteDocument" />
@@ -94,6 +102,7 @@ const state = reactive({
     error: {} as Error,
     modal: {
         isAddNewDocumentOpen: false,
+        isArchiveDocumentOpen: false,
         isEditDocumentOpen: false,
         isDeleteDocumentOpen: false,
     },
@@ -167,6 +176,27 @@ function openFile(document: any) {
 function editDocument(document: any) {
     state.selectedEmployeeDocument = document
     state.modal.isEditDocumentOpen = true
+}
+
+function confirmDocumentArchiving(document: any) {
+    state.selectedEmployeeDocument = document
+    state.modal.isArchiveDocumentOpen = true
+}
+
+async function archiveDocument() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const documentUuid = state.selectedEmployeeDocument?.uuid
+        const response = await employeeDocumentService.archiveUnarchiveDocument(documentUuid)
+        if (response.data) {
+            successAlert(`${t('alert.success')}!`, `${t('employees.documents.alert.documentSuccessfullyArchived')}.`)
+            fetchDocuments()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 function confirmDocumentDeletion(document: any) {

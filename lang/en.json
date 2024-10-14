@@ -689,11 +689,13 @@
         "deleteEmployee": "Delete employee",
         "documents": {
             "alert": {
+                "documentSuccessfullyArchived": "Document successfully archived",
                 "documentSuccessfullyDeleted": "Document successfully deleted"
             },
             "criminalRecords": "Criminal records",
             "childProtectionCertificates": "Child protection certificates",
             "confirmation": {
+                "archiveConfirmation": "Are you sure you want to archive this document",
                 "deleteConfirmation": "Are you sure you want to delete this document"
             },
             "documents": "Documents",
@@ -712,6 +714,7 @@
             "newDocument": "New document",
             "table": {
                 "actions": {
+                    "archive": "Archive",
                     "delete": "Delete",
                     "edit": "Edit"
                 },
