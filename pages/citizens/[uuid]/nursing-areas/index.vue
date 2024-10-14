@@ -40,103 +40,104 @@
                                         <span>{{ formatDateToReadable(record?.date) }}</span>
                                     </td>
                                     <td width="55%">
-                                        <div>
-                                            <p class="font-bold">
-                                                {{ $t('citizens.nursingAreas.functionalLevel') }}
-                                            </p>
-                                            <p class="text-sm">
-                                                {{ record?.functional_level }}
-                                            </p>
+                                        <div class="space-y-3">
+                                            <div>
+                                                <p class="font-bold">
+                                                    {{ $t('citizens.nursingAreas.form.functionalLevel') }}
+                                                </p>
+                                                <p class="text-sm">
+                                                    {{ record?.functional_level }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold">
+                                                    {{ $t('citizens.nursingAreas.form.musculoskeletalSystem') }}
+                                                </p>
+                                                <p class="text-sm">
+                                                    {{ record?.musculoskeletal_system }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold">
+                                                    {{ $t('citizens.nursingAreas.form.nutrition') }}
+                                                </p>
+                                                <p class="text-sm">
+                                                    {{ record?.nutrition }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold">
+                                                    {{ $t('citizens.nursingAreas.form.skinAndMucousMembranes') }}
+                                                </p>
+                                                <p class="text-sm">
+                                                    {{ record?.skin_and_mucous_membranes }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold">
+                                                    {{ $t('citizens.nursingAreas.form.communication') }}
+                                                </p>
+                                                <p class="text-sm">
+                                                    {{ record?.communication }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold">
+                                                    {{ $t('citizens.nursingAreas.form.psychosocialConditions') }}
+                                                </p>
+                                                <p class="text-sm">
+                                                    {{ record?.psychosocial_conditions }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold">
+                                                    {{ $t('citizens.nursingAreas.form.respirationAndCirculation') }}
+                                                </p>
+                                                <p class="text-sm">
+                                                    {{ record?.respiration_and_circulation }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold">
+                                                    {{ $t('citizens.nursingAreas.form.sexuality') }}
+                                                </p>
+                                                <p class="text-sm">
+                                                    {{ record?.sexuality }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold">
+                                                    {{ $t('citizens.nursingAreas.form.painAndSensoryImpressions') }}
+                                                </p>
+                                                <p class="text-sm">
+                                                    {{ record?.pain_and_sensory_impressions }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold">
+                                                    {{ $t('citizens.nursingAreas.form.sleepAndRest') }}
+                                                </p>
+                                                <p class="text-sm">
+                                                    {{ record?.sleep_and_rest }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold">
+                                                    {{ $t('citizens.nursingAreas.form.knowledgeAndDevelopment') }}
+                                                </p>
+                                                <p class="text-sm">
+                                                    {{ record?.knowledge_and_development }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p class="font-bold">
+                                                    {{ $t('citizens.nursingAreas.form.excretionOfWaste') }}
+                                                </p>
+                                                <p class="text-sm">
+                                                    {{ record?.excretion_of_waste }}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p class="font-bold">
-                                                {{ $t('citizens.nursingAreas.musculoskeletalSystem') }}
-                                            </p>
-                                            <p class="text-sm">
-                                                {{ record?.musculoskeletal_system }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">
-                                                {{ $t('citizens.nursingAreas.nutrition') }}
-                                            </p>
-                                            <p class="text-sm">
-                                                {{ record?.nutrition }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">
-                                                {{ $t('citizens.nursingAreas.skinAndMucousMembranes') }}
-                                            </p>
-                                            <p class="text-sm">
-                                                {{ record?.skin_and_mucous_membranes }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">
-                                                {{ $t('citizens.nursingAreas.communication') }}
-                                            </p>
-                                            <p class="text-sm">
-                                                {{ record?.communication }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">
-                                                {{ $t('citizens.nursingAreas.psychosocialConditions') }}
-                                            </p>
-                                            <p class="text-sm">
-                                                {{ record?.psychosocial_conditions }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">
-                                                {{ $t('citizens.nursingAreas.respirationAndCirculation') }}
-                                            </p>
-                                            <p class="text-sm">
-                                                {{ record?.respiration_and_circulation }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">
-                                                {{ $t('citizens.nursingAreas.sexuality') }}
-                                            </p>
-                                            <p class="text-sm">
-                                                {{ record?.sexuality }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">
-                                                {{ $t('citizens.nursingAreas.painAndSensoryImpressions') }}
-                                            </p>
-                                            <p class="text-sm">
-                                                {{ record?.pain_and_sensory_impressions }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">
-                                                {{ $t('citizens.nursingAreas.sleepAndRest') }}
-                                            </p>
-                                            <p class="text-sm">
-                                                {{ record?.sleep_and_rest }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">
-                                                {{ $t('citizens.nursingAreas.knowledgeAndDevelopment') }}
-                                            </p>
-                                            <p class="text-sm">
-                                                {{ record?.knowledge_and_development }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p class="font-bold">
-                                                {{ $t('citizens.nursingAreas.excretionOfWaste') }}
-                                            </p>
-                                            <p class="text-sm">
-                                                {{ record?.excretion_of_waste }}
-                                            </p>
-                                        </div>
-                                        {{ record }}
                                     </td>
                                     <td width="15%">
                                         <span>{{ record?.user?.firstname + ' ' + record?.user?.lastname }}</span>
@@ -144,7 +145,7 @@
                                     <td width="15%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="`/citizens/${citizenUuid}/nursing-areas/${record.uuid}/edit`">
+                                                @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/${record.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.nursingAreas.table.action.edit') }}
                                             </FormButton>
