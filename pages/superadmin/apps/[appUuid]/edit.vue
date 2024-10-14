@@ -90,8 +90,12 @@ async function updateApp(appDetails: any) {
         params.append('monthly_price', appDetails.monthly_price)
         params.append('yearly_price', appDetails.yearly_price)
         params.append('type', appDetails.type)
-        params.append('logo', appDetails.logo)
-        params.append('image', appDetails.image)
+        if (appDetails.logo) {
+            params.append('logo', appDetails.logo)
+        }
+        if (appDetails.image) {
+            params.append('image', appDetails.image)
+        }
         const response = await appService.updateApp(appUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('superadmin.apps.form.alert.appSuccessfullyUpdated')}.`)

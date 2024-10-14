@@ -26,9 +26,10 @@
                             <template #body v-if="!(state.isTableLoading || (state.apps?.data?.length === 0))">
                                 <tr v-for="(app, index) in state.apps?.data" :key="index">
                                     <td width="30%">
-                                        <p>
-                                            {{ app?.name }}
-                                        </p>
+                                        <div class="flex items-center gap-x-2">
+                                            <img :src="app.logo" alt="App logo" class="w-10" />
+                                            <p>{{ app?.name }}</p>
+                                        </div>
                                     </td>
                                     <td width="20%">
                                         <p>
