@@ -113,7 +113,7 @@ async function updateRecord(recordDetails: any) {
         }
         const response = await nursingAreasService.updateNursingProfessionalRecord(recordUuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('citizens.nursingAreas.form.alert.successfullyUpdate')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.nursingAreas.form.alert.successfullyUpdated')}.`)
             navigateTo(`/citizens/${citizenUuid}/nursing-areas`)
         }
     } catch (error: any) {
