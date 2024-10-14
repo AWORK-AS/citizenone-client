@@ -512,6 +512,64 @@
                 "title": "Titel"
             },
             "useOfForce": "Magtanvendelse"
+        },
+        "wallets": {
+            "alert": {
+                "deletedSuccessfully": "Pung slettet med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne pung?"
+            },
+            "editWallet": "Rediger pung",
+            "form": {
+                "alert": {
+                    "savedSuccessfully": "Pung gemt med succes",
+                    "updatedSuccessfully": "Pung opdateret med succes"
+                },
+                "name": "Navn"
+            },
+            "newWallet": "Ny pung",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger",
+                    "view": "Se"
+                },
+                "available": "Tilgængelig",
+                "name": "Navn"
+            },
+            "wallets": "Punge"
+        },
+        "walletTransactions": {
+            "alert": {
+                "deletedSuccessfully": "Pungtransaktion slettet med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne transaktion?"
+            },
+            "editWalletTransaction": "Rediger pungtransaktion",
+            "form": {
+                "alert": {
+                    "savedSuccessfully": "Pungtransaktion gemt med succes",
+                    "updatedSuccessfully": "Pungtransaktion opdateret med succes"
+                },
+                "cashIn": "Indbetaling",
+                "cashOut": "Udbetaling",
+                "file": "Fil",
+                "note": "Note"
+            },
+            "newWalletTransaction": "Ny pungtransaktion",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "cashIn": "Indbetaling",
+                "cashOut": "Udbetaling",
+                "file": "Fil",
+                "note": "Note"
+            },
+            "walletTransactions": "Pungtransaktioner"
         }
     },
     "close": "Luk",
