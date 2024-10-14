@@ -1501,14 +1501,11 @@
         "dailyOverview": "Daily overview",
         "citizens": "Citizens",
         "myCalendar": "My calendar",
-        "departments": "Departments",
         "dutySchedules": "Duty schedules",
         "employees": "Employees",
-        "jobTitles": "Job titles",
         "messages": "Messages",
         "protocols": "Protocols",
-        "apps": "Apps",
-        "timeLogs": "Time logs"
+        "apps": "Apps"
     },
     "subscription": {
         "addOnDeals": {

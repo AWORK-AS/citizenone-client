@@ -412,26 +412,6 @@ const navigation = [
             'messages-receiver_uuid',
         ]
     },
-    // {
-    //     name: 'Departments',
-    //     href: '/departments',
-    //     icon: 'mdi:hexagon-multiple-outline',
-    //     activeRouteNames: [
-    //         'departments',
-    //         'departments-new',
-    //         'departments-edit-uuid',
-    //     ]
-    // },
-    // {
-    //     name: 'Job Titles',
-    //     href: '/job-titles',
-    //     icon: 'mdi:briefcase-account-outline',
-    //     activeRouteNames: [
-    //         'job-titles',
-    //         'job-titles-new',
-    //         'job-titles-edit-uuid',
-    //     ]
-    // },
     {
         name: 'Protocols',
         href: '/protocols',
@@ -452,22 +432,14 @@ const navigation = [
             'news-edit-uuid',
         ]
     },
-    // {
-    //     name: 'Apps',
-    //     href: '/apps',
-    //     icon: 'ic:baseline-apps',
-    //     activeRouteNames: [
-    //         'apps'
-    //     ]
-    // },
-    // {
-    //     name: 'Time logs',
-    //     href: '/time-logs',
-    //     icon: 'ph:clock',
-    //     activeRouteNames: [
-    //         'time-logs'
-    //     ]
-    // },
+    {
+        name: 'Apps',
+        href: '/apps',
+        icon: 'ic:baseline-apps',
+        activeRouteNames: [
+            'apps'
+        ]
+    },
 ] as any
 
 const sidebarOpen = ref(false)
