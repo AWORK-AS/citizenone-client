@@ -18,7 +18,7 @@ class DocumentService extends BaseAPIService {
     }
 
     async archiveUnarchiveDocument(documentUuid: any): Promise<any> {
-        return await this.request(`/user/citizens/${documentUuid}/archive`, 'PUT')
+        return await this.request(`/user/documents/${documentUuid}/archive`, 'PUT')
     }
 
     async getArchivedDocuments(params: object): Promise<any> {

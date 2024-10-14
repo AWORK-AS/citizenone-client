@@ -198,12 +198,14 @@
             "alert": {
                 "deletedFileSuccessfully": "Fil slettet med succes",
                 "deletedFolderSuccessfully": "Mappe slettet med succes",
+                "documentSuccessfullyArchived": "Dokument arkiveret med succes",
                 "fileSuccessfullyAdded": "Ny fil gemt med succes",
                 "folderSuccessfullyAdded": "Ny mappe gemt med succes",
                 "successfullyUpdated": "Mappe opdateret med succes"
             },
             "createNewFolder": "Opret ny mappe",
             "confirmation": {
+                "archiveConfirmation": "Er du sikker på, at du vil arkivere dette dokument",
                 "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil",
                 "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
                 "upgradeStorageConfirmation": "Vil du opgradere dit lager"
@@ -217,6 +219,7 @@
             },
             "table": {
                 "actions": {
+                    "archive": "Arkiv",
                     "edit": "Rediger",
                     "delete": "Slet",
                     "view": "Se"

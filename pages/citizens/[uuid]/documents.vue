@@ -86,6 +86,11 @@
                                                 {{ $t('citizens.documents.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="confirmCitizenArchiving(document)">
+                                                <Icon name="ph:archive-light" class="size-4" />
+                                                {{ $t('citizens.documents.table.actions.archive') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 v-if="document?.type === 'folder'"
                                                 @click="deleteDirectoryConfirmation(document)">
                                                 <Icon name="ph:trash" class="size-4" />
@@ -109,6 +114,9 @@
                 <ModulesCitizenDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedDirectory="state.selectedDirectory" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
+                <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
+                    :message="$t('citizens.documents.confirmation.archiveConfirmation') + '?'"
+                    @close="state.modal.isArchiveDocumentOpen = false" @confirm="archiveDocument" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteDirectoryOpen"
                     :message="$t('citizens.documents.confirmation.deleteFolderConfirmation') + '?'"
                     @close="state.modal.isDeleteDirectoryOpen = false" @confirm="deleteDocument" />
@@ -158,6 +166,7 @@ const state = reactive({
     documents: [] as any,
     modal: {
         isAddDirectoryOpen: false,
+        isArchiveDocumentOpen: false,
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,
         isEditDocumentOpen: false,
@@ -293,6 +302,27 @@ async function viewDirectory(document: any) {
 function editDocument(document: any) {
     state.selectedDirectory = document
     state.modal.isEditDocumentOpen = true
+}
+
+function confirmCitizenArchiving(document: any) {
+    state.selectedDirectory = document
+    state.modal.isArchiveDocumentOpen = true
+}
+
+async function archiveDocument() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const documentUuid = state.selectedDirectory?.uuid
+        const response = await documentService.archiveUnarchiveDocument(documentUuid)
+        if (response.data) {
+            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.documentSuccessfullyArchived')}.`)
+            fetchDocuments()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 function deleteDirectoryConfirmation(document: any) {
