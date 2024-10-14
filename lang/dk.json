@@ -1227,9 +1227,12 @@
                     "delete": "Slet",
                     "edit": "Rediger"
                 },
+                "monthlyPrice": "Månedlig pris",
                 "name": "Navn",
+                "oneTimeFee": "Engangsgebyr",
                 "price": "Pris",
-                "type": "Type"
+                "type": "Type",
+                "yearlyPrice": "Årlig pris"
             }
         },
         "companies": {

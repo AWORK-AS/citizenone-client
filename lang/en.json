@@ -1226,9 +1226,12 @@
                     "delete": "Delete",
                     "edit": "Edit"
                 },
+                "monthlyPrice": "Monthly price",
                 "name": "Name",
+                "oneTimeFee": "One time fee",
                 "price": "Price",
-                "type": "Type"
+                "type": "Type",
+                "yearlyPrice": "Yearly price"
             }
         },
         "companies": {

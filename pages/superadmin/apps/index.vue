@@ -32,12 +32,29 @@
                                         </div>
                                     </td>
                                     <td width="20%">
-                                        <p>
+                                        <p v-if="app?.is_one_time_fee">
+                                            <span class="font-semibold">
+                                                {{ $t('superadmin.apps.table.oneTimeFee') }}:
+                                            </span>
                                             {{ app?.price }}
                                         </p>
+                                        <div v-else>
+                                            <p>
+                                                <span class="font-semibold">
+                                                    {{ $t('superadmin.apps.table.monthlyPrice') }}:
+                                                </span>
+                                                {{ app?.monthly_price }}
+                                            </p>
+                                            <p>
+                                                <span class="font-semibold">
+                                                    {{ $t('superadmin.apps.table.yearlyPrice') }}:
+                                                </span>
+                                                {{ app?.yearly_price }}
+                                            </p>
+                                        </div>
                                     </td>
                                     <td width="20%">
-                                        <p>
+                                        <p class="capitalize">
                                             {{ app?.type }}
                                         </p>
                                     </td>

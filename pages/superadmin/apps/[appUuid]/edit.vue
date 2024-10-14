@@ -63,7 +63,7 @@ async function fetchApp() {
             state.formApp = {
                 name: response?.data?.name ?? '',
                 description: response?.data?.description ?? '',
-                is_one_time_fee: response?.data?.is_one_time_fee ?? false,
+                is_one_time_fee: response?.data?.is_one_time_fee ? true : false,
                 price: response?.data?.price ?? '',
                 monthly_price: response?.data?.monthly_price ?? '',
                 yearly_price: response?.data?.yearly_price ?? '',
