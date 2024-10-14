@@ -3,7 +3,7 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('subscription.subscription') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('apps.apps') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <LoadingSpinner :isActive="state.isPageLoading">
@@ -14,21 +14,20 @@
                         </div>
                         <div class="mt-4 text-center">
                             <h2 class="text-3xl font-extrabold text-gray-900">
-                                {{ $t('subscription.subscribed.subscriptionSuccessful') }}!
+                                {{ $t('apps.purchased.paymentSuccessful') }}!
                             </h2>
                             <p class="mt-2 text-sm text-gray-600">
-                                {{ $t('subscription.subscribed.thankYouForSubscribing') }}.
-                                {{ $t('subscription.subscribed.yourSubscriptionIsNowActive') }}
+                                {{ $t('apps.purchased.thankYouForPurchasing') }}.
                             </p>
                         </div>
                         <div class="mt-8">
                             <div class="rounded-md bg-green-50 py-4 px-8">
                                 <h3 class="text-sm font-semibold text-green-800">
-                                    {{ $t('subscription.subscribed.paymentSuccessful') }}
+                                    {{ $t('apps.purchased.paymentSuccessful') }}
                                 </h3>
                                 <div class="mt-2 text-sm text-green-700">
                                     <p>
-                                        {{ $t('subscription.subscribed.yourPaymentHasBeenSuccessfullyProcessed')
+                                        {{ $t('apps.purchased.yourPaymentHasBeenSuccessfullyProcessed')
                                         }}.
                                     </p>
                                 </div>

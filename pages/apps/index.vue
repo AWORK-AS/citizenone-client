@@ -9,8 +9,11 @@
             <template #header>{{ $t('apps.apps') }}</template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
-                <Alert type="danger" :text="state?.error?.message"
-                    v-if="state.error?.message && state.error.message.length > 0" />
+                <div class="space-y-2">
+                    <Alert type="danger" :text="error" v-if="error && error.length > 0" />
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
+                </div>
                 <div id="apps-checkout"></div>
                 <div v-if="!state.isAppsHidden">
                     <div class="ltablet:grid-cols-3 grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -79,6 +82,8 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 let currentTablePage = 1
 let checkout = null as any
+const router = useRouter()
+let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
 
 const state = reactive({
     apps: [] as any,

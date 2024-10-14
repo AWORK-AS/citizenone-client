@@ -54,6 +54,12 @@
         },
         "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
         "month": "Måned",
+        "purchased": {
+            "paymentSuccessful": "Betaling gennemført",
+            "purchaseSuccessful": "Køb gennemført",
+            "thankYouForPurchasing": "Tak for dit køb",
+            "yourPaymentHasBeenSuccessfullyProcessed": "Din betaling er blevet behandlet med succes"
+        },
         "readMore": "Læs mere",
         "termsAndConditions": "Vilkår og betingelser",
         "year": "År"

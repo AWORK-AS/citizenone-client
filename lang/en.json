@@ -54,6 +54,12 @@
         },
         "iHaveReadAndAcceptThe": "I have read and accept the",
         "month": "Month",
+        "purchased": {
+            "paymentSuccessful": "Payment successful",
+            "purchaseSuccessful": "Purchase successful",
+            "thankYouForPurchasing": "Thank you for purchasing",
+            "yourPaymentHasBeenSuccessfullyProcessed": "Your payment has been successfully processed"
+        },
         "readMore": "Read more",
         "termsAndConditions": "Terms and Conditions",
         "year": "Year"
