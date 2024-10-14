@@ -1,20 +1,20 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class CitizenWalletTransactionService extends BaseAPIService {
-    async getWallets(params: object): Promise<any> {
-        return await this.request(`/user/citizen-wallets`, 'GET', params)
+    async getWalletTransactions(params: object): Promise<any> {
+        return await this.request(`/user/citizen-wallet-transactions`, 'GET', params)
     }
 
-    async saveWallet(params: object): Promise<any> {
-        return await this.request(`/user/citizen-wallets`, 'POST', params)
+    async saveWalletTransaction(params: object): Promise<any> {
+        return await this.request(`/user/citizen-wallet-transactions`, 'POST', params)
     }
 
-    async updateWallet(walletUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/citizen-wallets/${walletUuid}`, 'PUT', params)
+    async updateWalletTransaction(walletTransactionUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-wallet-transactions/${walletTransactionUuid}`, 'PUT', params)
     }
 
-    async deleteWallet(walletUuid: any): Promise<any> {
-        return await this.request(`/user/citizen-wallets/${walletUuid}`, 'DELETE')
+    async deleteWalletTransaction(walletTransactionUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-wallet-transactions/${walletTransactionUuid}`, 'DELETE')
     }
 }
 

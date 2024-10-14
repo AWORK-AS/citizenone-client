@@ -44,11 +44,13 @@
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { activityLogService } from '@/components/api/ActivityLogService'
 import { useUserStore } from '@/store/user'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const userStore = useUserStore() as any
+const language = useI18n()
 const isUserLoggedInAdmin = userStore.getUser?.roles.some((role: any) => role.name === 'Admin')
 let currentTablePage = 1
 
@@ -83,6 +85,10 @@ const filteredColumnHeaders = computed(() => {
         }
         return true
     })
+})
+
+watch(() => language.locale.value, (newValue: any) => {
+    fetchActivityLogs()
 })
 
 onMounted(() => {

@@ -97,6 +97,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
+const walletUuid = router?.currentRoute?.value?.params?.wallet_uuid as any
 let currentTablePage = 1
 
 const state = reactive({
@@ -135,7 +136,7 @@ async function fetchWalletTransactions() {
     state.isTableLoading = true
     try {
         const params = {
-            citizen_uuid: citizenUuid,
+            wallet_uuid: walletUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
