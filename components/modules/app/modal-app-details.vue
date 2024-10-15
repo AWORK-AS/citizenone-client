@@ -35,8 +35,12 @@
                             class="w-full rounded-md">
                             {{ $t('apps.contactUs') }}
                         </FormButton>
-                        <FormButton buttonStyle="primary" @click="confirmTACAcceptance" class="w-full rounded-md">
-                            {{ $t('apps.activate') }}
+                        <FormButton type="button"
+                            :buttonStyle="props.selectedApp?.user_activated ? 'warning' : 'action'" :class="[
+                                props.selectedApp?.user_activated && 'cursor-not-allowed',
+                                'w-full'
+                            ]" color="primary" @click="!props.selectedApp?.user_activated && confirmTACAcceptance">
+                            {{ props.selectedApp?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
                         </FormButton>
                     </div>
                 </LoadingSpinner>
@@ -120,6 +124,7 @@ function confirmTACAcceptance() {
 }
 
 async function activateApp(frequency: any) {
+    closeModal()
     emit('activateApp', frequency)
 }
 </script>

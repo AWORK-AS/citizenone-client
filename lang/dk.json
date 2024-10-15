@@ -1318,7 +1318,7 @@
                     "deactivateAppConfirmation": "Er du sikker på, at du vil deaktivere denne app"
                 },
                 "table": {
-                    "action": {
+                    "actions": {
                         "activate": "Aktivér",
                         "deactivate": "Deaktiver"
                     },

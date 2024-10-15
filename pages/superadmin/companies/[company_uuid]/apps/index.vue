@@ -29,7 +29,7 @@
                             <template #body v-if="!(state.isTableLoading || (state.companyApps?.data?.length === 0))">
                                 <tr v-for="(companyApp, index) in state.companyApps?.data" :key="index">
                                     <td width="40%">
-                                        <span>{{ companyApp?.name }}</span>
+                                        <span>{{ companyApp?.deal?.name }}</span>
                                     </td>
                                     <td width="30%">
                                         <Badge type="primary" class="w-fit" v-if="companyApp?.is_active">
@@ -45,7 +45,8 @@
                                                 :buttonStyle="companyApp.is_active ? 'warning' : 'success'"
                                                 class="rounded-md"
                                                 @click="activateDeactivateCompanyApp(index, companyApp)">
-                                                <Icon name="ph:pencil" class="size-4" />
+                                                <Icon name="ph:x" class="size-4" v-if="companyApp.is_active" />
+                                                <Icon name="ph:check" class="size-4" v-else />
                                                 {{ companyApp.is_active ?
                                                     $t('superadmin.companies.companyApps.table.actions.deactivate') :
                                                     $t('superadmin.companies.companyApps.table.actions.activate') }}
@@ -65,6 +66,7 @@
 
 <script setup lang="ts">
 import { companyService } from '@/components/api/superadmin/CompanyService'
+import { appService } from '@/components/api/superadmin/AppService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -152,7 +154,7 @@ async function activateDeactivateCompanyApp(index: number, companyApp: any) {
         const params = {
             is_active: !companyApp.is_active,
         }
-        const response = await companyService.activateDeactiveCompany(companyApp.uuid, params)
+        const response = await appService.activateDeactiveApp(companyApp.uuid, params)
         if (response) {
             state.companyApps.data[index].is_active = response?.data?.is_active
             if (response?.data?.is_active) {

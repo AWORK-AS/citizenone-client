@@ -1317,7 +1317,7 @@
                     "deactivateAppConfirmation": "Are you sure you want to deactivate this app"
                 },
                 "table": {
-                    "action": {
+                    "actions": {
                         "activate": "Activate",
                         "deactivate": "Deactivate"
                     },

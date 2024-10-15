@@ -52,11 +52,12 @@
                                 <FormButton type="button" buttonStyle="action" class="w-full" @click="readMore(app)">
                                     {{ $t('apps.readMore') }}
                                 </FormButton>
-                                <FormButton type="button" :buttonStyle="app?.is_active ? 'warning' : 'action'" :class="[
-                                    app?.is_active && 'cursor-not-allowed',
-                                    'w-full'
-                                ]" color="primary" @click="!app?.is_active && confirmTACAcceptance(app)">
-                                    {{ app?.is_active ? $t('apps.activated') : $t('apps.activate') }}
+                                <FormButton type="button" :buttonStyle="app?.user_activated ? 'warning' : 'action'"
+                                    :class="[
+                                        app?.user_activated && 'cursor-not-allowed',
+                                        'w-full'
+                                    ]" color="primary" @click="!app?.user_activated && confirmTACAcceptance(app)">
+                                    {{ app?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
                                 </FormButton>
                             </div>
                         </div>
