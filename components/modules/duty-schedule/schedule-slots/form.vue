@@ -33,10 +33,10 @@
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
                     <FormLabel for="job_specialty_uuid" :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
-                    <!-- <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                        @click="state.modal.isAddJobSpecialtyOpen = true">
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="addNewJobSpecialty">
                         {{ $t('jobSpecialties.addNewJobSpecialty') }}
-                    </span> -->
+                    </span>
                 </div>
                 <FormSelectMultiple id="job_specialty_uuid" name="job_specialty_uuid"
                     :options="state.options.jobSpecialties" v-model="state.formScheduleSlot.job_specialty_uuid" />
@@ -82,6 +82,10 @@
         </div>
         <ModulesJobTitleModalNew :isModalOpen="state.modal.isAddJobTitleOpen"
             @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitle="fetchJobTitles" />
+        <ModulesJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
+            :selectedJobTitleUuid="state.formScheduleSlot.job_title_uuid"
+            @close="state.modal.isAddJobSpecialtyOpen = false"
+            @refreshJobSpecialty="fetchJobSpecialties(state.formScheduleSlot.job_title_uuid)" />
     </form>
 </template>
 
@@ -91,6 +95,7 @@ import { jobSpecialtyService } from '@/components/api/JobSpecialtyService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -109,10 +114,10 @@ const props = defineProps({
     selectedScheduleSlot: {
         type: Object,
         required: true,
-    },
+    }
 })
 const emit = defineEmits(['isPageLoading', 'submitForm', 'closeModal'])
-
+const { errorAlert } = useAlert()
 const { t } = useI18n()
 
 const state = reactive({
@@ -127,7 +132,8 @@ const state = reactive({
         shift_type: props.selectedScheduleSlot?.shift_type,
     } as any,
     modal: {
-        isAddJobTitleOpen: false
+        isAddJobSpecialtyOpen: false,
+        isAddJobTitleOpen: false,
     },
     options: {
         jobSpecialties: [],
@@ -206,6 +212,14 @@ async function fetchJobSpecialties(jobTitleUuid: any) {
         state.error = error
     }
     emit('isPageLoading', false)
+}
+
+function addNewJobSpecialty() {
+    if (state.formScheduleSlot.job_title_uuid) {
+        state.modal.isAddJobSpecialtyOpen = true
+    } else {
+        errorAlert(`${t('alert.required')}!`, `${t('alert.jobTitleRequired')}.`)
+    }
 }
 
 const rules = computed(() => {

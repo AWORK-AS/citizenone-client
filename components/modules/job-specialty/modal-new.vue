@@ -26,6 +26,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    selectedJobTitleUuid: {
+        type: String,
+        required: false,
+    }
 })
 const emit = defineEmits(['close', 'refreshJobSpecialty'])
 
@@ -50,6 +54,7 @@ async function saveJobTitle(jobTitleDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
+            job_title_uuid: props?.selectedJobTitleUuid,
             title: jobTitleDetails.title,
         }
         const response = await jobSpecialtyService.saveJobSpecialty(params)

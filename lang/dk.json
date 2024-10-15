@@ -163,6 +163,8 @@
         "invitation": {
             "calendarEventNotFound": "Kalenderbegivenhed ikke fundet"
         },
+        "jobTitleRequired": "Jobtitel er påkrævet",
+        "required": "Påkrævet",
         "resetPassword": {
             "confirmPasswordNotTheSame": "Bekræft adgangskode er ikke den samme som ny adgangskode",
             "invalidPasswordResetToken": "Ugyldig token til nulstilling af adgangskode",

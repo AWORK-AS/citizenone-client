@@ -163,6 +163,8 @@
         "invitation": {
             "calendarEventNotFound": "Calendar event not found"
         },
+        "jobTitleRequired": "Job title is required",
+        "required": "Required",
         "resetPassword": {
             "confirmPasswordNotTheSame": "Confirm password is not the same as new password",
             "invalidPasswordResetToken": "Invalid password reset token",

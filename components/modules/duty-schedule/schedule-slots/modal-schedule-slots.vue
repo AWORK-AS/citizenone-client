@@ -23,7 +23,7 @@
                                 <template #body
                                     v-if="!(state.isTableLoading || (state.scheduleSlots?.data?.length === 0))">
                                     <tr v-for="(slot, index) in state.scheduleSlots?.data" :key="index">
-                                        <td width="20%">
+                                        <td width="15%">
                                             <span v-if="slot?.shift_type === 'regular_shift'">
                                                 {{ $t('dutySchedules.shifts.regularShift') }}
                                             </span>
@@ -40,8 +40,16 @@
                                                 {{ $t('dutySchedules.shifts.vacationLeave') }}
                                             </span>
                                         </td>
-                                        <td width="15%">
+                                        <td width="20%">
                                             <span>{{ slot?.job?.title }}</span>
+                                            <div class="flex flex-wrap gap-1">
+                                                <div v-for="(job_specialty, index) in slot?.job_specialties"
+                                                    :key="index">
+                                                    <p class="text-xxs bg-primary text-white p-1 rounded-md">
+                                                        {{ job_specialty?.title }}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td width="20%">
                                             <span>{{ moment(slot?.time_in, "HH:mm").format('hh:mm') }}</span> -
