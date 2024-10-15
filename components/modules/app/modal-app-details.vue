@@ -40,7 +40,7 @@
                         </FormButton>
                     </div>
                 </LoadingSpinner>
-                <ModulesAppModalContactUs :isModalOpen="state.modal.isContactUsOpen"
+                <ModulesAppModalContactUs :isModalOpen="state.modal.isContactUsOpen" :selectedApp="props.selectedApp"
                     @close="state.modal.isContactUsOpen = false" />
                 <ModulesAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     :selectedApp="props.selectedApp" @close="state.modal.isAcceptTACOpen = false"

@@ -48,6 +48,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    selectedApp: {
+        type: Object,
+        required: true,
+    },
 })
 
 const { t } = useI18n()
@@ -84,6 +88,7 @@ async function sendMessage() {
     if (!vContactUsStorage$.value.$error) {
         try {
             const params = {
+                app_uuid: props.selectedApp?.uuid,
                 message: state.formContactUs.message,
             }
             const response = await contactUsService.sendAppMessage(params)
