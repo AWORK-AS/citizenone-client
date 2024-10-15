@@ -63,7 +63,7 @@ async function fetchPollItem() {
                 title: response?.data?.title ?? '',
                 description: response?.data?.description ?? '',
                 sender: response?.data?.sender ?? '',
-                region: response?.data?.region_id ?? '',
+                region: response?.data?.region?.uuid ?? '',
                 is_active: response?.data?.is_active ? true : false,
             }
         }
@@ -81,7 +81,7 @@ async function updatePollItem(pollItemDetails: any) {
             'title': pollItemDetails.title,
             'description': pollItemDetails.description,
             'sender': pollItemDetails.sender,
-            'region_id': pollItemDetails.region,
+            'region_uuid': pollItemDetails.region,
             'is_active': pollItemDetails.is_active,
         }
         const response = await pollItemService.updatePollItem(pollItemUuid, params)

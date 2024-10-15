@@ -338,9 +338,9 @@ const state = reactive({
         departments: [],
         role: '',
         street: '',
-        region_id: '',
-        municipality_id: '',
-        city_id: '',
+        region: '',
+        municipality: '',
+        city: '',
         post_code: '',
         permissions: [],
         employment: {

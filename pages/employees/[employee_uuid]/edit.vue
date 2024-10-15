@@ -162,7 +162,7 @@ async function updateEmployee(employeeDetails: any) {
         params.append('email', employeeDetails.email)
         params.append('phone', employeeDetails.phone)
         params.append('birthday', employeeDetails.birthday)
-        params.append('department_id', JSON.stringify(employeeDetails.departments))
+        params.append('department_uuid', JSON.stringify(employeeDetails.departments))
         params.append('role', employeeDetails.role)
         params.append('permission', JSON.stringify(employeeDetails.permissions))
         params.append('street', employeeDetails.street)

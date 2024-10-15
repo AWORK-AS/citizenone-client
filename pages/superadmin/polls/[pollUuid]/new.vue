@@ -57,7 +57,7 @@ async function savePollItem(pollItemDetails: any) {
             'title': pollItemDetails.title,
             'description': pollItemDetails.description,
             'sender': pollItemDetails.sender,
-            'region_id': pollItemDetails.region,
+            'region_uuid': pollItemDetails.region,
             'is_active': pollItemDetails.is_active,
         }
         const response = await pollItemService.savePollItem(params)
