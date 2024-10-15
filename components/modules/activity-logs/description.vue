@@ -432,6 +432,12 @@
         <p v-if="props.description === 'A procedure attachment has been delete'">
             {{ $t('activityLogs.logs.aProcedureAttachmentHasBeenDeleted') }}
         </p>
+        <p v-if="props.description.includes('logged in')">
+            {{ props.description.replace("logged in", $t('activityLogs.logs.loggedIn')) }}
+        </p>
+        <p v-if="props.description.includes('logged out')">
+            {{ props.description.replace("logged in", $t('activityLogs.logs.loggedOut')) }}
+        </p>
     </div>
 </template>
 
