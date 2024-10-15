@@ -80,7 +80,7 @@
                     <FormSelectMultiple id="departments" :options="state.options.departments"
                         v-model="state.formCitizen.departments" />
                     <FormError :error="v$?.formCitizen?.departments?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.department_id?.[0]" />
+                    <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
                 </div>
             </div>
             <div class="space-y-1">
@@ -96,14 +96,14 @@
                     <FormSelect id="region" :options="state.options.regions" v-model="state.formCitizen.region"
                         @change="changeSelectedRegion" />
                     <FormError :error="v$?.formCitizen?.region?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.region_id?.[0]" />
+                    <FormError :error="props?.error?.errors?.region_uuid?.[0]" />
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="municipality" :label="$t('citizens.form.municipality')" />
                     <FormSelect id="municipality" :options="state.options.municipalities"
                         v-model="state.formCitizen.municipality" @change="changeSelectedMunicipality" />
                     <FormError :error="v$?.formCitizen?.municipality?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.municipality_id?.[0]" />
+                    <FormError :error="props?.error?.errors?.municipality_uuid?.[0]" />
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -111,7 +111,7 @@
                     <FormLabel for="city" :label="$t('citizens.form.city')" />
                     <FormSelect id="city" :options="state.options.cities" v-model="state.formCitizen.city" />
                     <FormError :error="v$?.formCitizen?.city?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.city_id?.[0]" />
+                    <FormError :error="props?.error?.errors?.city_uuid?.[0]" />
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="post_code" :label="$t('citizens.form.postCode')" />
@@ -207,8 +207,8 @@ const state = reactive({
 
 watch(() => props.selectedCitizen, (newValue: any) => {
     if (newValue != null) {
-        fetchMunicipalities(newValue.region_id)
-        fetchCities(newValue.municipality_id)
+        fetchMunicipalities(newValue.region_uuid)
+        fetchCities(newValue.municipality_uuid)
         if (newValue.image) {
             avatarUrl.value = newValue.image
         }
@@ -222,9 +222,9 @@ watch(() => props.selectedCitizen, (newValue: any) => {
             phone: newValue.phone,
             departments: newValue.departments,
             street: newValue.street,
-            region: newValue.region_id,
-            municipality: newValue.municipality_id,
-            city: newValue.city_id,
+            region: newValue.region_uuid,
+            municipality: newValue.municipality_uuid,
+            city: newValue.city_uuid,
             post_code: newValue.post_code,
             diagnosis: newValue.diagnosis,
         }
@@ -245,7 +245,7 @@ async function fetchDepartments() {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.name,
                 })
             )
@@ -266,7 +266,7 @@ async function fetchRegions() {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.name,
                 })
             )
@@ -278,19 +278,19 @@ async function fetchRegions() {
     emit('isPageLoading', false)
 }
 
-async function fetchMunicipalities(regionId: any) {
+async function fetchMunicipalities(regionUuid: any) {
     state.error = {}
     emit('isPageLoading', true)
     try {
         const params = {
-            region_id: regionId
+            region_uuid: regionUuid
         }
         const response = await municipalityService.getAllMunicipalities(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.name,
                 })
             )
@@ -302,19 +302,19 @@ async function fetchMunicipalities(regionId: any) {
     emit('isPageLoading', false)
 }
 
-async function fetchCities(municipalityId: any) {
+async function fetchCities(municipalityUuid: any) {
     state.error = {}
     emit('isPageLoading', true)
     try {
         const params = {
-            municipality_id: municipalityId
+            municipality_uuid: municipalityUuid
         }
         const response = await cityService.getAllCities(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.name,
                 })
             )
@@ -330,8 +330,8 @@ function changeSelectedRegion(regionId: number) {
     fetchMunicipalities(regionId)
 }
 
-function changeSelectedMunicipality(municipalityId: number) {
-    fetchCities(municipalityId)
+function changeSelectedMunicipality(municipalityUuid: number) {
+    fetchCities(municipalityUuid)
 }
 
 const rules = computed(() => {

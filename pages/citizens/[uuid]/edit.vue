@@ -56,9 +56,9 @@ const state = reactive({
         phone: '',
         departments: [],
         street: '',
-        region_id: '',
-        municipality_id: '',
-        city_id: '',
+        region_uuid: '',
+        municipality_uuid: '',
+        city_uuid: '',
         post_code: '',
         diagnosis: '',
     } as CitizenForm,
@@ -88,9 +88,9 @@ async function fetchCitizen() {
                 phone: response?.data?.phone ?? '',
                 departments: [],
                 street: response?.data?.address?.street ?? '',
-                region_id: response?.data?.address?.region_id.toString() ?? '',
-                municipality_id: response?.data?.address?.municipality_id.toString() ?? '',
-                city_id: response?.data?.address?.city_id.toString() ?? '',
+                region_uuid: response?.data?.address?.region_uuid.toString() ?? '',
+                municipality_uuid: response?.data?.address?.municipality_uuid.toString() ?? '',
+                city_uuid: response?.data?.address?.city_uuid.toString() ?? '',
                 post_code: response?.data?.address?.post_code ?? '',
                 diagnosis: response?.data?.diagnosis ?? '',
             }
@@ -116,11 +116,11 @@ async function updateCitizen(citizenDetails: any) {
         params.append('social_security_number', citizenDetails.social_security_number)
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
-        params.append('department_id', citizenDetails.departments)
+        params.append('department_uuid', citizenDetails.departments)
         params.append('street', citizenDetails.street)
-        params.append('region_id', citizenDetails.region)
-        params.append('municipality_id', citizenDetails.municipality)
-        params.append('city_id', citizenDetails.city)
+        params.append('region_uuid', citizenDetails.region)
+        params.append('municipality_uuid', citizenDetails.municipality)
+        params.append('city_uuid', citizenDetails.city)
         params.append('post_code', citizenDetails.post_code)
         params.append('diagnosis', citizenDetails.diagnosis)
         const response = await citizenService.updateCitizen(citizenUuid, params)

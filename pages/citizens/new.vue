@@ -27,7 +27,7 @@
 import { citizenService } from '@/components/api/CitizenService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
-import type { Error } from '@/types'
+import type { CitizenForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
@@ -45,12 +45,12 @@ const state = reactive({
         phone: '',
         departments: [],
         street: '',
-        region_id: '',
-        municipality_id: '',
-        city_id: '',
+        region_uuid: '',
+        municipality_uuid: '',
+        city_uuid: '',
         post_code: '',
         diagnosis: '',
-    },
+    } as CitizenForm,
     isPageLoading: false,
 })
 
@@ -66,11 +66,11 @@ async function saveCitizen(citizenDetails: any) {
         params.append('social_security_number', citizenDetails.social_security_number)
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
-        params.append('department_id', citizenDetails.departments)
+        params.append('department_uuid', citizenDetails.departments)
         params.append('street', citizenDetails.street)
-        params.append('region_id', citizenDetails.region)
-        params.append('municipality_id', citizenDetails.municipality)
-        params.append('city_id', citizenDetails.city)
+        params.append('region_uuid', citizenDetails.region)
+        params.append('municipality_uuid', citizenDetails.municipality)
+        params.append('city_uuid', citizenDetails.city)
         params.append('post_code', citizenDetails.post_code)
         params.append('diagnosis', citizenDetails.diagnosis)
         const response = await citizenService.saveCitizen(params)
