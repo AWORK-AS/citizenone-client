@@ -56,14 +56,14 @@
                         <FormSelect id="region" :options="state.options.regions" v-model="state.formContact.region"
                             @change="changeSelectedRegion" />
                         <FormError :error="v$?.formContact?.region?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.region_id?.[0]" />
+                        <FormError :error="props?.error?.errors?.region_uuid?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="municipality" :label="$t('citizens.contacts.form.municipality')" />
                         <FormSelect id="municipality" :options="state.options.municipalities"
                             v-model="state.formContact.municipality" @change="changeSelectedMunicipality" />
                         <FormError :error="v$?.formContact?.municipality?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.municipality_id?.[0]" />
+                        <FormError :error="props?.error?.errors?.municipality_uuid?.[0]" />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -71,7 +71,7 @@
                         <FormLabel for="city" :label="$t('citizens.contacts.form.city')" />
                         <FormSelect id="city" :options="state.options.cities" v-model="state.formContact.city" />
                         <FormError :error="v$?.formContact?.city?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.city_id?.[0]" />
+                        <FormError :error="props?.error?.errors?.city_uuid?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="post_code" :label="$t('citizens.contacts.form.postCode')" />
@@ -158,8 +158,8 @@ const state = reactive({
 
 onMounted(() => {
     fetchRegions()
-    fetchMunicipalities(props.selectedContact?.region_id)
-    fetchCities(props.selectedContact?.municipality_id)
+    fetchMunicipalities(props.selectedContact?.region_uuid)
+    fetchCities(props.selectedContact?.municipality_uuid)
     state.formContact = {
         id: props.selectedContact?.id,
         uuid: props.selectedContact?.uuid,
@@ -169,16 +169,16 @@ onMounted(() => {
         email: props.selectedContact?.email,
         phone: props.selectedContact?.phone,
         street: props.selectedContact?.street,
-        region: props.selectedContact?.region_id,
-        municipality: props.selectedContact?.municipality_id,
-        city: props.selectedContact?.city_id,
+        region: props.selectedContact?.region_uuid,
+        municipality: props.selectedContact?.municipality_uuid,
+        city: props.selectedContact?.city_uuid,
         post_code: props.selectedContact?.post_code,
     }
 })
 
 watch(() => props.selectedContact, (newValue: any) => {
-    fetchMunicipalities(props.selectedContact?.region_id)
-    fetchCities(props.selectedContact?.municipality_id)
+    fetchMunicipalities(props.selectedContact?.region_uuid)
+    fetchCities(props.selectedContact?.municipality_uuid)
     if (newValue != null) {
         state.formContact = {
             id: props.selectedContact?.id,
@@ -189,9 +189,9 @@ watch(() => props.selectedContact, (newValue: any) => {
             email: props.selectedContact?.email,
             phone: props.selectedContact?.phone,
             street: props.selectedContact?.street,
-            region: props.selectedContact?.region_id,
-            municipality: props.selectedContact?.municipality_id,
-            city: props.selectedContact?.city_id,
+            region: props.selectedContact?.region_uuid,
+            municipality: props.selectedContact?.municipality_uuid,
+            city: props.selectedContact?.city_uuid,
             post_code: props.selectedContact?.post_code,
         }
     }
@@ -252,7 +252,7 @@ async function fetchRegions() {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.name,
                 })
             )
@@ -264,19 +264,19 @@ async function fetchRegions() {
     state.isPageLoading = false
 }
 
-async function fetchMunicipalities(regionId: any) {
+async function fetchMunicipalities(regionUuid: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            region_id: regionId
+            region_uuid: regionUuid
         }
         const response = await municipalityService.getAllMunicipalities(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.name,
                 })
             )
@@ -288,19 +288,19 @@ async function fetchMunicipalities(regionId: any) {
     state.isPageLoading = false
 }
 
-async function fetchCities(municipalityId: any) {
+async function fetchCities(municipalityUuid: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            municipality_id: municipalityId
+            municipality_uuid: municipalityUuid
         }
         const response = await cityService.getAllCities(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.name,
                 })
             )
@@ -312,11 +312,11 @@ async function fetchCities(municipalityId: any) {
     state.isPageLoading = false
 }
 
-function changeSelectedRegion(regionId: number) {
-    fetchMunicipalities(regionId)
+function changeSelectedRegion(regionUuid: string) {
+    fetchMunicipalities(regionUuid)
 }
 
-function changeSelectedMunicipality(municipalityId: number) {
-    fetchCities(municipalityId)
+function changeSelectedMunicipality(municipalityUuid: string) {
+    fetchCities(municipalityUuid)
 }
 </script>

@@ -326,11 +326,11 @@ async function fetchCities(municipalityUuid: any) {
     emit('isPageLoading', false)
 }
 
-function changeSelectedRegion(regionId: number) {
-    fetchMunicipalities(regionId)
+function changeSelectedRegion(regionUuid: string) {
+    fetchMunicipalities(regionUuid)
 }
 
-function changeSelectedMunicipality(municipalityUuid: number) {
+function changeSelectedMunicipality(municipalityUuid: string) {
     fetchCities(municipalityUuid)
 }
 
