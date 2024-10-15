@@ -44,14 +44,14 @@ const state = reactive({
         departments: [],
         role: '',
         street: '',
-        region_id: '',
-        municipality_id: '',
-        city_id: '',
+        region_uuid: '',
+        municipality_uuid: '',
+        city_uuid: '',
         post_code: '',
         permissions: [],
         employment: {
             employment_date: '',
-            job_id: '',
+            job_uuid: '',
             working_hours: '',
             employment_status: '',
         },
@@ -78,12 +78,13 @@ async function saveEmployee(employeeDetails: any) {
         params.append('role', employeeDetails.role)
         params.append('permission', JSON.stringify(employeeDetails.permissions))
         params.append('street', employeeDetails.street)
-        params.append('region_id', employeeDetails.region_id)
-        params.append('municipality_id', employeeDetails.municipality_id)
-        params.append('city_id', employeeDetails.city_id)
+        params.append('region_uuid', employeeDetails.region_uuid)
+        params.append('municipality_uuid', employeeDetails.municipality_uuid)
+        params.append('city_uuid', employeeDetails.city_uuid)
         params.append('post_code', employeeDetails.post_code)
         params.append('employment_date', employeeDetails.employment.employment_date)
-        params.append('job_id', employeeDetails.employment.job_id)
+        params.append('job_title_uuid', employeeDetails.employment.job_title_uuid)
+        params.append('job_specialties_uuid', employeeDetails.employment.job_specialties_uuid)
         params.append('working_hours', employeeDetails.employment.working_hours)
         params.append('employment_status', employeeDetails.employment.employment_status)
         params.append('emergency_contacts', JSON.stringify(employeeDetails.emergencyInfo.emergency_contacts))

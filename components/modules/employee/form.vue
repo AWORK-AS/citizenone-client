@@ -83,7 +83,7 @@
                         <FormSelectMultiple id="departments" :options="state.options.departments"
                             v-model="state.formEmployee.departments" />
                         <FormError :error="v$?.formEmployee?.departments?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.department_id?.[0]" />
+                        <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="role" :label="$t('employees.form.role')" />
@@ -103,25 +103,25 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="region" :label="$t('employees.form.region')" />
-                        <FormSelect id="region" :options="state.options.regions" v-model="state.formEmployee.region_id"
-                            @change="changeSelectedRegion" />
-                        <FormError :error="v$?.formEmployee?.region_id?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.region_id?.[0]" />
+                        <FormSelect id="region" :options="state.options.regions"
+                            v-model="state.formEmployee.region_uuid" @change="changeSelectedRegion" />
+                        <FormError :error="v$?.formEmployee?.region_uuid?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.region_uuid?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="municipality" :label="$t('employees.form.municipality')" />
                         <FormSelect id="municipality" :options="state.options.municipalities"
-                            v-model="state.formEmployee.municipality_id" @change="changeSelectedMunicipality" />
-                        <FormError :error="v$?.formEmployee?.municipality_id?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.municipality_id?.[0]" />
+                            v-model="state.formEmployee.municipality_uuid" @change="changeSelectedMunicipality" />
+                        <FormError :error="v$?.formEmployee?.municipality_uuid?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.municipality_uuid?.[0]" />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="city" :label="$t('employees.form.city')" />
-                        <FormSelect id="city" :options="state.options.cities" v-model="state.formEmployee.city_id" />
-                        <FormError :error="v$?.formEmployee?.city_id?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.city_id?.[0]" />
+                        <FormSelect id="city" :options="state.options.cities" v-model="state.formEmployee.city_uuid" />
+                        <FormError :error="v$?.formEmployee?.city_uuid?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.city_uuid?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="post_code" :label="$t('employees.form.postCode')" />
@@ -177,17 +177,34 @@
                     </div>
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5">
-                            <FormLabel for="job_id" :label="$t('employees.form.employment.jobTitle')" />
+                            <FormLabel for="job_title_uuid" :label="$t('employees.form.employment.jobTitle')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                 @click="state.modal.isAddJobTitleOpen = true">
                                 {{ $t('jobTitles.addNewJobTitle') }}
                             </span>
                         </div>
-                        <FormSelect id="job_id" :options="state.options.jobTitles"
-                            v-model="state.formEmployee.employment.job_id" />
-                        <FormError :error="v$?.formEmployee?.employment?.job_id?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.employment?.job_id?.[0]" />
+                        <FormSelect id="job_title_uuid" :options="state.options.jobTitles"
+                            v-model="state.formEmployee.employment.job_title_uuid" @change="changeJobTitle" />
+                        <FormError
+                            :error="v$?.formEmployee?.employment?.job_title_uuid?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.employment?.job_title_uuid?.[0]" />
                     </div>
+                </div>
+                <div class="space-y-1">
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="job_specialties_uuid"
+                            :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="addNewJobSpecialty">
+                            {{ $t('jobSpecialties.addNewJobSpecialty') }}
+                        </span>
+                    </div>
+                    <FormSelectMultiple id="job_specialties_uuid" name="job_specialties_uuid"
+                        :options="state.options.jobSpecialties"
+                        v-model="state.formEmployee.employment.job_specialties_uuid" />
+                    <FormError
+                        :error="v$?.formScheduleSlot?.employment?.job_specialties_uuid?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.job_specialties_uuid?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
@@ -363,18 +380,24 @@
             @close="state.modal.isAddDepartmentOpen = false" @refreshDepartment="fetchDepartments" />
         <ModulesJobTitleModalNew :isModalOpen="state.modal.isAddJobTitleOpen"
             @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitle="fetchJobTitles" />
+        <ModulesJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
+            :selectedJobTitleUuid="state.formEmployee.employment.job_title_uuid"
+            @close="state.modal.isAddJobSpecialtyOpen = false"
+            @refreshJobSpecialty="fetchJobSpecialties(state.formEmployee.employment.job_title_uuid)" />
     </form>
 </template>
 
 <script setup lang="ts">
-import { departmentService } from '@/components/api/DepartmentService'
 import { jobTitleService } from '@/components/api/JobTitleService'
+import { jobSpecialtyService } from '@/components/api/JobSpecialtyService'
+import { departmentService } from '@/components/api/DepartmentService'
 import { regionService } from '@/components/api/RegionService'
 import { municipalityService } from '@/components/api/MunicipalityService'
 import { cityService } from '@/components/api/CityService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { EmployeeForm, Error } from '@/types'
 
 const props = defineProps({
@@ -394,6 +417,7 @@ const props = defineProps({
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 const image = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
+const { errorAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
 
@@ -409,14 +433,15 @@ const state = reactive({
         departments: [],
         role: '',
         street: '',
-        region_id: '',
-        municipality_id: '',
-        city_id: '',
+        region_uuid: '',
+        municipality_uuid: '',
+        city_uuid: '',
         post_code: '',
         permissions: [],
         employment: {
             employment_date: '',
-            job_id: [],
+            job_title_uuid: '',
+            job_specialties_uuid: [],
             working_hours: '',
             employment_status: '',
         },
@@ -427,6 +452,7 @@ const state = reactive({
     } as EmployeeForm,
     modal: {
         isAddDepartmentOpen: false,
+        isAddJobSpecialtyOpen: false,
         isAddJobTitleOpen: false,
     },
     permissions: {
@@ -443,6 +469,7 @@ const state = reactive({
             { value: 'temporary', label: `${t('employees.employmentStatus.temporary')}` },
             { value: 'substitute', label: `${t('employees.employmentStatus.substitute')}` },
         ],
+        jobSpecialties: [],
         jobTitles: [],
         municipalities: [],
         regions: [],
@@ -490,9 +517,9 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             departments: newValue.departments,
             role: newValue.role,
             street: newValue.street,
-            region_id: newValue.region_id,
-            municipality_id: newValue.municipality_id,
-            city_id: newValue.city_id,
+            region_uuid: newValue.region_uuid,
+            municipality_uuid: newValue.municipality_uuid,
+            city_uuid: newValue.city_uuid,
             post_code: newValue.post_code,
             permissions: [],
             emergencyInfo: {
@@ -501,13 +528,13 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             },
             employment: {
                 employment_date: newValue.employment.employment_date,
-                job_id: newValue.employment.job_id,
+                job_title_uuid: newValue.employment.job_title_uuid,
                 working_hours: newValue.employment.working_hours,
                 employment_status: newValue.employment.employment_status,
             }
         }
-        fetchMunicipalities(newValue.region_id)
-        fetchCities(newValue.municipality_id)
+        fetchMunicipalities(newValue.region_uuid)
+        fetchCities(newValue.municipality_uuid)
         newValue?.permissions.forEach((permission: any) => {
             if (permission?.name === 'read') {
                 state.permissions.read = true
@@ -547,13 +574,13 @@ const rules = computed(() => {
             street: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            region_id: {
+            region_uuid: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            municipality_id: {
+            municipality_uuid: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            city_id: {
+            city_uuid: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             post_code: {
@@ -566,7 +593,7 @@ const rules = computed(() => {
                 employment_date: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
                 },
-                job_id: {
+                job_title_uuid: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
                 },
                 working_hours: {
@@ -640,7 +667,7 @@ async function fetchDepartments() {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.name,
                 })
             )
@@ -661,11 +688,48 @@ async function fetchJobTitles() {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.title,
                 })
             )
             state.options.jobTitles = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+function changeJobTitle(jobTitleUuid: any) {
+    state.formEmployee.employment.job_specialties_uuid = []
+    fetchJobSpecialties(jobTitleUuid)
+}
+
+function addNewJobSpecialty() {
+    if (state.formEmployee.employment.job_title_uuid) {
+        state.modal.isAddJobSpecialtyOpen = true
+    } else {
+        errorAlert(`${t('alert.required')}!`, `${t('alert.jobTitleRequired')}.`)
+    }
+}
+
+async function fetchJobSpecialties(jobTitleUuid: any) {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const params = {
+            job_title_uuid: jobTitleUuid
+        }
+        const response = await jobSpecialtyService.getAllJobSpecialties(params)
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.title,
+                })
+            )
+            state.options.jobSpecialties = options
         }
     } catch (error: any) {
         state.error = error
@@ -682,7 +746,7 @@ async function fetchRegions() {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.name,
                 })
             )
@@ -694,19 +758,19 @@ async function fetchRegions() {
     emit('isPageLoading', false)
 }
 
-async function fetchMunicipalities(regionId: any) {
+async function fetchMunicipalities(regionUuid: any) {
     state.error = {}
     emit('isPageLoading', true)
     try {
         const params = {
-            region_id: regionId
+            region_uuid: regionUuid
         }
         const response = await municipalityService.getAllMunicipalities(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.name,
                 })
             )
@@ -718,19 +782,19 @@ async function fetchMunicipalities(regionId: any) {
     emit('isPageLoading', false)
 }
 
-async function fetchCities(municipalityId: any) {
+async function fetchCities(municipalityUuid: any) {
     state.error = {}
     emit('isPageLoading', true)
     try {
         const params = {
-            municipality_id: municipalityId
+            municipality_uuid: municipalityUuid
         }
         const response = await cityService.getAllCities(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.name,
                 })
             )
