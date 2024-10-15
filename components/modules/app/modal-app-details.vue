@@ -56,7 +56,6 @@
 
 
 <script setup lang="ts">
-import { appService } from '@/components/api/AppService'
 import type { Error } from '@/types'
 
 const props = defineProps({
