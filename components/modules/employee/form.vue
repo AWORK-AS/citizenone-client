@@ -528,6 +528,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             employment: {
                 employment_date: newValue.employment.employment_date,
                 job_title_uuid: newValue.employment.job_title_uuid,
+                job_specialties: newValue.employment.job_specialties,
                 working_hours: newValue.employment.working_hours,
                 employment_status: newValue.employment.employment_status,
             }
@@ -700,7 +701,6 @@ async function fetchJobTitles() {
 }
 
 function changeJobTitle(jobTitleUuid: any) {
-    state.formEmployee.employment.job_specialties = []
     if (jobTitleUuid) {
         fetchJobSpecialties(jobTitleUuid)
     }

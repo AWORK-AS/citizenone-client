@@ -138,6 +138,20 @@
                                         </p>
                                     </div>
                                 </div>
+                                <div class="space-y-1">
+                                    <Label :label="$t('employees.form.employment.jobSpecialty')" />
+                                    <p class="font-medium"
+                                        v-if="state.selectedEmployee.employment.employee_specialties">
+                                    <div class="flex flex-wrap gap-1">
+                                        <div v-for="(job_specialty, index) in state.selectedEmployee.employment.employee_specialties"
+                                            :key="index">
+                                            <p class="text-xxs bg-primary text-white px-2 py-1.5 rounded-md">
+                                                {{ job_specialty?.title }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    </p>
+                                </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.workingHours')" />
@@ -346,6 +360,7 @@ const state = reactive({
         employment: {
             employment_date: '',
             job_title: '',
+            employee_specialties: '',
             working_hours: '',
             employment_status: '',
         },
@@ -398,6 +413,7 @@ async function fetchEmployee() {
                 employment: {
                     employment_date: response?.data?.employee_detail?.date_of_employment,
                     job_title: response?.data?.employee_detail?.job?.title,
+                    employee_specialties: response?.data?.employee_specialties,
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
                 },

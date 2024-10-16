@@ -48,7 +48,6 @@ import { employeeService } from '@/components/api/EmployeeService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { EmployeeForm, Error } from '@/types'
-import type Job_specialty_uuid from '~/pages/settings/job-titles/[job_title_uuid]/edit/[job_specialty_uuid].vue';
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
@@ -76,6 +75,7 @@ const state = reactive({
         employment: {
             employment_date: '',
             job_title_uuid: '',
+            job_specialties: '',
             working_hours: '',
             employment_status: '',
         },
@@ -119,7 +119,7 @@ async function fetchEmployee() {
                 employment: {
                     employment_date: response?.data?.employee_detail?.date_of_employment,
                     job_title_uuid: response?.data?.employee_detail?.job?.uuid,
-                    Job_specialty_uuid: [],
+                    job_specialties: [],
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
                 },
@@ -129,7 +129,7 @@ async function fetchEmployee() {
                 },
             }
             response?.data?.employee_specialties.forEach((job_specialty: any) => {
-                state.formEmployee.employment.Job_specialty_uuid.push(job_specialty?.uuid)
+                state.formEmployee.employment.job_specialties.push(job_specialty?.uuid)
             })
             response?.data?.departments.forEach((department: any) => {
                 state.formEmployee.departments.push(department?.uuid)

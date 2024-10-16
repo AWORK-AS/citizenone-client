@@ -972,6 +972,7 @@
             "employment": {
                 "employmentDate": "Ansættelsesdato",
                 "employmentStatus": "Ansættelsesstatus",
+                "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitel",
                 "workingHours": "Arbejdstimer"
             },

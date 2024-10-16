@@ -971,6 +971,7 @@
             "employment": {
                 "employmentDate": "Employment date",
                 "employmentStatus": "Employment status",
+                "jobSpecialty": "Job specialty",
                 "jobTitle": "Job title",
                 "workingHours": "Working hours"
             },
