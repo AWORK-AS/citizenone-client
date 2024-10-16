@@ -158,8 +158,8 @@ const state = reactive({
 
 onMounted(() => {
     fetchRegions()
-    fetchMunicipalities(props.selectedContact?.region_uuid)
-    fetchCities(props.selectedContact?.municipality_uuid)
+    fetchMunicipalities(props.selectedContact?.region?.uuid)
+    fetchCities(props.selectedContact?.municipality?.uuid)
     state.formContact = {
         id: props.selectedContact?.id,
         uuid: props.selectedContact?.uuid,
@@ -169,16 +169,16 @@ onMounted(() => {
         email: props.selectedContact?.email,
         phone: props.selectedContact?.phone,
         street: props.selectedContact?.street,
-        region: props.selectedContact?.region_uuid,
-        municipality: props.selectedContact?.municipality_uuid,
-        city: props.selectedContact?.city_uuid,
+        region: props.selectedContact?.region?.uuid,
+        municipality: props.selectedContact?.municipality?.uuid,
+        city: props.selectedContact?.city?.uuid,
         post_code: props.selectedContact?.post_code,
     }
 })
 
 watch(() => props.selectedContact, (newValue: any) => {
-    fetchMunicipalities(props.selectedContact?.region_uuid)
-    fetchCities(props.selectedContact?.municipality_uuid)
+    fetchMunicipalities(props.selectedContact?.region?.uuid)
+    fetchCities(props.selectedContact?.municipality?.uuid)
     if (newValue != null) {
         state.formContact = {
             id: props.selectedContact?.id,
@@ -189,9 +189,9 @@ watch(() => props.selectedContact, (newValue: any) => {
             email: props.selectedContact?.email,
             phone: props.selectedContact?.phone,
             street: props.selectedContact?.street,
-            region: props.selectedContact?.region_uuid,
-            municipality: props.selectedContact?.municipality_uuid,
-            city: props.selectedContact?.city_uuid,
+            region: props.selectedContact?.region?.uuid,
+            municipality: props.selectedContact?.municipality?.uuid,
+            city: props.selectedContact?.city?.uuid,
             post_code: props.selectedContact?.post_code,
         }
     }
@@ -313,10 +313,14 @@ async function fetchCities(municipalityUuid: any) {
 }
 
 function changeSelectedRegion(regionUuid: string) {
-    fetchMunicipalities(regionUuid)
+    if (regionUuid) {
+        fetchMunicipalities(regionUuid)
+    }
 }
 
 function changeSelectedMunicipality(municipalityUuid: string) {
-    fetchCities(municipalityUuid)
+    if (municipalityUuid) {
+        fetchCities(municipalityUuid)
+    }
 }
 </script>
