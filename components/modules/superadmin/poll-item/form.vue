@@ -30,7 +30,7 @@
                 <FormLabel for="region" :label="$t('superadmin.polls.form.region')" />
                 <FormSelect id="region" :options="state.options.regions" v-model="state.formPoll.region" />
                 <FormError :error="v$?.formCitizen?.region?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.region_id?.[0]" />
+                <FormError :error="props?.error?.errors?.region_uuid?.[0]" />
             </div>
             <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer" @click="changeIsActive">
@@ -141,7 +141,7 @@ async function fetchRegions() {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.name,
                 })
             )
