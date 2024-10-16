@@ -21,7 +21,7 @@
                 <ModulesCitizenJournalTabs />
 
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="space-y-5">
+                    <div class="mt-8 space-y-5">
                         <div class="flex justify-between flex-col-reverse md:flex-row gap-3">
                             <div class="space-y-3 flex-none md:space-y-0 md:flex items-center gap-2">
                                 <FormButton class="w-full md:w-fit"

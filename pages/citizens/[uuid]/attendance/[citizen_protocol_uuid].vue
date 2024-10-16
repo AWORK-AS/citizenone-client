@@ -20,54 +20,60 @@
                 <ModulesCitizenDetailsHeader />
                 <ModulesCitizenJournalTabs />
 
-                <Alert type="danger" :text="state?.error?.message"
-                    v-if="state.error?.message && state.error.message.length > 0" />
-                <div class="flex justify-between flex-col-reverse md:flex-row md:items-center gap-3">
-                    <div class="w-48 flex items-center gap-2">
-                        {{ $t('show') }}:
-                        <FormSelect id="page_limit" name="page_limit" :options="state.options.page_limit"
-                            v-model="state.page_limit" />
-                    </div>
-                    <div class="flex gap-x-2">
-                        <Badge type="primary" class="w-fit">
-                            {{ $t('protocols.table.status.attended') }}:
-                            {{ state.citizenProtocolsCount?.data?.attended ?? 0 }}
-                        </Badge>
-                        <Badge type="inactive" class="w-fit">
-                            {{ $t('protocols.table.status.absent') }}:
-                            {{ state.citizenProtocolsCount?.data?.absent ?? 0 }}
-                        </Badge>
+                <div>
+                    <div class="mt-8 space-y-5">
+                        <Alert type="danger" :text="state?.error?.message"
+                            v-if="state.error?.message && state.error.message.length > 0" />
+                        <div class="flex justify-between flex-col-reverse md:flex-row md:items-center gap-3">
+                            <div class="w-48 flex items-center gap-2">
+                                {{ $t('show') }}:
+                                <FormSelect id="page_limit" name="page_limit" :options="state.options.page_limit"
+                                    v-model="state.page_limit" />
+                            </div>
+                            <div class="flex gap-x-2">
+                                <Badge type="primary" class="w-fit">
+                                    {{ $t('protocols.table.status.attended') }}:
+                                    {{ state.citizenProtocolsCount?.data?.attended ?? 0 }}
+                                </Badge>
+                                <Badge type="inactive" class="w-fit">
+                                    {{ $t('protocols.table.status.absent') }}:
+                                    {{ state.citizenProtocolsCount?.data?.absent ?? 0 }}
+                                </Badge>
+                            </div>
+                        </div>
+                        <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
+                            @handleFilter="handleFilter" />
+                        <div class="table-responsive">
+                            <Table :columnHeaders="state.columnHeaders" :data="state.citizenProtocols"
+                                :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
+                                <template #body
+                                    v-if="!(state.isTableLoading || (state.citizenProtocols?.data?.length === 0))">
+                                    <tr v-for="(citizenProtocol, index) in state.citizenProtocols?.data" :key="index">
+                                        <td width="50%">
+                                            <span>{{ formatDateToReadable(citizenProtocol?.date) }}</span>
+                                        </td>
+                                        <td width="50%">
+                                            <Badge
+                                                :type="citizenProtocol?.status === 'attended' ? 'primary' : 'inactive'"
+                                                class="w-fit" v-if="citizenProtocol?.status">
+                                                <p class="text-xs">
+                                                    <span v-if="citizenProtocol?.status === 'attended'">
+                                                        {{ $t('protocols.table.status.attended') }}
+                                                    </span>
+                                                    <span v-if="citizenProtocol?.status === 'absent'">
+                                                        {{ $t('protocols.table.status.absent') }}
+                                                    </span>
+                                                </p>
+                                            </Badge>
+                                            <span v-else>-</span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </Table>
+                        </div>
+                        <Pagination :data="state.citizenProtocols" @previous="previous" @next="next" />
                     </div>
                 </div>
-                <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
-                    @handleFilter="handleFilter" />
-                <div class="table-responsive">
-                    <Table :columnHeaders="state.columnHeaders" :data="state.citizenProtocols"
-                        :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                        <template #body v-if="!(state.isTableLoading || (state.citizenProtocols?.data?.length === 0))">
-                            <tr v-for="(citizenProtocol, index) in state.citizenProtocols?.data" :key="index">
-                                <td width="50%">
-                                    <span>{{ formatDateToReadable(citizenProtocol?.date) }}</span>
-                                </td>
-                                <td width="50%">
-                                    <Badge :type="citizenProtocol?.status === 'attended' ? 'primary' : 'inactive'"
-                                        class="w-fit" v-if="citizenProtocol?.status">
-                                        <p class="text-xs">
-                                            <span v-if="citizenProtocol?.status === 'attended'">
-                                                {{ $t('protocols.table.status.attended') }}
-                                            </span>
-                                            <span v-if="citizenProtocol?.status === 'absent'">
-                                                {{ $t('protocols.table.status.absent') }}
-                                            </span>
-                                        </p>
-                                    </Badge>
-                                    <span v-else>-</span>
-                                </td>
-                            </tr>
-                        </template>
-                    </Table>
-                </div>
-                <Pagination :data="state.citizenProtocols" @previous="previous" @next="next" />
             </div>
             <DialogConfirmation :isModalOpen="state.modal.isRemoveCitizenOpen"
                 :message="$t('citizens.citizenJournals.confirmation.deleteConfirmation') + '?'"

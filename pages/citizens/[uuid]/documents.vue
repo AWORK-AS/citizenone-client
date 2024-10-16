@@ -17,18 +17,21 @@
                 <ModulesCitizenDetailsHeader />
                 <ModulesCitizenJournalTabs />
 
-                <div class="flex justify-end items-center gap-x-3">
-                    <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isAddDirectoryOpen = true">
-                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('citizens.documents.createNewFolder') }}
-                    </FormButton>
-                    <LoadingSpinner :isActive="state.isPageLoading">
-                        <FormButton buttonStyle="action" class="rounded-md" @click="triggerFileInput">
-                            <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.documents.uploadFile') }}
+                <div>
+                    <div class="mt-8 flex justify-end items-center gap-x-3">
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            @click="state.modal.isAddDirectoryOpen = true">
+                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.documents.createNewFolder') }}
                         </FormButton>
-                        <input type="file" ref="documentFile" @change="uploadFile" class="hidden" />
-                    </LoadingSpinner>
+                        <LoadingSpinner :isActive="state.isPageLoading">
+                            <FormButton buttonStyle="action" class="rounded-md" @click="triggerFileInput">
+                                <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('citizens.documents.uploadFile') }}
+                            </FormButton>
+                            <input type="file" ref="documentFile" @change="uploadFile" class="hidden" />
+                        </LoadingSpinner>
+                    </div>
                 </div>
 
                 <div class="space-y-5">

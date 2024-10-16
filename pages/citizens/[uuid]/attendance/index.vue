@@ -8,7 +8,7 @@
 
             <template #header>{{ $t('citizens.tabs.attendance') }}</template>
 
-            <div>
+            <div class="space-y-5">
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
@@ -17,39 +17,41 @@
                 <ModulesCitizenDetailsHeader />
                 <ModulesCitizenJournalTabs />
 
-                <div class="mt-10 space-y-5">
-                    <Alert type="danger" :text="state?.error?.message"
-                        v-if="state.error?.message && state.error.message.length > 0" />
-                    <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
-                        @handleFilter="handleFilter" />
-                    <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.protocols"
-                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.protocols?.data?.length === 0))">
-                                <tr v-for="(protocol, index) in state.protocols?.data" :key="index">
-                                    <td width="25%">
-                                        <span>{{ protocol?.name }}</span>
-                                    </td>
-                                    <td width="25%">
-                                        <span>{{ formatDateToReadable(protocol?.start_date) }}</span>
-                                    </td>
-                                    <td width="25%">
-                                        <span>{{ formatDateToReadable(protocol?.end_date) }}</span>
-                                    </td>
-                                    <td width="25%">
-                                        <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/citizens/${citizenUuid}/attendance/${protocol.uuid}`)">
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('protocols.table.actions.view') }}
-                                            </FormButton>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </template>
-                        </Table>
+                <div>
+                    <div class="mt-8 space-y-5">
+                        <Alert type="danger" :text="state?.error?.message"
+                            v-if="state.error?.message && state.error.message.length > 0" />
+                        <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
+                            @handleFilter="handleFilter" />
+                        <div class="table-responsive">
+                            <Table :columnHeaders="state.columnHeaders" :data="state.protocols"
+                                :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
+                                <template #body v-if="!(state.isTableLoading || (state.protocols?.data?.length === 0))">
+                                    <tr v-for="(protocol, index) in state.protocols?.data" :key="index">
+                                        <td width="25%">
+                                            <span>{{ protocol?.name }}</span>
+                                        </td>
+                                        <td width="25%">
+                                            <span>{{ formatDateToReadable(protocol?.start_date) }}</span>
+                                        </td>
+                                        <td width="25%">
+                                            <span>{{ formatDateToReadable(protocol?.end_date) }}</span>
+                                        </td>
+                                        <td width="25%">
+                                            <div class="flex items-end gap-2">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="navigateTo(`/citizens/${citizenUuid}/attendance/${protocol.uuid}`)">
+                                                    <Icon name="ph:eye" class="size-4" />
+                                                    {{ $t('protocols.table.actions.view') }}
+                                                </FormButton>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </Table>
+                        </div>
+                        <Pagination :data="state.protocols" @previous="previous" @next="next" />
                     </div>
-                    <Pagination :data="state.protocols" @previous="previous" @next="next" />
                 </div>
             </div>
         </NuxtLayout>

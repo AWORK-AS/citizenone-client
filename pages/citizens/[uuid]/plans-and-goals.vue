@@ -21,7 +21,7 @@
                 <ModulesCitizenJournalTabs />
 
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="space-y-3">
+                    <div class="mt-8 space-y-3">
                         <div class="flex justify-end items-center mb-5 gap-x-2">
                             <FormButton buttonStyle="action" class="rounded-lg"
                                 @click="state.modal.isAddPlanOpen = true">
