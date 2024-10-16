@@ -48,6 +48,7 @@ import { employeeService } from '@/components/api/EmployeeService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { EmployeeForm, Error } from '@/types'
+import type Job_specialty_uuid from '~/pages/settings/job-titles/[job_title_uuid]/edit/[job_specialty_uuid].vue';
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
@@ -118,6 +119,7 @@ async function fetchEmployee() {
                 employment: {
                     employment_date: response?.data?.employee_detail?.date_of_employment,
                     job_title_uuid: response?.data?.employee_detail?.job?.uuid,
+                    Job_specialty_uuid: [],
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
                 },
@@ -126,8 +128,11 @@ async function fetchEmployee() {
                     trustees: [],
                 },
             }
+            response?.data?.employee_specialties.forEach((job_specialty: any) => {
+                state.formEmployee.employment.Job_specialty_uuid.push(job_specialty?.uuid)
+            })
             response?.data?.departments.forEach((department: any) => {
-                state.formEmployee.departments.push(department?.id)
+                state.formEmployee.departments.push(department?.uuid)
             })
             response?.data?.employee_trustees.forEach((employee_trustee: any) => {
                 state.formEmployee.emergencyInfo.trustees.push({
@@ -172,7 +177,7 @@ async function updateEmployee(employeeDetails: any) {
         params.append('post_code', employeeDetails.post_code)
         params.append('employment_date', employeeDetails.employment.employment_date)
         params.append('job_title_uuid', employeeDetails.employment.job_title_uuid)
-        params.append('job_specialties_uuid', employeeDetails.employment.job_specialties_uuid)
+        params.append('job_specialties_uuid', JSON.stringify(employeeDetails.employment.job_specialties))
         params.append('working_hours', employeeDetails.employment.working_hours)
         params.append('employment_status', employeeDetails.employment.employment_status)
         params.append('emergency_contacts', JSON.stringify(employeeDetails.emergencyInfo.emergency_contacts))

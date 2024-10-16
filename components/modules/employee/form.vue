@@ -192,19 +192,18 @@
                 </div>
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
-                        <FormLabel for="job_specialties_uuid"
-                            :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
+                        <FormLabel for="job_specialties" :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                             @click="addNewJobSpecialty">
                             {{ $t('jobSpecialties.addNewJobSpecialty') }}
                         </span>
                     </div>
-                    <FormSelectMultiple id="job_specialties_uuid" name="job_specialties_uuid"
+                    <FormSelectMultiple id="job_specialties" name="job_specialties"
                         :options="state.options.jobSpecialties"
-                        v-model="state.formEmployee.employment.job_specialties_uuid" />
+                        v-model="state.formEmployee.employment.job_specialties" />
                     <FormError
-                        :error="v$?.formScheduleSlot?.employment?.job_specialties_uuid?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.job_specialties_uuid?.[0]" />
+                        :error="v$?.formScheduleSlot?.employment?.job_specialties?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.job_specialties?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
@@ -441,7 +440,7 @@ const state = reactive({
         employment: {
             employment_date: '',
             job_title_uuid: '',
-            job_specialties_uuid: [],
+            job_specialties: [],
             working_hours: '',
             employment_status: '',
         },
@@ -701,8 +700,10 @@ async function fetchJobTitles() {
 }
 
 function changeJobTitle(jobTitleUuid: any) {
-    state.formEmployee.employment.job_specialties_uuid = []
-    fetchJobSpecialties(jobTitleUuid)
+    state.formEmployee.employment.job_specialties = []
+    if (jobTitleUuid) {
+        fetchJobSpecialties(jobTitleUuid)
+    }
 }
 
 function addNewJobSpecialty() {
