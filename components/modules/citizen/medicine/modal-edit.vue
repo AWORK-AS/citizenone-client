@@ -54,7 +54,7 @@ async function updateMedicine(medicineDetails: any) {
     try {
         const medicineUuid = medicineDetails.uuid
         const params = {
-            dosage_id: medicineDetails.dosage_id,
+            dosage_uuid: medicineDetails.dosage_uuid,
             medicine: medicineDetails.medicine,
             strength: medicineDetails.strength,
             daily_dose: medicineDetails.daily_dose,

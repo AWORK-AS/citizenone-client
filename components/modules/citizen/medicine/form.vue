@@ -21,11 +21,11 @@
                     <FormError :error="props?.error?.errors?.strength?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="dosage_id" :label="$t('citizens.medicineJournals.form.dosageForm')" />
-                    <FormSelect id="dosage_id" :options="state.options.dosage_form"
-                        v-model="state.formMedicine.dosage_id" />
-                    <FormError :error="v$?.formMedicine?.dosage_id?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.dosage_id?.[0]" />
+                    <FormLabel for="dosage_uuid" :label="$t('citizens.medicineJournals.form.dosageForm')" />
+                    <FormSelect id="dosage_uuid" :options="state.options.dosage_form"
+                        v-model="state.formMedicine.dosage_uuid" />
+                    <FormError :error="v$?.formMedicine?.dosage_uuid?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-x-3">
@@ -118,7 +118,7 @@ const state = reactive({
         uuid: '',
         medicine: '',
         strength: '',
-        dosage_id: '',
+        dosage_uuid: '',
         daily_dose: '',
         quantity: '',
         active_ingredients: '',
@@ -151,7 +151,7 @@ onMounted(() => {
         uuid: props.selectedMedicine.uuid,
         medicine: props.selectedMedicine.medicine,
         strength: props.selectedMedicine.strength,
-        dosage_id: props.selectedMedicine.dosage_id,
+        dosage_uuid: props.selectedMedicine.dosage?.uuid,
         daily_dose: props.selectedMedicine.daily_dose,
         quantity: props.selectedMedicine.quantity?.toString(),
         active_ingredients: props.selectedMedicine.active_ingredients,
@@ -176,7 +176,7 @@ watch(() => props.selectedMedicine, (newValue: any) => {
             uuid: newValue.uuid,
             medicine: newValue.medicine,
             strength: newValue.strength,
-            dosage_id: newValue.dosage_id,
+            dosage_uuid: newValue.dosage?.uuid,
             daily_dose: newValue.daily_dose,
             quantity: newValue.quantity?.toString(),
             active_ingredients: newValue.active_ingredients,
@@ -203,7 +203,7 @@ const rules = computed(() => {
             strength: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            dosage_id: {
+            dosage_uuid: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             daily_dose: {
@@ -261,7 +261,7 @@ async function fetchDosageForm() {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.name,
                 })
             )

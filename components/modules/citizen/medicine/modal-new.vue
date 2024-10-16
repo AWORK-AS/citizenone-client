@@ -40,7 +40,7 @@ const state = reactive({
         citizen_uuid: '',
         medicine: '',
         strength: '',
-        dosage_id: '',
+        dosage_uuid: '',
         daily_dose: '',
         quantity: '',
         active_ingredients: '',
@@ -64,7 +64,7 @@ async function saveMedicine(medicineDetails: any) {
     try {
         const params = {
             citizen_uuid: citizenUuid,
-            dosage_id: medicineDetails.dosage_id,
+            dosage_uuid: medicineDetails.dosage_uuid,
             medicine: medicineDetails.medicine,
             strength: medicineDetails.strength,
             daily_dose: medicineDetails.daily_dose,
