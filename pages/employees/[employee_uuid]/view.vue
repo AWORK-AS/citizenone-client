@@ -127,7 +127,8 @@
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.employmentDate')" />
                                         <p class="font-medium" v-if="state.selectedEmployee.employment.employment_date">
-                                            {{ formatDateToReadable(state.selectedEmployee.employment.employment_date)
+                                            {{
+                                                formatDateToReadable(state.selectedEmployee.employment.employment_date)
                                             }}
                                         </p>
                                     </div>
@@ -142,14 +143,7 @@
                                     <Label :label="$t('employees.form.employment.jobSpecialty')" />
                                     <p class="font-medium"
                                         v-if="state.selectedEmployee.employment.employee_specialties">
-                                    <div class="flex flex-wrap gap-1">
-                                        <div v-for="(job_specialty, index) in state.selectedEmployee.employment.employee_specialties"
-                                            :key="index">
-                                            <p class="text-xxs bg-primary text-white px-2 py-1.5 rounded-md">
-                                                {{ job_specialty?.title }}
-                                            </p>
-                                        </div>
-                                    </div>
+                                        {{ state.selectedEmployee.employment.employee_specialties }}
                                     </p>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -384,16 +378,29 @@ async function fetchEmployee() {
         if (response) {
             let concatenatedDepartments = ''
             let concatenatedPermissions = ''
+            let concatenatedJobSpecialties = ''
             response?.data?.departments.forEach((department: any, index: number) => {
                 concatenatedDepartments += department?.name
                 if (index < response.data.departments.length - 1) {
                     concatenatedDepartments += ', '
+                } else {
+                    concatenatedDepartments += '.'
                 }
             })
             response?.data?.permissions.forEach((permission: any, index: number) => {
                 concatenatedPermissions += permission?.name
                 if (index < response.data.permissions.length - 1) {
                     concatenatedPermissions += ', '
+                } else {
+                    concatenatedPermissions += '.'
+                }
+            })
+            response?.data?.employee_specialties.forEach((specialty: any, index: number) => {
+                concatenatedJobSpecialties += specialty?.title
+                if (index < response.data.employee_specialties.length - 1) {
+                    concatenatedJobSpecialties += ', '
+                } else {
+                    concatenatedJobSpecialties += '.'
                 }
             })
             state.selectedEmployee = {
@@ -413,7 +420,7 @@ async function fetchEmployee() {
                 employment: {
                     employment_date: response?.data?.employee_detail?.date_of_employment,
                     job_title: response?.data?.employee_detail?.job?.title,
-                    employee_specialties: response?.data?.employee_specialties,
+                    employee_specialties: concatenatedJobSpecialties,
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
                 },
