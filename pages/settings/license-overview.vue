@@ -13,7 +13,7 @@
             <ModulesSettingsTab />
 
             <div v-if="userStore.getUser?.user_subscription === null">
-                <div class="isolate mx-auto mt-10 grid max-w-lg">
+                <div class="isolate mx-auto mt-8 grid max-w-lg">
                     <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
                         <h3 class="text-xl font-semibold leading-7">
                             {{ $t('subscription.noSubscription.noActiveSubscription') }}
@@ -37,7 +37,7 @@
             </div>
             <div v-else>
                 <div class="lg:flex gap-8">
-                    <div class="isolate mt-10 w-full max-w-md">
+                    <div class="isolate mt-8 w-full max-w-md">
                         <h3 class="py-3 text-sm font-semibold">
                             {{ $t('subscription.currentSubscription') }}
                         </h3>
@@ -69,7 +69,7 @@
                                     {{ $t('excludeVat') }}
                                 </span>
                             </p>
-                            <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-10">
+                            <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-8">
                                 <li class="flex gap-x-2">
                                     <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
                                     {{ userStore.getUser?.user_subscription?.deal?.users }}
@@ -114,7 +114,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-10 w-full">
+                    <div class="mt-8 w-full">
                         <LoadingSpinner :isActive="state.isPageLoading">
                             <Alert type="danger" :text="state?.error?.message"
                                 v-if="state.error?.message && state.error.message.length > 0" />

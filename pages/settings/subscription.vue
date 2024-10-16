@@ -12,7 +12,7 @@
 
             <Alert type="danger" :text="error" v-if="error && error.length > 0" />
             <div v-if="userStore.getUser?.user_subscription === null">
-                <div class="isolate mx-auto mt-10 grid max-w-lg">
+                <div class="isolate mx-auto mt-8 grid max-w-lg">
                     <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
                         <h3 class="text-xl font-semibold leading-7">
                             {{ $t('subscription.noSubscription.noActiveSubscription') }}

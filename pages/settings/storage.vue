@@ -10,7 +10,7 @@
 
             <ModulesSettingsTab />
 
-            <div class="mt-10 max-w-3xl">
+            <div class="mt-8 max-w-3xl">
                 <ModulesStorageIndicator />
             </div>
         </NuxtLayout>
