@@ -76,11 +76,11 @@
                                 <FormError :error="state?.error?.errors?.birthday?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="phone" :label="$t('settings.profile.form.language')" />
+                                <FormLabel for="language" :label="$t('settings.profile.form.language')" />
                                 <FormSelect id="language" :options="state.options.languages"
-                                    v-model="state.formProfile.language_id" />
-                                <FormError :error="v$?.formProfile?.language?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.language_id?.[0]" />
+                                    v-model="state.formProfile.language_uuid" />
+                                <FormError :error="v$?.formProfile?.language_uuid?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.language_uuid?.[0]" />
                             </div>
                         </div>
                     </div>
@@ -122,7 +122,7 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
-        language_id: '',
+        language_uuid: '',
     },
     isPageLoading: false,
     options: {
@@ -148,7 +148,7 @@ const rulesFormProfile = computed(() => {
             birthday: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            language_id: {
+            language_uuid: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
@@ -171,7 +171,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             email: newValue?.email,
             phone: newValue?.phone,
             birthday: newValue?.birthday,
-            language_id: newValue?.language_id,
+            language_uuid: newValue?.language?.uuid,
         }
     }
 })
@@ -185,7 +185,7 @@ async function fetchLanguages() {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.id,
+                    value: item.uuid,
                     label: item.name,
                 })
             )
@@ -212,7 +212,7 @@ async function submitForm() {
             params.append('email', state.formProfile.email)
             params.append('phone', state.formProfile.phone)
             params.append('birthday', state.formProfile.birthday)
-            params.append('language_id', state.formProfile.language_id)
+            params.append('language_uuid', state.formProfile.language_uuid)
             const response = await userService.updateUser(params)
             if (response.data) {
                 userStore.setLanguage(response?.data?.language?.code)
