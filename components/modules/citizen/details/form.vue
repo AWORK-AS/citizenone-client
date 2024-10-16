@@ -80,7 +80,7 @@
                     <FormSelectMultiple id="departments" :options="state.options.departments"
                         v-model="state.formCitizen.departments" />
                     <FormError :error="v$?.formCitizen?.departments?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
+                    <FormError :error="props?.error?.errors?.departments_uuid?.[0]" />
                 </div>
             </div>
             <div class="space-y-1">

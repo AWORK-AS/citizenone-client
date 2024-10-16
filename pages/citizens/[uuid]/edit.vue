@@ -116,7 +116,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('social_security_number', citizenDetails.social_security_number)
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
-        params.append('department_uuid', citizenDetails.departments)
+        params.append('departments_uuid', citizenDetails.departments)
         params.append('street', citizenDetails.street)
         params.append('region_uuid', citizenDetails.region)
         params.append('municipality_uuid', citizenDetails.municipality)
