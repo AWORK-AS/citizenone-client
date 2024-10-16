@@ -36,7 +36,7 @@
 import { citizenService } from '@/components/api/CitizenService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
-import type { CitizenForm, CitizenResponse, Error } from '@/types'
+import type { CitizenForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
@@ -76,7 +76,7 @@ async function fetchCitizen() {
     state.isPageLoading = true
     state.error = {}
     try {
-        const response = await citizenService.getCitizen(citizenUuid) as CitizenResponse
+        const response = await citizenService.getCitizen(citizenUuid)
         if (response) {
             state.formCitizen = {
                 image: response?.data?.image ?? '',
@@ -88,14 +88,14 @@ async function fetchCitizen() {
                 phone: response?.data?.phone ?? '',
                 departments: [],
                 street: response?.data?.address?.street ?? '',
-                region_uuid: response?.data?.address?.region_uuid.toString() ?? '',
-                municipality_uuid: response?.data?.address?.municipality_uuid.toString() ?? '',
-                city_uuid: response?.data?.address?.city_uuid.toString() ?? '',
+                region_uuid: response?.data?.address?.region?.uuid.toString() ?? '',
+                municipality_uuid: response?.data?.address?.municipality?.uuid.toString() ?? '',
+                city_uuid: response?.data?.address?.city?.uuid.toString() ?? '',
                 post_code: response?.data?.address?.post_code ?? '',
                 diagnosis: response?.data?.diagnosis ?? '',
             }
             response?.data?.departments.forEach((department: any) => {
-                state.formCitizen.departments.push(department?.id)
+                state.formCitizen.departments.push(department?.uuid)
             })
         }
     } catch (error: any) {
