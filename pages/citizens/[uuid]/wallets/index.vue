@@ -43,7 +43,7 @@
                                         <span>{{ wallet?.note }}</span>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ formatAmount(wallet?.available_fund ?? 0) }}</span>
+                                        <span>{{ formatAmount(wallet?.running_balance ?? 0) }}</span>
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end justify-end gap-2">
