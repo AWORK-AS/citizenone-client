@@ -74,7 +74,7 @@
                                 <button v-for="day in weekDays" :key="day.date" type="button"
                                     class="flex flex-col items-center pb-3 pt-2" @click="setSelectedDay(day)">
                                     <span v-if="day.longName === 'Mon'">
-                                        {{ $t('calendar.week.oneLetter.Monday') }}asdasd
+                                        {{ $t('calendar.week.oneLetter.Monday') }}
                                     </span>
                                     <span v-if="day.longName === 'Tue'">
                                         {{ $t('calendar.week.oneLetter.Tuesday') }}
