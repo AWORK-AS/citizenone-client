@@ -86,7 +86,7 @@
                 </div>
                 <ModulesCitizenWalletTransactionModalNew :isModalOpen="state.modal.isAddWalletTransactionOpen"
                     @close="state.modal.isAddWalletTransactionOpen = false"
-                    @refreshWalletTransactions="fetchWalletTransactions" />
+                    @refreshWalletTransactions="refreshWalletTransactions" />
             </div>
         </NuxtLayout>
     </div>
@@ -141,6 +141,11 @@ onMounted(() => {
     fetchWallet()
     fetchWalletTransactions()
 })
+
+function refreshWalletTransactions() {
+    fetchWallet()
+    fetchWalletTransactions()
+}
 
 async function fetchWallet() {
     state.error = {}
