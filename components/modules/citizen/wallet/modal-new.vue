@@ -57,6 +57,7 @@ async function saveWallet(walletDetails: any) {
         const params = {
             citizen_uuid: citizenUuid,
             name: walletDetails.name,
+            note: walletDetails.note,
         }
         const response = await citizenWalletService.saveWallet(params)
         if (response?.data) {
