@@ -40,19 +40,25 @@
                             <template #body
                                 v-if="!(state.isTableLoading || (state.walletTransactions?.data?.length === 0))">
                                 <tr v-for="(walletTransaction, index) in state.walletTransactions?.data" :key="index">
-                                    <td width="40%">
-                                        <span>{{ walletTransaction?.name }}</span>
+                                    <td width="20%">
+                                        <span>{{ formatDateTimeToReadable(walletTransaction?.created_at) }}</span>
                                     </td>
-                                    <td width="40%">
-                                        <span>{{ formatAmount(walletTransaction?.available_fund ?? 0) }}</span>
+                                    <td width="20%">
+                                        <div v-if="walletTransaction?.type === 'cash_in'">
+                                            {{ $t('citizens.walletTransactions.table.cashIn') }}
+                                        </div>
+                                        <div v-else-if="walletTransaction?.type === 'cash_out'">
+                                            {{ $t('citizens.walletTransactions.table.cashOut') }}
+                                        </div>
+                                    </td>
+                                    <td width="20%">
+                                        <span>{{ formatAmount(walletTransaction?.amount ?? 0) }}</span>
+                                    </td>
+                                    <td width="20%">
+                                        <span>{{ walletTransaction?.note }}</span>
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/citizen/${citizenUuid}/walletTransactions/${walletTransaction?.uuid}`)">
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('citizens.walletTransactions.table.action.view') }}
-                                            </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editWalletTransaction(walletTransaction)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
@@ -71,28 +77,23 @@
                     </div>
                     <Pagination :data="state.walletTransactions" @previous="previous" @next="next" />
                 </div>
-                <!-- <ModulesCitizenWalletTransactionModalNew :isModalOpen="state.modal.isAddWalletTransactionOpen"
+                <ModulesCitizenWalletTransactionModalNew :isModalOpen="state.modal.isAddWalletTransactionOpen"
                     @close="state.modal.isAddWalletTransactionOpen = false"
                     @refreshWalletTransactions="fetchWalletTransactions" />
-                <ModulesCitizenWalletTransactionModalEdit :isModalOpen="state.modal.isEditWalletTransactionOpen"
-                    :selectedWalletTransaction="state.selectedWalletTransaction"
-                    @close="state.modal.isEditWalletTransactionOpen = false"
-                    @refreshWalletTransactions="fetchWalletTransactions" />
-                <DialogConfirmation :isModalOpen="state.modal.isDeleteWalletTransactionOpen"
-                    :message="$t('citizens.walletTransactions.confirmation.deleteConfirmation') + '?'"
-                    @close="state.modal.isDeleteWalletTransactionOpen = false" @confirm="deleteWalletTransaction" /> -->
             </div>
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
-// import { citizenWalletTransactionService } from '@/components/api/CitizenWalletTransactionService'
+import { citizenWalletTransactionService } from '@/components/api/CitizenWalletTransactionService'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
@@ -105,9 +106,9 @@ const state = reactive({
         { column: 'name' },
     ],
     columnHeaders: [
-        { name: 'citizens.walletTransactions.table.cashIn', sorter: true, key: 'cash_in' },
-        { name: 'citizens.walletTransactions.table.cashOut', sorter: true, key: 'cash_out' },
-        { name: 'citizens.walletTransactions.table.file' },
+        { name: 'citizens.walletTransactions.table.date', sorter: true, key: 'date' },
+        { name: 'citizens.walletTransactions.table.type', sorter: true, key: 'type' },
+        { name: 'citizens.walletTransactions.table.amount', sorter: true, key: 'amount' },
         { name: 'citizens.walletTransactions.table.note' },
         { name: '' },
     ],
@@ -142,10 +143,10 @@ async function fetchWalletTransactions() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
         }
-        // const response = await citizenWalletTransactionService.getWalletTransactions(params)
-        // if (response) {
-        //     state.walletTransactions = response
-        // }
+        const response = await citizenWalletTransactionService.getWalletTransactions(params)
+        if (response) {
+            state.walletTransactions = response
+        }
     } catch (error: any) {
         state.error = error
     }

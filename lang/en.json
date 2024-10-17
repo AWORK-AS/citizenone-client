@@ -710,7 +710,8 @@
                 "cashIn": "Cash in",
                 "cashOut": "Cash out",
                 "file": "File",
-                "note": "Note"
+                "note": "Note",
+                "type": "Type"
             },
             "newWalletTransaction": "New wallet transaction",
             "table": {
@@ -718,10 +719,13 @@
                     "delete": "Delete",
                     "edit": "Edit"
                 },
+                "amount": "Amount",
                 "cashIn": "Cash in",
                 "cashOut": "Cash out",
+                "date": "Date",
                 "file": "File",
-                "note": "Note"
+                "note": "Note",
+                "type": "Type"
             },
             "walletTransactions": "Wallet transactions"
         }

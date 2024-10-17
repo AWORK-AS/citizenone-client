@@ -22,7 +22,11 @@ class DocumentService extends BaseAPIService {
     }
 
     async getArchivedDocuments(params: object): Promise<any> {
-        return await this.request(`/user/documents/archived/list`, 'GET', params)
+        return await this.request(`/user/archived-documents`, 'GET', params)
+    }
+
+    async unarchiveDocument(documentUuid: object): Promise<any> {
+        return await this.request(`/user/archived-documents/${documentUuid}/toggle-archive`, 'PUT')
     }
 }
 

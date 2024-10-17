@@ -157,7 +157,7 @@ async function unarchiveDocument() {
     state.isTableLoading = true
     try {
         const documentUuid = state.selectedDocument?.uuid
-        const response = await documentService.archiveUnarchiveDocument(documentUuid)
+        const response = await documentService.unarchiveDocument(documentUuid)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('archived.alert.documentSuccessfullyUnarchive')}.`)
             fetchArchivedDocuments()
