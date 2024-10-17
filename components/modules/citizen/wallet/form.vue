@@ -11,6 +11,13 @@
                     <FormError :error="v$?.formWallet?.name?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.name?.[0]" />
                 </div>
+                <div class="space-y-1">
+                    <FormLabel for="note" :label="$t('citizens.wallets.form.note')" />
+                    <FormTextArea id="note" name="note" :placeholder="$t('citizens.wallets.form.note')"
+                        v-model="state.formWallet.note" />
+                    <FormError :error="v$?.formWallet?.note?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.note?.[0]" />
+                </div>
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -57,6 +64,7 @@ const state = reactive({
         id: '',
         uuid: '',
         name: '',
+        note: '',
     },
     isPageLoading: false,
 })
@@ -66,6 +74,7 @@ onMounted(() => {
         id: props.selectedWallet?.id,
         uuid: props.selectedWallet?.uuid,
         name: props.selectedWallet?.name,
+        note: props.selectedWallet?.name,
     }
 })
 
@@ -75,6 +84,7 @@ watch(() => props.selectedWallet, (newValue: any) => {
             id: props.selectedWallet?.id,
             uuid: props.selectedWallet?.uuid,
             name: props.selectedWallet?.name,
+            note: props.selectedWallet?.name,
         }
     }
 })

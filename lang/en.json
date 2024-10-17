@@ -678,7 +678,8 @@
                     "savedSuccessfully": "Wallet successfully saved",
                     "updatedSuccessfully": "Wallet successfully updated"
                 },
-                "name": "Name"
+                "name": "Name",
+                "note": "Note"
             },
             "newWallet": "New wallet",
             "table": {
@@ -688,7 +689,8 @@
                     "view": "View"
                 },
                 "available": "Available",
-                "name": "Name"
+                "name": "Name",
+                "note": "Note"
             },
             "wallets": "Wallets"
         },

@@ -54,6 +54,7 @@ async function updateWallet(walletDetails: any) {
         const walletUuid = walletDetails.uuid
         const params = {
             name: walletDetails.name,
+            note: walletDetails.note,
         }
         const response = await citizenWalletService.updateWallet(walletUuid, params)
         if (response?.data) {

@@ -38,6 +38,7 @@ const state = reactive({
     formWallet: {
         uuid: '',
         name: '',
+        note: '',
     },
 })
 

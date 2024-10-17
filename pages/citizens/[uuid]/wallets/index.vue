@@ -36,28 +36,31 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.wallets?.data?.length === 0))">
                                 <tr v-for="(wallet, index) in state.wallets?.data" :key="index">
-                                    <td width="40%">
+                                    <td width="20%">
                                         <span>{{ wallet?.name }}</span>
                                     </td>
                                     <td width="40%">
+                                        <span>{{ wallet?.note }}</span>
+                                    </td>
+                                    <td width="20%">
                                         <span>{{ formatAmount(wallet?.available_fund ?? 0) }}</span>
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/citizen/${citizenUuid}/wallets/${wallet?.uuid}`)">
+                                                @click="navigateTo(`/citizens/${citizenUuid}/wallets/${wallet?.uuid}`)">
                                                 <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('citizens.wallets.table.action.view') }}
+                                                {{ $t('citizens.wallets.table.actions.view') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editWallet(wallet)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('citizens.wallets.table.action.edit') }}
+                                                {{ $t('citizens.wallets.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                 @click="deleteWalletConfirmation(wallet)">
                                                 <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('citizens.wallets.table.action.delete') }}
+                                                {{ $t('citizens.wallets.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -95,11 +98,11 @@ let currentTablePage = 1
 
 const state = reactive({
     columnFilter: [
-        { column: 'title' },
         { column: 'name' },
     ],
     columnHeaders: [
         { name: 'citizens.wallets.table.name', sorter: true, key: 'name' },
+        { name: 'citizens.wallets.table.note' },
         { name: 'citizens.wallets.table.available', sorter: true, key: 'available' },
         { name: '' },
     ],

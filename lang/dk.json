@@ -679,7 +679,8 @@
                     "savedSuccessfully": "Pung gemt med succes",
                     "updatedSuccessfully": "Pung opdateret med succes"
                 },
-                "name": "Navn"
+                "name": "Navn",
+                "note": "Note"
             },
             "newWallet": "Ny pung",
             "table": {
@@ -689,7 +690,8 @@
                     "view": "Se"
                 },
                 "available": "Tilgængelig",
-                "name": "Navn"
+                "name": "Navn",
+                "note": "Note"
             },
             "wallets": "Punge"
         },

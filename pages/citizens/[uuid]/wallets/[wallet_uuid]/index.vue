@@ -11,7 +11,7 @@
 
             <div class="space-y-5">
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    :to="`/citizens/${citizenUuid}/walletTransactions`">
+                    :to="`/citizens/${citizenUuid}/wallets`">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -87,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import { citizenWalletTransactionService } from '@/components/api/CitizenWalletTransactionService'
+// import { citizenWalletTransactionService } from '@/components/api/CitizenWalletTransactionService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -142,10 +142,10 @@ async function fetchWalletTransactions() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
         }
-        const response = await citizenWalletTransactionService.getWalletTransactions(params)
-        if (response) {
-            state.walletTransactions = response
-        }
+        // const response = await citizenWalletTransactionService.getWalletTransactions(params)
+        // if (response) {
+        //     state.walletTransactions = response
+        // }
     } catch (error: any) {
         state.error = error
     }
