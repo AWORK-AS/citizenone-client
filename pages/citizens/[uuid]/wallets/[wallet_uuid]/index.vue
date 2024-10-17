@@ -51,25 +51,21 @@
                                             {{ $t('citizens.walletTransactions.table.cashOut') }}
                                         </div>
                                     </td>
-                                    <td width="20%">
+                                    <td width="30%">
                                         <span>{{ formatAmount(walletTransaction?.amount ?? 0) }}</span>
                                     </td>
-                                    <td width="20%">
-                                        <span>{{ walletTransaction?.note }}</span>
-                                    </td>
-                                    <td width="20%">
-                                        <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="editWalletTransaction(walletTransaction)">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('citizens.walletTransactions.table.action.edit') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                @click="deleteWalletTransactionConfirmation(walletTransaction)">
-                                                <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('citizens.walletTransactions.table.action.delete') }}
-                                            </FormButton>
+                                    <td width="30%">
+                                        <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
+                                            v-if="walletTransaction?.file?.file_url"
+                                            @click="openFile(walletTransaction?.file)">
+                                            <Icon name="ph:file" class="size-5" />
+                                            <span>
+                                                {{
+                                                    $t('citizens.walletTransactions.table.openUploadDocument')
+                                                }}
+                                            </span>
                                         </div>
+                                        <p class="mt-2">{{ walletTransaction?.note }}</p>
                                     </td>
                                 </tr>
                             </template>
@@ -110,7 +106,6 @@ const state = reactive({
         { name: 'citizens.walletTransactions.table.type', sorter: true, key: 'type' },
         { name: 'citizens.walletTransactions.table.amount', sorter: true, key: 'amount' },
         { name: 'citizens.walletTransactions.table.note' },
-        { name: '' },
     ],
     walletTransactions: [] as any,
     dataFilter: [],
@@ -192,6 +187,15 @@ function formatAmount(amount: any) {
 
     // Combine the integer part with the decimal part
     return 'DKK ' + formattedIntegerPart + ',' + decimalPart
+}
+
+function openFile(document: any) {
+    navigateTo(document?.file_url, {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 
 function editWalletTransaction(walletTransaction: any) {

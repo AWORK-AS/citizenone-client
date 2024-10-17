@@ -727,6 +727,7 @@
                 "date": "Dato",
                 "file": "Fil",
                 "note": "Note",
+                "openUploadDocument": "Åbn uploadet dokument",
                 "type": "Type"
             },
             "walletTransactions": "Pungtransaktioner"

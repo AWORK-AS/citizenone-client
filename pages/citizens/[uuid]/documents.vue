@@ -52,9 +52,7 @@
                                     <td width="25%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                             v-if="document?.file_url" @click="openFile(document)">
-                                            <div>
-                                                <Icon name="ph:file" class="size-6" />
-                                            </div>
+                                            <Icon name="ph:file" class="size-6" />
                                             <span>{{ document?.name }}</span>
                                         </div>
                                         <span v-else class="flex items-center gap-x-1">

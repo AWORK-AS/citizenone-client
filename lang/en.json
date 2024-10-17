@@ -726,6 +726,7 @@
                 "date": "Date",
                 "file": "File",
                 "note": "Note",
+                "openUploadDocument": "Open uploaded document",
                 "type": "Type"
             },
             "walletTransactions": "Wallet transactions"
