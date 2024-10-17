@@ -74,7 +74,7 @@ onMounted(() => {
         id: props.selectedWallet?.id,
         uuid: props.selectedWallet?.uuid,
         name: props.selectedWallet?.name,
-        note: props.selectedWallet?.name,
+        note: props.selectedWallet?.note,
     }
 })
 
@@ -84,7 +84,7 @@ watch(() => props.selectedWallet, (newValue: any) => {
             id: props.selectedWallet?.id,
             uuid: props.selectedWallet?.uuid,
             name: props.selectedWallet?.name,
-            note: props.selectedWallet?.name,
+            note: props.selectedWallet?.note,
         }
     }
 })
