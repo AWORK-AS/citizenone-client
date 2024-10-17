@@ -5,18 +5,40 @@
         <LoadingSpinner :isActive="state.isPageLoading">
             <div class="space-y-3">
                 <div class="space-y-1">
-                    <FormLabel for="name" :label="$t('citizens.wallets.form.name')" />
-                    <FormTextField id="name" name="name" :placeholder="$t('citizens.wallets.form.name')"
-                        v-model="state.formWallet.name" />
-                    <FormError :error="v$?.formWallet?.name?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.name?.[0]" />
+                    <FormLabel for="type" :label="$t('citizens.walletTransactions.form.type')" />
+                    <FormSelect id="type" :options="state.options.types" v-model="state.formWalletTransaction.type" />
+                    <FormError :error="v$?.formWalletTransaction?.type?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.type?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="note" :label="$t('citizens.wallets.form.note')" />
-                    <FormTextArea id="note" name="note" :placeholder="$t('citizens.wallets.form.note')"
-                        v-model="state.formWallet.note" />
-                    <FormError :error="v$?.formWallet?.note?.$errors[0]?.$message.toString()" />
+                    <FormLabel for="amount" :label="$t('citizens.walletTransactions.form.amount')" />
+                    <FormTextField id="amount" name="amount"
+                        :placeholder="$t('citizens.walletTransactions.form.amount')"
+                        v-model="state.formWalletTransaction.amount" />
+                    <FormError :error="v$?.formWalletTransaction?.amount?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.amount?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="note" :label="$t('citizens.walletTransactions.form.note')" />
+                    <FormTextArea id="note" name="note" :placeholder="$t('citizens.walletTransactions.form.note')"
+                        v-model="state.formWalletTransaction.note" />
+                    <FormError :error="v$?.formWalletTransaction?.note?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.note?.[0]" />
+                </div>
+                <div class="space-y-1" v-if="props.formType === 'create'">
+                    <div class="flex flex-col items-center">
+                        <input type="file" ref="file" @change="onFileChange" class="hidden" />
+                        <div class="relative cursor-pointer" @click="triggerFileInput">
+                            <Icon name="ic:outline-drive-folder-upload" class="h-36 w-36" aria-hidden="true" />
+                            <div
+                                class="rounded-full absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
+                                <div class="flex items-center w-full h-full justify-center text-xs">
+                                    {{ $t('selectFile') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <FormError :error="props?.error?.errors?.file?.[0]" class="text-center" />
                 </div>
             </div>
             <div class="mt-6">
@@ -55,43 +77,56 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
+const file = ref<HTMLInputElement | null>(null)
 
 const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
-    formWallet: {
+    formWalletTransaction: {
         id: '',
         uuid: '',
-        name: '',
+        type: '',
+        amount: '',
         note: '',
+        file: '',
     },
     isPageLoading: false,
+    options: {
+        types: [
+            { value: 'cash_in', label: `${t('citizens.walletTransactions.form.cashIn')}` },
+            { value: 'cash_out', label: `${t('citizens.walletTransactions.form.cashOut')}` },
+        ]
+    },
 })
 
 onMounted(() => {
-    state.formWallet = {
+    state.formWalletTransaction = {
         id: props.selectedWalletTransaction?.id,
         uuid: props.selectedWalletTransaction?.uuid,
-        name: props.selectedWalletTransaction?.name,
-        note: props.selectedWalletTransaction?.name,
+        type: props.selectedWalletTransaction?.type,
+        amount: props.selectedWalletTransaction?.amount,
+        note: props.selectedWalletTransaction?.note,
+        file: '',
     }
 })
 
 watch(() => props.selectedWalletTransaction, (newValue: any) => {
     if (newValue != null) {
-        state.formWallet = {
+        state.formWalletTransaction = {
             id: props.selectedWalletTransaction?.id,
             uuid: props.selectedWalletTransaction?.uuid,
-            name: props.selectedWalletTransaction?.name,
-            note: props.selectedWalletTransaction?.name,
+            type: props.selectedWalletTransaction?.type,
+            amount: props.selectedWalletTransaction?.amount,
+            note: props.selectedWalletTransaction?.note,
+            file: '',
         }
     }
 })
 
 const rules = computed(() => {
     return {
-        formWallet: {
+        formWalletTransaction: {
             name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
@@ -104,7 +139,17 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formWallet)
+        emit('submitForm', state.formWalletTransaction)
     }
+}
+
+function triggerFileInput() {
+    if (file.value) {
+        file.value.click()
+    }
+}
+
+function onFileChange(event: any) {
+    state.formWalletTransaction.file = event.target.files[0]
 }
 </script>

@@ -708,6 +708,7 @@
                     "savedSuccessfully": "Pungtransaktion gemt med succes",
                     "updatedSuccessfully": "Pungtransaktion opdateret med succes"
                 },
+                "amount": "Beløb",
                 "cashIn": "Indbetaling",
                 "cashOut": "Udbetaling",
                 "file": "Fil",
@@ -1703,6 +1704,7 @@
         "or": "Eller"
     },
     "search": "Søg",
+    "selectFile": "Vælg fil",
     "setupPassword": {
         "form": {
             "confirmPassword": "Bekræft adgangskode",

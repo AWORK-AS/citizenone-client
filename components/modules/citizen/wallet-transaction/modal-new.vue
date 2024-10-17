@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('citizens.walletTransactions.newWalletTransaction')" :show="props.isModalOpen"
+        <Modal size="sm" :title="$t('citizens.walletTransactions.newWalletTransaction')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -38,9 +38,10 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formWalletTransaction: {
-        uuid: '',
-        name: '',
+        type: '',
+        amount: '',
         note: '',
+        file: '',
     },
 })
 
@@ -61,12 +62,14 @@ async function saveWalletTransaction(walletTransactionDetails: any) {
         params.append('type', walletTransactionDetails.type)
         params.append('amount', walletTransactionDetails.amount)
         params.append('note', walletTransactionDetails.note)
-        params.append('file', walletTransactionDetails.file)
+        if (walletTransactionDetails.file) {
+            params.append('file', walletTransactionDetails.file)
+        }
         const response = await citizenWalletTransactionService.saveWalletTransaction(params)
         if (response?.data) {
             refreshWalletTransactions()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.wallets.form.alert.savedSuccessfully')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.walletTransactions.form.alert.savedSuccessfully')}.`)
         }
     } catch (error: any) {
         state.error = error
