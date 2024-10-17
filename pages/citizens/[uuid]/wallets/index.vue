@@ -31,7 +31,29 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                         @handleFilter="handleFilter" />
-                    <div class="table-responsive">
+                    <div>
+                        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                            <div v-for="(wallet, index) in state.wallets?.data" :key="index"
+                                @click="Object.keys(state.selectedWallet)?.length === 0 && navigateTo(`/citizens/${citizenUuid}/wallets/${wallet?.uuid}`)">
+                                <div
+                                    class="h-36 bg-white border-l-4 border-primary/70 px-4 py-5 relative overflow-clip ring-1 ring-gray-200 rounded-md cursor-pointer hover:bg-gray-100">
+                                    <img src="/img/icons/asset-02.svg" alt="Image failed to load"
+                                        class="z-10 w-24 absolute -bottom-8 -right-8">
+                                    <div class="absolute z-30 right-2">
+                                        <button class="hover:text-primar-800" @click="editWallet(wallet)">
+                                            <Icon name="ph:pencil-simple" class="size-5" />
+                                        </button>
+                                    </div>
+                                    <div class="space-y-1 relative z-20">
+                                        <p class="text-sm font-semibold">{{ wallet?.name }}</p>
+                                        <p class="text-xs">{{ formatAmount(wallet?.running_balance) }}</p>
+                                        <p class="text-xxs text-justify line-clamp-5">{{ wallet?.note }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.wallets"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.wallets?.data?.length === 0))">
@@ -67,13 +89,13 @@
                                 </tr>
                             </template>
                         </Table>
-                    </div>
+                    </div> -->
                     <Pagination :data="state.wallets" @previous="previous" @next="next" />
                 </div>
                 <ModulesCitizenWalletModalNew :isModalOpen="state.modal.isAddWalletOpen"
                     @close="state.modal.isAddWalletOpen = false" @refreshWallets="fetchWallets" />
                 <ModulesCitizenWalletModalEdit :isModalOpen="state.modal.isEditWalletOpen"
-                    :selectedWallet="state.selectedWallet" @close="state.modal.isEditWalletOpen = false"
+                    :selectedWallet="state.selectedWallet" @close="closeEditWalletModal"
                     @refreshWallets="fetchWallets" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteWalletOpen"
                     :message="$t('citizens.wallets.confirmation.deleteConfirmation') + '?'"
@@ -191,6 +213,11 @@ function formatAmount(amount: any) {
 function editWallet(wallet: any) {
     state.selectedWallet = wallet
     state.modal.isEditWalletOpen = true
+}
+
+function closeEditWalletModal() {
+    state.selectedWallet = []
+    state.modal.isEditWalletOpen = false
 }
 
 function deleteWalletConfirmation(wallet: any) {

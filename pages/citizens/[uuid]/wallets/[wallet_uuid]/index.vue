@@ -19,15 +19,24 @@
                 <ModulesCitizenDetailsHeader />
                 <ModulesCitizenJournalTabs />
 
-                <div>
-                    <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <div class="mt-8 flex justify-between items-center mb-5 gap-x-2">
+                        <div class="text-sm">
+                            <p class="font-semibold">
+                                {{ state.wallet?.data?.name }}
+                            </p>
+                            <p>
+                                {{ $t('citizens.wallets.table.available') }}:
+                                {{ formatAmount(state.wallet?.data?.running_balance) }}
+                            </p>
+                        </div>
                         <FormButton buttonStyle="action" class="rounded-lg"
                             @click="state.modal.isAddWalletTransactionOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.walletTransactions.newWalletTransaction') }}
                         </FormButton>
                     </div>
-                </div>
+                </LoadingSpinner>
 
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
@@ -52,7 +61,9 @@
                                         </div>
                                     </td>
                                     <td width="30%">
+                                        <span v-if="walletTransaction?.type === 'cash_out'">(</span>
                                         <span>{{ formatAmount(walletTransaction?.amount ?? 0) }}</span>
+                                        <span v-if="walletTransaction?.type === 'cash_out'">)</span>
                                     </td>
                                     <td width="30%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
@@ -82,6 +93,7 @@
 </template>
 
 <script setup lang="ts">
+import { citizenWalletService } from '@/components/api/CitizenWalletService'
 import { citizenWalletTransactionService } from '@/components/api/CitizenWalletTransactionService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
@@ -107,9 +119,11 @@ const state = reactive({
         { name: 'citizens.walletTransactions.table.amount', sorter: true, key: 'amount' },
         { name: 'citizens.walletTransactions.table.note' },
     ],
+    wallet: [] as any,
     walletTransactions: [] as any,
     dataFilter: [],
     error: {} as Error,
+    isPageLoading: false,
     isTableLoading: false,
     modal: {
         isAddWalletTransactionOpen: false,
@@ -124,8 +138,23 @@ const state = reactive({
 })
 
 onMounted(() => {
+    fetchWallet()
     fetchWalletTransactions()
 })
+
+async function fetchWallet() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await citizenWalletService.getWallet(walletUuid)
+        if (response) {
+            state.wallet = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 
 async function fetchWalletTransactions() {
     state.error = {}
