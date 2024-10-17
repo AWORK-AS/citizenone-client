@@ -432,6 +432,15 @@
         <p v-if="props.description === 'A procedure attachment has been delete'">
             {{ $t('activityLogs.logs.aProcedureAttachmentHasBeenDeleted') }}
         </p>
+        <p v-if="props.description === 'En borgerpung er blevet oprettet'">
+            {{ $t('activityLogs.logs.aCitizenWalletHasBeenCreated') }}
+        </p>
+        <p v-if="props.description === 'En borgerpung er blevet opdateret'">
+            {{ $t('activityLogs.logs.aCitizenWalletHasBeenUpdated') }}
+        </p>
+        <p v-if="props.description === 'En borgerpung er blevet slettet'">
+            {{ $t('activityLogs.logs.aCitizenWalletHasBeenDeleted') }}
+        </p>
         <p v-if="props.description.includes('logged in')">
             {{ props.description.replace("logged in", $t('activityLogs.logs.loggedIn')) }}
         </p>

@@ -146,6 +146,9 @@
             "aProcedureAttachmentHasBeenCreated": "A procedure attachment has been created",
             "aProcedureAttachmentHasBeenUpdated": "A procedure attachment has been updated",
             "aProcedureAttachmentHasBeenDeleted": "A procedure attachment has been deleted",
+            "aCitizenWalletHasBeenCreated": "A citizen wallet has been created",
+            "aCitizenWalletHasBeenCpdated": "A citizen wallet has been updated",
+            "aCitizenWalletHasBeenCeleted": "A citizen wallet has been deleted",
             "loggedIn": "Logged in",
             "loggedOut": "Logged out"
         },

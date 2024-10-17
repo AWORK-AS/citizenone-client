@@ -146,6 +146,9 @@
             "aProcedureAttachmentHasBeenCreated": "Et procedurevedhæftning er blevet oprettet",
             "aProcedureAttachmentHasBeenUpdated": "Et procedurevedhæftning er blevet opdateret",
             "aProcedureAttachmentHasBeenDeleted": "Et procedurevedhæftning er blevet slettet",
+            "aCitizenWalletHasBeenCreated": "En borgerpung er blevet oprettet",
+            "aCitizenWalletHasBeenUpdated": "En borgerpung er blevet opdateret",
+            "aCitizenWalletHasBeenDeleted": "En borgerpung er blevet slettet",
             "loggedIn": "Logget ind",
             "loggedOut": "Logget ud"
         },
