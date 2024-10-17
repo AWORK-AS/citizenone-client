@@ -58,7 +58,7 @@ async function saveWalletTransaction(walletTransactionDetails: any) {
     state.isPageLoading = true
     try {
         let params = new FormData()
-        params.append('employee_uuid', citizenWalletUuid.toString())
+        params.append('wallet_uuid', citizenWalletUuid.toString())
         params.append('type', walletTransactionDetails.type)
         params.append('amount', walletTransactionDetails.amount)
         params.append('note', walletTransactionDetails.note)
