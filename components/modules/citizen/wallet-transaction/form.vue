@@ -127,7 +127,10 @@ watch(() => props.selectedWalletTransaction, (newValue: any) => {
 const rules = computed(() => {
     return {
         formWalletTransaction: {
-            name: {
+            type: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            amount: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
