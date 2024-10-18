@@ -3,16 +3,22 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('procedures.procedures') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('tasks.tasks') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('procedures.procedures') }}</template>
+            <template #header>{{ $t('tasks.tasks') }}</template>
+
+            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/procedures">
+                <Icon name="ph:arrow-left" size="20" class="text-black" />
+                <span>{{ $t('back') }}</span>
+            </NuxtLink>
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/procedures/new')">
+                    <FormButton buttonStyle="action" class="rounded-lg"
+                        @click="navigateTo(`/procedures/${procedureUuid}/new`)">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('procedures.newProcedure') }}
+                        {{ $t('tasks.newTask') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -21,37 +27,38 @@
                     <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                         @handleFilter="handleFilter" />
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.procedures"
+                        <Table :columnHeaders="state.columnHeaders" :data="state.proceduretasks"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.procedures?.data?.length === 0))">
-                                <tr v-for="(procedure, index) in state.procedures?.data" :key="index">
+                            <template #body
+                                v-if="!(state.isTableLoading || (state.proceduretasks?.data?.length === 0))">
+                                <tr v-for="(task, index) in state.proceduretasks?.data" :key="index">
                                     <td width="15%">
-                                        <span>{{ procedure?.title }}</span>
+                                        <span>{{ task?.title }}</span>
                                     </td>
                                     <td width="60%">
-                                        <div v-html="procedure.content" class="content" />
+                                        <div v-html="task.content" class="content" />
                                     </td>
                                     <td width="10%">
                                         <div class="flex items-center gap-x-2">
-                                            <Badge :type="procedure?.is_active ? 'active' : 'inactive'">
+                                            <Badge :type="task?.is_active ? 'active' : 'inactive'">
                                                 <p class="text-xs">
-                                                    {{ procedure?.is_active ? $t('procedures.table.active') :
-                                                        $t('procedures.table.inactive') }}
+                                                    {{ task?.is_active ? $t('tasks.table.active') :
+                                                        $t('tasks.table.inactive') }}
                                                 </p>
                                             </Badge>
                                         </div>
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <!-- <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/procedures/${procedure.uuid}`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('procedures.table.actions.view') }}
-                                            </FormButton>
+                                            </FormButton> -->
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/procedures/${procedure.uuid}/edit`)">
+                                                @click="navigateTo(`/procedures/${procedureUuid}/edit/${task.uuid}`)">
                                                 <Icon name="ph:pencil" class="size-4" />
-                                                {{ $t('procedures.table.actions.edit') }}
+                                                {{ $t('tasks.table.actions.edit') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -59,7 +66,7 @@
                             </template>
                         </Table>
                     </div>
-                    <Pagination :data="state.procedures" @previous="previous" @next="next" />
+                    <Pagination :data="state.proceduretasks" @previous="previous" @next="next" />
                 </div>
             </div>
         </NuxtLayout>
@@ -67,26 +74,28 @@
 </template>
 
 <script setup lang="ts">
-import { procedureService } from '@/components/api/ProcedureService'
+import { procedureTaskService } from '@/components/api/ProcedureTaskService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 let currentTablePage = 1
+const router = useRouter()
+const procedureUuid = router?.currentRoute?.value?.params?.procedure_uuid
 
 const state = reactive({
     columnFilter: [
         { column: 'title' },
     ],
     columnHeaders: [
-        { name: 'procedures.table.title', sorter: true, key: 'title' },
-        { name: 'procedures.table.content' },
-        { name: 'procedures.table.status' },
+        { name: 'tasks.table.title', sorter: true, key: 'title' },
+        { name: 'tasks.table.content' },
+        { name: 'tasks.table.status' },
         { name: '' },
     ],
     dataFilter: [],
-    procedures: [] as any,
     error: {} as Error,
     isTableLoading: false,
+    proceduretasks: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -94,22 +103,23 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchProcedures()
+    fetchProcedureTasks()
 })
 
-async function fetchProcedures() {
+async function fetchProcedureTasks() {
     state.error = {}
     state.isTableLoading = true
     try {
         const params = {
+            procedure_uuid: procedureUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await procedureService.getProcedures(params)
+        const response = await procedureTaskService.getProcedureTasks(params)
         if (response) {
-            state.procedures = response
+            state.proceduretasks = response
         }
     } catch (error: any) {
         state.error = error
@@ -119,12 +129,12 @@ async function fetchProcedures() {
 
 function previous() {
     currentTablePage--
-    fetchProcedures()
+    fetchProcedureTasks()
 }
 
 function next() {
     currentTablePage++
-    fetchProcedures()
+    fetchProcedureTasks()
 }
 
 function sort(sortingData: any) {
@@ -133,12 +143,12 @@ function sort(sortingData: any) {
         sortField: sortingData.column,
         sortOrder: sortingData.sort,
     }
-    fetchProcedures()
+    fetchProcedureTasks()
 }
 
 function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
-    fetchProcedures()
+    fetchProcedureTasks()
 }
 </script>

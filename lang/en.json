@@ -1270,7 +1270,8 @@
         "table": {
             "actions": {
                 "delete": "Delete",
-                "edit": "Edit"
+                "edit": "Edit",
+                "view": "View"
             },
             "active": "Active",
             "content": "Content",
@@ -1315,6 +1316,39 @@
                 "attended": "Attended"
             }
         }
+    },
+    "register": {
+        "form": {
+            "createAccount": "Create account",
+            "alreadyHaveAnAccount": "Already have an account",
+            "companyName": "Company name",
+            "firstname": "First name",
+            "lastname": "Last name",
+            "emailAddress": "Email address",
+            "password": "Password",
+            "confirmPassword": "Confirm Password",
+            "phone": "Phone",
+            "iHaveReadAndAcceptThe": "I have read and accept the",
+            "termsAndConditions": "Terms and Conditions",
+            "loginHere": "Login here",
+            "agreetoTAC": "You must agree to the terms and conditions"
+        }
+    },
+    "reminder": {
+        "checkIn": "Check in",
+        "checkinReminder": "Check-in reminder",
+        "dontForgetToCheckInToday": "Don't forget to check in today",
+        "doNotShowAgain": "Do not show again",
+        "iDontNeedToCheckinNow": "I don't need to check in now"
+    },
+    "resetPassword": {
+        "form": {
+            "confirmPassword": "Confirm password",
+            "password": "Password"
+        },
+        "loginHereInstead": "Login here instead",
+        "resetPassword": "Reset password",
+        "or": "Or"
     },
     "save": "Save",
     "selectADate": "Select a date",
@@ -1377,6 +1411,109 @@
         }
     },
     "show": "Show",
+    "search": "Search",
+    "selectFile": "Select file",
+    "setupPassword": {
+        "form": {
+            "confirmPassword": "Confirm password",
+            "password": "Password"
+        },
+        "loginHereInstead": "Login here instead",
+        "or": "Or",
+        "setPassword": "Set password",
+        "setupPassword": "Setup password"
+    },
+    "sidebar": {
+        "bulletBoard": "Bullet board",
+        "dailyOverview": "Daily overview",
+        "citizens": "Citizens",
+        "myCalendar": "My calendar",
+        "dutySchedules": "Duty schedules",
+        "employees": "Employees",
+        "messages": "Messages",
+        "procedures": "Procedures",
+        "protocols": "Protocols",
+        "apps": "Apps"
+    },
+    "subscription": {
+        "addOnDeals": {
+            "addOnDeals": "Add-on deals",
+            "checkout": "Checkout",
+            "extraDepartment": "Extra department",
+            "extraUser": "Extra user",
+            "total": "Total"
+        },
+        "currentSubscription": "Current subscription",
+        "deal": {
+            "additionalPurchaseFor": "Additional purchase for",
+            "annually": "Annually",
+            "automaticSynchronizationWithFMK": "Automatic synchronization with FMK",
+            "department": "Department",
+            "departments": "departments",
+            "forExtraDepartment": "For extra department",
+            "forExtraUser": "For extra user",
+            "goodForTheSmallerSocialOffer": "Good for the smaller social offer",
+            "month": "Month",
+            "monthly": "Monthly",
+            "perfectForTheLargerSocialOffer": "Perfect for the larger social offer",
+            "recommended": "Recommended",
+            "storageSpace": "Storage space",
+            "selectPackage": "Select package",
+            "telephoneSupport": "Telephone support",
+            "user": "User",
+            "users": "Users",
+            "year": "Year"
+        },
+        "discount": {
+            "discount": "Discount",
+            "save": "Save",
+            "whenChoosingYearly": "When choosing yearly"
+        },
+        "noSubscription": {
+            "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "It looks like you don't have an active subscription at the moment",
+            "noActiveSubscription": "No Active Subscription",
+            "toEnjoyOurFullRangeOfServicesAndBenefits": "To enjoy our full range of services and benefits, consider subscribing to one of our plans",
+            "subscribeNow": "Subscribe now"
+        },
+        "subscribed": {
+            "goHome": "Go home",
+            "subscriptionSuccessful": "Subscription Successful",
+            "thankYouForSubscribing": "Thank you for subscribing",
+            "paymentSuccessful": "Payment successful",
+            "yourPaymentHasBeenSuccessfullyProcessed": "Your payment has been successfully processed",
+            "yourSubscriptionIsNowActive": "Your subscription is now active"
+        },
+        "subscription": "Subscription",
+        "upgrade": "Upgrade"
+    },
+    "support": {
+        "courseDetails": "If you and your colleagues need a course in CitizenOne, click the button below to see what we can offer to get you well prepared",
+        "goToSupportcenter": "Go to supportcenter",
+        "needACourse": "Need a course",
+        "support": "Support",
+        "weAreReadyToHelp": "We are ready to help",
+        "viewCourses": "View courses"
+    },
+    "storage": {
+        "alert": {
+            "messageSuccessfullySent": "Message successfully sent"
+        },
+        "available": "Available",
+        "contactUs": "Contact us",
+        "currentPlan": "Current plan",
+        "documents": "Documents",
+        "doYouNeedMoreStorage": "Do you need more storage",
+        "form": {
+            "howMuchStorageDoYouNeed": "How much storage do you need",
+            "pleaseWriteHere": "Please write here",
+            "sendMessage": "Send message",
+            "tellUsHowMuchStorage": "Tell us how much storage you need and we will get back as soon as possible"
+        },
+        "month": "Month",
+        "storage": "Storage",
+        "upgrade": "Upgrade",
+        "upgradeOptions": "Upgrade options"
+    },
     "superadmin": {
         "accounts": {
             "accounts": "Accounts",
@@ -1671,141 +1808,39 @@
             "users": "Users"
         }
     },
-    "register": {
-        "form": {
-            "createAccount": "Create account",
-            "alreadyHaveAnAccount": "Already have an account",
-            "companyName": "Company name",
-            "firstname": "First name",
-            "lastname": "Last name",
-            "emailAddress": "Email address",
-            "password": "Password",
-            "confirmPassword": "Confirm Password",
-            "phone": "Phone",
-            "iHaveReadAndAcceptThe": "I have read and accept the",
-            "termsAndConditions": "Terms and Conditions",
-            "loginHere": "Login here",
-            "agreetoTAC": "You must agree to the terms and conditions"
-        }
-    },
-    "reminder": {
-        "checkIn": "Check in",
-        "checkinReminder": "Check-in reminder",
-        "dontForgetToCheckInToday": "Don't forget to check in today",
-        "doNotShowAgain": "Do not show again",
-        "iDontNeedToCheckinNow": "I don't need to check in now"
-    },
-    "resetPassword": {
-        "form": {
-            "confirmPassword": "Confirm password",
-            "password": "Password"
-        },
-        "loginHereInstead": "Login here instead",
-        "resetPassword": "Reset password",
-        "or": "Or"
-    },
-    "search": "Search",
-    "selectFile": "Select file",
-    "setupPassword": {
-        "form": {
-            "confirmPassword": "Confirm password",
-            "password": "Password"
-        },
-        "loginHereInstead": "Login here instead",
-        "or": "Or",
-        "setPassword": "Set password",
-        "setupPassword": "Setup password"
-    },
-    "sidebar": {
-        "bulletBoard": "Bullet board",
-        "dailyOverview": "Daily overview",
-        "citizens": "Citizens",
-        "myCalendar": "My calendar",
-        "dutySchedules": "Duty schedules",
-        "employees": "Employees",
-        "messages": "Messages",
-        "procedures": "Procedures",
-        "protocols": "Protocols",
-        "apps": "Apps"
-    },
-    "subscription": {
-        "addOnDeals": {
-            "addOnDeals": "Add-on deals",
-            "checkout": "Checkout",
-            "extraDepartment": "Extra department",
-            "extraUser": "Extra user",
-            "total": "Total"
-        },
-        "currentSubscription": "Current subscription",
-        "deal": {
-            "additionalPurchaseFor": "Additional purchase for",
-            "annually": "Annually",
-            "automaticSynchronizationWithFMK": "Automatic synchronization with FMK",
-            "department": "Department",
-            "departments": "departments",
-            "forExtraDepartment": "For extra department",
-            "forExtraUser": "For extra user",
-            "goodForTheSmallerSocialOffer": "Good for the smaller social offer",
-            "month": "Month",
-            "monthly": "Monthly",
-            "perfectForTheLargerSocialOffer": "Perfect for the larger social offer",
-            "recommended": "Recommended",
-            "storageSpace": "Storage space",
-            "selectPackage": "Select package",
-            "telephoneSupport": "Telephone support",
-            "user": "User",
-            "users": "Users",
-            "year": "Year"
-        },
-        "discount": {
-            "discount": "Discount",
-            "save": "Save",
-            "whenChoosingYearly": "When choosing yearly"
-        },
-        "noSubscription": {
-            "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "It looks like you don't have an active subscription at the moment",
-            "noActiveSubscription": "No Active Subscription",
-            "toEnjoyOurFullRangeOfServicesAndBenefits": "To enjoy our full range of services and benefits, consider subscribing to one of our plans",
-            "subscribeNow": "Subscribe now"
-        },
-        "subscribed": {
-            "goHome": "Go home",
-            "subscriptionSuccessful": "Subscription Successful",
-            "thankYouForSubscribing": "Thank you for subscribing",
-            "paymentSuccessful": "Payment successful",
-            "yourPaymentHasBeenSuccessfullyProcessed": "Your payment has been successfully processed",
-            "yourSubscriptionIsNowActive": "Your subscription is now active"
-        },
-        "subscription": "Subscription",
-        "upgrade": "Upgrade"
-    },
-    "support": {
-        "courseDetails": "If you and your colleagues need a course in CitizenOne, click the button below to see what we can offer to get you well prepared",
-        "goToSupportcenter": "Go to supportcenter",
-        "needACourse": "Need a course",
-        "support": "Support",
-        "weAreReadyToHelp": "We are ready to help",
-        "viewCourses": "View courses"
-    },
-    "storage": {
+    "tasks": {
+        "addNewTask": "Add new task",
         "alert": {
-            "messageSuccessfullySent": "Message successfully sent"
+            "taskSuccessfullyDeleted": "Task successfully deleted"
         },
-        "available": "Available",
-        "contactUs": "Contact us",
-        "currentPlan": "Current plan",
-        "documents": "Documents",
-        "doYouNeedMoreStorage": "Do you need more storage",
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this task"
+        },
+        "editTask": "Edit task",
         "form": {
-            "howMuchStorageDoYouNeed": "How much storage do you need",
-            "pleaseWriteHere": "Please write here",
-            "sendMessage": "Send message",
-            "tellUsHowMuchStorage": "Tell us how much storage you need and we will get back as soon as possible"
+            "alert": {
+                "taskSuccessfullyUpdated": "Task successfully updated",
+                "newTaskSuccessfullySaved": "New task successfully saved"
+            },
+            "attachFile": "Attach file",
+            "content": "Content",
+            "isActive": "Is active",
+            "title": "Title"
         },
-        "month": "Month",
-        "storage": "Storage",
-        "upgrade": "Upgrade",
-        "upgradeOptions": "Upgrade options"
+        "newTask": "New task",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit",
+                "view": "View"
+            },
+            "active": "Active",
+            "content": "Content",
+            "inactive": "Inactive",
+            "status": "Status",
+            "title": "Title"
+        },
+        "tasks": "Tasks"
     },
     "theListIsEmpty": "The list is empty",
     "timeLogs": {

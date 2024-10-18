@@ -1273,7 +1273,8 @@
         "table": {
             "actions": {
                 "delete": "Slet",
-                "edit": "Rediger"
+                "edit": "Rediger",
+                "view": "Se"
             },
             "content": "Indhold",
             "status": "Status",
@@ -1316,6 +1317,39 @@
                 "attended": "Tilstede"
             }
         }
+    },
+    "register": {
+        "form": {
+            "agreetoTAC": "Du skal acceptere vilkårene og betingelserne",
+            "alreadyHaveAnAccount": "Har du allerede en konto",
+            "companyName": "Firmanavn",
+            "confirmPassword": "Bekræft adgangskode",
+            "createAccount": "Opret konto",
+            "emailAddress": "E-mail adresse",
+            "firstname": "Fornavn",
+            "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
+            "termsAndConditions": "Vilkår og betingelser",
+            "lastname": "Efternavn",
+            "loginHere": "Log ind her",
+            "password": "Adgangskode",
+            "phone": "Telefon"
+        }
+    },
+    "reminder": {
+        "checkIn": "Tjek ind",
+        "checkinReminder": "Påmindelse om at tjekke ind",
+        "dontForgetToCheckInToday": "Glem ikke at tjekke ind i dag",
+        "doNotShowAgain": "Vis ikke igen",
+        "iDontNeedToCheckinNow": "Jeg behøver ikke tjekke ind nu"
+    },
+    "resetPassword": {
+        "form": {
+            "confirmPassword": "Bekræft adgangskode",
+            "password": "Adgangskode"
+        },
+        "loginHereInstead": "Log ind her i stedet",
+        "resetPassword": "Nulstil adgangskode",
+        "or": "Eller"
     },
     "save": "Gem",
     "selectADate": "Vælg en dato",
@@ -1378,6 +1412,112 @@
         }
     },
     "show": "Vis",
+    "search": "Søg",
+    "selectFile": "Vælg fil",
+    "setupPassword": {
+        "form": {
+            "confirmPassword": "Bekræft adgangskode",
+            "password": "Adgangskode"
+        },
+        "loginHereInstead": "Log ind her i stedet",
+        "or": "Eller",
+        "setPassword": "Opret adgangskode",
+        "setupPassword": "Opret adgangskode"
+    },
+    "sidebar": {
+        "bulletBoard": "Opslagstavle",
+        "dailyOverview": "Daglig oversigt",
+        "citizens": "Borgere",
+        "myCalendar": "Min kalender",
+        "departments": "Afdelinger",
+        "dutySchedules": "Vagtskema",
+        "employees": "Medarbejdere",
+        "jobTitles": "Jobtitler",
+        "messages": "Beskeder",
+        "procedures": "Procedurer",
+        "protocols": "Protokol",
+        "apps": "Apps",
+        "timeLogs": "Tidslogfiler"
+    },
+    "subscription": {
+        "addOnDeals": {
+            "addOnDeals": "Ekstra brugere og afdelinger",
+            "checkout": "Betal og tilføj",
+            "extraDepartment": "Ekstra afdeling",
+            "extraUser": "Ekstra bruger",
+            "total": "Total"
+        },
+        "currentSubscription": "Nuværende abonnement",
+        "deal": {
+            "additionalPurchaseFor": "tilkøb ekstra for",
+            "annually": "Årligt",
+            "automaticSynchronizationWithFMK": "Automatisk synkronisering med FMK",
+            "department": "Afdeling",
+            "departments": "Afdelinger",
+            "forExtraDepartment": "For ekstra afdeling",
+            "forExtraUser": "For ekstra bruger",
+            "goodForTheSmallerSocialOffer": "God til det mindre sociale tilbud",
+            "month": "Måned",
+            "monthly": "Månedligt",
+            "perfectForTheLargerSocialOffer": "Perfekt til det større sociale tilbud",
+            "recommended": "Anbefalet",
+            "storageSpace": "lagerplads",
+            "selectPackage": "Vælg pakke",
+            "telephoneSupport": "Telefonisk support",
+            "user": "Bruger",
+            "users": "Brugere",
+            "year": "År"
+        },
+        "discount": {
+            "discount": "Rabat",
+            "save": "Spar",
+            "whenChoosingYearly": "Når du vælger årligt"
+        },
+        "noSubscription": {
+            "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ud til, at du ikke har et aktivt abonnement i øjeblikket",
+            "noActiveSubscription": "Ingen aktiv abonnement",
+            "toEnjoyOurFullRangeOfServicesAndBenefits": "For at nyde vores fulde udvalg af tjenester og fordele, overvej at abonnere på en af vores planer",
+            "subscribeNow": "Abonnér nu"
+        },
+        "subscribed": {
+            "goHome": "Gå hjem",
+            "subscriptionSuccessful": "Abonnement succesfuldt",
+            "thankYouForSubscribing": "Tak fordi du abonnerer",
+            "paymentSuccessful": "Betaling gennemført med succes",
+            "yourPaymentHasBeenSuccessfullyProcessed": "Din betaling er blevet behandlet med succes",
+            "yourSubscriptionIsNowActive": "Dit abonnement er nu aktivt"
+        },
+        "subscription": "Abonnement",
+        "upgrade": "Opgrader"
+    },
+    "support": {
+        "courseDetails": "Hvis du og dine kollegaer har brug for et kursus i CitizenOne, så klik på knappen nedenfor for at se, hvad vi kan tilbyde, så I bliver godt klædt på",
+        "goToSupportcenter": "Gå til support",
+        "needACourse": "Brug for et kursus",
+        "support": "Support",
+        "weAreReadyToHelp": "Vi er klar til at hjælpe",
+        "viewCourses": "Se kurser"
+    },
+    "storage": {
+        "alert": {
+            "messageSuccessfullySent": "Besked sendt succesfuldt"
+        },
+        "available": "Tilgængelig",
+        "contactUs": "Kontakt os",
+        "currentPlan": "Nuværende plan",
+        "documents": "Dokumenter",
+        "doYouNeedMoreStorage": "Har du brug for mere plads",
+        "form": {
+            "howMuchStorageDoYouNeed": "Hvor meget opbevaring har du brug for",
+            "pleaseWriteHere": "Skriv venligst her",
+            "sendMessage": "Send besked",
+            "tellUsHowMuchStorage": "Fortæl os, hvor meget opbevaring du har brug for, og vi vender tilbage så hurtigt som muligt"
+        },
+        "month": "Måned",
+        "storage": "Lagerplads",
+        "upgrade": "Opgrader",
+        "upgradeOptions": "Opgraderingsmuligheder"
+    },
     "superadmin": {
         "accounts": {
             "accounts": "Kontoer",
@@ -1670,144 +1810,39 @@
             "users": "Brugere"
         }
     },
-    "register": {
-        "form": {
-            "agreetoTAC": "Du skal acceptere vilkårene og betingelserne",
-            "alreadyHaveAnAccount": "Har du allerede en konto",
-            "companyName": "Firmanavn",
-            "confirmPassword": "Bekræft adgangskode",
-            "createAccount": "Opret konto",
-            "emailAddress": "E-mail adresse",
-            "firstname": "Fornavn",
-            "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
-            "termsAndConditions": "Vilkår og betingelser",
-            "lastname": "Efternavn",
-            "loginHere": "Log ind her",
-            "password": "Adgangskode",
-            "phone": "Telefon"
-        }
-    },
-    "reminder": {
-        "checkIn": "Tjek ind",
-        "checkinReminder": "Påmindelse om at tjekke ind",
-        "dontForgetToCheckInToday": "Glem ikke at tjekke ind i dag",
-        "doNotShowAgain": "Vis ikke igen",
-        "iDontNeedToCheckinNow": "Jeg behøver ikke tjekke ind nu"
-    },
-    "resetPassword": {
-        "form": {
-            "confirmPassword": "Bekræft adgangskode",
-            "password": "Adgangskode"
-        },
-        "loginHereInstead": "Log ind her i stedet",
-        "resetPassword": "Nulstil adgangskode",
-        "or": "Eller"
-    },
-    "search": "Søg",
-    "selectFile": "Vælg fil",
-    "setupPassword": {
-        "form": {
-            "confirmPassword": "Bekræft adgangskode",
-            "password": "Adgangskode"
-        },
-        "loginHereInstead": "Log ind her i stedet",
-        "or": "Eller",
-        "setPassword": "Opret adgangskode",
-        "setupPassword": "Opret adgangskode"
-    },
-    "sidebar": {
-        "bulletBoard": "Opslagstavle",
-        "dailyOverview": "Daglig oversigt",
-        "citizens": "Borgere",
-        "myCalendar": "Min kalender",
-        "departments": "Afdelinger",
-        "dutySchedules": "Vagtskema",
-        "employees": "Medarbejdere",
-        "jobTitles": "Jobtitler",
-        "messages": "Beskeder",
-        "procedures": "Procedurer",
-        "protocols": "Protokol",
-        "apps": "Apps",
-        "timeLogs": "Tidslogfiler"
-    },
-    "subscription": {
-        "addOnDeals": {
-            "addOnDeals": "Ekstra brugere og afdelinger",
-            "checkout": "Betal og tilføj",
-            "extraDepartment": "Ekstra afdeling",
-            "extraUser": "Ekstra bruger",
-            "total": "Total"
-        },
-        "currentSubscription": "Nuværende abonnement",
-        "deal": {
-            "additionalPurchaseFor": "tilkøb ekstra for",
-            "annually": "Årligt",
-            "automaticSynchronizationWithFMK": "Automatisk synkronisering med FMK",
-            "department": "Afdeling",
-            "departments": "Afdelinger",
-            "forExtraDepartment": "For ekstra afdeling",
-            "forExtraUser": "For ekstra bruger",
-            "goodForTheSmallerSocialOffer": "God til det mindre sociale tilbud",
-            "month": "Måned",
-            "monthly": "Månedligt",
-            "perfectForTheLargerSocialOffer": "Perfekt til det større sociale tilbud",
-            "recommended": "Anbefalet",
-            "storageSpace": "lagerplads",
-            "selectPackage": "Vælg pakke",
-            "telephoneSupport": "Telefonisk support",
-            "user": "Bruger",
-            "users": "Brugere",
-            "year": "År"
-        },
-        "discount": {
-            "discount": "Rabat",
-            "save": "Spar",
-            "whenChoosingYearly": "Når du vælger årligt"
-        },
-        "noSubscription": {
-            "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ud til, at du ikke har et aktivt abonnement i øjeblikket",
-            "noActiveSubscription": "Ingen aktiv abonnement",
-            "toEnjoyOurFullRangeOfServicesAndBenefits": "For at nyde vores fulde udvalg af tjenester og fordele, overvej at abonnere på en af vores planer",
-            "subscribeNow": "Abonnér nu"
-        },
-        "subscribed": {
-            "goHome": "Gå hjem",
-            "subscriptionSuccessful": "Abonnement succesfuldt",
-            "thankYouForSubscribing": "Tak fordi du abonnerer",
-            "paymentSuccessful": "Betaling gennemført med succes",
-            "yourPaymentHasBeenSuccessfullyProcessed": "Din betaling er blevet behandlet med succes",
-            "yourSubscriptionIsNowActive": "Dit abonnement er nu aktivt"
-        },
-        "subscription": "Abonnement",
-        "upgrade": "Opgrader"
-    },
-    "support": {
-        "courseDetails": "Hvis du og dine kollegaer har brug for et kursus i CitizenOne, så klik på knappen nedenfor for at se, hvad vi kan tilbyde, så I bliver godt klædt på",
-        "goToSupportcenter": "Gå til support",
-        "needACourse": "Brug for et kursus",
-        "support": "Support",
-        "weAreReadyToHelp": "Vi er klar til at hjælpe",
-        "viewCourses": "Se kurser"
-    },
-    "storage": {
+    "tasks": {
+        "addNewTask": "Tilføj ny opgave",
         "alert": {
-            "messageSuccessfullySent": "Besked sendt succesfuldt"
+            "taskSuccessfullyDeleted": "Opgave slettet med succes"
         },
-        "available": "Tilgængelig",
-        "contactUs": "Kontakt os",
-        "currentPlan": "Nuværende plan",
-        "documents": "Dokumenter",
-        "doYouNeedMoreStorage": "Har du brug for mere plads",
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne opgave?"
+        },
+        "editTask": "Rediger opgave",
         "form": {
-            "howMuchStorageDoYouNeed": "Hvor meget opbevaring har du brug for",
-            "pleaseWriteHere": "Skriv venligst her",
-            "sendMessage": "Send besked",
-            "tellUsHowMuchStorage": "Fortæl os, hvor meget opbevaring du har brug for, og vi vender tilbage så hurtigt som muligt"
+            "alert": {
+                "taskSuccessfullyUpdated": "Opgave opdateret med succes",
+                "newTaskSuccessfullySaved": "Ny opgave gemt med succes"
+            },
+            "attachFile": "Vedhæft fil",
+            "content": "Indhold",
+            "isActive": "Er aktiv",
+            "title": "Titel"
         },
-        "month": "Måned",
-        "storage": "Lagerplads",
-        "upgrade": "Opgrader",
-        "upgradeOptions": "Opgraderingsmuligheder"
+        "newTask": "Ny opgave",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger",
+                "view": "Se"
+            },
+            "active": "Aktiv",
+            "content": "Indhold",
+            "inactive": "Inaktiv",
+            "status": "Status",
+            "title": "Titel"
+        },
+        "tasks": "Opgaver"
     },
     "theListIsEmpty": "Listen er tom",
     "timeLogs": {

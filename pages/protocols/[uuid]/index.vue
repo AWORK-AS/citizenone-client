@@ -96,7 +96,7 @@ const uuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
 
 const state = reactive({
-    citizenProtocols: [],
+    citizenProtocols: [] as any,
     columnFilter: [
         { column: 'citizen' },
         { column: 'status' },
@@ -114,8 +114,8 @@ const state = reactive({
     modal: {
         isRemoveCitizenOpen: false
     },
-    selectedCitizenProtocol: [],
-    selectedProtocol: [],
+    selectedCitizenProtocol: [] as any,
+    selectedProtocol: [] as any,
     searchFilter: [],
     sortData: {
         sortField: 'id',
