@@ -21,7 +21,7 @@ const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
 
 const state = reactive({
-    isAdmin: false,
+    isAdmin: true,
 })
 
 watch(() => userStore.getUser, (newValue: any) => {
