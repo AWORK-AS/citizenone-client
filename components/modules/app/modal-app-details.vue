@@ -39,7 +39,7 @@
                             :buttonStyle="props.selectedApp?.user_activated ? 'warning' : 'action'" :class="[
                                 props.selectedApp?.user_activated && 'cursor-not-allowed',
                                 'w-full'
-                            ]" color="primary" @click="!props.selectedApp?.user_activated && confirmTACAcceptance">
+                            ]" color="primary" @click="!props.selectedApp?.user_activated && confirmTACAcceptance()">
                             {{ props.selectedApp?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
                         </FormButton>
                     </div>
