@@ -9,8 +9,7 @@
             <template #header>{{ $t('procedures.editProcedure') }}</template>
 
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    to="/settings/procedures">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/procedures">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -80,7 +79,7 @@ async function updateProcedure(procedureDetails: any) {
         const response = await procedureService.updateProcedure(procedureUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('procedures.form.alert.procedureSuccessfullyUpdated')}.`)
-            navigateTo('/settings/procedures')
+            navigateTo('/procedures')
         }
     } catch (error: any) {
         state.error = error

@@ -1370,7 +1370,6 @@
             "jobTitles": "Job titles",
             "licenseOverview": "License overview",
             "licenses": "Licenses",
-            "procedures": "Procedures",
             "profile": "Profile",
             "storage": "Storage",
             "subscription": "Subscription",
@@ -1725,6 +1724,7 @@
         "dutySchedules": "Duty schedules",
         "employees": "Employees",
         "messages": "Messages",
+        "procedures": "Procedures",
         "protocols": "Protocols",
         "apps": "Apps"
     },

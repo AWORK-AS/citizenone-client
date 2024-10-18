@@ -1371,7 +1371,6 @@
             "jobTitles": "Jobtitler",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
-            "procedures": "Procedurer",
             "profile": "Profil",
             "storage": "Lager",
             "subscription": "Abonnement",
@@ -1726,6 +1725,7 @@
         "employees": "Medarbejdere",
         "jobTitles": "Jobtitler",
         "messages": "Beskeder",
+        "procedures": "Procedurer",
         "protocols": "Protokol",
         "apps": "Apps",
         "timeLogs": "Tidslogfiler"

@@ -8,11 +8,9 @@
 
             <template #header>{{ $t('procedures.procedures') }}</template>
 
-            <ModulesSettingsTab />
-
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/procedures/new')">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/procedures/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('procedures.newProcedure') }}
                     </FormButton>
@@ -46,7 +44,7 @@
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/procedures/${procedure.uuid}/edit`)">
+                                                @click="navigateTo(`/procedures/${procedure.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('procedures.table.actions.edit') }}
                                             </FormButton>

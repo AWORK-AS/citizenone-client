@@ -9,8 +9,7 @@
             <template #header>{{ $t('procedures.newProcedure') }}</template>
 
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    to="/settings/procedures">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/procedures">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -56,7 +55,7 @@ async function saveProcedure(procedureDetails: any) {
         const response = await procedureService.saveProcedure(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('procedures.form.alert.newProcedureSuccessfullySaved')}.`)
-            navigateTo('/settings/procedures')
+            navigateTo('/procedures')
         }
     } catch (error: any) {
         state.error = error

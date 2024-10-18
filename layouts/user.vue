@@ -59,6 +59,9 @@
                                                         <span v-if="item.name === 'Messages'">
                                                             {{ $t('sidebar.messages') }}
                                                         </span>
+                                                        <span v-if="item.name === 'Procedures'">
+                                                            {{ $t('sidebar.procedures') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Protocols'">
                                                             {{ $t('sidebar.protocols') }}
                                                         </span>
@@ -142,6 +145,9 @@
                                         </span>
                                         <span v-if="item.name === 'Messages'">
                                             {{ $t('sidebar.messages') }}
+                                        </span>
+                                        <span v-if="item.name === 'Procedures'">
+                                            {{ $t('sidebar.procedures') }}
                                         </span>
                                         <span v-if="item.name === 'Protocols'">
                                             {{ $t('sidebar.protocols') }}
@@ -410,6 +416,17 @@ const navigation = [
         activeRouteNames: [
             'messages',
             'messages-receiver_uuid',
+        ]
+    },
+    {
+        name: 'Procedures',
+        href: '/procedures',
+        icon: 'ph:list-checks',
+        activeRouteNames: [
+            'procedures',
+            'protocols-new',
+            'procedures-procedure_uuid',
+            'procedures-procedure_uuid-edit',
         ]
     },
     {

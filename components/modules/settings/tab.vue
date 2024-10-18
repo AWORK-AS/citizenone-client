@@ -70,13 +70,6 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
-                    name: 'settings.tabs.procedures',
-                    href: `/settings/procedures`,
-                    routeNames: [
-                        'settings-procedures'
-                    ]
-                },
-                {
                     name: 'settings.tabs.jobTitles',
                     href: `/settings/job-titles`,
                     routeNames: [
@@ -102,8 +95,6 @@ watch(() => userStore.getUser, (newValue: any) => {
         } else {
             const route = router?.currentRoute?.value?.name
             if (route === 'settings-company') {
-                navigateTo('/settings/profile')
-            } else if (route === 'settings-procedures') {
                 navigateTo('/settings/profile')
             }
 
@@ -199,9 +190,6 @@ function changeTab(value: any) {
     }
     else if (value === t('settings.tabs.departments')) {
         navigateTo(`/settings/departments`)
-    }
-    else if (value === t('settings.tabs.procedures')) {
-        navigateTo(`/settings/procedures`)
     }
     else if (value === t('settings.tabs.jobTitles')) {
         navigateTo(`/settings/job-titles`)
