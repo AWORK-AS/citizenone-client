@@ -21,7 +21,7 @@ const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
 
 const state = reactive({
-    isPageLoading: false,
+    isPageLoading: true,
     isAdmin: false,
 })
 
@@ -30,6 +30,6 @@ watch(() => userStore.getUser, (newValue: any) => {
         const isAdmin = userStore?.getUser.roles.some((role: any) => role.name === 'Admin')
         state.isAdmin = isAdmin
     }
-    state.isPageLoading = true
+    state.isPageLoading = false
 })
 </script>
