@@ -441,6 +441,18 @@
         <p v-if="props.description === 'A citizen wallet has been deleted'">
             {{ $t('activityLogs.logs.aCitizenWalletHasBeenDeleted') }}
         </p>
+        <p v-if="props.description === 'A procedure task has been created'">
+            {{ $t('activityLogs.logs.aProcedureTaskHasBeenCreated') }}
+        </p>
+        <p v-if="props.description === 'A procedure task has been updated'">
+            {{ $t('activityLogs.logs.aProcedureTaskHasBeenUpdated') }}
+        </p>
+        <p v-if="props.description === 'A procedure task has been deleted'">
+            {{ $t('activityLogs.logs.aProcedureTaskHasBeenDeleted') }}
+        </p>
+        <p v-if="props.description === 'A task attachment has been created'">
+            {{ $t('activityLogs.logs.aTaskAttachmentHasBeenCreated') }}
+        </p>
         <p v-if="props.description.includes('logged in')">
             {{ props.description.replace("logged in", $t('activityLogs.logs.loggedIn')) }}
         </p>

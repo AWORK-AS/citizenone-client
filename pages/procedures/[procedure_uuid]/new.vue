@@ -51,6 +51,7 @@ async function saveProcedureTask(procedureDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
+            procedure_uuid: procedureUuid,
             title: procedureDetails.title,
             content: procedureDetails.content,
             is_active: procedureDetails.is_active,

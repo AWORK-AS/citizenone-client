@@ -149,6 +149,10 @@
             "aCitizenWalletHasBeenCreated": "En borgerpung er blevet oprettet",
             "aCitizenWalletHasBeenUpdated": "En borgerpung er blevet opdateret",
             "aCitizenWalletHasBeenDeleted": "En borgerpung er blevet slettet",
+            "aProcedureTaskHasBeenCreated": "En procedureopgave er blevet oprettet",
+            "aProcedureTaskHasBeenUpdated": "En procedureopgave er blevet opdateret",
+            "aProcedureTaskHasBeenDeleted": "En procedureopgave er blevet slettet",
+            "aTaskAttachmentHasBeenCreated": "En opgavevedhæftning er blevet oprettet",
             "loggedIn": "Logget ind",
             "loggedOut": "Logget ud"
         },

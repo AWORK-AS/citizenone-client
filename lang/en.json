@@ -149,6 +149,10 @@
             "aCitizenWalletHasBeenCreated": "A citizen wallet has been created",
             "aCitizenWalletHasBeenUpdated": "A citizen wallet has been updated",
             "aCitizenWalletHasBeenDeleted": "A citizen wallet has been deleted",
+            "aProcedureTaskHasBeenCreated": "A procedure task has been created",
+            "aProcedureTaskHasBeenUpdated": "A procedure task has been updated",
+            "aProcedureTaskHasBeenDeleted": "A procedure task has been deleted",
+            "aTaskAttachmentHasBeenCreated": "A task attachment has been created",
             "loggedIn": "Logged in",
             "loggedOut": "Logged out"
         },
