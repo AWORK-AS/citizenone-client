@@ -43,7 +43,7 @@
                                         <td width="20%">
                                             <span>{{ slot?.job?.title }}</span>
                                             <div class="flex flex-wrap gap-1">
-                                                <div v-for="(job_specialty, index) in slot?.job_specialties"
+                                                <div v-for="(job_specialty, index) in slot?.schedule_specialties"
                                                     :key="index">
                                                     <p class="text-xxs bg-primary text-white p-1 rounded-md">
                                                         {{ job_specialty?.title }}
