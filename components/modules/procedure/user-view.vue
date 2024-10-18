@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="mt-5 bg-white rounded-md ring-1 ring-inset ring-gray-200 divide-y divide-gray-200">
-            <div class="p-5">
+            <div class="p-7">
                 <div>
                     <p class="font-semibold">Procedure 1</p>
                 </div>
@@ -85,7 +85,7 @@
                     </div>
                 </div>
             </div>
-            <div class="p-5">
+            <div class="p-7">
                 <div>
                     <p class="font-semibold">Procedure 2</p>
                 </div>
@@ -152,7 +152,7 @@
                     </div>
                 </div>
             </div>
-            <div class="p-5">
+            <div class="p-7">
                 <div>
                     <p class="font-semibold">Procedure 3</p>
                 </div>
