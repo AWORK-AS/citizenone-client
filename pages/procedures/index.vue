@@ -8,8 +8,10 @@
 
             <template #header>{{ $t('procedures.procedures') }}</template>
 
-            <ModulesProcedureAdminView class="mt-8" v-if="!state.isPageLoading && state.isAdmin" />
-            <ModulesProcedureUserView class="mt-8" v-else-if="!state.isPageLoading && !state.isAdmin" />
+            <LoadingSpinner :isActive="state.isPageLoading">
+                <ModulesProcedureAdminView class="mt-8" v-if="!state.isPageLoading && state.isAdmin" />
+                <ModulesProcedureUserView class="mt-8" v-else-if="!state.isPageLoading && !state.isAdmin" />
+            </LoadingSpinner>
         </NuxtLayout>
     </div>
 </template>
