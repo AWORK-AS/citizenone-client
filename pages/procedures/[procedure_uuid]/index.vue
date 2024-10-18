@@ -50,11 +50,11 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
-                                            <!-- <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/procedures/${procedure.uuid}`)">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="viewTask(task)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('procedures.table.actions.view') }}
-                                            </FormButton> -->
+                                            </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/procedures/${procedureUuid}/${task.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />
@@ -69,6 +69,8 @@
                     <Pagination :data="state.proceduretasks" @previous="previous" @next="next" />
                 </div>
             </div>
+            <ModulesProcedureTaskModalView :isModalOpen="state.modal.isViewTaskOpen"
+                :selectedProcedureTask="state.selectedProceduretask" @close="state.modal.isViewTaskOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -95,7 +97,11 @@ const state = reactive({
     dataFilter: [],
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isViewTaskOpen: false,
+    },
     proceduretasks: [] as any,
+    selectedProceduretask: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -150,5 +156,10 @@ function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
     fetchProcedureTasks()
+}
+
+function viewTask(task: any) {
+    state.selectedProceduretask = task
+    state.modal.isViewTaskOpen = true
 }
 </script>
