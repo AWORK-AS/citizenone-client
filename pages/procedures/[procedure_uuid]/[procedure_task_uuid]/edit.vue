@@ -78,7 +78,7 @@ async function updateProcedureTask(procedureDetails: any) {
             content: procedureDetails.content,
             is_active: procedureDetails.is_active,
         }
-        const response = await procedureTaskService.updateProcedureTask(procedureUuid, params)
+        const response = await procedureTaskService.updateProcedureTask(procedureTaskUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('tasks.form.alert.taskSuccessfullyUpdated')}.`)
             navigateTo(`/procedures/${procedureUuid}`)

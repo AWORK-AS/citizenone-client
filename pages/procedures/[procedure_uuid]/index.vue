@@ -56,7 +56,7 @@
                                                 {{ $t('procedures.table.actions.view') }}
                                             </FormButton> -->
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/procedures/${procedureUuid}/edit/${task.uuid}`)">
+                                                @click="navigateTo(`/procedures/${procedureUuid}/${task.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('tasks.table.actions.edit') }}
                                             </FormButton>
