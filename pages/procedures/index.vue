@@ -8,8 +8,8 @@
 
             <template #header>{{ $t('procedures.procedures') }}</template>
 
-            <ModulesProcedureAdminView class="mt-8" v-if="state.isAdmin" />
-            <ModulesProcedureUserView class="mt-8" v-else />
+            <ModulesProcedureAdminView class="mt-8" v-if="!state.isPageLoading && state.isAdmin" />
+            <ModulesProcedureUserView class="mt-8" v-else-if="!state.isPageLoading && !state.isAdmin" />
         </NuxtLayout>
     </div>
 </template>
@@ -21,7 +21,8 @@ const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
 
 const state = reactive({
-    isAdmin: true,
+    isPageLoading: false,
+    isAdmin: false,
 })
 
 watch(() => userStore.getUser, (newValue: any) => {
@@ -29,5 +30,6 @@ watch(() => userStore.getUser, (newValue: any) => {
         const isAdmin = userStore?.getUser.roles.some((role: any) => role.name === 'Admin')
         state.isAdmin = isAdmin
     }
+    state.isPageLoading = true
 })
 </script>
