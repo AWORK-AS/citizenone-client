@@ -52,8 +52,8 @@
                                             </div>
                                         </td>
                                         <td width="20%">
-                                            <span>{{ moment(slot?.time_in, "HH:mm").format('hh:mm') }}</span> -
-                                            <span>{{ moment(slot?.time_out, "HH:mm").format('hh:mm') }}</span>
+                                            <span>{{ moment(slot?.time_in, "HH:mm").format('HH:mm') }}</span> -
+                                            <span>{{ moment(slot?.time_out, "HH:mm").format('HH:mm') }}</span>
                                         </td>
                                         <td width="5%">
                                             <span>{{ slot?.available_slots }}</span>
