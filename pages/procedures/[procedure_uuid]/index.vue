@@ -51,9 +51,9 @@
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="viewTask(task)">
+                                                @click="seeProgress(task)">
                                                 <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('procedures.table.actions.view') }}
+                                                {{ $t('procedures.table.actions.seeProgress') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/procedures/${procedureUuid}/${task.uuid}/edit`)">
@@ -69,8 +69,8 @@
                     <Pagination :data="state.proceduretasks" @previous="previous" @next="next" />
                 </div>
             </div>
-            <ModulesProcedureTaskModalView :isModalOpen="state.modal.isViewTaskOpen"
-                :selectedProcedureTask="state.selectedProceduretask" @close="state.modal.isViewTaskOpen = false" />
+            <ModulesProcedureTaskModalProgressView :isModalOpen="state.modal.isViewProgressOpen"
+                :selectedProcedureTask="state.selectedProceduretask" @close="state.modal.isViewProgressOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -98,7 +98,7 @@ const state = reactive({
     error: {} as Error,
     isTableLoading: false,
     modal: {
-        isViewTaskOpen: false,
+        isViewProgressOpen: false,
     },
     proceduretasks: [] as any,
     selectedProceduretask: [] as any,
@@ -158,8 +158,8 @@ function handleFilter(value: any) {
     fetchProcedureTasks()
 }
 
-function viewTask(task: any) {
+function seeProgress(task: any) {
     state.selectedProceduretask = task
-    state.modal.isViewTaskOpen = true
+    state.modal.isViewProgressOpen = true
 }
 </script>

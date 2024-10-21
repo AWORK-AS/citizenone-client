@@ -1278,6 +1278,7 @@
             "actions": {
                 "delete": "Slet",
                 "edit": "Rediger",
+                "seeProgress": "Se fremskridt",
                 "view": "Se"
             },
             "content": "Indhold",
@@ -1838,6 +1839,7 @@
             "actions": {
                 "delete": "Slet",
                 "edit": "Rediger",
+                "seeProgress": "Se fremskridt",
                 "view": "Se"
             },
             "active": "Aktiv",

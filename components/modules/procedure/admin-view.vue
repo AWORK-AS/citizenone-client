@@ -40,6 +40,11 @@
                                         {{ $t('procedures.table.actions.view') }}
                                     </FormButton>
                                     <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                        @click="seeProgress(procedure)">
+                                        <Icon name="ph:eye" class="size-4" />
+                                        {{ $t('procedures.table.actions.seeProgress') }}
+                                    </FormButton>
+                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
                                         @click="navigateTo(`/procedures/${procedure.uuid}/edit`)">
                                         <Icon name="ph:pencil" class="size-4" />
                                         {{ $t('procedures.table.actions.edit') }}
@@ -52,6 +57,8 @@
             </div>
             <Pagination :data="state.procedures" @previous="previous" @next="next" />
         </div>
+        <ModulesProcedureModalProgressView :isModalOpen="state.modal.isViewProgressOpen"
+            :selectedProcedure="state.selectedProcedure" @close="state.modal.isViewProgressOpen = false" />
     </div>
 </template>
 
@@ -76,6 +83,10 @@ const state = reactive({
     procedures: [] as any,
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isViewProgressOpen: false,
+    },
+    selectedProcedure: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -129,5 +140,10 @@ function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
     fetchProcedures()
+}
+
+function seeProgress(task: any) {
+    state.selectedProcedure = task
+    state.modal.isViewProgressOpen = true
 }
 </script>

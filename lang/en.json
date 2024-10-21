@@ -1275,6 +1275,7 @@
             "actions": {
                 "delete": "Delete",
                 "edit": "Edit",
+                "seeProgress": "See progress",
                 "view": "View"
             },
             "active": "Active",
@@ -1836,6 +1837,7 @@
             "actions": {
                 "delete": "Delete",
                 "edit": "Edit",
+                "seeProgress": "See progress",
                 "view": "View"
             },
             "active": "Active",
