@@ -10,7 +10,7 @@ class CitizenWalletTransactionService extends BaseAPIService {
     }
 
     async updateWalletTransaction(walletTransactionUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/citizen-wallet-transactions/${walletTransactionUuid}`, 'PUT', params)
+        return await this.request(`/user/citizen-wallet-transactions/${walletTransactionUuid}/update`, 'POST', params)
     }
 
     async deleteWalletTransaction(walletTransactionUuid: any): Promise<any> {

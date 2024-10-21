@@ -52,7 +52,7 @@
                                     <td width="20%">
                                         <span>{{ formatDateTimeToReadable(walletTransaction?.created_at) }}</span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <Badge type="cash-in" class="w-fit"
                                             v-if="walletTransaction?.type === 'cash_in'">
                                             {{ $t('citizens.walletTransactions.table.cashIn') }}
@@ -62,7 +62,7 @@
                                             {{ $t('citizens.walletTransactions.table.cashOut') }}
                                         </Badge>
                                     </td>
-                                    <td width="30%">
+                                    <td width="20%">
                                         <span v-if="walletTransaction?.type === 'cash_out'">(</span>
                                         <span>{{ formatAmount(walletTransaction?.amount ?? 0) }}</span>
                                         <span v-if="walletTransaction?.type === 'cash_out'">)</span>
@@ -80,6 +80,13 @@
                                         </div>
                                         <p class="mt-2">{{ walletTransaction?.note }}</p>
                                     </td>
+                                    <td width="15%">
+                                        <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            @click="editWalletTransaction(walletTransaction)">
+                                            <Icon name="ph:pencil-simple" class="size-4" />
+                                            {{ $t('citizens.walletTransactions.table.actions.edit') }}
+                                        </FormButton>
+                                    </td>
                                 </tr>
                             </template>
                         </Table>
@@ -88,6 +95,10 @@
                 </div>
                 <ModulesCitizenWalletTransactionModalNew :isModalOpen="state.modal.isAddWalletTransactionOpen"
                     @close="state.modal.isAddWalletTransactionOpen = false"
+                    @refreshWalletTransactions="refreshWalletTransactions" />
+                <ModulesCitizenWalletTransactionModalEdit :isModalOpen="state.modal.isEditWalletTransactionOpen"
+                    :selectedWalletTranscation="state.selectedWalletTransaction"
+                    @close="state.modal.isEditWalletTransactionOpen = false"
                     @refreshWalletTransactions="refreshWalletTransactions" />
             </div>
         </NuxtLayout>
@@ -120,6 +131,7 @@ const state = reactive({
         { name: 'citizens.walletTransactions.table.type', sorter: true, key: 'type' },
         { name: 'citizens.walletTransactions.table.amount', sorter: true, key: 'amount' },
         { name: 'citizens.walletTransactions.table.note' },
+        { name: '' },
     ],
     wallet: [] as any,
     walletTransactions: [] as any,
