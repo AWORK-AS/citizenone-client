@@ -153,8 +153,8 @@ onMounted(() => {
     if (props.selectedScheduleSlot?.job?.uuid) {
         fetchJobSpecialties(props.selectedScheduleSlot?.job?.uuid)
     }
-    if (props.selectedScheduleSlot?.job_specialties) {
-        props.selectedScheduleSlot.job_specialties.forEach((job_specialty: any) => {
+    if (props.selectedScheduleSlot?.schedule_specialties) {
+        props.selectedScheduleSlot.schedule_specialties.forEach((job_specialty: any) => {
             state.formScheduleSlot.job_specialty_uuid.push(job_specialty?.uuid)
         })
     }
