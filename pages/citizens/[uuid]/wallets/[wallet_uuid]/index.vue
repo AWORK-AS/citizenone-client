@@ -82,7 +82,8 @@
                                     </td>
                                     <td width="15%">
                                         <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                            @click="editWalletTransaction(walletTransaction)">
+                                            @click="editWalletTransaction(walletTransaction)"
+                                            v-if=walletTransaction?.is_editable>
                                             <Icon name="ph:pencil-simple" class="size-4" />
                                             {{ $t('citizens.walletTransactions.table.actions.edit') }}
                                         </FormButton>
