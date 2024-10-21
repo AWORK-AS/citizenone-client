@@ -53,12 +53,14 @@
                                         <span>{{ formatDateTimeToReadable(walletTransaction?.created_at) }}</span>
                                     </td>
                                     <td width="20%">
-                                        <div v-if="walletTransaction?.type === 'cash_in'">
+                                        <Badge type="cash-in" class="w-fit"
+                                            v-if="walletTransaction?.type === 'cash_in'">
                                             {{ $t('citizens.walletTransactions.table.cashIn') }}
-                                        </div>
-                                        <div v-else-if="walletTransaction?.type === 'cash_out'">
+                                        </Badge>
+                                        <Badge type="cash-out" class="w-fit"
+                                            v-if="walletTransaction?.type === 'cash_out'">
                                             {{ $t('citizens.walletTransactions.table.cashOut') }}
-                                        </div>
+                                        </Badge>
                                     </td>
                                     <td width="30%">
                                         <span v-if="walletTransaction?.type === 'cash_out'">(</span>
