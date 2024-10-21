@@ -66,7 +66,6 @@
 import { procedureService } from '@/components/api/ProcedureService'
 import type { Error } from '@/types'
 
-const runtimeConfig = useRuntimeConfig()
 let currentTablePage = 1
 
 const state = reactive({
