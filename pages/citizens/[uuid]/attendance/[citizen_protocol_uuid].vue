@@ -3,11 +3,11 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ state.selectedProtocol?.data?.name }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ state.selectedProtocol?.data?.name ?? '' }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #header>
-                {{ $t('citizens.attendance.protocol') + ': ' + state.selectedProtocol?.data?.name }}
+                {{ $t('citizens.attendance.protocol') + ': ' + (state.selectedProtocol?.data?.name ?? '') }}
             </template>
 
             <div class="space-y-5">
