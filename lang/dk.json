@@ -605,8 +605,10 @@
             "newNursingProfessionalRecords": "Ny sundhedsfaglig optegnelse",
             "nursingProfessionalRecords": "Sundhedsfaglige optegnelser",
             "table": {
-                "action": {
-                    "edit": "Rediger"
+                "actions": {
+                    "edit": "Rediger",
+                    "showLess": "Vis mindre",
+                    "showMore": "Vis mere"
                 },
                 "data": "Data",
                 "date": "Dato",

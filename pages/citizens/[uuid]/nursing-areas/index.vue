@@ -40,7 +40,7 @@
                                         <span>{{ formatDateToReadable(record?.date) }}</span>
                                     </td>
                                     <td width="55%">
-                                        <div class="space-y-3">
+                                        <div class="space-y-3" :class="expandedRecords[index] ? '' : 'line-clamp-2'">
                                             <div>
                                                 <p class="font-bold">
                                                     {{ $t('citizens.nursingAreas.form.functionalLevel') }}
@@ -138,6 +138,12 @@
                                                 </p>
                                             </div>
                                         </div>
+                                        <button @click="toggleExpanded(index)"
+                                            class="text-primary text-sm hover:text-primary-700">
+                                            {{ expandedRecords[index] ?
+                                                $t('citizens.nursingAreas.table.actions.showLess') :
+                                                $t('citizens.nursingAreas.table.actions.showMore') }}
+                                        </button>
                                     </td>
                                     <td width="15%">
                                         <span>{{ record?.user?.firstname + ' ' + record?.user?.lastname }}</span>
@@ -147,7 +153,7 @@
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/${record.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('citizens.nursingAreas.table.action.edit') }}
+                                                {{ $t('citizens.nursingAreas.table.actions.edit') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -171,6 +177,7 @@ const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const { formatDateToReadable } = useDatetimeFormatter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
+const expandedRecords = reactive([] as boolean[])
 let currentTablePage = 1
 
 const state = reactive({
@@ -206,6 +213,7 @@ async function fetchNursingProfessionalRecords() {
         const response = await nursingAreasService.getNursingProfessionalRecords(params)
         if (response) {
             state.records = response
+            expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => false))
         }
     } catch (error: any) {
         state.error = error
@@ -230,5 +238,9 @@ function sort(sortingData: any) {
         sortOrder: sortingData.sort,
     }
     fetchNursingProfessionalRecords()
+}
+
+function toggleExpanded(index: number) {
+    expandedRecords[index] = !expandedRecords[index]
 }
 </script>

@@ -604,8 +604,10 @@
             "newNursingProfessionalRecords": "New nursing professional record",
             "nursingProfessionalRecords": "Nursing professional records",
             "table": {
-                "action": {
-                    "edit": "Edit"
+                "actions": {
+                    "edit": "Edit",
+                    "showLess": "Show less",
+                    "showMore": "Show more"
                 },
                 "data": "Data",
                 "date": "Date",
