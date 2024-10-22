@@ -32,14 +32,25 @@
                                     </p>
                                     <p class="text-xs text-justify" v-html="task?.content"></p>
                                 </div>
-                                <div class="flex gap-x-3 whitespace-nowrap">
-                                    <div class="mt-2 flex w-full h-2.5 bg-gray-200 rounded-full overflow-hidden"
+                                <div class="flex items-center gap-x-3 whitespace-nowrap">
+                                    <div class="flex w-full h-2.5 bg-gray-200 rounded-full overflow-hidden"
                                         role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                                         <div class="flex flex-col justify-center rounded-full overflow-hidden bg-primary text-xs text-white text-center whitespace-nowrap transition duration-500"
                                             style="width: 0%"></div>
                                     </div>
                                     <div class="w-10 text-end">
                                         <span class="text-sm text-gray-800">0%</span>
+                                    </div>
+                                    <div>
+                                        <FormButton buttonSize="xs" buttonStyle="primary"
+                                            @click="toggleTaskProgress(task)">
+                                            <Icon name="ph:check" class="w-4 h-4" aria-hidden="true" />
+                                        </FormButton>
+                                        <FormButton buttonSize="xs" buttonStyle="danger"
+                                            class="border border-red-600 hover:border-red-700"
+                                            @click="toggleTaskProgress(task)">
+                                            <Icon name="ph:x" class="w-4 h-4" aria-hidden="true" />
+                                        </FormButton>
                                     </div>
                                 </div>
                             </div>
@@ -54,18 +65,25 @@
 
 <script setup lang="ts">
 import { procedureService } from '@/components/api/ProcedureService'
+import { procedureTaskService } from '@/components/api/ProcedureTaskService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
     procedures: [] as any,
+    proceduresProgress: [] as any,
     error: {} as Error,
     isPageLoading: false,
 })
 
 onMounted(() => {
     fetchProcedures()
+    fetchProceduresProgress()
 })
 
 async function fetchProcedures() {
@@ -78,7 +96,20 @@ async function fetchProcedures() {
         const response = await procedureService.getProcedures(params)
         if (response) {
             state.procedures = response
-            console.log('procedures', state.procedures)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchProceduresProgress() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await procedureService.getProceduresProgress()
+        if (response) {
+            state.proceduresProgress = response
         }
     } catch (error: any) {
         state.error = error
@@ -94,5 +125,21 @@ function previous() {
 function next() {
     currentTablePage++
     fetchProcedures()
+}
+
+async function toggleTaskProgress(task: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const procedureTaskUuid = task?.uuid
+        const response = await procedureTaskService.toggleProcedureTask(procedureTaskUuid)
+        if (response) {
+            successAlert(`${t('alert.success')}!`, `${t('tasks.form.alert.taskSuccessfullyUpdated')}.`)
+            fetchProcedures()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>

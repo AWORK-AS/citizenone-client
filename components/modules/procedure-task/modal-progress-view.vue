@@ -21,11 +21,11 @@
                                                 role="progressbar" aria-valuenow="25" aria-valuemin="0"
                                                 aria-valuemax="100">
                                                 <div class="flex flex-col justify-center rounded-full overflow-hidden bg-primary text-xs text-white text-center whitespace-nowrap transition duration-500"
-                                                    :style="`width: ${employee?.procedure_average ?? 0}%`"></div>
+                                                    :style="`width: ${employee?.task_average ?? 0}%`"></div>
                                             </div>
                                             <div class="w-10 text-end">
                                                 <span class="text-sm text-gray-800">
-                                                    {{ employee?.procedure_average ?? 0 }}%
+                                                    {{ employee?.task_average ?? 0 }}%
                                                 </span>
                                             </div>
                                         </div>
