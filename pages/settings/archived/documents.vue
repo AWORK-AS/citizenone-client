@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { documentService } from '@/components/api/DocumentService'
+import { citizenDocumentService } from '@/components/api/CitizenDocumentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -101,7 +101,7 @@ async function fetchArchivedDocuments() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await documentService.getArchivedDocuments(params)
+        const response = await citizenDocumentService.getArchivedDocuments(params)
         if (response) {
             state.archivedDocuments = response
         }
@@ -155,7 +155,7 @@ async function unarchiveDocument() {
     state.isTableLoading = true
     try {
         const documentUuid = state.selectedDocument?.uuid
-        const response = await documentService.unarchiveDocument(documentUuid)
+        const response = await citizenDocumentService.unarchiveDocument(documentUuid)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('archived.alert.documentSuccessfullyUnarchive')}.`)
             fetchArchivedDocuments()

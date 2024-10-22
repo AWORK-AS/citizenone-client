@@ -912,6 +912,45 @@
         "week": "Uge",
         "yearToDate": "År til dato"
     },
+    "drive": {
+        "alert": {
+            "deletedFileSuccessfully": "Fil slettet med succes",
+            "deletedFolderSuccessfully": "Mappe slettet med succes",
+            "documentSuccessfullyArchived": "Dokument arkiveret med succes",
+            "fileSuccessfullyAdded": "Ny fil gemt med succes",
+            "folderSuccessfullyAdded": "Ny mappe gemt med succes",
+            "folderSuccessfullyUpdated": "Mappe opdateret med succes"
+        },
+        "createNewFolder": "Opret ny mappe",
+        "companyDocuments": "Virksomheds dokumenter",
+        "confirmation": {
+            "archiveConfirmation": "Er du sikker på, at du vil arkivere dette dokument?",
+            "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil?",
+            "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe?",
+            "upgradeStorageConfirmation": "Vil du opgradere din lagerplads?"
+        },
+        "form": {
+            "editFile": "Rediger fil",
+            "editFolder": "Rediger mappe",
+            "forAdministratorsOnly": "Kun for administratorer",
+            "name": "Navn",
+            "newFolder": "Ny mappe"
+        },
+        "table": {
+            "actions": {
+                "archive": "Arkivér",
+                "edit": "Rediger",
+                "delete": "Slet",
+                "view": "Se"
+            },
+            "dateCreated": "Oprettelsesdato",
+            "lastModified": "Sidst ændret",
+            "name": "Navn",
+            "owner": "Ejer"
+        },
+        "upgradeStorage": "Opgrader lagerplads",
+        "uploadFile": "Upload fil"
+    },
     "employees": {
         "alert": {
             "employeeSuccessfullyArchived": "Medarbejder arkiveret med succes",

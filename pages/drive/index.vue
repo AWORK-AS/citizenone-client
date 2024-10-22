@@ -3,31 +3,23 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('citizens.tabs.documents') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('drive.companyDocuments') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('citizens.tabs.documents') }}</template>
+            <template #header>{{ $t('drive.companyDocuments') }}</template>
 
             <div class="space-y-5">
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
-                    <Icon name="ph:arrow-left" size="20" class="text-black" />
-                    <span>{{ $t('back') }}</span>
-                </NuxtLink>
-
-                <ModulesCitizenDetailsHeader />
-                <ModulesCitizenJournalTabs />
-
                 <div>
                     <div class="mt-8 flex justify-end items-center gap-x-3">
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isAddDirectoryOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.documents.createNewFolder') }}
+                            {{ $t('drive.createNewFolder') }}
                         </FormButton>
                         <LoadingSpinner :isActive="state.isPageLoading">
                             <FormButton buttonStyle="action" class="rounded-md" @click="triggerFileInput">
                                 <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('citizens.documents.uploadFile') }}
+                                {{ $t('drive.uploadFile') }}
                             </FormButton>
                             <input type="file" ref="documentFile" @change="uploadFile" class="hidden" />
                         </LoadingSpinner>
@@ -79,28 +71,28 @@
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="viewDirectory(document)" v-if="document?.type === 'folder'">
                                                 <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('citizens.documents.table.actions.view') }}
+                                                {{ $t('drive.table.actions.view') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editDocument(document)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('citizens.documents.table.actions.edit') }}
+                                                {{ $t('drive.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="confirmDocumentArchiving(document)">
                                                 <Icon name="ph:archive-light" class="size-4" />
-                                                {{ $t('citizens.documents.table.actions.archive') }}
+                                                {{ $t('drive.table.actions.archive') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 v-if="document?.type === 'folder'"
                                                 @click="deleteDirectoryConfirmation(document)">
                                                 <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('citizens.documents.table.actions.delete') }}
+                                                {{ $t('drive.table.actions.delete') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md" v-else
                                                 @click="deleteFileConfirmation(document)">
                                                 <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('citizens.documents.table.actions.delete') }}
+                                                {{ $t('drive.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -116,17 +108,16 @@
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
-                    :message="$t('citizens.documents.confirmation.archiveConfirmation') + '?'"
+                    :message="$t('drive.confirmation.archiveConfirmation') + '?'"
                     @close="state.modal.isArchiveDocumentOpen = false" @confirm="archiveDocument" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteDirectoryOpen"
-                    :message="$t('citizens.documents.confirmation.deleteFolderConfirmation') + '?'"
+                    :message="$t('drive.confirmation.deleteFolderConfirmation') + '?'"
                     @close="state.modal.isDeleteDirectoryOpen = false" @confirm="deleteDocument" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteFileOpen"
-                    :message="$t('citizens.documents.confirmation.deleteFileConfirmation') + '?'"
+                    :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
                     @close="state.modal.isDeleteFileOpen = false" @confirm="deleteDocument" />
-                <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
-                    :title="$t('citizens.documents.upgradeStorage')"
-                    :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
+                <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen" :title="$t('drive.upgradeStorage')"
+                    :message="state.error?.message + ' ' + $t('drive.confirmation.upgradeStorageConfirmation') + '?'"
                     @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
             </div>
         </NuxtLayout>
@@ -154,10 +145,10 @@ const state = reactive({
         { column: 'name' },
     ],
     columnHeaders: [
-        { name: 'citizens.documents.table.name', sorter: true, key: 'name' },
-        { name: 'citizens.documents.table.owner' },
-        { name: 'citizens.documents.table.dateCreated', sorter: true, key: 'created_at' },
-        { name: 'citizens.documents.table.lastModified', sorter: true, key: 'updated_at' },
+        { name: 'drive.table.name', sorter: true, key: 'name' },
+        { name: 'drive.table.owner' },
+        { name: 'drive.table.dateCreated', sorter: true, key: 'created_at' },
+        { name: 'drive.table.lastModified', sorter: true, key: 'updated_at' },
         { name: '' },
     ],
     dataFilter: [],
@@ -265,7 +256,6 @@ async function uploadFile(event: any) {
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid as any
         let params = new FormData()
-        params.append('citizen_uuid', citizenUuid)
         params.append('type', 'file')
         params.append('is_admin_access', false)
         params.append('file', event.target.files[0])
@@ -276,7 +266,7 @@ async function uploadFile(event: any) {
         if (response?.data) {
             resetFileInput()
             fetchDocuments()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.fileSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error
@@ -297,7 +287,7 @@ const resetFileInput = () => {
 }
 
 async function viewDirectory(document: any) {
-    await navigateTo(`/citizens/${citizenUuid}/documents?folder_uuid=${document.uuid}`)
+    await navigateTo(`/drive?folder_uuid=${document.uuid}`)
 }
 
 function editDocument(document: any) {
@@ -317,7 +307,7 @@ async function archiveDocument() {
         const documentUuid = state.selectedDocument?.uuid
         const response = await citizenDocumentService.archiveUnarchiveDocument(documentUuid)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.documentSuccessfullyArchived')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('drive.alert.documentSuccessfullyArchived')}.`)
             fetchDocuments()
         }
     } catch (error: any) {
@@ -344,9 +334,9 @@ async function deleteDocument() {
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchDocuments()
             if (state.selectedDocument.type === 'folder') {
-                successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.deletedFolderSuccessfully')}.`)
+                successAlert(`${t('alert.success')}!`, `${t('drive.alert.deletedFolderSuccessfully')}.`)
             } else {
-                successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.deletedFileSuccessfully')}.`)
+                successAlert(`${t('alert.success')}!`, `${t('drive.alert.deletedFileSuccessfully')}.`)
             }
         }
     } catch (error: any) {

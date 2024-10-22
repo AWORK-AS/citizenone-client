@@ -1,6 +1,6 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
-class DocumentService extends BaseAPIService {
+class CitizenDocumentService extends BaseAPIService {
     async getCitizenFileFolders(params: object): Promise<any> {
         return await this.request(`/user/citizen-file-folders`, 'GET', params)
     }
@@ -30,4 +30,4 @@ class DocumentService extends BaseAPIService {
     }
 }
 
-export const documentService = new DocumentService()
+export const citizenDocumentService = new CitizenDocumentService()
