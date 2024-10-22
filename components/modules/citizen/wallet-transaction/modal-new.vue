@@ -61,7 +61,9 @@ async function saveWalletTransaction(walletTransactionDetails: any) {
         params.append('wallet_uuid', citizenWalletUuid.toString())
         params.append('type', walletTransactionDetails.type)
         params.append('amount', walletTransactionDetails.amount)
-        params.append('note', walletTransactionDetails.note)
+        if (walletTransactionDetails.note) {
+            params.append('note', walletTransactionDetails.note)
+        }
         if (walletTransactionDetails.file) {
             params.append('file', walletTransactionDetails.file)
         }

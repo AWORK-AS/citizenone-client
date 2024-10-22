@@ -59,7 +59,9 @@ async function updateWalletTranscation(walletTransactionDetails: any) {
         params.append('walletTransactionUuid', walletTransactionUuid)
         params.append('type', walletTransactionDetails.type)
         params.append('amount', walletTransactionDetails.amount)
-        params.append('note', walletTransactionDetails.note)
+        if (walletTransactionDetails.note) {
+            params.append('note', walletTransactionDetails.note)
+        }
         if (walletTransactionDetails.file) {
             params.append('file', walletTransactionDetails.file)
         }
