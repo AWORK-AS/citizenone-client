@@ -255,11 +255,13 @@
                                                             <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'regular_shift')?.time_in"
-                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'regular_shift')" />
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'regular_shift')"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                             <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'regular_shift')?.time_out"
-                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'regular_shift')" />
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'regular_shift')"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                         </div>
                                                         <button
                                                             class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
@@ -268,7 +270,8 @@
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'regular_shift')">
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'regular_shift')"
+                                                            v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                         </button>
                                                     </div>
@@ -278,11 +281,13 @@
                                                             <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.time_in"
-                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'awake_night_shift')" />
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'awake_night_shift')"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                             <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.time_out"
-                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'awake_night_shift')" />
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'awake_night_shift')"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                         </div>
                                                         <button
                                                             class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
@@ -291,7 +296,8 @@
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'awake_night_shift')">
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'awake_night_shift')"
+                                                            v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                         </button>
                                                     </div>
@@ -301,11 +307,13 @@
                                                             <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'sleeping_night_shift')?.time_in"
-                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')" />
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                             <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'sleeping_night_shift')?.time_out"
-                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')" />
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                         </div>
                                                         <button
                                                             class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
@@ -314,7 +322,8 @@
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')">
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')"
+                                                            v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                         </button>
                                                     </div>
@@ -324,11 +333,13 @@
                                                             <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_in"
-                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'vacation_leave')" />
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'vacation_leave')"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                             <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_out"
-                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'vacation_leave')" />
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'vacation_leave')"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                         </div>
                                                         <button
                                                             class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
@@ -337,7 +348,8 @@
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'vacation_leave')">
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'vacation_leave')"
+                                                            v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                         </button>
                                                     </div>
@@ -347,11 +359,13 @@
                                                             <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_in"
-                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'sick_leave')" />
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'sick_leave')"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                             <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
                                                                 :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_out"
-                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'sick_leave')" />
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'sick_leave')"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                         </div>
                                                         <button
                                                             class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
@@ -360,7 +374,8 @@
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'sick_leave')">
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'sick_leave')"
+                                                            v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                         </button>
                                                     </div>

@@ -37,7 +37,7 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.contacts?.data?.length === 0))">
                                 <tr v-for="(contact, index) in state.contacts?.data" :key="index">
-                                    <td width="15%">
+                                    <td width="20%">
                                         <span v-if="contact?.title === 'case_manager'">
                                             {{ $t('citizens.contacts.titles.caseManager') }}
                                         </span>
@@ -61,20 +61,25 @@
                                         <span>{{ contact?.firstname + ' ' }}</span>
                                         <span>{{ contact?.lastname }}</span>
                                     </td>
-                                    <td width="15%">
-                                        <span>{{ contact?.email }}</span>
+                                    <td width="20%">
+                                        <div class="space-y-1">
+                                            <div>{{ contact?.email }}</div>
+                                            <Badge type="primary" v-if="contact?.is_mailable" class="w-fit text-xxs">
+                                                {{ $t('citizens.contacts.form.canReceiveEmails') }}
+                                            </Badge>
+                                        </div>
                                     </td>
                                     <td width="10%">
                                         <span>{{ contact?.phone }}</span>
                                     </td>
-                                    <td width="25%">
+                                    <td width="20%">
                                         <span>{{ contact?.street + ' ' }}</span>
                                         <span>{{ contact?.region?.name + ', ' }}</span>
                                         <span>{{ contact?.municipality?.name + ', ' }}</span>
                                         <span>{{ contact?.city?.name + ' ' }}</span>
                                         <span>{{ contact?.post_code }}</span>
                                     </td>
-                                    <td width="15%">
+                                    <td width="10%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editContact(contact)">
