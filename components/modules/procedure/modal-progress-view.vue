@@ -77,7 +77,7 @@ async function fetchEmployeeProgress() {
     state.isPageLoading = true
     try {
         const procedureUuid = props.selectedProcedure?.uuid
-        const response = await procedureService.getProcedureProgress(procedureUuid)
+        const response = await procedureService.getEmployeeProgress(procedureUuid)
         if (response) {
             state.progress = response
         }

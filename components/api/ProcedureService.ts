@@ -6,14 +6,14 @@ class ProcedureService extends BaseAPIService {
     }
 
     async getProceduresProgress(): Promise<any> {
-        return await this.request(`/user/procedures/total/progress`, 'GET')
+        return await this.request(`/user/procedures/total/average/progress`, 'GET')
     }
 
     async getProcedure(procedureUuid: any): Promise<any> {
         return await this.request(`/user/procedures/${procedureUuid}`, 'GET')
     }
 
-    async getProcedureProgress(procedureUuid: any): Promise<any> {
+    async getEmployeeProgress(procedureUuid: any): Promise<any> {
         return await this.request(`/user/procedures/${procedureUuid}/progress`, 'GET')
     }
 

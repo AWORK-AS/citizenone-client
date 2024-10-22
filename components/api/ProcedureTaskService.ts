@@ -22,7 +22,7 @@ class ProcedureTaskService extends BaseAPIService {
     }
 
     async toggleProcedureTask(procedureTaskUuid: any): Promise<any> {
-        return await this.request(`/user/procedure-tasks/${procedureTaskUuid}/toggle`, 'POST')
+        return await this.request(`/user/procedure-tasks/${procedureTaskUuid}/toggle/progress`, 'POST')
     }
 
     async getAllProcedureTasks(): Promise<any> {
