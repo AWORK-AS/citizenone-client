@@ -38,7 +38,7 @@ const state = reactive({
     formContact: {
         uuid: '',
         title: '',
-        is_mailable: '',
+        is_mailable: false,
         firstname: '',
         lastname: '',
         email: '',
