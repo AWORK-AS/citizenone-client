@@ -20,14 +20,6 @@ class CitizenDocumentService extends BaseAPIService {
     async archiveUnarchiveDocument(citizenFileFolderUuid: any): Promise<any> {
         return await this.request(`/user/citizen-file-folders/${citizenFileFolderUuid}/archive`, 'PUT')
     }
-
-    async getArchivedDocuments(params: object): Promise<any> {
-        return await this.request(`/user/archived-documents`, 'GET', params)
-    }
-
-    async unarchiveDocument(documentUuid: object): Promise<any> {
-        return await this.request(`/user/archived-documents/${documentUuid}/toggle-archive`, 'PUT')
-    }
 }
 
 export const citizenDocumentService = new CitizenDocumentService()

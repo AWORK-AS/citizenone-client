@@ -126,7 +126,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { citizenDocumentService } from '@/components/api/CitizenDocumentService'
+import { documentService } from '@/components/api/DocumentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -136,7 +136,6 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
-const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const documentFile = ref(null) as any
 let currentTablePage = 1
 
@@ -195,14 +194,13 @@ async function fetchDocuments(folderUuid: any = null) {
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
         const params = {
-            citizen_uuid: citizenUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
             ...(folderUuid && { folder_uuid: folderUuid }),
         }
-        const response = await citizenDocumentService.getCitizenFileFolders(params)
+        const response = await documentService.getCitizenFileFolders(params)
         if (response) {
             state.documents = response
         }
@@ -262,7 +260,7 @@ async function uploadFile(event: any) {
         if (folderUuid) {
             params.append('folder_uuid', folderUuid)
         }
-        const response = await citizenDocumentService.saveCitizenFileFolder(params)
+        const response = await documentService.saveCitizenFileFolder(params)
         if (response?.data) {
             resetFileInput()
             fetchDocuments()
@@ -305,7 +303,7 @@ async function archiveDocument() {
     state.isTableLoading = true
     try {
         const documentUuid = state.selectedDocument?.uuid
-        const response = await citizenDocumentService.archiveUnarchiveDocument(documentUuid)
+        const response = await documentService.archiveUnarchiveDocument(documentUuid)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('drive.alert.documentSuccessfullyArchived')}.`)
             fetchDocuments()
@@ -330,7 +328,7 @@ async function deleteDocument() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await citizenDocumentService.deleteDocument(state.selectedDocument.uuid)
+        const response = await documentService.deleteDocument(state.selectedDocument.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchDocuments()
             if (state.selectedDocument.type === 'folder') {
