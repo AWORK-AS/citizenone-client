@@ -34,6 +34,15 @@ const tabs = [
         ]
     },
     {
+        name: 'citizens.tabs.nursingAreas',
+        href: `/citizens/${uuid}/nursing-areas`,
+        routeNames: [
+            'citizens-uuid-nursing-areas',
+            'citizens-uuid-nursing-areas-new', ,
+            'citizens-uuid-nursing-areas-record_uuid-edit',
+        ]
+    },
+    {
         name: 'citizens.tabs.documents',
         href: `/citizens/${uuid}/documents`,
         routeNames: [
