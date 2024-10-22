@@ -10,6 +10,13 @@
                     <FormError :error="v$?.formContact?.title?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.title?.[0]" />
                 </div>
+                <div class="space-y-1" v-if="state.formContact.title === 'our_contact_person'">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formContact.is_mailable = !state.formContact.is_mailable">
+                        <FormCheckbox :value="state.formContact.is_mailable" />
+                        {{ $t('citizens.contacts.form.canReceiveEmails') }}
+                    </div>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="firstname" :label="$t('citizens.contacts.form.firstname')" />
@@ -130,6 +137,7 @@ const state = reactive({
         id: '',
         uuid: '',
         title: '',
+        is_mailable: false,
         firstname: '',
         lastname: '',
         email: '',
@@ -164,6 +172,7 @@ onMounted(() => {
         id: props.selectedContact?.id,
         uuid: props.selectedContact?.uuid,
         title: props.selectedContact?.title,
+        is_mailable: props.selectedContact?.is_mailable,
         firstname: props.selectedContact?.firstname,
         lastname: props.selectedContact?.lastname,
         email: props.selectedContact?.email,
@@ -184,6 +193,7 @@ watch(() => props.selectedContact, (newValue: any) => {
             id: props.selectedContact?.id,
             uuid: props.selectedContact?.uuid,
             title: props.selectedContact?.title,
+            is_mailable: props.selectedContact?.is_mailable,
             firstname: props.selectedContact?.firstname,
             lastname: props.selectedContact?.lastname,
             email: props.selectedContact?.email,

@@ -38,6 +38,7 @@ const state = reactive({
     formContact: {
         uuid: '',
         title: '',
+        is_mailable: '',
         firstname: '',
         lastname: '',
         email: '',
@@ -65,6 +66,7 @@ async function saveContact(contactDetails: any) {
         const params = {
             citizen_uuid: citizenUuid,
             title: contactDetails.title,
+            is_mailable: contactDetails.is_mailable,
             firstname: contactDetails.firstname,
             lastname: contactDetails.lastname,
             email: contactDetails.email,

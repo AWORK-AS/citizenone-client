@@ -330,6 +330,7 @@
                     "contactSuccessfullyAdded": "Kontakt tilføjet med succes",
                     "contactSuccessfullyUpdated": "Kontakt opdateret med succes"
                 },
+                "canReceiveEmails": "Kan modtage e-mails",
                 "city": "By",
                 "email": "E-mailadresse",
                 "firstname": "Fornavn",
@@ -348,6 +349,7 @@
                     "edit": "Rediger"
                 },
                 "address": "Adresse",
+                "canReceiveEmails": "Kan modtage e-mails",
                 "email": "E-mailadresse",
                 "name": "Navn",
                 "phone": "Telefonnummer",

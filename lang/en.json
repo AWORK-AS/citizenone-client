@@ -330,6 +330,7 @@
                     "contactSuccessfullyAdded": "Contact successfully added",
                     "contactSuccessfullyUpdated": "Contact successfully updated"
                 },
+                "canReceiveEmails": "Can receive emails",
                 "city": "City",
                 "email": "Email address",
                 "firstname": "First name",
@@ -348,6 +349,7 @@
                     "edit": "Edit"
                 },
                 "address": "Address",
+                "canReceiveEmails": "Can receive emails",
                 "email": "Email address",
                 "name": "Name",
                 "phone": "Phone number",
