@@ -2,23 +2,23 @@ import BaseAPIService from '@/components/api/BaseAPIService'
 
 class DocumentService extends BaseAPIService {
     async getCitizenFileFolders(params: object): Promise<any> {
-        return await this.request(`/user/company-documents`, 'GET', params)
+        return await this.request(`/user/company-file-folders`, 'GET', params)
     }
 
     async saveCitizenFileFolder(params: object): Promise<any> {
-        return await this.request(`/user/company-documents`, 'POST', params)
+        return await this.request(`/user/company-file-folders`, 'POST', params)
     }
 
     async updateCitizenFileFolder(directoryUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/company-documents/${directoryUuid}`, 'PUT', params)
+        return await this.request(`/user/company-file-folders/${directoryUuid}`, 'PUT', params)
     }
 
     async deleteDocument(documentUuid: any): Promise<any> {
-        return await this.request(`/user/company-documents/${documentUuid}`, 'DELETE')
+        return await this.request(`/user/company-file-folders/${documentUuid}`, 'DELETE')
     }
 
     async archiveUnarchiveDocument(documentUuid: any): Promise<any> {
-        return await this.request(`/user/company-documents/${documentUuid}/archive`, 'PUT')
+        return await this.request(`/user/company-file-folders/${documentUuid}/archive`, 'PUT')
     }
 
     async getArchivedDocuments(params: object): Promise<any> {
