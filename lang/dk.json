@@ -816,6 +816,7 @@
         },
         "deleteSchedule": "Slet tidsplan",
         "download": {
+            "date": "Dato",
             "download": "Download",
             "downloadType": "Downloadtype",
             "downloadHoursInExcel": "Download timer i Excel",
