@@ -815,6 +815,12 @@
             "stopCopying": "Stop kopiering"
         },
         "deleteSchedule": "Slet tidsplan",
+        "download": {
+            "download": "Download",
+            "downloadType": "Downloadtype",
+            "downloadHoursInExcel": "Download timer i Excel",
+            "downloadOverview": "Download oversigt"
+        },
         "dutySchedules": "Vagtplaner",
         "editSchedule": "Rediger tidsplan",
         "form": {

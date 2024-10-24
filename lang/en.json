@@ -814,6 +814,12 @@
             "stopCopying": "Stop copying"
         },
         "deleteSchedule": "Delete schedule",
+        "download": {
+            "download": "Download",
+            "downloadType": "Download type",
+            "downloadHoursInExcel": "Download hours in excel",
+            "downloadOverview": "Download overview"
+        },
         "dutySchedules": "Duty schedules",
         "editSchedule": "Edit schedule",
         "form": {
