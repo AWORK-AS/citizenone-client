@@ -30,6 +30,10 @@
                                             <Icon name="ph:file" class="size-6" />
                                             <span>{{ document?.name }}</span>
                                         </div>
+                                        <div v-else class="flex items-center gap-x-1">
+                                            <Icon name="ph:folder" class="size-6" />
+                                            <span>{{ document?.name }}</span>
+                                        </div>
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
