@@ -65,6 +65,9 @@
                                                         <span v-if="item.name === 'Protocols'">
                                                             {{ $t('sidebar.protocols') }}
                                                         </span>
+                                                        <span v-if="item.name === 'Documents'">
+                                                            {{ $t('sidebar.documents') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Bullet Board'">
                                                             {{ $t('sidebar.bulletBoard') }}
                                                         </span>
@@ -151,6 +154,9 @@
                                         </span>
                                         <span v-if="item.name === 'Protocols'">
                                             {{ $t('sidebar.protocols') }}
+                                        </span>
+                                        <span v-if="item.name === 'Documents'">
+                                            {{ $t('sidebar.documents') }}
                                         </span>
                                         <span v-if="item.name === 'Bullet Board'">
                                             {{ $t('sidebar.bulletBoard') }}
@@ -437,6 +443,14 @@ const navigation = [
             'protocols',
             'protocols-new',
             'protocols-uuid'
+        ]
+    },
+    {
+        name: 'Documents',
+        href: '/drive',
+        icon: 'ph:folder',
+        activeRouteNames: [
+            'drive'
         ]
     },
     {
