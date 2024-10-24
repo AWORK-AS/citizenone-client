@@ -14,7 +14,7 @@
 
 
 <script setup lang="ts">
-import { citizenDocumentService } from '@/components/api/CitizenDocumentService'
+import { documentService } from '@/components/api/DocumentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -63,7 +63,7 @@ async function saveDirectory(directoryDetails: any) {
             is_admin_access: directoryDetails.is_admin_access,
             type: 'folder',
         }
-        const response = await citizenDocumentService.saveCitizenFileFolder(params)
+        const response = await documentService.saveFileFolder(params)
         if (response?.data) {
             refreshDocuments()
             closeModal()

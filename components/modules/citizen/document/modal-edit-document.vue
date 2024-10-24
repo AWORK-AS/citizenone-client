@@ -16,7 +16,7 @@
 
 
 <script setup lang="ts">
-import { citizenDocumentService } from '@/components/api/CitizenDocumentService'
+import { documentService } from '@/components/api/DocumentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -58,7 +58,7 @@ async function updateDirectory(directoryDetails: any) {
             name: directoryDetails.name,
             is_admin_access: directoryDetails.is_admin_access,
         }
-        const response = await citizenDocumentService.updateCitizenFileFolder(directoryUuid, params)
+        const response = await documentService.updateFileFolder(directoryUuid, params)
         if (response?.data) {
             refreshDocuments()
             closeModal()

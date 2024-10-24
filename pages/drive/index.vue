@@ -200,7 +200,7 @@ async function fetchDocuments(folderUuid: any = null) {
             ...state.dataFilter,
             ...(folderUuid && { folder_uuid: folderUuid }),
         }
-        const response = await documentService.getCitizenFileFolders(params)
+        const response = await documentService.getFileFolders(params)
         if (response) {
             state.documents = response
         }
@@ -260,7 +260,7 @@ async function uploadFile(event: any) {
         if (folderUuid) {
             params.append('folder_uuid', folderUuid)
         }
-        const response = await documentService.saveCitizenFileFolder(params)
+        const response = await documentService.saveFileFolder(params)
         if (response?.data) {
             resetFileInput()
             fetchDocuments()

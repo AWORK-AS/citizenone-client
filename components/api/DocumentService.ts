@@ -1,15 +1,15 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class DocumentService extends BaseAPIService {
-    async getCitizenFileFolders(params: object): Promise<any> {
+    async getFileFolders(params: object): Promise<any> {
         return await this.request(`/user/company-file-folders`, 'GET', params)
     }
 
-    async saveCitizenFileFolder(params: object): Promise<any> {
+    async saveFileFolder(params: object): Promise<any> {
         return await this.request(`/user/company-file-folders`, 'POST', params)
     }
 
-    async updateCitizenFileFolder(directoryUuid: any, params: object): Promise<any> {
+    async updateFileFolder(directoryUuid: any, params: object): Promise<any> {
         return await this.request(`/user/company-file-folders/${directoryUuid}`, 'PUT', params)
     }
 
