@@ -491,18 +491,7 @@ const state = reactive({
 onMounted(() => {
     fetchUser()
     animateAssets()
-    checkInReminderModalVisibility()
 })
-
-function checkInReminderModalVisibility() {
-    const lastHidden = localStorage.getItem('checkInReminderHidden')
-    const today = moment().format('YYYY-MM-DD')
-
-    if (lastHidden !== today) {
-        userStore.resetIsCheckInNow()
-        state.modal.isCheckinReminderOpen = true
-    }
-}
 
 function animateAssets() {
     const observer = new IntersectionObserver((entries) => {
@@ -527,9 +516,21 @@ async function fetchUser() {
             userStore.setUser(response?.data)
             userStore.setLanguage(response?.data?.language?.code)
             language.locale.value = response?.data?.language?.code
+            checkInReminderModalVisibility(response)
         }
     } catch (error: any) {
         state.error = error
+    }
+}
+
+function checkInReminderModalVisibility(response: any) {
+    const lastHidden = localStorage.getItem('checkInReminderHidden')
+    const today = moment().format('YYYY-MM-DD')
+    const checkinEnabled = response?.checkin_enabled ?? false
+
+    if (lastHidden !== today && checkinEnabled) {
+        userStore.resetIsCheckInNow()
+        state.modal.isCheckinReminderOpen = true
     }
 }
 
