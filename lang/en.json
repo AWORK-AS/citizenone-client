@@ -336,6 +336,7 @@
                 "firstname": "First name",
                 "lastname": "Last name",
                 "municipality": "Municipality",
+                "nursingAreas": "Nursing areas",
                 "phone": "Phone number",
                 "postCode": "Post Code",
                 "region": "Region",

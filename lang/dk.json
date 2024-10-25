@@ -336,6 +336,7 @@
                 "firstname": "Fornavn",
                 "lastname": "Efternavn",
                 "municipality": "Kommune",
+                "nursingAreas": "Sygeplejeområder",
                 "phone": "Telefonnummer",
                 "postCode": "Postnummer",
                 "region": "Region",

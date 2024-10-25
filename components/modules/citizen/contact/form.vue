@@ -11,10 +11,15 @@
                     <FormError :error="props?.error?.errors?.title?.[0]" />
                 </div>
                 <div class="space-y-1" v-if="state.formContact.title === 'our_contact_person'">
-                    <div class="w-fit flex items-center cursor-pointer"
+                    <div class="w-fit flex cursor-pointer"
                         @click="state.formContact.is_mailable = !state.formContact.is_mailable">
                         <FormCheckbox :value="state.formContact.is_mailable" />
-                        {{ $t('citizens.contacts.form.canReceiveEmails') }}
+                        <div>
+                            <p>{{ $t('citizens.contacts.form.canReceiveEmails') }}</p>
+                            <ul class="list-disc pl-4">
+                                <li>{{ $t('citizens.contacts.form.nursingAreas') }}</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
