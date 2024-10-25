@@ -36,7 +36,14 @@
                                         <span>{{ task?.title }}</span>
                                     </td>
                                     <td width="60%">
-                                        <div v-html="task.content" class="content" />
+                                        <div v-html="task.content" class="content"
+                                            :class="expandedRecords[index] ? '' : 'line-clamp-2'" />
+                                        <button @click="toggleExpanded(index)"
+                                            class="text-primary text-sm hover:text-primary-700">
+                                            {{ expandedRecords[index] ?
+                                                $t('showLess') :
+                                                $t('showMore') }}
+                                        </button>
                                     </td>
                                     <td width="10%">
                                         <div class="flex items-center gap-x-2">
@@ -83,6 +90,7 @@ const runtimeConfig = useRuntimeConfig()
 let currentTablePage = 1
 const router = useRouter()
 const procedureUuid = router?.currentRoute?.value?.params?.procedure_uuid
+const expandedRecords = reactive([] as boolean[])
 
 const state = reactive({
     columnFilter: [
@@ -126,6 +134,7 @@ async function fetchProcedureTasks() {
         const response = await procedureTaskService.getProcedureTasks(params)
         if (response) {
             state.proceduretasks = response
+            expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => false))
         }
     } catch (error: any) {
         state.error = error
@@ -156,6 +165,10 @@ function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
     fetchProcedureTasks()
+}
+
+function toggleExpanded(index: number) {
+    expandedRecords[index] = !expandedRecords[index]
 }
 
 function seeProgress(task: any) {

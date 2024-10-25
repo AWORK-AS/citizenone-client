@@ -42,7 +42,14 @@
                                         <p class="text-sm font-semibold">
                                             {{ task?.title }}
                                         </p>
-                                        <p class="text-xs text-justify" v-html="task?.content"></p>
+                                        <p class="text-xs text-justify">
+                                            <span
+                                                v-html="task.isExpanded ? task?.content : task?.content.substring(0, 100) + '...'" />
+                                        </p>
+                                        <button class="text-primary text-xs hover:text-primary-700"
+                                            @click="toggleContent(task)">
+                                            {{ task.isExpanded ? $t('showLess') : $t('showMore') }}
+                                        </button>
                                     </div>
                                     <div class="flex items-center gap-x-3 whitespace-nowrap">
                                         <div class="flex w-full h-2.5 bg-gray-200 rounded-full overflow-hidden"
@@ -111,6 +118,11 @@ async function fetchProcedures() {
         const response = await procedureService.getProcedures(params)
         if (response) {
             state.procedures = response
+            response.data.forEach((procedure: any) => {
+                procedure.procedure_tasks.forEach((task: any) => {
+                    task.isExpanded = false
+                })
+            })
         }
     } catch (error: any) {
         state.error = error
@@ -157,5 +169,9 @@ async function toggleTaskProgress(task: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function toggleContent(task: any) {
+    task.isExpanded = !task.isExpanded
 }
 </script>

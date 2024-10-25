@@ -20,7 +20,14 @@
                                 <span>{{ procedure?.title }}</span>
                             </td>
                             <td width="60%">
-                                <div v-html="procedure.content" class="content" />
+                                <div v-html="procedure.content" class="content"
+                                    :class="expandedRecords[index] ? '' : 'line-clamp-2'" />
+                                <button @click="toggleExpanded(index)"
+                                    class="text-primary text-sm hover:text-primary-700">
+                                    {{ expandedRecords[index] ?
+                                        $t('showLess') :
+                                        $t('showMore') }}
+                                </button>
                             </td>
                             <td width="10%">
                                 <div class="flex items-center gap-x-2">
@@ -67,6 +74,7 @@ import { procedureService } from '@/components/api/ProcedureService'
 import type { Error } from '@/types'
 
 let currentTablePage = 1
+const expandedRecords = reactive([] as boolean[])
 
 const state = reactive({
     columnFilter: [
@@ -109,6 +117,7 @@ async function fetchProcedures() {
         const response = await procedureService.getProcedures(params)
         if (response) {
             state.procedures = response
+            expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => false))
         }
     } catch (error: any) {
         state.error = error
@@ -139,6 +148,10 @@ function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
     fetchProcedures()
+}
+
+function toggleExpanded(index: number) {
+    expandedRecords[index] = !expandedRecords[index]
 }
 
 function seeProgress(task: any) {
