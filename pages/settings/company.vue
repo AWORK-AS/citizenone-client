@@ -40,22 +40,22 @@
                             </div>
                         </div>
                         <div class="space-y-1">
-                            <FormLabel for="street" :label="$t('citizens.form.street')" />
-                            <FormTextField id="street" name="street" :placeholder="$t('citizens.form.street')"
+                            <FormLabel for="street" :label="$t('settings.company.form.street')" />
+                            <FormTextField id="street" name="street" :placeholder="$t('settings.company.form.street')"
                                 v-model="state.formCompany.street" />
                             <FormError :error="v$?.formCompany?.street?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.street?.[0]" />
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div class="space-y-1">
-                                <FormLabel for="region" :label="$t('citizens.form.region')" />
+                                <FormLabel for="region" :label="$t('settings.company.form.region')" />
                                 <FormSelect id="region" :options="state.options.regions"
                                     v-model="state.formCompany.region" @change="changeSelectedRegion" />
                                 <FormError :error="v$?.formCompany?.region?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.region_uuid?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="municipality" :label="$t('citizens.form.municipality')" />
+                                <FormLabel for="municipality" :label="$t('settings.company.form.municipality')" />
                                 <FormSelect id="municipality" :options="state.options.municipalities"
                                     v-model="state.formCompany.municipality" @change="changeSelectedMunicipality" />
                                 <FormError :error="v$?.formCompany?.municipality?.$errors[0]?.$message.toString()" />
@@ -64,19 +64,27 @@
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div class="space-y-1">
-                                <FormLabel for="city" :label="$t('citizens.form.city')" />
+                                <FormLabel for="city" :label="$t('settings.company.form.city')" />
                                 <FormSelect id="city" :options="state.options.cities"
                                     v-model="state.formCompany.city" />
                                 <FormError :error="v$?.formCompany?.city?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.city_uuid?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="post_code" :label="$t('citizens.form.postCode')" />
+                                <FormLabel for="post_code" :label="$t('settings.company.form.postCode')" />
                                 <FormTextField id="post_code" name="post_code"
-                                    :placeholder="$t('citizens.form.postCode')" v-model="state.formCompany.post_code" />
+                                    :placeholder="$t('settings.company.form.postCode')"
+                                    v-model="state.formCompany.post_code" />
                                 <FormError :error="v$?.formCompany?.post_code?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.post_code?.[0]" />
                             </div>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.checkin_enabled"
+                                @toggleSwitch="state.formCompany.checkin_enabled = !state.formCompany.checkin_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.checkinEnabled') }}
+                            </p>
                         </div>
                     </div>
                     <div class="mt-6">
@@ -118,6 +126,7 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
+        checkin_enabled: false,
     },
     isPageLoading: false,
     options: {
@@ -170,6 +179,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             municipality: newValue?.company?.company_address?.municipality?.uuid,
             city: newValue?.company?.company_address?.city?.uuid,
             post_code: newValue?.company?.company_address?.post_code,
+            checkin_enabled: newValue?.company?.checkin_enabled ?? false,
         }
         fetchMunicipalities(newValue?.company?.company_address?.region?.uuid)
         fetchCities(newValue?.company?.company_address?.municipality?.uuid)
@@ -280,6 +290,7 @@ async function submitForm() {
                 municipality_uuid: state.formCompany.municipality,
                 city_uuid: state.formCompany.city,
                 post_code: state.formCompany.post_code,
+                checkin_enabled: state.formCompany.checkin_enabled,
             }
             const response = await userService.updateCompany(params)
             if (response.data) {

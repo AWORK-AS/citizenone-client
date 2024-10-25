@@ -1414,6 +1414,7 @@
                 "alert": {
                     "successfullyUpdated": "Company successfully updated"
                 },
+                "checkinEnabled": "Check in enabled",
                 "city": "City",
                 "companyName": "Company name",
                 "cvr": "CVR",

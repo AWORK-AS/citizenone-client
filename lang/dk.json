@@ -1415,6 +1415,7 @@
                 "alert": {
                     "successfullyUpdated": "Firma opdateret med succes"
                 },
+                "checkinEnabled": "Check ind aktiveret",
                 "city": "By",
                 "companyName": "Firmanavn",
                 "cvr": "CVR",
