@@ -609,9 +609,7 @@
             "nursingProfessionalRecords": "Sundhedsfaglige optegnelser",
             "table": {
                 "actions": {
-                    "edit": "Rediger",
-                    "showLess": "Vis mindre",
-                    "showMore": "Vis mere"
+                    "edit": "Rediger"
                 },
                 "data": "Data",
                 "date": "Dato",
@@ -1497,6 +1495,8 @@
         "apps": "Apps",
         "timeLogs": "Tidslogfiler"
     },
+    "showLess": "Vis mindre",
+    "showMore": "Vis mere",
     "subscription": {
         "addOnDeals": {
             "addOnDeals": "Ekstra brugere og afdelinger",

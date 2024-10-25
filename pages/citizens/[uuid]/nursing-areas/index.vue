@@ -141,8 +141,8 @@
                                         <button @click="toggleExpanded(index)"
                                             class="text-primary text-sm hover:text-primary-700">
                                             {{ expandedRecords[index] ?
-                                                $t('citizens.nursingAreas.table.actions.showLess') :
-                                                $t('citizens.nursingAreas.table.actions.showMore') }}
+                                                $t('showLess') :
+                                                $t('showMore') }}
                                         </button>
                                     </td>
                                     <td width="15%">

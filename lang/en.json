@@ -608,9 +608,7 @@
             "nursingProfessionalRecords": "Nursing professional records",
             "table": {
                 "actions": {
-                    "edit": "Edit",
-                    "showLess": "Show less",
-                    "showMore": "Show more"
+                    "edit": "Edit"
                 },
                 "data": "Data",
                 "date": "Date",
@@ -1493,6 +1491,8 @@
         "protocols": "Protocols",
         "apps": "Apps"
     },
+    "showLess": "Show less",
+    "showMore": "Show more",
     "subscription": {
         "addOnDeals": {
             "addOnDeals": "Add-on deals",
