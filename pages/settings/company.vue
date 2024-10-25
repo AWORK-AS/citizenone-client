@@ -83,7 +83,7 @@
                             <FormSwitch :value="state.formCompany.checkin_enabled"
                                 @toggleSwitch="state.formCompany.checkin_enabled = !state.formCompany.checkin_enabled" />
                             <p>
-                                {{ $t('settings.company.form.checkinEnabled') }}
+                                {{ $t('settings.company.form.checkinReminder') }}
                             </p>
                         </div>
                     </div>
