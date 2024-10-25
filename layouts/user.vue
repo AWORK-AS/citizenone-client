@@ -526,7 +526,7 @@ async function fetchUser() {
 function checkInReminderModalVisibility(response: any) {
     const lastHidden = localStorage.getItem('checkInReminderHidden')
     const today = moment().format('YYYY-MM-DD')
-    const checkinEnabled = response?.checkin_enabled ?? false
+    const checkinEnabled = response?.data?.checkin_enabled ?? false
 
     if (lastHidden !== today && checkinEnabled) {
         userStore.resetIsCheckInNow()
