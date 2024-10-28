@@ -1759,9 +1759,12 @@
         "externalData": {
             "externalData": "Eksterne data",
             "table": {
+                "companyName": "Virksomhedsnavn",
                 "data": "Data",
+                "date": "Dato",
                 "referenceNumber": "Referencenummer",
-                "type": "Type"
+                "type": "Type",
+                "user": "Bruger"
             }
         },
         "polls": {

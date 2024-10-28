@@ -1757,9 +1757,12 @@
         "externalData": {
             "externalData": "External data",
             "table": {
+                "companyName": "Company name",
                 "data": "Data",
+                "date": "Date",
                 "referenceNumber": "Reference number",
-                "type": "Type"
+                "type": "Type",
+                "user": "User"
             }
         },
         "polls": {
