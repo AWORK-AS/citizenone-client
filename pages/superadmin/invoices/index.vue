@@ -44,7 +44,7 @@
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/superadmin/invoices/${data.uuid}`)">
+                                                @click="navigateTo(`/superadmin/invoices/${data.uuid}/invoice-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('superadmin.polls.table.actions.view') }}
                                             </FormButton>

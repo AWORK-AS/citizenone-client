@@ -1778,8 +1778,11 @@
             }
         },
         "invoiceDetails": {
+            "billTo": "Bill to",
+            "date": "Date",
             "download": "Download",
             "invoice": "Invoice",
+            "invoiceNumber": "Invoice number",
             "invoiceDetails": "Invoice details",
             "table": {
                 "amount": "Amount",
@@ -1787,7 +1790,8 @@
                 "price": "Price",
                 "quantity": "Quantity",
                 "tax": "Tax"
-            }
+            },
+            "thisInvoiceHasAlreadyBeenPaid": "This invoice has already been paid via your selected payment method in the CitizenOne™ system"
         },
         "polls": {
             "confirmation": {

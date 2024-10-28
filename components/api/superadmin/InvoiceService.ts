@@ -5,12 +5,12 @@ class InvoiceService extends BaseAPIService {
         return await this.request(`/superadmin/invoices`, 'GET', params)
     }
 
-    async getInvoiceDetails(invoceUuid: any): Promise<any> {
-        return await this.request(`/superadmin/invoices/${invoceUuid}`, 'GET')
+    async getInvoiceDetails(invoiceUuid: any): Promise<any> {
+        return await this.request(`/superadmin/invoices/${invoiceUuid}`, 'GET')
     }
 
-    async downloadInvoiceDetails(invoceUuid: any): Promise<any> {
-        return await this.request(`/superadmin/invoices/${invoceUuid}/download`, 'GET')
+    async downloadInvoiceDetails(invoiceUuid: any): Promise<any> {
+        return await this.request(`/superadmin/invoices/${invoiceUuid}/download`, 'GET')
     }
 }
 

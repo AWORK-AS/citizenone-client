@@ -1780,8 +1780,11 @@
             }
         },
         "invoiceDetails": {
+            "billTo": "Faktureres til",
+            "date": "Dato",
             "download": "Download",
             "invoice": "Faktura",
+            "invoiceNumber": "Fakturanummer",
             "invoiceDetails": "Fakturaoplysninger",
             "table": {
                 "amount": "Beløb",
@@ -1789,7 +1792,8 @@
                 "price": "Pris",
                 "quantity": "Mængde",
                 "tax": "Moms"
-            }
+            },
+            "thisInvoiceHasAlreadyBeenPaid": "Denne faktura er allerede betalt via din valgte betalingsmetode i CitizenOne™ systemet"
         },
         "polls": {
             "confirmation": {
