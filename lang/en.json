@@ -1119,6 +1119,34 @@
         "invitationAccepted": "Invitation accepted",
         "youHaveSuccessfullyAcceptedTheInvitation": "You have successfully accepted the invitation"
     },
+    "invoices": {
+        "invoices": "Invoices",
+        "table": {
+            "actions": {
+                "view": "View"
+            },
+            "amount": "Amount",
+            "company": "Company",
+            "date": "Date",
+            "invoiceNumber": "Invoice number"
+        }
+    },
+    "invoiceDetails": {
+        "billTo": "Bill to",
+        "date": "Date",
+        "download": "Download",
+        "invoice": "Invoice",
+        "invoiceNumber": "Invoice number",
+        "invoiceDetails": "Invoice details",
+        "table": {
+            "amount": "Amount",
+            "description": "Description",
+            "price": "Price",
+            "quantity": "Quantity",
+            "tax": "Tax"
+        },
+        "thisInvoiceHasAlreadyBeenPaid": "This invoice has already been paid via your selected payment method in the CitizenOne™ system"
+    },
     "jobTitles": {
         "addNewJobTitle": "Add new job title",
         "jobTitles": "Job titles",
@@ -1456,6 +1484,7 @@
             "archived": "Archived",
             "company": "Company",
             "departments": "Departments",
+            "invoices": "Invoices",
             "jobTitles": "Job titles",
             "licenseOverview": "License overview",
             "licenses": "Licenses",

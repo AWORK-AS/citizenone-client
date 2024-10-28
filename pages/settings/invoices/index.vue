@@ -1,14 +1,16 @@
 <template>
     <div>
-        <NuxtLayout name="superadmin">
+        <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('superadmin.invoices.invoices') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('invoices.invoices') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('superadmin.invoices.invoices') }}</template>
+            <template #header>{{ $t('invoices.invoices') }}</template>
 
-            <div>
+            <ModulesSettingsTab />
+
+            <div class="mt-10">
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
@@ -44,9 +46,9 @@
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/superadmin/invoices/${data.uuid}/invoice-details`)">
+                                                @click="navigateTo(`/settings/invoices/${data.uuid}/invoice-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('superadmin.invoices.table.actions.view') }}
+                                                {{ $t('invoices.table.actions.view') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -62,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { invoiceService } from '@/components/api/superadmin/InvoiceService'
+import { invoiceService } from '@/components/api/InvoiceService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
@@ -76,10 +78,10 @@ const state = reactive({
         { column: 'company_name' },
     ],
     columnHeaders: [
-        { name: 'superadmin.invoices.table.date', sorter: true, key: 'created_at' },
-        { name: 'superadmin.invoices.table.invoiceNumber', sorter: true, key: 'invoice_number' },
-        { name: 'superadmin.invoices.table.amount', sorter: true, key: 'total_amount' },
-        { name: 'superadmin.invoices.table.company' },
+        { name: 'invoices.table.date', sorter: true, key: 'created_at' },
+        { name: 'invoices.table.invoiceNumber', sorter: true, key: 'invoice_number' },
+        { name: 'invoices.table.amount', sorter: true, key: 'total_amount' },
+        { name: 'invoices.table.company' },
         { name: '' },
     ],
     dataFilter: [],

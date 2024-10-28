@@ -1120,6 +1120,34 @@
         "invitationAccepted": "Invitation accepteret",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har med succes accepteret invitationen"
     },
+    "invoices": {
+        "invoices": "Fakturaer",
+        "table": {
+            "actions": {
+                "view": "Se"
+            },
+            "amount": "Beløb",
+            "company": "Virksomhed",
+            "date": "Dato",
+            "invoiceNumber": "Fakturanummer"
+        }
+    },
+    "invoiceDetails": {
+        "billTo": "Faktureres til",
+        "date": "Dato",
+        "download": "Download",
+        "invoice": "Faktura",
+        "invoiceNumber": "Fakturanummer",
+        "invoiceDetails": "Fakturaoplysninger",
+        "table": {
+            "amount": "Beløb",
+            "description": "Beskrivelse",
+            "price": "Pris",
+            "quantity": "Mængde",
+            "tax": "Moms"
+        },
+        "thisInvoiceHasAlreadyBeenPaid": "Denne faktura er allerede betalt via din valgte betalingsmetode i CitizenOne™ systemet"
+    },
     "jobTitles": {
         "addNewJobTitle": "Tilføj ny jobtitel",
         "jobTitles": "Jobtitler",
@@ -1457,6 +1485,7 @@
             "archived": "Arkiveret",
             "company": "Virksomhed",
             "departments": "Afdelinger",
+            "invoices": "Fakturaer",
             "jobTitles": "Jobtitler",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",

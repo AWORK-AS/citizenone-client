@@ -34,6 +34,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
+                    name: 'settings.tabs.invoices',
+                    href: `/settings/invoices`,
+                    routeNames: [
+                        'settings-invoices',
+                        'settings-invoices-invoice_uuid-invoice-details'
+                    ]
+                },
+                {
                     name: 'settings.tabs.storage',
                     href: `/settings/storage`,
                     routeNames: [
@@ -175,6 +183,9 @@ function changeTab(value: any) {
     }
     else if (value === t('settings.tabs.company')) {
         navigateTo(`/settings/company`)
+    }
+    else if (value === t('settings.tabs.invoices')) {
+        navigateTo(`/settings/invoices`)
     }
     else if (value === t('settings.tabs.storage')) {
         navigateTo(`/settings/storage`)
