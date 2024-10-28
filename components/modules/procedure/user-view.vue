@@ -20,7 +20,7 @@
                     <!-- Percentage Text -->
                     <div class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
                         <span class="text-center text-2xl font-bold text-primary">
-                            {{ state.proceduresProgress?.data?.total }}%
+                            {{ formatPercentage(state.proceduresProgress?.data?.total) }}%
                         </span>
                     </div>
                 </div>
@@ -173,5 +173,12 @@ async function toggleTaskProgress(task: any) {
 
 function toggleContent(task: any) {
     task.isExpanded = !task.isExpanded
+}
+
+function formatPercentage(total: any) {
+    if (!Number.isInteger(Number(total))) {
+        return parseFloat(total).toFixed(2).replace('.', ',')
+    }
+    return Number(total)
 }
 </script>

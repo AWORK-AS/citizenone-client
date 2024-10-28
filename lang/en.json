@@ -1765,6 +1765,30 @@
                 "user": "User"
             }
         },
+        "invoices": {
+            "invoices": "Invoices",
+            "table": {
+                "actions": {
+                    "view": "View"
+                },
+                "amount": "Amount",
+                "company": "Company",
+                "date": "Date",
+                "invoiceNumber": "Invoice number"
+            }
+        },
+        "invoiceDetails": {
+            "download": "Download",
+            "invoice": "Invoice",
+            "invoiceDetails": "Invoice details",
+            "table": {
+                "amount": "Amount",
+                "description": "Description",
+                "price": "Price",
+                "quantity": "Quantity",
+                "tax": "Tax"
+            }
+        },
         "polls": {
             "confirmation": {
                 "deletePollConfirmation": "Are you sure you want to delete this poll",
@@ -1844,6 +1868,7 @@
             "apps": "Apps",
             "companies": "Companies",
             "externalData": "External data",
+            "invoices": "Invoices",
             "polls": "Polls",
             "salesCampaign": "Sales campaign",
             "users": "Users"

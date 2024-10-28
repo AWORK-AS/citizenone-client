@@ -1767,6 +1767,30 @@
                 "user": "Bruger"
             }
         },
+        "invoices": {
+            "invoices": "Fakturaer",
+            "table": {
+                "actions": {
+                    "view": "Se"
+                },
+                "amount": "Beløb",
+                "company": "Virksomhed",
+                "date": "Dato",
+                "invoiceNumber": "Fakturanummer"
+            }
+        },
+        "invoiceDetails": {
+            "download": "Download",
+            "invoice": "Faktura",
+            "invoiceDetails": "Fakturaoplysninger",
+            "table": {
+                "amount": "Beløb",
+                "description": "Beskrivelse",
+                "price": "Pris",
+                "quantity": "Mængde",
+                "tax": "Moms"
+            }
+        },
         "polls": {
             "confirmation": {
                 "deletePollConfirmation": "Er du sikker på, at du vil slette denne afstemning",
@@ -1846,6 +1870,7 @@
             "apps": "Apps",
             "companies": "Virksomheder",
             "externalData": "Eksterne data",
+            "invoices": "Fakturaer",
             "polls": "Afstemninger",
             "salesCampaign": "Salgs kampagne",
             "users": "Brugere"

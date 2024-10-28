@@ -3,10 +3,10 @@
         <NuxtLayout name="superadmin">
 
             <Head>
-                <Title>{{ $t('superadmin.externalData.externalData') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('superadmin.invoices.invoices') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('superadmin.externalData.externalData') }}</template>
+            <template #header>{{ $t('superadmin.invoices.invoices') }}</template>
 
             <div>
                 <div class="space-y-5">
@@ -15,42 +15,46 @@
                     <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
                         @handleFilter="handleFilter" />
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.externalData"
+                        <Table :columnHeaders="state.columnHeaders" :data="state.invoices"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.externalData?.data?.length === 0))">
-                                <tr v-for="(data, index) in state.externalData?.data" :key="index">
+                            <template #body v-if="!(state.isTableLoading || (state.invoices?.data?.length === 0))">
+                                <tr v-for="(data, index) in state.invoices?.data" :key="index">
                                     <td width="20%">
                                         <div>
                                             {{ formatDateTimeToReadable(data?.created_at) }}
                                         </div>
                                     </td>
-                                    <td width="30%">
+                                    <td width="20%">
                                         <div>
-                                            {{ data?.reference_number }}
+                                            {{ data?.invoice_number }}
                                         </div>
                                     </td>
                                     <td width="15%">
                                         <p class="capitalize">
-                                            {{ data?.external_data_type }}
+                                            {{ formatAmount(data?.total_amount) }}
                                         </p>
                                     </td>
-                                    <td width="35%">
+                                    <td width="25%">
                                         <div>
                                             <p>
-                                                {{ $t('superadmin.externalData.table.companyName') }}:
                                                 {{ data?.user?.company?.name }}
                                             </p>
-                                            <p>
-                                                {{ $t('superadmin.externalData.table.user') }}:
-                                                {{ data?.user?.firstname + ' ' + data?.user?.lastname }}
-                                            </p>
+                                        </div>
+                                    </td>
+                                    <td width="20%">
+                                        <div class="flex items-end gap-2">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="navigateTo(`/superadmin/invoices/${data.uuid}`)">
+                                                <Icon name="ph:eye" class="size-4" />
+                                                {{ $t('superadmin.polls.table.actions.view') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
                             </template>
                         </Table>
                     </div>
-                    <Pagination :data="state.externalData" @previous="previous" @next="next" />
+                    <Pagination :data="state.invoices" @previous="previous" @next="next" />
                 </div>
             </div>
         </NuxtLayout>
@@ -58,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { externalDataService } from '@/components/api/superadmin/ExternalDataService'
+import { invoiceService } from '@/components/api/superadmin/InvoiceService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
@@ -68,17 +72,19 @@ let currentTablePage = 1
 
 const state = reactive({
     columnFilter: [
-        { column: 'reference_number' },
+        { column: 'invoice_number' },
+        { column: 'company_name' },
     ],
     columnHeaders: [
-        { name: 'superadmin.externalData.table.date', sorter: true, key: 'created_at' },
-        { name: 'superadmin.externalData.table.referenceNumber', sorter: true, key: 'reference_number' },
-        { name: 'superadmin.externalData.table.type', sorter: true, key: 'type' },
-        { name: 'superadmin.externalData.table.data' },
+        { name: 'superadmin.invoices.table.date', sorter: true, key: 'created_at' },
+        { name: 'superadmin.invoices.table.invoiceNumber', sorter: true, key: 'invoice_number' },
+        { name: 'superadmin.invoices.table.amount', sorter: true, key: 'total_amount' },
+        { name: 'superadmin.invoices.table.company' },
+        { name: '' },
     ],
     dataFilter: [],
     error: {} as Error,
-    externalData: [] as any,
+    invoices: [] as any,
     isTableLoading: false,
     sortData: {
         sortField: 'id',
@@ -87,10 +93,10 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchExternalData()
+    fetchInvoices()
 })
 
-async function fetchExternalData() {
+async function fetchInvoices() {
     state.error = {}
     state.isTableLoading = true
     try {
@@ -100,9 +106,9 @@ async function fetchExternalData() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await externalDataService.getExternalData(params)
+        const response = await invoiceService.getInvoices(params)
         if (response) {
-            state.externalData = response
+            state.invoices = response
         }
     } catch (error: any) {
         state.error = error
@@ -112,12 +118,12 @@ async function fetchExternalData() {
 
 function previous() {
     currentTablePage--
-    fetchExternalData()
+    fetchInvoices()
 }
 
 function next() {
     currentTablePage++
-    fetchExternalData()
+    fetchInvoices()
 }
 
 function sort(sortingData: any) {
@@ -126,12 +132,28 @@ function sort(sortingData: any) {
         sortField: sortingData.column,
         sortOrder: sortingData.sort,
     }
-    fetchExternalData()
+    fetchInvoices()
 }
 
 function handleFilter(value: any) {
     currentTablePage = 1
     state.dataFilter = value
-    fetchExternalData()
+    fetchInvoices()
+}
+
+function formatAmount(amount: any) {
+    // Convert the number to a string with two decimal places
+    let numberStr = parseFloat(amount).toFixed(2)
+
+    // Split the string into integer and decimal parts
+    let parts = numberStr.split('.')
+    let integerPart = parts[0]
+    let decimalPart = parts[1]
+
+    // Add the thousands separators
+    let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+
+    // Combine the integer part with the decimal part
+    return 'DKK ' + formattedIntegerPart + ',' + decimalPart
 }
 </script>

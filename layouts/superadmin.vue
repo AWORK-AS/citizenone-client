@@ -44,6 +44,9 @@
                                                         <span v-if="item.name === 'Companies'">
                                                             {{ $t('superadmin.sidebar.companies') }}
                                                         </span>
+                                                        <span v-if="item.name === 'Invoices'">
+                                                            {{ $t('superadmin.sidebar.invoices') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Sales Campaign'">
                                                             {{ $t('superadmin.sidebar.salesCampaign') }}
                                                         </span>
@@ -111,6 +114,9 @@
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
                                         <span v-if="item.name === 'Companies'">
                                             {{ $t('superadmin.sidebar.companies') }}
+                                        </span>
+                                        <span v-if="item.name === 'Invoices'">
+                                            {{ $t('superadmin.sidebar.invoices') }}
                                         </span>
                                         <span v-if="item.name === 'Sales Campaign'">
                                             {{ $t('superadmin.sidebar.salesCampaign') }}
@@ -285,6 +291,15 @@ const navigation = [
             'superadmin-companies-company_uuid-accounts-account_uuid-edit',
             'superadmin-companies-company_uuid-license-overview',
             'superadmin-companies-company_uuid-apps',
+        ]
+    },
+    {
+        name: 'Invoices',
+        href: '/superadmin/invoices',
+        icon: 'ph:invoice',
+        activeRouteNames: [
+            'superadmin-invoices',
+            'superadmin-invoices-invoice_uuid',
         ]
     },
     {
