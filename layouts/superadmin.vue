@@ -53,6 +53,9 @@
                                                         <span v-if="item.name === 'Apps'">
                                                             {{ $t('superadmin.sidebar.apps') }}
                                                         </span>
+                                                        <span v-if="item.name === 'External Data'">
+                                                            {{ $t('superadmin.sidebar.externalData') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Users'">
                                                             {{ $t('superadmin.sidebar.users') }}
                                                         </span>
@@ -117,6 +120,9 @@
                                         </span>
                                         <span v-if="item.name === 'Apps'">
                                             {{ $t('superadmin.sidebar.apps') }}
+                                        </span>
+                                        <span v-if="item.name === 'External Data'">
+                                            {{ $t('superadmin.sidebar.externalData') }}
                                         </span>
                                         <span v-if="item.name === 'Users'">
                                             {{ $t('superadmin.sidebar.users') }}
@@ -313,6 +319,14 @@ const navigation = [
             'superadmin-apps',
             'superadmin-apps-new',
             'superadmin-apps-appUuid-edit',
+        ]
+    },
+    {
+        name: 'External Data',
+        href: '/superadmin/external-data',
+        icon: 'ph:database',
+        activeRouteNames: [
+            'superadmin-external-data',
         ]
     },
     {

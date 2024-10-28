@@ -1754,6 +1754,14 @@
                 "licenses": "Licenses"
             }
         },
+        "externalData": {
+            "externalData": "External data",
+            "table": {
+                "data": "Data",
+                "referenceNumber": "Reference number",
+                "type": "Type"
+            }
+        },
         "polls": {
             "confirmation": {
                 "deletePollConfirmation": "Are you sure you want to delete this poll",
@@ -1832,6 +1840,7 @@
         "sidebar": {
             "apps": "Apps",
             "companies": "Companies",
+            "externalData": "External data",
             "polls": "Polls",
             "salesCampaign": "Sales campaign",
             "users": "Users"

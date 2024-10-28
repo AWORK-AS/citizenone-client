@@ -1756,6 +1756,14 @@
                 "licenses": "Licenser"
             }
         },
+        "externalData": {
+            "externalData": "Eksterne data",
+            "table": {
+                "data": "Data",
+                "referenceNumber": "Referencenummer",
+                "type": "Type"
+            }
+        },
         "polls": {
             "confirmation": {
                 "deletePollConfirmation": "Er du sikker på, at du vil slette denne afstemning",
@@ -1834,6 +1842,7 @@
         "sidebar": {
             "apps": "Apps",
             "companies": "Virksomheder",
+            "externalData": "Eksterne data",
             "polls": "Afstemninger",
             "salesCampaign": "Salgs kampagne",
             "users": "Brugere"
