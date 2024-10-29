@@ -80,8 +80,7 @@
                                     </td>
                                     <td width="20%">
                                         <div>
-                                            {{ formatAmount(((data?.price ?? 0) * (data?.quantity ?? 0)) +
-                                                (data?.tax_amount ?? 0)) }}
+                                            {{ formatAmount(data?.total ?? 0) }}
                                         </div>
                                     </td>
                                 </tr>
