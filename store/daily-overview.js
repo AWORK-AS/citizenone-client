@@ -6,18 +6,25 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
         state: () => ({
             filter: {
                 showCitizenDailyEvents: true,
-                showLatestJournalNotes: true
+                showCitizenMedicineOverview: true,
+                showLatestJournalNotes: true,
             },
         }),
         actions: {
             setShowCitizenDailyEvents(flag) {
                 this.filter.showCitizenDailyEvents = flag
             },
+            setShowCitizenMedicineOverview(flag) {
+                this.filter.showCitizenMedicineOverview = flag
+            },
             setShowLatestJournalNotes(flag) {
                 this.filter.showLatestJournalNotes = flag
             },
             resetShowCitizenDailyEvents() {
                 this.filter.showCitizenDailyEvents = false
+            },
+            resetShowCitizenMedicineOverview() {
+                this.filter.showCitizenMedicineOverview = false
             },
             resetShowLatestJournalNotes() {
                 this.filter.showLatestJournalNotes = false

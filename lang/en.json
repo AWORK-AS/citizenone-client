@@ -750,6 +750,7 @@
         "campaign": "Campaign",
         "citizensDailyEvents": "Citizens daily events",
         "createdBy": "Created by",
+        "dailyMedicineOverview": "Daily medicine overview",
         "dailyOverview": "Daily overview",
         "filter": {
             "endDate": "End date",
@@ -763,6 +764,7 @@
         "noBulletBoardToShow": "No bullet board to show",
         "noEventsForToday": "No events for today",
         "noJournalsToShow": "No journals to show",
+        "noMedicinesToShow": "No medicines to show",
         "noNewsToShow": "No news to show",
         "openLink": "Open link",
         "poll": {

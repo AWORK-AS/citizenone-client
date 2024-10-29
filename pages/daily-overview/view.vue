@@ -24,6 +24,12 @@
                         {{ $t('dailyOverview.citizensDailyEvents') }}
                     </FormButton>
                     <FormButton buttonSize="sm" :class="[
+                        dailyOverviewStore.getFilter.showCitizenMedicineOverview && 'border-secondary bg-secondary text-white',
+                        'rounded-md w-full md:w-fit']"
+                        @click="dailyOverviewStore.setShowCitizenMedicineOverview(!dailyOverviewStore.getFilter.showCitizenMedicineOverview)">
+                        {{ $t('dailyOverview.dailyMedicineOverview') }}
+                    </FormButton>
+                    <FormButton buttonSize="sm" :class="[
                         dailyOverviewStore.getFilter.showLatestJournalNotes && 'border-secondary bg-secondary text-white',
                         'rounded-md w-full md:w-fit']"
                         @click="dailyOverviewStore.setShowLatestJournalNotes(!dailyOverviewStore.getFilter.showLatestJournalNotes)">
@@ -48,6 +54,10 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                     <div v-if="dailyOverviewStore.getFilter.showCitizenDailyEvents">
                         <ModulesDailyOverviewCitizensDailyEvents :startDate="state.searchFilter.start_date"
+                            :endDate="state.searchFilter.end_date" />
+                    </div>
+                    <div v-if="dailyOverviewStore.getFilter.showCitizenMedicineOverview">
+                        <ModulesDailyOverviewCitizenMedicineOverview :startDate="state.searchFilter.start_date"
                             :endDate="state.searchFilter.end_date" />
                     </div>
                     <div v-if="dailyOverviewStore.getFilter.showLatestJournalNotes">

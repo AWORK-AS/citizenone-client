@@ -49,7 +49,7 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-center gap-x-2">
-                                            <Badge :type="news?.is_active ? 'active' : 'primary'">
+                                            <Badge :type="news?.is_active ? 'active' : 'inactive'">
                                                 <p class="text-xs">
                                                     {{ news?.is_active ? $t('news.table.active') :
                                                         $t('news.table.inactive') }}

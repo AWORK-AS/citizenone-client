@@ -28,8 +28,11 @@
                         <ModulesDailyOverviewLatestJournal />
                     </div>
                     <div>
-                        <ModulesDailyOverviewBulletBoard />
+                        <ModulesDailyOverviewCitizenMedicineOverview />
                     </div>
+                </div>
+                <div class="mt-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                    <ModulesDailyOverviewBulletBoard />
                 </div>
                 <div class="mt-6">
                     <p class="text-xl font-bold text-primary">
