@@ -23,7 +23,7 @@
 
                 <div class="space-y-3 px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
                     <div>
-                        <div class="space-y-8 mt-5">
+                        <div class="space-y-8 mt-5" v-if="state.fields?.length > 0">
                             <div v-for="(field, fieldIndex) in state.fields" :key="fieldIndex" class="space-y-3">
                                 <div class="bg-gray-100 rounded-md border-t-2 border-primary">
                                     <div>
@@ -305,7 +305,7 @@
                             </div>
                         </div>
 
-                        <div class="mt-8 space-y-3">
+                        <div class="space-y-3" :class="state.fields?.length > 0 && 'mt-8'">
                             <div class="w-fit" @click="state.showFieldsAdder = !state.showFieldsAdder">
                                 <div class="w-fit flex items-center gap-x-2 cursor-pointer">
                                     <Icon name="ph:x-circle-fill" class="h-5 w-5 text-primary" aria-hidden="true"
@@ -450,5 +450,8 @@ function removeCheckboxOption(fieldIndex: number, radioIndex: number) {
 
 function removeField(fieldIndex: number) {
     state.fields.splice(fieldIndex, 1)
+    if (state.fields?.length === 0) {
+        state.showFieldsAdder = true
+    }
 }
 </script>
