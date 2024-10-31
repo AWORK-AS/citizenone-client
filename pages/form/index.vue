@@ -305,58 +305,72 @@
                             </div>
                         </div>
 
-                        <div class="mt-5 grid grid-cols-3 gap-x-3 gap-y-5">
-                            <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                                @click="addTextField">
-                                <div class="flex items-center gap-x-2 text-sm">
-                                    <Icon name="solar:text-outline" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                    Text
+                        <div class="mt-8 space-y-3">
+                            <div class="w-fit" @click="state.showFieldsAdder = !state.showFieldsAdder">
+                                <div class="w-fit flex items-center gap-x-2 cursor-pointer">
+                                    <Icon name="ph:x-circle-fill" class="h-5 w-5 text-primary" aria-hidden="true"
+                                        v-if="state.showFieldsAdder" />
+                                    <Icon name="ph:plus-circle-fill" class="h-5 w-5 text-primary" aria-hidden="true"
+                                        v-else />
+                                    <p v-if="state.fields?.length === 0">Quick start with</p>
+                                    <p v-else>Add new question</p>
                                 </div>
-                            </button>
-                            <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                                @click="addTextarea">
-                                <div class="flex items-center gap-x-2 text-sm">
-                                    <Icon name="ph:file-text" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                    Text area
-                                </div>
-                            </button>
-                            <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                                @click="addDateField">
-                                <div class="flex items-center gap-x-2 text-sm">
-                                    <Icon name="ph:calendar" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                    Date
-                                </div>
-                            </button>
-                            <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                                @click="addChoiceField">
-                                <div class="flex items-center gap-x-2 text-sm">
-                                    <Icon name="mdi:circle-slice-8" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                    Choice
-                                </div>
-                            </button>
-                            <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                                @click="addCheckbox">
-                                <div class="flex items-center gap-x-2 text-sm">
-                                    <Icon name="ph:check-square" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                    Checkbox
-                                </div>
-                            </button>
-                            <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                                @click="addRating">
-                                <div class="flex items-center gap-x-2 text-sm">
-                                    <Icon name="material-symbols:thumb-up-outline-sharp" class="w-5 h-5 text-primary"
-                                        aria-hidden="true" />
-                                    Rating
-                                </div>
-                            </button>
-                            <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                                @click="addUploadFile">
-                                <div class="flex items-center gap-x-2 text-sm">
-                                    <Icon name="material-symbols:upload-rounded" class="w-5 h-5 text-primary"
-                                        aria-hidden="true" />
-                                    Upload File
-                                </div>
-                            </button>
+                            </div>
+                            <div class="grid grid-cols-3 gap-x-3 gap-y-5" v-if="state.showFieldsAdder">
+                                <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                                    @click="addTextField">
+                                    <div class="flex items-center gap-x-2 text-sm">
+                                        <Icon name="solar:text-outline" class="w-5 h-5 text-primary"
+                                            aria-hidden="true" />
+                                        Text
+                                    </div>
+                                </button>
+                                <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                                    @click="addTextarea">
+                                    <div class="flex items-center gap-x-2 text-sm">
+                                        <Icon name="ph:file-text" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                        Text area
+                                    </div>
+                                </button>
+                                <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                                    @click="addDateField">
+                                    <div class="flex items-center gap-x-2 text-sm">
+                                        <Icon name="ph:calendar" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                        Date
+                                    </div>
+                                </button>
+                                <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                                    @click="addChoiceField">
+                                    <div class="flex items-center gap-x-2 text-sm">
+                                        <Icon name="mdi:circle-slice-8" class="w-5 h-5 text-primary"
+                                            aria-hidden="true" />
+                                        Choice
+                                    </div>
+                                </button>
+                                <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                                    @click="addCheckbox">
+                                    <div class="flex items-center gap-x-2 text-sm">
+                                        <Icon name="ph:check-square" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                        Checkbox
+                                    </div>
+                                </button>
+                                <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                                    @click="addRating">
+                                    <div class="flex items-center gap-x-2 text-sm">
+                                        <Icon name="material-symbols:thumb-up-outline-sharp"
+                                            class="w-5 h-5 text-primary" aria-hidden="true" />
+                                        Rating
+                                    </div>
+                                </button>
+                                <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                                    @click="addUploadFile">
+                                    <div class="flex items-center gap-x-2 text-sm">
+                                        <Icon name="material-symbols:upload-rounded" class="w-5 h-5 text-primary"
+                                            aria-hidden="true" />
+                                        Upload File
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -369,35 +383,43 @@
 const runtimeConfig = useRuntimeConfig()
 
 const state = reactive({
-    fields: [] as any
+    fields: [] as any,
+    showFieldsAdder: true,
 })
 
 function addTextField() {
     state.fields.push({ type: 'textfield', value: 'Question', required: false })
+    state.showFieldsAdder = false
 }
 
 function addTextarea() {
     state.fields.push({ type: 'textarea', value: 'Question', required: false })
+    state.showFieldsAdder = false
 }
 
 function addDateField() {
     state.fields.push({ type: 'datefield', value: 'Question', required: false })
+    state.showFieldsAdder = false
 }
 
 function addChoiceField() {
     state.fields.push({ type: 'choice', value: '', required: false, options: ['Option 1', 'Option 2'] })
+    state.showFieldsAdder = false
 }
 
 function addCheckbox() {
     state.fields.push({ type: 'checkbox', value: '', required: false, options: ['Option 1', 'Option 2'] })
+    state.showFieldsAdder = false
 }
 
 function addRating() {
     state.fields.push({ type: 'rating', value: '', required: false, levels: 2 })
+    state.showFieldsAdder = false
 }
 
 function addUploadFile() {
     state.fields.push({ type: 'uploadfile', value: 'Question', required: false })
+    state.showFieldsAdder = false
 }
 
 function addRadioOption(fieldIndex: number) {
