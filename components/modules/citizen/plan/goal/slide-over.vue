@@ -44,6 +44,10 @@
                                         </div>
                                         <div class="mt-1">
                                             <p class="text-sm text-white">
+                                                {{ $t('plansandgoals.dateCreated') }}: {{
+                                                    formatDateToReadable(props.selectedPlan?.created_at) }}
+                                            </p>
+                                            <p class="text-sm text-white">
                                                 {{ $t('plansandgoals.completionDate') }}:
                                                 {{ formatDateToReadable(props.selectedPlan?.completion_date) }}
                                             </p>
@@ -121,6 +125,10 @@
                                                             {{ $t('plansandgoals.completionDate') }}:
                                                             {{ formatDateToReadable(goal?.completion_date) }}
                                                         </p>
+                                                        <p class="text-sm">
+                                                            {{ $t('plansandgoals.dateCreated') }}: {{
+                                                                formatDateToReadable(goal?.created_at) }}
+                                                        </p>
                                                         <div class="text-sm">
                                                             {{ goal?.description }}
                                                         </div>
@@ -160,6 +168,12 @@
                                                                                         </Badge>
                                                                                     </div>
                                                                                 </div>
+                                                                                <p class="text-sm">
+                                                                                    {{ $t('plansandgoals.dateCreated')
+                                                                                    }}: {{
+                                                                                        formatDateToReadable(subgoal?.created_at)
+                                                                                    }}
+                                                                                </p>
                                                                                 <p class="text-sm">
                                                                                     <span
                                                                                         v-if="subgoal?.date_completed">
