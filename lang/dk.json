@@ -1110,6 +1110,30 @@
         "subscribe": "Abonner"
     },
     "excludeVat": "ekskl. moms",
+    "form": {
+        "addNewQuestion": "Tilføj nyt spørgsmål",
+        "alert": {
+            "formSuccessfullyAdded": "Formular tilføjet med succes",
+            "formSuccessfullyUpdated": "Formular opdateret med succes"
+        },
+        "fields": {
+            "checkbox": "Afkrydsningsfelt",
+            "choice": "Valg",
+            "date": "Dato",
+            "enterYourAnswer": "Indtast dit svar",
+            "question": "Spørgsmål",
+            "required": "Påkrævet",
+            "rating": "Bedømmelse",
+            "text": "Tekst",
+            "textarea": "Tekstområde",
+            "uploadFile": "Upload fil"
+        },
+        "form": "Formular",
+        "formDescription": "Formularbeskrivelse",
+        "formTitle": "Formulartitel",
+        "preview": "Forhåndsvisning",
+        "quickStartWith": "Hurtig start med"
+    },
     "filter": "Filter",
     "forgotPassword": {
         "emailAddress": "E-mail adresse",

@@ -3,21 +3,21 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>Form - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('form.form') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>Form</template>
+            <template #header>{{ $t('form.form') }}</template>
 
             <div class="max-w-5xl mx-auto space-y-5">
                 <div class="space-y-3 px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
                     <div class="space-y-1">
-                        <FormLabel for="form_title" label="Form title" />
-                        <FormTextField id="form_title" name="form_title" placeholder="Form title" />
+                        <FormLabel for="form_title" :label="$t('form.formTitle')" />
+                        <FormTextField id="form_title" name="form_title" :placeholder="$t('form.formTitle')" />
                     </div>
                     <div class="space-y-1">
-                        <FormLabel for="form_description" label="Form description" />
-                        <FormTextArea id="form_description" name="form_description" placeholder="Form description"
-                            :rows="2" />
+                        <FormLabel for="form_description" :label="$t('form.formDescription')" />
+                        <FormTextArea id="form_description" name="form_description"
+                            :placeholder="$t('form.formDescription')" :rows="2" />
                     </div>
                 </div>
 
@@ -51,7 +51,7 @@
                                                     <FormSwitch :value="state.fields[fieldIndex].required"
                                                         @toggleSwitch="state.fields[fieldIndex].required = !state.fields[fieldIndex].required" />
                                                     <p>
-                                                        Required
+                                                        {{ $t('form.fields.required') }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -80,7 +80,7 @@
                                                     <FormSwitch :value="state.fields[fieldIndex].required"
                                                         @toggleSwitch="state.fields[fieldIndex].required = !state.fields[fieldIndex].required" />
                                                     <p>
-                                                        Required
+                                                        {{ $t('form.fields.required') }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -129,7 +129,7 @@
                                                     <FormSwitch :value="state.fields[fieldIndex].required"
                                                         @toggleSwitch="state.fields[fieldIndex].required = !state.fields[fieldIndex].required" />
                                                     <p>
-                                                        Required
+                                                        {{ $t('form.fields.required') }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -178,7 +178,7 @@
                                                     <FormSwitch :value="state.fields[fieldIndex].required"
                                                         @toggleSwitch="state.fields[fieldIndex].required = !state.fields[fieldIndex].required" />
                                                     <p>
-                                                        Required
+                                                        {{ $t('form.fields.required') }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -227,7 +227,7 @@
                                                     <FormSwitch :value="state.fields[fieldIndex].required"
                                                         @toggleSwitch="state.fields[fieldIndex].required = !state.fields[fieldIndex].required" />
                                                     <p>
-                                                        Required
+                                                        {{ $t('form.fields.required') }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -261,7 +261,7 @@
                                                     <FormSwitch :value="state.fields[fieldIndex].required"
                                                         @toggleSwitch="state.fields[fieldIndex].required = !state.fields[fieldIndex].required" />
                                                     <p>
-                                                        Required
+                                                        {{ $t('form.fields.required') }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -295,7 +295,7 @@
                                                     <FormSwitch :value="state.fields[fieldIndex].required"
                                                         @toggleSwitch="state.fields[fieldIndex].required = !state.fields[fieldIndex].required" />
                                                     <p>
-                                                        Required
+                                                        {{ $t('form.fields.required') }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -312,8 +312,10 @@
                                         v-if="state.showFieldsAdder" />
                                     <Icon name="ph:plus-circle-fill" class="h-5 w-5 text-primary" aria-hidden="true"
                                         v-else />
-                                    <p v-if="state.fields?.length === 0">Quick start with</p>
-                                    <p v-else>Add new question</p>
+                                    <p v-if="state.fields?.length === 0">
+                                        {{ $t('form.quickStartWith') }}
+                                    </p>
+                                    <p v-else>{{ $t('form.addNewQuestion') }}</p>
                                 </div>
                             </div>
                             <div class="grid grid-cols-3 gap-x-3 gap-y-5" v-if="state.showFieldsAdder">
@@ -322,21 +324,21 @@
                                     <div class="flex items-center gap-x-2 text-sm">
                                         <Icon name="solar:text-outline" class="w-5 h-5 text-primary"
                                             aria-hidden="true" />
-                                        Text
+                                        {{ $t('form.fields.text') }}
                                     </div>
                                 </button>
                                 <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                     @click="addTextarea">
                                     <div class="flex items-center gap-x-2 text-sm">
                                         <Icon name="ph:file-text" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                        Text area
+                                        {{ $t('form.fields.textarea') }}
                                     </div>
                                 </button>
                                 <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                     @click="addDateField">
                                     <div class="flex items-center gap-x-2 text-sm">
                                         <Icon name="ph:calendar" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                        Date
+                                        {{ $t('form.fields.date') }}
                                     </div>
                                 </button>
                                 <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
@@ -344,14 +346,14 @@
                                     <div class="flex items-center gap-x-2 text-sm">
                                         <Icon name="mdi:circle-slice-8" class="w-5 h-5 text-primary"
                                             aria-hidden="true" />
-                                        Choice
+                                        {{ $t('form.fields.choice') }}
                                     </div>
                                 </button>
                                 <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                     @click="addCheckbox">
                                     <div class="flex items-center gap-x-2 text-sm">
                                         <Icon name="ph:check-square" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                        Checkbox
+                                        {{ $t('form.fields.checkbox') }}
                                     </div>
                                 </button>
                                 <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
@@ -359,7 +361,7 @@
                                     <div class="flex items-center gap-x-2 text-sm">
                                         <Icon name="material-symbols:thumb-up-outline-sharp"
                                             class="w-5 h-5 text-primary" aria-hidden="true" />
-                                        Rating
+                                        {{ $t('form.fields.rating') }}
                                     </div>
                                 </button>
                                 <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
@@ -367,7 +369,7 @@
                                     <div class="flex items-center gap-x-2 text-sm">
                                         <Icon name="material-symbols:upload-rounded" class="w-5 h-5 text-primary"
                                             aria-hidden="true" />
-                                        Upload File
+                                        {{ $t('form.fields.uploadFile') }}
                                     </div>
                                 </button>
                             </div>

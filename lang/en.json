@@ -1109,6 +1109,30 @@
         "subscribe": "Subscribe"
     },
     "excludeVat": "excl. vat",
+    "form": {
+        "addNewQuestion": "Add new question",
+        "alert": {
+            "formSuccessfullyAdded": "Form successfully added",
+            "formSuccessfullyUpdated": "Form successfully updated"
+        },
+        "fields": {
+            "checkbox": "Checkbox",
+            "choice": "Choice",
+            "date": "Date",
+            "enterYourAnswer": "Enter your answer",
+            "question": "Question",
+            "required": "Required",
+            "rating": "Rating",
+            "text": "Text",
+            "textarea": "Textarea",
+            "uploadFile": "Upload file"
+        },
+        "form": "Form",
+        "formDescription": "Form description",
+        "formTitle": "Form title",
+        "preview": "Preview",
+        "quickStartWith": "Quick start with"
+    },
     "filter": "Filter",
     "forgotPassword": {
         "emailAddress": "Email address",
