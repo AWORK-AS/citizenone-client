@@ -21,8 +21,6 @@
                     </div>
                 </div>
 
-                {{ state.fields }}
-
                 <div class="space-y-3 px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
                     <div>
                         <div class="space-y-8 mt-5">
