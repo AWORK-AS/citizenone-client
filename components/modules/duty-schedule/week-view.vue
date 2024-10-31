@@ -3,12 +3,12 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
-            <!-- <div class="flex justify-end">
+            <div class="flex justify-end">
                 <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('dutySchedules.download.download') }}
                 </FormButton>
-            </div> -->
+            </div>
             <div class="flex h-full flex-col">
                 <header class="flex flex-none items-center justify-between py-4">
                     <div>

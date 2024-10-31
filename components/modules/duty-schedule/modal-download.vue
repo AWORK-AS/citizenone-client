@@ -67,8 +67,8 @@ const state = reactive({
     isPageLoading: false,
     formDownload: {
         download_type: '',
-        start_date: '',
-        end_date: '',
+        date_start: '',
+        date_end: '',
     },
     options: {
         downloadType: [
@@ -108,8 +108,8 @@ async function setDateRange(event: any) {
     const dates = dateRange.split(" to ")
     const startDate = moment(dates[0], "DD. MMMM YYYY").format("YYYY-MM-DD")
     const endDate = dates[1] ? moment(dates[1], "DD. MMMM YYYY").format("YYYY-MM-DD") : startDate
-    state.formDownload.start_date = startDate
-    state.formDownload.end_date = endDate
+    state.formDownload.date_start = startDate
+    state.formDownload.date_end = endDate
     state.date_range = dateRange
 }
 
@@ -126,8 +126,8 @@ async function downloadDutySchedule() {
     try {
         const params = {
             download_type: state.formDownload.download_type,
-            start_date: state.formDownload.start_date,
-            end_date: state.formDownload.end_date,
+            date_start: state.formDownload.date_start,
+            date_end: state.formDownload.date_end,
         }
         const response = await dutyScheduleService.downloadDutySchedules(params)
         if (response) {
