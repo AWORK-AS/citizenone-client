@@ -102,9 +102,9 @@
                     </div>
                     <Pagination :data="state.documents" @previous="previous" @next="next" />
                 </div>
-                <ModulesCitizenDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
+                <ModulesDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
                     @close="state.modal.isAddDirectoryOpen = false" @refreshDocuments="fetchDocuments" />
-                <ModulesCitizenDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
+                <ModulesDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"

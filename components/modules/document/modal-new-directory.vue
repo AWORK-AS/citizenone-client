@@ -14,7 +14,7 @@
 
 
 <script setup lang="ts">
-import { citizenDocumentService } from '@/components/api/CitizenDocumentService'
+import { documentService } from '@/components/api/DocumentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -29,7 +29,6 @@ const props = defineProps({
 
 const { t } = useI18n()
 const router = useRouter()
-const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const emit = defineEmits(['close', 'refreshDocuments'])
 
 const state = reactive({
@@ -57,17 +56,16 @@ async function saveDirectory(directoryDetails: any) {
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
         const params = {
-            citizen_uuid: citizenUuid,
             ...(folderUuid && { folder_uuid: folderUuid }),
             name: directoryDetails.name,
             is_admin_access: directoryDetails.is_admin_access,
             type: 'folder',
         }
-        const response = await citizenDocumentService.saveCitizenFileFolder(params)
+        const response = await documentService.saveFileFolder(params)
         if (response?.data) {
             refreshDocuments()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.folderSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('drive.alert.folderSuccessfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error
