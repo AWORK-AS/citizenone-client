@@ -1116,6 +1116,7 @@
             "formSuccessfullyAdded": "Formular tilføjet med succes",
             "formSuccessfullyUpdated": "Formular opdateret med succes"
         },
+        "createResponse": "Opret svar",
         "fields": {
             "checkbox": "Afkrydsningsfelt",
             "choice": "Valg",
@@ -1135,7 +1136,8 @@
         "preview": "Forhåndsvisning",
         "quickStartWith": "Hurtig start med",
         "table": {
-            "action": {
+            "actions": {
+                "createResponse": "Opret svar",
                 "viewResponses": "Se svar"
             },
             "description": "Beskrivelse",

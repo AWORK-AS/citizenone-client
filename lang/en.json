@@ -1115,6 +1115,7 @@
             "formSuccessfullyAdded": "Form successfully added",
             "formSuccessfullyUpdated": "Form successfully updated"
         },
+        "createResponse": "Create response",
         "fields": {
             "checkbox": "Checkbox",
             "choice": "Choice",
@@ -1135,6 +1136,7 @@
         "quickStartWith": "Quick start with",
         "table": {
             "actions": {
+                "createResponse": "Create response",
                 "viewResponses": "View responses"
             },
             "description": "Description",

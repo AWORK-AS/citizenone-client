@@ -10,6 +10,7 @@
 
             <LoadingSpinner :isActive="state.isPageLoading">
                 <ModulesFormAdminView class="mt-8" v-if="!state.isPageLoading && state.isAdmin" />
+                <ModulesFormUserView class="mt-8" v-else />
             </LoadingSpinner>
         </NuxtLayout>
     </div>

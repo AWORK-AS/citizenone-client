@@ -302,7 +302,7 @@
                                                                     <Icon name="material-symbols:upload-rounded"
                                                                         class="w-4 h-4 text-primary"
                                                                         aria-hidden="true" />
-                                                                    Upload File
+                                                                    {{ $t('forms.fields.uploadFile') }}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -541,7 +541,7 @@ async function saveForm() {
             const response = await formService.saveForm(params)
             if (response.data) {
                 successAlert(`${t('alert.success')}!`, `${t('procedures.form.alert.newProcedureSuccessfullySaved')}.`)
-                navigateTo('/procedures')
+                navigateTo('/forms')
             }
         } catch (error: any) {
             state.error = error
