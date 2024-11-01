@@ -1139,7 +1139,8 @@
             },
             "description": "Description",
             "title": "Title"
-        }
+        },
+        "viewResponses": "View responses"
     },
     "filter": "Filter",
     "forgotPassword": {
