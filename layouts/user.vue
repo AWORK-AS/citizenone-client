@@ -68,6 +68,9 @@
                                                         <span v-if="item.name === 'Documents'">
                                                             {{ $t('sidebar.documents') }}
                                                         </span>
+                                                        <span v-if="item.name === 'Forms'">
+                                                            {{ $t('sidebar.forms') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Bullet Board'">
                                                             {{ $t('sidebar.bulletBoard') }}
                                                         </span>
@@ -157,6 +160,9 @@
                                         </span>
                                         <span v-if="item.name === 'Documents'">
                                             {{ $t('sidebar.documents') }}
+                                        </span>
+                                        <span v-if="item.name === 'Forms'">
+                                            {{ $t('sidebar.forms') }}
                                         </span>
                                         <span v-if="item.name === 'Bullet Board'">
                                             {{ $t('sidebar.bulletBoard') }}
@@ -451,6 +457,16 @@ const navigation = [
         icon: 'ph:folder',
         activeRouteNames: [
             'drive'
+        ]
+    },
+    {
+        name: 'Forms',
+        href: '/forms',
+        icon: 'ph:list-numbers',
+        activeRouteNames: [
+            'forms',
+            'forms-new',
+            'forms-form_uuid-responses'
         ]
     },
     {

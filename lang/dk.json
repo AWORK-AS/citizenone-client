@@ -1110,7 +1110,7 @@
         "subscribe": "Abonner"
     },
     "excludeVat": "ekskl. moms",
-    "form": {
+    "forms": {
         "addNewQuestion": "Tilføj nyt spørgsmål",
         "alert": {
             "formSuccessfullyAdded": "Formular tilføjet med succes",
@@ -1128,11 +1128,19 @@
             "textarea": "Tekstområde",
             "uploadFile": "Upload fil"
         },
-        "form": "Formular",
+        "forms": "Formularer",
         "formDescription": "Formularbeskrivelse",
         "formTitle": "Formulartitel",
+        "newForm": "Ny formular",
         "preview": "Forhåndsvisning",
-        "quickStartWith": "Hurtig start med"
+        "quickStartWith": "Hurtig start med",
+        "table": {
+            "action": {
+                "viewResponses": "Se svar"
+            },
+            "description": "Beskrivelse",
+            "title": "Titel"
+        }
     },
     "filter": "Filter",
     "forgotPassword": {
@@ -1540,6 +1548,7 @@
         "dailyOverview": "Daglig oversigt",
         "citizens": "Borgere",
         "documents": "Dokumenter",
+        "forms": "Formularer",
         "myCalendar": "Min kalender",
         "departments": "Afdelinger",
         "dutySchedules": "Vagtskema",

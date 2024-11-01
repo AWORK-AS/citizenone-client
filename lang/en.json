@@ -1109,7 +1109,7 @@
         "subscribe": "Subscribe"
     },
     "excludeVat": "excl. vat",
-    "form": {
+    "forms": {
         "addNewQuestion": "Add new question",
         "alert": {
             "formSuccessfullyAdded": "Form successfully added",
@@ -1127,11 +1127,19 @@
             "textarea": "Textarea",
             "uploadFile": "Upload file"
         },
-        "form": "Form",
+        "forms": "Forms",
         "formDescription": "Form description",
         "formTitle": "Form title",
+        "newForm": "New form",
         "preview": "Preview",
-        "quickStartWith": "Quick start with"
+        "quickStartWith": "Quick start with",
+        "table": {
+            "actions": {
+                "viewResponses": "View responses"
+            },
+            "description": "Description",
+            "title": "Title"
+        }
     },
     "filter": "Filter",
     "forgotPassword": {
@@ -1539,6 +1547,7 @@
         "dailyOverview": "Daily overview",
         "citizens": "Citizens",
         "documents": "Documents",
+        "forms": "Forms",
         "myCalendar": "My calendar",
         "dutySchedules": "Duty schedules",
         "employees": "Employees",
