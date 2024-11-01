@@ -29,6 +29,11 @@
                                         <Icon name="ph:eye" class="size-4" />
                                         {{ $t('forms.table.actions.viewResponses') }}
                                     </FormButton>
+                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                        @click="navigateTo(`/forms/${form.uuid}/respond`)">
+                                        <Icon name="ph:pencil" class="size-4" />
+                                        {{ $t('forms.table.actions.createResponse') }}
+                                    </FormButton>
                                 </div>
                             </td>
                         </tr>
