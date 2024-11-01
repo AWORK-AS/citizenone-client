@@ -19,14 +19,18 @@
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="space-y-1">
-                            <FormLabel for="form_title" :label="$t('forms.formTitle')" />
-                            <FormTextField id="form_title" name="form_title" :placeholder="$t('forms.formTitle')"
+                            <FormLabel for="title" :label="$t('forms.formTitle')" />
+                            <FormTextField id="title" name="title" :placeholder="$t('forms.formTitle')"
                                 v-model="state.form.title" />
+                            <FormError :error="v$?.form?.title?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.title?.[0]" />
                         </div>
                         <div class="space-y-1">
                             <FormLabel for="form_description" :label="$t('forms.formDescription')" />
                             <FormTextArea id="form_description" name="form_description"
                                 :placeholder="$t('forms.formDescription')" :rows="2" v-model="state.form.description" />
+                            <FormError :error="v$?.form?.description?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.description?.[0]" />
                         </div>
                     </div>
 
@@ -396,6 +400,7 @@
                                         </div>
                                     </button>
                                 </div>
+                                <FormError :error="state?.error?.errors?.fields?.[0]" />
                             </div>
                         </div>
                     </div>
@@ -421,6 +426,8 @@
 import { formService } from '@/components/api/FormService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useVuelidate } from "@vuelidate/core"
+import { required, helpers } from '@vuelidate/validators'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -438,6 +445,21 @@ const state = reactive({
     showFieldsAdder: true,
 })
 
+const rules = computed(() => {
+    return {
+        form: {
+            title: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            description: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+        },
+    }
+})
+
+const v$ = useVuelidate(rules, state)
+
 function addTextField() {
     state.form.fields.push({ type: 'textfield', value: 'Question', required: false })
     state.showFieldsAdder = false
@@ -454,17 +476,17 @@ function addDateField() {
 }
 
 function addChoiceField() {
-    state.form.fields.push({ type: 'choice', value: '', required: false, options: ['Option 1', 'Option 2'] })
+    state.form.fields.push({ type: 'choice', value: 'Question', required: false, options: ['Option 1', 'Option 2'] })
     state.showFieldsAdder = false
 }
 
 function addCheckbox() {
-    state.form.fields.push({ type: 'checkbox', value: '', required: false, options: ['Option 1', 'Option 2'] })
+    state.form.fields.push({ type: 'checkbox', value: 'Question', required: false, options: ['Option 1', 'Option 2'] })
     state.showFieldsAdder = false
 }
 
 function addRating() {
-    state.form.fields.push({ type: 'rating', value: '', required: false, levels: 2 })
+    state.form.fields.push({ type: 'rating', value: 'Question', required: false, levels: 2 })
     state.showFieldsAdder = false
 }
 
@@ -505,22 +527,26 @@ function removeField(fieldIndex: number) {
 }
 
 async function saveForm() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const params = {
-            title: state.form.title,
-            descriotion: state.form.description,
-            fields: state.form.fields,
+    v$.value.$validate()
+    if (!v$.value.$error) {
+        state.error = {}
+        state.isPageLoading = true
+        try {
+            const params = {
+                title: state.form.title,
+                description: state.form.description,
+                fields: state.form.fields,
+                is_active: true,
+            }
+            const response = await formService.saveForm(params)
+            if (response.data) {
+                successAlert(`${t('alert.success')}!`, `${t('procedures.form.alert.newProcedureSuccessfullySaved')}.`)
+                navigateTo('/procedures')
+            }
+        } catch (error: any) {
+            state.error = error
         }
-        const response = await formService.saveForm(params)
-        if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('procedures.form.alert.newProcedureSuccessfullySaved')}.`)
-            navigateTo('/procedures')
-        }
-    } catch (error: any) {
-        state.error = error
+        state.isPageLoading = false
     }
-    state.isPageLoading = false
 } 
 </script>
