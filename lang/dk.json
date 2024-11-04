@@ -1824,8 +1824,8 @@
                 "licenses": "Licenser"
             }
         },
-        "externalData": {
-            "externalData": "Eksterne data",
+        "orders": {
+            "orders": "Ordrer",
             "table": {
                 "companyName": "Virksomhedsnavn",
                 "data": "Data",
@@ -1941,8 +1941,8 @@
         "sidebar": {
             "apps": "Apps",
             "companies": "Virksomheder",
-            "externalData": "Eksterne data",
             "invoices": "Fakturaer",
+            "orders": "Ordrer",
             "polls": "Afstemninger",
             "salesCampaign": "Salgs kampagne",
             "users": "Brugere"

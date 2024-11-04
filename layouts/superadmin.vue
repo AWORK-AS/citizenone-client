@@ -56,8 +56,8 @@
                                                         <span v-if="item.name === 'Apps'">
                                                             {{ $t('superadmin.sidebar.apps') }}
                                                         </span>
-                                                        <span v-if="item.name === 'External Data'">
-                                                            {{ $t('superadmin.sidebar.externalData') }}
+                                                        <span v-if="item.name === 'Orders'">
+                                                            {{ $t('superadmin.sidebar.orders') }}
                                                         </span>
                                                         <span v-if="item.name === 'Users'">
                                                             {{ $t('superadmin.sidebar.users') }}
@@ -127,8 +127,8 @@
                                         <span v-if="item.name === 'Apps'">
                                             {{ $t('superadmin.sidebar.apps') }}
                                         </span>
-                                        <span v-if="item.name === 'External Data'">
-                                            {{ $t('superadmin.sidebar.externalData') }}
+                                        <span v-if="item.name === 'Orders'">
+                                            {{ $t('superadmin.sidebar.orders') }}
                                         </span>
                                         <span v-if="item.name === 'Users'">
                                             {{ $t('superadmin.sidebar.users') }}
@@ -337,11 +337,11 @@ const navigation = [
         ]
     },
     {
-        name: 'External Data',
-        href: '/superadmin/external-data',
+        name: 'Orders',
+        href: '/superadmin/orders',
         icon: 'ph:database',
         activeRouteNames: [
-            'superadmin-external-data',
+            'superadmin-orders',
         ]
     },
     {

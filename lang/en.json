@@ -1822,8 +1822,8 @@
                 "licenses": "Licenses"
             }
         },
-        "externalData": {
-            "externalData": "External data",
+        "orders": {
+            "orders": "Orders",
             "table": {
                 "companyName": "Company name",
                 "data": "Data",
@@ -1939,8 +1939,8 @@
         "sidebar": {
             "apps": "Apps",
             "companies": "Companies",
-            "externalData": "External data",
             "invoices": "Invoices",
+            "orders": "Orders",
             "polls": "Polls",
             "salesCampaign": "Sales campaign",
             "users": "Users"

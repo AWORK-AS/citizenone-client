@@ -3,10 +3,10 @@
         <NuxtLayout name="superadmin">
 
             <Head>
-                <Title>{{ $t('superadmin.externalData.externalData') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('superadmin.orders.orders') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('superadmin.externalData.externalData') }}</template>
+            <template #header>{{ $t('superadmin.orders.orders') }}</template>
 
             <div>
                 <div class="space-y-5">
@@ -37,11 +37,11 @@
                                     <td width="35%">
                                         <div>
                                             <p>
-                                                {{ $t('superadmin.externalData.table.companyName') }}:
+                                                {{ $t('superadmin.orders.table.companyName') }}:
                                                 {{ data?.user?.company?.name }}
                                             </p>
                                             <p>
-                                                {{ $t('superadmin.externalData.table.user') }}:
+                                                {{ $t('superadmin.orders.table.user') }}:
                                                 {{ data?.user?.firstname + ' ' + data?.user?.lastname }}
                                             </p>
                                         </div>
@@ -71,10 +71,10 @@ const state = reactive({
         { column: 'reference_number' },
     ],
     columnHeaders: [
-        { name: 'superadmin.externalData.table.date', sorter: true, key: 'created_at' },
-        { name: 'superadmin.externalData.table.referenceNumber', sorter: true, key: 'reference_number' },
-        { name: 'superadmin.externalData.table.type', sorter: true, key: 'type' },
-        { name: 'superadmin.externalData.table.data' },
+        { name: 'superadmin.orders.table.date', sorter: true, key: 'created_at' },
+        { name: 'superadmin.orders.table.referenceNumber', sorter: true, key: 'reference_number' },
+        { name: 'superadmin.orders.table.type', sorter: true, key: 'type' },
+        { name: 'superadmin.orders.table.data' },
     ],
     dataFilter: [],
     error: {} as Error,
