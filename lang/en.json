@@ -809,6 +809,7 @@
         "confirmation": {
             "deleteConfirmation": "Are you sure you want to delete this schedule"
         },
+        "copy": "Copy",
         "copyPaste": {
             "clickHereToPasteTheSchedule": "Click here to paste the schedule",
             "clickHereToStopCopyingTheSchedule": "Click here to stop copying the schedule",
@@ -835,6 +836,7 @@
         },
         "newSchedule": "New schedule",
         "noScheduleFound": "No schedule found",
+        "removeSchedule": "Remove schedule",
         "requesters": {
             "confirmation": {
                 "approveConfirmation": "Are you sure you want to approve this request",

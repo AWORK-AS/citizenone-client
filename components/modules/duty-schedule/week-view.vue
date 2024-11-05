@@ -10,11 +10,11 @@
                 </FormButton>
             </div>
             <div class="flex h-full flex-col">
-                <header class="flex flex-none items-center justify-between py-4">
+                <header class="flex flex-col md:flex-row md:items-center justify-between py-4 gap-3">
                     <div>
                         <p>{{ $t('dutySchedules.typeofShifts') }}:</p>
-                        <div class="grid grid-cols-2 gap-x-4">
-                            <div class="col-span-2 flex items-center gap-x-2">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                            <div class="flex items-center gap-x-2">
                                 <div class="w-3 h-3 rounded-sm bg-shifts-regular"></div>
                                 <span>{{ $t('dutySchedules.shifts.regularShift') }}</span>
                             </div>
@@ -73,9 +73,9 @@
                 </header>
                 <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
                     :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
-                <div class="isolate flex flex-auto flex-col overflow-auto bg-white">
-                    <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
-                        <div class="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
+                <div class="isolate flex flex-auto flex-col bg-white">
+                    <div class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
+                        <!-- <div class="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
                             <div class="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
                                 <button v-for="day in weekDays" :key="day.date" type="button"
                                     class="flex flex-col items-center pb-3 pt-2" @click="setSelectedDay(day)">
@@ -106,7 +106,7 @@
                                     </span>
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                         <div>
                             <div>
                                 <div class="shadow grid grid-cols-9">
@@ -117,18 +117,23 @@
                                             </p>
                                             <div class="flex-1 flex justify-end"
                                                 v-if="isAdmin(userStore.getUser?.roles)">
-                                                <button
-                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                    @click="copyWeeklySchedule(weekNumber)">
-                                                    <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
-                                                </button>
+                                                <Tooltip :text="$t('dutySchedules.copy')">
+                                                    <button
+                                                        class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                        @click="copyWeeklySchedule(weekNumber)">
+                                                        <Icon name="mdi:content-copy" class="h-3 w-3"
+                                                            aria-hidden="true" />
+                                                    </button>
+                                                </Tooltip>
                                             </div>
                                         </div>
                                     </div>
-                                    <div v-for="day in weekDays" :key="day.date" :class="[
-                                        isAdmin(userStore.getUser?.roles) && 'cursor-pointer hover:bg-gray-200',
-                                        'flex items-center justify-center py-4 border-0.5'
-                                    ]" @click="isAdmin(userStore.getUser?.roles) && openManageScheduleSlotModal(day)">
+                                    <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
+                                        v-for="day in weekDays" :key="day.date" :class="[
+                                            isAdmin(userStore.getUser?.roles) && 'cursor-pointer hover:bg-gray-200',
+                                            'flex items-center justify-center py-4 border-0.5'
+                                        ]"
+                                        @click="isAdmin(userStore.getUser?.roles) && openManageScheduleSlotModal(day)">
                                         <span class="flex gap-x-1 text-sm">
                                             <span v-if="day.longName === 'Mon'">
                                                 {{ $t('calendar.week.short.Monday') }}
@@ -155,7 +160,7 @@
                                                 {{ day.date }}
                                             </span>
                                         </span>
-                                    </div>
+                                    </Tooltip>
                                 </div>
 
                                 <div class="relative mt-0.5"
@@ -242,17 +247,21 @@
                                                 v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber)">
                                                 <div class="flex justify-end gap-2"
                                                     v-if="isAdmin(userStore.getUser?.roles)">
-                                                    <button
-                                                        class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                        @click="copyEmployeeSchedule(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
-                                                        <Icon name="mdi:content-copy" class="h-3 w-3"
-                                                            aria-hidden="true" />
-                                                    </button>
-                                                    <button
-                                                        class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
-                                                        @click="openAddNewShiftModal(weeklyScheduleIndex, weekIndex, week)">
-                                                        +
-                                                    </button>
+                                                    <Tooltip :text="$t('dutySchedules.copy')">
+                                                        <button
+                                                            class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                            @click="copyEmployeeSchedule(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
+                                                            <Icon name="mdi:content-copy" class="h-3 w-3"
+                                                                aria-hidden="true" />
+                                                        </button>
+                                                    </Tooltip>
+                                                    <Tooltip :text="$t('dutySchedules.newSchedule')">
+                                                        <button
+                                                            class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
+                                                            @click="openAddNewShiftModal(weeklyScheduleIndex, weekIndex, week)">
+                                                            +
+                                                        </button>
+                                                    </Tooltip>
                                                 </div>
                                                 <div class="space-y-2 text-xs">
                                                     <div class="bg-shifts-regular rounded-md p-1 relative"
@@ -278,7 +287,9 @@
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                             @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'regular_shift')"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
-                                                            <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                            <Tooltip :text="$t('dutySchedules.removeSchedule')">
+                                                                <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                            </Tooltip>
                                                         </button>
                                                     </div>
                                                     <div class="bg-shifts-awake_night rounded-md p-1 relative"
@@ -304,7 +315,9 @@
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                             @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'awake_night_shift')"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
-                                                            <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                            <Tooltip :text="$t('dutySchedules.removeSchedule')">
+                                                                <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                            </Tooltip>
                                                         </button>
                                                     </div>
                                                     <div class="bg-shifts-sleeping_night rounded-md p-1 relative"
@@ -330,7 +343,9 @@
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                             @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
-                                                            <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                            <Tooltip :text="$t('dutySchedules.removeSchedule')">
+                                                                <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                            </Tooltip>
                                                         </button>
                                                     </div>
                                                     <div class="bg-shifts-vacation rounded-md p-1 relative"
@@ -356,7 +371,9 @@
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                             @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'vacation_leave')"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
-                                                            <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                            <Tooltip :text="$t('dutySchedules.removeSchedule')">
+                                                                <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                            </Tooltip>
                                                         </button>
                                                     </div>
                                                     <div class="bg-shifts-sickleave rounded-md p-1 relative"
@@ -382,7 +399,9 @@
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                             @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'sick_leave')"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
-                                                            <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                            <Tooltip :text="$t('dutySchedules.removeSchedule')">
+                                                                <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                            </Tooltip>
                                                         </button>
                                                     </div>
                                                     <ModulesDutyScheduleScheduleSlotsRequestAvailableSlots :week="week"

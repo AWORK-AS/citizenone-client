@@ -810,6 +810,7 @@
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne tidsplan"
         },
+        "copy": "Kopiér",
         "copyPaste": {
             "clickHereToPasteTheSchedule": "Klik her for at indsætte",
             "clickHereToStopCopyingTheSchedule": "Klik her for at stoppe med at kopiere",
@@ -836,6 +837,7 @@
         },
         "newSchedule": "Ny vagtplan",
         "noScheduleFound": "Ingen tidsplan fundet",
+        "removeSchedule": "Fjern tidsplan",
         "requesters": {
             "confirmation": {
                 "approveConfirmation": "Er du sikker på, at du vil godkende denne anmodning",
