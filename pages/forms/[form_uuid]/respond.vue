@@ -249,7 +249,6 @@ function changeRadioButton(fieldIndex: number, event: Event) {
 }
 
 function changeCheckbox(fieldIndex: number, checkbox: string) {
-    console.log('checkbox', checkbox)
     const responses = state.form.data.form_fields[fieldIndex].responses
     const index = responses.indexOf(checkbox)
     if (index === -1) {
