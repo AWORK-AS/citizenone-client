@@ -280,9 +280,7 @@ async function submitResponse() {
                 params.append(`responses[${fieldUuid}]`, formField.responses, formField.responses.name)
             } else if (Array.isArray(formField.responses)) {
                 // Handle checkboxes, which are arrays
-                formField.responses.forEach((response: any, index: number) => {
-                    params.append(`responses[${fieldUuid}][${index}]`, response)
-                })
+                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses))
             } else {
                 // Handle other field types (text, date, rating, etc.)
                 params.append(`responses[${fieldUuid}]`, formField.responses)
