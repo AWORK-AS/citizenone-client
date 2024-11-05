@@ -101,8 +101,8 @@ watch(() => userStore.getUser, (newValue: any) => {
                 }
             ]
         } else {
-            const route = router?.currentRoute?.value?.name
-            if (route === 'settings-company') {
+            const route = router?.currentRoute?.value?.name as string
+            if (!['settings-profile', 'settings-time-logs'].includes(route)) {
                 navigateTo('/settings/profile')
             }
 
@@ -112,57 +112,6 @@ watch(() => userStore.getUser, (newValue: any) => {
                     href: `/settings/profile`,
                     routeNames: [
                         'settings-profile'
-                    ]
-                },
-                {
-                    name: 'settings.tabs.storage',
-                    href: `/settings/storage`,
-                    routeNames: [
-                        'settings-storage'
-                    ]
-                },
-                {
-                    name: 'settings.tabs.licenses',
-                    href: `/settings/license-overview`,
-                    routeNames: [
-                        'setttings-license-overview'
-                    ]
-                },
-                {
-                    name: 'settings.tabs.subscription',
-                    href: `/settings/subscription`,
-                    routeNames: [
-                        'setttings-subscription'
-                    ]
-                },
-                {
-                    name: 'settings.tabs.archived',
-                    href: `/settings/archived/citizens`,
-                    routeNames: [
-                        'settings-archived-citizens',
-                        'settings-archived-employees'
-                    ]
-                },
-                {
-                    name: 'settings.tabs.departments',
-                    href: `/settings/departments`,
-                    routeNames: [
-                        'settings-departments'
-                    ]
-                },
-                {
-                    name: 'settings.tabs.jobTitles',
-                    href: `/settings/job-titles`,
-                    routeNames: [
-                        'settings-job-titles',
-                        'settings-job-titles-job_title_uuid'
-                    ]
-                },
-                {
-                    name: 'settings.tabs.activityLogs',
-                    href: `/settings/activity-logs`,
-                    routeNames: [
-                        'settings-activity-logs'
                     ]
                 },
                 {
