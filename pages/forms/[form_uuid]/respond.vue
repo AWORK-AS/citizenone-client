@@ -42,7 +42,8 @@
                                                                     {{ JSON.parse(formField?.field)?.value }}
                                                                 </h3>
                                                                 <FormTextField :name="'text_field_' + fieldIndex"
-                                                                    placeholder="Enter your answer" />
+                                                                    placeholder="Enter your answer"
+                                                                    v-model="formField.responses" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -57,7 +58,8 @@
                                                                     {{ JSON.parse(formField?.field)?.value }}
                                                                 </h3>
                                                                 <FormTextArea :name="'textarea_' + fieldIndex"
-                                                                    placeholder="Enter your answer" />
+                                                                    placeholder="Enter your answer"
+                                                                    v-model="formField.responses" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -73,7 +75,8 @@
                                                                 </h3>
                                                                 <div class="relative">
                                                                     <FormDateField :name="'date_field_' + fieldIndex"
-                                                                        placeholder="Enter your answer" />
+                                                                        placeholder="Enter your answer"
+                                                                        v-model="formField.responses" />
                                                                     <Icon name="ph:calendar"
                                                                         class="h-5 w-5 absolute right-4 top-2.5 text-gray-500"
                                                                         aria-hidden="true" />
@@ -95,11 +98,14 @@
                                                                     <div v-for="(radio, radioIndex) in JSON.parse(formField?.field)?.options"
                                                                         :key="radioIndex"
                                                                         class="flex items-center gap-x-2">
-                                                                        <FormRadioButton
-                                                                            :name="`choice_${fieldIndex}`" />
-                                                                        <h3>
-                                                                            {{ radio }}
-                                                                        </h3>
+                                                                        <label
+                                                                            class="flex items-center gap-x-2 cursor-pointer">
+                                                                            <FormRadioButton
+                                                                                :name="`choice_${fieldIndex}`"
+                                                                                :value="radio"
+                                                                                @change="changeRadioButton(fieldIndex, $event)" />
+                                                                            <h3>{{ radio }}</h3>
+                                                                        </label>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -112,18 +118,18 @@
                                                         <div class="flex gap-x-3">
                                                             <div>{{ fieldIndex + 1 }}.</div>
                                                             <div class="grow space-y-3">
-                                                                <h3>
-                                                                    {{ JSON.parse(formField?.field)?.value }}
-                                                                </h3>
+                                                                <h3>{{ JSON.parse(formField?.field)?.value }}</h3>
                                                                 <div class="space-y-3">
                                                                     <div v-for="(checkbox, checkboxIndex) in JSON.parse(formField?.field)?.options"
                                                                         :key="checkboxIndex"
                                                                         class="flex items-center gap-x-2">
-                                                                        <FormCheckbox
-                                                                            :name="`choice_${fieldIndex}_${checkboxIndex}`" />
-                                                                        <h3>
-                                                                            {{ checkbox }}
-                                                                        </h3>
+                                                                        <label
+                                                                            class="flex items-center gap-x-2 cursor-pointer">
+                                                                            <FormCheckbox
+                                                                                :name="`choice_${fieldIndex}_${checkboxIndex}`"
+                                                                                @change="changeCheckbox(fieldIndex, checkbox)" />
+                                                                            <h3>{{ checkbox }}</h3>
+                                                                        </label>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -143,7 +149,9 @@
                                                                     <button
                                                                         v-for="(rating, ratingIndex) in JSON.parse(formField?.field)?.levels"
                                                                         :key="ratingIndex"
-                                                                        class="w-full h-10 flex items-center justify-center border border-gray-300 rounded-sm">
+                                                                        class="w-full h-10 flex items-center justify-center border border-gray-300 rounded-sm"
+                                                                        :class="formField.responses === rating && 'bg-primary text-white'"
+                                                                        @click="changeRating(fieldIndex, rating)">
                                                                         {{ rating }}
                                                                     </button>
                                                                 </div>
@@ -161,7 +169,8 @@
                                                                     <h3>
                                                                         {{ JSON.parse(formField?.field)?.value }}
                                                                     </h3>
-                                                                    <input type="file">
+                                                                    <input type="file"
+                                                                        @change="onFileChange(fieldIndex, $event)">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -180,7 +189,7 @@
                                 @click="navigateTo('/forms')">
                                 {{ $t('cancel') }}
                             </FormButton>
-                            <FormButton type="button" buttonStyle="primary" class="rounded-md">
+                            <FormButton type="button" buttonStyle="primary" class="rounded-md" @click="submitResponse">
                                 {{ $t('save') }}
                             </FormButton>
                         </div>
@@ -193,6 +202,7 @@
 
 <script setup lang="ts">
 import { formService } from '@/components/api/FormService'
+import { formFieldService } from '@/components/api/FormFieldService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -215,7 +225,56 @@ async function fetchForm() {
     try {
         const response = await formService.getForm(formUuid)
         if (response) {
+            if (response.data?.form_fields) {
+                response.data.form_fields = response.data.form_fields.map((field: any) => ({
+                    ...field,
+                    responses: JSON.parse(field?.field)?.type === 'checkbox' ? [] : ""
+                }))
+            }
             state.form = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function changeRadioButton(fieldIndex: number, event: Event) {
+    const target = event.target as HTMLInputElement
+    state.form.data.form_fields[fieldIndex].responses = target.value
+}
+
+function changeCheckbox(fieldIndex: number, checkbox: string) {
+    console.log('checkbox', checkbox)
+    const responses = state.form.data.form_fields[fieldIndex].responses
+    const index = responses.indexOf(checkbox)
+    if (index === -1) {
+        responses.push(checkbox)
+    } else {
+        responses.splice(index, 1)
+    }
+}
+
+function changeRating(fieldIndex: number, rating: number) {
+    state.form.data.form_fields[fieldIndex].responses = rating
+}
+
+function onFileChange(fieldIndex: number, event: any) {
+    const file = event.target.files[0]
+    state.form.data.form_fields[fieldIndex].responses = file
+}
+
+async function submitResponse() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            form_uuid: formUuid,
+            responses: state.form.data.form_fields
+        }
+        const response = await formFieldService.saveResponse(params)
+        if (response) {
+            console.log('response', response)
         }
     } catch (error: any) {
         state.error = error
