@@ -1135,6 +1135,13 @@
         "newForm": "New form",
         "preview": "Preview",
         "quickStartWith": "Quick start with",
+        "responses": {
+            "responses": "Responses",
+            "table": {
+                "name": "Name",
+                "responses": "Responses"
+            }
+        },
         "table": {
             "actions": {
                 "createResponse": "Create response",

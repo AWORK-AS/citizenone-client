@@ -1136,6 +1136,13 @@
         "newForm": "Ny formular",
         "preview": "Forhåndsvisning",
         "quickStartWith": "Hurtig start med",
+        "responses": {
+            "responses": "Svar",
+            "table": {
+                "name": "Navn",
+                "responses": "Svar"
+            }
+        },
         "table": {
             "actions": {
                 "createResponse": "Opret svar",

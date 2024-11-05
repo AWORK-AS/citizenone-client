@@ -290,7 +290,7 @@ async function submitResponse() {
                 params.append(`responses[${fieldUuid}]`, formField.responses)
             }
         })
-        const response = await formFieldService.saveResponse(params)
+        const response = await formFieldService.saveResponses(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('forms.alert.responseSuccessfullySaved')}.`)
             navigateTo('/forms')
