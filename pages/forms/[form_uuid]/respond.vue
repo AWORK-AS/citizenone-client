@@ -203,9 +203,13 @@
 <script setup lang="ts">
 import { formService } from '@/components/api/FormService'
 import { formFieldService } from '@/components/api/FormFieldService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 const router = useRouter()
 const formUuid = router?.currentRoute?.value?.params?.form_uuid
 
@@ -287,8 +291,9 @@ async function submitResponse() {
             }
         })
         const response = await formFieldService.saveResponse(params)
-        if (response) {
-            console.log('response', response)
+        if (response.data) {
+            successAlert(`${t('alert.success')}!`, `${t('forms.alert.responseSuccessfullySaved')}.`)
+            navigateTo('/forms')
         }
     } catch (error: any) {
         state.error = error

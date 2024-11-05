@@ -1113,7 +1113,8 @@
         "addNewQuestion": "Add new question",
         "alert": {
             "formSuccessfullyAdded": "Form successfully added",
-            "formSuccessfullyUpdated": "Form successfully updated"
+            "formSuccessfullyUpdated": "Form successfully updated",
+            "responseSuccessfullySaved": "Response successfully saved"
         },
         "createResponse": "Create response",
         "fields": {

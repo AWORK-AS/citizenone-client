@@ -540,7 +540,7 @@ async function saveForm() {
             }
             const response = await formService.saveForm(params)
             if (response.data) {
-                successAlert(`${t('alert.success')}!`, `${t('procedures.form.alert.newProcedureSuccessfullySaved')}.`)
+                successAlert(`${t('alert.success')}!`, `${t('forms.alert.formSuccessfullyAdded')}.`)
                 navigateTo('/forms')
             }
         } catch (error: any) {

@@ -1114,7 +1114,8 @@
         "addNewQuestion": "Tilføj nyt spørgsmål",
         "alert": {
             "formSuccessfullyAdded": "Formular tilføjet med succes",
-            "formSuccessfullyUpdated": "Formular opdateret med succes"
+            "formSuccessfullyUpdated": "Formular opdateret med succes",
+            "responseSuccessfullySaved": "Svar gemt med succes"
         },
         "createResponse": "Opret svar",
         "fields": {
