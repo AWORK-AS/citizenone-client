@@ -1337,6 +1337,7 @@
         },
         "completed": "Fuldført",
         "completionDate": "Afslutningsdato",
+        "createStatusReport": "Opret statusrapport",
         "dateCompleted": "Dato for fuldførelse",
         "dateCreated": "Oprettelsesdato",
         "download": "Download",

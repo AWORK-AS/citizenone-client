@@ -23,6 +23,10 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-8 space-y-3">
                         <div class="flex justify-end items-center mb-5 gap-x-2">
+                            <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/forms')">
+                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('plansandgoals.createStatusReport') }}
+                            </FormButton>
                             <FormButton buttonStyle="action" class="rounded-lg"
                                 @click="state.modal.isAddPlanOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
