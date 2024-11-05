@@ -1,6 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <div class="bg-white rounded-md mb-2 flex items-center justify-between gap-x-2 p-4">
+        <div class="bg-white rounded-md flex items-center justify-between gap-x-2 p-4">
             <p class="text-sm text-primary font-bold">
                 {{ userStore.getIsLoggedIn ? $t('timeRegistration.checkOut') : $t('timeRegistration.checkIn') }}
             </p>

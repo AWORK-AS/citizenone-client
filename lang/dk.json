@@ -1556,8 +1556,9 @@
     },
     "sidebar": {
         "bulletBoard": "Opslagstavle",
-        "dailyOverview": "Daglig oversigt",
         "citizens": "Borgere",
+        "companyId": "Virksomheds-id",
+        "dailyOverview": "Daglig oversigt",
         "documents": "Dokumenter",
         "forms": "Formularer",
         "myCalendar": "Min kalender",

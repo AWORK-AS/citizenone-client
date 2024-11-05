@@ -193,8 +193,10 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="mt-auto">
+                        <li class="mt-auto space-y-2">
                             <ModulesTimeRegistrationCheckInOut />
+                            <ModulesSidebarSubscribeButton v-if="userStore.getUser?.user_subscription === null" />
+                            <ModulesSidebarCompanyId />
                         </li>
                     </ul>
                 </nav>

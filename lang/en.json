@@ -1555,6 +1555,7 @@
     },
     "sidebar": {
         "bulletBoard": "Bullet board",
+        "companyId": "Company Id",
         "dailyOverview": "Daily overview",
         "citizens": "Citizens",
         "documents": "Documents",
