@@ -268,10 +268,26 @@ async function submitResponse() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            form_uuid: formUuid,
-            responses: state.form.data.form_fields
-        }
+        let params = new FormData()
+        params.append('form_uuid', formUuid.toString())
+
+        state.form.data.form_fields.forEach((formField: any) => {
+            const fieldType = JSON.parse(formField.field)?.type
+            const fieldUuid = formField.uuid
+
+            if (fieldType === 'uploadfile' && formField.responses instanceof File) {
+                // Handle file uploads separately
+                params.append(`responses[${fieldUuid}]`, formField.responses, formField.responses.name)
+            } else if (Array.isArray(formField.responses)) {
+                // Handle checkboxes, which are arrays
+                formField.responses.forEach((response: any, index: number) => {
+                    params.append(`responses[${fieldUuid}][${index}]`, response)
+                })
+            } else {
+                // Handle other field types (text, date, rating, etc.)
+                params.append(`responses[${fieldUuid}]`, formField.responses)
+            }
+        })
         const response = await formFieldService.saveResponse(params)
         if (response) {
             console.log('response', response)
