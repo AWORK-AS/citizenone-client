@@ -205,28 +205,63 @@ const state = reactive({
     }
 })
 
-watch(() => props.selectedCitizen, (newValue: any) => {
-    if (newValue != null) {
-        fetchMunicipalities(newValue.region_uuid)
-        fetchCities(newValue.municipality_uuid)
-        if (newValue.image) {
-            avatarUrl.value = newValue.image
+watch(() => props.selectedCitizen, (selectedCitizen: any) => {
+    if (selectedCitizen != null) {
+        fetchMunicipalities(selectedCitizen.region_uuid)
+        fetchCities(selectedCitizen.municipality_uuid)
+        if (selectedCitizen.image) {
+            avatarUrl.value = selectedCitizen.image
         }
         state.formCitizen = {
-            image: newValue.image,
-            firstname: newValue.firstname,
-            lastname: newValue.lastname,
-            email: newValue.email,
-            social_security_number: newValue.social_security_number,
-            birthday: newValue.birthday,
-            phone: newValue.phone,
-            departments: newValue.departments,
-            street: newValue.street,
-            region: newValue.region_uuid,
-            municipality: newValue.municipality_uuid,
-            city: newValue.city_uuid,
-            post_code: newValue.post_code,
-            diagnosis: newValue.diagnosis,
+            image: selectedCitizen.image,
+            firstname: selectedCitizen.firstname,
+            lastname: selectedCitizen.lastname,
+            email: selectedCitizen.email,
+            social_security_number: selectedCitizen.social_security_number,
+            birthday: selectedCitizen.birthday,
+            phone: selectedCitizen.phone,
+            departments: selectedCitizen.departments,
+            street: selectedCitizen.street,
+            region: selectedCitizen.region_uuid,
+            municipality: selectedCitizen.municipality_uuid,
+            city: selectedCitizen.city_uuid,
+            post_code: selectedCitizen.post_code,
+            diagnosis: selectedCitizen.diagnosis,
+        }
+    }
+})
+
+watch(() => state.formCitizen.social_security_number, (ssn) => {
+    if (ssn.length === 10) {
+        state.formCitizen.social_security_number = ssn.slice(0, 6) + '-' + ssn.slice(6)
+    }
+})
+
+watch(() => state.formCitizen.social_security_number, (ssn) => {
+    // Format social security number with a hyphen after six digits
+    if (ssn.length === 10) {
+        state.formCitizen.social_security_number = ssn.slice(0, 6) + '-' + ssn.slice(6)
+    }
+
+    // Check if the length is at least six digits to derive the birthdate
+    if (ssn.length >= 6) {
+        const day = ssn.slice(0, 2)
+        const month = ssn.slice(2, 4)
+        let year = ssn.slice(4, 6)
+
+        // Determine the century (adjust as needed for your specific case)
+        const currentYear = new Date().getFullYear() % 100
+        year = parseInt(year, 10) <= currentYear ? `20${year}` : `19${year}`
+
+        // Create a valid date string in the format 'YYYY-MM-DD'
+        const dateOfBirth = `${year}-${month}-${day}`
+
+        if (isValidDate(year, month, day)) {
+            // Update the birthday field if the date is valid
+            state.formCitizen.birthday = dateOfBirth
+        } else {
+            // Handle invalid date case (optional: clear or show error)
+            state.formCitizen.birthday = ''
         }
     }
 })
@@ -235,6 +270,11 @@ onMounted(() => {
     fetchDepartments()
     fetchRegions()
 })
+
+const isValidDate = (y: string, m: string, d: string): boolean => {
+    const date = new Date(parseInt(y), parseInt(m) - 1, parseInt(d)) // Month is zero-based
+    return date && date.getFullYear() === parseInt(y) && (date.getMonth() + 1) === parseInt(m) && date.getDate() === parseInt(d)
+}
 
 async function fetchDepartments() {
     state.error = {}
@@ -418,10 +458,4 @@ function updateSocialSecurityNumber(event: Event) {
     const target = event.target as HTMLInputElement
     state.formCitizen.social_security_number = target.value.replace(/-/g, '')
 }
-
-watch(() => state.formCitizen.social_security_number, (newValue) => {
-    if (newValue.length === 10) {
-        state.formCitizen.social_security_number = newValue.slice(0, 6) + '-' + newValue.slice(6)
-    }
-})
 </script>
