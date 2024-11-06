@@ -1176,7 +1176,10 @@
             "amount": "Beløb",
             "company": "Virksomhed",
             "date": "Dato",
-            "invoiceNumber": "Fakturanummer"
+            "invoiceNumber": "Fakturanummer",
+            "new": "Ny",
+            "recurring": "Tilbagevendende",
+            "status": "Status"
         }
     },
     "invoiceDetails": {
@@ -1842,7 +1845,10 @@
                 "companyName": "Virksomhedsnavn",
                 "data": "Data",
                 "date": "Dato",
+                "new": "Ny",
+                "recurring": "Tilbagevendende",
                 "referenceNumber": "Referencenummer",
+                "status": "Status",
                 "type": "Type",
                 "user": "Bruger"
             }
@@ -1856,7 +1862,10 @@
                 "amount": "Beløb",
                 "company": "Virksomhed",
                 "date": "Dato",
-                "invoiceNumber": "Fakturanummer"
+                "invoiceNumber": "Fakturanummer",
+                "new": "Ny",
+                "recurring": "Tilbagevendende",
+                "status": "Status"
             }
         },
         "invoiceDetails": {

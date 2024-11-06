@@ -1175,7 +1175,10 @@
             "amount": "Amount",
             "company": "Company",
             "date": "Date",
-            "invoiceNumber": "Invoice number"
+            "invoiceNumber": "Invoice number",
+            "new": "New",
+            "recurring": "Recurring",
+            "status": "Status"
         }
     },
     "invoiceDetails": {
@@ -1840,7 +1843,10 @@
                 "companyName": "Company name",
                 "data": "Data",
                 "date": "Date",
+                "new": "New",
+                "recurring": "Recurring",
                 "referenceNumber": "Reference number",
+                "status": "Status",
                 "type": "Type",
                 "user": "User"
             }
@@ -1854,7 +1860,10 @@
                 "amount": "Amount",
                 "company": "Company",
                 "date": "Date",
-                "invoiceNumber": "Invoice number"
+                "invoiceNumber": "Invoice number",
+                "new": "New",
+                "recurring": "Recurring",
+                "status": "Status"
             }
         },
         "invoiceDetails": {

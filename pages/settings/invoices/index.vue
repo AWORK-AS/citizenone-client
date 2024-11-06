@@ -26,6 +26,16 @@
                                             {{ formatDateTimeToReadable(data?.created_at) }}
                                         </div>
                                     </td>
+                                    <td width="10%">
+                                        <div>
+                                            <Badge type="primary" class="w-fit" v-if="data?.status === 'recurring'">
+                                                {{ $t('invoices.table.recurring') }}
+                                            </Badge>
+                                            <Badge type="active" class="w-fit" v-else>
+                                                {{ $t('invoices.table.new') }}
+                                            </Badge>
+                                        </div>
+                                    </td>
                                     <td width="20%">
                                         <div>
                                             {{ data?.invoice_number }}
@@ -36,14 +46,14 @@
                                             {{ formatAmount(data?.total_amount) }}
                                         </p>
                                     </td>
-                                    <td width="25%">
+                                    <td width="20%">
                                         <div>
                                             <p>
                                                 {{ data?.user?.company?.name }}
                                             </p>
                                         </div>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/invoices/${data.uuid}/invoice-details`)">
@@ -74,11 +84,13 @@ let currentTablePage = 1
 
 const state = reactive({
     columnFilter: [
+        { column: 'status' },
         { column: 'invoice_number' },
         { column: 'company_name' },
     ],
     columnHeaders: [
         { name: 'invoices.table.date', sorter: true, key: 'created_at' },
+        { name: 'invoices.table.status' },
         { name: 'invoices.table.invoiceNumber', sorter: true, key: 'invoice_number' },
         { name: 'invoices.table.amount', sorter: true, key: 'total_amount' },
         { name: 'invoices.table.company' },

@@ -24,7 +24,17 @@
                                             {{ formatDateTimeToReadable(data?.created_at) }}
                                         </div>
                                     </td>
-                                    <td width="30%">
+                                    <td width="10%">
+                                        <div>
+                                            <Badge type="primary" class="w-fit" v-if="data?.status === 'recurring'">
+                                                {{ $t('superadmin.orders.table.recurring') }}
+                                            </Badge>
+                                            <Badge type="active" class="w-fit" v-else>
+                                                {{ $t('superadmin.orders.table.new') }}
+                                            </Badge>
+                                        </div>
+                                    </td>
+                                    <td width="25%">
                                         <div>
                                             {{ data?.reference_number }}
                                         </div>
@@ -34,7 +44,7 @@
                                             {{ data?.external_data_type }}
                                         </p>
                                     </td>
-                                    <td width="35%">
+                                    <td width="30%">
                                         <div>
                                             <p>
                                                 {{ $t('superadmin.orders.table.companyName') }}:
@@ -68,10 +78,12 @@ let currentTablePage = 1
 
 const state = reactive({
     columnFilter: [
+        { column: 'status' },
         { column: 'reference_number' },
     ],
     columnHeaders: [
         { name: 'superadmin.orders.table.date', sorter: true, key: 'created_at' },
+        { name: 'superadmin.orders.table.status' },
         { name: 'superadmin.orders.table.referenceNumber', sorter: true, key: 'reference_number' },
         { name: 'superadmin.orders.table.type', sorter: true, key: 'type' },
         { name: 'superadmin.orders.table.data' },

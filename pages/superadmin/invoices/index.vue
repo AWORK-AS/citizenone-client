@@ -24,7 +24,17 @@
                                             {{ formatDateTimeToReadable(data?.created_at) }}
                                         </div>
                                     </td>
-                                    <td width="20%">
+                                    <td width="10%">
+                                        <div>
+                                            <Badge type="primary" class="w-fit" v-if="data?.status === 'recurring'">
+                                                {{ $t('superadmin.invoices.table.recurring') }}
+                                            </Badge>
+                                            <Badge type="active" class="w-fit" v-else>
+                                                {{ $t('superadmin.invoices.table.new') }}
+                                            </Badge>
+                                        </div>
+                                    </td>
+                                    <td width="15%">
                                         <div>
                                             {{ data?.invoice_number }}
                                         </div>
@@ -41,7 +51,7 @@
                                             </p>
                                         </div>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/superadmin/invoices/${data.uuid}/invoice-details`)">
@@ -74,9 +84,11 @@ const state = reactive({
     columnFilter: [
         { column: 'invoice_number' },
         { column: 'company_name' },
+        { column: 'status' },
     ],
     columnHeaders: [
         { name: 'superadmin.invoices.table.date', sorter: true, key: 'created_at' },
+        { name: 'superadmin.invoices.table.status' },
         { name: 'superadmin.invoices.table.invoiceNumber', sorter: true, key: 'invoice_number' },
         { name: 'superadmin.invoices.table.amount', sorter: true, key: 'total_amount' },
         { name: 'superadmin.invoices.table.company' },
