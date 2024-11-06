@@ -16,7 +16,29 @@
                 </div>
                 <div id="apps-checkout"></div>
                 <div v-if="!state.isAppsHidden">
-                    <div class="ltablet:grid-cols-3 grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="flex item-center gap-x-2">
+                        <FormButton buttonSize="sm" :class="[
+                            [''].includes(state.filter.type) && 'border-secondary bg-secondary text-white',
+                            'rounded-md w-full md:w-fit']" @click="filterApp('')">
+                            All
+                        </FormButton>
+                        <FormButton buttonSize="sm" :class="[
+                            ['marketing'].includes(state.filter.type) && 'border-secondary bg-secondary text-white',
+                            'rounded-md w-full md:w-fit']" @click="filterApp('marketing')">
+                            Marketing
+                        </FormButton>
+                        <FormButton buttonSize="sm" :class="[
+                            ['visual'].includes(state.filter.type) && 'border-secondary bg-secondary text-white',
+                            'rounded-md w-full md:w-fit']" @click="filterApp('visual')">
+                            Visual
+                        </FormButton>
+                        <FormButton buttonSize="sm" :class="[
+                            ['other'].includes(state.filter.type) && 'border-secondary bg-secondary text-white',
+                            'rounded-md w-full md:w-fit']" @click="filterApp('other')">
+                            Other
+                        </FormButton>
+                    </div>
+                    <div class="mt-3 ltablet:grid-cols-3 grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-3">
                         <div v-for="(app, index) in state.apps?.data" :key="index"
                             class="bg-white p-6 border rounded-md">
                             <div class="mb-3 flex items-center gap-3">
@@ -89,6 +111,9 @@ let error: string | undefined = router?.currentRoute?.value?.query?.error as str
 const state = reactive({
     apps: [] as any,
     error: {} as Error,
+    filter: {
+        type: '',
+    },
     isAppsHidden: false,
     isPageLoading: false,
     modal: {
@@ -107,6 +132,7 @@ async function fetchApps() {
     state.isPageLoading = true
     try {
         const params = {
+            type: state.filter.type,
             page: currentTablePage,
         }
         const response = await appService.getApps(params)
@@ -126,6 +152,11 @@ function previous() {
 
 function next() {
     currentTablePage++
+    fetchApps()
+}
+
+function filterApp(filterType: string) {
+    state.filter.type = filterType
     fetchApps()
 }
 
