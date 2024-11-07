@@ -10,7 +10,7 @@
 
             <ModulesSettingsTab />
 
-            <ModulesArchivedTab class="mt-5" />
+            <ModulesArchivedTab id="archived" class="mt-5" />
 
             <div class="mt-10">
                 <div class="space-y-5">

@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="block md:hidden">
-            <label for="selected-tab" class="sr-only">Select a tab</label>
-            <select id="selected-tab" name="selected-tab"
+            <label :for="`selected-tab${props.id && '-' + props.id}`" class="sr-only">Select a tab</label>
+            <select :id="`selected-tab${props.id && '-' + props.id}`" name="selected-tab"
                 class="block w-full rounded-md border border-tertiary py-2 pl-3 pr-10 text-base focus:border-tertiary focus:outline-none focus:ring-tertiary-500 sm:text-sm"
                 @change="changeTab">
                 <option v-for="tab in props.tabs" :key="tab.name" :selected="tab.routeNames?.includes($route.name)">
@@ -29,6 +29,10 @@
 
 <script setup>
 const props = defineProps({
+    id: {
+        type: String,
+        required: false,
+    },
     tabs: {
         type: Object,
         required: true,
