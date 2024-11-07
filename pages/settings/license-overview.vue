@@ -138,9 +138,8 @@
                                             {{ state.licensesCount?.data?.unused ?? 0 }}
                                         </div>
                                     </div>
-                                    <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
-                                        @handleFilter="handleFilter" />
-                                    <div class="table-responsive">
+                                    <TableSearch @search="handleSearch" />
+                                    <div class="mt-5 table-responsive">
                                         <Table :columnHeaders="state.columnHeaders" :data="state.licenses"
                                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                                             <template #body
@@ -188,7 +187,9 @@ const state = reactive({
         { name: 'settings.licenseOverview.table.license', sorter: true, key: 'license' },
         { name: 'settings.licenseOverview.table.user' },
     ],
-    dataFilter: [],
+    dataFilter: {
+        search: ''
+    },
     error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
@@ -258,9 +259,9 @@ function sort(sortingData: any) {
     fetchLicenses()
 }
 
-function handleFilter(value: any) {
+function handleSearch(value: any) {
     currentTablePage = 1
-    state.dataFilter = value
+    state.dataFilter.search = value
     fetchLicenses()
 }
 

@@ -6,8 +6,6 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <!-- <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
-                        @handleFilter="handleFilter" /> -->
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.requesters"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
@@ -81,7 +79,6 @@ const state = reactive({
         { name: 'dutySchedules.requesters.table.name' },
         { name: '' },
     ],
-    dataFilter: [],
     error: {} as Error,
     isTableLoading: false,
     modal: {
@@ -119,8 +116,7 @@ async function fetchScheduleSlotsRequesters() {
         const params = {
             page: currentTablePage,
             sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
-            ...state.dataFilter
+            sortOrder: state.sortData.sortOrder
         }
         const response = await scheduleSlotService.getScheduleSlotsRequesters(selectedScheduleSlotUuid, params)
         if (response) {
@@ -148,12 +144,6 @@ function sort(sortingData: any) {
         sortField: sortingData.column,
         sortOrder: sortingData.sort,
     }
-    fetchScheduleSlotsRequesters()
-}
-
-function handleFilter(value: any) {
-    currentTablePage = 1
-    state.dataFilter = value
     fetchScheduleSlotsRequesters()
 }
 
