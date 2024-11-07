@@ -105,8 +105,10 @@ import { invoiceService } from '@/components/api/InvoiceService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
+import { useAmountFormatter } from '@/composables/amountFormatter'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatAmount } = useAmountFormatter()
 const { formatDateToReadable } = useDatetimeFormatter()
 const router = useRouter()
 const invoiceUuid = router?.currentRoute?.value?.params?.invoice_uuid
@@ -140,22 +142,6 @@ async function fetchInvoices() {
         state.error = error
     }
     state.isPageLoading = false
-}
-
-function formatAmount(amount: any) {
-    // Convert the number to a string with two decimal places
-    let numberStr = parseFloat(amount).toFixed(2)
-
-    // Split the string into integer and decimal parts
-    let parts = numberStr.split('.')
-    let integerPart = parts[0]
-    let decimalPart = parts[1]
-
-    // Add the thousands separators
-    let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-
-    // Combine the integer part with the decimal part
-    return 'DKK ' + formattedIntegerPart + ',' + decimalPart
 }
 
 async function downloadInvoiceDetails() {

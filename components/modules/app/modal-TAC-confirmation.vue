@@ -90,6 +90,7 @@
 
 <script setup lang="ts">
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
+import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
 
 const props = defineProps({
@@ -110,8 +111,10 @@ const props = defineProps({
         required: false,
     },
 })
-const language = useI18n()
+
 const emit = defineEmits(['close', 'confirm'])
+const { formatAmount } = useAmountFormatter()
+const language = useI18n()
 const frequencies = [
     { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
     { value: 'annually', label: 'Annually', priceSuffix: '/year' },
@@ -136,22 +139,6 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
 
 function closeModal() {
     emit('close')
-}
-
-function formatAmount(amount: any) {
-    // Convert the number to a string with two decimal places
-    let numberStr = parseFloat(amount).toFixed(2)
-
-    // Split the string into integer and decimal parts
-    let parts = numberStr.split('.')
-    let integerPart = parts[0]
-    let decimalPart = parts[1]
-
-    // Add the thousands separators
-    let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-
-    // Combine the integer part with the decimal part
-    return 'DKK ' + formattedIntegerPart + ',' + decimalPart
 }
 
 function handleConfirmation() {

@@ -100,9 +100,11 @@
 
 <script setup lang="ts">
 import { appService } from '@/components/api/AppService'
+import { useAmountFormatter } from '@/composables/amountFormatter'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatAmount } = useAmountFormatter()
 let currentTablePage = 1
 let checkout = null as any
 const router = useRouter()
@@ -168,22 +170,6 @@ function readMore(app: any) {
 function confirmTACAcceptance(app: any) {
     state.selectedApp = app
     state.modal.isAcceptTACOpen = true
-}
-
-function formatAmount(amount: any) {
-    // Convert the number to a string with two decimal places
-    let numberStr = parseFloat(amount).toFixed(2)
-
-    // Split the string into integer and decimal parts
-    let parts = numberStr.split('.')
-    let integerPart = parts[0]
-    let decimalPart = parts[1]
-
-    // Add the thousands separators
-    let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-
-    // Combine the integer part with the decimal part
-    return 'DKK ' + formattedIntegerPart + ',' + decimalPart
 }
 
 async function activateApp(frequency: any) {

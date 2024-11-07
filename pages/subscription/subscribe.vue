@@ -345,10 +345,12 @@
 import { dealService } from '@/components/api/DealService'
 import { userSubscriptionService } from '@/components/api/UserSubscriptionService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
+import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatAmount } = useAmountFormatter()
 const language = useI18n()
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
@@ -427,22 +429,6 @@ async function subscribe(deal: any) {
         state.error = error
     }
     state.isPageLoading = false
-}
-
-function formatAmount(amount: any) {
-    // Convert the number to a string with two decimal places
-    let numberStr = parseFloat(amount).toFixed(2)
-
-    // Split the string into integer and decimal parts
-    let parts = numberStr.split('.')
-    let integerPart = parts[0]
-    let decimalPart = parts[1]
-
-    // Add the thousands separators
-    let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-
-    // Combine the integer part with the decimal part
-    return 'DKK ' + formattedIntegerPart + ',' + decimalPart
 }
 
 function formatKrAmount(amount: any) {

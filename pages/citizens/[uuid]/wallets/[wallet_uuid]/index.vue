@@ -106,6 +106,7 @@
 </template>
 
 <script setup lang="ts">
+import { useAmountFormatter } from '@/composables/amountFormatter'
 import { citizenWalletService } from '@/components/api/CitizenWalletService'
 import { citizenWalletTransactionService } from '@/components/api/CitizenWalletTransactionService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
@@ -114,6 +115,7 @@ import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatAmount } = useAmountFormatter()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
@@ -221,22 +223,6 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value
     fetchWalletTransactions()
-}
-
-function formatAmount(amount: any) {
-    // Convert the number to a string with two decimal places
-    let numberStr = parseFloat(amount).toFixed(2)
-
-    // Split the string into integer and decimal parts
-    let parts = numberStr.split('.')
-    let integerPart = parts[0]
-    let decimalPart = parts[1]
-
-    // Add the thousands separators
-    let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-
-    // Combine the integer part with the decimal part
-    return 'DKK ' + formattedIntegerPart + ',' + decimalPart
 }
 
 function openFile(document: any) {

@@ -94,9 +94,11 @@
 <script setup lang="ts">
 import { addOnDealsService } from '@/components/api/AddOnDealsService'
 import { cartService } from '@/components/api/CartService'
+import { useAmountFormatter } from '@/composables/amountFormatter'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatAmount } = useAmountFormatter()
 let checkout = null as any
 
 const state = reactive({
@@ -235,21 +237,5 @@ function hasItemOnCart() {
             state.formAddOn.department) + (state.addOnDeals.user?.data?.monthly_price *
                 parseInt(state.formAddOn.user === '' ? '0' :
                     state.formAddOn.user))) > 0
-}
-
-function formatAmount(amount: any) {
-    // Convert the number to a string with two decimal places
-    let numberStr = parseFloat(amount).toFixed(2)
-
-    // Split the string into integer and decimal parts
-    let parts = numberStr.split('.')
-    let integerPart = parts[0]
-    let decimalPart = parts[1]
-
-    // Add the thousands separators
-    let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-
-    // Combine the integer part with the decimal part
-    return 'DKK ' + formattedIntegerPart + ',' + decimalPart
 }
 </script>

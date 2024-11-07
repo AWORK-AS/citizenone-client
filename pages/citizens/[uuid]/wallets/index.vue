@@ -52,43 +52,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.wallets"
-                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.wallets?.data?.length === 0))">
-                                <tr v-for="(wallet, index) in state.wallets?.data" :key="index">
-                                    <td width="20%">
-                                        <span>{{ wallet?.name }}</span>
-                                    </td>
-                                    <td width="40%">
-                                        <span>{{ wallet?.note }}</span>
-                                    </td>
-                                    <td width="20%">
-                                        <span>{{ formatAmount(wallet?.running_balance ?? 0) }}</span>
-                                    </td>
-                                    <td width="20%">
-                                        <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/citizens/${citizenUuid}/wallets/${wallet?.uuid}`)">
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('citizens.wallets.table.actions.view') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="editWallet(wallet)">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('citizens.wallets.table.actions.edit') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                @click="deleteWalletConfirmation(wallet)">
-                                                <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('citizens.wallets.table.actions.delete') }}
-                                            </FormButton>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </template>
-                        </Table>
-                    </div> -->
                     <Pagination :data="state.wallets" @previous="previous" @next="next" />
                 </div>
                 <ModulesCitizenWalletModalNew :isModalOpen="state.modal.isAddWalletOpen"
@@ -106,11 +69,13 @@
 
 <script setup lang="ts">
 import { citizenWalletService } from '@/components/api/CitizenWalletService'
+import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatAmount } = useAmountFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
@@ -193,22 +158,6 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value
     fetchWallets()
-}
-
-function formatAmount(amount: any) {
-    // Convert the number to a string with two decimal places
-    let numberStr = parseFloat(amount).toFixed(2)
-
-    // Split the string into integer and decimal parts
-    let parts = numberStr.split('.')
-    let integerPart = parts[0]
-    let decimalPart = parts[1]
-
-    // Add the thousands separators
-    let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-
-    // Combine the integer part with the decimal part
-    return 'DKK ' + formattedIntegerPart + ',' + decimalPart
 }
 
 function editWallet(wallet: any) {
