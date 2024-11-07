@@ -37,22 +37,23 @@
 const runtimeConfig = useRuntimeConfig()
 
 const state = reactive({
-    activeLicenses: 120,
+    activeLicenses: 0,
     error: {} as Error,
-    unusedLicenses: 45,
-    companiesWithLicenses: 15,
-    companiesWithoutLicenses: 5,
+    unusedLicenses: 0,
+    companiesWithLicenses: 0,
+    companiesWithoutLicenses: 0,
     isPageLoading: false,
-    usersWithLicenses: 300,
-    usersWithoutLicenses: 150,
+    usersWithLicenses: 0,
+    usersWithoutLicenses: 0,
     revenue: {
         period: 'Last 30 Days',
-        amount: 'DKK12,000'
+        amount: 'DKK0'
     },
     sharedCitizenOne: 25,
     companyStorage: [
-        { name: 'Company A', usage: '50GB', isPaid: true, cost: 'DKK200' },
-        { name: 'Company B', usage: '20GB', isPaid: false, cost: 'DKK0' },
+        { name: 'Company A', usage: '0GB', isPaid: true, cost: 'DKK0' },
+        { name: 'Company B', usage: '0GB', isPaid: false, cost: 'DKK0' },
+        { name: 'Company C', usage: '0GB', isPaid: false, cost: 'DKK0' },
     ]
 })
 </script>
