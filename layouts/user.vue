@@ -56,9 +56,6 @@
                                                         <span v-if="item.name === 'Employees'">
                                                             {{ $t('sidebar.employees') }}
                                                         </span>
-                                                        <span v-if="item.name === 'Messages'">
-                                                            {{ $t('sidebar.messages') }}
-                                                        </span>
                                                         <span v-if="item.name === 'Procedures'">
                                                             {{ $t('sidebar.procedures') }}
                                                         </span>
@@ -149,9 +146,6 @@
                                         <span v-if="item.name === 'Employees'">
                                             {{ $t('sidebar.employees') }}
                                         </span>
-                                        <span v-if="item.name === 'Messages'">
-                                            {{ $t('sidebar.messages') }}
-                                        </span>
                                         <span v-if="item.name === 'Procedures'">
                                             {{ $t('sidebar.procedures') }}
                                         </span>
@@ -217,7 +211,7 @@
                 <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                     <div
                         class="flex-1 flex flex-col justify-center gap-x-2 md:flex-row md:items-center md:justify-start">
-                        <p class="text-sm md:text-base font-medium">
+                        <p class="text-sm md:text-base font-medium truncate max-w-24 md:max-w-fit">
                             {{ userStore.getUser?.company?.name }}
                         </p>
                         <div class="text-xs">
@@ -230,6 +224,14 @@
                             <Icon name="ph:bell" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
                             <Badge type="notification" class="w-fit absolute -top-4 left-4">
                                 {{ userStore.getUser?.unread_notification_count ?? 0 }}
+                            </Badge>
+                        </button>
+
+                        <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
+                            @click="navigateTo('/messages')">
+                            <Icon name="ph:chat-circle" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
+                            <Badge type="notification" class="w-fit absolute -top-4 left-4">
+                                {{ userStore.getUser?.unread_messages_count ?? 0 }}
                             </Badge>
                         </button>
 
@@ -421,15 +423,6 @@ const navigation = [
             'employees-new',
             'employees-employee_uuid-view',
             'employees-employee_uuid-edit',
-        ]
-    },
-    {
-        name: 'Messages',
-        href: '/messages',
-        icon: 'ph:chat-circle',
-        activeRouteNames: [
-            'messages',
-            'messages-receiver_uuid',
         ]
     },
     {
