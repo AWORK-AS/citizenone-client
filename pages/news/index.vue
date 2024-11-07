@@ -18,8 +18,7 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
-                        @handleFilter="handleFilter" />
+                    <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.news" :isLoading="state.isTableLoading"
                             :sortData="state.sortData" @sort="sort">
@@ -109,14 +108,16 @@ const state = reactive({
         { name: 'news.table.status', sorter: true, key: 'is_active' },
         { name: '' },
     ],
-    dataFilter: [],
+    dataFilter: {
+        search: ''
+    },
     news: [] as any,
     error: {} as Error,
     isTableLoading: false,
     modal: {
         isDeleteNewsOpen: false
     },
-    selectedNews: [],
+    selectedNews: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -166,9 +167,9 @@ function sort(sortingData: any) {
     fetchNews()
 }
 
-function handleFilter(value: any) {
+function handleSearch(value: any) {
     currentTablePage = 1
-    state.dataFilter = value
+    state.dataFilter.search = value
     fetchNews()
 }
 

@@ -29,8 +29,7 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
-                        @handleFilter="handleFilter" />
+                    <TableSearch @search="handleSearch" />
                     <div>
                         <div class="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
                             <div v-for="(wallet, index) in state.wallets?.data" :key="index"
@@ -129,7 +128,9 @@ const state = reactive({
         { name: '' },
     ],
     wallets: [] as any,
-    dataFilter: [],
+    dataFilter: {
+        search: ''
+    },
     error: {} as Error,
     isTableLoading: false,
     modal: {
@@ -188,9 +189,9 @@ function sort(sortingData: any) {
     fetchWallets()
 }
 
-function handleFilter(value: any) {
+function handleSearch(value: any) {
     currentTablePage = 1
-    state.dataFilter = value
+    state.dataFilter.search = value
     fetchWallets()
 }
 

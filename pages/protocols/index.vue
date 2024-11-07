@@ -37,13 +37,12 @@
                         </div>
                         <div class="space-y-1 flex items-end col-span-1 md:col-span-2">
                             <FormButton type="button" buttonStyle="primary" class="w-full rounded-md"
-                                @click="handleSearch">
+                                @click="handleFilter">
                                 {{ $t('search') }}
                             </FormButton>
                         </div>
                     </div>
-                    <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
-                        @handleFilter="handleFilter" />
+                    <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.protocols"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
@@ -104,7 +103,9 @@ const state = reactive({
         { name: 'protocols.table.endDate', sorter: true, key: 'end_date' },
         { name: '' },
     ],
-    dataFilter: [],
+    dataFilter: {
+        search: ''
+    },
     error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
@@ -190,13 +191,13 @@ function sort(sortingData: any) {
     fetchProtocols()
 }
 
-function handleFilter(value: any) {
+function handleSearch(value: any) {
     currentTablePage = 1
-    state.dataFilter = value
+    state.dataFilter.search = value
     fetchProtocols()
 }
 
-function handleSearch() {
+function handleFilter() {
     currentTablePage = 1
     fetchProtocols()
 }

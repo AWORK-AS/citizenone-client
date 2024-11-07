@@ -41,8 +41,7 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
-                        @handleFilter="handleFilter" />
+                    <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.walletTransactions"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
@@ -136,7 +135,9 @@ const state = reactive({
     ],
     wallet: [] as any,
     walletTransactions: [] as any,
-    dataFilter: [],
+    dataFilter: {
+        search: ''
+    },
     error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
@@ -216,9 +217,9 @@ function sort(sortingData: any) {
     fetchWalletTransactions()
 }
 
-function handleFilter(value: any) {
+function handleSearch(value: any) {
     currentTablePage = 1
-    state.dataFilter = value
+    state.dataFilter.search = value
     fetchWalletTransactions()
 }
 

@@ -1,141 +1,44 @@
 <template>
-    <div class="bg-white flex items-center w-full flex-wrap mb-3 border border-primary relative px-3 py-1 rounded-md">
-        <span class="flex items-center gap-x-1 absolute text-gray-800">
-            <Icon name="heroicons:funnel" class="w-4" />
-            <span>{{ $t('filter') }}</span>
-        </span>
-        <div class="flex flex-wrap flex-grow-0 ml-16">
-            <div v-for="(filter, index) in state.filters" :key="index"
-                class="bg-primary flex items-center justify-center text-white rounded-full text-sm pl-3 pr-2 py-1 mx-1">
-                {{ columnViewingFilter(filter.column) }}: {{ filter.value }}
-                <div class="cursor-pointer">
-                    <Icon name="heroicons:x-circle" class="h-4 m-1" @click="deleteFilter(index)" />
-                </div>
-            </div>
-        </div>
-        <input list="list" type="text" name="input" @keyup.enter="addFilter" @keyup.tab="addFilter"
-            v-model="state.searchInput" autocomplete="off" class="
-                flex-grow 
-                text-sm 
-                border-0
-                border-b-gray-300
-                outline-none
-                focus:outline-none
-                focus:ring-transparent
-                focus:border-primary
-                py-2.5" />
-        <datalist id="list" class="appearance-none">
-            <span v-for="column in props.columnFilter" :key="column.index">
-                <span v-if="column.filters">
-                    <option v-for="filter in column.filters" :key="filter.index"
-                        :value="filterValue(column.column) + filter.value" />
-                </span>
-                <span v-else>
-                    <option :value="filterValue(column.column)" />
-                </span>
+    <form class="flex" @submit.prevent="handleSearch">
+        <div class="grow relative">
+            <span class="flex items-center gap-x-1 text-gray-800 absolute left-3 top-3">
+                <Icon name="ic:search" class="text-primary w-6 h-6" />
             </span>
-        </datalist>
-    </div>
+            <input type="text" :id="props.id" :name="props.name" :autocomplete="props.name"
+                class="appearance-none block w-full pl-10 h-12 border border-primary placeholder-gray-500 text-gray-900 rounded-tl-md rounded-bl-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm"
+                :placeholder="$t('search')" v-model="state.search" />
+        </div>
+        <button type="submit"
+            class="bg-primary px-6 py-1.5 border border-primary text-white hover:bg-primary-800 right-0.5 top-0.5 rounded-tr-md rounded-br-md text-xs">
+            {{ $t('search') }}
+        </button>
+    </form>
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
-    columnFilter: {
-        type: Object,
-        required: true,
+    id: {
+        type: String,
+        required: false,
     },
-    dataFilter: {
-        type: Object,
+    name: {
+        type: String,
+        required: false,
+        default: 'search'
+    },
+    placeholder: {
+        type: String,
         required: false,
     },
 })
 
+const emit = defineEmits(['search'])
+
 const state = reactive({
-    filters: [] as any,
-    searchInput: null as any,
-    tableFilter: [] as any,
+    search: '',
 })
 
-const emit = defineEmits(['handleFilter'])
-
-watch(() => props.dataFilter, (newValue) => {
-    if (newValue != null) {
-        converToFilterValue(newValue)
-    }
-})
-
-function addFilter(event: any) {
-    let input = event.target.value.split(': ')
-    if (input.length > 1 && event.target.value != '' && input[1].trim() != '') {
-        // remove date suggestion format on dates column filters
-        if (input[0].includes('(MM/DD/YYYY)')) {
-            input[0] = input[0].replace('(MM/DD/YYYY)', '')
-        }
-
-        // remove first if there is an existing value of filter
-        state.filters = state.filters.filter((data: any, index: Number) => data.column !== input[0])
-
-        // Add the new filter
-        state.filters.push({ 'column': input[0], 'value': input[1] })
-
-        // data to be used in table/sql filter
-        let tableFilter = { ...state.tableFilter }
-        tableFilter[convertToTableNaming(input[0])] = input[1]
-        state.tableFilter = tableFilter
-        state.searchInput = ''
-        emit('handleFilter', state.tableFilter)
-    }
-}
-
-function deleteFilter(key: Number) {
-    var item = state.filters.find((item: any, index: any) => index == key)
-    state.filters = state.filters.filter((data: any, index: any) => index !== key)
-    delete state.tableFilter[convertToTableNaming(item.column)]
-    emit('handleFilter', state.tableFilter)
-}
-
-function filterValue(column: String) {
-    let string = column.replaceAll('_', ' ')
-    let wordList = string.split(" ")
-    for (var count = 0; count < wordList.length; count++) {
-        wordList[count] = wordList[count].charAt(0).toUpperCase() + wordList[count].slice(1)
-    }
-    string = wordList.join(" ")
-    if (string.includes('Date')) {
-        string = string + '(MM/DD/YYYY)'
-    }
-    return string + ": "
-}
-
-function convertToTableNaming(column: String) {
-    var string = column.replaceAll(' ', '_')
-    return string.toLowerCase()
-}
-
-function converToFilterValue(filterData: any) {
-    if (filterData) {
-        var dataKeys = Object.keys(filterData)
-        var final = dataKeys.map(function (x) {
-            return {
-                column: x,
-                value: filterData[x],
-            }
-        })
-        state.filters = final
-    }
-}
-
-function columnViewingFilter(column: any) {
-    let string = column.replaceAll('_', ' ')
-    if (string.includes('(MM/DD/YYYY)')) {
-        string = string.replace('(MM/DD/YYYY)', '')
-    }
-    return string.charAt(0).toUpperCase() + string.slice(1)
+function handleSearch() {
+    emit('search', state.search)
 }
 </script>
-
-<style scoped>
-input::-webkit-calendar-picker-indicator {
-    display: none;
-}
-</style>
