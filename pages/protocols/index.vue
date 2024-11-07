@@ -18,28 +18,21 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <div class="grid grid-cols-1 md:grid-cols-11 gap-3">
-                        <div class="space-y-1 col-span-1 md:col-span-3">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div class="space-y-1">
                             <FormLabel for="start_date" :label="$t('protocols.form.startDate')" />
                             <FormDateField id="start_date" name="start_date"
-                                :placeholder="$t('protocols.table.startDate')"
-                                v-model="state.searchFilter.start_date" />
+                                :placeholder="$t('protocols.table.startDate')" v-model="state.dataFilter.start_date" />
                         </div>
-                        <div class="space-y-1 col-span-1 md:col-span-3">
+                        <div class="space-y-1">
                             <FormLabel for="end_date" :label="$t('protocols.form.endDate')" />
                             <FormDateField id="end_date" name="end_date" :placeholder="$t('protocols.table.endDate')"
-                                v-model="state.searchFilter.end_date" />
+                                v-model="state.dataFilter.end_date" />
                         </div>
-                        <div class="space-y-1 col-span-1 md:col-span-3">
+                        <div class="space-y-1">
                             <FormLabel for="citizens" :label="$t('protocols.form.citizens')" />
                             <FormSelectMultiple id="citizens" name="citizens" :options="state.citizenOptions"
-                                v-model="state.searchFilter.citizens" />
-                        </div>
-                        <div class="space-y-1 flex items-end col-span-1 md:col-span-2">
-                            <FormButton type="button" buttonStyle="primary" class="w-full rounded-md"
-                                @click="handleFilter">
-                                {{ $t('search') }}
-                            </FormButton>
+                                v-model="state.dataFilter.citizens" />
                         </div>
                     </div>
                     <TableSearch @search="handleSearch" />
@@ -64,11 +57,6 @@
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('protocols.table.actions.view') }}
                                             </FormButton>
-                                            <!-- <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/protocols/${protocol.uuid}/edit`)">
-                                                <Icon name="ph:pencil" class="size-4" />
-                                                {{ $t('protocols.table.actions.edit') }}
-                                            </FormButton> -->
                                         </div>
                                     </td>
                                 </tr>
@@ -104,17 +92,15 @@ const state = reactive({
         { name: '' },
     ],
     dataFilter: {
-        search: ''
+        citizens: [],
+        end_date: '',
+        start_date: '',
+        search: '',
     },
     error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
     protocols: [] as any,
-    searchFilter: {
-        'end_date': '',
-        'start_date': '',
-        'citizens': [],
-    },
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -136,10 +122,10 @@ async function fetchProtocols() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
             date: {
-                end_date: state.searchFilter.end_date,
-                start_date: state.searchFilter.start_date,
+                end_date: state.dataFilter.end_date,
+                start_date: state.dataFilter.start_date,
             },
-            ...(state.searchFilter.citizens.length > 0 && { citizen_ids: Array(state.searchFilter.citizens) }),
+            ...(state.dataFilter.citizens.length > 0 && { citizen_ids: Array(state.dataFilter.citizens) }),
         }
         const response = await protocolService.getProtocols(params)
         if (response) {
@@ -194,11 +180,6 @@ function sort(sortingData: any) {
 function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value
-    fetchProtocols()
-}
-
-function handleFilter() {
-    currentTablePage = 1
     fetchProtocols()
 }
 </script>
