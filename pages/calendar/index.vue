@@ -62,39 +62,14 @@ import { myCalendarService } from '@/components/api/MyCalendarService'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
-interface CalendarEvent {
-    id: string
-    uuid: string
-    title: string
-    description: string
-    start: string
-    end: string
-    is_private: boolean
-}
-
-interface ModalState {
-    isAddEventOpen: boolean
-    isEditEventOpen: boolean
-}
-
-interface State {
-    calendarView: string
-    myCalendarEvents: any[],
-    error: Error
-    isPageLoading: boolean
-    modal: ModalState
-    selectedDate: any
-    selectedYear: string
-    selectedMonth: string
-    selectedSchedule: CalendarEvent
-}
-
 const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
+const employeeUuid = router?.currentRoute?.value?.query?.employee_uuid
 
-const state = reactive<State>({
+const state = reactive({
     calendarView: 'default',
-    myCalendarEvents: [],
-    error: {},
+    myCalendarEvents: [] as any,
+    error: {} as Error,
     isPageLoading: false,
     modal: {
         isAddEventOpen: false,
@@ -134,6 +109,9 @@ async function fetchMyCalendarEvents() {
         }
         if (state.selectedMonth !== '') {
             params.month = (state.selectedMonth + 1)
+        }
+        if (employeeUuid) {
+            params.employee_uuid = employeeUuid
         }
 
         const response = await myCalendarService.getSchedules(params)

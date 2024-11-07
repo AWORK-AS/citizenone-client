@@ -1074,6 +1074,7 @@
         },
         "table": {
             "actions": {
+                "calendar": "Calendar",
                 "edit": "Edit",
                 "message": "Message",
                 "view": "View"

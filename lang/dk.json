@@ -1075,6 +1075,7 @@
         },
         "table": {
             "actions": {
+                "calendar": "Kalender",
                 "edit": "Rediger",
                 "message": "Besked",
                 "view": "Se"

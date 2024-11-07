@@ -61,6 +61,11 @@
                                                 <Icon name="ph:chat-circle" class="size-4" />
                                                 {{ $t('employees.table.actions.message') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
+                                                <Icon name="ph:calendar-blank" class="size-4" />
+                                                {{ $t('employees.table.actions.calendar') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>

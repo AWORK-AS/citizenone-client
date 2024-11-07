@@ -9,7 +9,7 @@
                 :placeholder="$t('search')" v-model="state.search" />
         </div>
         <button type="submit"
-            class="bg-primary px-6 py-1.5 border border-primary text-white hover:bg-primary-800 right-0.5 top-0.5 rounded-tr-md rounded-br-md text-xs">
+            class="bg-primary px-6 py-1.5 border border-primary text-white hover:bg-primary-800 hover:border-primary-800 right-0.5 top-0.5 rounded-tr-md rounded-br-md text-xs">
             {{ $t('search') }}
         </button>
     </form>
