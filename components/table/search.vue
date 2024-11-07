@@ -39,6 +39,7 @@ const state = reactive({
 })
 
 function handleSearch() {
-    emit('search', state.search)
+    const searchArray = state.search.trim().split(/\s+/) // Split by whitespace
+    emit('search', Array(searchArray))
 }
 </script>
