@@ -1839,6 +1839,18 @@
                 "licenses": "Licenser"
             }
         },
+        "dashboard": {
+            "activeLicenses": "Aktive licenser",
+            "companyStorage": "Virksomhedslager",
+            "companiesWithLicenses": "Virksomheder med licenser",
+            "companiesWithoutLicenses": "Virksomheder uden licenser",
+            "dashboard": "Dashboard",
+            "revenue": "Omsætning",
+            "sharedCitizenOne": "Delt CitizenOne",
+            "unusedLicenses": "Ubrugte licenser",
+            "usersWithLicenses": "Brugere med licenser",
+            "usersWithoutLicenses": "Brugere uden licenser"
+        },
         "orders": {
             "orders": "Ordrer",
             "table": {
@@ -1962,6 +1974,7 @@
         "sidebar": {
             "apps": "Apps",
             "companies": "Virksomheder",
+            "dashboard": "Dashboard",
             "invoices": "Fakturaer",
             "orders": "Ordrer",
             "polls": "Afstemninger",

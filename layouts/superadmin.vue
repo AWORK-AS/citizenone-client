@@ -41,6 +41,9 @@
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
                                                             :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100']"
                                                             aria-hidden="true" />
+                                                        <span v-if="item.name === 'Dashboard'">
+                                                            {{ $t('superadmin.sidebar.dashboard') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Companies'">
                                                             {{ $t('superadmin.sidebar.companies') }}
                                                         </span>
@@ -112,6 +115,9 @@
                                     <div v-if="!item.children" @click="navigateTo(item.href)"
                                         :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25', 'group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer']">
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
+                                        <span v-if="item.name === 'Dashboard'">
+                                            {{ $t('superadmin.sidebar.dashboard') }}
+                                        </span>
                                         <span v-if="item.name === 'Companies'">
                                             {{ $t('superadmin.sidebar.companies') }}
                                         </span>
@@ -278,6 +284,14 @@ const userStore = useUserStore() as any
 const language = useI18n()
 
 const navigation = [
+    {
+        name: 'Dashboard',
+        href: '/superadmin/dashboard',
+        icon: 'material-symbols:dashboard',
+        activeRouteNames: [
+            'superadmin-dashboard'
+        ]
+    },
     {
         name: 'Companies',
         href: '/superadmin/companies',

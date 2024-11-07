@@ -1837,6 +1837,18 @@
                 "licenses": "Licenses"
             }
         },
+        "dashboard": {
+            "activeLicenses": "Active Licenses",
+            "companyStorage": "Company Storage",
+            "companiesWithLicenses": "Companies with Licenses",
+            "companiesWithoutLicenses": "Companies without Licenses",
+            "dashboard": "Dashboard",
+            "revenue": "Revenue",
+            "sharedCitizenOne": "Shared CitizenOne",
+            "unusedLicenses": "Unused Licenses",
+            "usersWithLicenses": "Users with Licenses",
+            "usersWithoutLicenses": "Users without Licenses"
+        },
         "orders": {
             "orders": "Orders",
             "table": {
@@ -1960,6 +1972,7 @@
         "sidebar": {
             "apps": "Apps",
             "companies": "Companies",
+            "dashboard": "Dashboard",
             "invoices": "Invoices",
             "orders": "Orders",
             "polls": "Polls",
