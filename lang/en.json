@@ -1273,8 +1273,10 @@
         "startTheConversation": "Start the conversation"
     },
     "navbar": {
+        "forms": "Forms",
         "newWishes": "New wishes",
         "logout": "Log out",
+        "procedures": "Procedures",
         "subscription": "Subscription",
         "settings": "Settings",
         "switchLanguage": "Switch language"
@@ -1565,12 +1567,10 @@
         "dailyOverview": "Daily overview",
         "citizens": "Citizens",
         "documents": "Documents",
-        "forms": "Forms",
         "myCalendar": "My calendar",
         "dutySchedules": "Duty schedules",
         "employees": "Employees",
         "messages": "Messages",
-        "procedures": "Procedures",
         "protocols": "Protocols",
         "apps": "Apps"
     },

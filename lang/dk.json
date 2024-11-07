@@ -1274,8 +1274,10 @@
         "startTheConversation": "Start samtalen"
     },
     "navbar": {
+        "forms": "Formularer",
         "newWishes": "Nye ønsker",
         "logout": "Log ud",
+        "procedures": "Procedurer",
         "subscription": "Abonnement",
         "settings": "Indstillinger",
         "switchLanguage": "Skift sprog"
@@ -1566,14 +1568,12 @@
         "companyId": "Virksomheds-id",
         "dailyOverview": "Daglig oversigt",
         "documents": "Dokumenter",
-        "forms": "Formularer",
         "myCalendar": "Min kalender",
         "departments": "Afdelinger",
         "dutySchedules": "Vagtskema",
         "employees": "Medarbejdere",
         "jobTitles": "Jobtitler",
         "messages": "Beskeder",
-        "procedures": "Procedurer",
         "protocols": "Protokol",
         "apps": "Apps",
         "timeLogs": "Tidslogfiler"

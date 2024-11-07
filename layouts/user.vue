@@ -65,9 +65,6 @@
                                                         <span v-if="item.name === 'Documents'">
                                                             {{ $t('sidebar.documents') }}
                                                         </span>
-                                                        <span v-if="item.name === 'Forms'">
-                                                            {{ $t('sidebar.forms') }}
-                                                        </span>
                                                         <span v-if="item.name === 'Bullet Board'">
                                                             {{ $t('sidebar.bulletBoard') }}
                                                         </span>
@@ -154,9 +151,6 @@
                                         </span>
                                         <span v-if="item.name === 'Documents'">
                                             {{ $t('sidebar.documents') }}
-                                        </span>
-                                        <span v-if="item.name === 'Forms'">
-                                            {{ $t('sidebar.forms') }}
                                         </span>
                                         <span v-if="item.name === 'Bullet Board'">
                                             {{ $t('sidebar.bulletBoard') }}
@@ -285,6 +279,24 @@
                                         <div class="flex items-center gap-x-3">
                                             <Icon name="ph:gear" class="h-5 w-5" aria-hidden="true" />
                                             {{ $t('navbar.settings') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                    <div @click="navigateTo('/forms')"
+                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                        <div class="flex items-center gap-x-3">
+                                            <Icon name="ph:list-numbers" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.forms') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                    <div @click="navigateTo('/procedures')"
+                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                        <div class="flex items-center gap-x-3">
+                                            <Icon name="ph:list-checks" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.procedures') }}
                                         </div>
                                     </div>
                                     </MenuItem>
@@ -426,17 +438,6 @@ const navigation = [
         ]
     },
     {
-        name: 'Procedures',
-        href: '/procedures',
-        icon: 'ph:list-checks',
-        activeRouteNames: [
-            'procedures',
-            'protocols-new',
-            'procedures-procedure_uuid',
-            'procedures-procedure_uuid-edit',
-        ]
-    },
-    {
         name: 'Protocols',
         href: '/protocols',
         icon: 'ic:outline-shield',
@@ -452,16 +453,6 @@ const navigation = [
         icon: 'ph:folder',
         activeRouteNames: [
             'drive'
-        ]
-    },
-    {
-        name: 'Forms',
-        href: '/forms',
-        icon: 'ph:list-numbers',
-        activeRouteNames: [
-            'forms',
-            'forms-new',
-            'forms-form_uuid-responses'
         ]
     },
     {
