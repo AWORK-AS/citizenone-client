@@ -118,7 +118,7 @@ const state = reactive({
         isDeleteSalesCampaignOpen: false
     },
     salesCampaigns: [] as any,
-    selectedSalesCampaigns: [],
+    selectedSalesCampaigns: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',

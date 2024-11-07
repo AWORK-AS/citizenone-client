@@ -256,7 +256,7 @@ async function uploadFile(event: any) {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid as any
         let params = new FormData()
         params.append('type', 'file')
-        params.append('is_admin_access', false)
+        params.append('is_admin_access', 'false')
         params.append('file', event.target.files[0])
         if (folderUuid) {
             params.append('folder_uuid', folderUuid)

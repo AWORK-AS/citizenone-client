@@ -103,7 +103,7 @@ const state = reactive({
         isDeletePollOpen: false
     },
     polls: [] as any,
-    selectedPoll: [],
+    selectedPoll: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',

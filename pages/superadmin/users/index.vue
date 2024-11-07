@@ -97,7 +97,7 @@ const state = reactive({
     modal: {
         isDeleteUserOpen: false
     },
-    selectedUser: [],
+    selectedUser: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
