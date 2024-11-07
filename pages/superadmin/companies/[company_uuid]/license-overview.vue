@@ -146,8 +146,7 @@
                                                     {{ state.licensesCount?.data?.unused ?? 0 }}
                                                 </div>
                                             </div>
-                                            <TableSearch :columnFilter="state.columnFilter"
-                                                :dataFilter="state.dataFilter" @handleFilter="handleFilter" />
+                                            <TableSearch @search="handleSearch" />
                                             <div class="table-responsive">
                                                 <Table :columnHeaders="state.columnHeaders" :data="state.licenses"
                                                     :isLoading="state.isTableLoading" :sortData="state.sortData"
@@ -200,7 +199,9 @@ const state = reactive({
         { name: 'superadmin.companies.licenseOverview.table.license', sorter: true, key: 'license' },
         { name: 'superadmin.companies.licenseOverview.table.user' },
     ],
-    dataFilter: [],
+    dataFilter: {
+        search: ''
+    },
     error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
@@ -286,9 +287,9 @@ function sort(sortingData: any) {
     fetchLicenses()
 }
 
-function handleFilter(value: any) {
+function handleSearch(value: any) {
     currentTablePage = 1
-    state.dataFilter = value
+    state.dataFilter.search = value
     fetchLicenses()
 }
 
