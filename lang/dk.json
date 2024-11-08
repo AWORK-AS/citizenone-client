@@ -1567,7 +1567,7 @@
     "sidebar": {
         "bulletBoard": "Opslagstavle",
         "citizens": "Borgere",
-        "companyId": "Virksomheds-id",
+        "companyId": "Virksomheds-ID",
         "dailyOverview": "Daglig oversigt",
         "documents": "Dokumenter",
         "myCalendar": "Min kalender",

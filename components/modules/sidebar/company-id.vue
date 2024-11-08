@@ -1,7 +1,9 @@
 <template>
     <div class="text-xs text-white text-center">
         {{ $t('sidebar.companyId') }}:
-        {{ String(userStore.getUser?.company?.id).padStart(6, '0') }}
+        <span v-if="userStore.getUser?.company?.id">
+            74312{{ String(userStore.getUser?.company?.id) }}
+        </span>
     </div>
 </template>
 
