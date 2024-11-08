@@ -19,19 +19,26 @@
                 </FormButton> -->
             </div>
 
-            <div class="flex items-center gap-x-3">
-                <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
-                    @click="setCalendarView('default')" class="rounded-md">
-                    {{ $t('calendar.view.defaultView') }}
-                </FormButton>
-                <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
-                    @click="setCalendarView('week')" class="rounded-md">
-                    {{ $t('calendar.view.weekView') }}
-                </FormButton>
-                <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
-                    @click="setCalendarView('month')" class="rounded-md">
-                    {{ $t('calendar.view.monthView') }}
-                </FormButton>
+            <div class="grid lg:grid-cols-4 gap-3">
+                <div class="flex items-center gap-x-3 lg:col-span-3">
+                    <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
+                        @click="setCalendarView('default')" class="rounded-md">
+                        {{ $t('calendar.view.defaultView') }}
+                    </FormButton>
+                    <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
+                        @click="setCalendarView('week')" class="rounded-md">
+                        {{ $t('calendar.view.weekView') }}
+                    </FormButton>
+                    <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
+                        @click="setCalendarView('month')" class="rounded-md">
+                        {{ $t('calendar.view.monthView') }}
+                    </FormButton>
+                </div>
+                <div class="w-full flex items-center gap-x-1">
+                    <FormLabel for="users_uuid" :label="$t('calendar.employee')" />:
+                    <FormSelect id="users_uuid" name="users_uuid" :options="state.options.users"
+                        v-model="state.formCalendar.users_uuid" @change="changeUserUuid" />
+                </div>
             </div>
 
             <div class="mt-5 space-y-5">
@@ -59,6 +66,7 @@
 
 <script setup lang="ts">
 import { myCalendarService } from '@/components/api/MyCalendarService'
+import { userService } from '@/components/api/UserService'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
@@ -70,6 +78,9 @@ const state = reactive({
     calendarView: 'default',
     myCalendarEvents: [] as any,
     error: {} as Error,
+    formCalendar: {
+        users_uuid: employeeUuid,
+    },
     isPageLoading: false,
     modal: {
         isAddEventOpen: false,
@@ -89,12 +100,46 @@ const state = reactive({
         start: '',
         end: '',
         is_private: false,
+    },
+    options: {
+        users: [] as any
     }
 })
 
 onMounted(() => {
+    fetchAllUsers()
     fetchMyCalendarEvents()
 })
+
+async function fetchAllUsers() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await userService.getAllUsers()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (user: any) => options.push({
+                    value: user?.uuid,
+                    label: user?.firstname + " " + user?.lastname,
+                })
+            )
+            state.options.users = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function changeUserUuid(userUuid: string) {
+    if (userUuid) {
+        state.formCalendar.users_uuid = userUuid
+    } else {
+        state.formCalendar.users_uuid = null
+    }
+    fetchMyCalendarEvents()
+}
 
 async function fetchMyCalendarEvents() {
     state.error = {}
@@ -110,8 +155,8 @@ async function fetchMyCalendarEvents() {
         if (state.selectedMonth !== '') {
             params.month = (state.selectedMonth + 1)
         }
-        if (employeeUuid) {
-            params.employee_uuid = employeeUuid
+        if (state.formCalendar.users_uuid) {
+            params.employee_uuid = state.formCalendar.users_uuid
         }
 
         const response = await myCalendarService.getSchedules(params)

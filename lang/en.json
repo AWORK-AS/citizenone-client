@@ -262,6 +262,7 @@
             "Saturday": "Saturday",
             "Sunday": "Sunday"
         },
+        "employee": "Employee",
         "month": {
             "January": "January",
             "February": "February",
