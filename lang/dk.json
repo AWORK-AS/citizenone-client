@@ -741,6 +741,7 @@
             "walletTransactions": "Pungtransaktioner"
         }
     },
+    "chooseFiles": "Vælg fil(er)",
     "close": "Luk",
     "comingSoon": "Kommer snart",
     "confirm": "Bekræft",
@@ -1234,7 +1235,6 @@
                 "prices": "Priser",
                 "profileOnFindSocialeTilbudDk": "Profil på FindSocialeTilbud.dk",
                 "region": "Region",
-                "submit": "Indsend",
                 "theAddressOfYourSocialService": "Adressen på jeres sociale tilbud. Har I flere adresser, så er dette blot hovedadressen. Ønsker I profiler for alle jeres adresser, så kontakt din konsulent som kan hjælpe med dette",
                 "thisIsThePhoneNumberForYourSocialService": "Dette er telefonnumeret til jeres sociale tilbud",
                 "visitationManager": "Visitationsansvarlig",
@@ -1695,6 +1695,7 @@
     "show": "Vis",
     "search": "Søg",
     "selectFile": "Vælg fil",
+    "selectedFiles": "Valgte fil(er)",
     "setupPassword": {
         "form": {
             "confirmPassword": "Bekræft adgangskode",
@@ -1802,6 +1803,7 @@
         "upgrade": "Opgrader",
         "upgradeOptions": "Opgraderingsmuligheder"
     },
+    "submit": "Indsend",
     "superadmin": {
         "accounts": {
             "accounts": "Kontoer",

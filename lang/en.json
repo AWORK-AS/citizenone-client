@@ -740,6 +740,7 @@
             "walletTransactions": "Wallet transactions"
         }
     },
+    "chooseFiles": "Choose file(s)",
     "close": "Close",
     "comingSoon": "Coming Soon",
     "confirm": "Confirm",
@@ -1233,7 +1234,6 @@
                 "prices": "Prices",
                 "profileOnFindSocialeTilbudDk": "Profile on FindSocialeTilbud.dk",
                 "region": "Region",
-                "submit": "Submit",
                 "theAddressOfYourSocialService": "The address of your social service. If you have multiple addresses, this is just the main address. If you would like profiles for all your addresses, please contact your consultant who can assist with this",
                 "thisIsThePhoneNumberForYourSocialService": "This is the phone number for your social service",
                 "visitationManager": "Visitation manager",
@@ -1694,6 +1694,7 @@
     "show": "Show",
     "search": "Search",
     "selectFile": "Select file",
+    "selectedFiles": "Selected file(s)",
     "setupPassword": {
         "form": {
             "confirmPassword": "Confirm password",
@@ -1798,6 +1799,7 @@
         "upgrade": "Upgrade",
         "upgradeOptions": "Upgrade options"
     },
+    "submit": "Submit",
     "superadmin": {
         "accounts": {
             "accounts": "Accounts",

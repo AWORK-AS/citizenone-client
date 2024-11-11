@@ -1,12 +1,15 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('findsocialetilbuddk.manageCompany.manageCompany')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="lg" :title="$t('findsocialetilbuddk.manageCompany.form.profileOnFindSocialeTilbudDk')"
+            :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="space-y-3">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
+                        <p class="text-gray-700">
+                            {{ $t('findsocialetilbuddk.manageCompany.form.pleaseFillOutThisForm') }}
+                        </p>
                         <form @submit.prevent="submitForm()">
                             <div class="space-y-3">
                                 <div class="space-y-1">
@@ -242,7 +245,30 @@
                                     <p class="text-sm text-gray-600">
                                         {{ $t('findsocialetilbuddk.manageCompany.form.images') }}
                                     </p>
-                                    <input type="file" id="imagesUpload" @change="handleFileChange" multiple />
+                                    <div>
+                                        <input type="file" ref="imagesUpload" @change="handleFileChange" multiple
+                                            class="hidden" />
+                                        <div class="p-4 border border-dashed border-gray-400 cursor-pointer hover:border-2"
+                                            @click="triggerFileInput">
+                                            <div class="flex items-center justify-between text-xs">
+                                                <p>
+                                                    {{ $t('chooseFiles') }}
+                                                </p>
+                                                <Icon name="ph:upload-simple" class="h-6 w-6 text-gray-600"
+                                                    aria-hidden="true" />
+                                            </div>
+                                        </div>
+                                        <div v-if="state.formManageCompany.selected_files.length > 0"
+                                            class="mt-3 space-y-1">
+                                            <p class="text-sm text-gray-700">{{ $t('Selected Files') }}:</p>
+                                            <ul class="list-disc list-inside text-sm text-gray-600">
+                                                <li v-for="(file, index) in state.formManageCompany.selected_files"
+                                                    :key="index">
+                                                    {{ file?.name }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="mt-6">
@@ -252,7 +278,7 @@
                                         {{ $t('cancel') }}
                                     </FormButton>
                                     <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
-                                        {{ $t('dutySchedules.download.download') }}
+                                        {{ $t('submit') }}
                                     </FormButton>
                                 </div>
                             </div>
@@ -282,6 +308,7 @@ const props = defineProps({
 })
 const { t } = useI18n()
 const { successAlert } = useAlert()
+const imagesUpload = ref<HTMLInputElement | null>(null)
 const emit = defineEmits(['close'])
 
 const state = reactive({
@@ -311,7 +338,7 @@ const state = reactive({
         phone_number: '',
         prices: '',
         region: '',
-        selected_files: [],
+        selected_files: [] as any,
         visitation_manager: '',
     },
     options: {
@@ -502,6 +529,38 @@ const rules = computed(() => {
             company_name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            address: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            contact_person: {
+                firstname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                lastname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            },
+            phone_number: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            offers: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            number_of_allocated_spots: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            number_of_available_spots: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            diagnosis: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            age: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            region: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
         },
     }
 })
@@ -562,6 +621,12 @@ function changeSelectedRegion(regionUuid: string) {
 
 function closeModal() {
     emit('close')
+}
+
+function triggerFileInput() {
+    if (imagesUpload.value) {
+        imagesUpload.value.click()
+    }
 }
 
 function handleFileChange(event: any) {
