@@ -462,6 +462,7 @@
             "department": "Afdeling",
             "diagnosis": "Diagnose",
             "emailAddress": "E-mail adresse",
+            "gender": "Køn",
             "firstname": "Fornavn",
             "lastname": "Efternavn",
             "municipality": "Kommune",
@@ -1306,6 +1307,11 @@
         "loginHereInstead": "Log ind her i stedet",
         "or": "Eller",
         "requestPasswordReset": "Anmod om nulstilling af adgangskode"
+    },
+    "gender": {
+        "female": "Kvinde",
+        "male": "Mand",
+        "willNotDiscloseThis": "Vil ikke oplyse dette"
     },
     "invitation": {
         "invitationAccepted": "Invitation accepteret",

@@ -38,6 +38,12 @@
                 </div>
             </div>
             <div class="space-y-1">
+                <FormLabel for="gender" :label="$t('citizens.form.gender')" />
+                <FormSelect id="gender" :options="state.options.genders" v-model="state.formCitizen.gender" />
+                <FormError :error="v$?.formCitizen?.gender?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.gender?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="email" :label="$t('citizens.form.emailAddress')" />
                 <FormTextField id="email" name="email" :placeholder="$t('citizens.form.emailAddress')"
                     v-model="state.formCitizen.email" />
@@ -156,6 +162,7 @@ import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const { t } = useI18n()
+const language = useI18n()
 const image = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
 
@@ -181,6 +188,7 @@ const state = reactive({
         image: '',
         firstname: '',
         lastname: '',
+        gender: '',
         email: '',
         social_security_number: '',
         birthday: '',
@@ -200,9 +208,22 @@ const state = reactive({
     options: {
         cities: [],
         departments: [],
+        genders: [
+            { value: 'male', label: `${t('gender.male')}`, },
+            { value: 'female', label: `${t('gender.female')}`, },
+            { value: 'willNotDiscloseThis', label: `${t('gender.willNotDiscloseThis')}`, },
+        ],
         municipalities: [],
         regions: [],
     }
+})
+
+watch(() => language.locale.value, () => {
+    state.options.genders = [
+        { value: 'male', label: `${t('gender.male')}`, },
+        { value: 'female', label: `${t('gender.female')}`, },
+        { value: 'willNotDiscloseThis', label: `${t('gender.willNotDiscloseThis')}`, },
+    ]
 })
 
 watch(() => props.selectedCitizen, (selectedCitizen: any) => {
@@ -216,6 +237,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             image: selectedCitizen.image,
             firstname: selectedCitizen.firstname,
             lastname: selectedCitizen.lastname,
+            gender: selectedCitizen.gender,
             email: selectedCitizen.email,
             social_security_number: selectedCitizen.social_security_number,
             birthday: selectedCitizen.birthday,
@@ -381,6 +403,9 @@ const rules = computed(() => {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             lastname: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            gender: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             email: {

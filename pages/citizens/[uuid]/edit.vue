@@ -50,6 +50,7 @@ const state = reactive({
         image: '',
         firstname: '',
         lastname: '',
+        gender: '',
         email: '',
         social_security_number: '',
         birthday: '',
@@ -82,6 +83,7 @@ async function fetchCitizen() {
                 image: response?.data?.image ?? '',
                 firstname: response?.data?.firstname ?? '',
                 lastname: response?.data?.lastname ?? '',
+                gender: response?.data?.gender ?? '',
                 email: response?.data?.email ?? '',
                 social_security_number: response?.data?.social_security_number ?? '',
                 birthday: response?.data?.birthday ?? '',
@@ -112,6 +114,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('image', citizenDetails.image)
         params.append('firstname', citizenDetails.firstname)
         params.append('lastname', citizenDetails.lastname)
+        params.append('gender', citizenDetails.gender)
         params.append('email', citizenDetails.email)
         params.append('social_security_number', citizenDetails.social_security_number)
         params.append('birthday', citizenDetails.birthday)

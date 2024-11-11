@@ -2,6 +2,7 @@ export interface CitizenForm {
     image: string,
     firstname: string,
     lastname: string,
+    gender: string,
     email: string,
     social_security_number: string,
     birthday: string,

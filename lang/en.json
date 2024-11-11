@@ -463,6 +463,7 @@
             "diagnosis": "Diagnosis",
             "emailAddress": "Email address",
             "firstname": "First name",
+            "gender": "Gender",
             "lastname": "Last name",
             "municipality": "Municipality",
             "phone": "Phone",
@@ -1305,6 +1306,11 @@
         "loginHereInstead": "Login here instead",
         "or": "Or",
         "requestPasswordReset": "Request password reset"
+    },
+    "gender": {
+        "female": "Female",
+        "male": "Male",
+        "willNotDiscloseThis": "Will not disclose this"
     },
     "invitation": {
         "invitationAccepted": "Invitation accepted",

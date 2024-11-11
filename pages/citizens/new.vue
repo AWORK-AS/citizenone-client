@@ -39,6 +39,7 @@ const state = reactive({
         image: '',
         firstname: '',
         lastname: '',
+        gender: '',
         email: '',
         social_security_number: '',
         birthday: '',
@@ -62,6 +63,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('image', citizenDetails.image)
         params.append('firstname', citizenDetails.firstname)
         params.append('lastname', citizenDetails.lastname)
+        params.append('gender', citizenDetails.gender)
         params.append('email', citizenDetails.email)
         params.append('social_security_number', citizenDetails.social_security_number)
         params.append('birthday', citizenDetails.birthday)
