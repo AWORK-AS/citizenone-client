@@ -1244,13 +1244,14 @@
         "showInterest": {
             "form": {
                 "alert": {
-                    "firstname": "First name",
-                    "emailAddress": "Email address",
-                    "lastname": "Last name",
                     "messageSuccessfullySent": "Thank you, we will get back to you in a short matter of time",
-                    "phone": "Phone"
-                }
+                },
+                "emailAddress": "Email address",
+                "firstname": "First name",
+                "lastname": "Last name",
+                "phone": "Phone"
             },
+            "getInquiriesViaFindSocialeTilbudDk": "Get inquiries via FindSocialeTilbud.dk",
             "showInterest": "Show interest"
         }
     },

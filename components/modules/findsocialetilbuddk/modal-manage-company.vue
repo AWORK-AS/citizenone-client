@@ -260,7 +260,7 @@
                                         </div>
                                         <div v-if="state.formManageCompany.selected_files.length > 0"
                                             class="mt-3 space-y-1">
-                                            <p class="text-sm text-gray-700">{{ $t('Selected Files') }}:</p>
+                                            <p class="text-sm text-gray-700">{{ $t('selectedFiles') }}:</p>
                                             <ul class="list-disc list-inside text-sm text-gray-600">
                                                 <li v-for="(file, index) in state.formManageCompany.selected_files"
                                                     :key="index">
@@ -648,6 +648,30 @@ async function sendMessage() {
         state.formManageCompany.selected_files.forEach((file: any) => {
             params.append('files[]', file)
         })
+        params.append('additional_services', state.formManageCompany.additional_services)
+        params.append('address', state.formManageCompany.address)
+        params.append('age', state.formManageCompany.age)
+        params.append('chairperson', state.formManageCompany.chairperson)
+        params.append('company_name', state.formManageCompany.company_name)
+        params.append('contact_person_firstname', state.formManageCompany.contact_person.firstname)
+        params.append('contact_person_lastname', state.formManageCompany.contact_person.lastname)
+        params.append('deputy_manager', state.formManageCompany.deputy_manager)
+        params.append('description_of_your_social_service', state.formManageCompany.description_of_your_social_service)
+        params.append('diagnosis', state.formManageCompany.diagnosis)
+        params.append('domain', state.formManageCompany.domain)
+        params.append('leader', state.formManageCompany.leader)
+        params.append('link_to_the_offer_portal', state.formManageCompany.link_to_the_offer_portal)
+        params.append('municipality', state.formManageCompany.municipality)
+        params.append('notice_period', state.formManageCompany.notice_period)
+        params.append('number_of_allocated_spots', state.formManageCompany.number_of_allocated_spots)
+        params.append('number_of_available_spots', state.formManageCompany.number_of_available_spots)
+        params.append('offers', state.formManageCompany.offers)
+        params.append('phone_number', state.formManageCompany.phone_number)
+        params.append('prices', state.formManageCompany.prices)
+        params.append('region', state.formManageCompany.region)
+        params.append('selected_files', state.formManageCompany.selected_files)
+        params.append('visitation_manager', state.formManageCompany.visitation_manager)
+
         const response = await findSocialeTilbudDkService.sendManageCompany(params)
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('findsocialetilbuddk.manageCompany.form.alert.messageSuccessfullySent')}.`)

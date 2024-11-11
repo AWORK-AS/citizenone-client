@@ -84,12 +84,7 @@
                                 class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10 flex flex-col justify-between h-full">
                                 <div>
                                     <h3 class="text-base font-semibold leading-7 text-tertiary">
-                                        <span v-if="language.locale.value === 'en'">
-                                            Get inquiries via FindSocialeTilbud.dk
-                                        </span>
-                                        <span v-if="language.locale.value === 'dk'">
-                                            Få forespørgsler via FindSocialeTilbud.dk
-                                        </span>
+                                        {{ $t('findsocialetilbuddk.showInterest.getInquiriesViaFindSocialeTilbudDk') }}
                                     </h3>
                                     <div class="mt-5 space-y-3">
                                         <p class="text-justify text-sm">
@@ -151,6 +146,8 @@
             </div>
             <ModulesFindsocialetilbuddkModalManageCompany :isModalOpen="state.modal.isManageCompanyOpen"
                 @close="state.modal.isManageCompanyOpen = false" />
+            <ModulesFindsocialetilbuddkModalShowInterest :isModalOpen="state.modal.isShowInterestOpen"
+                @close="state.modal.isShowInterestOpen = false" />
         </NuxtLayout>
     </div>
 </template>

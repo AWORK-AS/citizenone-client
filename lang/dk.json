@@ -1245,13 +1245,14 @@
         "showInterest": {
             "form": {
                 "alert": {
-                    "firstname": "Fornavn",
-                    "emailAddress": "E-mailadresse",
-                    "lastname": "Efternavn",
                     "messageSuccessfullySent": "Tak, vi vender tilbage til dig inden for kort tid.",
-                    "phone": "Telefon"
-                }
+                },
+                "emailAddress": "E-mailadresse",
+                "firstname": "Fornavn",
+                "lastname": "Efternavn",
+                "phone": "Telefon"
             },
+            "getInquiriesViaFindSocialeTilbudDk": "Få forespørgsler via FindSocialeTilbud.dk",
             "showInterest": "Vis interesse"
         }
     },
