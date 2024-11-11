@@ -94,10 +94,21 @@
                                                         </DisclosurePanel>
                                                     </Disclosure>
                                                 </li>
+                                                <li>
+                                                    <div @click="navigateTo('/findsocialetilbud.dk')"
+                                                        :class="[['findsocialetilbud.dk'].includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25', 'group flex gap-x-2.5 rounded-md p-2 text-sm leading-6 font-semibold']">
+                                                        <img src="/img/findsocialetilbud-logo.png"
+                                                            alt="FindSocialeTilbud.dk" class="h-5 w-5 shrink-0" />
+                                                        FindSocialeTilbud.dk
+                                                    </div>
+                                                </li>
                                             </ul>
                                         </li>
-                                        <li class="mt-auto">
+                                        <li class="mt-auto space-y-2">
                                             <ModulesTimeRegistrationCheckInOut />
+                                            <ModulesSidebarSubscribeButton
+                                                v-if="userStore.getUser?.user_subscription === null" />
+                                            <ModulesSidebarCompanyId />
                                         </li>
                                     </ul>
                                 </nav>
@@ -178,6 +189,14 @@
                                             </div>
                                         </DisclosurePanel>
                                     </Disclosure>
+                                </li>
+                                <li>
+                                    <div @click="navigateTo('/findsocialetilbud.dk')"
+                                        :class="[['findsocialetilbud.dk'].includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25', 'group flex gap-x-2.5 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer']">
+                                        <img src="/img/findsocialetilbud-logo.png" alt="FindSocialeTilbud.dk"
+                                            class="h-6 w-6 shrink-0" />
+                                        FindSocialeTilbud.dk
+                                    </div>
                                 </li>
                             </ul>
                         </li>
