@@ -646,7 +646,7 @@ async function sendMessage() {
     try {
         const params = new FormData()
         state.formManageCompany.selected_files.forEach((file: any) => {
-            params.append('files[]', file)
+            params.append('selected_files[]', file)
         })
         params.append('additional_services', state.formManageCompany.additional_services)
         params.append('address', state.formManageCompany.address)
@@ -669,7 +669,6 @@ async function sendMessage() {
         params.append('phone_number', state.formManageCompany.phone_number)
         params.append('prices', state.formManageCompany.prices)
         params.append('region', state.formManageCompany.region)
-        params.append('selected_files', state.formManageCompany.selected_files)
         params.append('visitation_manager', state.formManageCompany.visitation_manager)
 
         const response = await findSocialeTilbudDkService.sendManageCompany(params)
