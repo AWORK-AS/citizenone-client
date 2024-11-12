@@ -50,8 +50,8 @@ const state = reactive({
         municipality_uuid: '',
         city_uuid: '',
         post_code: '',
-        diagnosis: '',
-        addictions: '',
+        diagnoses: [],
+        addictions: [],
         date_admitted: '',
         date_discharged: '',
     } as CitizenForm,
@@ -77,7 +77,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('municipality_uuid', citizenDetails.municipality)
         params.append('city_uuid', citizenDetails.city)
         params.append('post_code', citizenDetails.post_code)
-        params.append('diagnosis', citizenDetails.diagnosis)
+        params.append('diagnoses', citizenDetails.diagnoses)
         params.append('addictions', citizenDetails.addictions)
         params.append('date_admitted', citizenDetails.date_admitted)
         params.append('date_discharged', citizenDetails.date_discharged)

@@ -135,8 +135,7 @@
                         {{ $t('diagnoses.addNewDiagnosis') }}
                     </span>
                 </div>
-                <FormSelectMultiple id="diagnosis" :options="state.options.diagnoses"
-                    v-model="state.formCitizen.diagnosis" />
+                <FormSelect id="diagnosis" :options="state.options.diagnoses" v-model="state.formCitizen.diagnosis" />
                 <FormError :error="v$?.formCitizen?.diagnosis?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.diagnosis?.[0]" />
             </div>
@@ -148,7 +147,7 @@
                         {{ $t('addictions.addNewAddiction') }}
                     </span>
                 </div>
-                <FormSelectMultiple id="addictions" :options="state.options.addictions"
+                <FormSelect id="addictions" :options="state.options.addictions"
                     v-model="state.formCitizen.addictions" />
                 <FormError :error="v$?.formCitizen?.addictions?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.addictions?.[0]" />
@@ -240,7 +239,7 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
-        diagnosis: [],
+        diagnoses: [],
         addictions: [],
         date_admitted: '',
         date_discharged: '',
@@ -296,7 +295,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             municipality: selectedCitizen.municipality_uuid,
             city: selectedCitizen.city_uuid,
             post_code: selectedCitizen.post_code,
-            diagnosis: selectedCitizen.diagnosis,
+            diagnoses: selectedCitizen.diagnoses,
             addictions: selectedCitizen.addictions,
             date_admitted: selectedCitizen.date_admitted,
             date_discharged: selectedCitizen.date_discharged,

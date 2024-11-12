@@ -61,8 +61,8 @@ const state = reactive({
         municipality_uuid: '',
         city_uuid: '',
         post_code: '',
-        diagnosis: '',
-        addictions: '',
+        diagnoses: [],
+        addictions: [],
         date_admitted: '',
         date_discharged: '',
     } as CitizenForm,
@@ -97,13 +97,19 @@ async function fetchCitizen() {
                 municipality_uuid: response?.data?.address?.municipality?.uuid.toString() ?? '',
                 city_uuid: response?.data?.address?.city?.uuid.toString() ?? '',
                 post_code: response?.data?.address?.post_code ?? '',
-                diagnosis: response?.data?.diagnosis?.uuid.toString() ?? '',
-                addictions: response?.data?.addictions?.uuid.toString() ?? '',
+                diagnoses: [],
+                addictions: [],
                 date_admitted: response?.data?.date_admitted ?? '',
                 date_discharged: response?.data?.date_discharged ?? '',
             }
-            response?.data?.departments.forEach((department: any) => {
+            response?.data?.departments?.forEach((department: any) => {
                 state.formCitizen.departments.push(department?.uuid)
+            })
+            response?.data?.diagnoses?.forEach((diagnosis: any) => {
+                state.formCitizen.diagnoses.push(diagnosis?.uuid)
+            })
+            response?.data?.addictions?.forEach((addiction: any) => {
+                state.formCitizen.addictions.push(addiction?.uuid)
             })
         }
     } catch (error: any) {
@@ -131,7 +137,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('municipality_uuid', citizenDetails.municipality)
         params.append('city_uuid', citizenDetails.city)
         params.append('post_code', citizenDetails.post_code)
-        params.append('diagnosis', citizenDetails.diagnosis)
+        params.append('diagnoses', citizenDetails.diagnoses)
         params.append('addictions', citizenDetails.addictions)
         params.append('date_admitted', citizenDetails.date_admitted)
         params.append('date_discharged', citizenDetails.date_discharged)

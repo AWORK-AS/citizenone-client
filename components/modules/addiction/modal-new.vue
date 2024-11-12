@@ -27,7 +27,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshAddiction'])
+const emit = defineEmits(['close', 'refreshAddictions'])
 
 const state = reactive({
     error: {} as Error,
@@ -41,8 +41,8 @@ function closeModal() {
     emit('close')
 }
 
-function refreshAddiction() {
-    emit('refreshAddiction')
+function refreshAddictions() {
+    emit('refreshAddictions')
 }
 
 async function saveAddiction(addictionDetails: any) {
@@ -55,7 +55,7 @@ async function saveAddiction(addictionDetails: any) {
         const response = await addictionService.saveAddiction(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('addictions.form.alert.newAddictionSuccessfullySaved')}.`)
-            refreshAddiction()
+            refreshAddictions()
             closeModal()
         }
     } catch (error: any) {
