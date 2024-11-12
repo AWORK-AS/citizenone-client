@@ -1287,7 +1287,7 @@
         "showInterest": {
             "form": {
                 "alert": {
-                    "messageSuccessfullySent": "Thank you, we will get back to you in a short matter of time",
+                    "messageSuccessfullySent": "Thank you, we will get back to you in a short matter of time"
                 },
                 "emailAddress": "Email address",
                 "firstname": "First name",

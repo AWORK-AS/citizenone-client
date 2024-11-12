@@ -218,7 +218,7 @@
         },
         "apps": "Apps",
         "confirmation": {
-            "confirmationOfTerms": "Jeg bekræfter, at jeg har læst og accepterer vilkårene og betingelserne, før jeg aktiverer denne app."
+            "confirmationOfTerms": "Jeg bekræfter, at jeg har læst og accepterer vilkårene og betingelserne, før jeg aktiverer denne app"
         },
         "contactUs": "Kontakt os",
         "form": {
@@ -681,7 +681,7 @@
             "confirmation": {
                 "byClickingYesText": "Ved at klikke ja, bliver du omdirigeret til formularerne på",
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne magtanvendelse",
-                "inAdditionText": "Derudover vil det blive logget i historikken for brug af magt, at du har rapporteret brugen af magt.",
+                "inAdditionText": "Derudover vil det blive logget i historikken for brug af magt, at du har rapporteret brugen af magt",
                 "reportConfirmation": "Er du sikker på, at du vil rapportere magtanvendelse",
                 "socialOfBoligstyrelsensWebsite": "Social- og Boligstyrelsens hjemmeside",
                 "whereYouCanDownloadText": "Where you can download the correct form and fill it out and send to your leader"
@@ -1165,7 +1165,7 @@
                 "address": "Adresse",
                 "age": "Alder",
                 "alert": {
-                    "messageSuccessfullySent": "Tak. Din ændring afventer gennemgang. Gennemgangen tager typisk højst 24 timer på hverdage."
+                    "messageSuccessfullySent": "Tak. Din ændring afventer gennemgang. Gennemgangen tager typisk højst 24 timer på hverdage"
                 },
                 "companyName": "Virksomhedsnavn",
                 "chairpersonOfTheBoard": "Bestyrelsesformand",
@@ -1288,7 +1288,7 @@
         "showInterest": {
             "form": {
                 "alert": {
-                    "messageSuccessfullySent": "Tak, vi vender tilbage til dig inden for kort tid.",
+                    "messageSuccessfullySent": "Tak, vi vender tilbage til dig inden for kort tid"
                 },
                 "emailAddress": "E-mailadresse",
                 "firstname": "Fornavn",
