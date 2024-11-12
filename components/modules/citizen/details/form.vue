@@ -129,15 +129,15 @@
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
-                    <FormLabel for="diagnosis" :label="$t('citizens.form.diagnosis')" />
+                    <FormLabel for="diagnoses" :label="$t('citizens.form.diagnoses')" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                         @click="state.modal.isAddDiagnosisOpen = true">
                         {{ $t('diagnoses.addNewDiagnosis') }}
                     </span>
                 </div>
-                <FormSelect id="diagnosis" :options="state.options.diagnoses" v-model="state.formCitizen.diagnosis" />
-                <FormError :error="v$?.formCitizen?.diagnosis?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.diagnosis?.[0]" />
+                <FormSelect id="diagnoses" :options="state.options.diagnoses" v-model="state.formCitizen.diagnoses" />
+                <FormError :error="v$?.formCitizen?.diagnoses?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.diagnoses?.[0]" />
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">

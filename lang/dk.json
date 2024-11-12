@@ -482,7 +482,7 @@
             "dateAdmitted": "Indlæggelsesdato",
             "dateDischarged": "Udskrivningsdato",
             "department": "Afdeling",
-            "diagnosis": "Diagnose",
+            "diagnoses": "Diagnoser",
             "emailAddress": "E-mail adresse",
             "gender": "Køn",
             "firstname": "Fornavn",
