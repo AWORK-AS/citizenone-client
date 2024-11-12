@@ -178,7 +178,7 @@
                                 <div class="space-y-1">
                                     <FormLabel for="diagnosis"
                                         :label="$t('findsocialetilbuddk.manageCompany.form.diagnosis')" />
-                                    <FormSelect id="diagnosis" :options="state.options.diagnosis"
+                                    <FormSelect id="diagnosis" :options="state.options.diagnoses"
                                         v-model="state.formManageCompany.diagnosis" />
                                     <FormError
                                         :error="v$?.formManageCompany?.diagnosis?.$errors[0]?.$message.toString()" />
@@ -315,31 +315,31 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formManageCompany: {
-        additional_services: '',
-        address: '',
-        age: '',
-        chairperson: '',
         company_name: '',
+        address: '',
+        domain: '',
         contact_person: {
             firstname: '',
             lastname: '',
         },
-        deputy_manager: '',
-        description_of_your_social_service: '',
-        diagnosis: '',
-        domain: '',
-        leader: '',
-        link_to_the_offer_portal: '',
-        municipality: '',
-        notice_period: '',
-        number_of_allocated_spots: '',
-        number_of_available_spots: '',
-        offers: '',
         phone_number: '',
+        offers: '',
+        number_of_available_spots: '',
+        number_of_allocated_spots: '',
+        deputy_manager: '',
+        chairperson: '',
+        leader: '',
         prices: '',
-        region: '',
-        selected_files: [] as any,
         visitation_manager: '',
+        notice_period: '',
+        diagnosis: '',
+        age: '',
+        additional_services: '',
+        municipality: '',
+        region: '',
+        link_to_the_offer_portal: '',
+        description_of_your_social_service: '',
+        selected_files: [] as any,
     },
     options: {
         additional_services: [
