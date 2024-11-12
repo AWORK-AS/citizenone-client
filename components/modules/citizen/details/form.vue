@@ -135,7 +135,8 @@
                         {{ $t('diagnoses.addNewDiagnosis') }}
                     </span>
                 </div>
-                <FormSelect id="diagnoses" :options="state.options.diagnoses" v-model="state.formCitizen.diagnoses" />
+                <FormSelectMultiple id="diagnoses" :options="state.options.diagnoses"
+                    v-model="state.formCitizen.diagnoses" />
                 <FormError :error="v$?.formCitizen?.diagnoses?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.diagnoses?.[0]" />
             </div>
@@ -147,7 +148,7 @@
                         {{ $t('addictions.addNewAddiction') }}
                     </span>
                 </div>
-                <FormSelect id="addictions" :options="state.options.addictions"
+                <FormSelectMultiple id="addictions" :options="state.options.addictions"
                     v-model="state.formCitizen.addictions" />
                 <FormError :error="v$?.formCitizen?.addictions?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.addictions?.[0]" />
