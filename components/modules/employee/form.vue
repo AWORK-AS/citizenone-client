@@ -376,7 +376,7 @@
             </div>
         </div>
         <ModulesDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
-            @close="state.modal.isAddDepartmentOpen = false" @refreshDepartment="fetchDepartments" />
+            @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchDepartments" />
         <ModulesJobTitleModalNew :isModalOpen="state.modal.isAddJobTitleOpen"
             @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitle="fetchJobTitles" />
         <ModulesJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"

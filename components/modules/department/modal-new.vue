@@ -27,7 +27,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshDepartment'])
+const emit = defineEmits(['close', 'refreshDepartments'])
 
 const state = reactive({
     error: {} as Error,
@@ -41,8 +41,8 @@ function closeModal() {
     emit('close')
 }
 
-function refreshDepartment() {
-    emit('refreshDepartment')
+function refreshDepartments() {
+    emit('refreshDepartments')
 }
 
 async function saveDepartment(departmentDetails: any) {
@@ -55,7 +55,7 @@ async function saveDepartment(departmentDetails: any) {
         const response = await departmentService.saveDepartment(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('departments.form.alert.newDepartmentSuccessfullySaved')}.`)
-            refreshDepartment()
+            refreshDepartments()
             closeModal()
         }
     } catch (error: any) {

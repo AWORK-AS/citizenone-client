@@ -62,6 +62,9 @@ const state = reactive({
         city_uuid: '',
         post_code: '',
         diagnosis: '',
+        addictions: '',
+        date_admitted: '',
+        date_discharged: '',
     } as CitizenForm,
     isPageLoading: false,
     modal: {
@@ -94,7 +97,10 @@ async function fetchCitizen() {
                 municipality_uuid: response?.data?.address?.municipality?.uuid.toString() ?? '',
                 city_uuid: response?.data?.address?.city?.uuid.toString() ?? '',
                 post_code: response?.data?.address?.post_code ?? '',
-                diagnosis: response?.data?.diagnosis ?? '',
+                diagnosis: response?.data?.diagnosis?.uuid.toString() ?? '',
+                addictions: response?.data?.addictions?.uuid.toString() ?? '',
+                date_admitted: response?.data?.date_admitted ?? '',
+                date_discharged: response?.data?.date_discharged ?? '',
             }
             response?.data?.departments.forEach((department: any) => {
                 state.formCitizen.departments.push(department?.uuid)
@@ -126,6 +132,9 @@ async function updateCitizen(citizenDetails: any) {
         params.append('city_uuid', citizenDetails.city)
         params.append('post_code', citizenDetails.post_code)
         params.append('diagnosis', citizenDetails.diagnosis)
+        params.append('addictions', citizenDetails.addictions)
+        params.append('date_admitted', citizenDetails.date_admitted)
+        params.append('date_discharged', citizenDetails.date_discharged)
         const response = await citizenService.updateCitizen(citizenUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyUpdate')}.`)

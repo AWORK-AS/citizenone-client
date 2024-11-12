@@ -1,4 +1,23 @@
 {
+    "addictions": {
+        "addNewAddiction": "Add new addiction",
+        "addictions": "Addictions",
+        "editAddiction": "Edit addiction",
+        "form": {
+            "alert": {
+                "addictionSuccessfullyUpdated": "Addiction successfully updated",
+                "newAddictionSuccessfullySaved": "New addiction successfully saved"
+            },
+            "name": "Name"
+        },
+        "newAddiction": "New addiction",
+        "table": {
+            "actions": {
+                "edit": "Edit"
+            },
+            "name": "Name"
+        }
+    },
     "activityLogs": {
         "activityLogs": "Activity logs",
         "logs": {
@@ -453,12 +472,15 @@
         },
         "editCitizen": "Edit citizen",
         "form": {
+            "addictions": "Addictions",
             "alert": {
                 "successfullyAdded": "New citizens successfully saved",
                 "successfullyUpdate": "Citizen successfully updated"
             },
             "birthday": "Birthday",
             "city": "City",
+            "dateAdmitted": "Date admitted",
+            "dateDischarged": "Date discharged",
             "department": "Department",
             "diagnosis": "Diagnosis",
             "emailAddress": "Email address",
@@ -796,6 +818,26 @@
             "name": "Name"
         },
         "newDepartment": "New department",
+        "table": {
+            "actions": {
+                "edit": "Edit"
+            },
+            "name": "Name"
+        }
+    },
+    "diagnoses": {
+        "addNewDiagnosis": "Add new diagnosis",
+        "diagnoses": "Diagnoses",
+        "diagnosis": "Diagnosis",
+        "editDiagnosis": "Edit diagnosis",
+        "form": {
+            "alert": {
+                "diagnosisSuccessfullyUpdated": "Diagnosis successfully updated",
+                "newDiagnosisSuccessfullySaved": "New diagnosis successfully saved"
+            },
+            "name": "Name"
+        },
+        "newDiagnosis": "New diagnosis",
         "table": {
             "actions": {
                 "edit": "Edit"
@@ -1159,7 +1201,7 @@
                         "age24To30Years": "24-30 years",
                         "age30PlusYears": "30+ years"
                     },
-                    "diagnosis": {
+                    "diagnoses": {
                         "behavioralAndEmotionalDisorders": "Behavioral and emotional disorders",
                         "behavioralChangesDueToPhysicalAndPhysiologicalFactors": "Behavioral changes due to physical and physiological factors",
                         "adhd": "ADHD",
@@ -1685,9 +1727,11 @@
         },
         "tabs": {
             "activityLogs": "Activity logs",
+            "addictions": "Addictions",
             "archived": "Archived",
             "company": "Company",
             "departments": "Departments",
+            "diagnoses": "Diagnoses",
             "invoices": "Invoices",
             "jobTitles": "Job titles",
             "licenseOverview": "License overview",

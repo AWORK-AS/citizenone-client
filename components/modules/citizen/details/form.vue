@@ -128,11 +128,46 @@
                 </div>
             </div>
             <div class="space-y-1">
-                <FormLabel for="diagnosis" :label="$t('citizens.form.diagnosis')" />
-                <FormTextArea id="diagnosis" name="diagnosis" :placeholder="$t('citizens.form.diagnosis')"
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="diagnosis" :label="$t('citizens.form.diagnosis')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddDiagnosisOpen = true">
+                        {{ $t('diagnoses.addNewDiagnosis') }}
+                    </span>
+                </div>
+                <FormSelectMultiple id="diagnosis" :options="state.options.diagnoses"
                     v-model="state.formCitizen.diagnosis" />
                 <FormError :error="v$?.formCitizen?.diagnosis?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.diagnosis?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="addictions" :label="$t('citizens.form.addictions')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddAddictionOpen = true">
+                        {{ $t('addictions.addNewAddiction') }}
+                    </span>
+                </div>
+                <FormSelectMultiple id="addictions" :options="state.options.addictions"
+                    v-model="state.formCitizen.addictions" />
+                <FormError :error="v$?.formCitizen?.addictions?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.addictions?.[0]" />
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <FormLabel for="date_admitted" :label="$t('citizens.form.dateAdmitted')" />
+                    <FormDateField id="date_admitted" name="date_admitted"
+                        :placeholder="$t('citizens.form.dateAdmitted')" v-model="state.formCitizen.date_admitted" />
+                    <FormError :error="v$?.formCitizen?.date_admitted?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.date_admitted?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="date_discharged" :label="$t('citizens.form.dateDischarged')" />
+                    <FormDateField id="date_discharged" name="date_discharged"
+                        :placeholder="$t('citizens.form.dateDischarged')" v-model="state.formCitizen.date_discharged" />
+                    <FormError :error="v$?.formCitizen?.date_discharged?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.date_discharged?.[0]" />
+                </div>
             </div>
         </div>
         <div class="mt-6">
@@ -147,7 +182,11 @@
             </div>
         </div>
         <ModulesDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
-            @close="state.modal.isAddDepartmentOpen = false" @refreshDepartment="fetchDepartments" />
+            @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchDepartments" />
+        <ModulesDiagnosisModalNew :isModalOpen="state.modal.isAddDiagnosisOpen"
+            @close="state.modal.isAddDiagnosisOpen = false" @refreshDiagnoses="fetchDiagnoses" />
+        <ModulesAddictionModalNew :isModalOpen="state.modal.isAddAddictionOpen"
+            @close="state.modal.isAddAddictionOpen = false" @refreshAddictions="fetchAddictions" />
     </form>
 </template>
 
@@ -155,6 +194,8 @@
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { departmentService } from '@/components/api/DepartmentService'
+import { diagnosisService } from '@/components/api/DiagnosisService'
+import { addictionService } from '@/components/api/AddictionService'
 import { regionService } from '@/components/api/RegionService'
 import { municipalityService } from '@/components/api/MunicipalityService'
 import { cityService } from '@/components/api/CityService'
@@ -199,15 +240,22 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
-        diagnosis: '',
+        diagnosis: [],
+        addictions: [],
+        date_admitted: '',
+        date_discharged: '',
     },
     formattedSocialSecurityNumber: '',
     modal: {
-        isAddDepartmentOpen: false
+        isAddAddictionOpen: false,
+        isAddDepartmentOpen: false,
+        isAddDiagnosisOpen: false,
     },
     options: {
+        addictions: [],
         cities: [],
         departments: [],
+        diagnoses: [],
         genders: [
             { value: 'male', label: `${t('gender.male')}`, },
             { value: 'female', label: `${t('gender.female')}`, },
@@ -249,6 +297,9 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             city: selectedCitizen.city_uuid,
             post_code: selectedCitizen.post_code,
             diagnosis: selectedCitizen.diagnosis,
+            addictions: selectedCitizen.addictions,
+            date_admitted: selectedCitizen.date_admitted,
+            date_discharged: selectedCitizen.date_discharged,
         }
     }
 })
@@ -290,6 +341,8 @@ watch(() => state.formCitizen.social_security_number, (ssn) => {
 
 onMounted(() => {
     fetchDepartments()
+    fetchDiagnoses()
+    fetchAddictions()
     fetchRegions()
 })
 
@@ -312,6 +365,48 @@ async function fetchDepartments() {
                 })
             )
             state.options.departments = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchDiagnoses() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await diagnosisService.getAllDiagnoses()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.diagnoses = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchAddictions() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await addictionService.getAllAddictions()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.addictions = options
         }
     } catch (error: any) {
         state.error = error
@@ -406,9 +501,6 @@ const rules = computed(() => {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             gender: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            email: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             social_security_number: {

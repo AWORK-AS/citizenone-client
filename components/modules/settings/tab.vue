@@ -78,6 +78,20 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
+                    name: 'settings.tabs.addictions',
+                    href: `/settings/addictions`,
+                    routeNames: [
+                        'settings-addictions'
+                    ]
+                },
+                {
+                    name: 'settings.tabs.diagnoses',
+                    href: `/settings/diagnoses`,
+                    routeNames: [
+                        'settings-diagnoses'
+                    ]
+                },
+                {
                     name: 'settings.tabs.jobTitles',
                     href: `/settings/job-titles`,
                     routeNames: [
@@ -150,6 +164,12 @@ function changeTab(value: any) {
     }
     else if (value === t('settings.tabs.departments')) {
         navigateTo(`/settings/departments`)
+    }
+    else if (value === t('settings.tabs.addictions')) {
+        navigateTo(`/settings/addictions`)
+    }
+    else if (value === t('settings.tabs.diagnoses')) {
+        navigateTo(`/settings/diagnoses`)
     }
     else if (value === t('settings.tabs.jobTitles')) {
         navigateTo(`/settings/job-titles`)

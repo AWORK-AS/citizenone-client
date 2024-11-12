@@ -14,4 +14,7 @@ export interface CitizenForm {
     city_uuid: string,
     post_code: string,
     diagnosis: string,
+    addictions: string,
+    date_admitted: string,
+    date_discharged: string,
 }

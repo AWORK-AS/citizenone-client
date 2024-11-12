@@ -1,4 +1,23 @@
 {
+    "addictions": {
+        "addNewAddiction": "Tilføj ny afhængighed",
+        "addictions": "Afhængigheder",
+        "editAddiction": "Rediger afhængighed",
+        "form": {
+            "alert": {
+                "addictionSuccessfullyUpdated": "Afhængigheden er opdateret",
+                "newAddictionSuccessfullySaved": "Ny afhængighed er gemt"
+            },
+            "name": "Navn"
+        },
+        "newAddiction": "Ny afhængighed",
+        "table": {
+            "actions": {
+                "edit": "Rediger"
+            },
+            "name": "Navn"
+        }
+    },
     "activityLogs": {
         "activityLogs": "Aktivitetslogfiler",
         "logs": {
@@ -453,12 +472,15 @@
         },
         "editCitizen": "Rediger Borger",
         "form": {
+            "addictions": "Afhængigheder",
             "alert": {
                 "successfullyAdded": "Nye borgere gemt med succes",
                 "successfullyUpdate": "Borger opdateret med succes"
             },
             "birthday": "Fødselsdag",
             "city": "By",
+            "dateAdmitted": "Indlæggelsesdato",
+            "dateDischarged": "Udskrivningsdato",
             "department": "Afdeling",
             "diagnosis": "Diagnose",
             "emailAddress": "E-mail adresse",
@@ -797,6 +819,26 @@
             "name": "Navn"
         },
         "newDepartment": "Ny afdeling",
+        "table": {
+            "actions": {
+                "edit": "Rediger"
+            },
+            "name": "Navn"
+        }
+    },
+    "diagnoses": {
+        "addNewDiagnosis": "Tilføj ny diagnose",
+        "diagnoses": "Diagnoser",
+        "diagnosis": "Diagnose",
+        "editDiagnosis": "Rediger diagnose",
+        "form": {
+            "alert": {
+                "diagnosisSuccessfullyUpdated": "Diagnosen er opdateret",
+                "newDiagnosisSuccessfullySaved": "Ny diagnose er gemt"
+            },
+            "name": "Navn"
+        },
+        "newDiagnosis": "Ny diagnose",
         "table": {
             "actions": {
                 "edit": "Rediger"
@@ -1160,7 +1202,7 @@
                         "age24To30Years": "24-30 år",
                         "age30PlusYears": "30+ år"
                     },
-                    "diagnosis": {
+                    "diagnoses": {
                         "behavioralAndEmotionalDisorders": "Adfærds-og følelsesmæssige forstyrrelser",
                         "behavioralChangesDueToPhysicalAndPhysiologicalFactors": "Adfærdsændringer ifm. fysiske og fysio faktorer",
                         "adhd": "ADHD",
@@ -1686,9 +1728,11 @@
         },
         "tabs": {
             "activityLogs": "Aktivitetslogfiler",
+            "addictions": "Afhængigheder",
             "archived": "Arkiveret",
             "company": "Virksomhed",
             "departments": "Afdelinger",
+            "diagnoses": "Diagnoser",
             "invoices": "Fakturaer",
             "jobTitles": "Jobtitler",
             "licenseOverview": "Licensoversigt",
