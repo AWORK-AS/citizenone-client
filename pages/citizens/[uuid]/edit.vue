@@ -105,10 +105,10 @@ async function fetchCitizen() {
             response?.data?.departments?.forEach((department: any) => {
                 state.formCitizen.departments.push(department?.uuid)
             })
-            response?.data?.diagnoses?.forEach((diagnosis: any) => {
+            response?.data?.citizen_diagnoses?.forEach((diagnosis: any) => {
                 state.formCitizen.diagnoses.push(diagnosis?.uuid)
             })
-            response?.data?.addictions?.forEach((addiction: any) => {
+            response?.data?.citizen_addictions?.forEach((addiction: any) => {
                 state.formCitizen.addictions.push(addiction?.uuid)
             })
         }
