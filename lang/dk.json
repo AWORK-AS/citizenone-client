@@ -774,7 +774,11 @@
     "dailyOverview": {
         "bulletBoard": "Opslagstavle",
         "campaign": "Kampagne",
+        "citizensAddictions": "Borgernes afhængigheder",
+        "citizensAdmissionAndDischarged": "Borgernes indlæggelse og udskrivning",
         "citizensDailyEvents": "Borgeres daglige begivenheder",
+        "citizensDiagnoses": "Borgernes diagnoser",
+        "citizensOrigin": "Borgernes oprindelse",
         "createdBy": "Oprettet af",
         "dailyMedicineOverview": "Daglig medicinoversigt",
         "dailyOverview": "Daglig oversigt",
@@ -784,6 +788,11 @@
             "startDate": "Startdato"
         },
         "from": "Fra",
+        "gender": {
+            "gender": "Køn",
+            "female": "Kvinde",
+            "male": "Mand"
+        },
         "latestJournal": "Seneste journalnotater",
         "myDailyEvents": "Mine daglige begivenheder",
         "news": "Nyheder",
@@ -798,6 +807,15 @@
             "noPollToShow": "Ingen afstemning at vise",
             "poll": "Afstemning",
             "sentBy": "Sendt af"
+        },
+        "riskAssessment": {
+            "risk": {
+                "acuteIncreasedRisk": "Akut øget risiko",
+                "increasedRisk": "Øget risiko",
+                "none": "Ingen",
+                "noRisk": "Ingen risiko"
+            },
+            "riskAssessment": "Risikovurdering"
         },
         "viewAll": "Se alle"
     },

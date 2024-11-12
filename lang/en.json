@@ -773,7 +773,11 @@
     "dailyOverview": {
         "bulletBoard": "Bullet board",
         "campaign": "Campaign",
+        "citizensAddictions": "Citizens addictions",
+        "citizensAdmissionAndDischarged": "Citizens admission and discharged",
         "citizensDailyEvents": "Citizens daily events",
+        "citizensDiagnoses": "Citizens diagnoses",
+        "citizensOrigin": "Citizens origin",
         "createdBy": "Created by",
         "dailyMedicineOverview": "Daily medicine overview",
         "dailyOverview": "Daily overview",
@@ -783,6 +787,11 @@
             "startDate": "Start date"
         },
         "from": "From",
+        "gender": {
+            "gender": "Gender",
+            "female": "Female",
+            "male": "Male"
+        },
         "latestJournal": "Latest journal notes",
         "myDailyEvents": "My daily events",
         "news": "News",
@@ -797,6 +806,15 @@
             "noPollToShow": "No poll to show",
             "poll": "Poll",
             "sentBy": "Sent by"
+        },
+        "riskAssessment": {
+            "risk": {
+                "acuteIncreasedRisk": "Acute increased risk",
+                "increasedRisk": "Increased risk",
+                "none": "None",
+                "noRisk": "No risk"
+            },
+            "riskAssessment": "Risk assessment"
         },
         "viewAll": "View all"
     },
