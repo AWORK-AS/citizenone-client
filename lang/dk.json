@@ -797,6 +797,7 @@
         "latestJournal": "Seneste journalnotater",
         "myDailyEvents": "Mine daglige begivenheder",
         "news": "Nyheder",
+        "noDataToDisplay": "Ingen data at vise",
         "noBulletBoardToShow": "Ingen opslagstavle at vise",
         "noEventsForToday": "Ingen begivenheder for i dag",
         "noJournalsToShow": "Ingen journaler at vise",
