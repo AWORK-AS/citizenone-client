@@ -791,7 +791,8 @@
         "gender": {
             "gender": "Køn",
             "female": "Kvinde",
-            "male": "Mand"
+            "male": "Mand",
+            "willNotDisclose": "Vil ikke oplyse"
         },
         "latestJournal": "Seneste journalnotater",
         "myDailyEvents": "Mine daglige begivenheder",
@@ -1371,7 +1372,7 @@
     "gender": {
         "female": "Kvinde",
         "male": "Mand",
-        "willNotDiscloseThis": "Vil ikke oplyse dette"
+        "willNotDisclose": "Vil ikke oplyse"
     },
     "invitation": {
         "invitationAccepted": "Invitation accepteret",

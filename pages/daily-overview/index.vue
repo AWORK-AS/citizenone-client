@@ -19,39 +19,11 @@
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
                     <div>
-                        {{ $t('dailyOverview.citizensAdmissionAndDischarged') }}
+                        <ModulesDailyOverviewCitizenAdmissionDischarged />
                     </div>
-                    <div>
-                        {{ $t('dailyOverview.riskAssessment.riskAssessment') }}
-                        <div class="space-y-1">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-x-1">
-                                    <div class="w-2.5 h-2.5 bg-green-700 rounded-full"></div>
-                                    <p class="text-sm">
-                                        {{ $t('dailyOverview.riskAssessment.risk.noRisk') }}
-                                    </p>
-                                </div>
-                                <p class="text-sm">0</p>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-x-1">
-                                    <div class="w-2.5 h-2.5 bg-yellow-500 rounded-full"></div>
-                                    <p class="text-sm">
-                                        {{ $t('dailyOverview.riskAssessment.risk.increasedRisk') }}
-                                    </p>
-                                </div>
-                                <p class="text-sm">0</p>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-x-1">
-                                    <div class="w-2.5 h-2.5 bg-red-600 rounded-full"></div>
-                                    <p class="text-sm">
-                                        {{ $t('dailyOverview.riskAssessment.risk.acuteIncreasedRisk') }}
-                                    </p>
-                                </div>
-                                <p class="text-sm">0</p>
-                            </div>
-                        </div>
+                    <div class="space-y-3">
+                        <ModulesDailyOverviewCitizenRiskAssessment />
+                        <ModulesDailyOverviewCitizenGender />
                     </div>
                     <div>
                         {{ $t('dailyOverview.citizensOrigin') }}
