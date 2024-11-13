@@ -19,26 +19,21 @@
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
                     <div>
-                        <ModulesDailyOverviewCitizenAdmissionDischarged />
+                        <ModulesDailyOverviewCitizensAdmissionDischarged />
                     </div>
                     <div class="space-y-3">
-                        <ModulesDailyOverviewCitizenRiskAssessment />
-                        <ModulesDailyOverviewCitizenGender />
+                        <ModulesDailyOverviewCitizensRiskAssessment />
+                        <ModulesDailyOverviewCitizensGender />
                     </div>
                     <div>
-                        {{ $t('dailyOverview.citizensOrigin') }}
+                        <ModulesDailyOverviewCitizensOrigin />
                     </div>
-                    <div>
-                        {{ $t('dailyOverview.gender.gender') }}
-                    </div>
-                    <div>
-                        {{ $t('dailyOverview.citizensAddictions') }}
-                    </div>
-                    <div>
-                        {{ $t('dailyOverview.citizensDiagnoses') }}
+                    <div class="space-y-3">
+                        <ModulesDailyOverviewCitizensAddictions />
+                        <ModulesDailyOverviewCitizensDiagnoses />
                     </div>
                 </div>
-                <div class="mt-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                <div class="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
                     <div>
                         <ModulesDailyOverviewMyEventToday />
                     </div>
@@ -49,7 +44,7 @@
                         <ModulesDailyOverviewLatestJournal />
                     </div>
                     <div>
-                        <ModulesDailyOverviewCitizenMedicineOverview />
+                        <ModulesDailyOverviewCitizensMedicineOverview />
                     </div>
                 </div>
                 <div class="mt-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
