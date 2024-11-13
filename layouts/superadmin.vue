@@ -27,7 +27,7 @@
                             <div
                                 class="flex grow flex-col gap-y-5 overflow-y-auto bg-primary px-6 pb-4 ring-1 ring-white/10">
                                 <div class="mt-5">
-                                    <span @click="navigateTo('/daily-overview')">
+                                    <span @click="navigateTo('/superadmin/dashboard')">
                                         <LogoWhite />
                                     </span>
                                 </div>
@@ -103,7 +103,7 @@
         <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
             <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-primary border-r border-gray-200 px-6 pb-4">
                 <div class="mt-5">
-                    <span @click="navigateTo('/daily-overview')">
+                    <span @click="navigateTo('/superadmin/dashboard')">
                         <LogoWhite />
                     </span>
                 </div>

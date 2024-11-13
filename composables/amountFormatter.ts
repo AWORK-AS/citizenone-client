@@ -1,5 +1,10 @@
 export function useAmountFormatter() {
     function formatAmount(amount: any) {
+        // Ensure the input is a valid number
+        if (isNaN(amount) || amount === null || amount === undefined) {
+            return 'DKK ' + 0
+        }
+
         // Convert the number to a string with two decimal places
         let numberStr = parseFloat(amount).toFixed(2)
 
