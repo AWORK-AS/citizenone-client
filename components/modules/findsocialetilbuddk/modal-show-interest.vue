@@ -10,6 +10,16 @@
                         <form @submit.prevent="submitForm()">
                             <div class="space-y-3">
                                 <div class="space-y-1">
+                                    <FormLabel for="company"
+                                        :label="$t('findsocialetilbuddk.showInterest.form.company')" />
+                                    <FormTextField id="company" name="company"
+                                        :placeholder="$t('findsocialetilbuddk.showInterest.form.company')"
+                                        v-model="state.formShowInterest.company" />
+                                    <FormError
+                                        :error="v$?.formShowInterest?.company?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.company?.[0]" />
+                                </div>
+                                <div class="space-y-1">
                                     <FormLabel for="firstname"
                                         :label="$t('findsocialetilbuddk.showInterest.form.firstname')" />
                                     <FormTextField id="firstname" name="firstname"
@@ -88,6 +98,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formShowInterest: {
+        company: '',
         firstname: '',
         lastname: '',
         email: '',
@@ -98,6 +109,9 @@ const state = reactive({
 const rules = computed(() => {
     return {
         formShowInterest: {
+            company: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
             firstname: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
@@ -131,6 +145,7 @@ async function sendMessage() {
     state.isPageLoading = true
     try {
         const params = {
+            company: state.formShowInterest.company,
             firstname: state.formShowInterest.firstname,
             lastname: state.formShowInterest.lastname,
             email: state.formShowInterest.email,

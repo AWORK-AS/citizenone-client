@@ -1310,6 +1310,7 @@
                 "alert": {
                     "messageSuccessfullySent": "Tak, vi vender tilbage til dig inden for kort tid"
                 },
+                "company": "Virksomhed",
                 "emailAddress": "E-mailadresse",
                 "firstname": "Fornavn",
                 "lastname": "Efternavn",

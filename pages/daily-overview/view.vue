@@ -57,7 +57,7 @@
                             :endDate="state.searchFilter.end_date" />
                     </div>
                     <div v-if="dailyOverviewStore.getFilter.showCitizenMedicineOverview">
-                        <ModulesDailyOverviewCitizenMedicineOverview :startDate="state.searchFilter.start_date"
+                        <ModulesDailyOverviewCitizensMedicineOverview :startDate="state.searchFilter.start_date"
                             :endDate="state.searchFilter.end_date" />
                     </div>
                     <div v-if="dailyOverviewStore.getFilter.showLatestJournalNotes">
