@@ -11,27 +11,22 @@
                         </button>
                     </div>
                     <form @submit.prevent="importCompanies" class="mt-3">
-                        <Alert type="danger" :text="state?.error?.message"
-                            v-if="state.error?.message && state.error.message.length > 0" />
+                        <Alert v-if="state.error?.message" type="danger" :text="state.error.message" />
                         <div class="space-y-3">
                             <div>
                                 <input type="file" ref="fileUpload" @change="handleFileChange" class="hidden" />
                                 <div class="p-4 border border-dashed border-gray-400 cursor-pointer hover:border-2"
                                     @click="triggerFileInput">
                                     <div class="flex items-center justify-between text-xs">
-                                        <p>
-                                            {{ $t('chooseFile') }}
-                                        </p>
+                                        <p>{{ $t('chooseFile') }}</p>
                                         <Icon name="ph:upload-simple" class="h-6 w-6 text-gray-600"
                                             aria-hidden="true" />
                                     </div>
                                 </div>
-                                <div v-if="state.formImport.file.length > 0" class="mt-3 space-y-1">
+                                <div v-if="state.formImport.file" class="mt-3 space-y-1">
                                     <p class="text-sm text-gray-700">{{ $t('selectedFile') }}:</p>
                                     <ul class="list-disc list-inside text-sm text-gray-600">
-                                        <li v-for="(file, index) in state.formImport.file" :key="index">
-                                            {{ file?.name }}
-                                        </li>
+                                        <li>{{ state.formImport.file.name }}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -56,8 +51,7 @@
 <script setup lang="ts">
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { useAlert } from '@/composables/alert'
-import { useI18n } from "vue-i18n"
-import type { Error } from '@/types'
+import { useI18n } from 'vue-i18n'
 import { saveAs } from 'file-saver'
 
 const { successAlert } = useAlert()
@@ -73,16 +67,17 @@ const emit = defineEmits(['close'])
 const fileUpload = ref<HTMLInputElement | null>(null)
 
 const state = reactive({
-    error: {} as Error,
+    error: {} as { message?: string },
     isPageLoading: false,
     formImport: {
-        file: [] as any,
+        file: null as File | null,
     },
 })
 
-watch(() => props.isModalOpen, (isModalOpen: any) => {
+watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
         state.error = {}
+        state.formImport.file = null
     }
 })
 
@@ -91,13 +86,14 @@ function closeModal() {
 }
 
 function triggerFileInput() {
-    if (fileUpload.value) {
-        fileUpload.value.click()
-    }
+    fileUpload.value?.click()
 }
 
-function handleFileChange(event: any) {
-    state.formImport.file = event.target.files[0]
+function handleFileChange(event: Event) {
+    const target = event.target as HTMLInputElement
+    if (target.files && target.files.length > 0) {
+        state.formImport.file = target.files[0]
+    }
 }
 
 async function downloadTemplate() {
@@ -109,12 +105,17 @@ async function downloadTemplate() {
             saveAs(response, `${t('superadmin.companies.importCompanies.importTemplate')}`)
         }
     } catch (error: any) {
-        state.error = error
+        state.error.message = error?.message || 'An error occurred during the download.'
     }
     state.isPageLoading = false
 }
 
 async function importCompanies() {
+    if (!state.formImport.file) {
+        state.error.message = `${t('superadmin.companies.importCompanies.noFileSelected')}`
+        return
+    }
+
     state.isPageLoading = true
     state.error = {}
     try {
@@ -123,10 +124,10 @@ async function importCompanies() {
         const response = await companyService.importCompanies(params)
         if (response) {
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.importCompanies.alert.companiesSuccessfullyImported')}.`)
+            successAlert(`${t('alert.success')}!`, response?.message)
         }
     } catch (error: any) {
-        state.error = error
+        state.error.message = error?.message || 'An error occurred during the import.'
     }
     state.isPageLoading = false
 }

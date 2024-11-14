@@ -2016,7 +2016,8 @@
                 },
                 "downloadTemplate": "Download skabelon",
                 "importCompanies": "Importer virksomheder",
-                "importTemplate": "Importskabelon"
+                "importTemplate": "Importskabelon",
+                "noFileSelected": "Ingen fil valgt"
             },
             "licenseOverview": {
                 "licenses": "Licenser",

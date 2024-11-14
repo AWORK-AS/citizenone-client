@@ -2012,7 +2012,8 @@
                 },
                 "downloadTemplate": "Download template",
                 "importCompanies": "Import companies",
-                "importTemplate": "Import template"
+                "importTemplate": "Import template",
+                "noFileSelected": "No file selected"
             },
             "licenseOverview": {
                 "licenses": "Licenses",
