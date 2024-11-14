@@ -1,8 +1,12 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class MunicipalityService extends BaseAPIService {
-    async getAllMunicipalities(params: object): Promise<any> {
+    async getAllMunicipalitiesPerRegion(params: object): Promise<any> {
         return await this.request(`/user/municipalities`, 'GET', params)
+    }
+
+    async getAllMunicipalities(): Promise<any> {
+        return await this.request(`/user/municipalities/all/list`, 'GET')
     }
 }
 

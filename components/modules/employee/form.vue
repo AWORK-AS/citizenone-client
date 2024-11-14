@@ -533,7 +533,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 employment_status: newValue.employment.employment_status,
             }
         }
-        fetchMunicipalities(newValue.region_uuid)
+        fetchMunicipalitiesPerRegion(newValue.region_uuid)
         fetchCities(newValue.municipality_uuid)
         newValue?.permissions.forEach((permission: any) => {
             if (permission?.name === 'read') {
@@ -759,14 +759,14 @@ async function fetchRegions() {
     emit('isPageLoading', false)
 }
 
-async function fetchMunicipalities(regionUuid: any) {
+async function fetchMunicipalitiesPerRegion(regionUuid: any) {
     state.error = {}
     emit('isPageLoading', true)
     try {
         const params = {
             region_uuid: regionUuid
         }
-        const response = await municipalityService.getAllMunicipalities(params)
+        const response = await municipalityService.getAllMunicipalitiesPerRegion(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
@@ -808,7 +808,7 @@ async function fetchCities(municipalityUuid: any) {
 }
 
 function changeSelectedRegion(regionUuid: string) {
-    fetchMunicipalities(regionUuid)
+    fetchMunicipalitiesPerRegion(regionUuid)
 }
 
 function changeSelectedMunicipality(municipalityUuid: string) {

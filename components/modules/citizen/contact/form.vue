@@ -171,7 +171,7 @@ const state = reactive({
 
 onMounted(() => {
     fetchRegions()
-    fetchMunicipalities(props.selectedContact?.region?.uuid)
+    fetchMunicipalitiesPerRegion(props.selectedContact?.region?.uuid)
     fetchCities(props.selectedContact?.municipality?.uuid)
     state.formContact = {
         id: props.selectedContact?.id,
@@ -191,7 +191,7 @@ onMounted(() => {
 })
 
 watch(() => props.selectedContact, (newValue: any) => {
-    fetchMunicipalities(props.selectedContact?.region?.uuid)
+    fetchMunicipalitiesPerRegion(props.selectedContact?.region?.uuid)
     fetchCities(props.selectedContact?.municipality?.uuid)
     if (newValue != null) {
         state.formContact = {
@@ -279,14 +279,14 @@ async function fetchRegions() {
     state.isPageLoading = false
 }
 
-async function fetchMunicipalities(regionUuid: any) {
+async function fetchMunicipalitiesPerRegion(regionUuid: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
             region_uuid: regionUuid
         }
-        const response = await municipalityService.getAllMunicipalities(params)
+        const response = await municipalityService.getAllMunicipalitiesPerRegion(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
@@ -329,7 +329,7 @@ async function fetchCities(municipalityUuid: any) {
 
 function changeSelectedRegion(regionUuid: string) {
     if (regionUuid) {
-        fetchMunicipalities(regionUuid)
+        fetchMunicipalitiesPerRegion(regionUuid)
     }
 }
 

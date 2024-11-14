@@ -618,14 +618,14 @@ async function fetchRegions() {
     state.isPageLoading = false
 }
 
-async function fetchMunicipalities(regionUuid: any) {
+async function fetchMunicipalitiesPerRegion(regionUuid: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
             region_uuid: regionUuid
         }
-        const response = await municipalityService.getAllMunicipalities(params)
+        const response = await municipalityService.getAllMunicipalitiesPerRegion(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
@@ -643,7 +643,7 @@ async function fetchMunicipalities(regionUuid: any) {
 }
 
 function changeSelectedRegion(regionUuid: string) {
-    fetchMunicipalities(regionUuid)
+    fetchMunicipalitiesPerRegion(regionUuid)
 }
 
 function closeModal() {

@@ -276,7 +276,7 @@ watch(() => language.locale.value, () => {
 
 watch(() => props.selectedCitizen, (selectedCitizen: any) => {
     if (selectedCitizen != null) {
-        fetchMunicipalities(selectedCitizen.region_uuid)
+        fetchMunicipalitiesPerRegion(selectedCitizen.region_uuid)
         fetchCities(selectedCitizen.municipality_uuid)
         if (selectedCitizen.image) {
             avatarUrl.value = selectedCitizen.image
@@ -435,14 +435,14 @@ async function fetchRegions() {
     emit('isPageLoading', false)
 }
 
-async function fetchMunicipalities(regionUuid: any) {
+async function fetchMunicipalitiesPerRegion(regionUuid: any) {
     state.error = {}
     emit('isPageLoading', true)
     try {
         const params = {
             region_uuid: regionUuid
         }
-        const response = await municipalityService.getAllMunicipalities(params)
+        const response = await municipalityService.getAllMunicipalitiesPerRegion(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
@@ -484,7 +484,7 @@ async function fetchCities(municipalityUuid: any) {
 }
 
 function changeSelectedRegion(regionUuid: string) {
-    fetchMunicipalities(regionUuid)
+    fetchMunicipalitiesPerRegion(regionUuid)
 }
 
 function changeSelectedMunicipality(municipalityUuid: string) {

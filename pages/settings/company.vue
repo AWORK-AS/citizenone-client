@@ -181,7 +181,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             post_code: newValue?.company?.company_address?.post_code,
             checkin_enabled: newValue?.company?.checkin_enabled ?? false,
         }
-        fetchMunicipalities(newValue?.company?.company_address?.region?.uuid)
+        fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
         fetchCities(newValue?.company?.company_address?.municipality?.uuid)
     }
 })
@@ -207,14 +207,14 @@ async function fetchRegions() {
     state.isPageLoading = false
 }
 
-async function fetchMunicipalities(regionUuid: string) {
+async function fetchMunicipalitiesPerRegion(regionUuid: string) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
             region_uuid: regionUuid
         }
-        const response = await municipalityService.getAllMunicipalities(params)
+        const response = await municipalityService.getAllMunicipalitiesPerRegion(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
@@ -257,7 +257,7 @@ async function fetchCities(municipalityUuid: string) {
 
 function changeSelectedRegion(regionUuid: string) {
     if (regionUuid) {
-        fetchMunicipalities(regionUuid)
+        fetchMunicipalitiesPerRegion(regionUuid)
     }
 }
 
