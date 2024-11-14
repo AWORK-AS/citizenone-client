@@ -305,6 +305,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             municipality: selectedCitizen.municipality_uuid,
             city: selectedCitizen.city_uuid,
             post_code: selectedCitizen.post_code,
+            origin: selectedCitizen.origin,
             diagnoses: selectedCitizen.diagnoses,
             addictions: selectedCitizen.addictions,
             date_admitted: selectedCitizen.date_admitted,
