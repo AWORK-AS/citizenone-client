@@ -764,6 +764,7 @@
             "walletTransactions": "Wallet transactions"
         }
     },
+    "chooseFile": "Choose file",
     "chooseFiles": "Choose file(s)",
     "close": "Close",
     "comingSoon": "Coming Soon",
@@ -1767,6 +1768,7 @@
     "show": "Show",
     "search": "Search",
     "selectFile": "Select file",
+    "selectedFile": "Selected file",
     "selectedFiles": "Selected file(s)",
     "setupPassword": {
         "form": {
@@ -2003,6 +2005,14 @@
                 "emailAddress": "Email address",
                 "phone": "Phone",
                 "website": "Website"
+            },
+            "importCompanies": {
+                "alert": {
+                    "companiesSuccessfullyImported": "Companies successfully successfully imported"
+                },
+                "downloadTemplate": "Download template",
+                "importCompanies": "Import companies",
+                "importTemplate": "Import template"
             },
             "licenseOverview": {
                 "licenses": "Licenses",

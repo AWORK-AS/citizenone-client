@@ -24,6 +24,14 @@ class CompanyService extends BaseAPIService {
     async getCompanyApps(companyUuid: any, params: object): Promise<any> {
         return await this.request(`/superadmin/companies/${companyUuid}/apps`, 'GET', params)
     }
+
+    async importCompanies(params: object): Promise<any> {
+        return await this.request(`/superadmin/imports`, 'POST', params)
+    }
+
+    async downloadTemplate(): Promise<any> {
+        return await this.request(`/superadmin/imports/download/template`, 'GET')
+    }
 }
 
 export const companyService = new CompanyService()

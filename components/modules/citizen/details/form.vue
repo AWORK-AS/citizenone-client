@@ -247,7 +247,7 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
-        origin: [],
+        origin: '',
         diagnoses: [],
         addictions: [],
         date_admitted: '',

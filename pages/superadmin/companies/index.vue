@@ -9,7 +9,11 @@
             <template #header>{{ $t('superadmin.companies.companies') }}</template>
 
             <div>
-                <div class="flex justify-end items-center mb-5">
+                <div class="flex justify-end items-center mb-5 gap-2">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isImportCompanyOpen = true">
+                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('superadmin.companies.importCompanies.importCompanies') }}
+                    </FormButton>
                     <FormButton buttonStyle="action" class="rounded-lg"
                         @click="navigateTo('/superadmin/companies/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -71,6 +75,8 @@
                     <Pagination :data="state.companies" @previous="previous" @next="next" />
                 </div>
             </div>
+            <ModulesSuperadminCompanyModalImport :isModalOpen="state.modal.isImportCompanyOpen"
+                @close="state.modal.isImportCompanyOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -106,6 +112,9 @@ const state = reactive({
     },
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isImportCompanyOpen: false,
+    },
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',

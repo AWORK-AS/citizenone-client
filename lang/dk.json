@@ -765,6 +765,7 @@
             "walletTransactions": "Pungtransaktioner"
         }
     },
+    "chooseFile": "Vælg fil",
     "chooseFiles": "Vælg fil(er)",
     "close": "Luk",
     "comingSoon": "Kommer snart",
@@ -1768,6 +1769,7 @@
     "show": "Vis",
     "search": "Søg",
     "selectFile": "Vælg fil",
+    "selectedFile": "Valgt fil",
     "selectedFiles": "Valgte fil(er)",
     "setupPassword": {
         "form": {
@@ -2007,6 +2009,14 @@
                 "emailAddress": "E-mailadresse",
                 "phone": "Telefon",
                 "website": "Websted"
+            },
+            "importCompanies": {
+                "alert": {
+                    "companiesSuccessfullyImported": "Virksomheder er importeret med succes"
+                },
+                "downloadTemplate": "Download skabelon",
+                "importCompanies": "Importer virksomheder",
+                "importTemplate": "Importskabelon"
             },
             "licenseOverview": {
                 "licenses": "Licenser",

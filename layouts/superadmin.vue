@@ -191,7 +191,7 @@
                         </button> -->
 
                         <!-- Separator -->
-                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
+                        <!-- <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" /> -->
                         <Menu as="div" class="relative">
                             <MenuButton class="-m-1.5 flex items-center p-1.5">
                                 <span class="sr-only">Open user menu</span>

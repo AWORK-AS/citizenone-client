@@ -98,7 +98,7 @@ async function fetchCitizen() {
                 municipality_uuid: response?.data?.address?.municipality?.uuid.toString() ?? '',
                 city_uuid: response?.data?.address?.city?.uuid.toString() ?? '',
                 post_code: response?.data?.address?.post_code ?? '',
-                origin: response?.data?.address?.origin ?? '',
+                origin: response?.data?.origin?.uuid.toString() ?? '',
                 diagnoses: [],
                 addictions: [],
                 date_admitted: response?.data?.date_admitted ?? '',
