@@ -95,24 +95,24 @@
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
-                                        <FormLabel for="number_of_allocated_spots"
-                                            :label="$t('findsocialetilbuddk.manageCompany.form.numberOfAvailableSpots')" />
-                                        <FormTextField id="number_of_allocated_spots" name="number_of_allocated_spots"
-                                            :placeholder="$t('findsocialetilbuddk.manageCompany.form.numberOfAvailableSpots')"
-                                            v-model="state.formManageCompany.number_of_allocated_spots" />
-                                        <FormError
-                                            :error="v$?.formManageCompany?.number_of_allocated_spots?.$errors[0]?.$message.toString()" />
-                                        <FormError :error="state?.error?.errors?.number_of_allocated_spots?.[0]" />
-                                    </div>
-                                    <div class="space-y-1">
                                         <FormLabel for="number_of_available_spots"
-                                            :label="$t('findsocialetilbuddk.manageCompany.form.numberOfAllocatedSpots')" />
+                                            :label="$t('findsocialetilbuddk.manageCompany.form.numberOfAvailableSpots')" />
                                         <FormTextField id="number_of_available_spots" name="number_of_available_spots"
                                             :placeholder="$t('findsocialetilbuddk.manageCompany.form.numberOfAllocatedSpots')"
                                             v-model="state.formManageCompany.number_of_available_spots" />
                                         <FormError
                                             :error="v$?.formManageCompany?.number_of_available_spots?.$errors[0]?.$message.toString()" />
                                         <FormError :error="state?.error?.errors?.number_of_available_spots?.[0]" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormLabel for="number_of_allocated_spots"
+                                            :label="$t('findsocialetilbuddk.manageCompany.form.numberOfAllocatedSpots')" />
+                                        <FormTextField id="number_of_allocated_spots" name="number_of_allocated_spots"
+                                            :placeholder="$t('findsocialetilbuddk.manageCompany.form.numberOfAvailableSpots')"
+                                            v-model="state.formManageCompany.number_of_allocated_spots" />
+                                        <FormError
+                                            :error="v$?.formManageCompany?.number_of_allocated_spots?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="state?.error?.errors?.number_of_allocated_spots?.[0]" />
                                     </div>
                                 </div>
                                 <div class="space-y-1">
@@ -435,6 +435,33 @@ const state = reactive({
 
 watch(() => props.isModalOpen, () => {
     state.error = {}
+    state.formManageCompany = {
+        company_name: '',
+        address: '',
+        domain: '',
+        contact_person: {
+            firstname: '',
+            lastname: '',
+        },
+        phone_number: '',
+        offers: '',
+        number_of_available_spots: '',
+        number_of_allocated_spots: '',
+        deputy_manager: '',
+        chairperson: '',
+        leader: '',
+        prices: '',
+        visitation_manager: '',
+        notice_period: '',
+        diagnosis: '',
+        age: '',
+        additional_services: '',
+        municipality: '',
+        region: '',
+        link_to_the_offer_portal: '',
+        description_of_your_social_service: '',
+        selected_files: [] as any,
+    }
     state.options.additional_services = [
         { value: 'Youth Support §76', label: `${t('findsocialetilbuddk.manageCompany.form.options.additionalServices.youthSupport76')}` },
         { value: 'Residential Support §85', label: `${t('findsocialetilbuddk.manageCompany.form.options.additionalServices.residentialSupport85')}` },
