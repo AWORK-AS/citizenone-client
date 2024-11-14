@@ -78,7 +78,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('municipality_uuid', citizenDetails.municipality)
         params.append('city_uuid', citizenDetails.city)
         params.append('post_code', citizenDetails.post_code)
-        params.append('origin', citizenDetails.origin)
+        params.append('origin_uuid', citizenDetails.origin)
         params.append('diagnoses_uuid', JSON.stringify(citizenDetails.diagnoses))
         params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))
         params.append('date_admitted', citizenDetails.date_admitted)
