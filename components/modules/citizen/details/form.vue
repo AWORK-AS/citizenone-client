@@ -128,11 +128,11 @@
                 </div>
             </div>
             <div class="space-y-1">
-                <FormLabel for="citizen_origin" :label="$t('citizens.form.citizenOrigin')" />
-                <FormSelect id="citizen_origin" :options="state.options.municipalities"
-                    v-model="state.formCitizen.citizen_origin" @change="changeSelectedMunicipality" />
-                <FormError :error="v$?.formCitizen?.citizen_origin?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.citizen_origin?.[0]" />
+                <FormLabel for="origin" :label="$t('citizens.form.citizenOrigin')" />
+                <FormSelect id="origin" :options="state.options.municipalities" v-model="state.formCitizen.origin"
+                    @change="changeSelectedMunicipality" />
+                <FormError :error="v$?.formCitizen?.origin?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.origin?.[0]" />
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
@@ -247,7 +247,7 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
-        citizen_origin: [],
+        origin: [],
         diagnoses: [],
         addictions: [],
         date_admitted: '',
