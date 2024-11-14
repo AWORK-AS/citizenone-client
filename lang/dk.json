@@ -478,6 +478,7 @@
                 "successfullyUpdate": "Borger opdateret med succes"
             },
             "birthday": "Fødselsdag",
+            "citizenOrigin": "Borgerens oprindelse",
             "city": "By",
             "dateAdmitted": "Indlæggelsesdato",
             "dateDischarged": "Udskrivningsdato",

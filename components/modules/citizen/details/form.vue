@@ -106,7 +106,7 @@
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="municipality" :label="$t('citizens.form.municipality')" />
-                    <FormSelect id="municipality" :options="state.options.municipalities"
+                    <FormSelect id="municipality" :options="state.options.municipalitiesPerRegion"
                         v-model="state.formCitizen.municipality" @change="changeSelectedMunicipality" />
                     <FormError :error="v$?.formCitizen?.municipality?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.municipality_uuid?.[0]" />
@@ -126,6 +126,13 @@
                     <FormError :error="v$?.formCitizen?.post_code?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.post_code?.[0]" />
                 </div>
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="citizen_origin" :label="$t('citizens.form.citizenOrigin')" />
+                <FormSelect id="citizen_origin" :options="state.options.municipalities"
+                    v-model="state.formCitizen.citizen_origin" @change="changeSelectedMunicipality" />
+                <FormError :error="v$?.formCitizen?.citizen_origin?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.citizen_origin?.[0]" />
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
@@ -240,6 +247,7 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
+        citizen_origin: [],
         diagnoses: [],
         addictions: [],
         date_admitted: '',
@@ -262,6 +270,7 @@ const state = reactive({
             { value: 'will_not_disclose', label: `${t('gender.willNotDisclose')}`, },
         ],
         municipalities: [],
+        municipalitiesPerRegion: [],
         regions: [],
     }
 })
@@ -344,6 +353,7 @@ onMounted(() => {
     fetchDiagnoses()
     fetchAddictions()
     fetchRegions()
+    fetchMunicipalities()
 })
 
 const isValidDate = (y: string, m: string, d: string): boolean => {
@@ -435,6 +445,27 @@ async function fetchRegions() {
     emit('isPageLoading', false)
 }
 
+async function fetchMunicipalities() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await municipalityService.getAllMunicipalities()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.municipalities = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
 async function fetchMunicipalitiesPerRegion(regionUuid: any) {
     state.error = {}
     emit('isPageLoading', true)
@@ -451,7 +482,7 @@ async function fetchMunicipalitiesPerRegion(regionUuid: any) {
                     label: item.name,
                 })
             )
-            state.options.municipalities = options
+            state.options.municipalitiesPerRegion = options
         }
     } catch (error: any) {
         state.error = error

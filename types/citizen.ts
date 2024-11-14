@@ -13,6 +13,7 @@ export interface CitizenForm {
     municipality_uuid: string,
     city_uuid: string,
     post_code: string,
+    citizen_origin: string,
     diagnoses: string[],
     addictions: string[],
     date_admitted: string,
