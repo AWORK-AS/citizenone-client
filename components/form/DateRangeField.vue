@@ -1,6 +1,6 @@
 <template>
     <flat-pickr v-model="state.dateValue" :config="config" :id="props.id" :name="props.name"
-        @change="updateValue($event)" :placeholder="props.placeholder"
+        :placeholder="props.placeholder"
         class="appearance-none block w-full px-3 py-2.5 border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm" />
 </template>
 
@@ -18,7 +18,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    modelValue: String,
+    modelValue: Array,
     placeholder: {
         type: String,
         required: true,
@@ -37,36 +37,6 @@ const config = ref({
 }) as any
 
 const state = reactive({
-    dateValue: '' as any,
+    dateValue: props.modelValue as any,
 })
-
-
-watch(() => props.modelValue, (newValue: any) => {
-    if (newValue != null) {
-        state.dateValue = formatDateToDDMMMMYYYY(newValue)
-    } else {
-        state.dateValue = null
-    }
-})
-
-const emit = defineEmits(['update:modelValue'])
-
-function updateValue(event: any) {
-    if (event.target.value) {
-        const formattedDate = formatDateToYYYYMMDD(event.target.value)
-        emit('update:modelValue', formattedDate)
-    }
-}
-
-function formatDateToYYYYMMDD(dateString: any) {
-    let date = moment(dateString, 'DD. MMMM YYYY')
-    let formattedDate = date.format('YYYY-MM-DD')
-    return formattedDate
-}
-
-function formatDateToDDMMMMYYYY(dateString: any) {
-    let date = moment(dateString, 'YYYY-MM-DD')
-    let formattedDate = date.format('DD. MMMM YYYY')
-    return formattedDate
-}
 </script>

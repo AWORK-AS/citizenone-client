@@ -6,7 +6,8 @@
                 <form @submit.prevent="filterRevenue" class="mt-3">
                     <div class="space-y-3">
                         <FormDateRangeField name="date_range"
-                            :placeholder="$t('superadmin.dashboard.revenue.filterDate')" @change="setDateRange" />
+                            :placeholder="$t('superadmin.dashboard.revenue.filterDate')" @change="setDateRange"
+                            v-model="state.date_range" />
                         <FormError :error="v$?.date_range?.$errors[0]?.$message.toString()" />
                     </div>
                     <div class="mt-6">
@@ -42,12 +43,14 @@ const props = defineProps({
         required: true,
     }
 })
+const startDate = moment(props?.revenueData?.formDateRange?.start_date, "YYYY-MM-DD").format("DD. MMMM YYYY")
+const endDate = moment(props?.revenueData?.formDateRange?.start_date, "YYYY-MM-DD").format("DD. MMMM YYYY")
 
 const { t } = useI18n()
 const emit = defineEmits(['close', 'filterDate'])
 
 const state = reactive({
-    date_range: '',
+    date_range: [] as any,
     error: {} as Error,
     isPageLoading: false,
     formDateRange: {
@@ -59,7 +62,7 @@ const state = reactive({
 watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
         state.error = {}
-        state.date_range = ''
+        state.date_range = [startDate, endDate]
     }
 })
 
@@ -84,7 +87,7 @@ async function setDateRange(event: any) {
     const endDate = dates[1] ? moment(dates[1], "DD. MMMM YYYY").format("YYYY-MM-DD") : startDate
     state.formDateRange.start_date = startDate
     state.formDateRange.end_date = endDate
-    state.date_range = dateRange
+    state.date_range = [dates[0], dates[1]]
 }
 
 function filterRevenue() {
