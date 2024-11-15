@@ -16,7 +16,9 @@
                             {{ $t('dailyOverview.riskAssessment.risk.noRisk') }}
                         </p>
                     </div>
-                    <p class="text-sm">0</p>
+                    <p class="text-sm">
+                        {{ state.citizensRiskAssessment?.data?.no_risk }}
+                    </p>
                 </div>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-x-2">
@@ -25,7 +27,9 @@
                             {{ $t('dailyOverview.riskAssessment.risk.increasedRisk') }}
                         </p>
                     </div>
-                    <p class="text-sm">0</p>
+                    <p class="text-sm">
+                        {{ state.citizensRiskAssessment?.data?.increased_risk }}
+                    </p>
                 </div>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-x-2">
@@ -34,7 +38,9 @@
                             {{ $t('dailyOverview.riskAssessment.risk.acuteIncreasedRisk') }}
                         </p>
                     </div>
-                    <p class="text-sm">0</p>
+                    <p class="text-sm">
+                        {{ state.citizensRiskAssessment?.data?.acute_increased_risk }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -42,10 +48,30 @@
 </template>
 
 <script setup lang="ts">
+import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { Error } from '@/types'
 
 const state = reactive({
+    citizensRiskAssessment: [] as any,
     isPageLoading: false,
     error: {} as Error,
 })
+
+onMounted(() => {
+    fetchCitizensAdmissionDischarged()
+})
+
+async function fetchCitizensAdmissionDischarged() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await dailyOverviewService.getCitizenRiskAssessment()
+        if (response) {
+            state.citizensRiskAssessment = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 </script>
