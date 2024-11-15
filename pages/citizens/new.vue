@@ -81,8 +81,12 @@ async function saveCitizen(citizenDetails: any) {
         params.append('origin_uuid', citizenDetails.origin)
         params.append('diagnoses_uuid', JSON.stringify(citizenDetails.diagnoses))
         params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))
-        params.append('date_admitted', citizenDetails.date_admitted)
-        params.append('date_discharged', citizenDetails.date_discharged)
+        if (citizenDetails.date_admitted != 'Invalid date') {
+            params.append('date_admitted', citizenDetails.date_admitted)
+        }
+        if (citizenDetails.date_discharged != 'Invalid date') {
+            params.append('date_discharged', citizenDetails.date_discharged)
+        }
         const response = await citizenService.saveCitizen(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyAdded')}.`)
