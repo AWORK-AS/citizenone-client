@@ -65,7 +65,7 @@ async function fetchCitizensAdmissionDischarged() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await dailyOverviewService.getCitizenRiskAssessment()
+        const response = await dailyOverviewService.getCitizensRiskAssessment()
         if (response) {
             state.citizensRiskAssessment = response
         }

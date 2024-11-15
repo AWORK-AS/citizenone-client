@@ -1,12 +1,16 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class DailyOverviewService extends BaseAPIService {
-    async getCitizenAdmissionAndDischarged(): Promise<any> {
+    async getCitizensAdmissionAndDischarged(): Promise<any> {
         return await this.request(`/user/citizens/all/admitted-discharged`, 'GET')
     }
 
-    async getCitizenRiskAssessment(): Promise<any> {
+    async getCitizensRiskAssessment(): Promise<any> {
         return await this.request(`user/citizen-journals/risk-assessments/count`, 'GET')
+    }
+
+    async getCitizensGender(): Promise<any> {
+        return await this.request(`user/citizens/all/gender-count`, 'GET')
     }
 
     async getMyDailyEvents(): Promise<any> {

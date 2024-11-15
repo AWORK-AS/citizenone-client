@@ -13,19 +13,25 @@
                     <p class="text-sm">
                         {{ $t('dailyOverview.gender.male') }}
                     </p>
-                    <p class="text-sm">0</p>
+                    <p class="text-sm">
+                        {{ state.citizensGender?.data?.male }}
+                    </p>
                 </div>
                 <div class="flex items-center justify-between">
                     <p class="text-sm">
                         {{ $t('dailyOverview.gender.female') }}
                     </p>
-                    <p class="text-sm">0</p>
+                    <p class="text-sm">
+                        {{ state.citizensGender?.data?.female }}
+                    </p>
                 </div>
                 <div class="flex items-center justify-between">
                     <p class="text-sm">
                         {{ $t('dailyOverview.gender.willNotDisclose') }}
                     </p>
-                    <p class="text-sm">0</p>
+                    <p class="text-sm">
+                        {{ state.citizensGender?.data?.will_not_disclose }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -33,10 +39,30 @@
 </template>
 
 <script setup lang="ts">
+import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { Error } from '@/types'
 
 const state = reactive({
+    citizensGender: [] as any,
     isPageLoading: false,
     error: {} as Error,
 })
+
+onMounted(() => {
+    fetchCitizensAdmissionDischarged()
+})
+
+async function fetchCitizensAdmissionDischarged() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await dailyOverviewService.getCitizensGender()
+        if (response) {
+            state.citizensGender = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 </script>
