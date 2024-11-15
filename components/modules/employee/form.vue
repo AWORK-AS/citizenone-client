@@ -503,6 +503,7 @@ watch(() => language.locale.value, (newValue: any) => {
 
 watch(() => props.selectedEmployee, (newValue: any) => {
     if (newValue != null) {
+        fetchJobSpecialties(newValue.employment.job_title_uuid)
         if (newValue.profile_image) {
             avatarUrl.value = newValue.profile_image
         }
