@@ -8,14 +8,6 @@
 
             <template #header>{{ $t('dailyOverview.dailyOverview') }}</template>
 
-            <div class="flex justify-end">
-                <div class="w-fit cursor-pointer">
-                    <FormButton buttonStyle="primary" @click="navigateTo('/daily-overview/view')">
-                        {{ $t('dailyOverview.viewAll') }}
-                    </FormButton>
-                </div>
-            </div>
-
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
                     <div>
@@ -33,6 +25,15 @@
                         <ModulesDailyOverviewCitizensDiagnoses />
                     </div>
                 </div>
+
+                <div class="mt-10 flex justify-end">
+                    <div class="w-fit cursor-pointer">
+                        <FormButton buttonStyle="primary" @click="navigateTo('/daily-overview/view')">
+                            {{ $t('dailyOverview.viewAll') }}
+                        </FormButton>
+                    </div>
+                </div>
+
                 <div class="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
                     <div>
                         <ModulesDailyOverviewMyEventToday />
