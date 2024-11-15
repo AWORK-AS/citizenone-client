@@ -43,8 +43,6 @@ const props = defineProps({
         required: true,
     }
 })
-const startDate = moment(props?.revenueData?.formDateRange?.start_date, "YYYY-MM-DD").format("DD. MMMM YYYY")
-const endDate = moment(props?.revenueData?.formDateRange?.start_date, "YYYY-MM-DD").format("DD. MMMM YYYY")
 
 const { t } = useI18n()
 const emit = defineEmits(['close', 'filterDate'])
@@ -61,6 +59,10 @@ const state = reactive({
 
 watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
+
+        const startDate = moment(props?.revenueData?.formDateRange?.start_date, "YYYY-MM-DD").format("DD. MMMM YYYY")
+        const endDate = moment(props?.revenueData?.formDateRange?.end_date, "YYYY-MM-DD").format("DD. MMMM YYYY")
+
         state.error = {}
         state.date_range = [startDate, endDate]
     }
