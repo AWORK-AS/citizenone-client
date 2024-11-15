@@ -22,8 +22,8 @@
                         :value="state.dashboard.usersWithLicenses" />
                     <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.usersWithoutLicenses')"
                         :value="state.dashboard.usersWithoutLicenses" />
-                    <ModulesSuperadminDashboardRevenueCard :title="$t('superadmin.dashboard.revenue')"
-                        :revenueData="state.dashboard.revenue" />
+                    <ModulesSuperadminDashboardRevenueCard :title="$t('superadmin.dashboard.revenue.revenue')"
+                        :revenueData="state.dashboard.revenue" @filterDate="filterDate" />
                     <ModulesSuperadminDashboardCard title="Shared CitizenOne"
                         :value="state.dashboard.sharedCitizenOne" />
                     <ModulesSuperadminDashboardCompanyStorageCard
@@ -36,6 +36,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { dashboardService } from '@/components/api/superadmin/DashboardService'
 import type { Error } from '@/types'
 
@@ -51,7 +52,10 @@ const state = reactive({
         usersWithoutLicenses: 0,
         sharedCitizenOne: 0,
         revenue: {
-            period: 'Last 30 Days',
+            formDateRange: {
+                start_date: moment(),
+                end_date: moment(),
+            },
             amount: 'DKK0'
         },
         companyStorage: [],
@@ -68,7 +72,13 @@ async function fetchDashboardData() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await dashboardService.getDashboardData()
+        const params = {
+            date: {
+                end_date: state.dashboard.revenue.formDateRange.end_date,
+                start_date: state.dashboard.revenue.formDateRange.start_date,
+            }
+        }
+        const response = await dashboardService.getDashboardData(params)
         if (response) {
             state.dashboard.activeLicenses = response?.data?.active_licenses ?? 0
             state.dashboard.unusedLicenses = response?.data?.unused_licenses ?? 0
@@ -84,5 +94,11 @@ async function fetchDashboardData() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function filterDate(formDateRange: any) {
+    state.dashboard.revenue.formDateRange.start_date = formDateRange.start_date
+    state.dashboard.revenue.formDateRange.end_date = formDateRange.end_date
+    fetchDashboardData()
 }
 </script>

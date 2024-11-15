@@ -2082,7 +2082,11 @@
             "companiesWithLicenses": "Virksomheder med licenser",
             "companiesWithoutLicenses": "Virksomheder uden licenser",
             "dashboard": "Dashboard",
-            "revenue": "Omsætning",
+            "revenue": {
+                "filter": "Filter",
+                "filterDate": "Filtrer dato",
+                "revenue": "Omsætning"
+            },
             "sharedCitizenOne": "Delt CitizenOne",
             "unusedLicenses": "Ubrugte licenser",
             "usersWithLicenses": "Brugere med licenser",

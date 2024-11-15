@@ -2080,7 +2080,11 @@
             "companiesWithLicenses": "Companies with Licenses",
             "companiesWithoutLicenses": "Companies without Licenses",
             "dashboard": "Dashboard",
-            "revenue": "Revenue",
+            "revenue": {
+                "filter": "Filter",
+                "filterDate": "Filter date",
+                "revenue": "Revenue"
+            },
             "sharedCitizenOne": "Shared CitizenOne",
             "unusedLicenses": "Unused Licenses",
             "usersWithLicenses": "Users with Licenses",
