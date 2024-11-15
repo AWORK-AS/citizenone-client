@@ -10,7 +10,7 @@
             v-if="state.citizensDiagnoses?.data?.length === 0">
             {{ $t('dailyOverview.noDataToDisplay') }}
         </div>
-        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 divide-y overflow-scroll min-h-40 max-h-40 pr-5 pt-6 pb-6 pl-6 mr-1"
+        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 divide-y overflow-scroll min-h-40 max-h-40 pr-5 pt-1 pb-1 pl-6 mr-1"
             v-else>
             <div v-for="(citizen, index) in state.citizensDiagnoses?.data" :key="index" class="py-3">
                 {{ citizen?.firstname + ' ' + citizen?.lastname }}

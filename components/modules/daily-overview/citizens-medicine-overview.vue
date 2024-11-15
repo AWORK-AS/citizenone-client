@@ -11,7 +11,7 @@
             {{ $t('dailyOverview.noMedicinesToShow') }}
         </div>
 
-        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 pr-5 pt-6 pb-6 pl-6 mr-1"
+        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 pr-5 pt-4 pb-4 pl-6 mr-1"
             v-else>
             <div v-for="(medicine, index) in state.medicines?.data" :key="index" class="py-3">
                 <Badge type="primary" class="w-fit">
