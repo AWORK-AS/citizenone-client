@@ -1328,6 +1328,7 @@
     },
     "forms": {
         "addNewQuestion": "Tilføj nyt spørgsmål",
+        "addOption": "Tilføj mulighed",
         "alert": {
             "formSuccessfullyAdded": "Formular tilføjet med succes",
             "formSuccessfullyUpdated": "Formular opdateret med succes",
@@ -1350,7 +1351,9 @@
         "formDescription": "Formularbeskrivelse",
         "formTitle": "Formulartitel",
         "newForm": "Ny formular",
+        "option": "Mulighed",
         "preview": "Forhåndsvisning",
+        "question": "Spørgsmål",
         "quickStartWith": "Hurtig start med",
         "responses": {
             "responses": "Svar",

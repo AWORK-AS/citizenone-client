@@ -1327,6 +1327,7 @@
     },
     "forms": {
         "addNewQuestion": "Add new question",
+        "addOption": "Add option",
         "alert": {
             "formSuccessfullyAdded": "Form successfully added",
             "formSuccessfullyUpdated": "Form successfully updated",
@@ -1349,7 +1350,9 @@
         "formDescription": "Form description",
         "formTitle": "Form title",
         "newForm": "New form",
+        "option": "Option",
         "preview": "Preview",
+        "question": "Question",
         "quickStartWith": "Quick start with",
         "responses": {
             "responses": "Responses",

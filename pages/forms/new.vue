@@ -132,7 +132,7 @@
                                                                 <button @click="addRadioOption(fieldIndex)"
                                                                     type="button"
                                                                     class="text-primary-500 text-sm mt-2 hover:text-primary-700">
-                                                                    Add option
+                                                                    {{ $t('forms.addOption') }}
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -183,7 +183,7 @@
                                                                 <button @click="addCheckboxOption(fieldIndex)"
                                                                     type="button"
                                                                     class="text-primary-500 text-sm mt-2 hover:text-primary-700">
-                                                                    Add option
+                                                                    {{ $t('forms.addNewQuestion') }}
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -461,43 +461,43 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function addTextField() {
-    state.form.fields.push({ type: 'textfield', value: 'Question', required: false })
+    state.form.fields.push({ type: 'textfield', value: `${t('forms.question')}`, required: false })
     state.showFieldsAdder = false
 }
 
 function addTextarea() {
-    state.form.fields.push({ type: 'textarea', value: 'Question', required: false })
+    state.form.fields.push({ type: 'textarea', value: `${t('forms.question')}`, required: false })
     state.showFieldsAdder = false
 }
 
 function addDateField() {
-    state.form.fields.push({ type: 'datefield', value: 'Question', required: false })
+    state.form.fields.push({ type: 'datefield', value: `${t('forms.question')}`, required: false })
     state.showFieldsAdder = false
 }
 
 function addChoiceField() {
-    state.form.fields.push({ type: 'choice', value: 'Question', required: false, options: ['Option 1', 'Option 2'] })
+    state.form.fields.push({ type: 'choice', value: `${t('forms.question')}`, required: false, options: [`${t('forms.option')} 1`, `${t('forms.option')} 2`] })
     state.showFieldsAdder = false
 }
 
 function addCheckbox() {
-    state.form.fields.push({ type: 'checkbox', value: 'Question', required: false, options: ['Option 1', 'Option 2'] })
+    state.form.fields.push({ type: 'checkbox', value: `${t('forms.question')}`, required: false, options: [`${t('forms.option')} 1`, `${t('forms.option')} 2`] })
     state.showFieldsAdder = false
 }
 
 function addRating() {
-    state.form.fields.push({ type: 'rating', value: 'Question', required: false, levels: 2 })
+    state.form.fields.push({ type: 'rating', value: `${t('forms.question')}`, required: false, levels: 2 })
     state.showFieldsAdder = false
 }
 
 function addUploadFile() {
-    state.form.fields.push({ type: 'uploadfile', value: 'Question', required: false })
+    state.form.fields.push({ type: 'uploadfile', value: `${t('forms.question')}`, required: false })
     state.showFieldsAdder = false
 }
 
 function addRadioOption(fieldIndex: number) {
     if (state.form.fields[fieldIndex].type === 'choice') {
-        state.form.fields[fieldIndex].options?.push(`Option ${state.form.fields[fieldIndex].options!.length + 1}`)
+        state.form.fields[fieldIndex].options?.push(`${t('forms.option')} ${state.form.fields[fieldIndex].options!.length + 1}`)
     }
 }
 
@@ -509,7 +509,7 @@ function removeRadioButton(fieldIndex: number, radioIndex: number) {
 
 function addCheckboxOption(fieldIndex: number) {
     if (state.form.fields[fieldIndex].type === 'checkbox') {
-        state.form.fields[fieldIndex].options?.push(`Option ${state.form.fields[fieldIndex].options!.length + 1}`)
+        state.form.fields[fieldIndex].options?.push(`${t('forms.option')} ${state.form.fields[fieldIndex].options!.length + 1}`)
     }
 }
 
