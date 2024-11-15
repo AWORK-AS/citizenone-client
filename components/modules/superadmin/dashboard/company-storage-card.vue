@@ -7,9 +7,13 @@
             <div v-for="(company, index) in props.companies" :key="index" class="flex justify-between items-center">
                 <div>
                     <p class="text-sm font-semibold">{{ company.name }}</p>
-                    <p class="text-xs text-gray-600">Usage: {{ company.usage }}</p>
-                    <p class="text-xs" :class="company.isPaid ? 'text-green-600' : 'text-red-600'">
-                        {{ company.isPaid ? 'Paid' : 'Not Paid' }} - {{ company.cost }}
+                    <p class="text-xs" :class="company?.storage_paid > 0 ? 'text-green-600' : 'text-red-600'">
+                        {{ $t('superadmin.dashboard.companyStorage.storagePaid') }}:
+                        {{ company?.storage_paid }}
+                    </p>
+                    <p class="text-xs" :class="company?.storage_used > 0 ? 'text-green-600' : 'text-red-600'">
+                        {{ $t('superadmin.dashboard.companyStorage.storageUsed') }}:
+                        {{ company?.storage_used }}
                     </p>
                 </div>
             </div>

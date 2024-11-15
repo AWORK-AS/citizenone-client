@@ -26,7 +26,8 @@
                         :revenueData="state.dashboard.revenue" />
                     <ModulesSuperadminDashboardCard title="Shared CitizenOne"
                         :value="state.dashboard.sharedCitizenOne" />
-                    <ModulesSuperadminDashboardCompanyStorageCard :title="$t('superadmin.dashboard.companyStorage')"
+                    <ModulesSuperadminDashboardCompanyStorageCard
+                        :title="$t('superadmin.dashboard.companyStorage.companyStorage')"
                         :companies="state.dashboard.companyStorage" />
                 </div>
             </div>
@@ -53,11 +54,7 @@ const state = reactive({
             period: 'Last 30 Days',
             amount: 'DKK0'
         },
-        companyStorage: [
-            { name: 'Company A', usage: '0GB', isPaid: true, cost: 'DKK0' },
-            { name: 'Company B', usage: '0GB', isPaid: false, cost: 'DKK0' },
-            { name: 'Company C', usage: '0GB', isPaid: false, cost: 'DKK0' },
-        ],
+        companyStorage: [],
     },
     error: {} as Error,
     isPageLoading: false,
@@ -81,6 +78,7 @@ async function fetchDashboardData() {
             state.dashboard.usersWithoutLicenses = response?.data?.users_without_license ?? 0
             state.dashboard.sharedCitizenOne = response?.data?.shared_citizen ?? 0
             state.dashboard.revenue.amount = response?.data?.total_revenue ?? 0
+            state.dashboard.companyStorage = response?.data?.company_storage ?? 0
         }
     } catch (error: any) {
         state.error = error

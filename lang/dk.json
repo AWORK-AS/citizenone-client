@@ -2070,7 +2070,11 @@
         },
         "dashboard": {
             "activeLicenses": "Aktive licenser",
-            "companyStorage": "Virksomhedslager",
+            "companyStorage": {
+                "companyStorage": "Virksomhedslager",
+                "storagePaid": "Betalt lager",
+                "storageUsed": "Brugt lager"
+            },
             "companiesWithLicenses": "Virksomheder med licenser",
             "companiesWithoutLicenses": "Virksomheder uden licenser",
             "dashboard": "Dashboard",

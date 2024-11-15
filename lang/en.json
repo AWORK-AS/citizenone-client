@@ -2068,7 +2068,11 @@
         },
         "dashboard": {
             "activeLicenses": "Active Licenses",
-            "companyStorage": "Company Storage",
+            "companyStorage": {
+                "companyStorage": "Company Storage",
+                "storagePaid": "Storage paid",
+                "storageUsed": "Storage used"
+            },
             "companiesWithLicenses": "Companies with Licenses",
             "companiesWithoutLicenses": "Companies without Licenses",
             "dashboard": "Dashboard",
