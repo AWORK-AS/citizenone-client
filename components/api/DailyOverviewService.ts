@@ -17,6 +17,18 @@ class DailyOverviewService extends BaseAPIService {
         return await this.request(`user/citizens/all/with-origin`, 'GET')
     }
 
+    async getCitizensAddictions(): Promise<any> {
+        return await this.request(`user/citizens/all/with-addictions`, 'GET')
+    }
+
+    async getCitizensDiagnoses(): Promise<any> {
+        return await this.request(`user/citizens/all/with-diagnoses`, 'GET')
+    }
+
+    async getCitizensAddiction(): Promise<any> {
+        return await this.request(`user/citizens/all/with-addictions`, 'GET')
+    }
+
     async getMyDailyEvents(): Promise<any> {
         return await this.request(`/user/my-calendars/daily/events`, 'GET')
     }
