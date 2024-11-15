@@ -776,7 +776,11 @@
         "bulletBoard": "Bullet board",
         "campaign": "Campaign",
         "citizensAddictions": "Citizens addictions",
-        "citizensAdmissionAndDischarged": "Citizens admission and discharged",
+        "citizensAdmissionAndDischarged": {
+            "citizensAdmissionAndDischarged": "Citizens admission and discharged",
+            "dateAdmitted": "Date admitted",
+            "dateDischarged": "Date discharged"
+        },
         "citizensDailyEvents": "Citizens daily events",
         "citizensDiagnoses": "Citizens diagnoses",
         "citizensOrigin": "Citizens origin",

@@ -777,7 +777,11 @@
         "bulletBoard": "Opslagstavle",
         "campaign": "Kampagne",
         "citizensAddictions": "Borgernes afhængigheder",
-        "citizensAdmissionAndDischarged": "Borgernes indlæggelse og udskrivning",
+        "citizensAdmissionAndDischarged": {
+            "citizensAdmissionAndDischarged": "Borgernes indlæggelse og udskrivning",
+            "dateAdmitted": "Indlæggelsesdato",
+            "dateDischarged": "Udskrivningsdato"
+        },
         "citizensDailyEvents": "Borgeres daglige begivenheder",
         "citizensDiagnoses": "Borgernes diagnoser",
         "citizensOrigin": "Borgernes oprindelse",
