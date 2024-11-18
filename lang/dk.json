@@ -1169,8 +1169,13 @@
     "events": {
         "alert": {
             "successfullyAdded": "Ny begivenhed blev tilføjet med succes",
+            "successfullyDeleted": "Begivenhed slettet med succes",
             "successfullyUpdated": "Begivenhed blev opdateret med succes"
         },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne begivenhed"
+        },
+        "delete": "Slet",
         "editEvent": "Rediger begivenhed",
         "form": {
             "citizens": "Borgere",

@@ -46,7 +46,9 @@
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesMyCalendarDefaultView :myCalendarEvents="state.myCalendarEvents" @changeDate="changeDate"
-                        @editMyCalendarEvent="editMyCalendarEvent" v-if="state.calendarView === 'default'" />
+                        @editMyCalendarEvent="editMyCalendarEvent"
+                        @openEventDeletionModal="state.modal.isDeleteScheduleOpen = true"
+                        @deleteMyCalendarEvent="deleteMyCalendarEvent" v-if="state.calendarView === 'default'" />
                     <ModulesMyCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
                         @changeDatePerWeek="changeDatePerWeek" @editMyCalendarEvent="editMyCalendarEvent"
                         v-if="state.calendarView === 'week'" />
@@ -59,7 +61,7 @@
                 @close="state.modal.isAddEventOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
             <ModulesMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
-                @refreshSchedules="fetchMyCalendarEvents" />
+                @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
         </NuxtLayout>
     </div>
 </template>
@@ -67,11 +69,15 @@
 <script setup lang="ts">
 import { myCalendarService } from '@/components/api/MyCalendarService'
 import { userService } from '@/components/api/UserService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 const employeeUuid = router?.currentRoute?.value?.query?.employee_uuid
 
 const state = reactive({
@@ -84,6 +90,7 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isAddEventOpen: false,
+        isDeleteScheduleOpen: false,
         isEditEventOpen: false
     },
     selectedDate: {
@@ -220,6 +227,23 @@ function editMyCalendarEvent(selectedCalendarEvent: any) {
     state.selectedSchedule.end = selectedCalendarEvent.date_time_end
     state.selectedSchedule.is_private = selectedCalendarEvent.is_private ? true : false
     state.modal.isEditEventOpen = true
+}
+
+async function deleteMyCalendarEvent(selectedCalendarEvent: any) {
+    state.error = {}
+    state.isPageLoading = true
+    state.modal.isEditEventOpen = false
+    try {
+        const scheduleUuid = selectedCalendarEvent?.uuid
+        const response = await myCalendarService.deleteSchedule(scheduleUuid)
+        if (response) {
+            fetchMyCalendarEvents()
+            successAlert(`${t('alert.success')}!`, `${t('events.alert.successfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function subscribe() {

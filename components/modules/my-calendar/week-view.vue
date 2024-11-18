@@ -207,6 +207,9 @@
                 </Menu>
             </li>
         </ol>
+        <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
+            :message="$t('events.confirmation.deleteConfirmation') + '?'"
+            @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" />
     </div>
 </template>
 
@@ -223,10 +226,17 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeDatePerWeek', 'editMyCalendarEvent'])
+const emit = defineEmits(['changeDatePerWeek', 'editMyCalendarEvent', 'deleteMyCalendarEvent'])
 
 const currentDate = ref(moment())
 const selectedDay = ref(moment())
+
+const state = reactive({
+    modal: {
+        isDeleteScheduleOpen: false,
+    },
+    selectedSchedule: {}
+})
 
 const previousWeek = () => {
     currentDate.value = moment(currentDate.value).subtract(1, 'week')
@@ -321,4 +331,13 @@ const eventsBySelectedDay = computed(() => {
         return isWithinRange(eventStart, eventEnd, dayStart, dayEnd)
     })
 })
+
+function confirmEventDeletion(myCalendarEvent: any) {
+    state.selectedSchedule = myCalendarEvent
+    state.modal.isDeleteScheduleOpen = true
+}
+
+function deleteMyCalendarEvent(myCalendarEvent: any) {
+    emit('deleteMyCalendarEvent', deleteMyCalendarEvent)
+}
 </script>

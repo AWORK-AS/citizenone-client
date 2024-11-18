@@ -136,6 +136,13 @@
                                         Edit
                                     </a>
                                     </MenuItem>
+                                    <MenuItem v-slot="{ active }">
+                                    <a href="#"
+                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                                        @click="setEventDeletion(myCalendarEvent)">
+                                        Delete
+                                    </a>
+                                    </MenuItem>
                                 </div>
                             </MenuItems>
                         </transition>
@@ -143,6 +150,9 @@
                 </li>
             </ol>
         </div>
+        <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
+            :message="$t('events.confirmation.deleteConfirmation') + '?'"
+            @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" />
     </div>
 </template>
 
@@ -158,12 +168,19 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeDate', 'editMyCalendarEvent'])
+const emit = defineEmits(['changeDate', 'editMyCalendarEvent', 'deleteMyCalendarEvent'])
 
 const currentMonth = ref(moment().startOf('month'))
 const month = ref(currentMonth.value.format('MMMM'))
 const year = ref(currentMonth.value.format('YYYY'))
 const days = ref(generateDays(currentMonth.value))
+
+const state = reactive({
+    modal: {
+        isDeleteScheduleOpen: false,
+    },
+    selectedSchedule: {},
+})
 
 function generateDays(month: any) {
     const startOfMonth = month.clone().startOf('month').startOf('isoWeek')
@@ -216,5 +233,14 @@ function selectDay(selectedDay: any) {
 
 function editMyCalendarEvent(myCalendarEvent: any) {
     emit('editMyCalendarEvent', myCalendarEvent)
+}
+
+function setEventDeletion(myCalendarEvent: any) {
+    state.selectedSchedule = myCalendarEvent
+    state.modal.isDeleteScheduleOpen = true
+}
+
+function deleteMyCalendarEvent() {
+    emit('deleteMyCalendarEvent', state.selectedSchedule)
 }
 </script>

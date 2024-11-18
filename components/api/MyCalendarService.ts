@@ -13,6 +13,10 @@ class MyCalendarService extends BaseAPIService {
         return await this.request(`/user/my-calendars/${scheduleUuid}`, 'PUT', params)
     }
 
+    async deleteSchedule(scheduleUuid: any): Promise<any> {
+        return await this.request(`/user/my-calendars/${scheduleUuid}`, 'DELETE')
+    }
+
     async downloadCalendar(): Promise<any> {
         return await this.request(`/user/my-calendars/download/calendar`, 'GET')
     }

@@ -209,6 +209,9 @@
                 </Menu>
             </li>
         </ol>
+        <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
+            :message="$t('events.confirmation.deleteConfirmation') + '?'"
+            @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" />
     </div>
 </template>
 
@@ -225,7 +228,7 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent'])
+const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent'])
 
 const today = moment()
 
@@ -233,7 +236,11 @@ const state = reactive({
     currentMonth: today.month(),
     currentYear: today.year(),
     days: generateDays(today.year(), today.month(), props.myCalendarEvents),
+    modal: {
+        isDeleteScheduleOpen: false,
+    },
     selectedDay: null as any,
+    selectedSchedule: {}
 })
 
 watch(() => props.myCalendarEvents, (newValue: any) => {
@@ -326,5 +333,14 @@ const year = computed(() => {
 
 function editMyCalendarEvent(myCalendarEvent: any) {
     emit('editMyCalendarEvent', myCalendarEvent)
+}
+
+function confirmEventDeletion(myCalendarEvent: any) {
+    state.selectedSchedule = myCalendarEvent
+    state.modal.isDeleteScheduleOpen = true
+}
+
+function deleteMyCalendarEvent(myCalendarEvent: any) {
+    emit('deleteMyCalendarEvent', deleteMyCalendarEvent)
 }
 </script>

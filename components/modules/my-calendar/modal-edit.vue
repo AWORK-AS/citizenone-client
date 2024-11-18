@@ -3,9 +3,20 @@
         <Modal size="xs" :title="$t('events.editEvent')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesMyCalendarForm formType="update" :selectedSchedule="props.selectedSchedule"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="updateSchedule" />
+                    <div class="flex justify-end">
+                        <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                            @click="state.modal.isDeleteScheduleOpen = true">
+                            {{ $t('events.delete') }}
+                        </FormButton>
+                    </div>
+                    <div class="mt-4">
+                        <ModulesMyCalendarForm formType="update" :selectedSchedule="props.selectedSchedule"
+                            :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                            @closeModal="closeModal" @submitForm="updateSchedule" />
+                    </div>
+                    <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
+                        :message="$t('events.confirmation.deleteConfirmation') + '?'"
+                        @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -32,15 +43,22 @@ const props = defineProps({
         required: true,
     }
 })
-const emit = defineEmits(['close', 'refreshSchedules'])
+const emit = defineEmits(['close', 'refreshSchedules', 'deleteMyCalendarEvent'])
 
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
+    modal: {
+        isDeleteScheduleOpen: false,
+    },
 })
 
 function closeModal() {
     emit('close')
+}
+
+function deleteMyCalendarEvent() {
+    emit('deleteMyCalendarEvent', props.selectedSchedule)
 }
 
 function refreshSchedules() {
