@@ -572,7 +572,8 @@
                         "delete": "Delete"
                     },
                     "date": "Date",
-                    "quantity": "Quantity"
+                    "quantity": "Quantity",
+                    "user": "User"
                 }
             },
             "newMedicine": "New medicine",

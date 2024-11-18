@@ -573,7 +573,8 @@
                         "delete": "Slet"
                     },
                     "date": "Dato",
-                    "quantity": "Mængde"
+                    "quantity": "Mængde",
+                    "user": "Bruger"
                 }
             },
             "newMedicine": "Ny medicin",

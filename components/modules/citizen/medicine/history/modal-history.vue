@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('citizens.medicineJournals.history.medicineHistory')" :show="props.isModalOpen"
+        <Modal size="2xl" :title="$t('citizens.medicineJournals.history.medicineHistory')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div>
@@ -20,11 +20,17 @@
                                 <template #body
                                     v-if="!(state.isTableLoading || (state.medicineHistories?.data?.length === 0))">
                                     <tr v-for="(medicineHistory, index) in state.medicineHistories?.data" :key="index">
-                                        <td width="50%">
+                                        <td width="30%">
                                             <span>{{ formatDateToReadable(medicineHistory?.date) }}</span>
                                         </td>
-                                        <td width="20%">
+                                        <td width="15%">
                                             <span>{{ medicineHistory?.quantity }}</span>
+                                        </td>
+                                        <td width="25%">
+                                            <span>
+                                                {{ medicineHistory?.user?.firstname }}
+                                                {{ medicineHistory?.user?.lastname }}
+                                            </span>
                                         </td>
                                         <td width="30%">
                                             <div class="flex items-end gap-2">
@@ -89,7 +95,8 @@ const emit = defineEmits(['close'])
 const state = reactive({
     columnHeaders: [
         { name: 'citizens.medicineJournals.history.table.date', sorter: true, key: 'date' },
-        { name: 'citizens.medicineJournals.table.quantity', sorter: true, key: 'quantity' },
+        { name: 'citizens.medicineJournals.history.table.quantity', sorter: true, key: 'quantity' },
+        { name: 'citizens.medicineJournals.history.table.user' },
         { name: '' },
     ],
     error: {} as Error,
