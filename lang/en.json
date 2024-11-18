@@ -325,6 +325,7 @@
     },
     "cancel": "Cancel",
     "citizens": {
+        "addictions": "Addictions",
         "alert": {
             "citizenSuccessfullyArchived": "Citizen successfully archived"
         },
@@ -385,6 +386,7 @@
                 "relatives": "Relatives"
             }
         },
+        "diagnoses": "Diagnoses",
         "documents": {
             "alert": {
                 "deletedFileSuccessfully": "File successfully delete",
@@ -489,6 +491,7 @@
             "gender": "Gender",
             "lastname": "Last name",
             "municipality": "Municipality",
+            "note": "Note",
             "phone": "Phone",
             "postCode": "Post Code",
             "region": "Region",
@@ -1851,7 +1854,8 @@
             "yourSubscriptionIsNowActive": "Your subscription is now active"
         },
         "subscription": "Subscription",
-        "upgrade": "Upgrade"
+        "upgrade": "Upgrade",
+        "updateSubscription": "Update subscription"
     },
     "support": {
         "courseDetails": "If you and your colleagues need a course in CitizenOne, click the button below to see what we can offer to get you well prepared",

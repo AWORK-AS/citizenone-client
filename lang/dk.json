@@ -325,6 +325,7 @@
     },
     "cancel": "Annuller",
     "citizens": {
+        "addictions": "Afhængigheder",
         "alert": {
             "citizenSuccessfullyArchived": "Borger arkiveret med succes"
         },
@@ -385,6 +386,7 @@
                 "relatives": "Pårørende"
             }
         },
+        "diagnoses": "Diagnoser",
         "documents": {
             "alert": {
                 "deletedFileSuccessfully": "Fil slettet med succes",
@@ -489,6 +491,7 @@
             "firstname": "Fornavn",
             "lastname": "Efternavn",
             "municipality": "Kommune",
+            "note": "Bemærkning",
             "phone": "Telefon",
             "postCode": "Postnummer",
             "region": "Region",
@@ -1855,7 +1858,8 @@
             "yourSubscriptionIsNowActive": "Dit abonnement er nu aktivt"
         },
         "subscription": "Abonnement",
-        "upgrade": "Opgrader"
+        "upgrade": "Opgrader",
+        "updateSubscription": "Opdater abonnement"
     },
     "support": {
         "courseDetails": "Hvis du og dine kollegaer har brug for et kursus i CitizenOne, så klik på knappen nedenfor for at se, hvad vi kan tilbyde, så I bliver godt klædt på",

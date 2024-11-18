@@ -176,6 +176,13 @@
                     <FormError :error="props?.error?.errors?.date_discharged?.[0]" />
                 </div>
             </div>
+            <div class="space-y-1">
+                <FormLabel for="note" :label="$t('citizens.form.note')" />
+                <FormTextArea id="note" name="note" :placeholder="$t('citizens.form.note')"
+                    v-model="state.formCitizen.note" />
+                <FormError :error="v$?.formCitizen?.note?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.note?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -252,6 +259,7 @@ const state = reactive({
         addictions: [],
         date_admitted: '',
         date_discharged: '',
+        note: '',
     },
     formattedSocialSecurityNumber: '',
     modal: {
@@ -310,6 +318,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             addictions: selectedCitizen.addictions,
             date_admitted: selectedCitizen.date_admitted,
             date_discharged: selectedCitizen.date_discharged,
+            note: selectedCitizen.note,
         }
     }
 })

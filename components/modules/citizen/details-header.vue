@@ -23,9 +23,30 @@
                         <p class="text-sm font-medium text-gray-700">
                             {{ state.selectedCitizen?.data?.phone }}
                         </p>
-                        <p class="text-xs font-medium text-gray-700">
-                            {{ state.selectedCitizen?.data?.diagnosis }}
-                        </p>
+                        <div class="text-xxs flex items-center flex-wrap gap-1"
+                            v-if="state.selectedCitizen?.data?.addictions?.length > 0">
+                            <p>{{ $t('citizens.addictions') }}:</p>
+                            <span v-for="(addiction, index) in state.selectedCitizen?.data?.addictions" :key=index
+                                class="bg-primary p-1 text-white rounded-md">
+                                {{ addiction?.name }}
+                            </span>
+                        </div>
+                        <div class="text-xxs flex items-center flex-wrap gap-1"
+                            v-if="state.selectedCitizen?.data?.diagnoses?.length > 0">
+                            <p>{{ $t('citizens.diagnoses') }}:</p>
+                            <span v-for="(diagnosis, index) in state.selectedCitizen?.data?.diagnoses" :key=index
+                                class="bg-primary p-1 text-white rounded-md">
+                                {{ diagnosis?.name }}
+                            </span>
+                        </div>
+                        <div class="text-xs font-medium text-gray-700"
+                            :class="state.showExpandedNote ? '' : 'line-clamp-2'">
+                            {{ state.selectedCitizen?.data?.note }}
+                        </div>
+                        <button @click="state.showExpandedNote = !state.showExpandedNote"
+                            class="text-primary text-xs hover:text-primary-700">
+                            {{ state.showExpandedNote ? $t('showLess') : $t('showMore') }}
+                        </button>
                     </div>
                 </div>
                 <ModulesCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
@@ -51,6 +72,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     selectedCitizen: [] as any,
+    showExpandedNote: false,
 })
 
 onMounted(() => {
