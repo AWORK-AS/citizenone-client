@@ -247,9 +247,9 @@
             "employeeSuccessfullyUnarchive": "Medarbejder genåbnet med succes"
         },
         "confirmation": {
-            "unarchiveCitizen": "Er du sikker på, at du vil genåbne denne borger?",
-            "unarchiveDocument": "Er du sikker på, at du vil genåbne dette dokument?",
-            "unarchiveEmployee": "Er du sikker på, at du vil genåbne denne medarbejder?"
+            "unarchiveCitizen": "Er du sikker på, at du vil genåbne denne borger",
+            "unarchiveDocument": "Er du sikker på, at du vil genåbne dette dokument",
+            "unarchiveEmployee": "Er du sikker på, at du vil genåbne denne medarbejder"
         },
         "table": {
             "actions": {
@@ -343,7 +343,7 @@
                 "contactSuccessfullyDeleted": "Kontakt slettet med succes"
             },
             "confirmation": {
-                "deleteConfirmation": "Er du sikker på, at du vil slette denne kontakt?"
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne kontakt"
             },
             "editContact": "Rediger kontakt",
             "form": {
@@ -707,7 +707,7 @@
                 "deletedSuccessfully": "Pung slettet med succes"
             },
             "confirmation": {
-                "deleteConfirmation": "Er du sikker på, at du vil slette denne pung?"
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne pung"
             },
             "editWallet": "Rediger pung",
             "form": {
@@ -736,7 +736,7 @@
                 "deletedSuccessfully": "Pungtransaktion slettet med succes"
             },
             "confirmation": {
-                "deleteConfirmation": "Er du sikker på, at du vil slette denne transaktion?"
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne transaktion"
             },
             "editWalletTransaction": "Rediger pungtransaktion",
             "form": {
@@ -1009,10 +1009,10 @@
         "createNewFolder": "Opret ny mappe",
         "companyDocuments": "Virksomheds dokumenter",
         "confirmation": {
-            "archiveConfirmation": "Er du sikker på, at du vil arkivere dette dokument?",
-            "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil?",
-            "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe?",
-            "upgradeStorageConfirmation": "Vil du opgradere din lagerplads?"
+            "archiveConfirmation": "Er du sikker på, at du vil arkivere dette dokument",
+            "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil",
+            "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
+            "upgradeStorageConfirmation": "Vil du opgradere din lagerplads"
         },
         "form": {
             "editFile": "Rediger fil",
@@ -1059,7 +1059,7 @@
             "childProtectionCertificates": "Børnebeskyttelsescertifikater",
             "confirmation": {
                 "archiveConfirmation": "Er du sikker på, at du vil arkivere dette dokument",
-                "deleteConfirmation": "Er du sikker på, at du vil slette dette dokument?"
+                "deleteConfirmation": "Er du sikker på, at du vil slette dette dokument"
             },
             "documents": "Dokumenter",
             "documentsShortDescription": "Dette dokument indeholder essentielle personaleoplysninger, herunder ansættelseskontrakter, strafferegistre og børnebeskyttelsescertifikater, for at sikre overholdelse og sikkerhed",
@@ -1619,7 +1619,7 @@
             "procedureSuccessfullyDeleted": "Procedure slettet med succes"
         },
         "confirmation": {
-            "deleteConfirmation": "Er du sikker på, at du vil slette denne procedure?"
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne procedure"
         },
         "procedures": "Procedurer",
         "editProcedure": "Rediger procedure",
@@ -2277,7 +2277,7 @@
             "taskSuccessfullyDeleted": "Opgave slettet med succes"
         },
         "confirmation": {
-            "deleteConfirmation": "Er du sikker på, at du vil slette denne opgave?"
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne opgave"
         },
         "editTask": "Rediger opgave",
         "form": {
