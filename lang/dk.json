@@ -482,7 +482,7 @@
             "birthday": "Fødselsdag",
             "citizenOrigin": "Borgerens oprindelse",
             "city": "By",
-            "dateAdmitted": "Indlæggelsesdato",
+            "dateAdmitted": "Indskrivningsdato",
             "dateDischarged": "Udskrivningsdato",
             "department": "Afdeling",
             "diagnoses": "Diagnoser",
@@ -783,7 +783,7 @@
         "citizensAddictions": "Borgernes afhængigheder",
         "citizensAdmissionAndDischarged": {
             "citizensAdmissionAndDischarged": "Borgernes indlæggelse og udskrivning",
-            "dateAdmitted": "Indlæggelsesdato",
+            "dateAdmitted": "Indskrivningsdato",
             "dateDischarged": "Udskrivningsdato"
         },
         "citizensDailyEvents": "Borgeres daglige begivenheder",
