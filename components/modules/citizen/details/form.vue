@@ -287,7 +287,7 @@ watch(() => language.locale.value, () => {
     state.options.genders = [
         { value: 'male', label: `${t('gender.male')}`, },
         { value: 'female', label: `${t('gender.female')}`, },
-        { value: 'willNotDiscloseThis', label: `${t('gender.willNotDiscloseThis')}`, },
+        { value: 'will_not_disclose', label: `${t('gender.willNotDisclose')}`, },
     ]
 })
 
