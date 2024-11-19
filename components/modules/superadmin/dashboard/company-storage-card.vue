@@ -1,8 +1,14 @@
 <template>
     <div class="bg-white shadow-md rounded-md py-4 pl-4 pr-1 border-l-4 border-secondary">
-        <h3 class="text-primary text-sm font-medium py-2">
-            {{ props.title }}
-        </h3>
+        <div class="flex items-center justify-between pr-2">
+            <h3 class="text-primary text-sm font-medium py-2">
+                {{ props.title }}
+            </h3>
+            <button class="text-xs text-primary hover:text-primary-700"
+                @click="navigateTo('/superadmin/dashboard/company-storage')">
+                {{ $t('superadmin.dashboard.viewAll') }}
+            </button>
+        </div>
         <div class="mt-2 space-y-2 overflow-scroll max-h-28">
             <div v-for="(company, index) in props.companies" :key="index" class="flex justify-between items-center">
                 <div>

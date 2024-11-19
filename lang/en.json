@@ -2088,7 +2088,12 @@
             "companyStorage": {
                 "companyStorage": "Company Storage",
                 "storagePaid": "Storage paid",
-                "storageUsed": "Storage used"
+                "storageUsed": "Storage used",
+                "table": {
+                    "name": "Name",
+                    "storagePaid": "Storage paid",
+                    "storageUsed": "Storage used"
+                }
             },
             "companiesWithLicenses": "Companies with Licenses",
             "companiesWithoutLicenses": "Companies without Licenses",
@@ -2101,7 +2106,8 @@
             "sharedCitizenOne": "Shared CitizenOne",
             "unusedLicenses": "Unused Licenses",
             "usersWithLicenses": "Users with Licenses",
-            "usersWithoutLicenses": "Users without Licenses"
+            "usersWithoutLicenses": "Users without Licenses",
+            "viewAll": "View all"
         },
         "orders": {
             "orders": "Orders",

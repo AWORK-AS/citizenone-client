@@ -2090,7 +2090,12 @@
             "companyStorage": {
                 "companyStorage": "Virksomhedslager",
                 "storagePaid": "Betalt lager",
-                "storageUsed": "Brugt lager"
+                "storageUsed": "Brugt lager",
+                "table": {
+                    "name": "Navn",
+                    "storagePaid": "Betalt lager",
+                    "storageUsed": "Brugt lager"
+                }
             },
             "companiesWithLicenses": "Virksomheder med licenser",
             "companiesWithoutLicenses": "Virksomheder uden licenser",
@@ -2103,7 +2108,8 @@
             "sharedCitizenOne": "Delt CitizenOne",
             "unusedLicenses": "Ubrugte licenser",
             "usersWithLicenses": "Brugere med licenser",
-            "usersWithoutLicenses": "Brugere uden licenser"
+            "usersWithoutLicenses": "Brugere uden licenser",
+            "viewAll": "Se alle"
         },
         "orders": {
             "orders": "Ordrer",
