@@ -39,7 +39,8 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <LoadingSpinner :isActive="state.isPageLoading">
                         <ModulesCitizenCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
-                            @changeDate="changeDate" v-if="state.calendarView === 'default'" />
+                            @changeDate="changeDate" @deleteMyCalendarEvent="deleteMyCalendarEvent"
+                            v-if="state.calendarView === 'default'" />
                         <ModulesCitizenCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
                             @changeDatePerWeek="changeDatePerWeek" v-if="state.calendarView === 'week'"
                             @viewMyCalendarEvent="viewMyCalendarEvent" />
@@ -50,7 +51,7 @@
                 </div>
                 <ModulesCitizenCalendarModalView :isModalOpen="state.modal.isViewEventOpen"
                     :selectedSchedule="state.selectedSchedule" @close="state.modal.isViewEventOpen = false"
-                    @refreshSchedules="fetchMyCalendarEvents" />
+                    @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
             </div>
         </NuxtLayout>
     </div>
@@ -58,11 +59,15 @@
 
 <script setup lang="ts">
 import { citizenService } from '@/components/api/CitizenService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const { successAlert } = useAlert()
+const { t } = useI18n()
 
 const state = reactive({
     calendarView: 'default',
@@ -173,5 +178,25 @@ function viewMyCalendarEvent(selectedCalendarEvent: any) {
     state.selectedSchedule.end = selectedCalendarEvent.date_time_end
     state.selectedSchedule.is_private = selectedCalendarEvent.is_private ? true : false
     state.modal.isViewEventOpen = true
+}
+
+async function deleteMyCalendarEvent(selectedCalendarEvent: any) {
+    state.error = {}
+    state.isPageLoading = true
+    state.modal.isViewEventOpen = false
+    try {
+        const scheduleUuid = selectedCalendarEvent?.uuid
+        const params = {
+            citizen_uuid: citizenUuid
+        }
+        const response = await citizenService.deleteCitizenCalendarEvent(scheduleUuid, params)
+        if (response) {
+            fetchMyCalendarEvents()
+            successAlert(`${t('alert.success')}!`, `${t('citizens.calendar.alert.successfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>

@@ -335,6 +335,13 @@
             "protocol": "Protocol"
         },
         "calendar": {
+            "alert": {
+                "successfullyDeleted": "Event successfully deleted"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this event"
+            },
+            "delete": "Delete",
             "viewSchedule": "View schedule"
         },
         "citizens": "Citizens",

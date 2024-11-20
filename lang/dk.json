@@ -335,6 +335,13 @@
             "protocol": "Protokol"
         },
         "calendar": {
+            "alert": {
+                "successfullyDeleted": "Begivenhed slettet med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne begivenhed"
+            },
+            "delete": "Slet",
             "viewSchedule": "Se tidsplan"
         },
         "citizens": "Borgere",

@@ -3,7 +3,13 @@
         <Modal size="xs" :title="$t('citizens.calendar.viewSchedule')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="relative flex space-x-6 pb-6 xl:static">
+                    <div class="flex justify-end">
+                        <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                            @click="state.modal.isDeleteScheduleOpen = true">
+                            {{ $t('citizens.calendar.delete') }}
+                        </FormButton>
+                    </div>
+                    <div class="mt-4 relative flex space-x-6 pb-6 xl:static">
                         <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${props.selectedSchedule?.user?.firstname + ' ' + props.selectedSchedule?.user?.lastname}`"
                             alt="Image" class="h-14 w-14 flex-none rounded-full" />
                         <div class="flex-auto">
@@ -48,6 +54,9 @@
                         </div>
                     </div>
                 </LoadingSpinner>
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
+                    :message="$t('citizens.calendar.confirmation.deleteConfirmation') + '?'"
+                    @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" />
             </template>
         </Modal>
     </div>
@@ -67,16 +76,23 @@ const props = defineProps({
     selectedSchedule: {
         type: Object,
         required: true,
-    }
+    },
 })
-const emit = defineEmits(['close', 'refreshSchedules'])
+const emit = defineEmits(['close', 'refreshSchedules', 'deleteMyCalendarEvent'])
 
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
+    modal: {
+        isDeleteScheduleOpen: false,
+    },
 })
 
 function closeModal() {
     emit('close')
+}
+
+function deleteMyCalendarEvent() {
+    emit('deleteMyCalendarEvent', props.selectedSchedule)
 }
 </script>

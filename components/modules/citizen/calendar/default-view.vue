@@ -112,15 +112,47 @@
                             </div>
                         </dl>
                     </div>
+                    <Menu as="div" class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
+                        <div>
+                            <MenuButton
+                                class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
+                                <span class="sr-only">Open options</span>
+                                <Icon name="heroicons:ellipsis-horizontal" class="h-5 w-5" aria-hidden="true" />
+                            </MenuButton>
+                        </div>
+                        <transition enter-active-class="transition ease-out duration-100"
+                            enter-from-class="transform opacity-0 scale-95"
+                            enter-to-class="transform opacity-100 scale-100"
+                            leave-active-class="transition ease-in duration-75"
+                            leave-from-class="transform opacity-100 scale-100"
+                            leave-to-class="transform opacity-0 scale-95">
+                            <MenuItems
+                                class="absolute right-0 z-10 mt-2 w-36 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <div class="py-1">
+                                    <MenuItem v-slot="{ active }">
+                                    <a href="#"
+                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                                        @click="setEventDeletion(myCalendarEvent)">
+                                        Delete
+                                    </a>
+                                    </MenuItem>
+                                </div>
+                            </MenuItems>
+                        </transition>
+                    </Menu>
                 </li>
             </ol>
         </div>
+        <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
+            :message="$t('citizens.calendar.confirmation.deleteConfirmation') + '?'"
+            @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" />
     </div>
 </template>
 
 <script setup lang="ts">
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const props = defineProps({
@@ -129,12 +161,19 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeDate', 'editMyCalendarEvent'])
+const emit = defineEmits(['changeDate', 'editMyCalendarEvent', 'deleteMyCalendarEvent'])
 
 const currentMonth = ref(moment().startOf('month'))
 const month = ref(currentMonth.value.format('MMMM'))
 const year = ref(currentMonth.value.format('YYYY'))
 const days = ref(generateDays(currentMonth.value))
+
+const state = reactive({
+    modal: {
+        isDeleteScheduleOpen: false,
+    },
+    selectedSchedule: {},
+})
 
 function generateDays(month: any) {
     const startOfMonth = month.clone().startOf('month').startOf('isoWeek')
@@ -183,5 +222,14 @@ function selectDay(selectedDay: any) {
         isSelected: day.date === selectedDay.date,
     }))
     emit('changeDate', selectedDay.date)
+}
+
+function setEventDeletion(myCalendarEvent: any) {
+    state.selectedSchedule = myCalendarEvent
+    state.modal.isDeleteScheduleOpen = true
+}
+
+function deleteMyCalendarEvent() {
+    emit('deleteMyCalendarEvent', state.selectedSchedule)
 }
 </script>

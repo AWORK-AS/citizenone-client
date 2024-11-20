@@ -36,6 +36,10 @@ class CitizenService extends BaseAPIService {
     async getAllAvailableCitizens(params: object): Promise<any> {
         return await this.request(`/user/citizens/all/available-citizens`, 'GET', params)
     }
+
+    async deleteCitizenCalendarEvent(scheduleUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-calendars/${scheduleUuid}`, 'DELETE', params)
+    }
 }
 
 export const citizenService = new CitizenService()
