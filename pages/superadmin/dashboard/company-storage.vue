@@ -32,7 +32,7 @@
                                         <span>{{ company?.name }}</span>
                                     </td>
                                     <td width="30%">
-                                        <span>{{ company?.storage_paid }}</span>
+                                        <span>{{ formatAmount(company?.storage_paid) }}</span>
                                     </td>
                                     <td width="30%">
                                         <span>{{ company?.storage_used }}</span>
@@ -49,11 +49,12 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
+import { useAmountFormatter } from '@/composables/amountFormatter'
 import { dashboardService } from '@/components/api/superadmin/DashboardService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatAmount } = useAmountFormatter()
 let currentTablePage = 1
 
 const state = reactive({

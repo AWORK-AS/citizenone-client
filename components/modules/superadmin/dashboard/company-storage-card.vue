@@ -15,7 +15,7 @@
                     <p class="text-sm font-semibold">{{ company.name }}</p>
                     <p class="text-xs" :class="company?.storage_paid > 0 ? 'text-green-600' : 'text-red-600'">
                         {{ $t('superadmin.dashboard.companyStorage.storagePaid') }}:
-                        {{ company?.storage_paid }}
+                        {{ formatAmount(company?.storage_paid) }}
                     </p>
                     <p class="text-xs" :class="company?.storage_used > 0 ? 'text-green-600' : 'text-red-600'">
                         {{ $t('superadmin.dashboard.companyStorage.storageUsed') }}:
@@ -28,11 +28,14 @@
 </template>
 
 <script setup lang="ts">
+import { useAmountFormatter } from '@/composables/amountFormatter'
+
 const props = defineProps({
     title: String,
     companies: {
         type: Array,
         required: true
     } as any
-});
+})
+const { formatAmount } = useAmountFormatter()
 </script>
