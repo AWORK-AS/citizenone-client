@@ -1143,6 +1143,13 @@
             "street": "Street"
         },
         "newEmployee": "New employee",
+        "permissions": {
+            "create": "Create",
+            "delete": "Delete",
+            "permissions": "Permissions",
+            "read": "Read",
+            "update": "Update"
+        },
         "roles": {
             "administrator": "Administrator",
             "user": "User"

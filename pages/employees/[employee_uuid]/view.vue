@@ -104,9 +104,26 @@
                                 </div>
                                 <div class="space-y-1">
                                     <Label :label="$t('employees.form.permissions.permissions')" />
-                                    <p class="font-medium" v-if="state.selectedEmployee?.permissions?.length > 0">
-                                        {{ state.selectedEmployee?.permissions }}
-                                    </p>
+                                    <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1">
+                                        <div class="text-xs flex flex-wrap gap-2"
+                                            v-if="state.selectedEmployee?.permissions?.length > 0">
+                                            <span v-for="(permission, index) in state.selectedEmployee?.permissions"
+                                                :key=index class="bg-primary px-2 py-1 text-white rounded-md">
+                                                <span v-if="permission?.name === 'create'">
+                                                    {{ $t('employees.permissions.create') }}
+                                                </span>
+                                                <span v-if="permission?.name === 'read'">
+                                                    {{ $t('employees.permissions.read') }}
+                                                </span>
+                                                <span v-if="permission?.name === 'update'">
+                                                    {{ $t('employees.permissions.update') }}
+                                                </span>
+                                                <span v-if="permission?.name === 'delete'">
+                                                    {{ $t('employees.permissions.delete') }}
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -377,7 +394,6 @@ async function fetchEmployee() {
         const response = await employeeService.getEmployee(employeeUuid)
         if (response) {
             let concatenatedDepartments = ''
-            let concatenatedPermissions = ''
             let concatenatedJobSpecialties = ''
             response?.data?.departments.forEach((department: any, index: number) => {
                 concatenatedDepartments += department?.name
@@ -385,14 +401,6 @@ async function fetchEmployee() {
                     concatenatedDepartments += ', '
                 } else {
                     concatenatedDepartments += '.'
-                }
-            })
-            response?.data?.permissions.forEach((permission: any, index: number) => {
-                concatenatedPermissions += permission?.name
-                if (index < response.data.permissions.length - 1) {
-                    concatenatedPermissions += ', '
-                } else {
-                    concatenatedPermissions += '.'
                 }
             })
             response?.data?.employee_specialties.forEach((specialty: any, index: number) => {
@@ -416,7 +424,7 @@ async function fetchEmployee() {
                 municipality: response?.data?.employee_address?.municipality?.name ?? '',
                 city: response?.data?.employee_address?.city?.name ?? '',
                 post_code: response?.data?.employee_address?.post_code ?? '',
-                permissions: concatenatedPermissions,
+                permissions: response?.data?.permissions ?? [],
                 employment: {
                     employment_date: response?.data?.employee_detail?.date_of_employment,
                     job_title: response?.data?.employee_detail?.job?.title,
