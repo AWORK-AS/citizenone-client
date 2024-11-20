@@ -6,7 +6,7 @@ class DashboardService extends BaseAPIService {
     }
 
     async getCompanyStorage(params: object): Promise<any> {
-        return await this.request(`/superadmin/dashboard/company-storage`, 'GET', params)
+        return await this.request(`/superadmin/dashboard/company/storage`, 'GET', params)
     }
 }
 
