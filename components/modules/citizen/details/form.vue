@@ -293,12 +293,8 @@ watch(() => language.locale.value, () => {
 
 watch(() => props.selectedCitizen, (selectedCitizen: any) => {
     if (selectedCitizen != null) {
-        if (selectedCitizen.region_uuid) {
-            fetchMunicipalitiesPerRegion(selectedCitizen.region_uuid)
-        }
-        if (selectedCitizen.municipality_uuid) {
-            fetchCities(selectedCitizen.municipality_uuid)
-        }
+        fetchMunicipalitiesPerRegion(selectedCitizen.region_uuid)
+        fetchCities(selectedCitizen.municipality_uuid)
         if (selectedCitizen.image) {
             avatarUrl.value = selectedCitizen.image
         }
@@ -529,11 +525,15 @@ async function fetchCities(municipalityUuid: any) {
 }
 
 function changeSelectedRegion(regionUuid: string) {
-    fetchMunicipalitiesPerRegion(regionUuid)
+    if (regionUuid) {
+        fetchMunicipalitiesPerRegion(regionUuid)
+    }
 }
 
 function changeSelectedMunicipality(municipalityUuid: string) {
-    fetchCities(municipalityUuid)
+    if (municipalityUuid) {
+        fetchCities(municipalityUuid)
+    }
 }
 
 const rules = computed(() => {
