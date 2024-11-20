@@ -254,6 +254,13 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
+        if (!state.formContact.region) {
+            state.formContact.municipality = ''
+            state.formContact.city = ''
+        }
+        if (!state.formContact.municipality) {
+            state.formContact.city = ''
+        }
         emit('submitForm', state.formContact)
     }
 }
