@@ -324,14 +324,6 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             date_discharged: selectedCitizen.date_discharged,
             note: selectedCitizen.note,
         }
-
-        if (!selectedCitizen.region_uuid) {
-            state.formCitizen.municipality = ''
-            state.formCitizen.city = ''
-        }
-        if (!selectedCitizen.municipality_uuid) {
-            state.formCitizen.city = ''
-        }
     }
 })
 
@@ -537,20 +529,11 @@ async function fetchCities(municipalityUuid: any) {
 }
 
 function changeSelectedRegion(regionUuid: string) {
-    if (regionUuid) {
-        fetchMunicipalitiesPerRegion(regionUuid)
-    } else {
-        state.formCitizen.municipality = ''
-        state.formCitizen.city = ''
-    }
+    fetchMunicipalitiesPerRegion(regionUuid)
 }
 
 function changeSelectedMunicipality(municipalityUuid: string) {
-    if (municipalityUuid) {
-        fetchCities(municipalityUuid)
-    } else {
-        state.formCitizen.city = ''
-    }
+    fetchCities(municipalityUuid)
 }
 
 const rules = computed(() => {
@@ -598,6 +581,13 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
+        if (!state.formCitizen.region) {
+            state.formCitizen.municipality = ''
+            state.formCitizen.city = ''
+        }
+        if (!state.formCitizen.municipality) {
+            state.formCitizen.city = ''
+        }
         emit('submitForm', state.formCitizen)
     }
 }

@@ -137,9 +137,21 @@ async function updateCitizen(citizenDetails: any) {
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))
         params.append('street', citizenDetails.street)
-        params.append('region_uuid', citizenDetails.region)
-        params.append('municipality_uuid', citizenDetails.municipality)
-        params.append('city_uuid', citizenDetails.city)
+        if (citizenDetails.region) {
+            params.append('region_uuid', citizenDetails.region)
+        } else {
+            params.append('region_uuid', '')
+        }
+        if (citizenDetails.municipality) {
+            params.append('municipality_uuid', citizenDetails.municipality)
+        } else {
+            params.append('municipality_uuid', '')
+        }
+        if (citizenDetails.city) {
+            params.append('city_uuid', citizenDetails.city)
+        } else {
+            params.append('city_uuid', '')
+        }
         params.append('post_code', citizenDetails.post_code)
         params.append('origin_uuid', citizenDetails.origin)
         params.append('diagnoses_uuid', JSON.stringify(citizenDetails.diagnoses))
