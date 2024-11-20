@@ -18,7 +18,7 @@
                         {{ citizen?.firstname + ' ' + citizen?.lastname }}
                     </p>
                 </Badge>
-                <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1">
+                <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1" v-if="citizen?.date_admitted">
                     <p>
                         {{ $t('dailyOverview.citizensAdmissionAndDischarged.dateAdmitted') }}:
                     </p>
@@ -26,7 +26,7 @@
                         {{ formatDateToReadable(citizen?.date_admitted) }}
                     </p>
                 </div>
-                <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1">
+                <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1" v-if="citizen?.date_discharged">
                     <p>
                         {{ $t('dailyOverview.citizensAdmissionAndDischarged.dateDischarged') }}:
                     </p>
