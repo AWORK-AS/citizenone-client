@@ -293,8 +293,12 @@ watch(() => language.locale.value, () => {
 
 watch(() => props.selectedCitizen, (selectedCitizen: any) => {
     if (selectedCitizen != null) {
-        fetchMunicipalitiesPerRegion(selectedCitizen.region_uuid)
-        fetchCities(selectedCitizen.municipality_uuid)
+        if (selectedCitizen.region_uuid) {
+            fetchMunicipalitiesPerRegion(selectedCitizen.region_uuid)
+        }
+        if (selectedCitizen.municipality_uuid) {
+            fetchCities(selectedCitizen.municipality_uuid)
+        }
         if (selectedCitizen.image) {
             avatarUrl.value = selectedCitizen.image
         }
@@ -319,6 +323,14 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             date_admitted: selectedCitizen.date_admitted,
             date_discharged: selectedCitizen.date_discharged,
             note: selectedCitizen.note,
+        }
+
+        if (!selectedCitizen.region_uuid) {
+            state.formCitizen.municipality = ''
+            state.formCitizen.city = ''
+        }
+        if (!selectedCitizen.municipality_uuid) {
+            state.formCitizen.city = ''
         }
     }
 })
@@ -525,11 +537,20 @@ async function fetchCities(municipalityUuid: any) {
 }
 
 function changeSelectedRegion(regionUuid: string) {
-    fetchMunicipalitiesPerRegion(regionUuid)
+    if (regionUuid) {
+        fetchMunicipalitiesPerRegion(regionUuid)
+    } else {
+        state.formCitizen.municipality = ''
+        state.formCitizen.city = ''
+    }
 }
 
 function changeSelectedMunicipality(municipalityUuid: string) {
-    fetchCities(municipalityUuid)
+    if (municipalityUuid) {
+        fetchCities(municipalityUuid)
+    } else {
+        state.formCitizen.city = ''
+    }
 }
 
 const rules = computed(() => {
