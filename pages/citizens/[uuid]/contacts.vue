@@ -72,10 +72,14 @@
                                         <span>{{ contact?.phone }}</span>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ contact?.street + ' ' }}</span>
-                                        <span>{{ contact?.region?.name + ', ' }}</span>
-                                        <span>{{ contact?.municipality?.name + ', ' }}</span>
-                                        <span>{{ contact?.city?.name + ' ' }}</span>
+                                        <span>{{ contact?.street }}</span>
+                                        <span v-if="contact?.street">&nbsp;</span>
+                                        <span>{{ contact?.region?.name }}</span>
+                                        <span v-if="contact?.region?.name">, </span>
+                                        <span>{{ contact?.municipality?.name }}</span>
+                                        <span v-if="contact?.municipality?.name">, </span>
+                                        <span>{{ contact?.city?.name }}</span>
+                                        <span v-if="contact?.city?.name">&nbsp;</span>
                                         <span>{{ contact?.post_code }}</span>
                                     </td>
                                     <td width="10%">
