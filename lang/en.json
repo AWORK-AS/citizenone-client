@@ -321,7 +321,9 @@
                 "Saturday": "Sat",
                 "Sunday": "Sun"
             }
-        }
+        },
+        "edit": "Edit",
+        "delete": "Delete"
     },
     "cancel": "Cancel",
     "citizens": {

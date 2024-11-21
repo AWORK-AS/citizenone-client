@@ -133,14 +133,14 @@
                                     <a href="#"
                                         :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
                                         @click="editMyCalendarEvent(myCalendarEvent)">
-                                        Edit
+                                        {{ $t('calendar.edit') }}
                                     </a>
                                     </MenuItem>
                                     <MenuItem v-slot="{ active }">
                                     <a href="#"
                                         :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
                                         @click="setEventDeletion(myCalendarEvent)">
-                                        Delete
+                                        {{ $t('calendar.delete') }}
                                     </a>
                                     </MenuItem>
                                 </div>

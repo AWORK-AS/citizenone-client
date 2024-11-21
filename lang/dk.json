@@ -321,7 +321,9 @@
                 "Saturday": "Lør",
                 "Sunday": "Søn"
             }
-        }
+        },
+        "edit": "Rediger",
+        "delete": "Slet",
     },
     "cancel": "Annuller",
     "citizens": {
@@ -789,7 +791,7 @@
         "campaign": "Kampagne",
         "citizensAddictions": "Borgernes afhængigheder",
         "citizensAdmissionAndDischarged": {
-            "citizensAdmissionAndDischarged": "Borgernes indlæggelse og udskrivning",
+            "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
             "dateAdmitted": "Indskrivningsdato",
             "dateDischarged": "Udskrivningsdato"
         },
