@@ -81,18 +81,17 @@ const tabs = [
     },
 ]
 
-function changeTab(event: any) {
-    const value = event?.target?.value
+function changeTab(value: any) {
     if (value === 'Journals') {
         navigateTo(`/citizens/${uuid}/journals`)
     }
-    else if (value === 'Medicine Journals') {
+    else if (value === 'Medicine card') {
         navigateTo(`/citizens/${uuid}/medicine-journals`)
     }
-    else if (value === 'Plans and Goals') {
+    else if (value === 'Plans and goals') {
         navigateTo(`/citizens/${uuid}/plans-and-goals`)
     }
-    else if (value === 'Nursing Areas') {
+    else if (value === 'Nursing areas') {
         navigateTo(`/citizens/${uuid}/nursing-areas`)
     }
     else if (value === 'Documents') {
