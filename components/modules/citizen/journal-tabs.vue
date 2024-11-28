@@ -82,31 +82,31 @@ const tabs = [
 ]
 
 function changeTab(value: any) {
-    if (value === 'Journals') {
+    if (value === 'Journals' || value === 'Journaler') {
         navigateTo(`/citizens/${uuid}/journals`)
     }
-    else if (value === 'Medicine card') {
+    else if (value === 'Medicine card' || value === 'Medicinkort') {
         navigateTo(`/citizens/${uuid}/medicine-journals`)
     }
-    else if (value === 'Plans and goals') {
+    else if (value === 'Plans and goals' || value === 'Planer og mål') {
         navigateTo(`/citizens/${uuid}/plans-and-goals`)
     }
-    else if (value === 'Nursing areas') {
+    else if (value === 'Nursing areas' || value === 'Sygeplejeområder') {
         navigateTo(`/citizens/${uuid}/nursing-areas`)
     }
-    else if (value === 'Documents') {
+    else if (value === 'Documents' || value === 'Dokumenter') {
         navigateTo(`/citizens/${uuid}/documents`)
     }
-    else if (value === 'Attendance') {
+    else if (value === 'Attendance' || value === 'Fremmøde') {
         navigateTo(`/citizens/${uuid}/attendance`)
     }
-    else if (value === 'Calendar') {
+    else if (value === 'Calendar' || value === 'Kalender') {
         navigateTo(`/citizens/${uuid}/calendar`)
     }
-    else if (value === 'Economy') {
+    else if (value === 'Economy' || value === 'Økonomi') {
         navigateTo(`/citizens/${uuid}/wallets`)
     }
-    else if (value === 'Contacts') {
+    else if (value === 'Contacts' || value === 'Kontakter') {
         navigateTo(`/citizens/${uuid}/contacts`)
     }
 }
