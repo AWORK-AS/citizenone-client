@@ -1495,6 +1495,8 @@
         "selectLanguage": "Vælg sprog"
     },
     "login": {
+        "doYouNeedHelp": "Har du brug for hjæelp",
+        "login": "Log ind",
         "SignInToYourAccount": "Log ind på din konto",
         "form": {
             "createAccountHere": "Opret konto her",

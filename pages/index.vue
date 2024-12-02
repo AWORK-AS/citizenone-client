@@ -1,7 +1,7 @@
 <template>
 
     <Head>
-        <Title>Login - {{ runtimeConfig?.public?.appName }}</Title>
+        <Title>{{ $t('login.login') }} - {{ runtimeConfig?.public?.appName }}</Title>
     </Head>
 
     <LoadingSpinner :isActive="state.isPageLoading">
@@ -85,6 +85,11 @@
                                 {{ $t('login.form.createAccountHere') }}
                             </a>
                         </p>
+                        <div class="text-center text-sm leading-6">
+                            <a class="text-primary hover:text-primary-800 cursor-pointer" @click="navigateToSupport">
+                                {{ $t('login.doYouNeedHelp') }}?
+                            </a>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -191,5 +196,14 @@ function identifyFlag() {
             return '/img/icons/flags/denmark.svg'
         }
     }
+}
+
+async function navigateToSupport() {
+    await navigateTo('https://citizenone.dk/support', {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 </script>

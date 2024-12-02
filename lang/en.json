@@ -1494,6 +1494,8 @@
         "selectLanguage": "Select language"
     },
     "login": {
+        "doYouNeedHelp": "Do you need help",
+        "login": "Login",
         "SignInToYourAccount": "Sign in to your account",
         "form": {
             "createAccountHere": "Create account here",
