@@ -403,7 +403,7 @@
                 "documentSuccessfullyArchived": "Dokument arkiveret med succes",
                 "fileSuccessfullyAdded": "Ny fil gemt med succes",
                 "folderSuccessfullyAdded": "Ny mappe gemt med succes",
-                "successfullyUpdated": "Mappe opdateret med succes"
+                "folderSuccessfullyUpdated": "Mappe opdateret med succes"
             },
             "createNewFolder": "Opret ny mappe",
             "confirmation": {
@@ -525,7 +525,6 @@
             "reportIncident": "Rapporter hændelse",
             "seePreviousIncident": "Se tidligere hændelse",
             "table": {
-                "createdBy": "Oprettet af",
                 "date": "Dato",
                 "description": "Beskrivelse",
                 "draft": "Udkast",
@@ -580,8 +579,8 @@
                         "edit": "Rediger",
                         "delete": "Slet"
                     },
+                    "date": "Dato",
                     "dailyDose": "Daglig dosis",
-                    "quantity": "Mængde",
                     "user": "Bruger"
                 }
             },
@@ -980,7 +979,7 @@
                 "date": "Dato",
                 "inactive": "Inaktiv",
                 "jobTitle": "Jobtitel",
-                "numberofShift": "Antal vagter",
+                "numberOfShifts": "Antal vagter",
                 "shiftType": "Vagttype",
                 "status": "Tid",
                 "time": "Time",
@@ -1649,9 +1648,7 @@
                 "newProcedureSuccessfullySaved": "Ny procedure gemt med succes"
             },
             "attachFile": "Vedhæft fil",
-            "active": "Aktiv",
             "content": "Indhold",
-            "inactive": "Inaktiv",
             "isActive": "Er aktiv",
             "title": "Titel"
         },
@@ -1663,7 +1660,9 @@
                 "seeProgress": "Se fremskridt",
                 "view": "Se"
             },
+            "active": "Aktiv",
             "content": "Indhold",
+            "inactive": "Inaktiv",
             "status": "Status",
             "title": "Titel"
         }
@@ -1826,19 +1825,17 @@
     },
     "sidebar": {
         "bulletBoard": "Opslagstavle",
-        "citizens": "Borgere",
         "companyId": "Virksomheds-ID",
+        "coupons": "Kuponer",
         "dailyOverview": "Daglig oversigt",
+        "citizens": "Borgere",
         "documents": "Dokumenter",
         "myCalendar": "Min kalender",
-        "departments": "Afdelinger",
         "dutySchedules": "Vagtskema",
         "employees": "Medarbejdere",
-        "jobTitles": "Jobtitler",
         "messages": "Beskeder",
         "protocols": "Protokol",
-        "apps": "Apps",
-        "timeLogs": "Tidslogfiler"
+        "apps": "Apps"
     },
     "showLess": "Vis mindre",
     "showMore": "Vis mere",
@@ -1979,7 +1976,7 @@
             "editApp": "Rediger app",
             "form": {
                 "alert": {
-                    "appSuccessfullySave": "App gemt med succes",
+                    "appSuccessfullyUpdated": "Appen er opdateret med succes",
                     "newAppSuccessfullySaved": "Ny app gemt med succes"
                 },
                 "description": "Beskrivelse",
@@ -2076,12 +2073,14 @@
             "newCompany": "Ny virksomhed",
             "subscriptions": {
                 "deal": {
+                    "automaticSynchronizationWithFMK": "Automatisk synkronisering med FMK",
                     "department": "Afdeling",
                     "departments": "Afdelinger",
                     "goodForTheSmallerSocialOffer": "God til det mindre sociale tilbud",
                     "month": "Måned",
                     "perfectForTheLargerSocialOffer": "Perfekt til det større sociale tilbud",
                     "storageSpace": "lagerplads",
+                    "telephoneSupport": "Telefonsupport",
                     "user": "Bruger",
                     "users": "Brugere",
                     "year": "År"
@@ -2110,6 +2109,47 @@
                 "accounts": "Kontoer",
                 "licenseOverview": "Licensoversigt",
                 "licenses": "Licenser"
+            }
+        },
+        "coupons": {
+            "coupons": "Kuponer",
+            "editCoupon": "Rediger kupon",
+            "form": {
+                "alert": {
+                    "couponSuccessfullyUpdated": "Kupon opdateret med succes",
+                    "newCouponSuccessfullySaved": "Ny kupon gemt med succes"
+                },
+                "amount": "Beløb",
+                "code": "Kode",
+                "description": "Beskrivelse",
+                "expiration": "Udløbsdato",
+                "unit": {
+                    "amount": "Beløb",
+                    "percentage": "Procentdel",
+                    "unit": "Enhed"
+                }
+            },
+            "newCoupon": "Ny kupon",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "alert": {
+                    "couponSuccessfullyDeleted": "Kupon slettet med succes"
+                },
+                "confirmation": {
+                    "deleteCouponConfirmation": "Er du sikker på, at du vil slette denne kupon"
+                },
+                "amount": "Beløb",
+                "code": "Kode",
+                "description": "Beskrivelse",
+                "expiration": "Udløbsdato",
+                "unit": {
+                    "amount": "Beløb",
+                    "percentage": "Procentdel",
+                    "unit": "Enhed"
+                }
             }
         },
         "dashboard": {

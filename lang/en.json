@@ -976,10 +976,10 @@
                     "edit": "Edit",
                     "viewRequesters": "View requesters"
                 },
-                "numberOfShifts": "Number of shifts",
                 "date": "Date",
                 "inactive": "Inactive",
                 "jobTitle": "Job title",
+                "numberOfShifts": "Number of shifts",
                 "shiftType": "Shift type",
                 "status": "Status",
                 "time": "Time",
@@ -1826,6 +1826,7 @@
     "sidebar": {
         "bulletBoard": "Bullet board",
         "companyId": "Company ID",
+        "coupons": "Coupons",
         "dailyOverview": "Daily overview",
         "citizens": "Citizens",
         "documents": "Documents",
@@ -2108,6 +2109,47 @@
                 "apps": "Apps",
                 "licenseOverview": "License overview",
                 "licenses": "Licenses"
+            }
+        },
+        "coupons": {
+            "coupons": "Coupons",
+            "editCoupon": "Edit coupon",
+            "form": {
+                "alert": {
+                    "couponSuccessfullyUpdated": "Coupon successfully updated",
+                    "newCouponSuccessfullySaved": "New coupon successfully saved"
+                },
+                "amount": "Amount",
+                "code": "Code",
+                "description": "Description",
+                "expiration": "Expiration",
+                "unit": {
+                    "amount": "Amount",
+                    "percentage": "Percentage",
+                    "unit": "unit"
+                }
+            },
+            "newCoupon": "New coupon",
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "alert": {
+                    "couponSuccessfullyDeleted": "Coupon successfully deleted"
+                },
+                "confirmation": {
+                    "deleteCouponConfirmation": "Are you sure you want to delete this coupon"
+                },
+                "amount": "Amount",
+                "code": "Code",
+                "description": "Description",
+                "expiration": "Expiration",
+                "unit": {
+                    "amount": "Amount",
+                    "percentage": "Percentage",
+                    "unit": "unit"
+                }
             }
         },
         "dashboard": {
