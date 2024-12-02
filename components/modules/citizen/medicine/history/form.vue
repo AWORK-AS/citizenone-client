@@ -11,9 +11,9 @@
                 <FormError :error="props?.error?.errors?.date?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="quantity" :label="$t('citizens.medicineJournals.history.form.quantity')" />
+                <FormLabel for="quantity" :label="$t('citizens.medicineJournals.history.form.dailyDose')" />
                 <FormTextField id="quantity" name="quantity"
-                    :placeholder="$t('citizens.medicineJournals.history.form.quantity')"
+                    :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')"
                     v-model="state.formMedicineHistory.quantity" />
                 <FormError :error="v$?.formMedicineHistory?.quantity?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.quantity?.[0]" />
@@ -30,9 +30,9 @@
                 </FormButton>
             </div>
         </div>
-        <DialogConfirmation :isModalOpen="state.modal.isMoreThanMedicineQuantityConfirmationOpen"
-            :message="$t('citizens.medicineJournals.history.confirmation.rightQuantityConfirmation') + '?'"
-            @close="state.modal.isMoreThanMedicineQuantityConfirmationOpen = false" @confirm="submitForm" />
+        <DialogConfirmation :isModalOpen="state.modal.isMoreThanMedicineDailyConfirmationOpen"
+            :message="$t('citizens.medicineJournals.history.confirmation.rightDailyDoseConfirmation') + '?'"
+            @close="state.modal.isMoreThanMedicineDailyConfirmationOpen = false" @confirm="submitForm" />
     </form>
 </template>
 
@@ -70,7 +70,7 @@ const state = reactive({
         quantity: '',
     },
     modal: {
-        isMoreThanMedicineQuantityConfirmationOpen: false,
+        isMoreThanMedicineDailyConfirmationOpen: false,
     }
 })
 
@@ -111,7 +111,7 @@ function validateForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
         if (parseInt(state.formMedicineHistory.quantity) > parseInt(props.selectedMedicine?.quantity)) {
-            state.modal.isMoreThanMedicineQuantityConfirmationOpen = true
+            state.modal.isMoreThanMedicineDailyConfirmationOpen = true
         } else {
             submitForm()
         }

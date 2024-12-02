@@ -95,7 +95,7 @@ const emit = defineEmits(['close'])
 const state = reactive({
     columnHeaders: [
         { name: 'citizens.medicineJournals.history.table.date', sorter: true, key: 'date' },
-        { name: 'citizens.medicineJournals.history.table.quantity', sorter: true, key: 'quantity' },
+        { name: 'citizens.medicineJournals.history.table.dailyDose', sorter: true, key: 'quantity' },
         { name: 'citizens.medicineJournals.history.table.user' },
         { name: '' },
     ],

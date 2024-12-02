@@ -562,7 +562,7 @@
                 },
                 "confirmation": {
                     "deleteConfirmation": "Er du sikker på, at du vil slette denne medicinhistorik",
-                    "rightQuantityConfirmation": "Er du sikker på, at du har angivet den korrekte mængde"
+                    "rightDailyDoseConfirmation": "Er du sikker på, at du har angivet den korrekte daglige dosis"
                 },
                 "editMedicine": "Rediger medicin",
                 "form": {
@@ -570,8 +570,8 @@
                         "successfullyAdded": "Medicinhistorik tilføjet med succes",
                         "successfullyUpdated": "Medicinhistorik opdateret med succes"
                     },
-                    "date": "Dato",
-                    "quantity": "Mængde"
+                    "dailyDose": "Daglig dosis",
+                    "date": "Dato"
                 },
                 "giveMedicine": "Giv medicin",
                 "medicineHistory": "Medicinhistorik",
@@ -580,7 +580,7 @@
                         "edit": "Rediger",
                         "delete": "Slet"
                     },
-                    "date": "Dato",
+                    "dailyDose": "Daglig dosis",
                     "quantity": "Mængde",
                     "user": "Bruger"
                 }
