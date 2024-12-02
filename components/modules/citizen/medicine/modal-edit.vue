@@ -60,7 +60,6 @@ async function updateMedicine(medicineDetails: any) {
             daily_dose: medicineDetails.daily_dose,
             active_ingredients: medicineDetails.active_ingredients,
             description: medicineDetails.description,
-            quantity: medicineDetails.quantity,
             schedule_frequency: medicineDetails.schedule_frequency,
             time: medicineDetails.time,
         }

@@ -99,9 +99,6 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="10%">
-                                        <span>{{ medicine?.quantity }}</span>
-                                    </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
@@ -165,7 +162,6 @@ const state = reactive({
         { name: 'citizens.medicineJournals.table.strength' },
         { name: 'citizens.medicineJournals.table.dosageForm' },
         { name: 'citizens.medicineJournals.table.dailyDose', sorter: true, key: 'daily_dose' },
-        { name: 'citizens.medicineJournals.table.quantity', sorter: true, key: 'quantity' },
         { name: '' },
     ],
     dataFilter: {

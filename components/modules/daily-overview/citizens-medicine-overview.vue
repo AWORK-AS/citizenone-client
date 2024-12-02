@@ -3,7 +3,7 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('dailyOverview.dailyMedicineOverview') }}
+            {{ $t('dailyOverview.dailyMedicineOverview.dailyMedicineOverview') }}
         </h3>
 
         <div class="bg-white shadow-md rounded-md border-l-8 border-secondary flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
@@ -23,10 +23,14 @@
                     {{ $t('dailyOverview.createdBy') }}
                     {{ medicine?.user?.firstname + ' ' + medicine?.user?.lastname }}
                 </p>
-                <div class="px-1">
+                <div class="px-1 space-y-0.5">
                     <h3 class="text-base font-semibold">
                         {{ medicine?.medicine }}
                     </h3>
+                    <p class="text-xs">
+                        {{ $t('dailyOverview.dailyMedicineOverview.dailyDose') }}:
+                        {{ medicine?.daily_dose }}
+                    </p>
                     <div class="text-xxs flex flex-wrap gap-2" v-if="medicine.time?.length > 0">
                         <span v-for="(time, index) in JSON.parse(medicine.time)" :key=index
                             class="bg-primary p-1 text-white rounded-md">

@@ -551,7 +551,6 @@
                 "description": "Description",
                 "dosageForm": "Dosage form",
                 "medicine": "Medicine",
-                "quantity": "Quantity",
                 "scheduleFrequency": "Schedule frequency",
                 "strength": "Strength",
                 "time": "Time"
@@ -798,7 +797,10 @@
         "citizensDiagnoses": "Citizens diagnoses",
         "citizensOrigin": "Citizens origin",
         "createdBy": "Created by",
-        "dailyMedicineOverview": "Daily medicine overview",
+        "dailyMedicineOverview": {
+            "dailyMedicineOverview": "Daily medicine overview",
+            "dailyDose": "Daily dose"
+        },
         "dailyOverview": "Daily overview",
         "filter": {
             "endDate": "End date",

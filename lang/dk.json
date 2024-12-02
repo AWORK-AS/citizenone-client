@@ -552,7 +552,6 @@
                 "description": "Beskrivelse",
                 "dosageForm": "Doseringsform",
                 "medicine": "Medicin",
-                "quantity": "Mængde",
                 "scheduleFrequency": "Planlægningsfrekvens",
                 "strength": "Styrke",
                 "time": "Tid"
@@ -799,7 +798,10 @@
         "citizensDiagnoses": "Borgernes diagnoser",
         "citizensOrigin": "Borgernes oprindelse",
         "createdBy": "Oprettet af",
-        "dailyMedicineOverview": "Daglig medicinoversigt",
+        "dailyMedicineOverview": {
+            "dailyMedicineOverview": "Daglig medicinoversigt",
+            "dailyDose": "Daglig dosis"
+        },
         "dailyOverview": "Daglig oversigt",
         "filter": {
             "endDate": "Slutdato",

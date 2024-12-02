@@ -11,6 +11,13 @@
                 <FormError :error="v$?.formMedicine?.medicine?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.medicine?.[0]" />
             </div>
+            <div class="space-y-1">
+                <FormLabel for="dosage_uuid" :label="$t('citizens.medicineJournals.form.dosageForm')" />
+                <FormSelect id="dosage_uuid" :options="state.options.dosage_form"
+                    v-model="state.formMedicine.dosage_uuid" />
+                <FormError :error="v$?.formMedicine?.dosage_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
+            </div>
             <div class="grid grid-cols-2 gap-x-3">
                 <div class="space-y-1">
                     <FormLabel for="strength" :label="$t('citizens.medicineJournals.form.strength')" />
@@ -21,29 +28,12 @@
                     <FormError :error="props?.error?.errors?.strength?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="dosage_uuid" :label="$t('citizens.medicineJournals.form.dosageForm')" />
-                    <FormSelect id="dosage_uuid" :options="state.options.dosage_form"
-                        v-model="state.formMedicine.dosage_uuid" />
-                    <FormError :error="v$?.formMedicine?.dosage_uuid?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
-                </div>
-            </div>
-            <div class="grid grid-cols-2 gap-x-3">
-                <div class="space-y-1">
                     <FormLabel for="daily_dose" :label="$t('citizens.medicineJournals.form.dailyDose')" />
                     <FormTextField id="daily_dose" name="daily_dose"
                         :placeholder="$t('citizens.medicineJournals.form.dailyDose')"
                         v-model="state.formMedicine.daily_dose" />
                     <FormError :error="v$?.formMedicine?.daily_dose?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.daily_dose?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="quantity" :label="$t('citizens.medicineJournals.form.quantity')" />
-                    <FormTextField id="quantity" name="quantity"
-                        :placeholder="$t('citizens.medicineJournals.form.quantity')"
-                        v-model="state.formMedicine.quantity" />
-                    <FormError :error="v$?.formMedicine?.quantity?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.quantity?.[0]" />
                 </div>
             </div>
             <div class="space-y-1">
@@ -120,7 +110,6 @@ const state = reactive({
         strength: '',
         dosage_uuid: '',
         daily_dose: '',
-        quantity: '',
         active_ingredients: '',
         description: '',
         schedule_frequency: [],
@@ -153,7 +142,6 @@ onMounted(() => {
         strength: props.selectedMedicine.strength,
         dosage_uuid: props.selectedMedicine.dosage?.uuid,
         daily_dose: props.selectedMedicine.daily_dose,
-        quantity: props.selectedMedicine.quantity?.toString(),
         active_ingredients: props.selectedMedicine.active_ingredients,
         description: props.selectedMedicine.description,
         schedule_frequency: props.selectedMedicine.schedule_frequency,
@@ -178,7 +166,6 @@ watch(() => props.selectedMedicine, (newValue: any) => {
             strength: newValue.strength,
             dosage_uuid: newValue.dosage?.uuid,
             daily_dose: newValue.daily_dose,
-            quantity: newValue.quantity?.toString(),
             active_ingredients: newValue.active_ingredients,
             description: newValue.description,
             schedule_frequency: newValue.schedule_frequency,
@@ -207,9 +194,6 @@ const rules = computed(() => {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             daily_dose: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            quantity: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             active_ingredients: {
