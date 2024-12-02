@@ -1684,11 +1684,18 @@
         "protocols": "Protocols",
         "table": {
             "actions": {
+                "delete": "Delete",
                 "edit": "Edit",
                 "markCitizenAsAbent": "Mark citizen as absent",
                 "markCitizenAsAttended": "Mark citizen as attended",
                 "removeCitizenForThisDate": "Remove citizen for this date",
                 "view": "View"
+            },
+            "alert": {
+                "protocolSuccessfullyDeleted": "Protocol successfully deleted"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this protocol"
             },
             "citizens": {
                 "citizen": "Citizen",

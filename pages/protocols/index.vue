@@ -57,6 +57,11 @@
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('protocols.table.actions.view') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="deleteProtocolConfirmation(protocol)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('protocols.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -66,6 +71,9 @@
                     <Pagination :data="state.protocols" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteProtocolOpen"
+                :message="$t('protocols.table.confirmation.deleteConfirmation') + '?'"
+                @close="state.modal.isDeleteProtocolOpen = false" @confirm="deleteProtocol" />
         </NuxtLayout>
     </div>
 </template>
@@ -74,10 +82,14 @@
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenService } from '@/components/api/CitizenService'
 import { protocolService } from '@/components/api/ProtocolService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
@@ -100,7 +112,11 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
+    modal: {
+        isDeleteProtocolOpen: false,
+    },
     protocols: [] as any,
+    selectedProtocol: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -181,5 +197,26 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value
     fetchProtocols()
+}
+
+function deleteProtocolConfirmation(protocol: any) {
+    state.selectedProtocol = protocol
+    state.modal.isDeleteProtocolOpen = true
+}
+
+async function deleteProtocol() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const protocolUuid = state.selectedProtocol.uuid
+        const response = await protocolService.deleteProtocol(protocolUuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchProtocols()
+            successAlert(`${t('alert.success')}!`, `${t('protocols.table.alert.protocolSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

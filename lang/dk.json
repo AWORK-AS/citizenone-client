@@ -323,7 +323,7 @@
             }
         },
         "edit": "Rediger",
-        "delete": "Slet",
+        "delete": "Slet"
     },
     "cancel": "Annuller",
     "citizens": {
@@ -1685,11 +1685,18 @@
         "protocols": "Protokol",
         "table": {
             "actions": {
+                "delete": "Slet",
                 "edit": "Rediger",
                 "markCitizenAsAbent": "Marker borger som fraværende",
                 "markCitizenAsAttended": "Marker borger som tilstede",
                 "removeCitizenForThisDate": "Fjern borger for denne dato",
                 "view": "Se"
+            },
+            "alert": {
+                "protocolSuccessfullyDeleted": "Protokollen er slettet med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne protokol"
             },
             "citizens": {
                 "citizen": "Borger",
