@@ -463,10 +463,12 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/DutyScheduleService'
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 import { useUserStore } from '@/store/user'
 
 const userStore = useUserStore() as any
+const departmentStore = useDepartmentStore()
 const currentDate = ref(moment())
 const selectedDay = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
@@ -511,6 +513,12 @@ watch(() => state.progress.percentage, (newPercentage: any) => {
     }
 })
 
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchDutySchedule()
+    }
+})
+
 onMounted(() => {
     fetchDutySchedule()
 })
@@ -530,7 +538,8 @@ async function fetchDutySchedule() {
         const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
         const params = {
             date_start: startOfWeekFormatted,
-            date_end: endOfWeekFormatted
+            date_end: endOfWeekFormatted,
+            department: departmentStore.getSelectedDepartmentName,
         }
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
