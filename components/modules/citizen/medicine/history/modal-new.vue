@@ -43,6 +43,7 @@ const state = reactive({
     formMedicineHistory: {
         date: '',
         quantity: '',
+        type: 'delivered',
     },
 })
 
@@ -62,6 +63,7 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
             medicine_uuid: selectedMedicineUuid,
             date: medicineHistoryDetails.date,
             quantity: medicineHistoryDetails.quantity,
+            type: medicineHistoryDetails.type,
         }
         const response = await medicineHistoryService.saveMedicineHistory(params)
         if (response?.data) {

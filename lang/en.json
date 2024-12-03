@@ -570,7 +570,13 @@
                         "successfullyUpdated": "Medicine history successfully update"
                     },
                     "dailyDose": "Daily dose",
-                    "date": "Date"
+                    "date": "Date",
+                    "type": {
+                        "type": "Type",
+                        "delivered": "Report delivery",
+                        "deviated": "Report deviation",
+                        "given": "Given"
+                    }
                 },
                 "giveMedicine": "Give medicine",
                 "medicineHistory": "Medicine history",
@@ -581,6 +587,12 @@
                     },
                     "date": "Date",
                     "dailyDose": "Daily dose",
+                    "type": {
+                        "type": "Type",
+                        "delivered": "Report delivery",
+                        "deviated": "Report deviation",
+                        "given": "Given"
+                    },
                     "user": "User"
                 }
             },

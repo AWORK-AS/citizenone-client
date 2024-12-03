@@ -41,7 +41,9 @@
                 <FormError :error="props?.error?.errors?.content?.[0]" />
             </div>
             <div class="space-y-1">
-                {{ $t('citizens.citizenJournals.form.riskAssessment') }}
+                <p class="text-sm text-gray-600">
+                    {{ $t('citizens.citizenJournals.form.riskAssessment') }}
+                </p>
                 <div>
                     <RadioGroup v-model="state.formJournal.assessment"
                         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">

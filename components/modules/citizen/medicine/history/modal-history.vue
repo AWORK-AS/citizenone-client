@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="2xl" :title="$t('citizens.medicineJournals.history.medicineHistory')" :show="props.isModalOpen"
+        <Modal size="3xl" :title="$t('citizens.medicineJournals.history.medicineHistory')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div>
@@ -23,10 +23,21 @@
                                         <td width="30%">
                                             <span>{{ formatDateToReadable(medicineHistory?.date) }}</span>
                                         </td>
-                                        <td width="15%">
+                                        <td width="10%">
                                             <span>{{ medicineHistory?.quantity }}</span>
                                         </td>
-                                        <td width="25%">
+                                        <td width="10%">
+                                            <span v-if="medicineHistory?.type === 'delivered'">
+                                                {{ $t('citizens.medicineJournals.history.table.type.delivered') }}
+                                            </span>
+                                            <span v-if="medicineHistory?.type === 'deviated'">
+                                                {{ $t('citizens.medicineJournals.history.table.type.deviated') }}
+                                            </span>
+                                            <span v-if="medicineHistory?.type === 'given'">
+                                                {{ $t('citizens.medicineJournals.history.table.type.given') }}
+                                            </span>
+                                        </td>
+                                        <td width="20%">
                                             <span>
                                                 {{ medicineHistory?.user?.firstname }}
                                                 {{ medicineHistory?.user?.lastname }}
@@ -96,6 +107,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'citizens.medicineJournals.history.table.date', sorter: true, key: 'date' },
         { name: 'citizens.medicineJournals.history.table.dailyDose', sorter: true, key: 'quantity' },
+        { name: 'citizens.medicineJournals.history.table.type.type', sorter: true, key: 'type' },
         { name: 'citizens.medicineJournals.history.table.user' },
         { name: '' },
     ],

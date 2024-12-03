@@ -61,6 +61,7 @@ async function updateMedicineHistory(medicineHistoryDetails: any) {
         const params = {
             date: medicineHistoryDetails.date,
             quantity: medicineHistoryDetails.quantity,
+            type: medicineHistoryDetails.type,
         }
         const response = await medicineHistoryService.updateMedicineHistory(medicineHistoryUuid, params)
         if (response?.data) {

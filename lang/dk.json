@@ -570,7 +570,13 @@
                         "successfullyUpdated": "Medicinhistorik opdateret med succes"
                     },
                     "dailyDose": "Daglig dosis",
-                    "date": "Dato"
+                    "date": "Dato",
+                    "type": {
+                        "type": "Type",
+                        "delivered": "Registrer udlevering",
+                        "deviated": "Report delivery",
+                        "given": "Givet"
+                    }
                 },
                 "giveMedicine": "Giv medicin",
                 "medicineHistory": "Medicinhistorik",
@@ -581,6 +587,12 @@
                     },
                     "date": "Dato",
                     "dailyDose": "Daglig dosis",
+                    "type": {
+                        "type": "Type",
+                        "delivered": "Registrer udlevering",
+                        "deviated": "Report delivery",
+                        "given": "Givet"
+                    },
                     "user": "Bruger"
                 }
             },
