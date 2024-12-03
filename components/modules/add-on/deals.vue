@@ -14,10 +14,17 @@
                             {{ $t('subscription.addOnDeals.extraDepartment') }}
                         </p>
                         <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                            <p>
+                            <p v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
                                 {{ formatAmount(state.addOnDeals.department?.data?.monthly_price) }}
                                 <span class="lowercase">
                                     /{{ $t('subscription.deal.month') }}
+                                    {{ $t('excludeVat') }}
+                                </span>
+                            </p>
+                            <p v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
+                                {{ formatAmount(state.addOnDeals.department?.data?.yearly_price) }}
+                                <span class="lowercase">
+                                    /{{ $t('subscription.deal.year') }}
                                     {{ $t('excludeVat') }}
                                 </span>
                             </p>
@@ -28,8 +35,15 @@
                             @input="validateDepartmentQuantity" />
                     </div>
                     <div class="flex items-center lg:justify-end">
-                        <p class="leading-6 text-gray-900">
+                        <p class="leading-6 text-gray-900"
+                            v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
                             {{ formatAmount(state.addOnDeals.department?.data?.monthly_price *
+                                parseInt(state.formAddOn.department === '' ? '0' :
+                                    state.formAddOn.department)) }}
+                        </p>
+                        <p class="leading-6 text-gray-900"
+                            v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
+                            {{ formatAmount(state.addOnDeals.department?.data?.yearly_price *
                                 parseInt(state.formAddOn.department === '' ? '0' :
                                     state.formAddOn.department)) }}
                         </p>
@@ -41,10 +55,17 @@
                             {{ $t('subscription.addOnDeals.extraUser') }}
                         </p>
                         <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                            <p>
+                            <p v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
                                 {{ formatAmount(state.addOnDeals.user?.data?.monthly_price) }}
                                 <span class="lowercase">
                                     /{{ $t('subscription.deal.month') }}
+                                    {{ $t('excludeVat') }}
+                                </span>
+                            </p>
+                            <p v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
+                                {{ formatAmount(state.addOnDeals.user?.data?.yearly_price) }}
+                                <span class="lowercase">
+                                    /{{ $t('subscription.deal.year') }}
                                     {{ $t('excludeVat') }}
                                 </span>
                             </p>
@@ -55,8 +76,15 @@
                             @input="validateUserQuantity" />
                     </div>
                     <div class="flex items-center lg:justify-end">
-                        <p class="leading-6 text-gray-900">
+                        <p class="leading-6 text-gray-900"
+                            v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
                             {{ formatAmount(state.addOnDeals.user?.data?.monthly_price *
+                                parseInt(state.formAddOn.user === '' ? '0' :
+                                    state.formAddOn.user)) }}
+                        </p>
+                        <p class="leading-6 text-gray-900"
+                            v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
+                            {{ formatAmount(state.addOnDeals.user?.data?.yearly_price *
                                 parseInt(state.formAddOn.user === '' ? '0' :
                                     state.formAddOn.user)) }}
                         </p>
@@ -66,7 +94,7 @@
                     <p class="font-semibold">
                         {{ $t('subscription.addOnDeals.total') }}
                     </p>
-                    <p>
+                    <p v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
                         <span class="font-semibold">
                             {{ formatAmount((state.addOnDeals.department?.data?.monthly_price *
                                 parseInt(state.formAddOn.department === '' ? '0' :
@@ -76,6 +104,19 @@
                         </span>
                         <span class="lowercase text-xs">
                             /{{ $t('subscription.deal.month') }}
+                            {{ $t('excludeVat') }}
+                        </span>
+                    </p>
+                    <p v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
+                        <span class="font-semibold">
+                            {{ formatAmount((state.addOnDeals.department?.data?.yearly_price *
+                                parseInt(state.formAddOn.department === '' ? '0' :
+                                    state.formAddOn.department) + (state.addOnDeals.user?.data?.yearly_price *
+                                        parseInt(state.formAddOn.user === '' ? '0' :
+                                            state.formAddOn.user)))) }}
+                        </span>
+                        <span class="lowercase text-xs">
+                            /{{ $t('subscription.deal.year') }}
                             {{ $t('excludeVat') }}
                         </span>
                     </p>
@@ -95,10 +136,12 @@
 import { addOnDealsService } from '@/components/api/AddOnDealsService'
 import { cartService } from '@/components/api/CartService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
+const userStore = useUserStore() as any
 let checkout = null as any
 
 const state = reactive({
