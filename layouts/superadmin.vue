@@ -50,6 +50,9 @@
                                                         <span v-if="item.name === 'Invoices'">
                                                             {{ $t('superadmin.sidebar.invoices') }}
                                                         </span>
+                                                        <span v-if="item.name === 'Coupons'">
+                                                            {{ $t('superadmin.sidebar.coupons') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Sales Campaign'">
                                                             {{ $t('superadmin.sidebar.salesCampaign') }}
                                                         </span>
@@ -123,6 +126,9 @@
                                         </span>
                                         <span v-if="item.name === 'Invoices'">
                                             {{ $t('superadmin.sidebar.invoices') }}
+                                        </span>
+                                        <span v-if="item.name === 'Coupons'">
+                                            {{ $t('superadmin.sidebar.coupons') }}
                                         </span>
                                         <span v-if="item.name === 'Sales Campaign'">
                                             {{ $t('superadmin.sidebar.salesCampaign') }}
@@ -314,6 +320,16 @@ const navigation = [
         activeRouteNames: [
             'superadmin-invoices',
             'superadmin-invoices-invoice_uuid',
+        ]
+    },
+    {
+        name: 'Coupons',
+        href: '/superadmin/coupons',
+        icon: 'ic:outline-discount',
+        activeRouteNames: [
+            'superadmin-coupons',
+            'superadmin-coupons-new',
+            'superadmin-coupons-couponUuid-edit',
         ]
     },
     {

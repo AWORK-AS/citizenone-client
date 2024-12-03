@@ -14,7 +14,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesSuperadminAppForm formType="create" :selectedPoll="state.formApp" :error="state.error"
+                    <ModulesSuperadminAppForm formType="create" :selectedApp="state.formApp" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="saveApp" />
                 </LoadingSpinner>
             </div>

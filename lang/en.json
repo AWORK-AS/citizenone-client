@@ -2115,6 +2115,7 @@
             "coupons": "Coupons",
             "editCoupon": "Edit coupon",
             "form": {
+                "active": "Active",
                 "alert": {
                     "couponSuccessfullyUpdated": "Coupon successfully updated",
                     "newCouponSuccessfullySaved": "New coupon successfully saved"
@@ -2123,10 +2124,11 @@
                 "code": "Code",
                 "description": "Description",
                 "expiration": "Expiration",
+                "status": "Status",
                 "unit": {
                     "amount": "Amount",
                     "percentage": "Percentage",
-                    "unit": "unit"
+                    "unit": "Unit"
                 }
             },
             "newCoupon": "New coupon",
@@ -2135,6 +2137,7 @@
                     "delete": "Delete",
                     "edit": "Edit"
                 },
+                "active": "Active",
                 "alert": {
                     "couponSuccessfullyDeleted": "Coupon successfully deleted"
                 },
@@ -2145,10 +2148,12 @@
                 "code": "Code",
                 "description": "Description",
                 "expiration": "Expiration",
+                "inactive": "Inctive",
+                "status": "Status",
                 "unit": {
                     "amount": "Amount",
                     "percentage": "Percentage",
-                    "unit": "unit"
+                    "unit": "Unit"
                 }
             }
         },
@@ -2301,6 +2306,7 @@
         "sidebar": {
             "apps": "Apps",
             "companies": "Companies",
+            "coupons": "Coupons",
             "dashboard": "Dashboard",
             "invoices": "Invoices",
             "orders": "Orders",

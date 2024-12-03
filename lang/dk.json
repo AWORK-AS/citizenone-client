@@ -2112,6 +2112,7 @@
             }
         },
         "coupons": {
+            "active": "Aktiv",
             "coupons": "Kuponer",
             "editCoupon": "Rediger kupon",
             "form": {
@@ -2123,6 +2124,7 @@
                 "code": "Kode",
                 "description": "Beskrivelse",
                 "expiration": "Udløbsdato",
+                "status": "Status",
                 "unit": {
                     "amount": "Beløb",
                     "percentage": "Procentdel",
@@ -2135,6 +2137,7 @@
                     "delete": "Slet",
                     "edit": "Rediger"
                 },
+                "active": "Aktiv",
                 "alert": {
                     "couponSuccessfullyDeleted": "Kupon slettet med succes"
                 },
@@ -2145,6 +2148,8 @@
                 "code": "Kode",
                 "description": "Beskrivelse",
                 "expiration": "Udløbsdato",
+                "inactive": "Inaktiv",
+                "status": "Status",
                 "unit": {
                     "amount": "Beløb",
                     "percentage": "Procentdel",
@@ -2301,6 +2306,7 @@
         "sidebar": {
             "apps": "Apps",
             "companies": "Virksomheder",
+            "coupons": "Kuponer",
             "dashboard": "Dashboard",
             "invoices": "Fakturaer",
             "orders": "Ordrer",
