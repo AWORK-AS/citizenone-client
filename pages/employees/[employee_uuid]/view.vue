@@ -293,7 +293,7 @@
                                     {{ $t('employees.documents.documentsShortDescription') }}.
                                 </p>
                             </div>
-                            <div class="grid grid-cols-3 md:col-span-2 gap-x-5 gap-y-3">
+                            <div class="grid grid-cols-1 md:grid-cols-2 md:col-span-2 gap-x-5 gap-y-3">
                                 <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:py-10 cursor-pointer hover:bg-gray-50"
                                     @click="state.modal.isViewEmploymentContractsOpen = true">
                                     <div class="flex items-center justify-center gap-x-2">
@@ -321,6 +321,15 @@
                                         </p>
                                     </div>
                                 </div>
+                                <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:py-10 cursor-pointer hover:bg-gray-50"
+                                    @click="state.modal.isViewDriversLicenseOpen = true">
+                                    <div class="flex items-center justify-center gap-x-2">
+                                        <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
+                                        <p class="text-xs font-semibold leading-7 text-gray-900">
+                                            {{ $t('employees.documents.driversLicense') }}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </LoadingSpinner>
@@ -333,6 +342,8 @@
             <ModulesEmployeeChildProtectionCertificateModalView
                 :isModalOpen="state.modal.isViewChildProtectionCertificatesOpen"
                 @close="state.modal.isViewChildProtectionCertificatesOpen = false" />
+            <ModulesEmployeeDriversLicenseModalView :isModalOpen="state.modal.isViewDriversLicenseOpen"
+                @close="state.modal.isViewDriversLicenseOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -353,6 +364,7 @@ const state = reactive({
         isViewCriminalRecordsOpen: false,
         isViewEmploymentContractsOpen: false,
         isViewChildProtectionCertificatesOpen: false,
+        isViewDriversLicenseOpen: false,
     },
     selectedEmployee: {
         firstname: '',

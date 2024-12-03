@@ -57,7 +57,7 @@
                 </div>
                 <ModulesEmployeeChildProtectionCertificateModalNew :isModalOpen="state.modal.isAddNewDocumentOpen"
                     @close="state.modal.isAddNewDocumentOpen = false" @refreshEmployeeDocuments="fetchDocuments" />
-                <ModulesEmployeeEmploymentContractModalEdit :isModalOpen="state.modal.isEditDocumentOpen"
+                <ModulesEmployeeChildProtectionCertificateModalEdit :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedEmployeeDocument="state.selectedEmployeeDocument"
                     @close="state.modal.isEditDocumentOpen = false" @refreshEmployeeDocuments="fetchDocuments" />
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"

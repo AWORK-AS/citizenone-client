@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('employees.documents.criminalRecords')" :show="props.isModalOpen"
+        <Modal size="xl" :title="$t('employees.documents.driversLicense')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div>
@@ -55,9 +55,9 @@
                         <Pagination :data="state.documents" @previous="previous" @next="next" />
                     </div>
                 </div>
-                <ModulesEmployeeCriminalRecordModalNew :isModalOpen="state.modal.isAddNewDocumentOpen"
+                <ModulesEmployeeDriversLicenseModalNew :isModalOpen="state.modal.isAddNewDocumentOpen"
                     @close="state.modal.isAddNewDocumentOpen = false" @refreshEmployeeDocuments="fetchDocuments" />
-                <ModulesEmployeeCriminalRecordModalEdit :isModalOpen="state.modal.isEditDocumentOpen"
+                <ModulesEmployeeDriversLicenseModalEdit :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedEmployeeDocument="state.selectedEmployeeDocument"
                     @close="state.modal.isEditDocumentOpen = false" @refreshEmployeeDocuments="fetchDocuments" />
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
@@ -127,7 +127,7 @@ async function fetchDocuments() {
     state.isTableLoading = true
     try {
         const params = {
-            file_type: 'criminal_record',
+            file_type: 'drivers_license',
             employee_uuid: employeeUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
