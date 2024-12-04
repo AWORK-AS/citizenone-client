@@ -815,7 +815,22 @@
         },
         "dailyOverview": "Daily overview",
         "filter": {
+            "chooseWhatToDisplay": "Choose what to display",
             "endDate": "End date",
+            "filterDailyOverview": "Filter daily overview",
+            "items": {
+                "bulletBoard": "Bullet board",
+                "citizensAddictions": "Citizens addictions",
+                "citizensAdmissionAndDischarged": "Citizens admission and discharged",
+                "citizensDailyEvents": "Citizens daily events",
+                "citizensDiagnoses": "Citizens diagnoses",
+                "citizensOrigin": "Citizens origin",
+                "dailyMedicineOverview": "Daily medicine overview",
+                "gender": "Gender",
+                "latestJournal": "Latest journal notes",
+                "myDailyEvents": "My daily events",
+                "riskAssessment": "Risk assessment"
+            },
             "show": "Show",
             "startDate": "Start date"
         },

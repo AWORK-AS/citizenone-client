@@ -815,7 +815,22 @@
         },
         "dailyOverview": "Daglig oversigt",
         "filter": {
+            "chooseWhatToDisplay": "Vælg, hvad der skal vises",
             "endDate": "Slutdato",
+            "filterDailyOverview": "Filtrer dagligt overblik",
+            "items": {
+                "bulletBoard": "Opslagstavle",
+                "citizensAddictions": "Borgernes afhængigheder",
+                "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
+                "citizensDailyEvents": "Borgeres daglige begivenheder",
+                "citizensDiagnoses": "Borgernes diagnoser",
+                "citizensOrigin": "Borgernes oprindelse",
+                "dailyMedicineOverview": "Daglig medicinoversigt",
+                "gender": "Køn",
+                "latestJournal": "Seneste journalnotater",
+                "myDailyEvents": "Mine daglige begivenheder",
+                "riskAssessment": "Risikovurdering"
+            },
             "show": "Vis",
             "startDate": "Startdato"
         },

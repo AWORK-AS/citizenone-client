@@ -18,21 +18,21 @@
                 <div class="flex items-center gap-x-3">
                     <p class="text-sm">{{ $t('dailyOverview.filter.show') }}</p>
                     <FormButton buttonSize="sm" :class="[
-                        dailyOverviewStore.getFilter.showCitizenDailyEvents && 'border-secondary bg-secondary text-white',
+                        dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents && 'border-secondary bg-secondary text-white',
                         'rounded-md w-full md:w-fit']"
-                        @click="dailyOverviewStore.setShowCitizenDailyEvents(!dailyOverviewStore.getFilter.showCitizenDailyEvents)">
+                        @click="dailyOverviewStore.setViewAllShowCitizenDailyEvents(!dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents)">
                         {{ $t('dailyOverview.citizensDailyEvents') }}
                     </FormButton>
                     <FormButton buttonSize="sm" :class="[
-                        dailyOverviewStore.getFilter.showCitizenMedicineOverview && 'border-secondary bg-secondary text-white',
+                        dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview && 'border-secondary bg-secondary text-white',
                         'rounded-md w-full md:w-fit']"
-                        @click="dailyOverviewStore.setShowCitizenMedicineOverview(!dailyOverviewStore.getFilter.showCitizenMedicineOverview)">
-                        {{ $t('dailyOverview.dailyMedicineOverview') }}
+                        @click="dailyOverviewStore.setViewAllShowCitizenMedicineOverview(!dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview)">
+                        {{ $t('dailyOverview.dailyMedicineOverview.dailyMedicineOverview') }}
                     </FormButton>
                     <FormButton buttonSize="sm" :class="[
-                        dailyOverviewStore.getFilter.showLatestJournalNotes && 'border-secondary bg-secondary text-white',
+                        dailyOverviewStore.getViewAllFilter.showLatestJournalNotes && 'border-secondary bg-secondary text-white',
                         'rounded-md w-full md:w-fit']"
-                        @click="dailyOverviewStore.setShowLatestJournalNotes(!dailyOverviewStore.getFilter.showLatestJournalNotes)">
+                        @click="dailyOverviewStore.setViewAllShowLatestJournalNotes(!dailyOverviewStore.getViewAllFilter.showLatestJournalNotes)">
                         {{ $t('dailyOverview.latestJournal') }}
                     </FormButton>
                 </div>
@@ -52,15 +52,15 @@
 
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-                    <div v-if="dailyOverviewStore.getFilter.showCitizenDailyEvents">
+                    <div v-if="dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents">
                         <ModulesDailyOverviewCitizensDailyEvents :startDate="state.searchFilter.start_date"
                             :endDate="state.searchFilter.end_date" />
                     </div>
-                    <div v-if="dailyOverviewStore.getFilter.showCitizenMedicineOverview">
+                    <div v-if="dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview">
                         <ModulesDailyOverviewCitizensMedicineOverview :startDate="state.searchFilter.start_date"
                             :endDate="state.searchFilter.end_date" />
                     </div>
-                    <div v-if="dailyOverviewStore.getFilter.showLatestJournalNotes">
+                    <div v-if="dailyOverviewStore.getViewAllFilter.showLatestJournalNotes">
                         <ModulesDailyOverviewLatestJournal :startDate="state.searchFilter.start_date"
                             :endDate="state.searchFilter.end_date" />
                     </div>

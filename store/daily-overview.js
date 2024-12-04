@@ -4,34 +4,72 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
     {
         persist: true,
         state: () => ({
-            filter: {
+            dailyOverviewFilter: {
+                showBulletBoard: false,
+                showCitizensAddictions: false,
+                showCitizensAdmissionAndDischarged: false,
+                showCitizensDailyEvents: false,
+                showCitizensDiagnoses: false,
+                showCitizensOrigin: false,
+                showDailyMedicineOverview: false,
+                showGender: false,
+                showLatestJournal: false,
+                showMyDailyEvents: false,
+                showRiskAssessment: false,
+            },
+            viewAllFilter: {
                 showCitizenDailyEvents: true,
                 showCitizenMedicineOverview: true,
                 showLatestJournalNotes: true,
             },
         }),
         actions: {
-            setShowCitizenDailyEvents(flag) {
-                this.filter.showCitizenDailyEvents = flag
+            setDailyOverviewFilterShowBulletBoard(flag) {
+                this.dailyOverviewFilter.showBulletBoard = flag
             },
-            setShowCitizenMedicineOverview(flag) {
-                this.filter.showCitizenMedicineOverview = flag
+            setDailyOverviewFilterShowCitizenAdditictions(flag) {
+                this.dailyOverviewFilter.showCitizensAddictions = flag
             },
-            setShowLatestJournalNotes(flag) {
-                this.filter.showLatestJournalNotes = flag
+            setDailyOverviewFilterShowCitizensAdmissionAndDischarged(flag) {
+                this.dailyOverviewFilter.showCitizensAdmissionAndDischarged = flag
             },
-            resetShowCitizenDailyEvents() {
-                this.filter.showCitizenDailyEvents = false
+            setDailyOverviewFilterShowCitizensDailyEvents(flag) {
+                this.dailyOverviewFilter.showCitizensDailyEvents = flag
             },
-            resetShowCitizenMedicineOverview() {
-                this.filter.showCitizenMedicineOverview = false
+            setDailyOverviewFilterShowCitizensDiagnoses(flag) {
+                this.dailyOverviewFilter.showCitizensDiagnoses = flag
             },
-            resetShowLatestJournalNotes() {
-                this.filter.showLatestJournalNotes = false
+            setDailyOverviewFilterShowCitizensOrigin(flag) {
+                this.dailyOverviewFilter.showCitizensOrigin = flag
+            },
+            setDailyOverviewFilterShowDailyMedicineOverview(flag) {
+                this.dailyOverviewFilter.showDailyMedicineOverview = flag
+            },
+            setDailyOverviewFilterShowGender(flag) {
+                this.dailyOverviewFilter.showGender = flag
+            },
+            setDailyOverviewFilterShowLatestJournal(flag) {
+                this.dailyOverviewFilter.showLatestJournal = flag
+            },
+            setDailyOverviewFilterShowMyDailyEvents(flag) {
+                this.dailyOverviewFilter.showMyDailyEvents = flag
+            },
+            setDailyOverviewFilterShowRiskAssessment(flag) {
+                this.dailyOverviewFilter.showRiskAssessment = flag
+            },
+            setViewAllShowCitizenDailyEvents(flag) {
+                this.viewAllFilter.showCitizenDailyEvents = flag
+            },
+            setViewAllShowCitizenMedicineOverview(flag) {
+                this.viewAllFilter.showCitizenMedicineOverview = flag
+            },
+            setViewAllShowLatestJournalNotes(flag) {
+                this.viewAllFilter.showLatestJournalNotes = flag
             },
         },
         getters: {
-            getFilter: (state) => state.filter,
+            getDailyOverviewFilter: (state) => state.dailyOverviewFilter,
+            getViewAllFilter: (state) => state.viewAllFilter,
         },
     },
 )
