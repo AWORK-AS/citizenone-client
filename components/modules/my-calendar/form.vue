@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submitForm()">
+    <form @submit.prevent="submitForm()" id="formSchedule">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
@@ -255,3 +255,9 @@ async function fetchAllUsers() {
     state.isPageLoading = false
 }
 </script>
+
+<style>
+#formSchedule .multiselect-dropdown {
+    max-height: 6rem !important;
+}
+</style>
