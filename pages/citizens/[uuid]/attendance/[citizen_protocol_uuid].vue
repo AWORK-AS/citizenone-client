@@ -160,7 +160,10 @@ async function fetchCitizenProtocolsCount() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await protocolService.getCitizenProtocolsCount(citizenUuid)
+        const params = {
+            protocol_uuid: citizenProtocolUuid,
+        }
+        const response = await protocolService.getCitizenProtocolsCount(citizenUuid, params)
         if (response) {
             state.citizenProtocolsCount = response
         }
