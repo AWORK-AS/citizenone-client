@@ -223,14 +223,14 @@ async function handleSaveCart() {
     state.isPageLoading = true
     state.error = {}
     try {
-        if (state.formAddOn.department !== '' && parseInt(state.formAddOn.department) > 0) {
+        if (state.formAddOn.department !== '' && parseInt(state.formAddOn.department) > -1) {
             const params = {
                 'addon_uuid': state.addOnDeals.department?.data?.uuid,
                 'quantity': state.formAddOn.department
             }
             await cartService.saveCart(params)
         }
-        if (state.formAddOn.user !== '' && parseInt(state.formAddOn.user) > 0) {
+        if (state.formAddOn.user !== '' && parseInt(state.formAddOn.user) > -1) {
             const params = {
                 'addon_uuid': state.addOnDeals.user?.data?.uuid,
                 'quantity': state.formAddOn.user
