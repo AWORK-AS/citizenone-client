@@ -2111,6 +2111,7 @@
                     "view": "View"
                 },
                 "active": "Active",
+                "id": "ID",
                 "inactive": "Inactive",
                 "cvr": "CVR",
                 "name": "Name",

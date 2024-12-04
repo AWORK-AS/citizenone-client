@@ -2111,6 +2111,7 @@
                     "view": "Vis"
                 },
                 "active": "Aktiv",
+                "id": "ID",
                 "inactive": "Inaktiv",
                 "cvr": "CVR",
                 "name": "Navn",

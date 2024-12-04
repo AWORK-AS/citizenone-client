@@ -29,13 +29,16 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.companies?.data?.length === 0))">
                                 <tr v-for="(company, index) in state.companies?.data" :key="index">
+                                    <td width="10%">
+                                        <span>74312{{ company?.id }}</span>
+                                    </td>
                                     <td width="20%">
                                         <span>{{ company?.name }}</span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <span>{{ company?.cvr }}</span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <span>{{ company?.website }}</span>
                                     </td>
                                     <td width="20%">
@@ -101,6 +104,7 @@ const state = reactive({
         { column: '' },
     ],
     columnHeaders: [
+        { name: 'superadmin.companies.table.id', sorter: true, key: 'id' },
         { name: 'superadmin.companies.table.name', sorter: true, key: 'name' },
         { name: 'superadmin.companies.table.cvr', sorter: true, key: 'cvr' },
         { name: 'superadmin.companies.table.website', sorter: true, key: 'website' },
