@@ -74,9 +74,9 @@
                 </div>
                 <Pagination :data="state.citizenProtocols" @previous="previous" @next="next" />
             </div>
-            <DialogConfirmation :isModalOpen="state.modal.isRemoveCitizenOpen"
-                :message="$t('citizens.citizenJournals.confirmation.deleteConfirmation') + '?'"
-                @close="state.modal.isRemoveCitizenOpen = false" @confirm="removeCitizen" />
+            <DialogConfirmation :isModalOpen="state.modal.isRemoveCitizenProtocolOpen"
+                :message="$t('protocols.table.confirmation.deleteConfirmation') + '?'"
+                @close="state.modal.isRemoveCitizenProtocolOpen = false" @confirm="deleteCitizenProtocol" />
         </NuxtLayout>
     </div>
 </template>
@@ -113,7 +113,7 @@ const state = reactive({
     isPageLoading: false,
     isTableLoading: false,
     modal: {
-        isRemoveCitizenOpen: false
+        isRemoveCitizenProtocolOpen: false
     },
     selectedCitizenProtocol: [] as any,
     selectedProtocol: [] as any,
@@ -224,10 +224,10 @@ async function markAsPresent(citizenProtocolUuid: string) {
 
 function confirmRemoving(citizenProtocol: any) {
     state.selectedCitizenProtocol = citizenProtocol
-    state.modal.isRemoveCitizenOpen = true
+    state.modal.isRemoveCitizenProtocolOpen = true
 }
 
-async function removeCitizen() {
+async function deleteCitizenProtocol() {
     state.error = {}
     state.isTableLoading = true
     try {
