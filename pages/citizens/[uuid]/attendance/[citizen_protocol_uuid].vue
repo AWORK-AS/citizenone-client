@@ -34,10 +34,12 @@
                                 <Badge type="primary" class="w-fit">
                                     {{ $t('protocols.table.status.attended') }}:
                                     {{ state.citizenProtocolsCount?.data?.attended ?? 0 }}
+                                    ({{ state.citizenProtocolsCount?.data?.attended_percent ?? 0 }}%)
                                 </Badge>
                                 <Badge type="inactive" class="w-fit">
                                     {{ $t('protocols.table.status.absent') }}:
                                     {{ state.citizenProtocolsCount?.data?.absent ?? 0 }}
+                                    ({{ state.citizenProtocolsCount?.data?.absent_percent ?? 0 }}%)
                                 </Badge>
                             </div>
                         </div>
