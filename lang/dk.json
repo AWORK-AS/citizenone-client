@@ -573,8 +573,8 @@
                     "date": "Dato",
                     "type": {
                         "type": "Type",
-                        "delivered": "Registrer udlevering",
-                        "deviated": "Report delivery",
+                        "delivered": "Udleveret",
+                        "deviated": "Afvigelse",
                         "given": "Givet"
                     }
                 },
@@ -589,8 +589,8 @@
                     "dailyDose": "Daglig dosis",
                     "type": {
                         "type": "Type",
-                        "delivered": "Registrer udlevering",
-                        "deviated": "Report delivery",
+                        "delivered": "Udleveret",
+                        "deviated": "Afvigelse",
                         "given": "Givet"
                     },
                     "user": "Bruger"

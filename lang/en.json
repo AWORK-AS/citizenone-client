@@ -573,8 +573,8 @@
                     "date": "Date",
                     "type": {
                         "type": "Type",
-                        "delivered": "Report delivery",
-                        "deviated": "Report deviation",
+                        "delivered": "Delivered",
+                        "deviated": "Deviated",
                         "given": "Given"
                     }
                 },
@@ -589,8 +589,8 @@
                     "dailyDose": "Daily dose",
                     "type": {
                         "type": "Type",
-                        "delivered": "Report delivery",
-                        "deviated": "Report deviation",
+                        "delivered": "Delivered",
+                        "deviated": "Deviated",
                         "given": "Given"
                     },
                     "user": "User"
