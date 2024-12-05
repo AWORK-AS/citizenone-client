@@ -1837,6 +1837,7 @@
         }
     },
     "show": "Show",
+    "showHide": "Show / hide",
     "search": "Search",
     "selectFile": "Select file",
     "selectedFile": "Selected file",

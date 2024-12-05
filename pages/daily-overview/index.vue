@@ -12,7 +12,7 @@
                 @click="state.modal.isFilterDailyOverviewOpen = true">
                 <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
                 <span class="group-hover:text-primary-700">
-                    {{ $t('filter') }}
+                    {{ $t('showHide') }}
                 </span>
             </button>
 

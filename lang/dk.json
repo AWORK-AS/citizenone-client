@@ -1837,6 +1837,7 @@
         }
     },
     "show": "Vis",
+    "showHide": "Vis / skjul",
     "search": "Søg",
     "selectFile": "Vælg fil",
     "selectedFile": "Valgt fil",
