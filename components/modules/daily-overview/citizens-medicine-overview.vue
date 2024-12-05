@@ -23,18 +23,50 @@
                     {{ $t('dailyOverview.createdBy') }}
                     {{ medicine?.user?.firstname + ' ' + medicine?.user?.lastname }}
                 </p>
-                <div class="px-1 space-y-0.5">
+                <div class="px-1 space-y-1">
                     <h3 class="text-base font-semibold">
                         {{ medicine?.medicine }}
                     </h3>
-                    <p class="text-xs">
-                        {{ $t('dailyOverview.dailyMedicineOverview.dailyDose') }}:
-                        {{ medicine?.daily_dose }}
-                    </p>
-                    <div class="text-xxs flex flex-wrap gap-2" v-if="medicine.time?.length > 0">
+                    <div class="text-xxs flex flex-wrap gap-1" v-if="medicine.time?.length > 0">
                         <span v-for="(time, index) in JSON.parse(medicine.time)" :key=index
-                            class="bg-primary p-1 text-white rounded-md">
+                            class="bg-primary px-2 py-1 text-white rounded-md">
+                            {{ medicine?.daily_dose }} @
                             {{ time }}
+                        </span>
+                    </div>
+                    <div class="text-xxs flex flex-wrap gap-1" v-if="medicine.due_dates?.length > 0">
+                        <span v-for="(due_date, index) in medicine.due_dates" :key=index
+                            class="bg-primary px-2 py-1 text-white rounded-md">
+                            {{ formatDateToReadable(due_date) }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div v-for="(medicine, index) in state.medicines?.data" :key="index" class="py-3">
+                <Badge type="primary" class="w-fit">
+                    <p class="text-xs px-2">
+                        {{ medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname }}
+                    </p>
+                </Badge>
+                <p class="text-xs py-1" v-if="medicine?.user?.firstname && medicine?.user?.lastname">
+                    {{ $t('dailyOverview.createdBy') }}
+                    {{ medicine?.user?.firstname + ' ' + medicine?.user?.lastname }}
+                </p>
+                <div class="px-1 space-y-1">
+                    <h3 class="text-base font-semibold">
+                        {{ medicine?.medicine }}
+                    </h3>
+                    <div class="text-xxs flex flex-wrap gap-1" v-if="medicine.time?.length > 0">
+                        <span v-for="(time, index) in JSON.parse(medicine.time)" :key=index
+                            class="bg-primary px-2 py-1 text-white rounded-md">
+                            {{ medicine?.daily_dose }} @
+                            {{ time }}
+                        </span>
+                    </div>
+                    <div class="text-xxs flex flex-wrap gap-1" v-if="medicine.due_dates?.length > 0">
+                        <span v-for="(due_date, index) in medicine.due_dates" :key=index
+                            class="bg-primary px-2 py-1 text-white rounded-md">
+                            {{ formatDateToReadable(due_date) }}
                         </span>
                     </div>
                 </div>
@@ -44,6 +76,7 @@
 </template>
 
 <script setup lang="ts">
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
@@ -59,6 +92,7 @@ const props = defineProps({
     },
 })
 
+const { formatDateToReadable } = useDatetimeFormatter()
 const departmentStore = useDepartmentStore()
 
 const state = reactive({

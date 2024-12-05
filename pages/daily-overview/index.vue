@@ -41,31 +41,34 @@
                         </div>
                     </div>
 
-                    <div class="flex justify-end">
-                        <div class="w-fit cursor-pointer">
-                            <FormButton buttonStyle="primary" @click="navigateTo('/daily-overview/view')">
-                                {{ $t('dailyOverview.viewAll') }}
-                            </FormButton>
+                    <div>
+                        <div class="flex justify-end">
+                            <div class="w-fit cursor-pointer">
+                                <FormButton buttonStyle="primary" @click="navigateTo('/daily-overview/view')">
+                                    {{ $t('dailyOverview.viewAll') }}
+                                </FormButton>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents ||
+                            dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
+                            dailyOverviewStore.getDailyOverviewFilter.showLatestJournal ||
+                            dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
+                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents">
+                                <ModulesDailyOverviewMyEventToday />
+                            </div>
+                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents">
+                                <ModulesDailyOverviewCitizensDailyEvents />
+                            </div>
+                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal">
+                                <ModulesDailyOverviewLatestJournal />
+                            </div>
+                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
+                                <ModulesDailyOverviewCitizensMedicineOverview />
+                            </div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents ||
-                        dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
-                        dailyOverviewStore.getDailyOverviewFilter.showLatestJournal ||
-                        dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
-                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents">
-                            <ModulesDailyOverviewMyEventToday />
-                        </div>
-                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents">
-                            <ModulesDailyOverviewCitizensDailyEvents />
-                        </div>
-                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal">
-                            <ModulesDailyOverviewLatestJournal />
-                        </div>
-                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
-                            <ModulesDailyOverviewCitizensMedicineOverview />
-                        </div>
-                    </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5"
                         v-if="dailyOverviewStore.getDailyOverviewFilter.showBulletBoard">
                         <ModulesDailyOverviewBulletBoard />
