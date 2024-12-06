@@ -1548,8 +1548,10 @@
         "loadingMessages": "Indlæser beskeder",
         "looksLikeYouHaventInitiatedAConversation": "Det ser ud til, at du ikke har startet en samtale",
         "messages": "Beskeder",
+        "message": "Besked",
         "noMessagesYet": "Ingen beskeder endnu",
-        "startTheConversation": "Start samtalen"
+        "startTheConversation": "Start samtalen",
+        "users": "Brugere"
     },
     "navbar": {
         "forms": "Formularer",
@@ -1880,7 +1882,7 @@
         "deal": {
             "additionalPurchaseFor": "tilkøb ekstra for",
             "annually": "Årligt",
-            "automaticSynchronizationWithFMK": "Automatisk synkronisering med FMK",
+            "automaticSynchronizationWithFMK": "Mulighed for synkronisering med FMK",
             "department": "Afdeling",
             "departments": "Afdelinger",
             "forExtraDepartment": "For ekstra afdeling",

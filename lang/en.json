@@ -1547,9 +1547,11 @@
         "allMessagesAreLoaded": "All messages are loaded",
         "loadingMessages": "Loading messages",
         "looksLikeYouHaventInitiatedAConversation": "Looks like you haven't initiated a conversation",
+        "message": "Message",
         "messages": "Messages",
         "noMessagesYet": "No messages yet",
-        "startTheConversation": "Start the conversation"
+        "startTheConversation": "Start the conversation",
+        "users": "Users"
     },
     "navbar": {
         "forms": "Forms",
@@ -1880,7 +1882,7 @@
         "deal": {
             "additionalPurchaseFor": "Additional purchase for",
             "annually": "Annually",
-            "automaticSynchronizationWithFMK": "Automatic synchronization with FMK",
+            "automaticSynchronizationWithFMK": "Possibility of synchronization with FMK",
             "department": "Department",
             "departments": "departments",
             "forExtraDepartment": "For extra department",
