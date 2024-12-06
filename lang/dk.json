@@ -737,7 +737,7 @@
                 "name": "Navn",
                 "note": "Note"
             },
-            "newWallet": "Ny pung",
+            "newWallet": "Ny wallet",
             "table": {
                 "actions": {
                     "delete": "Slet",
@@ -748,7 +748,7 @@
                 "name": "Navn",
                 "note": "Note"
             },
-            "wallets": "Punge"
+            "wallets": "Økonomi"
         },
         "walletTransactions": {
             "alert": {
@@ -785,7 +785,7 @@
                 "openUploadDocument": "Åbn uploadet dokument",
                 "type": "Type"
             },
-            "walletTransactions": "Pungtransaktioner"
+            "walletTransactions": "Transaktionshistorik"
         }
     },
     "chooseFile": "Vælg fil",
