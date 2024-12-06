@@ -770,7 +770,7 @@
                 "note": "Note",
                 "type": "Type"
             },
-            "newWalletTransaction": "New wallet transaction",
+            "newWalletTransaction": "New transaction",
             "table": {
                 "actions": {
                     "delete": "Delete",
@@ -1551,6 +1551,7 @@
         "messages": "Messages",
         "noMessagesYet": "No messages yet",
         "startTheConversation": "Start the conversation",
+        "send": "Send",
         "users": "Users"
     },
     "navbar": {

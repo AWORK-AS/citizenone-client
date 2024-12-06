@@ -770,7 +770,7 @@
                 "note": "Note",
                 "type": "Type"
             },
-            "newWalletTransaction": "Ny pungtransaktion",
+            "newWalletTransaction": "Ny transaktion",
             "table": {
                 "actions": {
                     "delete": "Slet",
@@ -1551,6 +1551,7 @@
         "message": "Besked",
         "noMessagesYet": "Ingen beskeder endnu",
         "startTheConversation": "Start samtalen",
+        "send": "Send",
         "users": "Brugere"
     },
     "navbar": {
