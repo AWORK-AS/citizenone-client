@@ -15,40 +15,47 @@
                 <ul>
                     <li v-for="file in files" :key="file.name">{{ file.name }}</li>
                 </ul>
+
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
                         <div class="md:col-span-5 xl:col-span-4 bg-white rounded-md p-6 overflow-y-auto"
                             style="height: 80vh;">
-                            <ul>
-                                <li class="flex items-center space-x-4 border-b border-gray-100 px-1 py-3 cursor-pointer"
-                                    v-for="(chattedUser, index) in state.chattedUsers" :key="index"
-                                    @click="messageEmployee(chattedUser)">
-                                    <img :src="chattedUser?.profile_image ?? '/img/avatars/user.svg'" alt="User"
-                                        class="w-12 h-12 rounded-full object-cover">
-                                    <div>
-                                        <h4 class="font-semibold text-sm">
-                                            {{ chattedUser?.firstname + " " + chattedUser?.lastname }}
-                                        </h4>
-                                        <p class="text-gray-600 text-xs">
-                                            {{ chattedUser?.email }}
-                                        </p>
-                                    </div>
-                                </li>
-                            </ul>
+                            <ModulesMessagesChats :chats="state.chats" />
                         </div>
                         <div class="md:col-span-7 xl:col-span-8 bg-white rounded-md pb-6">
                             <div class="px-6 py-3 shadow-sm">
                                 <div class="flex items-center gap-x-2">
-                                    <img :src="employeeStore.getSelectedEmployee?.profile_image ?? '/img/avatars/user.svg'"
-                                        alt="User" class="w-12 h-12 rounded-full object-cover">
-                                    <div>
-                                        <h4 class="font-semibold text-sm">
-                                            {{ employeeStore.getSelectedEmployee?.firstname }}
-                                            {{ employeeStore.getSelectedEmployee?.lastname }}
-                                        </h4>
-                                        <p class="text-gray-600 text-xs">
-                                            {{ employeeStore.getSelectedEmployee?.email }}
-                                        </p>
+                                    <div v-if="state.chat?.data?.type === 'direct'">
+                                        <div>
+                                            <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members)"
+                                                :index="index" class="flex items-center space-x-4">
+                                                <img :src="chatMember?.user?.profile_image ?? '/img/avatars/user.svg'"
+                                                    alt="Item 1" class="w-12 h-12 rounded-full object-cover">
+                                                <div>
+                                                    <h4 class="font-semibold text-sm">
+                                                        {{ chatMember?.user?.firstname + " " +
+                                                            chatMember?.user?.lastname }}
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-if="state.chat?.data?.type === 'group'">
+                                        <div class="flex items-center space-x-4">
+                                            <img src="/img/avatars/user.svg" alt="Item 1"
+                                                class="w-12 h-12 rounded-full object-cover">
+                                            <div class="flex gap-x-1 truncate">
+                                                <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members)"
+                                                    :index="index">
+                                                    <h4 class="font-semibold text-sm">
+                                                        {{ chatMember?.user?.firstname }}
+                                                        {{ chatMember?.user?.lastname }}<span
+                                                            v-if="index !== excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members).length - 1">,</span><span
+                                                            v-else>...</span>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -174,7 +181,7 @@ import pusher from '@/services/pusher'
 import { messageService } from '@/components/api/MessageService'
 import { useUserStore } from '@/store/user'
 import { useEmployeeStore } from '@/store/employee'
-import type { ChattedUser, Error } from '@/types'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatTimeToReadable } = useDatetimeFormatter()
@@ -189,7 +196,8 @@ const fileInput = ref(null) as any
 const files = ref<File[]>([])
 
 const state = reactive({
-    chattedUsers: [] as ChattedUser[],
+    chat: [] as any,
+    chats: [] as any,
     error: {} as Error,
     isLastPage: false,
     isChatLoading: false,
@@ -208,6 +216,7 @@ onMounted(() => {
         scrollToBottom()
         fetchChats()
     })
+    fetchChat()
     fetchChats()
     fetchChatHistory()
     scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
@@ -218,14 +227,27 @@ function closeUpgradeStorageModal() {
     state.error = {}
 }
 
+async function fetchChat() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await messageService.fetchChat(chatUuid)
+        if (response) {
+            state.chat = response
+        }
+    } catch (error: any) {
+        state.error = { message: error.message }
+    }
+    state.isPageLoading = false
+}
+
 async function fetchChats() {
     state.error = {}
     state.isPageLoading = true
     try {
         const response = await messageService.fetchChats()
         if (response) {
-            console.log('response', response)
-            // state.chattedUsers = response?.data
+            state.chats = response
         }
     } catch (error: any) {
         state.error = { message: error.message }
@@ -243,7 +265,6 @@ async function fetchChatHistory() {
         }
         const response = await messageService.fetchChatHistory(params)
         if (response.data) {
-            console.log('response.data', response.data)
             response?.data?.forEach((chat: any) => {
                 state.messages.unshift(chat)
             })
@@ -316,11 +337,6 @@ function handleScroll() {
     }
 }
 
-function messageEmployee(employee: any) {
-    employeeStore.setSelectedEmployee(employee)
-    navigateTo(`/messages/${employee.uuid}`)
-}
-
 const triggerFileInput = () => {
     fileInput.value?.click()
 }
@@ -369,6 +385,10 @@ async function openExternalFile(attachment: any) {
             target: '_blank',
         }
     })
+}
+
+function excludeCurrentUserFromChatMembers(chatMembers: any) {
+    return chatMembers.filter((chatMember: any) => chatMember.user_id !== userStore.getUser?.id)
 }
 </script>
 

@@ -5,6 +5,10 @@ class MessageService extends BaseAPIService {
         return await this.request(`/user/chats`, 'GET')
     }
 
+    async fetchChat(chatUuid: any): Promise<any> {
+        return await this.request(`/user/chats/${chatUuid}`, 'GET')
+    }
+
     async fetchChatHistory(params: object): Promise<any> {
         return await this.request(`/user/chat-messages`, 'GET', params)
     }
