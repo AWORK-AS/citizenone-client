@@ -181,7 +181,7 @@ const { formatTimeToReadable } = useDatetimeFormatter()
 const employeeStore = useEmployeeStore() as any
 const userStore = useUserStore() as any
 const router = useRouter()
-const receiverUuid = router?.currentRoute?.value?.params?.receiver_uuid
+const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
 const scrollableChatHistory = ref<HTMLElement | null>(null)
 let currentPage = 1
 let scrollHeight = 0
@@ -206,9 +206,9 @@ onMounted(() => {
     channel.bind('chat-message', (response: any) => {
         state.messages.push(response?.data)
         scrollToBottom()
-        fetchChattedUsers()
+        fetchChats()
     })
-    fetchChattedUsers()
+    fetchChats()
     fetchChatHistory()
     scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
 })
@@ -218,13 +218,14 @@ function closeUpgradeStorageModal() {
     state.error = {}
 }
 
-async function fetchChattedUsers() {
+async function fetchChats() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await messageService.fetchChattedUsers()
+        const response = await messageService.fetchChats()
         if (response) {
-            state.chattedUsers = response?.data
+            console.log('response', response)
+            // state.chattedUsers = response?.data
         }
     } catch (error: any) {
         state.error = { message: error.message }
@@ -237,11 +238,12 @@ async function fetchChatHistory() {
     state.isChatLoading = true
     try {
         const params = {
-            user_uuid: receiverUuid,
-            page: currentPage
+            page: currentPage,
+            chat_uuid: chatUuid,
         }
         const response = await messageService.fetchChatHistory(params)
         if (response.data) {
+            console.log('response.data', response.data)
             response?.data?.forEach((chat: any) => {
                 state.messages.unshift(chat)
             })
@@ -269,7 +271,7 @@ async function sendMessage() {
             const response = await messageService.sendMessage(params)
             if (response) {
                 state.messages.push(response?.data)
-                fetchChattedUsers()
+                fetchChats()
                 scrollToBottom()
             }
         } catch (error: any) {
@@ -339,7 +341,7 @@ const uploadFiles = async (files: any) => {
             const response = await messageService.sendMessage(params)
             if (response) {
                 state.messages.push(response?.data)
-                fetchChattedUsers()
+                fetchChats()
                 scrollToBottom()
                 fileInput.value.value = ''
             }
