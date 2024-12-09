@@ -334,11 +334,11 @@ const uploadFiles = async (files: any) => {
     if (files.length > 0) {
         try {
             const params = new FormData()
-            params.append('receiver_uuid', receiverUuid as any)
+            params.append('chat_uuid', chatUuid as any)
             for (let i = 0; i < files.length; i++) {
                 params.append('file[]', files[i])
             }
-            const response = await messageService.sendMessage(params)
+            const response = await messageService.sendMessageViaChatUuid(params)
             if (response) {
                 state.messages.push(response?.data)
                 fetchChats()
