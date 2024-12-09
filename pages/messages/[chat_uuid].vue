@@ -213,7 +213,6 @@ onMounted(() => {
         state.messages.push(response?.data)
         scrollToBottom()
         fetchChats()
-        console.log('chatUuid', chatUuid)
     })
     fetchChat()
     fetchChats()
@@ -221,6 +220,10 @@ onMounted(() => {
     readChat()
     scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
 })
+
+window.setInterval(() => {
+    fetchChats()
+}, 5000)
 
 function closeUpgradeStorageModal() {
     state.modal.isUpgradeStorageOpen = false
@@ -248,7 +251,6 @@ async function fetchChats() {
         const response = await messageService.fetchChats()
         if (response) {
             state.chats = response
-            console.log('chats', response)
         }
     } catch (error: any) {
         state.error = { message: error.message }
@@ -291,7 +293,6 @@ async function readChat() {
         }
         const response = await messageService.readChat(params)
         if (response) {
-            console.log('read', response)
         }
     } catch (error: any) {
         state.error = { message: error.message }
