@@ -53,6 +53,8 @@
                         </RadioGroupOption>
                     </RadioGroup>
                 </div>
+                <FormError :error="v$?.formMedicineHistory?.type?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.type?.[0]" />
             </div>
         </div>
         <div class="mt-6">
@@ -146,6 +148,9 @@ const rules = computed(() => {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             quantity: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            type: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },

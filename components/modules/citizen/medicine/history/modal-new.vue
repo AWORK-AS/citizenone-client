@@ -43,7 +43,7 @@ const state = reactive({
     formMedicineHistory: {
         date: '',
         quantity: '',
-        type: 'delivered',
+        type: '',
     },
 })
 
