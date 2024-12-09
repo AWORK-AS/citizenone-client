@@ -20,6 +20,11 @@ class MessageService extends BaseAPIService {
     async sendMessageViaChatUuid(params: object): Promise<any> {
         return await this.request(`/user/chat-messages/send/message`, 'POST', params)
     }
+
+    async readChat(params: object): Promise<any> {
+        return await this.request(`/user/chat-message-receipts`, 'POST', params)
+    }
+
 }
 
 export const messageService = new MessageService()

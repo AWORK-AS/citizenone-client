@@ -213,10 +213,12 @@ onMounted(() => {
         state.messages.push(response?.data)
         scrollToBottom()
         fetchChats()
+        console.log('chatUuid', chatUuid)
     })
     fetchChat()
     fetchChats()
     fetchChatHistory()
+    readChat()
     scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
 })
 
@@ -246,6 +248,7 @@ async function fetchChats() {
         const response = await messageService.fetchChats()
         if (response) {
             state.chats = response
+            console.log('chats', response)
         }
     } catch (error: any) {
         state.error = { message: error.message }
@@ -272,6 +275,23 @@ async function fetchChatHistory() {
             if (response.links.next === null) {
                 state.isLastPage = true
             }
+        }
+    } catch (error: any) {
+        state.error = { message: error.message }
+    }
+    state.isChatLoading = false
+}
+
+async function readChat() {
+    state.error = {}
+    state.isChatLoading = true
+    try {
+        const params = {
+            chat_uuid: chatUuid,
+        }
+        const response = await messageService.readChat(params)
+        if (response) {
+            console.log('read', response)
         }
     } catch (error: any) {
         state.error = { message: error.message }
