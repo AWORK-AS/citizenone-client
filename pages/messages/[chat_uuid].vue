@@ -16,156 +16,155 @@
                     <li v-for="file in files" :key="file.name">{{ file.name }}</li>
                 </ul>
 
-                <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
-                        <div class="md:col-span-5 xl:col-span-4 bg-white rounded-md p-6 overflow-y-auto"
-                            style="height: 80vh;">
-                            <ModulesMessagesChats :chats="state.chats" />
-                        </div>
-                        <div class="md:col-span-7 xl:col-span-8 bg-white rounded-md pb-6">
-                            <div class="px-6 py-3 shadow-sm">
-                                <div class="flex items-center gap-x-2">
-                                    <div v-if="state.chat?.data?.type === 'direct'">
-                                        <div>
+                <!-- <LoadingSpinner :isActive="state.isPageLoading"> -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
+                    <LoadingSpinner :isActive="state.isChatLoading"
+                        class="md:col-span-5 xl:col-span-4 bg-white rounded-md p-6 overflow-y-auto"
+                        style="height: 80vh;">
+                        <ModulesMessagesChats :chats="state.chats" />
+                    </LoadingSpinner>
+                    <LoadingSpinner :isActive="state.isChatHistoryDividerLoading"
+                        class="md:col-span-7 xl:col-span-8 bg-white rounded-md pb-6">
+                        <div class="px-6 py-3 shadow-sm">
+                            <div class="flex items-center gap-x-2">
+                                <div v-if="state.chat?.data?.type === 'direct'">
+                                    <div>
+                                        <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members)"
+                                            :index="index" class="flex items-center space-x-4">
+                                            <img :src="chatMember?.user?.profile_image ?? '/img/avatars/user.svg'"
+                                                alt="Item 1" class="w-12 h-12 rounded-full object-cover">
+                                            <div>
+                                                <h4 class="font-semibold text-sm">
+                                                    {{ chatMember?.user?.firstname + " " +
+                                                        chatMember?.user?.lastname }}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="state.chat?.data?.type === 'group'">
+                                    <div class="flex items-center space-x-4">
+                                        <img src="/img/avatars/user.svg" alt="Item 1"
+                                            class="w-12 h-12 rounded-full object-cover">
+                                        <div class="flex gap-x-1 truncate">
                                             <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members)"
-                                                :index="index" class="flex items-center space-x-4">
-                                                <img :src="chatMember?.user?.profile_image ?? '/img/avatars/user.svg'"
-                                                    alt="Item 1" class="w-12 h-12 rounded-full object-cover">
-                                                <div>
-                                                    <h4 class="font-semibold text-sm">
-                                                        {{ chatMember?.user?.firstname + " " +
-                                                            chatMember?.user?.lastname }}
-                                                    </h4>
-                                                </div>
+                                                :index="index">
+                                                <h4 class="font-semibold text-sm">
+                                                    {{ chatMember?.user?.firstname }}
+                                                    {{ chatMember?.user?.lastname }}<span
+                                                        v-if="index !== excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members).length - 1">,</span><span
+                                                        v-else>...</span>
+                                                </h4>
                                             </div>
                                         </div>
                                     </div>
-                                    <div v-if="state.chat?.data?.type === 'group'">
-                                        <div class="flex items-center space-x-4">
-                                            <img src="/img/avatars/user.svg" alt="Item 1"
-                                                class="w-12 h-12 rounded-full object-cover">
-                                            <div class="flex gap-x-1 truncate">
-                                                <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members)"
-                                                    :index="index">
-                                                    <h4 class="font-semibold text-sm">
-                                                        {{ chatMember?.user?.firstname }}
-                                                        {{ chatMember?.user?.lastname }}<span
-                                                            v-if="index !== excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members).length - 1">,</span><span
-                                                            v-else>...</span>
-                                                    </h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="overflow-y-auto pt-4 mb-4" style="height: 62vh;" ref="scrollableChatHistory"
-                                @scroll="handleScroll">
-                                <!-- Chat Messages -->
-                                <div class="px-4 md:px-6">
-                                    <div v-if="state.isLastPage && currentPage !== 1"
-                                        class="text-center text-gray-500 text-sm">
-                                        {{ $t('messages.allMessagesAreLoaded') }}
-                                    </div>
-                                    <div class="text-center text-gray-500 text-sm" v-if="state.isChatLoading">
-                                        {{ $t('messages.loadingMessages') }}
-                                        <span class="dot1">.</span>
-                                        <span class="dot2">.</span>
-                                        <span class="dot3">.</span>
-                                        <span class="dot4">.</span>
-                                        <span class="dot5">.</span>
-                                    </div>
-                                    <div v-for="(message, index) in state.messages" :key="index">
-                                        <!-- Message (Right) -->
-                                        <div class="flex items-start justify-end mb-4"
-                                            v-if="message?.sender_id === userStore.getUser?.id">
-                                            <div class="mr-2">
-                                                <div class="bg-primary text-white p-3 rounded-lg">
-                                                    <div v-if="message?.attachments?.length > 0" class="space-y-3">
-                                                        <div v-for="(attachment, index) in message?.attachments"
-                                                            :key="index">
-                                                            <img :src="attachment?.file" alt="Image failed to load."
-                                                                v-if="isImageFile(attachment?.file_name)"
-                                                                class="w-44 cursor-pointer"
-                                                                @click="openExternalFile(attachment)">
-                                                            <div v-else
-                                                                class="flex items-center gap-x-1 w-fit cursor-pointer"
-                                                                @click="openExternalFile(attachment)">
-                                                                <Icon name="ph:file" class="h-8 w-8"
-                                                                    aria-hidden="true" />
-                                                                {{ attachment?.file_name }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <p v-else>{{ message?.message }}</p>
-                                                </div>
-                                                <span class="text-xs text-gray-500 mt-1">
-                                                    {{ formatTimeToReadable(message?.created_at) }}
-                                                </span>
-                                            </div>
-                                            <div class="flex-shrink-0 flex items-center">
-                                                <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
-                                                    alt="User" class="w-10 h-10 rounded-full object-cover">
-                                            </div>
-                                        </div>
-                                        <!-- Message (Left) -->
-                                        <div class="flex items-start mb-4" v-else>
-                                            <div class="flex-shrink-0">
-                                                <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
-                                                    alt="User" class="w-10 h-10 rounded-full object-cover">
-                                            </div>
-                                            <div class="ml-2">
-                                                <div class="bg-gray-200 p-3 rounded-lg">
-                                                    <div v-if="message?.attachments?.length > 0" class="space-y-3">
-                                                        <div v-for="(attachment, index) in message?.attachments"
-                                                            :key="index">
-                                                            <img :src="attachment?.file" alt="Image failed to load."
-                                                                v-if="isImageFile(attachment?.file_name)"
-                                                                class="w-44 cursor-pointer"
-                                                                @click="openExternalFile(attachment)">
-                                                            <div v-else
-                                                                class="flex items-center gap-x-1 w-fit cursor-pointer"
-                                                                @click="openExternalFile(attachment)">
-                                                                <Icon name="ph:file" class="h-8 w-8"
-                                                                    aria-hidden="true" />
-                                                                {{ attachment?.file_name }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <p v-else class="text-gray-700">{{ message?.message }}</p>
-                                                </div>
-                                                <span class="text-xs text-gray-500 mt-1">
-                                                    {{ formatTimeToReadable(message?.created_at) }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex items-center px-4 md:px-6">
-                                <!-- Chat Input -->
-                                <div class="w-full flex justify-between gap-x-1">
-                                    <input ref="fileInput" type="file" multiple @change="handleFileChange"
-                                        class="hidden" />
-                                    <button type="button"
-                                        class="flex items-center px-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
-                                        :disabled="state.isPageLoading" @click="triggerFileInput">
-                                        <Icon name="ph:paperclip" class="w-7 h-7 text-primary rounded-full" />
-                                    </button>
-                                    <input type="text"
-                                        class="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                        placeholder="Type a message..." v-model="state.message"
-                                        @keydown.enter="!state.isPageLoading && sendMessage()" />
-                                    <button type="button"
-                                        class="px-4 py-3 bg-primary text-white rounded-md hover:bg-primary-700 focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
-                                        @click="sendMessage" :disabled="state.isPageLoading">
-                                        Send
-                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </LoadingSpinner>
+                        <div class="overflow-y-auto pt-4 mb-4" style="height: 62vh;" ref="scrollableChatHistory"
+                            @scroll="handleScroll">
+                            <!-- Chat Messages -->
+                            <div class="px-4 md:px-6">
+                                <div v-if="state.isLastPage && currentPage !== 1"
+                                    class="text-center text-gray-500 text-sm">
+                                    {{ $t('messages.allMessagesAreLoaded') }}
+                                </div>
+                                <div class="text-center text-gray-500 text-sm" v-if="state.isChatHistoryLoading">
+                                    {{ $t('messages.loadingMessages') }}
+                                    <span class="dot1">.</span>
+                                    <span class="dot2">.</span>
+                                    <span class="dot3">.</span>
+                                    <span class="dot4">.</span>
+                                    <span class="dot5">.</span>
+                                </div>
+                                <div v-for="(message, index) in state.messages" :key="index">
+                                    <!-- Message (Right) -->
+                                    <div class="flex items-start justify-end mb-4"
+                                        v-if="message?.sender_id === userStore.getUser?.id">
+                                        <div class="mr-2">
+                                            <div class="bg-primary text-white p-3 rounded-lg">
+                                                <div v-if="message?.attachments?.length > 0" class="space-y-3">
+                                                    <div v-for="(attachment, index) in message?.attachments"
+                                                        :key="index">
+                                                        <img :src="attachment?.file" alt="Image failed to load."
+                                                            v-if="isImageFile(attachment?.file_name)"
+                                                            class="w-44 cursor-pointer"
+                                                            @click="openExternalFile(attachment)">
+                                                        <div v-else
+                                                            class="flex items-center gap-x-1 w-fit cursor-pointer"
+                                                            @click="openExternalFile(attachment)">
+                                                            <Icon name="ph:file" class="h-8 w-8" aria-hidden="true" />
+                                                            {{ attachment?.file_name }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p v-else>{{ message?.message }}</p>
+                                            </div>
+                                            <span class="text-xs text-gray-500 mt-1">
+                                                {{ formatTimeToReadable(message?.created_at) }}
+                                            </span>
+                                        </div>
+                                        <div class="flex-shrink-0 flex items-center">
+                                            <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
+                                                alt="User" class="w-10 h-10 rounded-full object-cover">
+                                        </div>
+                                    </div>
+                                    <!-- Message (Left) -->
+                                    <div class="flex items-start mb-4" v-else>
+                                        <div class="flex-shrink-0">
+                                            <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
+                                                alt="User" class="w-10 h-10 rounded-full object-cover">
+                                        </div>
+                                        <div class="ml-2">
+                                            <div class="bg-gray-200 p-3 rounded-lg">
+                                                <div v-if="message?.attachments?.length > 0" class="space-y-3">
+                                                    <div v-for="(attachment, index) in message?.attachments"
+                                                        :key="index">
+                                                        <img :src="attachment?.file" alt="Image failed to load."
+                                                            v-if="isImageFile(attachment?.file_name)"
+                                                            class="w-44 cursor-pointer"
+                                                            @click="openExternalFile(attachment)">
+                                                        <div v-else
+                                                            class="flex items-center gap-x-1 w-fit cursor-pointer"
+                                                            @click="openExternalFile(attachment)">
+                                                            <Icon name="ph:file" class="h-8 w-8" aria-hidden="true" />
+                                                            {{ attachment?.file_name }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p v-else class="text-gray-700">{{ message?.message }}</p>
+                                            </div>
+                                            <span class="text-xs text-gray-500 mt-1">
+                                                {{ formatTimeToReadable(message?.created_at) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center px-4 md:px-6">
+                            <!-- Chat Input -->
+                            <div class="w-full flex justify-between gap-x-1">
+                                <input ref="fileInput" type="file" multiple @change="handleFileChange" class="hidden" />
+                                <button type="button"
+                                    class="flex items-center px-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
+                                    :disabled="state.isPageLoading" @click="triggerFileInput">
+                                    <Icon name="ph:paperclip" class="w-7 h-7 text-primary rounded-full" />
+                                </button>
+                                <input type="text"
+                                    class="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                    placeholder="Type a message..." v-model="state.message"
+                                    @keydown.enter="!state.isPageLoading && sendMessage()" />
+                                <button type="button"
+                                    class="px-4 py-3 bg-primary text-white rounded-md hover:bg-primary-700 focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
+                                    @click="sendMessage" :disabled="state.isPageLoading">
+                                    Send
+                                </button>
+                            </div>
+                        </div>
+                    </LoadingSpinner>
+                </div>
+                <!-- </LoadingSpinner> -->
                 <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
                     :title="$t('citizens.documents.upgradeStorage')"
                     :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
@@ -199,6 +198,8 @@ const state = reactive({
     error: {} as Error,
     isLastPage: false,
     isChatLoading: false,
+    isChatHistoryDividerLoading: false,
+    isChatHistoryLoading: false,
     isPageLoading: false,
     message: '',
     messages: [] as any,
@@ -246,7 +247,7 @@ async function fetchChat() {
 
 async function fetchChats() {
     state.error = {}
-    state.isPageLoading = true
+    state.isChatLoading = true
     try {
         const response = await messageService.fetchChats()
         if (response) {
@@ -255,12 +256,12 @@ async function fetchChats() {
     } catch (error: any) {
         state.error = { message: error.message }
     }
-    state.isPageLoading = false
+    state.isChatLoading = false
 }
 
 async function fetchChatHistory() {
     state.error = {}
-    state.isChatLoading = true
+    state.isChatHistoryLoading = true
     try {
         const params = {
             page: currentPage,
@@ -281,12 +282,12 @@ async function fetchChatHistory() {
     } catch (error: any) {
         state.error = { message: error.message }
     }
-    state.isChatLoading = false
+    state.isChatHistoryLoading = false
 }
 
 async function readChat() {
     state.error = {}
-    state.isChatLoading = true
+    state.isChatHistoryDividerLoading = true
     try {
         const params = {
             chat_uuid: chatUuid,
@@ -297,12 +298,12 @@ async function readChat() {
     } catch (error: any) {
         state.error = { message: error.message }
     }
-    state.isChatLoading = false
+    state.isChatHistoryDividerLoading = false
 }
 
 async function sendMessage() {
     if (state.message !== '') {
-        state.isPageLoading = true
+        state.isChatHistoryDividerLoading = true
         try {
             const params = {
                 message: state.message,
@@ -310,14 +311,12 @@ async function sendMessage() {
             }
             const response = await messageService.sendMessageViaChatUuid(params)
             if (response) {
-                // state.messages.push(response?.data)
-                // fetchChats()
                 scrollToBottom()
             }
         } catch (error: any) {
             state.error = error
         }
-        state.isPageLoading = false
+        state.isChatHistoryDividerLoading = false
         state.message = ''
     }
 }
@@ -365,7 +364,7 @@ const handleFileChange = (event: any) => {
 }
 
 const uploadFiles = async (files: any) => {
-    state.isPageLoading = true
+    state.isChatHistoryDividerLoading = true
     if (files.length > 0) {
         try {
             const params = new FormData()
@@ -389,7 +388,7 @@ const uploadFiles = async (files: any) => {
             }
         }
     }
-    state.isPageLoading = false
+    state.isChatHistoryDividerLoading = false
 }
 
 function isImageFile(filename: string) {
