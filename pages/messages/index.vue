@@ -180,7 +180,7 @@ async function sendMessage() {
                 message: state.formChat.message,
                 receiver_uuid: state.formChat.receivers
             }
-            const response = await messageService.sendMessage(params)
+            const response = await messageService.sendMessageViaReceiverUuid(params)
             if (response) {
                 const chatUuid = response?.data?.chat?.uuid
                 navigateTo(`/messages/${chatUuid}`)

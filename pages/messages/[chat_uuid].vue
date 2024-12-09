@@ -266,9 +266,9 @@ async function sendMessage() {
         try {
             const params = {
                 message: state.message,
-                receiver_uuid: receiverUuid
+                chat_uuid: chatUuid
             }
-            const response = await messageService.sendMessage(params)
+            const response = await messageService.sendMessageViaChatUuid(params)
             if (response) {
                 state.messages.push(response?.data)
                 fetchChats()
