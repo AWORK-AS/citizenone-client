@@ -72,12 +72,12 @@ import { userService } from '@/components/api/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { messageService } from '@/components/api/MessageService'
-import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const userStore = useUserStore() as any
+const router = useRouter()
+const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
 const { t } = useI18n()
 
 const state = reactive({
@@ -96,7 +96,7 @@ const state = reactive({
 
 onMounted(() => {
     fetchAllUsers()
-    const channel = pusher.subscribe('citizenone.' + userStore.getUser?.id)
+    const channel = pusher.subscribe('citizenone.' + chatUuid)
     channel.bind('chat-message', () => {
         fetchChats()
     })

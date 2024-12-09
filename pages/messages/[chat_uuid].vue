@@ -180,12 +180,10 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import pusher from '@/services/pusher'
 import { messageService } from '@/components/api/MessageService'
 import { useUserStore } from '@/store/user'
-import { useEmployeeStore } from '@/store/employee'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatTimeToReadable } = useDatetimeFormatter()
-const employeeStore = useEmployeeStore() as any
 const userStore = useUserStore() as any
 const router = useRouter()
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
@@ -210,7 +208,7 @@ const state = reactive({
 })
 
 onMounted(() => {
-    const channel = pusher.subscribe('citizenone.' + userStore.getUser?.id)
+    const channel = pusher.subscribe('citizenone.' + chatUuid)
     channel.bind('chat-message', (response: any) => {
         state.messages.push(response?.data)
         scrollToBottom()
@@ -291,8 +289,8 @@ async function sendMessage() {
             }
             const response = await messageService.sendMessageViaChatUuid(params)
             if (response) {
-                state.messages.push(response?.data)
-                fetchChats()
+                // state.messages.push(response?.data)
+                // fetchChats()
                 scrollToBottom()
             }
         } catch (error: any) {
