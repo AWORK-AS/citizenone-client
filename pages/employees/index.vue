@@ -57,7 +57,8 @@
                                                 {{ $t('employees.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="messageEmployee(employee)">
+                                                @click="messageEmployee(employee)"
+                                                v-if="userStore.getUser?.id !== employee?.id">
                                                 <Icon name="ph:chat-circle" class="size-4" />
                                                 {{ $t('employees.table.actions.message') }}
                                             </FormButton>
@@ -83,11 +84,13 @@
 import { employeeService } from '@/components/api/EmployeeService'
 import { useDepartmentStore } from '@/store/department'
 import { useEmployeeStore } from '@/store/employee'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const employeeStore = useEmployeeStore()
 const departmentStore = useDepartmentStore()
+const userStore = useUserStore() as any
 let currentTablePage = 1
 
 const state = reactive({
@@ -173,6 +176,6 @@ function handleSearch(value: any) {
 
 function messageEmployee(employee: any) {
     employeeStore.setSelectedEmployee(employee)
-    navigateTo(`/messages/${employee.uuid}`)
+    navigateTo(`/messages?user_uuid=${employee.uuid}`)
 }
 </script>
