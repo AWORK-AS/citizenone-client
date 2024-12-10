@@ -186,6 +186,7 @@ const { formatTimeToReadable } = useDatetimeFormatter()
 const userStore = useUserStore() as any
 const router = useRouter()
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
+const currentRoute = router?.currentRoute?.value?.name
 const scrollableChatHistory = ref<HTMLElement | null>(null)
 let currentPage = 1
 let scrollHeight = 0
@@ -223,7 +224,9 @@ onMounted(() => {
 })
 
 window.setInterval(() => {
-    fetchChats()
+    if (currentRoute === 'messages-chat_uuid') {
+        fetchChats()
+    }
 }, 5000)
 
 function closeUpgradeStorageModal() {
