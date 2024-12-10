@@ -1549,6 +1549,7 @@
         "looksLikeYouHaventInitiatedAConversation": "Det ser ud til, at du ikke har startet en samtale",
         "messages": "Beskeder",
         "message": "Besked",
+        "newMessage": "Ny besked",
         "noMessagesYet": "Ingen beskeder endnu",
         "startTheConversation": "Start samtalen",
         "send": "Send",

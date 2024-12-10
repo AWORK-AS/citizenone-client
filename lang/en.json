@@ -1549,6 +1549,7 @@
         "looksLikeYouHaventInitiatedAConversation": "Looks like you haven't initiated a conversation",
         "message": "Message",
         "messages": "Messages",
+        "newMessage": "New message",
         "noMessagesYet": "No messages yet",
         "startTheConversation": "Start the conversation",
         "send": "Send",
