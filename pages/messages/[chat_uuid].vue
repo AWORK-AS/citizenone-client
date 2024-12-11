@@ -222,11 +222,11 @@ onMounted(() => {
     scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
 })
 
-// window.setInterval(() => {
-//     if (currentRoute === 'messages-chat_uuid') {
-//         fetchChats()
-//     }
-// }, 5000)
+window.setInterval(() => {
+    if (currentRoute === 'messages-chat_uuid') {
+        fetchChats()
+    }
+}, 5000)
 
 function closeUpgradeStorageModal() {
     state.modal.isUpgradeStorageOpen = false
