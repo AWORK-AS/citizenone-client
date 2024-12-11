@@ -19,8 +19,7 @@
                 <!-- <LoadingSpinner :isActive="state.isPageLoading"> -->
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
                     <LoadingSpinner :isActive="state.isChatLoading"
-                        class="md:col-span-5 xl:col-span-4 bg-white rounded-md p-6 overflow-y-auto"
-                        style="height: 80vh;">
+                        class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto" style="height: 80vh;">
                         <ModulesMessagesChats :chats="state.chats" />
                     </LoadingSpinner>
                     <LoadingSpinner :isActive="state.isChatHistoryDividerLoading"
@@ -223,11 +222,11 @@ onMounted(() => {
     scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
 })
 
-window.setInterval(() => {
-    if (currentRoute === 'messages-chat_uuid') {
-        fetchChats()
-    }
-}, 5000)
+// window.setInterval(() => {
+//     if (currentRoute === 'messages-chat_uuid') {
+//         fetchChats()
+//     }
+// }, 5000)
 
 function closeUpgradeStorageModal() {
     state.modal.isUpgradeStorageOpen = false
