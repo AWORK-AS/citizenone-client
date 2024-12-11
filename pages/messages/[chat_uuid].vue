@@ -25,7 +25,7 @@
                     <LoadingSpinner :isActive="state.isChatHistoryDividerLoading"
                         class="md:col-span-7 xl:col-span-8 bg-white rounded-md pb-6">
                         <div class="px-6 py-3 shadow-sm">
-                            <div class="flex items-center gap-x-2">
+                            <div>
                                 <div v-if="state.chat?.data?.type === 'direct'">
                                     <div>
                                         <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members)"
@@ -42,19 +42,27 @@
                                     </div>
                                 </div>
                                 <div v-if="state.chat?.data?.type === 'group'">
-                                    <div class="flex items-center space-x-4">
-                                        <img src="/img/avatars/user.svg" alt="Item 1"
-                                            class="w-12 h-12 rounded-full object-cover">
-                                        <div class="flex gap-x-1 truncate">
-                                            <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members)"
-                                                :index="index">
-                                                <h4 class="font-semibold text-sm">
-                                                    {{ chatMember?.user?.firstname }}
-                                                    {{ chatMember?.user?.lastname }}<span
-                                                        v-if="index !== excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members).length - 1">,</span><span
-                                                        v-else>...</span>
-                                                </h4>
+                                    <div class="w-full grid grid-cols-12 items-center">
+                                        <div class="col-span-1">
+                                            <div class="relative">
+                                                <img src="/img/avatars/user.svg" alt="Item 1"
+                                                    class="w-5 h-5 rounded-full object-cover relative top-1.5 left-1">
+                                                <img src="/img/avatars/user.svg" alt="Item 1"
+                                                    class="w-5 h-5 rounded-full object-cover absolute -top-2 left-3">
+                                                <img src="/img/avatars/user.svg" alt="Item 1"
+                                                    class="w-5 h-5 rounded-full object-cover absolute top-2 left-5">
                                             </div>
+                                        </div>
+                                        <div class="col-span-11 flex items-center">
+                                            <Tooltip :text="`${chatGroupMembers(state.chat?.data)}.`">
+                                                <h4 class="font-semibold text-sm line-clamp-1">
+                                                    {{ chatGroupMembers(state.chat?.data) }}.
+                                                </h4>
+                                            </Tooltip>
+                                            <p class="text-xxs" v-if="state.chat?.data?.unread_messages > 0">
+                                                {{ state.chat?.data?.unread_messages }}
+                                                <span class="lowercase">{{ $t('messages.unreadMessages') }}</span>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -409,6 +417,12 @@ async function openExternalFile(attachment: any) {
 
 function excludeCurrentUserFromChatMembers(chatMembers: any) {
     return chatMembers.filter((chatMember: any) => chatMember.user_id !== userStore.getUser?.id)
+}
+
+function chatGroupMembers(chat: any) {
+    return excludeCurrentUserFromChatMembers(chat?.chat_members)
+        ?.map((chatMember: any) => `${chatMember?.user?.firstname} ${chatMember?.user?.lastname}`)
+        ?.join(', ')
 }
 </script>
 

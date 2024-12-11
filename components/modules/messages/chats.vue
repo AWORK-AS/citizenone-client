@@ -1,10 +1,11 @@
 <template>
     <div>
         <ul class="space-y-1">
-            <li class="flex justify-end px-6 pt-6 pb-2">
-                <button class="bg-primary rounded-full w-8 h-8 flex items-center justify-center"
+            <li class="flex justify-end px-4 pt-4 pb-3">
+                <button class="bg-primary text-white text-xs p-2 rounded-md flex items-center justify-center gap-x-2"
                     @click="state.modal.isNewChatOpen = true">
-                    <Icon name="mdi:square-edit-outline" class="w-5 h-5 text-white" aria-hidden="true" />
+                    <Icon name="mdi:square-edit-outline" class="w-4 h-4 text-white" aria-hidden="true" />
+                    {{ $t('messages.newMessage') }}
                 </button>
             </li>
             <li v-for="(chat, index) in props.chats?.data" :key="index" @click="openChat(chat)" :class="[
@@ -14,10 +15,12 @@
                 <div v-if="chat?.type === 'direct'">
                     <div>
                         <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(chat?.chat_members)"
-                            :index="index" class="flex items-center space-x-4">
-                            <img :src="chatMember?.user?.profile_image ?? '/img/avatars/user.svg'" alt="Item 1"
-                                class="w-12 h-12 rounded-full object-cover">
-                            <div>
+                            :index="index" class="grid grid-cols-12 items-center">
+                            <div class="col-span-2">
+                                <img :src="chatMember?.user?.profile_image ?? '/img/avatars/user.svg'" alt="Item 1"
+                                    class="w-11 h-11 rounded-full object-cover">
+                            </div>
+                            <div class="col-span-10">
                                 <Tooltip :text="chatMember?.user?.firstname + ' ' + chatMember?.user?.lastname">
                                     <h4 class="font-semibold text-sm">
                                         {{ chatMember?.user?.firstname + " " +
@@ -33,9 +36,16 @@
                     </div>
                 </div>
                 <div v-if="chat?.type === 'group'">
-                    <div class="flex items-center space-x-4">
-                        <img src="/img/avatars/user.svg" alt="Item 1" class="w-11 h-11 rounded-full object-cover">
-                        <div>
+                    <div class="grid grid-cols-12 items-center">
+                        <div class="relative col-span-2">
+                            <img src="/img/avatars/user.svg" alt="Item 1"
+                                class="w-6 h-6 rounded-full object-cover relative top-1">
+                            <img src="/img/avatars/user.svg" alt="Item 1"
+                                class="w-6 h-6 rounded-full object-cover absolute -top-3.5 left-3">
+                            <img src="/img/avatars/user.svg" alt="Item 1"
+                                class="w-6 h-6 rounded-full object-cover absolute top-1.5 left-5">
+                        </div>
+                        <div class="col-span-10">
                             <Tooltip :text="`${chatGroupMembers(chat)}.`">
                                 <h4 class="font-semibold text-sm line-clamp-1">
                                     {{ chatGroupMembers(chat) }}.
