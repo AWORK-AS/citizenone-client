@@ -1881,6 +1881,17 @@
             "extraUser": "Extra user",
             "total": "Total"
         },
+        "coupon": {
+            "coupon": "Coupon",
+            "enterYourCouponCodeHereForExclusiveSavings": "Enter your coupon code here for exclusive savings",
+            "form": {
+                "alert": {
+                    "couponCodeSuccessfullyAdded": "Coupon code successfully added"
+                },
+                "apply": "Apply",
+                "couponCode": "Coupon code"
+            }
+        },
         "currentSubscription": "Current subscription",
         "deal": {
             "additionalPurchaseFor": "Additional purchase for",

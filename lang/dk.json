@@ -1881,6 +1881,17 @@
             "extraUser": "Ekstra bruger",
             "total": "Total"
         },
+        "coupon": {
+            "coupon": "Coupon",
+            "enterYourCouponCodeHereForExclusiveSavings": "Indtast din kuponkode her for eksklusive besparelser",
+            "form": {
+                "alert": {
+                    "couponCodeSuccessfullyAdded": "Kuponkode tilføjet med succes"
+                },
+                "apply": "Anvend",
+                "couponCode": "Kuponkode"
+            }
+        },
         "currentSubscription": "Nuværende abonnement",
         "deal": {
             "additionalPurchaseFor": "tilkøb ekstra for",

@@ -336,7 +336,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="mt-5" v-if="!state.isDealsHidden" @click="state.modal.isEnterCouponShow = true">
+                    <p class="text-center text-sm text-primary cursor-pointer hover:text-primary-700">
+                        <span>{{ $t('subscription.coupon.enterYourCouponCodeHereForExclusiveSavings') }}!</span>
+                    </p>
+                </div>
+                <p class="text-center text-primary font-semibold" v-if="couponStore.getCode">
+                    {{ $t('subscription.coupon.form.couponCode') }}:
+                    {{ couponStore.getCode }}
+                </p>
             </LoadingSpinner>
+            <ModulesSubscriptionModalCoupon :isModalOpen="state.modal.isEnterCouponShow"
+                @close="state.modal.isEnterCouponShow = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -347,10 +358,12 @@ import { userSubscriptionService } from '@/components/api/UserSubscriptionServic
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
+import { useCouponStore } from '@/store/coupon'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
+const couponStore = useCouponStore()
 const language = useI18n()
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
@@ -361,6 +374,9 @@ const state = reactive({
     deals: [] as any,
     isDealsHidden: false,
     isPageLoading: false,
+    modal: {
+        isEnterCouponShow: false,
+    }
 })
 
 const frequencies = [
@@ -405,6 +421,7 @@ async function subscribe(deal: any) {
         const params = {
             'deal_uuid': deal.uuid,
             'type': frequency.value.value === 'monthly' ? 'monthly' : 'yearly',
+            'coupon_code': couponStore.getCode,
         }
         const response = await userSubscriptionService.subscribe(params)
         if (response) {
