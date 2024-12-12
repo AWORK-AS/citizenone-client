@@ -39,7 +39,7 @@
                 <FormError :error="v$?.formCoupon?.expiration?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.expiration?.[0]" />
             </div>
-            <div>
+            <div v-if="props.formType === 'update'">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formCoupon.is_active = !state.formCoupon.is_active">
                     <FormCheckbox :value="state.formCoupon.is_active" />
@@ -66,7 +66,7 @@
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
-import type { AppForm, Error } from '@/types'
+import type { Error } from '@/types'
 
 const props = defineProps({
     error: {
