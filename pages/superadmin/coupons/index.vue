@@ -28,6 +28,18 @@
                                         <p>{{ coupon?.code }}</p>
                                     </td>
                                     <td width="15%">
+                                        <div class="w-fit">
+                                            <Badge :type="coupon?.type === 'deal' ? 'active' : 'primary'">
+                                                <p class="text-xxs">
+                                                    <span v-if="coupon?.type === 'deal'">
+                                                        {{ $t('superadmin.coupons.table.type.deal') }}
+                                                    </span>
+                                                    <span v-else>
+                                                        {{ $t('superadmin.coupons.table.type.addOn') }}
+                                                    </span>
+                                                </p>
+                                            </Badge>
+                                        </div>
                                         <p>{{ coupon?.description }}</p>
                                     </td>
                                     <td width="10%">

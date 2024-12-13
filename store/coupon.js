@@ -4,18 +4,26 @@ export const useCouponStore = defineStore('couponStore',
     {
         persist: true,
         state: () => ({
-            code: '',
+            addOnCoupon: '',
+            dealCoupon: '',
         }),
         actions: {
-            setCode(code) {
-                this.code = code
+            setAddOnCouponCode(couponCode) {
+                this.addOnCoupon = couponCode
             },
-            resetCode() {
-                this.code = ''
+            setDealCouponCode(couponCode) {
+                this.dealCoupon = couponCode
+            },
+            resetAddOnCouponCode() {
+                this.dealCoupon = ''
+            },
+            resetDealCouponCode() {
+                this.dealCoupon = ''
             },
         },
         getters: {
-            getCode: (state) => state.code,
+            getAddOnCouponCode: (state) => state.addOnCoupon,
+            getDealCouponCode: (state) => state.dealCoupon,
         },
     },
 )

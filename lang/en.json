@@ -2203,6 +2203,11 @@
                 "inactive": "Inctive",
                 "quantity": "Quantity",
                 "status": "Status",
+                "type": {
+                    "addOn": "Add-on",
+                    "deal": "Deal",
+                    "type": "Type"
+                },
                 "unit": {
                     "amount": "Amount",
                     "percentage": "Percentage",

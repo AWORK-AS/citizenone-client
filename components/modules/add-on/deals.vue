@@ -128,7 +128,18 @@
                     </FormButton>
                 </div>
             </div>
+            <div class="mt-5" v-if="!state.isDealsHidden" @click="state.modal.isEnterCouponShow = true">
+                <p class="text-center text-sm text-primary cursor-pointer hover:text-primary-700">
+                    <span>{{ $t('subscription.coupon.enterYourCouponCodeHereForExclusiveSavings') }}!</span>
+                </p>
+            </div>
+            <p class="text-center text-primary font-semibold" v-if="couponStore.getAddOnCouponCode">
+                {{ $t('subscription.coupon.form.couponCode') }}:
+                {{ couponStore.getAddOnCouponCode }}
+            </p>
         </div>
+        <ModulesSubscriptionModalAddOnCoupon :isModalOpen="state.modal.isEnterCouponShow"
+            @close="state.modal.isEnterCouponShow = false" />
     </LoadingSpinner>
 </template>
 
@@ -137,10 +148,12 @@ import { addOnDealsService } from '@/components/api/AddOnDealsService'
 import { cartService } from '@/components/api/CartService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useUserStore } from '@/store/user'
+import { useCouponStore } from '@/store/coupon'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
+const couponStore = useCouponStore()
 const userStore = useUserStore() as any
 let checkout = null as any
 
@@ -156,6 +169,9 @@ const state = reactive({
         user: '',
     },
     isPageLoading: false,
+    modal: {
+        isEnterCouponShow: false
+    }
 })
 
 onMounted(() => {
@@ -225,15 +241,17 @@ async function handleSaveCart() {
     try {
         if (state.formAddOn.department !== '' && parseInt(state.formAddOn.department) > -1) {
             const params = {
-                'addon_uuid': state.addOnDeals.department?.data?.uuid,
-                'quantity': state.formAddOn.department
+                addon_uuid: state.addOnDeals.department?.data?.uuid,
+                quantity: state.formAddOn.department,
+                coupon_code: couponStore.getAddOnCouponCode,
             }
             await cartService.saveCart(params)
         }
         if (state.formAddOn.user !== '' && parseInt(state.formAddOn.user) > -1) {
             const params = {
-                'addon_uuid': state.addOnDeals.user?.data?.uuid,
-                'quantity': state.formAddOn.user
+                addon_uuid: state.addOnDeals.user?.data?.uuid,
+                quantity: state.formAddOn.user,
+                coupon_code: couponStore.getAddOnCouponCode,
             }
             await cartService.saveCart(params)
         }

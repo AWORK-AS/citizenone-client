@@ -341,12 +341,12 @@
                         <span>{{ $t('subscription.coupon.enterYourCouponCodeHereForExclusiveSavings') }}!</span>
                     </p>
                 </div>
-                <p class="text-center text-primary font-semibold" v-if="couponStore.getCode">
+                <p class="text-center text-primary font-semibold" v-if="couponStore.getDealCouponCode">
                     {{ $t('subscription.coupon.form.couponCode') }}:
-                    {{ couponStore.getCode }}
+                    {{ couponStore.getDealCouponCode }}
                 </p>
             </LoadingSpinner>
-            <ModulesSubscriptionModalCoupon :isModalOpen="state.modal.isEnterCouponShow"
+            <ModulesSubscriptionModalDealCoupon :isModalOpen="state.modal.isEnterCouponShow"
                 @close="state.modal.isEnterCouponShow = false" />
         </NuxtLayout>
     </div>
@@ -421,7 +421,7 @@ async function subscribe(deal: any) {
         const params = {
             'deal_uuid': deal.uuid,
             'type': frequency.value.value === 'monthly' ? 'monthly' : 'yearly',
-            'coupon_code': couponStore.getCode,
+            'coupon_code': couponStore.getDealCouponCode,
         }
         const response = await userSubscriptionService.subscribe(params)
         if (response) {
@@ -437,7 +437,7 @@ async function subscribe(deal: any) {
             checkout = new Dibs.Checkout(checkoutOptions)
             checkout.on('payment-completed', function (response: any) {
                 checkout.cleanup()
-                couponStore.resetCode
+                couponStore.resetDealCouponCode
                 const paymentId = response['paymentId']
                 navigateTo(`/subscription/subscribed-successfully?paymentId=${paymentId}`)
             })

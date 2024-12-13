@@ -55,7 +55,7 @@ const emit = defineEmits(['close'])
 const state = reactive({
     error: {} as Error,
     formCoupon: {
-        code: couponStore.getCode,
+        code: couponStore.getDealCouponCode,
     },
     isPageLoading: false,
 })
@@ -91,10 +91,10 @@ async function validateCoupon() {
         const params = {
             code: state.formCoupon.code,
         }
-        const response = await couponService.validateCouponCode(params)
+        const response = await couponService.validateDealCouponCode(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('subscription.coupon.form.alert.couponCodeSuccessfullyAdded')}.`)
-            couponStore.setCode(state.formCoupon.code)
+            couponStore.setDealCouponCode(state.formCoupon.code)
             closeModal()
         }
     } catch (error: any) {

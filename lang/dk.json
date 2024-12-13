@@ -2204,6 +2204,11 @@
                 "inactive": "Inaktiv",
                 "quantity": "Mængde",
                 "status": "Status",
+                "type": {
+                    "addOn": "Tilføjelse",
+                    "deal": "Tilbud",
+                    "type": "Type"
+                },
                 "unit": {
                     "amount": "Beløb",
                     "percentage": "Procentdel",
