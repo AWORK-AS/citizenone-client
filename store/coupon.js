@@ -15,7 +15,7 @@ export const useCouponStore = defineStore('couponStore',
                 this.dealCoupon = couponCode
             },
             resetAddOnCouponCode() {
-                this.dealCoupon = ''
+                this.addOnCoupon = ''
             },
             resetDealCouponCode() {
                 this.dealCoupon = ''

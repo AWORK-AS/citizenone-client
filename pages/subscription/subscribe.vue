@@ -344,6 +344,9 @@
                 <p class="text-center text-primary font-semibold" v-if="couponStore.getDealCouponCode">
                     {{ $t('subscription.coupon.form.couponCode') }}:
                     {{ couponStore.getDealCouponCode }}
+                    <span class="text-xxs cursor-pointer hover:underline" @click="couponStore.resetDealCouponCode">
+                        {{ $t('subscription.coupon.remove') }}
+                    </span>
                 </p>
             </LoadingSpinner>
             <ModulesSubscriptionModalDealCoupon :isModalOpen="state.modal.isEnterCouponShow"

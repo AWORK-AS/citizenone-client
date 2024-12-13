@@ -1890,7 +1890,8 @@
                 },
                 "apply": "Apply",
                 "couponCode": "Coupon code"
-            }
+            },
+            "remove": "Remove"
         },
         "currentSubscription": "Current subscription",
         "deal": {

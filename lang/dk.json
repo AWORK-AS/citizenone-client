@@ -1890,7 +1890,8 @@
                 },
                 "apply": "Anvend",
                 "couponCode": "Kuponkode"
-            }
+            },
+            "remove": "Fjern"
         },
         "currentSubscription": "Nuværende abonnement",
         "deal": {

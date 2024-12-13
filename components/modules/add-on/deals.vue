@@ -136,6 +136,9 @@
             <p class="text-center text-primary font-semibold" v-if="couponStore.getAddOnCouponCode">
                 {{ $t('subscription.coupon.form.couponCode') }}:
                 {{ couponStore.getAddOnCouponCode }}
+                <span class="text-xxs cursor-pointer hover:underline" @click="couponStore.resetAddOnCouponCode">
+                    {{ $t('subscription.coupon.remove') }}
+                </span>
             </p>
         </div>
         <ModulesSubscriptionModalAddOnCoupon :isModalOpen="state.modal.isEnterCouponShow"
