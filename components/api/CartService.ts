@@ -9,8 +9,8 @@ class CartService extends BaseAPIService {
         return await this.request(`/user/carts`, 'POST', params)
     }
 
-    async checkoutCart(): Promise<any> {
-        return await this.request(`/user/carts/checkout/items`, 'POST')
+    async checkoutCart(params: object): Promise<any> {
+        return await this.request(`/user/carts/checkout/items`, 'POST', params)
     }
 }
 

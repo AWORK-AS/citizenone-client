@@ -247,7 +247,6 @@ async function handleSaveCart() {
             const params = {
                 addon_uuid: state.addOnDeals.department?.data?.uuid,
                 quantity: state.formAddOn.department,
-                coupon_code: couponStore.getAddOnCouponCode,
             }
             await cartService.saveCart(params)
         }
@@ -255,11 +254,13 @@ async function handleSaveCart() {
             const params = {
                 addon_uuid: state.addOnDeals.user?.data?.uuid,
                 quantity: state.formAddOn.user,
-                coupon_code: couponStore.getAddOnCouponCode,
             }
             await cartService.saveCart(params)
         }
-        const response = await cartService.checkoutCart()
+        const params = {
+            coupon_code: couponStore.getAddOnCouponCode,
+        }
+        const response = await cartService.checkoutCart(params)
         if (response) {
             const checkoutOptions = {
                 checkoutKey: runtimeConfig?.public?.checkoutKey,
