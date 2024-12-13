@@ -341,7 +341,8 @@
                         <span>{{ $t('subscription.coupon.enterYourCouponCodeHereForExclusiveSavings') }}!</span>
                     </p>
                 </div>
-                <p class="text-center text-primary font-semibold" v-if="couponStore.getDealCouponCode">
+                <p class="text-center text-primary font-semibold"
+                    v-if="!state.isDealsHidden && couponStore.getDealCouponCode">
                     {{ $t('subscription.coupon.form.couponCode') }}:
                     {{ couponStore.getDealCouponCode }}
                     <span class="text-xxs cursor-pointer hover:underline" @click="couponStore.resetDealCouponCode">
