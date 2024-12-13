@@ -80,8 +80,7 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        couponStore.setCode(state.formCoupon.code)
-        closeModal()
+        validateCoupon()
     }
 }
 
@@ -95,6 +94,7 @@ async function validateCoupon() {
         const response = await couponService.validateCouponCode(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('subscription.coupon.form.alert.couponCodeSuccessfullyAdded')}.`)
+            couponStore.setCode(state.formCoupon.code)
             closeModal()
         }
     } catch (error: any) {

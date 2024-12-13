@@ -437,6 +437,7 @@ async function subscribe(deal: any) {
             checkout = new Dibs.Checkout(checkoutOptions)
             checkout.on('payment-completed', function (response: any) {
                 checkout.cleanup()
+                couponStore.resetCode
                 const paymentId = response['paymentId']
                 navigateTo(`/subscription/subscribed-successfully?paymentId=${paymentId}`)
             })

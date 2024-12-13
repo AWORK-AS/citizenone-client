@@ -2,7 +2,7 @@ import BaseAPIService from '@/components/api/BaseAPIService'
 
 class CouponService extends BaseAPIService {
     async validateCouponCode(params: object): Promise<any> {
-        return await this.request(`/user/coupon/validate`, 'GET', params)
+        return await this.request(`/user/promo-code`, 'POST', params)
     }
 }
 

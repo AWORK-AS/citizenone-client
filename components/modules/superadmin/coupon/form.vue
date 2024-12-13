@@ -142,9 +142,6 @@ const rules = computed(() => {
             unit: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            expiration: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
             is_active: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
