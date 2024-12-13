@@ -27,7 +27,7 @@
                                     <td width="15%">
                                         <p>{{ coupon?.code }}</p>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <p>{{ coupon?.description }}</p>
                                     </td>
                                     <td width="10%">
@@ -46,8 +46,11 @@
                                             {{ $t('superadmin.coupons.table.unit.percentage') }}
                                         </p>
                                     </td>
+                                    <td width="10%">
+                                        <p>{{ coupon?.quantity }}</p>
+                                    </td>
                                     <td width="20%">
-                                        <p>{{ formatDateToReadable(coupon?.expiration) }}</p>
+                                        <p v-if="coupon?.expiration">{{ formatDateToReadable(coupon?.expiration) }}</p>
                                     </td>
                                     <td width="10%">
                                         <Badge type="primary" class="w-fit" v-if="coupon?.is_active">
@@ -106,6 +109,7 @@ const state = reactive({
         { name: 'superadmin.coupons.table.description' },
         { name: 'superadmin.coupons.table.amount', sorter: true, key: 'amount' },
         { name: 'superadmin.coupons.table.unit.unit', sorter: true, key: 'unit' },
+        { name: 'superadmin.coupons.table.quantity', sorter: true, key: 'quantity' },
         { name: 'superadmin.coupons.table.expiration', sorter: true, key: 'expiration' },
         { name: 'superadmin.coupons.table.status', sorter: true, key: 'is_active' },
         { name: '' },

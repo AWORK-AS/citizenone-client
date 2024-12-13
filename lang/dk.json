@@ -2162,6 +2162,7 @@
             "coupons": "Kuponer",
             "editCoupon": "Rediger kupon",
             "form": {
+                "active": "Aktiv",
                 "alert": {
                     "couponSuccessfullyUpdated": "Kupon opdateret med succes",
                     "newCouponSuccessfullySaved": "Ny kupon gemt med succes"
@@ -2170,7 +2171,13 @@
                 "code": "Kode",
                 "description": "Beskrivelse",
                 "expiration": "Udløbsdato",
+                "quantity": "Antal",
                 "status": "Status",
+                "type": {
+                    "addOn": "Tilføjelse",
+                    "deal": "Tilbud",
+                    "type": "Type"
+                },
                 "unit": {
                     "amount": "Beløb",
                     "percentage": "Procentdel",
@@ -2195,6 +2202,7 @@
                 "description": "Beskrivelse",
                 "expiration": "Udløbsdato",
                 "inactive": "Inaktiv",
+                "quantity": "Mængde",
                 "status": "Status",
                 "unit": {
                     "amount": "Beløb",

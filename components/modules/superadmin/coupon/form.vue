@@ -6,6 +6,12 @@
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
             <div class="space-y-1">
+                <FormLabel for="type" :label="$t('superadmin.coupons.form.type.type')" />
+                <FormSelect id="type" :options="state.options.type" v-model="state.formCoupon.type" />
+                <FormError :error="v$?.formCoupon?.type?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.type?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="code" :label="$t('superadmin.coupons.form.code')" />
                 <FormTextField id="code" name="code" :placeholder="$t('superadmin.coupons.form.code')"
                     v-model="state.formCoupon.code" />
@@ -31,6 +37,13 @@
                     v-model="state.formCoupon.amount" />
                 <FormError :error="v$?.formCoupon?.amount?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.amount?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="quantity" :label="$t('superadmin.coupons.form.quantity')" />
+                <FormTextField id="quantity" name="quantity" :placeholder="$t('superadmin.coupons.form.quantity')"
+                    v-model="state.formCoupon.quantity" />
+                <FormError :error="v$?.formCoupon?.quantity?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.quantity?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="expiration" :label="$t('superadmin.coupons.form.expiration')" />
@@ -90,14 +103,20 @@ const language = useI18n()
 const state = reactive({
     error: {} as Error,
     formCoupon: {
+        type: '',
         code: '',
         description: '',
         amount: '',
         unit: '',
         expiration: '',
+        quantity: '',
         is_active: false,
     },
     options: {
+        type: [
+            { value: 'deal', label: `${t('superadmin.coupons.form.type.deal')}` },
+            { value: 'add-on', label: `${t('superadmin.coupons.form.type.addOn')}` },
+        ],
         unit: [
             { value: 'amount', label: `${t('superadmin.coupons.form.unit.amount')}` },
             { value: 'percentage', label: `${t('superadmin.coupons.form.unit.percentage')}` },
@@ -108,11 +127,13 @@ const state = reactive({
 watch(() => props.selectedCoupon, (newValue: any) => {
     if (newValue != null) {
         state.formCoupon = {
+            type: newValue.type,
             code: newValue.code,
             description: newValue.description,
             amount: newValue.amount,
             unit: newValue.unit,
             expiration: newValue.expiration,
+            quantity: newValue.quantity,
             is_active: newValue.is_active,
         }
     }
@@ -130,6 +151,9 @@ watch(() => language.locale.value, (newValue: any) => {
 const rules = computed(() => {
     return {
         formCoupon: {
+            type: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
             code: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },

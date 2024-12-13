@@ -37,10 +37,12 @@ const { t } = useI18n()
 const state = reactive({
     error: {} as Error,
     formCoupon: {
+        type: '',
         code: '',
         description: '',
         amount: '',
         unit: '',
+        quantity: '',
         expiration: '',
         is_active: '',
     },
@@ -52,10 +54,12 @@ async function saveCoupon(couponDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
+            type: couponDetails.type,
             code: couponDetails.code,
             description: couponDetails.description,
             amount: couponDetails.amount,
             unit: couponDetails.unit,
+            quantity: couponDetails.quantity,
             expiration: couponDetails.expiration,
             is_active: couponDetails.is_active,
         }

@@ -39,10 +39,12 @@ const couponUuid = router?.currentRoute?.value?.params?.couponUuid
 const state = reactive({
     error: {} as Error,
     formCoupon: {
+        type: '',
         code: '',
         description: '',
         amount: '',
         unit: '',
+        quantity: '',
         expiration: '',
         is_active: '',
     },
@@ -60,10 +62,12 @@ async function fetchCoupon() {
         const response = await couponService.getCoupon(couponUuid)
         if (response) {
             state.formCoupon = {
+                type: response?.data?.type ?? '',
                 code: response?.data?.code ?? '',
                 description: response?.data?.description ?? '',
                 amount: response?.data?.amount ?? '',
                 unit: response?.data?.unit ?? '',
+                quantity: response?.data?.quantity ?? '',
                 expiration: response?.data?.expiration ?? '',
                 is_active: response?.data?.is_active ?? '',
             }
@@ -79,11 +83,13 @@ async function updateCoupon(couponDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
+            type: couponDetails.type,
             code: couponDetails.code,
             description: couponDetails.description,
             amount: couponDetails.amount,
             unit: couponDetails.unit,
-            expiration: couponDetails.expiration,
+            quantity: couponDetails.quantity,
+            expiration: couponDetails.expiration === 'Invalid date' ? null : couponDetails.expiration,
             is_active: couponDetails.is_active,
         }
         const response = await couponService.updateCoupon(couponUuid, params)

@@ -2170,7 +2170,13 @@
                 "code": "Code",
                 "description": "Description",
                 "expiration": "Expiration",
+                "quantity": "Quantity",
                 "status": "Status",
+                "type": {
+                    "addOn": "Add-on",
+                    "deal": "Deal",
+                    "type": "Type"
+                },
                 "unit": {
                     "amount": "Amount",
                     "percentage": "Percentage",
@@ -2195,6 +2201,7 @@
                 "description": "Description",
                 "expiration": "Expiration",
                 "inactive": "Inctive",
+                "quantity": "Quantity",
                 "status": "Status",
                 "unit": {
                     "amount": "Amount",
