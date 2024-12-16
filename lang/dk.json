@@ -366,7 +366,7 @@
                 "firstname": "Fornavn",
                 "lastname": "Efternavn",
                 "municipality": "Kommune",
-                "nursingAreas": "Sygeplejeområder",
+                "nursingAreas": "Sundhed",
                 "phone": "Telefonnummer",
                 "postCode": "Postnummer",
                 "region": "Region",
@@ -694,7 +694,7 @@
             "economy": "Økonomi",
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
-            "nursingAreas": "Sygeplejeområder",
+            "nursingAreas": "Sundhed",
             "plansAndGoals": "Planer og mål"
         },
         "useOfForce": {
