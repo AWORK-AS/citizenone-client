@@ -40,7 +40,10 @@
                                     <div class="space-y-1">
                                         <FormLabel for="message" :label="$t('messages.users')" />
                                         <FormSelectMultiple id="receivers" :options="state.options.receivers"
-                                            v-model="state.formChat.receivers" />
+                                            v-model="state.formChat.receivers"
+                                            v-if="userStore.getUser?.company?.group_chat_enabled" />
+                                        <FormSelect id="receivers" :options="state.options.receivers"
+                                            v-model="state.formChat.receivers" v-else />
                                         <FormError :error="v$?.formChat?.receivers?.$errors[0]?.$message.toString()" />
                                         <FormError :error="state?.error?.errors?.receiver_uuid?.[0]" />
                                     </div>
@@ -73,10 +76,12 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { messageService } from '@/components/api/MessageService'
 import { useI18n } from "vue-i18n"
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
+const userStore = useUserStore() as any
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
 const { t } = useI18n()
 
@@ -160,7 +165,9 @@ async function sendMessage() {
         try {
             const params = {
                 message: state.formChat.message,
-                receiver_uuid: state.formChat.receivers
+                receiver_uuid: userStore.getUser?.company?.group_chat_enabled ?
+                    state.formChat.receivers :
+                    [state.formChat.receivers]
             }
             const response = await messageService.sendMessageViaReceiverUuid(params)
             if (response) {
