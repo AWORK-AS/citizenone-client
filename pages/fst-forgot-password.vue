@@ -7,8 +7,8 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="flex h-screen flex-1">
             <div class="relative hidden w-0 flex-1 lg:block overflow-clip">
-                <img src="https://citizenone.dk/wp-content/uploads/2024/09/CitizenOne-6.jpg" alt="Image failed to load"
-                    class="absolute inset-0 h-full w-full object-cover" />
+                <img src="https://findsocialetilbud.dk/wp-content/uploads/2017/04/findopholdssteder-1-1.jpg"
+                    alt="Image failed to load" class="absolute inset-0 h-full w-full object-cover" />
                 <img src="https://citizenone.dk/wp-content/uploads/2024/09/2.svg" alt="Image failed to load"
                     class="absolute w-1/2" style="top: -16%; left: -11%;" />
                 <div>

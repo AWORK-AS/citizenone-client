@@ -6,7 +6,7 @@
 
     <LoadingSpinner :isActive="state.isPageLoading">
         <div
-            class="bg-white relative overflow-clip flex min-h-screen flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
+            class="bg-[#f5fafe] relative overflow-clip flex min-h-screen flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
             <img src="/img/icons/asset-01.svg" alt="Image failed to load"
                 class="w-52 md:w-1/5 absolute -top-28 -right-24 opacity-0 transition-opacity duration-500"
                 id="animatedAsset01">
