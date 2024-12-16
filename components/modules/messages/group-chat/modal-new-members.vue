@@ -40,7 +40,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshGroupChatMembers'])
+const emit = defineEmits(['close', 'refreshGroupChatMembers', 'refreshChat'])
 const { t } = useI18n()
 const router = useRouter()
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
@@ -48,7 +48,6 @@ const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
 const state = reactive({
     error: {} as Error,
     formChat: {
-        message: '',
         users: [] as any,
     },
     isPageLoading: false,
@@ -116,6 +115,10 @@ async function addToGroupMembers() {
             if (response) {
                 closeModal()
                 emit('refreshGroupChatMembers')
+                emit('refreshChat')
+                fetchAvailableGroupMembers
+                state.formChat.users = []
+                v$.value.$reset()
             }
         } catch (error: any) {
             state.error = error

@@ -23,7 +23,7 @@
                 </LoadingSpinner>
                 <ModulesMessagesGroupChatModalNewMembers :isModalOpen="state.modal.isAddNewGroupChatMembersOpen"
                     @close="state.modal.isAddNewGroupChatMembersOpen = false"
-                    @refreshGroupChatMembers="fetchGroupMembers" />
+                    @refreshGroupChatMembers="fetchGroupMembers" @refreshChat="emit('refreshChat')" />
             </template>
         </Modal>
     </div>
@@ -39,7 +39,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshChat'])
 
 const router = useRouter()
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid

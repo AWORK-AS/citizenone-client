@@ -185,7 +185,7 @@
                     </LoadingSpinner>
                 </div>
                 <ModulesMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
-                    @close="state.modal.isManageGroupChatMembersOpen = false" />
+                    @close="state.modal.isManageGroupChatMembersOpen = false" @refreshChat="fetchChat" />
                 <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
                     :title="$t('citizens.documents.upgradeStorage')"
                     :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
