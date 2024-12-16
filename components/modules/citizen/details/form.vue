@@ -275,7 +275,7 @@ const state = reactive({
         genders: [
             { value: 'male', label: `${t('gender.male')}`, },
             { value: 'female', label: `${t('gender.female')}`, },
-            { value: 'nonbinary', label: `${t('gender.nonbinary')}`, },
+            { value: 'non_binary', label: `${t('gender.nonbinary')}`, },
             { value: 'will_not_disclose', label: `${t('gender.willNotDisclose')}`, },
         ],
         municipalities: [],
@@ -288,7 +288,7 @@ watch(() => language.locale.value, () => {
     state.options.genders = [
         { value: 'male', label: `${t('gender.male')}`, },
         { value: 'female', label: `${t('gender.female')}`, },
-        { value: 'nonbinary', label: `${t('gender.nonbinary')}`, },
+        { value: 'non_binary', label: `${t('gender.nonbinary')}`, },
         { value: 'will_not_disclose', label: `${t('gender.willNotDisclose')}`, },
     ]
 })
