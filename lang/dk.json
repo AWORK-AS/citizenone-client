@@ -1556,6 +1556,21 @@
     },
     "messages": {
         "allMessagesAreLoaded": "Alle beskeder er indlæst",
+        "groupChat": {
+            "alert": {
+                "userSuccessfullyAdded": "Bruger tilføjet til gruppechatten med succes",
+                "usersSuccessfullyAdded": "Brugere tilføjet til gruppechatten med succes",
+                "usersSuccessfullyRemoved": "Brugere fjernet fra gruppechatten med succes"
+            },
+            "add": "Tilføj",
+            "addUser": "Tilføj bruger",
+            "addUsers": "Tilføj brugere",
+            "confirmation": {
+                "removeConfirmation": "Er du sikker på, at du vil fjerne denne bruger"
+            },
+            "groupMembers": "Gruppemedlemmer",
+            "name": "Navn"
+        },
         "loadingMessages": "Indlæser beskeder",
         "looksLikeYouHaventInitiatedAConversation": "Det ser ud til, at du ikke har startet en samtale",
         "messages": "Beskeder",

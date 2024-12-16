@@ -25,6 +25,18 @@ class MessageService extends BaseAPIService {
         return await this.request(`/user/chat-message-receipts`, 'POST', params)
     }
 
+    async getGroupMembers(params: object): Promise<any> {
+        return await this.request(`/user/chat-members`, 'GET', params)
+    }
+
+    async getAllAvailableUsers(params: object): Promise<any> {
+        return await this.request(`/user/chat-members/available/list`, 'GET', params)
+    }
+
+    async saveGroupMembers(params: object): Promise<any> {
+        return await this.request(`/user/chat-members`, 'POST', params)
+    }
+
 }
 
 export const messageService = new MessageService()

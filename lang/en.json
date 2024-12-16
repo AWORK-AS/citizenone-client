@@ -1556,6 +1556,21 @@
     },
     "messages": {
         "allMessagesAreLoaded": "All messages are loaded",
+        "groupChat": {
+            "alert": {
+                "userSuccessfullyAdded": "User successfully added to the group chat",
+                "usersSuccessfullyAdded": "Users successfully added to the group chat",
+                "usersSuccessfullyRemoved": "Users successfully removed from the group chat"
+            },
+            "add": "Add",
+            "addUser": "Add user",
+            "addUsers": "Add users",
+            "confirmation": {
+                "removeConfirmation": "Are you sure you want to remove this user"
+            },
+            "groupMembers": "Group members",
+            "name": "Name"
+        },
         "loadingMessages": "Loading messages",
         "looksLikeYouHaventInitiatedAConversation": "Looks like you haven't initiated a conversation",
         "message": "Message",

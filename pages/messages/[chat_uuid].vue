@@ -16,7 +16,6 @@
                     <li v-for="file in files" :key="file.name">{{ file.name }}</li>
                 </ul>
 
-                <!-- <LoadingSpinner :isActive="state.isPageLoading"> -->
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
                     <LoadingSpinner :isActive="state.isChatLoading"
                         class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto" style="height: 80vh;">
@@ -27,11 +26,11 @@
                         <div class="px-6 py-3 shadow-sm">
                             <div>
                                 <div v-if="state.chat?.data?.type === 'direct'">
-                                    <div>
+                                    <div class="h-10">
                                         <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members)"
                                             :index="index" class="flex items-center space-x-4">
                                             <img :src="chatMember?.user?.profile_image ?? '/img/avatars/user.svg'"
-                                                alt="Item 1" class="w-12 h-12 rounded-full object-cover">
+                                                alt="Item 1" class="w-10 h-10 rounded-full object-cover">
                                             <div>
                                                 <h4 class="font-semibold text-sm">
                                                     {{ chatMember?.user?.firstname + " " +
@@ -42,27 +41,41 @@
                                     </div>
                                 </div>
                                 <div v-if="state.chat?.data?.type === 'group'">
-                                    <div class="w-full grid grid-cols-12 items-center">
+                                    <div class="h-10 w-full grid grid-cols-12 items-center">
                                         <div class="col-span-1">
                                             <div class="relative">
                                                 <img src="/img/avatars/user.svg" alt="Item 1"
-                                                    class="w-5 h-5 rounded-full object-cover relative top-1.5 left-1">
+                                                    class="w-7 h-7 rounded-full object-cover relative top-1.5 left-1">
                                                 <img src="/img/avatars/user.svg" alt="Item 1"
-                                                    class="w-5 h-5 rounded-full object-cover absolute -top-2 left-3">
+                                                    class="w-7 h-7 rounded-full object-cover absolute -top-2.5 left-4">
                                                 <img src="/img/avatars/user.svg" alt="Item 1"
-                                                    class="w-5 h-5 rounded-full object-cover absolute top-2 left-5">
+                                                    class="w-7 h-7 rounded-full object-cover absolute top-2.5 left-7">
                                             </div>
                                         </div>
                                         <div class="col-span-11 flex items-center">
-                                            <Tooltip :text="`${chatGroupMembers(state.chat?.data)}.`">
-                                                <h4 class="font-semibold text-sm line-clamp-1">
-                                                    {{ chatGroupMembers(state.chat?.data) }}.
-                                                </h4>
-                                            </Tooltip>
-                                            <p class="text-xxs" v-if="state.chat?.data?.unread_messages > 0">
-                                                {{ state.chat?.data?.unread_messages }}
-                                                <span class="lowercase">{{ $t('messages.unreadMessages') }}</span>
-                                            </p>
+                                            <div class="w-full flex items-center justify-between">
+                                                <div>
+                                                    <Tooltip :text="`${chatGroupMembers(state.chat?.data)}.`">
+                                                        <h4 class="font-semibold text-sm line-clamp-1">
+                                                            {{ chatGroupMembers(state.chat?.data) }}.
+                                                        </h4>
+                                                    </Tooltip>
+                                                    <p class="text-xxs" v-if="state.chat?.data?.unread_messages > 0">
+                                                        {{ state.chat?.data?.unread_messages }}
+                                                        <span class="lowercase">
+                                                            {{ $t('messages.unreadMessages') }}
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <Tooltip :text="$t('messages.groupChat.groupMembers')">
+                                                    <button v-if="state.chat?.data?.type === 'group'"
+                                                        @click="state.modal.isManageGroupChatMembersOpen = true">
+                                                        <Icon name="mdi:account-supervisor"
+                                                            class="h-6 w-6 text-primary hover:text-primary-700"
+                                                            aria-hidden="true" />
+                                                    </button>
+                                                </Tooltip>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -105,7 +118,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <p v-else>{{ message?.message }}</p>
+                                                <p v-else class="text-sm">{{ message?.message }}</p>
                                             </div>
                                             <span class="text-xs text-gray-500 mt-1">
                                                 {{ formatTimeToReadable(message?.created_at) }}
@@ -139,7 +152,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <p v-else class="text-gray-700">{{ message?.message }}</p>
+                                                <p v-else class="text-gray-700 text-sm">{{ message?.message }}</p>
                                             </div>
                                             <span class="text-xs text-gray-500 mt-1">
                                                 {{ formatTimeToReadable(message?.created_at) }}
@@ -171,7 +184,8 @@
                         </div>
                     </LoadingSpinner>
                 </div>
-                <!-- </LoadingSpinner> -->
+                <ModulesMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
+                    @close="state.modal.isManageGroupChatMembersOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
                     :title="$t('citizens.documents.upgradeStorage')"
                     :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
@@ -212,6 +226,7 @@ const state = reactive({
     message: '',
     messages: [] as any,
     modal: {
+        isManageGroupChatMembersOpen: false,
         isUpgradeStorageOpen: false
     },
 })

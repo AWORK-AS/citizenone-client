@@ -9,7 +9,7 @@
                                 {{ $t('messages.startTheConversation') }}
                             </h3>
                             <div class="space-y-1">
-                                <FormLabel for="message" :label="$t('messages.users')" />
+                                <FormLabel for="receivers" :label="$t('messages.users')" />
                                 <FormSelectMultiple id="receivers" :options="state.options.receivers"
                                     v-model="state.formChat.receivers"
                                     v-if="userStore.getUser?.company?.group_chat_enabled" />
