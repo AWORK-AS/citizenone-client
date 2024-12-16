@@ -80,6 +80,13 @@
                             </div>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.group_chat_enabled"
+                                @toggleSwitch="state.formCompany.group_chat_enabled = !state.formCompany.group_chat_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.groupChat') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.checkin_enabled"
                                 @toggleSwitch="state.formCompany.checkin_enabled = !state.formCompany.checkin_enabled" />
                             <p>
@@ -126,6 +133,7 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
+        group_chat_enabled: false,
         checkin_enabled: false,
     },
     isPageLoading: false,
@@ -179,6 +187,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             municipality: newValue?.company?.company_address?.municipality?.uuid,
             city: newValue?.company?.company_address?.city?.uuid,
             post_code: newValue?.company?.company_address?.post_code,
+            group_chat_enabled: newValue?.company?.group_chat_enabled ?? false,
             checkin_enabled: newValue?.company?.checkin_enabled ?? false,
         }
         fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
@@ -290,6 +299,7 @@ async function submitForm() {
                 municipality_uuid: state.formCompany.municipality,
                 city_uuid: state.formCompany.city,
                 post_code: state.formCompany.post_code,
+                group_chat_enabled: state.formCompany.group_chat_enabled,
                 checkin_enabled: state.formCompany.checkin_enabled,
             }
             const response = await userService.updateCompany(params)

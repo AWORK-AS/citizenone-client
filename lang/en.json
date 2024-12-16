@@ -1794,6 +1794,7 @@
                 "city": "City",
                 "companyName": "Company name",
                 "cvr": "CVR",
+                "groupChat": "Group chat",
                 "municipality": "Municipality",
                 "postCode": "Post code",
                 "region": "Region",
