@@ -447,6 +447,7 @@
             "confirmation": {
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne journal"
             },
+            "createdBy": "Oprettet af",
             "download": "Download",
             "downloadJournals": {
                 "downloadJournals": "Download journaler",
@@ -476,6 +477,7 @@
                 "standardView": "Standardvisning"
             },
             "newJournal": "Ny Journal",
+            "on": "Den",
             "riskAssessment": "Risikovurdering"
         },
         "confirmation": {

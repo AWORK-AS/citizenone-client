@@ -148,6 +148,12 @@
                                             </p>
                                             <div v-html="journal.note" class="content" />
                                         </div>
+                                        <p class="text-xs">
+                                            {{ $t('citizens.citizenJournals.createdBy') }}:
+                                            {{ journal.user?.firstname }} {{ journal.user?.lastname }}
+                                            <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
+                                            {{ formatDateToReadable(journal.created_at) }}
+                                        </p>
                                     </div>
                                     <div class="ms-auto">
                                         <div class="flex items-center gap-x-2">

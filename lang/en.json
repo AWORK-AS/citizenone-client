@@ -447,6 +447,7 @@
             "confirmation": {
                 "deleteConfirmation": "Are you sure you want to delete this journal"
             },
+            "createdBy": "Created by",
             "download": "Download",
             "downloadJournals": {
                 "downloadJournals": "Download journals",
@@ -476,6 +477,7 @@
                 "standardView": "Standard view"
             },
             "newJournal": "New journal",
+            "on": "On",
             "riskAssessment": "Risk assessment"
         },
         "confirmation": {
