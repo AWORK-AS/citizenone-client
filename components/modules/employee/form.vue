@@ -71,7 +71,9 @@
                         <FormError :error="props?.error?.errors?.birthday?.[0]" />
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 gap-3" :class="[
+                    userStore.getUser?.roles?.[0]?.name === 'Admin' && 'md:grid-cols-2'
+                ]">
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5">
                             <FormLabel for="departments" :label="$t('employees.form.department')" />
@@ -85,7 +87,7 @@
                         <FormError :error="v$?.formEmployee?.departments?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
                     </div>
-                    <div class="space-y-1">
+                    <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                         <FormLabel for="role" :label="$t('employees.form.role')" />
                         <FormSelect id="role" name="role" :options="state.options.roleOptions"
                             v-model="state.formEmployee.role" />
@@ -397,6 +399,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import type { EmployeeForm, Error } from '@/types'
 
 const props = defineProps({
@@ -414,6 +417,7 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['isPageLoading', 'submitForm'])
+const userStore = useUserStore() as any
 const image = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
 const { errorAlert } = useAlert()

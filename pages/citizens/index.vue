@@ -9,7 +9,7 @@
             <template #header>{{ $t('citizens.citizens') }}</template>
 
             <div>
-                <div class="flex justify-end items-center mb-5">
+                <div class="flex justify-end items-center mb-5" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                     <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.newCitizen') }}
@@ -45,7 +45,8 @@
                                                 {{ $t('citizens.table.actions.view') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/citizens/${citizen.uuid}/edit`)">
+                                                @click="navigateTo(`/citizens/${citizen.uuid}/edit`)"
+                                                v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.table.actions.edit') }}
                                             </FormButton>
@@ -73,10 +74,12 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/CitizenService'
 import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const departmentStore = useDepartmentStore()
+const userStore = useUserStore() as any
 let currentTablePage = 1
 
 const state = reactive({

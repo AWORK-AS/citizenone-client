@@ -47,7 +47,7 @@
                                         <Label :label="$t('employees.form.phone')" />
                                         <p class="font-medium">{{ state.selectedEmployee.phone }}</p>
                                     </div>
-                                    <div class="space-y-1">
+                                    <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                                         <Label :label="$t('employees.form.birthday')" />
                                         <p class="font-medium" v-if="state.selectedEmployee.birthday">
                                             {{ formatDateToReadable(state.selectedEmployee.birthday) }}
@@ -61,20 +61,21 @@
                                             {{ state.selectedEmployee?.departments }}
                                         </p>
                                     </div>
-                                    <div class="space-y-1">
+                                    <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                                         <Label :label="$t('employees.form.role')" />
                                         <p class="font-medium">
                                             {{ state.selectedEmployee?.role }}
                                         </p>
                                     </div>
                                 </div>
-                                <div class="space-y-1">
+                                <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                                     <Label :label="$t('employees.form.street')" />
                                     <p class="font-medium">
                                         {{ state.selectedEmployee?.street }}
                                     </p>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.region')" />
                                         <p class="font-medium">
@@ -88,7 +89,8 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.city')" />
                                         <p class="font-medium">
@@ -141,7 +143,7 @@
                             <div
                                 class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:px-8 sm:py-6">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <div class="space-y-1">
+                                    <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                                         <Label :label="$t('employees.form.employment.employmentDate')" />
                                         <p class="font-medium" v-if="state.selectedEmployee.employment.employment_date">
                                             {{
@@ -163,7 +165,8 @@
                                         {{ state.selectedEmployee.employment.employee_specialties }}
                                     </p>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.workingHours')" />
                                         <p class="font-medium capitalize">
@@ -186,8 +189,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div
-                            class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
+                        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
+                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                             <div>
                                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                                     {{ $t('employees.form.header.emergencyInfo') }}
@@ -284,7 +287,8 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3">
+                        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3"
+                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                             <div>
                                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                                     {{ $t('employees.documents.documents') }}
@@ -351,10 +355,12 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { employeeService } from '@/components/api/EmployeeService'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
+const userStore = useUserStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 
