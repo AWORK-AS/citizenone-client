@@ -34,6 +34,22 @@
                                             <span>{{ document?.name }}</span>
                                         </div>
                                     </td>
+                                    <td width="30%">
+                                        <p>
+                                            {{ document?.owner_name }}
+                                        </p>
+                                    </td>
+                                    <td width="20%">
+                                        <div class="w-fit">
+                                            <Badge :type="document?.owner_type === 'citizen' ? 'active' : 'primary'">
+                                                <p class="text-xs truncate">
+                                                    {{ document?.owner_type === 'citizen' ?
+                                                        $t('archived.table.type.citizen') :
+                                                        $t('archived.table.type.employee') }}
+                                                </p>
+                                            </Badge>
+                                        </div>
+                                    </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
@@ -74,6 +90,8 @@ const state = reactive({
     ],
     columnHeaders: [
         { name: 'archived.table.name', sorter: true, key: 'name' },
+        { name: 'archived.table.belongsTo' },
+        { name: 'archived.table.type.type' },
         { name: '' },
     ],
     dataFilter: {

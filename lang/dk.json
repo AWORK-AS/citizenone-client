@@ -258,7 +258,13 @@
                 "unarchiveDocument": "Genåbn dokument",
                 "unarchiveEmployee": "Genåbn medarbejder"
             },
-            "name": "Navn"
+            "belongsTo": "Tilhører",
+            "name": "Navn",
+            "type": {
+                "citizen": "Borger",
+                "employee": "Medarbejder",
+                "type": "Type"
+            }
         },
         "tabs": {
             "archivedCitizens": "Arkiverede borgere",

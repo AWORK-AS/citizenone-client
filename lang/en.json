@@ -258,7 +258,13 @@
                 "unarchiveDocument": "Unarchive document",
                 "unarchiveEmployee": "Unarchive employee"
             },
-            "name": "Name"
+            "belongsTo": "Belongs to",
+            "name": "Name",
+            "type": {
+                "citizen": "Citizen",
+                "employee": "Employee",
+                "type": "Type"
+            }
         },
         "tabs": {
             "archivedCitizens": "Archived citizens",
