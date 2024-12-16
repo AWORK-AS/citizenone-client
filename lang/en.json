@@ -259,6 +259,7 @@
                 "unarchiveEmployee": "Unarchive employee"
             },
             "belongsTo": "Belongs to",
+            "date": "Date",
             "name": "Name",
             "type": {
                 "citizen": "Citizen",

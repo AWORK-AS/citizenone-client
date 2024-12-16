@@ -259,6 +259,7 @@
                 "unarchiveEmployee": "Genåbn medarbejder"
             },
             "belongsTo": "Tilhører",
+            "date": "Dato",
             "name": "Navn",
             "type": {
                 "citizen": "Borger",

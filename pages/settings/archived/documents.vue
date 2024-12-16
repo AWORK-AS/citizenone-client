@@ -23,7 +23,12 @@
                             <template #body
                                 v-if="!(state.isTableLoading || (state.archivedDocuments?.data?.length === 0))">
                                 <tr v-for="(document, index) in state.archivedDocuments?.data" :key="index">
-                                    <td width="30%">
+                                    <td width="20%">
+                                        <p>
+                                            {{ formatDateToReadable(document?.date_archived) }}
+                                        </p>
+                                    </td>
+                                    <td width="25%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                             v-if="document?.file_url" @click="openFile(document)">
                                             <Icon name="ph:file" class="size-6" />
@@ -34,12 +39,12 @@
                                             <span>{{ document?.name }}</span>
                                         </div>
                                     </td>
-                                    <td width="30%">
+                                    <td width="20%">
                                         <p>
                                             {{ document?.owner_name }}
                                         </p>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <div class="w-fit">
                                             <Badge :type="document?.owner_type === 'citizen' ? 'active' : 'primary'">
                                                 <p class="text-xs truncate">
@@ -75,20 +80,20 @@
 
 <script setup lang="ts">
 import { documentService } from '@/components/api/DocumentService'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'name' },
-    ],
     columnHeaders: [
+        { name: 'archived.table.date' },
         { name: 'archived.table.name', sorter: true, key: 'name' },
         { name: 'archived.table.belongsTo' },
         { name: 'archived.table.type.type' },

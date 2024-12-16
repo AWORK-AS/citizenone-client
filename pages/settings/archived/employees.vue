@@ -22,20 +22,25 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.employees?.data?.length === 0))">
                                 <tr v-for="(employee, index) in state.employees?.data" :key="index">
-                                    <td width="25%">
+                                    <td width="20%">
+                                        <p>
+                                            {{ formatDateToReadable(employee?.date_archived) }}
+                                        </p>
+                                    </td>
+                                    <td width="20%">
                                         <div class="flex items-center gap-x-2">
                                             <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
                                                 class="rounded-full w-11" />
                                             <span>{{ employee?.firstname }} {{ employee?.lastname }}</span>
                                         </div>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <span>{{ employee?.email }}</span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <span>{{ employee?.phone }}</span>
                                     </td>
-                                    <td width="15%">
+                                    <td width="10%">
                                         <div class="flex items-center gap-x-2" v-for="(role, index) in employee?.roles"
                                             :key="index">
                                             <span>{{ role.name }}</span>
@@ -66,25 +71,22 @@
 
 <script setup lang="ts">
 import { employeeService } from '@/components/api/EmployeeService'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useDepartmentStore } from '@/store/department'
-import { useEmployeeStore } from '@/store/employee'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const departmentStore = useDepartmentStore()
+const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'name' },
-        { column: 'email' },
-        { column: 'phone' },
-    ],
     columnHeaders: [
+        { name: 'archived.table.date' },
         { name: 'employees.table.name', sorter: true, key: 'firstname' },
         { name: 'employees.table.email', sorter: true, key: 'email' },
         { name: 'employees.table.phone', sorter: true, key: 'phone' },

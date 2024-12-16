@@ -23,17 +23,22 @@
                             <template #body
                                 v-if="!(state.isTableLoading || (state.archivedCitizens?.data?.length === 0))">
                                 <tr v-for="(citizen, index) in state.archivedCitizens?.data" :key="index">
-                                    <td width="30%">
+                                    <td width="20%">
+                                        <p>
+                                            {{ formatDateToReadable(citizen?.date_archived) }}
+                                        </p>
+                                    </td>
+                                    <td width="20%">
                                         <div class="flex items-center gap-x-2">
                                             <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
                                                 class="rounded-full w-11 h-11 object-cover" />
                                             <span>{{ citizen?.firstname }} {{ citizen?.lastname }}</span>
                                         </div>
                                     </td>
-                                    <td width="30%">
+                                    <td width="25%">
                                         <span>{{ citizen?.email }}</span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <span>{{ citizen?.phone }}</span>
                                     </td>
                                     <td width="20%">
@@ -61,6 +66,7 @@
 
 <script setup lang="ts">
 import { citizenService } from '@/components/api/CitizenService'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useDepartmentStore } from '@/store/department'
@@ -68,17 +74,14 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const departmentStore = useDepartmentStore()
+const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'name' },
-        { column: 'email' },
-        { column: 'phone' },
-    ],
     columnHeaders: [
+        { name: 'archived.table.date' },
         { name: 'citizens.table.name', sorter: true, key: 'firstname' },
         { name: 'citizens.table.email', sorter: true, key: 'email' },
         { name: 'citizens.table.phone', sorter: true, key: 'phone' },
