@@ -839,6 +839,7 @@
             "gender": "Gender",
             "female": "Female",
             "male": "Male",
+            "nonbinary": "Nonbinary",
             "willNotDisclose": "Will note disclose"
         },
         "latestJournal": "Latest journal notes",
@@ -1437,6 +1438,7 @@
     "gender": {
         "female": "Female",
         "male": "Male",
+        "nonbinary": "Nonbinary",
         "willNotDisclose": "Will not disclose"
     },
     "invitation": {

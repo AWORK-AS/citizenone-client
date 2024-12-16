@@ -839,6 +839,7 @@
             "gender": "Køn",
             "female": "Kvinde",
             "male": "Mand",
+            "nonbinary": "Ikke-binær",
             "willNotDisclose": "Vil ikke oplyse"
         },
         "latestJournal": "Seneste journalnotater",
@@ -1437,6 +1438,7 @@
     "gender": {
         "female": "Kvinde",
         "male": "Mand",
+        "nonbinary": "Ikke-binær",
         "willNotDisclose": "Vil ikke oplyse"
     },
     "invitation": {
