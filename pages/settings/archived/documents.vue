@@ -30,7 +30,7 @@
                                     </td>
                                     <td width="25%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
-                                            v-if="document?.file_url" @click="openFile(document)">
+                                            v-if="document?.file_url" @click="downloadFile(document)">
                                             <Icon name="ph:file" class="size-6" />
                                             <span>{{ document?.name }}</span>
                                         </div>
@@ -83,6 +83,7 @@ import { documentService } from '@/components/api/DocumentService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -164,13 +165,19 @@ function handleSearch(value: any) {
     fetchArchivedDocuments()
 }
 
-function openFile(document: any) {
-    navigateTo(document?.file_url, {
-        external: true,
-        open: {
-            target: '_blank',
+async function downloadFile(document: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const documentUuid = document?.uuid
+        const response = await documentService.downloadArchivedDocument(documentUuid)
+        if (response) {
+            saveAs(response, document?.name)
         }
-    })
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 function confirmDocumentUnarchiving(document: any) {

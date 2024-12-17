@@ -21,7 +21,7 @@
                                     <tr v-for="(document, index) in state.documents?.data" :key="index">
                                         <td width="30%">
                                             <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
-                                                v-if="document?.file_url" @click="openFile(document)">
+                                                v-if="document?.file_url" @click="downloadDocument(document)">
                                                 <Icon name="ph:file" class="size-6" />
                                                 <span>{{ document?.name }}</span>
                                             </div>
@@ -75,6 +75,7 @@
 import { employeeDocumentService } from '@/components/api/EmployeeDocumentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -162,13 +163,19 @@ function sort(sortingData: any) {
     fetchDocuments()
 }
 
-function openFile(document: any) {
-    navigateTo(document?.file_url, {
-        external: true,
-        open: {
-            target: '_blank',
+async function downloadDocument(document: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const documentUuid = document?.uuid
+        const response = await employeeDocumentService.downloadDocument(documentUuid)
+        if (response) {
+            saveAs(response, document?.name)
         }
-    })
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 function editDocument(document: any) {

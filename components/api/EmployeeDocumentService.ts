@@ -20,6 +20,10 @@ class EmployeeDocumentService extends BaseAPIService {
     async archiveUnarchiveDocument(documentUuid: any): Promise<any> {
         return await this.request(`/user/employee-documents/${documentUuid}/archive`, 'PUT')
     }
+
+    async downloadDocument(documentUuid: any): Promise<any> {
+        return await this.request(`/user/employee-documents/${documentUuid}/download`, 'GET')
+    }
 }
 
 export const employeeDocumentService = new EmployeeDocumentService()
