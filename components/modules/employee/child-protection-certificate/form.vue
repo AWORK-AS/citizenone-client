@@ -15,6 +15,9 @@
                     </div>
                 </div>
             </div>
+            <div v-if="state.formEmployeeDocument.file" class="mt-2 text-center text-sm text-gray-700">
+                {{ state.formEmployeeDocument?.file?.name }}
+            </div>
             <FormError :error="props?.error?.errors?.file?.[0]" class="text-center" />
         </div>
         <div class="space-y-1" v-if="props.formType === 'update'">
@@ -74,7 +77,7 @@ const state = reactive({
         file: '',
         name: props.selectedEmployeeDocument?.name,
         note: props.selectedEmployeeDocument?.note,
-    },
+    } as any,
 })
 
 const rules = computed(() => {
