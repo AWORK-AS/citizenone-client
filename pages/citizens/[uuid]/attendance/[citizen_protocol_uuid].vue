@@ -236,7 +236,9 @@ async function setDateRange(event: any) {
     const endDate = dates[1] ? moment(dates[1], "DD. MMMM YYYY").format("YYYY-MM-DD") : startDate
     state.dataFilter.start_date = startDate
     state.dataFilter.end_date = endDate
-    fetchCitizenProtocols()
+    if (startDate !== 'Invalid date') {
+        fetchCitizenProtocols()
+    }
 }
 
 async function markAsAbsent(citizenProtocolUuid: string) {
