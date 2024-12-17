@@ -95,7 +95,7 @@ watch(() => props.selectedEmployeeDocument, (newValue: any) => {
     if (newValue != null) {
         state.formEmployeeDocument = {
             file: '',
-            note: newValue.name,
+            name: newValue.name,
             note: newValue.note,
         }
     }
