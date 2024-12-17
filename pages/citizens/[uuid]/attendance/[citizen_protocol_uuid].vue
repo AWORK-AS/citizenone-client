@@ -43,7 +43,14 @@
                                 </Badge>
                             </div>
                         </div>
-                        <TableSearch @search="handleSearch" />
+                        <div class="grid grid-cols-3 gap-x-3">
+                            <FormDateRangeField name="date_range"
+                                :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
+                                @change="setDateRange" />
+                            <div class="col-span-2">
+                                <TableSearch @search="handleSearch" />
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <Table :columnHeaders="state.columnHeaders" :data="state.citizenProtocols"
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
@@ -84,6 +91,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenProtocolService } from '@/components/api/CitizenProtocolService'
 import { protocolService } from '@/components/api/ProtocolService'
@@ -99,15 +107,14 @@ let currentTablePage = 1
 const state = reactive({
     citizenProtocols: [] as any,
     citizenProtocolsCount: [] as any,
-    columnFilter: [
-        { column: 'status' },
-    ],
     columnHeaders: [
         { name: 'protocols.table.citizens.date', sorter: true, key: 'date' },
         { name: 'protocols.table.citizens.status', sorter: true, key: 'status' },
     ],
     dataFilter: {
-        search: ''
+        search: '',
+        start_date: '',
+        end_date: '',
     },
     error: {} as Error,
     isPageLoading: false,
@@ -219,6 +226,16 @@ function sort(sortingData: any) {
 function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value
+    fetchCitizenProtocols()
+}
+
+async function setDateRange(event: any) {
+    const dateRange = event.target.value
+    const dates = dateRange.split(" to ")
+    const startDate = moment(dates[0], "DD. MMMM YYYY").format("YYYY-MM-DD")
+    const endDate = dates[1] ? moment(dates[1], "DD. MMMM YYYY").format("YYYY-MM-DD") : startDate
+    state.dataFilter.start_date = startDate
+    state.dataFilter.end_date = endDate
     fetchCitizenProtocols()
 }
 
