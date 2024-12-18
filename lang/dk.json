@@ -279,6 +279,7 @@
         "featured": "Fremhævet"
     },
     "calendar": {
+        "citizens": "Borgere",
         "days": {
             "Monday": "Mandag",
             "Tuesday": "Tirsdag",
@@ -288,7 +289,7 @@
             "Saturday": "Lørdag",
             "Sunday": "Søndag"
         },
-        "employee": "Medarbejder",
+        "employees": "Medarbejdere",
         "month": {
             "January": "Januar",
             "February": "Februar",

@@ -279,6 +279,7 @@
         "featured": "Featured"
     },
     "calendar": {
+        "citizens": "Citizens",
         "days": {
             "Monday": "Monday",
             "Tuesday": "Tuesday",
@@ -288,7 +289,7 @@
             "Saturday": "Saturday",
             "Sunday": "Sunday"
         },
-        "employee": "Employee",
+        "employees": "Employees",
         "month": {
             "January": "January",
             "February": "February",

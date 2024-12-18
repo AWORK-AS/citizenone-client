@@ -19,7 +19,7 @@
                 </FormButton> -->
             </div>
 
-            <div class="grid lg:grid-cols-4 gap-3">
+            <div class="grid lg:grid-cols-6 gap-3">
                 <div class="flex items-center gap-x-3 lg:col-span-3">
                     <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
                         @click="setCalendarView('default')" class="rounded-md">
@@ -34,10 +34,17 @@
                         {{ $t('calendar.view.monthView') }}
                     </FormButton>
                 </div>
-                <div class="w-full flex items-center gap-x-1">
-                    <FormLabel for="users_uuid" :label="$t('calendar.employee')" />:
-                    <FormSelect id="users_uuid" name="users_uuid" :options="state.options.users"
-                        v-model="state.formCalendar.users_uuid" @change="changeUserUuid" />
+                <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 items-center gap-x-3">
+                    <div>
+                        <FormLabel for="citizens_uuid" :label="$t('calendar.citizens')" />:
+                        <FormSelectMultiple id="citizens_uuid" name="citizens_uuid" :options="state.options.citizens"
+                            v-model="state.formCalendar.citizens_uuid" @change="changeCitizensUuid" />
+                    </div>
+                    <div>
+                        <FormLabel for="users_uuid" :label="$t('calendar.employees')" />:
+                        <FormSelectMultiple id="users_uuid" name="users_uuid" :options="state.options.users"
+                            v-model="state.formCalendar.users_uuid" @change="changeUsersUuid" />
+                    </div>
                 </div>
             </div>
 
@@ -67,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import { citizenService } from '@/components/api/CitizenService'
 import { myCalendarService } from '@/components/api/MyCalendarService'
 import { userService } from '@/components/api/UserService'
 import { useI18n } from "vue-i18n"
@@ -85,7 +93,8 @@ const state = reactive({
     myCalendarEvents: [] as any,
     error: {} as Error,
     formCalendar: {
-        users_uuid: employeeUuid,
+        citizens_uuid: [],
+        users_uuid: employeeUuid ? [employeeUuid] : [],
     },
     isPageLoading: false,
     modal: {
@@ -109,14 +118,37 @@ const state = reactive({
         is_private: false,
     },
     options: {
-        users: [] as any
+        citizens: [] as any,
+        users: [] as any,
     }
 })
 
 onMounted(() => {
+    fetchAllCitizens()
     fetchAllUsers()
     fetchMyCalendarEvents()
 })
+
+async function fetchAllCitizens() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await citizenService.getAllCitizens()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (user: any) => options.push({
+                    value: user?.uuid,
+                    label: user?.firstname + " " + user?.lastname,
+                })
+            )
+            state.options.citizens = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 
 async function fetchAllUsers() {
     state.error = {}
@@ -139,11 +171,20 @@ async function fetchAllUsers() {
     state.isPageLoading = false
 }
 
-function changeUserUuid(userUuid: string) {
-    if (userUuid) {
-        state.formCalendar.users_uuid = userUuid
+function changeCitizensUuid(citizensUuid: any) {
+    if (citizensUuid) {
+        state.formCalendar.citizens_uuid = citizensUuid
     } else {
-        state.formCalendar.users_uuid = null
+        state.formCalendar.citizens_uuid = []
+    }
+    fetchMyCalendarEvents()
+}
+
+function changeUsersUuid(usersUuid: any) {
+    if (usersUuid) {
+        state.formCalendar.users_uuid = usersUuid
+    } else {
+        state.formCalendar.users_uuid = []
     }
     fetchMyCalendarEvents()
 }
@@ -162,8 +203,11 @@ async function fetchMyCalendarEvents() {
         if (state.selectedMonth !== '') {
             params.month = (state.selectedMonth + 1)
         }
+        if (state.formCalendar.citizens_uuid) {
+            params.citizen_uuid = Array(state.formCalendar.citizens_uuid)
+        }
         if (state.formCalendar.users_uuid) {
-            params.employee_uuid = state.formCalendar.users_uuid
+            params.employee_uuid = Array(state.formCalendar.users_uuid)
         }
 
         const response = await myCalendarService.getSchedules(params)
