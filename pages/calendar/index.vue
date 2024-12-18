@@ -79,11 +79,13 @@ import { myCalendarService } from '@/components/api/MyCalendarService'
 import { userService } from '@/components/api/UserService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
+const departmentStore = useDepartmentStore()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const employeeUuid = router?.currentRoute?.value?.query?.employee_uuid
@@ -127,6 +129,12 @@ onMounted(() => {
     fetchAllCitizens()
     fetchAllUsers()
     fetchMyCalendarEvents()
+})
+
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchMyCalendarEvents()
+    }
 })
 
 async function fetchAllCitizens() {
@@ -194,6 +202,7 @@ async function fetchMyCalendarEvents() {
     state.isPageLoading = true
     try {
         const params: any = {}
+        params.department = departmentStore.getSelectedDepartmentName
         if (state.selectedDate.start_date && state.selectedDate.end_date) {
             params.date = state.selectedDate
         }
