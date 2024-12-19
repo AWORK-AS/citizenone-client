@@ -1866,7 +1866,20 @@
             "profile": "Profile",
             "storage": "Storage",
             "subscription": "Subscription",
-            "timeLogs": "Time logs"
+            "timeLogs": "Time logs",
+            "transactions": "Transactions"
+        },
+        "wallets": {
+            "citizenWalletTransactions": "Citizen wallet transactions",
+            "form": {
+                "alert": {
+                    "successfullySent": "Citizen wallet transactions successfully sent"
+                },
+                "citizens": "Citizens",
+                "send": "Send",
+                "sendCitizenWalletTransactions": "Send citizen wallet transactions",
+                "wallets": "Wallets"
+            }
         }
     },
     "show": "Show",

@@ -1866,7 +1866,20 @@
             "profile": "Profil",
             "storage": "Lager",
             "subscription": "Abonnement",
-            "timeLogs": "Tidslogfiler"
+            "timeLogs": "Tidslogfiler",
+            "transactions": "Transaktioner"
+        },
+        "wallets": {
+            "citizenWalletTransactions": "Borger tegnebogstransaktioner",
+            "form": {
+                "alert": {
+                    "successfullySent": "Borger tegnebogstransaktioner sendt med succes"
+                },
+                "citizens": "Borgere",
+                "send": "Send",
+                "sendCitizenWalletTransactions": "Send borger tegnebogstransaktioner",
+                "wallets": "Tegnebøger"
+            }
         }
     },
     "show": "Vis",

@@ -100,6 +100,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
+                    name: 'settings.tabs.transactions',
+                    href: `/settings/transactions`,
+                    routeNames: [
+                        'settings-transactions'
+                    ]
+                },
+                {
                     name: 'settings.tabs.activityLogs',
                     href: `/settings/activity-logs`,
                     routeNames: [
