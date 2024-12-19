@@ -74,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { citizenService } from '@/components/api/CitizenService'
 import { myCalendarService } from '@/components/api/MyCalendarService'
 import { userService } from '@/components/api/UserService'
@@ -205,6 +206,11 @@ async function fetchMyCalendarEvents() {
         params.department = departmentStore.getSelectedDepartmentName
         if (state.selectedDate.start_date && state.selectedDate.end_date) {
             params.date = state.selectedDate
+        } else {
+            params.date = {
+                start_date: moment().format('Y-M-D'),
+                end_date: moment().format('Y-M-D'),
+            }
         }
         if (state.selectedYear) {
             params.year = state.selectedYear
