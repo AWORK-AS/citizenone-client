@@ -1870,16 +1870,16 @@
             "transactions": "Transaktioner"
         },
         "wallets": {
-            "citizenWalletTransactions": "Borger tegnebogstransaktioner",
+            "citizenWalletTransactions": "Transaktioner for borgernes wallets",
             "form": {
                 "alert": {
-                    "successfullySent": "Borger tegnebogstransaktioner sendt med succes"
+                    "successfullySent": "Transaktioner for borgernes wallets er sendt med succes"
                 },
                 "citizens": "Borgere",
                 "email": "E-mail",
                 "send": "Send",
                 "sendCitizenWalletTransactions": "Send borger tegnebogstransaktioner",
-                "wallets": "Tegnebøger"
+                "wallets": "Wallets"
             }
         }
     },

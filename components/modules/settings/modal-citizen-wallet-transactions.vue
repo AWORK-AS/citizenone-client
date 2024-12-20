@@ -170,7 +170,7 @@ async function sendWalletTransaction() {
                 wallet_uuid: state.formWalletTransactions.wallet_uuid,
             }
             const response = await citizenWalletTransactionService.sendWalletTransaction(params)
-            if (response.data) {
+            if (response) {
                 successAlert(`${t('alert.success')}!`, `${t('settings.wallets.form.alert.successfullySent')}.`)
                 closeModal()
             }
