@@ -1876,6 +1876,7 @@
                     "successfullySent": "Citizen wallet transactions successfully sent"
                 },
                 "citizens": "Citizens",
+                "email": "Email",
                 "send": "Send",
                 "sendCitizenWalletTransactions": "Send citizen wallet transactions",
                 "wallets": "Wallets"

@@ -1876,6 +1876,7 @@
                     "successfullySent": "Borger tegnebogstransaktioner sendt med succes"
                 },
                 "citizens": "Borgere",
+                "email": "E-mail",
                 "send": "Send",
                 "sendCitizenWalletTransactions": "Send borger tegnebogstransaktioner",
                 "wallets": "Tegnebøger"
