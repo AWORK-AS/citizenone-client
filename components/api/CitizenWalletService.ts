@@ -5,6 +5,10 @@ class CitizenWalletService extends BaseAPIService {
         return await this.request(`/user/citizen-wallets`, 'GET', params)
     }
 
+    async getWalletsPerCitizen(params: object): Promise<any> {
+        return await this.request(`/user/citizen-wallets/all/list`, 'GET', params)
+    }
+
     async getWallet(walletUuid: any): Promise<any> {
         return await this.request(`/user/citizen-wallets/${walletUuid}`, 'GET')
     }

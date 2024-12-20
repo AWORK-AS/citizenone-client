@@ -53,6 +53,7 @@
 
 <script setup lang="ts">
 import { citizenService } from '@/components/api/CitizenService'
+import { citizenWalletService } from '@/components/api/CitizenWalletService'
 import { citizenWalletTransactionService } from '@/components/api/CitizenWalletTransactionService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -104,6 +105,10 @@ watch(() => props.isModalOpen, () => {
     fetchAllCitizens()
 })
 
+watch(() => state.formWalletTransactions.citizen_uuid, () => {
+    fetchWalletsPerCitizen()
+})
+
 function closeModal() {
     emit('close')
 }
@@ -122,6 +127,30 @@ async function fetchAllCitizens() {
                 })
             )
             state.options.citizens = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchWalletsPerCitizen() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            citizen_uuid: Array(state.formWalletTransactions.citizen_uuid)
+        }
+        const response = await citizenWalletService.getWalletsPerCitizen(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (wallet: any) => options.push({
+                    value: wallet?.uuid,
+                    label: wallet?.name,
+                })
+            )
+            state.options.wallets = options
         }
     } catch (error: any) {
         state.error = error
