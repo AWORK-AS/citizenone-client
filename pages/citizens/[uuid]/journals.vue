@@ -152,7 +152,7 @@
                                             {{ $t('citizens.citizenJournals.createdBy') }}:
                                             {{ journal.user?.firstname }} {{ journal.user?.lastname }}
                                             <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
-                                            {{ formatDateToReadable(journal.created_at) }}
+                                            {{ formatDateTimeToReadable(journal.created_at) }}
                                         </p>
                                     </div>
                                     <div class="ms-auto">
@@ -216,7 +216,7 @@ import { useCitizenJournalStore } from '@/store/citizen-journal'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { formatDateToReadable } = useDatetimeFormatter()
+const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
