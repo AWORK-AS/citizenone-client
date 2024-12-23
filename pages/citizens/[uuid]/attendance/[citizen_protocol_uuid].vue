@@ -171,6 +171,7 @@ async function fetchCitizenProtocolsCount() {
     try {
         const params = {
             protocol_uuid: citizenProtocolUuid,
+            ...state.dataFilter
         }
         const response = await protocolService.getCitizenProtocolsCount(citizenUuid, params)
         if (response) {
