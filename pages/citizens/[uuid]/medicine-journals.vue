@@ -52,7 +52,7 @@
                                     </td>
                                     <td width="15%">
                                         <div class="space-y-1">
-                                            <p>{{ medicine?.daily_dose }}</p>
+                                            <p>{{ formatNumber(medicine?.daily_dose) }}</p>
                                             <div class="text-xs">
                                                 <span v-if="medicine?.schedule_frequency === 'everyday'">
                                                     {{ $t('citizens.medicineJournals.scheduleFrequencies.everyday') }}
@@ -144,11 +144,13 @@
 import { medicineJournalService } from '@/components/api/MedicineJournalService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useNumberFormatter } from '@/composables/numberFormatter'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { formatNumber } = useNumberFormatter()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
