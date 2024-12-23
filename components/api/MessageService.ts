@@ -37,6 +37,10 @@ class MessageService extends BaseAPIService {
         return await this.request(`/user/chat-members`, 'POST', params)
     }
 
+    async deleteGroupMember(chatMemberUuid: any): Promise<any> {
+        return await this.request(`/user/chat-members/${chatMemberUuid}`, 'DELETE')
+    }
+
 }
 
 export const messageService = new MessageService()

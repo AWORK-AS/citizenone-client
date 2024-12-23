@@ -1570,7 +1570,8 @@
                 "removeConfirmation": "Are you sure you want to remove this user"
             },
             "groupMembers": "Group members",
-            "name": "Name"
+            "name": "Name",
+            "removeUser": "Remove user"
         },
         "loadingMessages": "Loading messages",
         "looksLikeYouHaventInitiatedAConversation": "Looks like you haven't initiated a conversation",
