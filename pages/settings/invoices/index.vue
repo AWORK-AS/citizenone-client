@@ -12,6 +12,11 @@
 
             <div class="mt-10">
                 <div class="space-y-5">
+                    <div class="flex justify-end">
+                        <FormButton buttonStyle="primary" @click="state.modal.isEmailReceiversOpen = true">
+                            {{ $t('invoices.email.emailReceivers') }}
+                        </FormButton>
+                    </div>
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
@@ -68,6 +73,8 @@
                     <Pagination :data="state.invoices" @previous="previous" @next="next" />
                 </div>
             </div>
+            <ModulesInvoiceModalEmailReceivers :isModalOpen="state.modal.isEmailReceiversOpen"
+                @close="state.modal.isEmailReceiversOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -103,6 +110,9 @@ const state = reactive({
     error: {} as Error,
     invoices: [] as any,
     isTableLoading: false,
+    modal: {
+        isEmailReceiversOpen: false,
+    },
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',

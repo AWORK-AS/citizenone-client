@@ -83,11 +83,6 @@ const userStore = useUserStore() as any
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'name' },
-        { column: 'email' },
-        { column: 'phone' },
-    ],
     columnHeaders: [
         { name: 'citizens.table.name', sorter: true, key: 'firstname' },
         { name: 'citizens.table.email', sorter: true, key: 'email' },

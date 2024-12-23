@@ -1456,6 +1456,32 @@
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har med succes accepteret invitationen"
     },
     "invoices": {
+        "email": {
+            "emailReceivers": "E-mailmodtagere",
+            "form": {
+                "alert": {
+                    "emailReceiverSuccessfullyUpdated": "E-mailmodtager opdateret med succes",
+                    "newEmailReceiverSuccessfullySaved": "Ny e-mailmodtager gemt med succes"
+                },
+                "email": "E-mail",
+                "name": "Navn"
+            },
+            "newReceiver": "Ny modtager",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "alert": {
+                    "emailReceiverSuccessfullyDeleted": "E-mailmodtageren blev slettet med succes"
+                },
+                "confirmation": {
+                    "deleteConfirmation": "Er du sikker på, at du vil slette denne e-mailmodtager"
+                },
+                "email": "E-mail",
+                "name": "Navn"
+            }
+        },
         "invoices": "Fakturaer",
         "table": {
             "actions": {
