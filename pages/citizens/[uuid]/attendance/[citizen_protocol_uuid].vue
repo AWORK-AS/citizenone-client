@@ -239,6 +239,7 @@ async function setDateRange(event: any) {
     state.dataFilter.end_date = endDate
     if (startDate !== 'Invalid date') {
         fetchCitizenProtocols()
+        fetchCitizenProtocolsCount()
     }
 }
 
