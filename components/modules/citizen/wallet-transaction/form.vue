@@ -38,6 +38,9 @@
                             </div>
                         </div>
                     </div>
+                    <div v-if="state.formWalletTransaction.file" class="mt-2 text-center text-sm text-gray-700">
+                        {{ state.formWalletTransaction?.file?.name }}
+                    </div>
                     <FormError :error="props?.error?.errors?.file?.[0]" class="text-center" />
                 </div>
             </div>
@@ -90,7 +93,7 @@ const state = reactive({
         amount: '',
         note: '',
         file: '',
-    },
+    } as any,
     isPageLoading: false,
     options: {
         types: [
