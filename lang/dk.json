@@ -1811,6 +1811,7 @@
     "settings": {
         "company": {
             "form": {
+                "accountantEmail": "Revisor email (Tegnebogstransaktioner)",
                 "alert": {
                     "successfullyUpdated": "Firma opdateret med succes"
                 },

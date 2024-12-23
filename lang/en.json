@@ -1811,6 +1811,7 @@
     "settings": {
         "company": {
             "form": {
+                "accountantEmail": "Accountant email (Wallet transactions)",
                 "alert": {
                     "successfullyUpdated": "Company successfully updated"
                 },
