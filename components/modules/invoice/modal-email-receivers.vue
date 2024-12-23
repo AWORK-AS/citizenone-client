@@ -44,7 +44,7 @@
                             </template>
                         </Table>
                     </div>
-                    <Pagination :data="state.citizens" @previous="previous" @next="next" />
+                    <Pagination :data="state.invoiceReceivers" @previous="previous" @next="next" />
                 </div>
             </template>
         </Modal>
