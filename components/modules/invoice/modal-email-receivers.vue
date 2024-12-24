@@ -30,7 +30,8 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md" @click="">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="editInvoiceReceiver(invoiceReceiver)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('invoices.email.table.actions.edit') }}
                                             </FormButton>
@@ -46,6 +47,11 @@
                     </div>
                     <Pagination :data="state.invoiceReceivers" @previous="previous" @next="next" />
                 </div>
+                <ModulesInvoiceModalNew :isModalOpen="state.modal.isNewReceiverOpen"
+                    @close="state.modal.isNewReceiverOpen = false" @refreshInvoiceReceivers="fetchInvoiceReceivers" />
+                <ModulesInvoiceModalEdit :isModalOpen="state.modal.isEditReceiverOpen"
+                    :selectedInvoiceReceiver="state.selectedInvoiceReceiver"
+                    @close="state.modal.isEditReceiverOpen = false" @refreshInvoiceReceivers="fetchInvoiceReceivers" />
             </template>
         </Modal>
     </div>
@@ -78,7 +84,9 @@ const state = reactive({
     isTableLoading: false,
     modal: {
         isNewReceiverOpen: false,
+        isEditReceiverOpen: false,
     },
+    selectedInvoiceReceiver: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -105,7 +113,7 @@ async function fetchInvoiceReceivers() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await invoiceReceiverService.getInvoiceReceiver(params)
+        const response = await invoiceReceiverService.getInvoiceReceivers(params)
         if (response) {
             state.invoiceReceivers = response
         }
@@ -138,5 +146,10 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value
     fetchInvoiceReceivers()
+}
+
+function editInvoiceReceiver(invoiceReceiver: any) {
+    state.selectedInvoiceReceiver = invoiceReceiver
+    state.modal.isEditReceiverOpen = true
 }
 </script>

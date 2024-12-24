@@ -1458,13 +1458,15 @@
     "invoices": {
         "email": {
             "emailReceivers": "Email receivers",
+            "editReceiver": "Edit receiver",
             "form": {
                 "alert": {
                     "emailReceiverSuccessfullyUpdated": "Email receiver successfully updated",
                     "newEmailReceiverSuccessfullySaved": "New email receiver successfully saved"
                 },
                 "email": "Email",
-                "name": "Name"
+                "firstname": "Firstname",
+                "lastname": "Lastname"
             },
             "newReceiver": "New receiver",
             "table": {
