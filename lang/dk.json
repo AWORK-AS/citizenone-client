@@ -1487,7 +1487,11 @@
         "invoices": "Fakturaer",
         "table": {
             "actions": {
+                "sendInvoice": "Send faktura",
                 "view": "Se"
+            },
+            "alert": {
+                "invoiceSuccessfullySent": "Faktura sendt med succes"
             },
             "amount": "Beløb",
             "company": "Virksomhed",

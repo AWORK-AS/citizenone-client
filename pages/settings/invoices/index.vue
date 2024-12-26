@@ -24,15 +24,15 @@
                         <Table :columnHeaders="state.columnHeaders" :data="state.invoices"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.invoices?.data?.length === 0))">
-                                <tr v-for="(data, index) in state.invoices?.data" :key="index">
+                                <tr v-for="(invoice, index) in state.invoices?.data" :key="index">
                                     <td width="20%">
                                         <div>
-                                            {{ formatDateTimeToReadable(data?.created_at) }}
+                                            {{ formatDateTimeToReadable(invoice?.created_at) }}
                                         </div>
                                     </td>
                                     <td width="10%">
                                         <div>
-                                            <Badge type="primary" class="w-fit" v-if="data?.type === 'recurring'">
+                                            <Badge type="primary" class="w-fit" v-if="invoice?.type === 'recurring'">
                                                 {{ $t('invoices.table.recurring') }}
                                             </Badge>
                                             <Badge type="active" class="w-fit" v-else>
@@ -42,27 +42,32 @@
                                     </td>
                                     <td width="20%">
                                         <div>
-                                            {{ data?.invoice_number }}
+                                            {{ invoice?.invoice_number }}
                                         </div>
                                     </td>
                                     <td width="15%">
                                         <p class="capitalize">
-                                            {{ formatAmount(data?.total_amount) }}
+                                            {{ formatAmount(invoice?.total_amount) }}
                                         </p>
                                     </td>
                                     <td width="20%">
                                         <div>
                                             <p>
-                                                {{ data?.user?.company?.name }}
+                                                {{ invoice?.user?.company?.name }}
                                             </p>
                                         </div>
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/invoices/${data.uuid}/invoice-details`)">
+                                                @click="navigateTo(`/settings/invoices/${invoice.uuid}/invoice-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('invoices.table.actions.view') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="sendInvoice(invoice)">
+                                                <Icon name="ph:envelope-simple" class="size-4" />
+                                                {{ $t('invoices.table.actions.sendInvoice') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -83,11 +88,15 @@
 import { invoiceService } from '@/components/api/InvoiceService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
@@ -166,5 +175,20 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value
     fetchInvoices()
+}
+
+async function sendInvoice(invoice: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const invoiceUuid = invoice?.uuid
+        const response = await invoiceService.sendInvoice(invoiceUuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            successAlert(`${t('alert.success')}!`, `${t('invoices.table.alert.invoiceSuccessfullySent')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

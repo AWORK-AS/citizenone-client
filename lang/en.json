@@ -1487,7 +1487,11 @@
         "invoices": "Invoices",
         "table": {
             "actions": {
+                "sendInvoice": "Send invoice",
                 "view": "View"
+            },
+            "alert": {
+                "invoiceSuccessfullySent": "Invoice successfully sent"
             },
             "amount": "Amount",
             "company": "Company",

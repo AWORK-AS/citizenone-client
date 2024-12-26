@@ -12,6 +12,10 @@ class InvoiceService extends BaseAPIService {
     async downloadInvoiceDetails(invoiceUuid: any): Promise<any> {
         return await this.request(`/user/invoices/${invoiceUuid}/download`, 'GET')
     }
+
+    async sendInvoice(invoiceUuid: any): Promise<any> {
+        return await this.request(`/user/invoices/${invoiceUuid}/send`, 'GET')
+    }
 }
 
 export const invoiceService = new InvoiceService()
