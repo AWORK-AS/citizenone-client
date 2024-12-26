@@ -17,7 +17,7 @@ class InvoiceReceiverService extends BaseAPIService {
         return await this.request(`/user/invoice-receivers/${invoiceReceiverUuid}`, 'PUT', params)
     }
 
-    async deleteInvoiceReceiver(invoiceReceiverUuid: any, params: object): Promise<any> {
+    async deleteInvoiceReceiver(invoiceReceiverUuid: any): Promise<any> {
         return await this.request(`/user/invoice-receivers/${invoiceReceiverUuid}`, 'DELETE')
     }
 }

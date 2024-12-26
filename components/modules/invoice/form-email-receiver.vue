@@ -65,9 +65,9 @@ const { t } = useI18n()
 const state = reactive({
     error: {} as Error,
     formInvoiceReceiver: {
-        firstname: '',
-        lastname: '',
-        email: '',
+        firstname: props.selectedInvoiceReceiver?.firstname || '',
+        lastname: props.selectedInvoiceReceiver?.lastname || '',
+        email: props.selectedInvoiceReceiver?.email || '',
     },
 })
 

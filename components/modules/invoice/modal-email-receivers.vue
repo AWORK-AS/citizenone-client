@@ -35,7 +35,8 @@
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('invoices.email.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md" @click="">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="confirmEmailReceiverDeletion(invoiceReceiver)">
                                                 <Icon name="ph:note-blank" class="size-4" />
                                                 {{ $t('invoices.email.table.actions.delete') }}
                                             </FormButton>
@@ -52,6 +53,9 @@
                 <ModulesInvoiceModalEdit :isModalOpen="state.modal.isEditReceiverOpen"
                     :selectedInvoiceReceiver="state.selectedInvoiceReceiver"
                     @close="state.modal.isEditReceiverOpen = false" @refreshInvoiceReceivers="fetchInvoiceReceivers" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteInvoiceReceiverOpen"
+                    :message="$t('invoices.email.table.confirmation.deleteConfirmation') + '?'"
+                    @close="state.modal.isDeleteInvoiceReceiverOpen = false" @confirm="deleteInvoiceReceiver" />
             </template>
         </Modal>
     </div>
@@ -59,6 +63,8 @@
 
 <script setup lang="ts">
 import { invoiceReceiverService } from '@/components/api/InvoiceReceiverService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -68,6 +74,8 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['close'])
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
@@ -83,6 +91,7 @@ const state = reactive({
     invoiceReceivers: [] as any,
     isTableLoading: false,
     modal: {
+        isDeleteInvoiceReceiverOpen: false,
         isNewReceiverOpen: false,
         isEditReceiverOpen: false,
     },
@@ -151,5 +160,26 @@ function handleSearch(value: any) {
 function editInvoiceReceiver(invoiceReceiver: any) {
     state.selectedInvoiceReceiver = invoiceReceiver
     state.modal.isEditReceiverOpen = true
+}
+
+function confirmEmailReceiverDeletion(invoiceReceiver: any) {
+    state.selectedInvoiceReceiver = invoiceReceiver
+    state.modal.isDeleteInvoiceReceiverOpen = true
+}
+
+async function deleteInvoiceReceiver() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const invoiceReceiverUuid = state.selectedInvoiceReceiver?.uuid
+        const response = await invoiceReceiverService.deleteInvoiceReceiver(invoiceReceiverUuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            successAlert(`${t('alert.success')}!`, `${t('invoices.email.table.alert.emailReceiverSuccessfullyDeleted')}.`)
+            fetchInvoiceReceivers()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>
