@@ -194,7 +194,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             name: newValue?.company?.name,
             cvr: newValue?.company?.cvr,
             website: newValue?.company?.website,
-            accountant_email: newValue?.company?.company_address?.accountant_email,
+            accountant_email: newValue?.company?.accountant_email,
             street: newValue?.company?.company_address?.street,
             region: newValue?.company?.company_address?.region?.uuid,
             municipality: newValue?.company?.company_address?.municipality?.uuid,
