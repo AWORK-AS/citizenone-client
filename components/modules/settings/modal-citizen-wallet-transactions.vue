@@ -9,14 +9,6 @@
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="space-y-3">
                             <div class="space-y-1">
-                                <FormLabel for="email" :label="$t('settings.wallets.form.email')" />
-                                <FormTextField id="email" name="email" :placeholder="$t('settings.wallets.form.email')"
-                                    v-model="state.formWalletTransactions.email" />
-                                <FormError
-                                    :error="v$?.formWalletTransactions?.email?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.email?.[0]" />
-                            </div>
-                            <div class="space-y-1">
                                 <FormLabel for="citizen_uuid" :label="$t('settings.wallets.form.citizens')" />
                                 <FormSelectMultiple id="citizen_uuid" name="citizen_uuid"
                                     :options="state.options.citizens"
@@ -75,7 +67,6 @@ const emit = defineEmits(['close', 'refreshAddictions'])
 const state = reactive({
     error: {} as Error,
     formWalletTransactions: {
-        email: '',
         citizen_uuid: [],
         wallet_uuid: [],
     },
@@ -89,9 +80,6 @@ const state = reactive({
 const rules = computed(() => {
     return {
         formWalletTransactions: {
-            email: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
             citizen_uuid: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
@@ -165,7 +153,6 @@ async function sendWalletTransaction() {
     if (!v$.value.$error) {
         try {
             const params = {
-                email: state.formWalletTransactions.email,
                 citizen_uuid: state.formWalletTransactions.citizen_uuid,
                 wallet_uuid: state.formWalletTransactions.wallet_uuid,
             }
