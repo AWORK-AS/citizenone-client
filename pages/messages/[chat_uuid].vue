@@ -102,27 +102,32 @@
                                     <div class="flex items-start justify-end mb-4"
                                         v-if="message?.sender_id === userStore.getUser?.id">
                                         <div class="mr-2">
-                                            <div class="bg-primary text-white p-3 rounded-lg">
-                                                <div v-if="message?.attachments?.length > 0" class="space-y-3">
-                                                    <div v-for="(attachment, index) in message?.attachments"
-                                                        :key="index">
-                                                        <img :src="attachment?.file" alt="Image failed to load."
-                                                            v-if="isImageFile(attachment?.file_name)"
-                                                            class="w-44 cursor-pointer"
-                                                            @click="openExternalFile(attachment)">
-                                                        <div v-else
-                                                            class="flex items-center gap-x-1 w-fit cursor-pointer"
-                                                            @click="openExternalFile(attachment)">
-                                                            <Icon name="ph:file" class="h-8 w-8" aria-hidden="true" />
-                                                            {{ attachment?.file_name }}
+                                            <Tooltip position="left" :text="formatTimeToReadable(message?.created_at)">
+                                                <div class="bg-primary text-white p-3 rounded-lg">
+                                                    <div v-if="message?.attachments?.length > 0" class="space-y-3">
+                                                        <div v-for="(attachment, index) in message?.attachments"
+                                                            :key="index">
+                                                            <img :src="attachment?.file" alt="Image failed to load."
+                                                                v-if="isImageFile(attachment?.file_name)"
+                                                                class="w-44 cursor-pointer"
+                                                                @click="openExternalFile(attachment)">
+                                                            <div v-else
+                                                                class="flex items-center gap-x-1 w-fit cursor-pointer"
+                                                                @click="openExternalFile(attachment)">
+                                                                <Icon name="ph:file" class="h-8 w-8"
+                                                                    aria-hidden="true" />
+                                                                {{ attachment?.file_name }}
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    <p v-else class="text-sm">{{ message?.message }}</p>
                                                 </div>
-                                                <p v-else class="text-sm">{{ message?.message }}</p>
-                                            </div>
-                                            <span class="text-xs text-gray-500 mt-1">
-                                                {{ formatTimeToReadable(message?.created_at) }}
-                                            </span>
+                                                <p class="text-xs text-gray-500 mt-1"
+                                                    v-if="index === state.messages.length - 1 && message?.receipt?.created_at">
+                                                    {{ $t('messages.seen') }}
+                                                    {{ formatTimeToReadable(message?.receipt?.created_at) }}
+                                                </p>
+                                            </Tooltip>
                                         </div>
                                         <div class="flex-shrink-0 flex items-center">
                                             <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
@@ -136,27 +141,27 @@
                                                 alt="User" class="w-10 h-10 rounded-full object-cover">
                                         </div>
                                         <div class="ml-2">
-                                            <div class="bg-gray-200 p-3 rounded-lg">
-                                                <div v-if="message?.attachments?.length > 0" class="space-y-3">
-                                                    <div v-for="(attachment, index) in message?.attachments"
-                                                        :key="index">
-                                                        <img :src="attachment?.file" alt="Image failed to load."
-                                                            v-if="isImageFile(attachment?.file_name)"
-                                                            class="w-44 cursor-pointer"
-                                                            @click="openExternalFile(attachment)">
-                                                        <div v-else
-                                                            class="flex items-center gap-x-1 w-fit cursor-pointer"
-                                                            @click="openExternalFile(attachment)">
-                                                            <Icon name="ph:file" class="h-8 w-8" aria-hidden="true" />
-                                                            {{ attachment?.file_name }}
+                                            <Tooltip position="right" :text="formatTimeToReadable(message?.created_at)">
+                                                <div class="bg-gray-200 p-3 rounded-lg">
+                                                    <div v-if="message?.attachments?.length > 0" class="space-y-3">
+                                                        <div v-for="(attachment, index) in message?.attachments"
+                                                            :key="index">
+                                                            <img :src="attachment?.file" alt="Image failed to load."
+                                                                v-if="isImageFile(attachment?.file_name)"
+                                                                class="w-44 cursor-pointer"
+                                                                @click="openExternalFile(attachment)">
+                                                            <div v-else
+                                                                class="flex items-center gap-x-1 w-fit cursor-pointer"
+                                                                @click="openExternalFile(attachment)">
+                                                                <Icon name="ph:file" class="h-8 w-8"
+                                                                    aria-hidden="true" />
+                                                                {{ attachment?.file_name }}
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    <p v-else class="text-gray-700 text-sm">{{ message?.message }}</p>
                                                 </div>
-                                                <p v-else class="text-gray-700 text-sm">{{ message?.message }}</p>
-                                            </div>
-                                            <span class="text-xs text-gray-500 mt-1">
-                                                {{ formatTimeToReadable(message?.created_at) }}
-                                            </span>
+                                            </Tooltip>
                                         </div>
                                     </div>
                                 </div>
