@@ -4,7 +4,7 @@
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <form @submit.prevent="sendWalletTransaction()" class="mt-6 max-w-3xl">
+                    <form @submit.prevent="sendWalletTransaction()" class="mt-6 max-w-3xl" id="formWalletTransactions">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="space-y-3">
@@ -171,3 +171,9 @@ async function sendWalletTransaction() {
     state.isPageLoading = false
 }
 </script>
+
+<style>
+#formWalletTransactions .multiselect-dropdown {
+    max-height: 5rem !important;
+}
+</style>
