@@ -83,6 +83,9 @@ const rules = computed(() => {
             citizen_uuid: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            wallet_uuid: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
         },
     }
 })
