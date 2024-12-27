@@ -431,7 +431,7 @@ function isImageFile(filename: string) {
 
 async function downloadFile(attachment: any) {
     state.error = {}
-    state.isPageLoading = true
+    state.isChatHistoryDividerLoading = true
     try {
         const attachmentUuid = attachment?.uuid
         const response = await messageService.downloadAttachment(attachmentUuid)
@@ -441,7 +441,7 @@ async function downloadFile(attachment: any) {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
+    state.isChatHistoryDividerLoading = false
 }
 
 function excludeCurrentUserFromChatMembers(chatMembers: any) {
