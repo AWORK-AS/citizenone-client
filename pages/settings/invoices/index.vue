@@ -183,7 +183,7 @@ async function sendInvoice(invoice: any) {
     try {
         const invoiceUuid = invoice?.uuid
         const response = await invoiceService.sendInvoice(invoiceUuid)
-        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+        if (response?.data) {
             successAlert(`${t('alert.success')}!`, `${t('invoices.table.alert.invoiceSuccessfullySent')}.`)
         }
     } catch (error: any) {
