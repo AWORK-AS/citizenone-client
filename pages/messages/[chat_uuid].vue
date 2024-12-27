@@ -100,7 +100,7 @@
                                 <div v-for="(message, index) in state.messages" :key="index">
                                     <!-- Message (Right) -->
                                     <div class="flex items-start justify-end mb-4"
-                                        v-if="message?.sender_id === userStore.getUser?.id">
+                                        v-if="message?.sender?.id === userStore.getUser?.id">
                                         <div class="mr-2">
                                             <Tooltip position="left" :text="formatTimeToReadable(message?.created_at)">
                                                 <div class="bg-primary text-white p-3 rounded-lg">
@@ -242,7 +242,9 @@ const state = reactive({
 onMounted(() => {
     const channel = pusher.subscribe('citizenone.' + chatUuid)
     channel.bind('chat-message', (response: any) => {
-        state.messages.push(response?.data)
+        if (response?.data?.sender_id !== userStore.getUser?.id) {
+            state.messages.push(response?.data)
+        }
         scrollToBottom()
         fetchChats()
     })
