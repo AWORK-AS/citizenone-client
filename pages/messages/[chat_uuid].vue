@@ -108,7 +108,7 @@
                                                         class="space-y-3">
                                                         <div v-for="(attachment, index) in message?.chat_message_attachments"
                                                             :key="index">
-                                                            <img :src="attachment?.file" alt="Image failed to load."
+                                                            <img :src="attachment?.file_url" alt="Image failed to load."
                                                                 v-if="isImageFile(attachment?.file_name)"
                                                                 class="w-44 cursor-pointer"
                                                                 @click="openExternalFile(attachment)">
@@ -148,7 +148,7 @@
                                                         class="space-y-3">
                                                         <div v-for="(attachment, index) in message?.chat_message_attachments"
                                                             :key="index">
-                                                            <img :src="attachment?.file" alt="Image failed to load."
+                                                            <img :src="attachment?.file_url" alt="Image failed to load."
                                                                 v-if="isImageFile(attachment?.file_name)"
                                                                 class="w-44 cursor-pointer"
                                                                 @click="openExternalFile(attachment)">
