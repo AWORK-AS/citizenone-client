@@ -41,6 +41,10 @@ class MessageService extends BaseAPIService {
         return await this.request(`/user/chat-members/${chatMemberUuid}`, 'DELETE')
     }
 
+    async downloadAttachment(attachmentUuid: any): Promise<any> {
+        return await this.request(`/user/chat_message_attachments/${attachmentUuid}/download`, 'POST')
+    }
+
 }
 
 export const messageService = new MessageService()

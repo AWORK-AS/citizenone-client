@@ -111,10 +111,10 @@
                                                             <img :src="attachment?.file_url" alt="Image failed to load."
                                                                 v-if="isImageFile(attachment?.file_name)"
                                                                 class="w-44 cursor-pointer"
-                                                                @click="openExternalFile(attachment)">
+                                                                @click="downloadFile(attachment)">
                                                             <div v-else
                                                                 class="flex items-center gap-x-1 w-fit cursor-pointer"
-                                                                @click="openExternalFile(attachment)">
+                                                                @click="downloadFile(attachment)">
                                                                 <Icon name="ph:file" class="h-8 w-8"
                                                                     aria-hidden="true" />
                                                                 {{ attachment?.file_name }}
@@ -151,10 +151,10 @@
                                                             <img :src="attachment?.file_url" alt="Image failed to load."
                                                                 v-if="isImageFile(attachment?.file_name)"
                                                                 class="w-44 cursor-pointer"
-                                                                @click="openExternalFile(attachment)">
+                                                                @click="downloadFile(attachment)">
                                                             <div v-else
                                                                 class="flex items-center gap-x-1 w-fit cursor-pointer"
-                                                                @click="openExternalFile(attachment)">
+                                                                @click="downloadFile(attachment)">
                                                                 <Icon name="ph:file" class="h-8 w-8"
                                                                     aria-hidden="true" />
                                                                 {{ attachment?.file_name }}
@@ -207,6 +207,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import pusher from '@/services/pusher'
 import { messageService } from '@/components/api/MessageService'
 import { useUserStore } from '@/store/user'
+import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -428,13 +429,19 @@ function isImageFile(filename: string) {
     return imageExtensions.test(filename);
 }
 
-async function openExternalFile(attachment: any) {
-    await navigateTo(attachment?.file_url, {
-        external: true,
-        open: {
-            target: '_blank',
+async function downloadFile(attachment: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const attachmentUuid = attachment?.uuid
+        const response = await messageService.downloadAttachment(attachmentUuid)
+        if (response) {
+            saveAs(response, attachment?.file_name)
         }
-    })
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 function excludeCurrentUserFromChatMembers(chatMembers: any) {
