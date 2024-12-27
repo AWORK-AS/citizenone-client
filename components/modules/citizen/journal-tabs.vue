@@ -34,7 +34,7 @@ const tabs = [
         ]
     },
     {
-        name: 'citizens.tabs.nursingAreas',
+        name: 'citizens.tabs.health',
         href: `/citizens/${uuid}/nursing-areas`,
         routeNames: [
             'citizens-uuid-nursing-areas',
