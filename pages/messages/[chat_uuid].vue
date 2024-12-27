@@ -242,9 +242,7 @@ const state = reactive({
 onMounted(() => {
     const channel = pusher.subscribe('citizenone.' + chatUuid)
     channel.bind('chat-message', (response: any) => {
-        if (response?.data?.sender_id !== userStore.getUser?.id) {
-            state.messages.push(response?.data)
-        }
+        state.messages.push(response?.data)
         scrollToBottom()
         fetchChats()
     })
@@ -409,7 +407,6 @@ const uploadFiles = async (files: any) => {
             }
             const response = await messageService.sendMessageViaChatUuid(params)
             if (response) {
-                state.messages.push(response?.data)
                 fetchChats()
                 scrollToBottom()
                 fileInput.value.value = ''
