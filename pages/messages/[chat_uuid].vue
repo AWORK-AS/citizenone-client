@@ -104,8 +104,9 @@
                                         <div class="mr-2">
                                             <Tooltip position="left" :text="formatTimeToReadable(message?.created_at)">
                                                 <div class="bg-primary text-white p-3 rounded-lg">
-                                                    <div v-if="message?.attachments?.length > 0" class="space-y-3">
-                                                        <div v-for="(attachment, index) in message?.attachments"
+                                                    <div v-if="message?.chat_message_attachments?.length > 0"
+                                                        class="space-y-3">
+                                                        <div v-for="(attachment, index) in message?.chat_message_attachments"
                                                             :key="index">
                                                             <img :src="attachment?.file" alt="Image failed to load."
                                                                 v-if="isImageFile(attachment?.file_name)"
@@ -143,8 +144,9 @@
                                         <div class="ml-2">
                                             <Tooltip position="right" :text="formatTimeToReadable(message?.created_at)">
                                                 <div class="bg-gray-200 p-3 rounded-lg">
-                                                    <div v-if="message?.attachments?.length > 0" class="space-y-3">
-                                                        <div v-for="(attachment, index) in message?.attachments"
+                                                    <div v-if="message?.chat_message_attachments?.length > 0"
+                                                        class="space-y-3">
+                                                        <div v-for="(attachment, index) in message?.chat_message_attachments"
                                                             :key="index">
                                                             <img :src="attachment?.file" alt="Image failed to load."
                                                                 v-if="isImageFile(attachment?.file_name)"
@@ -427,7 +429,7 @@ function isImageFile(filename: string) {
 }
 
 async function openExternalFile(attachment: any) {
-    await navigateTo(attachment?.file, {
+    await navigateTo(attachment?.file_url, {
         external: true,
         open: {
             target: '_blank',
