@@ -54,7 +54,7 @@
                                             </FormButton>
                                         </Tooltip>
                                         <Tooltip :text="$t('protocols.table.actions.markCitizenAsAbent')"
-                                            @click="markAsAbsent(citizenProtocol?.uuid)"
+                                            @click="confirmMarkAsAbsent(citizenProtocol)"
                                             v-if="disableIfFutureDate(citizenProtocol)">
                                             <FormButton type="button" buttonStyle="warning" class="rounded-md">
                                                 <Icon name="material-symbols:event-busy-outline" class="size-4" />
@@ -74,6 +74,8 @@
                 </div>
                 <Pagination :data="state.citizenProtocols" @previous="previous" @next="next" />
             </div>
+            <ModulesAbsenceModalAbsent :isModalOpen="state.modal.isMarkAsAbsentOpen"
+                @close="state.modal.isMarkAsAbsentOpen = false" @markAsAbsent="markAsAbsent" />
             <DialogConfirmation :isModalOpen="state.modal.isRemoveCitizenProtocolOpen"
                 :message="$t('protocols.table.confirmation.deleteConfirmation') + '?'"
                 @close="state.modal.isRemoveCitizenProtocolOpen = false" @confirm="deleteCitizenProtocol" />
@@ -113,7 +115,8 @@ const state = reactive({
     isPageLoading: false,
     isTableLoading: false,
     modal: {
-        isRemoveCitizenProtocolOpen: false
+        isMarkAsAbsentOpen: false,
+        isRemoveCitizenProtocolOpen: false,
     },
     selectedCitizenProtocol: [] as any,
     selectedProtocol: [] as any,
@@ -188,11 +191,13 @@ function handleSearch(value: any) {
     fetchCitizenProtocols()
 }
 
-async function markAsAbsent(citizenProtocolUuid: string) {
+async function markAsAbsent(citizenProtocolDetails: any) {
     state.error = {}
     state.isTableLoading = true
     try {
+        const citizenProtocolUuid = state.selectedCitizenProtocol?.uuid
         const params = {
+            absence: citizenProtocolDetails.absence,
             status: 'absent',
         }
         const response = await citizenProtocolService.updateCitizenProtocol(citizenProtocolUuid, params)
@@ -220,6 +225,11 @@ async function markAsPresent(citizenProtocolUuid: string) {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function confirmMarkAsAbsent(citizenProtocol: any) {
+    state.selectedCitizenProtocol = citizenProtocol
+    state.modal.isMarkAsAbsentOpen = true
 }
 
 function confirmRemoving(citizenProtocol: any) {

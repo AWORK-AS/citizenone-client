@@ -4,12 +4,14 @@
         "absences": "Absences",
         "editAbsence": "Edit absence",
         "form": {
+            "absence": "Absence",
             "alert": {
                 "absenceSuccessfullyUpdated": "Absence successfully updated",
                 "newAbsenceSuccessfullySaved": "New absence successfully saved"
             },
             "name": "Name"
         },
+        "markAsAbsent": "Mark as absent",
         "newAbsence": "New absence",
         "table": {
             "actions": {

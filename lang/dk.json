@@ -4,12 +4,14 @@
         "absences": "Fravær",
         "editAbsence": "Rediger fravær",
         "form": {
+            "absence": "Fravær",
             "alert": {
                 "absenceSuccessfullyUpdated": "Fravær opdateret med succes",
                 "newAbsenceSuccessfullySaved": "Nyt fravær gemt med succes"
             },
             "name": "Navn"
         },
+        "markAsAbsent": "Markér som fraværende",
         "newAbsence": "Nyt fravær",
         "table": {
             "actions": {
