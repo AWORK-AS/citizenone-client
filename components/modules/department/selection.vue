@@ -17,7 +17,7 @@
                     <MenuButton
                         class="inline-flex w-full items-center justify-center gap-x-2 rounded-md bg-primary px-5 py-2 text-xs font-semibold text-white shadow-sm ring-1 ring-inset ring-primary hover:bg-primary-600">
                         {{ $t('department.department') }}:
-                        {{ departmentStore.getSelectedDepartmentName === '' ? $t('department.all') :
+                        {{ departmentStore.getSelectedDepartmentName === '' ? state.departments?.data?.[0]?.name :
                             departmentStore.getSelectedDepartmentName }}
                         <Icon name="heroicons:chevron-down" class="-mr-1 h-5 w-5 text-white" aria-hidden="true" />
                     </MenuButton>
@@ -30,12 +30,6 @@
                     <MenuItems
                         class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div class="py-1">
-                            <MenuItem v-slot="{ active }">
-                            <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'cursor-pointer block px-4 py-2 text-sm']"
-                                @click="changeDepartment('')">
-                                {{ $t('department.allDepartment') }}
-                            </a>
-                            </MenuItem>
                             <MenuItem v-slot="{ active }" v-for="(department, index) in state.departments?.data"
                                 :key="index">
                             <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'cursor-pointer block px-4 py-2 text-sm']"
