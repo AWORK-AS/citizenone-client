@@ -1456,6 +1456,9 @@
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har med succes accepteret invitationen"
     },
     "invoices": {
+        "alert": {
+            "allInvoicesSuccessfullySent": "Alle fakturaer sendt med succes"
+        },
         "email": {
             "emailReceivers": "E-mailmodtagere",
             "editReceiver": "Rediger modtager",
@@ -1485,6 +1488,7 @@
             }
         },
         "invoices": "Fakturaer",
+        "sendAllInvoices": "Send alle fakturaer",
         "table": {
             "actions": {
                 "sendInvoice": "Send faktura",

@@ -12,10 +12,15 @@
 
             <div class="mt-10">
                 <div class="space-y-5">
-                    <div class="flex justify-end">
+                    <div class="flex justify-end gap-x-3">
                         <FormButton buttonStyle="primary" @click="state.modal.isEmailReceiversOpen = true">
                             {{ $t('invoices.email.emailReceivers') }}
                         </FormButton>
+                        <LoadingSpinner :isActive="state.isSendAllInvoicesLoading">
+                            <FormButton buttonStyle="primary" @click="sendAllInvoices">
+                                {{ $t('invoices.sendAllInvoices') }}
+                            </FormButton>
+                        </LoadingSpinner>
                     </div>
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
@@ -118,6 +123,7 @@ const state = reactive({
     },
     error: {} as Error,
     invoices: [] as any,
+    isSendAllInvoicesLoading: false,
     isTableLoading: false,
     modal: {
         isEmailReceiversOpen: false,
@@ -190,5 +196,19 @@ async function sendInvoice(invoice: any) {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+async function sendAllInvoices() {
+    state.error = {}
+    state.isSendAllInvoicesLoading = true
+    try {
+        const response = await invoiceService.sendAllInvoice()
+        if (response?.data) {
+            successAlert(`${t('alert.success')}!`, `${t('invoices.alert.allInvoicesSuccessfullySent')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isSendAllInvoicesLoading = false
 }
 </script>

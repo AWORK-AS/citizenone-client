@@ -1456,6 +1456,9 @@
         "youHaveSuccessfullyAcceptedTheInvitation": "You have successfully accepted the invitation"
     },
     "invoices": {
+        "alert": {
+            "allInvoicesSuccessfullySent": "All invoices successfully sent"
+        },
         "email": {
             "emailReceivers": "Email receivers",
             "editReceiver": "Edit receiver",
@@ -1485,6 +1488,7 @@
             }
         },
         "invoices": "Invoices",
+        "sendAllInvoices": "Send all invoices",
         "table": {
             "actions": {
                 "sendInvoice": "Send invoice",
