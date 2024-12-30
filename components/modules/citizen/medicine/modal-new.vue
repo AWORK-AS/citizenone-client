@@ -38,6 +38,7 @@ const state = reactive({
     isPageLoading: false,
     formMedicine: {
         citizen_uuid: '',
+        image: '',
         medicine: '',
         strength: '',
         dosage_uuid: '',
@@ -61,17 +62,17 @@ async function saveMedicine(medicineDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            citizen_uuid: citizenUuid,
-            dosage_uuid: medicineDetails.dosage_uuid,
-            medicine: medicineDetails.medicine,
-            strength: medicineDetails.strength,
-            daily_dose: medicineDetails.daily_dose.replace(',', '.'),
-            active_ingredients: medicineDetails.active_ingredients,
-            description: medicineDetails.description,
-            schedule_frequency: medicineDetails.schedule_frequency,
-            time: medicineDetails.time,
-        }
+        let params = new FormData()
+        params.append('citizen_uuid', citizenUuid.toString())
+        params.append('image', medicineDetails.image)
+        params.append('dosage_uuid', medicineDetails.dosage_uuid)
+        params.append('medicine', medicineDetails.medicine)
+        params.append('strength', medicineDetails.strength)
+        params.append('daily_dose', medicineDetails.daily_dose.replace(',', '.'))
+        params.append('active_ingredients', medicineDetails.active_ingredients)
+        params.append('description', medicineDetails.description)
+        params.append('schedule_frequency', JSON.stringify(medicineDetails.schedule_frequency))
+        params.append('time', JSON.stringify(medicineDetails.time))
         const response = await medicineJournalService.saveMedicine(params)
         if (response?.data) {
             refreshMedicines()

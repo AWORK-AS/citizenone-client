@@ -581,6 +581,7 @@
                 "dailyDose": "Daglig dosis",
                 "description": "Beskrivelse",
                 "dosageForm": "Doseringsform",
+                "image": "Billede",
                 "medicine": "Medicin",
                 "scheduleFrequency": "Planlægningsfrekvens",
                 "strength": "Styrke",

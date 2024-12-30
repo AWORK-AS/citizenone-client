@@ -4,6 +4,24 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
             <div class="space-y-1">
+                <FormLabel for="image" :label="$t('citizens.medicineJournals.form.image')" />
+                <div class="h-36 w-36">
+                    <input type="file" ref="image" id="image" @change="onFileChange" class="hidden" />
+                    <div class="relative cursor-pointer" @click="triggerFileInput">
+                        <img :src="imageUrl" alt="Avatar" class="w-36 h-36 object-cover" v-if="imageUrl" />
+                        <Icon name="material-symbols-light:add-photo-alternate-outline" class="w-36 h-36" v-else />
+                        <div
+                            class="absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
+                            <div class="flex items-center w-full h-full justify-center text-xs">
+                                Change Image
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <FormError :error="v$?.formMedicine?.image?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.image?.[0]" class="text-center" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="medicine" :label="$t('citizens.medicineJournals.form.medicine')" />
                 <FormTextField id="medicine" name="medicine"
                     :placeholder="$t('citizens.medicineJournals.form.medicine')"
@@ -104,10 +122,13 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading', 'error'])
 const { t } = useI18n()
 const { validateEuropeanDecimal } = euDecimalValidation()
+const image = ref<HTMLInputElement | null>(null)
+const imageUrl = ref('')
 
 const state = reactive({
     formMedicine: {
         uuid: '',
+        image: '',
         medicine: '',
         strength: '',
         dosage_uuid: '',
@@ -140,6 +161,7 @@ const state = reactive({
 onMounted(() => {
     state.formMedicine = {
         uuid: props.selectedMedicine.uuid,
+        image: props.selectedMedicine.image,
         medicine: props.selectedMedicine.medicine,
         strength: props.selectedMedicine.strength,
         dosage_uuid: props.selectedMedicine.dosage?.uuid,
@@ -164,6 +186,7 @@ watch(() => props.selectedMedicine, (newValue: any) => {
     if (newValue != null) {
         state.formMedicine = {
             uuid: newValue.uuid,
+            image: newValue.image,
             medicine: newValue.medicine,
             strength: newValue.strength,
             dosage_uuid: newValue.dosage?.uuid,
@@ -184,37 +207,92 @@ watch(() => props.selectedMedicine, (newValue: any) => {
 })
 
 const rules = computed(() => {
-    return {
-        formMedicine: {
-            medicine: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (props.formType === 'create') {
+        return {
+            formMedicine: {
+                image: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                medicine: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                strength: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                dosage_uuid: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                daily_dose: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                active_ingredients: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                description: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                schedule_frequency: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                time: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            strength: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        }
+    } else {
+        return {
+            formMedicine: {
+                medicine: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                strength: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                dosage_uuid: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                daily_dose: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                active_ingredients: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                description: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                schedule_frequency: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                time: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            dosage_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            daily_dose: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            active_ingredients: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            description: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            schedule_frequency: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            time: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-        },
+        }
     }
 })
 
 const v$ = useVuelidate(rules, state)
+
+function onFileChange(event: any) {
+    const file = event.target.files[0]
+    state.formMedicine.image = event.target.files[0]
+    if (file) {
+        const reader = new FileReader()
+        reader.onload = (e: any) => {
+            imageUrl.value = e.target.result
+        }
+        reader.readAsDataURL(file)
+    }
+    else {
+        imageUrl.value = ''
+    }
+}
+
+function triggerFileInput() {
+    if (image.value) {
+        image.value.click()
+    }
+}
 
 function submitForm() {
     v$.value.$validate()
