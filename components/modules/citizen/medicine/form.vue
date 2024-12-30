@@ -31,7 +31,7 @@
                     <FormLabel for="daily_dose" :label="$t('citizens.medicineJournals.form.dailyDose')" />
                     <FormTextField id="daily_dose" name="daily_dose"
                         :placeholder="$t('citizens.medicineJournals.form.dailyDose')"
-                        v-model="state.formMedicine.daily_dose" />
+                        v-model="state.formMedicine.daily_dose" @input="handleDailyDoseInput" />
                     <FormError :error="v$?.formMedicine?.daily_dose?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.daily_dose?.[0]" />
                 </div>
@@ -85,6 +85,7 @@ import { dosageService } from '@/components/api/DosageService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { euDecimalValidation } from "@/composables/euDecimalValidation"
 
 const props = defineProps({
     error: {
@@ -102,6 +103,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading', 'error'])
 const { t } = useI18n()
+const { validateEuropeanDecimal } = euDecimalValidation()
 
 const state = reactive({
     formMedicine: {
@@ -141,7 +143,7 @@ onMounted(() => {
         medicine: props.selectedMedicine.medicine,
         strength: props.selectedMedicine.strength,
         dosage_uuid: props.selectedMedicine.dosage?.uuid,
-        daily_dose: props.selectedMedicine.daily_dose,
+        daily_dose: props.selectedMedicine.daily_dose.replace('.', ','),
         active_ingredients: props.selectedMedicine.active_ingredients,
         description: props.selectedMedicine.description,
         schedule_frequency: props.selectedMedicine.schedule_frequency,
@@ -255,5 +257,11 @@ async function fetchDosageForm() {
         emit('error', error)
     }
     emit('isPageLoading', false)
+}
+
+function handleDailyDoseInput(event: Event) {
+    const target = event.target as HTMLInputElement
+    target.value = validateEuropeanDecimal(target.value)
+    state.formMedicine.daily_dose = target.value
 }
 </script>

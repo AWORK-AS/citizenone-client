@@ -66,7 +66,7 @@ async function saveMedicine(medicineDetails: any) {
             dosage_uuid: medicineDetails.dosage_uuid,
             medicine: medicineDetails.medicine,
             strength: medicineDetails.strength,
-            daily_dose: medicineDetails.daily_dose,
+            daily_dose: medicineDetails.daily_dose.replace(',', '.'),
             active_ingredients: medicineDetails.active_ingredients,
             description: medicineDetails.description,
             schedule_frequency: medicineDetails.schedule_frequency,

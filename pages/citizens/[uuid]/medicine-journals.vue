@@ -14,7 +14,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesCitizenDetailsHeader />
+                <!-- <ModulesCitizenDetailsHeader /> -->
                 <ModulesCitizenJournalTabs />
 
                 <div>
