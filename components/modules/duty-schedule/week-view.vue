@@ -3,32 +3,51 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
-            <div class="flex justify-end">
-                <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
-                    <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                    {{ $t('dutySchedules.download.download') }}
-                </FormButton>
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="order-last md:order-first">
+                    <div class="font-medium">
+                        {{ $t('dutySchedules.departmentSickLeaves') }}
+                        <button class="text-xs text-primary hover:text-primary-700 hover:underline"
+                            @click="state.modal.isDepartmentSickLeaveDateRangeOpen = true">
+                            ({{ formatDateToReadable(state.sickLeaveDateRange.formDateRange.start_date) }} -
+                            {{ formatDateToReadable(state.sickLeaveDateRange.formDateRange.end_date) }})
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 text-sm">
+                        <div class="flex items-center justify-between gap-x-2">
+                            <span>{{ $t('dutySchedules.shifts.regularShift') }}</span>
+                            <p>{{ state.sickLeavePercentage?.data?.regular_shift }}%</p>
+                        </div>
+                        <div class="flex items-center justify-between gap-x-2">
+                            <span>{{ $t('dutySchedules.shifts.awakeNightShift') }}</span>
+                            <p>{{ state.sickLeavePercentage?.data?.awake_night_shift }}%</p>
+                        </div>
+                        <div class="flex items-center justify-between gap-x-2">
+                            <span>{{ $t('dutySchedules.shifts.sleepingNightShift') }}</span>
+                            <p>{{ state.sickLeavePercentage?.data?.sleeping_night_shift }}%</p>
+                        </div>
+                        <div class="flex items-center justify-between gap-x-2">
+                            <span>{{ $t('dutySchedules.shifts.vacationLeave') }}</span>
+                            <p>{{ state.sickLeavePercentage?.data?.vacation_leave }}%</p>
+                        </div>
+                        <div class="flex items-center justify-between gap-x-2">
+                            <span>{{ $t('dutySchedules.shifts.sickLeave') }}</span>
+                            <p>{{ state.sickLeavePercentage?.data?.sickLeave }}%</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-end">
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
+                            <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('dutySchedules.download.download') }}
+                        </FormButton>
+                    </div>
+                </div>
             </div>
             <div class="flex h-full flex-col">
                 <header class="grid grid-cols-1 md:grid-cols-3 md:items-center justify-between py-4 gap-3">
                     <div>
-                        <!-- <p class="font-medium">
-                            {{ $t('dutySchedules.departmentSickLeaves') }}:
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-x-3 text-sm">
-                            <div class="flex gap-x-2">
-                                <p class="truncate">111</p>
-                                <p>0%</p>
-                            </div>
-                            <div class="flex gap-x-2">
-                                <p class="truncate">222</p>
-                                <p>0%</p>
-                            </div>
-                            <div class="flex gap-x-2">
-                                <p class="truncate">333</p>
-                                <p>0%</p>
-                            </div>
-                        </div> -->
                         <p class="font-medium mt-2">
                             {{ $t('dutySchedules.typeofShifts') }}:
                         </p>
@@ -471,6 +490,10 @@
             </div>
             <ModulesDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
                 @close="state.modal.isDownloadOpen = false" />
+            <ModulesDutyScheduleModalDepartmentSickLeavesDateRange
+                :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen" :dateRange="state.sickLeaveDateRange"
+                @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
+                @filterDate="filterDepartmentSickLeaveDate" />
             <ModulesDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift" />
             <ModulesDutyScheduleScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
@@ -486,10 +509,12 @@ import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/DutyScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useUserStore } from '@/store/user'
 
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
+const { formatDateToReadable } = useDatetimeFormatter()
 const currentDate = ref(moment())
 const selectedDay = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
@@ -503,6 +528,13 @@ const state = reactive({
         allEmployeeSchedules: {},
         selectedEmployeeSchedules: {}
     } as any,
+    sickLeavePercentage: {} as any,
+    sickLeaveDateRange: {
+        formDateRange: {
+            start_date: moment(),
+            end_date: moment(),
+        },
+    } as any,
     employees: [] as any,
     error: {} as Error,
     isPageLoading: false,
@@ -511,6 +543,7 @@ const state = reactive({
     },
     modal: {
         isAddShiftOpen: false,
+        isDepartmentSickLeaveDateRangeOpen: false,
         isDownloadOpen: false,
         isManageScheduleSlotOpen: false,
     } as any,
@@ -548,6 +581,31 @@ function isAdmin(roles: any) {
     return roles && roles.some((role: any) => role.name === 'Admin')
 }
 
+function filterDepartmentSickLeaveDate(formDateRange: any) {
+    state.sickLeaveDateRange.formDateRange.start_date = formDateRange.start_date
+    state.sickLeaveDateRange.formDateRange.end_date = formDateRange.end_date
+    fetchDutyScheduleAbsencePercentage()
+}
+
+async function fetchDutyScheduleAbsencePercentage() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            start_date: moment(state.sickLeaveDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
+            end_date: moment(state.sickLeaveDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await dutyScheduleService.getDutyScheduleAbsencePercentage(params)
+        if (response) {
+            state.sickLeavePercentage = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 async function fetchDutySchedule() {
     state.error = {}
     state.isPageLoading = true
@@ -565,6 +623,7 @@ async function fetchDutySchedule() {
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
             state.weeklySchedules = response?.data
+            fetchDutyScheduleAbsencePercentage()
         }
     } catch (error: any) {
         state.error = error

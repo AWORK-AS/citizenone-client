@@ -972,6 +972,7 @@
         },
         "dutySchedules": "Vagtplaner",
         "editSchedule": "Rediger tidsplan",
+        "filterDate": "Filtrer dato",
         "form": {
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",

@@ -972,6 +972,7 @@
         },
         "dutySchedules": "Duty schedules",
         "editSchedule": "Edit schedule",
+        "filterDate": "Filter date",
         "form": {
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
