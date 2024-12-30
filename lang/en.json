@@ -940,6 +940,7 @@
             "stopCopying": "Stop copying"
         },
         "deleteSchedule": "Delete schedule",
+        "departmentSickLeaves": "Department sick leaves",
         "download": {
             "date": "Date",
             "download": "Download",

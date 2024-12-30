@@ -940,6 +940,7 @@
             "stopCopying": "Stop kopiering"
         },
         "deleteSchedule": "Slet tidsplan",
+        "departmentSickLeaves": "Afdelingens sygefravær",
         "download": {
             "date": "Dato",
             "download": "Download",

@@ -10,9 +10,28 @@
                 </FormButton>
             </div>
             <div class="flex h-full flex-col">
-                <header class="flex flex-col md:flex-row md:items-center justify-between py-4 gap-3">
+                <header class="grid grid-cols-1 md:grid-cols-3 md:items-center justify-between py-4 gap-3">
                     <div>
-                        <p>{{ $t('dutySchedules.typeofShifts') }}:</p>
+                        <!-- <p class="font-medium">
+                            {{ $t('dutySchedules.departmentSickLeaves') }}:
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-x-3 text-sm">
+                            <div class="flex gap-x-2">
+                                <p class="truncate">111</p>
+                                <p>0%</p>
+                            </div>
+                            <div class="flex gap-x-2">
+                                <p class="truncate">222</p>
+                                <p>0%</p>
+                            </div>
+                            <div class="flex gap-x-2">
+                                <p class="truncate">333</p>
+                                <p>0%</p>
+                            </div>
+                        </div> -->
+                        <p class="font-medium mt-2">
+                            {{ $t('dutySchedules.typeofShifts') }}:
+                        </p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
                             <div class="flex items-center gap-x-2">
                                 <div class="w-3 h-3 rounded-sm bg-shifts-regular"></div>
@@ -36,7 +55,7 @@
                             </div>
                         </div>
                     </div>
-                    <h3 class="text-base font-semibold leading-6 text-gray-900">
+                    <h3 class="text-base font-semibold leading-6 text-gray-900 text-center">
                         <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
                         <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
                         <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
@@ -51,7 +70,7 @@
                         <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
                         {{ year }}
                     </h3>
-                    <div class="flex items-center">
+                    <div class="flex items-center justify-end">
                         <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
                             <button @click="previousWeek" type="button"
                                 class="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
