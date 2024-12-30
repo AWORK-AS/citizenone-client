@@ -1,4 +1,23 @@
 {
+    "absences": {
+        "addNewAbsence": "Tilføj nyt fravær",
+        "absences": "Fravær",
+        "editAbsence": "Rediger fravær",
+        "form": {
+            "alert": {
+                "absenceSuccessfullyUpdated": "Fravær opdateret med succes",
+                "newAbsenceSuccessfullySaved": "Nyt fravær gemt med succes"
+            },
+            "name": "Navn"
+        },
+        "newAbsence": "Nyt fravær",
+        "table": {
+            "actions": {
+                "edit": "Rediger"
+            },
+            "name": "Navn"
+        }
+    },
     "addictions": {
         "addNewAddiction": "Tilføj ny afhængighed",
         "addictions": "Afhængigheder",
@@ -1893,6 +1912,7 @@
             "subscription": "Abonnement"
         },
         "tabs": {
+            "absences": "Fravær",
             "activityLogs": "Aktivitetslogfiler",
             "addictions": "Afhængigheder",
             "archived": "Arkiveret",

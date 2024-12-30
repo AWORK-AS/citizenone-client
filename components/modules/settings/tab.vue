@@ -71,6 +71,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
+                    name: 'settings.tabs.absences',
+                    href: `/settings/absences`,
+                    routeNames: [
+                        'settings-absences'
+                    ]
+                },
+                {
                     name: 'settings.tabs.departments',
                     href: `/settings/departments`,
                     routeNames: [

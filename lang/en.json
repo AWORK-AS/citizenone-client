@@ -1,4 +1,23 @@
 {
+    "absences": {
+        "addNewAbsence": "Add new absence",
+        "absences": "Absences",
+        "editAbsence": "Edit absence",
+        "form": {
+            "alert": {
+                "absenceSuccessfullyUpdated": "Absence successfully updated",
+                "newAbsenceSuccessfullySaved": "New absence successfully saved"
+            },
+            "name": "Name"
+        },
+        "newAbsence": "New absence",
+        "table": {
+            "actions": {
+                "edit": "Edit"
+            },
+            "name": "Name"
+        }
+    },
     "addictions": {
         "addNewAddiction": "Add new addiction",
         "addictions": "Addictions",
@@ -1893,6 +1912,7 @@
             "subscription": "Subscription"
         },
         "tabs": {
+            "absences": "Absences",
             "activityLogs": "Activity logs",
             "addictions": "Addictions",
             "archived": "Archived",
