@@ -32,6 +32,10 @@ class DocumentService extends BaseAPIService {
     async downloadArchivedDocument(documentUuid: any): Promise<any> {
         return await this.request(`/user/archived-documents/${documentUuid}/download`, 'GET')
     }
+
+    async downloadFile(documentUuid: any): Promise<any> {
+        return await this.request(`/user/company-file-folders/${documentUuid}/download`, 'GET')
+    }
 }
 
 export const documentService = new DocumentService()
