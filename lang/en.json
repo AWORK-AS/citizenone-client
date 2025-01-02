@@ -654,6 +654,7 @@
                 "dailyDose": "Daily dose",
                 "description": "Description",
                 "dosageForm": "Dosage form",
+                "image": "Image",
                 "medicine": "Medicine",
                 "quantity": "Quantity",
                 "strength": "Strength"

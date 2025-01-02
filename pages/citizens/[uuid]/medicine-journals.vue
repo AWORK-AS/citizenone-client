@@ -41,8 +41,12 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.medicines?.data?.length === 0))">
                                 <tr v-for="(medicine, index) in state.medicines?.data" :key="index">
-                                    <td width="15%">
-                                        <span>{{ medicine?.medicine }}</span>
+                                    <td width="12%">
+                                        <img :src="medicine?.image_url" alt="Image failed to load" class="w-28"
+                                            v-if="medicine?.image_url">
+                                    </td>
+                                    <td width="13%">
+                                        <p>{{ medicine?.medicine }}</p>
                                     </td>
                                     <td width="10%">
                                         <span>{{ medicine?.strength }}</span>
@@ -99,7 +103,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="20%">
+                                    <td width="10%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="viewMedicineHistory(medicine)">
@@ -160,6 +164,7 @@ const state = reactive({
         { column: 'medicine' },
     ],
     columnHeaders: [
+        { name: 'citizens.medicineJournals.table.image' },
         { name: 'citizens.medicineJournals.table.medicine', sorter: true, key: 'medicine' },
         { name: 'citizens.medicineJournals.table.strength' },
         { name: 'citizens.medicineJournals.table.dosageForm' },
