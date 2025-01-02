@@ -123,7 +123,7 @@ const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading', 'error'])
 const { t } = useI18n()
 const { validateEuropeanDecimal } = euDecimalValidation()
 const image = ref<HTMLInputElement | null>(null)
-const imageUrl = ref('')
+const imageUrl = ref(props.selectedMedicine?.image_url ?? '')
 
 const state = reactive({
     formMedicine: {
@@ -182,18 +182,21 @@ onMounted(() => {
     fetchDosageForm()
 })
 
-watch(() => props.selectedMedicine, (newValue: any) => {
-    if (newValue != null) {
+watch(() => props.selectedMedicine, (selectedMedicine: any) => {
+    if (selectedMedicine != null) {
+        if (selectedMedicine.image_url) {
+            imageUrl.value = selectedMedicine.image_url
+        }
         state.formMedicine = {
-            uuid: newValue.uuid,
-            image: newValue.image,
-            medicine: newValue.medicine,
-            strength: newValue.strength,
-            dosage_uuid: newValue.dosage?.uuid,
-            daily_dose: newValue.daily_dose,
-            active_ingredients: newValue.active_ingredients,
-            description: newValue.description,
-            schedule_frequency: newValue.schedule_frequency,
+            uuid: selectedMedicine.uuid,
+            image: selectedMedicine.image,
+            medicine: selectedMedicine.medicine,
+            strength: selectedMedicine.strength,
+            dosage_uuid: selectedMedicine.dosage?.uuid,
+            daily_dose: selectedMedicine.daily_dose,
+            active_ingredients: selectedMedicine.active_ingredients,
+            description: selectedMedicine.description,
+            schedule_frequency: selectedMedicine.schedule_frequency,
             time: [],
         }
 
