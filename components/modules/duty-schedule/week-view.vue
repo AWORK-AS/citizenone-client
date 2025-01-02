@@ -3,74 +3,58 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
-            <div class="flex flex-col md:flex-row justify-between">
-                <div class="order-last md:order-first">
-                    <div class="font-medium">
-                        {{ $t('dutySchedules.departmentSickLeaves') }}
-                        <button class="text-xs text-primary hover:text-primary-700 hover:underline"
-                            @click="state.modal.isDepartmentSickLeaveDateRangeOpen = true">
-                            ({{ formatDateToReadable(state.sickLeaveDateRange.formDateRange.start_date) }} -
-                            {{ formatDateToReadable(state.sickLeaveDateRange.formDateRange.end_date) }})
-                        </button>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 text-sm">
-                        <div class="flex items-center justify-between gap-x-2">
-                            <span>{{ $t('dutySchedules.shifts.regularShift') }}</span>
-                            <p>{{ state.sickLeavePercentage?.data?.regular_shift }}%</p>
-                        </div>
-                        <div class="flex items-center justify-between gap-x-2">
-                            <span>{{ $t('dutySchedules.shifts.awakeNightShift') }}</span>
-                            <p>{{ state.sickLeavePercentage?.data?.awake_night_shift }}%</p>
-                        </div>
-                        <div class="flex items-center justify-between gap-x-2">
-                            <span>{{ $t('dutySchedules.shifts.sleepingNightShift') }}</span>
-                            <p>{{ state.sickLeavePercentage?.data?.sleeping_night_shift }}%</p>
-                        </div>
-                        <div class="flex items-center justify-between gap-x-2">
-                            <span>{{ $t('dutySchedules.shifts.vacationLeave') }}</span>
-                            <p>{{ state.sickLeavePercentage?.data?.vacation_leave }}%</p>
-                        </div>
-                        <div class="flex items-center justify-between gap-x-2">
-                            <span>{{ $t('dutySchedules.shifts.sickLeave') }}</span>
-                            <p>{{ state.sickLeavePercentage?.data?.sickLeave }}%</p>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="flex justify-end">
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
-                            <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('dutySchedules.download.download') }}
-                        </FormButton>
-                    </div>
-                </div>
+            <div class="flex justify-end">
+                <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
+                    <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                    {{ $t('dutySchedules.download.download') }}
+                </FormButton>
             </div>
             <div class="flex h-full flex-col">
                 <header class="grid grid-cols-1 md:grid-cols-3 md:items-center justify-between py-4 gap-3">
                     <div>
-                        <p class="font-medium mt-2">
+                        <div class="font-medium mt-2">
                             {{ $t('dutySchedules.typeofShifts') }}:
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-                            <div class="flex items-center gap-x-2">
-                                <div class="w-3 h-3 rounded-sm bg-shifts-regular"></div>
-                                <span>{{ $t('dutySchedules.shifts.regularShift') }}</span>
+                            <button class="text-xs text-primary hover:text-primary-700 hover:underline"
+                                @click="state.modal.isDepartmentSickLeaveDateRangeOpen = true">
+                                ({{ formatDateToReadable(state.sickLeaveDateRange.formDateRange.start_date) }} -
+                                {{ formatDateToReadable(state.sickLeaveDateRange.formDateRange.end_date) }})
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 text-sm">
+                            <div class="flex items-center justify-between gap-x-2">
+                                <div class="flex items-center gap-x-2">
+                                    <div class="w-3 h-3 rounded-sm bg-shifts-regular"></div>
+                                    <span>{{ $t('dutySchedules.shifts.regularShift') }}</span>
+                                </div>
+                                <p class="text-xs">{{ state.sickLeavePercentage?.data?.regular_shift }}%</p>
                             </div>
-                            <div class="flex items-center gap-x-2">
-                                <div class="w-3 h-3 rounded-sm bg-shifts-awake_night"></div>
-                                <span>{{ $t('dutySchedules.shifts.awakeNightShift') }}</span>
+                            <div class="flex items-center justify-between gap-x-2">
+                                <div class="flex items-center gap-x-2">
+                                    <div class="w-3 h-3 rounded-sm bg-shifts-awake_night"></div>
+                                    <span>{{ $t('dutySchedules.shifts.awakeNightShift') }}</span>
+                                </div>
+                                <p class="text-xs">{{ state.sickLeavePercentage?.data?.awake_night_shift }}%</p>
                             </div>
-                            <div class="flex items-center gap-x-2">
-                                <div class="w-3 h-3 rounded-sm bg-shifts-sleeping_night"></div>
-                                <span>{{ $t('dutySchedules.shifts.sleepingNightShift') }}</span>
+                            <div class="flex items-center justify-between gap-x-2">
+                                <div class="flex items-center gap-x-2">
+                                    <div class="w-3 h-3 rounded-sm bg-shifts-sleeping_night"></div>
+                                    <span>{{ $t('dutySchedules.shifts.sleepingNightShift') }}</span>
+                                </div>
+                                <p class="text-xs">{{ state.sickLeavePercentage?.data?.sleeping_night_shift }}%</p>
                             </div>
-                            <div class="flex items-center gap-x-2">
-                                <div class="w-3 h-3 rounded-sm bg-shifts-vacation"></div>
-                                <span>{{ $t('dutySchedules.shifts.vacationLeave') }}</span>
+                            <div class="flex items-center justify-between gap-x-2">
+                                <div class="flex items-center gap-x-2">
+                                    <div class="w-3 h-3 rounded-sm bg-shifts-vacation"></div>
+                                    <span>{{ $t('dutySchedules.shifts.vacationLeave') }}</span>
+                                </div>
+                                <p class="text-xs">{{ state.sickLeavePercentage?.data?.vacation_leave }}%</p>
                             </div>
-                            <div class="flex items-center gap-x-2">
-                                <div class="w-3 h-3 rounded-sm bg-shifts-sickleave"></div>
-                                <span>{{ $t('dutySchedules.shifts.sickLeave') }}</span>
+                            <div class="flex items-center justify-between gap-x-2">
+                                <div class="flex items-center gap-x-2">
+                                    <div class="w-3 h-3 rounded-sm bg-shifts-sickleave"></div>
+                                    <span>{{ $t('dutySchedules.shifts.sickLeave') }}</span>
+                                </div>
+                                <p class="text-xs">{{ state.sickLeavePercentage?.data?.sickLeave }}%</p>
                             </div>
                         </div>
                     </div>
