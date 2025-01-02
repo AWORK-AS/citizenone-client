@@ -71,7 +71,7 @@ async function saveMedicine(medicineDetails: any) {
         params.append('daily_dose', medicineDetails.daily_dose.replace(',', '.'))
         params.append('active_ingredients', medicineDetails.active_ingredients)
         params.append('description', medicineDetails.description)
-        params.append('schedule_frequency', JSON.stringify(medicineDetails.schedule_frequency))
+        params.append('schedule_frequency', medicineDetails.schedule_frequency)
         params.append('time', JSON.stringify(medicineDetails.time))
         const response = await medicineJournalService.saveMedicine(params)
         if (response?.data) {
