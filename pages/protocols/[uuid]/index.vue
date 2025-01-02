@@ -197,7 +197,7 @@ async function markAsAbsent(citizenProtocolDetails: any) {
     try {
         const citizenProtocolUuid = state.selectedCitizenProtocol?.uuid
         const params = {
-            absence: citizenProtocolDetails.absence,
+            absence_uuid: citizenProtocolDetails.absence,
             status: 'absent',
         }
         const response = await citizenProtocolService.updateCitizenProtocol(citizenProtocolUuid, params)
