@@ -40,6 +40,9 @@
                                             <span v-if="citizenProtocol?.status === 'absent'">
                                                 {{ $t('protocols.table.status.absent') }}
                                             </span>
+                                            <span v-if="citizenProtocol?.absence?.name">
+                                                - {{ citizenProtocol?.absence?.name }}
+                                            </span>
                                         </p>
                                     </Badge>
                                     <span v-else>-</span>
@@ -203,6 +206,7 @@ async function markAsAbsent(citizenProtocolDetails: any) {
         const response = await citizenProtocolService.updateCitizenProtocol(citizenProtocolUuid, params)
         if (response?.data) {
             fetchCitizenProtocols()
+            state.modal.isMarkAsAbsentOpen = false
         }
     } catch (error: any) {
         state.error = error

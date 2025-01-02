@@ -3,7 +3,7 @@
         <Modal size="sm" :title="$t('absences.markAsAbsent')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <form @submit.prevent="submitForm()">
+                    <form @submit.prevent="submitForm()" id="formAbsence">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="space-y-1">
@@ -117,6 +117,14 @@ function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
         emit('markAsAbsent', state.formAbsence)
+        state.formAbsence.absence = ''
+        v$.value.$reset()
     }
 }
 </script>
+
+<style>
+#formAbsence .multiselect-dropdown {
+    max-height: 5rem !important;
+}
+</style>
