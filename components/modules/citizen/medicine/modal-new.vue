@@ -64,7 +64,9 @@ async function saveMedicine(medicineDetails: any) {
     try {
         let params = new FormData()
         params.append('citizen_uuid', citizenUuid.toString())
-        params.append('image', medicineDetails.image)
+        if (medicineDetails.image) {
+            params.append('image', medicineDetails.image)
+        }
         params.append('dosage_uuid', medicineDetails.dosage_uuid)
         params.append('medicine', medicineDetails.medicine)
         params.append('strength', medicineDetails.strength)

@@ -54,7 +54,9 @@ async function updateMedicine(medicineDetails: any) {
     try {
         const medicineUuid = medicineDetails.uuid
         let params = new FormData()
-        params.append('image', medicineDetails.image)
+        if (medicineDetails.image) {
+            params.append('image', medicineDetails.image)
+        }
         params.append('dosage_uuid', medicineDetails.dosage_uuid)
         params.append('medicine', medicineDetails.medicine)
         params.append('strength', medicineDetails.strength)
