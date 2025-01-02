@@ -103,11 +103,13 @@
 import { authService } from '@/components/api/AuthService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
+import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const departmentStore = useDepartmentStore()
 const userStore = useUserStore()
 const language = useI18n()
 const { t } = useI18n()
@@ -171,6 +173,7 @@ async function login() {
             const response = await authService.login(params)
             if (response.data) {
                 localStorage.setItem("_token", response.data?.token)
+                departmentStore.resetSelectedDepartmentName()
                 userStore.setUser(response?.data?.user)
                 userStore.setLanguage(response?.data?.user?.language?.code)
                 language.locale.value = response?.data?.user?.language?.code
