@@ -99,71 +99,87 @@
                                 </div>
                                 <div v-for="(message, index) in state.messages" :key="index">
                                     <!-- Message (Right) -->
-                                    <div class="flex items-start justify-end mb-4"
-                                        v-if="message?.sender?.id === userStore.getUser?.id">
-                                        <div class="mr-2">
-                                            <Tooltip position="left" :text="formatTimeToReadable(message?.created_at)">
-                                                <div class="bg-primary text-white p-3 rounded-lg">
-                                                    <div v-if="message?.chat_message_attachments?.length > 0"
-                                                        class="space-y-3">
-                                                        <div v-for="(attachment, index) in message?.chat_message_attachments"
-                                                            :key="index">
-                                                            <img :src="attachment?.file_url" alt="Image failed to load."
-                                                                v-if="isImageFile(attachment?.file_name)"
-                                                                class="w-44 cursor-pointer"
-                                                                @click="downloadFile(attachment)">
-                                                            <div v-else
-                                                                class="flex items-center gap-x-1 w-fit cursor-pointer"
-                                                                @click="downloadFile(attachment)">
-                                                                <Icon name="ph:file" class="h-8 w-8"
-                                                                    aria-hidden="true" />
-                                                                {{ attachment?.file_name }}
+                                    <div v-if="message?.sender?.id === userStore.getUser?.id">
+                                        <div class="flex items-start justify-end mb-4">
+                                            <div class="mr-2">
+                                                <Tooltip position="left"
+                                                    :text="formatTimeToReadable(message?.created_at)">
+                                                    <div class="bg-primary text-white p-3 rounded-lg">
+                                                        <div v-if="message?.chat_message_attachments?.length > 0"
+                                                            class="space-y-3">
+                                                            <div v-for="(attachment, index) in message?.chat_message_attachments"
+                                                                :key="index">
+                                                                <img :src="attachment?.file_url"
+                                                                    alt="Image failed to load."
+                                                                    v-if="isImageFile(attachment?.file_name)"
+                                                                    class="w-44 cursor-pointer"
+                                                                    @click="downloadFile(attachment)">
+                                                                <div v-else
+                                                                    class="flex items-center gap-x-1 w-fit cursor-pointer"
+                                                                    @click="downloadFile(attachment)">
+                                                                    <Icon name="ph:file" class="h-8 w-8"
+                                                                        aria-hidden="true" />
+                                                                    {{ attachment?.file_name }}
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        <p v-else class="text-sm">{{ message?.message }}</p>
                                                     </div>
-                                                    <p v-else class="text-sm">{{ message?.message }}</p>
-                                                </div>
-                                                <p class="text-xs text-gray-500 mt-1"
-                                                    v-if="index === state.messages.length - 1 && message?.receipt?.created_at">
-                                                    {{ $t('messages.seen') }}
-                                                    {{ formatTimeToReadable(message?.receipt?.created_at) }}
-                                                </p>
-                                            </Tooltip>
-                                        </div>
-                                        <div class="flex-shrink-0 flex items-center">
-                                            <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
-                                                alt="User" class="w-10 h-10 rounded-full object-cover">
+                                                    <p class="text-xs text-gray-500 mt-1"
+                                                        v-if="index === state.messages.length - 1 && message?.receipt?.created_at">
+                                                        {{ $t('messages.seen') }}
+                                                        {{ formatTimeToReadable(message?.receipt?.created_at) }}
+                                                    </p>
+                                                </Tooltip>
+                                            </div>
+                                            <div class="flex-shrink-0 flex items-center">
+                                                <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
+                                                    alt="User" class="w-10 h-10 rounded-full object-cover"
+                                                    v-if="index === 0 || message?.sender?.id !== state.messages[index - 1]?.sender?.id">
+                                                <div v-else class="mr-10"></div>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- Message (Left) -->
-                                    <div class="flex items-start mb-4" v-else>
-                                        <div class="flex-shrink-0">
-                                            <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
-                                                alt="User" class="w-10 h-10 rounded-full object-cover">
-                                        </div>
-                                        <div class="ml-2">
-                                            <Tooltip position="right" :text="formatTimeToReadable(message?.created_at)">
-                                                <div class="bg-gray-200 p-3 rounded-lg">
-                                                    <div v-if="message?.chat_message_attachments?.length > 0"
-                                                        class="space-y-3">
-                                                        <div v-for="(attachment, index) in message?.chat_message_attachments"
-                                                            :key="index">
-                                                            <img :src="attachment?.file_url" alt="Image failed to load."
-                                                                v-if="isImageFile(attachment?.file_name)"
-                                                                class="w-44 cursor-pointer"
-                                                                @click="downloadFile(attachment)">
-                                                            <div v-else
-                                                                class="flex items-center gap-x-1 w-fit cursor-pointer"
-                                                                @click="downloadFile(attachment)">
-                                                                <Icon name="ph:file" class="h-8 w-8"
-                                                                    aria-hidden="true" />
-                                                                {{ attachment?.file_name }}
+                                    <div v-else>
+                                        <p class="text-xs ml-12"
+                                            v-if="index === 0 || message?.sender?.id !== state.messages[index - 1]?.sender?.id">
+                                            {{ message?.sender?.firstname + " " + message?.sender?.lastname }}
+                                        </p>
+                                        <div class="flex items-start mt-1 mb-4">
+                                            <div class="flex-shrink-0">
+                                                <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
+                                                    alt="User" class="w-10 h-10 rounded-full object-cover"
+                                                    v-if="index === 0 || message?.sender?.id !== state.messages[index - 1]?.sender?.id">
+                                                <div v-else class="ml-10"></div>
+                                            </div>
+                                            <div class="ml-2">
+                                                <Tooltip position="right"
+                                                    :text="formatTimeToReadable(message?.created_at)">
+                                                    <div class="bg-gray-200 p-3 rounded-lg">
+                                                        <div v-if="message?.chat_message_attachments?.length > 0"
+                                                            class="space-y-3">
+                                                            <div v-for="(attachment, index) in message?.chat_message_attachments"
+                                                                :key="index">
+                                                                <img :src="attachment?.file_url"
+                                                                    alt="Image failed to load."
+                                                                    v-if="isImageFile(attachment?.file_name)"
+                                                                    class="w-44 cursor-pointer"
+                                                                    @click="downloadFile(attachment)">
+                                                                <div v-else
+                                                                    class="flex items-center gap-x-1 w-fit cursor-pointer"
+                                                                    @click="downloadFile(attachment)">
+                                                                    <Icon name="ph:file" class="h-8 w-8"
+                                                                        aria-hidden="true" />
+                                                                    {{ attachment?.file_name }}
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        <p v-else class="text-gray-700 text-sm">{{ message?.message }}
+                                                        </p>
                                                     </div>
-                                                    <p v-else class="text-gray-700 text-sm">{{ message?.message }}</p>
-                                                </div>
-                                            </Tooltip>
+                                                </Tooltip>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
