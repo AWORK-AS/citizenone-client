@@ -195,7 +195,7 @@ function sort(sortingData: any) {
 
 function handleSearch(value: any) {
     currentTablePage = 1
-    state.dataFilter.search = value
+    state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchProtocols()
 }
 
