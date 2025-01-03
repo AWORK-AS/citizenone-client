@@ -1875,7 +1875,7 @@
     "settings": {
         "company": {
             "form": {
-                "accountantEmail": "Accountant email (Wallet transactions)",
+                "accountantEmail": "Auditor or accounting e-mail (citizens' wallet transactions)",
                 "alert": {
                     "successfullyUpdated": "Company successfully updated"
                 },

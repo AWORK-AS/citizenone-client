@@ -1875,7 +1875,7 @@
     "settings": {
         "company": {
             "form": {
-                "accountantEmail": "Revisor email (Tegnebogstransaktioner)",
+                "accountantEmail": "Revisor eller regnskabs e-mail (borgernes wallet transaktioner)",
                 "alert": {
                     "successfullyUpdated": "Firma opdateret med succes"
                 },
