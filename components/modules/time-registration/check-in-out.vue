@@ -30,8 +30,8 @@ const state = reactive({
 })
 
 const formattedTime = computed<string>(() => {
-    const formatNumber = (num: number): string => String(num).padStart(2, '0')
-    return `${formatNumber(hours.value)}:${formatNumber(minutes.value)}:${formatNumber(seconds.value)}`
+    const formatTime = (num: number): string => String(num).padStart(2, '0')
+    return `${formatTime(hours.value)}:${formatTime(minutes.value)}:${formatTime(seconds.value)}`
 })
 
 watch(() => userStore.getUser, (newValue: any) => {

@@ -14,7 +14,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesCitizenDetailsHeader />
+                <!-- <ModulesCitizenDetailsHeader /> -->
                 <ModulesCitizenJournalTabs />
 
                 <div>
@@ -56,7 +56,10 @@
                                     </td>
                                     <td width="15%">
                                         <div class="space-y-1">
-                                            <p>{{ formatNumber(medicine?.daily_dose) }}</p>
+                                            <p>
+                                                {{ language.locale.value === 'dk' ? formatNumber(medicine?.daily_dose) :
+                                                    medicine?.daily_dose }}
+                                            </p>
                                             <div class="text-xs">
                                                 <span v-if="medicine?.schedule_frequency === 'everyday'">
                                                     {{ $t('citizens.medicineJournals.scheduleFrequencies.everyday') }}
@@ -155,6 +158,7 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const { formatNumber } = useNumberFormatter()
+const language = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1

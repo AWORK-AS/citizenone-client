@@ -122,6 +122,7 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading', 'error'])
 const { t } = useI18n()
 const { validateEuropeanDecimal } = euDecimalValidation()
+const language = useI18n()
 const image = ref<HTMLInputElement | null>(null)
 const imageUrl = ref(props.selectedMedicine?.image_url ?? '')
 
@@ -165,7 +166,7 @@ onMounted(() => {
         medicine: props.selectedMedicine.medicine,
         strength: props.selectedMedicine.strength,
         dosage_uuid: props.selectedMedicine.dosage?.uuid,
-        daily_dose: props.selectedMedicine.daily_dose.replace('.', ','),
+        daily_dose: language.locale.value === 'dk' ? props.selectedMedicine.daily_dose.replace('.', ',') : props.selectedMedicine.daily_dose,
         active_ingredients: props.selectedMedicine.active_ingredients,
         description: props.selectedMedicine.description,
         schedule_frequency: props.selectedMedicine.schedule_frequency,
@@ -342,7 +343,9 @@ async function fetchDosageForm() {
 
 function handleDailyDoseInput(event: Event) {
     const target = event.target as HTMLInputElement
-    target.value = validateEuropeanDecimal(target.value)
+    if (language.locale.value === 'dk') {
+        target.value = validateEuropeanDecimal(target.value)
+    }
     state.formMedicine.daily_dose = target.value
 }
 </script>
