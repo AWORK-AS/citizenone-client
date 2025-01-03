@@ -155,6 +155,12 @@
                     </div>
                     <FormError :error="props?.error?.errors?.permission?.[0]" />
                 </div>
+                <div class="space-y-1">
+                    <FormLabel for="pages" :label="$t('employees.form.pages')" />
+                    <FormSelectMultiple id="pages" :options="state.options.pages" v-model="state.formEmployee.pages" />
+                    <FormError :error="v$?.formEmployee?.pages?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.page_uuid?.[0]" />
+                </div>
             </div>
         </div>
         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
@@ -392,6 +398,7 @@
 import { jobTitleService } from '@/components/api/JobTitleService'
 import { jobSpecialtyService } from '@/components/api/JobSpecialtyService'
 import { departmentService } from '@/components/api/DepartmentService'
+import { pageService } from '@/components/api/PageService'
 import { regionService } from '@/components/api/RegionService'
 import { municipalityService } from '@/components/api/MunicipalityService'
 import { cityService } from '@/components/api/CityService'
@@ -441,6 +448,7 @@ const state = reactive({
         city_uuid: '',
         post_code: '',
         permissions: [],
+        pages: [],
         employment: {
             employment_date: '',
             job_title_uuid: '',
@@ -475,6 +483,7 @@ const state = reactive({
         jobSpecialties: [],
         jobTitles: [],
         municipalities: [],
+        pages: [],
         regions: [],
         roleOptions: [
             { value: 'Admin', label: `${t('employees.roles.administrator')}` },
@@ -528,6 +537,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             city_uuid: newValue.city_uuid,
             post_code: newValue.post_code,
             permissions: [],
+            pages: newValue.page_uuid,
             emergencyInfo: {
                 emergency_contacts: newValue.emergencyInfo.emergency_contacts,
                 trustees: newValue.emergencyInfo.trustees,
@@ -619,6 +629,7 @@ const v$ = useVuelidate(rules, state)
 onMounted(() => {
     fetchDepartments()
     fetchJobTitles()
+    fetchPages()
     fetchRegions()
 })
 
@@ -738,6 +749,27 @@ async function fetchJobSpecialties(jobTitleUuid: any) {
                 })
             )
             state.options.jobSpecialties = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchPages() {
+    emit('isPageLoading', true)
+    state.error = {}
+    try {
+        const response = await pageService.getAllPages()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.pages = options
         }
     } catch (error: any) {
         state.error = error

@@ -1205,6 +1205,7 @@
             },
             "lastname": "Last name",
             "municipality": "Municipality",
+            "pages": "Pages",
             "permissions": {
                 "create": "Create",
                 "delete": "Delete",
