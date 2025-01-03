@@ -15,7 +15,7 @@ export interface EmployeeForm {
     employment: any,
     emergencyInfo: any,
     permissions: Permission[]
-    pages: []
+    pages: any
 }
 
 type Permission = 'read' | 'create' | 'update' | 'delete'

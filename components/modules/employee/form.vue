@@ -537,7 +537,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             city_uuid: newValue.city_uuid,
             post_code: newValue.post_code,
             permissions: [],
-            pages: newValue.page_uuid,
+            pages: newValue.pages,
             emergencyInfo: {
                 emergency_contacts: newValue.emergencyInfo.emergency_contacts,
                 trustees: newValue.emergencyInfo.trustees,
