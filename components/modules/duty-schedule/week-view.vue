@@ -16,8 +16,8 @@
                             {{ $t('dutySchedules.typeofShifts') }}:
                             <button class="text-xs text-primary hover:text-primary-700 hover:underline"
                                 @click="state.modal.isDepartmentSickLeaveDateRangeOpen = true">
-                                ({{ formatDateToReadable(state.sickLeaveDateRange.formDateRange.start_date) }} -
-                                {{ formatDateToReadable(state.sickLeaveDateRange.formDateRange.end_date) }})
+                                ({{ formatDateToReadable(state.shiftDateRange.formDateRange.start_date) }} -
+                                {{ formatDateToReadable(state.shiftDateRange.formDateRange.end_date) }})
                             </button>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 text-sm">
@@ -26,35 +26,35 @@
                                     <div class="w-3 h-3 rounded-sm bg-shifts-regular"></div>
                                     <span>{{ $t('dutySchedules.shifts.regularShift') }}</span>
                                 </div>
-                                <p class="text-xs">{{ state.sickLeavePercentage?.data?.regular_shift }}%</p>
+                                <p class="text-xs">{{ state.shiftPercentage?.data?.regular_shift }}%</p>
                             </div>
                             <div class="flex items-center justify-between gap-x-2">
                                 <div class="flex items-center gap-x-2">
                                     <div class="w-3 h-3 rounded-sm bg-shifts-awake_night"></div>
                                     <span>{{ $t('dutySchedules.shifts.awakeNightShift') }}</span>
                                 </div>
-                                <p class="text-xs">{{ state.sickLeavePercentage?.data?.awake_night_shift }}%</p>
+                                <p class="text-xs">{{ state.shiftPercentage?.data?.awake_night_shift }}%</p>
                             </div>
                             <div class="flex items-center justify-between gap-x-2">
                                 <div class="flex items-center gap-x-2">
                                     <div class="w-3 h-3 rounded-sm bg-shifts-sleeping_night"></div>
                                     <span>{{ $t('dutySchedules.shifts.sleepingNightShift') }}</span>
                                 </div>
-                                <p class="text-xs">{{ state.sickLeavePercentage?.data?.sleeping_night_shift }}%</p>
+                                <p class="text-xs">{{ state.shiftPercentage?.data?.sleeping_night_shift }}%</p>
                             </div>
                             <div class="flex items-center justify-between gap-x-2">
                                 <div class="flex items-center gap-x-2">
                                     <div class="w-3 h-3 rounded-sm bg-shifts-vacation"></div>
                                     <span>{{ $t('dutySchedules.shifts.vacationLeave') }}</span>
                                 </div>
-                                <p class="text-xs">{{ state.sickLeavePercentage?.data?.vacation_leave }}%</p>
+                                <p class="text-xs">{{ state.shiftPercentage?.data?.vacation_leave }}%</p>
                             </div>
                             <div class="flex items-center justify-between gap-x-2">
                                 <div class="flex items-center gap-x-2">
                                     <div class="w-3 h-3 rounded-sm bg-shifts-sickleave"></div>
                                     <span>{{ $t('dutySchedules.shifts.sickLeave') }}</span>
                                 </div>
-                                <p class="text-xs">{{ state.sickLeavePercentage?.data?.sickLeave }}%</p>
+                                <p class="text-xs">{{ state.shiftPercentage?.data?.sick_leave }}%</p>
                             </div>
                         </div>
                     </div>
@@ -474,9 +474,8 @@
             </div>
             <ModulesDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
                 @close="state.modal.isDownloadOpen = false" />
-            <ModulesDutyScheduleModalDepartmentSickLeavesDateRange
-                :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen" :dateRange="state.sickLeaveDateRange"
-                @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
+            <ModulesDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
+                :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDepartmentSickLeaveDate" />
             <ModulesDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift" />
@@ -512,8 +511,8 @@ const state = reactive({
         allEmployeeSchedules: {},
         selectedEmployeeSchedules: {}
     } as any,
-    sickLeavePercentage: {} as any,
-    sickLeaveDateRange: {
+    shiftPercentage: {} as any,
+    shiftDateRange: {
         formDateRange: {
             start_date: moment(),
             end_date: moment(),
@@ -566,8 +565,8 @@ function isAdmin(roles: any) {
 }
 
 function filterDepartmentSickLeaveDate(formDateRange: any) {
-    state.sickLeaveDateRange.formDateRange.start_date = formDateRange.start_date
-    state.sickLeaveDateRange.formDateRange.end_date = formDateRange.end_date
+    state.shiftDateRange.formDateRange.start_date = formDateRange.start_date
+    state.shiftDateRange.formDateRange.end_date = formDateRange.end_date
     fetchDutyScheduleAbsencePercentage()
 }
 
@@ -576,13 +575,13 @@ async function fetchDutyScheduleAbsencePercentage() {
     state.isPageLoading = true
     try {
         const params = {
-            start_date: moment(state.sickLeaveDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
-            end_date: moment(state.sickLeaveDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
+            start_date: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
+            end_date: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
         }
         const response = await dutyScheduleService.getDutyScheduleAbsencePercentage(params)
         if (response) {
-            state.sickLeavePercentage = response
+            state.shiftPercentage = response
         }
     } catch (error: any) {
         state.error = error
