@@ -44,11 +44,6 @@
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
 const props = defineProps({
-    closeButtonText: {
-        type: String,
-        required: false,
-        default: 'Close',
-    },
     size: {
         type: String,
         required: false,

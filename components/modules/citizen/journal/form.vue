@@ -5,7 +5,7 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
-            <div class="grid grid-cols-2 gap-x-3">
+            <div class="grid md:grid-cols-2 gap-x-3">
                 <div class="space-y-1">
                     <FormLabel for="title" :label="$t('citizens.citizenJournals.form.title')" />
                     <FormTextField id="title" name="title" :placeholder="$t('citizens.citizenJournals.form.title')"
@@ -18,6 +18,13 @@
                     <FormDateField id="date" name="date" placeholder="Date" v-model="state.formJournal.date" />
                     <FormError :error="v$?.formJournal?.date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.date?.[0]" />
+                </div>
+            </div>
+            <div v-if="props.formType === 'create'">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formJournal.copy_journal_note_to_plan_or_goal = !state.formJournal.copy_journal_note_to_plan_or_goal">
+                    <FormCheckbox :value="state.formJournal.copy_journal_note_to_plan_or_goal" />
+                    {{ $t('citizens.citizenJournals.form.copyJournalNoteToPlanOrGoal') }}
                 </div>
             </div>
             <div class="space-y-1">
@@ -96,6 +103,40 @@
                 </div>
                 <ckeditor :editor="editor" v-model="state.formJournal.note" :config="editorNoteConfig"></ckeditor>
                 <FormError :error="props?.error?.errors?.note?.[0]" />
+            </div>
+            <div class="flex md:items-center flex-col md:flex-row justify-between gap-3">
+                <div class="space-y-1">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formJournal.copy_risk_assessment_to_plan_or_goal = !state.formJournal.copy_risk_assessment_to_plan_or_goal">
+                        <FormCheckbox :value="state.formJournal.copy_risk_assessment_to_plan_or_goal" />
+                        {{ $t('citizens.citizenJournals.form.copyRiskAssessmentToPlanOrGoal') }}
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <div class="flex items-center gap-x-2">
+                        <p>
+                            {{ $t('citizens.citizenJournals.form.chooseScoreFrom1to5') }}
+                        </p>
+                        <div class="relative w-12">
+                            <select
+                                class="block w-full appearance-none rounded-md border border-primary bg-white pl-3 py-2 text-xs focus:border-primary focus:outline-none focus:ring-primary">
+                                <option :value="1">1</option>
+                                <option :value="2">2</option>
+                                <option :value="3">3</option>
+                                <option :value="4">4</option>
+                                <option :value="5">5</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-2 top-1 flex items-center pointer-events-none">
+                                <svg class="h-3 w-3 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <FormError :error="props?.error?.errors?.score?.[0]" />
+                </div>
             </div>
             <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer"
@@ -191,10 +232,13 @@ const state = reactive({
         uuid: '',
         content: '',
         date: '',
+        copy_journal_note_to_plan_or_goal: false,
+        copy_risk_assessment_to_plan_or_goal: false,
         title: '',
         is_draft: false,
         assessment: null,
-        note: ''
+        note: '',
+        score: ''
     } as any,
     modal: {
         isUpgradeStorageOpen: false
@@ -205,7 +249,14 @@ const state = reactive({
             { value: 'no risk', title: 'No risk' },
             { value: 'increased risk', title: 'Increased risk' },
             { value: 'acute increased risk', title: 'Acute increased risk' },
-        ] as any
+        ] as any,
+        score: [
+            { value: 1, label: 1 },
+            { value: 2, label: 2 },
+            { value: 3, label: 3 },
+            { value: 4, label: 4 },
+            { value: 5, label: 5 },
+        ]
     }
 })
 
@@ -215,10 +266,13 @@ onMounted(() => {
         uuid: props.selectedJournal.uuid,
         content: props.selectedJournal.content,
         date: props.selectedJournal.date,
+        copy_journal_note_to_plan_or_goal: props.selectedJournal.copy_journal_note_to_plan_or_goal,
+        copy_risk_assessment_to_plan_or_goal: props.selectedJournal.copy_risk_assessment_to_plan_or_goal,
         title: props.selectedJournal.title,
         is_draft: props.selectedJournal.is_draft,
         assessment: props.selectedJournal.assessment,
         note: props.selectedJournal.note === null ? '' : props.selectedJournal.note,
+        score: props.selectedJournal.score,
     }
 })
 
@@ -229,10 +283,13 @@ watch(() => props.selectedJournal, (newValue: any) => {
             uuid: newValue.uuid,
             content: newValue.content,
             date: newValue.date,
+            copy_journal_note_to_plan_or_goal: newValue.copy_journal_note_to_plan_or_goal,
+            copy_risk_assessment_to_plan_or_goal: newValue.copy_risk_assessment_to_plan_or_goal,
             title: newValue.title,
             is_draft: newValue.is_draft,
             assessment: newValue.assessment,
             note: newValue.note === null ? '' : newValue.note,
+            score: newValue.score,
         }
     }
 })

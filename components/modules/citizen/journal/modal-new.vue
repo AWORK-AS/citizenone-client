@@ -1,15 +1,19 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('citizens.citizenJournals.newJournal')" :show="props.isModalOpen"
-            @close="closeModal">
-            <template #modal-body>
+        <ModalSideBySide sizeLeft="lg" sizeRight="md" :titleLeft="$t('citizens.citizenJournals.newJournal')"
+            :titleRight="$t('plansandgoals.currentPlansAndGoals')" :show="props.isModalOpen"
+            :showRightModal="state.modal.showCurrentPlansAndGoals" @close="closeModal">
+            <template #modal-left>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesCitizenJournalForm formType="create" :selectedJournal="state.formJournal"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveJournal" />
                 </LoadingSpinner>
             </template>
-        </Modal>
+            <template #modal-right>
+                <p>Test</p>
+            </template>
+        </ModalSideBySide>
     </div>
 </template>
 
@@ -46,6 +50,9 @@ const state = reactive({
         assessment: null,
         note: '',
     },
+    modal: {
+        showCurrentPlansAndGoals: false,
+    }
 })
 
 function closeModal() {

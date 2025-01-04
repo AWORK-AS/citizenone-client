@@ -484,7 +484,10 @@
             },
             "form": {
                 "attachFile": "Vedhæft fil",
+                "chooseScoreFrom1to5": "Vælg en score fra 1 til 5",
                 "content": "Indhold",
+                "copyJournalNoteToPlanOrGoal": "Kopiér journalnote til plan eller mål",
+                "copyRiskAssessmentToPlanOrGoal": "Kopiér risikovurdering til plan eller mål",
                 "date": "Dato",
                 "draft": "Udkast",
                 "risk": {
@@ -1718,6 +1721,7 @@
         "completed": "Fuldført",
         "completionDate": "Afslutningsdato",
         "createStatusReport": "Opret statusrapport",
+        "currentPlansAndGoals": "Nuværende planer og mål",
         "dateCompleted": "Dato for fuldførelse",
         "dateCreated": "Oprettelsesdato",
         "download": "Download",

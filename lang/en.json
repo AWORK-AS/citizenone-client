@@ -484,7 +484,10 @@
             },
             "form": {
                 "attachFile": "Attach file",
+                "chooseScoreFrom1to5": "Choose score from 1 to 5",
                 "content": "Content",
+                "copyJournalNoteToPlanOrGoal": "Copy journal note to plan or goal",
+                "copyRiskAssessmentToPlanOrGoal": "Copy risk assessment to plan or goal",
                 "date": "Date",
                 "draft": "Draft",
                 "risk": {
@@ -1718,6 +1721,7 @@
         "completed": "Completed",
         "completionDate": "Completion date",
         "createStatusReport": "Create status report",
+        "currentPlansAndGoals": "Current plans and goals",
         "dateCompleted": "Date completed",
         "dateCreated": "Date created",
         "download": "Download",
