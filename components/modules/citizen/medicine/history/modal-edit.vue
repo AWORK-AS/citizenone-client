@@ -60,7 +60,7 @@ async function updateMedicineHistory(medicineHistoryDetails: any) {
         const medicineHistoryUuid = medicineHistoryDetails.uuid
         const params = {
             date: medicineHistoryDetails.date,
-            quantity: medicineHistoryDetails.quantity,
+            quantity: medicineHistoryDetails.quantity.replace(',', '.'),
             type: medicineHistoryDetails.type,
         }
         const response = await medicineHistoryService.updateMedicineHistory(medicineHistoryUuid, params)

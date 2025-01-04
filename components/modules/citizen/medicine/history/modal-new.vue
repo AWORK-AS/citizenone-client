@@ -62,7 +62,7 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
         const params = {
             medicine_uuid: selectedMedicineUuid,
             date: medicineHistoryDetails.date,
-            quantity: medicineHistoryDetails.quantity,
+            quantity: medicineHistoryDetails.quantity.replace(',', '.'),
             type: medicineHistoryDetails.type,
         }
         const response = await medicineHistoryService.saveMedicineHistory(params)

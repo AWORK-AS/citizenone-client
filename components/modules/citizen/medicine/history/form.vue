@@ -14,7 +14,7 @@
                 <FormLabel for="quantity" :label="$t('citizens.medicineJournals.history.form.dailyDose')" />
                 <FormTextField id="quantity" name="quantity"
                     :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')"
-                    v-model="state.formMedicineHistory.quantity" />
+                    v-model="state.formMedicineHistory.quantity" @input="handleQuantityInput" />
                 <FormError :error="v$?.formMedicineHistory?.quantity?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.quantity?.[0]" />
             </div>
@@ -79,6 +79,7 @@ import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { euDecimalValidation } from "@/composables/euDecimalValidation"
 
 const props = defineProps({
     error: {
@@ -101,6 +102,8 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading', 'error'])
 
 const { t } = useI18n()
+const language = useI18n()
+const { validateEuropeanDecimal } = euDecimalValidation()
 
 const state = reactive({
     formMedicineHistory: {
@@ -125,7 +128,7 @@ onMounted(() => {
     state.formMedicineHistory = {
         uuid: props.selectedMedicineHistory.uuid,
         date: props.selectedMedicineHistory.date,
-        quantity: props.selectedMedicineHistory.quantity?.toString(),
+        quantity: language.locale.value === 'dk' ? props.selectedMedicineHistory.quantity?.toString().replace('.', ',') : props.selectedMedicineHistory.quantity?.toString(),
         type: props.selectedMedicineHistory.type,
     }
 })
@@ -135,7 +138,7 @@ watch(() => props.selectedMedicineHistory, (newValue: any) => {
         state.formMedicineHistory = {
             uuid: newValue.uuid,
             date: newValue.date,
-            quantity: newValue.quantity?.toString(),
+            quantity: language.locale.value === 'dk' ? newValue.quantity?.toString().replace('.', ',') : newValue.quantity?.toString(),
             type: newValue.type,
         }
     }
@@ -172,5 +175,13 @@ function validateForm() {
 
 function submitForm() {
     emit('submitForm', state.formMedicineHistory)
+}
+
+function handleQuantityInput(event: Event) {
+    const target = event.target as HTMLInputElement
+    if (language.locale.value === 'dk') {
+        target.value = validateEuropeanDecimal(target.value)
+    }
+    state.formMedicineHistory.quantity = target.value
 }
 </script>

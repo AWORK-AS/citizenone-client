@@ -194,7 +194,7 @@ watch(() => props.selectedMedicine, (selectedMedicine: any) => {
             medicine: selectedMedicine.medicine,
             strength: selectedMedicine.strength,
             dosage_uuid: selectedMedicine.dosage?.uuid,
-            daily_dose: selectedMedicine.daily_dose,
+            daily_dose: language.locale.value === 'dk' ? selectedMedicine.daily_dose.replace('.', ',') : selectedMedicine.daily_dose,
             active_ingredients: selectedMedicine.active_ingredients,
             description: selectedMedicine.description,
             schedule_frequency: selectedMedicine.schedule_frequency,

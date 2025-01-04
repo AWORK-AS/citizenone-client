@@ -24,7 +24,11 @@
                                             <span>{{ formatDateToReadable(medicineHistory?.date) }}</span>
                                         </td>
                                         <td width="10%">
-                                            <span>{{ medicineHistory?.quantity }}</span>
+                                            <p>
+                                                {{ language.locale.value === 'dk' ?
+                                                    formatNumber(medicineHistory?.quantity) :
+                                                    medicineHistory?.quantity }}
+                                            </p>
                                         </td>
                                         <td width="10%">
                                             <span v-if="medicineHistory?.type === 'delivered'">
@@ -81,6 +85,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useNumberFormatter } from '@/composables/numberFormatter'
 import { medicineHistoryService } from '@/components/api/MedicineHistoryService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -100,6 +105,8 @@ const props = defineProps({
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { formatNumber } = useNumberFormatter()
+const language = useI18n()
 let currentTablePage = 1
 const emit = defineEmits(['close'])
 
