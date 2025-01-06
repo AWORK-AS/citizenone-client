@@ -63,15 +63,17 @@
                             <div v-if="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal">
                                 <ModulesDailyOverviewLatestJournal />
                             </div>
-                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
-                                <ModulesDailyOverviewCitizensMedicineOverview />
+                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
+                                <ModulesDailyOverviewJournalScoreStatistics />
                             </div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5"
-                        v-if="dailyOverviewStore.getDailyOverviewFilter.showBulletBoard">
-                        <ModulesDailyOverviewBulletBoard />
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                        <ModulesDailyOverviewCitizensMedicineOverview
+                            v-if="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
+                        <ModulesDailyOverviewBulletBoard
+                            v-if="dailyOverviewStore.getDailyOverviewFilter.showBulletBoard" />
                     </div>
                     <div>
                         <p class="text-xl font-bold text-primary">

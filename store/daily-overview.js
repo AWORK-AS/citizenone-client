@@ -14,6 +14,7 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
                 showDailyMedicineOverview: true,
                 showGender: true,
                 showLatestJournal: true,
+                showJournalScoreStatistics: true,
                 showMyDailyEvents: true,
                 showRiskAssessment: true,
             },
@@ -50,6 +51,9 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
             },
             setDailyOverviewFilterShowLatestJournal(flag) {
                 this.dailyOverviewFilter.showLatestJournal = flag
+            },
+            setDailyOverviewFilterShowJournalScoreStatistics(flag) {
+                this.dailyOverviewFilter.showJournalScoreStatistics = flag
             },
             setDailyOverviewFilterShowMyDailyEvents(flag) {
                 this.dailyOverviewFilter.showMyDailyEvents = flag

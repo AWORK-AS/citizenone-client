@@ -881,6 +881,7 @@
             "nonbinary": "Nonbinary",
             "willNotDisclose": "Will note disclose"
         },
+        "journalStatistics": "Journal statistics",
         "latestJournal": {
             "latestJournal": "Latest journal notes",
             "score": "Score"
