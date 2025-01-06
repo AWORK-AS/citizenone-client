@@ -3,7 +3,7 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('dailyOverview.latestJournal') }}
+            {{ $t('dailyOverview.latestJournal.latestJournal') }}
         </h3>
 
         <div class="bg-white shadow-md rounded-md border-l-8 border-secondary flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
@@ -33,6 +33,10 @@
                         <span>{{ formatDateToReadable(citizen?.citizen_journal?.date) }}</span>
                     </p>
                 </div>
+                <p class="text-xs ml-1">
+                    {{ $t('dailyOverview.latestJournal.score') }}:
+                    {{ citizen?.citizen_journal?.score }}
+                </p>
             </div>
         </div>
     </LoadingSpinner>

@@ -881,7 +881,10 @@
             "nonbinary": "Ikke-binær",
             "willNotDisclose": "Vil ikke oplyse"
         },
-        "latestJournal": "Seneste journalnotater",
+        "latestJournal": {
+            "latestJournal": "Seneste journalnotater",
+            "score": "Score"
+        },
         "myDailyEvents": "Mine daglige begivenheder",
         "news": "Nyheder",
         "noDataToDisplay": "Ingen data at vise",

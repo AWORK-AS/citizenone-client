@@ -881,7 +881,10 @@
             "nonbinary": "Nonbinary",
             "willNotDisclose": "Will note disclose"
         },
-        "latestJournal": "Latest journal notes",
+        "latestJournal": {
+            "latestJournal": "Latest journal notes",
+            "score": "Score"
+        },
         "myDailyEvents": "My daily events",
         "news": "News",
         "noBulletBoardToShow": "No bullet board to show",
