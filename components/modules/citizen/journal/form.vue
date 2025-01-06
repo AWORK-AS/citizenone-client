@@ -266,7 +266,7 @@ onMounted(() => {
     state.formJournal = {
         id: props.selectedJournal.id,
         uuid: props.selectedJournal.uuid,
-        content: props.selectedJournal.content,
+        content: props.selectedJournal.content ?? '',
         date: props.selectedJournal.date,
         copy_journal_note_to_plan_or_goal: props.selectedJournal.copy_journal_note_to_plan_or_goal,
         copy_risk_assessment_to_plan_or_goal: props.selectedJournal.copy_risk_assessment_to_plan_or_goal,
@@ -283,7 +283,7 @@ watch(() => props.selectedJournal, (newValue: any) => {
         state.formJournal = {
             id: newValue.id,
             uuid: newValue.uuid,
-            content: newValue.content,
+            content: newValue.content ?? '',
             date: newValue.date,
             copy_journal_note_to_plan_or_goal: newValue.copy_journal_note_to_plan_or_goal,
             copy_risk_assessment_to_plan_or_goal: newValue.copy_risk_assessment_to_plan_or_goal,
