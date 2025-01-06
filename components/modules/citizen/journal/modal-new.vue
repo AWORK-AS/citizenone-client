@@ -51,7 +51,7 @@ const state = reactive({
         is_draft: false,
         assessment: null,
         note: '',
-        score: ''
+        score: 1
     },
     modal: {
         showCurrentPlansAndGoals: false,

@@ -57,7 +57,7 @@
                                             </h3>
                                         </div>
                                         <div class="text-sm">
-                                            {{ plan?.description }}
+                                            <div v-html="plan?.description" class="content" />
                                         </div>
                                         <p class="text-sm">
                                             {{ $t('plansandgoals.dateCreated') }}: {{
