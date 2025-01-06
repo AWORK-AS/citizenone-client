@@ -60,6 +60,7 @@ async function updateJournal(journalDetails: any) {
             is_draft: journalDetails.is_draft,
             assessment: journalDetails.assessment,
             note: journalDetails.note,
+            score: journalDetails.score,
         }
         const response = await journalService.updateJournal(journalUuid, params)
         if (response?.data) {
