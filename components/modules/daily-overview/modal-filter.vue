@@ -51,6 +51,11 @@
                         {{ $t('dailyOverview.filter.items.latestJournal') }}
                     </div>
                     <div class="w-fit flex items-center cursor-pointer text-sm"
+                        @click="dailyOverviewStore.setDailyOverviewFilterShowJournalScoreStatistics(!dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics)">
+                        <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics" />
+                        {{ $t('dailyOverview.filter.items.journalStatistics') }}
+                    </div>
+                    <div class="w-fit flex items-center cursor-pointer text-sm"
                         @click="dailyOverviewStore.setDailyOverviewFilterShowDailyMedicineOverview(!dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview)">
                         <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
                         {{ $t('dailyOverview.filter.items.dailyMedicineOverview') }}
