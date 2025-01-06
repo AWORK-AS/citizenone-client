@@ -107,7 +107,8 @@
             <div class="flex md:items-center flex-col md:flex-row justify-between gap-3">
                 <div class="space-y-1">
                     <div class="w-fit flex items-center cursor-pointer"
-                        @click="state.formJournal.copy_risk_assessment_to_plan_or_goal = !state.formJournal.copy_risk_assessment_to_plan_or_goal">
+                        @click="state.formJournal.copy_risk_assessment_to_plan_or_goal = !state.formJournal.copy_risk_assessment_to_plan_or_goal"
+                        v-if="props.formType === 'create'">
                         <FormCheckbox :value="state.formJournal.copy_risk_assessment_to_plan_or_goal" />
                         {{ $t('citizens.citizenJournals.form.copyRiskAssessmentToPlanOrGoal') }}
                     </div>
