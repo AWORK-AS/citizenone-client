@@ -36,7 +36,7 @@
                 <FormError :error="v$?.formMedicine?.dosage_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
             </div>
-            <div class="grid grid-cols-2 gap-x-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
                     <FormLabel for="strength" :label="$t('citizens.medicineJournals.form.strength')" />
                     <FormTextField id="strength" name="strength"
@@ -54,12 +54,23 @@
                     <FormError :error="props?.error?.errors?.daily_dose?.[0]" />
                 </div>
             </div>
-            <div class="space-y-1">
-                <FormLabel for="schedule_frequency" :label="$t('citizens.medicineJournals.form.scheduleFrequency')" />
-                <FormSelect id="schedule_frequency" name="schedule_frequency"
-                    :options="state.options.schedule_frequencies" v-model="state.formMedicine.schedule_frequency" />
-                <FormError :error="v$?.formMedicine?.schedule_frequency?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.schedule_frequency?.[0]" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <FormLabel for="schedule_frequency"
+                        :label="$t('citizens.medicineJournals.form.scheduleFrequency')" />
+                    <FormSelect id="schedule_frequency" name="schedule_frequency"
+                        :options="state.options.schedule_frequencies" v-model="state.formMedicine.schedule_frequency" />
+                    <FormError :error="v$?.formMedicine?.schedule_frequency?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.schedule_frequency?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="current_stock" :label="$t('citizens.medicineJournals.form.currentStock')" />
+                    <FormTextField id="current_stock" name="current_stock"
+                        :placeholder="$t('citizens.medicineJournals.form.currentStock')"
+                        v-model="state.formMedicine.current_stock" />
+                    <FormError :error="v$?.formMedicine?.current_stock?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.current_stock?.[0]" />
+                </div>
             </div>
             <div class="space-y-1">
                 <FormLabel for="time" :label="$t('citizens.medicineJournals.form.time')" />
@@ -82,6 +93,13 @@
                     v-model="state.formMedicine.description" />
                 <FormError :error="v$?.formMedicine?.description?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.description?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <div class="w-fit flex cursor-pointer"
+                    @click="state.formMedicine.is_pn_medicine = !state.formMedicine.is_pn_medicine">
+                    <FormCheckbox :value="state.formMedicine.is_pn_medicine" />
+                    <p>{{ $t('citizens.medicineJournals.form.pnMedicine') }}</p>
+                </div>
             </div>
         </div>
         <div class="mt-6">
@@ -137,7 +155,9 @@ const state = reactive({
         active_ingredients: '',
         description: '',
         schedule_frequency: [],
+        current_stock: '',
         time: [] as any,
+        is_pn_medicine: false,
     },
     options: {
         dosage_form: [],
@@ -170,7 +190,9 @@ onMounted(() => {
         active_ingredients: props.selectedMedicine.active_ingredients,
         description: props.selectedMedicine.description,
         schedule_frequency: props.selectedMedicine.schedule_frequency,
+        current_stock: props.selectedMedicine.current_stock,
         time: [],
+        is_pn_medicine: props.selectedMedicine.is_pn_medicine,
     }
 
     if (props.selectedMedicine.time?.length > 0) {
@@ -198,7 +220,9 @@ watch(() => props.selectedMedicine, (selectedMedicine: any) => {
             active_ingredients: selectedMedicine.active_ingredients,
             description: selectedMedicine.description,
             schedule_frequency: selectedMedicine.schedule_frequency,
+            current_stock: selectedMedicine.current_stock,
             time: [],
+            is_pn_medicine: selectedMedicine.is_pn_medicine,
         }
 
         if (props.selectedMedicine.time?.length > 0) {
@@ -238,6 +262,9 @@ const rules = computed(() => {
                 schedule_frequency: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
+                current_stock: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
                 time: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
@@ -265,6 +292,9 @@ const rules = computed(() => {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 schedule_frequency: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                current_stock: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 time: {

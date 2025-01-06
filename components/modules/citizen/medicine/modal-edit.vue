@@ -64,7 +64,9 @@ async function updateMedicine(medicineDetails: any) {
         params.append('active_ingredients', medicineDetails.active_ingredients)
         params.append('description', medicineDetails.description)
         params.append('schedule_frequency', medicineDetails.schedule_frequency)
+        params.append('current_stock', medicineDetails.current_stock)
         params.append('time', JSON.stringify(medicineDetails.time))
+        params.append('is_pn_medicine', medicineDetails.is_pn_medicine)
         const response = await medicineJournalService.updateMedicine(medicineUuid, params)
         if (response?.data) {
             refreshMedicines()

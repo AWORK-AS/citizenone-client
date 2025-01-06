@@ -581,11 +581,13 @@
                     "successfullyAdded": "Medicine successfully added",
                     "successfullyUpdated": "Medicine successfully update"
                 },
+                "currentStock": "Current stock",
                 "dailyDose": "Daily dose",
                 "description": "Description",
                 "dosageForm": "Dosage form",
                 "image": "Image",
                 "medicine": "Medicine",
+                "pnMedicine": "PN-medicine",
                 "scheduleFrequency": "Schedule frequency",
                 "strength": "Strength",
                 "time": "Time"
@@ -622,6 +624,7 @@
                     },
                     "date": "Date",
                     "dailyDose": "Daily dose",
+                    "dateCreated": "Date created",
                     "type": {
                         "type": "Type",
                         "delivered": "Delivered",

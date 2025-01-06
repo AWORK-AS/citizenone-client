@@ -581,11 +581,13 @@
                     "successfullyAdded": "Medicin tilføjet med succes",
                     "successfullyUpdated": "Medicin opdateret med succes"
                 },
+                "currentStock": "Nuværende lager",
                 "dailyDose": "Daglig dosis",
                 "description": "Beskrivelse",
                 "dosageForm": "Doseringsform",
                 "image": "Billede",
                 "medicine": "Medicin",
+                "pnMedicine": "PN-medicine",
                 "scheduleFrequency": "Planlægningsfrekvens",
                 "strength": "Styrke",
                 "time": "Tid"
@@ -622,6 +624,7 @@
                     },
                     "date": "Dato",
                     "dailyDose": "Daglig dosis",
+                    "dateCreated": "Oprettelsesdato",
                     "type": {
                         "type": "Type",
                         "delivered": "Udleveret",

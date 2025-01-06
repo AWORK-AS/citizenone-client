@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="3xl" :title="$t('citizens.medicineJournals.history.medicineHistory')" :show="props.isModalOpen"
+        <Modal size="4xl" :title="$t('citizens.medicineJournals.history.medicineHistory')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div>
@@ -20,7 +20,7 @@
                                 <template #body
                                     v-if="!(state.isTableLoading || (state.medicineHistories?.data?.length === 0))">
                                     <tr v-for="(medicineHistory, index) in state.medicineHistories?.data" :key="index">
-                                        <td width="30%">
+                                        <td width="25%">
                                             <span>{{ formatDateToReadable(medicineHistory?.date) }}</span>
                                         </td>
                                         <td width="10%">
@@ -41,13 +41,16 @@
                                                 {{ $t('citizens.medicineJournals.history.table.type.given') }}
                                             </span>
                                         </td>
-                                        <td width="20%">
+                                        <td width="15%">
                                             <span>
                                                 {{ medicineHistory?.user?.firstname }}
                                                 {{ medicineHistory?.user?.lastname }}
                                             </span>
                                         </td>
-                                        <td width="30%">
+                                        <td width="20%">
+                                            <span>{{ formatDateToReadable(medicineHistory?.created_at) }}</span>
+                                        </td>
+                                        <td width="20%">
                                             <div class="flex items-end gap-2">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="editMedicineHistory(medicineHistory)">
@@ -116,6 +119,7 @@ const state = reactive({
         { name: 'citizens.medicineJournals.history.table.dailyDose', sorter: true, key: 'quantity' },
         { name: 'citizens.medicineJournals.history.table.type.type', sorter: true, key: 'type' },
         { name: 'citizens.medicineJournals.history.table.user' },
+        { name: 'citizens.medicineJournals.history.table.dateCreated' },
         { name: '' },
     ],
     error: {} as Error,
