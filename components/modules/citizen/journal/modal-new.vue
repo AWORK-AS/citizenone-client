@@ -45,10 +45,13 @@ const state = reactive({
         uuid: '',
         content: '',
         date: '',
+        copy_journal_note_to_plan_or_goal: false,
+        copy_risk_assessment_to_plan_or_goal: false,
         title: '',
         is_draft: false,
         assessment: null,
         note: '',
+        score: ''
     },
     modal: {
         showCurrentPlansAndGoals: false,
@@ -71,10 +74,13 @@ async function saveJournal(journalDetails: any) {
             citizen_uuid: citizenUuid,
             title: journalDetails.title,
             date: journalDetails.date,
+            copy_journal_note_to_plan_or_goal: journalDetails.copy_journal_note_to_plan_or_goal,
+            copy_risk_assessment_to_plan_or_goal: journalDetails.copy_risk_assessment_to_plan_or_goal,
             content: journalDetails.content,
             is_draft: journalDetails.is_draft,
             assessment: journalDetails.assessment,
             note: journalDetails.note,
+            score: journalDetails.score,
         }
         const response = await journalService.saveJournal(params)
         if (response?.data) {

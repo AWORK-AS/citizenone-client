@@ -119,7 +119,8 @@
                         </p>
                         <div class="relative w-12">
                             <select
-                                class="block w-full appearance-none rounded-md border border-primary bg-white pl-3 py-2 text-xs focus:border-primary focus:outline-none focus:ring-primary">
+                                class="block w-full appearance-none rounded-md border border-primary bg-white pl-3 py-2 text-xs focus:border-primary focus:outline-none focus:ring-primary"
+                                v-model="state.formJournal.score">
                                 <option :value="1">1</option>
                                 <option :value="2">2</option>
                                 <option :value="3">3</option>
