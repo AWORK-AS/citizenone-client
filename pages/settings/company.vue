@@ -162,9 +162,6 @@ const rules = computed(() => {
             cvr: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            accountant_email: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
             street: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
