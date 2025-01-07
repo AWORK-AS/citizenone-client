@@ -24,7 +24,11 @@
                         <div>
                             <p>{{ $t('citizens.contacts.form.canReceiveEmails') }}</p>
                             <ul class="list-disc pl-4">
-                                <li>{{ $t('citizens.contacts.form.nursingAreas') }}</li>
+                                <li>{{ $t('citizens.contacts.form.notifications.nursingAreas') }}</li>
+                                <li>{{ $t('citizens.contacts.form.notifications.incidentReports') }}</li>
+                                <li>{{ $t('citizens.contacts.form.notifications.reportOfForce') }}</li>
+                                <li>{{ $t('citizens.contacts.form.notifications.notificationForMediciationErrors') }}
+                                </li>
                             </ul>
                         </div>
                     </div>

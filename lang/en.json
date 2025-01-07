@@ -396,7 +396,12 @@
                 "firstname": "First name",
                 "lastname": "Last name",
                 "municipality": "Municipality",
-                "nursingAreas": "Nursing areas",
+                "notifications": {
+                    "incidentReports": "Incident reports",
+                    "notificationForMediciationErrors": "Notifications for medication errors (e.g., overdoses)",
+                    "nursingAreas": "Nursing areas",
+                    "reportOfForce": "Reports of force"
+                },
                 "phone": "Phone number",
                 "postCode": "Post Code",
                 "region": "Region",

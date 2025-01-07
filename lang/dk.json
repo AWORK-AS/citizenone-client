@@ -396,7 +396,12 @@
                 "firstname": "Fornavn",
                 "lastname": "Efternavn",
                 "municipality": "Kommune",
-                "nursingAreas": "Sundhed",
+                "notifications": {
+                    "incidentReports": "Hændelsesrapporter",
+                    "notificationForMediciationErrors": "Notifikationer om medicineringsfejl (f.eks. overdoseringer)",
+                    "nursingAreas": "Sundhed",
+                    "reportOfForce": "Rapporter om magtanvendelse"
+                },
                 "phone": "Telefonnummer",
                 "postCode": "Postnummer",
                 "region": "Region",
