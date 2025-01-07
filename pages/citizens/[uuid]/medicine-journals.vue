@@ -46,13 +46,27 @@
                                             v-if="medicine?.image_url">
                                     </td>
                                     <td width="13%">
-                                        <p>{{ medicine?.medicine }}</p>
+                                        <div class="space-y-1">
+                                            <p>{{ medicine?.medicine }}</p>
+                                            <div v-if="medicine.is_pn_medicine">
+                                                <Badge type="primary" class="w-fit">
+                                                    <p class="text-xxs">
+                                                        {{
+                                                            $t('citizens.medicineJournals.table.pnMedicine')
+                                                        }}
+                                                    </p>
+                                                </Badge>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td width="10%">
+                                    <td width="7%">
                                         <span>{{ medicine?.strength }}</span>
                                     </td>
-                                    <td width="10%">
+                                    <td width="7%">
                                         <span>{{ medicine?.dosage?.name }}</span>
+                                    </td>
+                                    <td width="7%">
+                                        <span>{{ medicine?.current_stocks }}</span>
                                     </td>
                                     <td width="15%">
                                         <div class="space-y-1">
@@ -172,6 +186,7 @@ const state = reactive({
         { name: 'citizens.medicineJournals.table.medicine', sorter: true, key: 'medicine' },
         { name: 'citizens.medicineJournals.table.strength' },
         { name: 'citizens.medicineJournals.table.dosageForm' },
+        { name: 'citizens.medicineJournals.table.currentStocks' },
         { name: 'citizens.medicineJournals.table.dailyDose', sorter: true, key: 'daily_dose' },
         { name: '' },
     ],

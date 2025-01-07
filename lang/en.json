@@ -657,11 +657,13 @@
                     "view": "View"
                 },
                 "activeIngredients": "Active ingredients",
+                "currentStocks": "Current stocks",
                 "dailyDose": "Daily dose",
                 "description": "Description",
                 "dosageForm": "Dosage form",
                 "image": "Image",
                 "medicine": "Medicine",
+                "pnMedicine": "PN-medicine",
                 "quantity": "Quantity",
                 "strength": "Strength"
             }
