@@ -11,6 +11,13 @@
                     <FormError :error="props?.error?.errors?.title?.[0]" />
                 </div>
                 <div class="space-y-1" v-if="state.formContact.title === 'our_contact_person'">
+                    <FormLabel for="employees" :label="$t('citizens.contacts.form.employees')" />
+                    <FormSelectMultiple id="employees" :options="state.options.employees"
+                        v-model="state.formContact.employees" />
+                    <FormError :error="v$?.formContact?.employees?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.employees_uuid?.[0]" />
+                </div>
+                <div class="space-y-1" v-if="state.formContact.title === 'our_contact_person'">
                     <div class="w-fit flex cursor-pointer"
                         @click="state.formContact.is_mailable = !state.formContact.is_mailable">
                         <FormCheckbox :value="state.formContact.is_mailable" />
@@ -113,6 +120,7 @@
 import { regionService } from '@/components/api/RegionService'
 import { municipalityService } from '@/components/api/MunicipalityService'
 import { cityService } from '@/components/api/CityService'
+import { userService } from '@/components/api/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -142,6 +150,7 @@ const state = reactive({
         id: '',
         uuid: '',
         title: '',
+        employees: [],
         is_mailable: false,
         firstname: '',
         lastname: '',
@@ -156,6 +165,7 @@ const state = reactive({
     isPageLoading: false,
     options: {
         cities: [],
+        employees: [],
         municipalities: [],
         regions: [],
         titles: [
@@ -177,6 +187,7 @@ onMounted(() => {
         id: props.selectedContact?.id,
         uuid: props.selectedContact?.uuid,
         title: props.selectedContact?.title,
+        employees: props.selectedContact?.employees,
         is_mailable: props.selectedContact?.is_mailable,
         firstname: props.selectedContact?.firstname,
         lastname: props.selectedContact?.lastname,
@@ -198,6 +209,7 @@ watch(() => props.selectedContact, (newValue: any) => {
             id: props.selectedContact?.id,
             uuid: props.selectedContact?.uuid,
             title: props.selectedContact?.title,
+            employees: props.selectedContact?.employees,
             is_mailable: props.selectedContact?.is_mailable,
             firstname: props.selectedContact?.firstname,
             lastname: props.selectedContact?.lastname,
@@ -209,6 +221,12 @@ watch(() => props.selectedContact, (newValue: any) => {
             city: props.selectedContact?.city?.uuid,
             post_code: props.selectedContact?.post_code,
         }
+    }
+})
+
+watch(() => state.formContact.title, (newValue: any) => {
+    if (newValue === 'our_contact_person') {
+        fetchAllUsers()
     }
 })
 
@@ -248,6 +266,27 @@ const rules = computed(() => {
         },
     }
 })
+
+async function fetchAllUsers() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await userService.getAllUsers()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (user: any) => options.push({
+                    value: user?.uuid,
+                    label: user?.firstname + " " + user?.lastname,
+                })
+            )
+            state.options.employees = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 
 const v$ = useVuelidate(rules, state)
 

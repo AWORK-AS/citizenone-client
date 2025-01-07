@@ -55,6 +55,7 @@ async function updateContact(contactDetails: any) {
         const params = {
             title: contactDetails.title,
             is_mailable: contactDetails.is_mailable,
+            employees_uuid: contactDetails.employees,
             firstname: contactDetails.firstname,
             lastname: contactDetails.lastname,
             email: contactDetails.email,
