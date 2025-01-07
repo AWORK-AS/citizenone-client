@@ -22,10 +22,10 @@
                                     <span>{{ formatDateTimeToReadable(log?.created_at) }}</span>
                                 </td>
                                 <td width="25%">
-                                    <span>{{ formatTimeToReadable(log?.time_in) }}</span>
+                                    <span>{{ log?.time_in }}</span>
                                 </td>
                                 <td width="25%">
-                                    <span>{{ log?.time_out && formatTimeToReadable(log?.time_out) }}</span>
+                                    <span>{{ log?.time_out }}</span>
                                 </td>
                                 <td width="25%">
                                     <span>{{ log?.time_summary }}</span>
