@@ -581,7 +581,7 @@
                     "successfullyAdded": "Medicine successfully added",
                     "successfullyUpdated": "Medicine successfully update"
                 },
-                "currentStock": "Current stock",
+                "currentStocks": "Current stocks",
                 "dailyDose": "Daily dose",
                 "description": "Description",
                 "dosageForm": "Dosage form",

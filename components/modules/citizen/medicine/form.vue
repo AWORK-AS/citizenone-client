@@ -64,12 +64,12 @@
                     <FormError :error="props?.error?.errors?.schedule_frequency?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="current_stock" :label="$t('citizens.medicineJournals.form.currentStock')" />
-                    <FormTextField id="current_stock" name="current_stock"
-                        :placeholder="$t('citizens.medicineJournals.form.currentStock')"
-                        v-model="state.formMedicine.current_stock" />
-                    <FormError :error="v$?.formMedicine?.current_stock?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.current_stock?.[0]" />
+                    <FormLabel for="current_stocks" :label="$t('citizens.medicineJournals.form.currentStocks')" />
+                    <FormTextField id="current_stocks" name="current_stocks"
+                        :placeholder="$t('citizens.medicineJournals.form.currentStocks')"
+                        v-model="state.formMedicine.current_stocks" />
+                    <FormError :error="v$?.formMedicine?.current_stocks?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.current_stocks?.[0]" />
                 </div>
             </div>
             <div class="space-y-1">
@@ -155,7 +155,7 @@ const state = reactive({
         active_ingredients: '',
         description: '',
         schedule_frequency: [],
-        current_stock: '',
+        current_stocks: '',
         time: [] as any,
         is_pn_medicine: false,
     },
@@ -190,9 +190,9 @@ onMounted(() => {
         active_ingredients: props.selectedMedicine.active_ingredients,
         description: props.selectedMedicine.description,
         schedule_frequency: props.selectedMedicine.schedule_frequency,
-        current_stock: props.selectedMedicine.current_stock,
+        current_stocks: props.selectedMedicine.current_stocks.toString(),
         time: [],
-        is_pn_medicine: props.selectedMedicine.is_pn_medicine,
+        is_pn_medicine: props.selectedMedicine.is_pn_medicine ? true : false,
     }
 
     if (props.selectedMedicine.time?.length > 0) {
@@ -220,9 +220,9 @@ watch(() => props.selectedMedicine, (selectedMedicine: any) => {
             active_ingredients: selectedMedicine.active_ingredients,
             description: selectedMedicine.description,
             schedule_frequency: selectedMedicine.schedule_frequency,
-            current_stock: selectedMedicine.current_stock,
+            current_stocks: selectedMedicine.current_stocks?.toString(),
             time: [],
-            is_pn_medicine: selectedMedicine.is_pn_medicine,
+            is_pn_medicine: selectedMedicine.is_pn_medicine ? true : false,
         }
 
         if (props.selectedMedicine.time?.length > 0) {
@@ -262,7 +262,7 @@ const rules = computed(() => {
                 schedule_frequency: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
-                current_stock: {
+                current_stocks: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 time: {
@@ -294,7 +294,7 @@ const rules = computed(() => {
                 schedule_frequency: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
-                current_stock: {
+                current_stocks: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 time: {

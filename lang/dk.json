@@ -581,7 +581,7 @@
                     "successfullyAdded": "Medicin tilføjet med succes",
                     "successfullyUpdated": "Medicin opdateret med succes"
                 },
-                "currentStock": "Nuværende lager",
+                "currentStocks": "Nuværende lagre",
                 "dailyDose": "Daglig dosis",
                 "description": "Beskrivelse",
                 "dosageForm": "Doseringsform",
