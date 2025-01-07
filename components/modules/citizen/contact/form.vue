@@ -29,7 +29,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                    v-if="state.formContact.title !== 'our_contact_person'">
                     <div class="space-y-1">
                         <FormLabel for="firstname" :label="$t('citizens.contacts.form.firstname')" />
                         <FormTextField id="firstname" name="firstname"
@@ -46,7 +47,8 @@
                         <FormError :error="props?.error?.errors?.lastname?.[0]" />
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                    v-if="state.formContact.title !== 'our_contact_person'">
                     <div class="space-y-1">
                         <FormLabel for="email" :label="$t('citizens.contacts.form.email')" />
                         <FormTextField id="email" name="email" :placeholder="$t('citizens.contacts.form.email')"
@@ -62,14 +64,15 @@
                         <FormError :error="props?.error?.errors?.phone?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="state.formContact.title !== 'our_contact_person'">
                     <FormLabel for="street" :label="$t('citizens.contacts.form.street')" />
                     <FormTextField id="street" name="street" :placeholder="$t('citizens.contacts.form.street')"
                         v-model="state.formContact.street" />
                     <FormError :error="v$?.formContact?.street?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.street?.[0]" />
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                    v-if="state.formContact.title !== 'our_contact_person'">
                     <div class="space-y-1">
                         <FormLabel for="region" :label="$t('citizens.contacts.form.region')" />
                         <FormSelect id="region" :options="state.options.regions" v-model="state.formContact.region"
@@ -85,7 +88,8 @@
                         <FormError :error="props?.error?.errors?.municipality_uuid?.[0]" />
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                    v-if="state.formContact.title !== 'our_contact_person'">
                     <div class="space-y-1">
                         <FormLabel for="city" :label="$t('citizens.contacts.form.city')" />
                         <FormSelect id="city" :options="state.options.cities" v-model="state.formContact.city" />
@@ -225,45 +229,41 @@ watch(() => props.selectedContact, (newValue: any) => {
 })
 
 watch(() => state.formContact.title, (newValue: any) => {
+    state.error = {}
     if (newValue === 'our_contact_person') {
         fetchAllUsers()
     }
 })
 
 const rules = computed(() => {
-    return {
-        formContact: {
-            title: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (state.formContact.title !== 'our_contact_person') {
+        return {
+            formContact: {
+                title: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                firstname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                lastname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                email: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                phone: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            firstname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            lastname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            email: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            phone: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            // street: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // region: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // municipality: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // city: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // post_code: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-        },
+        }
+    } else {
+        return {
+            formContact: {
+                employees: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            }
+        }
     }
 })
 
