@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <FormError :error="v$?.formMedicine?.image?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.image?.[0]" class="text-center" />
+                <FormError :error="props?.error?.errors?.image?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="medicine" :label="$t('citizens.medicineJournals.form.medicine')" />
@@ -238,9 +238,6 @@ const rules = computed(() => {
     if (props.formType === 'create') {
         return {
             formMedicine: {
-                image: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
                 medicine: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
