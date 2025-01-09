@@ -213,6 +213,12 @@ onMounted(() => {
     fetchCitizenMedicines()
 })
 
+watch(() => state.modal.isViewMedicineOpen, (isViewMedicineOpen: any) => {
+    if (!isViewMedicineOpen) {
+        fetchCitizenMedicines()
+    }
+})
+
 async function fetchCitizenMedicines() {
     state.error = {}
     state.isTableLoading = true
