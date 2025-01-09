@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('citizens.contacts.newContact')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="lg" :title="$t('citizens.contacts.newContact')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesCitizenContactForm formType="create" :selectedContact="state.formContact"
@@ -49,6 +49,7 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
+        risk_level: '',
     },
 })
 
@@ -78,6 +79,7 @@ async function saveContact(contactDetails: any) {
             municipality_uuid: contactDetails.municipality,
             city_uuid: contactDetails.city,
             post_code: contactDetails.post_code,
+            risk_level: contactDetails.risk_level,
         }
         const response = await citizenContactService.saveContact(params)
         if (response?.data) {

@@ -397,7 +397,14 @@
                 "lastname": "Last name",
                 "municipality": "Municipality",
                 "notifications": {
+                    "category": {
+                        "harmless": "Harmless",
+                        "highRisk": "High Risk",
+                        "lowRisk": "Low Risk",
+                        "moderateRisk": "Moderate Risk"
+                    },
                     "incidentReports": "Incident reports",
+                    "notificationCategory": "Notification category",
                     "notificationForMediciationErrors": "Notifications for medication errors (e.g., overdoses)",
                     "nursingAreas": "Nursing areas",
                     "reportOfForce": "Reports of force"

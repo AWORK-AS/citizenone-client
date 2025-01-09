@@ -397,6 +397,13 @@
                 "lastname": "Efternavn",
                 "municipality": "Kommune",
                 "notifications": {
+                    "category": {
+                        "harmless": "Ufarlig",
+                        "highRisk": "Høj risiko",
+                        "lowRisk": "Lav risiko",
+                        "moderateRisk": "Moderat risiko"
+                    },
+                    "notificationCategory": "Notifikationskategori",
                     "incidentReports": "Hændelsesrapporter",
                     "notificationForMediciationErrors": "Notifikationer om medicineringsfejl (f.eks. overdoseringer)",
                     "nursingAreas": "Sundhed",

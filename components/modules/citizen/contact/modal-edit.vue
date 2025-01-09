@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('citizens.contacts.editContact')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="lg" :title="$t('citizens.contacts.editContact')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesCitizenContactForm formType="update" :selectedContact="props.selectedContact"
@@ -65,6 +65,7 @@ async function updateContact(contactDetails: any) {
             municipality_uuid: contactDetails.municipality,
             city_uuid: contactDetails.city,
             post_code: contactDetails.post_code,
+            risk_level: contactDetails.risk_level,
         }
         const response = await citizenContactService.updateContact(contactUuid, params)
         if (response?.data) {
