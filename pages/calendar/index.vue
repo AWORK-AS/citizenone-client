@@ -87,6 +87,7 @@ import { saveAs } from 'file-saver'
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const departmentStore = useDepartmentStore()
+const language = useI18n()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const employeeUuid = router?.currentRoute?.value?.query?.employee_uuid
@@ -130,6 +131,11 @@ onMounted(() => {
     fetchAllCitizens()
     fetchAllUsers()
     fetchMyCalendarEvents()
+})
+
+watch(() => language.locale.value, () => {
+    fetchAllCitizens()
+    fetchAllUsers()
 })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
