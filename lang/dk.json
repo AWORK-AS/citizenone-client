@@ -455,6 +455,9 @@
                 "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
                 "upgradeStorageConfirmation": "Vil du opgradere dit lager"
             },
+            "folderStructure": {
+                "folderStructure": "Mappe struktur"
+            },
             "form": {
                 "editFile": "Rediger fil",
                 "editFolder": "Rediger mappe",

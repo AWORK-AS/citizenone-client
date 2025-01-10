@@ -455,6 +455,9 @@
                 "deleteFolderConfirmation": "Are you sure you want to delete this folder",
                 "upgradeStorageConfirmation": "Do you want to upgrade your storage"
             },
+            "folderStructure": {
+                "folderStructure": "Folder structure"
+            },
             "form": {
                 "editFile": "Edit file",
                 "editFolder": "Edit folder",
