@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ModalSideBySide sizeLeft="lg" sizeRight="md" :titleLeft="$t('citizens.citizenJournals.newJournal')"
+        <ModalSideBySide sizeLeft="lg" sizeRight="xxs" :titleLeft="$t('citizens.citizenJournals.newJournal')"
             :titleRight="$t('plansandgoals.currentPlansAndGoals')" :show="props.isModalOpen"
             :showRightModal="state.modal.showCurrentPlansAndGoals" @close="closeModal">
             <template #modal-left>
@@ -12,7 +12,7 @@
             </template>
             <template #modal-right>
                 <div class="space-y-5">
-                    <div class="overflow-auto space-y-5" style="max-height: 56vh;">
+                    <div class="overflow-auto space-y-5" :style="computedRightModalMaxHeight">
                         <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
                             v-for="(plan, index) in state.plans?.data" :key="index">
                             <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-10">
@@ -141,6 +141,11 @@ function closeModal() {
 function refreshJournal() {
     emit('refreshJournal')
 }
+
+const computedRightModalMaxHeight = computed(() => {
+    const total = state.plans?.meta?.total || 0;
+    return `height: ${total > 10 ? '540px' : '565px'};`;
+})
 
 async function fetchPlans() {
     state.error = {}

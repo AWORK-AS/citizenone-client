@@ -13,7 +13,7 @@
                         leave-from="opacity-100 translate-y-0 scale-100" leave-to="opacity-0 translate-y-0 scale-95"
                         :class="!props.showLeftModal && 'hidden'">
                         <div class="bg-white relative overflow-clip text-left shadow-xl transform transition-all px-8 pt-6 pb-0 w-full rounded-md"
-                            :class="[props.sizeLeft === 'xs' && 'max-w-lg', props.sizeLeft === 'sm' && 'max-w-xl', props.sizeLeft === 'md' && 'max-w-2xl', props.sizeLeft === 'lg' && 'max-w-3xl', props.sizeLeft === 'xl' && 'max-w-4xl', props.sizeLeft === '2xl' && 'max-w-5xl', props.sizeLeft === '3xl' && 'max-w-6xl', props.sizeLeft === '4xl' && 'max-w-7xl', props.sizeLeft === 'full' && 'max-w-full']">
+                            :class="[props.sizeLeft === 'xxs' && 'max-w-md', props.sizeLeft === 'xs' && 'max-w-lg', props.sizeLeft === 'sm' && 'max-w-xl', props.sizeLeft === 'md' && 'max-w-2xl', props.sizeLeft === 'lg' && 'max-w-3xl', props.sizeLeft === 'xl' && 'max-w-4xl', props.sizeLeft === '2xl' && 'max-w-5xl', props.sizeLeft === '3xl' && 'max-w-6xl', props.sizeLeft === '4xl' && 'max-w-7xl', props.sizeLeft === 'full' && 'max-w-full']">
                             <img src="/img/icons/asset-01.svg" alt="Image failed to load"
                                 class="w-52 absolute -top-14 -right-14 z-10 opacity-70" id="animatedImage">
                             <div class="relative z-20">
@@ -40,7 +40,7 @@
                         leave-from="opacity-100 translate-y-0 scale-100" leave-to="opacity-0 translate-y-0 scale-95"
                         :class="!props.showRightModal && 'hidden'">
                         <div class="bg-white relative overflow-clip text-left shadow-xl transform transition-all px-8 pt-6 pb-0 w-full rounded-md"
-                            :class="[props.sizeRight === 'xs' && 'max-w-lg', props.sizeRight === 'sm' && 'max-w-xl', props.sizeRight === 'md' && 'max-w-2xl', props.sizeRight === 'lg' && 'max-w-3xl', props.sizeRight === 'xl' && 'max-w-4xl', props.sizeRight === '2xl' && 'max-w-5xl', props.sizeRight === '3xl' && 'max-w-6xl', props.sizeRight === '4xl' && 'max-w-7xl', props.sizeRight === 'full' && 'max-w-full']">
+                            :class="[props.sizeRight === 'xxs' && 'max-w-md', props.sizeRight === 'xs' && 'max-w-lg', props.sizeRight === 'sm' && 'max-w-xl', props.sizeRight === 'md' && 'max-w-2xl', props.sizeRight === 'lg' && 'max-w-3xl', props.sizeRight === 'xl' && 'max-w-4xl', props.sizeRight === '2xl' && 'max-w-5xl', props.sizeRight === '3xl' && 'max-w-6xl', props.sizeRight === '4xl' && 'max-w-7xl', props.sizeRight === 'full' && 'max-w-full']">
                             <img src="/img/icons/asset-01.svg" alt="Image failed to load"
                                 class="w-52 absolute -top-14 -right-14 z-10 opacity-70" id="animatedImage">
                             <div class="relative z-20">
