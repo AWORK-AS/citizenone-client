@@ -72,6 +72,24 @@
                     <FormError :error="props?.error?.errors?.current_stocks?.[0]" />
                 </div>
             </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <FormLabel for="evaluator" :label="$t('citizens.medicineJournals.form.evaluator')" />
+                    <FormSelect id="evaluator" name="evaluator" :options="state.options.evaluators"
+                        v-model="state.formMedicine.evaluator" />
+                    <FormError :error="v$?.formMedicine?.evaluator?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.evaluator?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="evaluation_frequency"
+                        :label="$t('citizens.medicineJournals.form.evaluationFrequency')" />
+                    <FormSelect id="evaluation_frequency" name="evaluation_frequency"
+                        :options="state.options.schedule_frequencies"
+                        v-model="state.formMedicine.evaluation_frequency" />
+                    <FormError :error="v$?.formMedicine?.evaluation_frequency?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.evaluation_frequency?.[0]" />
+                </div>
+            </div>
             <div class="space-y-1">
                 <FormLabel for="time" :label="$t('citizens.medicineJournals.form.time')" />
                 <FormSelectMultiple id="time" :options="state.options.time" v-model="state.formMedicine.time" />
@@ -118,6 +136,7 @@
 
 <script setup lang="ts">
 import { dosageService } from '@/components/api/DosageService'
+import { userService } from '@/components/api/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -156,11 +175,28 @@ const state = reactive({
         description: '',
         schedule_frequency: [],
         current_stocks: '',
+        evaluator: [],
+        evaluation_frequency: '',
         time: [] as any,
         is_pn_medicine: false,
     },
     options: {
         dosage_form: [],
+        evaluators: [],
+        evaluation_frequencies: [
+            { value: 'everyday', label: `${t('citizens.medicineJournals.scheduleFrequencies.everyday')}` },
+            { value: 'every_other_day', label: `${t('citizens.medicineJournals.scheduleFrequencies.every2Days')}` },
+            { value: 'every_third_day', label: `${t('citizens.medicineJournals.scheduleFrequencies.every3Days')}` },
+            { value: 'every_four_days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every4Days')}` },
+            { value: 'every_five_days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every5Days')}` },
+            { value: 'every_six_days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every6Days')}` },
+            { value: 'weekly', label: `${t('citizens.medicineJournals.scheduleFrequencies.weekly')}` },
+            { value: 'biweekly', label: `${t('citizens.medicineJournals.scheduleFrequencies.biweekly')}` },
+            { value: 'monthly', label: `${t('citizens.medicineJournals.scheduleFrequencies.monthly')}` },
+            { value: 'bimonthly', label: `${t('citizens.medicineJournals.scheduleFrequencies.bimonthly')}` },
+            { value: 'quarterly', label: `${t('citizens.medicineJournals.scheduleFrequencies.quarterly')}` },
+            { value: 'annually', label: `${t('citizens.medicineJournals.scheduleFrequencies.annually')}` },
+        ],
         schedule_frequencies: [
             { value: 'everyday', label: `${t('citizens.medicineJournals.scheduleFrequencies.everyday')}` },
             { value: 'every_other_day', label: `${t('citizens.medicineJournals.scheduleFrequencies.every2Days')}` },
@@ -190,7 +226,9 @@ onMounted(() => {
         active_ingredients: props.selectedMedicine.active_ingredients,
         description: props.selectedMedicine.description,
         schedule_frequency: props.selectedMedicine.schedule_frequency,
-        current_stocks: props.selectedMedicine.current_stocks.toString(),
+        current_stocks: props.selectedMedicine.current_stocks?.toString(),
+        evaluator: props.selectedMedicine.evaluator?.uuid,
+        evaluation_frequency: props.selectedMedicine.evaluation_frequency,
         time: [],
         is_pn_medicine: props.selectedMedicine.is_pn_medicine ? true : false,
     }
@@ -201,7 +239,7 @@ onMounted(() => {
             state.formMedicine.time.push(time)
         })
     }
-
+    fetchAllUsers()
     fetchDosageForm()
 })
 
@@ -221,6 +259,8 @@ watch(() => props.selectedMedicine, (selectedMedicine: any) => {
             description: selectedMedicine.description,
             schedule_frequency: selectedMedicine.schedule_frequency,
             current_stocks: selectedMedicine.current_stocks?.toString(),
+            evaluator: selectedMedicine.evaluator?.uuid,
+            evaluation_frequency: selectedMedicine.evaluation_frequency,
             time: [],
             is_pn_medicine: selectedMedicine.is_pn_medicine ? true : false,
         }
@@ -262,6 +302,12 @@ const rules = computed(() => {
                 current_stocks: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
+                evaluator: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                evaluation_frequency: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
                 time: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
@@ -292,6 +338,12 @@ const rules = computed(() => {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 current_stocks: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                evaluator: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                evaluation_frequency: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 time: {
@@ -345,6 +397,29 @@ function generateTimeIntervals() {
         }
     }
     state.options.time = times
+}
+
+
+
+async function fetchAllUsers() {
+    emit('error', {})
+    emit('isPageLoading', true)
+    try {
+        const response = await userService.getAllUsersWithoutAllUsersOption()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (user: any) => options.push({
+                    value: user?.uuid,
+                    label: user?.firstname + " " + user?.lastname,
+                })
+            )
+            state.options.evaluators = options
+        }
+    } catch (error: any) {
+        emit('error', error)
+    }
+    emit('isPageLoading', false)
 }
 
 async function fetchDosageForm() {

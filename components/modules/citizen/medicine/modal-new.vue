@@ -47,6 +47,8 @@ const state = reactive({
         description: '',
         schedule_frequency: [],
         current_stocks: '',
+        evaluator_uuid: '',
+        evaluation_frequency: [],
         time: [],
         is_pn_medicine: false,
     },
@@ -77,6 +79,8 @@ async function saveMedicine(medicineDetails: any) {
         params.append('description', medicineDetails.description)
         params.append('schedule_frequency', medicineDetails.schedule_frequency)
         params.append('current_stocks', medicineDetails.current_stocks)
+        params.append('evaluator_uuid', medicineDetails.evaluator)
+        params.append('evaluation_frequency', medicineDetails.evaluation_frequency)
         params.append('time', JSON.stringify(medicineDetails.time))
         params.append('is_pn_medicine', medicineDetails.is_pn_medicine)
         const response = await medicineJournalService.saveMedicine(params)

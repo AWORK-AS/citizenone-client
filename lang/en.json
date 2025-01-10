@@ -602,6 +602,8 @@
                 "dailyDose": "Daily dose",
                 "description": "Description",
                 "dosageForm": "Dosage form",
+                "evaluator": "Evaluator",
+                "evaluationFrequency": "Evaluation frequency",
                 "image": "Image",
                 "medicine": "Medicine",
                 "pnMedicine": "PN-medicine",

@@ -602,6 +602,8 @@
                 "dailyDose": "Daglig dosis",
                 "description": "Beskrivelse",
                 "dosageForm": "Doseringsform",
+                "evaluator": "Evaluator",
+                "evaluationFrequency": "Evalueringsfrekvens",
                 "image": "Billede",
                 "medicine": "Medicin",
                 "pnMedicine": "PN-medicine",
