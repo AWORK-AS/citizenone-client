@@ -38,7 +38,6 @@ const state = reactive({
     formContact: {
         uuid: '',
         title: '',
-        is_mailable: false,
         employees_uuid: [],
         firstname: '',
         lastname: '',
@@ -69,7 +68,6 @@ async function saveContact(contactDetails: any) {
         const params = {
             citizen_uuid: citizenUuid,
             title: contactDetails.title,
-            is_mailable: contactDetails.is_mailable,
             employees_uuid: contactDetails.employees,
             firstname: contactDetails.firstname,
             lastname: contactDetails.lastname,
@@ -81,7 +79,7 @@ async function saveContact(contactDetails: any) {
             city_uuid: contactDetails.city,
             post_code: contactDetails.post_code,
             risk_level: contactDetails.risk_level,
-            notification_types: contactDetails.notification_types,
+            notification_uuid: contactDetails.notification_types,
         }
         const response = await citizenContactService.saveContact(params)
         if (response?.data) {

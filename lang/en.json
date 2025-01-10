@@ -396,6 +396,7 @@
                 "firstname": "First name",
                 "lastname": "Last name",
                 "municipality": "Municipality",
+                "notificationTypes": "Notification types",
                 "notifications": {
                     "category": {
                         "harmless": "Harmless",

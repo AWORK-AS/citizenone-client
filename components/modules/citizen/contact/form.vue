@@ -10,7 +10,8 @@
                     <FormError :error="v$?.formContact?.title?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.title?.[0]" />
                 </div>
-                <div class="space-y-1" v-if="state.formContact.title === 'our_contact_person'">
+                <div class="space-y-1"
+                    v-if="props.formType === 'create' && state.formContact.title === 'our_contact_person'">
                     <FormLabel for="employees" :label="$t('citizens.contacts.form.employees')" />
                     <FormSelectMultiple id="employees" :options="state.options.employees"
                         v-model="state.formContact.employees" />
@@ -18,20 +19,11 @@
                     <FormError :error="props?.error?.errors?.employees_uuid?.[0]" />
                 </div>
                 <div class="space-y-1" v-if="state.formContact.title === 'our_contact_person'">
-                    <div class="w-fit flex cursor-pointer"
-                        @click="state.formContact.is_mailable = !state.formContact.is_mailable">
-                        <FormCheckbox :value="state.formContact.is_mailable" />
-                        <div>
-                            <p>{{ $t('citizens.contacts.form.canReceiveEmails') }}</p>
-                            <ul class="list-disc pl-4">
-                                <li>{{ $t('citizens.contacts.form.notifications.nursingAreas') }}</li>
-                                <li>{{ $t('citizens.contacts.form.notifications.incidentReports') }}</li>
-                                <li>{{ $t('citizens.contacts.form.notifications.reportOfForce') }}</li>
-                                <li>{{ $t('citizens.contacts.form.notifications.notificationForMediciationErrors') }}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <FormLabel for="notification_types" :label="$t('citizens.contacts.form.notificationTypes')" />
+                    <FormSelectMultiple id="notification_types" :options="state.options.notification_types"
+                        v-model="state.formContact.notification_types" />
+                    <FormError :error="v$?.formContact?.notification_types?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.notification_uuid?.[0]" />
                 </div>
                 <div class="space-y-1" v-if="state.formContact.title === 'our_contact_person'">
                     <p class="text-sm text-gray-600">
@@ -195,8 +187,8 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
-
 const { t } = useI18n()
+const language = useI18n()
 
 const state = reactive({
     error: {} as Error,
@@ -205,7 +197,6 @@ const state = reactive({
         uuid: '',
         title: '',
         employees: [],
-        is_mailable: false,
         firstname: '',
         lastname: '',
         email: '',
@@ -252,7 +243,6 @@ onMounted(() => {
         uuid: props.selectedContact?.uuid,
         title: props.selectedContact?.title,
         employees: props.selectedContact?.employees,
-        is_mailable: props.selectedContact?.is_mailable,
         firstname: props.selectedContact?.firstname,
         lastname: props.selectedContact?.lastname,
         email: props.selectedContact?.email,
@@ -276,7 +266,6 @@ watch(() => props.selectedContact, (newValue: any) => {
             uuid: props.selectedContact?.uuid,
             title: props.selectedContact?.title,
             employees: props.selectedContact?.employees,
-            is_mailable: props.selectedContact?.is_mailable,
             firstname: props.selectedContact?.firstname,
             lastname: props.selectedContact?.lastname,
             email: props.selectedContact?.email,
@@ -297,6 +286,10 @@ watch(() => state.formContact.title, (newValue: any) => {
     if (newValue === 'our_contact_person') {
         fetchAllUsers()
     }
+})
+
+watch(() => language.locale.value, () => {
+    fetchNotificationTypes()
 })
 
 const rules = computed(() => {
@@ -384,7 +377,7 @@ async function fetchNotificationTypes() {
             response.data.forEach(
                 (item: any) => options.push({
                     value: item.uuid,
-                    label: item.name,
+                    label: item.type,
                 })
             )
             state.options.notification_types = options
