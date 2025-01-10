@@ -25,6 +25,11 @@
                             {{ $t('dailyOverview.dailyMedicineOverview.given') }}
                         </p>
                     </Badge>
+                    <Badge type="inactive" class="flex items-center w-fit" v-else>
+                        <p class="text-xxs px-2">
+                            {{ $t('dailyOverview.dailyMedicineOverview.notGiven') }}
+                        </p>
+                    </Badge>
                 </div>
                 <p class="text-xs py-1" v-if="medicine?.user?.firstname && medicine?.user?.lastname">
                     {{ $t('dailyOverview.createdBy') }}

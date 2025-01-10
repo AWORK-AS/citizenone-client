@@ -872,7 +872,8 @@
         "dailyMedicineOverview": {
             "dailyMedicineOverview": "Daily medicine overview",
             "dailyDose": "Daily dose",
-            "given": "Given"
+            "given": "Given",
+            "notGiven": "Not given"
         },
         "dailyOverview": "Daily overview",
         "filter": {

@@ -872,7 +872,8 @@
         "dailyMedicineOverview": {
             "dailyMedicineOverview": "Daglig medicinoversigt",
             "dailyDose": "Daglig dosis",
-            "given": "Givet"
+            "given": "Givet",
+            "notGiven": "Ikke givet"
         },
         "dailyOverview": "Daglig oversigt",
         "filter": {
