@@ -207,7 +207,7 @@ const state = reactive({
         city: '',
         post_code: '',
         risk_level: '',
-        notification_types: [],
+        notification_types: [] as any,
     },
     isPageLoading: false,
     options: {
@@ -253,8 +253,11 @@ onMounted(() => {
         city: props.selectedContact?.city?.uuid,
         post_code: props.selectedContact?.post_code,
         risk_level: props.selectedContact?.risk_level,
-        notification_types: props.selectedContact?.notification_types,
+        notification_types: [],
     }
+    props.selectedContact?.notification_types.forEach((notification_type: any) => {
+        state.formContact.notification_types.push(notification_type?.uuid)
+    })
 })
 
 watch(() => props.selectedContact, (newValue: any) => {
@@ -278,6 +281,9 @@ watch(() => props.selectedContact, (newValue: any) => {
             risk_level: props.selectedContact?.risk_level,
             notification_types: props.selectedContact?.notification_types,
         }
+        props.selectedContact?.notification_types.forEach((notification_type: any) => {
+            state.formContact.notification_types.push(notification_type?.uuid)
+        })
     }
 })
 
