@@ -317,14 +317,24 @@ const rules = computed(() => {
             },
         }
     } else {
-        return {
-            formContact: {
-                employees: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                risk_level: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
+        if (props.formType === 'create') {
+            return {
+                formContact: {
+                    employees: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    risk_level: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                }
+            }
+        } else {
+            return {
+                formContact: {
+                    risk_level: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                }
             }
         }
     }
