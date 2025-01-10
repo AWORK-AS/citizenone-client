@@ -48,7 +48,7 @@
                                             </span>
                                         </td>
                                         <td width="20%">
-                                            <span>{{ formatDateToReadable(medicineHistory?.created_at) }}</span>
+                                            <span>{{ formatDateTimeToReadable(medicineHistory?.created_at) }}</span>
                                         </td>
                                         <td width="20%">
                                             <div class="flex items-end gap-2">
@@ -105,7 +105,7 @@ const props = defineProps({
     }
 })
 
-const { formatDateToReadable } = useDatetimeFormatter()
+const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const { formatNumber } = useNumberFormatter()
