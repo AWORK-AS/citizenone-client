@@ -49,7 +49,8 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
-        risk_level: [],
+        risk_level: '',
+        notification_types: [],
     },
 })
 
@@ -80,6 +81,7 @@ async function saveContact(contactDetails: any) {
             city_uuid: contactDetails.city,
             post_code: contactDetails.post_code,
             risk_level: contactDetails.risk_level,
+            notification_types: contactDetails.notification_types,
         }
         const response = await citizenContactService.saveContact(params)
         if (response?.data) {

@@ -33,11 +33,47 @@
                         </div>
                     </div>
                 </div>
-                <div class="space-y-1" v-if="state.formContact.title === 'our_contact_person'" id="risk-level">
-                    <FormLabel for="risk_level"
-                        :label="$t('citizens.contacts.form.notifications.notificationCategory')" />
-                    <FormSelectMultiple id="risk_level" :options="state.options.risk_level"
-                        v-model="state.formContact.risk_level" />
+                <div class="space-y-1" v-if="state.formContact.title === 'our_contact_person'">
+                    <p class="text-sm text-gray-600">
+                        {{ $t('citizens.contacts.form.notifications.notificationCategory') }}
+                    </p>
+                    <div>
+                        <RadioGroup v-model="state.formContact.risk_level"
+                            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                            <RadioGroupOption as="template" v-for="(type, index) in state.options.risk_levels"
+                                :key="index" :value="type.value" v-slot="{ active, checked }">
+                                <div :class="[
+                                    active ? 'ring-1 ring-offset-2' : '',
+                                    type.title === 'Harmless' && 'ring-primary',
+                                    type.title === 'Low Risk' && 'ring-yellow-500',
+                                    type.title === 'Moderate Risk' && 'ring-orange-500',
+                                    type.title === 'High Risk' && 'ring-red-500',
+                                    checked && type.title === 'Harmless' && 'bg-primary text-white ring-0 hover:bg-primary',
+                                    checked && type.title === 'Low Risk' && 'bg-yellow-500 text-white ring-0 hover:bg-yellow-500',
+                                    checked && type.title === 'Moderate Risk' && 'bg-orange-500 text-white ring-0 hover:bg-orange-500',
+                                    checked && type.title === 'High Risk' && 'bg-red-500 text-white ring-0 hover:bg-red-500',
+                                    !active && !checked && type.title === 'Harmless' && 'border border-primary ring-inset',
+                                    !active && !checked && type.title === 'Low Risk' && 'border border-yellow-500 ring-inset',
+                                    !active && !checked && type.title === 'Moderate Risk' && 'border border-orange-500 ring-inset',
+                                    !active && !checked && type.title === 'High Risk' && 'border border-red-500 ring-inset',
+                                    active && checked ? 'text-white ring-1' : '',
+                                    'cursor-pointer flex items-center justify-center rounded-md px-2 py-2 text-xs']">
+                                    <span v-if="type.title === 'Harmless'">
+                                        {{ $t('citizens.contacts.form.notifications.category.harmless') }}
+                                    </span>
+                                    <span v-if="type.title === 'Low Risk'">
+                                        {{ $t('citizens.contacts.form.notifications.category.lowRisk') }}
+                                    </span>
+                                    <span v-if="type.title === 'Moderate Risk'">
+                                        {{ $t('citizens.contacts.form.notifications.category.moderateRisk') }}
+                                    </span>
+                                    <span v-if="type.title === 'High Risk'">
+                                        {{ $t('citizens.contacts.form.notifications.category.highRisk') }}
+                                    </span>
+                                </div>
+                            </RadioGroupOption>
+                        </RadioGroup>
+                    </div>
                     <FormError :error="v$?.formContact?.risk_level?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.risk_level?.[0]" />
                 </div>
@@ -133,10 +169,12 @@
 </template>
 
 <script setup lang="ts">
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { regionService } from '@/components/api/RegionService'
 import { municipalityService } from '@/components/api/MunicipalityService'
 import { cityService } from '@/components/api/CityService'
 import { userService } from '@/components/api/UserService'
+import { contactNotificationTypes } from '@/components/api/ContactNotificationTypes'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -177,13 +215,15 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
-        risk_level: [],
+        risk_level: '',
+        notification_types: [],
     },
     isPageLoading: false,
     options: {
         cities: [],
         employees: [],
         municipalities: [],
+        notification_types: [],
         regions: [],
         titles: [
             { value: 'case_manager', label: `${t('citizens.contacts.titles.caseManager')}` },
@@ -193,16 +233,17 @@ const state = reactive({
             { value: 'our_contact_person', label: `${t('citizens.contacts.titles.ourContactPerson')}` },
             { value: 'relatives', label: `${t('citizens.contacts.titles.relatives')}` },
         ],
-        risk_level: [
-            { value: 'harmless', label: `${t('citizens.contacts.form.notifications.category.harmless')}` },
-            { value: 'low-risk', label: `${t('citizens.contacts.form.notifications.category.lowRisk')}` },
-            { value: 'moderate-risk', label: `${t('citizens.contacts.form.notifications.category.moderateRisk')}` },
-            { value: 'high-risk', label: `${t('citizens.contacts.form.notifications.category.highRisk')}` },
+        risk_levels: [
+            { value: 'harmless', title: 'Harmless' },
+            { value: 'low-risk', title: 'Low Risk' },
+            { value: 'moderate-risk', title: 'Moderate Risk' },
+            { value: 'high-risk', title: 'High Risk' },
         ] as any,
     }
 })
 
 onMounted(() => {
+    fetchNotificationTypes()
     fetchRegions()
     fetchMunicipalitiesPerRegion(props.selectedContact?.region?.uuid)
     fetchCities(props.selectedContact?.municipality?.uuid)
@@ -222,6 +263,7 @@ onMounted(() => {
         city: props.selectedContact?.city?.uuid,
         post_code: props.selectedContact?.post_code,
         risk_level: props.selectedContact?.risk_level,
+        notification_types: props.selectedContact?.notification_types,
     }
 })
 
@@ -245,6 +287,7 @@ watch(() => props.selectedContact, (newValue: any) => {
             city: props.selectedContact?.city?.uuid,
             post_code: props.selectedContact?.post_code,
             risk_level: props.selectedContact?.risk_level,
+            notification_types: props.selectedContact?.notification_types,
         }
     }
 })
@@ -329,6 +372,27 @@ function submitForm() {
         }
         emit('submitForm', state.formContact)
     }
+}
+
+async function fetchNotificationTypes() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await contactNotificationTypes.getAllTypes()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.notification_types = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function fetchRegions() {

@@ -66,6 +66,7 @@ async function updateContact(contactDetails: any) {
             city_uuid: contactDetails.city,
             post_code: contactDetails.post_code,
             risk_level: contactDetails.risk_level,
+            notification_types: contactDetails.notification_types,
         }
         const response = await citizenContactService.updateContact(contactUuid, params)
         if (response?.data) {
