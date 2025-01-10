@@ -49,7 +49,7 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
-        risk_level: '',
+        risk_level: [],
     },
 })
 
