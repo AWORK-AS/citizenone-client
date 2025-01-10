@@ -866,7 +866,8 @@
         "createdBy": "Created by",
         "dailyMedicineOverview": {
             "dailyMedicineOverview": "Daily medicine overview",
-            "dailyDose": "Daily dose"
+            "dailyDose": "Daily dose",
+            "given": "Given"
         },
         "dailyOverview": "Daily overview",
         "filter": {

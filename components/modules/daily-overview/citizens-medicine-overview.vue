@@ -14,11 +14,18 @@
         <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 pr-5 pt-4 pb-4 pl-6 mr-1"
             v-else>
             <div v-for="(medicine, index) in state.medicines?.data" :key="index" class="py-3">
-                <Badge type="primary" class="w-fit">
-                    <p class="text-xs px-2">
-                        {{ medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname }}
-                    </p>
-                </Badge>
+                <div class="flex justify-between gap-x-2">
+                    <Badge type="primary" class="w-fit">
+                        <p class="text-xs px-2">
+                            {{ medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname }}
+                        </p>
+                    </Badge>
+                    <Badge type="active" class="flex items-center w-fit" v-if="medicine?.given_today">
+                        <p class="text-xxs px-2">
+                            {{ $t('dailyOverview.dailyMedicineOverview.given') }}
+                        </p>
+                    </Badge>
+                </div>
                 <p class="text-xs py-1" v-if="medicine?.user?.firstname && medicine?.user?.lastname">
                     {{ $t('dailyOverview.createdBy') }}
                     {{ medicine?.user?.firstname + ' ' + medicine?.user?.lastname }}

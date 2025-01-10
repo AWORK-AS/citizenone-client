@@ -866,7 +866,8 @@
         "createdBy": "Oprettet af",
         "dailyMedicineOverview": {
             "dailyMedicineOverview": "Daglig medicinoversigt",
-            "dailyDose": "Daglig dosis"
+            "dailyDose": "Daglig dosis",
+            "given": "Givet"
         },
         "dailyOverview": "Daglig oversigt",
         "filter": {
