@@ -202,9 +202,9 @@ async function saveJournal(journalDetails: any) {
         }
 
         let risk_assessment_plan_goal_subgoal_uuid = ''
-        if (journalDetails.risk_assessment_subgoals) {
+        if (journalDetails.risk_assessment_subgoal) {
             risk_assessment_plan_goal_subgoal_uuid = journalDetails.risk_assessment_subgoal
-        } else if (journalDetails.risk_assessment_goals) {
+        } else if (journalDetails.risk_assessment_goal) {
             risk_assessment_plan_goal_subgoal_uuid = journalDetails.risk_assessment_goal
         } else {
             risk_assessment_plan_goal_subgoal_uuid = journalDetails.risk_assessment_plan
