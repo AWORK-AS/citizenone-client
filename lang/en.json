@@ -705,6 +705,7 @@
                     "successfullyUpdated": "Nursing professional record successfully updated"
                 },
                 "date": "Date",
+                "healthProfessionalDocumentation": "Health Professional Documentation",
                 "functionalLevel": "Functional level",
                 "musculoskeletalSystem": "Musculoskeletal system",
                 "nutrition": "Nutrition",
@@ -726,6 +727,7 @@
                 },
                 "data": "Data",
                 "date": "Date",
+                "healthProfessionalDocumentation": "Health Professional Documentation",
                 "reportedBy": "Reported by",
                 "functionalLevel": "Functional level",
                 "musculoskeletalSystem": "Musculoskeletal system",

@@ -705,6 +705,7 @@
                     "successfullyUpdated": "Sundhedsfaglig optegnelse opdateret med succes"
                 },
                 "date": "Dato",
+                "healthProfessionalDocumentation": "Sundhedsfaglig dokumentation",
                 "functionalLevel": "Funktionsniveau",
                 "musculoskeletalSystem": "Bevægeapparat",
                 "nutrition": "Ernæring",
@@ -726,6 +727,7 @@
                 },
                 "data": "Data",
                 "date": "Dato",
+                "healthProfessionalDocumentation": "Sundhedsfaglig dokumentation",
                 "reportedBy": "Rapporteret af",
                 "functionalLevel": "Funktionsniveau",
                 "musculoskeletalSystem": "Bevægeapparat",
