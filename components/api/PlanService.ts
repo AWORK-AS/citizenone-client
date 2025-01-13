@@ -20,6 +20,10 @@ class PlanService extends BaseAPIService {
     async downloadPlansAndGoals(params: object): Promise<any> {
         return await this.request(`/user/citizen-plans/download/reports`, 'GET', params)
     }
+
+    async getAllPlans(citizenUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-plans/${citizenUuid}/all/list`, 'GET')
+    }
 }
 
 export const planService = new PlanService()

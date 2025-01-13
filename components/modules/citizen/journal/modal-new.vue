@@ -112,8 +112,10 @@ const state = reactive({
         uuid: '',
         content: '',
         date: '',
-        copy_journal_note_to_plan_or_goal: false,
-        copy_risk_assessment_to_plan_or_goal: false,
+        copy_journal_note_to_plan_or_goal_or_subgoal: false,
+        journal_note_plan_goal_subgoal_uuid: '',
+        copy_risk_assessment_to_plan_or_goal_or_subgoal: false,
+        risk_assessment_plan_goal_subgoal_uuid: '',
         title: '',
         is_draft: false,
         assessment: null,
@@ -144,7 +146,7 @@ function refreshJournal() {
 
 const computedRightModalMaxHeight = computed(() => {
     const total = state.plans?.meta?.total || 0;
-    return `height: ${total > 10 ? '540px' : '565px'};`;
+    return `height: ${total > 10 ? '600px' : '625px'};`;
 })
 
 async function fetchPlans() {
@@ -190,12 +192,32 @@ async function saveJournal(journalDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
+        let journal_note_plan_goal_subgoal_uuid = ''
+        if (journalDetails.journal_note_subgoal) {
+            journal_note_plan_goal_subgoal_uuid = journalDetails.journal_note_subgoal
+        } else if (journalDetails.journal_note_goal) {
+            journal_note_plan_goal_subgoal_uuid = journalDetails.journal_note_goal
+        } else {
+            journal_note_plan_goal_subgoal_uuid = journalDetails.journal_note_plan
+        }
+
+        let risk_assessment_plan_goal_subgoal_uuid = ''
+        if (journalDetails.risk_assessment_subgoals) {
+            risk_assessment_plan_goal_subgoal_uuid = journalDetails.risk_assessment_subgoal
+        } else if (journalDetails.risk_assessment_goals) {
+            risk_assessment_plan_goal_subgoal_uuid = journalDetails.risk_assessment_goal
+        } else {
+            risk_assessment_plan_goal_subgoal_uuid = journalDetails.risk_assessment_plan
+        }
+
         const params = {
             citizen_uuid: citizenUuid,
             title: journalDetails.title,
             date: journalDetails.date,
-            copy_journal_note_to_plan_or_goal: journalDetails.copy_journal_note_to_plan_or_goal,
-            copy_risk_assessment_to_plan_or_goal: journalDetails.copy_risk_assessment_to_plan_or_goal,
+            copy_journal_note_to_plan_or_goal_or_subgoal: journalDetails.copy_journal_note_to_plan_or_goal_or_subgoal,
+            journal_note_plan_goal_subgoal_uuid: journal_note_plan_goal_subgoal_uuid,
+            copy_risk_assessment_to_plan_or_goal_or_subgoal: journalDetails.copy_risk_assessment_to_plan_or_goal_or_subgoal,
+            risk_assessment_plan_goal_subgoal_uuid: risk_assessment_plan_goal_subgoal_uuid,
             content: journalDetails.content,
             is_draft: journalDetails.is_draft,
             assessment: journalDetails.assessment,

@@ -503,10 +503,12 @@
                 "attachFile": "Vedhæft fil",
                 "chooseScoreFrom1to5": "Vælg en score fra 1 til 5",
                 "content": "Indhold",
-                "copyJournalNoteToPlanOrGoal": "Kopiér journalnote til plan eller mål",
-                "copyRiskAssessmentToPlanOrGoal": "Kopiér risikovurdering til plan eller mål",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote til plan, mål eller delmål",
+                "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopiér risikovurdering til plan, mål eller delmål",
                 "date": "Dato",
                 "draft": "Udkast",
+                "goal": "Mål",
+                "plan": "Plan",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",
                     "increasedRisk": "Øget risiko",
@@ -514,6 +516,7 @@
                     "noRisk": "Ingen risiko"
                 },
                 "riskAssessment": "Risikovurdering",
+                "subgoal": "Delmål",
                 "title": "Titel"
             },
             "editJournal": "Rediger Journal",

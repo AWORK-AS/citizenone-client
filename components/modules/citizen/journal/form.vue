@@ -22,9 +22,35 @@
             </div>
             <div v-if="props.formType === 'create'">
                 <div class="w-fit flex items-center cursor-pointer"
-                    @click="state.formJournal.copy_journal_note_to_plan_or_goal = !state.formJournal.copy_journal_note_to_plan_or_goal">
-                    <FormCheckbox :value="state.formJournal.copy_journal_note_to_plan_or_goal" />
-                    {{ $t('citizens.citizenJournals.form.copyJournalNoteToPlanOrGoal') }}
+                    @click="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal = !state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal">
+                    <FormCheckbox :value="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal" />
+                    {{ $t('citizens.citizenJournals.form.copyJournalNoteToPlanOrGoalOrSubgoal') }}
+                </div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-x-3"
+                v-if="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal">
+                <div class="space-y-1">
+                    <FormLabel for="journal_note_plan" :label="$t('citizens.citizenJournals.form.plan')" />
+                    <FormSelect id="journal_note_plan" :options="state.options.journal_note_plans"
+                        v-model="state.formJournal.journal_note_plan"
+                        @change="(journalNotePlanUuid: any) => fetchAllGoalsForJournalNote(journalNotePlanUuid)" />
+                    <FormError :error="v$?.formJournal?.journal_note_plan?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.journal_note_plan?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="journal_note_goal" :label="$t('citizens.citizenJournals.form.goal')" />
+                    <FormSelect id="journal_note_goal" :options="state.options.journal_note_goals"
+                        v-model="state.formJournal.journal_note_goal"
+                        @change="(journalNoteGoalUuid: any) => fetchAllSubgoalsForJournalNote(journalNoteGoalUuid)" />
+                    <FormError :error="v$?.formJournal?.journal_note_goal?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.journal_note_goal?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="journal_note_subgoals" :label="$t('citizens.citizenJournals.form.subgoal')" />
+                    <FormSelect id="journal_note_subgoals" :options="state.options.journal_note_subgoals"
+                        v-model="state.formJournal.journal_note_subgoal" />
+                    <FormError :error="v$?.formJournal?.journal_note_subgoals?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.journal_note_subgoals?.[0]" />
                 </div>
             </div>
             <div class="space-y-1">
@@ -89,6 +115,26 @@
                     </RadioGroup>
                 </div>
             </div>
+            <div class="space-y-1">
+                <p class="text-sm text-gray-600">
+                    {{ $t('citizens.citizenJournals.form.chooseScoreFrom1to5') }}
+                </p>
+                <div>
+                    <RadioGroup v-model="state.formJournal.score" class="grid grid-cols-5 gap-3">
+                        <RadioGroupOption as="template" v-for="(score, index) in state.options.scores" :key="index"
+                            :value="score.value" v-slot="{ active, checked }">
+                            <div
+                                :class="[
+                                    active ? 'ring-1 ring-offset-2' : '',
+                                    checked && 'bg-primary text-white ring-0 hover:bg-primary',
+                                    active && checked ? 'text-white ring-1' : '',
+                                    'bg-gray-100 ring-primary cursor-pointer flex items-center justify-center rounded-md px-2 py-2 text-xs']">
+                                {{ score.title }}
+                            </div>
+                        </RadioGroupOption>
+                    </RadioGroup>
+                </div>
+            </div>
             <div class="space-y-1" v-if="state.formJournal.assessment !== null">
                 <div class="flex justify-end">
                     <input ref="riskAssessmentFileInput" type="file" @change="handleRiskAssessmentFileChange"
@@ -104,40 +150,38 @@
                 <ckeditor :editor="editor" v-model="state.formJournal.note" :config="editorNoteConfig"></ckeditor>
                 <FormError :error="props?.error?.errors?.note?.[0]" />
             </div>
-            <div class="flex md:items-center flex-col md:flex-row justify-between gap-3">
+            <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal = !state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal"
+                    v-if="props.formType === 'create'">
+                    <FormCheckbox :value="state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal" />
+                    {{ $t('citizens.citizenJournals.form.copyRiskAssessmentToPlanOrGoalOrSubgoal') }}
+                </div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-x-3"
+                v-if="state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal">
                 <div class="space-y-1">
-                    <div class="w-fit flex items-center cursor-pointer"
-                        @click="state.formJournal.copy_risk_assessment_to_plan_or_goal = !state.formJournal.copy_risk_assessment_to_plan_or_goal"
-                        v-if="props.formType === 'create'">
-                        <FormCheckbox :value="state.formJournal.copy_risk_assessment_to_plan_or_goal" />
-                        {{ $t('citizens.citizenJournals.form.copyRiskAssessmentToPlanOrGoal') }}
-                    </div>
+                    <FormLabel for="risk_assessment_plan" :label="$t('citizens.citizenJournals.form.plan')" />
+                    <FormSelect id="risk_assessment_plan" :options="state.options.risk_assessment_plans"
+                        v-model="state.formJournal.risk_assessment_plan"
+                        @change="(RiskAssessmentPlanUuid: any) => fetchAllGoalsForRiskAssessment(RiskAssessmentPlanUuid)" />
+                    <FormError :error="v$?.formJournal?.risk_assessment_plan?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.risk_assessment_plan?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <div class="flex items-center gap-x-2">
-                        <p>
-                            {{ $t('citizens.citizenJournals.form.chooseScoreFrom1to5') }}
-                        </p>
-                        <div class="relative w-12">
-                            <select
-                                class="block w-full appearance-none rounded-md border border-primary bg-white pl-3 py-2 text-xs focus:border-primary focus:outline-none focus:ring-primary"
-                                v-model="state.formJournal.score">
-                                <option :value="1">1</option>
-                                <option :value="2">2</option>
-                                <option :value="3">3</option>
-                                <option :value="4">4</option>
-                                <option :value="5">5</option>
-                            </select>
-                            <div class="absolute inset-y-0 right-2 top-1 flex items-center pointer-events-none">
-                                <svg class="h-3 w-3 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <FormError :error="props?.error?.errors?.score?.[0]" />
+                    <FormLabel for="risk_assessment_goal" :label="$t('citizens.citizenJournals.form.goal')" />
+                    <FormSelect id="risk_assessment_goal" :options="state.options.risk_assessment_goals"
+                        v-model="state.formJournal.risk_assessment_goal"
+                        @change="(RiskAssessmentGoalUuid: any) => fetchAllSubgoalsForRiskAssessment(RiskAssessmentGoalUuid)" />
+                    <FormError :error="v$?.formJournal?.risk_assessment_goal?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.risk_assessment_goal?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="risk_assessment_subgoals" :label="$t('citizens.citizenJournals.form.subgoal')" />
+                    <FormSelect id="risk_assessment_subgoals" :options="state.options.risk_assessment_subgoals"
+                        v-model="state.formJournal.risk_assessment_subgoal" />
+                    <FormError :error="v$?.formJournal?.risk_assessment_subgoals?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.risk_assessment_subgoals?.[0]" />
                 </div>
             </div>
             <div class="space-y-1">
@@ -168,6 +212,9 @@
 
 <script setup lang="ts">
 import { journalService } from '@/components/api/JournalService'
+import { planService } from '@/components/api/PlanService'
+import { goalService } from '@/components/api/GoalService'
+import { subgoalService } from '@/components/api/SubgoalService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
@@ -234,8 +281,14 @@ const state = reactive({
         uuid: '',
         content: '',
         date: '',
-        copy_journal_note_to_plan_or_goal: false,
-        copy_risk_assessment_to_plan_or_goal: false,
+        copy_journal_note_to_plan_or_goal_or_subgoal: false,
+        journal_note_plan: '',
+        journal_note_goal: '',
+        journal_note_subgoal: '',
+        copy_risk_assessment_to_plan_or_goal_or_subgoal: false,
+        risk_assessment_plan: '',
+        risk_assessment_goal: '',
+        risk_assessment_subgoal: '',
         title: '',
         is_draft: false,
         assessment: null,
@@ -252,6 +305,19 @@ const state = reactive({
             { value: 'increased risk', title: 'Increased risk' },
             { value: 'acute increased risk', title: 'Acute increased risk' },
         ] as any,
+        scores: [
+            { value: 1, title: 1 },
+            { value: 2, title: 2 },
+            { value: 3, title: 3 },
+            { value: 4, title: 4 },
+            { value: 5, title: 5 },
+        ],
+        journal_note_plans: [],
+        journal_note_goals: [],
+        journal_note_subgoals: [],
+        risk_assessment_plans: [],
+        risk_assessment_goals: [],
+        risk_assessment_subgoals: [],
         score: [
             { value: 1, label: 1 },
             { value: 2, label: 2 },
@@ -268,14 +334,21 @@ onMounted(() => {
         uuid: props.selectedJournal.uuid,
         content: props.selectedJournal.content ?? '',
         date: props.selectedJournal.date,
-        copy_journal_note_to_plan_or_goal: props.selectedJournal.copy_journal_note_to_plan_or_goal,
-        copy_risk_assessment_to_plan_or_goal: props.selectedJournal.copy_risk_assessment_to_plan_or_goal,
+        copy_journal_note_to_plan_or_goal_or_subgoal: props.selectedJournal.copy_journal_note_to_plan_or_goal_or_subgoal,
+        journal_note_plan: '',
+        journal_note_goal: '',
+        journal_note_subgoal: '',
+        copy_risk_assessment_to_plan_or_goal_or_subgoal: props.selectedJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal,
+        risk_assessment_plan: '',
+        risk_assessment_goal: '',
+        risk_assessment_subgoal: '',
         title: props.selectedJournal.title,
         is_draft: props.selectedJournal.is_draft,
         assessment: props.selectedJournal.assessment,
         note: props.selectedJournal.note === null ? '' : props.selectedJournal.note,
         score: props.selectedJournal.score,
     }
+    fetchAllPlans()
 })
 
 watch(() => props.selectedJournal, (newValue: any) => {
@@ -285,8 +358,14 @@ watch(() => props.selectedJournal, (newValue: any) => {
             uuid: newValue.uuid,
             content: newValue.content ?? '',
             date: newValue.date,
-            copy_journal_note_to_plan_or_goal: newValue.copy_journal_note_to_plan_or_goal,
-            copy_risk_assessment_to_plan_or_goal: newValue.copy_risk_assessment_to_plan_or_goal,
+            copy_journal_note_to_plan_or_goal_or_subgoal: newValue.copy_journal_note_to_plan_or_goal_or_subgoal,
+            journal_note_plan: '',
+            journal_note_goal: '',
+            journal_note_subgoal: '',
+            copy_risk_assessment_to_plan_or_goal_or_subgoal: newValue.copy_risk_assessment_to_plan_or_goal_or_subgoal,
+            risk_assessment_plan: '',
+            risk_assessment_goal: '',
+            risk_assessment_subgoal: '',
             title: newValue.title,
             is_draft: newValue.is_draft,
             assessment: newValue.assessment,
@@ -480,5 +559,111 @@ class NoteUploadAdapter {
             throw null
         }
     }
+}
+
+async function fetchAllPlans() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await planService.getAllPlans(citizenUuid)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (plan: any) => options.push({
+                    value: plan?.uuid,
+                    label: plan?.name,
+                })
+            )
+            state.options.journal_note_plans = options
+            state.options.risk_assessment_plans = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchAllGoalsForJournalNote(planUuid: any) {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await goalService.getAllGoals(planUuid)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (goal: any) => options.push({
+                    value: goal?.uuid,
+                    label: goal?.name,
+                })
+            )
+            state.options.journal_note_goals = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchAllSubgoalsForJournalNote(goalUuid: any) {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await subgoalService.getAllSubgoals(goalUuid)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (subgoal: any) => options.push({
+                    value: subgoal?.uuid,
+                    label: subgoal?.name,
+                })
+            )
+            state.options.journal_note_subgoals = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchAllGoalsForRiskAssessment(planUuid: any) {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await goalService.getAllGoals(planUuid)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (goal: any) => options.push({
+                    value: goal?.uuid,
+                    label: goal?.name,
+                })
+            )
+            state.options.risk_assessment_goals = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchAllSubgoalsForRiskAssessment(goalUuid: any) {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await subgoalService.getAllSubgoals(goalUuid)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (subgoal: any) => options.push({
+                    value: subgoal?.uuid,
+                    label: subgoal?.name,
+                })
+            )
+            state.options.risk_assessment_subgoals = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
 }
 </script>

@@ -503,10 +503,12 @@
                 "attachFile": "Attach file",
                 "chooseScoreFrom1to5": "Choose score from 1 to 5",
                 "content": "Content",
-                "copyJournalNoteToPlanOrGoal": "Copy journal note to plan or goal",
-                "copyRiskAssessmentToPlanOrGoal": "Copy risk assessment to plan or goal",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal or subgoal",
+                "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Copy risk assessment to plan, goal or subgoal",
                 "date": "Date",
                 "draft": "Draft",
+                "goal": "Goal",
+                "plan": "Plan",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",
                     "increasedRisk": "Increased risk",
@@ -514,6 +516,7 @@
                     "noRisk": "No risk"
                 },
                 "riskAssessment": "Risk assessment",
+                "subgoal": "Subgoal",
                 "title": "Title"
             },
             "editJournal": "Edit journal",
