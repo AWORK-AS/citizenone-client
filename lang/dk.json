@@ -508,6 +508,7 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "goal": "Mål",
+                "hideCurrentPlansGoalsAndSubgoals": "Skjul nuværende planer, mål og delmål",
                 "plan": "Plan",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",
@@ -516,6 +517,7 @@
                     "noRisk": "Ingen risiko"
                 },
                 "riskAssessment": "Risikovurdering",
+                "showCurrentPlansGoalsAndSubgoals": "Vis nuværende planer, mål og delmål",
                 "subgoal": "Delmål",
                 "title": "Titel"
             },

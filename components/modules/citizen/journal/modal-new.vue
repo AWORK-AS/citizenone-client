@@ -2,9 +2,21 @@
     <div>
         <ModalSideBySide sizeLeft="lg" sizeRight="xxs" :titleLeft="$t('citizens.citizenJournals.newJournal')"
             :titleRight="$t('plansandgoals.currentPlansAndGoals')" :show="props.isModalOpen"
-            :showRightModal="state.modal.showCurrentPlansAndGoals" @close="closeModal">
+            :showRightModal="state.modal.showCurrentPlansAndGoals" @close="closeModal"
+            @closeRightModal="state.modal.showCurrentPlansAndGoals = false">
             <template #modal-left>
                 <LoadingSpinner :isActive="state.isPageLoading">
+                    <div class="flex justify-end" v-if="state.plans?.data?.length > 0">
+                        <button class="text-sm text-primary hover:text-primary-700"
+                            @click="state.modal.showCurrentPlansAndGoals = !state.modal.showCurrentPlansAndGoals">
+                            <span v-if="state.modal.showCurrentPlansAndGoals">
+                                {{ $t('citizens.citizenJournals.form.hideCurrentPlansGoalsAndSubgoals') }}
+                            </span>
+                            <span v-else>
+                                {{ $t('citizens.citizenJournals.form.showCurrentPlansGoalsAndSubgoals') }}
+                            </span>
+                        </button>
+                    </div>
                     <ModulesCitizenJournalForm formType="create" :selectedJournal="state.formJournal"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveJournal" />

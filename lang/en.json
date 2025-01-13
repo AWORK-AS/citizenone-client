@@ -508,6 +508,7 @@
                 "date": "Date",
                 "draft": "Draft",
                 "goal": "Goal",
+                "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
                 "plan": "Plan",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",
@@ -516,6 +517,7 @@
                     "noRisk": "No risk"
                 },
                 "riskAssessment": "Risk assessment",
+                "showCurrentPlansGoalsAndSubgoals": "Show current plans, goals, and subgoals",
                 "subgoal": "Subgoal",
                 "title": "Title"
             },

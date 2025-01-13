@@ -52,7 +52,7 @@
                                         <button type="button"
                                             class="flex items-center justify-center gap-x-2 outline-none px-0 py-2 text-gray-800 hover:text-gray-700">
                                             <Icon name="heroicons:x-mark" class="h-6 w-6 cursor-pointer"
-                                                aria-hidden="true" @click="$emit('close')" />
+                                                aria-hidden="true" @click="$emit('closeRightModal')" />
                                         </button>
                                     </div>
                                 </div>
