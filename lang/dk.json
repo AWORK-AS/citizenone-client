@@ -456,7 +456,21 @@
                 "upgradeStorageConfirmation": "Vil du opgradere dit lager"
             },
             "folderStructure": {
-                "folderStructure": "Mappe struktur"
+                "editFolderStructure": "Rediger mappestruktur",
+                "folderStructure": "Mappestruktur",
+                "form": {
+                    "name": "Navn",
+                    "root": "Rodmappe",
+                    "subfolder": "Undermappe"
+                },
+                "newFolderStructure": "Ny mappestruktur",
+                "table": {
+                    "actions": {
+                        "edit": "Rediger"
+                    },
+                    "name": "Navn",
+                    "structure": "Struktur"
+                }
             },
             "form": {
                 "editFile": "Rediger fil",

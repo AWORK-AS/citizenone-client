@@ -1,9 +1,42 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('citizens.documents.folderStructure.folderStructure')" :show="props.isModalOpen"
+        <Modal size="2xl" :title="$t('citizens.documents.folderStructure.folderStructure')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
-
+                <div class="flex justify-end items-center mb-5">
+                    <FormButton buttonStyle="action" class="rounded-lg"
+                        @click="state.modal.newFolderStructureOpen = true">
+                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('citizens.documents.folderStructure.newFolderStructure') }}
+                    </FormButton>
+                </div>
+                <div class="space-y-5">
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
+                    <TableSearch @search="handleSearch" />
+                    <div class="table-responsive">
+                        <Table :columnHeaders="state.columnHeaders" :data="state.folder_structures"
+                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
+                            <template #body
+                                v-if="!(state.isTableLoading || (state.folder_structures?.data?.length === 0))">
+                                <tr v-for="(folder_structure, index) in state.folder_structures?.data" :key="index">
+                                    <td width="50%">
+                                        <span>{{ folder_structure?.folder_name }}</span>
+                                    </td>
+                                    <td width="50%">
+                                        <div class="flex items-end gap-2">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md">
+                                                <Icon name="ph:pencil" class="size-4" />
+                                                {{ $t('citizens.documents.folderStructure.table.actions.edit') }}
+                                            </FormButton>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </Table>
+                    </div>
+                    <Pagination :data="state.folder_structures" @previous="previous" @next="next" />
+                </div>
             </template>
         </Modal>
     </div>
@@ -11,6 +44,7 @@
 
 
 <script setup lang="ts">
+import { folderStructureService } from '@/components/api/FolderStructureService'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -20,12 +54,80 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['close'])
+let currentTablePage = 1
 
 const state = reactive({
+    columnHeaders: [
+        { name: 'addictions.table.name', sorter: true, key: 'name' },
+        { name: '' },
+    ],
+    dataFilter: {
+        search: ''
+    },
     error: {} as Error,
+    folder_structures: [] as any,
+    isTableLoading: false,
+    modal: {
+        newFolderStructureOpen: false
+    },
+    sortData: {
+        sortField: 'id',
+        sortOrder: 'descend',
+    },
 })
 
 function closeModal() {
     emit('close')
+}
+
+watch(() => props.isModalOpen, (isModalOpen: any) => {
+    if (isModalOpen) {
+        fetchFolderStructures()
+    }
+})
+
+async function fetchFolderStructures() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const params = {
+            page: currentTablePage,
+            sortField: state.sortData.sortField,
+            sortOrder: state.sortData.sortOrder,
+            ...state.dataFilter
+        }
+        const response = await folderStructureService.getFolderStructures(params)
+        if (response) {
+            state.folder_structures = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function previous() {
+    currentTablePage--
+    fetchFolderStructures()
+}
+
+function next() {
+    currentTablePage++
+    fetchFolderStructures()
+}
+
+function sort(sortingData: any) {
+    currentTablePage = 1
+    state.sortData = {
+        sortField: sortingData.column,
+        sortOrder: sortingData.sort,
+    }
+    fetchFolderStructures()
+}
+
+function handleSearch(value: any) {
+    currentTablePage = 1
+    state.dataFilter.search = value?.[0] == '' ? [] : value
+    fetchFolderStructures()
 }
 </script>

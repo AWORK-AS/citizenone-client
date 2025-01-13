@@ -456,7 +456,21 @@
                 "upgradeStorageConfirmation": "Do you want to upgrade your storage"
             },
             "folderStructure": {
-                "folderStructure": "Folder structure"
+                "editFolderStructure": "Edit folder structure",
+                "folderStructure": "Folder structure",
+                "form": {
+                    "name": "Name",
+                    "root": "Root folder",
+                    "subfolder": "Sub folder"
+                },
+                "newFolderStructure": "New folder structure",
+                "table": {
+                    "actions": {
+                        "edit": "Edit"
+                    },
+                    "name": "Name",
+                    "structure": "Structure"
+                }
             },
             "form": {
                 "editFile": "Edit file",
