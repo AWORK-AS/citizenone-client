@@ -456,9 +456,19 @@
                 "upgradeStorageConfirmation": "Do you want to upgrade your storage"
             },
             "folderStructure": {
+                "alert": {
+                    "folderStructureSuccessfullyDeleted": "Folder structure successfully deleted",
+                    "folderStructureSuccessfullyUpdated": "Folder structure successfully updated"
+                },
+                "confirmation": {
+                    "deleteFolderStructureConfirmation": "Are you sure you want to delete this folder structure"
+                },
                 "editFolderStructure": "Edit folder structure",
                 "folderStructure": "Folder structure",
                 "form": {
+                    "alert": {
+                        "newFolderStructureSuccessfullyCreated": "New folder structure successfully created"
+                    },
                     "name": "Name",
                     "root": "Root folder",
                     "subfolder": "Sub folder"
@@ -466,6 +476,7 @@
                 "newFolderStructure": "New folder structure",
                 "table": {
                     "actions": {
+                        "delete": "Delete",
                         "edit": "Edit"
                     },
                     "name": "Name",

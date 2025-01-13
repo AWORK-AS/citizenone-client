@@ -25,7 +25,8 @@
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="editFolderStructure(folder_structure)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('citizens.documents.folderStructure.table.actions.edit') }}
                                             </FormButton>
@@ -37,6 +38,13 @@
                     </div>
                     <Pagination :data="state.folder_structures" @previous="previous" @next="next" />
                 </div>
+                <ModulesCitizenDocumentFolderStructureModalNew :isModalOpen="state.modal.newFolderStructureOpen"
+                    @close="state.modal.newFolderStructureOpen = false"
+                    @refreshFolderStructures="fetchFolderStructures" />
+                <ModulesCitizenDocumentFolderStructureModalEdit :isModalOpen="state.modal.editFolderStructureOpen"
+                    :selectedFolderStructure="state.selected_folder_structure"
+                    @close="state.modal.editFolderStructureOpen = false"
+                    @refreshFolderStructures="fetchFolderStructures" />
             </template>
         </Modal>
     </div>
@@ -53,12 +61,14 @@ const props = defineProps({
         required: true,
     },
 })
+const router = useRouter()
+const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const emit = defineEmits(['close'])
 let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'addictions.table.name', sorter: true, key: 'name' },
+        { name: 'addictions.table.name', sorter: true, key: 'folder_name' },
         { name: '' },
     ],
     dataFilter: {
@@ -68,8 +78,10 @@ const state = reactive({
     folder_structures: [] as any,
     isTableLoading: false,
     modal: {
-        newFolderStructureOpen: false
+        editFolderStructureOpen: false,
+        newFolderStructureOpen: false,
     },
+    selected_folder_structure: {},
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -91,6 +103,7 @@ async function fetchFolderStructures() {
     state.isTableLoading = true
     try {
         const params = {
+            citizen_uuid: citizenUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
@@ -129,5 +142,10 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchFolderStructures()
+}
+
+function editFolderStructure(folder_structure: any) {
+    state.selected_folder_structure = folder_structure
+    state.modal.editFolderStructureOpen = true
 }
 </script>

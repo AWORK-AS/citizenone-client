@@ -119,7 +119,8 @@
                 <ModulesCitizenDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
-                <ModulesCitizenDocumentModalFolderStructure :isModalOpen="state.modal.isViewFolderStructureOpen"
+                <ModulesCitizenDocumentFolderStructureModalFolderStructures
+                    :isModalOpen="state.modal.isViewFolderStructureOpen"
                     @close="state.modal.isViewFolderStructureOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
                     :message="$t('citizens.documents.confirmation.archiveConfirmation') + '?'"

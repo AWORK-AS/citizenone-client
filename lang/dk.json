@@ -456,9 +456,19 @@
                 "upgradeStorageConfirmation": "Vil du opgradere dit lager"
             },
             "folderStructure": {
+                "alert": {
+                    "folderStructureSuccessfullyDeleted": "Mappestruktur slettet med succes",
+                    "folderStructureSuccessfullyUpdated": "Mappestruktur opdateret med succes"
+                },
+                "confirmation": {
+                    "deleteFolderStructureConfirmation": "Er du sikker på, at du vil slette denne mappestruktur"
+                },
                 "editFolderStructure": "Rediger mappestruktur",
                 "folderStructure": "Mappestruktur",
                 "form": {
+                    "alert": {
+                        "newFolderStructureSuccessfullyCreated": "Mappestruktur oprettet med succes"
+                    },
                     "name": "Navn",
                     "root": "Rodmappe",
                     "subfolder": "Undermappe"
@@ -466,6 +476,7 @@
                 "newFolderStructure": "Ny mappestruktur",
                 "table": {
                     "actions": {
+                        "delete": "Slet",
                         "edit": "Rediger"
                     },
                     "name": "Navn",
