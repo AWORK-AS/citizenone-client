@@ -72,24 +72,6 @@
                     <FormError :error="props?.error?.errors?.current_stocks?.[0]" />
                 </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="evaluator" :label="$t('citizens.medicineJournals.form.evaluator')" />
-                    <FormSelect id="evaluator" name="evaluator" :options="state.options.evaluators"
-                        v-model="state.formMedicine.evaluator" />
-                    <FormError :error="v$?.formMedicine?.evaluator?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.evaluator?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="evaluation_frequency"
-                        :label="$t('citizens.medicineJournals.form.evaluationFrequency')" />
-                    <FormSelect id="evaluation_frequency" name="evaluation_frequency"
-                        :options="state.options.schedule_frequencies"
-                        v-model="state.formMedicine.evaluation_frequency" />
-                    <FormError :error="v$?.formMedicine?.evaluation_frequency?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.evaluation_frequency?.[0]" />
-                </div>
-            </div>
             <div class="space-y-1">
                 <FormLabel for="time" :label="$t('citizens.medicineJournals.form.time')" />
                 <FormSelectMultiple id="time" :options="state.options.time" v-model="state.formMedicine.time" />
@@ -117,6 +99,24 @@
                     @click="state.formMedicine.is_pn_medicine = !state.formMedicine.is_pn_medicine">
                     <FormCheckbox :value="state.formMedicine.is_pn_medicine" />
                     <p>{{ $t('citizens.medicineJournals.form.pnMedicine') }}</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="state.formMedicine.is_pn_medicine">
+                <div class="space-y-1">
+                    <FormLabel for="evaluator" :label="$t('citizens.medicineJournals.form.evaluator')" />
+                    <FormSelect id="evaluator" name="evaluator" :options="state.options.evaluators"
+                        v-model="state.formMedicine.evaluator" />
+                    <FormError :error="v$?.formMedicine?.evaluator?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.evaluator?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="evaluation_frequency"
+                        :label="$t('citizens.medicineJournals.form.evaluationFrequency')" />
+                    <FormSelect id="evaluation_frequency" name="evaluation_frequency"
+                        :options="state.options.schedule_frequencies"
+                        v-model="state.formMedicine.evaluation_frequency" />
+                    <FormError :error="v$?.formMedicine?.evaluation_frequency?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.evaluation_frequency?.[0]" />
                 </div>
             </div>
         </div>
@@ -300,12 +300,6 @@ const rules = computed(() => {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 current_stocks: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                evaluator: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                evaluation_frequency: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 time: {
