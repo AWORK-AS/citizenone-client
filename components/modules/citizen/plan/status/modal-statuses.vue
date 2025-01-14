@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('plansandgoals.statuses')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xl" :title="$t('plansandgoals.statuses')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
@@ -19,11 +19,16 @@
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                                 <template #body v-if="!(state.isTableLoading || (state.statuses?.data?.length === 0))">
                                     <tr v-for="(status, index) in state.statuses?.data" :key="index">
-                                        <td width="45%">
+                                        <td width="30%">
                                             <span>{{ status?.status }}</span>
                                         </td>
-                                        <td width="35%">
+                                        <td width="30%">
                                             <span>{{ formatDateToReadable(status?.created_at) }}</span>
+                                        </td>
+                                        <td width="20%">
+                                            <span>
+                                                {{ status?.user?.firstname + ' ' + status?.user?.lastname }}
+                                            </span>
                                         </td>
                                         <td width="20%">
                                             <div class="flex items-end gap-2">
@@ -93,6 +98,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'plansandgoals.table.status', sorter: true, key: 'status' },
         { name: 'plansandgoals.table.dateCreated' },
+        { name: 'plansandgoals.table.createdBy' },
         { name: '' },
     ],
     dataFilter: [],

@@ -1817,6 +1817,8 @@
                 "seeGoals": "See goals",
                 "statuses": "Statuses"
             },
+            "createdBy": "Created by",
+            "copiedFrom": "Copied from",
             "dateCreated": "Date created",
             "status": "Status"
         }

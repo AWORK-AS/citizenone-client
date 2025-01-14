@@ -1817,6 +1817,8 @@
                 "seeGoals": "Se mål",
                 "statuses": "Statusser"
             },
+            "createdBy": "Oprettet af",
+            "copiedFrom": "Kopieret fra",
             "dateCreated": "Oprettelsesdato",
             "status": "Status"
         }

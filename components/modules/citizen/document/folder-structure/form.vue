@@ -2,12 +2,46 @@
     <form @submit.prevent="submitForm()">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="space-y-1">
-            <FormLabel for="name" :label="$t('citizens.documents.folderStructure.form.name')" />
-            <FormTextField id="name" name="name" :placeholder="$t('citizens.documents.folderStructure.form.name')"
-                v-model="state.formFolderStructure.name" />
-            <FormError :error="v$?.formFolderStructure?.name?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.name?.[0]" />
+        <div class="space-y-3">
+            <div class="space-y-1">
+                <FormLabel for="name" :label="$t('citizens.documents.folderStructure.form.name')" />
+                <FormTextField id="name" name="name" :placeholder="$t('citizens.documents.folderStructure.form.name')"
+                    v-model="state.formFolderStructure.name" />
+                <FormError :error="v$?.formFolderStructure?.name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <div class="space-y-1">
+                    <FormLabel for="root_folder" :label="$t('citizens.documents.folderStructure.form.root')" />
+                    <FormTextField id="root_folder" name="root_folder"
+                        :placeholder="$t('citizens.documents.folderStructure.form.root')" />
+                </div>
+                <div class="space-y-1 ml-5">
+                    <FormLabel for="subfolder" :label="$t('citizens.documents.folderStructure.form.subfolder')" />
+                    <FormTextField id="subfolder" name="subfolder"
+                        :placeholder="$t('citizens.documents.folderStructure.form.subfolder')" />
+                </div>
+                <div class="space-y-1 ml-10">
+                    <FormLabel for="subfolder" :label="$t('citizens.documents.folderStructure.form.subfolder')" />
+                    <FormTextField id="subfolder" name="subfolder"
+                        :placeholder="$t('citizens.documents.folderStructure.form.subfolder')" />
+                </div>
+                <div class="space-y-1 ml-5">
+                    <FormLabel for="subfolder" :label="$t('citizens.documents.folderStructure.form.subfolder')" />
+                    <FormTextField id="subfolder" name="subfolder"
+                        :placeholder="$t('citizens.documents.folderStructure.form.subfolder')" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="root_folder" :label="$t('citizens.documents.folderStructure.form.root')" />
+                    <FormTextField id="root_folder" name="root_folder"
+                        :placeholder="$t('citizens.documents.folderStructure.form.root')" />
+                </div>
+                <div class="space-y-1 ml-5">
+                    <FormLabel for="subfolder" :label="$t('citizens.documents.folderStructure.form.subfolder')" />
+                    <FormTextField id="subfolder" name="subfolder"
+                        :placeholder="$t('citizens.documents.folderStructure.form.subfolder')" />
+                </div>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
