@@ -17,7 +17,7 @@
                                 <div>
                                     <h3 class="text-base font-semibold leading-7 text-tertiary">
                                         <span v-if="language.locale.value === 'en'">
-                                            Manage your company on FindSocialeTilbud.dk
+                                            Managee your company on FindSocialeTilbud.dk
                                         </span>
                                         <span v-if="language.locale.value === 'dk'">
                                             Administrér din virksomhed på FindSocialeTilbud.dk
