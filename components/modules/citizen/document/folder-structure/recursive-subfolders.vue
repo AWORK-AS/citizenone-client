@@ -7,12 +7,12 @@
             <div class="flex items-center justify-between space-x-2">
                 <div class="w-full space-y-1">
                     <FormTextField :id="`folder-${parentIndex}-${index}`" :name="`folder-${parentIndex}-${index}`"
-                        v-model="subfolder.folder"
+                        v-model="props.subfolders[index].folder"
                         :placeholder="$t('citizens.documents.folderStructure.form.folderName')" />
                 </div>
                 <!-- Remove Subfolder Button -->
                 <button type="button" class="text-red-500 text-sm hover:underline"
-                    @click="removeSubfolder(subfolder, index)">
+                    @click="removeSubfolder(props?.subfolders, index)">
                     <Icon name="ph:trash" class="h-5 w-5 text-red-600" aria-hidden="true" />
                 </button>
             </div>
@@ -27,8 +27,8 @@
         </div>
 
         <!-- Add Subfolder Button -->
-        <button type="button" class="text-primary text-sm hover:underline ml-6" @click="addSubfolder(subfolder)">
-            Add subfolder {{ subfolder?.level }}
+        <button type="button" class="text-primary text-sm hover:underline ml-6" @click="addSubfolder(subfolder, index)">
+            Add subfolder {{ index }}
         </button>
     </div>
 </template>
@@ -51,8 +51,8 @@ const props = defineProps({
 const emit = defineEmits(['addSubfolder', 'removeSubfolder'])
 const { t } = useI18n()
 
-function addSubfolder(subfolder: any) {
-    emit('addSubfolder', subfolder)
+function addSubfolder(subfolder: any, index: number) {
+    emit('addSubfolder', subfolder, index)
 }
 
 function removeSubfolder(subfolder: any, index: number) {

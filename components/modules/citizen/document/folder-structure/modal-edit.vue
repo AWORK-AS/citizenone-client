@@ -53,10 +53,10 @@ async function updateFolderStructure(folderStructureDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const folderStructureUuid = folderStructureDetails.uuid
+        const folderStructureUuid = props?.selectedFolderStructure?.uuid
         const params = {
             name: folderStructureDetails.name,
-            structure: folderStructureDetails.structure,
+            structure: JSON.stringify(folderStructureDetails.structure),
         }
         const response = await folderStructureService.updateFolderStructure(folderStructureUuid, params)
         if (response?.data) {

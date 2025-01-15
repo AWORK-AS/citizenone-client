@@ -53,7 +53,7 @@ async function saveFolderStructure(folderStuctureDetails: any) {
     try {
         const params = {
             name: folderStuctureDetails.name,
-            structure: folderStuctureDetails.structure,
+            structure: JSON.stringify(folderStuctureDetails.structure),
         }
         const response = await folderStructureService.saveFolderStructure(params)
         if (response.data) {

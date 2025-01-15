@@ -18,7 +18,9 @@
                             :label="`${t('citizens.documents.folderStructure.form.rootFolder')}`" />
                         <div class="flex items-center justify-between space-x-2">
                             <div class="space-y-1 w-full">
-                                <FormTextField :id="`root-${index}`" :name="`root-${index}`" v-model="root.root"
+                                <!-- Root Folder Input -->
+                                <FormTextField :id="`root-${index}`" :name="`root-${index}`"
+                                    v-model="state.formFolderStructure.structure[index].root"
                                     :placeholder="$t('citizens.documents.folderStructure.form.rootFolder')" />
                             </div>
                             <!-- Remove Root Folder Button -->
@@ -43,11 +45,6 @@
                         Add subfolder
                     </button>
                 </div>
-
-                <!-- Add Root Folder Button -->
-                <button type="button" class="text-primary text-sm hover:underline" @click="addRootFolder">
-                    Add root folder
-                </button>
             </div>
 
         </div>
@@ -80,7 +77,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedAddiction: {
+    selectedFolderStructure: {
         type: Object,
         required: false,
     },
@@ -92,57 +89,15 @@ const { t } = useI18n()
 const state = reactive({
     error: {} as Error,
     formFolderStructure: {
-        name: '',
-        structure: [
+        name: props.selectedFolderStructure?.name || '',
+        structure: props.selectedFolderStructure?.structure ? JSON.parse(props.selectedFolderStructure?.structure) : [
             {
-                root: "Root folder 1",
+                root: "Root folder",
                 level: 0,
-                subfolder: [
-                    {
-                        folder: "Folder 1.1",
-                        level: 1,
-                        subfolder: [
-                            {
-                                folder: "Folder 1.1.1",
-                                level: 2,
-                                subfolder: [
-                                    {
-                                        folder: "Folder 1.1.1.1",
-                                        level: 3,
-                                        subfolder: [
-                                            {
-                                                folder: "Folder 1.1.1.1.1",
-                                                level: 4,
-                                                subfolder: []
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        folder: "Folder 1.1.1.2",
-                                        level: 3,
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        folder: "Folder 1.2",
-                        level: 1,
-                        subfolder: []
-                    }
-                ]
+                subfolder: []
             }
         ]
     },
-})
-
-watch(() => props.selectedAddiction, (newValue: any) => {
-    if (newValue != null) {
-        state.formFolderStructure = {
-            name: newValue.name,
-            structure: newValue.structure,
-        }
-    }
 })
 
 const rules = computed(() => {
@@ -169,36 +124,29 @@ function submitForm() {
     }
 }
 
-function addRootFolder() {
-    state.formFolderStructure.structure.push({
-        root: 'Root folder',
-        level: 1,
-        subfolder: [],
-    })
-}
-
 function removeRootFolder(index: number) {
     state.formFolderStructure.structure.splice(index, 1)
 }
 
 function addSubfolder(subfolder: any) {
-    console.log(subfolder)
-    // if (!parentFolder.subfolder) {
-    //     parentFolder.subfolder = [];
-    // }
+    // Create a new subfolder with the next level
+    const newSubfolder = {
+        folder: `New Folder ${subfolder?.level + 1 || 0}`,
+        level: subfolder?.level + 1 || 0,
+        subfolder: []
+    }
 
-    // const newLevel = parentFolder.level + 1; // Increment the level based on the parent folder
-    // const subfolderName = `Subfolder ${newLevel}.${parentFolder.subfolder.length + 1}`;
+    // Ensure the subfolder array exists
+    if (!subfolder.subfolder) {
+        subfolder.subfolder = []
+    }
 
-    // parentFolder.subfolder.push({
-    //     folder: subfolderName,
-    //     level: newLevel,
-    //     subfolder: [],
-    // });
+    // Add the new subfolder as the last item
+    subfolder.subfolder.push(newSubfolder)
 }
 
 function removeSubfolder(subfolder: any, index: number) {
-    console.log('subfolder', subfolder)
-    console.log('index', index)
+    // Remove the subfolder at the given index
+    subfolder.splice(index, 1)
 }
 </script>

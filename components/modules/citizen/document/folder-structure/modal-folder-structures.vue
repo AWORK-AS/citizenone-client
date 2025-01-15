@@ -21,7 +21,7 @@
                                 v-if="!(state.isTableLoading || (state.folder_structures?.data?.length === 0))">
                                 <tr v-for="(folder_structure, index) in state.folder_structures?.data" :key="index">
                                     <td width="50%">
-                                        <span>{{ folder_structure?.folder_name }}</span>
+                                        <span>{{ folder_structure?.name }}</span>
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
@@ -68,7 +68,7 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'addictions.table.name', sorter: true, key: 'folder_name' },
+        { name: 'addictions.table.name', sorter: true, key: 'name' },
         { name: '' },
     ],
     dataFilter: {
