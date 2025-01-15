@@ -1820,6 +1820,8 @@
             "createdBy": "Created by",
             "copiedFrom": "Copied from",
             "dateCreated": "Date created",
+            "journalNote": "Journal note",
+            "riskAssessment": "Risk assessment",
             "status": "Status"
         }
     },

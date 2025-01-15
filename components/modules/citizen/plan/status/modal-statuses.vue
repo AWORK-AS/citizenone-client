@@ -20,7 +20,14 @@
                                 <template #body v-if="!(state.isTableLoading || (state.statuses?.data?.length === 0))">
                                     <tr v-for="(status, index) in state.statuses?.data" :key="index">
                                         <td width="30%">
-                                            <span>{{ status?.status }}</span>
+                                            <Badge type="primary">
+                                                <p class="text-xs">
+                                                    {{
+                                                        $t('citizens.incidents.form.draft')
+                                                    }}
+                                                </p>
+                                            </Badge>
+                                            <div v-html="status.status" class="content" />
                                         </td>
                                         <td width="30%">
                                             <span>{{ formatDateToReadable(status?.created_at) }}</span>

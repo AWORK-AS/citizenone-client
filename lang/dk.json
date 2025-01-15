@@ -1820,6 +1820,8 @@
             "createdBy": "Oprettet af",
             "copiedFrom": "Kopieret fra",
             "dateCreated": "Oprettelsesdato",
+            "journalNote": "Journalnote",
+            "riskAssessment": "Risikovurdering",
             "status": "Status"
         }
     },

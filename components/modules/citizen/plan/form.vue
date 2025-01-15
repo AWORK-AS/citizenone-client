@@ -114,7 +114,7 @@ onMounted(() => {
         name: props.selectedPlan.name,
         completion_date: props.selectedPlan.completion_date,
         date_completed: props.selectedPlan.date_completed,
-        description: props.selectedPlan.description,
+        description: props.selectedPlan.description ?? '',
         is_completed: props.selectedPlan.is_completed,
     }
 })
@@ -125,7 +125,7 @@ watch(() => props.selectedPlan, (newValue: any) => {
             id: newValue.id,
             uuid: newValue.uuid,
             name: newValue.name,
-            description: newValue.description,
+            description: newValue.description ?? '',
             completion_date: newValue.completion_date,
             date_completed: newValue.date_completed,
             is_completed: newValue.is_completed,

@@ -3,9 +3,10 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-1">
-            <FormLabel for="status" :label="$t('plansandgoals.form.status')" />
-            <FormTextArea id="status" name="status" :placeholder="$t('plansandgoals.form.status')"
-                v-model="state.formStatus.status" />
+            <p class="text-sm text-gray-600">
+                {{ $t('plansandgoals.form.status') }}
+            </p>
+            <ckeditor :editor="editor" v-model="state.formStatus.status" :config="editorStatusConfig"></ckeditor>
             <FormError :error="v$?.formStatus?.status?.$errors[0]?.$message.toString()" />
             <FormError :error="props?.error?.errors?.status?.[0]" />
         </div>
@@ -24,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -43,8 +45,21 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
-
 const { t } = useI18n()
+const editor = ref(ClassicEditor)
+const editorStatusConfig = ref({
+    // Add your custom configuration here
+    toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
+    heading: {
+        options: [
+            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+        ]
+    },
+    height: 500  // Set the editor height here
+})
 
 const state = reactive({
     formStatus: {
