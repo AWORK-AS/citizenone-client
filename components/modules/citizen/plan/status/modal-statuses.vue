@@ -119,7 +119,7 @@ const state = reactive({
         isDeleteStatusOpen: false,
         isEditStatusOpen: false,
     },
-    selectedStatus: [],
+    selectedStatus: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -200,7 +200,7 @@ function confirmStatusDeletion(status: any) {
 
 async function deleteStatus() {
     state.error = {}
-    state.isPageLoading = true
+    state.isTableLoading = true
     try {
         const response = await statusService.deleteStatus(state.selectedStatus.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
@@ -210,6 +210,6 @@ async function deleteStatus() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
+    state.isTableLoading = false
 }
 </script>
