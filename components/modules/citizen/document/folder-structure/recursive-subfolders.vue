@@ -28,7 +28,7 @@
 
         <!-- Add Subfolder Button -->
         <button type="button" class="text-primary text-sm hover:underline ml-6" @click="addSubfolder(subfolder, index)">
-            Add subfolder {{ index }}
+            {{ t('citizens.documents.folderStructure.form.addSubfolder') }}
         </button>
     </div>
 </template>

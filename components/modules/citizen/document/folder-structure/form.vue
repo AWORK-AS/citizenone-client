@@ -42,7 +42,7 @@
                     <!-- Add Subfolder Button -->
                     <button type="button" class="text-primary text-sm hover:underline ml-6"
                         @click="addSubfolder(state.formFolderStructure.structure[index])">
-                        Add subfolder
+                        {{ t('citizens.documents.folderStructure.form.addSubfolder') }}
                     </button>
                 </div>
             </div>
@@ -92,7 +92,7 @@ const state = reactive({
         name: props.selectedFolderStructure?.name || '',
         structure: props.selectedFolderStructure?.structure ? JSON.parse(props.selectedFolderStructure?.structure) : [
             {
-                root: "Root folder",
+                root: "",
                 level: 0,
                 subfolder: []
             }
@@ -131,7 +131,7 @@ function removeRootFolder(index: number) {
 function addSubfolder(subfolder: any) {
     // Create a new subfolder with the next level
     const newSubfolder = {
-        folder: `New Folder ${subfolder?.level + 1 || 0}`,
+        folder: "",
         level: subfolder?.level + 1 || 0,
         subfolder: []
     }

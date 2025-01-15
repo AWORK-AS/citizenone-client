@@ -466,6 +466,7 @@
                 "editFolderStructure": "Rediger mappestruktur",
                 "folderStructure": "Mappestruktur",
                 "form": {
+                    "addSubfolder": "Tilføj undermappe",
                     "alert": {
                         "newFolderStructureSuccessfullyCreated": "Mappestruktur oprettet med succes"
                     },

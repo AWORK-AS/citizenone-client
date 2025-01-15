@@ -466,6 +466,7 @@
                 "editFolderStructure": "Edit folder structure",
                 "folderStructure": "Folder structure",
                 "form": {
+                    "addSubfolder": "Add subfolder",
                     "alert": {
                         "newFolderStructureSuccessfullyCreated": "New folder structure successfully created"
                     },
