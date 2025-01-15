@@ -17,15 +17,17 @@
             </div>
             <div>
                 <div class="max-w-5xl mx-auto mt-22">
-                    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4">
 
                         <!-- Left side: Image -->
                         <div
-                            class="hidden md:flex transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in items-center justify-center">
+                            class="hidden md:flex transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in-right items-center justify-center">
                             <div
-                                class="bg-transparent rounded-md p-8 xl:p-10 h-full w-full max-w-md sm:max-w-lg lg:max-w-xl flex items-center justify-center">
+                                class="bg-transparent p-8 xl:p-10 h-full w-full max-w-md sm:max-w-lg lg:max-w-xl flex items-center justify-center">
                                 <img src="https://media.istockphoto.com/id/1349030917/photo/business-and-finance-looking-up-at-high-rise-office-buildings-in-the-financial-district-of-a.jpg?s=612x612&w=0&k=20&c=NSnN0va-f1OBG_GA7bTVmUIoBwNDKUXtHD8_PzeTNiA="
-                                    alt="Manage Company Visual" class="w-full h-auto object-cover rounded-md" />
+                                    alt="Manage Company Visual" class="w-full h-auto object-cover transform scale-125"
+                                    style="border-radius: 78% 22% 75% 25% / 26% 86% 14% 74% " />
+
                             </div>
                         </div>
 
@@ -104,7 +106,7 @@
                 <div class="max-w-5xl mx-auto mt-24">
                     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2">
                         <!-- Left side: Description -->
-                        <div class="flex-1">
+                        <div class="flex items-center justify-center">
                             <div
                                 class="transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in bg-transparent rounded-md p-8 xl:p-10 flex flex-col justify-between h-full">
                                 <div>
@@ -112,7 +114,7 @@
                                         {{ $t('findsocialetilbuddk.showInterest.getInquiriesViaFindSocialeTilbudDk')
                                         }}
                                     </h3>
-                                    <div class="space-y-4 text-gray-700 text-center sm:text-left px-4 sm:px-6">
+                                    <div class="space-y-4 text-gray-700">
                                         <p class="text-base sm:text-sm leading-relaxed sm:leading-6">
                                             <span v-if="language.locale.value === 'en'">
                                                 FindSocialeTilbud.dk - Denmark's largest search engine for social
@@ -164,8 +166,9 @@
                         <div
                             class="hidden md:flex transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in items-center justify-center">
                             <div class="bg-transparent rounded-md p-8 xl:p-10 h-full flex items-center justify-center">
-                                <img src="https://media.istockphoto.com/id/1349030917/photo/business-and-finance-looking-up-at-high-rise-office-buildings-in-the-financial-district-of-a.jpg?s=612x612&w=0&k=20&c=NSnN0va-f1OBG_GA7bTVmUIoBwNDKUXtHD8_PzeTNiA="
-                                    alt="Manage Company Visual" class="w-full h-full object-cover rounded-md" />
+                                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    alt="Company Visual" class="w-full h-auto object-cover transform scale-125"
+                                    style="border-radius: 78% 22% 75% 25% / 26% 86% 14% 74% " />
                             </div>
                         </div>
                     </div>
