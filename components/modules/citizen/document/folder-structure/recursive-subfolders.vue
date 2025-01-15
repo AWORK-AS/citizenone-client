@@ -12,22 +12,22 @@
                 </div>
                 <!-- Remove Subfolder Button -->
                 <button type="button" class="text-red-500 text-sm hover:underline"
-                    @click="$emit('removeSubfolder', subfolders, index)">
+                    @click="removeSubfolder(subfolder, index)">
                     <Icon name="ph:trash" class="h-5 w-5 text-red-600" aria-hidden="true" />
                 </button>
             </div>
         </div>
 
         <!-- Nested Subfolders -->
+        <!-- level: {{ subfolder }} -->
         <div v-if="subfolder.subfolder && subfolder.subfolder.length > 0" class="ml-6">
             <ModulesCitizenDocumentFolderStructureRecursiveSubfolders :subfolders="subfolder.subfolder"
-                :parentIndex="`${parentIndex}-${index}`" @addSubfolder="$emit('addSubfolder', subfolder)"
-                @removeSubfolder="$emit('removeSubfolder', subfolder.subfolder, index)" />
+                :parentIndex="`${parentIndex}-${index}`" @addSubfolder="addSubfolder"
+                @removeSubfolder="removeSubfolder" />
         </div>
 
         <!-- Add Subfolder Button -->
-        <button type="button" class="text-primary text-sm hover:underline ml-6"
-            @click="$emit('addSubfolder', subfolder?.level)">
+        <button type="button" class="text-primary text-sm hover:underline ml-6" @click="addSubfolder(subfolder)">
             Add subfolder {{ subfolder?.level }}
         </button>
     </div>
@@ -50,4 +50,12 @@ const props = defineProps({
 
 const emit = defineEmits(['addSubfolder', 'removeSubfolder'])
 const { t } = useI18n()
+
+function addSubfolder(subfolder: any) {
+    emit('addSubfolder', subfolder)
+}
+
+function removeSubfolder(subfolder: any, index: number) {
+    emit('removeSubfolder', subfolder, index)
+}
 </script>

@@ -96,34 +96,39 @@ const state = reactive({
         structure: [
             {
                 root: "Root folder 1",
-                level: 1,
+                level: 0,
                 subfolder: [
                     {
                         folder: "Folder 1.1",
-                        level: 2,
+                        level: 1,
                         subfolder: [
                             {
                                 folder: "Folder 1.1.1",
-                                level: 3,
+                                level: 2,
                                 subfolder: [
                                     {
                                         folder: "Folder 1.1.1.1",
-                                        level: 4,
+                                        level: 3,
                                         subfolder: [
                                             {
                                                 folder: "Folder 1.1.1.1.1",
-                                                level: 5,
+                                                level: 4,
                                                 subfolder: []
                                             }
                                         ]
                                     },
                                     {
                                         folder: "Folder 1.1.1.2",
-                                        level: 4,
+                                        level: 3,
                                     }
                                 ]
                             }
                         ]
+                    },
+                    {
+                        folder: "Folder 1.2",
+                        level: 1,
+                        subfolder: []
                     }
                 ]
             }
@@ -176,8 +181,8 @@ function removeRootFolder(index: number) {
     state.formFolderStructure.structure.splice(index, 1)
 }
 
-function addSubfolder(parentFolder: any) {
-    console.log(parentFolder)
+function addSubfolder(subfolder: any) {
+    console.log(subfolder)
     // if (!parentFolder.subfolder) {
     //     parentFolder.subfolder = [];
     // }
@@ -192,8 +197,8 @@ function addSubfolder(parentFolder: any) {
     // });
 }
 
-function removeSubfolder(subfolders: any[], index: number) {
-    console.log('subfolders', subfolders)
+function removeSubfolder(subfolder: any, index: number) {
+    console.log('subfolder', subfolder)
     console.log('index', index)
 }
 </script>
