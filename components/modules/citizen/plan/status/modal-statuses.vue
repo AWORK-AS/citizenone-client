@@ -20,11 +20,14 @@
                                 <template #body v-if="!(state.isTableLoading || (state.statuses?.data?.length === 0))">
                                     <tr v-for="(status, index) in state.statuses?.data" :key="index">
                                         <td width="30%">
-                                            <Badge type="primary">
-                                                <p class="text-xs">
+                                            <Badge type="primary" class="w-fit" v-if="status?.copied_from">
+                                                <p class="text-xxs">
                                                     {{
-                                                        $t('citizens.incidents.form.draft')
+                                                        $t('plansandgoals.table.copiedFrom')
                                                     }}
+                                                    {{ status?.copied_from === 'journal_note' ?
+                                                        $t('plansandgoals.table.journalNote') :
+                                                        $t('plansandgoals.table.riskAssessment') }}
                                                 </p>
                                             </Badge>
                                             <div v-html="status.status" class="content" />
