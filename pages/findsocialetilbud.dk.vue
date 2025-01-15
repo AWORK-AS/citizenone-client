@@ -7,6 +7,14 @@
             </Head>
 
             <template #header>FindSocialeTilbud.dk</template>
+
+            <div
+                class="absolute top-10 right-4 transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in-right">
+                <button @click="state.modal.isImageModalOpen = true"
+                    class="flex items-center justify-center w-10 h-10 bg-tertiary text-white rounded-full shadow-lg">
+                    <span class="text-lg font-bold">?</span>
+                </button>
+            </div>
             <div>
                 <div class="max-w-5xl mx-auto mt-22">
                     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2">
@@ -164,21 +172,13 @@
                 </div>
             </div>
 
-            
-
-            <div class="top-4 right-4">
-                <button
-                    class="flex items-center justify-center w-10 h-10 bg-tertiary text-white rounded-full shadow-lg"
-                    @click="handleClick">
-                    <span class="text-lg font-bold">?</span>
-                </button>
-            </div>
-
 
             <ModulesFindsocialetilbuddkModalManageCompany :isModalOpen="state.modal.isManageCompanyOpen"
                 @close="state.modal.isManageCompanyOpen = false" />
             <ModulesFindsocialetilbuddkModalShowInterest :isModalOpen="state.modal.isShowInterestOpen"
                 @close="state.modal.isShowInterestOpen = false" />
+            <ModalImageModal :isModalOpen="state.modal.isImageModalOpen"
+                @close="state.modal.isImageModalOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -186,7 +186,6 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
-
 const runtimeConfig = useRuntimeConfig()
 const language = useI18n()
 
@@ -194,8 +193,24 @@ const state = reactive({
     modal: {
         isManageCompanyOpen: false,
         isShowInterestOpen: false,
+        isImageModalOpen: false
     },
-})
+});
+
+const checkFirstTime = () => {
+    const isFirstTime = localStorage.getItem('isFirstTime');
+    if (!isFirstTime || isFirstTime == "true") {
+        state.modal.isImageModalOpen = true
+        localStorage.setItem('isFirstTime', 'false');
+    }
+    else if (isFirstTime == "false") {
+        return
+    }
+};
+
+onMounted(() => {
+    checkFirstTime();
+});
 </script>
 
 <style scoped>
