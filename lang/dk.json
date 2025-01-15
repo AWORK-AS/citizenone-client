@@ -469,8 +469,9 @@
                     "alert": {
                         "newFolderStructureSuccessfullyCreated": "Mappestruktur oprettet med succes"
                     },
+                    "folderName": "Mappenavn",
                     "name": "Navn",
-                    "root": "Rodmappe",
+                    "rootFolder": "Rodmappe",
                     "subfolder": "Undermappe"
                 },
                 "newFolderStructure": "Ny mappestruktur",

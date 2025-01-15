@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('plansandgoals.statuses')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="2xl" :title="$t('plansandgoals.statuses')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
@@ -20,7 +20,7 @@
                                 <template #body v-if="!(state.isTableLoading || (state.statuses?.data?.length === 0))">
                                     <tr v-for="(status, index) in state.statuses?.data" :key="index">
                                         <td width="30%">
-                                            <Badge type="primary" class="w-fit" v-if="status?.copied_from">
+                                            <Badge type="primary" class="w-fit lowercase" v-if="status?.copied_from">
                                                 <p class="text-xxs">
                                                     {{
                                                         $t('plansandgoals.table.copiedFrom')

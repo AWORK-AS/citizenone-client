@@ -469,8 +469,9 @@
                     "alert": {
                         "newFolderStructureSuccessfullyCreated": "New folder structure successfully created"
                     },
+                    "folderName": "Folder name",
                     "name": "Name",
-                    "root": "Root folder",
+                    "rootFolder": "Root folder",
                     "subfolder": "Sub folder"
                 },
                 "newFolderStructure": "New folder structure",
