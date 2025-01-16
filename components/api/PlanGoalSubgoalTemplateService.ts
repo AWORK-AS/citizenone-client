@@ -1,6 +1,6 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
-class VUMTemplateService extends BaseAPIService {
+class PlanGoalSubgoalTemplateService extends BaseAPIService {
     async getTemplates(params: object): Promise<any> {
         return await this.request(`/user/plan-goal-subgoal-templates`, 'GET', params)
     }
@@ -18,4 +18,4 @@ class VUMTemplateService extends BaseAPIService {
     }
 }
 
-export const vumTemplateService = new VUMTemplateService()
+export const planGoalSubgoalTemplateService = new PlanGoalSubgoalTemplateService()

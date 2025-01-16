@@ -29,11 +29,18 @@
                                         <span>{{ template?.name }}</span>
                                     </td>
                                     <td width="35%">
-                                        <span>{{ template?.status }}</span>
+                                        <Badge :type="template?.is_active ? 'active' : 'inactive'" class="w-fit">
+                                            <p class="text-xs">
+                                                {{ template?.is_active ?
+                                                    $t('plansandgoals.VUMTemplates.table.active') :
+                                                    $t('plansandgoals.VUMTemplates.table.inactive') }}
+                                            </p>
+                                        </Badge>
                                     </td>
                                     <td width="25%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="navigateTo(`vum-templates/${template?.uuid}/plans`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('plansandgoals.VUMTemplates.table.actions.viewPlans') }}
                                             </FormButton>
@@ -69,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { vumTemplateService } from '@/components/api/VUMTemplateService'
+import { planGoalSubgoalTemplateService } from '@/components/api/PlanGoalSubgoalTemplateService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -117,7 +124,7 @@ async function fetchTemplates() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await vumTemplateService.getTemplates(params)
+        const response = await planGoalSubgoalTemplateService.getTemplates(params)
         if (response) {
             state.templates = response
         }
@@ -167,7 +174,7 @@ async function deleteTemplate() {
     state.isTableLoading = true
     try {
         const selectedTemplateUuid = state.selectedTemplate.uuid
-        const response = await vumTemplateService.deleteTemplate(selectedTemplateUuid)
+        const response = await planGoalSubgoalTemplateService.deleteTemplate(selectedTemplateUuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             successAlert(`${t('alert.success')}!`, `${t('plansandgoals.VUMTemplates.table.alert.templateSuccessfullyDeleted')}.`)
             fetchTemplates()

@@ -1862,22 +1862,28 @@
                 },
                 "goal": {
                     "completionDate": "Afslutningsdato",
+                    "description": "Beskrivelse",
                     "name": "Navn"
                 },
                 "plan": {
                     "completionDate": "Afslutningsdato",
+                    "description": "Beskrivelse",
                     "name": "Navn"
                 },
                 "subgoal": {
                     "completionDate": "Afslutningsdato",
+                    "description": "Beskrivelse",
                     "name": "Navn"
                 },
                 "templateName": "Skabelonnavn"
             },
+            "goals": "Mål",
             "newGoal": "Nyt mål",
             "newPlan": "Ny plan",
             "newSubgoal": "Nyt delmål",
             "newTemplate": "Ny skabelon",
+            "plans": "Planer",
+            "subgoals": "Delmål",
             "table": {
                 "actions": {
                     "edit": "Rediger",

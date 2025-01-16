@@ -1862,29 +1862,35 @@
                 },
                 "goal": {
                     "completionDate": "Completion date",
+                    "description": "Description",
                     "name": "Name"
                 },
                 "plan": {
                     "completionDate": "Completion date",
+                    "description": "Description",
                     "name": "Name"
                 },
                 "subgoal": {
                     "completionDate": "Completion date",
+                    "description": "Description",
                     "name": "Name"
                 },
                 "templateName": "Template name"
             },
+            "goals": "Goals",
             "newGoal": "New goal",
             "newPlan": "New plan",
             "newSubgoal": "New subgoal",
             "newTemplate": "New template",
+            "plans": "Plans",
+            "subgoals": "Subgoals",
             "table": {
                 "actions": {
                     "edit": "Edit",
                     "delete": "Delete",
                     "viewGoals": "View goals",
-                    "viewPlans": "View subgoals",
-                    "viewSubgoals": "View plans"
+                    "viewPlans": "View plans",
+                    "viewSubgoals": "View subgoals"
                 },
                 "active": "Active",
                 "alert": {

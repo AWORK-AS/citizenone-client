@@ -6,7 +6,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesVumTemplateForm formType="create" :selectedTemplate="state.formTemplate"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @nameModal="closeModal" @submitForm="saveWallet" />
+                        @nameModal="closeModal" @submitForm="saveTemplate" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -15,7 +15,7 @@
 
 
 <script setup lang="ts">
-import { vumTemplateService } from '@/components/api/VUMTemplateService'
+import { planGoalSubgoalTemplateService } from '@/components/api/PlanGoalSubgoalTemplateService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -48,7 +48,7 @@ function refreshTemplates() {
     emit('refreshTemplates')
 }
 
-async function saveWallet(templateDetails: any) {
+async function saveTemplate(templateDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -56,7 +56,7 @@ async function saveWallet(templateDetails: any) {
             name: templateDetails.name,
             is_active: templateDetails.is_active,
         }
-        const response = await vumTemplateService.saveTemplate(params)
+        const response = await planGoalSubgoalTemplateService.saveTemplate(params)
         if (response?.data) {
             successAlert(`${t('alert.success')}!`, `${t('plansandgoals.VUMTemplates.form.alert.newTemplateSuccessfullySaved')}.`)
             refreshTemplates()

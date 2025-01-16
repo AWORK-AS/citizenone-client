@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('plansandgoals.VUMTemplates.editTemplate')" :show="props.isModalOpen"
+        <Modal size="sm" :title="$t('plansandgoals.VUMTemplates.editTemplate')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -15,7 +15,7 @@
 
 
 <script setup lang="ts">
-import { planGoalSubgoalTemplateService } from '@/components/api/PlanGoalSubgoalTemplateService'
+import { planTemplateService } from '@/components/api/PlanTemplateService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -55,9 +55,10 @@ async function updateTemplate(templateDetails: any) {
         const templateUuid = templateDetails.uuid
         const params = {
             name: templateDetails.name,
-            is_active: templateDetails.is_active,
+            description: templateDetails.description,
+            completion_date: templateDetails.completion_date,
         }
-        const response = await planGoalSubgoalTemplateService.updateTemplate(templateUuid, params)
+        const response = await planTemplateService.updateTemplate(templateUuid, params)
         if (response?.data) {
             refreshTemplates()
             closeModal()
