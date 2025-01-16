@@ -10,7 +10,7 @@
             <ModulesCitizenUseOfForceSlideOver :isOpen="state.slideOver.isReportUseOfForceOpen"
                 @close="state.slideOver.isReportUseOfForceOpen = false" />
             <ModulesCitizenUseOfForceModalReportConfirmation :isModalOpen="state.modal.isReportUseOfForceOpen"
-                @close="state.modal.isReportUseOfForceOpen = false" @confirm="saveUseOfForce" />
+                @close="state.modal.isReportUseOfForceOpen = false" @submitForm="saveUseOfForce" />
         </div>
     </LoadingSpinner>
 </template>
@@ -37,17 +37,19 @@ const state = reactive({
     },
 })
 
-async function saveUseOfForce() {
+async function saveUseOfForce(useOfForceDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
             citizen_uuid: citizenUuid,
+            risk_level: useOfForceDetails.risk_level,
         }
         const response = await useOfForceService.saveUseOfForce(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.useOfForce.alert.savedSuccessfully')}.`)
             navigateToSocialForm()
+            state.modal.isReportUseOfForceOpen = false
         }
     } catch (error: any) {
         state.error = error

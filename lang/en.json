@@ -804,6 +804,17 @@
                 "socialOfBoligstyrelsensWebsite": "Social- og Boligstyrelsens website",
                 "whereYouCanDownloadText": "Where you can download the correct form and fill it out and send to your leader"
             },
+            "form": {
+                "riskLevel": {
+                    "category": {
+                        "harmless": "Harmless",
+                        "highRisk": "High Risk",
+                        "lowRisk": "Low Risk",
+                        "moderateRisk": "Moderate Risk"
+                    },
+                    "riskLevel": "Risk level"
+                }
+            },
             "reportUseOfForce": "Report use of force",
             "seePreviousUseOfForce": "See previous use of force",
             "table": {

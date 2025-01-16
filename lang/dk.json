@@ -804,6 +804,17 @@
                 "socialOfBoligstyrelsensWebsite": "Social- og Boligstyrelsens hjemmeside",
                 "whereYouCanDownloadText": "hvor du kan downloade det korrekte skema og dermed udfylde og sende til din leder"
             },
+            "form": {
+                "riskLevel": {
+                    "category": {
+                        "harmless": "Ufarlig",
+                        "highRisk": "Høj risiko",
+                        "lowRisk": "Lav risiko",
+                        "moderateRisk": "Moderat risiko"
+                    },
+                    "riskLevel": "Risikoniveau"
+                }
+            },
             "reportUseOfForce": "Rapporter magtanvendelse",
             "seePreviousUseOfForce": "Se tidligere magtanvendelse",
             "table": {
