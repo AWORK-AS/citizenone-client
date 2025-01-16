@@ -815,12 +815,24 @@
                     "riskLevel": "Risikoniveau"
                 }
             },
+            "missingAttachmentToOneOrMoreRecord": "Mangler vedhæftning til en eller flere poster",
             "reportUseOfForce": "Rapporter magtanvendelse",
             "seePreviousUseOfForce": "Se tidligere magtanvendelse",
             "table": {
+                "alert": {
+                    "attachmentDeletedSuccessfully": "Vedhæftning slettet med succes",
+                    "uploadedSuccessfully": "Vedhæftning uploadet med succes"
+                },
+                "clickToUpload": "Klik for at uploade",
+                "confirmation": {
+                    "deleteAttachmentConfirmation": "Er du sikker på, at du vil slette denne vedhæftning"
+                },
                 "date": "Dato",
                 "description": "Beskrivelse",
+                "download": "Download",
                 "draft": "Udkast",
+                "missingAttachment": "Mangler vedhæftning",
+                "deleteAttachment": "Slet vedhæftning",
                 "reportedBy": "Rapporteret af",
                 "title": "Titel"
             },

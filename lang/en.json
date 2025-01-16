@@ -815,12 +815,24 @@
                     "riskLevel": "Risk level"
                 }
             },
+            "missingAttachmentToOneOrMoreRecord": "Missing attachment to one or more record",
             "reportUseOfForce": "Report use of force",
             "seePreviousUseOfForce": "See previous use of force",
             "table": {
+                "alert": {
+                    "attachmentDeletedSuccessfully": "Attachment deleted successfully",
+                    "uploadedSuccessfully": "Attachment uploaded successfully"
+                },
+                "clickToUpload": "Click to upload",
+                "confirmation": {
+                    "deleteAttachmentConfirmation": "Are you sure you want to delete this attachment"
+                },
                 "date": "Date",
                 "description": "Description",
+                "download": "Download",
                 "draft": "Draft",
+                "missingAttachment": "Missing attachment",
+                "deleteAttachment": "Delete attachment",
                 "reportedBy": "Reported by",
                 "title": "Title"
             },

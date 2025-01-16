@@ -17,8 +17,16 @@ class UseOfForceService extends BaseAPIService {
         return await this.request(`/user/citizen-use-of-force/${useOfForceUuid}`, 'PUT', params)
     }
 
-    async uploadUseOfForceFile(params: object): Promise<any> {
-        return await this.request(`/user/citizen-use-of-force-attachments`, 'POST', params)
+    async uploadUseOfForceAttachment(useOfForceUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-use-of-force/${useOfForceUuid}/upload-attachment`, 'POST', params)
+    }
+
+    async deleteUseOfForceAttachment(useOfForceUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-use-of-force/${useOfForceUuid}/remove-attachment`, 'PUT')
+    }
+
+    async downloadUseOfForceAttachment(useOfForceUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-use-of-force/${useOfForceUuid}/download-attachment`, 'GET')
     }
 }
 

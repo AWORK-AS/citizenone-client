@@ -33,14 +33,15 @@
                                         <div class="relative mt-10 flex-1 px-4 sm:px-6">
                                             <Alert type="danger" :text="state?.error?.message"
                                                 v-if="state.error?.message && state.error.message.length > 0" />
+                                            <input type="file" ref="file" @change="onFileChange" class="hidden" />
                                             <div>
                                                 <div class="space-y-5">
                                                     <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
                                                         v-for="(useOfForce, index) in state.useOfForce?.data"
                                                         :key="index">
-                                                        <div class="flex gap-x-3">
-                                                            <div class="grow space-y-1.5">
-                                                                <div>
+                                                        <div class="flex justify-between">
+                                                            <div>
+                                                                <div class="grow space-y-1.5">
                                                                     <p class="mt-1 text-xs text-muted-400">
                                                                         <span>
                                                                             {{
@@ -57,6 +58,40 @@
                                                                     {{ useOfForce?.user?.lastname }}
                                                                 </p>
                                                             </div>
+                                                            <div v-if="useOfForce?.is_form_missing"
+                                                                @click="attachUseOfForceAttachment(useOfForce)">
+                                                                <button class="flex items-center text-xs gap-x-2">
+                                                                    <Icon name="ph:warning"
+                                                                        class="h-5 w-5 text-yellow-500"
+                                                                        aria-hidden="true" />
+                                                                    {{
+                                                                        $t('citizens.useOfForce.table.missingAttachment')
+                                                                    }}. <br />
+                                                                    {{
+                                                                        $t('citizens.useOfForce.table.clickToUpload')
+                                                                    }}.
+                                                                </button>
+                                                                <FormError :error="state?.error?.errors?.file?.[0]"
+                                                                    class="text-center" />
+                                                            </div>
+                                                            <div class="flex items-center gap-x-3" v-else>
+                                                                <button
+                                                                    class="flex items-center gap-x-1 text-xs text-primary hover:text-primary-700"
+                                                                    @click="downloadAttachment(useOfForce)">
+                                                                    <Icon name="ph:download" class="h-4 w-4"
+                                                                        aria-hidden="true" />
+                                                                    {{ $t('citizens.useOfForce.table.download') }}
+                                                                </button>
+                                                                <button
+                                                                    class="flex items-center gap-x-1 text-xs text-red-500 hover:text-red-700"
+                                                                    @click="confirmAttachmentDeletion(useOfForce)">
+                                                                    <Icon name="ph:trash" class="h-4 w-4"
+                                                                        aria-hidden="true" />
+                                                                    {{
+                                                                        $t('citizens.useOfForce.table.deleteAttachment')
+                                                                    }}
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div v-if="state.useOfForce?.data?.length === 0">
@@ -71,6 +106,9 @@
                                         </div>
                                     </LoadingSpinner>
                                 </div>
+                                <DialogConfirmation :isModalOpen="state.modal.isDeleteAttachmentOpen"
+                                    :message="$t('citizens.useOfForce.table.confirmation.deleteAttachmentConfirmation') + '?'"
+                                    @close="state.modal.isDeleteAttachmentOpen = false" @confirm="deleteAttachment" />
                             </DialogPanel>
                         </TransitionChild>
                     </div>
@@ -84,7 +122,10 @@
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useOfForceService } from '@/components/api/UseOfForceService'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { saveAs } from 'file-saver'
 
 const props = defineProps({
     isOpen: {
@@ -94,9 +135,12 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 const { formatDateToReadable } = useDatetimeFormatter()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
+const file = ref<HTMLInputElement | null>(null)
 
 function closeSlide() {
     emit('close')
@@ -104,8 +148,15 @@ function closeSlide() {
 
 const state = reactive({
     error: {} as Error,
+    formUseOfForce: {
+        file: ''
+    } as any,
     useOfForce: [] as any,
     isPageLoading: false,
+    modal: {
+        isDeleteAttachmentOpen: false,
+    },
+    selectedUseOfForce: {} as any,
     sortData: {
         sortField: 'date_time',
         sortOrder: 'descend',
@@ -146,5 +197,72 @@ function previous() {
 function next() {
     currentTablePage++
     fetchUseOfForce()
+}
+
+function attachUseOfForceAttachment(useOfForce: any) {
+    state.selectedUseOfForce = useOfForce
+    if (file.value) {
+        file.value.click()
+    }
+}
+
+function onFileChange(event: any) {
+    state.formUseOfForce.file = event.target.files[0]
+    uploadUseOfForceAttachment()
+}
+
+async function uploadUseOfForceAttachment() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const useOfForceUuid = state.selectedUseOfForce?.uuid
+        let params = new FormData()
+        params.append('citizen_uuid', citizenUuid.toString())
+        params.append('file', state.formUseOfForce.file)
+        const response = await useOfForceService.uploadUseOfForceAttachment(useOfForceUuid, params)
+        if (response?.data) {
+            fetchUseOfForce()
+            successAlert(`${t('alert.success')}!`, `${t('citizens.useOfForce.table.alert.uploadedSuccessfully')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function downloadAttachment(useOfForce: any) {
+    state.isPageLoading = true
+    state.error = {}
+    try {
+        const useOfForceUuid = useOfForce?.uuid
+        const response = await useOfForceService.downloadUseOfForceAttachment(useOfForceUuid)
+        if (response) {
+            saveAs(response, useOfForce?.file_name)
+        }
+    } catch (error: any) {
+        state.error.message = error?.message || 'An error occurred during the download.'
+    }
+    state.isPageLoading = false
+}
+
+function confirmAttachmentDeletion(useOfForce: any) {
+    state.selectedUseOfForce = useOfForce
+    state.modal.isDeleteAttachmentOpen = true
+}
+
+async function deleteAttachment() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const useOfForceUuid = state.selectedUseOfForce?.uuid
+        const response = await useOfForceService.deleteUseOfForceAttachment(useOfForceUuid)
+        if (response?.data) {
+            successAlert(`${t('alert.success')}!`, `${t('citizens.useOfForce.table.alert.attachmentDeletedSuccessfully')}.`)
+            fetchUseOfForce()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>
