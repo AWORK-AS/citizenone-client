@@ -1848,6 +1848,74 @@
             "journalNote": "Journalnote",
             "riskAssessment": "Risikovurdering",
             "status": "Status"
+        },
+        "VUMTemplates": {
+            "editGoal": "Rediger mål",
+            "editPlan": "Rediger plan",
+            "editSubgoal": "Rediger delmål",
+            "editTemplate": "Rediger skabelon",
+            "form": {
+                "active": "Aktiv",
+                "alert": {
+                    "templateSuccessfullyUpdated": "Skabelon opdateret med succes",
+                    "newTemplateSuccessfullySaved": "Ny skabelon gemt med succes"
+                },
+                "goal": {
+                    "completionDate": "Afslutningsdato",
+                    "name": "Navn"
+                },
+                "plan": {
+                    "completionDate": "Afslutningsdato",
+                    "name": "Navn"
+                },
+                "subgoal": {
+                    "completionDate": "Afslutningsdato",
+                    "name": "Navn"
+                },
+                "templateName": "Skabelonnavn"
+            },
+            "newGoal": "Nyt mål",
+            "newPlan": "Ny plan",
+            "newSubgoal": "Nyt delmål",
+            "newTemplate": "Ny skabelon",
+            "table": {
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet",
+                    "viewGoals": "Se mål",
+                    "viewPlans": "Se planer",
+                    "viewSubgoals": "Se delmål"
+                },
+                "active": "Aktiv",
+                "alert": {
+                    "goalSuccessfullyDeleted": "Mål slettet med succes",
+                    "planSuccessfullyDeleted": "Plan slettet med succes",
+                    "subgoalSuccessfullyDeleted": "Delmål slettet med succes",
+                    "templateSuccessfullyDeleted": "Skabelon slettet med succes"
+                },
+                "confirmation": {
+                    "deleteGoalConfirmation": "Er du sikker på, at du vil slette dette mål",
+                    "deletePlanConfirmation": "Er du sikker på, at du vil slette denne plan",
+                    "deleteSubgoalConfirmation": "Er du sikker på, at du vil slette dette delmål",
+                    "deleteTemplateConfirmation": "Er du sikker på, at du vil slette denne skabelon"
+                },
+                "inactive": "Inaktiv",
+                "goal": {
+                    "completionDate": "Afslutningsdato",
+                    "name": "Navn"
+                },
+                "plan": {
+                    "completionDate": "Afslutningsdato",
+                    "name": "Navn"
+                },
+                "status": "Status",
+                "subgoal": {
+                    "completionDate": "Afslutningsdato",
+                    "name": "Navn"
+                },
+                "templateName": "Skabelonnavn"
+            },
+            "templates": "Skabeloner"
         }
     },
     "poll": {

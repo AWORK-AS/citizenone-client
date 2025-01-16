@@ -24,7 +24,7 @@
                     <div class="mt-8 space-y-3">
                         <div class="flex justify-end items-center mb-5 gap-x-2">
                             <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/forms')">
-                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('plansandgoals.createStatusReport') }}
                             </FormButton>
                             <FormButton buttonStyle="action" class="rounded-lg"
@@ -35,6 +35,10 @@
                             <FormButton buttonStyle="action" class="rounded-lg" @click="downloadPlansAndGoals">
                                 <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('plansandgoals.download') }}
+                            </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/vum-templates')">
+                                <Icon name="ph:files" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('plansandgoals.VUMTemplates.templates') }}
                             </FormButton>
                         </div>
 
