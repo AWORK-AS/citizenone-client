@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="space-y-1">
-                <FormLabel for="score" :label="$t('plansandgoals.form.expectedLevel')" />
+                <FormLabel for="score" :label="$t('plansandgoals.form.expectedLevels.expectedLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formGoal.score" />
                 <FormError :error="v$?.formGoal?.score?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.score?.[0]" />
@@ -113,11 +113,11 @@ const state = reactive({
     },
     options: {
         scores: [
-            { value: 1, label: 1 },
-            { value: 2, label: 2 },
-            { value: 3, label: 3 },
-            { value: 4, label: 4 },
-            { value: 5, label: 5 },
+            { value: 1, label: `1. ${t('plansandgoals.form.expectedLevels.minorChallenges')}` },
+            { value: 2, label: `2. ${t('plansandgoals.form.expectedLevels.moderateChallenges')}` },
+            { value: 3, label: `3. ${t('plansandgoals.form.expectedLevels.significantChallenges')}` },
+            { value: 4, label: `4. ${t('plansandgoals.form.expectedLevels.severeChallenges')}` },
+            { value: 5, label: `5. ${t('plansandgoals.form.expectedLevels.verySubstantialChallenges')}` },
         ]
     },
 })

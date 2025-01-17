@@ -1830,7 +1830,14 @@
             "dateCompleted": "Date completed",
             "description": "Description",
             "goalCompletionDate": "Goal completion date",
-            "expectedLevel": "Expected level",
+            "expectedLevels": {
+                "expectedLevel": "Expected level",
+                "minorChallenges": "Minor challenges",
+                "moderateChallenges": "Moderate challenges",
+                "significantChallenges": "Significant challenges",
+                "severeChallenges": "Severe challenges",
+                "verySubstantialChallenges": "Very substantial challenges"
+            },
             "goalName": "Goal name",
             "planCompletionDate": "Plan completion date",
             "planName": "Plan name",

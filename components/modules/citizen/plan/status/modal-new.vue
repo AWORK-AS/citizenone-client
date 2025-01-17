@@ -3,9 +3,10 @@
         <Modal size="sm" :title="$t('plansandgoals.newStatus')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenPlanStatusForm formType="create" :selectedStatus="state.formStatus"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveStatus" />
+                    <ModulesCitizenPlanStatusForm :statusType="props.statusType" formType="create"
+                        :selectedStatus="state.formStatus" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
+                        @submitForm="saveStatus" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -28,6 +29,10 @@ const props = defineProps({
     },
     selectedData: {
         type: Object,
+        required: true,
+    },
+    statusType: {
+        type: String,
         required: true,
     },
 })
@@ -55,10 +60,18 @@ async function saveStatus(statusDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            model_uuid: props.selectedData?.uuid,
-            score: statusDetails.score,
-            status: statusDetails.status,
+        let params = {}
+        if (props.statusType === 'plan') {
+            params = {
+                model_uuid: props.selectedData?.uuid,
+                status: statusDetails.status,
+            }
+        } else {
+            params = {
+                model_uuid: props.selectedData?.uuid,
+                score: statusDetails.score,
+                status: statusDetails.status,
+            }
         }
         const response = await statusService.saveStatus(params)
         if (response?.data) {

@@ -1830,7 +1830,14 @@
             "dateCompleted": "Dato for fuldførelse",
             "description": "Beskrivelse",
             "goalCompletionDate": "Mål afslutningsdato",
-            "expectedLevel": "Forventet niveau",
+            "expectedLevels": {
+                "expectedLevel": "Expected level",
+                "minorChallenges": "Mindre udfordringer",
+                "moderateChallenges": "Moderate udfordringer",
+                "significantChallenges": "Markante udfordringer",
+                "severeChallenges": "Alvorlige udfordringer",
+                "verySubstantialChallenges": "Meget store udfordringer"
+            },
             "goalName": "Målnavn",
             "planCompletionDate": "Plan afslutningsdato",
             "planName": "Plannavn",
