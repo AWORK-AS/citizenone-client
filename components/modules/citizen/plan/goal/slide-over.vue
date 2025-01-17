@@ -122,12 +122,12 @@
                                                             </div>
                                                         </div>
                                                         <p class="text-sm">
-                                                            {{ $t('plansandgoals.completionDate') }}:
-                                                            {{ formatDateToReadable(goal?.completion_date) }}
-                                                        </p>
-                                                        <p class="text-sm">
                                                             {{ $t('plansandgoals.dateCreated') }}: {{
                                                                 formatDateToReadable(goal?.created_at) }}
+                                                        </p>asdasdasd
+                                                        <p class="text-sm">
+                                                            {{ $t('plansandgoals.completionDate') }}:
+                                                            {{ formatDateToReadable(goal?.completion_date) }}
                                                         </p>
                                                         <div v-html="goal?.description" class="content text-sm" />
                                                     </div>
