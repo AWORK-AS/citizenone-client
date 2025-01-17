@@ -834,6 +834,12 @@
                 "missingAttachment": "Missing attachment",
                 "deleteAttachment": "Delete attachment",
                 "reportedBy": "Reported by",
+                "riskLevels": {
+                    "harmless": "Harmless",
+                    "highRisk": "High risk",
+                    "lowRisk": "Low risk",
+                    "moderateRisk": "Moderate risk"
+                },
                 "title": "Title"
             },
             "useOfForce": "Use of force"

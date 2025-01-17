@@ -39,6 +39,26 @@
                                                     <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
                                                         v-for="(useOfForce, index) in state.useOfForce?.data"
                                                         :key="index">
+                                                        <Badge type="harmless" class="text-xxs truncate w-fit"
+                                                            v-if="useOfForce?.risk_level === 'harmless'">
+                                                            {{ $t('citizens.useOfForce.table.riskLevels.harmless') }}
+                                                        </Badge>
+                                                        <Badge type="low-risk" class="text-xxs truncate w-fit"
+                                                            v-if="useOfForce?.risk_level === 'low-risk'">
+                                                            {{
+                                                                $t('citizens.useOfForce.table.riskLevels.lowRisk')
+                                                            }}
+                                                        </Badge>
+                                                        <Badge type="moderate-risk" class="text-xxs truncate w-fit"
+                                                            v-if="useOfForce?.risk_level === 'moderate-risk'">
+                                                            {{
+                                                                $t('citizens.useOfForce.table.riskLevels.moderateRisk')
+                                                            }}
+                                                        </Badge>
+                                                        <Badge type="high-risk" class="text-xxs truncate w-fit"
+                                                            v-if="useOfForce?.risk_level === 'high-risk'">
+                                                            {{ $t('citizens.useOfForce.table.riskLevels.highRisk') }}
+                                                        </Badge>
                                                         <div class="flex justify-between">
                                                             <div>
                                                                 <div class="grow space-y-1.5">
