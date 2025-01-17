@@ -71,6 +71,9 @@
                                                     <span v-if="citizenProtocol?.status === 'absent'">
                                                         {{ $t('protocols.table.status.absent') }}
                                                     </span>
+                                                    <span v-if="citizenProtocol?.absence?.name">
+                                                        - {{ citizenProtocol?.absence?.name }}
+                                                    </span>
                                                 </p>
                                             </Badge>
                                             <span v-else>-</span>
