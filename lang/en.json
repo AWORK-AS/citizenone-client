@@ -1877,13 +1877,13 @@
                 },
                 "templateName": "Template name"
             },
-            "goals": "Goals",
+            "goalsTemplate": "Goals template",
             "newGoal": "New goal",
             "newPlan": "New plan",
             "newSubgoal": "New subgoal",
             "newTemplate": "New template",
-            "plans": "Plans",
-            "subgoals": "Subgoals",
+            "plansTemplate": "Plans template",
+            "subgoalsTemplate": "Subgoals template",
             "table": {
                 "actions": {
                     "edit": "Edit",
@@ -1906,6 +1906,7 @@
                     "deleteTemplateConfirmation": "Are you sure you want to delete this template"
                 },
                 "inactive": "Inactive",
+                "noAvailableSubgoals": "There's no subgoals available to display",
                 "goal": {
                     "completionDate": "Completion date",
                     "name": "Name"

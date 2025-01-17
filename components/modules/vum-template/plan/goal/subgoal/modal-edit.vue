@@ -1,12 +1,12 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('plansandgoals.VUMTemplates.editTemplate')" :show="props.isModalOpen"
+        <Modal size="md" :title="$t('plansandgoals.VUMTemplates.editSubgoal')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesVumTemplatePlanForm formType="update" :selectedTemplate="props.selectedTemplate"
+                    <ModulesVumTemplatePlanGoalSubgoalForm formType="update" :selectedSubgoal="props.selectedSubgoal"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="updateTemplate" />
+                        @closeModal="closeModal" @submitForm="updateSubgoal" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -15,7 +15,7 @@
 
 
 <script setup lang="ts">
-import { planTemplateService } from '@/components/api/PlanTemplateService'
+import { subgoalTemplateService } from '@/components/api/SubgoalTemplateService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -28,12 +28,12 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedTemplate: {
+    selectedSubgoal: {
         type: Object,
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshTemplates'])
+const emit = defineEmits(['close', 'refreshGoals'])
 
 const state = reactive({
     error: {} as Error,
@@ -44,22 +44,22 @@ function closeModal() {
     emit('close')
 }
 
-function refreshTemplates() {
-    emit('refreshTemplates')
+function refreshGoals() {
+    emit('refreshGoals')
 }
 
-async function updateTemplate(templateDetails: any) {
+async function updateSubgoal(subgoalDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const templateUuid = templateDetails.uuid
+        const subgoalUuid = subgoalDetails.uuid
         const params = {
-            name: templateDetails.name,
-            description: templateDetails.description,
+            name: subgoalDetails.name,
+            description: subgoalDetails.description,
         }
-        const response = await planTemplateService.updateTemplate(templateUuid, params)
+        const response = await subgoalTemplateService.updateTemplate(subgoalUuid, params)
         if (response?.data) {
-            refreshTemplates()
+            refreshGoals()
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t('plansandgoals.VUMTemplates.form.alert.templateSuccessfullyUpdated')}.`)
         }

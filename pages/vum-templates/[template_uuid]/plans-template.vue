@@ -3,10 +3,12 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('plansandgoals.VUMTemplates.plans') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>
+                    {{ $t('plansandgoals.VUMTemplates.plansTemplate') }} - {{ runtimeConfig?.public?.appName }}
+                </Title>
             </Head>
 
-            <template #header>{{ $t('plansandgoals.VUMTemplates.plans') }}</template>
+            <template #header>{{ $t('plansandgoals.VUMTemplates.plansTemplate') }}</template>
 
             <div class="space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
@@ -23,7 +25,7 @@
                             <FormButton buttonStyle="action" class="rounded-lg"
                                 @click="state.modal.isAddPlanOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('plansandgoals.newPlan') }}
+                                {{ $t('plansandgoals.VUMTemplates.newPlan') }}
                             </FormButton>
                         </div>
 
@@ -45,16 +47,16 @@
                                         <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
                                             <FormButton class="rounded-md" buttonSize="sm" @click="viewPlan(plan)">
                                                 <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('plansandgoals.table.actions.seeGoals') }}
+                                                {{ $t('plansandgoals.VUMTemplates.table.actions.viewGoals') }}
                                             </FormButton>
                                             <FormButton class="rounded-md" buttonSize="sm" @click="editPlan(plan)">
                                                 <Icon name="ph:pencil-duotone" class="size-4" />
-                                                {{ $t('plansandgoals.table.actions.edit') }}
+                                                {{ $t('plansandgoals.VUMTemplates.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton class="rounded-md" buttonSize="sm"
                                                 @click="confirmPlanDeletion(plan)">
                                                 <Icon name="heroicons:trash" class="size-4" />
-                                                {{ $t('plansandgoals.table.actions.delete') }}
+                                                {{ $t('plansandgoals.VUMTemplates.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </div>
@@ -71,14 +73,14 @@
                 </LoadingSpinner>
             </div>
             <ModulesVumTemplatePlanModalNew :isModalOpen="state.modal.isAddPlanOpen"
-                @close="state.modal.isAddPlanOpen = false" @refreshPlans="fetchPlans" />
+                @close="state.modal.isAddPlanOpen = false" @refreshTemplates="fetchPlans" />
             <ModulesVumTemplatePlanModalEdit :isModalOpen="state.modal.isEditPlanOpen"
-                :selectedTemplate="state.selectedPlan" @close="closeEditPlanModal" @refreshPlans="fetchPlans" />
+                :selectedTemplate="state.selectedPlan" @close="closeEditPlanModal" @refreshTemplates="fetchPlans" />
             <DialogConfirmation :isModalOpen="state.modal.isDeletePlanOpen"
                 :message="`${$t('plansandgoals.confirmation.deletePlanConfirmation')}?`"
                 @close="state.modal.isDeletePlanOpen = false" @confirm="deletePlan" />
-            <!-- <ModulesVumTemplatePlanGoalSlideOver :isOpen="state.slideOver.isGoalOpen" :selectedPlan="state.selectedPlan"
-                @close="state.slideOver.isGoalOpen = false" /> -->
+            <ModulesVumTemplatePlanGoalSlideOver :isOpen="state.slideOver.isGoalOpen" :selectedPlan="state.selectedPlan"
+                @close="state.slideOver.isGoalOpen = false" />
         </NuxtLayout>
     </div>
 </template>

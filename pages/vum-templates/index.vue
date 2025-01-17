@@ -40,7 +40,7 @@
                                     <td width="25%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`vum-templates/${template?.uuid}/plans`)">
+                                                @click="navigateTo(`vum-templates/${template?.uuid}/plans-template`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('plansandgoals.VUMTemplates.table.actions.viewPlans') }}
                                             </FormButton>

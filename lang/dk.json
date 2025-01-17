@@ -1877,13 +1877,13 @@
                 },
                 "templateName": "Skabelonnavn"
             },
-            "goals": "Mål",
+            "goalsTemplate": "Målskabelon",
             "newGoal": "Nyt mål",
             "newPlan": "Ny plan",
             "newSubgoal": "Nyt delmål",
             "newTemplate": "Ny skabelon",
-            "plans": "Planer",
-            "subgoals": "Delmål",
+            "plansTemplate": "Planskabelon",
+            "subgoalsTemplate": "Delmålskabelon",
             "table": {
                 "actions": {
                     "edit": "Rediger",
@@ -1906,6 +1906,7 @@
                     "deleteTemplateConfirmation": "Er du sikker på, at du vil slette denne skabelon"
                 },
                 "inactive": "Inaktiv",
+                "noAvailableSubgoals": "Der er ingen delmål tilgængelige at vise",
                 "goal": {
                     "completionDate": "Afslutningsdato",
                     "name": "Navn"
