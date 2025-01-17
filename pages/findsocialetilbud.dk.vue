@@ -196,8 +196,6 @@
                 @close="state.modal.isManageCompanyOpen = false" />
             <ModulesFindsocialetilbuddkModalShowInterest :isModalOpen="state.modal.isShowInterestOpen"
                 @close="state.modal.isShowInterestOpen = false" />
-            <ModalImageModal :isModalOpen="state.modal.isImageModalOpen"
-                @close="state.modal.isImageModalOpen = false" />
             <LazyModulesFindsocialetilbuddkTutorialModal0 :isModalZeroOpen="state.modal.isModalZeroOpen" @close="closeModalZero" />
             <LazyModulesFindsocialetilbuddkTutorialModal1 :isModalOneOpen="state.modal.isModalVisible" @close="closeModal" />
             <LazyModulesFindsocialetilbuddkTutorialModal2 :isModalTwoOpen="state.modal.isModalTwoVisible" @close="closeModal2" />
