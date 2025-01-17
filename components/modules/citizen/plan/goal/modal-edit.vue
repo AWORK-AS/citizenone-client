@@ -57,6 +57,7 @@ async function updateGoal(goalDetails: any) {
             description: goalDetails.description,
             completion_date: goalDetails.completion_date,
             date_completed: goalDetails.date_completed,
+            score: goalDetails.score,
         }
         const response = await goalService.updateGoal(goalUuid, params)
         if (response?.data) {

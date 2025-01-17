@@ -2,13 +2,21 @@
     <form @submit.prevent="submitForm()">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="space-y-1">
-            <p class="text-sm text-gray-600">
-                {{ $t('plansandgoals.form.status') }}
-            </p>
-            <ckeditor :editor="editor" v-model="state.formStatus.status" :config="editorStatusConfig"></ckeditor>
-            <FormError :error="v$?.formStatus?.status?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.status?.[0]" />
+        <div class="space-y-3">
+            <div class="space-y-1">
+                <FormLabel for="score" :label="$t('plansandgoals.form.currentLevel')" />
+                <FormSelect id="score" :options="state.options.scores" v-model="state.formStatus.score" />
+                <FormError :error="v$?.formStatus?.score?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.score?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <p class="text-sm text-gray-600">
+                    {{ $t('plansandgoals.form.status') }}
+                </p>
+                <ckeditor :editor="editor" v-model="state.formStatus.status" :config="editorStatusConfig"></ckeditor>
+                <FormError :error="v$?.formStatus?.status?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.status?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -63,12 +71,23 @@ const editorStatusConfig = ref({
 
 const state = reactive({
     formStatus: {
+        score: '',
         status: '',
+    },
+    options: {
+        scores: [
+            { value: 1, label: 1 },
+            { value: 2, label: 2 },
+            { value: 3, label: 3 },
+            { value: 4, label: 4 },
+            { value: 5, label: 5 },
+        ]
     },
 })
 
 onMounted(() => {
     state.formStatus = {
+        score: props.selectedStatus.score,
         status: props.selectedStatus.status,
     }
 })
@@ -76,6 +95,7 @@ onMounted(() => {
 watch(() => props.selectedStatus, (newValue: any) => {
     if (newValue != null) {
         state.formStatus = {
+            score: newValue.score,
             status: newValue.status,
         }
     }
@@ -84,6 +104,9 @@ watch(() => props.selectedStatus, (newValue: any) => {
 const rules = computed(() => {
     return {
         formStatus: {
+            score: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
             status: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },

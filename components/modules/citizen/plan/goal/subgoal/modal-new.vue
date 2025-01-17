@@ -44,6 +44,7 @@ const state = reactive({
         description: '',
         completion_date: '',
         date_completed: '',
+        score: '',
     },
 })
 
@@ -64,6 +65,7 @@ async function saveSubgoal(subgoalDetails: any) {
             name: subgoalDetails.name,
             description: subgoalDetails.description,
             completion_date: subgoalDetails.completion_date,
+            score: subgoalDetails.score,
         }
         const response = await subgoalService.saveSubgoal(params)
         if (response?.data) {

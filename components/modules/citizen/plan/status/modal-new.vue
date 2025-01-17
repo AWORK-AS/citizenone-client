@@ -38,6 +38,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formStatus: {
+        score: '',
         status: '',
     },
 })
@@ -56,6 +57,7 @@ async function saveStatus(statusDetails: any) {
     try {
         const params = {
             model_uuid: props.selectedData?.uuid,
+            score: statusDetails.score,
             status: statusDetails.status,
         }
         const response = await statusService.saveStatus(params)

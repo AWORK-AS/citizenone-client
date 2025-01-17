@@ -44,6 +44,7 @@ const state = reactive({
         description: '',
         completion_date: '',
         date_completed: '',
+        score: '',
     },
 })
 
@@ -64,6 +65,7 @@ async function saveGoal(goalDetails: any) {
             name: goalDetails.name,
             description: goalDetails.description,
             completion_date: goalDetails.completion_date,
+            score: goalDetails.score,
         }
         const response = await goalService.saveGoal(params)
         if (response?.data) {
