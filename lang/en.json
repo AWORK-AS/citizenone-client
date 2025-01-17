@@ -504,8 +504,10 @@
                 "name": "Name",
                 "owner": "Owner"
             },
+            "template": "Template",
             "upgradeStorage": "Upgrade storage",
-            "uploadFile": "Upload file"
+            "uploadFile": "Upload file",
+            "useTemplate": "Use template"
         },
         "citizenJournals": {
             "alert": {

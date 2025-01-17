@@ -504,8 +504,10 @@
                 "name": "Navn",
                 "owner": "Ejer"
             },
+            "template": "Skabelon",
             "upgradeStorage": "Opgrader lager",
-            "uploadFile": "Upload fil"
+            "uploadFile": "Upload fil",
+            "useTemplate": "Brug skabelon"
         },
         "citizenJournals": {
             "alert": {
