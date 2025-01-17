@@ -1826,8 +1826,10 @@
         "form": {
             "completed": "Fuldført",
             "completionDate": "Afslutningsdato",
+            "currentLevel": "Nuværende niveau",
             "dateCompleted": "Dato for fuldførelse",
             "description": "Beskrivelse",
+            "expectedLevel": "Forventet niveau",
             "goalName": "Målnavn",
             "planName": "Plannavn",
             "status": "Status",
@@ -1852,7 +1854,9 @@
             },
             "createdBy": "Oprettet af",
             "copiedFrom": "Kopieret fra",
+            "currentLevel": "Nuværende niveau",
             "dateCreated": "Oprettelsesdato",
+            "expectedLevel": "Forventet niveau",
             "journalNote": "Journalnote",
             "riskAssessment": "Risikovurdering",
             "status": "Status"

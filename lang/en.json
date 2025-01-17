@@ -1826,8 +1826,10 @@
         "form": {
             "completed": "Completed",
             "completionDate": "Completion date",
+            "currentLevel": "Current level",
             "dateCompleted": "Date completed",
             "description": "Description",
+            "expectedLevel": "Expected level",
             "goalName": "Goal name",
             "planName": "Plan name",
             "status": "Status",
@@ -1852,7 +1854,9 @@
             },
             "createdBy": "Created by",
             "copiedFrom": "Copied from",
+            "currentLevel": "Current level",
             "dateCreated": "Date created",
+            "expectedLevel": "Expected level",
             "journalNote": "Journal note",
             "riskAssessment": "Risk assessment",
             "status": "Status"
@@ -2446,6 +2450,7 @@
             }
         },
         "coupons": {
+            "active": "Active",
             "coupons": "Coupons",
             "editCoupon": "Edit coupon",
             "form": {
