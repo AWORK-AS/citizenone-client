@@ -3,7 +3,7 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
-            <div class="grid grid-cols-2 gap-x-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
                     <FormLabel for="name" :label="$t('plansandgoals.form.goalName')" />
                     <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.form.goalName')"

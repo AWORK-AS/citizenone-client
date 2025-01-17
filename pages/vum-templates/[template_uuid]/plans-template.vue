@@ -42,6 +42,10 @@
                                         <div class="text-sm">
                                             <div v-html="plan?.description" class="content" />
                                         </div>
+                                        <p class="text-sm">
+                                            {{ $t('plansandgoals.VUMTemplates.table.plans.completionDate') }}: {{
+                                                formatDateToReadable(plan?.completion_date) }}
+                                        </p>
                                     </div>
                                     <div>
                                         <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
@@ -87,11 +91,13 @@
 
 <script setup lang="ts">
 import { planTemplateService } from '@/components/api/PlanTemplateService'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()

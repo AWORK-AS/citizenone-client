@@ -3,16 +3,27 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
-            <div class="space-y-1">
-                <FormLabel for="name" :label="$t('plansandgoals.VUMTemplates.form.goal.name')" />
-                <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.VUMTemplates.form.goal.name')"
-                    v-model="state.formGoal.name" />
-                <FormError :error="v$?.formGoal?.name?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.name?.[0]" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <FormLabel for="name" :label="$t('plansandgoals.VUMTemplates.form.goals.name')" />
+                    <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.VUMTemplates.form.goals.name')"
+                        v-model="state.formGoal.name" />
+                    <FormError :error="v$?.formGoal?.name?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.name?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="completion_date"
+                        :label="$t('plansandgoals.VUMTemplates.form.goals.completionDate')" />
+                    <FormDateField id="completion_date" name="completion_date"
+                        :placeholder="$t('plansandgoals.VUMTemplates.form.goals.completionDate')"
+                        v-model="state.formGoal.completion_date" />
+                    <FormError :error="v$?.formGoal?.completion_date?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.completion_date?.[0]" />
+                </div>
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
-                    {{ $t('plansandgoals.VUMTemplates.form.goal.description') }}
+                    {{ $t('plansandgoals.VUMTemplates.form.goals.description') }}
                 </p>
                 <ckeditor :editor="editor" v-model="state.formGoal.description" :config="editorDescriptionConfig">
                 </ckeditor>
@@ -77,6 +88,7 @@ const state = reactive({
         uuid: '',
         name: '',
         description: '',
+        completion_date: '',
     },
 })
 
@@ -86,6 +98,7 @@ onMounted(() => {
         uuid: props.selectedGoal.uuid,
         name: props.selectedGoal.name,
         description: props.selectedGoal.description ?? '',
+        completion_date: props.selectedGoal.completion_date,
     }
 })
 
@@ -96,6 +109,7 @@ watch(() => props.selectedGoal, (newValue: any) => {
             uuid: newValue.uuid,
             name: newValue.name,
             description: newValue.description ?? '',
+            completion_date: newValue.completion_date,
         }
     }
 })
@@ -104,6 +118,9 @@ const rules = computed(() => {
     return {
         formGoal: {
             name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            completion_date: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },

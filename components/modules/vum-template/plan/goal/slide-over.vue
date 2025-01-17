@@ -31,6 +31,12 @@
                                                 </button>
                                             </div>
                                         </div>
+                                        <div class="mt-1">
+                                            <p class="text-sm text-white">
+                                                {{ $t('plansandgoals.VUMTemplates.table.plans.completionDate') }}:
+                                                {{ formatDateToReadable(props.selectedPlan?.completion_date) }}
+                                            </p>
+                                        </div>
                                     </div>
                                     <div class="relative flex-1 px-4 py-6 sm:px-6 space-y-3">
                                         <div class="flex justify-end items-center">
@@ -88,6 +94,12 @@
                                                                 </DisclosureButton>
                                                             </div>
                                                         </div>
+                                                        <p class="text-sm">
+                                                            {{
+                                                                $t('plansandgoals.VUMTemplates.table.goals.completionDate')
+                                                            }}:
+                                                            {{ formatDateToReadable(goal?.completion_date) }}
+                                                        </p>
                                                         <div v-html="goal?.description" class="content text-sm" />
                                                     </div>
                                                     <DisclosurePanel as="dd" class="mt-5 mx-5 my-0">
@@ -115,6 +127,13 @@
                                                                                         {{ subgoal?.name }}
                                                                                     </h3>
                                                                                 </div>
+                                                                                <p class="text-sm">
+                                                                                    {{
+                                                                                        $t('plansandgoals.VUMTemplates.table.subgoals.completionDate')
+                                                                                    }}: {{
+                                                                                        formatDateToReadable(subgoal?.completion_date)
+                                                                                    }}
+                                                                                </p>
                                                                             </div>
                                                                             <div class="flex gap-x-1">
                                                                                 <FormButton class="rounded-md"
@@ -204,18 +223,21 @@ const state = reactive({
         uuid: '',
         name: '',
         description: '',
+        completion_date: '',
     },
     selectedGoal: {
         id: '',
         uuid: '',
         name: '',
         description: '',
+        completion_date: '',
     },
     selectedSubgoal: {
         id: '',
         uuid: '',
         name: '',
         description: '',
+        completion_date: '',
     },
     isPageLoading: false,
 })
@@ -231,6 +253,7 @@ watch(() => props.selectedPlan, (newValue: any) => {
             uuid: newValue.uuid,
             name: newValue.name,
             description: newValue.description,
+            completion_date: newValue.completion_date,
         }
         fetchGoals()
     }
