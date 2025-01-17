@@ -1866,7 +1866,13 @@
             "copiedFrom": "Kopieret fra",
             "currentLevel": "Nuværende niveau",
             "dateCreated": "Oprettelsesdato",
-            "expectedLevel": "Forventet niveau",
+            "expectedLevels": {
+                "minorChallenges": "Mindre udfordringer",
+                "moderateChallenges": "Moderate udfordringer",
+                "significantChallenges": "Markante udfordringer",
+                "severeChallenges": "Alvorlige udfordringer",
+                "verySubstantialChallenges": "Meget store udfordringer"
+            },
             "journalNote": "Journalnote",
             "riskAssessment": "Risikovurdering",
             "status": "Status"

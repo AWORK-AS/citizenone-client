@@ -30,6 +30,33 @@
                                                 </p>
                                             </Badge>
                                             <div v-html="status.status" class="content" />
+                                            <Badge type="primary" class="w-fit" v-if="status.score">
+                                                <p class="text-xxs" v-if="status.score == 1">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.minorChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="status.score == 2">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.moderateChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="status.score == 3">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.significantChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="status.score == 4">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.severeChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="status.score == 5">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.verySubstantialChallenges')
+                                                    }}
+                                                </p>
+                                            </Badge>
                                         </td>
                                         <td width="30%">
                                             <span>{{ formatDateToReadable(status?.created_at) }}</span>

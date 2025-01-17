@@ -167,9 +167,6 @@ const rules = computed(() => {
             completion_date: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            score: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
         },
     }
 })

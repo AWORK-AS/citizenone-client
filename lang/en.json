@@ -1866,7 +1866,13 @@
             "copiedFrom": "Copied from",
             "currentLevel": "Current level",
             "dateCreated": "Date created",
-            "expectedLevel": "Expected level",
+            "expectedLevels": {
+                "minorChallenges": "Minor challenges",
+                "moderateChallenges": "Moderate challenges",
+                "significantChallenges": "Significant challenges",
+                "severeChallenges": "Severe challenges",
+                "verySubstantialChallenges": "Very substantial challenges"
+            },
             "journalNote": "Journal note",
             "riskAssessment": "Risk assessment",
             "status": "Status"
