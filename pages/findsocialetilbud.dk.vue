@@ -11,9 +11,10 @@
             <div
                 class="absolute top-10 right-4 transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in-right">
                 <button @click="toggleOverlay"
-                    class="flex items-center justify-center w-10 h-10 bg-tertiary text-white rounded-full shadow-lg">
+                    class="flex items-center justify-center w-10 h-10 bg-tertiary text-white rounded-full shadow-lg lg:block hidden">
                     <span class="text-lg font-bold">?</span>
                 </button>
+
             </div>
             <div v-if="state.modal.isOverlayVisible" :class="[
                 'fixed inset-0 bg-black bg-opacity-50',
@@ -232,6 +233,7 @@ const checkFirstTime = () => {
     if (!isFirstTime || isFirstTime == "true") {
         state.modal.isOverlayVisible = true;
         state.modal.isModalZeroOpen = true;
+        userStore.setInTutorial(true);
         localStorage.setItem('isFirstTime', 'false');
     }
     else if (isFirstTime == "false") {
@@ -245,7 +247,7 @@ const checkFirstTime = () => {
 const toggleOverlay = () => {
     state.modal.isOverlayVisible = !state.modal.isOverlayVisible;
     state.modal.isModalZeroOpen = !state.modal.isModalZeroOpen
-    userStore.setInTutorial(true); // Save to the userStore instead of localStorage
+    userStore.setInTutorial(true);
     console.log("store value on start: " + inTutorial)
 
 };
