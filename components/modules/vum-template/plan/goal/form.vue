@@ -2,24 +2,13 @@
     <form @submit.prevent="submitForm()">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="grid grid-cols-1 gap-y-3">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="name" :label="$t('plansandgoals.VUMTemplates.form.goals.name')" />
-                    <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.VUMTemplates.form.goals.name')"
-                        v-model="state.formGoal.name" />
-                    <FormError :error="v$?.formGoal?.name?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.name?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="completion_date"
-                        :label="$t('plansandgoals.VUMTemplates.form.goals.completionDate')" />
-                    <FormDateField id="completion_date" name="completion_date"
-                        :placeholder="$t('plansandgoals.VUMTemplates.form.goals.completionDate')"
-                        v-model="state.formGoal.completion_date" />
-                    <FormError :error="v$?.formGoal?.completion_date?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.completion_date?.[0]" />
-                </div>
+        <div class="space-y-3">
+            <div class="space-y-1">
+                <FormLabel for="name" :label="$t('plansandgoals.VUMTemplates.form.goals.name')" />
+                <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.VUMTemplates.form.goals.name')"
+                    v-model="state.formGoal.name" />
+                <FormError :error="v$?.formGoal?.name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">

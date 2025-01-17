@@ -3,23 +3,12 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="name" :label="$t('plansandgoals.VUMTemplates.form.plans.name')" />
-                    <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.VUMTemplates.form.plans.name')"
-                        v-model="state.formPlan.name" />
-                    <FormError :error="v$?.formPlan?.name?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.name?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="completion_date"
-                        :label="$t('plansandgoals.VUMTemplates.form.plans.completionDate')" />
-                    <FormDateField id="completion_date" name="completion_date"
-                        :placeholder="$t('plansandgoals.VUMTemplates.form.plans.completionDate')"
-                        v-model="state.formPlan.completion_date" />
-                    <FormError :error="v$?.formPlan?.completion_date?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.completion_date?.[0]" />
-                </div>
+            <div class="space-y-1">
+                <FormLabel for="name" :label="$t('plansandgoals.VUMTemplates.form.plans.name')" />
+                <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.VUMTemplates.form.plans.name')"
+                    v-model="state.formPlan.name" />
+                <FormError :error="v$?.formPlan?.name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
@@ -89,7 +78,6 @@ const state = reactive({
         uuid: '',
         name: '',
         description: '',
-        completion_date: '',
     },
 })
 
@@ -99,7 +87,6 @@ onMounted(() => {
         uuid: props.selectedTemplate.uuid,
         name: props.selectedTemplate.name,
         description: props.selectedTemplate.description ?? '',
-        completion_date: props.selectedTemplate.completion_date,
     }
 })
 
@@ -110,7 +97,6 @@ watch(() => props.selectedTemplate, (newValue: any) => {
             uuid: newValue.uuid,
             name: newValue.name,
             description: newValue.description ?? '',
-            completion_date: props.selectedTemplate.completion_date,
         }
     }
 })
@@ -119,9 +105,6 @@ const rules = computed(() => {
     return {
         formPlan: {
             name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            completion_date: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },

@@ -43,7 +43,6 @@ const state = reactive({
         uuid: '',
         name: '',
         description: '',
-        completion_date: '',
     },
 })
 
@@ -63,7 +62,6 @@ async function saveGoal(goalDetails: any) {
             plan_template_uuid: props.selectedPlan.uuid,
             name: goalDetails.name,
             description: goalDetails.description,
-            completion_date: goalDetails.completion_date,
         }
         const response = await goalTemplateService.saveTemplate(params)
         if (response?.data) {

@@ -56,7 +56,6 @@ async function updateTemplate(templateDetails: any) {
         const params = {
             name: templateDetails.name,
             description: templateDetails.description,
-            completion_date: templateDetails.completion_date,
         }
         const response = await planTemplateService.updateTemplate(templateUuid, params)
         if (response?.data) {
