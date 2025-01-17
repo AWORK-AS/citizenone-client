@@ -58,11 +58,19 @@ async function savePlan(planDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            citizen_uuid: citizenUuid,
-            name: planDetails.name,
-            completion_date: planDetails.completion_date,
-            description: planDetails.description,
+        let params = {}
+        if (planDetails.is_use_template) {
+            params = {
+                citizen_uuid: citizenUuid,
+                template_uuid: planDetails.template,
+            }
+        } else {
+            params = {
+                citizen_uuid: citizenUuid,
+                name: planDetails.name,
+                completion_date: planDetails.completion_date,
+                description: planDetails.description,
+            }
         }
         const response = await planService.savePlan(params)
         if (response?.data) {

@@ -1,46 +1,64 @@
 <template>
-    <form @submit.prevent="submitForm()">
+    <form @submit.prevent="submitForm()" id="formPlan">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="grid grid-cols-1 gap-y-3">
-            <div class="grid grid-cols-2 gap-x-3">
+        <Alert type="danger" :text="state?.error?.message"
+            v-if="state.error?.message && state.error.message.length > 0" />
+        <div class="space-y-3">
+            <div class="w-fit flex items-center cursor-pointer"
+                @click="state.formPlan.is_use_template = !state.formPlan.is_use_template"
+                v-if="props.formType === 'create'">
+                <FormCheckbox :value="state.formPlan.is_use_template" />
+                {{ $t('plansandgoals.form.useTemplate') }}
+            </div>
+            <div v-if="state.formPlan.is_use_template">
                 <div class="space-y-1">
-                    <FormLabel for="name" :label="$t('plansandgoals.form.planName')" />
-                    <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.form.planName')"
-                        v-model="state.formPlan.name" />
-                    <FormError :error="v$?.formPlan?.name?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.name?.[0]" />
+                    <FormLabel for="template" :label="$t('plansandgoals.form.template')" />
+                    <FormSelect id="template" :options="state.options.templates" v-model="state.formPlan.template" />
+                    <FormError :error="v$?.formPlan?.template?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.template_uuid?.[0]" />
+                </div>
+            </div>
+            <div class="space-y-3" v-else>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="name" :label="$t('plansandgoals.form.planName')" />
+                        <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.form.planName')"
+                            v-model="state.formPlan.name" />
+                        <FormError :error="v$?.formPlan?.name?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.name?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="completion_date" :label="$t('plansandgoals.form.completionDate')" />
+                        <FormDateField id="completion_date" name="completion_date"
+                            :placeholder="$t('plansandgoals.form.completionDate')"
+                            v-model="state.formPlan.completion_date" />
+                        <FormError :error="v$?.formPlan?.completion_date?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.completion_date?.[0]" />
+                    </div>
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="completion_date" :label="$t('plansandgoals.form.completionDate')" />
-                    <FormDateField id="completion_date" name="completion_date"
-                        :placeholder="$t('plansandgoals.form.completionDate')"
-                        v-model="state.formPlan.completion_date" />
-                    <FormError :error="v$?.formPlan?.completion_date?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.completion_date?.[0]" />
+                    <p class="text-sm text-gray-600">
+                        {{ $t('plansandgoals.form.description') }}
+                    </p>
+                    <ckeditor :editor="editor" v-model="state.formPlan.description" :config="editorDescriptionConfig">
+                    </ckeditor>
+                    <FormError :error="v$?.formPlan?.description?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.description?.[0]" />
                 </div>
-            </div>
-            <div class="space-y-1">
-                <p class="text-sm text-gray-600">
-                    {{ $t('plansandgoals.form.description') }}
-                </p>
-                <ckeditor :editor="editor" v-model="state.formPlan.description" :config="editorDescriptionConfig">
-                </ckeditor>
-                <FormError :error="v$?.formPlan?.description?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.description?.[0]" />
-            </div>
-            <div v-if="props.formType === 'update'">
-                <div class="w-fit flex items-center cursor-pointer" @click="changeIsCompletedCheckbox">
-                    <FormCheckbox :value="state.formPlan.is_completed" />
-                    {{ $t('plansandgoals.form.completed') }}
+                <div v-if="props.formType === 'update'">
+                    <div class="w-fit flex items-center cursor-pointer" @click="changeIsCompletedCheckbox">
+                        <FormCheckbox :value="state.formPlan.is_completed" />
+                        {{ $t('plansandgoals.form.completed') }}
+                    </div>
                 </div>
-            </div>
-            <div class="space-y-1" v-if="state.formPlan.is_completed">
-                <FormLabel for="date_completed" :label="$t('plansandgoals.form.dateCompleted')" />
-                <FormDateField id="date_completed" name="date_completed"
-                    :placeholder="$t('plansandgoals.form.dateCompleted')" v-model="state.formPlan.date_completed" />
-                <FormError :error="v$?.formPlan?.date_completed?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.date_completed?.[0]" />
+                <div class="space-y-1" v-if="state.formPlan.is_completed">
+                    <FormLabel for="date_completed" :label="$t('plansandgoals.form.dateCompleted')" />
+                    <FormDateField id="date_completed" name="date_completed"
+                        :placeholder="$t('plansandgoals.form.dateCompleted')" v-model="state.formPlan.date_completed" />
+                    <FormError :error="v$?.formPlan?.date_completed?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.date_completed?.[0]" />
+                </div>
             </div>
         </div>
         <div class="mt-6">
@@ -58,10 +76,12 @@
 </template>
 
 <script setup lang="ts">
+import { planGoalSubgoalTemplateService } from '@/components/api/PlanGoalSubgoalTemplateService'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
 
 const props = defineProps({
     error: {
@@ -78,7 +98,7 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['closeModal', 'submitForm'])
+const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading'])
 const { t } = useI18n()
 const editor = ref(ClassicEditor)
 const editorDescriptionConfig = ref({
@@ -96,6 +116,7 @@ const editorDescriptionConfig = ref({
 })
 
 const state = reactive({
+    error: {} as Error,
     formPlan: {
         id: '',
         uuid: '',
@@ -104,7 +125,12 @@ const state = reactive({
         completion_date: '',
         date_completed: '',
         is_completed: false,
+        is_use_template: false,
+        template: '',
     },
+    options: {
+        templates: [] as any
+    }
 })
 
 onMounted(() => {
@@ -116,7 +142,10 @@ onMounted(() => {
         date_completed: props.selectedPlan.date_completed,
         description: props.selectedPlan.description ?? '',
         is_completed: props.selectedPlan.is_completed,
+        is_use_template: false,
+        template: '',
     }
+    fetchTemplates()
 })
 
 watch(() => props.selectedPlan, (newValue: any) => {
@@ -129,20 +158,32 @@ watch(() => props.selectedPlan, (newValue: any) => {
             completion_date: newValue.completion_date,
             date_completed: newValue.date_completed,
             is_completed: newValue.is_completed,
+            is_use_template: false,
+            template: '',
         }
     }
 })
 
 const rules = computed(() => {
-    return {
-        formPlan: {
-            name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (state.formPlan.is_use_template) {
+        return {
+            formPlan: {
+                template: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            completion_date: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        }
+    } else {
+        return {
+            formPlan: {
+                name: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                completion_date: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-        },
+        }
     }
 })
 
@@ -155,8 +196,35 @@ function submitForm() {
     }
 }
 
+async function fetchTemplates() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await planGoalSubgoalTemplateService.getAllTemplates()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.templates = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
 function changeIsCompletedCheckbox() {
     state.formPlan.is_completed = !state.formPlan.is_completed
     state.formPlan.date_completed = ''
 }
 </script>
+
+<style>
+#formPlan .multiselect-dropdown {
+    max-height: 4.8rem !important;
+}
+</style>

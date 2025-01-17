@@ -1831,7 +1831,9 @@
             "goalName": "Goal name",
             "planName": "Plan name",
             "status": "Status",
-            "subgoalName": "Subgoal name"
+            "subgoalName": "Subgoal name",
+            "template": "Template",
+            "useTemplate": "Use template"
         },
         "inProgress": "In progress",
         "newGoal": "New goal",

@@ -1831,7 +1831,9 @@
             "goalName": "Målnavn",
             "planName": "Plannavn",
             "status": "Status",
-            "subgoalName": "Delmålsnavn"
+            "subgoalName": "Delmålsnavn",
+            "template": "Skabelon",
+            "useTemplate": "Brug skabelon"
         },
         "inProgress": "I gang",
         "newGoal": "Nyt mål",

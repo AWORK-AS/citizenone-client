@@ -16,6 +16,10 @@ class PlanGoalSubgoalTemplateService extends BaseAPIService {
     async deleteTemplate(templateUuid: any): Promise<any> {
         return await this.request(`/user/plan-goal-subgoal-templates/${templateUuid}`, 'DELETE')
     }
+
+    async getAllTemplates(): Promise<any> {
+        return await this.request(`/user/plan-goal-subgoal-templates/all/list`, 'GET')
+    }
 }
 
 export const planGoalSubgoalTemplateService = new PlanGoalSubgoalTemplateService()
