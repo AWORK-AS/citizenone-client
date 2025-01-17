@@ -118,7 +118,7 @@ const state = reactive({
             { value: 3, label: `3. ${t('plansandgoals.form.expectedLevels.significantChallenges')}` },
             { value: 4, label: `4. ${t('plansandgoals.form.expectedLevels.severeChallenges')}` },
             { value: 5, label: `5. ${t('plansandgoals.form.expectedLevels.verySubstantialChallenges')}` },
-        ]
+        ],
     },
 })
 
