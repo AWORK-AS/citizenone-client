@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submitForm()">
+    <form @submit.prevent="submitForm()" id="formMedicine">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
@@ -445,3 +445,9 @@ function handleDailyDoseInput(event: Event) {
     state.formMedicine.daily_dose = target.value
 }
 </script>
+
+<style>
+#formMedicine .multiselect-dropdown {
+    max-height: 5rem !important;
+}
+</style>
