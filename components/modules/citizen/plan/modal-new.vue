@@ -63,6 +63,9 @@ async function savePlan(planDetails: any) {
             params = {
                 citizen_uuid: citizenUuid,
                 template_uuid: planDetails.template,
+                plan_completion_date: planDetails.plan_completion_date,
+                goal_completion_date: planDetails.goal_completion_date,
+                subgoal_completion_date: planDetails.subgoal_completion_date,
             }
         } else {
             params = {

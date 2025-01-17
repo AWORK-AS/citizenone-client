@@ -1829,10 +1829,13 @@
             "currentLevel": "Nuværende niveau",
             "dateCompleted": "Dato for fuldførelse",
             "description": "Beskrivelse",
+            "goalCompletionDate": "Mål afslutningsdato",
             "expectedLevel": "Forventet niveau",
             "goalName": "Målnavn",
+            "planCompletionDate": "Plan afslutningsdato",
             "planName": "Plannavn",
             "status": "Status",
+            "subgoalCompletionDate": "Delmål afslutningsdato",
             "subgoalName": "Delmålsnavn",
             "template": "Skabelon",
             "useTemplate": "Brug skabelon"

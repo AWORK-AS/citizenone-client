@@ -1829,10 +1829,13 @@
             "currentLevel": "Current level",
             "dateCompleted": "Date completed",
             "description": "Description",
+            "goalCompletionDate": "Goal completion date",
             "expectedLevel": "Expected level",
             "goalName": "Goal name",
+            "planCompletionDate": "Plan completion date",
             "planName": "Plan name",
             "status": "Status",
+            "subgoalCompletionDate": "Subgoal completion date",
             "subgoalName": "Subgoal name",
             "template": "Template",
             "useTemplate": "Use template"
