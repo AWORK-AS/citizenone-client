@@ -114,8 +114,7 @@
                                                                             <div class="flex gap-x-1">
                                                                                 <FormButton class="rounded-md"
                                                                                     buttonSize="sm"
-                                                                                    @click="editSubGoal(subgoal)"
-                                                                                    v-if="subgoal?.is_editable">
+                                                                                    @click="editSubGoal(subgoal)">
                                                                                     <Icon name="ph:pencil-duotone"
                                                                                         class="size-4" />
                                                                                     <span class="hidden md:block">
