@@ -10,11 +10,18 @@
 
             <div
                 class="absolute top-10 right-4 transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in-right">
-                <button @click="state.modal.isImageModalOpen = true"
+                <button @click="toggleOverlay"
                     class="flex items-center justify-center w-10 h-10 bg-tertiary text-white rounded-full shadow-lg">
                     <span class="text-lg font-bold">?</span>
                 </button>
             </div>
+            <div v-if="state.modal.isOverlayVisible" :class="[
+                'fixed inset-0 bg-black bg-opacity-50',
+                state.modal.isModalZeroOpen ? 'z-40' : 'z-50'
+            ]">
+            </div>
+
+
             <div>
                 <div class="max-w-5xl mx-auto mt-22">
                     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4">
@@ -31,10 +38,22 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-center">
+                        <!-- Darkening overlay -->
+                        <div v-if="state.modal.isOverlayVisible"
+                            class="fixed inset-0 bg-black bg-opacity-50 z-40 sm:hidden md:block lg:block">
+                        </div>
+
+
+
+                        <!-- Right side: Content -->
+                        <div class="flex items-center justify-center relative"
+                            :class="{ 'bg-white': state.modal.isModalVisible, 'z-50': state.modal.isModalVisible }">
+
                             <div
                                 class="transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in-right bg-transparent rounded-md p-8 xl:p-10 flex flex-col justify-between h-full">
-                                <div>
+                                <!-- h3 Title with higher z-index -->
+
+                                <div class="relative z-50" :class="{ 'bg-white': state.modal.isModalVisible }">
                                     <h3 class="text-2xl font-bold text-tertiary mb-4">
                                         <span v-if="language.locale.value === 'en'">
                                             Manage Your Presence on FindSocialeTilbud.dk
@@ -43,53 +62,48 @@
                                             Administrér Din Tilstedeværelse på FindSocialeTilbud.dk
                                         </span>
                                     </h3>
-                                    <div class="space-y-4 text-gray-700">
-                                        <p class="text-sm leading-6">
-                                            <span v-if="language.locale.value === 'en'">
-                                                Get your company noticed by a wide audience on Denmark's largest
-                                                platform
-                                                for social services. By managing your presence on FindSocialeTilbud.dk,
-                                                you can
-                                                showcase your
-                                                services to caseworkers, social workers, citizens, and families looking
-                                                for relevant
-                                                support. Easily update your
-                                                offerings, ensure your information is up to date, and connect with those
-                                                in need of
-                                                your services.
-                                            </span>
-                                            <span v-if="language.locale.value === 'dk'">
-                                                Få din virksomhed bemærket af et bredt publikum på Danmarks største
-                                                platform for
-                                                sociale
-                                                tilbud. Ved at administrere din tilstedeværelse på FindSocialeTilbud.dk
-                                                kan du
-                                                fremhæve dine
-                                                tjenester over for sagsbehandlere, socialarbejdere, borgere og familier,
-                                                der søger
-                                                relevant
-                                                støtte. Opdater nemt dine tilbud, sørg for, at dine oplysninger er
-                                                opdaterede,
-                                                og skab forbindelse til dem, der har brug for dine ydelser.
-                                            </span>
-                                        </p>
-                                        <p class="text-sm leading-6">
-                                            <span v-if="language.locale.value === 'en'">
-                                                Whether you're a provider of social care, counseling, or other social
-                                                offerings,
-                                                FindSocialeTilbud.dk is the perfect place to reach those who need your
-                                                help the
-                                                most.
-                                            </span>
-                                            <span v-if="language.locale.value === 'dk'">
-                                                Uanset om du tilbyder social omsorg, rådgivning eller andre sociale
-                                                ydelser,
-                                                er FindSocialeTilbud.dk det perfekte sted at nå dem, der har mest brug
-                                                for din
-                                                hjælp.
-                                            </span>
-                                        </p>
-                                    </div>
+                                </div>
+
+                                <!-- Description and Button -->
+                                <div class="space-y-4 text-gray-700">
+                                    <p class="text-sm leading-6">
+                                        <span v-if="language.locale.value === 'en'">
+                                            Get your company noticed by a wide audience on Denmark's largest platform
+                                            for social services. By managing your presence on FindSocialeTilbud.dk, you
+                                            can
+                                            showcase your
+                                            services to caseworkers, social workers, citizens, and families looking for
+                                            relevant
+                                            support. Easily update your
+                                            offerings, ensure your information is up to date, and connect with those
+                                            in need of
+                                            your services.
+                                        </span>
+                                        <span v-if="language.locale.value === 'dk'">
+                                            Få din virksomhed bemærket af et bredt publikum på Danmarks største
+                                            platform for sociale tilbud. Ved at administrere din tilstedeværelse på
+                                            FindSocialeTilbud.dk kan du fremhæve dine tjenester over for sagsbehandlere,
+                                            socialarbejdere, borgere og familier, der søger relevant støtte. Opdater
+                                            nemt
+                                            dine tilbud, sørg for, at dine oplysninger er opdaterede, og skab
+                                            forbindelse
+                                            til dem, der har brug for dine ydelser.
+                                        </span>
+                                    </p>
+                                    <p class="text-sm leading-6">
+                                        <span v-if="language.locale.value === 'en'">
+                                            Whether you're a provider of social care, counseling, or other social
+                                            offerings,
+                                            FindSocialeTilbud.dk is the perfect place to reach those who need your help
+                                            the
+                                            most.
+                                        </span>
+                                        <span v-if="language.locale.value === 'dk'">
+                                            Uanset om du tilbyder social omsorg, rådgivning eller andre sociale ydelser,
+                                            er FindSocialeTilbud.dk det perfekte sted at nå dem, der har mest brug
+                                            for din hjælp.
+                                        </span>
+                                    </p>
                                 </div>
                                 <div class="mt-8">
                                     <FormButton type="button" buttonStyle="primary" class="w-full"
@@ -106,7 +120,8 @@
                 <div class="max-w-5xl mx-auto mt-24">
                     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2">
                         <!-- Left side: Description -->
-                        <div class="flex items-center justify-center">
+                        <div class="flex items-center justify-center relative"
+                            :class="{ 'bg-white': state.modal.isModalTwoVisible, 'z-50': state.modal.isModalTwoVisible }">
                             <div
                                 class="transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in bg-transparent rounded-md p-8 xl:p-10 flex flex-col justify-between h-full">
                                 <div>
@@ -182,39 +197,77 @@
                 @close="state.modal.isShowInterestOpen = false" />
             <ModalImageModal :isModalOpen="state.modal.isImageModalOpen"
                 @close="state.modal.isImageModalOpen = false" />
+            <LazyModalTutorialModal0 :isModalZeroOpen="state.modal.isModalZeroOpen" @close="closeModalZero" />
+            <LazyModalTutorialModal1 :isModalOneOpen="state.modal.isModalVisible" @close="closeModal" />
+            <LazyModalTutorialModal2 :isModalTwoOpen="state.modal.isModalTwoVisible" @close="closeModal2" />
+
+
         </NuxtLayout>
     </div>
 </template>
 
 
 <script setup lang="ts">
-import { useI18n } from "vue-i18n"
-const runtimeConfig = useRuntimeConfig()
-const language = useI18n()
-
+import { useI18n } from "vue-i18n";
+const runtimeConfig = useRuntimeConfig();
+import { useUserStore } from '@/store/user'
+const language = useI18n();
+const userStore = useUserStore()
+const inTutorial = userStore.getInTutorial; // Use the getter
 const state = reactive({
     modal: {
         isManageCompanyOpen: false,
         isShowInterestOpen: false,
-        isImageModalOpen: false
+        isImageModalOpen: false,
+        isOverlayVisible: false, // Adding the overlay state here
+        isModalZeroOpen: false,
+        isModalVisible: false,
+        isModalTwoVisible: false,
     },
 });
 
+// Check if it's the first time visiting and show the image modal
 const checkFirstTime = () => {
     const isFirstTime = localStorage.getItem('isFirstTime');
     if (!isFirstTime || isFirstTime == "true") {
-        state.modal.isImageModalOpen = true
+        state.modal.isOverlayVisible = true;
+        state.modal.isModalZeroOpen = true;
         localStorage.setItem('isFirstTime', 'false');
     }
     else if (isFirstTime == "false") {
-        return
+        return;
     }
+};
+
+// Series of function to manipulate the states of the modals,
+// to control when they should open and close
+
+const toggleOverlay = () => {
+    state.modal.isOverlayVisible = !state.modal.isOverlayVisible;
+    state.modal.isModalZeroOpen = !state.modal.isModalZeroOpen
+    userStore.setInTutorial(true); // Save to the userStore instead of localStorage
+    console.log("store value on start: " + inTutorial)
+
+};
+const closeModalZero = () => {
+    state.modal.isModalZeroOpen = false;
+    state.modal.isModalVisible = true;
+};
+const closeModal = () => {
+    state.modal.isModalVisible = false;
+    state.modal.isModalTwoVisible = true;
+};
+const closeModal2 = () => {
+    state.modal.isModalTwoVisible = false
+    state.modal.isOverlayVisible = false
+    userStore.setInTutorial(false);
 };
 
 onMounted(() => {
     checkFirstTime();
 });
 </script>
+
 
 <style scoped>
 @keyframes slideIn {
