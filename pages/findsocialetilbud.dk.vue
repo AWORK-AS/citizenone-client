@@ -198,10 +198,10 @@
                 @close="state.modal.isShowInterestOpen = false" />
             <ModalImageModal :isModalOpen="state.modal.isImageModalOpen"
                 @close="state.modal.isImageModalOpen = false" />
-            <LazyModalTutorialModal0 :isModalZeroOpen="state.modal.isModalZeroOpen" @close="closeModalZero" />
-            <LazyModalTutorialModal1 :isModalOneOpen="state.modal.isModalVisible" @close="closeModal" />
-            <LazyModalTutorialModal2 :isModalTwoOpen="state.modal.isModalTwoVisible" @close="closeModal2" />
-
+            <LazyModulesFindsocialetilbuddkTutorialModal0 :isModalZeroOpen="state.modal.isModalZeroOpen" @close="closeModalZero" />
+            <LazyModulesFindsocialetilbuddkTutorialModal1 :isModalOneOpen="state.modal.isModalVisible" @close="closeModal" />
+            <LazyModulesFindsocialetilbuddkTutorialModal2 :isModalTwoOpen="state.modal.isModalTwoVisible" @close="closeModal2" />
+            <LazyModulesFindsocialetilbuddkTutorialModal3 :isModalThreeOpen="state.modal.isModalThreeVisible" @close="closeModal3" />
 
         </NuxtLayout>
     </div>
@@ -220,10 +220,11 @@ const state = reactive({
         isManageCompanyOpen: false,
         isShowInterestOpen: false,
         isImageModalOpen: false,
-        isOverlayVisible: false, // Adding the overlay state here
+        isOverlayVisible: false,
         isModalZeroOpen: false,
         isModalVisible: false,
         isModalTwoVisible: false,
+        isModalThreeVisible: false,
     },
 });
 
@@ -261,6 +262,12 @@ const closeModal = () => {
 };
 const closeModal2 = () => {
     state.modal.isModalTwoVisible = false
+    state.modal.isModalThreeVisible = true
+    state.modal.isOverlayVisible = false
+    userStore.setInTutorial(false);
+};
+const closeModal3 = () => {
+    state.modal.isModalThreeVisible = false
     state.modal.isOverlayVisible = false
     userStore.setInTutorial(false);
 };

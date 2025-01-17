@@ -25,8 +25,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
               stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
+            </svg></button>
         </div>
       </template>
     </Modal>
@@ -46,9 +45,9 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const images = [
-      'https://plus.unsplash.com/premium_photo-1675826774815-35b8a48ddc2c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Image 1
-      'https://cdn.pixabay.com/photo/2023/01/08/14/22/sample-7705346_640.jpg', // Image 2
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4dGWQgdRtlbW5aRFnN5K5pjTRSFsVWuGf7A&s', // Image 3
+      'https://plus.unsplash.com/premium_photo-1675826774815-35b8a48ddc2c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://cdn.pixabay.com/photo/2023/01/08/14/22/sample-7705346_640.jpg',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4dGWQgdRtlbW5aRFnN5K5pjTRSFsVWuGf7A&s',
     ];
     const currentIndex = ref(0); // Track the current image index
 
@@ -57,16 +56,16 @@ export default defineComponent({
     };
 
     const previousImage = () => {
-      currentIndex.value = (currentIndex.value - 1 + images.length) % images.length; // Loop back to last image
+      currentIndex.value = (currentIndex.value - 1 + images.length) % images.length;
     };
 
     const nextImage = () => {
-      currentIndex.value = (currentIndex.value + 1) % images.length; // Loop back to first image
+      currentIndex.value = (currentIndex.value + 1) % images.length;
     };
 
     return { closeModal, previousImage, nextImage, images, currentIndex };
   },
-});
+})
 </script>
 
 <style scoped>
