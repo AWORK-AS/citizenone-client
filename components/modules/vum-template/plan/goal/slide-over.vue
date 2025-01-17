@@ -41,6 +41,11 @@
                                             </FormButton>
                                         </div>
                                         <LoadingSpinner :isActive="state.isPageLoading">
+                                            <p class="font-semibold text-sm py-1" v-if="state.goals?.data?.length > 0">
+                                                {{
+                                                    $t('plansandgoals.VUMTemplates.goalsTemplate')
+                                                }}
+                                            </p>
                                             <dl class="space-y-5">
                                                 <Disclosure as="div" v-slot="{ open }"
                                                     v-for="(goal, index) in state.goals?.data" :index="index"
@@ -88,9 +93,9 @@
                                                     <DisclosurePanel as="dd" class="mt-5 mx-5 my-0">
                                                         <div class="mb-6">
                                                             <p class="font-semibold text-sm py-1"
-                                                                v-if="goal?.citizen_subgoals?.length > 0">
+                                                                v-if="goal?.subgoal_templates?.length > 0">
                                                                 {{
-                                                                    $t('plansandgoals.VUMTemplates.table.subgoalsTemplate')
+                                                                    $t('plansandgoals.VUMTemplates.subgoalsTemplate')
                                                                 }}
                                                             </p>
                                                             <p class="text-sm bg-tertiary-25 px-4 py-6 text-center rounded-md"
@@ -100,7 +105,7 @@
                                                                 }}.
                                                             </p>
                                                             <dl class="mt-2 space-y-3">
-                                                                <div v-for="(subgoal, index) in goal?.citizen_subgoals"
+                                                                <div v-for="(subgoal, index) in goal?.subgoal_templates"
                                                                     :key="index" class="bg-tertiary-25 p-4 rounded-md">
                                                                     <div class="py-4">
                                                                         <div class="flex justify-between items-center">

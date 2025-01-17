@@ -33,7 +33,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshGoals'])
+const emit = defineEmits(['close', 'refreshTemplates'])
 
 const state = reactive({
     error: {} as Error,
@@ -44,8 +44,8 @@ function closeModal() {
     emit('close')
 }
 
-function refreshGoals() {
-    emit('refreshGoals')
+function refreshTemplates() {
+    emit('refreshTemplates')
 }
 
 async function updateSubgoal(subgoalDetails: any) {
@@ -59,7 +59,7 @@ async function updateSubgoal(subgoalDetails: any) {
         }
         const response = await subgoalTemplateService.updateTemplate(subgoalUuid, params)
         if (response?.data) {
-            refreshGoals()
+            refreshTemplates()
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t('plansandgoals.VUMTemplates.form.alert.templateSuccessfullyUpdated')}.`)
         }
