@@ -2,13 +2,23 @@
     <form @submit.prevent="submitForm()">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="space-y-1">
-            <p class="text-sm text-gray-600">
-                {{ $t('plansandgoals.form.status') }}
-            </p>
-            <ckeditor :editor="editor" v-model="state.formStatus.status" :config="editorStatusConfig"></ckeditor>
-            <FormError :error="v$?.formStatus?.status?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.status?.[0]" />
+        <div class="space-y-3">
+            <div class="space-y-1">
+                <FormLabel for="name" :label="$t('plansandgoals.VUMTemplates.form.plan.name')" />
+                <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.VUMTemplates.form.plan.name')"
+                    v-model="state.formPlan.name" />
+                <FormError :error="v$?.formPlan?.name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <p class="text-sm text-gray-600">
+                    {{ $t('plansandgoals.VUMTemplates.form.plan.description') }}
+                </p>
+                <ckeditor :editor="editor" v-model="state.formPlan.description" :config="editorDescriptionConfig">
+                </ckeditor>
+                <FormError :error="v$?.formPlan?.description?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.description?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -39,15 +49,16 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedStatus: {
+    selectedTemplate: {
         type: Object,
         required: true,
     },
 })
+
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
 const editor = ref(ClassicEditor)
-const editorStatusConfig = ref({
+const editorDescriptionConfig = ref({
     // Add your custom configuration here
     toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
     heading: {
@@ -62,29 +73,38 @@ const editorStatusConfig = ref({
 })
 
 const state = reactive({
-    formStatus: {
-        status: '',
+    formPlan: {
+        id: '',
+        uuid: '',
+        name: '',
+        description: '',
     },
 })
 
 onMounted(() => {
-    state.formStatus = {
-        status: props.selectedStatus.status,
+    state.formPlan = {
+        id: props.selectedTemplate.id,
+        uuid: props.selectedTemplate.uuid,
+        name: props.selectedTemplate.name,
+        description: props.selectedTemplate.description ?? '',
     }
 })
 
-watch(() => props.selectedStatus, (newValue: any) => {
+watch(() => props.selectedTemplate, (newValue: any) => {
     if (newValue != null) {
-        state.formStatus = {
-            status: newValue.status,
+        state.formPlan = {
+            id: newValue.id,
+            uuid: newValue.uuid,
+            name: newValue.name,
+            description: newValue.description ?? '',
         }
     }
 })
 
 const rules = computed(() => {
     return {
-        formStatus: {
-            status: {
+        formPlan: {
+            name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
@@ -96,7 +116,7 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formStatus)
+        emit('submitForm', state.formPlan)
     }
 }
 </script>

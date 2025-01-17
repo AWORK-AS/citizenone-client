@@ -456,7 +456,34 @@
                 "upgradeStorageConfirmation": "Vil du opgradere dit lager"
             },
             "folderStructure": {
-                "folderStructure": "Mappe struktur"
+                "alert": {
+                    "folderStructureSuccessfullyDeleted": "Mappestruktur slettet med succes",
+                    "folderStructureSuccessfullyUpdated": "Mappestruktur opdateret med succes"
+                },
+                "confirmation": {
+                    "deleteFolderStructureConfirmation": "Er du sikker på, at du vil slette denne mappestruktur"
+                },
+                "editFolderStructure": "Rediger mappestruktur",
+                "folderStructure": "Mappestruktur",
+                "form": {
+                    "addSubfolder": "Tilføj undermappe",
+                    "alert": {
+                        "newFolderStructureSuccessfullyCreated": "Mappestruktur oprettet med succes"
+                    },
+                    "folderName": "Mappenavn",
+                    "name": "Navn",
+                    "rootFolder": "Rodmappe",
+                    "subfolder": "Undermappe"
+                },
+                "newFolderStructure": "Ny mappestruktur",
+                "table": {
+                    "actions": {
+                        "delete": "Slet",
+                        "edit": "Rediger"
+                    },
+                    "name": "Navn",
+                    "structure": "Struktur"
+                }
             },
             "form": {
                 "editFile": "Rediger fil",
@@ -705,6 +732,7 @@
                     "successfullyUpdated": "Sundhedsfaglig optegnelse opdateret med succes"
                 },
                 "date": "Dato",
+                "healthProfessionalDocumentation": "Sundhedsfaglig dokumentation",
                 "functionalLevel": "Funktionsniveau",
                 "musculoskeletalSystem": "Bevægeapparat",
                 "nutrition": "Ernæring",
@@ -726,6 +754,7 @@
                 },
                 "data": "Data",
                 "date": "Dato",
+                "healthProfessionalDocumentation": "Sundhedsfaglig dokumentation",
                 "reportedBy": "Rapporteret af",
                 "functionalLevel": "Funktionsniveau",
                 "musculoskeletalSystem": "Bevægeapparat",
@@ -775,13 +804,42 @@
                 "socialOfBoligstyrelsensWebsite": "Social- og Boligstyrelsens hjemmeside",
                 "whereYouCanDownloadText": "hvor du kan downloade det korrekte skema og dermed udfylde og sende til din leder"
             },
+            "form": {
+                "riskLevel": {
+                    "category": {
+                        "harmless": "Ufarlig",
+                        "highRisk": "Høj risiko",
+                        "lowRisk": "Lav risiko",
+                        "moderateRisk": "Moderat risiko"
+                    },
+                    "riskLevel": "Risikoniveau"
+                }
+            },
+            "missingAttachmentToOneOrMoreRecord": "Mangler vedhæftning til en eller flere poster",
             "reportUseOfForce": "Rapporter magtanvendelse",
             "seePreviousUseOfForce": "Se tidligere magtanvendelse",
             "table": {
+                "alert": {
+                    "attachmentDeletedSuccessfully": "Vedhæftning slettet med succes",
+                    "uploadedSuccessfully": "Vedhæftning uploadet med succes"
+                },
+                "clickToUpload": "Klik for at uploade",
+                "confirmation": {
+                    "deleteAttachmentConfirmation": "Er du sikker på, at du vil slette denne vedhæftning"
+                },
                 "date": "Dato",
                 "description": "Beskrivelse",
+                "download": "Download",
                 "draft": "Udkast",
+                "missingAttachment": "Mangler vedhæftning",
+                "deleteAttachment": "Slet vedhæftning",
                 "reportedBy": "Rapporteret af",
+                "riskLevels": {
+                    "harmless": "Ufarlig",
+                    "highRisk": "Høj risiko",
+                    "lowRisk": "Lav risiko",
+                    "moderateRisk": "Moderat risiko"
+                },
                 "title": "Titel"
             },
             "useOfForce": "Magtanvendelse"
@@ -1773,7 +1831,9 @@
             "goalName": "Målnavn",
             "planName": "Plannavn",
             "status": "Status",
-            "subgoalName": "Delmålsnavn"
+            "subgoalName": "Delmålsnavn",
+            "template": "Skabelon",
+            "useTemplate": "Brug skabelon"
         },
         "inProgress": "I gang",
         "newGoal": "Nyt mål",
@@ -1790,8 +1850,87 @@
                 "seeGoals": "Se mål",
                 "statuses": "Statusser"
             },
+            "createdBy": "Oprettet af",
+            "copiedFrom": "Kopieret fra",
             "dateCreated": "Oprettelsesdato",
+            "journalNote": "Journalnote",
+            "riskAssessment": "Risikovurdering",
             "status": "Status"
+        },
+        "VUMTemplates": {
+            "editGoal": "Rediger mål",
+            "editPlan": "Rediger plan",
+            "editSubgoal": "Rediger delmål",
+            "editTemplate": "Rediger skabelon",
+            "form": {
+                "active": "Aktiv",
+                "alert": {
+                    "templateSuccessfullyUpdated": "Skabelon opdateret med succes",
+                    "newTemplateSuccessfullySaved": "Ny skabelon gemt med succes"
+                },
+                "goal": {
+                    "completionDate": "Afslutningsdato",
+                    "description": "Beskrivelse",
+                    "name": "Navn"
+                },
+                "plan": {
+                    "completionDate": "Afslutningsdato",
+                    "description": "Beskrivelse",
+                    "name": "Navn"
+                },
+                "subgoal": {
+                    "completionDate": "Afslutningsdato",
+                    "description": "Beskrivelse",
+                    "name": "Navn"
+                },
+                "templateName": "Skabelonnavn"
+            },
+            "goalsTemplate": "Målskabelon",
+            "newGoal": "Nyt mål",
+            "newPlan": "Ny plan",
+            "newSubgoal": "Nyt delmål",
+            "newTemplate": "Ny skabelon",
+            "plansTemplate": "Planskabelon",
+            "subgoalsTemplate": "Delmålskabelon",
+            "table": {
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet",
+                    "viewGoals": "Se mål",
+                    "viewPlans": "Se planer",
+                    "viewSubgoals": "Se delmål"
+                },
+                "active": "Aktiv",
+                "alert": {
+                    "goalSuccessfullyDeleted": "Mål slettet med succes",
+                    "planSuccessfullyDeleted": "Plan slettet med succes",
+                    "subgoalSuccessfullyDeleted": "Delmål slettet med succes",
+                    "templateSuccessfullyDeleted": "Skabelon slettet med succes"
+                },
+                "confirmation": {
+                    "deleteGoalConfirmation": "Er du sikker på, at du vil slette dette mål",
+                    "deletePlanConfirmation": "Er du sikker på, at du vil slette denne plan",
+                    "deleteSubgoalConfirmation": "Er du sikker på, at du vil slette dette delmål",
+                    "deleteTemplateConfirmation": "Er du sikker på, at du vil slette denne skabelon"
+                },
+                "inactive": "Inaktiv",
+                "noAvailableSubgoals": "Der er ingen delmål tilgængelige at vise",
+                "goal": {
+                    "completionDate": "Afslutningsdato",
+                    "name": "Navn"
+                },
+                "plan": {
+                    "completionDate": "Afslutningsdato",
+                    "name": "Navn"
+                },
+                "status": "Status",
+                "subgoal": {
+                    "completionDate": "Afslutningsdato",
+                    "name": "Navn"
+                },
+                "templateName": "Skabelonnavn"
+            },
+            "templates": "Skabeloner"
         }
     },
     "poll": {

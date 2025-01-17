@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('plansandgoals.statuses')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="2xl" :title="$t('plansandgoals.statuses')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
@@ -19,11 +19,26 @@
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                                 <template #body v-if="!(state.isTableLoading || (state.statuses?.data?.length === 0))">
                                     <tr v-for="(status, index) in state.statuses?.data" :key="index">
-                                        <td width="45%">
-                                            <span>{{ status?.status }}</span>
+                                        <td width="30%">
+                                            <Badge type="primary" class="w-fit lowercase" v-if="status?.copied_from">
+                                                <p class="text-xxs">
+                                                    {{
+                                                        $t('plansandgoals.table.copiedFrom')
+                                                    }}
+                                                    {{ status?.copied_from === 'journal_note' ?
+                                                        $t('plansandgoals.table.journalNote') :
+                                                        $t('plansandgoals.table.riskAssessment') }}
+                                                </p>
+                                            </Badge>
+                                            <div v-html="status.status" class="content" />
                                         </td>
-                                        <td width="35%">
+                                        <td width="30%">
                                             <span>{{ formatDateToReadable(status?.created_at) }}</span>
+                                        </td>
+                                        <td width="20%">
+                                            <span>
+                                                {{ status?.user?.firstname + ' ' + status?.user?.lastname }}
+                                            </span>
                                         </td>
                                         <td width="20%">
                                             <div class="flex items-end gap-2">
@@ -93,6 +108,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'plansandgoals.table.status', sorter: true, key: 'status' },
         { name: 'plansandgoals.table.dateCreated' },
+        { name: 'plansandgoals.table.createdBy' },
         { name: '' },
     ],
     dataFilter: [],
@@ -103,7 +119,7 @@ const state = reactive({
         isDeleteStatusOpen: false,
         isEditStatusOpen: false,
     },
-    selectedStatus: [],
+    selectedStatus: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -184,7 +200,7 @@ function confirmStatusDeletion(status: any) {
 
 async function deleteStatus() {
     state.error = {}
-    state.isPageLoading = true
+    state.isTableLoading = true
     try {
         const response = await statusService.deleteStatus(state.selectedStatus.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
@@ -194,6 +210,6 @@ async function deleteStatus() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
+    state.isTableLoading = false
 }
 </script>

@@ -2,13 +2,21 @@
     <form @submit.prevent="submitForm()">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="space-y-1">
-            <p class="text-sm text-gray-600">
-                {{ $t('plansandgoals.form.status') }}
-            </p>
-            <ckeditor :editor="editor" v-model="state.formStatus.status" :config="editorStatusConfig"></ckeditor>
-            <FormError :error="v$?.formStatus?.status?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.status?.[0]" />
+        <div class="space-y-3">
+            <div class="space-y-1">
+                <FormLabel for="name" :label="$t('plansandgoals.VUMTemplates.form.templateName')" />
+                <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.VUMTemplates.form.templateName')"
+                    v-model="state.formTemplate.name" />
+                <FormError :error="v$?.formTemplate?.name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.name?.[0]" />
+            </div>
+            <div>
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formTemplate.is_active = !state.formTemplate.is_active">
+                    <FormCheckbox :value="state.formTemplate.is_active" />
+                    {{ $t('plansandgoals.VUMTemplates.form.active') }}
+                </div>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -25,7 +33,6 @@
 </template>
 
 <script setup lang="ts">
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -39,52 +46,48 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedStatus: {
+    selectedTemplate: {
         type: Object,
         required: true,
     },
 })
+
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
-const editor = ref(ClassicEditor)
-const editorStatusConfig = ref({
-    // Add your custom configuration here
-    toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
-    heading: {
-        options: [
-            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
-        ]
-    },
-    height: 500  // Set the editor height here
-})
 
 const state = reactive({
-    formStatus: {
-        status: '',
+    formTemplate: {
+        id: '',
+        uuid: '',
+        name: '',
+        is_active: false,
     },
 })
 
 onMounted(() => {
-    state.formStatus = {
-        status: props.selectedStatus.status,
+    state.formTemplate = {
+        id: props.selectedTemplate.id,
+        uuid: props.selectedTemplate.uuid,
+        name: props.selectedTemplate.name,
+        is_active: props.selectedTemplate.is_active,
     }
 })
 
-watch(() => props.selectedStatus, (newValue: any) => {
+watch(() => props.selectedTemplate, (newValue: any) => {
     if (newValue != null) {
-        state.formStatus = {
-            status: newValue.status,
+        state.formTemplate = {
+            id: newValue.id,
+            uuid: newValue.uuid,
+            name: newValue.name,
+            is_active: newValue.is_active,
         }
     }
 })
 
 const rules = computed(() => {
     return {
-        formStatus: {
-            status: {
+        formTemplate: {
+            name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
@@ -96,7 +99,7 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formStatus)
+        emit('submitForm', state.formTemplate)
     }
 }
 </script>

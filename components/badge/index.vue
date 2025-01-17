@@ -12,6 +12,10 @@
         props.type === 'no-risk' && 'bg-green-700 text-white text-xs',
         props.type === 'increased-risk' && 'bg-yellow-500 text-white text-xs',
         props.type === 'acute-increased-risk' && 'bg-red-600 text-white text-xs',
+        props.type === 'harmless' && 'bg-primary text-white text-xs',
+        props.type === 'low-risk' && 'bg-yellow-500 text-white text-xs',
+        props.type === 'moderate-risk' && 'bg-orange-500 text-white text-xs',
+        props.type === 'high-risk' && 'bg-red-500 text-white text-xs',
     ]">
         <slot />
     </div>
