@@ -3,7 +3,7 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
-            <div class="grid grid-cols-2 gap-x-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
                     <FormLabel for="name" :label="$t('plansandgoals.form.goalName')" />
                     <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.form.goalName')"
@@ -19,6 +19,12 @@
                     <FormError :error="v$?.formGoal?.completion_date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.completion_date?.[0]" />
                 </div>
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="score" :label="$t('plansandgoals.form.expectedLevel')" />
+                <FormSelect id="score" :options="state.options.scores" v-model="state.formGoal.score" />
+                <FormError :error="v$?.formGoal?.score?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.score?.[0]" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
@@ -103,6 +109,16 @@ const state = reactive({
         completion_date: '',
         date_completed: '',
         is_completed: false,
+        score: '',
+    },
+    options: {
+        scores: [
+            { value: 1, label: 1 },
+            { value: 2, label: 2 },
+            { value: 3, label: 3 },
+            { value: 4, label: 4 },
+            { value: 5, label: 5 },
+        ]
     },
 })
 
@@ -115,6 +131,7 @@ onMounted(() => {
         completion_date: props.selectedGoal.completion_date,
         date_completed: props.selectedGoal.date_completed,
         is_completed: props.selectedGoal.is_completed,
+        score: props.selectedGoal.score,
     }
     if (props.selectedGoal.date_completed) {
         state.formGoal.is_completed = true
@@ -133,6 +150,7 @@ watch(() => props.selectedGoal, (newValue: any) => {
             completion_date: newValue.completion_date,
             date_completed: newValue.date_completed,
             is_completed: newValue.is_completed,
+            score: newValue.score,
         }
     }
 })
@@ -144,6 +162,9 @@ const rules = computed(() => {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             completion_date: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            score: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },

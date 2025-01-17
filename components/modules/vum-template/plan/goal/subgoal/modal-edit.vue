@@ -56,6 +56,7 @@ async function updateSubgoal(subgoalDetails: any) {
         const params = {
             name: subgoalDetails.name,
             description: subgoalDetails.description,
+            completion_date: subgoalDetails.completion_date,
         }
         const response = await subgoalTemplateService.updateTemplate(subgoalUuid, params)
         if (response?.data) {

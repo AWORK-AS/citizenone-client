@@ -1826,8 +1826,10 @@
         "form": {
             "completed": "Completed",
             "completionDate": "Completion date",
+            "currentLevel": "Current level",
             "dateCompleted": "Date completed",
             "description": "Description",
+            "expectedLevel": "Expected level",
             "goalName": "Goal name",
             "planName": "Plan name",
             "status": "Status",
@@ -1852,7 +1854,9 @@
             },
             "createdBy": "Created by",
             "copiedFrom": "Copied from",
+            "currentLevel": "Current level",
             "dateCreated": "Date created",
+            "expectedLevel": "Expected level",
             "journalNote": "Journal note",
             "riskAssessment": "Risk assessment",
             "status": "Status"
@@ -1868,17 +1872,17 @@
                     "templateSuccessfullyUpdated": "Template successfully updated",
                     "newTemplateSuccessfullySaved": "New template successfully saved"
                 },
-                "goal": {
+                "goals": {
                     "completionDate": "Completion date",
                     "description": "Description",
                     "name": "Name"
                 },
-                "plan": {
+                "plans": {
                     "completionDate": "Completion date",
                     "description": "Description",
                     "name": "Name"
                 },
-                "subgoal": {
+                "subgoals": {
                     "completionDate": "Completion date",
                     "description": "Description",
                     "name": "Name"
@@ -1915,16 +1919,16 @@
                 },
                 "inactive": "Inactive",
                 "noAvailableSubgoals": "There's no subgoals available to display",
-                "goal": {
+                "goals": {
                     "completionDate": "Completion date",
                     "name": "Name"
                 },
-                "plan": {
+                "plans": {
                     "completionDate": "Completion date",
                     "name": "Name"
                 },
                 "status": "Status",
-                "subgoal": {
+                "subgoals": {
                     "completionDate": "Completion date",
                     "name": "Name"
                 },
@@ -2446,6 +2450,7 @@
             }
         },
         "coupons": {
+            "active": "Active",
             "coupons": "Coupons",
             "editCoupon": "Edit coupon",
             "form": {

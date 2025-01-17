@@ -39,6 +39,7 @@ const state = reactive({
     formTemplate: {
         name: '',
         description: '',
+        completion_date: '',
     },
 })
 
@@ -58,6 +59,7 @@ async function saveTemplate(templateDetails: any) {
             template_uuid: templateUuid,
             name: templateDetails.name,
             description: templateDetails.description,
+            completion_date: templateDetails.completion_date,
         }
         const response = await planTemplateService.saveTemplate(params)
         if (response?.data) {

@@ -52,6 +52,7 @@ async function updateStatus(statusDetails: any) {
     try {
         const statusUuid = props.selectedStatus.uuid
         const params = {
+            score: statusDetails.score,
             status: statusDetails.status,
         }
         const response = await statusService.updateStatus(statusUuid, params)

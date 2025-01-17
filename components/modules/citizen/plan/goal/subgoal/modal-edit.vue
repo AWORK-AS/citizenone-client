@@ -57,6 +57,7 @@ async function updateSubgoal(subgoalDetails: any) {
             description: subgoalDetails.description,
             completion_date: subgoalDetails.completion_date,
             date_completed: subgoalDetails.date_completed,
+            score: subgoalDetails.score,
         }
         const response = await subgoalService.updateSubgoal(subgoalUuid, params)
         if (response?.data) {

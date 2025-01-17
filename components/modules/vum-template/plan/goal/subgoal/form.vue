@@ -3,16 +3,28 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
-            <div class="space-y-1">
-                <FormLabel for="name" :label="$t('plansandgoals.VUMTemplates.form.subgoal.name')" />
-                <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.VUMTemplates.form.subgoal.name')"
-                    v-model="state.formSubgoal.name" />
-                <FormError :error="v$?.formSubgoal?.name?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.name?.[0]" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <FormLabel for="name" :label="$t('plansandgoals.VUMTemplates.form.subgoals.name')" />
+                    <FormTextField id="name" name="name"
+                        :placeholder="$t('plansandgoals.VUMTemplates.form.subgoals.name')"
+                        v-model="state.formSubgoal.name" />
+                    <FormError :error="v$?.formSubgoal?.name?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.name?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="completion_date"
+                        :label="$t('plansandgoals.VUMTemplates.form.subgoals.completionDate')" />
+                    <FormDateField id="completion_date" name="completion_date"
+                        :placeholder="$t('plansandgoals.VUMTemplates.form.subgoals.completionDate')"
+                        v-model="state.formSubgoal.completion_date" />
+                    <FormError :error="v$?.formSubgoal?.completion_date?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.completion_date?.[0]" />
+                </div>
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
-                    {{ $t('plansandgoals.VUMTemplates.form.subgoal.description') }}
+                    {{ $t('plansandgoals.VUMTemplates.form.subgoals.description') }}
                 </p>
                 <ckeditor :editor="editor" v-model="state.formSubgoal.description" :config="editorDescriptionConfig">
                 </ckeditor>
@@ -77,6 +89,7 @@ const state = reactive({
         uuid: '',
         name: '',
         description: '',
+        completion_date: '',
     },
 })
 
@@ -86,6 +99,7 @@ onMounted(() => {
         uuid: props.selectedSubgoal.uuid,
         name: props.selectedSubgoal.name,
         description: props.selectedSubgoal.description ?? '',
+        completion_date: props.selectedSubgoal.completion_date,
     }
 })
 
@@ -96,6 +110,7 @@ watch(() => props.selectedSubgoal, (newValue: any) => {
             uuid: newValue.uuid,
             name: newValue.name,
             description: newValue.description ?? '',
+            completion_date: newValue.completion_date,
         }
     }
 })
@@ -104,6 +119,9 @@ const rules = computed(() => {
     return {
         formSubgoal: {
             name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            completion_date: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },

@@ -1826,8 +1826,10 @@
         "form": {
             "completed": "Fuldført",
             "completionDate": "Afslutningsdato",
+            "currentLevel": "Nuværende niveau",
             "dateCompleted": "Dato for fuldførelse",
             "description": "Beskrivelse",
+            "expectedLevel": "Forventet niveau",
             "goalName": "Målnavn",
             "planName": "Plannavn",
             "status": "Status",
@@ -1852,7 +1854,9 @@
             },
             "createdBy": "Oprettet af",
             "copiedFrom": "Kopieret fra",
+            "currentLevel": "Nuværende niveau",
             "dateCreated": "Oprettelsesdato",
+            "expectedLevel": "Forventet niveau",
             "journalNote": "Journalnote",
             "riskAssessment": "Risikovurdering",
             "status": "Status"
@@ -1868,17 +1872,17 @@
                     "templateSuccessfullyUpdated": "Skabelon opdateret med succes",
                     "newTemplateSuccessfullySaved": "Ny skabelon gemt med succes"
                 },
-                "goal": {
+                "goals": {
                     "completionDate": "Afslutningsdato",
                     "description": "Beskrivelse",
                     "name": "Navn"
                 },
-                "plan": {
+                "plans": {
                     "completionDate": "Afslutningsdato",
                     "description": "Beskrivelse",
                     "name": "Navn"
                 },
-                "subgoal": {
+                "subgoals": {
                     "completionDate": "Afslutningsdato",
                     "description": "Beskrivelse",
                     "name": "Navn"
@@ -1915,16 +1919,16 @@
                 },
                 "inactive": "Inaktiv",
                 "noAvailableSubgoals": "Der er ingen delmål tilgængelige at vise",
-                "goal": {
+                "goals": {
                     "completionDate": "Afslutningsdato",
                     "name": "Navn"
                 },
-                "plan": {
+                "plans": {
                     "completionDate": "Afslutningsdato",
                     "name": "Navn"
                 },
                 "status": "Status",
-                "subgoal": {
+                "subgoals": {
                     "completionDate": "Afslutningsdato",
                     "name": "Navn"
                 },
