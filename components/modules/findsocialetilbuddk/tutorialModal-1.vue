@@ -4,19 +4,21 @@
         <div v-if="isModalOneOpen"
             class="fixed top-32 left-99 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md">
             <div class="flex justify-between items-center mb-4">
-                <span v-if="language.locale.value === 'en'"> 
-                    <h3 class="text-lg font-semibold">Step 2:  Manage your profile</h3>
+                <span v-if="language.locale.value === 'en'">
+                    <h3 class="text-lg font-semibold">Step 2: Manage your profile</h3>
                 </span>
                 <span v-if="language.locale.value === 'dk'">
-                    <h3 class="text-lg font-semibold">Step 2:  Administrer din profil</h3>
+                    <h3 class="text-lg font-semibold">Step 2: Administrer din profil</h3>
                 </span>
             </div>
             <p class="text-sm text-gray-700 mb-4">
                 <span v-if="language.locale.value === 'en'">
-                    To maximize your visibility and accessibility, this feature helps you present yourself professionally and accessibly on FindSocialeTilbud.dk.
+                    To maximize your visibility and accessibility, this feature helps you present yourself
+                    professionally and accessibly on FindSocialeTilbud.dk.
                 </span>
                 <span v-if="language.locale.value === 'dk'">
-                    For at maksimere din synlighed og tilgængelighed, så hjælper denne mulighed dig med at fremstå professionelt og tilgængeligt på FindSocialeTilbud.dk.
+                    For at maksimere din synlighed og tilgængelighed, så hjælper denne mulighed dig med at fremstå
+                    professionelt og tilgængeligt på FindSocialeTilbud.dk.
                 </span>
             </p>
             <ul class="list-disc list-inside text-gray-600 text-sm space-y-2">
@@ -46,8 +48,13 @@
                 </li>
             </ul>
             <div class="mt-4 flex justify-end">
-                <button @click="handleNext" class="px-4 py-2 bg-tertiary text-white rounded">
+                <button v-if="language.locale.value === 'en'" @click="handleNext"
+                    class="px-4 py-2 bg-tertiary text-white rounded">
                     Next
+                </button>
+                <button v-if="language.locale.value === 'dk'" @click="handleNext"
+                    class="px-4 py-2 bg-tertiary text-white rounded">
+                    Næste
                 </button>
             </div>
         </div>
@@ -62,10 +69,10 @@ const language = useI18n()
 
 
 defineProps({
-  isModalOneOpen: {
-    type: Boolean,
-    required: true,
-  },
+    isModalOneOpen: {
+        type: Boolean,
+        required: true,
+    },
 });
 
 
@@ -73,19 +80,19 @@ const emit = defineEmits(['close']);
 
 
 const handleClose = () => {
-  emit('close');
+    emit('close');
 };
 
 const scrollToBottom = () => {
-  window.scrollTo({
-    top: document.documentElement.scrollHeight,
-    behavior: 'smooth',
-  });
+    window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+    });
 };
 
 const handleNext = () => {
-  scrollToBottom()
-  handleClose()
+    scrollToBottom()
+    handleClose()
 }
 </script>
 
