@@ -174,7 +174,7 @@ async function login() {
                 userStore.setUser(response?.data?.user)
                 userStore.setLanguage(response?.data?.user?.language?.code)
                 language.locale.value = response?.data?.user?.language?.code
-                navigateTo('/daily-overview')
+                navigateTo('/findsocialetilbud.dk')
             }
         } catch (error: any) {
             state.error = error

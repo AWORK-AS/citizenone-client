@@ -504,8 +504,10 @@
                 "name": "Navn",
                 "owner": "Ejer"
             },
+            "template": "Skabelon",
             "upgradeStorage": "Opgrader lager",
-            "uploadFile": "Upload fil"
+            "uploadFile": "Upload fil",
+            "useTemplate": "Brug skabelon"
         },
         "citizenJournals": {
             "alert": {
@@ -1829,10 +1831,20 @@
             "currentLevel": "Nuværende niveau",
             "dateCompleted": "Dato for fuldførelse",
             "description": "Beskrivelse",
-            "expectedLevel": "Forventet niveau",
+            "goalCompletionDate": "Mål afslutningsdato",
+            "expectedLevels": {
+                "expectedLevel": "Expected level",
+                "minorChallenges": "Mindre udfordringer",
+                "moderateChallenges": "Moderate udfordringer",
+                "significantChallenges": "Markante udfordringer",
+                "severeChallenges": "Alvorlige udfordringer",
+                "verySubstantialChallenges": "Meget store udfordringer"
+            },
             "goalName": "Målnavn",
+            "planCompletionDate": "Plan afslutningsdato",
             "planName": "Plannavn",
             "status": "Status",
+            "subgoalCompletionDate": "Delmål afslutningsdato",
             "subgoalName": "Delmålsnavn",
             "template": "Skabelon",
             "useTemplate": "Brug skabelon"
@@ -1856,7 +1868,13 @@
             "copiedFrom": "Kopieret fra",
             "currentLevel": "Nuværende niveau",
             "dateCreated": "Oprettelsesdato",
-            "expectedLevel": "Forventet niveau",
+            "expectedLevels": {
+                "minorChallenges": "Mindre udfordringer",
+                "moderateChallenges": "Moderate udfordringer",
+                "significantChallenges": "Markante udfordringer",
+                "severeChallenges": "Alvorlige udfordringer",
+                "verySubstantialChallenges": "Meget store udfordringer"
+            },
             "journalNote": "Journalnote",
             "riskAssessment": "Risikovurdering",
             "status": "Status"

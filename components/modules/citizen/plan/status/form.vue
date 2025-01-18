@@ -3,7 +3,7 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
-            <div class="space-y-1">
+            <div class="space-y-1" v-if="['goal', 'subgoal'].includes(props.statusType)">
                 <FormLabel for="score" :label="$t('plansandgoals.form.currentLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formStatus.score" />
                 <FormError :error="v$?.formStatus?.score?.$errors[0]?.$message.toString()" />
@@ -51,6 +51,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    statusType: {
+        type: String,
+        required: true,
+    },
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
@@ -76,11 +80,11 @@ const state = reactive({
     },
     options: {
         scores: [
-            { value: 1, label: 1 },
-            { value: 2, label: 2 },
-            { value: 3, label: 3 },
-            { value: 4, label: 4 },
-            { value: 5, label: 5 },
+            { value: 1, label: `1. ${t('plansandgoals.form.expectedLevels.minorChallenges')}` },
+            { value: 2, label: `2. ${t('plansandgoals.form.expectedLevels.moderateChallenges')}` },
+            { value: 3, label: `3. ${t('plansandgoals.form.expectedLevels.significantChallenges')}` },
+            { value: 4, label: `4. ${t('plansandgoals.form.expectedLevels.severeChallenges')}` },
+            { value: 5, label: `5. ${t('plansandgoals.form.expectedLevels.verySubstantialChallenges')}` },
         ]
     },
 })
@@ -104,9 +108,6 @@ watch(() => props.selectedStatus, (newValue: any) => {
 const rules = computed(() => {
     return {
         formStatus: {
-            score: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
             status: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },

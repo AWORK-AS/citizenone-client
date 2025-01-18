@@ -12,11 +12,39 @@
                 {{ $t('plansandgoals.form.useTemplate') }}
             </div>
             <div v-if="state.formPlan.is_use_template">
-                <div class="space-y-1">
-                    <FormLabel for="template" :label="$t('plansandgoals.form.template')" />
-                    <FormSelect id="template" :options="state.options.templates" v-model="state.formPlan.template" />
-                    <FormError :error="v$?.formPlan?.template?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.template_uuid?.[0]" />
+                <div class="space-y-3">
+                    <div class="space-y-1">
+                        <FormLabel for="template" :label="$t('plansandgoals.form.template')" />
+                        <FormSelect id="template" :options="state.options.templates"
+                            v-model="state.formPlan.template" />
+                        <FormError :error="v$?.formPlan?.template?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.template_uuid?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="plan_completion_date" :label="$t('plansandgoals.form.planCompletionDate')" />
+                        <FormDateField id="plan_completion_date" name="plan_completion_date"
+                            :placeholder="$t('plansandgoals.form.planCompletionDate')"
+                            v-model="state.formPlan.plan_completion_date" />
+                        <FormError :error="v$?.formPlan?.plan_completion_date?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.plan_completion_date?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="goal_completion_date" :label="$t('plansandgoals.form.goalCompletionDate')" />
+                        <FormDateField id="goal_completion_date" name="goal_completion_date"
+                            :placeholder="$t('plansandgoals.form.goalCompletionDate')"
+                            v-model="state.formPlan.goal_completion_date" />
+                        <FormError :error="v$?.formPlan?.goal_completion_date?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.goal_completion_date?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="subgoal_completion_date"
+                            :label="$t('plansandgoals.form.subgoalCompletionDate')" />
+                        <FormDateField id="subgoal_completion_date" name="subgoal_completion_date"
+                            :placeholder="$t('plansandgoals.form.subgoalCompletionDate')"
+                            v-model="state.formPlan.subgoal_completion_date" />
+                        <FormError :error="v$?.formPlan?.subgoal_completion_date?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.subgoal_completion_date?.[0]" />
+                    </div>
                 </div>
             </div>
             <div class="space-y-3" v-else>
@@ -127,6 +155,9 @@ const state = reactive({
         is_completed: false,
         is_use_template: false,
         template: '',
+        plan_completion_date: '',
+        goal_completion_date: '',
+        subgoal_completion_date: '',
     },
     options: {
         templates: [] as any
@@ -144,6 +175,9 @@ onMounted(() => {
         is_completed: props.selectedPlan.is_completed,
         is_use_template: false,
         template: '',
+        plan_completion_date: '',
+        goal_completion_date: '',
+        subgoal_completion_date: '',
     }
     fetchTemplates()
 })
@@ -160,6 +194,9 @@ watch(() => props.selectedPlan, (newValue: any) => {
             is_completed: newValue.is_completed,
             is_use_template: false,
             template: '',
+            plan_completion_date: '',
+            goal_completion_date: '',
+            subgoal_completion_date: '',
         }
     }
 })
@@ -169,6 +206,15 @@ const rules = computed(() => {
         return {
             formPlan: {
                 template: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                plan_completion_date: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                goal_completion_date: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                subgoal_completion_date: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },

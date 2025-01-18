@@ -122,12 +122,12 @@
                                                             </div>
                                                         </div>
                                                         <p class="text-sm">
-                                                            {{ $t('plansandgoals.completionDate') }}:
-                                                            {{ formatDateToReadable(goal?.completion_date) }}
-                                                        </p>
-                                                        <p class="text-sm">
                                                             {{ $t('plansandgoals.dateCreated') }}: {{
                                                                 formatDateToReadable(goal?.created_at) }}
+                                                        </p>asdasdasd
+                                                        <p class="text-sm">
+                                                            {{ $t('plansandgoals.completionDate') }}:
+                                                            {{ formatDateToReadable(goal?.completion_date) }}
                                                         </p>
                                                         <div v-html="goal?.description" class="content text-sm" />
                                                     </div>
@@ -252,9 +252,9 @@
             <ModulesCitizenPlanGoalSubgoalModalEdit :isModalOpen="state.modal.isEditSubgoalOpen"
                 :selectedGoal="state.selectedGoal" :selectedSubgoal="state.selectedSubgoal"
                 @close="state.modal.isEditSubgoalOpen = false" @refreshGoals="fetchGoals" />
-            <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isGoalStatusesOpen"
+            <ModulesCitizenPlanStatusModalStatuses statusType="goal" :isModalOpen="state.modal.isGoalStatusesOpen"
                 :selectedData="state.selectedGoal" @close="closeGoalStatusesModal" @refreshData="fetchGoals" />
-            <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isSubGoalStatusesOpen"
+            <ModulesCitizenPlanStatusModalStatuses statusType="subgoal" :isModalOpen="state.modal.isSubGoalStatusesOpen"
                 :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchGoals" />
         </Dialog>
     </TransitionRoot>

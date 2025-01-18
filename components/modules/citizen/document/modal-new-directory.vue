@@ -40,6 +40,7 @@ const state = reactive({
         uuid: '',
         name: '',
         is_admin_access: false,
+        folder_structure_uuid: false,
     },
 })
 
@@ -56,12 +57,23 @@ async function saveDirectory(directoryDetails: any) {
     state.isPageLoading = true
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
-        const params = {
-            citizen_uuid: citizenUuid,
-            ...(folderUuid && { folder_uuid: folderUuid }),
-            name: directoryDetails.name,
-            is_admin_access: directoryDetails.is_admin_access,
-            type: 'folder',
+        let params = {}
+        if (directoryDetails.is_use_template) {
+            params = {
+                citizen_uuid: citizenUuid,
+                ...(folderUuid && { folder_uuid: folderUuid }),
+                folder_structure_uuid: directoryDetails.template,
+                is_admin_access: directoryDetails.is_admin_access,
+                type: 'folder',
+            }
+        } else {
+            params = {
+                citizen_uuid: citizenUuid,
+                ...(folderUuid && { folder_uuid: folderUuid }),
+                name: directoryDetails.name,
+                is_admin_access: directoryDetails.is_admin_access,
+                type: 'folder',
+            }
         }
         const response = await citizenDocumentService.saveCitizenFileFolder(params)
         if (response?.data) {

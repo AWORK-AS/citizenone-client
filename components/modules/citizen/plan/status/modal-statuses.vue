@@ -12,8 +12,7 @@
                     <div class="space-y-5">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
-                        <TableSearch :columnFilter="state.columnFilter" :dataFilter="state.dataFilter"
-                            @handleFilter="handleFilter" />
+                        <TableSearch @search="handleSearch" />
                         <div class="table-responsive">
                             <Table :columnHeaders="state.columnHeaders" :data="state.statuses"
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
@@ -31,6 +30,33 @@
                                                 </p>
                                             </Badge>
                                             <div v-html="status.status" class="content" />
+                                            <Badge type="primary" class="w-fit" v-if="status.score">
+                                                <p class="text-xxs" v-if="status.score == 1">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.minorChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="status.score == 2">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.moderateChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="status.score == 3">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.significantChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="status.score == 4">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.severeChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="status.score == 5">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.verySubstantialChallenges')
+                                                    }}
+                                                </p>
+                                            </Badge>
                                         </td>
                                         <td width="30%">
                                             <span>{{ formatDateToReadable(status?.created_at) }}</span>
@@ -61,12 +87,13 @@
                         <Pagination :data="state.statuses" @previous="previous" @next="next" />
                     </div>
                 </div>
-                <ModulesCitizenPlanStatusModalNew :isModalOpen="state.modal.isAddStatusOpen"
-                    :selectedData="props.selectedData" :selectedStatus="state.selectedStatus"
-                    @close="state.modal.isAddStatusOpen = false" @refreshStatuses="fetchStatuses" />
-                <ModulesCitizenPlanStatusModalEdit :isModalOpen="state.modal.isEditStatusOpen"
-                    :selectedStatus="state.selectedStatus" @close="state.modal.isEditStatusOpen = false"
+                <ModulesCitizenPlanStatusModalNew :statusType="props.statusType"
+                    :isModalOpen="state.modal.isAddStatusOpen" :selectedData="props.selectedData"
+                    :selectedStatus="state.selectedStatus" @close="state.modal.isAddStatusOpen = false"
                     @refreshStatuses="fetchStatuses" />
+                <ModulesCitizenPlanStatusModalEdit :statusType="props.statusType"
+                    :isModalOpen="state.modal.isEditStatusOpen" :selectedStatus="state.selectedStatus"
+                    @close="state.modal.isEditStatusOpen = false" @refreshStatuses="fetchStatuses" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
                     :message="`${$t('plansandgoals.confirmation.deleteStatusConfirmation')}?`"
                     @close="state.modal.isDeleteStatusOpen = false" @confirm="deleteStatus" />
@@ -97,6 +124,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    statusType: {
+        type: String,
+        required: true,
+    },
 })
 
 const emit = defineEmits(['close', 'refreshData'])
@@ -111,7 +142,9 @@ const state = reactive({
         { name: 'plansandgoals.table.createdBy' },
         { name: '' },
     ],
-    dataFilter: [],
+    dataFilter: {
+        search: ''
+    },
     error: {} as Error,
     isTableLoading: false,
     modal: {
@@ -182,9 +215,9 @@ function sort(sortingData: any) {
     fetchStatuses()
 }
 
-function handleFilter(value: any) {
+function handleSearch(value: any) {
     currentTablePage = 1
-    state.dataFilter = value
+    state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchStatuses()
 }
 

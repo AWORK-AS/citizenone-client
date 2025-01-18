@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submitForm()">
+    <form @submit.prevent="submitForm()" id="formMedicine">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
@@ -296,9 +296,6 @@ const rules = computed(() => {
                 description: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
-                schedule_frequency: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
                 current_stocks: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
@@ -326,9 +323,6 @@ const rules = computed(() => {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 description: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                schedule_frequency: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 current_stocks: {
@@ -445,3 +439,9 @@ function handleDailyDoseInput(event: Event) {
     state.formMedicine.daily_dose = target.value
 }
 </script>
+
+<style>
+#formMedicine .multiselect-dropdown {
+    max-height: 5rem !important;
+}
+</style>

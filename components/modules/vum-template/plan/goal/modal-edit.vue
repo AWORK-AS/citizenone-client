@@ -56,7 +56,6 @@ async function updateGoal(goalDetails: any) {
         const params = {
             name: goalDetails.name,
             description: goalDetails.description,
-            completion_date: goalDetails.completion_date,
         }
         const response = await goalTemplateService.updateTemplate(goalUuid, params)
         if (response?.data) {
