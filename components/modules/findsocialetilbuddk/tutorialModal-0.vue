@@ -4,7 +4,7 @@
         <div v-if="isModalZeroOpen"
             class="fixed bottom-10 left-99 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md">
             <div class="flex justify-between items-center mb-4">
-                <span v-if="language.locale.value === 'en'"> 
+                <span v-if="language.locale.value === 'en'">
                     <h3 class="text-lg font-semibold">Step 1: FindSocialeTilbud.dk is part of CitizenOne</h3>
                 </span>
                 <span v-if="language.locale.value === 'dk'">
@@ -13,10 +13,12 @@
             </div>
             <p class="text-sm text-gray-700 mb-4">
                 <span v-if="language.locale.value === 'en'">
-                    You are now logged in and can manage your profile on FindSocialeTilbud.dk right here. Gain an overview and control of your information.
+                    You are now logged in and can manage your profile on FindSocialeTilbud.dk right here. Gain an
+                    overview and control of your information.
                 </span>
                 <span v-if="language.locale.value === 'dk'">
-                    Du er nu logget ind og kan administrere din profil på FindSocialeTilbud.dk lige her. Her får du overblik og kontrol over dine oplysninger.
+                    Du er nu logget ind og kan administrere din profil på FindSocialeTilbud.dk lige her. Her får du
+                    overblik og kontrol over dine oplysninger.
                 </span>
             </p>
             <ul class="list-disc list-inside text-gray-600 text-sm space-y-2">
@@ -46,8 +48,13 @@
                 </li>
             </ul>
             <div class="mt-4 flex justify-end">
-                <button @click="handleNext" class="px-4 py-2 bg-tertiary text-white rounded">
+                <button v-if="language.locale.value === 'en'" @click="handleNext"
+                    class="px-4 py-2 bg-tertiary text-white rounded">
                     Next
+                </button>
+                <button v-if="language.locale.value === 'dk'" @click="handleNext"
+                    class="px-4 py-2 bg-tertiary text-white rounded">
+                    Næste
                 </button>
             </div>
         </div>
@@ -59,10 +66,10 @@ import { useI18n } from "vue-i18n";
 
 
 defineProps({
-  isModalZeroOpen: {
-    type: Boolean,
-    required: true,
-  },
+    isModalZeroOpen: {
+        type: Boolean,
+        required: true,
+    },
 });
 
 
@@ -73,19 +80,19 @@ const language = useI18n()
 
 
 const handleClose = () => {
-  emit('close');
+    emit('close');
 };
 
 const scrollToBottom = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  });
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+    });
 };
 
 const handleNext = () => {
-  scrollToBottom()
-  handleClose()
+    scrollToBottom()
+    handleClose()
 };
 </script>
 
