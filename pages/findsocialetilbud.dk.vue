@@ -173,7 +173,7 @@
                                 </div>
                                 <div class="mt-8">
                                     <FormButton type="button" buttonStyle="primary" class="w-full"
-                                        @click="state.modal.isManageCompanyOpen = true">
+                                        @click="state.modal.isShowInterestOpen = true">
                                         {{ $t('findsocialetilbuddk.showInterest.showInterest') }}
                                     </FormButton>
                                 </div>
@@ -232,11 +232,11 @@ const state = reactive({
 
 const checkFirstTime = () => {
     const isFirstTime = userStore.getIsFirstTime
-
     if (isFirstTime) {
         state.modal.isOverlayVisible = true
         state.modal.isModalZeroOpen = true
         userStore.setInTutorial(true)
+        userStore.resetIsFirstTime()
     } else {
         userStore.setInTutorial(false)
         return;

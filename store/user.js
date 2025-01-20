@@ -52,6 +52,9 @@ export const useUserStore = defineStore('userStore', {
         resetInTutorial() {
             this.inTutorial = false
         },
+        resetIsFirstTime() {
+            this.isFirstTime = false
+        },
         resetIsLoggedIn() {
             this.isLoggedIn = false
         },
