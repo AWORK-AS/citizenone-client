@@ -265,6 +265,7 @@ const closeModal2 = () => {
 const closeModal3 = () => {
     state.modal.isModalThreeVisible = false
     state.modal.isOverlayVisible = false
+    userStore.setIsFirstTime(false)
     userStore.resetInTutorial()
 };
 
