@@ -211,12 +211,12 @@
 
 
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
-const runtimeConfig = useRuntimeConfig();
+import { useI18n } from "vue-i18n"
+const runtimeConfig = useRuntimeConfig()
 import { useUserStore } from '@/store/user'
-const language = useI18n();
+const language = useI18n()
 const userStore = useUserStore()
-const inTutorial = userStore.getInTutorial;
+const inTutorial = userStore.getInTutorial
 const state = reactive({
     modal: {
         isManageCompanyOpen: false,
@@ -228,16 +228,16 @@ const state = reactive({
         isModalTwoVisible: false,
         isModalThreeVisible: false,
     },
-});
+})
 
 const checkFirstTime = () => {
-    alert(userStore.getIsFirstTime)
-    if (userStore.getIsFirstTime) {
+    const isFirstTime = localStorage.getItem('isFirstTime')
+    if (!isFirstTime || isFirstTime == "true") {
         state.modal.isOverlayVisible = true
         state.modal.isModalZeroOpen = true
-        userStore.setInTutorial(false)
+        userStore.setInTutorial(true)
     }
-};
+}
 
 
 
@@ -246,29 +246,30 @@ const toggleOverlay = () => {
     state.modal.isModalZeroOpen = !state.modal.isModalZeroOpen
     userStore.setInTutorial(true)
 
-};
+}
 const closeModalZero = () => {
     state.modal.isModalZeroOpen = false
     state.modal.isModalVisible = true
-};
+}
 const closeModal = () => {
     state.modal.isModalVisible = false
     state.modal.isModalTwoVisible = true
-};
+}
 const closeModal2 = () => {
     state.modal.isModalTwoVisible = false
     state.modal.isModalThreeVisible = true
-};
+}
 const closeModal3 = () => {
     state.modal.isModalThreeVisible = false
     state.modal.isOverlayVisible = false
-    userStore.setIsFirstTime(false)
-};
+    userStore.setInTutorial(false)
+    localStorage.setItem('isFirstTime', 'false')
+}
 
 
 onMounted(() => {
     checkFirstTime()
-});
+})
 </script>
 
 

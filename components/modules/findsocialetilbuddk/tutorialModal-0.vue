@@ -70,33 +70,28 @@ defineProps({
         type: Boolean,
         required: true,
     },
-});
+})
 
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close'])
 
 
 const language = useI18n()
 
 
 const handleClose = () => {
-    emit('close');
-};
+    emit('close')
+}
 
 const scrollToBottom = () => {
     window.scrollTo({
         top: 0,
         behavior: 'smooth',
-    });
-};
+    })
+}
 
 const handleNext = () => {
     scrollToBottom()
     handleClose()
-};
+}
 </script>
-
-
-<style scoped>
-/* Optional: Add custom modal styles here */
-</style>

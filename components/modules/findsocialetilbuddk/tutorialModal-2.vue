@@ -75,7 +75,7 @@ const modalTitle = computed(() => {
     return language.locale.value === 'en'
         ? 'Step 3: Receive inquiries from caseworkers'
         : 'Step 3: Modtag henvendelser fra sagsbehandlere'
-});
+})
 // i18n setup
 const language = useI18n()
 
@@ -85,26 +85,22 @@ defineProps({
         type: Boolean,
         required: true,
     },
-});
+})
 
 // Emits
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close'])
 
 // Methods
 const handleClose = () => {
     emit('close')
-};
+}
 
 const doneAndClose = () => {
     window.scrollTo({
         top: 0,
         behavior: 'smooth',
-    });
-    emit('close');
-};
+    })
+    emit('close')
+}
 </script>
 
-
-<style scoped>
-/* Optional: Add custom modal styles here */
-</style>
