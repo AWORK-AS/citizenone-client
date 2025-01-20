@@ -69,12 +69,12 @@
 
 <script setup>
 import { useI18n } from "vue-i18n"
-import { computed } from "vue";
+import { computed } from "vue"
 
 const modalTitle = computed(() => {
     return language.locale.value === 'en'
         ? 'Step 3: Receive inquiries from caseworkers'
-        : 'Step 3: Modtag henvendelser fra sagsbehandlere';
+        : 'Step 3: Modtag henvendelser fra sagsbehandlere'
 });
 // i18n setup
 const language = useI18n()
@@ -92,7 +92,7 @@ const emit = defineEmits(['close']);
 
 // Methods
 const handleClose = () => {
-    emit('close');
+    emit('close')
 };
 
 const doneAndClose = () => {

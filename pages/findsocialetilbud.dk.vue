@@ -231,10 +231,11 @@ const state = reactive({
 });
 
 const checkFirstTime = () => {
+    alert(userStore.getIsFirstTime)
     if (userStore.getIsFirstTime) {
-        state.modal.isOverlayVisible = true;
-        state.modal.isModalZeroOpen = true;
-        userStore.setInTutorial(false);
+        state.modal.isOverlayVisible = true
+        state.modal.isModalZeroOpen = true
+        userStore.setInTutorial(false)
     }
 };
 
@@ -266,7 +267,7 @@ const closeModal3 = () => {
 
 
 onMounted(() => {
-    checkFirstTime();
+    checkFirstTime()
 });
 </script>
 
@@ -274,29 +275,29 @@ onMounted(() => {
 <style scoped>
 @keyframes slideIn {
     0% {
-        transform: translateX(-100%);
+        transform: translateX(-100%)
     }
 
     100% {
-        transform: translateX(0);
+        transform: translateX(0)
     }
 }
 
 .animate-slide-in {
-    animation: slideIn 2s ease-out forwards;
+    animation: slideIn 2s ease-out forwards
 }
 
 @keyframes slideInRight {
     0% {
-        transform: translateX(100%);
+        transform: translateX(100%)
     }
 
     100% {
-        transform: translateX(0);
+        transform: translateX(0)
     }
 }
 
 .animate-slide-in-right {
-    animation: slideInRight 2s ease-out forwards;
+    animation: slideInRight 2s ease-out forwards
 }
 </style>
