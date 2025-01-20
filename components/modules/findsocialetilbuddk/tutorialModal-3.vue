@@ -81,13 +81,13 @@
 
 <script setup>
 import { useI18n } from "vue-i18n"
-import { computed } from "vue";
+import { computed } from "vue"
 
-const language = useI18n();
+const language = useI18n()
 const modalTitle = computed(() => {
   return language.locale.value === 'en'
     ? 'Step 4: What is CitizenOne?'
-    : 'Step 4: Hvad er CitizenOne?';
+    : 'Step 4: Hvad er CitizenOne?'
 });
 
 defineProps({
@@ -98,7 +98,7 @@ defineProps({
 });
 
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close'])
 
 
 const handleClose = () => {
