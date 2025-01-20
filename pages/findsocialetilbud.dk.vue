@@ -231,19 +231,13 @@ const state = reactive({
 });
 
 const checkFirstTime = () => {
-    const isFirstTime = userStore.getIsFirstTime
-    if (!isFirstTime) {
-        state.modal.isOverlayVisible = true
-        state.modal.isModalZeroOpen = true
-        userStore.setInTutorial(true)
-        userStore.resetIsFirstTime()
-    } else {
-        state.modal.isOverlayVisible = true
-        state.modal.isModalZeroOpen = true
-        userStore.setInTutorial(false)
-        return;
+    if (userStore.getIsFirstTime) {
+        state.modal.isOverlayVisible = true;
+        state.modal.isModalZeroOpen = true;
+        userStore.setInTutorial(false);
     }
 };
+
 
 
 const toggleOverlay = () => {
@@ -267,8 +261,7 @@ const closeModal2 = () => {
 const closeModal3 = () => {
     state.modal.isModalThreeVisible = false
     state.modal.isOverlayVisible = false
-    userStore.resetIsFirstTime()
-    userStore.resetInTutorial()
+    userStore.setIsFirstTime(false)
 };
 
 
