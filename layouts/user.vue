@@ -387,6 +387,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+
 import {
     Dialog,
     DialogPanel,
@@ -405,10 +406,11 @@ import { userService } from '@/components/api/UserService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { useRouter } from 'vue-router';
 
 const userStore = useUserStore() as any
 const language = useI18n()
-
+const router = useRouter(); 
 const navigation = [
     {
         name: 'Daily overview',
@@ -544,18 +546,28 @@ async function fetchUser() {
             userStore.setUser(response?.data)
             userStore.setLanguage(response?.data?.language?.code)
             language.locale.value = response?.data?.language?.code
-            checkInReminderModalVisibility(response)
+            checkInReminderModalVisibility(response, router)
         }
     } catch (error: any) {
         state.error = error
     }
 }
 
-function checkInReminderModalVisibility(response: any) {
+function checkInReminderModalVisibility(response: any, router: any) {
     const lastHidden = localStorage.getItem('checkInReminderHidden')
+    const isFirstTime = userStore.getIsFirstTime
     const today = moment().format('YYYY-MM-DD')
     const checkinEnabled = response?.data?.checkin_enabled ?? false
 
+    const currentRoute = router?.currentRoute?.value?.name
+    if (currentRoute === 'findsocialetilbud.dk') {
+        if(isFirstTime === false){
+            state.modal.isCheckinReminderOpen = true
+            return;
+        }
+        state.modal.isCheckinReminderOpen = false
+        return;
+    }
     if (lastHidden !== today && checkinEnabled) {
         userStore.resetIsCheckInNow()
         state.modal.isCheckinReminderOpen = true
