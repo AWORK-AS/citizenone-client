@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Modal -->
-        <div v-if="isModalZeroOpen"
+        <div v-if="props.isModalZeroOpen"
             class="fixed bottom-10 left-99 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md">
             <!-- Top-right corner image -->
             <img src="/img/icons/asset-01.svg" alt="Image failed to load"
@@ -64,25 +64,19 @@
 <script setup>
 import { useI18n } from "vue-i18n"
 
-
-defineProps({
+const props = defineProps({
     isModalZeroOpen: {
         type: Boolean,
         required: true,
     },
 })
 
-
 const emit = defineEmits(['close'])
-
-
 const language = useI18n()
-
 
 const handleClose = () => {
     emit('close')
 }
-
 const scrollToBottom = () => {
     window.scrollTo({
         top: 0,

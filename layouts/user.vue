@@ -405,7 +405,6 @@ import { userService } from '@/components/api/UserService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
-import { useRouter } from 'vue-router';
 
 const userStore = useUserStore() as any
 const language = useI18n()

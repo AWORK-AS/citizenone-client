@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Modal -->
-        <div v-if="isModalTwoOpen"
+        <div v-if="props.isModalTwoOpen"
             class="fixed bottom-20 right-32 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md">
             <!-- Top-right corner image -->
             <img src="/img/icons/asset-01.svg" alt="Image failed to load"
@@ -66,34 +66,19 @@
     </div>
 </template>
 
-
 <script setup>
 import { useI18n } from "vue-i18n"
-import { computed } from "vue"
 
-const modalTitle = computed(() => {
-    return language.locale.value === 'en'
-        ? 'Step 3: Receive inquiries from caseworkers'
-        : 'Step 3: Modtag henvendelser fra sagsbehandlere'
-})
-// i18n setup
 const language = useI18n()
 
-// Props
-defineProps({
+const props = defineProps({
     isModalTwoOpen: {
         type: Boolean,
         required: true,
     },
 })
 
-// Emits
 const emit = defineEmits(['close'])
-
-// Methods
-const handleClose = () => {
-    emit('close')
-}
 
 const doneAndClose = () => {
     window.scrollTo({

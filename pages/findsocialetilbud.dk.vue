@@ -216,7 +216,6 @@ const runtimeConfig = useRuntimeConfig()
 import { useUserStore } from '@/store/user'
 const language = useI18n()
 const userStore = useUserStore()
-const inTutorial = userStore.getInTutorial
 const state = reactive({
     modal: {
         isManageCompanyOpen: false,
@@ -236,10 +235,10 @@ const checkFirstTime = () => {
         state.modal.isOverlayVisible = true
         state.modal.isModalZeroOpen = true
         userStore.setInTutorial(true)
+    } else {
+        userStore.setInTutorial(false)
     }
 }
-
-
 
 const toggleOverlay = () => {
     state.modal.isOverlayVisible = !state.modal.isOverlayVisible
@@ -247,18 +246,22 @@ const toggleOverlay = () => {
     userStore.setInTutorial(true)
 
 }
+
 const closeModalZero = () => {
     state.modal.isModalZeroOpen = false
     state.modal.isModalVisible = true
 }
+
 const closeModal = () => {
     state.modal.isModalVisible = false
     state.modal.isModalTwoVisible = true
 }
+
 const closeModal2 = () => {
     state.modal.isModalTwoVisible = false
     state.modal.isModalThreeVisible = true
 }
+
 const closeModal3 = () => {
     state.modal.isModalThreeVisible = false
     state.modal.isOverlayVisible = false
@@ -266,12 +269,10 @@ const closeModal3 = () => {
     localStorage.setItem('isFirstTime', 'false')
 }
 
-
 onMounted(() => {
     checkFirstTime()
 })
 </script>
-
 
 <style scoped>
 @keyframes slideIn {

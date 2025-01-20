@@ -1,7 +1,7 @@
 <template>
     <div class="custom-body">
         <!-- Modal -->
-        <div v-if="isModalOneOpen"
+        <div v-if="props.isModalOneOpen"
             class="fixed top-32 left-99 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md">
             <!-- Top-right corner image -->
             <img src="/img/icons/asset-01.svg" alt="Image failed to load"
@@ -68,28 +68,19 @@
     </div>
 </template>
 
-
 <script setup>
 import { useI18n } from "vue-i18n"
-import { computed } from "vue"
 
 const language = useI18n()
-const modalTitle = computed(() => {
-    return language.locale.value === 'en'
-        ? 'Step 2: Manage your profile'
-        : 'Step 2: Administrer din profil'
-})
 
-defineProps({
+const props = defineProps({
     isModalOneOpen: {
         type: Boolean,
         required: true,
     },
 })
 
-
 const emit = defineEmits(['close'])
-
 
 const handleClose = () => {
     emit('close')

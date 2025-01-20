@@ -1,7 +1,7 @@
 <template>
 	<div class="custom-body">
 		<!-- Pass the flag prop to the Modal -->
-		<Modal size="xl" :title="modalTitle" :show="isModalThreeOpen" class="custom-modal" :flag="4"
+		<Modal size="xl" :title="modalTitle" :show="props.isModalThreeOpen" class="custom-modal" :flag="4"
 			@close="handleClose">
 			<template #modal-body>
 				<p class="text-base text-gray-700 mb-4">
@@ -83,10 +83,8 @@
 	</div>
 </template>
 
-
 <script setup>
 import { useI18n } from "vue-i18n"
-import { computed } from "vue"
 
 const language = useI18n()
 const modalTitle = computed(() => {
@@ -95,16 +93,14 @@ const modalTitle = computed(() => {
 		: 'Step 4: Hvad er CitizenOne?'
 })
 
-defineProps({
+const props = defineProps({
 	isModalThreeOpen: {
 		type: Boolean,
 		required: true,
 	},
 })
 
-
 const emit = defineEmits(['close'])
-
 
 const handleClose = () => {
 	emit('close')
