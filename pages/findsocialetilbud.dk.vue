@@ -232,7 +232,7 @@ const state = reactive({
 
 const checkFirstTime = () => {
     const isFirstTime = userStore.getIsFirstTime
-    if (isFirstTime) {
+    if (!isFirstTime) {
         state.modal.isOverlayVisible = true
         state.modal.isModalZeroOpen = true
         userStore.setInTutorial(true)
