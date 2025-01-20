@@ -216,7 +216,7 @@ const runtimeConfig = useRuntimeConfig();
 import { useUserStore } from '@/store/user'
 const language = useI18n();
 const userStore = useUserStore()
-const inTutorial = userStore.getInTutorial; // Use the getter
+const inTutorial = userStore.getInTutorial;
 const state = reactive({
     modal: {
         isManageCompanyOpen: false,
@@ -248,7 +248,6 @@ const toggleOverlay = () => {
     state.modal.isOverlayVisible = !state.modal.isOverlayVisible
     state.modal.isModalZeroOpen = !state.modal.isModalZeroOpen
     userStore.setInTutorial(true)
-    console.log("store value on start: " + inTutorial)
 
 };
 const closeModalZero = () => {
@@ -262,13 +261,10 @@ const closeModal = () => {
 const closeModal2 = () => {
     state.modal.isModalTwoVisible = false
     state.modal.isModalThreeVisible = true
-    state.modal.isOverlayVisible = false
-    userStore.setInTutorial(false)
 };
 const closeModal3 = () => {
     state.modal.isModalThreeVisible = false
     state.modal.isOverlayVisible = false
-    userStore.setIsFirstTime(false)
     userStore.resetInTutorial()
 };
 

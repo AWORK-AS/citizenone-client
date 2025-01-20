@@ -561,7 +561,7 @@ function checkInReminderModalVisibility(response: any, router: any) {
 
     const currentRoute = router?.currentRoute?.value?.name
     if (currentRoute === 'findsocialetilbud.dk') {
-        if(isFirstTime === false){
+        if(isFirstTime === false && lastHidden !== today && checkinEnabled){
             state.modal.isCheckinReminderOpen = true
             return;
         }
