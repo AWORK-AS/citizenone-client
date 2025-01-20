@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('userStore', {
-    persist: true, // Ensures the state persists across page reloads
+    persist: true,
     state: () => ({
         isCheckInNow: false,
         isLoggedIn: false,
@@ -79,7 +79,7 @@ export const useUserStore = defineStore('userStore', {
         getIsCheckInNow: (state) => state.isCheckInNow,
         getIsLoggedIn: (state) => state.isLoggedIn,
         getLanguage: (state) => state.language,
-        getInTutorial: (state) => state.inTutorial, // New getter for tutorial status
+        getInTutorial: (state) => state.inTutorial,
         getIsFirstTime: (state) => state.isFirstTime,
         getTimer: (state) => state.timer,
         getUser: (state) => state.user,

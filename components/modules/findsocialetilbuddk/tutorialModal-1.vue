@@ -78,29 +78,29 @@ const modalTitle = computed(() => {
     return language.locale.value === 'en'
         ? 'Step 2: Manage your profile'
         : 'Step 2: Administrer din profil'
-});
+})
 
 defineProps({
     isModalOneOpen: {
         type: Boolean,
         required: true,
     },
-});
+})
 
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close'])
 
 
 const handleClose = () => {
     emit('close')
-};
+}
 
 const scrollToBottom = () => {
     window.scrollTo({
         top: document.documentElement.scrollHeight,
         behavior: 'smooth',
-    });
-};
+    })
+}
 
 const handleNext = () => {
     scrollToBottom()
@@ -108,7 +108,3 @@ const handleNext = () => {
 }
 </script>
 
-
-<style scoped>
-/* Optional: Add custom modal styles here */
-</style>
