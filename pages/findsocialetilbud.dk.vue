@@ -173,7 +173,7 @@
                                 </div>
                                 <div class="mt-8">
                                     <FormButton type="button" buttonStyle="primary" class="w-full"
-                                        @click="state.modal.isManageCompanyOpen = true">
+                                        @click="state.modal.isShowInterestOpen = true">
                                         {{ $t('findsocialetilbuddk.showInterest.showInterest') }}
                                     </FormButton>
                                 </div>
@@ -211,12 +211,11 @@
 
 
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
-const runtimeConfig = useRuntimeConfig();
+import { useI18n } from "vue-i18n"
+const runtimeConfig = useRuntimeConfig()
 import { useUserStore } from '@/store/user'
-const language = useI18n();
+const language = useI18n()
 const userStore = useUserStore()
-const inTutorial = userStore.getInTutorial;
 const state = reactive({
     modal: {
         isManageCompanyOpen: false,
@@ -228,79 +227,79 @@ const state = reactive({
         isModalTwoVisible: false,
         isModalThreeVisible: false,
     },
-});
+})
 
 const checkFirstTime = () => {
-    const isFirstTime = userStore.getIsFirstTime
-
-    if (isFirstTime) {
+    const isFirstTime = localStorage.getItem('isFirstTime')
+    if (!isFirstTime || isFirstTime == "true") {
         state.modal.isOverlayVisible = true
         state.modal.isModalZeroOpen = true
         userStore.setInTutorial(true)
     } else {
         userStore.setInTutorial(false)
-        return;
     }
-};
-
+}
 
 const toggleOverlay = () => {
     state.modal.isOverlayVisible = !state.modal.isOverlayVisible
     state.modal.isModalZeroOpen = !state.modal.isModalZeroOpen
     userStore.setInTutorial(true)
 
-};
+}
+
 const closeModalZero = () => {
     state.modal.isModalZeroOpen = false
     state.modal.isModalVisible = true
-};
+}
+
 const closeModal = () => {
     state.modal.isModalVisible = false
     state.modal.isModalTwoVisible = true
-};
+}
+
 const closeModal2 = () => {
     state.modal.isModalTwoVisible = false
     state.modal.isModalThreeVisible = true
-};
+}
+
 const closeModal3 = () => {
     state.modal.isModalThreeVisible = false
     state.modal.isOverlayVisible = false
-    userStore.resetInTutorial()
-};
-
+    userStore.setInTutorial(false)
+    localStorage.setItem('isFirstTime', 'false')
+}
 
 onMounted(() => {
-    checkFirstTime();
-});
+    checkFirstTime()
+})
 </script>
-
 
 <style scoped>
 @keyframes slideIn {
     0% {
-        transform: translateX(-100%);
+        transform: translateX(-100%)
     }
 
     100% {
-        transform: translateX(0);
+        transform: translateX(0)
     }
 }
 
 .animate-slide-in {
-    animation: slideIn 2s ease-out forwards;
+    animation: slideIn 2s ease-out forwards
 }
 
 @keyframes slideInRight {
     0% {
-        transform: translateX(100%);
+        transform: translateX(100%)
     }
 
     100% {
-        transform: translateX(0);
+        transform: translateX(0)
     }
 }
 
 .animate-slide-in-right {
-    animation: slideInRight 2s ease-out forwards;
+    animation: slideInRight 2s ease-out forwards
 }
 </style>

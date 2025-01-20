@@ -195,9 +195,8 @@
                                         ['findsocialetilbud.dk'].includes($route.name)
                                             ? 'text-secondary-25'
                                             : 'text-secondary-100 hover:text-secondary-25',
-                                        userStore.getInTutorial
-                                            ? 'border-4 border-white bg-primary-700'  // White border when in tutorial
-                                            : '',
+                                        userStore.getInTutorial && routeName === 'findsocialetilbud.dk'
+                                        && 'border-4 border-white bg-primary-700',
                                         'group flex gap-x-2.5 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer'
                                     ]">
                                         <img src="/img/findsocialetilbud-icon.png" alt="FindSocialeTilbud.dk"
@@ -406,11 +405,12 @@ import { userService } from '@/components/api/UserService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
-import { useRouter } from 'vue-router';
 
 const userStore = useUserStore() as any
 const language = useI18n()
-const router = useRouter(); 
+const router = useRouter()
+const routeName = router?.currentRoute?.value?.name
+
 const navigation = [
     {
         name: 'Daily overview',
@@ -546,31 +546,23 @@ async function fetchUser() {
             userStore.setUser(response?.data)
             userStore.setLanguage(response?.data?.language?.code)
             language.locale.value = response?.data?.language?.code
-            checkInReminderModalVisibility(response, router)
+            checkInReminderModalVisibility(response)
         }
     } catch (error: any) {
         state.error = error
     }
 }
 
-function checkInReminderModalVisibility(response: any, router: any) {
+function checkInReminderModalVisibility(response: any) {
     const lastHidden = localStorage.getItem('checkInReminderHidden')
-    const isFirstTime = userStore.getIsFirstTime
     const today = moment().format('YYYY-MM-DD')
     const checkinEnabled = response?.data?.checkin_enabled ?? false
 
-    const currentRoute = router?.currentRoute?.value?.name
-    if (currentRoute === 'findsocialetilbud.dk') {
-        if(isFirstTime === false && lastHidden !== today && checkinEnabled){
-            state.modal.isCheckinReminderOpen = true
-            return;
-        }
-        state.modal.isCheckinReminderOpen = false
-        return;
-    }
     if (lastHidden !== today && checkinEnabled) {
         userStore.resetIsCheckInNow()
-        state.modal.isCheckinReminderOpen = true
+        if (localStorage.getItem('isFirstTime') !== null) {
+            state.modal.isCheckinReminderOpen = true
+        }
     }
 }
 
