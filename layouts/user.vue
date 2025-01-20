@@ -196,7 +196,7 @@
                                             ? 'text-secondary-25'
                                             : 'text-secondary-100 hover:text-secondary-25',
                                         userStore.getInTutorial
-                                            ? 'border-4 border-white bg-primary-700'  // White border when in tutorial
+                                            ? 'border-4 border-white bg-primary-700'
                                             : '',
                                         'group flex gap-x-2.5 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer'
                                     ]">
