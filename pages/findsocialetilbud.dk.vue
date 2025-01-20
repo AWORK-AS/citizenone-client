@@ -238,6 +238,8 @@ const checkFirstTime = () => {
         userStore.setInTutorial(true)
         userStore.resetIsFirstTime()
     } else {
+        state.modal.isOverlayVisible = true
+        state.modal.isModalZeroOpen = true
         userStore.setInTutorial(false)
         return;
     }
@@ -265,7 +267,7 @@ const closeModal2 = () => {
 const closeModal3 = () => {
     state.modal.isModalThreeVisible = false
     state.modal.isOverlayVisible = false
-    userStore.setIsFirstTime(false)
+    userStore.resetIsFirstTime()
     userStore.resetInTutorial()
 };
 

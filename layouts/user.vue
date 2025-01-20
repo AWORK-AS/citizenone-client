@@ -410,7 +410,7 @@ import { useRouter } from 'vue-router';
 
 const userStore = useUserStore() as any
 const language = useI18n()
-const router = useRouter(); 
+const router = useRouter();
 const navigation = [
     {
         name: 'Daily overview',
@@ -546,23 +546,31 @@ async function fetchUser() {
             userStore.setUser(response?.data)
             userStore.setLanguage(response?.data?.language?.code)
             language.locale.value = response?.data?.language?.code
-            checkInReminderModalVisibility(response)
+            checkInReminderModalVisibility(response, router)
         }
     } catch (error: any) {
         state.error = error
     }
 }
 
-function checkInReminderModalVisibility(response: any) {
-    const lastHidden = localStorage.getItem('checkInReminderHidden')
-    const today = moment().format('YYYY-MM-DD')
-    const checkinEnabled = response?.data?.checkin_enabled ?? false
+function checkInReminderModalVisibility(response: any, useRouter: any) {
+    const userStore = useUserStore(); // Access the store
+    const isFirstTime = userStore.getIsFirstTime; // Check if it's the first time
+    const lastHidden = localStorage.getItem('checkInReminderHidden');
+    const today = moment().format('YYYY-MM-DD');
+    const checkinEnabled = response?.data?.checkin_enabled ?? false;
+    const currentRoute = router?.currentRoute?.value?.name
+    if (isFirstTime && currentRoute === 'findsocialetilbud.dk') {
+        // If it's the first time, do not show the modal
+        return;
+    }
 
     if (lastHidden !== today && checkinEnabled) {
-        userStore.resetIsCheckInNow()
-        state.modal.isCheckinReminderOpen = true
+        userStore.resetIsCheckInNow(); // Reset the store state for "isCheckInNow"
+        state.modal.isCheckinReminderOpen = true; // Show the modal
     }
 }
+
 
 async function logout() {
     state.error = {}
