@@ -7,6 +7,7 @@ export const useUserStore = defineStore('userStore', {
         isLoggedIn: false,
         language: 'dk',
         inTutorial: false,
+        isFirstTime: true,
         timer: {
             hours: 0,
             minutes: 0,
@@ -27,8 +28,11 @@ export const useUserStore = defineStore('userStore', {
         setLanguage(language) {
             this.language = language
         },
-        setInTutorial(status) { // New action to set tutorial status
+        setInTutorial(status) {
             this.inTutorial = status
+        },
+        setIsFirstTime(status) {
+            this.isFirstTime = status
         },
         setHours(hours) {
             this.timer.hours = hours
@@ -44,6 +48,9 @@ export const useUserStore = defineStore('userStore', {
         },
         resetIsCheckInNow() {
             this.isCheckInNow = false
+        },
+        resetInTutorial() {
+            this.inTutorial = false
         },
         resetIsLoggedIn() {
             this.isLoggedIn = false
@@ -70,6 +77,7 @@ export const useUserStore = defineStore('userStore', {
         getIsLoggedIn: (state) => state.isLoggedIn,
         getLanguage: (state) => state.language,
         getInTutorial: (state) => state.inTutorial, // New getter for tutorial status
+        getIsFirstTime: (state) => state.isFirstTime,
         getTimer: (state) => state.timer,
         getUser: (state) => state.user,
     },

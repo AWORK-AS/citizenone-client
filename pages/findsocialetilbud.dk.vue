@@ -196,10 +196,14 @@
                 @close="state.modal.isManageCompanyOpen = false" />
             <ModulesFindsocialetilbuddkModalShowInterest :isModalOpen="state.modal.isShowInterestOpen"
                 @close="state.modal.isShowInterestOpen = false" />
-            <LazyModulesFindsocialetilbuddkTutorialModal0 :isModalZeroOpen="state.modal.isModalZeroOpen" @close="closeModalZero" />
-            <LazyModulesFindsocialetilbuddkTutorialModal1 :isModalOneOpen="state.modal.isModalVisible" @close="closeModal" />
-            <LazyModulesFindsocialetilbuddkTutorialModal2 :isModalTwoOpen="state.modal.isModalTwoVisible" @close="closeModal2" />
-            <LazyModulesFindsocialetilbuddkTutorialModal3 :isModalThreeOpen="state.modal.isModalThreeVisible" @close="closeModal3" />
+            <LazyModulesFindsocialetilbuddkTutorialModal0 :isModalZeroOpen="state.modal.isModalZeroOpen"
+                @close="closeModalZero" />
+            <LazyModulesFindsocialetilbuddkTutorialModal1 :isModalOneOpen="state.modal.isModalVisible"
+                @close="closeModal" />
+            <LazyModulesFindsocialetilbuddkTutorialModal2 :isModalTwoOpen="state.modal.isModalTwoVisible"
+                @close="closeModal2" />
+            <LazyModulesFindsocialetilbuddkTutorialModal3 :isModalThreeOpen="state.modal.isModalThreeVisible"
+                @close="closeModal3" />
 
         </NuxtLayout>
     </div>
@@ -212,7 +216,7 @@ const runtimeConfig = useRuntimeConfig();
 import { useUserStore } from '@/store/user'
 const language = useI18n();
 const userStore = useUserStore()
-const inTutorial = userStore.getInTutorial; // Use the getter
+const inTutorial = userStore.getInTutorial;
 const state = reactive({
     modal: {
         isManageCompanyOpen: false,
@@ -226,49 +230,44 @@ const state = reactive({
     },
 });
 
-// Check if it's the first time visiting and show the image modal
 const checkFirstTime = () => {
-    const isFirstTime = localStorage.getItem('isFirstTime');
-    if (!isFirstTime || isFirstTime == "true") {
-        state.modal.isOverlayVisible = true;
-        state.modal.isModalZeroOpen = true;
-        userStore.setInTutorial(true);
-        localStorage.setItem('isFirstTime', 'false');
-    }
-    else if (isFirstTime == "false") {
+    const isFirstTime = userStore.getIsFirstTime
+
+    if (isFirstTime) {
+        state.modal.isOverlayVisible = true
+        state.modal.isModalZeroOpen = true
+        userStore.setInTutorial(true)
+    } else {
+        userStore.setInTutorial(false)
         return;
     }
 };
 
-// Series of function to manipulate the states of the modals,
-// to control when they should open and close
 
 const toggleOverlay = () => {
-    state.modal.isOverlayVisible = !state.modal.isOverlayVisible;
+    state.modal.isOverlayVisible = !state.modal.isOverlayVisible
     state.modal.isModalZeroOpen = !state.modal.isModalZeroOpen
-    userStore.setInTutorial(true);
-    console.log("store value on start: " + inTutorial)
+    userStore.setInTutorial(true)
 
 };
 const closeModalZero = () => {
-    state.modal.isModalZeroOpen = false;
-    state.modal.isModalVisible = true;
+    state.modal.isModalZeroOpen = false
+    state.modal.isModalVisible = true
 };
 const closeModal = () => {
-    state.modal.isModalVisible = false;
-    state.modal.isModalTwoVisible = true;
+    state.modal.isModalVisible = false
+    state.modal.isModalTwoVisible = true
 };
 const closeModal2 = () => {
     state.modal.isModalTwoVisible = false
     state.modal.isModalThreeVisible = true
-    state.modal.isOverlayVisible = false
-    userStore.setInTutorial(false);
 };
 const closeModal3 = () => {
     state.modal.isModalThreeVisible = false
     state.modal.isOverlayVisible = false
-    userStore.setInTutorial(false);
+    userStore.resetInTutorial()
 };
+
 
 onMounted(() => {
     checkFirstTime();
