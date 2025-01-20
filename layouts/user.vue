@@ -195,9 +195,8 @@
                                         ['findsocialetilbud.dk'].includes($route.name)
                                             ? 'text-secondary-25'
                                             : 'text-secondary-100 hover:text-secondary-25',
-                                        userStore.getInTutorial
-                                            ? 'border-4 border-white bg-primary-700'
-                                            : '',
+                                        userStore.getInTutorial && routeName === 'findsocialetilbud.dk'
+                                        && 'border-4 border-white bg-primary-700',
                                         'group flex gap-x-2.5 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer'
                                     ]">
                                         <img src="/img/findsocialetilbud-icon.png" alt="FindSocialeTilbud.dk"
@@ -410,7 +409,9 @@ import { useRouter } from 'vue-router';
 
 const userStore = useUserStore() as any
 const language = useI18n()
-const router = useRouter(); 
+const router = useRouter()
+const routeName = router?.currentRoute?.value?.name
+
 const navigation = [
     {
         name: 'Daily overview',
@@ -560,7 +561,9 @@ function checkInReminderModalVisibility(response: any) {
 
     if (lastHidden !== today && checkinEnabled) {
         userStore.resetIsCheckInNow()
-        state.modal.isCheckinReminderOpen = true
+        if (localStorage.getItem('isFirstTime') !== null) {
+            state.modal.isCheckinReminderOpen = true
+        }
     }
 }
 
