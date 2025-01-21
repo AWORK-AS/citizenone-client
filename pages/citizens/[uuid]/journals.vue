@@ -136,6 +136,33 @@
                                             <p class="mt-1 text-xs text-muted-400">
                                                 <span>{{ formatDateToReadable(journal.date) }}</span>
                                             </p>
+                                            <Badge type="primary" class="mt-1 w-fit" v-if="journal.score">
+                                                <p class="text-xxs" v-if="journal.score == 1">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.minorChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="journal.score == 2">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.moderateChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="journal.score == 3">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.significantChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="journal.score == 4">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.severeChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="journal.score == 5">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.verySubstantialChallenges')
+                                                    }}
+                                                </p>
+                                            </Badge>
                                         </div>
                                         <p class="text-sm text-muted-400"
                                             v-if="['Standard view', 'Journal note view'].includes(citizenJournalStore.getFilterView)">

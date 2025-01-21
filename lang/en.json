@@ -524,6 +524,14 @@
                 "deleteConfirmation": "Are you sure you want to delete this journal"
             },
             "createdBy": "Created by",
+            "currentLevels": {
+                "currentLevel": "Current level",
+                "minorChallenges": "Minor challenges",
+                "moderateChallenges": "Moderate challenges",
+                "significantChallenges": "Significant challenges",
+                "severeChallenges": "Severe challenges",
+                "verySubstantialChallenges": "Very substantial challenges"
+            },
             "download": "Download",
             "downloadJournals": {
                 "downloadJournals": "Download journals",
@@ -531,10 +539,17 @@
             },
             "form": {
                 "attachFile": "Attach file",
-                "chooseScoreFrom1to5": "Choose score from 1 to 5",
                 "content": "Content",
                 "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal or subgoal",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Copy risk assessment to plan, goal or subgoal",
+                "currentLevels": {
+                    "currentLevel": "Current level",
+                    "minorChallenges": "Minor challenges",
+                    "moderateChallenges": "Moderate challenges",
+                    "significantChallenges": "Significant challenges",
+                    "severeChallenges": "Severe challenges",
+                    "verySubstantialChallenges": "Very substantial challenges"
+                },
                 "date": "Date",
                 "draft": "Draft",
                 "goal": "Goal",
