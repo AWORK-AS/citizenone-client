@@ -250,6 +250,22 @@ function setCalendarView(viewStyle: any) {
         }
         state.selectedYear = ''
         state.selectedMonth = ''
+        const dateToday = moment().format('Y-M-D')
+        if (viewStyle === 'week') {
+            const firstDayOfWeek = moment().startOf('isoWeek').format('Y-M-D')
+            const lastDayOfWeek = moment().endOf('isoWeek').format('Y-M-D')
+            state.selectedDate = {
+                end_date: lastDayOfWeek,
+                start_date: firstDayOfWeek,
+            }
+        } else if (viewStyle === 'month') {
+            const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
+            const lastDayOfMonth = moment().endOf('month').format('Y-M-D')
+            state.selectedDate = {
+                end_date: lastDayOfMonth,
+                start_date: firstDayOfMonth,
+            }
+        }
         fetchMyCalendarEvents()
     }
 }
