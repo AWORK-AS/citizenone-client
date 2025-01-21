@@ -405,10 +405,10 @@
                         "moderateRisk": "Moderate Risk"
                     },
                     "incidentReports": "Incident reports",
-                    "notificationCategory": "Notification category",
                     "notificationForMediciationErrors": "Notifications for medication errors (e.g., overdoses)",
                     "nursingAreas": "Nursing areas",
-                    "reportOfForce": "Reports of force"
+                    "reportOfForce": "Reports of force",
+                    "riskLevel": "Risk level"
                 },
                 "phone": "Phone number",
                 "postCode": "Post Code",

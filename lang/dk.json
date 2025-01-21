@@ -404,11 +404,11 @@
                         "lowRisk": "Lav risiko",
                         "moderateRisk": "Moderat risiko"
                     },
-                    "notificationCategory": "Notifikationskategori",
                     "incidentReports": "Hændelsesrapporter",
                     "notificationForMediciationErrors": "Notifikationer om medicineringsfejl (f.eks. overdoseringer)",
                     "nursingAreas": "Sundhed",
-                    "reportOfForce": "Rapporter om magtanvendelse"
+                    "reportOfForce": "Rapporter om magtanvendelse",
+                    "riskLevel": "Risikoniveau"
                 },
                 "phone": "Telefonnummer",
                 "postCode": "Postnummer",
