@@ -62,6 +62,8 @@ async function updateMedicineHistory(medicineHistoryDetails: any) {
             date: medicineHistoryDetails.date,
             quantity: medicineHistoryDetails.quantity.replace(',', '.'),
             type: medicineHistoryDetails.type,
+            evaluator_uuid: medicineHistoryDetails.evaluator,
+            evaluation_frequency: medicineHistoryDetails.evaluation_frequency
         }
         const response = await medicineHistoryService.updateMedicineHistory(medicineHistoryUuid, params)
         if (response?.data) {

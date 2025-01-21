@@ -44,6 +44,8 @@ const state = reactive({
         date: '',
         quantity: '',
         type: '',
+        evaluator_uuid: '',
+        evaluation_frequency: [],
     },
 })
 
@@ -64,6 +66,8 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
             date: medicineHistoryDetails.date,
             quantity: medicineHistoryDetails.quantity.replace(',', '.'),
             type: medicineHistoryDetails.type,
+            evaluator_uuid: medicineHistoryDetails.evaluator,
+            evaluation_frequency: medicineHistoryDetails.evaluation_frequency
         }
         const response = await medicineHistoryService.saveMedicineHistory(params)
         if (response?.data) {

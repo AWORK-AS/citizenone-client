@@ -637,8 +637,6 @@
                 "dailyDose": "Daglig dosis",
                 "description": "Beskrivelse",
                 "dosageForm": "Doseringsform",
-                "evaluator": "Evaluator",
-                "evaluationFrequency": "Evalueringsfrekvens",
                 "image": "Billede",
                 "medicine": "Medicin",
                 "pnMedicine": "PN-medicine",
@@ -662,6 +660,8 @@
                     },
                     "dailyDose": "Daglig dosis",
                     "date": "Dato",
+                    "evaluator": "Evaluator",
+                    "evaluationFrequency": "Evalueringsfrekvens",
                     "type": {
                         "type": "Type",
                         "delivered": "Udleveret",

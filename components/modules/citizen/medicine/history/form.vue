@@ -56,6 +56,25 @@
                 <FormError :error="v$?.formMedicineHistory?.type?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.type?.[0]" />
             </div>
+            <div class="space-y-3" v-if="props.selectedMedicine.is_pn_medicine">
+                <div class="space-y-1">
+                    <FormLabel for="evaluator" :label="$t('citizens.medicineJournals.history.form.evaluator')" />
+                    <FormSelect id="evaluator" name="evaluator" :options="state.options.evaluators"
+                        v-model="state.formMedicineHistory.evaluator" />
+                    <FormError :error="v$?.formMedicineHistory?.evaluator?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.evaluator?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="evaluation_frequency"
+                        :label="$t('citizens.medicineJournals.history.form.evaluationFrequency')" />
+                    <FormSelect id="evaluation_frequency" name="evaluation_frequency"
+                        :options="state.options.evaluation_frequencies"
+                        v-model="state.formMedicineHistory.evaluation_frequency" />
+                    <FormError
+                        :error="v$?.formMedicineHistory?.evaluation_frequency?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.evaluation_frequency?.[0]" />
+                </div>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -75,6 +94,7 @@
 </template>
 
 <script setup lang="ts">
+import { userService } from '@/components/api/UserService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -111,11 +131,15 @@ const state = reactive({
         date: '',
         quantity: '',
         type: '',
+        evaluator: '',
+        evaluation_frequency: [],
     },
     modal: {
         isMoreThanMedicineDailyConfirmationOpen: false,
     },
     options: {
+        evaluation_frequencies: [] as any,
+        evaluators: [],
         types: [
             { value: 'delivered', title: 'Delivered' },
             { value: 'deviated', title: 'Deviated' },
@@ -130,7 +154,10 @@ onMounted(() => {
         date: props.selectedMedicineHistory.date,
         quantity: language.locale.value === 'dk' ? props.selectedMedicineHistory.quantity?.toString().replace('.', ',') : props.selectedMedicineHistory.quantity?.toString(),
         type: props.selectedMedicineHistory.type,
+        evaluator: props.selectedMedicineHistory.evaluator?.uuid,
+        evaluation_frequency: props.selectedMedicineHistory.evaluation_frequency,
     }
+    fetchAllUsers()
 })
 
 watch(() => props.selectedMedicineHistory, (newValue: any) => {
@@ -140,23 +167,47 @@ watch(() => props.selectedMedicineHistory, (newValue: any) => {
             date: newValue.date,
             quantity: language.locale.value === 'dk' ? newValue.quantity?.toString().replace('.', ',') : newValue.quantity?.toString(),
             type: newValue.type,
+            evaluator: props.selectedMedicineHistory.evaluator?.uuid,
+            evaluation_frequency: props.selectedMedicineHistory.evaluation_frequency,
         }
     }
 })
 
 const rules = computed(() => {
-    return {
-        formMedicineHistory: {
-            date: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (props.selectedMedicine.is_pn_medicine) {
+        return {
+            formMedicineHistory: {
+                date: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                quantity: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                type: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                evaluator: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                evaluation_frequency: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            quantity: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        }
+    } else {
+        return {
+            formMedicineHistory: {
+                date: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                quantity: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                type: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            type: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-        },
+        }
     }
 })
 
@@ -175,6 +226,44 @@ function validateForm() {
 
 function submitForm() {
     emit('submitForm', state.formMedicineHistory)
+}
+
+
+
+async function fetchAllUsers() {
+    emit('error', {})
+    emit('isPageLoading', true)
+    try {
+        const response = await userService.getAllUsersWithoutAllUsersOption()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (user: any) => options.push({
+                    value: user?.uuid,
+                    label: user?.firstname + " " + user?.lastname,
+                })
+            )
+            state.options.evaluators = options
+        }
+    } catch (error: any) {
+        emit('error', error)
+    }
+    emit('isPageLoading', false)
+}
+
+generateEvaluationFrequenciesTimeIntervals()
+
+function generateEvaluationFrequenciesTimeIntervals() {
+    const times = []
+    for (let hour = 0; hour < 24; hour++) {
+        for (let minute = 0; minute < 60; minute += 15) {
+            const hourStr = String(hour).padStart(2, '0')
+            const minuteStr = String(minute).padStart(2, '0')
+            const time = `${hourStr}:${minuteStr}`
+            times.push({ value: time, label: time })
+        }
+    }
+    state.options.evaluation_frequencies = times
 }
 
 function handleQuantityInput(event: Event) {
