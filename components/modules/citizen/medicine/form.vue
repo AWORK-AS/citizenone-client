@@ -387,8 +387,6 @@ function generateTimeIntervals() {
     state.options.time = times
 }
 
-
-
 async function fetchAllUsers() {
     emit('error', {})
     emit('isPageLoading', true)

@@ -392,6 +392,7 @@
                 "canReceiveEmails": "Can receive emails",
                 "city": "City",
                 "email": "Email address",
+                "employee": "Employee",
                 "employees": "Employees",
                 "firstname": "First name",
                 "lastname": "Last name",
