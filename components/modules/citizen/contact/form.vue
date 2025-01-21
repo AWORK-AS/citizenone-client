@@ -249,7 +249,7 @@ onMounted(() => {
         post_code: props.selectedContact?.post_code,
         notifications: [],
     }
-    props.selectedContact?.notification_types.forEach((notification_type: any) => {
+    props.selectedContact?.notification_types?.forEach((notification_type: any) => {
         state.formContact.notifications.push({
             notification_uuid: notification_type?.uuid,
             risk_level_uuid: notification_type?.pivot?.risk_level?.uuid,
@@ -284,7 +284,7 @@ watch(() => props.selectedContact, (newValue: any) => {
             post_code: props.selectedContact?.post_code,
             notifications: [],
         }
-        props.selectedContact?.notification_types.forEach((notification_type: any) => {
+        props.selectedContact?.notification_types?.forEach((notification_type: any) => {
             state.formContact.notifications.push({
                 notification_uuid: notification_type?.uuid,
                 risk_level_uuid: notification_type?.pivot?.risk_level?.uuid,
