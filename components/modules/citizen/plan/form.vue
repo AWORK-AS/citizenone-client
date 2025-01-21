@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submitForm()" id="formPlan">
+    <form @submit.prevent="submitForm()">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <Alert type="danger" :text="state?.error?.message"
@@ -64,6 +64,12 @@
                         <FormError :error="v$?.formPlan?.completion_date?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.completion_date?.[0]" />
                     </div>
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="score" :label="$t('plansandgoals.form.expectedLevels.expectedLevel')" />
+                    <FormSelect id="score" :options="state.options.scores" v-model="state.formPlan.score" />
+                    <FormError :error="v$?.formGoal?.score?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.score?.[0]" />
                 </div>
                 <div class="space-y-1">
                     <p class="text-sm text-gray-600">
@@ -149,8 +155,9 @@ const state = reactive({
         id: '',
         uuid: '',
         name: '',
-        description: '',
         completion_date: '',
+        score: '',
+        description: '',
         date_completed: '',
         is_completed: false,
         is_use_template: false,
@@ -160,7 +167,14 @@ const state = reactive({
         subgoal_completion_date: '',
     },
     options: {
-        templates: [] as any
+        templates: [] as any,
+        scores: [
+            { value: 1, label: `1. ${t('plansandgoals.form.expectedLevels.minorChallenges')}` },
+            { value: 2, label: `2. ${t('plansandgoals.form.expectedLevels.moderateChallenges')}` },
+            { value: 3, label: `3. ${t('plansandgoals.form.expectedLevels.significantChallenges')}` },
+            { value: 4, label: `4. ${t('plansandgoals.form.expectedLevels.severeChallenges')}` },
+            { value: 5, label: `5. ${t('plansandgoals.form.expectedLevels.verySubstantialChallenges')}` },
+        ],
     }
 })
 
@@ -170,8 +184,9 @@ onMounted(() => {
         uuid: props.selectedPlan.uuid,
         name: props.selectedPlan.name,
         completion_date: props.selectedPlan.completion_date,
-        date_completed: props.selectedPlan.date_completed,
+        score: props.selectedPlan.score,
         description: props.selectedPlan.description ?? '',
+        date_completed: props.selectedPlan.date_completed,
         is_completed: props.selectedPlan.is_completed,
         is_use_template: false,
         template: '',
@@ -188,8 +203,9 @@ watch(() => props.selectedPlan, (newValue: any) => {
             id: newValue.id,
             uuid: newValue.uuid,
             name: newValue.name,
-            description: newValue.description ?? '',
             completion_date: newValue.completion_date,
+            score: newValue.score,
+            description: newValue.description ?? '',
             date_completed: newValue.date_completed,
             is_completed: newValue.is_completed,
             is_use_template: false,
@@ -268,9 +284,3 @@ function changeIsCompletedCheckbox() {
     state.formPlan.date_completed = ''
 }
 </script>
-
-<style>
-#formPlan .multiselect-dropdown {
-    max-height: 4.8rem !important;
-}
-</style>
