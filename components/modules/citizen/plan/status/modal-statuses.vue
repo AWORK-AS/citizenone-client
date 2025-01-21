@@ -87,13 +87,12 @@
                         <Pagination :data="state.statuses" @previous="previous" @next="next" />
                     </div>
                 </div>
-                <ModulesCitizenPlanStatusModalNew :statusType="props.statusType"
-                    :isModalOpen="state.modal.isAddStatusOpen" :selectedData="props.selectedData"
-                    :selectedStatus="state.selectedStatus" @close="state.modal.isAddStatusOpen = false"
+                <ModulesCitizenPlanStatusModalNew :isModalOpen="state.modal.isAddStatusOpen"
+                    :selectedData="props.selectedData" :selectedStatus="state.selectedStatus"
+                    @close="state.modal.isAddStatusOpen = false" @refreshStatuses="fetchStatuses" />
+                <ModulesCitizenPlanStatusModalEdit :isModalOpen="state.modal.isEditStatusOpen"
+                    :selectedStatus="state.selectedStatus" @close="state.modal.isEditStatusOpen = false"
                     @refreshStatuses="fetchStatuses" />
-                <ModulesCitizenPlanStatusModalEdit :statusType="props.statusType"
-                    :isModalOpen="state.modal.isEditStatusOpen" :selectedStatus="state.selectedStatus"
-                    @close="state.modal.isEditStatusOpen = false" @refreshStatuses="fetchStatuses" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
                     :message="`${$t('plansandgoals.confirmation.deleteStatusConfirmation')}?`"
                     @close="state.modal.isDeleteStatusOpen = false" @confirm="deleteStatus" />
@@ -122,10 +121,6 @@ const props = defineProps({
     },
     selectedData: {
         type: Object,
-        required: true,
-    },
-    statusType: {
-        type: String,
         required: true,
     },
 })

@@ -316,9 +316,9 @@
             <ModulesCitizenPlanGoalSubgoalModalEdit :isModalOpen="state.modal.isEditSubgoalOpen"
                 :selectedGoal="state.selectedGoal" :selectedSubgoal="state.selectedSubgoal"
                 @close="state.modal.isEditSubgoalOpen = false" @refreshGoals="fetchGoals" />
-            <ModulesCitizenPlanStatusModalStatuses statusType="goal" :isModalOpen="state.modal.isGoalStatusesOpen"
+            <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isGoalStatusesOpen"
                 :selectedData="state.selectedGoal" @close="closeGoalStatusesModal" @refreshData="fetchGoals" />
-            <ModulesCitizenPlanStatusModalStatuses statusType="subgoal" :isModalOpen="state.modal.isSubGoalStatusesOpen"
+            <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isSubGoalStatusesOpen"
                 :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchGoals" />
         </Dialog>
     </TransitionRoot>

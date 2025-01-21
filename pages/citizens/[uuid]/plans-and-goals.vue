@@ -145,7 +145,7 @@
                 @close="state.modal.isAddPlanOpen = false" @refreshPlans="fetchPlans" />
             <ModulesCitizenPlanModalEdit :isModalOpen="state.modal.isEditPlanOpen" :selectedPlan="state.selectedPlan"
                 @close="closeEditPlanModal" @refreshPlans="fetchPlans" />
-            <ModulesCitizenPlanStatusModalStatuses statusType="plan" :isModalOpen="state.modal.isStatusesOpen"
+            <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
                 :selectedData="state.selectedPlan" @close="closeStatusesModal" @refreshData="fetchPlans" />
             <DialogConfirmation :isModalOpen="state.modal.isDeletePlanOpen"
                 :message="`${$t('plansandgoals.confirmation.deletePlanConfirmation')}?`"
