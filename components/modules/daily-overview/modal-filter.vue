@@ -65,6 +65,21 @@
                         <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showBulletBoard" />
                         {{ $t('dailyOverview.filter.items.bulletBoard') }}
                     </div>
+                    <div class="w-fit flex items-center cursor-pointer text-sm"
+                        @click="dailyOverviewStore.setDailyOverviewFilterShowGoalsScoreStatistics(!dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics)">
+                        <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics" />
+                        {{ $t('dailyOverview.filter.items.goalsStatistics') }}
+                    </div>
+                    <div class="w-fit flex items-center cursor-pointer text-sm"
+                        @click="dailyOverviewStore.setDailyOverviewFilterShowSubgoalsScoreStatistics(!dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics)">
+                        <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics" />
+                        {{ $t('dailyOverview.filter.items.subgoalsStatistics') }}
+                    </div>
+                    <div class="w-fit flex items-center cursor-pointer text-sm"
+                        @click="dailyOverviewStore.setDailyOverviewFilterShowStatusesScoreStatistics(!dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics)">
+                        <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics" />
+                        {{ $t('dailyOverview.filter.items.statusesStatistics') }}
+                    </div>
                 </div>
                 <div class="mt-5 flex gap-x-3 justify-end">
                     <FormButton buttonStyle="primary" @click="closeModal" class="rounded-md">

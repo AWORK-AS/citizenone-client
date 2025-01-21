@@ -74,16 +74,17 @@
                             v-if="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
                         <ModulesDailyOverviewBulletBoard
                             v-if="dailyOverviewStore.getDailyOverviewFilter.showBulletBoard" />
-                        <div>
-                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
+                        <div
+                            v-if="dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics || dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics">
+                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics">
                                 <ModulesDailyOverviewGoalsScoreStatistics />
                             </div>
-                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics"
+                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics"
                                 class="mt-2">
                                 <ModulesDailyOverviewSubgoalsScoreStatistics />
                             </div>
                         </div>
-                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
+                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics">
                             <ModulesDailyOverviewStatusesScoreStatistics />
                         </div>
                     </div>
