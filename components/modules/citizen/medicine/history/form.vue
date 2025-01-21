@@ -67,7 +67,7 @@
                 <div class="space-y-1">
                     <FormLabel for="evaluation_frequency"
                         :label="$t('citizens.medicineJournals.history.form.evaluationFrequency')" />
-                    <FormSelect id="evaluation_frequency" name="evaluation_frequency"
+                    <FormSelectMultiple id="evaluation_frequency" name="evaluation_frequency"
                         :options="state.options.evaluation_frequencies"
                         v-model="state.formMedicineHistory.evaluation_frequency" />
                     <FormError
@@ -132,7 +132,7 @@ const state = reactive({
         quantity: '',
         type: '',
         evaluator: '',
-        evaluation_frequency: [],
+        evaluation_frequency: [] as any,
     },
     modal: {
         isMoreThanMedicineDailyConfirmationOpen: false,
@@ -149,15 +149,20 @@ const state = reactive({
 })
 
 onMounted(() => {
+    fetchAllUsers()
     state.formMedicineHistory = {
         uuid: props.selectedMedicineHistory.uuid,
         date: props.selectedMedicineHistory.date,
         quantity: language.locale.value === 'dk' ? props.selectedMedicineHistory.quantity?.toString().replace('.', ',') : props.selectedMedicineHistory.quantity?.toString(),
         type: props.selectedMedicineHistory.type,
         evaluator: props.selectedMedicineHistory.evaluator?.uuid,
-        evaluation_frequency: props.selectedMedicineHistory.evaluation_frequency,
+        evaluation_frequency: [],
     }
-    fetchAllUsers()
+    if (props.selectedMedicineHistory.evaluation_frequency?.length > 0) {
+        JSON.parse(props.selectedMedicineHistory.evaluation_frequency).forEach((time: any) => {
+            state.formMedicineHistory.evaluation_frequency.push(time)
+        })
+    }
 })
 
 watch(() => props.selectedMedicineHistory, (newValue: any) => {
@@ -168,7 +173,7 @@ watch(() => props.selectedMedicineHistory, (newValue: any) => {
             quantity: language.locale.value === 'dk' ? newValue.quantity?.toString().replace('.', ',') : newValue.quantity?.toString(),
             type: newValue.type,
             evaluator: props.selectedMedicineHistory.evaluator?.uuid,
-            evaluation_frequency: props.selectedMedicineHistory.evaluation_frequency,
+            evaluation_frequency: [],
         }
     }
 })
