@@ -9,10 +9,10 @@
 
             <div class="flex justify-between items-center mb-4">
                 <span v-if="language.locale.value === 'en'">
-                    <h3 class="text-lg font-semibold">Step 3: Invite Caseworkers</h3>
+                    <h3 class="text-lg font-semibold">Step 3: Receive inquiries from caseworkers</h3>
                 </span>
                 <span v-if="language.locale.value === 'dk'">
-                    <h3 class="text-lg font-semibold">Trin 3: Inviter Sagsbehandlere</h3>
+                    <h3 class="text-lg font-semibold">Step 3: Modtag henvendelser fra sagsbehandlere</h3>
                 </span>
             </div>
 
