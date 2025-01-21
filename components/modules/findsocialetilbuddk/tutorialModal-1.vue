@@ -9,10 +9,10 @@
 
             <div class="flex justify-between items-center mb-4">
                 <span v-if="language.locale.value === 'en'">
-                    <h3 class="text-lg font-semibold">Step 2: Maximize Your Visibility</h3>
+                    <h3 class="text-lg font-semibold">Step 2: Manage your profile</h3>
                 </span>
                 <span v-if="language.locale.value === 'dk'">
-                    <h3 class="text-lg font-semibold">Step 2: Maksimer Din Synlighed</h3>
+                    <h3 class="text-lg font-semibold">Step 2: Administrer din profil</h3>
                 </span>
             </div>
 

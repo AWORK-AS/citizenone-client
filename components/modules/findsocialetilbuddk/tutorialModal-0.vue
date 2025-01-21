@@ -52,8 +52,13 @@
                 </li>
             </ul>
             <div class="mt-4 flex justify-end">
-                <button @click="handleNext" class="px-4 py-2 bg-tertiary text-white rounded">
+                <button v-if="language.locale.value === 'en'" @click="handleNext"
+                    class="px-4 py-2 bg-tertiary text-white rounded">
                     Next
+                </button>
+                <button v-if="language.locale.value === 'dk'" @click="handleNext"
+                    class="px-4 py-2 bg-tertiary text-white rounded">
+                    Næste
                 </button>
             </div>
         </div>
