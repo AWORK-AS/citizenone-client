@@ -954,10 +954,13 @@
                 "citizensOrigin": "Borgernes oprindelse",
                 "dailyMedicineOverview": "Daglig medicinoversigt",
                 "gender": "Køn",
+                "goalsStatistics": "Målsstatistik",
                 "journalStatistics": "Journalstatistik",
                 "latestJournal": "Seneste journalnotater",
                 "myDailyEvents": "Mine daglige begivenheder",
-                "riskAssessment": "Risikovurdering"
+                "riskAssessment": "Risikovurdering",
+                "subgoalsStatistics": "Delmålsstatistik",
+                "statusesStatistics": "Statusstatistik"
             },
             "show": "Vis",
             "startDate": "Startdato"
@@ -984,6 +987,11 @@
         "noMedicinesToShow": "Ingen medicin at vise",
         "noNewsToShow": "Ingen nyheder at vise",
         "openLink": "Åbn link",
+        "plansGoalsAndSubgoals": {
+            "goalsStatistics": "Målsstatistik",
+            "statusesStatistics": "Statusstatistik",
+            "subgoalsStatistics": "Delmålsstatistik"
+        },
         "poll": {
             "from": "Fra",
             "noPollToShow": "Ingen afstemning at vise",

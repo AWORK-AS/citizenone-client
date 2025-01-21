@@ -74,6 +74,18 @@
                             v-if="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
                         <ModulesDailyOverviewBulletBoard
                             v-if="dailyOverviewStore.getDailyOverviewFilter.showBulletBoard" />
+                        <div>
+                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
+                                <ModulesDailyOverviewGoalsScoreStatistics />
+                            </div>
+                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics"
+                                class="mt-2">
+                                <ModulesDailyOverviewSubgoalsScoreStatistics />
+                            </div>
+                        </div>
+                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
+                            <ModulesDailyOverviewStatusesScoreStatistics />
+                        </div>
                     </div>
                     <div>
                         <p class="text-xl font-bold text-primary">

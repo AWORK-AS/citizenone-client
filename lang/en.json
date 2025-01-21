@@ -954,10 +954,13 @@
                 "citizensOrigin": "Citizens origin",
                 "dailyMedicineOverview": "Daily medicine overview",
                 "gender": "Gender",
+                "goalsStatistics": "Goals statistics",
                 "journalStatistics": "Journal statistics",
                 "latestJournal": "Latest journal notes",
                 "myDailyEvents": "My daily events",
-                "riskAssessment": "Risk assessment"
+                "riskAssessment": "Risk assessment",
+                "statusesStatistics": "Statuses statistics",
+                "subgoalsStatistics": "Subgoals statistics"
             },
             "show": "Show",
             "startDate": "Start date"
@@ -984,6 +987,11 @@
         "noMedicinesToShow": "No medicines to show",
         "noNewsToShow": "No news to show",
         "openLink": "Open link",
+        "plansGoalsAndSubgoals": {
+            "goalsStatistics": "Goals statistics",
+            "statusesStatistics": "Statuses statistics",
+            "subgoalsStatistics": "Subgoals statistics"
+        },
         "poll": {
             "from": "From",
             "noPollToShow": "No poll to show",
