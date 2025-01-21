@@ -20,6 +20,10 @@ class AddictionService extends BaseAPIService {
     async getAllAddictions(): Promise<any> {
         return await this.request(`/user/addictions/all/list`, 'GET')
     }
+    
+    async deleteAddiction(addictionUuid: any): Promise<any> {
+        return await this.request(`/user/addictions/${addictionUuid}`, 'DELETE')
+    }
 }
 
 export const addictionService = new AddictionService()
