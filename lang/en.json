@@ -1702,6 +1702,33 @@
         "unreadJournalNotes": "Unread journal notes",
         "youDontHaveUnreadJournalNotes": "You don't have unread journal notes"
     },
+    "journalNoteTags": {
+        "addNewTag": "Add new tag",
+        "alert": {
+            "journalTagSuccessfullyDeleted": "Journal tag successfully deleted"
+        },
+        "editAddiction": "Edit addiction",
+        "form": {
+            "alert": {
+                "journalTagSuccessfullyUpdated": "Journal tag successfully updated",
+                "newJournalTagSuccessfullySaved": "New journal tag successfully saved"
+            },
+            "color": "Color",
+            "name": "Name"
+        },
+        "journalNoteTags": "Journal note tags",
+        "newJournalNoteTag": "New journal note tag",
+        "table": {
+            "actions": {
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteJournalTagConfirmation": "Are you sure you want to delete this tag"
+            },
+            "color": "Color",
+            "name": "Name"
+        }
+    },
     "languageSwitcher": {
         "selectLanguage": "Select language"
     },

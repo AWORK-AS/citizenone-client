@@ -1702,6 +1702,33 @@
         "unreadJournalNotes": "Ulæste journalnotater",
         "youDontHaveUnreadJournalNotes": "Du har ingen ulæste journalnotater"
     },
+    "journalNoteTags": {
+        "addNewTag": "Tilføj nyt tag",
+        "alert": {
+            "journalTagSuccessfullyDeleted": "Journal-tag slettet med succes"
+        },
+        "editAddiction": "Rediger afhængighed",
+        "form": {
+            "alert": {
+                "journalTagSuccessfullyUpdated": "Journal-tag opdateret med succes",
+                "newJournalTagSuccessfullySaved": "Nyt journal-tag gemt med succes"
+            },
+            "color": "Farve",
+            "name": "Navn"
+        },
+        "journalNoteTags": "Journal-tags",
+        "newJournalNoteTag": "Nyt journal-tag",
+        "table": {
+            "actions": {
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteJournalTagConfirmation": "Er du sikker på, at du vil slette dette tag"
+            },
+            "color": "Farve",
+            "name": "Navn"
+        }
+    },
     "languageSwitcher": {
         "selectLanguage": "Vælg sprog"
     },
