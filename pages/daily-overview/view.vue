@@ -33,7 +33,7 @@
                         dailyOverviewStore.getViewAllFilter.showLatestJournalNotes && 'border-secondary bg-secondary text-white',
                         'rounded-md w-full md:w-fit']"
                         @click="dailyOverviewStore.setViewAllShowLatestJournalNotes(!dailyOverviewStore.getViewAllFilter.showLatestJournalNotes)">
-                        {{ $t('dailyOverview.latestJournal') }}
+                        {{ $t('dailyOverview.latestJournal.latestJournal') }}
                     </FormButton>
                 </div>
                 <div class="flex items-center gap-x-3">
