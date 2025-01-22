@@ -7,7 +7,7 @@
             </TransitionChild>
 
             <div class="fixed z-10 inset-0 overflow-y-auto">
-                <div class="flex flex-col md:flex-row lg:items-center justify-center gap-6 px-4 pt-16 pb-4 text-center">
+                <div class="flex flex-col md:flex-row lg:items-start justify-center gap-6 px-4 pt-16 pb-4 text-center">
 
                     <TransitionChild as="template" enter="ease-out duration-300" leave="ease-in duration-200"
                         leave-from="opacity-100 translate-y-0 scale-100" leave-to="opacity-0 translate-y-0 scale-95"
