@@ -334,6 +334,8 @@ const state = reactive({
 })
 
 onMounted(() => {
+    fetchAllPlans()
+    fetchAllJournalNoteTags()
     state.formJournal = {
         id: props.selectedJournal.id,
         uuid: props.selectedJournal.uuid,
@@ -355,8 +357,6 @@ onMounted(() => {
         risk_assessment_tags: [],
         score: props.selectedJournal.score,
     }
-    fetchAllPlans()
-    fetchAllJournalNoteTags()
 })
 
 watch(() => props.selectedJournal, (newValue: any) => {
