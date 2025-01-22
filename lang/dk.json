@@ -389,8 +389,8 @@
                     "contactSuccessfullyAdded": "Kontakt tilføjet med succes",
                     "contactSuccessfullyUpdated": "Kontakt opdateret med succes"
                 },
-                "canReceiveEmails": "Kan modtage e-mails",
                 "city": "By",
+                "companyName": "Virksomhedsnavn",
                 "email": "E-mailadresse",
                 "employee": "Medarbejder",
                 "employees": "Medarbejdere",
@@ -414,6 +414,7 @@
                 "phone": "Telefonnummer",
                 "postCode": "Postnummer",
                 "region": "Region",
+                "relationship": "Forhold",
                 "street": "Gade",
                 "title": "Titel"
             },
@@ -424,7 +425,7 @@
                     "edit": "Rediger"
                 },
                 "address": "Adresse",
-                "canReceiveEmails": "Kan modtage e-mails",
+                "companyName": "Virksomhedsnavn",
                 "email": "E-mailadresse",
                 "name": "Navn",
                 "phone": "Telefonnummer",

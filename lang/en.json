@@ -389,8 +389,8 @@
                     "contactSuccessfullyAdded": "Contact successfully added",
                     "contactSuccessfullyUpdated": "Contact successfully updated"
                 },
-                "canReceiveEmails": "Can receive emails",
                 "city": "City",
+                "companyName": "Company name",
                 "email": "Email address",
                 "employee": "Employee",
                 "employees": "Employees",
@@ -414,6 +414,7 @@
                 "phone": "Phone number",
                 "postCode": "Post Code",
                 "region": "Region",
+                "relationship": "Relationship",
                 "street": "Street",
                 "title": "Title"
             },
@@ -424,7 +425,7 @@
                     "edit": "Edit"
                 },
                 "address": "Address",
-                "canReceiveEmails": "Can receive emails",
+                "companyName": "Company name",
                 "email": "Email address",
                 "name": "Name",
                 "phone": "Phone number",

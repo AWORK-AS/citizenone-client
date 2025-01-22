@@ -54,6 +54,11 @@
                                         </span>
                                         <span v-if="contact?.title === 'relatives'">
                                             {{ $t('citizens.contacts.titles.relatives') }}
+                                            <Badge type="primary" class="w-fit mt-1">
+                                                <p class="text-xxs px-2">
+                                                    {{ contact?.relationship?.name }}
+                                                </p>
+                                            </Badge>
                                         </span>
                                     </td>
                                     <td width="20%">
@@ -63,9 +68,6 @@
                                     <td width="20%">
                                         <div class="space-y-1">
                                             <div>{{ contact?.email }}</div>
-                                            <Badge type="primary" v-if="contact?.is_mailable" class="w-fit text-xxs">
-                                                {{ $t('citizens.contacts.form.canReceiveEmails') }}
-                                            </Badge>
                                         </div>
                                     </td>
                                     <td width="10%">

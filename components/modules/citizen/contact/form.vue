@@ -12,6 +12,19 @@
                     <FormError :error="v$?.formContact?.title?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.title?.[0]" />
                 </div>
+                <div class="space-y-1" v-if="state.formContact.title === 'relatives'">
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="relationship" :label="$t('citizens.contacts.form.relationship')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.modal.isAddNewRelationshipOpen = true">
+                            {{ $t('relationships.addNewRelationship') }}
+                        </span>
+                    </div>
+                    <FormSelect id="relationship" :options="state.options.relationships"
+                        v-model="state.formContact.relationship" />
+                    <FormError :error="v$?.formContact?.relationship?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.relationship_uuid?.[0]" />
+                </div>
                 <div class="space-y-1"
                     v-if="props.formType === 'create' && state.formContact.title === 'our_contact_person'">
                     <FormLabel for="employees" :label="$t('citizens.contacts.form.employees')" />
@@ -62,6 +75,14 @@
                             <Icon name="ph:plus" class="h-4 w-4 text-white" aria-hidden="true" />
                         </button>
                     </div>
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="companyName" :label="$t('citizens.contacts.form.companyName')" />
+                    <FormTextField id="companyName" name="companyName"
+                        :placeholder="$t('citizens.contacts.form.companyName')"
+                        v-model="state.formContact.company_name" />
+                    <FormError :error="v$?.formContact?.company_name?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.company_name?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
                     v-if="state.formContact.title !== 'our_contact_person'">
@@ -150,11 +171,14 @@
                     </FormButton>
                 </div>
             </div>
+            <ModulesRelationshipModalNew :isModalOpen="state.modal.isAddNewRelationshipOpen"
+                @close="state.modal.isAddNewRelationshipOpen = false" @refreshRelationships="fetchAllRetionships" />
         </LoadingSpinner>
     </form>
 </template>
 
 <script setup lang="ts">
+import { relationshipService } from '@/components/api/RelationshipService'
 import { regionService } from '@/components/api/RegionService'
 import { municipalityService } from '@/components/api/MunicipalityService'
 import { cityService } from '@/components/api/CityService'
@@ -190,6 +214,8 @@ const state = reactive({
         id: '',
         uuid: '',
         title: '',
+        relationship: '',
+        company_name: '',
         employee: '',
         employees: [],
         firstname: '',
@@ -207,12 +233,16 @@ const state = reactive({
         }] as any,
     },
     isPageLoading: false,
+    modal: {
+        isAddNewRelationshipOpen: false,
+    },
     options: {
         cities: [],
         employees: [],
         employees_without_all_users_option: [],
         municipalities: [],
         notification_types: [],
+        relationships: [],
         regions: [],
         titles: [
             { value: 'case_manager', label: `${t('citizens.contacts.titles.caseManager')}` },
@@ -236,6 +266,8 @@ onMounted(() => {
         id: props.selectedContact?.id,
         uuid: props.selectedContact?.uuid,
         title: props.selectedContact?.title,
+        relationship: props.selectedContact?.relationship?.uuid,
+        company_name: props.selectedContact?.company_name,
         employee: props.selectedContact?.employee?.uuid,
         employees: props.selectedContact?.employees,
         firstname: props.selectedContact?.firstname,
@@ -271,6 +303,8 @@ watch(() => props.selectedContact, (newValue: any) => {
             id: props.selectedContact?.id,
             uuid: props.selectedContact?.uuid,
             title: props.selectedContact?.title,
+            relationship: props.selectedContact?.relationship?.uuid,
+            company_name: props.selectedContact?.company_name,
             employee: props.selectedContact?.employee?.uuid,
             employees: props.selectedContact?.employees,
             firstname: props.selectedContact?.firstname,
@@ -306,6 +340,10 @@ watch(() => state.formContact.title, (newValue: any) => {
     }
     else if (newValue === 'our_contact_person' && props.formType === 'update') {
         fetchAllUsersWithoutAllUsersOption()
+    }
+
+    if (newValue === 'relatives') {
+        fetchAllRetionships()
     }
 })
 
@@ -413,6 +451,27 @@ async function fetchAllUsersWithoutAllUsersOption() {
                 })
             )
             state.options.employees_without_all_users_option = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllRetionships() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await relationshipService.getAllRelationships()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (relationsip: any) => options.push({
+                    value: relationsip?.uuid,
+                    label: relationsip?.name,
+                })
+            )
+            state.options.relationships = options
         }
     } catch (error: any) {
         state.error = error
