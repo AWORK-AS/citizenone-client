@@ -82,7 +82,7 @@ async function saveContact(contactDetails: any) {
                 citizen_uuid: citizenUuid,
                 title: contactDetails.title,
                 employees_uuid: contactDetails.employees,
-                relationship_uuid: contactDetails.relationship,
+                relationship_uuid: contactDetails.title === 'relatives' ? contactDetails.relationship : '',
                 company_name: contactDetails.company_name,
                 firstname: contactDetails.firstname,
                 lastname: contactDetails.lastname,

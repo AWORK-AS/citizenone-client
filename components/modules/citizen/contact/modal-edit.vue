@@ -62,7 +62,7 @@ async function updateContact(contactDetails: any) {
         } else {
             params = {
                 title: contactDetails.title,
-                relationship_uuid: contactDetails.relationship,
+                relationship_uuid: contactDetails.title === 'relatives' ? contactDetails.relationship : '',
                 company_name: contactDetails.company_name,
                 firstname: contactDetails.firstname,
                 lastname: contactDetails.lastname,
