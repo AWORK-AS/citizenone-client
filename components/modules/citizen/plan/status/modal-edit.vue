@@ -3,10 +3,9 @@
         <Modal size="sm" :title="$t('plansandgoals.editStatus')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenPlanStatusForm :statusType="props.statusType" formType="update"
-                        :selectedStatus="props.selectedStatus" :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="updateStatus" />
+                    <ModulesCitizenPlanStatusForm formType="update" :selectedStatus="props.selectedStatus"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @closeModal="closeModal" @submitForm="updateStatus" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -31,10 +30,6 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    statusType: {
-        type: String,
-        required: true,
-    },
 })
 const emit = defineEmits(['close', 'refreshStatuses'])
 
@@ -57,16 +52,9 @@ async function updateStatus(statusDetails: any) {
     try {
         const statusUuid = props.selectedStatus.uuid
 
-        let params = {}
-        if (props.statusType === 'plan') {
-            params = {
-                status: statusDetails.status,
-            }
-        } else {
-            params = {
-                score: statusDetails.score,
-                status: statusDetails.status,
-            }
+        let params = {
+            score: statusDetails.score,
+            status: statusDetails.status,
         }
         const response = await statusService.updateStatus(statusUuid, params)
         if (response?.data) {

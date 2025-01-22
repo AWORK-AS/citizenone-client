@@ -63,6 +63,35 @@
                                         <div class="text-sm">
                                             <div v-html="plan?.description" class="content" />
                                         </div>
+                                        <div class="mt-1">
+                                            <Badge type="primary" class="w-fit" v-if="plan.score">
+                                                <p class="text-xxs" v-if="plan.score == 1">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.minorChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="plan.score == 2">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.moderateChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="plan.score == 3">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.significantChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="plan.score == 4">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.severeChallenges')
+                                                    }}
+                                                </p>
+                                                <p class="text-xxs" v-if="plan.score == 5">
+                                                    {{
+                                                        $t('plansandgoals.table.expectedLevels.verySubstantialChallenges')
+                                                    }}
+                                                </p>
+                                            </Badge>
+                                        </div>
                                         <p class="text-sm">
                                             {{ $t('plansandgoals.dateCreated') }}: {{
                                                 formatDateToReadable(plan?.created_at) }}
@@ -116,7 +145,7 @@
                 @close="state.modal.isAddPlanOpen = false" @refreshPlans="fetchPlans" />
             <ModulesCitizenPlanModalEdit :isModalOpen="state.modal.isEditPlanOpen" :selectedPlan="state.selectedPlan"
                 @close="closeEditPlanModal" @refreshPlans="fetchPlans" />
-            <ModulesCitizenPlanStatusModalStatuses statusType="plan" :isModalOpen="state.modal.isStatusesOpen"
+            <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
                 :selectedData="state.selectedPlan" @close="closeStatusesModal" @refreshData="fetchPlans" />
             <DialogConfirmation :isModalOpen="state.modal.isDeletePlanOpen"
                 :message="`${$t('plansandgoals.confirmation.deletePlanConfirmation')}?`"

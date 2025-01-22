@@ -158,7 +158,7 @@ function refreshJournal() {
 
 const computedRightModalMaxHeight = computed(() => {
     const total = state.plans?.meta?.total || 0;
-    return `height: ${total > 10 ? '620px' : '645px'};`;
+    return `height: ${total > 10 ? '610px' : '635px'};`;
 })
 
 async function fetchPlans() {

@@ -58,10 +58,21 @@ async function updateMedicineHistory(medicineHistoryDetails: any) {
     state.isPageLoading = true
     try {
         const medicineHistoryUuid = medicineHistoryDetails.uuid
-        const params = {
-            date: medicineHistoryDetails.date,
-            quantity: medicineHistoryDetails.quantity.replace(',', '.'),
-            type: medicineHistoryDetails.type,
+        let params = {}
+        if (props.selectedMedicine?.is_pn_medicine) {
+            params = {
+                date: medicineHistoryDetails.date,
+                quantity: medicineHistoryDetails.quantity.replace(',', '.'),
+                type: medicineHistoryDetails.type,
+                evaluator_uuid: medicineHistoryDetails.evaluator,
+                evaluation_frequency: JSON.stringify(medicineHistoryDetails.evaluation_frequency),
+            }
+        } else {
+            params = {
+                date: medicineHistoryDetails.date,
+                quantity: medicineHistoryDetails.quantity.replace(',', '.'),
+                type: medicineHistoryDetails.type,
+            }
         }
         const response = await medicineHistoryService.updateMedicineHistory(medicineHistoryUuid, params)
         if (response?.data) {

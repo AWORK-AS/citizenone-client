@@ -392,6 +392,7 @@
                 "canReceiveEmails": "Kan modtage e-mails",
                 "city": "By",
                 "email": "E-mailadresse",
+                "employee": "Medarbejder",
                 "employees": "Medarbejdere",
                 "firstname": "Fornavn",
                 "lastname": "Efternavn",
@@ -523,6 +524,14 @@
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne journal"
             },
             "createdBy": "Oprettet af",
+            "currentLevels": {
+                "currentLevel": "Nuværende niveau",
+                "minorChallenges": "Mindre udfordringer",
+                "moderateChallenges": "Moderate udfordringer",
+                "significantChallenges": "Markante udfordringer",
+                "severeChallenges": "Alvorlige udfordringer",
+                "verySubstantialChallenges": "Meget store udfordringer"
+            },
             "download": "Download",
             "downloadJournals": {
                 "downloadJournals": "Download journaler",
@@ -530,10 +539,17 @@
             },
             "form": {
                 "attachFile": "Vedhæft fil",
-                "chooseScoreFrom1to5": "Vælg en score fra 1 til 5",
                 "content": "Indhold",
                 "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote til plan, mål eller delmål",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopiér risikovurdering til plan, mål eller delmål",
+                "currentLevels": {
+                    "currentLevel": "Nuværende niveau",
+                    "minorChallenges": "Mindre udfordringer",
+                    "moderateChallenges": "Moderate udfordringer",
+                    "significantChallenges": "Markante udfordringer",
+                    "severeChallenges": "Alvorlige udfordringer",
+                    "verySubstantialChallenges": "Meget store udfordringer"
+                },
                 "date": "Dato",
                 "draft": "Udkast",
                 "goal": "Mål",
@@ -636,8 +652,6 @@
                 "dailyDose": "Daglig dosis",
                 "description": "Beskrivelse",
                 "dosageForm": "Doseringsform",
-                "evaluator": "Evaluator",
-                "evaluationFrequency": "Evalueringsfrekvens",
                 "image": "Billede",
                 "medicine": "Medicin",
                 "pnMedicine": "PN-medicine",
@@ -661,6 +675,8 @@
                     },
                     "dailyDose": "Daglig dosis",
                     "date": "Dato",
+                    "evaluator": "Evaluator",
+                    "evaluationFrequency": "Evalueringsfrekvens",
                     "type": {
                         "type": "Type",
                         "delivered": "Udleveret",
@@ -1707,7 +1723,7 @@
         "alert": {
             "journalTagSuccessfullyDeleted": "Journal-tag slettet med succes"
         },
-        "editAddiction": "Rediger afhængighed",
+        "editJournalNoteTag": "Rediger journalnotetag",
         "form": {
             "alert": {
                 "journalTagSuccessfullyUpdated": "Journal-tag opdateret med succes",
@@ -2164,6 +2180,7 @@
             "diagnoses": "Diagnoser",
             "invoices": "Fakturaer",
             "jobTitles": "Jobtitler",
+            "journalNoteTags": "Job-notetag",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
             "profile": "Profil",

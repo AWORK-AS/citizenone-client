@@ -20,6 +20,12 @@
                     <FormError :error="props?.error?.errors?.date?.[0]" />
                 </div>
             </div>
+            <div class="space-y-1">
+                <FormLabel for="score" :label="$t('citizens.citizenJournals.form.currentLevels.currentLevel')" />
+                <FormSelect id="score" :options="state.options.scores" v-model="state.formJournal.score" />
+                <FormError :error="v$?.formJournal?.score?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.score?.[0]" />
+            </div>
             <div v-if="props.formType === 'create'">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal = !state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal">
@@ -115,26 +121,6 @@
                     </RadioGroup>
                 </div>
             </div>
-            <div class="space-y-1">
-                <p class="text-sm text-gray-600">
-                    {{ $t('citizens.citizenJournals.form.chooseScoreFrom1to5') }}
-                </p>
-                <div>
-                    <RadioGroup v-model="state.formJournal.score" class="grid grid-cols-5 gap-3">
-                        <RadioGroupOption as="template" v-for="(score, index) in state.options.scores" :key="index"
-                            :value="score.value" v-slot="{ active, checked }">
-                            <div
-                                :class="[
-                                    active ? 'ring-1 ring-offset-2' : '',
-                                    checked && 'bg-primary text-white ring-0 hover:bg-primary',
-                                    active && checked ? 'text-white ring-1' : '',
-                                    'bg-gray-100 ring-primary cursor-pointer flex items-center justify-center rounded-md px-2 py-2 text-xs']">
-                                {{ score.title }}
-                            </div>
-                        </RadioGroupOption>
-                    </RadioGroup>
-                </div>
-            </div>
             <div class="space-y-1" v-if="state.formJournal.assessment !== null">
                 <div class="flex justify-end">
                     <input ref="riskAssessmentFileInput" type="file" @change="handleRiskAssessmentFileChange"
@@ -153,7 +139,7 @@
             <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal = !state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal"
-                    v-if="props.formType === 'create'">
+                    v-if="props.formType === 'create' && state.formJournal.assessment !== null">
                     <FormCheckbox :value="state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal" />
                     {{ $t('citizens.citizenJournals.form.copyRiskAssessmentToPlanOrGoalOrSubgoal') }}
                 </div>
@@ -306,11 +292,11 @@ const state = reactive({
             { value: 'acute increased risk', title: 'Acute increased risk' },
         ] as any,
         scores: [
-            { value: 1, title: 1 },
-            { value: 2, title: 2 },
-            { value: 3, title: 3 },
-            { value: 4, title: 4 },
-            { value: 5, title: 5 },
+            { value: 1, label: `1. ${t('citizens.citizenJournals.form.currentLevels.minorChallenges')}` },
+            { value: 2, label: `2. ${t('citizens.citizenJournals.form.currentLevels.moderateChallenges')}` },
+            { value: 3, label: `3. ${t('citizens.citizenJournals.form.currentLevels.significantChallenges')}` },
+            { value: 4, label: `4. ${t('citizens.citizenJournals.form.currentLevels.severeChallenges')}` },
+            { value: 5, label: `5. ${t('citizens.citizenJournals.form.currentLevels.verySubstantialChallenges')}` },
         ],
         journal_note_plans: [],
         journal_note_goals: [],

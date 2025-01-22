@@ -121,10 +121,39 @@
                                                                 </DisclosureButton>
                                                             </div>
                                                         </div>
+                                                        <div class="mt-1">
+                                                            <Badge type="primary" class="w-fit" v-if="goal.score">
+                                                                <p class="text-xxs" v-if="goal.score == 1">
+                                                                    {{
+                                                                        $t('plansandgoals.table.expectedLevels.minorChallenges')
+                                                                    }}
+                                                                </p>
+                                                                <p class="text-xxs" v-if="goal.score == 2">
+                                                                    {{
+                                                                        $t('plansandgoals.table.expectedLevels.moderateChallenges')
+                                                                    }}
+                                                                </p>
+                                                                <p class="text-xxs" v-if="goal.score == 3">
+                                                                    {{
+                                                                        $t('plansandgoals.table.expectedLevels.significantChallenges')
+                                                                    }}
+                                                                </p>
+                                                                <p class="text-xxs" v-if="goal.score == 4">
+                                                                    {{
+                                                                        $t('plansandgoals.table.expectedLevels.severeChallenges')
+                                                                    }}
+                                                                </p>
+                                                                <p class="text-xxs" v-if="goal.score == 5">
+                                                                    {{
+                                                                        $t('plansandgoals.table.expectedLevels.verySubstantialChallenges')
+                                                                    }}
+                                                                </p>
+                                                            </Badge>
+                                                        </div>
                                                         <p class="text-sm">
                                                             {{ $t('plansandgoals.dateCreated') }}: {{
                                                                 formatDateToReadable(goal?.created_at) }}
-                                                        </p>asdasdasd
+                                                        </p>
                                                         <p class="text-sm">
                                                             {{ $t('plansandgoals.completionDate') }}:
                                                             {{ formatDateToReadable(goal?.completion_date) }}
@@ -165,6 +194,41 @@
                                                                                             </p>
                                                                                         </Badge>
                                                                                     </div>
+                                                                                </div>
+                                                                                <div class="mt-1">
+                                                                                    <Badge type="primary" class="w-fit"
+                                                                                        v-if="subgoal.score">
+                                                                                        <p class="text-xxs"
+                                                                                            v-if="subgoal.score == 1">
+                                                                                            {{
+                                                                                                $t('plansandgoals.table.expectedLevels.minorChallenges')
+                                                                                            }}
+                                                                                        </p>
+                                                                                        <p class="text-xxs"
+                                                                                            v-if="subgoal.score == 2">
+                                                                                            {{
+                                                                                                $t('plansandgoals.table.expectedLevels.moderateChallenges')
+                                                                                            }}
+                                                                                        </p>
+                                                                                        <p class="text-xxs"
+                                                                                            v-if="subgoal.score == 3">
+                                                                                            {{
+                                                                                                $t('plansandgoals.table.expectedLevels.significantChallenges')
+                                                                                            }}
+                                                                                        </p>
+                                                                                        <p class="text-xxs"
+                                                                                            v-if="subgoal.score == 4">
+                                                                                            {{
+                                                                                                $t('plansandgoals.table.expectedLevels.severeChallenges')
+                                                                                            }}
+                                                                                        </p>
+                                                                                        <p class="text-xxs"
+                                                                                            v-if="subgoal.score == 5">
+                                                                                            {{
+                                                                                                $t('plansandgoals.table.expectedLevels.verySubstantialChallenges')
+                                                                                            }}
+                                                                                        </p>
+                                                                                    </Badge>
                                                                                 </div>
                                                                                 <p class="text-sm">
                                                                                     {{ $t('plansandgoals.dateCreated')
@@ -252,9 +316,9 @@
             <ModulesCitizenPlanGoalSubgoalModalEdit :isModalOpen="state.modal.isEditSubgoalOpen"
                 :selectedGoal="state.selectedGoal" :selectedSubgoal="state.selectedSubgoal"
                 @close="state.modal.isEditSubgoalOpen = false" @refreshGoals="fetchGoals" />
-            <ModulesCitizenPlanStatusModalStatuses statusType="goal" :isModalOpen="state.modal.isGoalStatusesOpen"
+            <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isGoalStatusesOpen"
                 :selectedData="state.selectedGoal" @close="closeGoalStatusesModal" @refreshData="fetchGoals" />
-            <ModulesCitizenPlanStatusModalStatuses statusType="subgoal" :isModalOpen="state.modal.isSubGoalStatusesOpen"
+            <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isSubGoalStatusesOpen"
                 :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchGoals" />
         </Dialog>
     </TransitionRoot>

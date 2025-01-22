@@ -392,6 +392,7 @@
                 "canReceiveEmails": "Can receive emails",
                 "city": "City",
                 "email": "Email address",
+                "employee": "Employee",
                 "employees": "Employees",
                 "firstname": "First name",
                 "lastname": "Last name",
@@ -523,6 +524,14 @@
                 "deleteConfirmation": "Are you sure you want to delete this journal"
             },
             "createdBy": "Created by",
+            "currentLevels": {
+                "currentLevel": "Current level",
+                "minorChallenges": "Minor challenges",
+                "moderateChallenges": "Moderate challenges",
+                "significantChallenges": "Significant challenges",
+                "severeChallenges": "Severe challenges",
+                "verySubstantialChallenges": "Very substantial challenges"
+            },
             "download": "Download",
             "downloadJournals": {
                 "downloadJournals": "Download journals",
@@ -530,10 +539,17 @@
             },
             "form": {
                 "attachFile": "Attach file",
-                "chooseScoreFrom1to5": "Choose score from 1 to 5",
                 "content": "Content",
                 "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal or subgoal",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Copy risk assessment to plan, goal or subgoal",
+                "currentLevels": {
+                    "currentLevel": "Current level",
+                    "minorChallenges": "Minor challenges",
+                    "moderateChallenges": "Moderate challenges",
+                    "significantChallenges": "Significant challenges",
+                    "severeChallenges": "Severe challenges",
+                    "verySubstantialChallenges": "Very substantial challenges"
+                },
                 "date": "Date",
                 "draft": "Draft",
                 "goal": "Goal",
@@ -636,8 +652,6 @@
                 "dailyDose": "Daily dose",
                 "description": "Description",
                 "dosageForm": "Dosage form",
-                "evaluator": "Evaluator",
-                "evaluationFrequency": "Evaluation frequency",
                 "image": "Image",
                 "medicine": "Medicine",
                 "pnMedicine": "PN-medicine",
@@ -661,6 +675,8 @@
                     },
                     "dailyDose": "Daily dose",
                     "date": "Date",
+                    "evaluator": "Evaluator",
+                    "evaluationFrequency": "Evaluation frequency",
                     "type": {
                         "type": "Type",
                         "delivered": "Delivered",
@@ -1707,7 +1723,7 @@
         "alert": {
             "journalTagSuccessfullyDeleted": "Journal tag successfully deleted"
         },
-        "editAddiction": "Edit addiction",
+        "editJournalNoteTag": "Edit journal note tag",
         "form": {
             "alert": {
                 "journalTagSuccessfullyUpdated": "Journal tag successfully updated",
@@ -2164,6 +2180,7 @@
             "diagnoses": "Diagnoses",
             "invoices": "Invoices",
             "jobTitles": "Job titles",
+            "journalNoteTags": "Job note tags",
             "licenseOverview": "License overview",
             "licenses": "Licenses",
             "profile": "Profile",

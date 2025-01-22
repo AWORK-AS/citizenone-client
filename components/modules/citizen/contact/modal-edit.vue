@@ -52,20 +52,26 @@ async function updateContact(contactDetails: any) {
     state.isPageLoading = true
     try {
         const contactUuid = contactDetails.uuid
-        const params = {
-            title: contactDetails.title,
-            employees_uuid: contactDetails.employees,
-            firstname: contactDetails.firstname,
-            lastname: contactDetails.lastname,
-            email: contactDetails.email,
-            phone: contactDetails.phone,
-            street: contactDetails.street,
-            region_uuid: contactDetails.region,
-            municipality_uuid: contactDetails.municipality,
-            city_uuid: contactDetails.city,
-            post_code: contactDetails.post_code,
-            risk_level: contactDetails.risk_level,
-            notification_uuid: contactDetails.notification_types,
+        let params = {}
+        if (contactDetails.title === 'our_contact_person') {
+            params = {
+                title: contactDetails.title,
+                employee_uuid: contactDetails.employee,
+                notifications: contactDetails.notifications,
+            }
+        } else {
+            params = {
+                title: contactDetails.title,
+                firstname: contactDetails.firstname,
+                lastname: contactDetails.lastname,
+                email: contactDetails.email,
+                phone: contactDetails.phone,
+                street: contactDetails.street,
+                region_uuid: contactDetails.region,
+                municipality_uuid: contactDetails.municipality,
+                city_uuid: contactDetails.city,
+                post_code: contactDetails.post_code,
+            }
         }
         const response = await citizenContactService.updateContact(contactUuid, params)
         if (response?.data) {

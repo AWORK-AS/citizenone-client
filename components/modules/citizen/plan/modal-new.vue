@@ -41,6 +41,7 @@ const state = reactive({
         name: '',
         description: '',
         completion_date: '',
+        score: '',
         date_completed: '',
         is_completed: false,
     },
@@ -72,6 +73,7 @@ async function savePlan(planDetails: any) {
                 citizen_uuid: citizenUuid,
                 name: planDetails.name,
                 completion_date: planDetails.completion_date,
+                score: planDetails.score,
                 description: planDetails.description,
             }
         }

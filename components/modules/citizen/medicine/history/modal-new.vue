@@ -44,6 +44,8 @@ const state = reactive({
         date: '',
         quantity: '',
         type: '',
+        evaluator_uuid: '',
+        evaluation_frequency: [],
     },
 })
 
@@ -59,11 +61,23 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            medicine_uuid: selectedMedicineUuid,
-            date: medicineHistoryDetails.date,
-            quantity: medicineHistoryDetails.quantity.replace(',', '.'),
-            type: medicineHistoryDetails.type,
+        let params = {}
+        if (props.selectedMedicine?.is_pn_medicine) {
+            params = {
+                medicine_uuid: selectedMedicineUuid,
+                date: medicineHistoryDetails.date,
+                quantity: medicineHistoryDetails.quantity.replace(',', '.'),
+                type: medicineHistoryDetails.type,
+                evaluator_uuid: medicineHistoryDetails.evaluator,
+                evaluation_frequency: JSON.stringify(medicineHistoryDetails.evaluation_frequency),
+            }
+        } else {
+            params = {
+                medicine_uuid: selectedMedicineUuid,
+                date: medicineHistoryDetails.date,
+                quantity: medicineHistoryDetails.quantity.replace(',', '.'),
+                type: medicineHistoryDetails.type,
+            }
         }
         const response = await medicineHistoryService.saveMedicineHistory(params)
         if (response?.data) {

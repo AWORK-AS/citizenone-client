@@ -20,6 +20,14 @@
                     <FormError :error="v$?.formContact?.employees?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.employees_uuid?.[0]" />
                 </div>
+                <div class="space-y-1"
+                    v-if="props.formType === 'update' && state.formContact.title === 'our_contact_person'">
+                    <FormLabel for="employee" :label="$t('citizens.contacts.form.employee')" />
+                    <FormSelect id="employee" :options="state.options.employees_without_all_users_option"
+                        v-model="state.formContact.employee" />
+                    <FormError :error="v$?.formContact?.employee?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.employee_uuid?.[0]" />
+                </div>
                 <div class="py-5 space-y-8" v-if="state.formContact.title === 'our_contact_person'" id="notifications">
                     <div v-for="(notification, index) in state.formContact.notifications" :key="index" class="relative">
                         <div
@@ -182,6 +190,7 @@ const state = reactive({
         id: '',
         uuid: '',
         title: '',
+        employee: '',
         employees: [],
         firstname: '',
         lastname: '',
@@ -201,6 +210,7 @@ const state = reactive({
     options: {
         cities: [],
         employees: [],
+        employees_without_all_users_option: [],
         municipalities: [],
         notification_types: [],
         regions: [],
@@ -226,6 +236,7 @@ onMounted(() => {
         id: props.selectedContact?.id,
         uuid: props.selectedContact?.uuid,
         title: props.selectedContact?.title,
+        employee: props.selectedContact?.employee?.uuid,
         employees: props.selectedContact?.employees,
         firstname: props.selectedContact?.firstname,
         lastname: props.selectedContact?.lastname,
@@ -236,13 +247,20 @@ onMounted(() => {
         municipality: props.selectedContact?.municipality?.uuid,
         city: props.selectedContact?.city?.uuid,
         post_code: props.selectedContact?.post_code,
-        // risk_level: props.selectedContact?.risk_level,
-        // notification_types: [],
-        notifications: props.selectedContact.notifications,
+        notifications: [],
     }
-    // props.selectedContact?.notification_types.forEach((notification_type: any) => {
-    //     state.formContact.notification_types.push(notification_type?.uuid)
-    // })
+    props.selectedContact?.notification_types?.forEach((notification_type: any) => {
+        state.formContact.notifications.push({
+            notification_uuid: notification_type?.uuid,
+            risk_level_uuid: notification_type?.pivot?.risk_level?.uuid,
+        })
+    })
+    if (state.formContact.notifications?.length === 0) {
+        state.formContact.notifications = [{
+            notification_uuid: '',
+            risk_level_uuid: '',
+        }]
+    }
 })
 
 watch(() => props.selectedContact, (newValue: any) => {
@@ -253,6 +271,7 @@ watch(() => props.selectedContact, (newValue: any) => {
             id: props.selectedContact?.id,
             uuid: props.selectedContact?.uuid,
             title: props.selectedContact?.title,
+            employee: props.selectedContact?.employee?.uuid,
             employees: props.selectedContact?.employees,
             firstname: props.selectedContact?.firstname,
             lastname: props.selectedContact?.lastname,
@@ -263,20 +282,30 @@ watch(() => props.selectedContact, (newValue: any) => {
             municipality: props.selectedContact?.municipality?.uuid,
             city: props.selectedContact?.city?.uuid,
             post_code: props.selectedContact?.post_code,
-            // risk_level: props.selectedContact?.risk_level,
-            // notification_types: props.selectedContact?.notification_types,
-            notifications: props.selectedContact.notifications,
+            notifications: [],
         }
-        // props.selectedContact?.notification_types.forEach((notification_type: any) => {
-        //     state.formContact.notification_types.push(notification_type?.uuid)
-        // })
+        props.selectedContact?.notification_types?.forEach((notification_type: any) => {
+            state.formContact.notifications.push({
+                notification_uuid: notification_type?.uuid,
+                risk_level_uuid: notification_type?.pivot?.risk_level?.uuid,
+            })
+        })
+        if (state.formContact.notifications?.length === 0) {
+            state.formContact.notifications = [{
+                notification_uuid: '',
+                risk_level_uuid: '',
+            }]
+        }
     }
 })
 
 watch(() => state.formContact.title, (newValue: any) => {
     state.error = {}
-    if (newValue === 'our_contact_person') {
+    if (newValue === 'our_contact_person' && props.formType === 'create') {
         fetchAllUsers()
+    }
+    else if (newValue === 'our_contact_person' && props.formType === 'update') {
+        fetchAllUsersWithoutAllUsersOption()
     }
 })
 
@@ -286,34 +315,64 @@ watch(() => language.locale.value, () => {
 })
 
 const rules = computed(() => {
-    if (state.formContact.title !== 'our_contact_person') {
-        return {
-            formContact: {
-                title: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                firstname: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                lastname: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                email: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                phone: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-            },
-        }
-    } else {
-        if (props.formType === 'create') {
+    if (props.formType === 'create') {
+        if (state.formContact.title === 'our_contact_person') {
             return {
                 formContact: {
                     employees: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                 }
+            }
+        } else {
+            return {
+                formContact: {
+                    title: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    firstname: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    lastname: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    email: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    phone: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                },
+            }
+        }
+    } else {
+        if (state.formContact.title === 'our_contact_person') {
+            return {
+                formContact: {
+                    employee: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                }
+            }
+        } else {
+            return {
+                formContact: {
+                    title: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    firstname: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    lastname: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    email: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    phone: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                },
             }
         }
     }
@@ -333,6 +392,27 @@ async function fetchAllUsers() {
                 })
             )
             state.options.employees = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllUsersWithoutAllUsersOption() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await userService.getAllUsersWithoutAllUsersOption()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (user: any) => options.push({
+                    value: user?.uuid,
+                    label: user?.firstname + " " + user?.lastname,
+                })
+            )
+            state.options.employees_without_all_users_option = options
         }
     } catch (error: any) {
         state.error = error

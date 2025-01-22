@@ -3,7 +3,7 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
-            <div class="space-y-1" v-if="['goal', 'subgoal'].includes(props.statusType)">
+            <div class="space-y-1">
                 <FormLabel for="score" :label="$t('plansandgoals.form.currentLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formStatus.score" />
                 <FormError :error="v$?.formStatus?.score?.$errors[0]?.$message.toString()" />
@@ -49,10 +49,6 @@ const props = defineProps({
     },
     selectedStatus: {
         type: Object,
-        required: true,
-    },
-    statusType: {
-        type: String,
         required: true,
     },
 })
