@@ -23,40 +23,43 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.tags" :isLoading="state.isTableLoading"
-                            :sortData="state.sortData" @sort="sort">
 
-                            <!-- Custom Body -->
-                            <template #body v-if="!(state.isTableLoading || state.tags.length === 0)">
-                                <tr v-for="(tag, index) in state.tags" :key="index">
+                        <Table :columnHeaders="state.columnHeaders" :data="state.journalNoteTags"
+                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
+                            <template #body
+                                v-if="!(state.isTableLoading || (state.journalNoteTags?.data?.length === 0))">
+                                <tr v-for="(journalNoteTag, index) in state.journalNoteTags?.data" :key="index">
                                     <td width="40%">
-                                        <span>{{ tag?.name }}</span>
+                                        <span>{{ journalNoteTag?.name }}</span>
                                     </td>
                                     <td width="30%">
-                                        <span :style="{ backgroundColor: tag?.color }"
+                                        <span :style="{ backgroundColor: journalNoteTag?.color }"
                                             class="inline-block w-8 h-8 rounded" />
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/journal-note-tags/edit/${tag.uuid}`)">
+                                                @click="navigateTo(`/settings/journal-note-tags/edit/${journalNoteTag.uuid}`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('journalNoteTags.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="deleteTag(tag.uuid)">
+                                                @click="deleteJournalNoteTagConfirmation(journalNoteTag)">
                                                 <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('journalNoteTags.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </td>
                                 </tr>
                             </template>
                         </Table>
-
                     </div>
-                    <Pagination :data="state.tags" @previous="previous" @next="next" />
+                    <Pagination :data="state.journalNoteTags" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalNoteTagOpen"
+                :message="$t('journalNoteTags.table.confirmation.deleteJournalTagConfirmation') + '?'"
+                @close="state.modal.isDeleteJournalNoteTagOpen = false" @confirm="deleteJournalNoteTag" />
         </NuxtLayout>
     </div>
 </template>
@@ -64,24 +67,28 @@
 
 <script setup lang="ts">
 import { journalNoteTagService } from '@/components/api/JournalNoteTagService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'name' },
-    ],
     columnHeaders: [
         { name: 'journalNoteTags.table.name', sorter: true, key: 'name' },
         { name: 'journalNoteTags.table.color', sorter: false, key: 'color' },
-        { name: "" }
+        { name: '' }
     ],
     dataFilter: {
         search: ''
     },
-    tags: [] as any,
+    journalNoteTags: [] as any,
+    modal: {
+        isDeleteJournalNoteTagOpen: false,
+    },
     pagination: {
         current_page: 1,
         last_page: 1,
@@ -89,6 +96,7 @@ const state = reactive({
     },
     error: {} as Error,
     isTableLoading: false,
+    selectedJournalNoteTag: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -96,10 +104,10 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchTags()
+    fetchJournalNoteTags()
 })
 
-async function fetchTags() {
+async function fetchJournalNoteTags() {
     state.error = {}
     state.isTableLoading = true
     try {
@@ -110,13 +118,8 @@ async function fetchTags() {
             ...state.dataFilter
         }
         const response = await journalNoteTagService.getJournalNoteTags(params)
-        if (response?.data) {
-            state.tags = response.data
-            state.pagination = {
-                current_page: response.meta?.current_page || 1,
-                last_page: response.meta?.last_page || 1,
-                total: response.meta?.total || 0,
-            }
+        if (response) {
+            state.journalNoteTags = response
         }
     } catch (error: any) {
         state.error = error
@@ -124,27 +127,14 @@ async function fetchTags() {
     state.isTableLoading = false
 }
 
-const deleteTag = async (uuid: string) => {
-    try {
-        await journalNoteTagService.deleteJournal(uuid)
-        state.tags = state.tags.filter(tag => tag.uuid !== uuid)
-    } catch (error) {
-        console.error('Error deleting tag:', error)
-    }
-}
-
 function previous() {
-    if (currentTablePage > 1) {
-        currentTablePage--
-        fetchTags()
-    }
+    currentTablePage--
+    fetchJournalNoteTags()
 }
 
 function next() {
-    if (currentTablePage < state.pagination.last_page) {
-        currentTablePage++
-        fetchTags()
-    }
+    currentTablePage++
+    fetchJournalNoteTags()
 }
 
 function sort(sortingData: any) {
@@ -153,12 +143,32 @@ function sort(sortingData: any) {
         sortField: sortingData.column,
         sortOrder: sortingData.sort,
     }
-    fetchTags()
+    fetchJournalNoteTags()
 }
 
 function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] === '' ? [] : value
-    fetchTags()
+    fetchJournalNoteTags()
+}
+
+function deleteJournalNoteTagConfirmation(journalNoteTag: any) {
+    state.selectedJournalNoteTag = journalNoteTag
+    state.modal.isDeleteJournalNoteTagOpen = true
+}
+
+async function deleteJournalNoteTag() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await journalNoteTagService.deleteJournal(state.selectedJournalNoteTag.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchJournalNoteTags()
+            successAlert(`${t('alert.success')}!`, `${t('journalNoteTags.alert.journalTagSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

@@ -5,16 +5,18 @@
             <Head>
                 <Title>{{ $t('journalNoteTags.editJournalNoteTag') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
+
             <template #header>{{ $t('journalNoteTags.editJournalNoteTag') }}</template>
+
             <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
                 to="/settings/journal-note-tags">
                 <Icon name="ph:arrow-left" size="20" class="text-black" />
                 <span>{{ $t('back') }}</span>
             </NuxtLink>
             <LoadingSpinner :isActive="state.isPageLoading">
-                <ModulesJournalNoteTagsForm formType="update" :selectedTag="state.formJournalNoteTag"
+                <ModulesJournalNoteTagsForm formType="update" :selectedJournalNoteTag="state.formJournalNoteTag"
                     :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                    @submitForm="updateTag" />
+                    @submitForm="updateJournalNoteTag" />
             </LoadingSpinner>
         </NuxtLayout>
     </div>
@@ -42,10 +44,10 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchTag()
+    fetchJournalNoteTag()
 })
 
-async function fetchTag() {
+async function fetchJournalNoteTag() {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -62,15 +64,15 @@ async function fetchTag() {
     state.isPageLoading = false
 }
 
-async function updateTag(journalDetails: any) {
+async function updateJournalNoteTag(journalNoteTagDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            name: journalDetails.name,
-            color: journalDetails.color
+            name: journalNoteTagDetails.name,
+            color: journalNoteTagDetails.color
         }
-        const response = await journalNoteTagService.updateJournal(journalNoteTagUuid, params)
+        const response = await journalNoteTagService.updateJournalNoteTag(journalNoteTagUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('journalNoteTags.form.alert.journalTagSuccessfullyUpdated')}.`)
             navigateTo('/settings/journal-note-tags')

@@ -2,14 +2,20 @@
     <form @submit.prevent="submitForm()" class="mt-6 max-w-xl">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="space-y-1">
-            <FormLabel for="name" :label="$t('journalNoteTags.form.name')" />
-            <FormTextField id="name" name="name" :placeholder="$t('journalNoteTags.form.name')"
-                v-model="state.formJournalNoteTag.name" />
-            <FormLabel for="color" :label="$t('journalNoteTags.form.color')" />
-            <FormColorPicker v-model="state.formJournalNoteTag.color" />
-            <FormError :error="v$?.formJournalNoteTag?.name?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.name?.[0]" />
+        <div class="space-y-3">
+            <div class="space-y-1">
+                <FormLabel for="name" :label="$t('journalNoteTags.form.name')" />
+                <FormTextField id="name" name="name" :placeholder="$t('journalNoteTags.form.name')"
+                    v-model="state.formJournalNoteTag.name" />
+                <FormError :error="v$?.formJournalNoteTag?.name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="color" :label="$t('journalNoteTags.form.color')" /> <br />
+                <FormColorPicker id="color" v-model="state.formJournalNoteTag.color" />
+                <FormError :error="v$?.formJournalNoteTag?.color?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.color?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -41,7 +47,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedTag: {
+    selectedJournalNoteTag: {
         type: Object,
         required: false,
     },
@@ -55,13 +61,12 @@ const state = reactive({
     error: {} as Error,
     formJournalNoteTag: {
         name: '',
-        color: ''
+        color: '#000000'
     },
 })
 
-watch(() => props.selectedTag, (newValue: any) => {
+watch(() => props.selectedJournalNoteTag, (newValue: any) => {
     if (newValue != null) {
-        console.log(newValue)
         state.formJournalNoteTag = {
             name: newValue.name,
             color: newValue.color
@@ -75,6 +80,9 @@ const rules = computed(() => {
             name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            color: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
         },
     }
 })
@@ -82,7 +90,6 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function submitForm() {
-    console.log(state.formJournalNoteTag)
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {

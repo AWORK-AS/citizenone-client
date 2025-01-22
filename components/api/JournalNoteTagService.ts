@@ -9,20 +9,20 @@ class JournalNoteTagService extends BaseAPIService {
         return await this.request(`/user/journal-tags/${JournalNoteTagUuid}`, 'GET')
     }
 
-    async saveJournal(params: object): Promise<any> {
+    async saveJournalNoteTag(params: object): Promise<any> {
         return await this.request(`/user/journal-tags`, 'POST', params)
     }
 
-    async updateJournal(JournalNoteTagUuid: any, params: object): Promise<any> {
+    async updateJournalNoteTag(JournalNoteTagUuid: any, params: object): Promise<any> {
         return await this.request(`/user/journal-tags/${JournalNoteTagUuid}`, 'PUT', params)
-    }
-
-    async getAllJournals(): Promise<any> {
-        return await this.request(`/user/journal-tags/all/list`, 'GET')
     }
 
     async deleteJournal(JournalNoteTagUuid: any): Promise<any> {
         return await this.request(`/user/journal-tags/${JournalNoteTagUuid}`, 'DELETE')
+    }
+
+    async getAllJournals(): Promise<any> {
+        return await this.request(`/user/journal-tags/all/list`, 'GET')
     }
 }
 

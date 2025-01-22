@@ -1721,13 +1721,13 @@
     "journalNoteTags": {
         "addNewTag": "Add new tag",
         "alert": {
-            "journalTagSuccessfullyDeleted": "Journal tag successfully deleted"
+            "journalTagSuccessfullyDeleted": "Journal note tag successfully deleted"
         },
         "editJournalNoteTag": "Edit journal note tag",
         "form": {
             "alert": {
-                "journalTagSuccessfullyUpdated": "Journal tag successfully updated",
-                "newJournalTagSuccessfullySaved": "New journal tag successfully saved"
+                "journalTagSuccessfullyUpdated": "Journal note tag successfully updated",
+                "newJournalTagSuccessfullySaved": "New journal note tag successfully saved"
             },
             "color": "Color",
             "name": "Name"
@@ -1736,6 +1736,7 @@
         "newJournalNoteTag": "New journal note tag",
         "table": {
             "actions": {
+                "delete": "Delete",
                 "edit": "Edit"
             },
             "confirmation": {

@@ -107,6 +107,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
+                    name: 'settings.tabs.journalNoteTags',
+                    href: `/settings/journal-note-tags`,
+                    routeNames: [
+                        'settings-journal-note-tags'
+                    ]
+                },
+                {
                     name: 'settings.tabs.transactions',
                     href: `/settings/transactions`,
                     routeNames: [
@@ -127,13 +134,6 @@ watch(() => userStore.getUser, (newValue: any) => {
                         'settings-time-logs'
                     ]
                 },
-                {
-                    name: 'settings.tabs.journalNoteTags',
-                    href: `/settings/journal-note-tags`,
-                    routeNames: [
-                        'settings-journal-note-tags'
-                    ]
-                }
             ]
         } else {
             const route = router?.currentRoute?.value?.name as string
