@@ -2106,6 +2106,32 @@
             "agreetoTAC": "You must agree to the terms and conditions"
         }
     },
+    "relationships": {
+        "addNewRelationship": "Add new relationship",
+        "alert": {
+            "relationshipSuccessfullyDeleted": "Relationship successfully deleted"
+        },
+        "editRelationship": "Edit relationship",
+        "form": {
+            "alert": {
+                "relationshipSuccessfullyUpdated": "Relationship successfully updated",
+                "newRelationshipSuccessfullySaved": "New relationship successfully saved"
+            },
+            "name": "Name"
+        },
+        "newRelationship": "New relationship",
+        "relationships": "Relationships",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteRelationshipConfirmation": "Are you sure you want to delete this relationship"
+            },
+            "name": "Name"
+        }
+    },
     "reminder": {
         "checkIn": "Check in",
         "checkinReminder": "Check-in reminder",
@@ -2185,6 +2211,7 @@
             "licenseOverview": "License overview",
             "licenses": "Licenses",
             "profile": "Profile",
+            "relationships": "Relationships",
             "storage": "Storage",
             "subscription": "Subscription",
             "timeLogs": "Time logs",

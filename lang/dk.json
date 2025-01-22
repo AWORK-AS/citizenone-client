@@ -2106,6 +2106,32 @@
             "phone": "Telefon"
         }
     },
+    "relationships": {
+        "addNewRelationship": "Tilføj nyt forhold",
+        "alert": {
+            "relationshipSuccessfullyDeleted": "Forhold slettet med succes"
+        },
+        "editRelationship": "Rediger forhold",
+        "form": {
+            "alert": {
+                "relationshipSuccessfullyUpdated": "Forhold opdateret med succes",
+                "newRelationshipSuccessfullySaved": "Nyt forhold gemt med succes"
+            },
+            "name": "Navn"
+        },
+        "newRelationship": "Nyt forhold",
+        "relationships": "Forhold",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteRelationshipConfirmation": "Er du sikker på, at du vil slette dette forhold"
+            },
+            "name": "Navn"
+        }
+    },
     "reminder": {
         "checkIn": "Tjek ind",
         "checkinReminder": "Påmindelse om at tjekke ind",
@@ -2186,6 +2212,7 @@
             "licenses": "Licenser",
             "profile": "Profil",
             "storage": "Lager",
+            "relationships": "Forhold",
             "subscription": "Abonnement",
             "timeLogs": "Tidslogfiler",
             "transactions": "Transaktioner"

@@ -114,6 +114,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
+                    name: 'settings.tabs.relationships',
+                    href: `/settings/relationships`,
+                    routeNames: [
+                        'settings-relationships'
+                    ]
+                },
+                {
                     name: 'settings.tabs.transactions',
                     href: `/settings/transactions`,
                     routeNames: [

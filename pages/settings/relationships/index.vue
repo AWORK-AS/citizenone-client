@@ -3,19 +3,19 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('journalNoteTags.journalNoteTags') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('relationships.relationships') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('journalNoteTags.journalNoteTags') }}</template>
+            <template #header>{{ $t('relationships.relationships') }}</template>
 
             <ModulesSettingsTab />
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/settings/journal-note-tags/new')">
+                        @click="navigateTo('/settings/relationships/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('journalNoteTags.addNewTag') }}
+                        {{ $t('relationships.addNewRelationship') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -23,29 +23,24 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.journalNoteTags"
+                        <Table :columnHeaders="state.columnHeaders" :data="state.relationships"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body
-                                v-if="!(state.isTableLoading || (state.journalNoteTags?.data?.length === 0))">
-                                <tr v-for="(journalNoteTag, index) in state.journalNoteTags?.data" :key="index">
-                                    <td width="40%">
-                                        <span>{{ journalNoteTag?.name }}</span>
-                                    </td>
-                                    <td width="30%">
-                                        <span :style="{ backgroundColor: journalNoteTag?.color }"
-                                            class="inline-block w-8 h-8 rounded" />
+                            <template #body v-if="!(state.isTableLoading || (state.relationships?.data?.length === 0))">
+                                <tr v-for="(relationship, index) in state.relationships?.data" :key="index">
+                                    <td width="70%">
+                                        <span>{{ relationship?.name }}</span>
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/journal-note-tags/edit/${journalNoteTag.uuid}`)">
+                                                @click="navigateTo(`/settings/relationships/edit/${relationship.uuid}`)">
                                                 <Icon name="ph:pencil" class="size-4" />
-                                                {{ $t('journalNoteTags.table.actions.edit') }}
+                                                {{ $t('relationships.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="deleteJournalNoteTagConfirmation(journalNoteTag)">
+                                                @click="deleteRelationshipConfirmation(relationship)">
                                                 <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('journalNoteTags.table.actions.delete') }}
+                                                {{ $t('relationships.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -53,19 +48,19 @@
                             </template>
                         </Table>
                     </div>
-                    <Pagination :data="state.journalNoteTags" @previous="previous" @next="next" />
+                    <Pagination :data="state.relationships" @previous="previous" @next="next" />
                 </div>
             </div>
-            <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalNoteTagOpen"
-                :message="$t('journalNoteTags.table.confirmation.deleteJournalTagConfirmation') + '?'"
-                @close="state.modal.isDeleteJournalNoteTagOpen = false" @confirm="deleteJournalNoteTag" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteRelationshipOpen"
+                :message="$t('relationships.table.confirmation.deleteJournalTagConfirmation') + '?'"
+                @close="state.modal.isDeleteRelationshipOpen = false" @confirm="deleteRelationship" />
         </NuxtLayout>
     </div>
 </template>
 
 
 <script setup lang="ts">
-import { journalNoteTagService } from '@/components/api/JournalNoteTagService'
+import { relationshipService } from '@/components/api/RelationshipService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -77,25 +72,24 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'journalNoteTags.table.name', sorter: true, key: 'name' },
-        { name: 'journalNoteTags.table.color', sorter: false, key: 'color' },
+        { name: 'relationships.table.name', sorter: true, key: 'name' },
         { name: '' }
     ],
     dataFilter: {
         search: ''
     },
     error: {} as Error,
-    journalNoteTags: [] as any,
+    isTableLoading: false,
     modal: {
-        isDeleteJournalNoteTagOpen: false,
+        isDeleteRelationshipOpen: false,
     },
     pagination: {
         current_page: 1,
         last_page: 1,
         total: 0,
     },
-    isTableLoading: false,
-    selectedJournalNoteTag: {} as any,
+    relationships: [] as any,
+    selectedRelationship: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -103,10 +97,10 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchJournalNoteTags()
+    fetchRelationships()
 })
 
-async function fetchJournalNoteTags() {
+async function fetchRelationships() {
     state.error = {}
     state.isTableLoading = true
     try {
@@ -116,9 +110,9 @@ async function fetchJournalNoteTags() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await journalNoteTagService.getJournalNoteTags(params)
+        const response = await relationshipService.getRelationships(params)
         if (response) {
-            state.journalNoteTags = response
+            state.relationships = response
         }
     } catch (error: any) {
         state.error = error
@@ -128,12 +122,12 @@ async function fetchJournalNoteTags() {
 
 function previous() {
     currentTablePage--
-    fetchJournalNoteTags()
+    fetchRelationships()
 }
 
 function next() {
     currentTablePage++
-    fetchJournalNoteTags()
+    fetchRelationships()
 }
 
 function sort(sortingData: any) {
@@ -142,28 +136,28 @@ function sort(sortingData: any) {
         sortField: sortingData.column,
         sortOrder: sortingData.sort,
     }
-    fetchJournalNoteTags()
+    fetchRelationships()
 }
 
 function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] === '' ? [] : value
-    fetchJournalNoteTags()
+    fetchRelationships()
 }
 
-function deleteJournalNoteTagConfirmation(journalNoteTag: any) {
-    state.selectedJournalNoteTag = journalNoteTag
-    state.modal.isDeleteJournalNoteTagOpen = true
+function deleteRelationshipConfirmation(relationship: any) {
+    state.selectedRelationship = relationship
+    state.modal.isDeleteRelationshipOpen = true
 }
 
-async function deleteJournalNoteTag() {
+async function deleteRelationship() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await journalNoteTagService.deleteJournalNoteTag(state.selectedJournalNoteTag.uuid)
+        const response = await relationshipService.deleteRelationship(state.selectedRelationship.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            fetchJournalNoteTags()
-            successAlert(`${t('alert.success')}!`, `${t('journalNoteTags.alert.journalTagSuccessfullyDeleted')}.`)
+            fetchRelationships()
+            successAlert(`${t('alert.success')}!`, `${t('relationships.alert.relationshipSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error
