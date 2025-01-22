@@ -126,6 +126,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                     routeNames: [
                         'settings-time-logs'
                     ]
+                },
+                {
+                    name: 'settings.tabs.journalNoteTags',
+                    href: `/settings/journal-note-tags`,
+                    routeNames: [
+                        'settings-journal-note-tags'
+                    ]
                 }
             ]
         } else {
@@ -193,6 +200,9 @@ function changeTab(value: any) {
     }
     else if (value === t('settings.tabs.timeLogs')) {
         navigateTo(`/settings/time-logs`)
+    }
+    else if (value === t('settings.tabs.JournalNotes')) {
+        navigateTo(`/settings/journal-note-tags`)
     }
 }
 </script>
