@@ -555,6 +555,7 @@
                 "draft": "Draft",
                 "goal": "Goal",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
+                "journalNoteTags": "Journal note tags",
                 "plan": "Plan",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",
@@ -563,6 +564,7 @@
                     "noRisk": "No risk"
                 },
                 "riskAssessment": "Risk assessment",
+                "riskAssessmentTags": "Risk assessment tags",
                 "showCurrentPlansGoalsAndSubgoals": "Show current plans, goals, and subgoals",
                 "subgoal": "Subgoal",
                 "title": "Title"

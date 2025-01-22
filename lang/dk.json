@@ -555,6 +555,7 @@
                 "draft": "Udkast",
                 "goal": "Mål",
                 "hideCurrentPlansGoalsAndSubgoals": "Skjul nuværende planer, mål og delmål",
+                "journalNoteTags": "Journalnotetag",
                 "plan": "Plan",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",
@@ -563,6 +564,7 @@
                     "noRisk": "Ingen risiko"
                 },
                 "riskAssessment": "Risikovurdering",
+                "riskAssessmentTags": "Risikovurderingstag",
                 "showCurrentPlansGoalsAndSubgoals": "Vis nuværende planer, mål og delmål",
                 "subgoal": "Delmål",
                 "title": "Titel"
