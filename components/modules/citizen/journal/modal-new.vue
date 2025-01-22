@@ -233,11 +233,11 @@ async function saveJournal(journalDetails: any) {
             copy_risk_assessment_to_plan_or_goal_or_subgoal: journalDetails.copy_risk_assessment_to_plan_or_goal_or_subgoal,
             risk_assessment_plan_goal_subgoal_uuid: risk_assessment_plan_goal_subgoal_uuid,
             content: journalDetails.content,
-            journal_note_tags_uuid: JSON.stringify(journalDetails.journal_note_tags),
+            journal_note_tags_uuid: journalDetails.journal_note_tags,
             is_draft: journalDetails.is_draft,
             assessment: journalDetails.assessment,
             note: journalDetails.note,
-            risk_assessment_tags_uuid: JSON.stringify(journalDetails.risk_assessment_tags),
+            risk_assessment_tags_uuid: journalDetails.risk_assessment_tags,
             score: journalDetails.score,
         }
         const response = await journalService.saveJournal(params)
