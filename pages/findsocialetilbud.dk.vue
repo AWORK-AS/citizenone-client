@@ -32,9 +32,8 @@
                             class="hidden md:flex transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in-right items-center justify-center">
                             <div
                                 class="bg-transparent p-8 xl:p-10 h-full w-full max-w-md sm:max-w-lg lg:max-w-xl flex items-center justify-center">
-                                <img src="https://media.istockphoto.com/id/1349030917/photo/business-and-finance-looking-up-at-high-rise-office-buildings-in-the-financial-district-of-a.jpg?s=612x612&w=0&k=20&c=NSnN0va-f1OBG_GA7bTVmUIoBwNDKUXtHD8_PzeTNiA="
-                                    alt="Manage Company Visual" class="w-full h-auto object-cover transform scale-125"
-                                    style="border-radius: 78% 22% 75% 25% / 26% 86% 14% 74% " />
+                                <img src="/public/img/admin-profile.png"
+                                    alt="Manage Company Visual" class="w-full h-auto object-cover transform scale-125"/>
 
                             </div>
                         </div>
@@ -182,9 +181,8 @@
                         <div
                             class="hidden md:flex transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in items-center justify-center">
                             <div class="bg-transparent rounded-md p-8 xl:p-10 h-full flex items-center justify-center">
-                                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                    alt="Company Visual" class="w-full h-auto object-cover transform scale-125"
-                                    style="border-radius: 78% 22% 75% 25% / 26% 86% 14% 74% " />
+                                <img src="/public/img/show-interest.png"
+                                    alt="Company Visual" class="w-full h-auto object-cover transform scale-125" />
                             </div>
                         </div>
                     </div>
