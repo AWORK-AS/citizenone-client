@@ -1723,7 +1723,7 @@
         "alert": {
             "journalTagSuccessfullyDeleted": "Journal tag successfully deleted"
         },
-        "editAddiction": "Edit addiction",
+        "editJournalNoteTag": "Edit journal note tag",
         "form": {
             "alert": {
                 "journalTagSuccessfullyUpdated": "Journal tag successfully updated",
