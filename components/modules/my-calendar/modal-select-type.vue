@@ -53,14 +53,11 @@
                     </div>
                 </form>
                 <ModulesMyCalendarMyselfModalNew :isModalOpen="state.modal.isAddEventForMyselfOpen"
-                    @close="state.modal.isAddEventForMyselfOpen = false"
-                    @refreshSchedules="$emit('refreshSchedules')" />
+                    @close="state.modal.isAddEventForMyselfOpen = false" @refreshSchedules="refreshSchedules" />
                 <ModulesMyCalendarCitizenModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen"
-                    @close="state.modal.isAddEventForCitizenOpen = false"
-                    @refreshSchedules="$emit('refreshSchedules')" />
+                    @close="state.modal.isAddEventForCitizenOpen = false" @refreshSchedules="refreshSchedules" />
                 <ModulesMyCalendarEmployeeModalNew :isModalOpen="state.modal.isAddEventForEmployeeOpen"
-                    @close="state.modal.isAddEventForEmployeeOpen = false"
-                    @refreshSchedules="$emit('refreshSchedules')" />
+                    @close="state.modal.isAddEventForEmployeeOpen = false" @refreshSchedules="refreshSchedules" />
             </template>
         </Modal>
     </div>
@@ -130,5 +127,6 @@ function closeModal() {
 
 function refreshSchedules() {
     emit('refreshSchedules')
+    closeModal()
 }
 </script>
