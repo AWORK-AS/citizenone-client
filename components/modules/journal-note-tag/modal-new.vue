@@ -1,24 +1,14 @@
 <template>
     <div>
-        <NuxtLayout name="user">
-
-            <Head>
-                <Title>{{ $t('journalNoteTags.addNewTag') }} - {{ runtimeConfig?.public?.appName }}</Title>
-            </Head>
-
-            <template #header>{{ $t('journalNoteTags.addNewTag') }}</template>
-
-            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                to="/settings/journal-note-tags">
-                <Icon name="ph:arrow-left" size="20" class="text-black" />
-                <span>{{ $t('back') }}</span>
-            </NuxtLink>
-            <LoadingSpinner :isActive="state.isPageLoading">
-                <ModulesJournalNoteTagForm formType="create" :selectedJournalNoteTag="state.formJournalNoteTag"
-                    :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                    @submitForm="saveJournalNoteTag" />
-            </LoadingSpinner>
-        </NuxtLayout>
+        <Modal size="xs" :title="$t('journalNoteTags.addNewTag')" :show="props.isModalOpen" @close="closeModal">
+            <template #modal-body>
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <ModulesJournalNoteTagModalForm formType="create" :selectedJournalNoteTag="state.formJournalNoteTag"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @closeModal="closeModal" @submitForm="saveJournalNoteTag" />
+                </LoadingSpinner>
+            </template>
+        </Modal>
     </div>
 </template>
 
@@ -28,9 +18,16 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
-const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+
+const props = defineProps({
+    isModalOpen: {
+        type: Boolean,
+        required: true,
+    },
+})
+const emit = defineEmits(['close', 'refreshJournalNoteTags'])
 
 const state = reactive({
     error: {} as Error,
@@ -40,6 +37,14 @@ const state = reactive({
     },
     isPageLoading: false,
 })
+
+function closeModal() {
+    emit('close')
+}
+
+function refreshJournalNoteTags() {
+    emit('refreshJournalNoteTags')
+}
 
 async function saveJournalNoteTag(journalNoteTagDetails: any) {
     state.error = {}
@@ -52,7 +57,8 @@ async function saveJournalNoteTag(journalNoteTagDetails: any) {
         const response = await journalNoteTagService.saveJournalNoteTag(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('journalNoteTags.form.alert.newJournalTagSuccessfullySaved')}.`)
-            navigateTo('/settings/journal-note-tags')
+            refreshJournalNoteTags()
+            closeModal()
         }
     } catch (error: any) {
         state.error = error

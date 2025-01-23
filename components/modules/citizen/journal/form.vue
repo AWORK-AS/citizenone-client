@@ -80,7 +80,13 @@
                 <FormError :error="props?.error?.errors?.content?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="journal_note_tags" :label="$t('citizens.citizenJournals.form.journalNoteTags')" />
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="addictions" :label="$t('citizens.citizenJournals.form.journalNoteTags')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddJournalNoteTagsOpen = true">
+                        {{ $t('journalNoteTags.addNewTag') }}
+                    </span>
+                </div>
                 <FormSelectMultiple id="journal_note_tags" :options="state.options.journal_note_tags"
                     v-model="state.formJournal.journal_note_tags" />
                 <FormError :error="v$?.formJournal?.journal_note_tags?.$errors[0]?.$message.toString()" />
@@ -144,7 +150,13 @@
                 <FormError :error="props?.error?.errors?.note?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="risk_assessment_tags" :label="$t('citizens.citizenJournals.form.riskAssessmentTags')" />
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="addictions" :label="$t('citizens.citizenJournals.form.riskAssessmentTags')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddJournalNoteTagsOpen = true">
+                        {{ $t('journalNoteTags.addNewTag') }}
+                    </span>
+                </div>
                 <FormSelectMultiple id="risk_assessment_tags" :options="state.options.risk_assessment_tags"
                     v-model="state.formJournal.risk_assessment_tags" />
                 <FormError :error="v$?.formJournal?.risk_assessment_tags?.$errors[0]?.$message.toString()" />
@@ -203,6 +215,8 @@
                 </FormButton>
             </div>
         </div>
+        <ModulesJournalNoteTagModalNew :isModalOpen="state.modal.isAddJournalNoteTagsOpen"
+            @close="state.modal.isAddJournalNoteTagsOpen = false" @refreshJournalNoteTags="fetchAllJournalNoteTags" />
         <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
             :title="$t('citizens.documents.upgradeStorage')"
             :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
@@ -299,7 +313,8 @@ const state = reactive({
         score: ''
     } as any,
     modal: {
-        isUpgradeStorageOpen: false
+        isAddJournalNoteTagsOpen: false,
+        isUpgradeStorageOpen: false,
     },
     options: {
         assessments: [
