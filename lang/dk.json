@@ -1381,11 +1381,13 @@
             "successfullyDeleted": "Begivenhed slettet med succes",
             "successfullyUpdated": "Begivenhed blev opdateret med succes"
         },
+        "citizens": "Citizens",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne begivenhed"
         },
         "delete": "Slet",
         "editEvent": "Rediger begivenhed",
+        "employees": "Employees",
         "form": {
             "citizens": "Borgere",
             "datetimeStart": "Start dato og tid",
@@ -1397,8 +1399,11 @@
             "title": "Titel"
         },
         "myCalendar": "Min kalender",
+        "myself": "Myself",
         "newEvent": "Ny begivenhed",
         "noEventFound": "Ingen begivenhed fundet",
+        "pleaseSelectWhomYouWouldLikeToCreateTheEventFor": "Please select whom you would like to create the event for",
+        "proceed": "Fortsæt",
         "subscribe": "Abonner"
     },
     "excludeVat": "ekskl. moms",

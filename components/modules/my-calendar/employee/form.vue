@@ -3,6 +3,13 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
+            <div class="space-y-1" v-if="props.formType === 'create'">
+                <FormLabel for="employees" :label="$t('events.form.employees')" />
+                <FormSelectMultiple id="employees" name="employees" :options="state.options.users"
+                    v-model="state.formSchedule.employees" />
+                <FormError :error="v$?.formProtocol?.employees?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.employee_uuid?.[0]" />
+            </div>
             <div class="space-y-1">
                 <FormLabel for="title" :label="$t('events.form.title')" />
                 <FormTextField id="title" name="title" :placeholder="$t('events.form.title')"
@@ -110,6 +117,7 @@ const state = reactive({
     formSchedule: {
         id: '',
         uuid: '',
+        employees: [],
         title: '',
         description: '',
         date_time_start: '',
@@ -131,6 +139,7 @@ onMounted(() => {
     state.formSchedule = {
         id: props.selectedSchedule.id,
         uuid: props.selectedSchedule.uuid,
+        employees: props.selectedSchedule.employees,
         title: props.selectedSchedule.title,
         description: props.selectedSchedule.description,
         date_time_start: props.selectedSchedule.start ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.start) : formatDateToYYYYmmddHHmm('', false),

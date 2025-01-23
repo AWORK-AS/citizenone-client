@@ -64,7 +64,7 @@
                         v-if="state.calendarView === 'month'" />
                 </LoadingSpinner>
             </div>
-            <ModulesMyCalendarModalNew :isModalOpen="state.modal.isAddEventOpen"
+            <ModulesMyCalendarModalSelectType :isModalOpen="state.modal.isAddEventOpen"
                 @close="state.modal.isAddEventOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
             <ModulesMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
