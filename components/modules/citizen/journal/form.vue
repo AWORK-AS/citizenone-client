@@ -81,7 +81,7 @@
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
-                    <FormLabel for="addictions" :label="$t('citizens.citizenJournals.form.journalNoteTags')" />
+                    <FormLabel for="journal_note_tags" :label="$t('citizens.citizenJournals.form.journalNoteTags')" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                         @click="state.modal.isAddJournalNoteTagsOpen = true">
                         {{ $t('journalNoteTags.addNewTag') }}
@@ -151,7 +151,8 @@
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
-                    <FormLabel for="addictions" :label="$t('citizens.citizenJournals.form.riskAssessmentTags')" />
+                    <FormLabel for="risk_assessment_tags"
+                        :label="$t('citizens.citizenJournals.form.riskAssessmentTags')" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                         @click="state.modal.isAddJournalNoteTagsOpen = true">
                         {{ $t('journalNoteTags.addNewTag') }}
