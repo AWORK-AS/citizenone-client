@@ -357,10 +357,10 @@ onMounted(() => {
         risk_assessment_tags: [],
         score: props.selectedJournal.score,
     }
-    props.selectedJournal.journal_tags.forEach((journalTag: any) => {
+    props.selectedJournal.journal_tags?.forEach((journalTag: any) => {
         state.formJournal.journal_note_tags.push(journalTag?.uuid)
     })
-    props.selectedJournal.risk_tags.forEach((riskAssessmentTag: any) => {
+    props.selectedJournal.risk_tags?.forEach((riskAssessmentTag: any) => {
         state.formJournal.risk_assessment_tags.push(riskAssessmentTag?.uuid)
     })
 })
