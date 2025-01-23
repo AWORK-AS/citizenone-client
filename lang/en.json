@@ -1388,13 +1388,13 @@
         "delete": "Delete",
         "editEvent": "Edit event",
         "employees": "Employees",
-        "eventOwner": "Event owner",
         "form": {
             "citizens": "Citizens",
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
             "description": "Description",
             "employees": "Employees",
+            "eventOwner": "Event owner",
             "private": "Private",
             "sendInvitation": "Send invitation",
             "title": "Title"

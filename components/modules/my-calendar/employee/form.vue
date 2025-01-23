@@ -4,7 +4,8 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
             <div class="space-y-1" v-if="props.formType === 'create'">
-                <FormLabel for="employees" :label="$t('events.form.employees')" />
+                <FormLabel for="employees"
+                    :label="`${$t('events.form.employees')} (${$t('events.form.eventOwner')})`" />
                 <FormSelectMultiple id="employees" name="employees" :options="state.options.users"
                     v-model="state.formSchedule.employees" />
                 <FormError :error="v$?.formProtocol?.employees?.$errors[0]?.$message.toString()" />

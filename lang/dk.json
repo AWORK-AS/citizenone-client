@@ -1394,6 +1394,7 @@
             "dateTimeEnd": "Slut dato og tid",
             "description": "Beskrivelse",
             "employees": "Medarbejdere",
+            "eventOwner": "Begivenhedsejer",
             "private": "Privat",
             "sendInvitation": "Send invitationen",
             "title": "Titel"

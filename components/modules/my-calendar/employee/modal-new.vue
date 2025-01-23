@@ -1,6 +1,7 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('events.newEvent')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs" :title="`${$t('events.newEvent')} (${$t('events.form.employees')})`" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesMyCalendarEmployeeForm formType="create" :selectedSchedule="state.formSchedule"
