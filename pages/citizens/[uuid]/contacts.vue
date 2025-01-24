@@ -54,7 +54,7 @@
                                         </span>
                                         <span v-if="contact?.title === 'relatives'">
                                             {{ $t('citizens.contacts.titles.relatives') }}
-                                            <Badge type="primary" class="w-fit mt-1">
+                                            <Badge type="primary" class="w-fit mt-1" v-if="contact?.relationship">
                                                 <p class="text-xxs px-2">
                                                     {{ contact?.relationship?.name }}
                                                 </p>
