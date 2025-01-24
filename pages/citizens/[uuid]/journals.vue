@@ -170,7 +170,8 @@
                                             v-if="['Standard view', 'Journal note view'].includes(citizenJournalStore.getFilterView)">
                                             <div v-html="journal.content" class="content" />
                                         </p>
-                                        <div class="flex items-center gap-x-1">
+                                        <div class="flex items-center gap-x-1"
+                                            v-if="['Standard view', 'Journal note view'].includes(citizenJournalStore.getFilterView)">
                                             <div class="px-2 py-1 rounded-full text-white text-xxs"
                                                 :style="`background:${journalTag?.color};`"
                                                 v-for="(journalTag, index) in journal?.journal_tags" :index="index">
@@ -184,7 +185,8 @@
                                             </p>
                                             <div v-html="journal.note" class="content" />
                                         </div>
-                                        <div class="flex items-center gap-x-1">
+                                        <div class="flex items-center gap-x-1"
+                                            v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView)">
                                             <div class="px-2 py-1 rounded-full text-white text-xxs"
                                                 :style="`background:${riskTag?.color};`"
                                                 v-for="(riskTag, index) in journal?.risk_tags" :index="index">
