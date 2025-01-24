@@ -96,6 +96,12 @@
                                                 {{ $t('citizens.documents.table.actions.archive') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                v-if="document?.type === 'file'"
+                                                @click="moveFileOrDirectoryConfirmation(document)">
+                                                <Icon name="ph:arrows-out" class="size-4" />
+                                                {{ $t('citizens.documents.table.actions.move') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 v-if="document?.type === 'folder'"
                                                 @click="deleteDirectoryConfirmation(document)">
                                                 <Icon name="ph:trash" class="size-4" />
@@ -118,6 +124,9 @@
                     @close="state.modal.isAddDirectoryOpen = false" @refreshDocuments="fetchDocuments" />
                 <ModulesCitizenDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
+                    @refreshDocuments="fetchDocuments" />
+                <ModulesCitizenDocumentModalMoveDirectoryFile :isModalOpen="state.modal.isMoveFileDirectoryOpen"
+                    :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileDirectoryOpen = false"
                     @refreshDocuments="fetchDocuments" />
                 <ModulesCitizenDocumentFolderStructureModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureOpen"
@@ -181,6 +190,7 @@ const state = reactive({
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,
         isEditDocumentOpen: false,
+        isMoveFileDirectoryOpen: false,
         isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
         isViewFolderStructureOpen: false,
@@ -346,6 +356,11 @@ async function archiveDocument() {
 function deleteDirectoryConfirmation(document: any) {
     state.selectedDocument = document
     state.modal.isDeleteDirectoryOpen = true
+}
+
+function moveFileOrDirectoryConfirmation(document: any) {
+    state.selectedDocument = document
+    state.modal.isMoveFileDirectoryOpen = true
 }
 
 function deleteFileConfirmation(document: any) {

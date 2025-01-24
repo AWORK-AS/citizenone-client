@@ -9,8 +9,6 @@
 </template>
 
 <script setup>
-import { ref, computed, defineProps } from 'vue'
-
 const props = defineProps({
     text: {
         type: String,

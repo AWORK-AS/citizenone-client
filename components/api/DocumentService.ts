@@ -13,6 +13,10 @@ class DocumentService extends BaseAPIService {
         return await this.request(`/user/company-file-folders/${directoryUuid}`, 'PUT', params)
     }
 
+    async moveFile(fileUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/company-file-folders/${fileUuid}/move-file`, 'PUT', params)
+    }
+
     async deleteDocument(documentUuid: any): Promise<any> {
         return await this.request(`/user/company-file-folders/${documentUuid}`, 'DELETE')
     }

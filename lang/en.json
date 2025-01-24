@@ -447,6 +447,7 @@
                 "deletedFolderSuccessfully": "Folder successfully delete",
                 "documentSuccessfullyArchived": "Document successfully archived",
                 "fileSuccessfullyAdded": "New file successfully saved",
+                "fileSuccessfullyMoved": "File successfully moved to another directory",
                 "folderSuccessfullyAdded": "New folder successfully saved",
                 "folderSuccessfullyUpdated": "Folder successfully updated"
             },
@@ -491,6 +492,8 @@
                 "editFile": "Edit file",
                 "editFolder": "Edit folder",
                 "forAdministratorsOnly": "For administrator only",
+                "folderName": "Folder name",
+                "moveFile": "Move file",
                 "name": "Name",
                 "newFolder": "New folder"
             },
@@ -499,6 +502,7 @@
                     "archive": "Archive",
                     "edit": "Edit",
                     "delete": "Delete",
+                    "move": "Move",
                     "view": "View"
                 },
                 "dateCreated": "Date created",

@@ -447,6 +447,7 @@
                 "deletedFolderSuccessfully": "Mappe slettet med succes",
                 "documentSuccessfullyArchived": "Dokument arkiveret med succes",
                 "fileSuccessfullyAdded": "Ny fil gemt med succes",
+                "fileSuccessfullyMoved": "Filen blev flyttet til en anden mappe med succes",
                 "folderSuccessfullyAdded": "Ny mappe gemt med succes",
                 "folderSuccessfullyUpdated": "Mappe opdateret med succes"
             },
@@ -491,6 +492,8 @@
                 "editFile": "Rediger fil",
                 "editFolder": "Rediger mappe",
                 "forAdministratorsOnly": "Kun for administratorer",
+                "folderName": "Mappenavn",
+                "moveFile": "Move file",
                 "name": "Navn",
                 "newFolder": "Ny mappe"
             },
@@ -499,6 +502,7 @@
                     "archive": "Arkiv",
                     "edit": "Rediger",
                     "delete": "Slet",
+                    "move": "Flyt",
                     "view": "Se"
                 },
                 "dateCreated": "Oprettelsesdato",
