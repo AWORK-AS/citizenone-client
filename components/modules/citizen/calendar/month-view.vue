@@ -95,14 +95,22 @@
                             {{ day.date?.split('-').pop()?.replace(/^0/, '') }}
                         </time>
                         <ol v-if="day.events.length > 0" class="mt-2">
-                            <li v-for="(myCalendarEvent, index) in day.events" :key="index">
-                                <div class="group flex cursor-pointer" @click="viewMyCalendarEvent(myCalendarEvent)">
-                                    <p class="flex-auto truncate font-medium text-gray-900 group-hover:text-tertiary">
+                            <li class="space-y-3">
+                                <div v-for="myCalendarEvent in day.events" :key="myCalendarEvent.id"
+                                    class="bg-gray-200 p-2 rounded-md cursor-pointer"
+                                    @click="viewMyCalendarEvent(myCalendarEvent)">
+                                    <p class="text-xxs font-semibold">
                                         {{ myCalendarEvent?.title }}
                                     </p>
-                                    <p class="ml-3 hidden flex-none text-gray-500 group-hover:text-tertiary xl:block">
-                                        {{ myCalendarEvent.time_start }} - {{ myCalendarEvent.time_end }}
+                                    <p class="text-xxs">
+                                        {{ moment(myCalendarEvent.date_time_start).format('HH:mm') }} -
+                                        {{ moment(myCalendarEvent.date_time_end).format('HH:mm') }}
                                     </p>
+                                    <div class="text-gray-500 text-xxs">
+                                        {{ $t('events.createdBy') }}
+                                        {{ myCalendarEvent.creator?.firstname }}
+                                        {{ myCalendarEvent.creator?.lastname }}
+                                    </div>
                                 </div>
                             </li>
                         </ol>
@@ -233,7 +241,7 @@ const state = reactive({
     currentMonth: today.month(),
     currentYear: today.year(),
     days: generateDays(today.year(), today.month(), props.myCalendarEvents),
-    selectedDay: null,
+    selectedDay: null as any,
 })
 
 watch(() => props.myCalendarEvents, (newValue: any) => {

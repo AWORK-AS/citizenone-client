@@ -70,8 +70,8 @@
                 </p>
                 <li v-for="(myCalendarEvent, index) in props.myCalendarEvents?.data" :key="index"
                     class="relative flex space-x-6 py-6 xl:static">
-                    <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${myCalendarEvent?.user?.firstname + ' ' + myCalendarEvent?.user?.lastname}`"
-                        alt="Image" class="h-14 w-14 flex-none rounded-full" />
+                    <img :src="myCalendarEvent?.user?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${myCalendarEvent?.user?.firstname + ' ' + myCalendarEvent?.user?.lastname}`"
+                        class="h-14 w-14 rounded-full bg-gray-50 object-cover" />
                     <div class="flex-auto">
                         <h3 class="pr-10 font-semibold text-gray-900 xl:pr-0">
                             {{ myCalendarEvent?.user?.firstname }}
@@ -111,6 +111,11 @@
                                 </dd>
                             </div>
                         </dl>
+                        <div class="text-gray-500 text-xs mt-1">
+                            {{ $t('events.createdBy') }}
+                            {{ myCalendarEvent.creator?.firstname }}
+                            {{ myCalendarEvent.creator?.lastname }}
+                        </div>
                     </div>
                     <Menu as="div" class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
                         <div>

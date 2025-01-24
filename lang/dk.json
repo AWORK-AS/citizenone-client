@@ -1382,6 +1382,7 @@
             "successfullyUpdated": "Begivenhed blev opdateret med succes"
         },
         "citizens": "Citizens",
+        "createdBy": "Oprettet af",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne begivenhed"
         },
