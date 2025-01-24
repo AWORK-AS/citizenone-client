@@ -43,8 +43,11 @@
                 </div>
                 <div class="py-5 space-y-8" v-if="state.formContact.title === 'our_contact_person'" id="notifications">
                     <div v-for="(notification, index) in state.formContact.notifications" :key="index" class="relative">
-                        <div
-                            class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+                        <div class="grid grid-cols-1 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8"
+                            :class="[
+                                !(state.formContact.notifications[index]?.notification_uuid === state.options.notification_types[0]?.value ||
+                                    state.formContact.notifications[index]?.notification_uuid === state.options.notification_types[3]?.value) ? 'md:grid-cols-2' : ' md:grid-cols-1'
+                            ]">
                             <div class="space-y-1">
                                 <p class="text-sm text-gray-600">
                                     {{ $t('citizens.contacts.form.notificationTypes') }}
@@ -54,7 +57,9 @@
                                     :value="state.formContact.notifications[index].notification_uuid"
                                     @change="(event: any) => state.formContact.notifications[index].notification_uuid = event" />
                             </div>
-                            <div class="space-y-1">
+                            <div class="space-y-1"
+                                v-if="!(state.formContact.notifications[index]?.notification_uuid === state.options.notification_types[0]?.value ||
+                                    state.formContact.notifications[index]?.notification_uuid === state.options.notification_types[3]?.value)">
                                 <p class="text-sm text-gray-600">
                                     {{ $t('citizens.contacts.form.notifications.riskLevel') }}
                                 </p>
@@ -241,7 +246,7 @@ const state = reactive({
         employees: [],
         employees_without_all_users_option: [],
         municipalities: [],
-        notification_types: [],
+        notification_types: [] as any,
         relationships: [],
         regions: [],
         titles: [
