@@ -29,7 +29,7 @@ class CitizenDocumentService extends BaseAPIService {
         return await this.request(`/user/citizen-file-folders/${citizenFileFolderUuid}/archive`, 'PUT')
     }
 
-    async getAllTemplates(citizenUuid: any): Promise<any> {
+    async getAllFolders(citizenUuid: any): Promise<any> {
         return await this.request(`/user/citizen-file-folders/${citizenUuid}/all/list`, 'GET')
     }
 }

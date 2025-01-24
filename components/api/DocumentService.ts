@@ -40,6 +40,10 @@ class DocumentService extends BaseAPIService {
     async downloadFile(documentUuid: any): Promise<any> {
         return await this.request(`/user/company-file-folders/${documentUuid}/download`, 'GET')
     }
+
+    async getAllFolders(): Promise<any> {
+        return await this.request(`/user/company-file-folders/all/list`, 'GET')
+    }
 }
 
 export const documentService = new DocumentService()

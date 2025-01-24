@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('citizens.documents.form.moveFile')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="sm" :title="$t('drive.form.moveFile')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <form @submit.prevent="submitForm" id="formDirectory">
@@ -8,7 +8,7 @@
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="space-y-3">
                             <div class="space-y-1">
-                                <FormLabel for="folder" :label="$t('citizens.documents.form.folderName')" />
+                                <FormLabel for="folder" :label="$t('drive.form.folderName')" />
                                 <FormSelect id="folder" :options="state.options.folders"
                                     v-model="state.formFile.folder_uuid" />
                                 <FormError :error="v$?.formDirectory?.folder_uuid?.$errors[0]?.$message.toString()" />
@@ -35,7 +35,7 @@
 
 
 <script setup lang="ts">
-import { citizenDocumentService } from '@/components/api/CitizenDocumentService'
+import { documentService } from '@/components/api/DocumentService'
 import { useAlert } from '@/composables/alert'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -78,7 +78,7 @@ async function fetchAllFolders() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await citizenDocumentService.getAllTemplates(citizenUuid)
+        const response = await documentService.getAllFolders()
         if (response) {
             let options: any = []
             response.data.forEach(
@@ -130,11 +130,11 @@ async function moveFile() {
         let params = {
             folder_uuid: state.formFile.folder_uuid
         }
-        const response = await citizenDocumentService.moveFile(fileUuid, params)
+        const response = await documentService.moveFile(fileUuid, params)
         if (response?.data) {
             refreshDocuments()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.fileSuccessfullyMoved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyMoved')}.`)
         }
     } catch (error: any) {
         state.error = error

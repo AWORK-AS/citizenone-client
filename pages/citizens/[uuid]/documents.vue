@@ -97,7 +97,7 @@
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 v-if="document?.type === 'file'"
-                                                @click="moveFileOrDirectoryConfirmation(document)">
+                                                @click="moveFileConfirmation(document)">
                                                 <Icon name="ph:arrows-out" class="size-4" />
                                                 {{ $t('citizens.documents.table.actions.move') }}
                                             </FormButton>
@@ -125,8 +125,8 @@
                 <ModulesCitizenDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
-                <ModulesCitizenDocumentModalMoveDirectoryFile :isModalOpen="state.modal.isMoveFileDirectoryOpen"
-                    :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileDirectoryOpen = false"
+                <ModulesCitizenDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
+                    :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
                     @refreshDocuments="fetchDocuments" />
                 <ModulesCitizenDocumentFolderStructureModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureOpen"
@@ -190,7 +190,7 @@ const state = reactive({
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,
         isEditDocumentOpen: false,
-        isMoveFileDirectoryOpen: false,
+        isMoveFileOpen: false,
         isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
         isViewFolderStructureOpen: false,
@@ -353,14 +353,14 @@ async function archiveDocument() {
     state.isTableLoading = false
 }
 
+function moveFileConfirmation(document: any) {
+    state.selectedDocument = document
+    state.modal.isMoveFileOpen = true
+}
+
 function deleteDirectoryConfirmation(document: any) {
     state.selectedDocument = document
     state.modal.isDeleteDirectoryOpen = true
-}
-
-function moveFileOrDirectoryConfirmation(document: any) {
-    state.selectedDocument = document
-    state.modal.isMoveFileDirectoryOpen = true
 }
 
 function deleteFileConfirmation(document: any) {
