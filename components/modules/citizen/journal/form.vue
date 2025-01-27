@@ -80,6 +80,19 @@
                 <FormError :error="props?.error?.errors?.content?.[0]" />
             </div>
             <div class="space-y-1">
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="journal_note_tags" :label="$t('citizens.citizenJournals.form.journalNoteTags')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddJournalNoteTagsOpen = true">
+                        {{ $t('journalNoteTags.addNewTag') }}
+                    </span>
+                </div>
+                <FormSelectMultiple id="journal_note_tags" :options="state.options.journal_note_tags"
+                    v-model="state.formJournal.journal_note_tags" />
+                <FormError :error="v$?.formJournal?.journal_note_tags?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.journal_note_tags_uuid?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <p class="text-sm text-gray-600">
                     {{ $t('citizens.citizenJournals.form.riskAssessment') }}
                 </p>
@@ -137,6 +150,20 @@
                 <FormError :error="props?.error?.errors?.note?.[0]" />
             </div>
             <div class="space-y-1">
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="risk_assessment_tags"
+                        :label="$t('citizens.citizenJournals.form.riskAssessmentTags')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddJournalNoteTagsOpen = true">
+                        {{ $t('journalNoteTags.addNewTag') }}
+                    </span>
+                </div>
+                <FormSelectMultiple id="risk_assessment_tags" :options="state.options.risk_assessment_tags"
+                    v-model="state.formJournal.risk_assessment_tags" />
+                <FormError :error="v$?.formJournal?.risk_assessment_tags?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.risk_assessment_tags_uuid?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal = !state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal"
                     v-if="props.formType === 'create' && state.formJournal.assessment !== null">
@@ -189,6 +216,8 @@
                 </FormButton>
             </div>
         </div>
+        <ModulesJournalNoteTagModalNew :isModalOpen="state.modal.isAddJournalNoteTagsOpen"
+            @close="state.modal.isAddJournalNoteTagsOpen = false" @refreshJournalNoteTags="fetchAllJournalNoteTags" />
         <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
             :title="$t('citizens.documents.upgradeStorage')"
             :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
@@ -198,6 +227,7 @@
 
 <script setup lang="ts">
 import { journalService } from '@/components/api/JournalService'
+import { journalNoteTagService } from '@/components/api/JournalNoteTagService'
 import { planService } from '@/components/api/PlanService'
 import { goalService } from '@/components/api/GoalService'
 import { subgoalService } from '@/components/api/SubgoalService'
@@ -266,6 +296,7 @@ const state = reactive({
         id: '',
         uuid: '',
         content: '',
+        journal_note_tags: [],
         date: '',
         copy_journal_note_to_plan_or_goal_or_subgoal: false,
         journal_note_plan: '',
@@ -279,10 +310,12 @@ const state = reactive({
         is_draft: false,
         assessment: null,
         note: '',
+        risk_assessment_tags: [],
         score: ''
     } as any,
     modal: {
-        isUpgradeStorageOpen: false
+        isAddJournalNoteTagsOpen: false,
+        isUpgradeStorageOpen: false,
     },
     options: {
         assessments: [
@@ -304,6 +337,8 @@ const state = reactive({
         risk_assessment_plans: [],
         risk_assessment_goals: [],
         risk_assessment_subgoals: [],
+        journal_note_tags: [],
+        risk_assessment_tags: [],
         score: [
             { value: 1, label: 1 },
             { value: 2, label: 2 },
@@ -315,10 +350,13 @@ const state = reactive({
 })
 
 onMounted(() => {
+    fetchAllPlans()
+    fetchAllJournalNoteTags()
     state.formJournal = {
         id: props.selectedJournal.id,
         uuid: props.selectedJournal.uuid,
         content: props.selectedJournal.content ?? '',
+        journal_note_tags: [],
         date: props.selectedJournal.date,
         copy_journal_note_to_plan_or_goal_or_subgoal: props.selectedJournal.copy_journal_note_to_plan_or_goal_or_subgoal,
         journal_note_plan: '',
@@ -332,9 +370,15 @@ onMounted(() => {
         is_draft: props.selectedJournal.is_draft,
         assessment: props.selectedJournal.assessment,
         note: props.selectedJournal.note === null ? '' : props.selectedJournal.note,
+        risk_assessment_tags: [],
         score: props.selectedJournal.score,
     }
-    fetchAllPlans()
+    props.selectedJournal.journal_tags?.forEach((journalTag: any) => {
+        state.formJournal.journal_note_tags.push(journalTag?.uuid)
+    })
+    props.selectedJournal.risk_tags?.forEach((riskAssessmentTag: any) => {
+        state.formJournal.risk_assessment_tags.push(riskAssessmentTag?.uuid)
+    })
 })
 
 watch(() => props.selectedJournal, (newValue: any) => {
@@ -343,6 +387,7 @@ watch(() => props.selectedJournal, (newValue: any) => {
             id: newValue.id,
             uuid: newValue.uuid,
             content: newValue.content ?? '',
+            journal_note_tags: [],
             date: newValue.date,
             copy_journal_note_to_plan_or_goal_or_subgoal: newValue.copy_journal_note_to_plan_or_goal_or_subgoal,
             journal_note_plan: '',
@@ -356,6 +401,7 @@ watch(() => props.selectedJournal, (newValue: any) => {
             is_draft: newValue.is_draft,
             assessment: newValue.assessment,
             note: newValue.note === null ? '' : newValue.note,
+            risk_assessment_tags: [],
             score: newValue.score,
         }
     }
@@ -562,6 +608,28 @@ async function fetchAllPlans() {
             )
             state.options.journal_note_plans = options
             state.options.risk_assessment_plans = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchAllJournalNoteTags() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await journalNoteTagService.getAllJournalNoteTags()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (journalNoteTag: any) => options.push({
+                    value: journalNoteTag?.uuid,
+                    label: journalNoteTag?.name,
+                })
+            )
+            state.options.journal_note_tags = options
+            state.options.risk_assessment_tags = options
         }
     } catch (error: any) {
         state.error = error

@@ -389,8 +389,8 @@
                     "contactSuccessfullyAdded": "Contact successfully added",
                     "contactSuccessfullyUpdated": "Contact successfully updated"
                 },
-                "canReceiveEmails": "Can receive emails",
                 "city": "City",
+                "companyName": "Company name",
                 "email": "Email address",
                 "employee": "Employee",
                 "employees": "Employees",
@@ -414,6 +414,7 @@
                 "phone": "Phone number",
                 "postCode": "Post Code",
                 "region": "Region",
+                "relationship": "Relationship",
                 "street": "Street",
                 "title": "Title"
             },
@@ -424,7 +425,7 @@
                     "edit": "Edit"
                 },
                 "address": "Address",
-                "canReceiveEmails": "Can receive emails",
+                "companyName": "Company name",
                 "email": "Email address",
                 "name": "Name",
                 "phone": "Phone number",
@@ -446,6 +447,7 @@
                 "deletedFolderSuccessfully": "Folder successfully delete",
                 "documentSuccessfullyArchived": "Document successfully archived",
                 "fileSuccessfullyAdded": "New file successfully saved",
+                "fileSuccessfullyMoved": "File successfully moved to another directory",
                 "folderSuccessfullyAdded": "New folder successfully saved",
                 "folderSuccessfullyUpdated": "Folder successfully updated"
             },
@@ -490,6 +492,8 @@
                 "editFile": "Edit file",
                 "editFolder": "Edit folder",
                 "forAdministratorsOnly": "For administrator only",
+                "folderName": "Folder name",
+                "moveFile": "Move file",
                 "name": "Name",
                 "newFolder": "New folder"
             },
@@ -498,6 +502,7 @@
                     "archive": "Archive",
                     "edit": "Edit",
                     "delete": "Delete",
+                    "move": "Move",
                     "view": "View"
                 },
                 "dateCreated": "Date created",
@@ -554,6 +559,7 @@
                 "draft": "Draft",
                 "goal": "Goal",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
+                "journalNoteTags": "Journal note tags",
                 "plan": "Plan",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",
@@ -562,6 +568,7 @@
                     "noRisk": "No risk"
                 },
                 "riskAssessment": "Risk assessment",
+                "riskAssessmentTags": "Risk assessment tags",
                 "showCurrentPlansGoalsAndSubgoals": "Show current plans, goals, and subgoals",
                 "subgoal": "Subgoal",
                 "title": "Title"
@@ -619,6 +626,15 @@
                 "date": "Date",
                 "description": "Description",
                 "draft": "Draft",
+                "riskLevel": {
+                    "category": {
+                        "harmless": "Harmless",
+                        "highRisk": "High Risk",
+                        "lowRisk": "Low Risk",
+                        "moderateRisk": "Moderate Risk"
+                    },
+                    "riskLevel": "Risk level"
+                },
                 "title": "Title"
             },
             "incidents": "Incidents",
@@ -1199,6 +1215,7 @@
             "deletedFolderSuccessfully": "Folder successfully delete",
             "documentSuccessfullyArchived": "Document successfully archived",
             "fileSuccessfullyAdded": "New file successfully saved",
+            "fileSuccessfullyMoved": "File successfully moved",
             "folderSuccessfullyAdded": "New folder successfully saved",
             "folderSuccessfullyUpdated": "Folder successfully updated"
         },
@@ -1213,7 +1230,9 @@
         "form": {
             "editFile": "Edit file",
             "editFolder": "Edit folder",
+            "folderName": "Folder name",
             "forAdministratorsOnly": "For administrator only",
+            "moveFile": "Move file",
             "name": "Name",
             "newFolder": "New folder"
         },
@@ -1223,6 +1242,7 @@
                 "edit": "Edit",
                 "delete": "Delete",
                 "download": "Download",
+                "move": "Move",
                 "view": "View"
             },
             "dateCreated": "Date created",
@@ -1378,24 +1398,31 @@
             "successfullyDeleted": "Event successfully deleted",
             "successfullyUpdated": "Event successfully updated"
         },
+        "createdBy": "Created by",
+        "citizens": "Citizens",
         "confirmation": {
             "deleteConfirmation": "Are you sure you want to delete this event"
         },
         "delete": "Delete",
         "editEvent": "Edit event",
+        "employees": "Employees",
         "form": {
             "citizens": "Citizens",
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
             "description": "Description",
             "employees": "Employees",
+            "eventOwner": "Event owner",
             "private": "Private",
             "sendInvitation": "Send invitation",
             "title": "Title"
         },
         "myCalendar": "My calendar",
+        "myself": "Myself",
         "newEvent": "New event",
         "noEventFound": "No event found",
+        "pleaseSelectWhomYouWouldLikeToCreateTheEventFor": "Please select whom you would like to create the event for",
+        "proceed": "Proceed",
         "subscribe": "Subscribe"
     },
     "excludeVat": "excl. vat",
@@ -2106,6 +2133,32 @@
             "agreetoTAC": "You must agree to the terms and conditions"
         }
     },
+    "relationships": {
+        "addNewRelationship": "Add new relationship",
+        "alert": {
+            "relationshipSuccessfullyDeleted": "Relationship successfully deleted"
+        },
+        "editRelationship": "Edit relationship",
+        "form": {
+            "alert": {
+                "relationshipSuccessfullyUpdated": "Relationship successfully updated",
+                "newRelationshipSuccessfullySaved": "New relationship successfully saved"
+            },
+            "name": "Name"
+        },
+        "newRelationship": "New relationship",
+        "relationships": "Relationships",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteRelationshipConfirmation": "Are you sure you want to delete this relationship"
+            },
+            "name": "Name"
+        }
+    },
     "reminder": {
         "checkIn": "Check in",
         "checkinReminder": "Check-in reminder",
@@ -2181,10 +2234,11 @@
             "diagnoses": "Diagnoses",
             "invoices": "Invoices",
             "jobTitles": "Job titles",
-            "journalNoteTags": "Job note tags",
+            "journalNoteTags": "Journal note tags",
             "licenseOverview": "License overview",
             "licenses": "Licenses",
             "profile": "Profile",
+            "relationships": "Relationships",
             "storage": "Storage",
             "subscription": "Subscription",
             "timeLogs": "Time logs",

@@ -3,6 +3,13 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
+            <div class="space-y-1" v-if="props.formType === 'create'">
+                <FormLabel for="citizens" :label="$t('events.form.citizens')" />
+                <FormSelectMultiple id="citizens" name="citizens" :options="state.options.citizens"
+                    v-model="state.formSchedule.citizens" />
+                <FormError :error="v$?.formProtocol?.citizens?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.citizens_uuid?.[0]" />
+            </div>
             <div class="space-y-1">
                 <FormLabel for="title" :label="$t('events.form.title')" />
                 <FormTextField id="title" name="title" :placeholder="$t('events.form.title')"
@@ -36,27 +43,6 @@
                     @click="state.formSchedule.is_private = !state.formSchedule.is_private">
                     <FormCheckbox :value="state.formSchedule.is_private" />
                     {{ $t('events.form.private') }}
-                </div>
-            </div>
-            <div class="space-y-1" v-if="props.formType === 'create'">
-                <FormLabel for="citizens_uuid" :label="$t('events.form.citizens')" />
-                <FormSelectMultiple id="citizens_uuid" name="citizens_uuid" :options="state.options.citizens"
-                    v-model="state.formSchedule.citizens_uuid" />
-                <FormError :error="v$?.formProtocol?.citizens_uuid?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.citizens_uuid?.[0]" />
-            </div>
-            <div class="space-y-1" v-if="props.formType === 'create'">
-                <FormLabel for="users_uuid" :label="$t('events.form.employees')" />
-                <FormSelectMultiple id="users_uuid" name="users_uuid" :options="state.options.users"
-                    v-model="state.formSchedule.users_uuid" />
-                <FormError :error="v$?.formProtocol?.users_uuid?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.users_uuid?.[0]" />
-            </div>
-            <div class="space-y-1" v-if="props.formType === 'create'">
-                <div class="w-fit flex items-center cursor-pointer"
-                    @click="state.formSchedule.send_invitation = !state.formSchedule.send_invitation">
-                    <FormCheckbox :value="state.formSchedule.send_invitation" />
-                    {{ $t('events.form.sendInvitation') }}
                 </div>
             </div>
         </div>
@@ -110,13 +96,12 @@ const state = reactive({
     formSchedule: {
         id: '',
         uuid: '',
+        citizens: [],
         title: '',
         description: '',
         date_time_start: '',
         date_time_end: '',
         is_private: false,
-        citizens_uuid: [],
-        users_uuid: [],
         send_invitation: false,
     },
     options: {
@@ -131,13 +116,12 @@ onMounted(() => {
     state.formSchedule = {
         id: props.selectedSchedule.id,
         uuid: props.selectedSchedule.uuid,
+        citizens: props.selectedSchedule.citizens,
         title: props.selectedSchedule.title,
         description: props.selectedSchedule.description,
         date_time_start: props.selectedSchedule.start ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.start) : formatDateToYYYYmmddHHmm('', false),
         date_time_end: props.selectedSchedule.end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.end) : formatDateToYYYYmmddHHmm('', true),
         is_private: props.selectedSchedule.is_private,
-        citizens_uuid: props.selectedSchedule.citizens_uuid,
-        users_uuid: props.selectedSchedule.users_uuid,
         send_invitation: props.selectedSchedule.send_invitation,
     }
 })
@@ -145,6 +129,9 @@ onMounted(() => {
 const rules = computed(() => {
     return {
         formSchedule: {
+            citizens: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
             title: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },

@@ -1,11 +1,12 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('events.newEvent')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs" :title="`${$t('events.newEvent')} (${$t('events.form.citizens')})`" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesMyCalendarForm formType="create" :selectedSchedule="state.formSchedule" :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="saveSchedule" />
+                    <ModulesMyCalendarCitizenForm formType="create" :selectedSchedule="state.formSchedule"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @closeModal="closeModal" @submitForm="saveSchedule" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -17,7 +18,9 @@ import { myCalendarService } from '@/components/api/MyCalendarService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { useUserStore } from '@/store/user'
 
+const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
@@ -35,13 +38,12 @@ const state = reactive({
     formSchedule: {
         id: '',
         uuid: '',
+        citizens: [],
         title: '',
         description: '',
         date_time_start: '',
         date_time_end: '',
         is_private: false,
-        citizens_uuid: [],
-        users_uuid: [],
         send_invitation: false,
     },
 })
@@ -59,13 +61,12 @@ async function saveSchedule(scheduleDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
+            citizens_uuid: scheduleDetails.citizens,
             title: scheduleDetails.title,
             description: scheduleDetails.description,
             date_time_start: scheduleDetails.date_time_start,
             date_time_end: scheduleDetails.date_time_end,
             is_private: scheduleDetails.is_private,
-            citizens_uuid: scheduleDetails.citizens_uuid,
-            users_uuid: scheduleDetails.users_uuid,
             send_invitation: scheduleDetails.send_invitation,
         }
         const response = await myCalendarService.saveSchedule(params)

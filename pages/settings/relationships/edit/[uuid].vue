@@ -3,27 +3,27 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('journalNoteTags.editJournalNoteTag') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('relationships.editRelationship') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('journalNoteTags.editJournalNoteTag') }}</template>
+            <template #header>{{ $t('relationships.editRelationship') }}</template>
 
             <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                to="/settings/journal-note-tags">
+                to="/settings/relationships">
                 <Icon name="ph:arrow-left" size="20" class="text-black" />
                 <span>{{ $t('back') }}</span>
             </NuxtLink>
             <LoadingSpinner :isActive="state.isPageLoading">
-                <ModulesJournalNoteTagForm formType="update" :selectedJournalNoteTag="state.formJournalNoteTag"
+                <ModulesRelationshipForm formType="update" :selectedRelationship="state.formRelationship"
                     :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                    @submitForm="updateJournalNoteTag" />
+                    @submitForm="updateRelationship" />
             </LoadingSpinner>
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
-import { journalNoteTagService } from '@/components/api/JournalNoteTagService'
+import { relationshipService } from '@/components/api/RelationshipService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -32,30 +32,28 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
-const journalNoteTagUuid = router?.currentRoute?.value?.params?.uuid
+const relationshipUuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({
     error: {} as Error,
-    formJournalNoteTag: {
+    formRelationship: {
         name: '',
-        color: ''
     },
     isPageLoading: false,
 })
 
 onMounted(() => {
-    fetchJournalNoteTag()
+    fetchRelationship()
 })
 
-async function fetchJournalNoteTag() {
+async function fetchRelationship() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await journalNoteTagService.getJournalNoteTag(journalNoteTagUuid)
+        const response = await relationshipService.getRelationship(relationshipUuid)
         if (response) {
-            state.formJournalNoteTag = {
+            state.formRelationship = {
                 name: response?.data?.name ?? '',
-                color: response?.data?.color ?? ''
             }
         }
     } catch (error: any) {
@@ -64,18 +62,17 @@ async function fetchJournalNoteTag() {
     state.isPageLoading = false
 }
 
-async function updateJournalNoteTag(journalNoteTagDetails: any) {
+async function updateRelationship(relationshipDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            name: journalNoteTagDetails.name,
-            color: journalNoteTagDetails.color
+            name: relationshipDetails.name,
         }
-        const response = await journalNoteTagService.updateJournalNoteTag(journalNoteTagUuid, params)
+        const response = await relationshipService.updateRelationship(relationshipUuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('journalNoteTags.form.alert.journalTagSuccessfullyUpdated')}.`)
-            navigateTo('/settings/journal-note-tags')
+            successAlert(`${t('alert.success')}!`, `${t('relationships.form.alert.relationshipSuccessfullyUpdated')}.`)
+            navigateTo('/settings/relationships')
         }
     } catch (error: any) {
         state.error = error

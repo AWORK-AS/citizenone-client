@@ -94,15 +94,21 @@
                             :class="day.isToday ? 'flex h-6 w-6 items-center justify-center rounded-full bg-tertiary font-semibold text-white' : undefined">
                             {{ day.date?.split('-').pop()?.replace(/^0/, '') }}
                         </time>
-                        <ol v-if="day.events.length > 0" class="mt-2">
+                        <ol v-if="day.events.length > 0" class="mt-2 space-y-1">
                             <li v-for="(myCalendarEvent, index) in day.events" :key="index">
-                                <div class="group flex cursor-pointer" @click="editMyCalendarEvent(myCalendarEvent)">
+                                <div class="group cursor-pointer bg-gray-200 p-2 rounded-md text-xxs space-y-1"
+                                    @click="editMyCalendarEvent(myCalendarEvent)">
                                     <p class="flex-auto truncate font-medium text-gray-900 group-hover:text-tertiary">
                                         {{ myCalendarEvent?.title }}
                                     </p>
-                                    <p class="ml-3 hidden flex-none text-gray-500 group-hover:text-tertiary xl:block">
+                                    <p class="hidden flex-none text-gray-500 group-hover:text-tertiary xl:block">
                                         {{ myCalendarEvent.time_start }} - {{ myCalendarEvent.time_end }}
                                     </p>
+                                    <div class="text-gray-500 text-xxs group-hover:text-tertiary">
+                                        {{ $t('events.createdBy') }}
+                                        {{ myCalendarEvent.creator?.firstname }}
+                                        {{ myCalendarEvent.creator?.lastname }}
+                                    </div>
                                 </div>
                             </li>
                         </ol>

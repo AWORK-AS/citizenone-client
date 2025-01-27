@@ -110,6 +110,7 @@ const state = reactive({
     formSchedule: {
         id: '',
         uuid: '',
+        employee_uuid: [],
         title: '',
         description: '',
         date_time_start: '',
@@ -131,6 +132,7 @@ onMounted(() => {
     state.formSchedule = {
         id: props.selectedSchedule.id,
         uuid: props.selectedSchedule.uuid,
+        employee_uuid: props.selectedSchedule.employee_uuid,
         title: props.selectedSchedule.title,
         description: props.selectedSchedule.description,
         date_time_start: props.selectedSchedule.start ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.start) : formatDateToYYYYmmddHHmm('', false),

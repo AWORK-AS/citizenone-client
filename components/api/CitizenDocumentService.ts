@@ -13,6 +13,10 @@ class CitizenDocumentService extends BaseAPIService {
         return await this.request(`/user/citizen-file-folders/${directoryUuid}`, 'PUT', params)
     }
 
+    async moveFile(fileUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-file-folders/${fileUuid}/move-file`, 'PUT', params)
+    }
+
     async deleteDocument(citizenFileFolderUuid: any): Promise<any> {
         return await this.request(`/user/citizen-file-folders/${citizenFileFolderUuid}`, 'DELETE')
     }
@@ -23,6 +27,10 @@ class CitizenDocumentService extends BaseAPIService {
 
     async archiveUnarchiveDocument(citizenFileFolderUuid: any): Promise<any> {
         return await this.request(`/user/citizen-file-folders/${citizenFileFolderUuid}/archive`, 'PUT')
+    }
+
+    async getAllFolders(citizenUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-file-folders/${citizenUuid}/all/list`, 'GET')
     }
 }
 

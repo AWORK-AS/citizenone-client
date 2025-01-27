@@ -124,6 +124,11 @@
                                             {{ moment(myCalendarEvent.date_time_start).format('HH:mm') }} -
                                             {{ moment(myCalendarEvent.date_time_end).format('HH:mm') }}
                                         </p>
+                                        <div class="text-gray-500 text-xxs">
+                                            {{ $t('events.createdBy') }}
+                                            {{ myCalendarEvent.creator?.firstname }}
+                                            {{ myCalendarEvent.creator?.lastname }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
