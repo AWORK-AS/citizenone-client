@@ -32,8 +32,8 @@
                             class="hidden md:flex transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in-right items-center justify-center">
                             <div
                                 class="bg-transparent p-8 xl:p-10 h-full w-full max-w-md sm:max-w-lg lg:max-w-xl flex items-center justify-center">
-                                <img src="/public/img/admin-profile.png"
-                                    alt="Manage Company Visual" class="w-full h-auto object-cover transform scale-125"/>
+                                <img src="/public/img/admin-profile.png" alt="Manage Company Visual"
+                                    class="w-full h-auto object-cover transform scale-125" />
 
                             </div>
                         </div>
@@ -181,8 +181,8 @@
                         <div
                             class="hidden md:flex transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in items-center justify-center">
                             <div class="bg-transparent rounded-md p-8 xl:p-10 h-full flex items-center justify-center">
-                                <img src="/public/img/show-interest.png"
-                                    alt="Company Visual" class="w-full h-auto object-cover transform scale-125" />
+                                <img src="/public/img/show-interest.png" alt="Company Visual"
+                                    class="w-full h-auto object-cover transform scale-125" />
                             </div>
                         </div>
                     </div>
@@ -195,11 +195,12 @@
             <ModulesFindsocialetilbuddkModalShowInterest :isModalOpen="state.modal.isShowInterestOpen"
                 @close="state.modal.isShowInterestOpen = false" />
             <LazyModulesFindsocialetilbuddkTutorialModal0 :isModalZeroOpen="state.modal.isModalZeroOpen"
-                @close="closeModalZero" />
+                @close="closeModalZero" @button-click="handleButtonClick" />
+
             <LazyModulesFindsocialetilbuddkTutorialModal1 :isModalOneOpen="state.modal.isModalVisible"
-                @close="closeModal" />
+                @close="closeModal" @button-click="handleButtonClick" />
             <LazyModulesFindsocialetilbuddkTutorialModal2 :isModalTwoOpen="state.modal.isModalTwoVisible"
-                @close="closeModal2" />
+                @close="closeModal2" @button-click="handleButtonClick" />
             <LazyModulesFindsocialetilbuddkTutorialModal3 :isModalThreeOpen="state.modal.isModalThreeVisible"
                 @close="closeModal3" />
 
@@ -243,6 +244,27 @@ const toggleOverlay = () => {
     state.modal.isModalZeroOpen = !state.modal.isModalZeroOpen
     userStore.setInTutorial(true)
 
+}
+
+const handleButtonClick = (flag: any) => {
+    if (flag == "0") {
+        console.log("MODAL: " + flag)
+        state.modal.isOverlayVisible = !state.modal.isOverlayVisible
+        state.modal.isModalZeroOpen = false
+        userStore.setInTutorial(false)
+    }
+    else if(flag == "1"){
+        console.log("MODAL: " + flag)
+        state.modal.isOverlayVisible = !state.modal.isOverlayVisible
+        state.modal.isModalVisible = false
+        userStore.setInTutorial(false)
+    }
+    else if(flag == "2"){
+        console.log("MODAL: " + flag)
+        state.modal.isOverlayVisible = !state.modal.isOverlayVisible
+        state.modal.isModalTwoVisible = false
+        userStore.setInTutorial(false)
+    }
 }
 
 const closeModalZero = () => {

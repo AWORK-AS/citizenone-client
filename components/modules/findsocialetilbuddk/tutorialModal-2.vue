@@ -2,10 +2,15 @@
     <div>
         <!-- Modal -->
         <div v-if="props.isModalTwoOpen"
-            class="fixed bottom-20 right-32 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md">
+            class="fixed bottom-20 right-32 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md overflow-hidden">
             <!-- Top-right corner image -->
             <img src="/img/icons/asset-01.svg" alt="Image failed to load"
-            class="w-52 absolute -top-14 -right-14 z-10 opacity-70" id="animatedImage">
+                class="w-52 absolute -top-14 -right-14 z-10 opacity-70" id="animatedImage">
+            <button type="button"
+                class="absolute top-0 right-3 z-10 outline-none px-0 py-2 text-gray-800 hover:text-gray-700"
+                @click="$emit('button-click', '2')">
+                <Icon name="heroicons:x-mark" class="h-6 w-6 cursor-pointer" aria-hidden="true" />
+            </button>
 
             <div class="flex justify-between items-center mb-4">
                 <span v-if="language.locale.value === 'en'">
@@ -78,7 +83,7 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'button-click'])
 
 const doneAndClose = () => {
     window.scrollTo({
@@ -88,4 +93,3 @@ const doneAndClose = () => {
     emit('close')
 }
 </script>
-
