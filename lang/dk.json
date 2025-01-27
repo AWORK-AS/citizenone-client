@@ -626,6 +626,15 @@
                 "date": "Dato",
                 "description": "Beskrivelse",
                 "draft": "Udkast",
+                "riskLevel": {
+                    "category": {
+                        "harmless": "Ufarlig",
+                        "highRisk": "Høj risiko",
+                        "lowRisk": "Lav risiko",
+                        "moderateRisk": "Moderat risiko"
+                    },
+                    "riskLevel": "Risikoniveau"
+                },
                 "title": "Titel"
             },
             "incidents": "Hændelser",

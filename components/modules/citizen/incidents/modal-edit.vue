@@ -56,6 +56,7 @@ async function updateIncident(incidentDetails: any) {
             title: incidentDetails.title,
             date: incidentDetails.date,
             description: incidentDetails.description,
+            risk_level: incidentDetails.risk_level,
             is_draft: incidentDetails.is_draft,
         }
         const response = await incidentService.updateIncident(incidentUuid, params)

@@ -626,6 +626,15 @@
                 "date": "Date",
                 "description": "Description",
                 "draft": "Draft",
+                "riskLevel": {
+                    "category": {
+                        "harmless": "Harmless",
+                        "highRisk": "High Risk",
+                        "lowRisk": "Low Risk",
+                        "moderateRisk": "Moderate Risk"
+                    },
+                    "riskLevel": "Risk level"
+                },
                 "title": "Title"
             },
             "incidents": "Incidents",
