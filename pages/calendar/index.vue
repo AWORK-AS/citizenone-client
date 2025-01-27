@@ -250,7 +250,6 @@ function setCalendarView(viewStyle: any) {
         }
         state.selectedYear = ''
         state.selectedMonth = ''
-        const dateToday = moment().format('Y-M-D')
         if (viewStyle === 'week') {
             const firstDayOfWeek = moment().startOf('isoWeek').format('Y-M-D')
             const lastDayOfWeek = moment().endOf('isoWeek').format('Y-M-D')

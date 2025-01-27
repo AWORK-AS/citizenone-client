@@ -113,10 +113,14 @@
                         <div
                             class="col-start-1 col-end-2 row-start-1 hidden grid-cols-7 grid-rows-1 divide-x divide-gray-100 sm:grid sm:grid-cols-7">
                             <div v-for="(events, index) in eventsByDay" :key="index" class="col-start-{{ index + 1 }}">
-                                <div class="p-3 space-y-3">
+                                <div class="p-3 space-y-2">
                                     <div v-for="myCalendarEvent in events" :key="myCalendarEvent.id"
-                                        class="bg-gray-200 p-2 rounded-md cursor-pointer"
-                                        @click="editMyCalendarEvent(myCalendarEvent)">
+                                        class="bg-gray-200 p-2 rounded-md cursor-pointer" :class="[
+                                            myCalendarEvent?.citizen && 'border-yellow-500',
+                                            !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid !== userStore.getUser?.uuid && 'border-green-700',
+                                            !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid === userStore.getUser?.uuid && 'border-primary',
+                                            'border-l-3'
+                                        ]" @click="editMyCalendarEvent(myCalendarEvent)">
                                         <p class="text-xs">
                                             {{ myCalendarEvent?.title }}
                                         </p>
@@ -138,78 +142,85 @@
                 </div>
             </div>
         </div>
-        <ol class="mt-4 divide-y divide-gray-100 text-sm leading-6 lg:col-span-7 xl:col-span-8 lg:hidden"
-            v-if=selectedDay>
-            <li v-for="(event, index) in eventsBySelectedDay as any" :key="index"
-                class="relative flex space-x-6 py-6 xl:static">
-                <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${event?.user?.firstname + ' ' + event?.user?.lastname}`"
-                    alt="Image" class="h-14 w-14 flex-none rounded-full" />
-                <div class="flex-auto">
-                    <h3 class="pr-10 font-semibold text-gray-900 xl:pr-0">
-                        {{ event?.user?.firstname }}
-                        {{ event?.user?.lastname }}
-                    </h3>
-                    <div class="flex items-center gap-x-2">
-                        <dt class="flex items-center">
-                            <span class="sr-only">Title</span>
-                            <Icon name="ph:clipboard" class="h-4 w-4 text-gray-400" aria-hidden="true" />
-                        </dt>
-                        <dd class="font-semibold text-gray-900 xl:pr-0">
-                            {{ event?.title }}
-                        </dd>
-                    </div>
-                    <div class="flex gap-x-2">
-                        <dt class="flex mt-1">
-                            <span class="sr-only">Description</span>
-                            <Icon name="heroicons:bars-3-bottom-left" class="h-4 w-4 text-gray-400"
-                                aria-hidden="true" />
-                        </dt>
-                        <dd class="text-gray-900 xl:pr-0">
-                            {{ event?.description }}
-                        </dd>
-                    </div>
-                    <dl class="text-gray-500">
-                        <div class="flex items-center space-x-3 text-xs">
+        <ol class="mt-4 space-y-2 text-sm leading-6 lg:col-span-7 xl:col-span-8 lg:hidden" v-if=selectedDay>
+            <li v-for="(event, index) in props.myCalendarEvents?.data" :key="index" :class="[
+                event?.citizen && 'border-yellow-500',
+                !event?.citizen && event.user?.uuid !== userStore.getUser?.uuid && 'border-green-700',
+                !event?.citizen && event.user?.uuid === userStore.getUser?.uuid && 'border-primary',
+                'pl-4 border-l-3'
+            ]">
+                <div class="relative flex space-x-6 py-6">
+                    <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${event?.user?.firstname + ' ' + event?.user?.lastname}`"
+                        alt="Image" class="h-14 w-14 flex-none rounded-full" />
+                    <div class="flex-auto">
+                        <h3 class="pr-10 font-semibold text-gray-900 xl:pr-0">
+                            {{ event?.user?.firstname }}
+                            {{ event?.user?.lastname }}
+                        </h3>
+                        <div class="flex items-center gap-x-2">
                             <dt class="flex items-center">
-                                <span class="sr-only">Date</span>
-                                <Icon name="ph:calendar" class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                <span class="sr-only">Title</span>
+                                <Icon name="ph:clipboard" class="h-4 w-4 text-gray-400" aria-hidden="true" />
                             </dt>
-                            <dd>
-                                <time :datetime="event.datetime">
-                                    {{ formatDateTimeToReadable(event.date_time_start) }}
-                                    -
-                                    {{ formatDateTimeToReadable(event.date_time_end) }}
-                                </time>
+                            <dd class="font-semibold text-gray-900 xl:pr-0">
+                                {{ event?.title }}
                             </dd>
                         </div>
-                    </dl>
-                </div>
-                <Menu as="div" class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
-                    <div>
-                        <MenuButton class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
-                            <span class="sr-only">Open options</span>
-                            <Icon name="heroicons:ellipsis-horizontal" class="h-5 w-5" aria-hidden="true" />
-                        </MenuButton>
-                    </div>
-                    <transition enter-active-class="transition ease-out duration-100"
-                        enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100"
-                        leave-active-class="transition ease-in duration-75"
-                        leave-from-class="transform opacity-100 scale-100"
-                        leave-to-class="transform opacity-0 scale-95">
-                        <MenuItems
-                            class="absolute right-0 z-10 mt-2 w-36 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <div class="py-1">
-                                <MenuItem v-slot="{ active }">
-                                <a href="#"
-                                    :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
-                                    @click="editMyCalendarEvent(event)">
-                                    Edit
-                                </a>
-                                </MenuItem>
+                        <div class="flex gap-x-2">
+                            <dt class="flex mt-1">
+                                <span class="sr-only">Description</span>
+                                <Icon name="heroicons:bars-3-bottom-left" class="h-4 w-4 text-gray-400"
+                                    aria-hidden="true" />
+                            </dt>
+                            <dd class="text-gray-900 xl:pr-0">
+                                {{ event?.description }}
+                            </dd>
+                        </div>
+                        <dl class="text-gray-500">
+                            <div class="flex items-center space-x-3 text-xs">
+                                <dt class="flex items-center">
+                                    <span class="sr-only">Date</span>
+                                    <Icon name="ph:calendar" class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                </dt>
+                                <dd>
+                                    <time :datetime="event.datetime">
+                                        {{ formatDateTimeToReadable(event.date_time_start) }}
+                                        -
+                                        {{ formatDateTimeToReadable(event.date_time_end) }}
+                                    </time>
+                                </dd>
                             </div>
-                        </MenuItems>
-                    </transition>
-                </Menu>
+                        </dl>
+                    </div>
+                    <Menu as="div" class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
+                        <div>
+                            <MenuButton
+                                class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
+                                <span class="sr-only">Open options</span>
+                                <Icon name="heroicons:ellipsis-horizontal" class="h-5 w-5" aria-hidden="true" />
+                            </MenuButton>
+                        </div>
+                        <transition enter-active-class="transition ease-out duration-100"
+                            enter-from-class="transform opacity-0 scale-95"
+                            enter-to-class="transform opacity-100 scale-100"
+                            leave-active-class="transition ease-in duration-75"
+                            leave-from-class="transform opacity-100 scale-100"
+                            leave-to-class="transform opacity-0 scale-95">
+                            <MenuItems
+                                class="absolute right-0 z-10 mt-2 w-36 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <div class="py-1">
+                                    <MenuItem v-slot="{ active }">
+                                    <a href="#"
+                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                                        @click="editMyCalendarEvent(event)">
+                                        Edit
+                                    </a>
+                                    </MenuItem>
+                                </div>
+                            </MenuItems>
+                        </transition>
+                    </Menu>
+                </div>
             </li>
         </ol>
         <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
@@ -223,6 +234,7 @@
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { useUserStore } from '@/store/user'
 
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const props = defineProps({
@@ -232,6 +244,7 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['changeDatePerWeek', 'editMyCalendarEvent', 'deleteMyCalendarEvent'])
+const userStore = useUserStore() as any
 
 const currentDate = ref(moment())
 const selectedDay = ref(moment())
