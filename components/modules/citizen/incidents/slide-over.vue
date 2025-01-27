@@ -40,6 +40,34 @@
                                                         <div class="flex gap-x-3">
                                                             <div class="grow space-y-1.5">
                                                                 <div>
+                                                                    <Badge type="harmless"
+                                                                        class="text-xxs truncate w-fit"
+                                                                        v-if="incident?.risk_level === 'harmless'">
+                                                                        {{
+                                                                            $t('citizens.incidents.table.riskLevels.harmless')
+                                                                        }}
+                                                                    </Badge>
+                                                                    <Badge type="low-risk"
+                                                                        class="text-xxs truncate w-fit"
+                                                                        v-if="incident?.risk_level === 'low-risk'">
+                                                                        {{
+                                                                            $t('citizens.incidents.table.riskLevels.lowRisk')
+                                                                        }}
+                                                                    </Badge>
+                                                                    <Badge type="moderate-risk"
+                                                                        class="text-xxs truncate w-fit"
+                                                                        v-if="incident?.risk_level === 'moderate-risk'">
+                                                                        {{
+                                                                            $t('citizens.incidents.table.riskLevels.moderateRisk')
+                                                                        }}
+                                                                    </Badge>
+                                                                    <Badge type="high-risk"
+                                                                        class="text-xxs truncate w-fit"
+                                                                        v-if="incident?.risk_level === 'high-risk'">
+                                                                        {{
+                                                                            $t('citizens.incidents.table.riskLevels.highRisk')
+                                                                        }}
+                                                                    </Badge>
                                                                     <div
                                                                         class="flex items-center gap-x-3 justify-between">
                                                                         <div class="flex items-center gap-x-3">
