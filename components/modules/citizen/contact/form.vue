@@ -81,7 +81,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="state.formContact.title !== 'our_contact_person'">
                     <FormLabel for="companyName" :label="$t('citizens.contacts.form.companyName')" />
                     <FormTextField id="companyName" name="companyName"
                         :placeholder="$t('citizens.contacts.form.companyName')"
