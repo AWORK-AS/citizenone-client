@@ -20,10 +20,14 @@
                                 <template #body
                                     v-if="!(state.isTableLoading || (state.medicineHistories?.data?.length === 0))">
                                     <tr v-for="(medicineHistory, index) in state.medicineHistories?.data" :key="index">
-                                        <td width="25%">
-                                            <span>{{ formatDateToReadable(medicineHistory?.date) }}</span>
+                                        <td width="20%">
+                                            <span class="truncate">
+                                                {{
+                                                    formatDateToReadable(medicineHistory?.date)
+                                                }}
+                                            </span>
                                         </td>
-                                        <td width="10%">
+                                        <td width="5%">
                                             <p>
                                                 {{ language.locale.value === 'dk' ?
                                                     formatNumber(medicineHistory?.quantity) :
@@ -42,15 +46,33 @@
                                             </span>
                                         </td>
                                         <td width="15%">
-                                            <span>
+                                            <span class="truncate">
+                                                {{ medicineHistory?.evaluator?.firstname }}
+                                                {{ medicineHistory?.evaluator?.lastname }}
+                                            </span>
+                                        </td>
+                                        <td width="15%">
+                                            <div class="text-xxs flex flex-wrap gap-1"
+                                                v-if="medicineHistory.evaluation_frequency?.length > 0">
+                                                <span
+                                                    v-for="(frequency, index) in JSON.parse(medicineHistory.evaluation_frequency)"
+                                                    :key=index class="bg-primary px-2 py-1 text-white rounded-md">
+                                                    {{ frequency }}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td width="15%">
+                                            <span class="truncate">
                                                 {{ medicineHistory?.user?.firstname }}
                                                 {{ medicineHistory?.user?.lastname }}
                                             </span>
                                         </td>
-                                        <td width="20%">
-                                            <span>{{ formatDateTimeToReadable(medicineHistory?.created_at) }}</span>
+                                        <td width="10%">
+                                            <span class="truncate">
+                                                {{ formatDateTimeToReadable(medicineHistory?.created_at) }}
+                                            </span>
                                         </td>
-                                        <td width="20%">
+                                        <td width="10%">
                                             <div class="flex items-end gap-2">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="editMedicineHistory(medicineHistory)">
@@ -118,6 +140,8 @@ const state = reactive({
         { name: 'citizens.medicineJournals.history.table.date', sorter: true, key: 'date' },
         { name: 'citizens.medicineJournals.history.table.dailyDose', sorter: true, key: 'quantity' },
         { name: 'citizens.medicineJournals.history.table.type.type', sorter: true, key: 'type' },
+        { name: 'citizens.medicineJournals.history.table.evaluator' },
+        { name: 'citizens.medicineJournals.history.table.evaluationFrequency' },
         { name: 'citizens.medicineJournals.history.table.user' },
         { name: 'citizens.medicineJournals.history.table.dateCreated' },
         { name: '' },

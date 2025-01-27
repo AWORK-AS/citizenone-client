@@ -716,6 +716,8 @@
                     "date": "Date",
                     "dailyDose": "Daily dose",
                     "dateCreated": "Date created",
+                    "evaluator": "Evaluator",
+                    "evaluationFrequency": "Evaluation frequency",
                     "type": {
                         "type": "Type",
                         "delivered": "Delivered",

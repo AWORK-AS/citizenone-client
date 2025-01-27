@@ -716,6 +716,8 @@
                     "date": "Dato",
                     "dailyDose": "Daglig dosis",
                     "dateCreated": "Oprettelsesdato",
+                    "evaluator": "Evaluator",
+                    "evaluationFrequency": "Evalueringsfrekvens",
                     "type": {
                         "type": "Type",
                         "delivered": "Udleveret",
