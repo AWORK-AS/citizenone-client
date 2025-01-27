@@ -646,6 +646,12 @@
                 "description": "Beskrivelse",
                 "draft": "Udkast",
                 "reportedBy": "Rapporteret af",
+                "riskLevels": {
+                    "harmless": "Ufarlig",
+                    "highRisk": "Høj risiko",
+                    "lowRisk": "Lav risiko",
+                    "moderateRisk": "Moderat risiko"
+                },
                 "title": "Titel"
             }
         },

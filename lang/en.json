@@ -646,6 +646,12 @@
                 "description": "Description",
                 "draft": "Draft",
                 "reportedBy": "Reported by",
+                "riskLevels": {
+                    "harmless": "Harmless",
+                    "highRisk": "High risk",
+                    "lowRisk": "Low risk",
+                    "moderateRisk": "Moderate risk"
+                },
                 "title": "Title"
             }
         },
