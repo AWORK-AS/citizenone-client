@@ -1354,7 +1354,7 @@
             },
             "lastname": "Last name",
             "municipality": "Municipality",
-            "pages": "Pages",
+            "pageAccess": "Page access",
             "permissions": {
                 "create": "Create",
                 "delete": "Delete",

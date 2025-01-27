@@ -1354,7 +1354,7 @@
             },
             "lastname": "Efternavn",
             "municipality": "Kommune",
-            "pages": "Sider",
+            "pageAccess": "Sideadgang",
             "permissions": {
                 "create": "Opret",
                 "delete": "Slet",

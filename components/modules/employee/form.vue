@@ -156,7 +156,7 @@
                     <FormError :error="props?.error?.errors?.permission?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="pages" :label="$t('employees.form.pages')" />
+                    <FormLabel for="pages" :label="$t('employees.form.pageAccess')" />
                     <FormSelectMultiple id="pages" :options="state.options.pages" v-model="state.formEmployee.pages" />
                     <FormError :error="v$?.formEmployee?.pages?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.page_uuid?.[0]" />
