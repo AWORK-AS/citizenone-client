@@ -1,11 +1,11 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('citizens.treatments.newTreatment')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('citizens.treatments.editTreatment')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenTreatmentForm formType="create" :selectedGoal="state.formGoal" :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="saveGoal" />
+                    <ModulesCitizenTreatmentForm formType="update" :selectedGoal="props.selectedGoal"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @closeModal="closeModal" @submitForm="updateGoal" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -27,26 +27,16 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedRecord: {
+    selectedGoal: {
         type: Object,
         required: true,
-    }
+    },
 })
 const emit = defineEmits(['close', 'refreshGoals'])
 
 const state = reactive({
     error: {} as Error,
-    isPageLoading: false,
-    formGoal: {
-        id: '',
-        uuid: '',
-        area_type: '',
-        title: '',
-        description: '',
-        score: '',
-        completion_date: '',
-        date_completed: '',
-    },
+    isPageLoading: false
 })
 
 function closeModal() {
@@ -57,23 +47,24 @@ function refreshGoals() {
     emit('refreshGoals')
 }
 
-async function saveGoal(goalDetails: any) {
+async function updateGoal(goalDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
+        const goalUuid = goalDetails.uuid
         const params = {
-            nursing_area_uuid: props.selectedRecord.uuid,
             area_type: goalDetails.area_type,
             title: goalDetails.title,
             description: goalDetails.description,
             score: goalDetails.score,
-            completion_date: goalDetails.completion_date
+            completion_date: goalDetails.completion_date,
+            date_completed: goalDetails.date_completed,
         }
-        const response = await nursingAreaGoalService.saveNursingAreaGoal(params)
+        const response = await nursingAreaGoalService.updateNursingAreaGoal(goalUuid, params)
         if (response?.data) {
             refreshGoals()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.treatments.alert.treatmentSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.goalSuccessfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error
