@@ -792,7 +792,8 @@
             "nursingProfessionalRecords": "Nursing professional records",
             "table": {
                 "actions": {
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "viewTreatments": "View treatments"
                 },
                 "data": "Data",
                 "date": "Date",
@@ -834,14 +835,14 @@
             "plansAndGoals": "Plans and goals"
         },
         "treatments": {
+            "alert": {
+                "treatmentSuccessfullyAdded": "Treatment successfully saved",
+                "TreatmentSuccessfullyUpdated": "Treatment successfully updated"
+            },
             "editTreatment": "Edit treatment",
             "form": {
-                "alert": {
-                    "treatmentSuccessfullyAdded": "Treatment successfully saved",
-                    "TreatmentSuccessfullyUpdated": "Treatment successfully updated"
-                },
                 "areaTypes": {
-                    "healthProfessionalDocumentation": "Health Professional Documentation",
+                    "areaType": "Area type",
                     "functionalLevel": "Functional level",
                     "musculoskeletalSystem": "Musculoskeletal system",
                     "nutrition": "Nutrition",
@@ -855,6 +856,7 @@
                     "knowledgeAndDevelopment": "Knowledge and development",
                     "excretionOfWaste": "Excretion of waste"
                 },
+                "completed": "Completed",
                 "completionDate": "Completion date",
                 "dateCompleted": "Date completed",
                 "description": "Description",
@@ -870,6 +872,48 @@
                 "title": "Title"
             },
             "newTreatment": "New treatment",
+            "statuses": {
+                "alert": {
+                    "statusSuccessfullyAdded": "Status successfully added",
+                    "statusSuccessfullyUpdated": "Status successfully updated"
+                },
+                "editStatus": "Edit status",
+                "expectedLevels": {
+                    "minorChallenges": "Minor challenges",
+                    "moderateChallenges": "Moderate challenges",
+                    "significantChallenges": "Significant challenges",
+                    "severeChallenges": "Severe challenges",
+                    "verySubstantialChallenges": "Very substantial challenges"
+                },
+                "form": {
+                    "currentLevels": {
+                        "currentLevel": "Current level",
+                        "minorChallenges": "Minor challenges",
+                        "moderateChallenges": "Moderate challenges",
+                        "significantChallenges": "Significant challenges",
+                        "severeChallenges": "Severe challenges",
+                        "verySubstantialChallenges": "Very substantial challenges"
+                    },
+                    "status": "Status"
+                },
+                "newStatus": "New status",
+                "statuses": "Statuses",
+                "table": {
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit"
+                    },
+                    "alert": {
+                        "statusSuccessfullyDeleted": "Status successfully deleted"
+                    },
+                    "confirmation": {
+                        "deleteStatusConfirmation": "Are you sure you want to delete this status"
+                    },
+                    "dateCreated": "Date created",
+                    "createdBy": "Date created",
+                    "status": "Status"
+                }
+            },
             "table": {
                 "actions": {
                     "edit": "Edit",

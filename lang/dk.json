@@ -792,7 +792,8 @@
             "nursingProfessionalRecords": "Sundhedsfaglige optegnelser",
             "table": {
                 "actions": {
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "viewTreatments": "Se behandlinger"
                 },
                 "data": "Data",
                 "date": "Dato",
@@ -834,14 +835,14 @@
             "plansAndGoals": "Planer og mål"
         },
         "treatments": {
+            "alert": {
+                "treatmentSuccessfullyAdded": "Behandling gemt med succes",
+                "TreatmentSuccessfullyUpdated": "Behandling opdateret med succes"
+            },
             "editTreatment": "Rediger behandling",
             "form": {
-                "alert": {
-                    "treatmentSuccessfullyAdded": "Behandling gemt med succes",
-                    "TreatmentSuccessfullyUpdated": "Behandling opdateret med succes"
-                },
                 "areaTypes": {
-                    "healthProfessionalDocumentation": "Sundhedsfaglig dokumentation",
+                    "areaType": "Områdetype",
                     "functionalLevel": "Funktionelt niveau",
                     "musculoskeletalSystem": "Muskuloskeletalt system",
                     "nutrition": "Ernæring",
@@ -855,6 +856,7 @@
                     "knowledgeAndDevelopment": "Viden og udvikling",
                     "excretionOfWaste": "Affaldsudskillelse"
                 },
+                "completed": "Afsluttet",
                 "completionDate": "Afslutningsdato",
                 "dateCompleted": "Dato afsluttet",
                 "description": "Beskrivelse",
@@ -866,11 +868,52 @@
                     "severeChallenges": "Alvorlige udfordringer",
                     "verySubstantialChallenges": "Meget store udfordringer"
                 },
-                "inProgress": "I gang",
                 "score": "Score",
                 "title": "Titel"
             },
             "newTreatment": "Ny behandling",
+            "statuses": {
+                "alert": {
+                    "statusSuccessfullyAdded": "Status tilføjet med succes",
+                    "statusSuccessfullyUpdated": "Status opdateret med succes"
+                },
+                "editStatus": "Rediger status",
+                "expectedLevels": {
+                    "minorChallenges": "Mindre udfordringer",
+                    "moderateChallenges": "Moderate udfordringer",
+                    "significantChallenges": "Markante udfordringer",
+                    "severeChallenges": "Alvorlige udfordringer",
+                    "verySubstantialChallenges": "Meget store udfordringer"
+                },
+                "form": {
+                    "currentLevels": {
+                        "currentLevel": "Nuværende niveau",
+                        "minorChallenges": "Mindre udfordringer",
+                        "moderateChallenges": "Moderate udfordringer",
+                        "significantChallenges": "Markante udfordringer",
+                        "severeChallenges": "Alvorlige udfordringer",
+                        "verySubstantialChallenges": "Meget store udfordringer"
+                    },
+                    "status": "Status"
+                },
+                "newStatus": "Ny status",
+                "statuses": "Statusser",
+                "table": {
+                    "actions": {
+                        "delete": "Slet",
+                        "edit": "Rediger"
+                    },
+                    "alert": {
+                        "statusSuccessfullyDeleted": "Status slettet med succes"
+                    },
+                    "confirmation": {
+                        "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
+                    },
+                    "dateCreated": "Oprettelsesdato",
+                    "createdBy": "Oprettet af",
+                    "status": "Status"
+                }
+            },
             "table": {
                 "actions": {
                     "edit": "Rediger",
@@ -909,6 +952,7 @@
                     "severeChallenges": "Alvorlige udfordringer",
                     "verySubstantialChallenges": "Meget store udfordringer"
                 },
+                "inProgress": "I gang",
                 "score": "Score",
                 "title": "Titel"
             },
