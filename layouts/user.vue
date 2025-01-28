@@ -53,9 +53,6 @@
                                                         <span v-if="item.name === 'Duty schedules'">
                                                             {{ $t('sidebar.dutySchedules') }}
                                                         </span>
-                                                        <span v-if="item.name === 'Employees'">
-                                                            {{ $t('sidebar.employees') }}
-                                                        </span>
                                                         <span v-if="item.name === 'Procedures'">
                                                             {{ $t('sidebar.procedures') }}
                                                         </span>
@@ -67,9 +64,6 @@
                                                         </span>
                                                         <span v-if="item.name === 'Bullet Board'">
                                                             {{ $t('sidebar.bulletBoard') }}
-                                                        </span>
-                                                        <span v-if="item.name === 'Apps'">
-                                                            {{ $t('sidebar.apps') }}
                                                         </span>
                                                     </div>
                                                     <Disclosure as="div" v-else v-slot="{ open }">
@@ -151,9 +145,6 @@
                                         <span v-if="item.name === 'Duty schedules'">
                                             {{ $t('sidebar.dutySchedules') }}
                                         </span>
-                                        <span v-if="item.name === 'Employees'">
-                                            {{ $t('sidebar.employees') }}
-                                        </span>
                                         <span v-if="item.name === 'Procedures'">
                                             {{ $t('sidebar.procedures') }}
                                         </span>
@@ -165,9 +156,6 @@
                                         </span>
                                         <span v-if="item.name === 'Bullet Board'">
                                             {{ $t('sidebar.bulletBoard') }}
-                                        </span>
-                                        <span v-if="item.name === 'Apps'">
-                                            {{ $t('sidebar.apps') }}
                                         </span>
                                     </div>
                                     <Disclosure as="div" v-else v-slot="{ open }">
@@ -304,6 +292,24 @@
                                         <div class="flex items-center gap-x-3">
                                             <Icon name="ph:gear" class="h-5 w-5" aria-hidden="true" />
                                             {{ $t('navbar.settings') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                    <div @click="navigateTo('/employees')"
+                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                        <div class="flex items-center gap-x-3">
+                                            <Icon name="ph:users-three" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.colleagues') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                    <div @click="navigateTo('/apps')"
+                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                        <div class="flex items-center gap-x-3">
+                                            <Icon name="ic:baseline-apps" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.apps') }}
                                         </div>
                                     </div>
                                     </MenuItem>
@@ -455,17 +461,6 @@ const navigation = [
         ]
     },
     {
-        name: 'Employees',
-        href: '/employees',
-        icon: 'ph:users-three',
-        activeRouteNames: [
-            'employees',
-            'employees-new',
-            'employees-employee_uuid-view',
-            'employees-employee_uuid-edit',
-        ]
-    },
-    {
         name: 'Protocols',
         href: '/protocols',
         icon: 'ic:outline-shield',
@@ -491,14 +486,6 @@ const navigation = [
             'news',
             'news-new',
             'news-edit-uuid',
-        ]
-    },
-    {
-        name: 'Apps',
-        href: '/apps',
-        icon: 'ic:baseline-apps',
-        activeRouteNames: [
-            'apps'
         ]
     },
 ] as any

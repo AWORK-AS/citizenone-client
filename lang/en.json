@@ -1978,6 +1978,8 @@
         "users": "Users"
     },
     "navbar": {
+        "apps": "Apps",
+        "colleagues": "Colleagues",
         "forms": "Forms",
         "newWishes": "New wishes",
         "logout": "Log out",
@@ -2434,10 +2436,8 @@
         "citizens": "Citizens",
         "documents": "Documents",
         "dutySchedules": "Duty schedules",
-        "employees": "Employees",
         "messages": "Messages",
-        "protocols": "Protocols",
-        "apps": "Apps"
+        "protocols": "Protocols"
     },
     "showLess": "Show less",
     "showMore": "Show more",

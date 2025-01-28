@@ -1978,6 +1978,8 @@
         "users": "Brugere"
     },
     "navbar": {
+        "apps": "Apps",
+        "colleagues": "Kollegaer",
         "forms": "Formularer",
         "newWishes": "Nye ønsker",
         "logout": "Log ud",
@@ -2434,10 +2436,8 @@
         "citizens": "Borgere",
         "documents": "Dokumenter",
         "dutySchedules": "Vagtskema",
-        "employees": "Medarbejdere",
         "messages": "Beskeder",
-        "protocols": "Protokol",
-        "apps": "Apps"
+        "protocols": "Protokol"
     },
     "showLess": "Vis mindre",
     "showMore": "Vis mere",
