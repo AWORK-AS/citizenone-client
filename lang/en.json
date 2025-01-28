@@ -1034,6 +1034,32 @@
             "walletTransactions": "Wallet transactions"
         }
     },
+    "customPages": {
+        "addNewCustomPage": "Add new custom page",
+        "alert": {
+            "customPageSuccessfullyDeleted": "Custom page tag successfully deleted"
+        },
+        "editCustomPage": "Edit custom page",
+        "form": {
+            "alert": {
+                "customPageSuccessfullyUpdated": "Custom page successfully updated",
+                "newCustomPageSuccessfullySaved": "New custom page successfully saved"
+            },
+            "name": "Name"
+        },
+        "customPages": "Custom pages",
+        "newCustomPage": "New custom page",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteCustomPageConfirmation": "Are you sure you want to delete this custom page"
+            },
+            "name": "Name"
+        }
+    },
     "chooseFile": "Choose file",
     "chooseFiles": "Choose file(s)",
     "close": "Close",
@@ -2319,6 +2345,7 @@
             "addictions": "Addictions",
             "archived": "Archived",
             "company": "Company",
+            "customPages": "Custom pages",
             "departments": "Departments",
             "diagnoses": "Diagnoses",
             "invoices": "Invoices",

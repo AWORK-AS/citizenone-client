@@ -34,6 +34,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
+                    name: 'settings.tabs.customPages',
+                    href: `/settings/custom-pages`,
+                    routeNames: [
+                        'settings-custom-pages'
+                    ]
+                },
+                {
                     name: 'settings.tabs.invoices',
                     href: `/settings/invoices`,
                     routeNames: [
@@ -174,6 +181,9 @@ function changeTab(value: any) {
     }
     else if (value === t('settings.tabs.company')) {
         navigateTo(`/settings/company`)
+    }
+    else if (value === t('settings.tabs.custom-pages')) {
+        navigateTo(`/settings/custom-pages`)
     }
     else if (value === t('settings.tabs.invoices')) {
         navigateTo(`/settings/invoices`)
