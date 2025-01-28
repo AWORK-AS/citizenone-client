@@ -767,7 +767,7 @@
             "noJournalToDisplay": "No journal to display"
         },
         "nursingAreas": {
-            "editNursingProfessionalRecords": "Edit nursing professional record",
+            "editNursingProfessionalRecord": "Edit nursing professional record",
             "form": {
                 "alert": {
                     "successfullyAdded": "Nursing professional record successfully saved",
@@ -832,6 +832,87 @@
             "medicineCard": "Medicine card",
             "health": "Health",
             "plansAndGoals": "Plans and goals"
+        },
+        "treatments": {
+            "editTreatment": "Edit treatment",
+            "form": {
+                "alert": {
+                    "treatmentSuccessfullyAdded": "Treatment successfully saved",
+                    "TreatmentSuccessfullyUpdated": "Treatment successfully updated"
+                },
+                "areaTypes": {
+                    "healthProfessionalDocumentation": "Health Professional Documentation",
+                    "functionalLevel": "Functional level",
+                    "musculoskeletalSystem": "Musculoskeletal system",
+                    "nutrition": "Nutrition",
+                    "skinAndMucousMembranes": "Skin and mucous membranes",
+                    "communication": "Communication",
+                    "psychosocialConditions": "Psychosocial conditions",
+                    "respirationAndCirculation": "Respiration and circulation",
+                    "sexuality": "Sexuality",
+                    "painAndSensoryImpressions": "Pain and sensory impressions",
+                    "sleepAndRest": "Sleep and rest",
+                    "knowledgeAndDevelopment": "Knowledge and development",
+                    "excretionOfWaste": "Excretion of waste"
+                },
+                "completionDate": "Completion date",
+                "dateCompleted": "Date completed",
+                "description": "Description",
+                "expectedLevels": {
+                    "expectedLevel": "Expected level",
+                    "minorChallenges": "Minor challenges",
+                    "moderateChallenges": "Moderate challenges",
+                    "significantChallenges": "Significant challenges",
+                    "severeChallenges": "Severe challenges",
+                    "verySubstantialChallenges": "Very substantial challenges"
+                },
+                "score": "Score",
+                "title": "Title"
+            },
+            "newTreatment": "New treatment",
+            "table": {
+                "actions": {
+                    "edit": "Edit",
+                    "statuses": "Statuses"
+                },
+                "alert": {
+                    "treatmentSuccessfullyDeleted": "Treatment successfully deleted"
+                },
+                "areaTypes": {
+                    "healthProfessionalDocumentation": "Health Professional Documentation",
+                    "functionalLevel": "Functional level",
+                    "musculoskeletalSystem": "Musculoskeletal system",
+                    "nutrition": "Nutrition",
+                    "skinAndMucousMembranes": "Skin and mucous membranes",
+                    "communication": "Communication",
+                    "psychosocialConditions": "Psychosocial conditions",
+                    "respirationAndCirculation": "Respiration and circulation",
+                    "sexuality": "Sexuality",
+                    "painAndSensoryImpressions": "Pain and sensory impressions",
+                    "sleepAndRest": "Sleep and rest",
+                    "knowledgeAndDevelopment": "Knowledge and development",
+                    "excretionOfWaste": "Excretion of waste"
+                },
+                "completed": "Completed",
+                "completionDate": "Completion date",
+                "confirmation": {
+                    "deleteTreatmentConfirmation": "Are you sure you want to delete this treatment"
+                },
+                "dateCompleted": "Date completed",
+                "dateCreated": "Date created",
+                "description": "Description",
+                "expectedLevels": {
+                    "minorChallenges": "Minor challenges",
+                    "moderateChallenges": "Moderate challenges",
+                    "significantChallenges": "Significant challenges",
+                    "severeChallenges": "Severe challenges",
+                    "verySubstantialChallenges": "Very substantial challenges"
+                },
+                "inProgress": "In progress",
+                "score": "Score",
+                "title": "Title"
+            },
+            "treatments": "Treatments"
         },
         "useOfForce": {
             "alert": {

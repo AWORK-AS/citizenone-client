@@ -767,7 +767,7 @@
             "noJournalToDisplay": "Ingen journal at vise"
         },
         "nursingAreas": {
-            "editNursingProfessionalRecords": "Rediger sundhedsfaglig optegnelse",
+            "editNursingProfessionalRecord": "Rediger sundhedsfaglig optegnelse",
             "form": {
                 "alert": {
                     "successfullyAdded": "Sundhedsfaglig optegnelse gemt med succes",
@@ -832,6 +832,87 @@
             "medicineCard": "Medicinkort",
             "health": "Sundhed",
             "plansAndGoals": "Planer og mål"
+        },
+        "treatments": {
+            "editTreatment": "Rediger behandling",
+            "form": {
+                "alert": {
+                    "treatmentSuccessfullyAdded": "Behandling gemt med succes",
+                    "TreatmentSuccessfullyUpdated": "Behandling opdateret med succes"
+                },
+                "areaTypes": {
+                    "healthProfessionalDocumentation": "Sundhedsfaglig dokumentation",
+                    "functionalLevel": "Funktionelt niveau",
+                    "musculoskeletalSystem": "Muskuloskeletalt system",
+                    "nutrition": "Ernæring",
+                    "skinAndMucousMembranes": "Hud og slimhinder",
+                    "communication": "Kommunikation",
+                    "psychosocialConditions": "Psykosociale forhold",
+                    "respirationAndCirculation": "Respiration og kredsløb",
+                    "sexuality": "Seksualitet",
+                    "painAndSensoryImpressions": "Smerte og sanseindtryk",
+                    "sleepAndRest": "Søvn og hvile",
+                    "knowledgeAndDevelopment": "Viden og udvikling",
+                    "excretionOfWaste": "Affaldsudskillelse"
+                },
+                "completionDate": "Afslutningsdato",
+                "dateCompleted": "Dato afsluttet",
+                "description": "Beskrivelse",
+                "expectedLevels": {
+                    "expectedLevel": "Expected level",
+                    "minorChallenges": "Mindre udfordringer",
+                    "moderateChallenges": "Moderate udfordringer",
+                    "significantChallenges": "Markante udfordringer",
+                    "severeChallenges": "Alvorlige udfordringer",
+                    "verySubstantialChallenges": "Meget store udfordringer"
+                },
+                "inProgress": "I gang",
+                "score": "Score",
+                "title": "Titel"
+            },
+            "newTreatment": "Ny behandling",
+            "table": {
+                "actions": {
+                    "edit": "Rediger",
+                    "statuses": "Statusser"
+                },
+                "alert": {
+                    "treatmentSuccessfullyDeleted": "Behandling slettet med succes"
+                },
+                "areaTypes": {
+                    "healthProfessionalDocumentation": "Sundhedsfaglig dokumentation",
+                    "functionalLevel": "Funktionelt niveau",
+                    "musculoskeletalSystem": "Muskuloskeletalt system",
+                    "nutrition": "Ernæring",
+                    "skinAndMucousMembranes": "Hud og slimhinder",
+                    "communication": "Kommunikation",
+                    "psychosocialConditions": "Psykosociale forhold",
+                    "respirationAndCirculation": "Respiration og kredsløb",
+                    "sexuality": "Seksualitet",
+                    "painAndSensoryImpressions": "Smerte og sanseindtryk",
+                    "sleepAndRest": "Søvn og hvile",
+                    "knowledgeAndDevelopment": "Viden og udvikling",
+                    "excretionOfWaste": "Affaldsudskillelse"
+                },
+                "completed": "Afsluttet",
+                "completionDate": "Afslutningsdato",
+                "confirmation": {
+                    "deleteTreatmentConfirmation": "Er du sikker på, at du vil slette denne behandling"
+                },
+                "dateCompleted": "Dato afsluttet",
+                "dateCreated": "Oprettelsesdato",
+                "description": "Beskrivelse",
+                "expectedLevels": {
+                    "minorChallenges": "Mindre udfordringer",
+                    "moderateChallenges": "Moderate udfordringer",
+                    "significantChallenges": "Markante udfordringer",
+                    "severeChallenges": "Alvorlige udfordringer",
+                    "verySubstantialChallenges": "Meget store udfordringer"
+                },
+                "score": "Score",
+                "title": "Titel"
+            },
+            "treatments": "Behandlinger"
         },
         "useOfForce": {
             "alert": {

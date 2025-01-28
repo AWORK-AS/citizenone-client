@@ -4,12 +4,12 @@
 
             <Head>
                 <Title>
-                    {{ $t('citizens.nursingAreas.editNursingProfessionalRecords') }} -
+                    {{ $t('citizens.nursingAreas.editNursingProfessionalRecord') }} -
                     {{ runtimeConfig?.public?.appName }}
                 </Title>
             </Head>
 
-            <template #header>{{ $t('citizens.nursingAreas.editNursingProfessionalRecords') }}</template>
+            <template #header>{{ $t('citizens.nursingAreas.editNursingProfessionalRecord') }}</template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
