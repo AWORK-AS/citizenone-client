@@ -55,7 +55,6 @@ const state = reactive({
     error: {} as Error,
     formCustomPage: {
         name: '',
-        page_type: ''
     },
 })
 
@@ -63,7 +62,6 @@ watch(() => props.selectedCustomPage, (newValue: any) => {
     if (newValue != null) {
         state.formCustomPage = {
             name: newValue.name,
-            page_type: newValue.page_type
         }
     }
 })

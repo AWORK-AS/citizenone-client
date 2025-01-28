@@ -18,8 +18,7 @@
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.customPages"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body
-                                v-if="!(state.isTableLoading || (state.customPages?.data?.length === 0))">
+                            <template #body v-if="!(state.isTableLoading || (state.customPages?.data?.length === 0))">
                                 <tr v-for="(customPages, index) in state.customPages?.data" :key="index">
                                     <td width="40%">
                                         <span>{{ customPages?.custom_name }}</span>
@@ -29,7 +28,7 @@
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/custom-pages/edit/${customPages.uuid}`)">
                                                 <Icon name="ph:pencil" class="size-4" />
-                                                {{ $t('journalNoteTags.table.actions.edit') }}
+                                                {{ $t('customPages.table.actions.edit') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -58,7 +57,7 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'journalNoteTags.table.name', sorter: true, key: 'name' },
+        { name: 'customPages.table.name', sorter: true, key: 'name' },
         { name: '' }
     ],
     dataFilter: {
@@ -66,9 +65,6 @@ const state = reactive({
     },
     error: {} as Error,
     customPages: [] as any,
-    modal: {
-        isDeleteJournalNoteTagOpen: false,
-    },
     pagination: {
         current_page: 1,
         last_page: 1,
@@ -99,7 +95,6 @@ async function fetchCustomPages() {
         const response = await customPagesService.getCustomPages(params)
         if (response) {
             state.customPages = response
-            console.log(response)
         }
     } catch (error: any) {
         state.error = error
