@@ -4,7 +4,7 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="name" :label="$t('journalNoteTags.form.name')" />
+                <FormLabel for="name" :label="$t('customPages.form.name')" />
                 <FormTextField id="name" name="name" :placeholder="$t('customPages.form.name')"
                     v-model="state.formCustomPage.name" />
                 <FormError :error="v$?.formCustomPage?.name?.$errors[0]?.$message.toString()" />
@@ -55,7 +55,7 @@ const state = reactive({
     error: {} as Error,
     formCustomPage: {
         name: '',
-        page_type:''
+        page_type: ''
     },
 })
 

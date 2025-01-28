@@ -1081,7 +1081,7 @@
     "customPages": {
         "addNewCustomPage": "Add new custom page",
         "alert": {
-            "customPageSuccessfullyDeleted": "Custom page tag successfully deleted"
+            "customPageSuccessfullyDeleted": "Custom page successfully deleted"
         },
         "editCustomPage": "Edit custom page",
         "form": {
@@ -1721,7 +1721,8 @@
                 "emailAddress": "Email address",
                 "firstname": "First name",
                 "lastname": "Last name",
-                "phone": "Phone"
+                "phone": "Phone",
+                "whatTypeOfPlacementsAreYouInterestedIn": "What type of placements are you interested in"
             },
             "getInquiriesViaFindSocialeTilbudDk": "Get inquiries via FindSocialeTilbud.dk",
             "showInterest": "Show interest"

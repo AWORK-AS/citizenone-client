@@ -1081,7 +1081,7 @@
     "customPages": {
         "addNewCustomPage": "Tilføj ny brugerdefineret side",
         "alert": {
-            "customPageSuccessfullyDeleted": "Brugerdefineret sideetiket blev slettet med succes"
+            "customPageSuccessfullyDeleted": "Brugertilpasset side slettet med succes"
         },
         "editCustomPage": "Rediger brugerdefineret side",
         "form": {
@@ -1721,9 +1721,10 @@
                 "emailAddress": "E-mailadresse",
                 "firstname": "Fornavn",
                 "lastname": "Efternavn",
-                "phone": "Telefon"
+                "phone": "Telefon",
+                "whatTypeOfPlacementsAreYouInterestedIn": "Hvilken type anbringelser er du interesseret i"
             },
-            "getInquiriesViaFindSocialeTilbudDk": "Få forespørgsler via FindSocialeTilbud.dk",
+            "getInquiriesViaFindSocialeTilbudDk": "Udfyld formularen for at få henvendelser fra sagsbehandlere",
             "showInterest": "Vis interesse"
         }
     },
