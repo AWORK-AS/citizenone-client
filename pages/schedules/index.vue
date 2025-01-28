@@ -6,7 +6,7 @@
                 <Title>
                     {{
                         customPage('duty-schedules') === 'Duty schedules' ?
-                            $t('sidebar.dutySchedules') :
+                            $t('dutySchedules.dutySchedules') :
                             customPage('duty-schedules')
                     }}
                     -
@@ -17,7 +17,7 @@
             <template #header>
                 {{
                     customPage('duty-schedules') === 'Duty schedules' ?
-                        $t('sidebar.dutySchedules') :
+                        $t('dutySchedules.dutySchedules') :
                         customPage('duty-schedules')
                 }}
             </template>

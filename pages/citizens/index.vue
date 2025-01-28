@@ -3,10 +3,24 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('citizens.citizens') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>
+                    {{
+                        customPage('citizens') === 'Citizens' ?
+                            $t('citizens.citizens') :
+                            customPage('citizens')
+                    }}
+                    -
+                    {{ runtimeConfig?.public?.appName }}
+                </Title>
             </Head>
 
-            <template #header>{{ $t('citizens.citizens') }}</template>
+            <template #header>
+                {{
+                    customPage('citizens') === 'Citizens' ?
+                        $t('citizens.citizens') :
+                        customPage('citizens')
+                }}
+            </template>
 
             <div>
                 <div class="flex justify-end items-center mb-5" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
@@ -114,6 +128,11 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
         fetchCitizens()
     }
 })
+
+function customPage(page: String) {
+    return userStore.getUser?.custom_pages.find((item: any) => item.page_type ===
+        page)?.custom_name
+}
 
 async function fetchCitizens() {
     state.error = {}

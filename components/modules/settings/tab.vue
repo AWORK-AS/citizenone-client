@@ -182,7 +182,7 @@ function changeTab(value: any) {
     else if (value === t('settings.tabs.company')) {
         navigateTo(`/settings/company`)
     }
-    else if (value === t('settings.tabs.custom-pages')) {
+    else if (value === t('settings.tabs.customPages')) {
         navigateTo(`/settings/custom-pages`)
     }
     else if (value === t('settings.tabs.invoices')) {

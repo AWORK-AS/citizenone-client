@@ -45,7 +45,11 @@
                                                             {{ $t('sidebar.dailyOverview') }}
                                                         </span>
                                                         <span v-if="item.name === 'Citizens'">
-                                                            {{ $t('sidebar.citizens') }}
+                                                            {{
+                                                                customPage('citizens') === 'Citizens' ?
+                                                                    $t('sidebar.citizens') :
+                                                                    customPage('citizens')
+                                                            }}
                                                         </span>
                                                         <span v-if="item.name === 'Calendar'">
                                                             {{ $t('sidebar.calendar') }}
@@ -141,7 +145,11 @@
                                             {{ $t('sidebar.dailyOverview') }}
                                         </span>
                                         <span v-if="item.name === 'Citizens'">
-                                            {{ $t('sidebar.citizens') }}
+                                            {{
+                                                customPage('citizens') === 'Citizens' ?
+                                                    $t('sidebar.citizens') :
+                                                    customPage('citizens')
+                                            }}
                                         </span>
                                         <span v-if="item.name === 'Calendar'">
                                             {{ $t('sidebar.calendar') }}
