@@ -20,10 +20,6 @@ class CustomPagesService extends BaseAPIService {
     async deleteCustomPage(customPageUuid: any): Promise<any> {
         return await this.request(`/user/custom-pages/${customPageUuid}`, 'DELETE')
     }
-
-    async getAllCustomPages(): Promise<any> {
-        return await this.request(`/user/custom-pages/all/list`, 'GET')
-    }
 }
 
 export const customPagesService = new CustomPagesService()

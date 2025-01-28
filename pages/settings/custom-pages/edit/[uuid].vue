@@ -8,8 +8,7 @@
 
             <template #header>{{ $t('customPages.editCustomPage') }}</template>
 
-            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                to="/settings/custom-pages">
+            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/settings/custom-pages">
                 <Icon name="ph:arrow-left" size="20" class="text-black" />
                 <span>{{ $t('back') }}</span>
             </NuxtLink>
@@ -37,16 +36,15 @@ const state = reactive({
     error: {} as Error,
     formCustomPage: {
         name: '',
-        page_type:''
     },
     isPageLoading: false,
 })
 
 onMounted(() => {
-    fetchJournalNoteTag()
+    fetchCustomPage()
 })
 
-async function fetchJournalNoteTag() {
+async function fetchCustomPage() {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -54,7 +52,6 @@ async function fetchJournalNoteTag() {
         if (response) {
             state.formCustomPage = {
                 name: response?.data?.custom_name ?? '',
-                page_type: response?.data?.page_type ?? ''
             }
         }
     } catch (error: any) {

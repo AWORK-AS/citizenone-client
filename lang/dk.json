@@ -1079,27 +1079,18 @@
         }
     },
     "customPages": {
-        "addNewCustomPage": "Tilføj ny brugerdefineret side",
-        "alert": {
-            "customPageSuccessfullyDeleted": "Brugerdefineret sideetiket blev slettet med succes"
-        },
         "editCustomPage": "Rediger brugerdefineret side",
         "form": {
             "alert": {
-                "customPageSuccessfullyUpdated": "Brugerdefineret side blev opdateret med succes",
-                "newCustomPageSuccessfullySaved": "Ny brugerdefineret side blev gemt med succes"
+                "customPageSuccessfullyUpdated": "Brugerdefineret side blev opdateret med succes"
             },
             "name": "Navn"
         },
         "customPages": "Brugerdefinerede sider",
-        "newCustomPage": "Ny brugerdefineret side",
         "table": {
             "actions": {
                 "delete": "Slet",
                 "edit": "Rediger"
-            },
-            "confirmation": {
-                "deleteCustomPageConfirmation": "Er du sikker på, at du vil slette denne brugerdefinerede side"
             },
             "name": "Navn"
         }
@@ -1721,9 +1712,10 @@
                 "emailAddress": "E-mailadresse",
                 "firstname": "Fornavn",
                 "lastname": "Efternavn",
-                "phone": "Telefon"
+                "phone": "Telefon",
+                "whatTypeOfPlacementsAreYouInterestedIn": "Hvilken type anbringelser er du interesseret i"
             },
-            "getInquiriesViaFindSocialeTilbudDk": "Få forespørgsler via FindSocialeTilbud.dk",
+            "getInquiriesViaFindSocialeTilbudDk": "Udfyld formularen for at få henvendelser fra sagsbehandlere",
             "showInterest": "Vis interesse"
         }
     },

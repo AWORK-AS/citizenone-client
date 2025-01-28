@@ -126,7 +126,8 @@
                                 class="transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in bg-transparent rounded-md p-8 xl:p-10 flex flex-col justify-between h-full">
                                 <div>
                                     <h3 class="text-2xl font-bold text-tertiary mb-4">
-                                        {{ $t('findsocialetilbuddk.showInterest.getInquiriesViaFindSocialeTilbudDk')
+                                        {{
+                                            $t('findsocialetilbuddk.showInterest.getInquiriesViaFindSocialeTilbudDk')
                                         }}
                                     </h3>
                                     <div class="space-y-4 text-gray-700">
@@ -253,13 +254,13 @@ const handleButtonClick = (flag: any) => {
         state.modal.isModalZeroOpen = false
         userStore.setInTutorial(false)
     }
-    else if(flag == "1"){
+    else if (flag == "1") {
         console.log("MODAL: " + flag)
         state.modal.isOverlayVisible = !state.modal.isOverlayVisible
         state.modal.isModalVisible = false
         userStore.setInTutorial(false)
     }
-    else if(flag == "2"){
+    else if (flag == "2") {
         console.log("MODAL: " + flag)
         state.modal.isOverlayVisible = !state.modal.isOverlayVisible
         state.modal.isModalTwoVisible = false
