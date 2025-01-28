@@ -2491,7 +2491,8 @@
             "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ud til, at du ikke har et aktivt abonnement i øjeblikket",
             "noActiveSubscription": "Ingen aktiv abonnement",
             "toEnjoyOurFullRangeOfServicesAndBenefits": "For at nyde vores fulde udvalg af tjenester og fordele, overvej at abonnere på en af vores planer",
-            "subscribeNow": "Abonnér nu"
+            "subscribeNow": "Abonnér nu",
+            "upgrade": "Opgrader"
         },
         "subscribed": {
             "goHome": "Gå hjem",

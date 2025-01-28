@@ -196,7 +196,6 @@
                         </li>
                         <li class="mt-auto space-y-2">
                             <ModulesTimeRegistrationCheckInOut />
-                            <ModulesSidebarSubscribeButton v-if="userStore.getUser?.user_subscription === null" />
                             <ModulesSidebarCompanyId />
                         </li>
                     </ul>
@@ -225,7 +224,9 @@
                             <ModulesDepartmentSelection />
                         </div>
                     </div>
-                    <div class="flex items-center gap-x-4 lg:gap-x-3">
+                    <div class="flex items-center gap-x-1 lg:gap-x-3">
+                        <ModulesNavbarSubscribeButton v-if="userStore.getUser?.user_subscription === null"
+                            class="hidden md:block" />
                         <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
                             @click="navigateTo('/journal-notifications')">
                             <Icon name="ph:bell" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
