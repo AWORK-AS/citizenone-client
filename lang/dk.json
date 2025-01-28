@@ -1548,6 +1548,7 @@
             "successfullyDeleted": "Begivenhed slettet med succes",
             "successfullyUpdated": "Begivenhed blev opdateret med succes"
         },
+        "calendar": "Kalender",
         "citizens": "Citizens",
         "createdBy": "Oprettet af",
         "confirmation": {
@@ -1567,7 +1568,6 @@
             "sendInvitation": "Send invitationen",
             "title": "Titel"
         },
-        "myCalendar": "Min kalender",
         "myself": "Myself",
         "newEvent": "Ny begivenhed",
         "noEventFound": "Ingen begivenhed fundet",
@@ -2427,12 +2427,12 @@
     },
     "sidebar": {
         "bulletBoard": "Opslagstavle",
+        "calendar": "Kalender",
         "companyId": "Virksomheds-ID",
         "coupons": "Kuponer",
         "dailyOverview": "Daglig oversigt",
         "citizens": "Borgere",
         "documents": "Dokumenter",
-        "myCalendar": "Min kalender",
         "dutySchedules": "Vagtskema",
         "employees": "Medarbejdere",
         "messages": "Beskeder",

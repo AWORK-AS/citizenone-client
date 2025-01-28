@@ -47,8 +47,8 @@
                                                         <span v-if="item.name === 'Citizens'">
                                                             {{ $t('sidebar.citizens') }}
                                                         </span>
-                                                        <span v-if="item.name === 'My calendar'">
-                                                            {{ $t('sidebar.myCalendar') }}
+                                                        <span v-if="item.name === 'Calendar'">
+                                                            {{ $t('sidebar.calendar') }}
                                                         </span>
                                                         <span v-if="item.name === 'Duty schedules'">
                                                             {{ $t('sidebar.dutySchedules') }}
@@ -145,8 +145,8 @@
                                         <span v-if="item.name === 'Citizens'">
                                             {{ $t('sidebar.citizens') }}
                                         </span>
-                                        <span v-if="item.name === 'My calendar'">
-                                            {{ $t('sidebar.myCalendar') }}
+                                        <span v-if="item.name === 'Calendar'">
+                                            {{ $t('sidebar.calendar') }}
                                         </span>
                                         <span v-if="item.name === 'Duty schedules'">
                                             {{ $t('sidebar.dutySchedules') }}
@@ -439,7 +439,7 @@ const navigation = [
         ]
     },
     {
-        name: 'My calendar',
+        name: 'Calendar',
         href: '/calendar',
         icon: 'ph:calendar-blank',
         activeRouteNames: [

@@ -1548,6 +1548,7 @@
             "successfullyDeleted": "Event successfully deleted",
             "successfullyUpdated": "Event successfully updated"
         },
+        "calendar": "Calendar",
         "createdBy": "Created by",
         "citizens": "Citizens",
         "confirmation": {
@@ -1567,7 +1568,6 @@
             "sendInvitation": "Send invitation",
             "title": "Title"
         },
-        "myCalendar": "My calendar",
         "myself": "Myself",
         "newEvent": "New event",
         "noEventFound": "No event found",
@@ -2427,12 +2427,12 @@
     },
     "sidebar": {
         "bulletBoard": "Bullet board",
+        "calendar": "Calendar",
         "companyId": "Company ID",
         "coupons": "Coupons",
         "dailyOverview": "Daily overview",
         "citizens": "Citizens",
         "documents": "Documents",
-        "myCalendar": "My calendar",
         "dutySchedules": "Duty schedules",
         "employees": "Employees",
         "messages": "Messages",
