@@ -51,7 +51,11 @@
                                                             {{ $t('sidebar.calendar') }}
                                                         </span>
                                                         <span v-if="item.name === 'Duty schedules'">
-                                                            {{ $t('sidebar.dutySchedules') }}
+                                                            {{
+                                                                customPage('duty-schedules') === 'Duty schedules' ?
+                                                                    $t('sidebar.dutySchedules') :
+                                                                    customPage('duty-schedules')
+                                                            }}
                                                         </span>
                                                         <span v-if="item.name === 'Procedures'">
                                                             {{ $t('sidebar.procedures') }}
@@ -143,7 +147,11 @@
                                             {{ $t('sidebar.calendar') }}
                                         </span>
                                         <span v-if="item.name === 'Duty schedules'">
-                                            {{ $t('sidebar.dutySchedules') }}
+                                            {{
+                                                customPage('duty-schedules') === 'Duty schedules' ?
+                                                    $t('sidebar.dutySchedules') :
+                                                    customPage('duty-schedules')
+                                            }}
                                         </span>
                                         <span v-if="item.name === 'Procedures'">
                                             {{ $t('sidebar.procedures') }}
@@ -539,6 +547,11 @@ async function fetchUser() {
     } catch (error: any) {
         state.error = error
     }
+}
+
+function customPage(page: String) {
+    return userStore.getUser?.custom_pages.find((item: any) => item.page_type ===
+        page)?.custom_name
 }
 
 function checkInReminderModalVisibility(response: any) {
