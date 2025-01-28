@@ -511,7 +511,7 @@
                 "owner": "Ejer"
             },
             "template": "Skabelon",
-            "upgradeStorage": "Opgrader lager",
+            "upgradeStorage": "Opgradér lager",
             "uploadFile": "Upload fil",
             "useTemplate": "Brug skabelon"
         },
@@ -1400,7 +1400,7 @@
             "name": "Navn",
             "owner": "Ejer"
         },
-        "upgradeStorage": "Opgrader lagerplads",
+        "upgradeStorage": "Opgradér lagerplads",
         "uploadFile": "Upload fil"
     },
     "employees": {
@@ -2492,7 +2492,7 @@
             "noActiveSubscription": "Ingen aktiv abonnement",
             "toEnjoyOurFullRangeOfServicesAndBenefits": "For at nyde vores fulde udvalg af tjenester og fordele, overvej at abonnere på en af vores planer",
             "subscribeNow": "Abonnér nu",
-            "upgrade": "Opgrader"
+            "upgradeNow": "Opgradér nu"
         },
         "subscribed": {
             "goHome": "Gå hjem",
@@ -2503,7 +2503,7 @@
             "yourSubscriptionIsNowActive": "Dit abonnement er nu aktivt"
         },
         "subscription": "Abonnement",
-        "upgrade": "Opgrader",
+        "upgrade": "Opgradér",
         "updateSubscription": "Opdater abonnement"
     },
     "support": {
@@ -2531,8 +2531,8 @@
         },
         "month": "Måned",
         "storage": "Lagerplads",
-        "upgrade": "Opgrader",
-        "upgradeOptions": "Opgraderingsmuligheder"
+        "upgrade": "Opgradér",
+        "upgradeOptions": "Opgradéringsmuligheder"
     },
     "submit": "Indsend",
     "superadmin": {
