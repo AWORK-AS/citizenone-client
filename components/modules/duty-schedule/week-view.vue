@@ -310,7 +310,7 @@
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'regular_shift')"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Tooltip :text="$t('dutySchedules.removeSchedule')">
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -339,7 +339,7 @@
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'awake_night_shift')"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Tooltip :text="$t('dutySchedules.removeSchedule')">
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -368,7 +368,7 @@
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Tooltip :text="$t('dutySchedules.removeSchedule')">
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -397,7 +397,7 @@
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'vacation_leave')"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Tooltip :text="$t('dutySchedules.removeSchedule')">
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -426,7 +426,7 @@
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'sick_leave')"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Tooltip :text="$t('dutySchedules.removeSchedule')">
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -541,6 +541,7 @@ const state = reactive({
         showProgressBar: false,
         totalRequests: 0,
     },
+    removingShift: false,
     weeklySchedules: [] as any,
 })
 
@@ -831,10 +832,10 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
     }
 }
 
-async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: number, shiftType: any) {
-    const scheduleUuid = week.shifts.find((shift: any) => shift.name === shiftType).schedule_uuid
-    const shiftIndexToRemove = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.splice(shiftIndexToRemove, 1)
+async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: number, shift: any, shiftIndex: number) {
+    state.removingShift = true
+    const scheduleUuid = shift.schedule_uuid
+    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.splice(shiftIndex, 1)
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -844,18 +845,22 @@ async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: nu
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
-            fetchDutySchedule()
+            await fetchDutySchedule()
         }
     } catch (error: any) {
         state.error = error
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+    } finally {
+        state.removingShift = false
     }
 }
 
 function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
     if (!isScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
+
+    if (state.removingShift) return
 
     const timeIn = event.target.value
     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_in = timeIn
@@ -875,6 +880,8 @@ function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: a
 
 function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
     if (!isScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
+
+    if (state.removingShift) return
 
     const timeOut = event.target.value
     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_out = timeOut
