@@ -482,8 +482,9 @@
             <ModulesDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDepartmentSickLeaveDate" />
-            <ModulesDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
-                @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift" />
+            <ModulesDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :error="state.newShiftError"
+                @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
+                @resetNewShiftError="state.newShiftError = {}" />
             <ModulesDutyScheduleScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
                 :selectedDay="state.manageScheduleSlot.selectedDay"
                 @close="state.modal.isManageScheduleSlotOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
@@ -535,6 +536,7 @@ const state = reactive({
         isDownloadOpen: false,
         isManageScheduleSlotOpen: false,
     } as any,
+    newShiftError: {} as Error,
     progress: {
         percentage: 100,
         pendingRequests: 0,
@@ -676,25 +678,19 @@ function openManageScheduleSlotModal(day: any) {
 }
 
 async function saveShift(shiftDetails: any) {
-    console.log('shiftDetails', shiftDetails)
     const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex
-    const weekIndex = state.addShift.selectedEmployeeSchedules.weekIndex
     const shiftType = shiftDetails.shift_type
-    // Check if shift already existed
-    // if (!(state.weeklySchedules[state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedules.weekIndex].shifts.find((shift: any) => shift.name === shiftDetails.shift_type))) {
     const params = {
         shift_type: shiftType,
-        // date: state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
         in_meeting: shiftDetails.in_meeting,
     }
-    saveDutySchedule(params, weeklyScheduleIndex, weekIndex, 'new_shift')
-    // }
+    saveDutySchedule(params)
 }
 
-async function saveDutySchedule(params: object, weeklyScheduleIndex: number, weekIndex: any, action: string) {
+async function saveDutySchedule(params: object) {
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -705,27 +701,10 @@ async function saveDutySchedule(params: object, weeklyScheduleIndex: number, wee
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
             fetchDutySchedule()
-            // if (action === 'new_shift') {
-            //     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
-            //         name: response?.data?.shift_type,
-            //         time_in: response?.data?.time_in,
-            //         time_out: response?.data?.time_out,
-            //         schedule_uuid: response?.data?.uuid,
-            //     })
-            // } else if (action === 'paste_shifts') {
-            //     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = []
-            //     response?.data.forEach((shift: any) => {
-            //         state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
-            //             name: shift?.shift_type,
-            //             time_in: shift?.time_in,
-            //             time_out: shift?.time_out,
-            //             schedule_uuid: shift?.uuid,
-            //         })
-            //     })
-            // }
+            state.modal.isAddShiftOpen = false
         }
     } catch (error: any) {
-        state.error = error
+        state.newShiftError = error
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
@@ -785,7 +764,7 @@ async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: num
         date_source: dateSource,
         date_destination: dateDestination,
     }
-    saveDutySchedule(params, weeklyScheduleIndex, weekIndex, 'paste_shifts')
+    saveDutySchedule(params)
 }
 
 function isAllWeeklyScheduleCopiedEmpty() {
@@ -845,7 +824,7 @@ async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: nu
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
-            await fetchDutySchedule()
+            fetchDutySchedule()
         }
     } catch (error: any) {
         state.error = error
