@@ -15,43 +15,45 @@
 				<ul class="list-none text-gray-600 text-base space-y-3 mb-4">
 					<li>
 						<span v-if="language.locale.value === 'en'">
-							📄 Journalizing: Easy and clear documentation, FMK, financial managemen
+							<strong>📄 Journalizing:</strong> Easy and clear documentation, FMK, financial managemen
 						</span>
 						<span v-if="language.locale.value === 'dk'">
-							📄 Journalisering: Nem og overskuelig dokumentation, FMK, økonomistyring
+							<strong>📄 Journalisering:</strong> Nem og overskuelig dokumentation, FMK, økonomistyring
 						</span>
 					</li>
 					<li>
 						<span v-if="language.locale.value === 'en'">
-							👥 Employee management: Shift scheduling, time tracking, calendar, etc.
+							<strong>👥 Employee management:</strong> Shift scheduling, time tracking, calendar, etc.
 						</span>
 						<span v-if="language.locale.value === 'dk'">
-							👥 Medarbejderstyring: Vagtplanlægning, tidsregistrering, kalender m.m.
+							<strong>👥 Medarbejderstyring:</strong> Vagtplanlægning, tidsregistrering, kalender m.m.
 						</span>
 					</li>
 					<li>
 						<span v-if="language.locale.value === 'en'">
-							📧 Communication tools: Internal chat for employees and citizens.
+							<strong>📧 Communication tools:</strong> Internal chat for employees and citizens.
 						</span>
 						<span v-if="language.locale.value === 'dk'">
-							📧 Kommunikationsværktøjer: Intern chat medarbejder og borger
+							<strong>📧 Kommunikationsværktøjer:</strong> Intern chat medarbejder og borger
 						</span>
 					</li>
 					<li>
 						<span v-if="language.locale.value === 'en'">
-							🕒 Shift scheduling: Simple and flexible scheduling of shifts.
+							<strong>🕒 Shift scheduling:</strong> Simple and flexible scheduling of shifts.
 						</span>
 						<span v-if="language.locale.value === 'dk'">
-							🕒 Vagtplanlægning: Enkel og fleksibel planlægning af vagter
+							<strong>🕒 Vagtplanlægning:</strong> Enkel og fleksibel planlægning af vagter
 						</span>
 					</li>
 					<li>
 						<span v-if="language.locale.value === 'en'">
-							📱 iOS and Android apps: Work easily on the go with full access to the system directly from
+							<strong>📱 iOS and Android apps:</strong> Work easily on the go with full access to the
+							system directly from
 							your smartphone.
 						</span>
 						<span v-if="language.locale.value === 'dk'">
-							📱 iOS- og Android-apps: Arbejd nemt på farten med fuld adgang til systemet direkte fra din
+							<strong>📱 iOS- og Android-apps:</strong> Arbejd nemt på farten med fuld adgang til systemet
+							direkte fra din
 							smartphone
 						</span>
 					</li>
