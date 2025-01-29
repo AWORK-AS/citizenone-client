@@ -123,8 +123,8 @@ async function saveShift() {
         emit('saveShift', state.formShift)
         state.formShift = {
             shift_type: '',
-            date_time_start: '',
-            date_time_end: '',
+            date_time_start: moment().startOf('day').format('YYYY-MM-DD H:mm'),
+            date_time_end: moment().endOf('day').format('YYYY-MM-DD H:mm'),
             in_meeting: false,
         }
         v$.value.$reset()
