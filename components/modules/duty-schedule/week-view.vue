@@ -670,6 +670,7 @@ function openManageScheduleSlotModal(day: any) {
 }
 
 async function saveShift(shiftDetails: any) {
+    console.log('shiftDetails', shiftDetails)
     const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex
     const weekIndex = state.addShift.selectedEmployeeSchedules.weekIndex
     const shiftType = shiftDetails.shift_type
@@ -677,9 +678,9 @@ async function saveShift(shiftDetails: any) {
     if (!(state.weeklySchedules[state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedules.weekIndex].shifts.find((shift: any) => shift.name === shiftDetails.shift_type))) {
         const params = {
             shift_type: shiftType,
-            date: state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date,
-            time_in: '08:00',
-            time_out: '17:00',
+            // date: state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date,
+            date_time_start: shiftDetails.date_time_start,
+            date_time_end: shiftDetails.date_time_end,
             user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
             in_meeting: shiftDetails.in_meeting,
         }

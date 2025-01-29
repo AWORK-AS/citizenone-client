@@ -36,7 +36,7 @@ const config = ref({
 })
 
 const state = reactive({
-    dateValue: '',
+    dateValue: props.modelValue ? formatDateToDDMMMMYYYYHHmm(props.modelValue) : '' as any,
 })
 
 
@@ -54,14 +54,18 @@ function updateValue(event: any) {
 }
 
 function formatDateToYYYYMMDDHHmm(dateString: any) {
-    let date = moment(dateString, 'DD. MMMM YYYY HH:mm')
-    let formattedDate = date.format('YYYY-MM-DD H:mm')
-    return formattedDate
+    if (dateString) {
+        let date = moment(dateString, 'DD. MMMM YYYY HH:mm')
+        let formattedDate = date.format('YYYY-MM-DD H:mm')
+        return formattedDate
+    }
 }
 
 function formatDateToDDMMMMYYYYHHmm(dateString: any) {
-    let date = moment(dateString, 'YYYY-MM-DD H:mm')
-    let formattedDate = date.format('DD. MMMM YYYY HH:mm')
-    return formattedDate
+    if (dateString) {
+        let date = moment(dateString, 'YYYY-MM-DD H:mm')
+        let formattedDate = date.format('DD. MMMM YYYY HH:mm')
+        return formattedDate
+    }
 }
 </script>

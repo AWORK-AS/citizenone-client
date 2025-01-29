@@ -10,6 +10,21 @@
                                 v-model="state.formShift.shift_type" />
                             <FormError :error="v$?.formShift?.shift_type?.$errors[0]?.$message.toString()" />
                         </div>
+                        <div class="space-y-1">
+                            {{ state.formShift.date_time_start }}
+                            <FormLabel for="date_time_start" :label="$t('dutySchedules.form.datetimeStart')" />
+                            <FormDateTimeField id="date_time_start" name="date_time_start"
+                                :placeholder="`${$t('dutySchedules.form.datetimeStart')}`"
+                                v-model="state.formShift.date_time_start" />
+                            <FormError :error="v$?.formShift.date_time_start?.$errors[0]?.$message.toString()" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="date_time_end" :label="$t('dutySchedules.form.dateTimeEnd')" />
+                            <FormDateTimeField id="date_time_end" name="date_time_end"
+                                :placeholder="`${$t('dutySchedules.form.dateTimeEnd')}`"
+                                v-model="state.formShift.date_time_end" />
+                            <FormError :error="v$?.formShift.date_time_end?.$errors[0]?.$message.toString()" />
+                        </div>
                         <div>
                             <div class="w-fit flex items-center cursor-pointer"
                                 @click="state.formShift.in_meeting = !state.formShift.in_meeting">
@@ -35,6 +50,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import type { Error } from '@/types'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -53,8 +69,10 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formShift: {
-        in_meeting: false,
         shift_type: '',
+        date_time_start: moment().startOf('day').format('YYYY-MM-DD H:mm'),
+        date_time_end: moment().endOf('day').format('YYYY-MM-DD H:mm'),
+        in_meeting: false,
     },
     options: {
         shifts: [
@@ -83,6 +101,12 @@ const rules = computed(() => {
             shift_type: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            date_time_start: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            date_time_end: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
         },
     }
 })
@@ -97,6 +121,13 @@ async function saveShift() {
     if (!v$.value.$error) {
         closeModal()
         emit('saveShift', state.formShift)
+        state.formShift = {
+            shift_type: '',
+            date_time_start: '',
+            date_time_end: '',
+            in_meeting: false,
+        }
+        v$.value.$reset()
     }
 }
 </script>
