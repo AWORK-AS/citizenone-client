@@ -558,7 +558,7 @@ async function fetchUser() {
 }
 
 function customPage(page: String) {
-    return userStore.getUser?.custom_pages.find((item: any) => item.page_type ===
+    return userStore.getUser?.custom_pages?.find((item: any) => item.page_type ===
         page)?.custom_name
 }
 

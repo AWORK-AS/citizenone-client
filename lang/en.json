@@ -3044,5 +3044,6 @@
             "sendMessage": "Send message"
         }
     },
-    "yes": "Yes"
+    "yes": "Yes",
+    "youDontHaveAccessToThisPage": "You do not have access to this page. Please contact your administrator"
 }

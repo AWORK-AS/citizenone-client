@@ -3044,5 +3044,6 @@
             "sendMessage": "Send besked"
         }
     },
-    "yes": "Ja"
+    "yes": "Ja",
+    "youDontHaveAccessToThisPage": "Du har ikke adgang til denne side. Kontakt venligst din administrator"
 }
