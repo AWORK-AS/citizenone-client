@@ -1,18 +1,20 @@
 <template>
     <div>
-        <!-- Modal -->
         <div v-if="props.isModalZeroOpen"
-            class="fixed bottom-10 left-99 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md overflow-hidden">
-            <!-- Top-right corner image -->
-            <img src="/img/icons/asset-01.svg" alt="Image failed to load"
-                class="w-52 absolute -top-14 -right-14 z-10 opacity-70" id="animatedImage">
+            class="fixed bottom-10 left-99 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md"
+            :class="modalClasses">
+
+            <div class="absolute top-0 right-0 w-52 h-52 overflow-hidden">
+                <img src="/img/icons/asset-01.svg" alt="Image failed to load"
+                    class="absolute -top-14 -right-14 z-10 opacity-70 object-cover" id="animatedImage">
+            </div>
 
             <div class="flex justify-between items-center mb-4">
                 <span v-if="language.locale.value === 'en'">
-                    <h3 class="text-lg font-semibold">Step 1: FindSocialeTilbud.dk is part of CitizenOne</h3>
+                    <h3 class="text-lg font-semibold">FindSocialeTilbud.dk is a part of CitizenOne.</h3>
                 </span>
                 <span v-if="language.locale.value === 'dk'">
-                    <h3 class="text-lg font-semibold">Step 1: FindSocialeTilbud.dk er en del af CitizenOne</h3>
+                    <h3 class="text-lg font-semibold">FindSocialeTilbud.dk er en del af CitizenOne</h3>
                 </span>
                 <button type="button"
                     class="top-4 right-3 z-10 outline-none px-0 py-2 text-gray-800 hover:text-gray-700"
@@ -22,12 +24,10 @@
             </div>
             <p class="text-sm text-gray-700 mb-4">
                 <span v-if="language.locale.value === 'en'">
-                    You are now logged in and can manage your profile on FindSocialeTilbud.dk right here. Gain an
-                    overview and control of your information.
+                    Keep your profile updated to ensure that potential caseworkers receive accurate information.
                 </span>
                 <span v-if="language.locale.value === 'dk'">
-                    Du er nu logget ind og kan administrere din profil på FindSocialeTilbud.dk lige her. Her får du
-                    overblik og kontrol over dine oplysninger.
+                    Hold din profil opdateret for at sikre, at potentielle sagsbehandlere får korrekt information.
                 </span>
             </p>
             <ul class="list-disc list-inside text-gray-600 text-sm space-y-2">
@@ -41,18 +41,10 @@
                 </li>
                 <li>
                     <span v-if="language.locale.value === 'en'">
-                        Add relevant services or offerings to reach the right audience.
+                        Add relevant services or offers to reach the right audience.
                     </span>
                     <span v-if="language.locale.value === 'dk'">
                         Tilføj relevante ydelser eller tilbud, så du når ud til de rette.
-                    </span>
-                </li>
-                <li>
-                    <span v-if="language.locale.value === 'en'">
-                        Keep your profile updated to ensure that potential caseworkers receive accurate information.
-                    </span>
-                    <span v-if="language.locale.value === 'dk'">
-                        Hold din profil opdateret for at sikre, at potentielle sagsbehandlere får korrekt information.
                     </span>
                 </li>
             </ul>
@@ -98,4 +90,28 @@ const handleNext = () => {
     scrollToBottom()
     handleClose()
 }
+const pageHeight = ref(window.innerHeight);
+
+const updatePageHeight = () => {
+    pageHeight.value = window.innerHeight;
+};
+
+onMounted(() => {
+    window.addEventListener("resize", updatePageHeight);
+    console.log(pageHeight.value)
+});
+
+onUnmounted(() => {
+    window.removeEventListener("resize", updatePageHeight);
+});
+
+const modalClasses = computed(() => {
+    return `fixed bottom-16 left-99 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md
+        after:absolute after:-left-4 after:w-0 after:h-0 after:border-t-[20px] after:border-t-transparent
+        after:border-b-[20px] after:border-b-transparent after:border-r-[20px] after:border-r-white
+        ${pageHeight.value < 800 ? "after:top-56" : "after:top-4"}`;
+});
+
+
+
 </script>
