@@ -21,7 +21,18 @@
                             <template #body v-if="!(state.isTableLoading || (state.customPages?.data?.length === 0))">
                                 <tr v-for="(customPages, index) in state.customPages?.data" :key="index">
                                     <td width="40%">
-                                        <span>{{ customPages?.custom_name }}</span>
+                                        <span v-if="customPages?.custom_name === 'Citizens'">
+                                            {{ $t('customPages.table.citizens') }}
+                                        </span>
+                                        <span v-else-if="customPages?.custom_name === 'Duty Schedules'">
+                                            {{ $t('customPages.table.dutySchedules') }}
+                                        </span>
+                                        <span v-else-if="customPages?.custom_name === 'Risk Assessments'">
+                                            {{ $t('customPages.table.riskAssessments') }}
+                                        </span>
+                                        <span v-else>
+                                            {{ customPages?.custom_name }}
+                                        </span>
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end gap-2">

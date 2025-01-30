@@ -1092,7 +1092,10 @@
                 "delete": "Delete",
                 "edit": "Edit"
             },
-            "name": "Name"
+            "citizens": "Citizens",
+            "dutySchedules": "Duty schedules",
+            "name": "Name",
+            "riskAssessments": "Risk assessments"
         }
     },
     "chooseFile": "Choose file",

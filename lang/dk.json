@@ -1092,7 +1092,10 @@
                 "delete": "Slet",
                 "edit": "Rediger"
             },
-            "name": "Navn"
+            "citizens": "Borgere",
+            "dutySchedules": "Vagtplaner",
+            "name": "Navn",
+            "riskAssessments": "Risikovurderinger"
         }
     },
     "chooseFile": "Vælg fil",
