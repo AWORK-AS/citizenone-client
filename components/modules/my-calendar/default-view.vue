@@ -64,15 +64,29 @@
                     </div>
                 </div>
             </div>
-            <ol class="mt-4 space-y-2 text-sm leading-6 lg:col-span-7 xl:col-span-8">
+            <ol class="text-sm leading-6 lg:col-span-7 xl:col-span-8">
                 <p v-if="props.myCalendarEvents?.data?.length < 1" class="text-center py-28">
                     {{ $t('events.noEventFound') }}
                 </p>
+                <div class="md:flex gap-x-3 text-sm">
+                    <div class="flex items-center gap-x-2">
+                        <div class="w-3 h-3 rounded-sm bg-primary"></div>
+                        <span>{{ $t('events.myself') }}</span>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <div class="w-3 h-3 rounded-sm bg-green-700"></div>
+                        <span>{{ $t('events.employees') }}</span>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <div class="w-3 h-3 rounded-sm bg-yellow-500"></div>
+                        <span>{{ $t('events.citizens') }}</span>
+                    </div>
+                </div>
                 <li v-for="(myCalendarEvent, index) in props.myCalendarEvents?.data" :key="index" :class="[
                     myCalendarEvent?.citizen && 'border-yellow-500',
                     !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid !== userStore.getUser?.uuid && 'border-green-700',
                     !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid === userStore.getUser?.uuid && 'border-primary',
-                    'pl-4 border-l-3'
+                    'mt-6 pl-4 border-l-4'
                 ]">
                     <div class="relative flex space-x-6 py-6">
                         <img :src="myCalendarEvent?.user?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${myCalendarEvent?.user?.firstname + ' ' + myCalendarEvent?.user?.lastname}`"
