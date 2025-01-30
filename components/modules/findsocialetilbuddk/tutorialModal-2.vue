@@ -8,14 +8,21 @@
                 <img src="/img/icons/asset-01.svg" alt="Image failed to load"
                     class="absolute -top-14 -right-14 z-10 opacity-70 object-cover" id="animatedImage">
             </div>
-            <p class="text-md text-gray-800 mb-4 text-center">
-                <span v-if="language.locale.value === 'en'">
-                    This is the last step in the tour for FindSocialeTilbud.dk
-                </span>
-                <span v-if="language.locale.value === 'dk'">
-                    Dette er det sidste trin i rundturen for FindSocialeTilbud.dk
-                </span>
-            </p>
+            <div class="flex justify-between items-center mb-4">
+                <p class="text-md text-gray-800 mb-4 text-center">
+                    <span v-if="language.locale.value === 'en'">
+                        This is the last step in the tour for FindSocialeTilbud.dk
+                    </span>
+                    <span v-if="language.locale.value === 'dk'">
+                        Dette er det sidste trin i rundturen for FindSocialeTilbud.dk
+                    </span>
+                </p>
+                <button type="button"
+                    class="top-4 right-3 z-10 outline-none px-0 py-2 text-gray-800 hover:text-gray-700"
+                    @click="$emit('button-click', '2')">
+                    <Icon name="heroicons:x-mark" class="h-6 w-6 cursor-pointer" aria-hidden="true" />
+                </button>
+            </div>
 
             <div class="mt-4 flex justify-center">
                 <button v-if="language.locale.value === 'en'" @click="doneAndClose"
