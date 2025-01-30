@@ -116,7 +116,7 @@
                                             myCalendarEvent?.citizen && 'border-yellow-500',
                                             !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid !== userStore.getUser?.uuid && 'border-green-700',
                                             !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid === userStore.getUser?.uuid && 'border-primary',
-                                            'border-l-3'
+                                            'border-l-4'
                                         ]" @click="editMyCalendarEvent(myCalendarEvent)">
                                         <p
                                             class="flex-auto truncate font-medium text-gray-900 group-hover:text-tertiary">
@@ -168,7 +168,7 @@
                         myCalendarEvent?.citizen && 'border-yellow-500',
                         !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid !== userStore.getUser?.uuid && 'border-green-700',
                         !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid === userStore.getUser?.uuid && 'border-primary',
-                        'pl-4 border-l-3'
+                        'pl-4 border-l-4'
                     ]">
                     <div class="relative flex space-x-6 py-6">
                         <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${myCalendarEvent?.user?.firstname + ' ' + myCalendarEvent?.user?.lastname}`"

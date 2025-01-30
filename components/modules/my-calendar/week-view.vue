@@ -135,7 +135,7 @@
                                                 myCalendarEvent?.citizen && 'border-yellow-500',
                                                 !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid !== userStore.getUser?.uuid && 'border-green-700',
                                                 !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid === userStore.getUser?.uuid && 'border-primary',
-                                                'border-l-3'
+                                                'border-l-4'
                                             ]" @click="editMyCalendarEvent(myCalendarEvent)">
                                             <p class="text-xs">
                                                 {{ myCalendarEvent?.title }}
@@ -163,7 +163,7 @@
                     event?.citizen && 'border-yellow-500',
                     !event?.citizen && event.user?.uuid !== userStore.getUser?.uuid && 'border-green-700',
                     !event?.citizen && event.user?.uuid === userStore.getUser?.uuid && 'border-primary',
-                    'pl-4 border-l-3'
+                    'pl-4 border-l-4'
                 ]">
                     <div class="relative flex space-x-6 py-6">
                         <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${event?.user?.firstname + ' ' + event?.user?.lastname}`"
