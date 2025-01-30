@@ -1,17 +1,29 @@
 <template>
     <div>
         <div v-if="props.isModalTwoOpen"
-            class="fixed bottom-20 right-32 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md overflow-hidden">
-            <img src="/img/icons/asset-01.svg" alt="Image failed to load"
-                class="w-52 absolute -top-14 -right-14 z-10 opacity-70" id="animatedImage">
+            class="fixed bottom-20 right-48 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md"
+            :class="modalClasses">
+
+            <div class="absolute top-0 right-0 w-52 h-52 overflow-hidden">
+                <img src="/img/icons/asset-01.svg" alt="Image failed to load"
+                    class="absolute -top-14 -right-14 z-10 opacity-70 object-cover" id="animatedImage">
+            </div>
+            <p class="text-md text-gray-800 mb-4 text-center">
+                <span v-if="language.locale.value === 'en'">
+                    This is the last step in the tour for FindSocialeTilbud.dk
+                </span>
+                <span v-if="language.locale.value === 'dk'">
+                    Dette er det sidste trin i rundturen for FindSocialeTilbud.dk
+                </span>
+            </p>
 
             <div class="mt-4 flex justify-center">
                 <button v-if="language.locale.value === 'en'" @click="doneAndClose"
-                    class="px-4 py-2 bg-tertiary text-white rounded">
+                    class="px-4 py-2 z-50 bg-tertiary text-white rounded">
                     Next
                 </button>
                 <button v-if="language.locale.value === 'dk'" @click="doneAndClose"
-                    class="px-4 py-2 bg-tertiary text-white rounded">
+                    class="px-4 py-2 z-50 bg-tertiary text-white rounded">
                     Næste
                 </button>
             </div>
@@ -40,4 +52,25 @@ const doneAndClose = () => {
     })
     emit('close')
 }
+const pageHeight = ref(window.innerHeight);
+
+const updatePageHeight = () => {
+    pageHeight.value = window.innerHeight;
+};
+
+onMounted(() => {
+    window.addEventListener("resize", updatePageHeight);
+    console.log(pageHeight.value);
+});
+
+onUnmounted(() => {
+    window.removeEventListener("resize", updatePageHeight);
+});
+
+const modalClasses = computed(() => {
+    return `fixed bottom-16 left-99 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md
+        after:absolute after:-left-4 after:w-0 after:h-0 after:border-t-[20px] after:border-t-transparent
+        after:border-b-[20px] after:border-b-transparent after:border-r-[20px] after:border-r-white after:top-4`;
+});
+
 </script>
