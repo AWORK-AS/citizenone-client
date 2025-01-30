@@ -6,43 +6,55 @@
 			<template #modal-body>
 				<p class="text-base text-gray-700 mb-4">
 					<span v-if="language.locale.value === 'en'">
-						CitizenOne is Denmark’s new, efficient journaling system. FindSocialeTilbud.dk is part of
-						CitizenOne, and
-						you
-						can use it for the following:
+						Some of the key features include:
 					</span>
 					<span v-if="language.locale.value === 'dk'">
-						CitizenOne er Danmarks nye effektive journalsystem. FindSocialeTilbud.dk er en del af CitizenOne
-						og du kan
-						bl.a.
-						bruge det til følgende:
+						Nogle af de vigtigste funktioner inkluderer:
 					</span>
 				</p>
-				<ul class="list-disc list-inside text-gray-600 text-base space-y-3 mb-4">
+				<ul class="list-none text-gray-600 text-base space-y-3 mb-4">
 					<li>
 						<span v-if="language.locale.value === 'en'">
-							Journaling system to keep track of your services, daily operations, and ensure GDPR
-							compliance.
+							<strong>📄 Journalizing:</strong> Easy and clear documentation, FMK, financial managemen
 						</span>
 						<span v-if="language.locale.value === 'dk'">
-							Journalsystem til at holde styr på dit sociale tilbud, dets hverdag samt sikre
-							GDPR-compliance.
+							<strong>📄 Journalisering:</strong> Nem og overskuelig dokumentation, FMK, økonomistyring
 						</span>
 					</li>
 					<li>
 						<span v-if="language.locale.value === 'en'">
-							Efficient daily planning, including task management and communication.
+							<strong>👥 Employee management:</strong> Shift scheduling, time tracking, calendar, etc.
 						</span>
 						<span v-if="language.locale.value === 'dk'">
-							Effektiv daglig planlægning, herunder opgavestyring og kommunikation.
+							<strong>👥 Medarbejderstyring:</strong> Vagtplanlægning, tidsregistrering, kalender m.m.
 						</span>
 					</li>
 					<li>
 						<span v-if="language.locale.value === 'en'">
-							Integration with other tools that make your work smooth and manageable.
+							<strong>📧 Communication tools:</strong> Internal chat for employees and citizens.
 						</span>
 						<span v-if="language.locale.value === 'dk'">
-							Integration med andre værktøjer, der gør dit arbejde smidigt og overskueligt.
+							<strong>📧 Kommunikationsværktøjer:</strong> Intern chat medarbejder og borger
+						</span>
+					</li>
+					<li>
+						<span v-if="language.locale.value === 'en'">
+							<strong>🕒 Shift scheduling:</strong> Simple and flexible scheduling of shifts.
+						</span>
+						<span v-if="language.locale.value === 'dk'">
+							<strong>🕒 Vagtplanlægning:</strong> Enkel og fleksibel planlægning af vagter
+						</span>
+					</li>
+					<li>
+						<span v-if="language.locale.value === 'en'">
+							<strong>📱 iOS and Android apps:</strong> Work easily on the go with full access to the
+							system directly from
+							your smartphone.
+						</span>
+						<span v-if="language.locale.value === 'dk'">
+							<strong>📱 iOS- og Android-apps:</strong> Arbejd nemt på farten med fuld adgang til systemet
+							direkte fra din
+							smartphone
 						</span>
 					</li>
 				</ul>
@@ -57,14 +69,17 @@
 					</span>
 					<span v-if="language.locale.value === 'dk'">
 						<p class="text-base text-gray-700 mb-6">
-							Ønsker du en gratis gennemgang af systemet og alle dets muligheder?
-							<a href="https://citizenone.dk/book-gratis-demo-af-journalsystemet" target="_blank"
-								class="text-blue-500 underline hover:text-blue-700">
-								Book en demo her
-							</a>
-							og oplev, hvordan CitizenOne kan gøre en forskel for dig og dit sociale tilbud.
+							<span class="font-bold">
+								<a href="https://citizenone.dk/book-gratis-demo-af-journalsystemet" target="_blank"
+									class="text-blue-500 underline hover:text-blue-700">
+									Book en gratis demo nu
+								</a>
+							</span>
+							og få 10 % hvis du gerne vil i gang. Denne rabatkode: FSTKUNDECO2025
+							er gældende fra dags dato og 14 dage frem!
 						</p>
 					</span>
+
 				</p>
 
 
@@ -89,8 +104,8 @@ import { useI18n } from "vue-i18n"
 const language = useI18n()
 const modalTitle = computed(() => {
 	return language.locale.value === 'en'
-		? 'Step 4: What is CitizenOne?'
-		: 'Step 4: Hvad er CitizenOne?'
+		? 'CitizenOne - all in one journal system'
+		: 'CitizenOne - alt i ét journalsystem'
 })
 
 const props = defineProps({
@@ -114,4 +129,3 @@ const doneAndClose = () => {
 	emit('close')
 }
 </script>
-

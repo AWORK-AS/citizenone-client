@@ -56,10 +56,10 @@
                                 <div class="relative z-50" :class="{ 'bg-white': state.modal.isModalVisible }">
                                     <h3 class="text-2xl font-bold text-tertiary mb-4">
                                         <span v-if="language.locale.value === 'en'">
-                                            Manage Your Presence on FindSocialeTilbud.dk
+                                            Tell us about your place
                                         </span>
                                         <span v-if="language.locale.value === 'dk'">
-                                            Administrér Din Tilstedeværelse på FindSocialeTilbud.dk
+                                            Fortæl os om dit sted
                                         </span>
                                     </h3>
                                 </div>
@@ -68,47 +68,31 @@
                                 <div class="space-y-4 text-gray-700">
                                     <p class="text-sm leading-6">
                                         <span v-if="language.locale.value === 'en'">
-                                            Get your company noticed by a wide audience on Denmark's largest platform
-                                            for social services. By managing your presence on FindSocialeTilbud.dk, you
-                                            can
-                                            showcase your
-                                            services to caseworkers, social workers, citizens, and families looking for
-                                            relevant
-                                            support. Easily update your
-                                            offerings, ensure your information is up to date, and connect with those
-                                            in need of
-                                            your services.
+                                            By clicking the link below, you can complete your profile settings as shown
+                                            on
+                                            FindSocialeTilbud.dk.
                                         </span>
                                         <span v-if="language.locale.value === 'dk'">
-                                            Få din virksomhed bemærket af et bredt publikum på Danmarks største
-                                            platform for sociale tilbud. Ved at administrere din tilstedeværelse på
-                                            FindSocialeTilbud.dk kan du fremhæve dine tjenester over for sagsbehandlere,
-                                            socialarbejdere, borgere og familier, der søger relevant støtte. Opdater
-                                            nemt
-                                            dine tilbud, sørg for, at dine oplysninger er opdaterede, og skab
-                                            forbindelse
-                                            til dem, der har brug for dine ydelser.
+                                            Ved at klikke på linket nedenfor kan du udfylde din profilindstillinger som
+                                            vises på
+                                            FindSocialeTilbud.dk.
                                         </span>
                                     </p>
                                     <p class="text-sm leading-6">
                                         <span v-if="language.locale.value === 'en'">
-                                            Whether you're a provider of social care, counseling, or other social
-                                            offerings,
-                                            FindSocialeTilbud.dk is the perfect place to reach those who need your help
-                                            the
-                                            most.
+                                            It is important to become visible to caseworkers, citizens, relatives, and
+                                            others.
                                         </span>
                                         <span v-if="language.locale.value === 'dk'">
-                                            Uanset om du tilbyder social omsorg, rådgivning eller andre sociale ydelser,
-                                            er FindSocialeTilbud.dk det perfekte sted at nå dem, der har mest brug
-                                            for din hjælp.
+                                            Det er vigtigt for at blive synlig overfor sagsbehandlere, borgere,
+                                            pårørende m.fl.
                                         </span>
                                     </p>
                                 </div>
                                 <div class="mt-8">
                                     <FormButton type="button" buttonStyle="primary" class="w-full"
                                         @click="state.modal.isManageCompanyOpen = true">
-                                        {{ $t('findsocialetilbuddk.manageCompany.manageCompany') }}
+                                        {{ $t('Udfyld din profil') }}
                                     </FormButton>
                                 </div>
                             </div>
@@ -126,46 +110,28 @@
                                 class="transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in bg-transparent rounded-md p-8 xl:p-10 flex flex-col justify-between h-full">
                                 <div>
                                     <h3 class="text-2xl font-bold text-tertiary mb-4">
-                                        {{
-                                            $t('findsocialetilbuddk.showInterest.getInquiriesViaFindSocialeTilbudDk')
-                                        }}
+                                        <span v-if="language.locale.value === 'en'">
+                                            Receive inquiries from caseworkers.
+                                        </span>
+                                        <span v-if="language.locale.value === 'dk'">
+                                            Få henvendelser fra sagsbehandlere
+                                        </span>
                                     </h3>
                                     <div class="space-y-4 text-gray-700">
                                         <p class="text-base sm:text-sm leading-relaxed sm:leading-6">
                                             <span v-if="language.locale.value === 'en'">
-                                                FindSocialeTilbud.dk - Denmark's largest search engine for social
-                                                services -
-                                                provides easy access to important social resources. Through the
-                                                platform,
-                                                caseworkers, social workers, relatives, citizens, and other stakeholders
-                                                can quickly
-                                                find relevant services and offerings.
+                                                You are almost ready to receive inquiries from caseworkers. The only
+                                                thing you need
+                                                to do is specify the type of placements you are interested in. Start by
+                                                clicking the
+                                                button below.
                                             </span>
                                             <span v-if="language.locale.value === 'dk'">
-                                                FindSocialeTilbud.dk er Danmarks største søgemaskine for sociale tilbud,
-                                                der giver
-                                                nem adgang til vigtige sociale ressourcer. Platformen gør det muligt for
-                                                sagsbehandlere, socialarbejdere, pårørende, borgere og andre
-                                                interessenter hurtigt
-                                                at finde relevante tjenester og tilbud.
-                                            </span>
-                                        </p>
-                                        <p class="text-base sm:text-sm leading-relaxed sm:leading-6">
-                                            <span v-if="language.locale.value === 'en'">
-                                                Whether you're looking for assistance for a citizen, support for
-                                                relatives, or
-                                                social services in your area, you can rely on FindSocialeTilbud.dk to
-                                                deliver
-                                                accurate and up-to-date results, making it easier to make informed
-                                                decisions.
-                                            </span>
-                                            <span v-if="language.locale.value === 'dk'">
-                                                Uanset om du søger hjælp til en borger, støtte til pårørende eller
-                                                sociale tilbud i
-                                                dit område, kan du stole på FindSocialeTilbud.dk til at levere præcise
-                                                og opdaterede
-                                                resultater, hvilket gør det nemmere at træffe velinformerede
-                                                beslutninger.
+                                                Nu er du snart klar til at få henvendelser fra sagsbehandlere. Det
+                                                eneste du blot
+                                                mangler er at fortælle hvilken type anbringelser du er interesseret i.
+                                                Start ved at
+                                                klikke på knappen nedenfor.
                                             </span>
                                         </p>
                                     </div>
@@ -174,7 +140,7 @@
                                 <div class="mt-8">
                                     <FormButton type="button" buttonStyle="primary" class="w-full"
                                         @click="state.modal.isShowInterestOpen = true">
-                                        {{ $t('findsocialetilbuddk.showInterest.showInterest') }}
+                                        {{ $t('Udfyld og få henvendelser') }}
                                     </FormButton>
                                 </div>
                             </div>
