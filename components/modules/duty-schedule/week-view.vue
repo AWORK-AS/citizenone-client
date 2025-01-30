@@ -2,6 +2,8 @@
     <div class="space-y-5">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
+        <Alert type="danger" :text="state?.errorUpdateShift?.message"
+            v-if="state.errorUpdateShift?.message && state.errorUpdateShift.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
             <div class="flex justify-end">
                 <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
@@ -288,9 +290,15 @@
                                                     </Tooltip>
                                                 </div>
                                                 <div class="space-y-2 text-xs">
-                                                    <div class="bg-shifts-regular rounded-md p-1 relative"
-                                                        v-for="(shift, shiftIndex) in week?.shifts.filter((shift: any) => shift.name === 'regular_shift')"
-                                                        :key="`regular_shift_${shiftIndex}`">
+                                                    <div v-for="(shift, shiftIndex) in week?.shifts" :key="shiftIndex"
+                                                        :class="[
+                                                            shift?.name === 'regular_shift' && 'bg-shifts-regular',
+                                                            shift?.name === 'awake_night_shift' && 'bg-shifts-awake_night',
+                                                            shift?.name === 'sleeping_night_shift' && 'bg-shifts-sleeping_night',
+                                                            shift?.name === 'vacation_leave' && 'bg-shifts-vacation',
+                                                            shift?.name === 'sick_leave' && 'bg-shifts-sickleave',
+                                                            'rounded-md p-1 relative'
+                                                        ]">
                                                         <div class="flex">
                                                             <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
@@ -317,7 +325,7 @@
                                                             </Tooltip>
                                                         </button>
                                                     </div>
-                                                    <div class="bg-shifts-awake_night rounded-md p-1 relative"
+                                                    <!-- <div class="bg-shifts-awake_night rounded-md p-1 relative"
                                                         v-for="(shift, shiftIndex) in week?.shifts.filter((shift: any) => shift.name === 'awake_night_shift')"
                                                         :key="`awake_night_shift_${shiftIndex}`">
                                                         <div class="flex">
@@ -345,8 +353,8 @@
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                             </Tooltip>
                                                         </button>
-                                                    </div>
-                                                    <div class="bg-shifts-sleeping_night rounded-md p-1 relative"
+                                                    </div> -->
+                                                    <!-- <div class="bg-shifts-sleeping_night rounded-md p-1 relative"
                                                         v-for="(shift, shiftIndex) in week?.shifts.filter((shift: any) => shift.name === 'sleeping_night_shift')"
                                                         :key="`regular_shift_${shiftIndex}`">
                                                         <div class="flex">
@@ -374,8 +382,8 @@
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                             </Tooltip>
                                                         </button>
-                                                    </div>
-                                                    <div class="bg-shifts-vacation rounded-md p-1 relative"
+                                                    </div> -->
+                                                    <!-- <div class="bg-shifts-vacation rounded-md p-1 relative"
                                                         v-for="(shift, shiftIndex) in week?.shifts.filter((shift: any) => shift.name === 'vacation_leave')"
                                                         :key="`regular_shift_${shiftIndex}`">
                                                         <div class="flex">
@@ -403,8 +411,8 @@
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                             </Tooltip>
                                                         </button>
-                                                    </div>
-                                                    <div class="bg-shifts-sickleave rounded-md p-1 relative"
+                                                    </div> -->
+                                                    <!-- <div class="bg-shifts-sickleave rounded-md p-1 relative"
                                                         v-for="(shift, shiftIndex) in week?.shifts.filter((shift: any) => shift.name === 'sick_leave')"
                                                         :key="`regular_shift_${shiftIndex}`">
                                                         <div class="flex">
@@ -432,7 +440,7 @@
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                             </Tooltip>
                                                         </button>
-                                                    </div>
+                                                    </div> -->
                                                     <ModulesDutyScheduleScheduleSlotsRequestAvailableSlots :week="week"
                                                         :employee="weeklySchedule?.employee"
                                                         @error="(error: any) => state.error = error" />
@@ -526,6 +534,7 @@ const state = reactive({
     } as any,
     employees: [] as any,
     error: {} as Error,
+    errorUpdateShift: {} as Error,
     isPageLoading: false,
     manageScheduleSlot: {
         selectedDay: [],
@@ -543,7 +552,9 @@ const state = reactive({
         showProgressBar: false,
         totalRequests: 0,
     },
-    removingShift: false,
+    isRemoveShift: false,
+    isUpdateShift: false,
+    originalWeeklySchedules: [] as any,
     weeklySchedules: [] as any,
 })
 
@@ -614,6 +625,7 @@ async function fetchDutySchedule() {
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
             state.weeklySchedules = response?.data
+            state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
             fetchDutyScheduleAbsencePercentage()
         }
     } catch (error: any) {
@@ -812,7 +824,7 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
 }
 
 async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: number, shift: any, shiftIndex: number) {
-    state.removingShift = true
+    state.isRemoveShift = true
     const scheduleUuid = shift.schedule_uuid
     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.splice(shiftIndex, 1)
     try {
@@ -832,21 +844,21 @@ async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: nu
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
     } finally {
-        state.removingShift = false
+        state.isRemoveShift = false
     }
 }
 
 function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
     if (!isScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
 
-    if (state.removingShift) return
+    if (state.isRemoveShift || state.isUpdateShift) return
 
     const timeIn = event.target.value
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_in = timeIn
-    const timeOut = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_out
+    const timeOut = shift?.time_out
     const scheduleUuid = shift?.schedule_uuid
     const date = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
     const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
+    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_in = timeIn
     const params = {
         time_in: timeIn,
         time_out: timeOut,
@@ -854,20 +866,20 @@ function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: a
         date: date,
         shift_type: shift?.name,
     }
-    updateDutySchedule(scheduleUuid, params)
+    updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
 }
 
 function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
     if (!isScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
 
-    if (state.removingShift) return
+    if (state.isRemoveShift || state.isUpdateShift) return
 
     const timeOut = event.target.value
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_out = timeOut
     const timeIn = shift?.time_in
     const scheduleUuid = shift?.schedule_uuid
     const date = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
     const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
+    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_out = timeOut
     const params = {
         time_in: timeIn,
         time_out: timeOut,
@@ -875,10 +887,11 @@ function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: 
         date: date,
         shift_type: shift?.name,
     }
-    updateDutySchedule(scheduleUuid, params)
+    updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
 }
 
-async function updateDutySchedule(scheduleUuid: any, params: object) {
+async function updateDutySchedule(scheduleUuid: any, params: object, weeklyScheduleIndex: number, weekIndex: any, shiftIndex: number) {
+    state.isUpdateShift = true
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -891,11 +904,15 @@ async function updateDutySchedule(scheduleUuid: any, params: object) {
             fetchDutySchedule()
         }
     } catch (error: any) {
-        state.error = error
+        state.errorUpdateShift = error
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
         fetchDutySchedule()
+        // state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_in = state.originalWeeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_in
+        // state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_out = state.originalWeeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_out
+    } finally {
+        state.isUpdateShift = false
     }
 }
 </script>
