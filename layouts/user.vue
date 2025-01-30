@@ -45,16 +45,21 @@
                                                             {{ $t('sidebar.dailyOverview') }}
                                                         </span>
                                                         <span v-if="item.name === 'Citizens'">
-                                                            {{ $t('sidebar.citizens') }}
+                                                            {{
+                                                                customPage('citizens') === 'Citizens' ?
+                                                                    $t('sidebar.citizens') :
+                                                                    customPage('citizens')
+                                                            }}
                                                         </span>
-                                                        <span v-if="item.name === 'My calendar'">
-                                                            {{ $t('sidebar.myCalendar') }}
+                                                        <span v-if="item.name === 'Calendar'">
+                                                            {{ $t('sidebar.calendar') }}
                                                         </span>
                                                         <span v-if="item.name === 'Duty schedules'">
-                                                            {{ $t('sidebar.dutySchedules') }}
-                                                        </span>
-                                                        <span v-if="item.name === 'Employees'">
-                                                            {{ $t('sidebar.employees') }}
+                                                            {{
+                                                                customPage('duty-schedules') === 'Duty schedules' ?
+                                                                    $t('sidebar.dutySchedules') :
+                                                                    customPage('duty-schedules')
+                                                            }}
                                                         </span>
                                                         <span v-if="item.name === 'Procedures'">
                                                             {{ $t('sidebar.procedures') }}
@@ -67,9 +72,6 @@
                                                         </span>
                                                         <span v-if="item.name === 'Bullet Board'">
                                                             {{ $t('sidebar.bulletBoard') }}
-                                                        </span>
-                                                        <span v-if="item.name === 'Apps'">
-                                                            {{ $t('sidebar.apps') }}
                                                         </span>
                                                     </div>
                                                     <Disclosure as="div" v-else v-slot="{ open }">
@@ -143,16 +145,21 @@
                                             {{ $t('sidebar.dailyOverview') }}
                                         </span>
                                         <span v-if="item.name === 'Citizens'">
-                                            {{ $t('sidebar.citizens') }}
+                                            {{
+                                                customPage('citizens') === 'Citizens' ?
+                                                    $t('sidebar.citizens') :
+                                                    customPage('citizens')
+                                            }}
                                         </span>
-                                        <span v-if="item.name === 'My calendar'">
-                                            {{ $t('sidebar.myCalendar') }}
+                                        <span v-if="item.name === 'Calendar'">
+                                            {{ $t('sidebar.calendar') }}
                                         </span>
                                         <span v-if="item.name === 'Duty schedules'">
-                                            {{ $t('sidebar.dutySchedules') }}
-                                        </span>
-                                        <span v-if="item.name === 'Employees'">
-                                            {{ $t('sidebar.employees') }}
+                                            {{
+                                                customPage('duty-schedules') === 'Duty schedules' ?
+                                                    $t('sidebar.dutySchedules') :
+                                                    customPage('duty-schedules')
+                                            }}
                                         </span>
                                         <span v-if="item.name === 'Procedures'">
                                             {{ $t('sidebar.procedures') }}
@@ -165,9 +172,6 @@
                                         </span>
                                         <span v-if="item.name === 'Bullet Board'">
                                             {{ $t('sidebar.bulletBoard') }}
-                                        </span>
-                                        <span v-if="item.name === 'Apps'">
-                                            {{ $t('sidebar.apps') }}
                                         </span>
                                     </div>
                                     <Disclosure as="div" v-else v-slot="{ open }">
@@ -208,7 +212,6 @@
                         </li>
                         <li class="mt-auto space-y-2">
                             <ModulesTimeRegistrationCheckInOut />
-                            <ModulesSidebarSubscribeButton v-if="userStore.getUser?.user_subscription === null" />
                             <ModulesSidebarCompanyId />
                         </li>
                     </ul>
@@ -237,7 +240,9 @@
                             <ModulesDepartmentSelection />
                         </div>
                     </div>
-                    <div class="flex items-center gap-x-4 lg:gap-x-3">
+                    <div class="flex items-center gap-x-1 lg:gap-x-3">
+                        <ModulesNavbarSubscribeButton v-if="userStore.getUser?.user_subscription === null"
+                            class="hidden md:block" />
                         <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
                             @click="navigateTo('/journal-notifications')">
                             <Icon name="ph:bell" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
@@ -304,6 +309,24 @@
                                         <div class="flex items-center gap-x-3">
                                             <Icon name="ph:gear" class="h-5 w-5" aria-hidden="true" />
                                             {{ $t('navbar.settings') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                    <div @click="navigateTo('/employees')"
+                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                        <div class="flex items-center gap-x-3">
+                                            <Icon name="ph:users-three" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.colleagues') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                    <div @click="navigateTo('/apps')"
+                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                        <div class="flex items-center gap-x-3">
+                                            <Icon name="ic:baseline-apps" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.apps') }}
                                         </div>
                                     </div>
                                     </MenuItem>
@@ -439,7 +462,7 @@ const navigation = [
         ]
     },
     {
-        name: 'My calendar',
+        name: 'Calendar',
         href: '/calendar',
         icon: 'ph:calendar-blank',
         activeRouteNames: [
@@ -452,17 +475,6 @@ const navigation = [
         icon: 'ph:calendar-dots',
         activeRouteNames: [
             'schedules'
-        ]
-    },
-    {
-        name: 'Employees',
-        href: '/employees',
-        icon: 'ph:users-three',
-        activeRouteNames: [
-            'employees',
-            'employees-new',
-            'employees-employee_uuid-view',
-            'employees-employee_uuid-edit',
         ]
     },
     {
@@ -491,14 +503,6 @@ const navigation = [
             'news',
             'news-new',
             'news-edit-uuid',
-        ]
-    },
-    {
-        name: 'Apps',
-        href: '/apps',
-        icon: 'ic:baseline-apps',
-        activeRouteNames: [
-            'apps'
         ]
     },
 ] as any
@@ -551,6 +555,11 @@ async function fetchUser() {
     } catch (error: any) {
         state.error = error
     }
+}
+
+function customPage(page: String) {
+    return userStore.getUser?.custom_pages?.find((item: any) => item.page_type ===
+        page)?.custom_name
 }
 
 function checkInReminderModalVisibility(response: any) {

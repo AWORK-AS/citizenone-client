@@ -3,10 +3,24 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('dutySchedules.dutySchedules') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>
+                    {{
+                        customPage('duty-schedules') === 'Duty schedules' ?
+                            $t('dutySchedules.dutySchedules') :
+                            customPage('duty-schedules')
+                    }}
+                    -
+                    {{ runtimeConfig?.public?.appName }}
+                </Title>
             </Head>
 
-            <template #header>{{ $t('dutySchedules.dutySchedules') }}</template>
+            <template #header>
+                {{
+                    customPage('duty-schedules') === 'Duty schedules' ?
+                        $t('dutySchedules.dutySchedules') :
+                        customPage('duty-schedules')
+                }}
+            </template>
 
             <!-- <div class="flex items-center gap-x-3">
                 <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
@@ -32,8 +46,16 @@
 
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig()
+import { useUserStore } from '@/store/user'
+
+const userStore = useUserStore() as any
 
 const state = reactive({
     calendarView: 'week',
 })
+
+function customPage(page: String) {
+    return userStore.getUser?.custom_pages.find((item: any) => item.page_type ===
+        page)?.custom_name
+}
 </script>

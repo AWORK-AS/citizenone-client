@@ -1548,6 +1548,7 @@
             "successfullyDeleted": "Event successfully deleted",
             "successfullyUpdated": "Event successfully updated"
         },
+        "calendar": "Calendar",
         "createdBy": "Created by",
         "citizens": "Citizens",
         "confirmation": {
@@ -1567,7 +1568,6 @@
             "sendInvitation": "Send invitation",
             "title": "Title"
         },
-        "myCalendar": "My calendar",
         "myself": "Myself",
         "newEvent": "New event",
         "noEventFound": "No event found",
@@ -1978,6 +1978,8 @@
         "users": "Users"
     },
     "navbar": {
+        "apps": "Apps",
+        "colleagues": "Colleagues",
         "forms": "Forms",
         "newWishes": "New wishes",
         "logout": "Log out",
@@ -2427,17 +2429,15 @@
     },
     "sidebar": {
         "bulletBoard": "Bullet board",
+        "calendar": "Calendar",
         "companyId": "Company ID",
         "coupons": "Coupons",
         "dailyOverview": "Daily overview",
         "citizens": "Citizens",
         "documents": "Documents",
-        "myCalendar": "My calendar",
         "dutySchedules": "Duty schedules",
-        "employees": "Employees",
         "messages": "Messages",
-        "protocols": "Protocols",
-        "apps": "Apps"
+        "protocols": "Protocols"
     },
     "showLess": "Show less",
     "showMore": "Show more",
@@ -2491,7 +2491,8 @@
             "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "It looks like you don't have an active subscription at the moment",
             "noActiveSubscription": "No Active Subscription",
             "toEnjoyOurFullRangeOfServicesAndBenefits": "To enjoy our full range of services and benefits, consider subscribing to one of our plans",
-            "subscribeNow": "Subscribe now"
+            "subscribeNow": "Subscribe now",
+            "upgradeNow": "Upgrade now"
         },
         "subscribed": {
             "goHome": "Go home",
@@ -3043,5 +3044,6 @@
             "sendMessage": "Send message"
         }
     },
-    "yes": "Yes"
+    "yes": "Yes",
+    "youDontHaveAccessToThisPage": "You do not have access to this page. Please contact your administrator"
 }

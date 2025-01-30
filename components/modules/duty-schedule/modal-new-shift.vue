@@ -1,14 +1,32 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('dutySchedules.newSchedule')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="sm" :title="$t('dutySchedules.newSchedule')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <form @submit.prevent="saveShift()" id="formShift" class="space-y-3">
+                        <Alert type="danger" :text="props?.error?.message"
+                            v-if="props.error?.message && props.error.message.length > 0" />
                         <div class="space-y-1">
                             <FormLabel for="shift_type" :label="$t('dutySchedules.typeofShift')" />
                             <FormSelect id="shift_type" name="shift_type" :options="state.options.shifts"
                                 v-model="state.formShift.shift_type" />
                             <FormError :error="v$?.formShift?.shift_type?.$errors[0]?.$message.toString()" />
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="space-y-1">
+                                <FormLabel for="date_time_start" :label="$t('dutySchedules.form.datetimeStart')" />
+                                <FormDateTimeField id="date_time_start" name="date_time_start"
+                                    :placeholder="`${$t('dutySchedules.form.datetimeStart')}`"
+                                    v-model="state.formShift.date_time_start" />
+                                <FormError :error="v$?.formShift.date_time_start?.$errors[0]?.$message.toString()" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="date_time_end" :label="$t('dutySchedules.form.dateTimeEnd')" />
+                                <FormDateTimeField id="date_time_end" name="date_time_end"
+                                    :placeholder="`${$t('dutySchedules.form.dateTimeEnd')}`"
+                                    v-model="state.formShift.date_time_end" />
+                                <FormError :error="v$?.formShift.date_time_end?.$errors[0]?.$message.toString()" />
+                            </div>
                         </div>
                         <div>
                             <div class="w-fit flex items-center cursor-pointer"
@@ -35,26 +53,32 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import type { Error } from '@/types'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 
 const props = defineProps({
+    error: {
+        type: Object,
+        required: false,
+    },
     isModalOpen: {
         type: Boolean,
         required: true,
     },
 })
 const { t } = useI18n()
-const emit = defineEmits(['close', 'saveShift'])
+const emit = defineEmits(['close', 'saveShift', 'resetNewShiftError'])
 
 const state = reactive({
-    error: {} as Error,
     isPageLoading: false,
     formShift: {
-        in_meeting: false,
         shift_type: '',
+        date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
+        date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
+        in_meeting: false,
     },
     options: {
         shifts: [
@@ -68,7 +92,8 @@ const state = reactive({
 })
 
 watch(() => props.isModalOpen, () => {
-    state.error = {}
+    v$.value.$reset()
+    emit('resetNewShiftError')
     state.formShift.shift_type = ''
     state.options.shifts[0].label = `${t('dutySchedules.shifts.regularShift')}`
     state.options.shifts[1].label = `${t('dutySchedules.shifts.awakeNightShift')}`
@@ -83,6 +108,12 @@ const rules = computed(() => {
             shift_type: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            date_time_start: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            date_time_end: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
         },
     }
 })
@@ -95,7 +126,6 @@ function closeModal() {
 async function saveShift() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        closeModal()
         emit('saveShift', state.formShift)
     }
 }

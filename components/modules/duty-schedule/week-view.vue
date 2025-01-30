@@ -289,27 +289,28 @@
                                                 </div>
                                                 <div class="space-y-2 text-xs">
                                                     <div class="bg-shifts-regular rounded-md p-1 relative"
-                                                        v-if="week?.shifts.find((shift: any) => shift.name === 'regular_shift')">
+                                                        v-for="(shift, shiftIndex) in week?.shifts.filter((shift: any) => shift.name === 'regular_shift')"
+                                                        :key="`regular_shift_${shiftIndex}`">
                                                         <div class="flex">
                                                             <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'regular_shift')?.time_in"
-                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'regular_shift')"
+                                                                :value="shift?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                             <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'regular_shift')?.time_out"
-                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'regular_shift')"
+                                                                :value="shift?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                         </div>
                                                         <button
                                                             class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
-                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'regular_shift')?.in_meeting">
+                                                            v-if="shift?.in_meeting">
                                                             M
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'regular_shift')"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Tooltip :text="$t('dutySchedules.removeSchedule')">
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -317,27 +318,28 @@
                                                         </button>
                                                     </div>
                                                     <div class="bg-shifts-awake_night rounded-md p-1 relative"
-                                                        v-if="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')">
+                                                        v-for="(shift, shiftIndex) in week?.shifts.filter((shift: any) => shift.name === 'awake_night_shift')"
+                                                        :key="`awake_night_shift_${shiftIndex}`">
                                                         <div class="flex">
                                                             <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.time_in"
-                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'awake_night_shift')"
+                                                                :value="shift?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                             <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.time_out"
-                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'awake_night_shift')"
+                                                                :value="shift?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                         </div>
                                                         <button
                                                             class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
-                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'awake_night_shift')?.in_meeting">
+                                                            v-if="shift?.in_meeting">
                                                             M
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'awake_night_shift')"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Tooltip :text="$t('dutySchedules.removeSchedule')">
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -345,27 +347,28 @@
                                                         </button>
                                                     </div>
                                                     <div class="bg-shifts-sleeping_night rounded-md p-1 relative"
-                                                        v-if="week?.shifts.find((shift: any) => shift.name === 'sleeping_night_shift')">
+                                                        v-for="(shift, shiftIndex) in week?.shifts.filter((shift: any) => shift.name === 'sleeping_night_shift')"
+                                                        :key="`regular_shift_${shiftIndex}`">
                                                         <div class="flex">
                                                             <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'sleeping_night_shift')?.time_in"
-                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')"
+                                                                :value="shift?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                             <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'sleeping_night_shift')?.time_out"
-                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')"
+                                                                :value="shift?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                         </div>
                                                         <button
                                                             class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
-                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'sleeping_night_shift')?.in_meeting">
+                                                            v-if="shift?.in_meeting">
                                                             M
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'sleeping_night_shift')"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Tooltip :text="$t('dutySchedules.removeSchedule')">
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -373,27 +376,28 @@
                                                         </button>
                                                     </div>
                                                     <div class="bg-shifts-vacation rounded-md p-1 relative"
-                                                        v-if="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')">
+                                                        v-for="(shift, shiftIndex) in week?.shifts.filter((shift: any) => shift.name === 'vacation_leave')"
+                                                        :key="`regular_shift_${shiftIndex}`">
                                                         <div class="flex">
                                                             <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_in"
-                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'vacation_leave')"
+                                                                :value="shift?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                             <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.time_out"
-                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'vacation_leave')"
+                                                                :value="shift?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                         </div>
                                                         <button
                                                             class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
-                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'vacation_leave')?.in_meeting">
+                                                            v-if="shift?.in_meeting">
                                                             M
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'vacation_leave')"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Tooltip :text="$t('dutySchedules.removeSchedule')">
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -401,27 +405,28 @@
                                                         </button>
                                                     </div>
                                                     <div class="bg-shifts-sickleave rounded-md p-1 relative"
-                                                        v-if="week?.shifts.find((shift: any) => shift.name === 'sick_leave')">
+                                                        v-for="(shift, shiftIndex) in week?.shifts.filter((shift: any) => shift.name === 'sick_leave')"
+                                                        :key="`regular_shift_${shiftIndex}`">
                                                         <div class="flex">
                                                             <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_in"
-                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, 'sick_leave')"
+                                                                :value="shift?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                             <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
-                                                                :value="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.time_out"
-                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, 'sick_leave')"
+                                                                :value="shift?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                         </div>
                                                         <button
                                                             class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
-                                                            v-if="week?.shifts.find((shift: any) => shift.name === 'sick_leave')?.in_meeting">
+                                                            v-if="shift?.in_meeting">
                                                             M
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, 'sick_leave')"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                             v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Tooltip :text="$t('dutySchedules.removeSchedule')">
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -477,8 +482,9 @@
             <ModulesDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDepartmentSickLeaveDate" />
-            <ModulesDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
-                @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift" />
+            <ModulesDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :error="state.newShiftError"
+                @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
+                @resetNewShiftError="state.newShiftError = {}" />
             <ModulesDutyScheduleScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
                 :selectedDay="state.manageScheduleSlot.selectedDay"
                 @close="state.modal.isManageScheduleSlotOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
@@ -530,12 +536,14 @@ const state = reactive({
         isDownloadOpen: false,
         isManageScheduleSlotOpen: false,
     } as any,
+    newShiftError: {} as Error,
     progress: {
         percentage: 100,
         pendingRequests: 0,
         showProgressBar: false,
         totalRequests: 0,
     },
+    removingShift: false,
     weeklySchedules: [] as any,
 })
 
@@ -671,23 +679,18 @@ function openManageScheduleSlotModal(day: any) {
 
 async function saveShift(shiftDetails: any) {
     const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex
-    const weekIndex = state.addShift.selectedEmployeeSchedules.weekIndex
     const shiftType = shiftDetails.shift_type
-    // Check if shift already existed
-    if (!(state.weeklySchedules[state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex].weeks[state.addShift.selectedEmployeeSchedules.weekIndex].shifts.find((shift: any) => shift.name === shiftDetails.shift_type))) {
-        const params = {
-            shift_type: shiftType,
-            date: state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date,
-            time_in: '08:00',
-            time_out: '17:00',
-            user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
-            in_meeting: shiftDetails.in_meeting,
-        }
-        saveDutySchedule(params, weeklyScheduleIndex, weekIndex, 'new_shift')
+    const params = {
+        shift_type: shiftType,
+        date_time_start: shiftDetails.date_time_start,
+        date_time_end: shiftDetails.date_time_end,
+        user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
+        in_meeting: shiftDetails.in_meeting,
     }
+    saveDutySchedule(params)
 }
 
-async function saveDutySchedule(params: object, weeklyScheduleIndex: number, weekIndex: any, action: string) {
+async function saveDutySchedule(params: object) {
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -698,27 +701,10 @@ async function saveDutySchedule(params: object, weeklyScheduleIndex: number, wee
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
             fetchDutySchedule()
-            // if (action === 'new_shift') {
-            //     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
-            //         name: response?.data?.shift_type,
-            //         time_in: response?.data?.time_in,
-            //         time_out: response?.data?.time_out,
-            //         schedule_uuid: response?.data?.uuid,
-            //     })
-            // } else if (action === 'paste_shifts') {
-            //     state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = []
-            //     response?.data.forEach((shift: any) => {
-            //         state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.push({
-            //             name: shift?.shift_type,
-            //             time_in: shift?.time_in,
-            //             time_out: shift?.time_out,
-            //             schedule_uuid: shift?.uuid,
-            //         })
-            //     })
-            // }
+            state.modal.isAddShiftOpen = false
         }
     } catch (error: any) {
-        state.error = error
+        state.newShiftError = error
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
@@ -778,7 +764,7 @@ async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: num
         date_source: dateSource,
         date_destination: dateDestination,
     }
-    saveDutySchedule(params, weeklyScheduleIndex, weekIndex, 'paste_shifts')
+    saveDutySchedule(params)
 }
 
 function isAllWeeklyScheduleCopiedEmpty() {
@@ -825,10 +811,10 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
     }
 }
 
-async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: number, shiftType: any) {
-    const scheduleUuid = week.shifts.find((shift: any) => shift.name === shiftType).schedule_uuid
-    const shiftIndexToRemove = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.splice(shiftIndexToRemove, 1)
+async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: number, shift: any, shiftIndex: number) {
+    state.removingShift = true
+    const scheduleUuid = shift.schedule_uuid
+    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.splice(shiftIndex, 1)
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -845,17 +831,20 @@ async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: nu
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+    } finally {
+        state.removingShift = false
     }
 }
 
-function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: any, shiftType: string) {
+function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
     if (!isScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
 
+    if (state.removingShift) return
+
     const timeIn = event.target.value
-    const shiftTimeIndexToReplace = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeIndexToReplace].time_in = timeIn
-    const timeOut = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeIndexToReplace].time_out
-    const scheduleUuid = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeIndexToReplace].schedule_uuid
+    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_in = timeIn
+    const timeOut = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_out
+    const scheduleUuid = shift?.schedule_uuid
     const date = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
     const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
     const params = {
@@ -863,19 +852,20 @@ function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: a
         time_out: timeOut,
         user_uuid: userUuid,
         date: date,
-        shift_type: shiftType,
+        shift_type: shift?.name,
     }
     updateDutySchedule(scheduleUuid, params)
 }
 
-function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: any, shiftType: string) {
+function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
     if (!isScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
 
+    if (state.removingShift) return
+
     const timeOut = event.target.value
-    const shiftTimeIndexToReplace = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.findIndex((shift: any) => shift.name === shiftType)
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeIndexToReplace].time_out = timeOut
-    const timeIn = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeIndexToReplace].time_in
-    const scheduleUuid = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftTimeIndexToReplace].schedule_uuid
+    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_out = timeOut
+    const timeIn = shift?.time_in
+    const scheduleUuid = shift?.schedule_uuid
     const date = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
     const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
     const params = {
@@ -883,7 +873,7 @@ function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: 
         time_out: timeOut,
         user_uuid: userUuid,
         date: date,
-        shift_type: shiftType,
+        shift_type: shift?.name,
     }
     updateDutySchedule(scheduleUuid, params)
 }
@@ -905,6 +895,7 @@ async function updateDutySchedule(scheduleUuid: any, params: object) {
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+        fetchDutySchedule()
     }
 }
 </script>

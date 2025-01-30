@@ -35,7 +35,7 @@ const config = ref({
 })
 
 const state = reactive({
-    dateValue: props.modelValue ? formatDateToDDMMMMYYYY(props.modelValue) : '',
+    dateValue: props.modelValue ? formatDateToDDMMMMYYYY(props.modelValue) : '' as any,
 })
 
 watch(() => props.modelValue, (newValue: any) => {
@@ -52,14 +52,18 @@ function updateValue(event: any) {
 }
 
 function formatDateToYYYYMMDD(dateString: any) {
-    let date = moment(dateString, 'DD. MMMM YYYY')
-    let formattedDate = date.format('YYYY-MM-DD')
-    return formattedDate
+    if (dateString) {
+        let date = moment(dateString, 'DD. MMMM YYYY')
+        let formattedDate = date.format('YYYY-MM-DD')
+        return formattedDate
+    }
 }
 
 function formatDateToDDMMMMYYYY(dateString: any) {
-    let date = moment(dateString, 'YYYY-MM-DD')
-    let formattedDate = date.format('DD. MMMM YYYY')
-    return formattedDate
+    if (dateString) {
+        let date = moment(dateString, 'YYYY-MM-DD')
+        let formattedDate = date.format('DD. MMMM YYYY')
+        return formattedDate
+    }
 }
 </script>
