@@ -58,6 +58,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { citizenService } from '@/components/api/CitizenService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -78,8 +79,8 @@ const state = reactive({
         isViewEventOpen: false
     },
     selectedDate: {
-        end_date: '',
-        start_date: '',
+        end_date: moment().format('YYYY-MM-DD'),
+        start_date: moment().format('YYYY-MM-DD'),
     },
     selectedSchedule: {
         id: '',
@@ -129,9 +130,21 @@ async function fetchMyCalendarEvents() {
 function setCalendarView(viewStyle: any) {
     if (state.calendarView !== viewStyle) {
         state.calendarView = viewStyle
-        state.selectedDate = {
-            end_date: '',
-            start_date: '',
+        if (viewStyle === 'default') {
+            state.selectedDate = {
+                end_date: moment().format('YYYY-MM-DD'),
+                start_date: moment().format('YYYY-MM-DD'),
+            }
+        } else if (viewStyle === 'week') {
+            state.selectedDate = {
+                end_date: moment().endOf('isoWeek').format('YYYY-MM-DD'),
+                start_date: moment().startOf('isoWeek').format('YYYY-MM-DD'),
+            }
+        } else if (viewStyle === 'month') {
+            state.selectedDate = {
+                end_date: moment().endOf('month').endOf('isoWeek').format('YYYY-MM-DD'),
+                start_date: moment().startOf('month').startOf('isoWeek').format('YYYY-MM-DD'),
+            }
         }
         state.selectedYear = ''
         state.selectedMonth = ''
