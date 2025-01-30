@@ -89,7 +89,7 @@ const state = reactive({
 
 watch(() => userStore.getUser, (newValue: any) => {
     if (newValue != null) {
-        const userHasAdminRole = newValue?.roles.some((role: any) => role.name === "Admin")
+        // const userHasAdminRole = newValue?.roles.some((role: any) => role.name === "Admin")
         const userHasPageJournalsAccess = newValue?.pages.some((page: any) => page.name === "Journals")
         const userHasPageMedicineCardAccess = newValue?.pages.some((page: any) => page.name === "Medicine card")
         const userHasPagePlansAndGoalsAccess = newValue?.pages.some((page: any) => page.name === "Plans and goals")
@@ -99,195 +99,195 @@ watch(() => userStore.getUser, (newValue: any) => {
         const userHasPageCalendarAccess = newValue?.pages.some((page: any) => page.name === "Calendar")
         const userHasPageEconomyAccess = newValue?.pages.some((page: any) => page.name === "Economy")
         const userHasPageContactsAccess = newValue?.pages.some((page: any) => page.name === "Contacts")
-        if (userHasAdminRole) {
-            state.tabs = [
-                {
-                    name: 'citizens.tabs.journals',
-                    href: `/citizens/${citizenUuid}/journals`,
-                    routeNames: [
-                        'citizens-uuid-journals',
-                    ]
-                },
-                {
-                    name: 'citizens.tabs.medicineCard',
-                    href: `/citizens/${citizenUuid}/medicine-journals`,
-                    routeNames: [
-                        'citizens-uuid-medicine-journals',
-                    ]
-                },
-                {
-                    name: 'citizens.tabs.plansAndGoals',
-                    href: `/citizens/${citizenUuid}/plans-and-goals`,
-                    routeNames: [
-                        'citizens-uuid-plans-and-goals',
-                    ]
-                },
-                {
-                    name: 'citizens.tabs.health',
-                    href: `/citizens/${citizenUuid}/nursing-areas`,
-                    routeNames: [
-                        'citizens-uuid-nursing-areas',
-                        'citizens-uuid-nursing-areas-new', ,
-                        'citizens-uuid-nursing-areas-record_uuid-edit',
-                    ]
-                },
-                {
-                    name: 'citizens.tabs.documents',
-                    href: `/citizens/${citizenUuid}/documents`,
-                    routeNames: [
-                        'citizens-uuid-documents',
-                    ]
-                },
-                {
-                    name: 'citizens.tabs.attendance',
-                    href: `/citizens/${citizenUuid}/attendance`,
-                    routeNames: [
-                        'citizens-uuid-attendance',
-                        'citizens-uuid-attendance-citizen_protocol_uuid',
-                    ]
-                },
-                {
-                    name: 'citizens.tabs.calendar',
-                    href: `/citizens/${citizenUuid}/calendar`,
-                    routeNames: [
-                        'citizens-uuid-calendar',
-                    ]
-                },
-                {
-                    name: 'citizens.tabs.economy',
-                    href: `/citizens/${citizenUuid}/wallets`,
-                    routeNames: [
-                        'citizens-uuid-wallets',
-                        'citizens-uuid-wallets-wallet_uuid',
-                    ]
-                },
-                {
-                    name: 'citizens.tabs.contacts',
-                    href: `/citizens/${citizenUuid}/contacts`,
-                    routeNames: [
-                        'citizens-uuid-contacts',
-                    ]
-                },
-            ]
-        } else {
-            if (userHasPageJournalsAccess) {
-                state.tabs.push({
-                    name: 'citizens.tabs.journals',
-                    href: `/citizens/${citizenUuid}/journals`,
-                    routeNames: [
-                        'citizens-uuid-journals',
-                    ]
-                })
-            }
-            if (userHasPageMedicineCardAccess) {
-                state.tabs.push({
-                    name: 'citizens.tabs.medicineCard',
-                    href: `/citizens/${citizenUuid}/medicine-journals`,
-                    routeNames: [
-                        'citizens-uuid-medicine-journals',
-                    ]
-                })
-            }
-            if (userHasPagePlansAndGoalsAccess) {
-                state.tabs.push({
-                    name: 'citizens.tabs.plansAndGoals',
-                    href: `/citizens/${citizenUuid}/plans-and-goals`,
-                    routeNames: [
-                        'citizens-uuid-plans-and-goals',
-                    ]
-                })
-            }
-            if (userHasPageHealthAccess) {
-                state.tabs.push({
-                    name: 'citizens.tabs.health',
-                    href: `/citizens/${citizenUuid}/nursing-areas`,
-                    routeNames: [
-                        'citizens-uuid-nursing-areas',
-                        'citizens-uuid-nursing-areas-new', ,
-                        'citizens-uuid-nursing-areas-record_uuid-edit',
-                    ]
-                })
-            }
-            if (userHasPageDocumentsAccess) {
-                state.tabs.push({
-                    name: 'citizens.tabs.documents',
-                    href: `/citizens/${citizenUuid}/documents`,
-                    routeNames: [
-                        'citizens-uuid-documents',
-                    ]
-                })
-            }
-            if (userHasPageAttendanceAccess) {
-                state.tabs.push({
-                    name: 'citizens.tabs.attendance',
-                    href: `/citizens/${citizenUuid}/attendance`,
-                    routeNames: [
-                        'citizens-uuid-attendance',
-                        'citizens-uuid-attendance-citizen_protocol_uuid',
-                    ]
-                })
-            }
-            if (userHasPageCalendarAccess) {
-                state.tabs.push({
-                    name: 'citizens.tabs.calendar',
-                    href: `/citizens/${citizenUuid}/calendar`,
-                    routeNames: [
-                        'citizens-uuid-calendar',
-                    ]
-                })
-            }
-            if (userHasPageEconomyAccess) {
-                state.tabs.push({
-                    name: 'citizens.tabs.economy',
-                    href: `/citizens/${citizenUuid}/wallets`,
-                    routeNames: [
-                        'citizens-uuid-wallets',
-                        'citizens-uuid-wallets-wallet_uuid',
-                    ]
-                })
-            }
-            if (userHasPageContactsAccess) {
-                state.tabs.push({
-                    name: 'citizens.tabs.contacts',
-                    href: `/citizens/${citizenUuid}/contacts`,
-                    routeNames: [
-                        'citizens-uuid-contacts',
-                    ]
-                })
-            }
+        // if (userHasAdminRole) {
+        //     state.tabs = [
+        //         {
+        //             name: 'citizens.tabs.journals',
+        //             href: `/citizens/${citizenUuid}/journals`,
+        //             routeNames: [
+        //                 'citizens-uuid-journals',
+        //             ]
+        //         },
+        //         {
+        //             name: 'citizens.tabs.medicineCard',
+        //             href: `/citizens/${citizenUuid}/medicine-journals`,
+        //             routeNames: [
+        //                 'citizens-uuid-medicine-journals',
+        //             ]
+        //         },
+        //         {
+        //             name: 'citizens.tabs.plansAndGoals',
+        //             href: `/citizens/${citizenUuid}/plans-and-goals`,
+        //             routeNames: [
+        //                 'citizens-uuid-plans-and-goals',
+        //             ]
+        //         },
+        //         {
+        //             name: 'citizens.tabs.health',
+        //             href: `/citizens/${citizenUuid}/nursing-areas`,
+        //             routeNames: [
+        //                 'citizens-uuid-nursing-areas',
+        //                 'citizens-uuid-nursing-areas-new', ,
+        //                 'citizens-uuid-nursing-areas-record_uuid-edit',
+        //             ]
+        //         },
+        //         {
+        //             name: 'citizens.tabs.documents',
+        //             href: `/citizens/${citizenUuid}/documents`,
+        //             routeNames: [
+        //                 'citizens-uuid-documents',
+        //             ]
+        //         },
+        //         {
+        //             name: 'citizens.tabs.attendance',
+        //             href: `/citizens/${citizenUuid}/attendance`,
+        //             routeNames: [
+        //                 'citizens-uuid-attendance',
+        //                 'citizens-uuid-attendance-citizen_protocol_uuid',
+        //             ]
+        //         },
+        //         {
+        //             name: 'citizens.tabs.calendar',
+        //             href: `/citizens/${citizenUuid}/calendar`,
+        //             routeNames: [
+        //                 'citizens-uuid-calendar',
+        //             ]
+        //         },
+        //         {
+        //             name: 'citizens.tabs.economy',
+        //             href: `/citizens/${citizenUuid}/wallets`,
+        //             routeNames: [
+        //                 'citizens-uuid-wallets',
+        //                 'citizens-uuid-wallets-wallet_uuid',
+        //             ]
+        //         },
+        //         {
+        //             name: 'citizens.tabs.contacts',
+        //             href: `/citizens/${citizenUuid}/contacts`,
+        //             routeNames: [
+        //                 'citizens-uuid-contacts',
+        //             ]
+        //         },
+        //     ]
+        // } else {
+        // }
+        if (userHasPageJournalsAccess) {
+            state.tabs.push({
+                name: 'citizens.tabs.journals',
+                href: `/citizens/${citizenUuid}/journals`,
+                routeNames: [
+                    'citizens-uuid-journals',
+                ]
+            })
+        }
+        if (userHasPageMedicineCardAccess) {
+            state.tabs.push({
+                name: 'citizens.tabs.medicineCard',
+                href: `/citizens/${citizenUuid}/medicine-journals`,
+                routeNames: [
+                    'citizens-uuid-medicine-journals',
+                ]
+            })
+        }
+        if (userHasPagePlansAndGoalsAccess) {
+            state.tabs.push({
+                name: 'citizens.tabs.plansAndGoals',
+                href: `/citizens/${citizenUuid}/plans-and-goals`,
+                routeNames: [
+                    'citizens-uuid-plans-and-goals',
+                ]
+            })
+        }
+        if (userHasPageHealthAccess) {
+            state.tabs.push({
+                name: 'citizens.tabs.health',
+                href: `/citizens/${citizenUuid}/nursing-areas`,
+                routeNames: [
+                    'citizens-uuid-nursing-areas',
+                    'citizens-uuid-nursing-areas-new', ,
+                    'citizens-uuid-nursing-areas-record_uuid-edit',
+                ]
+            })
+        }
+        if (userHasPageDocumentsAccess) {
+            state.tabs.push({
+                name: 'citizens.tabs.documents',
+                href: `/citizens/${citizenUuid}/documents`,
+                routeNames: [
+                    'citizens-uuid-documents',
+                ]
+            })
+        }
+        if (userHasPageAttendanceAccess) {
+            state.tabs.push({
+                name: 'citizens.tabs.attendance',
+                href: `/citizens/${citizenUuid}/attendance`,
+                routeNames: [
+                    'citizens-uuid-attendance',
+                    'citizens-uuid-attendance-citizen_protocol_uuid',
+                ]
+            })
+        }
+        if (userHasPageCalendarAccess) {
+            state.tabs.push({
+                name: 'citizens.tabs.calendar',
+                href: `/citizens/${citizenUuid}/calendar`,
+                routeNames: [
+                    'citizens-uuid-calendar',
+                ]
+            })
+        }
+        if (userHasPageEconomyAccess) {
+            state.tabs.push({
+                name: 'citizens.tabs.economy',
+                href: `/citizens/${citizenUuid}/wallets`,
+                routeNames: [
+                    'citizens-uuid-wallets',
+                    'citizens-uuid-wallets-wallet_uuid',
+                ]
+            })
+        }
+        if (userHasPageContactsAccess) {
+            state.tabs.push({
+                name: 'citizens.tabs.contacts',
+                href: `/citizens/${citizenUuid}/contacts`,
+                routeNames: [
+                    'citizens-uuid-contacts',
+                ]
+            })
+        }
 
-            const route = router?.currentRoute?.value?.name as string
-            if (!userHasPageContactsAccess && route === 'citizens-uuid-contacts') {
-                navigateTo(`/citizens/${citizenUuid}/journals`)
-                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            } else if (!userHasPageEconomyAccess && route === 'citizens-uuid-wallets') {
-                navigateTo(`/citizens/${citizenUuid}/journals`)
-                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            } else if (!userHasPageCalendarAccess && route === 'citizens-uuid-calendar') {
-                navigateTo(`/citizens/${citizenUuid}/journals`)
-                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            } else if (!userHasPageAttendanceAccess && route === 'citizens-uuid-attendance') {
-                navigateTo(`/citizens/${citizenUuid}/journals`)
-                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            } else if (!userHasPageDocumentsAccess && route === 'citizens-uuid-documents') {
-                navigateTo(`/citizens/${citizenUuid}/journals`)
-                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            } else if (!userHasPageHealthAccess && route === 'citizens-uuid-nursing-areas') {
-                navigateTo(`/citizens/${citizenUuid}/journals`)
-                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            } else if (!userHasPageHealthAccess && route === 'citizens-uuid-nursing-areas') {
-                navigateTo(`/citizens/${citizenUuid}/journals`)
-                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            } else if (!userHasPagePlansAndGoalsAccess && route === 'citizens-uuid-plans-and-goals') {
-                navigateTo(`/citizens/${citizenUuid}/journals`)
-                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            } else if (!userHasPageMedicineCardAccess && route === 'citizens-uuid-medicine-journals') {
-                navigateTo(`/citizens/${citizenUuid}/journals`)
-                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            } else if (!userHasPageJournalsAccess && route === 'citizens-uuid-journals') {
-                navigateTo(`/citizens`)
-                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            }
+        const route = router?.currentRoute?.value?.name as string
+        if (!userHasPageContactsAccess && route === 'citizens-uuid-contacts') {
+            navigateTo(`/citizens/${citizenUuid}/journals`)
+            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        } else if (!userHasPageEconomyAccess && route === 'citizens-uuid-wallets') {
+            navigateTo(`/citizens/${citizenUuid}/journals`)
+            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        } else if (!userHasPageCalendarAccess && route === 'citizens-uuid-calendar') {
+            navigateTo(`/citizens/${citizenUuid}/journals`)
+            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        } else if (!userHasPageAttendanceAccess && route === 'citizens-uuid-attendance') {
+            navigateTo(`/citizens/${citizenUuid}/journals`)
+            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        } else if (!userHasPageDocumentsAccess && route === 'citizens-uuid-documents') {
+            navigateTo(`/citizens/${citizenUuid}/journals`)
+            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        } else if (!userHasPageHealthAccess && route === 'citizens-uuid-nursing-areas') {
+            navigateTo(`/citizens/${citizenUuid}/journals`)
+            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        } else if (!userHasPageHealthAccess && route === 'citizens-uuid-nursing-areas') {
+            navigateTo(`/citizens/${citizenUuid}/journals`)
+            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        } else if (!userHasPagePlansAndGoalsAccess && route === 'citizens-uuid-plans-and-goals') {
+            navigateTo(`/citizens/${citizenUuid}/journals`)
+            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        } else if (!userHasPageMedicineCardAccess && route === 'citizens-uuid-medicine-journals') {
+            navigateTo(`/citizens/${citizenUuid}/journals`)
+            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        } else if (!userHasPageJournalsAccess && route === 'citizens-uuid-journals') {
+            navigateTo(`/citizens`)
+            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
         }
     }
 })
