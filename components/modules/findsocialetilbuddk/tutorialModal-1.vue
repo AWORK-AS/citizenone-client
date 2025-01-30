@@ -90,7 +90,6 @@ const updatePageHeight = () => {
 
 onMounted(() => {
     window.addEventListener("resize", updatePageHeight);
-    console.log(pageHeight.value);
 });
 
 onUnmounted(() => {

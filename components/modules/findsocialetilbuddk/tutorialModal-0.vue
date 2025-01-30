@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="props.isModalZeroOpen"
-            class="fixed bottom-10 left-99 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md"
+            class="fixed bottom-44 left-99 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md"
             :class="modalClasses">
 
             <div class="absolute top-0 right-0 w-52 h-52 overflow-hidden">
@@ -98,7 +98,6 @@ const updatePageHeight = () => {
 
 onMounted(() => {
     window.addEventListener("resize", updatePageHeight);
-    console.log(pageHeight.value)
 });
 
 onUnmounted(() => {

@@ -92,8 +92,10 @@
                                 <div class="mt-8">
                                     <FormButton type="button" buttonStyle="primary" class="w-full"
                                         @click="state.modal.isManageCompanyOpen = true">
-                                        {{ $t('Udfyld din profil') }}
+                                        <span v-if="language.locale.value === 'en'">Complete your profile</span>
+                                        <span v-if="language.locale.value === 'dk'">Udfyld din profil</span>
                                     </FormButton>
+
                                 </div>
                             </div>
                         </div>
@@ -140,8 +142,10 @@
                                 <div class="mt-8">
                                     <FormButton type="button" buttonStyle="primary" class="w-full"
                                         @click="state.modal.isShowInterestOpen = true">
-                                        {{ $t('Udfyld og få henvendelser') }}
+                                        <span v-if="language.locale.value === 'en'">Fill out and get inquiries</span>
+                                        <span v-if="language.locale.value === 'dk'">Udfyld og få henvendelser</span>
                                     </FormButton>
+
                                 </div>
                             </div>
                         </div>
@@ -215,19 +219,16 @@ const toggleOverlay = () => {
 
 const handleButtonClick = (flag: any) => {
     if (flag == "0") {
-        console.log("MODAL: " + flag)
         state.modal.isOverlayVisible = !state.modal.isOverlayVisible
         state.modal.isModalZeroOpen = false
         userStore.setInTutorial(false)
     }
     else if (flag == "1") {
-        console.log("MODAL: " + flag)
         state.modal.isOverlayVisible = !state.modal.isOverlayVisible
         state.modal.isModalVisible = false
         userStore.setInTutorial(false)
     }
     else if (flag == "2") {
-        console.log("MODAL: " + flag)
         state.modal.isOverlayVisible = !state.modal.isOverlayVisible
         state.modal.isModalTwoVisible = false
         userStore.setInTutorial(false)
