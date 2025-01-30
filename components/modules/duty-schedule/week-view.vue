@@ -895,6 +895,7 @@ async function updateDutySchedule(scheduleUuid: any, params: object) {
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+        fetchDutySchedule()
     }
 }
 </script>
