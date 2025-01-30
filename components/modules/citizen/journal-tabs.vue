@@ -255,38 +255,39 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 })
             }
-            // const route = router?.currentRoute?.value?.name as string
-            // if (['citizens-uuid-contacts'].includes(route)) {
-            //     navigateTo(`/citizens/${citizenUuid}/journals`)
-            //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            // } else if (['citizens-uuid-wallets'].includes(route)) {
-            //     navigateTo(`/citizens/${citizenUuid}/journals`)
-            //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            // } else if (['citizens-uuid-calendar'].includes(route)) {
-            //     navigateTo(`/citizens/${citizenUuid}/journals`)
-            //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            // } else if (['citizens-uuid-calendar'].includes(route)) {
-            //     navigateTo(`/citizens/${citizenUuid}/journals`)
-            //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            // } else if (['citizens-uuid-attendance'].includes(route)) {
-            //     navigateTo(`/citizens/${citizenUuid}/journals`)
-            //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            // } else if (['citizens-uuid-documents'].includes(route)) {
-            //     navigateTo(`/citizens/${citizenUuid}/journals`)
-            //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            // } else if (['citizens-uuid-nursing-areas'].includes(route)) {
-            //     navigateTo(`/citizens/${citizenUuid}/journals`)
-            //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            // } else if (['citizens-uuid-plans-and-goals'].includes(route)) {
-            //     navigateTo(`/citizens/${citizenUuid}/journals`)
-            //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            // } else if (['citizens-uuid-medicine-journals'].includes(route)) {
-            //     navigateTo(`/citizens/${citizenUuid}/journals`)
-            //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            // } else if (['citizens-uuid-journals'].includes(route)) {
-            //     navigateTo(`/citizens`)
-            //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            // }
+
+            const route = router?.currentRoute?.value?.name as string
+            if (!userHasPageContactsAccess && route === 'citizens-uuid-contacts') {
+                navigateTo(`/citizens/${citizenUuid}/journals`)
+                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+            } else if (!userHasPageEconomyAccess && route === 'citizens-uuid-wallets') {
+                navigateTo(`/citizens/${citizenUuid}/journals`)
+                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+            } else if (!userHasPageCalendarAccess && route === 'citizens-uuid-calendar') {
+                navigateTo(`/citizens/${citizenUuid}/journals`)
+                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+            } else if (!userHasPageAttendanceAccess && route === 'citizens-uuid-attendance') {
+                navigateTo(`/citizens/${citizenUuid}/journals`)
+                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+            } else if (!userHasPageDocumentsAccess && route === 'citizens-uuid-documents') {
+                navigateTo(`/citizens/${citizenUuid}/journals`)
+                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+            } else if (!userHasPageHealthAccess && route === 'citizens-uuid-nursing-areas') {
+                navigateTo(`/citizens/${citizenUuid}/journals`)
+                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+            } else if (!userHasPageHealthAccess && route === 'citizens-uuid-nursing-areas') {
+                navigateTo(`/citizens/${citizenUuid}/journals`)
+                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+            } else if (!userHasPagePlansAndGoalsAccess && route === 'citizens-uuid-plans-and-goals') {
+                navigateTo(`/citizens/${citizenUuid}/journals`)
+                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+            } else if (!userHasPageMedicineCardAccess && route === 'citizens-uuid-medicine-journals') {
+                navigateTo(`/citizens/${citizenUuid}/journals`)
+                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+            } else if (!userHasPageJournalsAccess && route === 'citizens-uuid-journals') {
+                navigateTo(`/citizens`)
+                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+            }
         }
     }
 })
