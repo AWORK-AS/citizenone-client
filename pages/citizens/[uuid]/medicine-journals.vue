@@ -19,10 +19,10 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center gap-x-2">
-                        <FormButton buttonStyle="action" class="rounded-md cursor-not-allowed">
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            @click="navigateToExternalLink('https://fmk-online.dk/fmk')">
                             <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
-                            ({{ $t('comingSoon') }})
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isAddMedicineOpen = true">
@@ -218,6 +218,15 @@ watch(() => state.modal.isViewMedicineOpen, (isViewMedicineOpen: any) => {
         fetchCitizenMedicines()
     }
 })
+
+async function navigateToExternalLink(link: any) {
+    await navigateTo(link, {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
+}
 
 async function fetchCitizenMedicines() {
     state.error = {}
