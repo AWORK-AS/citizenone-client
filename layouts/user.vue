@@ -45,21 +45,13 @@
                                                             {{ $t('sidebar.dailyOverview') }}
                                                         </span>
                                                         <span v-if="item.name === 'Citizens'">
-                                                            {{
-                                                                customPage('citizens') === 'Citizens' ?
-                                                                    $t('sidebar.citizens') :
-                                                                    customPage('citizens')
-                                                            }}
+                                                            {{ customPagesStore.getCustomPagesName?.citizens }}
                                                         </span>
                                                         <span v-if="item.name === 'Calendar'">
                                                             {{ $t('sidebar.calendar') }}
                                                         </span>
                                                         <span v-if="item.name === 'Duty schedules'">
-                                                            {{
-                                                                customPage('duty-schedules') === 'Duty schedules' ?
-                                                                    $t('sidebar.dutySchedules') :
-                                                                    customPage('duty-schedules')
-                                                            }}
+                                                            {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                                                         </span>
                                                         <span v-if="item.name === 'Procedures'">
                                                             {{ $t('sidebar.procedures') }}
@@ -145,21 +137,13 @@
                                             {{ $t('sidebar.dailyOverview') }}
                                         </span>
                                         <span v-if="item.name === 'Citizens'">
-                                            {{
-                                                customPage('citizens') === 'Citizens' ?
-                                                    $t('sidebar.citizens') :
-                                                    customPage('citizens')
-                                            }}
+                                            {{ customPagesStore.getCustomPagesName?.citizens }}
                                         </span>
                                         <span v-if="item.name === 'Calendar'">
                                             {{ $t('sidebar.calendar') }}
                                         </span>
                                         <span v-if="item.name === 'Duty schedules'">
-                                            {{
-                                                customPage('duty-schedules') === 'Duty schedules' ?
-                                                    $t('sidebar.dutySchedules') :
-                                                    customPage('duty-schedules')
-                                            }}
+                                            {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                                         </span>
                                         <span v-if="item.name === 'Procedures'">
                                             {{ $t('sidebar.procedures') }}
@@ -532,12 +516,28 @@ onMounted(() => {
 
 watch(() => userStore.getUser, (user: any) => {
     if (user) {
-        const riskAssessementName = customPage('risk-assessments') === 'Risk assessments' ?
-            t('citizens.citizenJournals.riskAssessment') :
-            customPage('risk-assessments')
-        customPagesStore.setRiskAssessmentsNaming(riskAssessementName)
+        setCustomPageNames()
     }
 })
+
+watch(() => language.locale.value, () => {
+    setCustomPageNames()
+})
+
+function setCustomPageNames() {
+    const citizensName = customPage('citizens') === 'Citizens' ?
+        t('sidebar.citizens') :
+        customPage('citizens')
+    const dutySchedulesName = customPage('duty-schedules') === 'Duty schedules' ?
+        t('sidebar.dutySchedules') :
+        customPage('duty-schedules')
+    const riskAssessementName = customPage('risk-assessments') === 'Risk assessment' ?
+        t('citizens.citizenJournals.riskAssessment') :
+        customPage('risk-assessments')
+    customPagesStore.setCitizensNaming(citizensName)
+    customPagesStore.setDutySchedulesNaming(dutySchedulesName)
+    customPagesStore.setRiskAssessmentNaming(riskAssessementName)
+}
 
 function customPage(page: String) {
     return userStore.getUser?.custom_pages?.find((item: any) => item.page_type ===
