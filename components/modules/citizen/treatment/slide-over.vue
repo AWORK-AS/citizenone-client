@@ -45,6 +45,76 @@
                                                 <div v-for="(goal, index) in state.goals?.data" :index="index"
                                                     class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary">
                                                     <div>
+                                                        <Badge type="primary" class="w-fit">
+                                                            <p class="text-xxs truncate">
+                                                                <span v-if="goal?.area_type === 'functional_level'">
+                                                                    {{
+                                                                        $t('citizens.treatments.table.areaTypes.functionalLevel')
+                                                                    }}
+                                                                </span>
+                                                                <span
+                                                                    v-if="goal?.area_type === 'musculoskeletal_system'">
+                                                                    {{
+                                                                        $t('citizens.treatments.table.areaTypes.musculoskeletalSystem')
+                                                                    }}
+                                                                </span>
+                                                                <span v-if="goal?.area_type === 'nutrition'">
+                                                                    {{
+                                                                        $t('citizens.treatments.table.areaTypes.nutrition')
+                                                                    }}
+                                                                </span>
+                                                                <span
+                                                                    v-if="goal?.area_type === 'skin_and_mucous_membranes'">
+                                                                    {{
+                                                                        $t('citizens.treatments.table.areaTypes.skinAndMucousMembranes')
+                                                                    }}
+                                                                </span>
+                                                                <span v-if="goal?.area_type === 'communication'">
+                                                                    {{
+                                                                        $t('citizens.treatments.table.areaTypes.communication')
+                                                                    }}
+                                                                </span>
+                                                                <span
+                                                                    v-if="goal?.area_type === 'psychosocial_conditions'">
+                                                                    {{
+                                                                        $t('citizens.treatments.table.areaTypes.psychosocialConditions')
+                                                                    }}
+                                                                </span>
+                                                                <span
+                                                                    v-if="goal?.area_type === 'respiration_and_circulation'">
+                                                                    {{
+                                                                        $t('citizens.treatments.table.areaTypes.respirationAndCirculation')
+                                                                    }}
+                                                                </span>
+                                                                <span v-if="goal?.area_type === 'sexuality'">
+                                                                    {{
+                                                                        $t('citizens.treatments.table.areaTypes.sexuality')
+                                                                    }}
+                                                                </span>
+                                                                <span
+                                                                    v-if="goal?.area_type === 'pain_and_sensory_impressions'">
+                                                                    {{
+                                                                        $t('citizens.treatments.table.areaTypes.painAndSensoryImpressions')
+                                                                    }}
+                                                                </span>
+                                                                <span v-if="goal?.area_type === 'sleep_and_rest'">
+                                                                    {{
+                                                                        $t('citizens.treatments.table.areaTypes.sleepAndRest')
+                                                                    }}
+                                                                </span>
+                                                                <span
+                                                                    v-if="goal?.area_type === 'knowledge_and_development'">
+                                                                    {{
+                                                                        $t('citizens.treatments.table.areaTypes.knowledgeAndDevelopment')
+                                                                    }}
+                                                                </span>
+                                                                <span v-if="goal?.area_type === 'excretion_of_waste'">
+                                                                    {{
+                                                                        $t('citizens.treatments.table.areaTypes.excretionOfWaste')
+                                                                    }}
+                                                                </span>
+                                                            </p>
+                                                        </Badge>
                                                         <div class="flex justify-between items-center">
                                                             <div>
                                                                 <div class="flex items-center gap-x-2">
