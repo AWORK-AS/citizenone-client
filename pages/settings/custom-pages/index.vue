@@ -24,10 +24,10 @@
                                         <span v-if="customPages?.custom_name === 'Citizens'">
                                             {{ $t('customPages.table.citizens') }}
                                         </span>
-                                        <span v-else-if="customPages?.custom_name === 'Duty Schedules'">
+                                        <span v-else-if="customPages?.custom_name === 'Duty schedules'">
                                             {{ $t('customPages.table.dutySchedules') }}
                                         </span>
-                                        <span v-else-if="customPages?.custom_name === 'Risk Assessments'">
+                                        <span v-else-if="customPages?.custom_name === 'Risk assessments'">
                                             {{ $t('customPages.table.riskAssessments') }}
                                         </span>
                                         <span v-else>
