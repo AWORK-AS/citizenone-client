@@ -2361,7 +2361,8 @@
                 "emailAddress": "Email address",
                 "phone": "Phone",
                 "birthday": "Birthday",
-                "language": "Language"
+                "language": "Language",
+                "pageAccess": "Page access"
             }
         },
         "settings": "Settings",

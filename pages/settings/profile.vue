@@ -83,6 +83,15 @@
                                 <FormError :error="state?.error?.errors?.language_uuid?.[0]" />
                             </div>
                         </div>
+                        <div class="md:col-span-8 grid md:grid-cols-1">
+                            <div class="space-y-1">
+                                <FormLabel for="pages" :label="$t('settings.profile.form.pageAccess')" />
+                                <FormSelectMultiple id="pages" :options="state.options.pages"
+                                    v-model="state.formProfile.pages" />
+                                <FormError :error="v$?.formEmployee?.pages?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.page_uuid?.[0]" />
+                            </div>
+                        </div>
                     </div>
                     <div class="mt-6">
                         <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
@@ -99,6 +108,7 @@
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { languageService } from '@/components/api/LanguageService'
+import { pageService } from '@/components/api/PageService'
 import { userService } from "@/components/api/UserService"
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
@@ -123,10 +133,12 @@ const state = reactive({
         phone: '',
         birthday: '',
         language_uuid: '',
+        pages: [] as any,
     },
     isPageLoading: false,
     options: {
         languages: [],
+        pages: [],
     }
 })
 
@@ -157,6 +169,7 @@ const rulesFormProfile = computed(() => {
 
 onMounted(() => {
     fetchLanguages()
+    fetchPages()
 })
 
 watch(() => userStore.getUser, (newValue: any) => {
@@ -172,7 +185,11 @@ watch(() => userStore.getUser, (newValue: any) => {
             phone: newValue?.phone,
             birthday: newValue?.birthday,
             language_uuid: newValue?.language?.uuid,
+            pages: [],
         }
+        newValue?.pages.forEach((page: any) => {
+            state.formProfile.pages.push(page?.uuid)
+        })
     }
 })
 
@@ -197,6 +214,27 @@ async function fetchLanguages() {
     state.isPageLoading = false
 }
 
+async function fetchPages() {
+    state.isPageLoading = true
+    state.error = {}
+    try {
+        const response = await pageService.getAllPages()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.pages = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 const v$ = useVuelidate(rulesFormProfile, state)
 
 async function submitForm() {
@@ -213,6 +251,9 @@ async function submitForm() {
             params.append('phone', state.formProfile.phone)
             params.append('birthday', state.formProfile.birthday)
             params.append('language_uuid', state.formProfile.language_uuid)
+            if (state.formProfile.pages) {
+                params.append('page_uuid', JSON.stringify(state.formProfile.pages))
+            }
             const response = await userService.updateUser(params)
             if (response.data) {
                 userStore.setLanguage(response?.data?.language?.code)

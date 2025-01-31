@@ -2361,7 +2361,8 @@
                 "emailAddress": "E-mail adresse",
                 "phone": "Telefon",
                 "birthday": "Fødselsdag",
-                "language": "Sprog"
+                "language": "Sprog",
+                "pageAccess": "Sideadgang"
             }
         },
         "settings": "Indstillinger",
