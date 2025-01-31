@@ -26,7 +26,7 @@
                                                     }}
                                                     {{ status?.copied_from === 'journal_note' ?
                                                         $t('plansandgoals.table.journalNote') :
-                                                        $t('plansandgoals.table.riskAssessment') }}
+                                                        customPagesStore.getCustomPagesName?.riskAssessment }}
                                                 </p>
                                             </Badge>
                                             <div v-html="status.status" class="content" />
@@ -108,10 +108,12 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { useCustomPagesStore } from '@/store/custom-pages'
 
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 let currentTablePage = 1
 
 const props = defineProps({

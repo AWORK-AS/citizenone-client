@@ -571,6 +571,7 @@
                 "riskAssessmentTags": "Risikovurderingstag",
                 "showCurrentPlansGoalsAndSubgoals": "Vis nuværende planer, mål og delmål",
                 "subgoal": "Delmål",
+                "tags": "Tags",
                 "title": "Titel"
             },
             "editJournal": "Rediger Journal",
@@ -1096,7 +1097,7 @@
             "citizens": "Borgere",
             "dutySchedules": "Vagtplaner",
             "name": "Navn",
-            "riskAssessments": "Risikovurderinger"
+            "riskAssessment": "Risikovurdering"
         }
     },
     "chooseFile": "Vælg fil",
@@ -3026,6 +3027,7 @@
         "youHaveSuccessfullyVerifiedYourEmail": "Du har succesfuldt verificeret din email",
         "verifyEmail": "Verificer email"
     },
+    "view": "Se",
     "wish": {
         "alert": {
             "messageSuccessfullySent": "Besked sendt"

@@ -571,6 +571,7 @@
                 "riskAssessmentTags": "Risk assessment tags",
                 "showCurrentPlansGoalsAndSubgoals": "Show current plans, goals, and subgoals",
                 "subgoal": "Subgoal",
+                "tags": "Tags",
                 "title": "Title"
             },
             "editJournal": "Edit journal",
@@ -1096,7 +1097,7 @@
             "citizens": "Citizens",
             "dutySchedules": "Duty schedules",
             "name": "Name",
-            "riskAssessments": "Risk assessments"
+            "riskAssessment": "Risk assessment"
         }
     },
     "chooseFile": "Choose file",
@@ -3026,6 +3027,7 @@
         "youHaveSuccessfullyVerifiedYourEmail": "You have successfully verified your email",
         "verifyEmail": "Verify email"
     },
+    "view": "View",
     "wish": {
         "alert": {
             "messageSuccessfullySent": "Message successfully sent"

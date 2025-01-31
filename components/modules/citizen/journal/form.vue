@@ -94,7 +94,7 @@
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
-                    {{ $t('citizens.citizenJournals.form.riskAssessment') }}
+                    {{ customPagesStore.getCustomPagesName?.riskAssessment }}
                 </p>
                 <div>
                     <RadioGroup v-model="state.formJournal.assessment"
@@ -152,7 +152,7 @@
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
                     <FormLabel for="risk_assessment_tags"
-                        :label="$t('citizens.citizenJournals.form.riskAssessmentTags')" />
+                        :label="customPagesStore.getCustomPagesName?.riskAssessment + ' ' + $t('citizens.citizenJournals.form.tags')" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                         @click="state.modal.isAddJournalNoteTagsOpen = true">
                         {{ $t('journalNoteTags.addNewTag') }}
@@ -237,6 +237,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { useCustomPagesStore } from '@/store/custom-pages'
 
 const props = defineProps({
     error: {
@@ -255,6 +256,7 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const contentFileInput = ref(null) as any

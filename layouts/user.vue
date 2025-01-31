@@ -425,14 +425,17 @@ import {
 } from '@headlessui/vue'
 import { authService } from '@/components/api/AuthService'
 import { userService } from '@/components/api/UserService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const userStore = useUserStore() as any
+const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
 const router = useRouter()
 const routeName = router?.currentRoute?.value?.name
+const { t } = useI18n()
 
 const navigation = [
     {
@@ -527,6 +530,20 @@ onMounted(() => {
     animateAssets()
 })
 
+watch(() => userStore.getUser, (user: any) => {
+    if (user) {
+        const riskAssessementName = customPage('risk-assessments') === 'Risk assessments' ?
+            t('citizens.citizenJournals.riskAssessment') :
+            customPage('risk-assessments')
+        customPagesStore.setRiskAssessmentsNaming(riskAssessementName)
+    }
+})
+
+function customPage(page: String) {
+    return userStore.getUser?.custom_pages?.find((item: any) => item.page_type ===
+        page)?.custom_name
+}
+
 function animateAssets() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -555,11 +572,6 @@ async function fetchUser() {
     } catch (error: any) {
         state.error = error
     }
-}
-
-function customPage(page: String) {
-    return userStore.getUser?.custom_pages?.find((item: any) => item.page_type ===
-        page)?.custom_name
 }
 
 function checkInReminderModalVisibility(response: any) {
