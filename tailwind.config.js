@@ -95,6 +95,7 @@ export default {
           800: '#3996BB',
           900: '#294B4B',
         },
+        "upgrade": "21c18c",
       },
       fontSize: {
         xxs: ['10px', '12px'],
