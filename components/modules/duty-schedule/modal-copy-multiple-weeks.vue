@@ -104,7 +104,10 @@ watch(() => props.isModalOpen, (isModalOpen: Boolean) => {
         generateWeekSource()
         generateWeekDestination()
     }
+})
 
+watch(() => state.formCopy.weeks_source, (selectedSources) => {
+    state.options.weeks_destinations = generateFilteredWeekDestinations(selectedSources)
 })
 
 const rules = computed(() => {
@@ -124,6 +127,37 @@ const v$ = useVuelidate(rules, state)
 function closeModal() {
     emit('close')
 }
+
+function generateFilteredWeekDestinations(selectedSources: string[]) {
+    const weeks = []
+
+    let startWeek = moment().startOf('isoWeek')
+    let endWeek = moment().endOf('year').endOf('isoWeek').add(3, 'months')
+
+    while (startWeek.isBefore(endWeek) || startWeek.isSame(endWeek, 'week')) {
+        let weekNumber = startWeek.isoWeek()
+        let weekYear = startWeek.year()
+        let weekEnd = moment(startWeek).endOf('isoWeek')
+
+        let formattedStart = `${startWeek.format('DD.')} ${months[startWeek.month()]} ${startWeek.format('YYYY')}`
+        let formattedEnd = `${weekEnd.format('DD.')} ${months[weekEnd.month()]} ${weekEnd.format('YYYY')}`
+
+        let value = `${weekYear} - Week ${weekNumber}`
+
+        // Exclude weeks already selected in source
+        if (!selectedSources.includes(value)) {
+            weeks.push({
+                value,
+                label: `${weekYear} - Week ${weekNumber} (${formattedStart} - ${formattedEnd})`,
+            })
+        }
+
+        startWeek.add(1, 'week')
+    }
+
+    return weeks
+}
+
 
 function generateWeekSource() {
     const weeks = []
