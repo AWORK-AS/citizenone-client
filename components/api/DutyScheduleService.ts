@@ -24,6 +24,10 @@ class DutyScheduleService extends BaseAPIService {
     async getDutyScheduleAbsencePercentage(params: object): Promise<any> {
         return await this.request(`/user/duty-schedules/show/percentage`, 'GET', params)
     }
+
+    async copyWeeklyDutySchedule(params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/weekly/copy`, 'POST', params)
+    }
 }
 
 export const dutyScheduleService = new DutyScheduleService()

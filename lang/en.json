@@ -1241,14 +1241,22 @@
     },
     "dutySchedules": {
         "alert": {
-            "successfullyAdded": "New schedule successfully added",
-            "successfullyDeleted": "Schedule successfully deleted",
-            "successfullyUpdated": "Schedule successfully updated"
+            "newScheduleSuccessfullyAdded": "New schedule successfully added",
+            "scheduleSuccessfullyCopied": "Schedule successfully copied",
+            "scheduleSuccessfullyDeleted": "Schedule successfully deleted",
+            "scheduleSuccessfullyUpdated": "Schedule successfully updated"
         },
         "confirmation": {
             "deleteConfirmation": "Are you sure you want to delete this schedule"
         },
-        "copy": "Copy",
+        "copy": {
+            "copy": "Copy",
+            "copyThisWeeksSchedule": "Copy this week's schedule",
+            "copyMultipleWeeksSchedule": "Copy multiple weeks' schedules",
+            "week": "Week",
+            "weeksDestination": "Weeks destination",
+            "weeksSource": "Weeks source"
+        },
         "copyPaste": {
             "clickHereToPasteTheSchedule": "Click here to paste the schedule",
             "clickHereToStopCopyingTheSchedule": "Click here to stop copying the schedule",

@@ -135,16 +135,23 @@
                             <div>
                                 <div class="shadow grid grid-cols-9">
                                     <div class="col-span-2 border-0.5">
-                                        <div class="flex items-center px-3 py-4 border-0.5">
+                                        <div class="flex items-center gap-x-3 px-3 py-4 border-0.5">
                                             <p class="text-sm font-medium">
                                                 {{ $t('dutySchedules.week') }} {{ weekNumber }}
                                             </p>
-                                            <div class="flex-1 flex justify-end"
+                                            <Tooltip :text="$t('dutySchedules.copy.copyThisWeeksSchedule')">
+                                                <button
+                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                    @click="copyWeeklySchedule(weekNumber)">
+                                                    <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
+                                                </button>
+                                            </Tooltip>
+                                            <div class="flex-1 flex justify-end gap-x-2"
                                                 v-if="isAdmin(userStore.getUser?.roles)">
-                                                <Tooltip :text="$t('dutySchedules.copy')">
+                                                <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')">
                                                     <button
                                                         class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                        @click="copyWeeklySchedule(weekNumber)">
+                                                        @click="state.modal.isCopyMultipleWeeklyScheduleOpen = true">
                                                         <Icon name="mdi:content-copy" class="h-3 w-3"
                                                             aria-hidden="true" />
                                                     </button>
@@ -273,7 +280,7 @@
                                                 v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber)">
                                                 <div class="flex justify-end gap-2"
                                                     v-if="isAdmin(userStore.getUser?.roles)">
-                                                    <Tooltip :text="$t('dutySchedules.copy')">
+                                                    <Tooltip :text="$t('dutySchedules.copy.copy')">
                                                         <button
                                                             class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                             @click="copyEmployeeSchedule(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
@@ -496,6 +503,9 @@
             <ModulesDutyScheduleScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
                 :selectedDay="state.manageScheduleSlot.selectedDay"
                 @close="state.modal.isManageScheduleSlotOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
+            <ModulesDutyScheduleModalCopyMultipleWeeks :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
+                @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
+                @refreshDutySchedules="fetchDutySchedule()" />
         </LoadingSpinner>
     </div>
 </template>
@@ -541,6 +551,7 @@ const state = reactive({
     },
     modal: {
         isAddShiftOpen: false,
+        isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
         isDownloadOpen: false,
         isManageScheduleSlotOpen: false,

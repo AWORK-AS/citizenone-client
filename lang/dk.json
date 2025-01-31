@@ -1241,14 +1241,22 @@
     },
     "dutySchedules": {
         "alert": {
-            "successfullyAdded": "Ny vagtplan tilføjet med succes",
-            "successfullyDeleted": "Tidsplan slettet med succes",
-            "successfullyUpdated": "Tidsplan opdateret med succes"
+            "newScheduleSuccessfullyAdded": "Ny vagtplan tilføjet med succes",
+            "scheduleSuccessfullyCopied": "Vagtplan kopieret med succes",
+            "scheduleSuccessfullyDeleted": "Tidsplan slettet med succes",
+            "scheduleSuccessfullyUpdated": "Tidsplan opdateret med succes"
         },
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne tidsplan"
         },
-        "copy": "Kopiér",
+        "copy": {
+            "copy": "Kopiér",
+            "copyThisWeeksSchedule": "Kopiér denne uges vagtplan",
+            "copyMultipleWeeksSchedule": "Kopiér vagtplan for flere uger",
+            "week": "Uge",
+            "weeksDestination": "Ugers destination",
+            "weeksSource": "Ugers kilde"
+        },
         "copyPaste": {
             "clickHereToPasteTheSchedule": "Klik her for at indsætte",
             "clickHereToStopCopyingTheSchedule": "Klik her for at stoppe med at kopiere",
