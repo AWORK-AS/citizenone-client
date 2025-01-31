@@ -747,6 +747,7 @@
                 "actions": {
                     "edit": "Rediger",
                     "delete": "Slet",
+                    "medicineHistory": "Medicinhistorik",
                     "view": "Se"
                 },
                 "activeIngredients": "Aktive ingredienser",

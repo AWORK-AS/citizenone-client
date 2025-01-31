@@ -747,6 +747,7 @@
                 "actions": {
                     "edit": "Edit",
                     "delete": "Delete",
+                    "medicineHistory": "Medicine history",
                     "view": "View"
                 },
                 "activeIngredients": "Active ingredients",
