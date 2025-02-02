@@ -528,12 +528,12 @@ function setCustomPageNames() {
     const citizensName = customPage('citizens') === 'Citizens' ?
         t('sidebar.citizens') :
         customPage('citizens')
-    const dutySchedulesName = customPage('duty-schedules') === 'Duty schedules' ?
+    const dutySchedulesName = customPage('duty_schedules') === 'Duty schedules' ?
         t('sidebar.dutySchedules') :
-        customPage('duty-schedules')
-    const riskAssessementName = customPage('risk-assessments') === 'Risk assessment' ?
+        customPage('duty_schedules')
+    const riskAssessementName = customPage('risk_assessment') === 'Risk assessment' ?
         t('citizens.citizenJournals.riskAssessment') :
-        customPage('risk-assessments')
+        customPage('risk_assessment')
     customPagesStore.setCitizensNaming(citizensName)
     customPagesStore.setDutySchedulesNaming(dutySchedulesName)
     customPagesStore.setRiskAssessmentNaming(riskAssessementName)
