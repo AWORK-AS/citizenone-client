@@ -1086,7 +1086,8 @@
             "alert": {
                 "customPageSuccessfullyUpdated": "Brugerdefineret side blev opdateret med succes"
             },
-            "name": "Navn"
+            "nameDanish": "Navn (dansk)",
+            "nameEnglish": "Navn (engelsk)"
         },
         "customPages": "Brugerdefinerede sider",
         "table": {
@@ -1096,7 +1097,8 @@
             },
             "citizens": "Borgere",
             "dutySchedules": "Vagtplaner",
-            "name": "Navn",
+            "nameDanish": "Navn (dansk)",
+            "nameEnglish": "Navn (engelsk)",
             "riskAssessment": "Risikovurdering"
         }
     },

@@ -419,7 +419,6 @@ const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
 const router = useRouter()
 const routeName = router?.currentRoute?.value?.name
-const { t } = useI18n()
 
 const navigation = [
     {
@@ -525,23 +524,21 @@ watch(() => language.locale.value, () => {
 })
 
 function setCustomPageNames() {
-    const citizensName = customPage('citizens') === 'Citizens' ?
-        t('sidebar.citizens') :
-        customPage('citizens')
-    const dutySchedulesName = customPage('duty_schedules') === 'Duty schedules' ?
-        t('sidebar.dutySchedules') :
-        customPage('duty_schedules')
-    const riskAssessementName = customPage('risk_assessment') === 'Risk assessment' ?
-        t('citizens.citizenJournals.riskAssessment') :
-        customPage('risk_assessment')
+    const selectedLanguage = language.locale.value
+    const customPageCitizens = customPage('citizens')
+    const customPageDutySchedules = customPage('duty_schedules')
+    const customPageRiskAssessment = customPage('risk_assessment')
+    const citizensName = selectedLanguage === 'en' ? customPageCitizens?.en_name : customPageCitizens?.dk_name
+    const dutySchedulesName = selectedLanguage === 'en' ? customPageDutySchedules?.en_name : customPageDutySchedules?.dk_name
+    const riskAssessmentName = selectedLanguage === 'en' ? customPageRiskAssessment?.en_name : customPageRiskAssessment?.dk_name
     customPagesStore.setCitizensNaming(citizensName)
     customPagesStore.setDutySchedulesNaming(dutySchedulesName)
-    customPagesStore.setRiskAssessmentNaming(riskAssessementName)
+    customPagesStore.setRiskAssessmentNaming(riskAssessmentName)
 }
 
 function customPage(page: String) {
     return userStore.getUser?.custom_pages?.find((item: any) => item.page_type ===
-        page)?.custom_name
+        page)
 }
 
 function animateAssets() {

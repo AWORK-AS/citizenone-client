@@ -4,11 +4,18 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="name" :label="$t('customPages.form.name')" />
-                <FormTextField id="name" name="name" :placeholder="$t('customPages.form.name')"
-                    v-model="state.formCustomPage.name" />
-                <FormError :error="v$?.formCustomPage?.name?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.name?.[0]" />
+                <FormLabel for="en_name" :label="$t('customPages.form.nameEnglish')" />
+                <FormTextField id="en_name" name="en_name" :placeholder="$t('customPages.form.nameEnglish')"
+                    v-model="state.formCustomPage.en_name" />
+                <FormError :error="v$?.formCustomPage?.en_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.en_name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="dk_name" :label="$t('customPages.form.nameDanish')" />
+                <FormTextField id="dk_name" name="dk_name" :placeholder="$t('customPages.form.nameDanish')"
+                    v-model="state.formCustomPage.dk_name" />
+                <FormError :error="v$?.formCustomPage?.dk_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.dk_name?.[0]" />
             </div>
         </div>
         <div class="mt-6">
@@ -54,14 +61,16 @@ const { t } = useI18n()
 const state = reactive({
     error: {} as Error,
     formCustomPage: {
-        name: '',
+        en_name: '',
+        dk_name: '',
     },
 })
 
 watch(() => props.selectedCustomPage, (newValue: any) => {
     if (newValue != null) {
         state.formCustomPage = {
-            name: newValue.name,
+            en_name: newValue.en_name,
+            dk_name: newValue.dk_name,
         }
     }
 })
@@ -69,9 +78,12 @@ watch(() => props.selectedCustomPage, (newValue: any) => {
 const rules = computed(() => {
     return {
         formCustomPage: {
-            name: {
+            en_name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            }
+            },
+            dk_name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
         },
     }
 })

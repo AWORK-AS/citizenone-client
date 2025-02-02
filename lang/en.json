@@ -1086,7 +1086,8 @@
             "alert": {
                 "customPageSuccessfullyUpdated": "Custom page successfully updated"
             },
-            "name": "Name"
+            "nameDanish": "Name (danish)",
+            "nameEnglish": "Name (english)"
         },
         "customPages": "Custom pages",
         "table": {
@@ -1096,7 +1097,8 @@
             },
             "citizens": "Citizens",
             "dutySchedules": "Duty schedules",
-            "name": "Name",
+            "nameDanish": "Name (danish)",
+            "nameEnglish": "Name (english)",
             "riskAssessment": "Risk assessment"
         }
     },

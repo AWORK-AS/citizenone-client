@@ -35,7 +35,8 @@ const customPageUuid = router?.currentRoute?.value?.params?.uuid
 const state = reactive({
     error: {} as Error,
     formCustomPage: {
-        name: '',
+        en_name: '',
+        dk_name: '',
     },
     isPageLoading: false,
 })
@@ -51,7 +52,8 @@ async function fetchCustomPage() {
         const response = await customPagesService.getCustomPage(customPageUuid)
         if (response) {
             state.formCustomPage = {
-                name: response?.data?.custom_name ?? '',
+                en_name: response?.data?.en_name ?? '',
+                dk_name: response?.data?.dk_name ?? '',
             }
         }
     } catch (error: any) {
@@ -65,7 +67,8 @@ async function updateCustomPage(customPageDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
-            custom_name: customPageDetails.name
+            en_name: customPageDetails.en_name,
+            dk_name: customPageDetails.dk_name,
         }
         const response = await customPagesService.updateCustomPage(customPageUuid, params)
         if (response.data) {
