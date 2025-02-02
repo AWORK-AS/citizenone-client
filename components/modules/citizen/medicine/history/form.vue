@@ -30,14 +30,14 @@
                             <div :class="[
                                 active ? 'ring-1 ring-offset-2' : '',
                                 type.title === 'Delivered' && 'ring-primary',
-                                type.title === 'Deviated' && 'ring-green-700',
-                                type.title === 'Given' && 'ring-yellow-500',
+                                type.title === 'Deviated' && 'ring-yellow-500',
+                                type.title === 'Given' && 'ring-green-700',
                                 checked && type.title === 'Delivered' && 'bg-primary text-white ring-0 hover:bg-primary',
-                                checked && type.title === 'Deviated' && 'bg-green-700 text-white ring-0 hover:bg-green-700',
-                                checked && type.title === 'Given' && 'bg-yellow-500 text-white ring-0 hover:bg-yellow-500',
+                                checked && type.title === 'Deviated' && 'bg-yellow-500 text-white ring-0 hover:bg-yellow-500',
+                                checked && type.title === 'Given' && 'bg-green-700 text-white ring-0 hover:bg-green-700',
                                 !active && !checked && type.title === 'Delivered' && 'border border-primary ring-inset',
-                                !active && !checked && type.title === 'Deviated' && 'border border-green-700 ring-inset',
-                                !active && !checked && type.title === 'Given' && 'border border-yellow-500 ring-inset',
+                                !active && !checked && type.title === 'Deviated' && 'border border-yellow-500 ring-inset',
+                                !active && !checked && type.title === 'Given' && 'border border-green-700 ring-inset',
                                 active && checked ? 'text-white ring-1' : '',
                                 'cursor-pointer flex items-center justify-center rounded-md px-2 py-2 text-xs']">
                                 <span v-if="type.title === 'Delivered'">
