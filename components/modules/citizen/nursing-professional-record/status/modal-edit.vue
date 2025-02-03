@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('citizens.treatments.statuses.editStatus')" :show="props.isModalOpen"
+        <Modal size="sm" :title="$t('citizens.nursingAreas.statuses.editStatus')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -63,7 +63,7 @@ async function updateStatus(statusDetails: any) {
         if (response?.data) {
             refreshStatuses()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.treatments.statuses.alert.statusSuccessfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.nursingAreas.statuses.alert.statusSuccessfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error

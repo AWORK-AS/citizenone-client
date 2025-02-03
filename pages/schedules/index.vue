@@ -4,11 +4,8 @@
 
             <Head>
                 <Title>
-                    {{
-                        customPage('duty-schedules') === 'Duty schedules' ?
-                            $t('dutySchedules.dutySchedules') :
-                            customPage('duty-schedules')
-                    }}
+
+                    {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                     -
                     {{ runtimeConfig?.public?.appName }}
                 </Title>
@@ -46,8 +43,10 @@
 
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig()
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 
+const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 
 const state = reactive({
@@ -55,7 +54,7 @@ const state = reactive({
 })
 
 function customPage(page: String) {
-    return userStore.getUser?.custom_pages.find((item: any) => item.page_type ===
+    return userStore.getUser?.custom_pages?.find((item: any) => item.page_type ===
         page)?.custom_name
 }
 </script>

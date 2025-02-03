@@ -1,12 +1,13 @@
 <template>
     <div>
-        <Modal size="2xl" :title="$t('plansandgoals.statuses')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="3xl" :title="$t('citizens.nursingAreas.statuses.statuses')" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
                         <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddStatusOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('plansandgoals.newStatus') }}
+                            {{ $t('citizens.nursingAreas.statuses.newStatus') }}
                         </FormButton>
                     </div>
                     <div class="space-y-5">
@@ -18,47 +19,40 @@
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                                 <template #body v-if="!(state.isTableLoading || (state.statuses?.data?.length === 0))">
                                     <tr v-for="(status, index) in state.statuses?.data" :key="index">
-                                        <td width="30%">
-                                            <Badge type="primary" class="w-fit lowercase" v-if="status?.copied_from">
-                                                <p class="text-xxs">
-                                                    {{
-                                                        $t('plansandgoals.table.copiedFrom')
-                                                    }}
-                                                    {{ status?.copied_from === 'journal_note' ?
-                                                        $t('plansandgoals.table.journalNote') :
-                                                        customPagesStore.getCustomPagesName?.riskAssessment }}
-                                                </p>
-                                            </Badge>
+                                        <td width="20%">
+                                            <span>{{ formatDateToReadable(status?.date) }}</span>
+                                        </td>
+                                        <td width="20%">
                                             <div v-html="status.status" class="content" />
                                             <Badge type="primary" class="w-fit" v-if="status.score">
-                                                <p class="text-xxs" v-if="status.score == 1">
+                                                <p class="text-xxs truncate" v-if="status.score == 1">
                                                     {{
-                                                        $t('plansandgoals.table.expectedLevels.minorChallenges')
+                                                        $t('citizens.nursingAreas.statuses.expectedLevels.minorChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs" v-if="status.score == 2">
+                                                <p class="text-xxs truncate" v-if="status.score == 2">
                                                     {{
-                                                        $t('plansandgoals.table.expectedLevels.moderateChallenges')
+                                                        $t('citizens.nursingAreas.statuses.expectedLevels.moderateChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs" v-if="status.score == 3">
+                                                <p class="text-xxs truncate" v-if="status.score == 3">
                                                     {{
-                                                        $t('plansandgoals.table.expectedLevels.significantChallenges')
+                                                        $t('citizens.nursingAreas.statuses.expectedLevels.significantChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs" v-if="status.score == 4">
+                                                <p class="text-xxs truncate" v-if="status.score == 4">
                                                     {{
-                                                        $t('plansandgoals.table.expectedLevels.severeChallenges')
+                                                        $t('citizens.nursingAreas.statuses.expectedLevels.severeChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs" v-if="status.score == 5">
+                                                <p class="text-xxs truncate" v-if="status.score == 5">
                                                     {{
-                                                        $t('plansandgoals.table.expectedLevels.verySubstantialChallenges')
+                                                        $t('citizens.nursingAreas.statuses.expectedLevels.verySubstantialChallenges')
                                                     }}
                                                 </p>
                                             </Badge>
                                         </td>
-                                        <td width="30%">
+                                        <td width="20%">
                                             <span>{{ formatDateToReadable(status?.created_at) }}</span>
                                         </td>
                                         <td width="20%">
@@ -71,12 +65,12 @@
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="editStatus(status)" v-if="status?.is_editable">
                                                     <Icon name="ph:pencil" class="size-4" />
-                                                    {{ $t('plansandgoals.table.actions.edit') }}
+                                                    {{ $t('citizens.nursingAreas.statuses.table.actions.edit') }}
                                                 </FormButton>
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="confirmStatusDeletion(status)" v-if="status?.is_deletable">
                                                     <Icon name="heroicons:trash" class="size-4" />
-                                                    {{ $t('plansandgoals.table.actions.delete') }}
+                                                    {{ $t('citizens.nursingAreas.statuses.table.actions.delete') }}
                                                 </FormButton>
                                             </div>
                                         </td>
@@ -87,14 +81,14 @@
                         <Pagination :data="state.statuses" @previous="previous" @next="next" />
                     </div>
                 </div>
-                <ModulesCitizenPlanStatusModalNew :isModalOpen="state.modal.isAddStatusOpen"
-                    :selectedData="props.selectedData" :selectedStatus="state.selectedStatus"
+                <ModulesCitizenNursingProfessionalRecordStatusModalNew :isModalOpen="state.modal.isAddStatusOpen"
+                    :selectedRecord="props.selectedRecord" :selectedStatus="state.selectedStatus"
                     @close="state.modal.isAddStatusOpen = false" @refreshStatuses="fetchStatuses" />
-                <ModulesCitizenPlanStatusModalEdit :isModalOpen="state.modal.isEditStatusOpen"
+                <ModulesCitizenNursingProfessionalRecordStatusModalEdit :isModalOpen="state.modal.isEditStatusOpen"
                     :selectedStatus="state.selectedStatus" @close="state.modal.isEditStatusOpen = false"
                     @refreshStatuses="fetchStatuses" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
-                    :message="`${$t('plansandgoals.confirmation.deleteStatusConfirmation')}?`"
+                    :message="`${$t('citizens.nursingAreas.statuses.table.confirmation.deleteStatusConfirmation')}?`"
                     @close="state.modal.isDeleteStatusOpen = false" @confirm="deleteStatus" />
             </template>
         </Modal>
@@ -108,12 +102,10 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
-import { useCustomPagesStore } from '@/store/custom-pages'
 
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const customPagesStore = useCustomPagesStore() as any
 let currentTablePage = 1
 
 const props = defineProps({
@@ -121,7 +113,7 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedData: {
+    selectedRecord: {
         type: Object,
         required: true,
     },
@@ -134,9 +126,10 @@ const state = reactive({
         { column: 'status' },
     ],
     columnHeaders: [
-        { name: 'plansandgoals.table.status', sorter: true, key: 'status' },
-        { name: 'plansandgoals.table.dateCreated' },
-        { name: 'plansandgoals.table.createdBy' },
+        { name: 'citizens.nursingAreas.statuses.table.date' },
+        { name: 'citizens.nursingAreas.statuses.table.status', sorter: true, key: 'status' },
+        { name: 'citizens.nursingAreas.statuses.table.dateCreated' },
+        { name: 'citizens.nursingAreas.statuses.table.createdBy' },
         { name: '' },
     ],
     dataFilter: {
@@ -177,7 +170,7 @@ async function fetchStatuses() {
     state.isTableLoading = true
     try {
         const params = {
-            model_uuid: props.selectedData?.uuid,
+            model_uuid: props.selectedRecord?.uuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
@@ -235,7 +228,7 @@ async function deleteStatus() {
         const response = await statusService.deleteStatus(state.selectedStatus.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchStatuses()
-            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.statusSuccessfullyDeleted')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.nursingAreas.statuses.table.alert.statusSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error

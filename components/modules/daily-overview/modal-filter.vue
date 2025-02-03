@@ -13,7 +13,7 @@
                     <div class="w-fit flex items-center cursor-pointer text-sm"
                         @click="dailyOverviewStore.setDailyOverviewFilterShowRiskAssessment(!dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment)">
                         <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment" />
-                        {{ $t('dailyOverview.filter.items.riskAssessment') }}
+                        {{ customPagesStore.getCustomPagesName?.riskAssessment }}
                     </div>
                     <div class="w-fit flex items-center cursor-pointer text-sm"
                         @click="dailyOverviewStore.setDailyOverviewFilterShowGender(!dailyOverviewStore.getDailyOverviewFilter.showGender)">
@@ -93,7 +93,10 @@
 
 <script setup lang="ts">
 import { useDailyOverviewStore } from '@/store/daily-overview'
+import { useCustomPagesStore } from '@/store/custom-pages'
+
 const dailyOverviewStore = useDailyOverviewStore()
+const customPagesStore = useCustomPagesStore() as any
 
 const props = defineProps({
     isModalOpen: {

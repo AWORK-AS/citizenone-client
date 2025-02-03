@@ -4,21 +4,21 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="date" :label="$t('citizens.treatments.statuses.form.date')" />
-                <FormDateField id="date" name="date" :placeholder="$t('citizens.treatments.statuses.form.date')"
+                <FormLabel for="date" :label="$t('citizens.nursingAreas.statuses.form.date')" />
+                <FormDateField id="date" name="date" :placeholder="$t('citizens.nursingAreas.statuses.form.date')"
                     v-model="state.formStatus.date" />
                 <FormError :error="v$?.formStatus?.date?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="score" :label="$t('citizens.treatments.statuses.form.currentLevels.currentLevel')" />
+                <FormLabel for="score" :label="$t('citizens.nursingAreas.statuses.form.currentLevels.currentLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formStatus.score" />
                 <FormError :error="v$?.formStatus?.score?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.score?.[0]" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
-                    {{ $t('citizens.treatments.statuses.form.status') }}
+                    {{ $t('citizens.nursingAreas.statuses.form.status') }}
                 </p>
                 <ckeditor :editor="editor" v-model="state.formStatus.status" :config="editorStatusConfig"></ckeditor>
                 <FormError :error="v$?.formStatus?.status?.$errors[0]?.$message.toString()" />
@@ -84,11 +84,11 @@ const state = reactive({
     },
     options: {
         scores: [
-            { value: 1, label: `1. ${t('citizens.treatments.statuses.form.currentLevels.minorChallenges')}` },
-            { value: 2, label: `2. ${t('citizens.treatments.statuses.form.currentLevels.moderateChallenges')}` },
-            { value: 3, label: `3. ${t('citizens.treatments.statuses.form.currentLevels.significantChallenges')}` },
-            { value: 4, label: `4. ${t('citizens.treatments.statuses.form.currentLevels.severeChallenges')}` },
-            { value: 5, label: `5. ${t('citizens.treatments.statuses.form.currentLevels.verySubstantialChallenges')}` },
+            { value: 1, label: `1. ${t('citizens.nursingAreas.statuses.form.currentLevels.minorChallenges')}` },
+            { value: 2, label: `2. ${t('citizens.nursingAreas.statuses.form.currentLevels.moderateChallenges')}` },
+            { value: 3, label: `3. ${t('citizens.nursingAreas.statuses.form.currentLevels.significantChallenges')}` },
+            { value: 4, label: `4. ${t('citizens.nursingAreas.statuses.form.currentLevels.severeChallenges')}` },
+            { value: 5, label: `5. ${t('citizens.nursingAreas.statuses.form.currentLevels.verySubstantialChallenges')}` },
         ]
     },
 })

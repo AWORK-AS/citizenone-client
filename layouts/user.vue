@@ -45,21 +45,13 @@
                                                             {{ $t('sidebar.dailyOverview') }}
                                                         </span>
                                                         <span v-if="item.name === 'Citizens'">
-                                                            {{
-                                                                customPage('citizens') === 'Citizens' ?
-                                                                    $t('sidebar.citizens') :
-                                                                    customPage('citizens')
-                                                            }}
+                                                            {{ customPagesStore.getCustomPagesName?.citizens }}
                                                         </span>
                                                         <span v-if="item.name === 'Calendar'">
                                                             {{ $t('sidebar.calendar') }}
                                                         </span>
                                                         <span v-if="item.name === 'Duty schedules'">
-                                                            {{
-                                                                customPage('duty-schedules') === 'Duty schedules' ?
-                                                                    $t('sidebar.dutySchedules') :
-                                                                    customPage('duty-schedules')
-                                                            }}
+                                                            {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                                                         </span>
                                                         <span v-if="item.name === 'Procedures'">
                                                             {{ $t('sidebar.procedures') }}
@@ -98,7 +90,7 @@
                                                 </li>
                                                 <li>
                                                     <div @click="navigateTo('/findsocialetilbud.dk')"
-                                                        :class="[['findsocialetilbud.dk'].includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25', 'group flex gap-x-2.5 rounded-md p-2 text-sm leading-6 font-semibold']">
+                                                        :class="[['findsocialetilbud.dk'].includes($route.name as string) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25', 'group flex gap-x-2.5 rounded-md p-2 text-sm leading-6 font-semibold']">
                                                         <img src="/img/findsocialetilbud-icon.png"
                                                             alt="FindSocialeTilbud.dk" class="h-5 w-5 shrink-0" />
                                                         FindSocialeTilbud.dk
@@ -145,21 +137,13 @@
                                             {{ $t('sidebar.dailyOverview') }}
                                         </span>
                                         <span v-if="item.name === 'Citizens'">
-                                            {{
-                                                customPage('citizens') === 'Citizens' ?
-                                                    $t('sidebar.citizens') :
-                                                    customPage('citizens')
-                                            }}
+                                            {{ customPagesStore.getCustomPagesName?.citizens }}
                                         </span>
                                         <span v-if="item.name === 'Calendar'">
                                             {{ $t('sidebar.calendar') }}
                                         </span>
                                         <span v-if="item.name === 'Duty schedules'">
-                                            {{
-                                                customPage('duty-schedules') === 'Duty schedules' ?
-                                                    $t('sidebar.dutySchedules') :
-                                                    customPage('duty-schedules')
-                                            }}
+                                            {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                                         </span>
                                         <span v-if="item.name === 'Procedures'">
                                             {{ $t('sidebar.procedures') }}
@@ -196,7 +180,7 @@
                                 </li>
                                 <li>
                                     <div @click="navigateTo('/findsocialetilbud.dk')" :class="[
-                                        ['findsocialetilbud.dk'].includes($route.name)
+                                        ['findsocialetilbud.dk'].includes($route.name as string)
                                             ? 'text-secondary-25'
                                             : 'text-secondary-100 hover:text-secondary-25',
                                         userStore.getInTutorial && routeName === 'findsocialetilbud.dk'
@@ -425,11 +409,13 @@ import {
 } from '@headlessui/vue'
 import { authService } from '@/components/api/AuthService'
 import { userService } from '@/components/api/UserService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const userStore = useUserStore() as any
+const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
 const router = useRouter()
 const routeName = router?.currentRoute?.value?.name
@@ -527,6 +513,34 @@ onMounted(() => {
     animateAssets()
 })
 
+watch(() => userStore.getUser, (user: any) => {
+    if (user) {
+        setCustomPageNames()
+    }
+})
+
+watch(() => language.locale.value, () => {
+    setCustomPageNames()
+})
+
+function setCustomPageNames() {
+    const selectedLanguage = language.locale.value
+    const customPageCitizens = customPage('citizens')
+    const customPageDutySchedules = customPage('duty_schedules')
+    const customPageRiskAssessment = customPage('risk_assessment')
+    const citizensName = selectedLanguage === 'en' ? customPageCitizens?.en_name : customPageCitizens?.dk_name
+    const dutySchedulesName = selectedLanguage === 'en' ? customPageDutySchedules?.en_name : customPageDutySchedules?.dk_name
+    const riskAssessmentName = selectedLanguage === 'en' ? customPageRiskAssessment?.en_name : customPageRiskAssessment?.dk_name
+    customPagesStore.setCitizensNaming(citizensName)
+    customPagesStore.setDutySchedulesNaming(dutySchedulesName)
+    customPagesStore.setRiskAssessmentNaming(riskAssessmentName)
+}
+
+function customPage(page: String) {
+    return userStore.getUser?.custom_pages?.find((item: any) => item.page_type ===
+        page)
+}
+
 function animateAssets() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -555,11 +569,6 @@ async function fetchUser() {
     } catch (error: any) {
         state.error = error
     }
-}
-
-function customPage(page: String) {
-    return userStore.getUser?.custom_pages?.find((item: any) => item.page_type ===
-        page)?.custom_name
 }
 
 function checkInReminderModalVisibility(response: any) {

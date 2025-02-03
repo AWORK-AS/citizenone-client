@@ -249,6 +249,7 @@
             "sendMessage": "Send besked",
             "sendUsAMessage": "Send os en besked, så vender vi tilbage hurtigst muligt"
         },
+        "goToPartner": "Gå til partner",
         "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
         "month": "Måned",
         "purchased": {
@@ -259,6 +260,7 @@
         },
         "readMore": "Læs mere",
         "termsAndConditions": "Vilkår og betingelser",
+        "thirdPartyApp": "Tredjepartsapp",
         "year": "År"
     },
     "archived": {
@@ -571,6 +573,7 @@
                 "riskAssessmentTags": "Risikovurderingstag",
                 "showCurrentPlansGoalsAndSubgoals": "Vis nuværende planer, mål og delmål",
                 "subgoal": "Delmål",
+                "tags": "Tags",
                 "title": "Titel"
             },
             "editJournal": "Rediger Journal",
@@ -747,6 +750,7 @@
                 "actions": {
                     "edit": "Rediger",
                     "delete": "Slet",
+                    "medicineHistory": "Medicinhistorik",
                     "view": "Se"
                 },
                 "activeIngredients": "Aktive ingredienser",
@@ -790,10 +794,54 @@
             },
             "newNursingProfessionalRecords": "Ny sundhedsfaglig optegnelse",
             "nursingProfessionalRecords": "Sundhedsfaglige optegnelser",
+            "statuses": {
+                "alert": {
+                    "statusSuccessfullyAdded": "Status tilføjet med succes",
+                    "statusSuccessfullyUpdated": "Status opdateret med succes"
+                },
+                "editStatus": "Rediger status",
+                "expectedLevels": {
+                    "minorChallenges": "Mindre udfordringer",
+                    "moderateChallenges": "Moderate udfordringer",
+                    "significantChallenges": "Markante udfordringer",
+                    "severeChallenges": "Alvorlige udfordringer",
+                    "verySubstantialChallenges": "Meget store udfordringer"
+                },
+                "form": {
+                    "currentLevels": {
+                        "currentLevel": "Nuværende niveau",
+                        "minorChallenges": "Mindre udfordringer",
+                        "moderateChallenges": "Moderate udfordringer",
+                        "significantChallenges": "Markante udfordringer",
+                        "severeChallenges": "Alvorlige udfordringer",
+                        "verySubstantialChallenges": "Meget store udfordringer"
+                    },
+                    "date": "Dato",
+                    "status": "Status"
+                },
+                "newStatus": "Ny status",
+                "statuses": "Statusser",
+                "table": {
+                    "actions": {
+                        "delete": "Slet",
+                        "edit": "Rediger"
+                    },
+                    "alert": {
+                        "statusSuccessfullyDeleted": "Status slettet med succes"
+                    },
+                    "confirmation": {
+                        "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
+                    },
+                    "date": "Dato",
+                    "dateCreated": "Oprettelsesdato",
+                    "createdBy": "Oprettet af",
+                    "status": "Status"
+                }
+            },
             "table": {
                 "actions": {
                     "edit": "Rediger",
-                    "viewTreatments": "Se behandlinger"
+                    "statuses": "Statusser"
                 },
                 "data": "Data",
                 "date": "Dato",
@@ -837,7 +885,7 @@
         "treatments": {
             "alert": {
                 "treatmentSuccessfullyAdded": "Behandling gemt med succes",
-                "TreatmentSuccessfullyUpdated": "Behandling opdateret med succes"
+                "treatmentSuccessfullyUpdated": "Behandling opdateret med succes"
             },
             "editTreatment": "Rediger behandling",
             "form": {
@@ -868,8 +916,8 @@
                     "severeChallenges": "Alvorlige udfordringer",
                     "verySubstantialChallenges": "Meget store udfordringer"
                 },
-                "score": "Score",
-                "title": "Titel"
+                "name": "Navn",
+                "score": "Score"
             },
             "newTreatment": "Ny behandling",
             "statuses": {
@@ -909,6 +957,7 @@
                     "confirmation": {
                         "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
                     },
+                    "date": "Dato",
                     "dateCreated": "Oprettelsesdato",
                     "createdBy": "Oprettet af",
                     "status": "Status"
@@ -942,6 +991,7 @@
                 "confirmation": {
                     "deleteTreatmentConfirmation": "Er du sikker på, at du vil slette denne behandling"
                 },
+                "createdBy": "Oprettet af",
                 "dateCompleted": "Dato afsluttet",
                 "dateCreated": "Oprettelsesdato",
                 "description": "Beskrivelse",
@@ -953,8 +1003,8 @@
                     "verySubstantialChallenges": "Meget store udfordringer"
                 },
                 "inProgress": "I gang",
-                "score": "Score",
-                "title": "Titel"
+                "name": "Navn",
+                "score": "Score"
             },
             "treatments": "Behandlinger"
         },
@@ -1084,7 +1134,8 @@
             "alert": {
                 "customPageSuccessfullyUpdated": "Brugerdefineret side blev opdateret med succes"
             },
-            "name": "Navn"
+            "nameDanish": "Navn (dansk)",
+            "nameEnglish": "Navn (engelsk)"
         },
         "customPages": "Ordliste",
         "table": {
@@ -1094,8 +1145,9 @@
             },
             "citizens": "Borgere",
             "dutySchedules": "Vagtplaner",
-            "name": "Navn",
-            "riskAssessments": "Risikovurderinger"
+            "nameDanish": "Navn (dansk)",
+            "nameEnglish": "Navn (engelsk)",
+            "riskAssessment": "Risikovurdering"
         }
     },
     "chooseFile": "Vælg fil",
@@ -2589,9 +2641,11 @@
                 "description": "Beskrivelse",
                 "image": "Billede",
                 "isOneTimeFee": "Er engangsgebyr",
+                "link": "Link",
                 "monthlyPrice": "Månedlig pris",
                 "name": "Navn",
                 "price": "Pris",
+                "thirdPartyApp": "Tredjepartsapp",
                 "type": "Type",
                 "types": {
                     "marketing": "Marketing",
@@ -2606,10 +2660,12 @@
                     "delete": "Slet",
                     "edit": "Rediger"
                 },
+                "link": "Link",
                 "monthlyPrice": "Månedlig pris",
                 "name": "Navn",
                 "oneTimeFee": "Engangsgebyr",
                 "price": "Pris",
+                "thirdPartyApp": "Tredjepartsapp",
                 "type": "Type",
                 "yearlyPrice": "Årlig pris"
             }
@@ -3025,6 +3081,7 @@
         "youHaveSuccessfullyVerifiedYourEmail": "Du har succesfuldt verificeret din email",
         "verifyEmail": "Verificer email"
     },
+    "view": "Se",
     "wish": {
         "alert": {
             "messageSuccessfullySent": "Besked sendt"

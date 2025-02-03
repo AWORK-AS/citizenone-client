@@ -41,6 +41,8 @@ const state = reactive({
         type: '',
         logo: '',
         image: '',
+        is_thirdparty: false,
+        url_field: '',
     },
     isPageLoading: false,
 })
@@ -59,6 +61,8 @@ async function saveApp(appDetails: any) {
         params.append('type', appDetails.type)
         params.append('logo', appDetails.logo)
         params.append('image', appDetails.image)
+        params.append('is_thirdparty', appDetails.is_thirdparty)
+        params.append('url_field', appDetails.url_field)
         const response = await appService.saveApp(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('superadmin.apps.form.alert.newAppSuccessfullySaved')}.`)

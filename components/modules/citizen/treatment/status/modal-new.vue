@@ -4,9 +4,10 @@
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenTreatmentStatusForm formType="create" :selectedStatus="state.formStatus"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveStatus" />
+                    <ModulesCitizenNursingProfessionalRecordStatusForm formType="create"
+                        :selectedStatus="state.formStatus" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
+                        @submitForm="saveStatus" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -27,7 +28,7 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedData: {
+    selectedTreatment: {
         type: Object,
         required: true,
     },
@@ -39,6 +40,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formStatus: {
+        date: '',
         score: '',
         status: '',
     },
@@ -57,7 +59,8 @@ async function saveStatus(statusDetails: any) {
     state.isPageLoading = true
     try {
         let params = {
-            model_uuid: props.selectedData?.uuid,
+            model_uuid: props.selectedTreatment?.uuid,
+            date: statusDetails.date,
             score: statusDetails.score,
             status: statusDetails.status,
         }

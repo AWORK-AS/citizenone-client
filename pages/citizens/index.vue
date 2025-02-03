@@ -4,11 +4,7 @@
 
             <Head>
                 <Title>
-                    {{
-                        customPage('citizens') === 'Citizens' ?
-                            $t('citizens.citizens') :
-                            customPage('citizens')
-                    }}
+                    {{ customPagesStore.getCustomPagesName?.citizens }}
                     -
                     {{ runtimeConfig?.public?.appName }}
                 </Title>
@@ -88,11 +84,13 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/CitizenService'
 import { useDepartmentStore } from '@/store/department'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const departmentStore = useDepartmentStore()
+const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 let currentTablePage = 1
 
@@ -130,7 +128,7 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 })
 
 function customPage(page: String) {
-    return userStore.getUser?.custom_pages.find((item: any) => item.page_type ===
+    return userStore.getUser?.custom_pages?.find((item: any) => item.page_type ===
         page)?.custom_name
 }
 

@@ -41,16 +41,21 @@
                     <div class="mt-3 ltablet:grid-cols-3 grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-3">
                         <div v-for="(app, index) in state.apps?.data" :key="index"
                             class="bg-white p-6 border rounded-md">
-                            <div class="mb-3 flex items-center gap-3">
-                                <img :src="app.logo" alt="App logo" class="w-10" />
-                                <div class="leading-none">
-                                    <h4 class="text-muted-800 dark:text-muted-100 font-sans text-sm font-medium">
-                                        {{ app.name }}
-                                    </h4>
+                            <div class="mb-3 flex justify-between">
+                                <div class="flex items-center gap-3">
+                                    <img :src="app.logo" alt="App logo" class="w-10" />
+                                    <div class="leading-none">
+                                        <h4 class="text-muted-800 dark:text-muted-100 font-sans text-sm font-medium">
+                                            {{ app.name }}
+                                        </h4>
+                                    </div>
                                 </div>
+                                <Badge type="primary" class="text-xxs truncate w-fit h-fit" v-if="app?.is_thirdparty">
+                                    {{ $t('apps.thirdPartyApp') }}
+                                </Badge>
                             </div>
                             <div class="my-4 space-y-3">
-                                <div class="text-muted-400 flex items-center gap-1">
+                                <!-- <div class="text-muted-400 flex items-center gap-1">
                                     <Icon name="material-symbols:receipt" class="size-4" />
                                     <div class="font-sans text-sm" v-if="app?.is_one_time_fee">
                                         {{ formatAmount(app?.price) }}
@@ -65,7 +70,7 @@
                                         </span>
                                         {{ $t('excludeVat') }}
                                     </div>
-                                </div>
+                                </div> -->
                                 <p class="text-muted-800 dark:text-muted-100 font-sans text-sm line-clamp-1">
                                     {{ app?.description }}
                                 </p>
@@ -74,11 +79,16 @@
                                 <FormButton type="button" buttonStyle="action" class="w-full" @click="readMore(app)">
                                     {{ $t('apps.readMore') }}
                                 </FormButton>
+                                <FormButton type="button" buttonStyle="action" class="w-full"
+                                    @click="navigateToExternalLink(app?.url_field)" v-if="app?.url_field">
+                                    {{ $t('apps.goToPartner') }}
+                                </FormButton>
                                 <FormButton type="button" :buttonStyle="app?.user_activated ? 'warning' : 'action'"
                                     :class="[
                                         app?.user_activated && 'cursor-not-allowed',
                                         'w-full'
-                                    ]" color="primary" @click="!app?.user_activated && confirmTACAcceptance(app)">
+                                    ]" color="primary" @click="!app?.user_activated && confirmTACAcceptance(app)"
+                                    v-else>
                                     {{ app?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
                                 </FormButton>
                             </div>
@@ -204,5 +214,16 @@ async function activateApp(frequency: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function navigateToExternalLink(link: any) {
+    if (link) {
+        await navigateTo(link, {
+            external: true,
+            open: {
+                target: '_blank',
+            }
+        })
+    }
 }
 </script>

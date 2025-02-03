@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="2xl" :title="$t('citizens.treatments.statuses.statuses')" :show="props.isModalOpen"
+        <Modal size="3xl" :title="$t('citizens.treatments.statuses.statuses')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div>
@@ -19,37 +19,40 @@
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                                 <template #body v-if="!(state.isTableLoading || (state.statuses?.data?.length === 0))">
                                     <tr v-for="(status, index) in state.statuses?.data" :key="index">
-                                        <td width="30%">
+                                        <td width="20%">
+                                            <span>{{ formatDateToReadable(status?.date) }}</span>
+                                        </td>
+                                        <td width="20%">
                                             <div v-html="status.status" class="content" />
                                             <Badge type="primary" class="w-fit" v-if="status.score">
-                                                <p class="text-xxs" v-if="status.score == 1">
+                                                <p class="text-xxs truncate" v-if="status.score == 1">
                                                     {{
-                                                        $t('citizens.treatments.table.expectedLevels.minorChallenges')
+                                                        $t('citizens.treatments.statuses.expectedLevels.minorChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs" v-if="status.score == 2">
+                                                <p class="text-xxs truncate" v-if="status.score == 2">
                                                     {{
-                                                        $t('citizens.treatments.table.expectedLevels.moderateChallenges')
+                                                        $t('citizens.treatments.statuses.expectedLevels.moderateChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs" v-if="status.score == 3">
+                                                <p class="text-xxs truncate" v-if="status.score == 3">
                                                     {{
-                                                        $t('citizens.treatments.table.expectedLevels.significantChallenges')
+                                                        $t('citizens.treatments.statuses.expectedLevels.significantChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs" v-if="status.score == 4">
+                                                <p class="text-xxs truncate" v-if="status.score == 4">
                                                     {{
-                                                        $t('citizens.treatments.table.expectedLevels.severeChallenges')
+                                                        $t('citizens.treatments.statuses.expectedLevels.severeChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs" v-if="status.score == 5">
+                                                <p class="text-xxs truncate" v-if="status.score == 5">
                                                     {{
-                                                        $t('citizens.treatments.table.expectedLevels.verySubstantialChallenges')
+                                                        $t('citizens.treatments.statuses.expectedLevels.verySubstantialChallenges')
                                                     }}
                                                 </p>
                                             </Badge>
                                         </td>
-                                        <td width="30%">
+                                        <td width="20%">
                                             <span>{{ formatDateToReadable(status?.created_at) }}</span>
                                         </td>
                                         <td width="20%">
@@ -79,7 +82,7 @@
                     </div>
                 </div>
                 <ModulesCitizenTreatmentStatusModalNew :isModalOpen="state.modal.isAddStatusOpen"
-                    :selectedData="props.selectedData" :selectedStatus="state.selectedStatus"
+                    :selectedTreatment="props.selectedTreatment" :selectedStatus="state.selectedStatus"
                     @close="state.modal.isAddStatusOpen = false" @refreshStatuses="fetchStatuses" />
                 <ModulesCitizenTreatmentStatusModalEdit :isModalOpen="state.modal.isEditStatusOpen"
                     :selectedStatus="state.selectedStatus" @close="state.modal.isEditStatusOpen = false"
@@ -110,7 +113,7 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedData: {
+    selectedTreatment: {
         type: Object,
         required: true,
     },
@@ -123,6 +126,7 @@ const state = reactive({
         { column: 'status' },
     ],
     columnHeaders: [
+        { name: 'citizens.treatments.statuses.table.date' },
         { name: 'citizens.treatments.statuses.table.status', sorter: true, key: 'status' },
         { name: 'citizens.treatments.statuses.table.dateCreated' },
         { name: 'citizens.treatments.statuses.table.createdBy' },
@@ -166,7 +170,7 @@ async function fetchStatuses() {
     state.isTableLoading = true
     try {
         const params = {
-            model_uuid: props.selectedData?.uuid,
+            model_uuid: props.selectedTreatment?.uuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,

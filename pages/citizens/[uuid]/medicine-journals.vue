@@ -125,7 +125,7 @@
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="viewMedicineHistory(medicine)">
                                                 <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('citizens.medicineJournals.table.actions.view') }}
+                                                {{ $t('citizens.medicineJournals.table.actions.medicineHistory') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editMedicine(medicine)" v-if="medicine?.is_editable">

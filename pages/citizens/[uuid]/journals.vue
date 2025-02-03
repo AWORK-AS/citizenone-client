@@ -37,7 +37,7 @@
                                 <FormButton class="w-full md:w-fit"
                                     :buttonStyle="citizenJournalStore.getFilterView === 'Risk assessment view' ? 'primary' : ''"
                                     @click="setFilterView('Risk assessment view')">
-                                    {{ $t('citizens.citizenJournals.filter.riskAssessmentView') }}
+                                    {{ customPagesStore.getCustomPagesName?.riskAssessment + ' ' + $t('view') }}
                                 </FormButton>
                             </div>
                             <div class="flex items-center gap-x-2 justify-end">
@@ -181,7 +181,7 @@
                                         <div class="text-sm text-muted-400"
                                             v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView)">
                                             <p class="font-semibold">
-                                                {{ $t('citizens.citizenJournals.riskAssessment') }}:
+                                                {{ customPagesStore.getCustomPagesName?.riskAssessment }}:
                                             </p>
                                             <div v-html="journal.note" class="content" />
                                         </div>
@@ -259,11 +259,13 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCitizenJournalStore } from '@/store/citizen-journal'
 import type { Error } from '@/types'
+import { useCustomPagesStore } from '@/store/custom-pages'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenJournalStore = useCitizenJournalStore()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid

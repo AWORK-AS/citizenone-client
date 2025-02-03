@@ -8,4 +8,6 @@ export interface AppForm {
     type: string,
     logo: string,
     image: string,
+    is_thirdparty: boolean,
+    url_field: string,
 }

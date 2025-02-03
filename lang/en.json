@@ -249,6 +249,7 @@
             "sendMessage": "Send message",
             "sendUsAMessage": "Send us a message and we will get back as soon as possible"
         },
+        "goToPartner": "Go to partner",
         "iHaveReadAndAcceptThe": "I have read and accept the",
         "month": "Month",
         "purchased": {
@@ -259,6 +260,7 @@
         },
         "readMore": "Read more",
         "termsAndConditions": "Terms and Conditions",
+        "thirdPartyApp": "Third party app",
         "year": "Year"
     },
     "archived": {
@@ -571,6 +573,7 @@
                 "riskAssessmentTags": "Risk assessment tags",
                 "showCurrentPlansGoalsAndSubgoals": "Show current plans, goals, and subgoals",
                 "subgoal": "Subgoal",
+                "tags": "Tags",
                 "title": "Title"
             },
             "editJournal": "Edit journal",
@@ -747,6 +750,7 @@
                 "actions": {
                     "edit": "Edit",
                     "delete": "Delete",
+                    "medicineHistory": "Medicine history",
                     "view": "View"
                 },
                 "activeIngredients": "Active ingredients",
@@ -790,10 +794,54 @@
             },
             "newNursingProfessionalRecords": "New nursing professional record",
             "nursingProfessionalRecords": "Nursing professional records",
+            "statuses": {
+                "alert": {
+                    "statusSuccessfullyAdded": "Status successfully added",
+                    "statusSuccessfullyUpdated": "Status successfully updated"
+                },
+                "editStatus": "Edit status",
+                "expectedLevels": {
+                    "minorChallenges": "Minor challenges",
+                    "moderateChallenges": "Moderate challenges",
+                    "significantChallenges": "Significant challenges",
+                    "severeChallenges": "Severe challenges",
+                    "verySubstantialChallenges": "Very substantial challenges"
+                },
+                "form": {
+                    "currentLevels": {
+                        "currentLevel": "Current level",
+                        "minorChallenges": "Minor challenges",
+                        "moderateChallenges": "Moderate challenges",
+                        "significantChallenges": "Significant challenges",
+                        "severeChallenges": "Severe challenges",
+                        "verySubstantialChallenges": "Very substantial challenges"
+                    },
+                    "date": "Date",
+                    "status": "Status"
+                },
+                "newStatus": "New status",
+                "statuses": "Statuses",
+                "table": {
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit"
+                    },
+                    "alert": {
+                        "statusSuccessfullyDeleted": "Status successfully deleted"
+                    },
+                    "confirmation": {
+                        "deleteStatusConfirmation": "Are you sure you want to delete this status"
+                    },
+                    "date": "Date",
+                    "dateCreated": "Date created",
+                    "createdBy": "Created by",
+                    "status": "Status"
+                }
+            },
             "table": {
                 "actions": {
                     "edit": "Edit",
-                    "viewTreatments": "View treatments"
+                    "statuses": "Statuses"
                 },
                 "data": "Data",
                 "date": "Date",
@@ -837,7 +885,7 @@
         "treatments": {
             "alert": {
                 "treatmentSuccessfullyAdded": "Treatment successfully saved",
-                "TreatmentSuccessfullyUpdated": "Treatment successfully updated"
+                "treatmentSuccessfullyUpdated": "Treatment successfully updated"
             },
             "editTreatment": "Edit treatment",
             "form": {
@@ -868,8 +916,8 @@
                     "severeChallenges": "Severe challenges",
                     "verySubstantialChallenges": "Very substantial challenges"
                 },
-                "score": "Score",
-                "title": "Title"
+                "name": "Name",
+                "score": "Score"
             },
             "newTreatment": "New treatment",
             "statuses": {
@@ -909,8 +957,9 @@
                     "confirmation": {
                         "deleteStatusConfirmation": "Are you sure you want to delete this status"
                     },
+                    "date": "Date",
                     "dateCreated": "Date created",
-                    "createdBy": "Date created",
+                    "createdBy": "Created by",
                     "status": "Status"
                 }
             },
@@ -942,6 +991,7 @@
                 "confirmation": {
                     "deleteTreatmentConfirmation": "Are you sure you want to delete this treatment"
                 },
+                "createdBy": "Created by",
                 "dateCompleted": "Date completed",
                 "dateCreated": "Date created",
                 "description": "Description",
@@ -953,8 +1003,8 @@
                     "verySubstantialChallenges": "Very substantial challenges"
                 },
                 "inProgress": "In progress",
-                "score": "Score",
-                "title": "Title"
+                "name": "Name",
+                "score": "Score"
             },
             "treatments": "Treatments"
         },
@@ -1084,7 +1134,8 @@
             "alert": {
                 "customPageSuccessfullyUpdated": "Custom page successfully updated"
             },
-            "name": "Name"
+            "nameDanish": "Name (danish)",
+            "nameEnglish": "Name (english)"
         },
         "customPages": "Glossary",
         "table": {
@@ -1094,8 +1145,9 @@
             },
             "citizens": "Citizens",
             "dutySchedules": "Duty schedules",
-            "name": "Name",
-            "riskAssessments": "Risk assessments"
+            "nameDanish": "Name (danish)",
+            "nameEnglish": "Name (english)",
+            "riskAssessment": "Risk assessment"
         }
     },
     "chooseFile": "Choose file",
@@ -2589,9 +2641,11 @@
                 "description": "Description",
                 "image": "Image",
                 "isOneTimeFee": "Is one time fee",
+                "link": "Link",
                 "monthlyPrice": "Monthly price",
                 "name": "Name",
                 "price": "Price",
+                "thirdPartyApp": "Third party app",
                 "type": "Type",
                 "types": {
                     "marketing": "Marketing",
@@ -2606,10 +2660,12 @@
                     "delete": "Delete",
                     "edit": "Edit"
                 },
+                "link": "Link",
                 "monthlyPrice": "Monthly price",
                 "name": "Name",
                 "oneTimeFee": "One time fee",
                 "price": "Price",
+                "thirdPartyApp": "Third party app",
                 "type": "Type",
                 "yearlyPrice": "Yearly price"
             }
@@ -3025,6 +3081,7 @@
         "youHaveSuccessfullyVerifiedYourEmail": "You have successfully verified your email",
         "verifyEmail": "Verify email"
     },
+    "view": "View",
     "wish": {
         "alert": {
             "messageSuccessfullySent": "Message successfully sent"

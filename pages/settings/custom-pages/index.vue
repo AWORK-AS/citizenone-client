@@ -22,19 +22,15 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.customPages?.data?.length === 0))">
                                 <tr v-for="(customPages, index) in state.customPages?.data" :key="index">
-                                    <td width="40%">
-                                        <span v-if="customPages?.custom_name === 'Citizens'">
-                                            {{ $t('customPages.table.citizens') }}
-                                        </span>
-                                        <span v-else-if="customPages?.custom_name === 'Duty schedules'">
-                                            {{ $t('customPages.table.dutySchedules') }}
-                                        </span>
-                                        <span v-else-if="customPages?.custom_name === 'Risk assessments'">
-                                            {{ $t('customPages.table.riskAssessments') }}
-                                        </span>
-                                        <span v-else>
-                                            {{ customPages?.custom_name }}
-                                        </span>
+                                    <td width="35%">
+                                        <div>
+                                            {{ customPages?.en_name }}
+                                        </div>
+                                    </td>
+                                    <td width="35%">
+                                        <div>
+                                            {{ customPages?.dk_name }}
+                                        </div>
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end gap-2">
@@ -70,7 +66,8 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'customPages.table.name', sorter: true, key: 'name' },
+        { name: 'customPages.table.nameEnglish', sorter: true, key: 'en_name' },
+        { name: 'customPages.table.nameDanish', sorter: true, key: 'dk_name' },
         { name: '' }
     ],
     dataFilter: {
