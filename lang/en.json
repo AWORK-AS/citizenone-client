@@ -249,6 +249,7 @@
             "sendMessage": "Send message",
             "sendUsAMessage": "Send us a message and we will get back as soon as possible"
         },
+        "goToPartner": "Go to partner",
         "iHaveReadAndAcceptThe": "I have read and accept the",
         "month": "Month",
         "purchased": {
@@ -259,6 +260,7 @@
         },
         "readMore": "Read more",
         "termsAndConditions": "Terms and Conditions",
+        "thirdPartyApp": "Third party app",
         "year": "Year"
     },
     "archived": {

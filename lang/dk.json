@@ -249,6 +249,7 @@
             "sendMessage": "Send besked",
             "sendUsAMessage": "Send os en besked, så vender vi tilbage hurtigst muligt"
         },
+        "goToPartner": "Gå til partner",
         "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
         "month": "Måned",
         "purchased": {
@@ -259,6 +260,7 @@
         },
         "readMore": "Læs mere",
         "termsAndConditions": "Vilkår og betingelser",
+        "thirdPartyApp": "Tredjepartsapp",
         "year": "År"
     },
     "archived": {
