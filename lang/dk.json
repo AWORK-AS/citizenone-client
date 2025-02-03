@@ -2639,9 +2639,11 @@
                 "description": "Beskrivelse",
                 "image": "Billede",
                 "isOneTimeFee": "Er engangsgebyr",
+                "link": "Link",
                 "monthlyPrice": "Månedlig pris",
                 "name": "Navn",
                 "price": "Pris",
+                "thirdPartyApp": "Tredjepartsapp",
                 "type": "Type",
                 "types": {
                     "marketing": "Marketing",
@@ -2656,10 +2658,12 @@
                     "delete": "Slet",
                     "edit": "Rediger"
                 },
+                "link": "Link",
                 "monthlyPrice": "Månedlig pris",
                 "name": "Navn",
                 "oneTimeFee": "Engangsgebyr",
                 "price": "Pris",
+                "thirdPartyApp": "Tredjepartsapp",
                 "type": "Type",
                 "yearlyPrice": "Årlig pris"
             }

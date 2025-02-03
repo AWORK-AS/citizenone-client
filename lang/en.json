@@ -2639,9 +2639,11 @@
                 "description": "Description",
                 "image": "Image",
                 "isOneTimeFee": "Is one time fee",
+                "link": "Link",
                 "monthlyPrice": "Monthly price",
                 "name": "Name",
                 "price": "Price",
+                "thirdPartyApp": "Third party app",
                 "type": "Type",
                 "types": {
                     "marketing": "Marketing",
@@ -2656,10 +2658,12 @@
                     "delete": "Delete",
                     "edit": "Edit"
                 },
+                "link": "Link",
                 "monthlyPrice": "Monthly price",
                 "name": "Name",
                 "oneTimeFee": "One time fee",
                 "price": "Price",
+                "thirdPartyApp": "Third party app",
                 "type": "Type",
                 "yearlyPrice": "Yearly price"
             }

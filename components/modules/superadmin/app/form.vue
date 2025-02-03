@@ -89,6 +89,20 @@
                 <FormError :error="v$?.formApp?.type?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.type?.[0]" />
             </div>
+            <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formApp.is_thirdparty = !state.formApp.is_thirdparty">
+                    <FormCheckbox :value="state.formApp.is_thirdparty" />
+                    {{ $t('superadmin.apps.form.thirdPartyApp') }}
+                </div>
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="link" :label="$t('superadmin.apps.form.link')" />
+                <FormTextField id="link" name="link" :placeholder="$t('superadmin.apps.form.link')"
+                    v-model="state.formApp.url_field" />
+                <FormError :error="v$?.formApp?.url_field?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.url_field?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -146,6 +160,8 @@ const state = reactive({
         type: '',
         logo: '',
         image: '',
+        is_thirdparty: false,
+        url_field: '',
     } as AppForm,
     options: {
         type: [
@@ -168,6 +184,8 @@ watch(() => props.selectedApp, (newValue: any) => {
             type: newValue.type,
             logo: '',
             image: '',
+            is_thirdparty: newValue.is_thirdparty,
+            url_field: newValue.url_field,
         }
         if (newValue.logo) {
             logoUrl.value = newValue.logo
