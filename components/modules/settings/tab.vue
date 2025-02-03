@@ -71,10 +71,10 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
-                    name: 'Catalog',
-                    href: `/settings/catalog`,
+                    name: 'settings.tabs.catalog',
+                    href: `/settings/absences`,
                     routeNames: [
-                        'settings-catalog',
+                        'settings-absences',
                     ]
                 },
                 {
@@ -92,10 +92,10 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
-                    name: 'Other',
-                    href: `/settings/other`,
+                    name: 'settings.tabs.other',
+                    href: `/settings/custom-pages`,
                     routeNames: [
-                        'settings-other'
+                        'settings-custom-pages'
                     ]
                 }
             ]

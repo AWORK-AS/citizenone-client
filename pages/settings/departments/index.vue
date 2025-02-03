@@ -9,6 +9,7 @@
             <template #header>{{ $t('departments.departments') }}</template>
 
             <ModulesSettingsTab />
+            <LazyModulesCustomPagesTab />
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">

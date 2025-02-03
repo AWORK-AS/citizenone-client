@@ -2426,6 +2426,7 @@
             "activityLogs": "Activity logs",
             "addictions": "Addictions",
             "archived": "Archived",
+            "catalog": "Catalog",
             "company": "Company",
             "customPages": "Glossary",
             "departments": "Departments",
@@ -2440,7 +2441,8 @@
             "storage": "Storage",
             "subscription": "Subscription",
             "timeLogs": "Time logs",
-            "transactions": "Transactions"
+            "transactions": "Transactions",
+            "other": "Other"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",

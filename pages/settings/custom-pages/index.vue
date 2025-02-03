@@ -10,7 +10,7 @@
 
             <ModulesSettingsTab />
 
-            <LazyModulesCustomPagesTab />
+            <ModulesOtherTab/>
 
             <div class="mt-8">
                 <div class="space-y-5">

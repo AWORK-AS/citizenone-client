@@ -9,6 +9,7 @@
             <template #header>{{ $t('settings.tabs.transactions') }}</template>
 
             <ModulesSettingsTab />
+            <ModulesOtherTab/>
 
             <div class="py-10">
                 <div class="grid grid-cols-4 gap-x-3">
