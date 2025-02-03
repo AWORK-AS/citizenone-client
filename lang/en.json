@@ -955,6 +955,7 @@
                     "confirmation": {
                         "deleteStatusConfirmation": "Are you sure you want to delete this status"
                     },
+                    "date": "Date",
                     "dateCreated": "Date created",
                     "createdBy": "Created by",
                     "status": "Status"

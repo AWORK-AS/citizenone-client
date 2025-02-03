@@ -158,8 +158,8 @@
         <ModulesCitizenTreatmentModalEdit :isModalOpen="state.modal.isEditTreatmentOpen"
             :selectedTreatment="state.selectedTreatment" @close="state.modal.isEditTreatmentOpen = false"
             @refreshTreatments="fetchTreatments" />
-        <!-- <ModulesCitizenNursingProfessionalRecordStatusModalStatuses :isModalOpen="state.modal.isStatusOpen"
-            :selectedTreatment="state.selectedTreatment" @close="state.modal.isStatusOpen = false" /> -->
+        <ModulesCitizenTreatmentStatusModalStatuses :isModalOpen="state.modal.isStatusOpen"
+            :selectedTreatment="state.selectedTreatment" @close="state.modal.isStatusOpen = false" />
     </div>
 </template>
 

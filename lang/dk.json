@@ -955,6 +955,7 @@
                     "confirmation": {
                         "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
                     },
+                    "date": "Dato",
                     "dateCreated": "Oprettelsesdato",
                     "createdBy": "Oprettet af",
                     "status": "Status"
