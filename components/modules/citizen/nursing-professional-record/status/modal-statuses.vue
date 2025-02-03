@@ -19,7 +19,10 @@
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                                 <template #body v-if="!(state.isTableLoading || (state.statuses?.data?.length === 0))">
                                     <tr v-for="(status, index) in state.statuses?.data" :key="index">
-                                        <td width="30%">
+                                        <td width="20%">
+                                            <span>{{ formatDateToReadable(status?.date) }}</span>
+                                        </td>
+                                        <td width="20%">
                                             <div v-html="status.status" class="content" />
                                             <Badge type="primary" class="w-fit" v-if="status.score">
                                                 <p class="text-xxs" v-if="status.score == 1">
@@ -49,7 +52,7 @@
                                                 </p>
                                             </Badge>
                                         </td>
-                                        <td width="30%">
+                                        <td width="20%">
                                             <span>{{ formatDateToReadable(status?.created_at) }}</span>
                                         </td>
                                         <td width="20%">
@@ -123,6 +126,7 @@ const state = reactive({
         { column: 'status' },
     ],
     columnHeaders: [
+        { name: 'citizens.nursingAreas.statuses.table.date' },
         { name: 'citizens.nursingAreas.statuses.table.status', sorter: true, key: 'status' },
         { name: 'citizens.nursingAreas.statuses.table.dateCreated' },
         { name: 'citizens.nursingAreas.statuses.table.createdBy' },
