@@ -883,7 +883,7 @@
         "treatments": {
             "alert": {
                 "treatmentSuccessfullyAdded": "Behandling gemt med succes",
-                "TreatmentSuccessfullyUpdated": "Behandling opdateret med succes"
+                "treatmentSuccessfullyUpdated": "Behandling opdateret med succes"
             },
             "editTreatment": "Rediger behandling",
             "form": {
@@ -914,8 +914,8 @@
                     "severeChallenges": "Alvorlige udfordringer",
                     "verySubstantialChallenges": "Meget store udfordringer"
                 },
-                "score": "Score",
-                "title": "Titel"
+                "name": "Navn",
+                "score": "Score"
             },
             "newTreatment": "Ny behandling",
             "statuses": {
@@ -1000,8 +1000,8 @@
                     "verySubstantialChallenges": "Meget store udfordringer"
                 },
                 "inProgress": "I gang",
-                "score": "Score",
-                "title": "Titel"
+                "name": "Navn",
+                "score": "Score"
             },
             "treatments": "Behandlinger"
         },

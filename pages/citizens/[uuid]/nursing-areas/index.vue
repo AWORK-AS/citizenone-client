@@ -21,8 +21,9 @@
                 <ModulesCitizenJournalTabs />
 
                 <div>
-                    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5">
                         <ModulesCitizenNursingProfessionalRecordList />
+                        <ModulesCitizenTreatmentList />
                     </div>
                 </div>
             </div>

@@ -883,7 +883,7 @@
         "treatments": {
             "alert": {
                 "treatmentSuccessfullyAdded": "Treatment successfully saved",
-                "TreatmentSuccessfullyUpdated": "Treatment successfully updated"
+                "treatmentSuccessfullyUpdated": "Treatment successfully updated"
             },
             "editTreatment": "Edit treatment",
             "form": {
@@ -914,8 +914,8 @@
                     "severeChallenges": "Severe challenges",
                     "verySubstantialChallenges": "Very substantial challenges"
                 },
-                "score": "Score",
-                "title": "Title"
+                "name": "Name",
+                "score": "Score"
             },
             "newTreatment": "New treatment",
             "statuses": {
@@ -1000,8 +1000,8 @@
                     "verySubstantialChallenges": "Very substantial challenges"
                 },
                 "inProgress": "In progress",
-                "score": "Score",
-                "title": "Title"
+                "name": "Name",
+                "score": "Score"
             },
             "treatments": "Treatments"
         },

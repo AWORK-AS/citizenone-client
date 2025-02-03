@@ -1,6 +1,9 @@
 <template>
     <div>
         <div class="space-y-3">
+            <h3 class="font-semibold">
+                {{ $t('citizens.nursingAreas.nursingProfessionalRecords') }}
+            </h3>
             <div class="flex justify-end items-center mb-5 gap-x-2">
                 <FormButton buttonStyle="action" class="rounded-lg"
                     @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/new`)">
@@ -263,7 +266,6 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { nursingAreasService } from '@/components/api/NursingAreasService'
 import type { Error } from '@/types'
 
-const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const { formatDateToReadable } = useDatetimeFormatter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
@@ -271,12 +273,6 @@ const expandedRecords = reactive([] as boolean[])
 let currentTablePage = 1
 
 const state = reactive({
-    columnHeaders: [
-        { name: 'citizens.nursingAreas.table.date', sorter: true, key: 'date' },
-        { name: 'citizens.nursingAreas.table.data' },
-        { name: 'citizens.nursingAreas.table.reportedBy' },
-        { name: '' },
-    ],
     error: {} as Error,
     isTableLoading: false,
     records: [] as any,
@@ -322,15 +318,6 @@ function previous() {
 
 function next() {
     currentTablePage++
-    fetchNursingProfessionalRecords()
-}
-
-function sort(sortingData: any) {
-    currentTablePage = 1
-    state.sortData = {
-        sortField: sortingData.column,
-        sortOrder: sortingData.sort,
-    }
     fetchNursingProfessionalRecords()
 }
 

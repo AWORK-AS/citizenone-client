@@ -5,54 +5,55 @@
         <div class="space-y-3">
             <div class="space-y-1">
                 <FormLabel for="area_type" :label="$t('citizens.treatments.form.areaTypes.areaType')" />
-                <FormSelect id="area_type" :options="state.options.area_types" v-model="state.formGoal.area_type" />
-                <FormError :error="v$?.formGoal?.area_type?.$errors[0]?.$message.toString()" />
+                <FormSelect id="area_type" :options="state.options.area_types"
+                    v-model="state.formTreatment.area_type" />
+                <FormError :error="v$?.formTreatment?.area_type?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.area_type?.[0]" />
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
-                    <FormLabel for="title" :label="$t('citizens.treatments.form.title')" />
-                    <FormTextField id="title" name="title" :placeholder="$t('citizens.treatments.form.title')"
-                        v-model="state.formGoal.title" />
-                    <FormError :error="v$?.formGoal?.title?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.title?.[0]" />
+                    <FormLabel for="name" :label="$t('citizens.treatments.form.name')" />
+                    <FormTextField id="name" name="name" :placeholder="$t('citizens.treatments.form.name')"
+                        v-model="state.formTreatment.name" />
+                    <FormError :error="v$?.formTreatment?.name?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.name?.[0]" />
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="completion_date" :label="$t('citizens.treatments.form.completionDate')" />
                     <FormDateField id="completion_date" name="completion_date"
                         :placeholder="$t('citizens.treatments.form.completionDate')"
-                        v-model="state.formGoal.completion_date" />
-                    <FormError :error="v$?.formGoal?.completion_date?.$errors[0]?.$message.toString()" />
+                        v-model="state.formTreatment.completion_date" />
+                    <FormError :error="v$?.formTreatment?.completion_date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.completion_date?.[0]" />
                 </div>
             </div>
             <div class="space-y-1">
                 <FormLabel for="score" :label="$t('citizens.treatments.form.expectedLevels.expectedLevel')" />
-                <FormSelect id="score" :options="state.options.scores" v-model="state.formGoal.score" />
-                <FormError :error="v$?.formGoal?.score?.$errors[0]?.$message.toString()" />
+                <FormSelect id="score" :options="state.options.scores" v-model="state.formTreatment.score" />
+                <FormError :error="v$?.formTreatment?.score?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.score?.[0]" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
                     {{ $t('citizens.treatments.form.description') }}
                 </p>
-                <ckeditor :editor="editor" v-model="state.formGoal.description" :config="editorDescriptionConfig">
+                <ckeditor :editor="editor" v-model="state.formTreatment.description" :config="editorDescriptionConfig">
                 </ckeditor>
-                <FormError :error="v$?.formGoal?.description?.$errors[0]?.$message.toString()" />
+                <FormError :error="v$?.formTreatment?.description?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.description?.[0]" />
             </div>
             <div v-if="props.formType === 'update'">
                 <div class="w-fit flex items-center cursor-pointer" @click="changeIsCompletedCheckbox">
-                    <FormCheckbox :value="state.formGoal.is_completed" />
+                    <FormCheckbox :value="state.formTreatment.is_completed" />
                     {{ $t('citizens.treatments.form.completed') }}
                 </div>
             </div>
-            <div class="space-y-1" v-if="state.formGoal.is_completed">
+            <div class="space-y-1" v-if="state.formTreatment.is_completed">
                 <FormLabel for="date_completed" :label="$t('citizens.treatments.form.dateCompleted')" />
                 <FormDateField id="date_completed" name="date_completed"
                     :placeholder="$t('citizens.treatments.form.dateCompleted')"
-                    v-model="state.formGoal.date_completed" />
-                <FormError :error="v$?.formGoal?.date_completed?.$errors[0]?.$message.toString()" />
+                    v-model="state.formTreatment.date_completed" />
+                <FormError :error="v$?.formTreatment?.date_completed?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date_completed?.[0]" />
             </div>
         </div>
@@ -85,7 +86,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedGoal: {
+    selectedTreatment: {
         type: Object,
         required: true,
     },
@@ -108,11 +109,11 @@ const editorDescriptionConfig = ref({
 })
 
 const state = reactive({
-    formGoal: {
+    formTreatment: {
         id: '',
         uuid: '',
         area_type: '',
-        title: '',
+        name: '',
         description: '',
         completion_date: '',
         date_completed: '',
@@ -145,31 +146,31 @@ const state = reactive({
 })
 
 onMounted(() => {
-    state.formGoal = {
-        id: props.selectedGoal.id,
-        uuid: props.selectedGoal.uuid,
-        area_type: props.selectedGoal.area_type,
-        title: props.selectedGoal.title,
-        description: props.selectedGoal.description ?? '',
-        completion_date: props.selectedGoal.completion_date,
-        date_completed: props.selectedGoal.date_completed,
-        is_completed: props.selectedGoal.is_completed,
-        score: props.selectedGoal.score,
+    state.formTreatment = {
+        id: props.selectedTreatment.id,
+        uuid: props.selectedTreatment.uuid,
+        area_type: props.selectedTreatment.area_type,
+        name: props.selectedTreatment.name,
+        description: props.selectedTreatment.description ?? '',
+        completion_date: props.selectedTreatment.completion_date,
+        date_completed: props.selectedTreatment.date_completed,
+        is_completed: props.selectedTreatment.is_completed,
+        score: props.selectedTreatment.score,
     }
-    if (props.selectedGoal.date_completed) {
-        state.formGoal.is_completed = true
+    if (props.selectedTreatment.date_completed) {
+        state.formTreatment.is_completed = true
     } else {
-        state.formGoal.is_completed = false
+        state.formTreatment.is_completed = false
     }
 })
 
-watch(() => props.selectedGoal, (newValue: any) => {
+watch(() => props.selectedTreatment, (newValue: any) => {
     if (newValue != null) {
-        state.formGoal = {
+        state.formTreatment = {
             id: newValue.id,
             uuid: newValue.uuid,
             area_type: newValue.area_type,
-            title: newValue.title,
+            name: newValue.name,
             description: newValue.description ?? '',
             completion_date: newValue.completion_date,
             date_completed: newValue.date_completed,
@@ -180,15 +181,28 @@ watch(() => props.selectedGoal, (newValue: any) => {
 })
 
 const rules = computed(() => {
-    return {
-        formGoal: {
-            title: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (state.formTreatment.is_completed) {
+        return {
+            formTreatment: {
+                name: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date_completed: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            completion_date: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        }
+    } else {
+        return {
+            formTreatment: {
+                name: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                completion_date: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-        },
+        }
     }
 })
 
@@ -197,12 +211,12 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formGoal)
+        emit('submitForm', state.formTreatment)
     }
 }
 
 function changeIsCompletedCheckbox() {
-    state.formGoal.is_completed = !state.formGoal.is_completed
-    state.formGoal.date_completed = ''
+    state.formTreatment.is_completed = !state.formTreatment.is_completed
+    state.formTreatment.date_completed = ''
 }
 </script>
