@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('citizens.treatments.statuses.newStatus')" :show="props.isModalOpen"
+        <Modal size="sm" :title="$t('citizens.nursingAreas.statuses.newStatus')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -40,6 +40,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formStatus: {
+        date: '',
         score: '',
         status: '',
     },
@@ -59,6 +60,7 @@ async function saveStatus(statusDetails: any) {
     try {
         let params = {
             model_uuid: props.selectedRecord?.uuid,
+            date: statusDetails.date,
             score: statusDetails.score,
             status: statusDetails.status,
         }
@@ -66,7 +68,7 @@ async function saveStatus(statusDetails: any) {
         if (response?.data) {
             refreshStatuses()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.treatments.statuses.alert.statusSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.nursingAreas.statuses.alert.statusSuccessfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error

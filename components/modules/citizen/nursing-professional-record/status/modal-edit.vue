@@ -1,12 +1,13 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('citizens.treatments.statuses.editStatus')" :show="props.isModalOpen"
+        <Modal size="sm" :title="$t('citizens.nursingAreas.statuses.editStatus')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenTreatmentStatusForm formType="update" :selectedStatus="props.selectedStatus"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="updateStatus" />
+                    <ModulesCitizenNursingProfessionalRecordStatusForm formType="update"
+                        :selectedStatus="props.selectedStatus" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
+                        @submitForm="updateStatus" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -54,6 +55,7 @@ async function updateStatus(statusDetails: any) {
         const statusUuid = props.selectedStatus.uuid
 
         let params = {
+            date: statusDetails.date,
             score: statusDetails.score,
             status: statusDetails.status,
         }
@@ -61,7 +63,7 @@ async function updateStatus(statusDetails: any) {
         if (response?.data) {
             refreshStatuses()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.treatments.statuses.alert.statusSuccessfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.nursingAreas.statuses.alert.statusSuccessfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error

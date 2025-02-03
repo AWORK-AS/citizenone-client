@@ -792,6 +792,50 @@
             },
             "newNursingProfessionalRecords": "New nursing professional record",
             "nursingProfessionalRecords": "Nursing professional records",
+            "statuses": {
+                "alert": {
+                    "statusSuccessfullyAdded": "Status successfully added",
+                    "statusSuccessfullyUpdated": "Status successfully updated"
+                },
+                "editStatus": "Edit status",
+                "expectedLevels": {
+                    "minorChallenges": "Minor challenges",
+                    "moderateChallenges": "Moderate challenges",
+                    "significantChallenges": "Significant challenges",
+                    "severeChallenges": "Severe challenges",
+                    "verySubstantialChallenges": "Very substantial challenges"
+                },
+                "form": {
+                    "currentLevels": {
+                        "currentLevel": "Current level",
+                        "minorChallenges": "Minor challenges",
+                        "moderateChallenges": "Moderate challenges",
+                        "significantChallenges": "Significant challenges",
+                        "severeChallenges": "Severe challenges",
+                        "verySubstantialChallenges": "Very substantial challenges"
+                    },
+                    "date": "Date",
+                    "status": "Status"
+                },
+                "newStatus": "New status",
+                "statuses": "Statuses",
+                "table": {
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit"
+                    },
+                    "alert": {
+                        "statusSuccessfullyDeleted": "Status successfully deleted"
+                    },
+                    "confirmation": {
+                        "deleteStatusConfirmation": "Are you sure you want to delete this status"
+                    },
+                    "date": "Date",
+                    "dateCreated": "Date created",
+                    "createdBy": "Created by",
+                    "status": "Status"
+                }
+            },
             "table": {
                 "actions": {
                     "edit": "Edit",
@@ -912,7 +956,7 @@
                         "deleteStatusConfirmation": "Are you sure you want to delete this status"
                     },
                     "dateCreated": "Date created",
-                    "createdBy": "Date created",
+                    "createdBy": "Created by",
                     "status": "Status"
                 }
             },
@@ -944,6 +988,7 @@
                 "confirmation": {
                     "deleteTreatmentConfirmation": "Are you sure you want to delete this treatment"
                 },
+                "createdBy": "Created by",
                 "dateCompleted": "Date completed",
                 "dateCreated": "Date created",
                 "description": "Description",

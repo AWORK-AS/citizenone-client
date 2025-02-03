@@ -792,6 +792,50 @@
             },
             "newNursingProfessionalRecords": "Ny sundhedsfaglig optegnelse",
             "nursingProfessionalRecords": "Sundhedsfaglige optegnelser",
+            "statuses": {
+                "alert": {
+                    "statusSuccessfullyAdded": "Status tilføjet med succes",
+                    "statusSuccessfullyUpdated": "Status opdateret med succes"
+                },
+                "editStatus": "Rediger status",
+                "expectedLevels": {
+                    "minorChallenges": "Mindre udfordringer",
+                    "moderateChallenges": "Moderate udfordringer",
+                    "significantChallenges": "Markante udfordringer",
+                    "severeChallenges": "Alvorlige udfordringer",
+                    "verySubstantialChallenges": "Meget store udfordringer"
+                },
+                "form": {
+                    "currentLevels": {
+                        "currentLevel": "Nuværende niveau",
+                        "minorChallenges": "Mindre udfordringer",
+                        "moderateChallenges": "Moderate udfordringer",
+                        "significantChallenges": "Markante udfordringer",
+                        "severeChallenges": "Alvorlige udfordringer",
+                        "verySubstantialChallenges": "Meget store udfordringer"
+                    },
+                    "date": "Dato",
+                    "status": "Status"
+                },
+                "newStatus": "Ny status",
+                "statuses": "Statusser",
+                "table": {
+                    "actions": {
+                        "delete": "Slet",
+                        "edit": "Rediger"
+                    },
+                    "alert": {
+                        "statusSuccessfullyDeleted": "Status slettet med succes"
+                    },
+                    "confirmation": {
+                        "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
+                    },
+                    "date": "Dato",
+                    "dateCreated": "Oprettelsesdato",
+                    "createdBy": "Oprettet af",
+                    "status": "Status"
+                }
+            },
             "table": {
                 "actions": {
                     "edit": "Rediger",
@@ -944,6 +988,7 @@
                 "confirmation": {
                     "deleteTreatmentConfirmation": "Er du sikker på, at du vil slette denne behandling"
                 },
+                "createdBy": "Oprettet af",
                 "dateCompleted": "Dato afsluttet",
                 "dateCreated": "Oprettelsesdato",
                 "description": "Beskrivelse",

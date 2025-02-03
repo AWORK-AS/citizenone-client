@@ -1,13 +1,13 @@
 <template>
     <div>
-        <Modal size="2xl" :title="$t('citizens.treatments.statuses.statuses')" :show="props.isModalOpen"
+        <Modal size="2xl" :title="$t('citizens.nursingAreas.statuses.statuses')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
                         <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddStatusOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.treatments.statuses.newStatus') }}
+                            {{ $t('citizens.nursingAreas.statuses.newStatus') }}
                         </FormButton>
                     </div>
                     <div class="space-y-5">
@@ -24,27 +24,27 @@
                                             <Badge type="primary" class="w-fit" v-if="status.score">
                                                 <p class="text-xxs" v-if="status.score == 1">
                                                     {{
-                                                        $t('citizens.treatments.table.expectedLevels.minorChallenges')
+                                                        $t('citizens.nursingAreas.table.expectedLevels.minorChallenges')
                                                     }}
                                                 </p>
                                                 <p class="text-xxs" v-if="status.score == 2">
                                                     {{
-                                                        $t('citizens.treatments.table.expectedLevels.moderateChallenges')
+                                                        $t('citizens.nursingAreas.table.expectedLevels.moderateChallenges')
                                                     }}
                                                 </p>
                                                 <p class="text-xxs" v-if="status.score == 3">
                                                     {{
-                                                        $t('citizens.treatments.table.expectedLevels.significantChallenges')
+                                                        $t('citizens.nursingAreas.table.expectedLevels.significantChallenges')
                                                     }}
                                                 </p>
                                                 <p class="text-xxs" v-if="status.score == 4">
                                                     {{
-                                                        $t('citizens.treatments.table.expectedLevels.severeChallenges')
+                                                        $t('citizens.nursingAreas.table.expectedLevels.severeChallenges')
                                                     }}
                                                 </p>
                                                 <p class="text-xxs" v-if="status.score == 5">
                                                     {{
-                                                        $t('citizens.treatments.table.expectedLevels.verySubstantialChallenges')
+                                                        $t('citizens.nursingAreas.table.expectedLevels.verySubstantialChallenges')
                                                     }}
                                                 </p>
                                             </Badge>
@@ -62,12 +62,12 @@
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="editStatus(status)" v-if="status?.is_editable">
                                                     <Icon name="ph:pencil" class="size-4" />
-                                                    {{ $t('citizens.treatments.statuses.table.actions.edit') }}
+                                                    {{ $t('citizens.nursingAreas.statuses.table.actions.edit') }}
                                                 </FormButton>
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="confirmStatusDeletion(status)" v-if="status?.is_deletable">
                                                     <Icon name="heroicons:trash" class="size-4" />
-                                                    {{ $t('citizens.treatments.statuses.table.actions.delete') }}
+                                                    {{ $t('citizens.nursingAreas.statuses.table.actions.delete') }}
                                                 </FormButton>
                                             </div>
                                         </td>
@@ -85,7 +85,7 @@
                     :selectedStatus="state.selectedStatus" @close="state.modal.isEditStatusOpen = false"
                     @refreshStatuses="fetchStatuses" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
-                    :message="`${$t('citizens.treatments.statuses.table.confirmation.deleteStatusConfirmation')}?`"
+                    :message="`${$t('citizens.nursingAreas.statuses.table.confirmation.deleteStatusConfirmation')}?`"
                     @close="state.modal.isDeleteStatusOpen = false" @confirm="deleteStatus" />
             </template>
         </Modal>
@@ -123,9 +123,9 @@ const state = reactive({
         { column: 'status' },
     ],
     columnHeaders: [
-        { name: 'citizens.treatments.statuses.table.status', sorter: true, key: 'status' },
-        { name: 'citizens.treatments.statuses.table.dateCreated' },
-        { name: 'citizens.treatments.statuses.table.createdBy' },
+        { name: 'citizens.nursingAreas.statuses.table.status', sorter: true, key: 'status' },
+        { name: 'citizens.nursingAreas.statuses.table.dateCreated' },
+        { name: 'citizens.nursingAreas.statuses.table.createdBy' },
         { name: '' },
     ],
     dataFilter: {
@@ -224,7 +224,7 @@ async function deleteStatus() {
         const response = await statusService.deleteStatus(state.selectedStatus.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchStatuses()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.treatments.statuses.table.alert.statusSuccessfullyDeleted')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.nursingAreas.statuses.table.alert.statusSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error
