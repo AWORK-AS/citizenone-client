@@ -34,13 +34,6 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
-                    name: 'settings.tabs.customPages',
-                    href: `/settings/custom-pages`,
-                    routeNames: [
-                        'settings-custom-pages'
-                    ]
-                },
-                {
                     name: 'settings.tabs.invoices',
                     href: `/settings/invoices`,
                     routeNames: [
@@ -78,60 +71,10 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
-                    name: 'settings.tabs.absences',
-                    href: `/settings/absences`,
+                    name: 'Catalog',
+                    href: `/settings/catalog`,
                     routeNames: [
-                        'settings-absences'
-                    ]
-                },
-                {
-                    name: 'settings.tabs.departments',
-                    href: `/settings/departments`,
-                    routeNames: [
-                        'settings-departments'
-                    ]
-                },
-                {
-                    name: 'settings.tabs.addictions',
-                    href: `/settings/addictions`,
-                    routeNames: [
-                        'settings-addictions'
-                    ]
-                },
-                {
-                    name: 'settings.tabs.diagnoses',
-                    href: `/settings/diagnoses`,
-                    routeNames: [
-                        'settings-diagnoses'
-                    ]
-                },
-                {
-                    name: 'settings.tabs.jobTitles',
-                    href: `/settings/job-titles`,
-                    routeNames: [
-                        'settings-job-titles',
-                        'settings-job-titles-job_title_uuid'
-                    ]
-                },
-                {
-                    name: 'settings.tabs.journalNoteTags',
-                    href: `/settings/journal-note-tags`,
-                    routeNames: [
-                        'settings-journal-note-tags'
-                    ]
-                },
-                {
-                    name: 'settings.tabs.relationships',
-                    href: `/settings/relationships`,
-                    routeNames: [
-                        'settings-relationships'
-                    ]
-                },
-                {
-                    name: 'settings.tabs.transactions',
-                    href: `/settings/transactions`,
-                    routeNames: [
-                        'settings-transactions'
+                        'settings-catalog',
                     ]
                 },
                 {
@@ -148,6 +91,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                         'settings-time-logs'
                     ]
                 },
+                {
+                    name: 'Other',
+                    href: `/settings/other`,
+                    routeNames: [
+                        'settings-other'
+                    ]
+                }
             ]
         } else {
             const route = router?.currentRoute?.value?.name as string
@@ -199,6 +149,9 @@ function changeTab(value: any) {
     }
     else if (value === t('settings.tabs.archived')) {
         navigateTo(`/settings/archived/citizens`)
+    }
+    else if (value === t('Catalog')) {
+        navigateTo(`/settings/catalog`)
     }
     else if (value === t('settings.tabs.departments')) {
         navigateTo(`/settings/departments`)

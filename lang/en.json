@@ -1086,7 +1086,7 @@
             },
             "name": "Name"
         },
-        "customPages": "Custom pages",
+        "customPages": "Glossary",
         "table": {
             "actions": {
                 "delete": "Delete",
@@ -2375,7 +2375,7 @@
             "addictions": "Addictions",
             "archived": "Archived",
             "company": "Company",
-            "customPages": "Custom pages",
+            "customPages": "Glossary",
             "departments": "Departments",
             "diagnoses": "Diagnoses",
             "invoices": "Invoices",

@@ -1086,7 +1086,7 @@
             },
             "name": "Navn"
         },
-        "customPages": "Brugerdefinerede sider",
+        "customPages": "Ordliste",
         "table": {
             "actions": {
                 "delete": "Slet",
@@ -2375,7 +2375,7 @@
             "addictions": "Afhængigheder",
             "archived": "Arkiveret",
             "company": "Virksomhed",
-            "customPages": "Brugerdefinerede sider",
+            "customPages": "Ordliste",
             "departments": "Afdelinger",
             "diagnoses": "Diagnoser",
             "invoices": "Fakturaer",
