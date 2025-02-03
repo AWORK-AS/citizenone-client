@@ -264,9 +264,9 @@
                                         <td width="15%">
                                             <div class="flex items-end justify-end gap-2">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="viewTreatment(record)">
+                                                    @click="viewStatuses(record)">
                                                     <Icon name="ph:eye" class="size-4" />
-                                                    {{ $t('citizens.nursingAreas.table.actions.viewTreatments') }}
+                                                    {{ $t('citizens.nursingAreas.table.actions.statuses') }}
                                                 </FormButton>
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/${record.uuid}/edit`)">
@@ -283,8 +283,8 @@
                     </div>
                 </div>
             </div>
-            <ModulesCitizenTreatmentSlideOver :isOpen="state.slideOver.isGoalOpen"
-                :selectedRecord="state.selectedRecord" @close="state.slideOver.isGoalOpen = false" />
+            <ModulesCitizenNursingProfessionalRecordStatusModalStatuses :isModalOpen="state.modal.isStatusOpen"
+                :selectedRecord="state.selectedRecord" @close="state.modal.isStatusOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -312,8 +312,8 @@ const state = reactive({
     isTableLoading: false,
     records: [] as any,
     selectedRecord: {},
-    slideOver: {
-        isGoalOpen: false
+    modal: {
+        isStatusOpen: false
     },
     sortData: {
         sortField: 'id',
@@ -369,8 +369,8 @@ function toggleExpanded(index: number) {
     expandedRecords[index] = !expandedRecords[index]
 }
 
-function viewTreatment(record: any) {
+function viewStatuses(record: any) {
     state.selectedRecord = record
-    state.slideOver.isGoalOpen = true
+    state.modal.isStatusOpen = true
 }
 </script>

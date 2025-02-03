@@ -78,10 +78,10 @@
                         <Pagination :data="state.statuses" @previous="previous" @next="next" />
                     </div>
                 </div>
-                <ModulesCitizenTreatmentStatusModalNew :isModalOpen="state.modal.isAddStatusOpen"
-                    :selectedData="props.selectedData" :selectedStatus="state.selectedStatus"
+                <ModulesCitizenNursingProfessionalRecordStatusModalNew :isModalOpen="state.modal.isAddStatusOpen"
+                    :selectedRecord="props.selectedRecord" :selectedStatus="state.selectedStatus"
                     @close="state.modal.isAddStatusOpen = false" @refreshStatuses="fetchStatuses" />
-                <ModulesCitizenTreatmentStatusModalEdit :isModalOpen="state.modal.isEditStatusOpen"
+                <ModulesCitizenNursingProfessionalRecordStatusModalEdit :isModalOpen="state.modal.isEditStatusOpen"
                     :selectedStatus="state.selectedStatus" @close="state.modal.isEditStatusOpen = false"
                     @refreshStatuses="fetchStatuses" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
@@ -110,7 +110,7 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedData: {
+    selectedRecord: {
         type: Object,
         required: true,
     },
@@ -166,7 +166,7 @@ async function fetchStatuses() {
     state.isTableLoading = true
     try {
         const params = {
-            model_uuid: props.selectedData?.uuid,
+            model_uuid: props.selectedRecord?.uuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,

@@ -795,7 +795,7 @@
             "table": {
                 "actions": {
                     "edit": "Edit",
-                    "viewTreatments": "View treatments"
+                    "statuses": "Statuses"
                 },
                 "data": "Data",
                 "date": "Date",

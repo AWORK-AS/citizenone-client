@@ -795,7 +795,7 @@
             "table": {
                 "actions": {
                     "edit": "Rediger",
-                    "viewTreatments": "Se behandlinger"
+                    "statuses": "Statusser"
                 },
                 "data": "Data",
                 "date": "Dato",
