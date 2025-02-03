@@ -621,6 +621,8 @@ async function fetchDutyScheduleAbsencePercentage() {
 
 async function fetchDutySchedule() {
     state.error = {}
+    state.weeklySchedules = []
+    state.originalWeeklySchedules = []
     state.isPageLoading = true
     try {
         const dateMoment = moment(currentDate.value)
@@ -903,6 +905,7 @@ function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: 
 
 async function updateDutySchedule(scheduleUuid: any, params: object, weeklyScheduleIndex: number, weekIndex: any, shiftIndex: number) {
     state.isUpdateShift = true
+    let errorUpdateShift = {}
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -915,15 +918,14 @@ async function updateDutySchedule(scheduleUuid: any, params: object, weeklySched
             fetchDutySchedule()
         }
     } catch (error: any) {
-        state.errorUpdateShift = error
+        errorUpdateShift = error
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
-        fetchDutySchedule()
-        // state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_in = state.originalWeeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_in
-        // state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_out = state.originalWeeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_out
     } finally {
+        state.errorUpdateShift = errorUpdateShift
         state.isUpdateShift = false
+        fetchDutySchedule()
     }
 }
 </script>
