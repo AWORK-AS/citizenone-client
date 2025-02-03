@@ -10,6 +10,8 @@
 
             <ModulesSettingsTab />
 
+            <LazyModulesCustomPagesTab />
+
             <div class="mt-8">
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
