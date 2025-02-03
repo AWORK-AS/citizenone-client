@@ -25,9 +25,18 @@
                             <template #body v-if="!(state.isTableLoading || (state.apps?.data?.length === 0))">
                                 <tr v-for="(app, index) in state.apps?.data" :key="index">
                                     <td width="30%">
-                                        <div class="flex items-center gap-x-2">
-                                            <img :src="app.logo" alt="App logo" class="w-10" />
-                                            <p>{{ app?.name }}</p>
+                                        <div class="space-y-1 w-fit" :class="app.url_field && 'cursor-pointer'"
+                                            @click="navigateToExternalLink(app?.url_field)">
+                                            <Badge type="harmless" class="text-xxs truncate w-fit"
+                                                v-if="app?.is_thirdparty">
+                                                {{
+                                                    $t('superadmin.apps.table.thirdPartyApp')
+                                                }}
+                                            </Badge>
+                                            <div class="flex items-center gap-x-2">
+                                                <img :src="app.logo" alt="App logo" class="w-10" />
+                                                <p>{{ app?.name }}</p>
+                                            </div>
                                         </div>
                                     </td>
                                     <td width="20%">
@@ -191,5 +200,16 @@ async function deleteApp() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+async function navigateToExternalLink(link: any) {
+    if (link) {
+        await navigateTo(link, {
+            external: true,
+            open: {
+                target: '_blank',
+            }
+        })
+    }
 }
 </script>
