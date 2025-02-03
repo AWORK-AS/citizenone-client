@@ -55,7 +55,7 @@
                                 </Badge>
                             </div>
                             <div class="my-4 space-y-3">
-                                <div class="text-muted-400 flex items-center gap-1">
+                                <!-- <div class="text-muted-400 flex items-center gap-1">
                                     <Icon name="material-symbols:receipt" class="size-4" />
                                     <div class="font-sans text-sm" v-if="app?.is_one_time_fee">
                                         {{ formatAmount(app?.price) }}
@@ -70,7 +70,7 @@
                                         </span>
                                         {{ $t('excludeVat') }}
                                     </div>
-                                </div>
+                                </div> -->
                                 <p class="text-muted-800 dark:text-muted-100 font-sans text-sm line-clamp-1">
                                     {{ app?.description }}
                                 </p>

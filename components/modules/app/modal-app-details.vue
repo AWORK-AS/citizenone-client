@@ -9,7 +9,7 @@
                         <div class="space-y-3">
                             <img :src="props.selectedApp?.image" :alt="props.selectedApp?.name"
                                 class="w-full rounded-md max-h-96">
-                            <div class="text-muted-400 flex items-center gap-1">
+                            <!-- <div class="text-muted-400 flex items-center gap-1">
                                 <Icon name="material-symbols:receipt" class="size-4" />
                                 <div class="font-sans text-sm" v-if="props.selectedApp?.is_one_time_fee">
                                     {{ formatAmount(props.selectedApp?.price) }}
@@ -24,7 +24,7 @@
                                     </span>
                                     {{ $t('excludeVat') }}
                                 </div>
-                            </div>
+                            </div> -->
                             <p class="text-muted-800 dark:text-muted-100 font-sans text-sm">
                                 {{ props.selectedApp?.description }}
                             </p>
