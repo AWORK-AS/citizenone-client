@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="2xl" :title="$t('citizens.nursingAreas.statuses.statuses')" :show="props.isModalOpen"
+        <Modal size="3xl" :title="$t('citizens.nursingAreas.statuses.statuses')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div>
@@ -25,29 +25,29 @@
                                         <td width="20%">
                                             <div v-html="status.status" class="content" />
                                             <Badge type="primary" class="w-fit" v-if="status.score">
-                                                <p class="text-xxs" v-if="status.score == 1">
+                                                <p class="text-xxs truncate" v-if="status.score == 1">
                                                     {{
-                                                        $t('citizens.nursingAreas.table.expectedLevels.minorChallenges')
+                                                        $t('citizens.nursingAreas.statuses.expectedLevels.minorChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs" v-if="status.score == 2">
+                                                <p class="text-xxs truncate" v-if="status.score == 2">
                                                     {{
-                                                        $t('citizens.nursingAreas.table.expectedLevels.moderateChallenges')
+                                                        $t('citizens.nursingAreas.statuses.expectedLevels.moderateChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs" v-if="status.score == 3">
+                                                <p class="text-xxs truncate" v-if="status.score == 3">
                                                     {{
-                                                        $t('citizens.nursingAreas.table.expectedLevels.significantChallenges')
+                                                        $t('citizens.nursingAreas.statuses.expectedLevels.significantChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs" v-if="status.score == 4">
+                                                <p class="text-xxs truncate" v-if="status.score == 4">
                                                     {{
-                                                        $t('citizens.nursingAreas.table.expectedLevels.severeChallenges')
+                                                        $t('citizens.nursingAreas.statuses.expectedLevels.severeChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs" v-if="status.score == 5">
+                                                <p class="text-xxs truncate" v-if="status.score == 5">
                                                     {{
-                                                        $t('citizens.nursingAreas.table.expectedLevels.verySubstantialChallenges')
+                                                        $t('citizens.nursingAreas.statuses.expectedLevels.verySubstantialChallenges')
                                                     }}
                                                 </p>
                                             </Badge>
