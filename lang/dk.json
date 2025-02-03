@@ -2426,6 +2426,7 @@
             "activityLogs": "Aktivitetslogfiler",
             "addictions": "Afhængigheder",
             "archived": "Arkiveret",
+            "catalog": "Katalog",
             "company": "Virksomhed",
             "customPages": "Ordliste",
             "departments": "Afdelinger",
@@ -2440,7 +2441,8 @@
             "relationships": "Forhold",
             "subscription": "Abonnement",
             "timeLogs": "Tidslogfiler",
-            "transactions": "Transaktioner"
+            "transactions": "Transaktioner",
+            "other": "Andet"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
