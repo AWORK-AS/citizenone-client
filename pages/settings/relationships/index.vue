@@ -9,7 +9,8 @@
             <template #header>{{ $t('relationships.relationships') }}</template>
 
             <ModulesSettingsTab />
-            <LazyModulesCustomPagesTab />
+
+            <LazyModulesCustomPagesTab  class="mt-5" />
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
@@ -53,7 +54,7 @@
                 </div>
             </div>
             <DialogConfirmation :isModalOpen="state.modal.isDeleteRelationshipOpen"
-                :message="$t('relationships.table.confirmation.deleteJournalTagConfirmation') + '?'"
+                :message="$t('relationships.table.confirmation.deleteRelationshipConfirmation') + '?'"
                 @close="state.modal.isDeleteRelationshipOpen = false" @confirm="deleteRelationship" />
         </NuxtLayout>
     </div>

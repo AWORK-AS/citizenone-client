@@ -75,6 +75,12 @@ watch(() => userStore.getUser, (newValue: any) => {
                     href: `/settings/absences`,
                     routeNames: [
                         'settings-absences',
+                        'settings-departments',
+                        'settings-addictions',
+                        'settings-diagnoses',
+                        'settings-job-titles',
+                        'settings-journal-note-tags',
+                        'settings-relationships'
                     ]
                 },
                 {
@@ -95,7 +101,8 @@ watch(() => userStore.getUser, (newValue: any) => {
                     name: 'settings.tabs.other',
                     href: `/settings/custom-pages`,
                     routeNames: [
-                        'settings-custom-pages'
+                        'settings-custom-pages',
+                        'settings-transactions'
                     ]
                 }
             ]

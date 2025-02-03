@@ -9,7 +9,7 @@
             <template #header>{{ $t('diagnoses.diagnoses') }}</template>
 
             <ModulesSettingsTab />
-            <LazyModulesCustomPagesTab />
+            <LazyModulesCustomPagesTab class="mt-5" />
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">

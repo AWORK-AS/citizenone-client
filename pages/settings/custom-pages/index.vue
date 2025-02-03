@@ -10,7 +10,7 @@
 
             <ModulesSettingsTab />
 
-            <ModulesOtherTab/>
+            <ModulesOtherTab class="mt-5"/>
 
             <div class="mt-8">
                 <div class="space-y-5">
