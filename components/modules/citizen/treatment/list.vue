@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <LoadingSpinner :isActive="state.isPageLoading">
         <div class="space-y-3">
             <h3 class="font-semibold">
                 {{ $t('citizens.treatments.treatments') }}
@@ -160,7 +160,7 @@
             @refreshTreatments="fetchTreatments" />
         <ModulesCitizenTreatmentStatusModalStatuses :isModalOpen="state.modal.isStatusOpen"
             :selectedTreatment="state.selectedTreatment" @close="state.modal.isStatusOpen = false" />
-    </div>
+    </LoadingSpinner>
 </template>
 
 <script setup lang="ts">
@@ -175,7 +175,7 @@ let currentTablePage = 1
 
 const state = reactive({
     error: {} as Error,
-    isTableLoading: false,
+    isPageLoading: false,
     treatments: [] as any,
     modal: {
         isAddTreatmentOpen: false,
@@ -195,7 +195,7 @@ onMounted(() => {
 
 async function fetchTreatments() {
     state.error = {}
-    state.isTableLoading = true
+    state.isPageLoading = true
     try {
         const params = {
             citizen_uuid: citizenUuid,
@@ -210,7 +210,7 @@ async function fetchTreatments() {
     } catch (error: any) {
         state.error = error
     }
-    state.isTableLoading = false
+    state.isPageLoading = false
 }
 
 function previous() {
