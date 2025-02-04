@@ -234,13 +234,20 @@
                                         :key="weeklyScheduleIndex" class="grid grid-cols-9"
                                         v-if="!isWeeklyScheduleCopied(weekNumber)">
                                         <div class="p-3 col-span-2 space-y-2 border-0.5">
-                                            <div class="flex items-center gap-x-2">
-                                                <img :src="weeklySchedule?.employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`"
-                                                    class="h-8 w-8 rounded-full bg-gray-50 object-cover" />
-                                                <p class="text-sm font-medium">
-                                                    {{ weeklySchedule?.employee?.firstname }}
-                                                    {{ weeklySchedule?.employee?.lastname }}
-                                                </p>
+                                            <div class="relative">
+                                                <div class="flex items-center gap-x-2">
+                                                    <img :src="weeklySchedule?.employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`"
+                                                        class="h-8 w-8 rounded-full bg-gray-50 object-cover" />
+                                                    <p class="text-sm font-medium">
+                                                        {{ weeklySchedule?.employee?.firstname }}
+                                                        {{ weeklySchedule?.employee?.lastname }}
+                                                    </p>
+                                                </div>
+                                                <button
+                                                    class="absolute left-10 top-7 text-xxs text-primary hover:text-primary-700"
+                                                    @click="navigateTo(`/calendar?employee_uuid=${weeklySchedule?.employee?.uuid}`)">
+                                                    {{ $t('dutySchedules.viewCalendar') }}
+                                                </button>
                                             </div>
                                             <div class="text-xs grid grid-cols-7">
                                                 <div class="col-span-3 space-y-2" />
