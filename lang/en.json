@@ -1356,6 +1356,36 @@
                 "name": "Name"
             }
         },
+        "scheduleRequests": {
+            "alert": {
+                "requestSuccessfullySent": "Request successfully sent"
+            },
+            "form": {
+                "note": "Note",
+                "timeIn": "timeIn",
+                "timeOut": "timeOut"
+            },
+            "newRequest": "New request",
+            "requests": "Requests",
+            "table": {
+                "actions": {
+                    "approve": "Approve",
+                    "disapprove": "Disapprove"
+                },
+                "alert": {
+                    "scheduleSuccessfullyApproved": "Schedule successfully approved",
+                    "scheduleSuccessfullyDisapproved": "Schedule successfully disapproved"
+                },
+                "confirmation": {
+                    "approveConfirmation": "Are you sure you want to approve this request",
+                    "disapproveConfirmation": "Are you sure you want to disapprove this request"
+                },
+                "note": "Note",
+                "originalTime": "Original time",
+                "requestedTime": "Requested time",
+                "shiftType": "Shift type"
+            }
+        },
         "scheduleSlots": {
             "alert": {
                 "requestForThisScheduleSlotHasBennSuccessfullySent": "Request for this schedule slot has been successfully sent",

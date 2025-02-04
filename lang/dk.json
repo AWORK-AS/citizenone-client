@@ -1356,6 +1356,36 @@
                 "name": "Navn"
             }
         },
+        "scheduleRequests": {
+            "alert": {
+                "requestSuccessfullySent": "Anmodning sendt med succes"
+            },
+            "form": {
+                "note": "Bemærkning",
+                "timeIn": "Tid ind",
+                "timeOut": "Tid ud"
+            },
+            "newRequest": "Ny anmodning",
+            "requests": "Anmodninger",
+            "table": {
+                "actions": {
+                    "approve": "Godkend",
+                    "disapprove": "Afvis"
+                },
+                "alert": {
+                    "scheduleSuccessfullyApproved": "Vagtplan godkendt med succes",
+                    "scheduleSuccessfullyDisapproved": "Vagtplan afvist med succes"
+                },
+                "confirmation": {
+                    "approveConfirmation": "Er du sikker på, at du vil godkende denne anmodning",
+                    "disapproveConfirmation": "Er du sikker på, at du vil afvise denne anmodning"
+                },
+                "note": "Bemærkning",
+                "originalTime": "Oprindelig tid",
+                "requestedTime": "Anmodet tid",
+                "shiftType": "Vagttype"
+            }
+        },
         "scheduleSlots": {
             "alert": {
                 "requestForThisScheduleSlotHasBennSuccessfullySent": "Anmodning om dette tidsinterval er sendt med succes",
