@@ -123,20 +123,26 @@
                                     {{ $t('settings.licenseOverview.licenses') }}
                                 </h3>
                                 <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
-                                    <div class="mb-5 flex items-center gap-x-5 justify-end">
-                                        <div>
-                                            <span class="text-sm font-semibold">
-                                                {{ $t('settings.licenseOverview.usedLicense') }}:
-                                            </span>
-                                            {{ state.licensesCount?.data?.used ?? 0 }}
+                                    <div class="flex justify-between gap-3 mb-5">
+                                        <div class="flex items-center gap-x-5 justify-end">
+                                            <div>
+                                                <span class="text-sm font-semibold">
+                                                    {{ $t('settings.licenseOverview.usedLicense') }}:
+                                                </span>
+                                                {{ state.licensesCount?.data?.used ?? 0 }}
+                                            </div>
+                                            |
+                                            <div>
+                                                <span class="text-sm font-semibold">
+                                                    {{ $t('settings.licenseOverview.unusedLicense') }}:
+                                                </span>
+                                                {{ state.licensesCount?.data?.unused ?? 0 }}
+                                            </div>
                                         </div>
-                                        |
-                                        <div>
-                                            <span class="text-sm font-semibold">
-                                                {{ $t('settings.licenseOverview.unusedLicense') }}:
-                                            </span>
-                                            {{ state.licensesCount?.data?.unused ?? 0 }}
-                                        </div>
+                                        <FormButton type="button" buttonStyle="primary"
+                                            @click="navigateTo('/settings/subscription')">
+                                            {{ $t('subscription.addOnDeals.purchaseExtraLicenses') }}
+                                        </FormButton>
                                     </div>
                                     <TableSearch @search="handleSearch" />
                                     <div class="mt-5 table-responsive">
