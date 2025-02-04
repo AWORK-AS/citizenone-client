@@ -9,7 +9,8 @@
             <template #header>{{ $t('employees.editEmployee') }}</template>
 
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/employees">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                    :to="`/employees/${employeeUuid}/view`">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -97,10 +98,6 @@ const state = reactive({
 onMounted(() => {
     fetchEmployee()
 })
-
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 
 async function fetchEmployee() {
     state.isPageLoading = true
@@ -213,6 +210,10 @@ function confirmCitizenArchiving() {
 
 function confirmEmployeeDeletion() {
     state.modal.isDeleteEmployeeOpen = true
+}
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
 }
 
 async function archiveEmployee() {

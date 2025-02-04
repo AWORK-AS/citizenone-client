@@ -16,6 +16,14 @@
 
                 <div>
                     <LoadingSpinner :isActive="state.isPageLoading">
+                        <div class="flex gap-x-3 justify-end mb-6" v-if="isAdmin(userStore.getUser?.roles)">
+                            <div class="flex justify-end">
+                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                    @click="navigateTo(`/employees/${employeeUuid}/view-edit`)">
+                                    {{ $t('employees.editEmployee') }}
+                                </FormButton>
+                            </div>
+                        </div>
                         <div
                             class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
                             <div>
@@ -475,5 +483,9 @@ async function fetchEmployee() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
 }
 </script>
