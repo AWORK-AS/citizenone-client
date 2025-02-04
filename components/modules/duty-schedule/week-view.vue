@@ -160,11 +160,10 @@
                                         </div>
                                     </div>
                                     <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
-                                        v-for="day in weekDays" :key="day.date" :class="[
-                                            isAdmin(userStore.getUser?.roles) && 'cursor-pointer hover:bg-gray-200',
-                                            'flex items-center justify-center py-4 border-0.5'
-                                        ]"
-                                        @click="isAdmin(userStore.getUser?.roles) && openManageScheduleSlotModal(day)">
+                                        v-for="day in weekDays" :key="day.date"
+                                        class="cursor-pointer hover:bg-gray-200 flex items-center justify-center py-4 border-0.5"
+                                        @click="openManageScheduleSlotModal(day)"
+                                        v-if="isAdmin(userStore.getUser?.roles)">
                                         <span class="flex gap-x-1 text-sm">
                                             <span v-if="day.longName === 'Mon'">
                                                 {{ $t('calendar.week.short.Monday') }}
@@ -192,6 +191,36 @@
                                             </span>
                                         </span>
                                     </Tooltip>
+                                    <div :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" v-for="day in weekDays"
+                                        :key="day.date" class="flex items-center justify-center py-4 border-0.5"
+                                        v-if="!isAdmin(userStore.getUser?.roles)">
+                                        <span class="flex gap-x-1 text-sm">
+                                            <span v-if="day.longName === 'Mon'">
+                                                {{ $t('calendar.week.short.Monday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Tue'">
+                                                {{ $t('calendar.week.short.Tuesday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Wed'">
+                                                {{ $t('calendar.week.short.Wednesday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Thu'">
+                                                {{ $t('calendar.week.short.Thursday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Fri'">
+                                                {{ $t('calendar.week.short.Friday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Sat'">
+                                                {{ $t('calendar.week.short.Saturday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Sun'">
+                                                {{ $t('calendar.week.short.Sunday') }}
+                                            </span>
+                                            <span class="items-center justify-center font-semibold text-gray-900">
+                                                {{ day.date }}
+                                            </span>
+                                        </span>
+                                    </div>
                                 </div>
 
                                 <div class="relative mt-0.5"
