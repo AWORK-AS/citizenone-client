@@ -1357,13 +1357,13 @@
             }
         },
         "scheduleRequests": {
-            "alert": {
-                "requestSuccessfullySent": "Request successfully sent"
-            },
             "form": {
+                "alert": {
+                    "requestSuccessfullySent": "Request successfully sent"
+                },
                 "note": "Note",
-                "timeIn": "timeIn",
-                "timeOut": "timeOut"
+                "timeIn": "Time in",
+                "timeOut": "Time out"
             },
             "newRequest": "New request",
             "requests": "Requests",

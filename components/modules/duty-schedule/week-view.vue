@@ -370,6 +370,17 @@
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                             </Tooltip>
                                                         </button>
+                                                        <button
+                                                            class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                            @click="requestTimeAdjustment(weeklyScheduleIndex, shift)"
+                                                            v-else
+                                                            v-if="userStore.getUser?.uuid === weeklySchedule?.employee?.uuid">
+                                                            <Tooltip
+                                                                :text="$t('dutySchedules.scheduleRequests.newRequest')">
+                                                                <Icon name="ic:baseline-question-mark"
+                                                                    class="h-2.5 w-2.5" aria-hidden="true" />
+                                                            </Tooltip>
+                                                        </button>
                                                     </div>
                                                     <ModulesDutyScheduleScheduleSlotsRequestAvailableSlots :week="week"
                                                         :employee="weeklySchedule?.employee"
@@ -428,6 +439,10 @@
                 :selectedDate="state.manageTimeRequest.selectedDate"
                 :selectedEmployee="state.manageTimeRequest.selectedEmployee"
                 @close="state.modal.isManageRequestsOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
+            <ModulesDutyScheduleTimeRequestsModalNewRequest :isModalOpen="state.modal.isRequestTimeAdjustmentOpen"
+                :selectedEmployee="state.manageTimeRequest.selectedEmployee"
+                :selectedSchedule="state.manageTimeRequest.selectedSchedule"
+                @close="state.modal.isRequestTimeAdjustmentOpen = false" />
             <ModulesDutyScheduleScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
                 :selectedDay="state.manageScheduleSlot.selectedDay"
                 @close="state.modal.isManageScheduleSlotOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
@@ -480,6 +495,7 @@ const state = reactive({
     manageTimeRequest: {
         selectedDate: '',
         selectedEmployee: {},
+        selectedSchedule: {},
     },
     modal: {
         isAddShiftOpen: false,
@@ -488,6 +504,7 @@ const state = reactive({
         isDownloadOpen: false,
         isManageScheduleSlotOpen: false,
         isManageRequestsOpen: false,
+        isRequestTimeAdjustmentOpen: false,
     } as any,
     newShiftError: {} as Error,
     progress: {
@@ -641,6 +658,13 @@ function viewRequests(weeklyScheduleIndex: number, weekIndex: any, weeklySchedul
     state.manageTimeRequest.selectedEmployee = selectedEmployee
     state.manageTimeRequest.selectedDate = selectedDate
     state.modal.isManageRequestsOpen = true
+}
+
+function requestTimeAdjustment(weeklyScheduleIndex: number, shift: any) {
+    const selectedEmployee = state.weeklySchedules[weeklyScheduleIndex]?.employee
+    state.manageTimeRequest.selectedEmployee = selectedEmployee
+    state.manageTimeRequest.selectedSchedule = shift
+    state.modal.isRequestTimeAdjustmentOpen = true
 }
 
 async function saveShift(shiftDetails: any) {
