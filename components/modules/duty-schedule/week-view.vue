@@ -324,14 +324,14 @@
                                                                 aria-hidden="true" />
                                                         </button>
                                                     </Tooltip>
-                                                    <Tooltip :text="$t('dutySchedules.scheduleRequests.requests')">
+                                                    <!-- <Tooltip :text="$t('dutySchedules.scheduleRequests.requests')">
                                                         <button
                                                             class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                             @click="viewRequests(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
                                                             <Icon name="mdi:calendar-question-outline" class="h-3 w-3"
                                                                 aria-hidden="true" />
                                                         </button>
-                                                    </Tooltip>
+                                                    </Tooltip> -->
                                                     <Tooltip :text="$t('dutySchedules.newSchedule')">
                                                         <button
                                                             class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
@@ -377,7 +377,7 @@
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                             </Tooltip>
                                                         </button>
-                                                        <button
+                                                        <!-- <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                             @click="requestTimeAdjustment(weeklyScheduleIndex, shift)"
                                                             v-else
@@ -387,7 +387,7 @@
                                                                 <Icon name="ic:baseline-question-mark"
                                                                     class="h-2.5 w-2.5" aria-hidden="true" />
                                                             </Tooltip>
-                                                        </button>
+                                                        </button> -->
                                                     </div>
                                                     <ModulesDutyScheduleScheduleSlotsRequestAvailableSlots :week="week"
                                                         :employee="weeklySchedule?.employee"
