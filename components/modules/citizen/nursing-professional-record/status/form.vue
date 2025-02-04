@@ -11,6 +11,12 @@
                 <FormError :error="props?.error?.errors?.date?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="area_type" :label="$t('citizens.nursingAreas.statuses.areaTypes.areaType')" />
+                <FormSelect id="area_type" :options="state.options.area_types" v-model="state.formStatus.area_type" />
+                <FormError :error="v$?.formStatus?.area_type?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.area_type?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="score" :label="$t('citizens.nursingAreas.statuses.form.currentLevels.currentLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formStatus.score" />
                 <FormError :error="v$?.formStatus?.score?.$errors[0]?.$message.toString()" />
@@ -79,10 +85,25 @@ const editorStatusConfig = ref({
 const state = reactive({
     formStatus: {
         date: '',
+        area_type: '',
         score: '',
         status: '',
     },
     options: {
+        area_types: [
+            { value: 'functional_level', label: `${t('citizens.treatments.form.areaTypes.functionalLevel')}` },
+            { value: 'musculoskeletal_system', label: `${t('citizens.treatments.form.areaTypes.musculoskeletalSystem')}` },
+            { value: 'nutrition', label: `${t('citizens.treatments.form.areaTypes.nutrition')}` },
+            { value: 'skin_and_mucous_membranes', label: `${t('citizens.treatments.form.areaTypes.skinAndMucousMembranes')}` },
+            { value: 'communication', label: `${t('citizens.treatments.form.areaTypes.communication')}` },
+            { value: 'psychosocial_conditions', label: `${t('citizens.treatments.form.areaTypes.psychosocialConditions')}` },
+            { value: 'respiration_and_circulation', label: `${t('citizens.treatments.form.areaTypes.respirationAndCirculation')}` },
+            { value: 'sexuality', label: `${t('citizens.treatments.form.areaTypes.sexuality')}` },
+            { value: 'pain_and_sensory_impressions', label: `${t('citizens.treatments.form.areaTypes.painAndSensoryImpressions')}` },
+            { value: 'sleep_and_rest', label: `${t('citizens.treatments.form.areaTypes.sleepAndRest')}` },
+            { value: 'knowledge_and_development', label: `${t('citizens.treatments.form.areaTypes.knowledgeAndDevelopment')}` },
+            { value: 'excretion_of_waste', label: `${t('citizens.treatments.form.areaTypes.excretionOfWaste')}` },
+        ],
         scores: [
             { value: 1, label: `1. ${t('citizens.nursingAreas.statuses.form.currentLevels.minorChallenges')}` },
             { value: 2, label: `2. ${t('citizens.nursingAreas.statuses.form.currentLevels.moderateChallenges')}` },
@@ -96,6 +117,7 @@ const state = reactive({
 onMounted(() => {
     state.formStatus = {
         date: props.selectedStatus.date,
+        area_type: props.selectedStatus.area_type,
         score: props.selectedStatus.score,
         status: props.selectedStatus.status,
     }
@@ -105,6 +127,7 @@ watch(() => props.selectedStatus, (newValue: any) => {
     if (newValue != null) {
         state.formStatus = {
             date: newValue.date,
+            area_type: newValue.area_type,
             score: newValue.score,
             status: newValue.status,
         }

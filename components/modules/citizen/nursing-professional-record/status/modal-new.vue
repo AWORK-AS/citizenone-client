@@ -41,6 +41,7 @@ const state = reactive({
     isPageLoading: false,
     formStatus: {
         date: '',
+        area_type: '',
         score: '',
         status: '',
     },
@@ -61,6 +62,7 @@ async function saveStatus(statusDetails: any) {
         let params = {
             model_uuid: props.selectedRecord?.uuid,
             date: statusDetails.date,
+            area_type: statusDetails.area_type,
             score: statusDetails.score,
             status: statusDetails.status,
         }

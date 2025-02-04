@@ -23,6 +23,70 @@
                                             <span>{{ formatDateToReadable(status?.date) }}</span>
                                         </td>
                                         <td width="20%">
+                                            <Badge type="primary" class="w-fit" v-if="status?.area_type">
+                                                <p class="text-xxs truncate">
+                                                    <span v-if="status?.area_type === 'functional_level'">
+                                                        {{
+                                                            $t('citizens.nursingAreas.statuses.areaTypes.functionalLevel')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="status?.area_type === 'musculoskeletal_system'">
+                                                        {{
+                                                            $t('citizens.nursingAreas.statuses.areaTypes.musculoskeletalSystem')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="status?.area_type === 'nutrition'">
+                                                        {{
+                                                            $t('citizens.nursingAreas.statuses.areaTypes.nutrition')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="status?.area_type === 'skin_and_mucous_membranes'">
+                                                        {{
+                                                            $t('citizens.nursingAreas.statuses.areaTypes.skinAndMucousMembranes')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="status?.area_type === 'communication'">
+                                                        {{
+                                                            $t('citizens.nursingAreas.statuses.areaTypes.communication')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="status?.area_type === 'psychosocial_conditions'">
+                                                        {{
+                                                            $t('citizens.nursingAreas.statuses.areaTypes.psychosocialConditions')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="status?.area_type === 'respiration_and_circulation'">
+                                                        {{
+                                                            $t('citizens.nursingAreas.statuses.areaTypes.respirationAndCirculation')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="status?.area_type === 'sexuality'">
+                                                        {{
+                                                            $t('citizens.nursingAreas.statuses.areaTypes.sexuality')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="status?.area_type === 'pain_and_sensory_impressions'">
+                                                        {{
+                                                            $t('citizens.nursingAreas.statuses.areaTypes.painAndSensoryImpressions')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="status?.area_type === 'sleep_and_rest'">
+                                                        {{
+                                                            $t('citizens.nursingAreas.statuses.areaTypes.sleepAndRest')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="status?.area_type === 'knowledge_and_development'">
+                                                        {{
+                                                            $t('citizens.nursingAreas.statuses.areaTypes.knowledgeAndDevelopment')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="status?.area_type === 'excretion_of_waste'">
+                                                        {{
+                                                            $t('citizens.nursingAreas.statuses.areaTypes.excretionOfWaste')
+                                                        }}
+                                                    </span>
+                                                </p>
+                                            </Badge>
                                             <div v-html="status.status" class="content" />
                                             <Badge type="primary" class="w-fit" v-if="status.score">
                                                 <p class="text-xxs truncate" v-if="status.score == 1">
