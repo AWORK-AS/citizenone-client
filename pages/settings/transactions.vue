@@ -9,7 +9,7 @@
             <template #header>{{ $t('settings.tabs.transactions') }}</template>
 
             <ModulesSettingsTab />
-            <ModulesOtherTab/>
+            <ModulesSettingsOtherSubTab id="sub-tab-other" class="mt-5" />
 
             <div class="py-10">
                 <div class="grid grid-cols-4 gap-x-3">

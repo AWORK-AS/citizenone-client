@@ -9,8 +9,7 @@
             <template #header>{{ $t('customPages.customPages') }}</template>
 
             <ModulesSettingsTab />
-
-            <ModulesOtherTab class="mt-5"/>
+            <ModulesSettingsOtherSubTab id="sub-tab-other" class="mt-5" />
 
             <div class="mt-8">
                 <div class="space-y-5">

@@ -9,7 +9,7 @@
             <template #header>{{ $t('addictions.addictions') }}</template>
 
             <ModulesSettingsTab />
-            <LazyModulesCustomPagesTab class="mt-5" />
+            <ModulesSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
