@@ -4,10 +4,9 @@
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenNursingProfessionalRecordStatusForm formType="update"
-                        :selectedStatus="props.selectedStatus" :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="updateStatus" />
+                    <ModulesCitizenTreatmentStatusForm formType="update" :selectedStatus="props.selectedStatus"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @closeModal="closeModal" @submitForm="updateStatus" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -56,6 +55,7 @@ async function updateStatus(statusDetails: any) {
 
         let params = {
             date: statusDetails.date,
+            area_type: statusDetails.area_type,
             score: statusDetails.score,
             status: statusDetails.status,
         }

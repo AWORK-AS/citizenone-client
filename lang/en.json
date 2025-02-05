@@ -940,6 +940,21 @@
                     "statusSuccessfullyAdded": "Status successfully added",
                     "statusSuccessfullyUpdated": "Status successfully updated"
                 },
+                "areaTypes": {
+                    "areaType": "Area type",
+                    "functionalLevel": "Functional level",
+                    "musculoskeletalSystem": "Musculoskeletal system",
+                    "nutrition": "Nutrition",
+                    "skinAndMucousMembranes": "Skin and mucous membranes",
+                    "communication": "Communication",
+                    "psychosocialConditions": "Psychosocial conditions",
+                    "respirationAndCirculation": "Respiration and circulation",
+                    "sexuality": "Sexuality",
+                    "painAndSensoryImpressions": "Pain and sensory impressions",
+                    "sleepAndRest": "Sleep and rest",
+                    "knowledgeAndDevelopment": "Knowledge and development",
+                    "excretionOfWaste": "Excretion of waste"
+                },
                 "editStatus": "Edit status",
                 "expectedLevels": {
                     "minorChallenges": "Minor challenges",
@@ -957,6 +972,7 @@
                         "severeChallenges": "Severe challenges",
                         "verySubstantialChallenges": "Very substantial challenges"
                     },
+                    "date": "Date",
                     "status": "Status"
                 },
                 "newStatus": "New status",

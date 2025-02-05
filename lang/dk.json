@@ -940,6 +940,21 @@
                     "statusSuccessfullyAdded": "Status tilføjet med succes",
                     "statusSuccessfullyUpdated": "Status opdateret med succes"
                 },
+                "areaTypes": {
+                    "areaType": "Områdetype",
+                    "functionalLevel": "Funktionelt niveau",
+                    "musculoskeletalSystem": "Muskuloskeletalt system",
+                    "nutrition": "Ernæring",
+                    "skinAndMucousMembranes": "Hud og slimhinder",
+                    "communication": "Kommunikation",
+                    "psychosocialConditions": "Psykosociale forhold",
+                    "respirationAndCirculation": "Respiration og kredsløb",
+                    "sexuality": "Seksualitet",
+                    "painAndSensoryImpressions": "Smerte og sanseindtryk",
+                    "sleepAndRest": "Søvn og hvile",
+                    "knowledgeAndDevelopment": "Viden og udvikling",
+                    "excretionOfWaste": "Affaldsudskillelse"
+                },
                 "editStatus": "Rediger status",
                 "expectedLevels": {
                     "minorChallenges": "Mindre udfordringer",
@@ -957,6 +972,7 @@
                         "severeChallenges": "Alvorlige udfordringer",
                         "verySubstantialChallenges": "Meget store udfordringer"
                     },
+                    "date": "Dato",
                     "status": "Status"
                 },
                 "newStatus": "Ny status",
