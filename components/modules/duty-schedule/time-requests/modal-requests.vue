@@ -206,7 +206,7 @@ async function approveScheduleRequest() {
         const response = await scheduleRequestService.approveScheduleRequest(scheduleRequestUuid)
         if (response) {
             fetchScheduleRequests()
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.alert.scheduleSuccessfullyApproved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.table.alert.scheduleSuccessfullyApproved')}.`)
             emit('refreshDutySchedules')
         }
     } catch (error: any) {
@@ -228,7 +228,7 @@ async function deleteScheduleRequest() {
         const response = await scheduleRequestService.deleteScheduleRequest(scheduleRequestUuid)
         if (response) {
             fetchScheduleRequests()
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.alert.scheduleSuccessfullyDisapproved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.table.alert.scheduleSuccessfullyDisapproved')}.`)
         }
     } catch (error: any) {
         state.error = error
