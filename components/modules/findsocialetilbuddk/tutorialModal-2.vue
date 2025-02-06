@@ -1,8 +1,9 @@
 <template>
     <div>
-        <div v-if="props.isModalTwoOpen"
-            class="fixed bottom-20 right-48 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md"
+        <div v-if="props.isModalTwoOpen" class="fixed top-0 left-1/2 transform -translate-x-1/2 w-full p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md 
+     md:top-auto md:bottom-20 md:right-48 md:w-96 md:overflow-visible md:left-auto md:transform-none"
             :class="modalClasses">
+
 
             <div class="absolute top-0 right-0 w-52 h-52 overflow-hidden">
                 <img src="/img/icons/asset-01.svg" alt="Image failed to load"
@@ -60,6 +61,12 @@ const doneAndClose = () => {
     emit('close')
 }
 const pageHeight = ref(window.innerHeight);
+const pageWidth = ref(window.innerWidth);  // Make window width reactive
+
+const updatePageSize = () => {
+    pageHeight.value = window.innerHeight;
+    pageWidth.value = window.innerWidth;
+};
 
 const updatePageHeight = () => {
     pageHeight.value = window.innerHeight;
@@ -67,16 +74,26 @@ const updatePageHeight = () => {
 
 onMounted(() => {
     window.addEventListener("resize", updatePageHeight);
+    window.addEventListener("resize", updatePageSize);
 });
 
 onUnmounted(() => {
     window.removeEventListener("resize", updatePageHeight);
+    window.addEventListener("resize", updatePageSize);
 });
 
 const modalClasses = computed(() => {
-    return `fixed bottom-16 left-99 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md
-        after:absolute after:-left-4 after:w-0 after:h-0 after:border-t-[20px] after:border-t-transparent
+    const isSmallScreen = pageWidth.value < 768;  // Use the reactive pageWidth value
+
+    if (isSmallScreen) {
+        return `after:absolute after:bottom-[-20px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-0 after:h-0 
+    after:border-l-[20px] after:border-l-transparent after:border-r-[20px] after:border-r-transparent 
+    after:border-t-[20px] after:border-t-white
+`;
+    } else {
+        return `after:absolute after:-left-4 after:w-0 after:h-0 after:border-t-[20px] after:border-t-transparent
         after:border-b-[20px] after:border-b-transparent after:border-r-[20px] after:border-r-white after:top-4`;
+    }
 });
 
 </script>

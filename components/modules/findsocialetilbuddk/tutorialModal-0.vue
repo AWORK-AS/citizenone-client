@@ -1,8 +1,9 @@
 <template>
     <div>
-        <div v-if="props.isModalZeroOpen"
-            class="fixed bottom-44 left-99 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md"
-            :class="modalClasses">
+        <div v-if="props.isModalZeroOpen" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-lg p-6 overflow-hidden bg-white border border-gray-300 shadow-lg z-50 rounded-md
+    lg:bottom-44 lg:left-[25rem] lg:transform-none lg:w-96 lg:overflow-visible" :class="modalClasses">
+
+
 
             <div class="absolute top-0 right-0 w-52 h-52 overflow-hidden">
                 <img src="/img/icons/asset-01.svg" alt="Image failed to load"
@@ -48,7 +49,7 @@
                     </span>
                 </li>
             </ul>
-            <div class="mt-4 flex justify-end">
+            <div class="mt-4 flex justify-center md:justify-end lg:justify-end">
                 <button v-if="language.locale.value === 'en'" @click="handleNext"
                     class="px-4 py-2 bg-tertiary text-white rounded">
                     Next
@@ -105,8 +106,7 @@ onUnmounted(() => {
 });
 
 const modalClasses = computed(() => {
-    return `fixed bottom-16 left-99 w-96 p-6 bg-white border border-gray-300 shadow-lg z-50 rounded-md
-        after:absolute after:-left-4 after:w-0 after:h-0 after:border-t-[20px] after:border-t-transparent
+    return `after:absolute after:-left-4 after:w-0 after:h-0 after:border-t-[20px] after:border-t-transparent
         after:border-b-[20px] after:border-b-transparent after:border-r-[20px] after:border-r-white
         ${pageHeight.value < 800 ? "after:top-56" : "after:top-4"}`;
 });
