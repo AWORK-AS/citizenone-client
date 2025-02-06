@@ -27,8 +27,21 @@
                             <div>
                                 <div v-if="state.chat?.data?.type === 'direct'">
                                     <div class="h-10">
-                                        <div v-if="chatToSelf(state.chat?.data?.chat_members)?.length === 2"
-                                            class="flex items-center space-x-4">
+                                        <div
+                                            v-if="excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members)?.length > 0">
+                                            <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members)"
+                                                :index="index" class="flex items-center space-x-4">
+                                                <img :src="chatMember?.user?.profile_image ?? '/img/avatars/user.svg'"
+                                                    alt="Item 1" class="w-10 h-10 rounded-full object-cover">
+                                                <div>
+                                                    <h4 class="font-semibold text-sm">
+                                                        {{ chatMember?.user?.firstname + " " +
+                                                            chatMember?.user?.lastname }}
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else class="flex items-center space-x-4">
                                             <img :src="chatToSelf(state.chat?.data?.chat_members)[0]?.user?.profile_image ?? '/img/avatars/user.svg'"
                                                 alt="Item 1" class="w-10 h-10 rounded-full object-cover">
                                             <div>
@@ -36,17 +49,6 @@
                                                     {{ chatToSelf(state.chat?.data?.chat_members)[0]?.user?.firstname +
                                                         " " +
                                                         chatToSelf(state.chat?.data?.chat_members)[0]?.user?.lastname }}
-                                                </h4>
-                                            </div>
-                                        </div>
-                                        <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members)"
-                                            :index="index" class="flex items-center space-x-4">
-                                            <img :src="chatMember?.user?.profile_image ?? '/img/avatars/user.svg'"
-                                                alt="Item 1" class="w-10 h-10 rounded-full object-cover">
-                                            <div>
-                                                <h4 class="font-semibold text-sm">
-                                                    {{ chatMember?.user?.firstname + " " +
-                                                        chatMember?.user?.lastname }}
                                                 </h4>
                                             </div>
                                         </div>

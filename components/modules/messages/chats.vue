@@ -14,26 +14,7 @@
             ]">
                 <div v-if="chat?.type === 'direct'">
                     <div>
-                        <div v-if="chatToSelf(chat?.chat_members)?.length === 2" class="grid grid-cols-12 items-center">
-                            <div class="col-span-2">
-                                <img :src="chatToSelf(chat?.chat_members)[0]?.user?.profile_image ?? '/img/avatars/user.svg'"
-                                    alt="Item 1" class="w-11 h-11 rounded-full object-cover">
-                            </div>
-                            <div class="col-span-10">
-                                <Tooltip :text="chatToSelf(chat?.chat_members)[0]?.user?.firstname + ' ' +
-                                    chatToSelf(chat?.chat_members)[0]?.user?.lastname">
-                                    <h4 class="font-semibold text-sm">
-                                        {{ chatToSelf(chat?.chat_members)[0]?.user?.firstname + " " +
-                                            chatToSelf(chat?.chat_members)[0]?.user?.lastname }}
-                                    </h4>
-                                </Tooltip>
-                                <p class="text-xxs" v-if="chat?.unread_messages > 0">
-                                    {{ chat?.unread_messages }}
-                                    <span class="lowercase">{{ $t('messages.unreadMessages') }}</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div v-else>
+                        <div v-if="excludeCurrentUserFromChatMembers(chat?.chat_members)?.length > 0">
                             <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(chat?.chat_members)"
                                 :index="index" class="grid grid-cols-12 items-center">
                                 <div class="col-span-2">
@@ -52,6 +33,25 @@
                                         <span class="lowercase">{{ $t('messages.unreadMessages') }}</span>
                                     </p>
                                 </div>
+                            </div>
+                        </div>
+                        <div v-else class="grid grid-cols-12 items-center">
+                            <div class="col-span-2">
+                                <img :src="chatToSelf(chat?.chat_members)[0]?.user?.profile_image ?? '/img/avatars/user.svg'"
+                                    alt="Item 1" class="w-11 h-11 rounded-full object-cover">
+                            </div>
+                            <div class="col-span-10">
+                                <Tooltip :text="chatToSelf(chat?.chat_members)[0]?.user?.firstname + ' ' +
+                                    chatToSelf(chat?.chat_members)[0]?.user?.lastname">
+                                    <h4 class="font-semibold text-sm">
+                                        {{ chatToSelf(chat?.chat_members)[0]?.user?.firstname + " " +
+                                            chatToSelf(chat?.chat_members)[0]?.user?.lastname }}
+                                    </h4>
+                                </Tooltip>
+                                <p class="text-xxs" v-if="chat?.unread_messages > 0">
+                                    {{ chat?.unread_messages }}
+                                    <span class="lowercase">{{ $t('messages.unreadMessages') }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
