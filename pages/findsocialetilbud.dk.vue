@@ -11,7 +11,7 @@
             <div
                 class="absolute top-10 right-4 transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in-right">
                 <button @click="toggleOverlay"
-                    class="items-center justify-center w-10 h-10 bg-tertiary text-white rounded-full shadow-lg lg:block hidden">
+                    class="items-center justify-center w-10 h-10 bg-tertiary text-white rounded-full shadow-lg">
                     <span class="text-lg font-bold">?</span>
                 </button>
 

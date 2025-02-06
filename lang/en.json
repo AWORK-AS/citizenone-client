@@ -1354,6 +1354,16 @@
             "downloadHoursInExcel": "Download hours in excel",
             "downloadOverview": "Download overview"
         },
+        "draft": {
+            "alert": {
+                "successfullyPublished": "Schedules successfully published"
+            },
+            "confirmation": {
+                "publishConfirmation": "Are you sure you want to publish this schedule"
+            },
+            "draft": "Draft",
+            "publish": "Publish"
+        },
         "dutySchedules": "Duty schedules",
         "editSchedule": "Edit schedule",
         "filterDate": "Filter date",

@@ -4,7 +4,7 @@
 
             <Head>
                 <Title>
-
+                    {{ $t('dutySchedules.draft.draft') }}
                     {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                     -
                     {{ runtimeConfig?.public?.appName }}
@@ -12,8 +12,14 @@
             </Head>
 
             <template #header>
+                {{ $t('dutySchedules.draft.draft') }}
                 {{ customPagesStore.getCustomPagesName?.dutySchedules }}
             </template>
+
+            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules">
+                <Icon name="ph:arrow-left" size="20" class="text-black" />
+                <span>{{ $t('back') }}</span>
+            </NuxtLink>
 
             <!-- <div class="flex items-center gap-x-3">
                 <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
@@ -31,7 +37,7 @@
             </div> -->
 
             <div class="mt-5 space-y-5">
-                <ModulesDutyScheduleWeekView v-if="state.calendarView === 'week'" />
+                <ModulesDutyScheduleDraftWeekView v-if="state.calendarView === 'week'" />
             </div>
         </NuxtLayout>
     </div>
