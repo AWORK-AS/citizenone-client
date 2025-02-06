@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="2xl" :title="$t('plansandgoals.statuses')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="4xl" :title="$t('plansandgoals.statuses')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
@@ -18,6 +18,11 @@
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                                 <template #body v-if="!(state.isTableLoading || (state.statuses?.data?.length === 0))">
                                     <tr v-for="(status, index) in state.statuses?.data" :key="index">
+                                        <td width="20%">
+                                            <p>
+                                                {{ status.title }}
+                                            </p>
+                                        </td>
                                         <td width="30%">
                                             <Badge type="primary" class="w-fit lowercase" v-if="status?.copied_from">
                                                 <p class="text-xxs">
@@ -58,7 +63,7 @@
                                                 </p>
                                             </Badge>
                                         </td>
-                                        <td width="30%">
+                                        <td width="20%">
                                             <span>{{ formatDateToReadable(status?.created_at) }}</span>
                                         </td>
                                         <td width="20%">
@@ -66,7 +71,7 @@
                                                 {{ status?.user?.firstname + ' ' + status?.user?.lastname }}
                                             </span>
                                         </td>
-                                        <td width="20%">
+                                        <td width="10%">
                                             <div class="flex items-end gap-2">
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="editStatus(status)" v-if="status?.is_editable">
@@ -134,6 +139,7 @@ const state = reactive({
         { column: 'status' },
     ],
     columnHeaders: [
+        { name: 'plansandgoals.table.title', sorter: true, key: 'title' },
         { name: 'plansandgoals.table.status', sorter: true, key: 'status' },
         { name: 'plansandgoals.table.dateCreated' },
         { name: 'plansandgoals.table.createdBy' },

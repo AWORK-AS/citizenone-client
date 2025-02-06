@@ -53,6 +53,7 @@ async function updateStatus(statusDetails: any) {
         const statusUuid = props.selectedStatus.uuid
 
         let params = {
+            title: statusDetails.title,
             score: statusDetails.score,
             status: statusDetails.status,
         }

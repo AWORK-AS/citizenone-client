@@ -2194,6 +2194,7 @@
             "subgoalCompletionDate": "Delmål afslutningsdato",
             "subgoalName": "Delmålsnavn",
             "template": "Skabelon",
+            "title": "Titel",
             "useTemplate": "Brug skabelon"
         },
         "inProgress": "I gang",
@@ -2224,7 +2225,8 @@
             },
             "journalNote": "Journalnote",
             "riskAssessment": "Risikovurdering",
-            "status": "Status"
+            "status": "Status",
+            "title": "Titel"
         },
         "VUMTemplates": {
             "editGoal": "Rediger mål",

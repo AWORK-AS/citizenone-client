@@ -2194,6 +2194,7 @@
             "subgoalCompletionDate": "Subgoal completion date",
             "subgoalName": "Subgoal name",
             "template": "Template",
+            "title": "Title",
             "useTemplate": "Use template"
         },
         "inProgress": "In progress",
@@ -2224,7 +2225,8 @@
             },
             "journalNote": "Journal note",
             "riskAssessment": "Risk assessment",
-            "status": "Status"
+            "status": "Status",
+            "title": "Title"
         },
         "VUMTemplates": {
             "editGoal": "Edit goal",

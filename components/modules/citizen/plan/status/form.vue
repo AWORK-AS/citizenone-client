@@ -4,6 +4,13 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
+                <FormLabel for="title" :label="$t('plansandgoals.form.title')" />
+                <FormTextField id="title" name="title" :placeholder="$t('plansandgoals.form.title')"
+                    v-model="state.formStatus.title" />
+                <FormError :error="v$?.formStatus?.title?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.title?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="score" :label="$t('plansandgoals.form.currentLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formStatus.score" />
                 <FormError :error="v$?.formStatus?.score?.$errors[0]?.$message.toString()" />
@@ -71,6 +78,7 @@ const editorStatusConfig = ref({
 
 const state = reactive({
     formStatus: {
+        title: '',
         score: '',
         status: '',
     },
@@ -87,6 +95,7 @@ const state = reactive({
 
 onMounted(() => {
     state.formStatus = {
+        title: props.selectedStatus.title,
         score: props.selectedStatus.score,
         status: props.selectedStatus.status,
     }
@@ -95,6 +104,7 @@ onMounted(() => {
 watch(() => props.selectedStatus, (newValue: any) => {
     if (newValue != null) {
         state.formStatus = {
+            title: newValue.title,
             score: newValue.score,
             status: newValue.status,
         }
@@ -104,6 +114,9 @@ watch(() => props.selectedStatus, (newValue: any) => {
 const rules = computed(() => {
     return {
         formStatus: {
+            title: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
             status: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
