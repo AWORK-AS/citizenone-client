@@ -1,15 +1,14 @@
 <template>
     <div class="space-y-5">
-        DRAFT PAGE TESTING
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <Alert type="danger" :text="state?.errorUpdateShift?.message"
             v-if="state.errorUpdateShift?.message && state.errorUpdateShift.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
-            <div class="flex justify-end">
-                <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
-                    <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                    {{ $t('dutySchedules.download.download') }}
+            <div class="flex justify-end gap-x-3">
+                <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isPublishScheduleOpen = true">
+                    <Icon name="ph:check" class="h-4 w-4" aria-hidden="true" />
+                    {{ $t('dutySchedules.draft.publish') }}
                 </FormButton>
             </div>
             <div class="flex h-full flex-col">
@@ -493,8 +492,6 @@
                     </div>
                 </div>
             </div>
-            <ModulesDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
-                @close="state.modal.isDownloadOpen = false" />
             <ModulesDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDepartmentSickLeaveDate" />
@@ -507,6 +504,9 @@
             <ModulesDutyScheduleModalCopyMultipleWeeks :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
                 @refreshDutySchedules="fetchDutySchedule()" />
+            <DialogConfirmation :isModalOpen="state.modal.isPublishScheduleOpen"
+                :message="$t('dutySchedules.draft.confirmation.publishConfirmation') + '?'"
+                @close="state.modal.isPublishScheduleOpen = false" @confirm="publishSchedule" />
         </LoadingSpinner>
     </div>
 </template>
@@ -514,15 +514,19 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { scheduleDraftService } from '@/components/api/ScheduleDraftService'
+import { draftScheduleService } from '@/components/api/DraftScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useUserStore } from '@/store/user'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from "vue-i18n"
 
+const { formatDateToReadable } = useDatetimeFormatter()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
-const { formatDateToReadable } = useDatetimeFormatter()
 const currentDate = ref(moment())
 const selectedDay = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
@@ -556,6 +560,7 @@ const state = reactive({
         isDepartmentSickLeaveDateRangeOpen: false,
         isDownloadOpen: false,
         isManageScheduleSlotOpen: false,
+        isPublishScheduleOpen: false,
     } as any,
     newShiftError: {} as Error,
     progress: {
@@ -610,7 +615,7 @@ async function fetchDutyScheduleAbsencePercentage() {
             end_date: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
         }
-        const response = await scheduleDraftService.getDraftDutyScheduleAbsencePercentage(params)
+        const response = await draftScheduleService.getDraftDutyScheduleAbsencePercentage(params)
         if (response) {
             state.shiftPercentage = response
         }
@@ -636,7 +641,7 @@ async function fetchDutySchedule() {
             date_end: endOfWeekFormatted,
             department: departmentStore.getSelectedDepartmentName,
         }
-        const response = await scheduleDraftService.getScheduleDrafts(params)
+        const response = await draftScheduleService.getScheduleDrafts(params)
         if (response) {
             state.weeklySchedules = response?.data
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
@@ -716,12 +721,24 @@ async function saveShift(shiftDetails: any) {
     saveDutySchedule(params)
 }
 
+async function publishSchedule(params: object) {
+    try {
+        const response = await draftScheduleService.publishSchedule()
+        if (response) {
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.draft.alert.successfullyPublished')}.`)
+            navigateTo('/schedules')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
 async function saveDutySchedule(params: object) {
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
-        const response = await scheduleDraftService.saveScheduleDraft(params)
+        const response = await draftScheduleService.saveScheduleDraft(params)
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
@@ -822,7 +839,7 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
-        const response = await scheduleDraftService.saveScheduleDraft(params)
+        const response = await draftScheduleService.saveScheduleDraft(params)
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
@@ -845,7 +862,7 @@ async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: nu
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
-        const response = await scheduleDraftService.delteScheduleDraft(scheduleUuid)
+        const response = await draftScheduleService.deleteScheduleDraft(scheduleUuid)
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
@@ -911,7 +928,7 @@ async function updateDutySchedule(scheduleUuid: any, params: object, weeklySched
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
-        const response = await scheduleDraftService.updateScheduleDraft(scheduleUuid, params)
+        const response = await draftScheduleService.updateScheduleDraft(scheduleUuid, params)
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1

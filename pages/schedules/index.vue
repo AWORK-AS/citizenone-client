@@ -12,11 +12,7 @@
             </Head>
 
             <template #header>
-                {{
-                    customPage('duty-schedules') === 'Duty schedules' ?
-                        $t('dutySchedules.dutySchedules') :
-                        customPage('duty-schedules')
-                }}
+                {{ customPagesStore.getCustomPagesName?.dutySchedules }}
             </template>
 
             <!-- <div class="flex items-center gap-x-3">

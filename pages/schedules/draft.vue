@@ -4,7 +4,7 @@
 
             <Head>
                 <Title>
-
+                    {{ $t('dutySchedules.draft.draft') }}
                     {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                     -
                     {{ runtimeConfig?.public?.appName }}
@@ -12,12 +12,14 @@
             </Head>
 
             <template #header>
-                {{
-                    customPage('duty-schedules') === 'Duty schedules' ?
-                        $t('dutySchedules.dutySchedules') :
-                        customPage('duty-schedules')
-                }}
+                {{ $t('dutySchedules.draft.draft') }}
+                {{ customPagesStore.getCustomPagesName?.dutySchedules }}
             </template>
+
+            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules">
+                <Icon name="ph:arrow-left" size="20" class="text-black" />
+                <span>{{ $t('back') }}</span>
+            </NuxtLink>
 
             <!-- <div class="flex items-center gap-x-3">
                 <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"

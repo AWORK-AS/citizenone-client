@@ -1354,6 +1354,16 @@
             "downloadHoursInExcel": "Download timer i Excel",
             "downloadOverview": "Download oversigt"
         },
+        "draft": {
+            "alert": {
+                "successfullyPublished": "Vagtplaner offentliggjort med succes"
+            },
+            "confirmation": {
+                "publishConfirmation": "Er du sikker på, at du vil offentliggøre denne vagtplan"
+            },
+            "draft": "Kladde",
+            "publish": "Offentliggør"
+        },
         "dutySchedules": "Vagtplaner",
         "editSchedule": "Rediger tidsplan",
         "filterDate": "Filtrer dato",

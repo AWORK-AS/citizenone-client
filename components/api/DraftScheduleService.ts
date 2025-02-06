@@ -1,6 +1,6 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
-class ScheduleDraftService extends BaseAPIService {
+class DraftScheduleService extends BaseAPIService {
     async getScheduleDrafts(params: object): Promise<any> {
         return await this.request(`/user/draft-schedules`, 'GET', params)
     }
@@ -17,7 +17,7 @@ class ScheduleDraftService extends BaseAPIService {
         return await this.request(`/user/draft-schedules/${scheduleUuid}`, 'PUT', params)
     }
 
-    async delteScheduleDraft(scheduleUuid: any): Promise<any> {
+    async deleteScheduleDraft(scheduleUuid: any): Promise<any> {
         return await this.request(`/user/draft-schedules/${scheduleUuid}`, 'DELETE')
     }
 
@@ -25,9 +25,9 @@ class ScheduleDraftService extends BaseAPIService {
         return await this.request(`/user/draft-schedules/show/percentage`, 'GET', params)
     }
 
-    async getAllScheduleDraft(): Promise<any> {
-        return await this.request(`/user/draft-schedules/all/list`, 'GET')
+    async publishSchedule(): Promise<any> {
+        return await this.request(`/user/draft-schedules/publish/all`, 'POST')
     }
 }
 
-export const scheduleDraftService = new ScheduleDraftService()
+export const draftScheduleService = new DraftScheduleService()

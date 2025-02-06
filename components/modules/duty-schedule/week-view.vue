@@ -5,10 +5,11 @@
         <Alert type="danger" :text="state?.errorUpdateShift?.message"
             v-if="state.errorUpdateShift?.message && state.errorUpdateShift.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
-            <div class="flex justify-end">
-                <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedule-draft')">
+            <div class="flex justify-end gap-x-3">
+                <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft')">
                     <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
-                    {{ $t('Draft a schedule') }}
+                    {{ $t('dutySchedules.draft.draft') }}
+                    {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                 </FormButton>
                 <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
@@ -469,12 +470,14 @@
 import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/DutyScheduleService'
 import { useDepartmentStore } from '@/store/department'
-import type { Error } from '@/types'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import type { Error } from '@/types'
 
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
+const customPagesStore = useCustomPagesStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 const currentDate = ref(moment())
 const selectedDay = ref(moment())
