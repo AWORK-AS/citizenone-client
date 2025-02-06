@@ -1,15 +1,12 @@
 <template>
     <div class="space-y-5">
+        DRAFT PAGE TESTING
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <Alert type="danger" :text="state?.errorUpdateShift?.message"
             v-if="state.errorUpdateShift?.message && state.errorUpdateShift.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
             <div class="flex justify-end">
-                <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedule-draft')">
-                    <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
-                    {{ $t('Draft a schedule') }}
-                </FormButton>
                 <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('dutySchedules.download.download') }}
@@ -164,10 +161,11 @@
                                         </div>
                                     </div>
                                     <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
-                                        v-for="day in weekDays" :key="day.date"
-                                        class="cursor-pointer hover:bg-gray-200 flex items-center justify-center py-4 border-0.5"
-                                        @click="openManageScheduleSlotModal(day)"
-                                        v-if="isAdmin(userStore.getUser?.roles)">
+                                        v-for="day in weekDays" :key="day.date" :class="[
+                                            isAdmin(userStore.getUser?.roles) && 'cursor-pointer hover:bg-gray-200',
+                                            'flex items-center justify-center py-4 border-0.5'
+                                        ]"
+                                        @click="isAdmin(userStore.getUser?.roles) && openManageScheduleSlotModal(day)">
                                         <span class="flex gap-x-1 text-sm">
                                             <span v-if="day.longName === 'Mon'">
                                                 {{ $t('calendar.week.short.Monday') }}
@@ -195,36 +193,6 @@
                                             </span>
                                         </span>
                                     </Tooltip>
-                                    <div :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" v-for="day in weekDays"
-                                        :key="day.date" class="flex items-center justify-center py-4 border-0.5"
-                                        v-if="!isAdmin(userStore.getUser?.roles)">
-                                        <span class="flex gap-x-1 text-sm">
-                                            <span v-if="day.longName === 'Mon'">
-                                                {{ $t('calendar.week.short.Monday') }}
-                                            </span>
-                                            <span v-if="day.longName === 'Tue'">
-                                                {{ $t('calendar.week.short.Tuesday') }}
-                                            </span>
-                                            <span v-if="day.longName === 'Wed'">
-                                                {{ $t('calendar.week.short.Wednesday') }}
-                                            </span>
-                                            <span v-if="day.longName === 'Thu'">
-                                                {{ $t('calendar.week.short.Thursday') }}
-                                            </span>
-                                            <span v-if="day.longName === 'Fri'">
-                                                {{ $t('calendar.week.short.Friday') }}
-                                            </span>
-                                            <span v-if="day.longName === 'Sat'">
-                                                {{ $t('calendar.week.short.Saturday') }}
-                                            </span>
-                                            <span v-if="day.longName === 'Sun'">
-                                                {{ $t('calendar.week.short.Sunday') }}
-                                            </span>
-                                            <span class="items-center justify-center font-semibold text-gray-900">
-                                                {{ day.date }}
-                                            </span>
-                                        </span>
-                                    </div>
                                 </div>
 
                                 <div class="relative mt-0.5"
@@ -238,20 +206,13 @@
                                         :key="weeklyScheduleIndex" class="grid grid-cols-9"
                                         v-if="!isWeeklyScheduleCopied(weekNumber)">
                                         <div class="p-3 col-span-2 space-y-2 border-0.5">
-                                            <div class="relative">
-                                                <div class="flex items-center gap-x-2">
-                                                    <img :src="weeklySchedule?.employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`"
-                                                        class="h-8 w-8 rounded-full bg-gray-50 object-cover" />
-                                                    <p class="text-sm font-medium">
-                                                        {{ weeklySchedule?.employee?.firstname }}
-                                                        {{ weeklySchedule?.employee?.lastname }}
-                                                    </p>
-                                                </div>
-                                                <button
-                                                    class="absolute left-10 top-7 text-xxs text-primary hover:text-primary-700"
-                                                    @click="navigateTo(`/calendar?employee_uuid=${weeklySchedule?.employee?.uuid}`)">
-                                                    {{ $t('dutySchedules.viewCalendar') }}
-                                                </button>
+                                            <div class="flex items-center gap-x-2">
+                                                <img :src="weeklySchedule?.employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`"
+                                                    class="h-8 w-8 rounded-full bg-gray-50 object-cover" />
+                                                <p class="text-sm font-medium">
+                                                    {{ weeklySchedule?.employee?.firstname }}
+                                                    {{ weeklySchedule?.employee?.lastname }}
+                                                </p>
                                             </div>
                                             <div class="text-xs grid grid-cols-7">
                                                 <div class="col-span-3 space-y-2" />
@@ -328,14 +289,6 @@
                                                                 aria-hidden="true" />
                                                         </button>
                                                     </Tooltip>
-                                                    <!-- <Tooltip :text="$t('dutySchedules.scheduleRequests.requests')">
-                                                        <button
-                                                            class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                            @click="viewRequests(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
-                                                            <Icon name="mdi:calendar-question-outline" class="h-3 w-3"
-                                                                aria-hidden="true" />
-                                                        </button>
-                                                    </Tooltip> -->
                                                     <Tooltip :text="$t('dutySchedules.newSchedule')">
                                                         <button
                                                             class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
@@ -357,13 +310,11 @@
                                                         <div class="flex">
                                                             <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
-                                                                :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
                                                                 :value="shift?.time_in"
                                                                 @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                             <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
-                                                                :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
                                                                 :value="shift?.time_out"
                                                                 @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="!isAdmin(userStore.getUser?.roles)" />
@@ -381,18 +332,123 @@
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
                                                             </Tooltip>
                                                         </button>
-                                                        <!-- <button
-                                                            class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="requestTimeAdjustment(weeklyScheduleIndex, shift)"
-                                                            v-else
-                                                            v-if="userStore.getUser?.uuid === weeklySchedule?.employee?.uuid">
-                                                            <Tooltip
-                                                                :text="$t('dutySchedules.scheduleRequests.newRequest')">
-                                                                <Icon name="ic:baseline-question-mark"
-                                                                    class="h-2.5 w-2.5" aria-hidden="true" />
-                                                            </Tooltip>
-                                                        </button> -->
                                                     </div>
+                                                    <!-- <div class="bg-shifts-awake_night rounded-md p-1 relative"
+                                                        v-for="(shift, shiftIndex) in week?.shifts.filter((shift: any) => shift.name === 'awake_night_shift')"
+                                                        :key="`awake_night_shift_${shiftIndex}`">
+                                                        <div class="flex">
+                                                            <FormTimeFieldTransparent name="time_in"
+                                                                class="rounded-tl-md rounded-bl-md"
+                                                                :value="shift?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
+                                                            <FormTimeFieldTransparent name="time_out"
+                                                                class="rounded-tr-md rounded-br-md"
+                                                                :value="shift?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
+                                                        </div>
+                                                        <button
+                                                            class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
+                                                            v-if="shift?.in_meeting">
+                                                            M
+                                                        </button>
+                                                        <button
+                                                            class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                            v-if="isAdmin(userStore.getUser?.roles)">
+                                                            <Tooltip :text="$t('dutySchedules.removeSchedule')">
+                                                                <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                            </Tooltip>
+                                                        </button>
+                                                    </div> -->
+                                                    <!-- <div class="bg-shifts-sleeping_night rounded-md p-1 relative"
+                                                        v-for="(shift, shiftIndex) in week?.shifts.filter((shift: any) => shift.name === 'sleeping_night_shift')"
+                                                        :key="`regular_shift_${shiftIndex}`">
+                                                        <div class="flex">
+                                                            <FormTimeFieldTransparent name="time_in"
+                                                                class="rounded-tl-md rounded-bl-md"
+                                                                :value="shift?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
+                                                            <FormTimeFieldTransparent name="time_out"
+                                                                class="rounded-tr-md rounded-br-md"
+                                                                :value="shift?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
+                                                        </div>
+                                                        <button
+                                                            class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
+                                                            v-if="shift?.in_meeting">
+                                                            M
+                                                        </button>
+                                                        <button
+                                                            class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                            v-if="isAdmin(userStore.getUser?.roles)">
+                                                            <Tooltip :text="$t('dutySchedules.removeSchedule')">
+                                                                <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                            </Tooltip>
+                                                        </button>
+                                                    </div> -->
+                                                    <!-- <div class="bg-shifts-vacation rounded-md p-1 relative"
+                                                        v-for="(shift, shiftIndex) in week?.shifts.filter((shift: any) => shift.name === 'vacation_leave')"
+                                                        :key="`regular_shift_${shiftIndex}`">
+                                                        <div class="flex">
+                                                            <FormTimeFieldTransparent name="time_in"
+                                                                class="rounded-tl-md rounded-bl-md"
+                                                                :value="shift?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
+                                                            <FormTimeFieldTransparent name="time_out"
+                                                                class="rounded-tr-md rounded-br-md"
+                                                                :value="shift?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
+                                                        </div>
+                                                        <button
+                                                            class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
+                                                            v-if="shift?.in_meeting">
+                                                            M
+                                                        </button>
+                                                        <button
+                                                            class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                            v-if="isAdmin(userStore.getUser?.roles)">
+                                                            <Tooltip :text="$t('dutySchedules.removeSchedule')">
+                                                                <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                            </Tooltip>
+                                                        </button>
+                                                    </div> -->
+                                                    <!-- <div class="bg-shifts-sickleave rounded-md p-1 relative"
+                                                        v-for="(shift, shiftIndex) in week?.shifts.filter((shift: any) => shift.name === 'sick_leave')"
+                                                        :key="`regular_shift_${shiftIndex}`">
+                                                        <div class="flex">
+                                                            <FormTimeFieldTransparent name="time_in"
+                                                                class="rounded-tl-md rounded-bl-md"
+                                                                :value="shift?.time_in"
+                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
+                                                            <FormTimeFieldTransparent name="time_out"
+                                                                class="rounded-tr-md rounded-br-md"
+                                                                :value="shift?.time_out"
+                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
+                                                        </div>
+                                                        <button
+                                                            class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
+                                                            v-if="shift?.in_meeting">
+                                                            M
+                                                        </button>
+                                                        <button
+                                                            class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                            v-if="isAdmin(userStore.getUser?.roles)">
+                                                            <Tooltip :text="$t('dutySchedules.removeSchedule')">
+                                                                <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                            </Tooltip>
+                                                        </button>
+                                                    </div> -->
                                                     <ModulesDutyScheduleScheduleSlotsRequestAvailableSlots :week="week"
                                                         :employee="weeklySchedule?.employee"
                                                         @error="(error: any) => state.error = error" />
@@ -404,8 +460,7 @@
                                                     {{ $t('dutySchedules.copyPaste.stopCopying') }}
                                                 </p>
                                                 <p class="text-center text-xxs">
-                                                    {{
-                                                        $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule')
+                                                    {{ $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule')
                                                     }}
                                                 </p>
                                             </div>
@@ -446,14 +501,6 @@
             <ModulesDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :error="state.newShiftError"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
                 @resetNewShiftError="state.newShiftError = {}" />
-            <ModulesDutyScheduleTimeRequestsModalRequests :isModalOpen="state.modal.isManageRequestsOpen"
-                :selectedDate="state.manageTimeRequest.selectedDate"
-                :selectedEmployee="state.manageTimeRequest.selectedEmployee"
-                @close="state.modal.isManageRequestsOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
-            <ModulesDutyScheduleTimeRequestsModalNewRequest :isModalOpen="state.modal.isRequestTimeAdjustmentOpen"
-                :selectedEmployee="state.manageTimeRequest.selectedEmployee"
-                :selectedSchedule="state.manageTimeRequest.selectedSchedule"
-                @close="state.modal.isRequestTimeAdjustmentOpen = false" />
             <ModulesDutyScheduleScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
                 :selectedDay="state.manageScheduleSlot.selectedDay"
                 @close="state.modal.isManageScheduleSlotOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
@@ -467,7 +514,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { dutyScheduleService } from '@/components/api/DutyScheduleService'
+import { scheduleDraftService } from '@/components/api/ScheduleDraftService'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
@@ -480,7 +527,6 @@ const currentDate = ref(moment())
 const selectedDay = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
-
 
 const state = reactive({
     addShift: {
@@ -504,19 +550,12 @@ const state = reactive({
     manageScheduleSlot: {
         selectedDay: [],
     },
-    manageTimeRequest: {
-        selectedDate: '',
-        selectedEmployee: {},
-        selectedSchedule: {},
-    },
     modal: {
         isAddShiftOpen: false,
         isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
         isDownloadOpen: false,
         isManageScheduleSlotOpen: false,
-        isManageRequestsOpen: false,
-        isRequestTimeAdjustmentOpen: false,
     } as any,
     newShiftError: {} as Error,
     progress: {
@@ -571,7 +610,7 @@ async function fetchDutyScheduleAbsencePercentage() {
             end_date: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
         }
-        const response = await dutyScheduleService.getDutyScheduleAbsencePercentage(params)
+        const response = await scheduleDraftService.getDraftDutyScheduleAbsencePercentage(params)
         if (response) {
             state.shiftPercentage = response
         }
@@ -597,7 +636,7 @@ async function fetchDutySchedule() {
             date_end: endOfWeekFormatted,
             department: departmentStore.getSelectedDepartmentName,
         }
-        const response = await dutyScheduleService.getDutySchedules(params)
+        const response = await scheduleDraftService.getScheduleDrafts(params)
         if (response) {
             state.weeklySchedules = response?.data
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
@@ -664,21 +703,6 @@ function openManageScheduleSlotModal(day: any) {
     state.modal.isManageScheduleSlotOpen = true
 }
 
-function viewRequests(weeklyScheduleIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
-    const selectedEmployee = state.weeklySchedules[weeklyScheduleIndex]?.employee
-    const selectedDate = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex]?.date
-    state.manageTimeRequest.selectedEmployee = selectedEmployee
-    state.manageTimeRequest.selectedDate = selectedDate
-    state.modal.isManageRequestsOpen = true
-}
-
-function requestTimeAdjustment(weeklyScheduleIndex: number, shift: any) {
-    const selectedEmployee = state.weeklySchedules[weeklyScheduleIndex]?.employee
-    state.manageTimeRequest.selectedEmployee = selectedEmployee
-    state.manageTimeRequest.selectedSchedule = shift
-    state.modal.isRequestTimeAdjustmentOpen = true
-}
-
 async function saveShift(shiftDetails: any) {
     const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex
     const shiftType = shiftDetails.shift_type
@@ -697,7 +721,7 @@ async function saveDutySchedule(params: object) {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
-        const response = await dutyScheduleService.saveDutySchedule(params)
+        const response = await scheduleDraftService.saveScheduleDraft(params)
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
@@ -798,7 +822,7 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
-        const response = await dutyScheduleService.saveDutySchedule(params)
+        const response = await scheduleDraftService.saveScheduleDraft(params)
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
@@ -821,7 +845,7 @@ async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: nu
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
-        const response = await dutyScheduleService.deleteDutySchedule(scheduleUuid)
+        const response = await scheduleDraftService.delteScheduleDraft(scheduleUuid)
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
@@ -887,7 +911,7 @@ async function updateDutySchedule(scheduleUuid: any, params: object, weeklySched
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
-        const response = await dutyScheduleService.updateDutySchedule(scheduleUuid, params)
+        const response = await scheduleDraftService.updateScheduleDraft(scheduleUuid, params)
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
