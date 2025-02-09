@@ -87,6 +87,7 @@
 
 
 <script setup lang="ts">
+import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { planService } from '@/components/api/PlanService'
 import { journalService } from '@/components/api/JournalService'
@@ -124,7 +125,7 @@ const state = reactive({
         uuid: '',
         content: '',
         journal_note_tags: [],
-        date: '',
+        date: moment().format('YYYY-MM-DD'),
         copy_journal_note_to_plan_or_goal_or_subgoal: false,
         journal_note_plan_goal_subgoal_uuid: '',
         copy_risk_assessment_to_plan_or_goal_or_subgoal: false,
