@@ -123,6 +123,11 @@
                                     <td width="10%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="giveMedicine(medicine)">
+                                                <Icon name="ph:plus" class="size-4" />
+                                                {{ $t('citizens.medicineJournals.table.actions.giveMedicine') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="viewMedicineHistory(medicine)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('citizens.medicineJournals.table.actions.medicineHistory') }}
@@ -146,6 +151,8 @@
                     </div>
                     <Pagination :data="state.medicines" @previous="previous" @next="next" />
                 </div>
+                <ModulesCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isGiveMedicineOpen"
+                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isGiveMedicineOpen = false" />
                 <ModulesCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineOpen = false" />
                 <ModulesCitizenMedicineModalNew :isModalOpen="state.modal.isAddMedicineOpen"
@@ -200,9 +207,10 @@ const state = reactive({
         isAddMedicineOpen: false,
         isDeleteMedicineOpen: false,
         isEditMedicineOpen: false,
+        isGiveMedicineOpen: false,
         isViewMedicineOpen: false,
     },
-    selectedMedicine: [] as any,
+    selectedMedicine: {} as any,
     sortData: {
         sortField: '',
         sortOrder: '',
@@ -272,6 +280,11 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchCitizenMedicines()
+}
+
+function giveMedicine(medicine: any) {
+    state.selectedMedicine = medicine
+    state.modal.isGiveMedicineOpen = true
 }
 
 function viewMedicineHistory(medicine: any) {

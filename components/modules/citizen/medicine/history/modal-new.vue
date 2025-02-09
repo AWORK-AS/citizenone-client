@@ -36,7 +36,6 @@ const props = defineProps({
     }
 })
 const emit = defineEmits(['close', 'refreshMedicineHistories'])
-const selectedMedicineUuid = props.selectedMedicine?.uuid
 
 const state = reactive({
     error: {} as Error,
@@ -63,6 +62,7 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
     state.isPageLoading = true
     try {
         let params = {}
+        const selectedMedicineUuid = props.selectedMedicine?.uuid
         if (props.selectedMedicine?.is_pn_medicine) {
             params = {
                 medicine_uuid: selectedMedicineUuid,

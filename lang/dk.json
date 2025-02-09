@@ -750,6 +750,7 @@
                 "actions": {
                     "edit": "Rediger",
                     "delete": "Slet",
+                    "giveMedicine": "Giv medicin",
                     "medicineHistory": "Medicinhistorik",
                     "view": "Se"
                 },
