@@ -227,6 +227,7 @@ async function copyWeeklyDutySchedule() {
         const response = await dutyScheduleService.copyWeeklyDutySchedule(params)
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.alert.scheduleSuccessfullyCopied')}.`)
+            closeModal()
         }
     } catch (error: any) {
         state.error = error
