@@ -52,6 +52,7 @@
 import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/DutyScheduleService'
 import type { Error } from '@/types'
+import { useDepartmentStore } from '@/store/department'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -70,6 +71,7 @@ const props = defineProps({
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const emit = defineEmits(['close', 'saveShift'])
+const departmentStore = useDepartmentStore()
 const months = [
     t('calendar.month.January'),
     t('calendar.month.February'),
@@ -221,6 +223,7 @@ async function copyWeeklyDutySchedule() {
     state.isPageLoading = true
     try {
         const params = {
+            department: departmentStore.getSelectedDepartmentName,
             weeks_source: state.formCopy.weeks_source,
             weeks_destination: state.formCopy.weeks_destination,
         }

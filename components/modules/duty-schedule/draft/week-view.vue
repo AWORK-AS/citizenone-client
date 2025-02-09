@@ -828,6 +828,7 @@ function copyWeeklySchedule(weekNumber: number) {
 function pasteWeeklySchedule(weekNumber: number) {
     state.weeklySchedules = state.copy.allEmployeeSchedules.weeklySchedules
     const params = {
+        department: departmentStore.getSelectedDepartmentName,
         week_source: state.copy.allEmployeeSchedules.weekNumber,
         week_destination: weekNumber,
     }
