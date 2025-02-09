@@ -65,9 +65,6 @@
                 </div>
             </div>
             <ol class="text-sm leading-6 lg:col-span-7 xl:col-span-8">
-                <p v-if="props.myCalendarEvents?.data?.length < 1" class="text-center py-28">
-                    {{ $t('events.noEventFound') }}
-                </p>
                 <div class="md:flex gap-x-3 text-sm">
                     <div class="flex items-center gap-x-2">
                         <div class="w-3 h-3 rounded-sm bg-primary"></div>
@@ -82,6 +79,9 @@
                         <span>{{ $t('events.citizens') }}</span>
                     </div>
                 </div>
+                <p v-if="props.myCalendarEvents?.data?.length < 1" class="text-center py-28">
+                    {{ $t('events.noEventFound') }}
+                </p>
                 <li v-for="(myCalendarEvent, index) in props.myCalendarEvents?.data" :key="index" :class="[
                     myCalendarEvent?.citizen && 'border-yellow-500',
                     !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid !== userStore.getUser?.uuid && 'border-green-700',
