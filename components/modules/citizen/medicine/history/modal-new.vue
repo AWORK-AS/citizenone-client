@@ -16,6 +16,7 @@
 
 
 <script setup lang="ts">
+import moment from 'moment'
 import { medicineHistoryService } from '@/components/api/MedicineHistoryService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
@@ -41,7 +42,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formMedicineHistory: {
-        date: '',
+        date: moment().format('YYYY-MM-DD'),
         quantity: '',
         type: '',
         evaluator_uuid: '',
