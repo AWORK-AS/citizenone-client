@@ -108,7 +108,7 @@
                                                                     <Icon name="ph:check-square-offset"
                                                                         class="size-4" />
                                                                     <span class="hidden md:block">
-                                                                        {{ $t('plansandgoals.table.actions.statuses') }}
+                                                                        {{ $t('plansandgoals.table.actions.notes') }}
                                                                     </span>
                                                                 </FormButton>
                                                                 <DisclosureButton>
@@ -275,7 +275,7 @@
                                                                                         class="size-4" />
                                                                                     <span class="hidden md:block">
                                                                                         {{
-                                                                                            $t('plansandgoals.table.actions.statuses')
+                                                                                            $t('plansandgoals.table.actions.notes')
                                                                                         }}
                                                                                     </span>
                                                                                 </FormButton>

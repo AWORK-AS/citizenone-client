@@ -2169,8 +2169,8 @@
         "dateCreated": "Date created",
         "download": "Download",
         "editGoal": "Edit goal",
+        "editNote": "Edit note",
         "editPlan": "Edit plan",
-        "editStatus": "Edit status",
         "editSubgoal": "Edit subgoal",
         "form": {
             "completed": "Completed",
@@ -2188,9 +2188,9 @@
                 "verySubstantialChallenges": "Very substantial challenges"
             },
             "goalName": "Goal name",
+            "notes": "Notes",
             "planCompletionDate": "Plan completion date",
             "planName": "Plan name",
-            "status": "Status",
             "subgoalCompletionDate": "Subgoal completion date",
             "subgoalName": "Subgoal name",
             "template": "Template",
@@ -2199,18 +2199,18 @@
         },
         "inProgress": "In progress",
         "newGoal": "New goal",
+        "newNote": "New note",
         "newPlan": "New plan",
-        "newStatus": "New status",
         "newSubgoal": "New subgoal",
         "noAvailableSubgoals": "There's no subgoals available to display",
-        "statuses": "Statuses",
+        "notes": "Notes",
         "subgoals": "Subgoals",
         "table": {
             "actions": {
                 "edit": "Edit",
                 "delete": "Delete",
                 "seeGoals": "See goals",
-                "statuses": "Statuses"
+                "notes": "Notes"
             },
             "createdBy": "Created by",
             "copiedFrom": "Copied from",
@@ -2224,8 +2224,8 @@
                 "verySubstantialChallenges": "Very substantial challenges"
             },
             "journalNote": "Journal note",
+            "notes": "Notes",
             "riskAssessment": "Risk assessment",
-            "status": "Status",
             "title": "Title"
         },
         "VUMTemplates": {

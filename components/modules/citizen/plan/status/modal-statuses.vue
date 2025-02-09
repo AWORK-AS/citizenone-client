@@ -1,12 +1,12 @@
 <template>
     <div>
-        <Modal size="4xl" :title="$t('plansandgoals.statuses')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="4xl" :title="$t('plansandgoals.notes')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
                         <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddStatusOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('plansandgoals.newStatus') }}
+                            {{ $t('plansandgoals.newNote') }}
                         </FormButton>
                     </div>
                     <div class="space-y-5">
@@ -140,7 +140,7 @@ const state = reactive({
     ],
     columnHeaders: [
         { name: 'plansandgoals.table.title', sorter: true, key: 'title' },
-        { name: 'plansandgoals.table.status', sorter: true, key: 'status' },
+        { name: 'plansandgoals.table.notes', sorter: true, key: 'status' },
         { name: 'plansandgoals.table.dateCreated' },
         { name: 'plansandgoals.table.createdBy' },
         { name: '' },

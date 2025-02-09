@@ -18,7 +18,7 @@
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
-                    {{ $t('plansandgoals.form.status') }}
+                    {{ $t('plansandgoals.form.notes') }}
                 </p>
                 <ckeditor :editor="editor" v-model="state.formStatus.status" :config="editorStatusConfig"></ckeditor>
                 <FormError :error="v$?.formStatus?.status?.$errors[0]?.$message.toString()" />

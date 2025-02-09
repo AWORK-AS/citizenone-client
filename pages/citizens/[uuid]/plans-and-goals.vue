@@ -120,7 +120,7 @@
                                             </FormButton>
                                             <FormButton class="rounded-md" buttonSize="sm" @click="viewStatuses(plan)">
                                                 <Icon name="ph:check-square-offset" class="size-4" />
-                                                {{ $t('plansandgoals.table.actions.statuses') }}
+                                                {{ $t('plansandgoals.table.actions.notes') }}
                                             </FormButton>
                                             <FormButton class="rounded-md" buttonSize="sm"
                                                 @click="confirmPlanDeletion(plan)" v-if="plan?.is_deletable">

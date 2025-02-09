@@ -2169,8 +2169,8 @@
         "dateCreated": "Oprettelsesdato",
         "download": "Download",
         "editGoal": "Rediger mål",
+        "editNote": "Rediger note",
         "editPlan": "Rediger plan",
-        "editStatus": "Rediger status",
         "editSubgoal": "Rediger delmål",
         "form": {
             "completed": "Fuldført",
@@ -2188,9 +2188,9 @@
                 "verySubstantialChallenges": "Meget store udfordringer"
             },
             "goalName": "Målnavn",
+            "notes": "Noter",
             "planCompletionDate": "Plan afslutningsdato",
             "planName": "Plannavn",
-            "status": "Status",
             "subgoalCompletionDate": "Delmål afslutningsdato",
             "subgoalName": "Delmålsnavn",
             "template": "Skabelon",
@@ -2199,18 +2199,18 @@
         },
         "inProgress": "I gang",
         "newGoal": "Nyt mål",
+        "newNote": "Ny note",
         "newPlan": "Ny plan",
-        "newStatus": "Ny status",
         "newSubgoal": "Nyt delmål",
         "noAvailableSubgoals": "Der er ingen delmål tilgængelige at vise",
-        "statuses": "Statusser",
+        "notes": "Noter",
         "subgoals": "Delmål",
         "table": {
             "actions": {
                 "edit": "Rediger",
                 "delete": "Slet",
                 "seeGoals": "Se mål",
-                "statuses": "Statusser"
+                "notes": "Noter"
             },
             "createdBy": "Oprettet af",
             "copiedFrom": "Kopieret fra",
@@ -2224,8 +2224,8 @@
                 "verySubstantialChallenges": "Meget store udfordringer"
             },
             "journalNote": "Journalnote",
+            "notes": "Noter",
             "riskAssessment": "Risikovurdering",
-            "status": "Status",
             "title": "Titel"
         },
         "VUMTemplates": {
