@@ -239,7 +239,7 @@ async function fetchAllUsers() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await userService.getAllUsers()
+        const response = await userService.getAllUsersWithoutMyself()
         if (response.data) {
             let options: any = []
             response.data.forEach(
