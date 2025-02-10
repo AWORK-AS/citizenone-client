@@ -9,10 +9,55 @@
             <template #header>{{ $t('events.calendar') }}</template>
 
             <div class="flex justify-end items-center mb-5 gap-x-2">
-                <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddEventOpen = true">
-                    <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                    {{ $t('events.newEvent') }}
-                </FormButton>
+                <Menu as="div" class="relative inline-block text-left z-20">
+                    <div>
+                        <MenuButton>
+                            <FormButton buttonStyle="action" class="rounded-lg">
+                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('events.newEvent') }}
+                            </FormButton>
+                        </MenuButton>
+                    </div>
+
+                    <transition enter-active-class="transition duration-100 ease-out"
+                        enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
+                        leave-active-class="transition duration-75 ease-in"
+                        leave-from-class="transform scale-100 opacity-100"
+                        leave-to-class="transform scale-95 opacity-0">
+                        <MenuItems
+                            class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                            <div class="px-1 py-1">
+                                <MenuItem v-slot="{ active }" @click="state.modal.isAddEventForMyselfOpen = true">
+                                <button :class="[
+                                    active && 'bg-gray-100',
+                                    'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                ]">
+                                    <Icon name="ph:user" class="mr-2 h-5 w-5" aria-hidden="true" />
+                                    {{ $t('events.myself') }}
+                                </button>
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }" @click="state.modal.isAddEventForCitizenOpen = true">
+                                <button :class="[
+                                    active && 'bg-gray-100',
+                                    'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                ]">
+                                    <Icon name="heroicons:user-group" class="mr-2 h-5 w-5" aria-hidden="true" />
+                                    {{ $t('events.citizens') }}
+                                </button>
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }" @click="state.modal.isAddEventForEmployeeOpen = true">
+                                <button :class="[
+                                    active && 'bg-gray-100',
+                                    'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                ]">
+                                    <Icon name="ph:users-three" class="mr-2 h-5 w-5" aria-hidden="true" />
+                                    {{ $t('events.employees') }}
+                                </button>
+                                </MenuItem>
+                            </div>
+                        </MenuItems>
+                    </transition>
+                </Menu>
                 <!-- <FormButton buttonStyle="action" class="rounded-lg" @click="subscribe">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('events.subscribe') }}
@@ -64,8 +109,13 @@
                         v-if="state.calendarView === 'month'" />
                 </LoadingSpinner>
             </div>
-            <ModulesMyCalendarModalSelectType :isModalOpen="state.modal.isAddEventOpen"
-                @close="state.modal.isAddEventOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
+
+            <ModulesMyCalendarMyselfModalNew :isModalOpen="state.modal.isAddEventForMyselfOpen"
+                @close="state.modal.isAddEventForMyselfOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
+            <ModulesMyCalendarCitizenModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen"
+                @close="state.modal.isAddEventForCitizenOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
+            <ModulesMyCalendarEmployeeModalNew :isModalOpen="state.modal.isAddEventForEmployeeOpen"
+                @close="state.modal.isAddEventForEmployeeOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
             <ModulesMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
                 @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
@@ -75,6 +125,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenService } from '@/components/api/CitizenService'
 import { myCalendarService } from '@/components/api/MyCalendarService'
 import { userService } from '@/components/api/UserService'
@@ -102,7 +153,9 @@ const state = reactive({
     },
     isPageLoading: false,
     modal: {
-        isAddEventOpen: false,
+        isAddEventForMyselfOpen: false,
+        isAddEventForCitizenOpen: false,
+        isAddEventForEmployeeOpen: false,
         isDeleteScheduleOpen: false,
         isEditEventOpen: false
     },

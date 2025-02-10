@@ -433,7 +433,7 @@ const navigation = [
     {
         name: 'Citizens',
         href: '/citizens',
-        icon: 'pepicons-pencil:people',
+        icon: 'heroicons:user-group',
         activeRouteNames: [
             'citizens',
             'citizens-new',
