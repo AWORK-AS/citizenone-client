@@ -72,20 +72,6 @@ const { t } = useI18n()
 const { successAlert } = useAlert()
 const emit = defineEmits(['close', 'saveShift'])
 const departmentStore = useDepartmentStore()
-const months = [
-    t('calendar.month.January'),
-    t('calendar.month.February'),
-    t('calendar.month.March'),
-    t('calendar.month.April'),
-    t('calendar.month.May'),
-    t('calendar.month.June'),
-    t('calendar.month.July'),
-    t('calendar.month.August'),
-    t('calendar.month.September'),
-    t('calendar.month.October'),
-    t('calendar.month.November'),
-    t('calendar.month.December')
-]
 
 const state = reactive({
     error: {} as Error,
@@ -131,6 +117,20 @@ function closeModal() {
 }
 
 function generateFilteredWeekDestinations(selectedSources: string[]) {
+    const months = [
+        t('calendar.month.January'),
+        t('calendar.month.February'),
+        t('calendar.month.March'),
+        t('calendar.month.April'),
+        t('calendar.month.May'),
+        t('calendar.month.June'),
+        t('calendar.month.July'),
+        t('calendar.month.August'),
+        t('calendar.month.September'),
+        t('calendar.month.October'),
+        t('calendar.month.November'),
+        t('calendar.month.December')
+    ]
     const weeks = []
 
     let startWeek = moment().startOf('isoWeek')
@@ -144,13 +144,13 @@ function generateFilteredWeekDestinations(selectedSources: string[]) {
         let formattedStart = `${startWeek.format('DD.')} ${months[startWeek.month()]} ${startWeek.format('YYYY')}`
         let formattedEnd = `${weekEnd.format('DD.')} ${months[weekEnd.month()]} ${weekEnd.format('YYYY')}`
 
-        let value = `${weekYear} - Week ${weekNumber}`
+        let value = `${weekYear} - ${t('dutySchedules.copy.week')} ${weekNumber}`
 
         // Exclude weeks already selected in source
         if (!selectedSources.includes(value)) {
             weeks.push({
                 value,
-                label: `${weekYear} - Week ${weekNumber} (${formattedStart} - ${formattedEnd})`,
+                label: `${weekYear} - ${t('dutySchedules.copy.week')} ${weekNumber} (${formattedStart} - ${formattedEnd})`,
             })
         }
 
@@ -162,6 +162,20 @@ function generateFilteredWeekDestinations(selectedSources: string[]) {
 
 
 function generateWeekSource() {
+    const months = [
+        t('calendar.month.January'),
+        t('calendar.month.February'),
+        t('calendar.month.March'),
+        t('calendar.month.April'),
+        t('calendar.month.May'),
+        t('calendar.month.June'),
+        t('calendar.month.July'),
+        t('calendar.month.August'),
+        t('calendar.month.September'),
+        t('calendar.month.October'),
+        t('calendar.month.November'),
+        t('calendar.month.December')
+    ]
     const weeks = []
 
     let startWeek = moment().startOf('year').startOf('isoWeek').subtract(3, 'months')
@@ -176,8 +190,8 @@ function generateWeekSource() {
         let formattedEnd = `${weekEnd.format('DD.')} ${months[weekEnd.month()]} ${weekEnd.format('YYYY')}`
 
         weeks.push({
-            value: `${weekYear} - Week ${weekNumber}`,
-            label: `${weekYear} - Week ${weekNumber} (${formattedStart} - ${formattedEnd})`,
+            value: `${weekYear} - ${t('dutySchedules.copy.week')} ${weekNumber}`,
+            label: `${weekYear} - ${t('dutySchedules.copy.week')} ${weekNumber} (${formattedStart} - ${formattedEnd})`,
         })
 
         startWeek.add(1, 'week') // Move to the next Monday
@@ -187,6 +201,20 @@ function generateWeekSource() {
 }
 
 function generateWeekDestination() {
+    const months = [
+        t('calendar.month.January'),
+        t('calendar.month.February'),
+        t('calendar.month.March'),
+        t('calendar.month.April'),
+        t('calendar.month.May'),
+        t('calendar.month.June'),
+        t('calendar.month.July'),
+        t('calendar.month.August'),
+        t('calendar.month.September'),
+        t('calendar.month.October'),
+        t('calendar.month.November'),
+        t('calendar.month.December')
+    ]
     const weeks = []
 
     let startWeek = moment().startOf('isoWeek')
@@ -201,8 +229,8 @@ function generateWeekDestination() {
         let formattedEnd = `${weekEnd.format('DD.')} ${months[weekEnd.month()]} ${weekEnd.format('YYYY')}`
 
         weeks.push({
-            value: `${weekYear} - Week ${weekNumber}`,
-            label: `${weekYear} - Week ${weekNumber} (${formattedStart} - ${formattedEnd})`,
+            value: `${weekYear} - ${t('dutySchedules.copy.week')} ${weekNumber}`,
+            label: `${weekYear} - ${t('dutySchedules.copy.week')} ${weekNumber} (${formattedStart} - ${formattedEnd})`,
         })
 
         startWeek.add(1, 'week') // Move to the next Monday
