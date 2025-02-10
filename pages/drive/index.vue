@@ -9,8 +9,20 @@
             <template #header>{{ $t('drive.companyDocuments') }}</template>
 
             <div class="space-y-5">
-                <div>
-                    <div class="mt-8 flex justify-end items-center gap-x-3">
+                <div class="mt-8 flex flex-col md:flex-row justify-between gap-3">
+                    <div class="flex items-center justify-end md:justify-start gap-x-3">
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            @click="navigateToExternalLink('https://drive.google.com/drive/u/0/home')">
+                            <Icon name="mdi:google-drive" class="h-4 w-4" aria-hidden="true" />
+                            Google Drive
+                        </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            @click="navigateToExternalLink('https://onedrive.live.com/')">
+                            <Icon name="mdi:microsoft-onedrive" class="h-4 w-4" aria-hidden="true" />
+                            OneDrive
+                        </FormButton>
+                    </div>
+                    <div class="flex justify-end items-center gap-x-3">
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isAddDirectoryOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -193,6 +205,15 @@ watch(() => router?.currentRoute?.value?.query, (newParams, oldParams) => {
 
 const handleRouteChange = () => {
     fetchDocuments()
+}
+
+async function navigateToExternalLink(link: any) {
+    await navigateTo(link, {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 
 function closeUpgradeStorageModal() {
