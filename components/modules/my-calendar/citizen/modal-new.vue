@@ -61,6 +61,7 @@ async function saveSchedule(scheduleDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
+            calendar_type: 'citizen',
             citizens_uuid: scheduleDetails.citizens,
             title: scheduleDetails.title,
             description: scheduleDetails.description,
