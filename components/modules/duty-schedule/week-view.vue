@@ -346,40 +346,45 @@
                                                     </Tooltip>
                                                 </div>
                                                 <div class="text-xs">
-                                                    <!-- <p v-if="weekIndex.toString() === 'tuesday'">
+                                                    <!-- <p v-if="weekIndex.toString() === 'monday'">
+                                                        []
+                                                    </p>
+                                                    <p v-if="weekIndex.toString() === 'tuesday'">
                                                         {{
-                                                            multiDayShifts(weeklySchedule?.weeks['monday']?.shifts)
+                                                            multiDayShifts(weeklySchedule?.weeks['monday']?.shifts)?.length
                                                         }}
-                                                    </p> -->
-                                                    <!-- 
+                                                    </p>
                                                     <p v-if="weekIndex.toString() === 'wednesday'">
                                                         {{
-                                                            multiDayShifts(weeklySchedule?.weeks['tuesday']?.shifts)
+                                                            multiDayShifts(weeklySchedule?.weeks['tuesday']?.shifts)?.length
                                                         }}
                                                     </p>
                                                     <p v-if="weekIndex.toString() === 'thursday'">
                                                         {{
-                                                            multiDayShifts(weeklySchedule?.weeks['wednesday']?.shifts)
+                                                            multiDayShifts(weeklySchedule?.weeks['wednesday']?.shifts)?.length
                                                         }}
                                                     </p>
                                                     <p v-if="weekIndex.toString() === 'friday'">
                                                         {{
-                                                            multiDayShifts(weeklySchedule?.weeks['thursday']?.shifts)
+                                                            multiDayShifts(weeklySchedule?.weeks['thursday']?.shifts)?.length
                                                         }}
                                                     </p>
                                                     <p v-if="weekIndex.toString() === 'saturday'">
                                                         {{
-                                                            multiDayShifts(weeklySchedule?.weeks['friday']?.shifts)
+                                                            multiDayShifts(weeklySchedule?.weeks['friday']?.shifts)?.length
                                                         }}
                                                     </p>
                                                     <p v-if="weekIndex.toString() === 'sunday'">
                                                         {{
-                                                            multiDayShifts(weeklySchedule?.weeks['saturday']?.shifts)
+                                                            multiDayShifts(weeklySchedule?.weeks['saturday']?.shifts)?.length
                                                         }}
                                                     </p>
                                                     <br /> -->
-                                                    <div v-for="(shift, shiftIndex) in week?.shifts" :key="shiftIndex"
-                                                        :class="[
+                                                    <!-- {{
+                                                        calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString())
+                                                    }} -->
+                                                    <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
+                                                        :key="shiftIndex" :class="[
                                                             shift?.name === 'regular_shift' && 'bg-shifts-regular',
                                                             shift?.name === 'awake_night_shift' && 'bg-shifts-awake_night',
                                                             shift?.name === 'sleeping_night_shift' && 'bg-shifts-sleeping_night',
@@ -388,13 +393,14 @@
                                                             'rounded-md p-1 relative'
                                                         ]" :style="{
                                                             width: moment(shift?.date_time_end).startOf('day').diff(moment(shift?.date_time_start).startOf('day'), 'days') >= 1 && weekIndex.toString() !== 'sunday' ? '17.5rem' : 'auto',
-                                                            marginTop:
-                                                                weekIndex.toString() === 'tuesday' && multiDayShifts(weeklySchedule?.weeks['monday']?.shifts).includes(shiftIndex) ? '3.625rem' :
-                                                                    weekIndex.toString() === 'wednesday' && multiDayShifts(weeklySchedule?.weeks['tuesday']?.shifts).includes(shiftIndex) ? '3.625rem' :
-                                                                        weekIndex.toString() === 'thursday' && multiDayShifts(weeklySchedule?.weeks['wednesday']?.shifts).includes(shiftIndex) ? '3.625rem' :
-                                                                            weekIndex.toString() === 'friday' && multiDayShifts(weeklySchedule?.weeks['thursday']?.shifts).includes(shiftIndex) ? '3.625rem' :
-                                                                                weekIndex.toString() === 'saturday' && multiDayShifts(weeklySchedule?.weeks['friday']?.shifts).includes(shiftIndex) ? '3.625rem' :
-                                                                                    weekIndex.toString() === 'sunday' && multiDayShifts(weeklySchedule?.weeks['saturday']?.shifts).includes(shiftIndex) ? '3.625rem' : '0.5rem'
+                                                            marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
+                                                            // marginTop:
+                                                            //     weekIndex.toString() === 'tuesday' && multiDayShifts(weeklySchedule?.weeks['monday']?.shifts).includes(shiftIndex) ? '3.625rem' :
+                                                            //         weekIndex.toString() === 'wednesday' && multiDayShifts(weeklySchedule?.weeks['tuesday']?.shifts).includes(shiftIndex) ? '3.625rem' :
+                                                            //             weekIndex.toString() === 'thursday' && multiDayShifts(weeklySchedule?.weeks['wednesday']?.shifts).includes(shiftIndex) ? '3.625rem' :
+                                                            //                 weekIndex.toString() === 'friday' && multiDayShifts(weeklySchedule?.weeks['thursday']?.shifts).includes(shiftIndex) ? '3.625rem' :
+                                                            //                     weekIndex.toString() === 'saturday' && multiDayShifts(weeklySchedule?.weeks['friday']?.shifts).includes(shiftIndex) ? '3.625rem' :
+                                                            //                         weekIndex.toString() === 'sunday' && multiDayShifts(weeklySchedule?.weeks['saturday']?.shifts).includes(shiftIndex) ? '3.625rem' : '0.5rem'
                                                         }">
                                                         <div class="flex">
                                                             <FormTimeFieldTransparent name="time_in"
@@ -606,14 +612,43 @@ function filterDepartmentSickLeaveDate(formDateRange: any) {
     fetchDutyScheduleAbsencePercentage()
 }
 
-function multiDayShifts(shifts: any) {
+function sortMultiDayShiftsFirst(shifts: any) {
+    const sortedShifts = shifts.sort((a: any, b: any) => {
+        const aMultiDay = moment(a.date_time_end).startOf('day').diff(moment(a.date_time_start).startOf('day'), 'days') >= 1
+        const bMultiDay = moment(b.date_time_end).startOf('day').diff(moment(b.date_time_start).startOf('day'), 'days') >= 1
+
+        if (aMultiDay && !bMultiDay) return -1 // a comes first
+        if (!aMultiDay && bMultiDay) return 1  // b comes first
+        return 0 // Keep order for same type
+    })
+    return sortedShifts
+}
+
+function getMultiDayShift(shifts: any) {
     return shifts
-        .map((shift: any, index: number) =>
-            moment(shift.date_time_end).startOf('day').diff(moment(shift.date_time_start).startOf('day'), 'days') >= 1
-                ? index
-                : -1
-        )
-        .filter((index: number) => index !== -1)
+        .find((shift: any) => {
+            const startDay = moment(shift.date_time_start).startOf('day')
+            const endDay = moment(shift.date_time_end).startOf('day')
+            return endDay.diff(startDay, 'days') >= 1
+        })
+}
+
+function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: number) {
+    const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+    const dayIndex = weekDaysOrder.indexOf(weekIndex)
+
+    if (weekIndex === 'monday' || shiftIndex > 0) return 0.5 // If the current index is in the future, return 0
+
+    let overlapCount = 0
+
+    for (let i = 0; i <= dayIndex - 1; i++) {
+        const multiDayShift = getMultiDayShift(schedules[weekDaysOrder[i]]?.shifts)
+        if (multiDayShift) {
+            overlapCount += 1
+        }
+    }
+
+    return overlapCount > 0 ? 3.625 + (overlapCount - 1) * 3.125 : 0
 }
 
 async function fetchDutyScheduleAbsencePercentage() {
