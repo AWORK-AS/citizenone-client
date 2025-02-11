@@ -1561,6 +1561,7 @@
             "criminalRecords": "Straffeattester",
             "childProtectionCertificates": "Børneattester",
             "driversLicense": "Kørekort",
+            "miscellaneous": "Diverse",
             "confirmation": {
                 "archiveConfirmation": "Er du sikker på, at du vil arkivere dette dokument",
                 "deleteConfirmation": "Er du sikker på, at du vil slette dette dokument"

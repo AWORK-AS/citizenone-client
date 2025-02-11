@@ -1561,6 +1561,7 @@
             "criminalRecords": "Criminal records",
             "childProtectionCertificates": "Child protection certificates",
             "driversLicense": "Drivers License",
+            "miscellaneous": "Miscellaneous ",
             "confirmation": {
                 "archiveConfirmation": "Are you sure you want to archive this document",
                 "deleteConfirmation": "Are you sure you want to delete this document"

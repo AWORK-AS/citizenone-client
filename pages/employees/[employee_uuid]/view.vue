@@ -342,6 +342,15 @@
                                         </p>
                                     </div>
                                 </div>
+                                <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:py-10 cursor-pointer hover:bg-gray-50"
+                                    @click="state.modal.isMiscellaneousOpen = true">
+                                    <div class="flex items-center justify-center gap-x-2">
+                                        <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
+                                        <p class="text-xs font-semibold leading-7 text-gray-900">
+                                            {{ $t('employees.documents.miscellaneous') }}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </LoadingSpinner>
@@ -356,6 +365,8 @@
                 @close="state.modal.isViewChildProtectionCertificatesOpen = false" />
             <ModulesEmployeeDriversLicenseModalView :isModalOpen="state.modal.isViewDriversLicenseOpen"
                 @close="state.modal.isViewDriversLicenseOpen = false" />
+            <ModulesEmployeeMiscellaneousModalView :isModalOpen="state.modal.isMiscellaneousOpen"
+                @close="state.modal.isMiscellaneousOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -379,6 +390,7 @@ const state = reactive({
         isViewEmploymentContractsOpen: false,
         isViewChildProtectionCertificatesOpen: false,
         isViewDriversLicenseOpen: false,
+        isMiscellaneousOpen: false,
     },
     selectedEmployee: {
         firstname: '',
