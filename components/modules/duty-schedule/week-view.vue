@@ -346,43 +346,6 @@
                                                     </Tooltip>
                                                 </div>
                                                 <div class="text-xs">
-                                                    <!-- <p v-if="weekIndex.toString() === 'monday'">
-                                                        []
-                                                    </p>
-                                                    <p v-if="weekIndex.toString() === 'tuesday'">
-                                                        {{
-                                                            multiDayShifts(weeklySchedule?.weeks['monday']?.shifts)?.length
-                                                        }}
-                                                    </p>
-                                                    <p v-if="weekIndex.toString() === 'wednesday'">
-                                                        {{
-                                                            multiDayShifts(weeklySchedule?.weeks['tuesday']?.shifts)?.length
-                                                        }}
-                                                    </p>
-                                                    <p v-if="weekIndex.toString() === 'thursday'">
-                                                        {{
-                                                            multiDayShifts(weeklySchedule?.weeks['wednesday']?.shifts)?.length
-                                                        }}
-                                                    </p>
-                                                    <p v-if="weekIndex.toString() === 'friday'">
-                                                        {{
-                                                            multiDayShifts(weeklySchedule?.weeks['thursday']?.shifts)?.length
-                                                        }}
-                                                    </p>
-                                                    <p v-if="weekIndex.toString() === 'saturday'">
-                                                        {{
-                                                            multiDayShifts(weeklySchedule?.weeks['friday']?.shifts)?.length
-                                                        }}
-                                                    </p>
-                                                    <p v-if="weekIndex.toString() === 'sunday'">
-                                                        {{
-                                                            multiDayShifts(weeklySchedule?.weeks['saturday']?.shifts)?.length
-                                                        }}
-                                                    </p>
-                                                    <br /> -->
-                                                    <!-- {{
-                                                        calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString())
-                                                    }} -->
                                                     <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
                                                         :key="shiftIndex" :class="[
                                                             shift?.name === 'regular_shift' && 'bg-shifts-regular',
@@ -394,13 +357,6 @@
                                                         ]" :style="{
                                                             width: moment(shift?.date_time_end).startOf('day').diff(moment(shift?.date_time_start).startOf('day'), 'days') >= 1 && weekIndex.toString() !== 'sunday' ? '17.5rem' : 'auto',
                                                             marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
-                                                            // marginTop:
-                                                            //     weekIndex.toString() === 'tuesday' && multiDayShifts(weeklySchedule?.weeks['monday']?.shifts).includes(shiftIndex) ? '3.625rem' :
-                                                            //         weekIndex.toString() === 'wednesday' && multiDayShifts(weeklySchedule?.weeks['tuesday']?.shifts).includes(shiftIndex) ? '3.625rem' :
-                                                            //             weekIndex.toString() === 'thursday' && multiDayShifts(weeklySchedule?.weeks['wednesday']?.shifts).includes(shiftIndex) ? '3.625rem' :
-                                                            //                 weekIndex.toString() === 'friday' && multiDayShifts(weeklySchedule?.weeks['thursday']?.shifts).includes(shiftIndex) ? '3.625rem' :
-                                                            //                     weekIndex.toString() === 'saturday' && multiDayShifts(weeklySchedule?.weeks['friday']?.shifts).includes(shiftIndex) ? '3.625rem' :
-                                                            //                         weekIndex.toString() === 'sunday' && multiDayShifts(weeklySchedule?.weeks['saturday']?.shifts).includes(shiftIndex) ? '3.625rem' : '0.5rem'
                                                         }">
                                                         <div class="flex">
                                                             <FormTimeFieldTransparent name="time_in"
