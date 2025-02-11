@@ -345,7 +345,39 @@
                                                         </button>
                                                     </Tooltip>
                                                 </div>
-                                                <div class="space-y-2 text-xs">
+                                                <div class="text-xs">
+                                                    <!-- <p v-if="weekIndex.toString() === 'tuesday'">
+                                                        {{
+                                                            multiDayShifts(weeklySchedule?.weeks['monday']?.shifts)
+                                                        }}
+                                                    </p> -->
+                                                    <!-- 
+                                                    <p v-if="weekIndex.toString() === 'wednesday'">
+                                                        {{
+                                                            multiDayShifts(weeklySchedule?.weeks['tuesday']?.shifts)
+                                                        }}
+                                                    </p>
+                                                    <p v-if="weekIndex.toString() === 'thursday'">
+                                                        {{
+                                                            multiDayShifts(weeklySchedule?.weeks['wednesday']?.shifts)
+                                                        }}
+                                                    </p>
+                                                    <p v-if="weekIndex.toString() === 'friday'">
+                                                        {{
+                                                            multiDayShifts(weeklySchedule?.weeks['thursday']?.shifts)
+                                                        }}
+                                                    </p>
+                                                    <p v-if="weekIndex.toString() === 'saturday'">
+                                                        {{
+                                                            multiDayShifts(weeklySchedule?.weeks['friday']?.shifts)
+                                                        }}
+                                                    </p>
+                                                    <p v-if="weekIndex.toString() === 'sunday'">
+                                                        {{
+                                                            multiDayShifts(weeklySchedule?.weeks['saturday']?.shifts)
+                                                        }}
+                                                    </p>
+                                                    <br /> -->
                                                     <div v-for="(shift, shiftIndex) in week?.shifts" :key="shiftIndex"
                                                         :class="[
                                                             shift?.name === 'regular_shift' && 'bg-shifts-regular',
@@ -354,18 +386,27 @@
                                                             shift?.name === 'vacation_leave' && 'bg-shifts-vacation',
                                                             shift?.name === 'sick_leave' && 'bg-shifts-sickleave',
                                                             'rounded-md p-1 relative'
-                                                        ]">
+                                                        ]" :style="{
+                                                            width: moment(shift?.date_time_end).startOf('day').diff(moment(shift?.date_time_start).startOf('day'), 'days') >= 1 && weekIndex.toString() !== 'sunday' ? '17.5rem' : 'auto',
+                                                            marginTop:
+                                                                weekIndex.toString() === 'tuesday' && multiDayShifts(weeklySchedule?.weeks['monday']?.shifts).includes(shiftIndex) ? '3.625rem' :
+                                                                    weekIndex.toString() === 'wednesday' && multiDayShifts(weeklySchedule?.weeks['tuesday']?.shifts).includes(shiftIndex) ? '3.625rem' :
+                                                                        weekIndex.toString() === 'thursday' && multiDayShifts(weeklySchedule?.weeks['wednesday']?.shifts).includes(shiftIndex) ? '3.625rem' :
+                                                                            weekIndex.toString() === 'friday' && multiDayShifts(weeklySchedule?.weeks['thursday']?.shifts).includes(shiftIndex) ? '3.625rem' :
+                                                                                weekIndex.toString() === 'saturday' && multiDayShifts(weeklySchedule?.weeks['friday']?.shifts).includes(shiftIndex) ? '3.625rem' :
+                                                                                    weekIndex.toString() === 'sunday' && multiDayShifts(weeklySchedule?.weeks['saturday']?.shifts).includes(shiftIndex) ? '3.625rem' : '0.5rem'
+                                                        }">
                                                         <div class="flex">
                                                             <FormTimeFieldTransparent name="time_in"
                                                                 class="rounded-tl-md rounded-bl-md"
                                                                 :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
-                                                                :value="shift?.time_in"
+                                                                :value="moment(shift?.date_time_start).format('HH:mm')"
                                                                 @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                             <FormTimeFieldTransparent name="time_out"
                                                                 class="rounded-tr-md rounded-br-md"
                                                                 :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
-                                                                :value="shift?.time_out"
+                                                                :value="moment(shift?.date_time_end).format('HH:mm')"
                                                                 @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="!isAdmin(userStore.getUser?.roles)" />
                                                         </div>
@@ -563,6 +604,16 @@ function filterDepartmentSickLeaveDate(formDateRange: any) {
     state.shiftDateRange.formDateRange.start_date = formDateRange.start_date
     state.shiftDateRange.formDateRange.end_date = formDateRange.end_date
     fetchDutyScheduleAbsencePercentage()
+}
+
+function multiDayShifts(shifts: any) {
+    return shifts
+        .map((shift: any, index: number) =>
+            moment(shift.date_time_end).startOf('day').diff(moment(shift.date_time_start).startOf('day'), 'days') >= 1
+                ? index
+                : -1
+        )
+        .filter((index: number) => index !== -1)
 }
 
 async function fetchDutyScheduleAbsencePercentage() {

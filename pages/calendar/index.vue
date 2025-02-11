@@ -36,15 +36,6 @@
                                     {{ $t('events.myself') }}
                                 </button>
                                 </MenuItem>
-                                <MenuItem v-slot="{ active }" @click="state.modal.isAddEventForCitizenOpen = true">
-                                <button :class="[
-                                    active && 'bg-gray-100',
-                                    'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                                ]">
-                                    <Icon name="heroicons:user-group" class="mr-2 h-5 w-5" aria-hidden="true" />
-                                    {{ $t('events.citizens') }}
-                                </button>
-                                </MenuItem>
                                 <MenuItem v-slot="{ active }" @click="state.modal.isAddEventForEmployeeOpen = true">
                                 <button :class="[
                                     active && 'bg-gray-100',
@@ -52,6 +43,15 @@
                                 ]">
                                     <Icon name="ph:users-three" class="mr-2 h-5 w-5" aria-hidden="true" />
                                     {{ $t('events.employees') }}
+                                </button>
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }" @click="state.modal.isAddEventForCitizenOpen = true">
+                                <button :class="[
+                                    active && 'bg-gray-100',
+                                    'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                ]">
+                                    <Icon name="heroicons:user-group" class="mr-2 h-5 w-5" aria-hidden="true" />
+                                    {{ $t('events.citizens') }}
                                 </button>
                                 </MenuItem>
                             </div>
