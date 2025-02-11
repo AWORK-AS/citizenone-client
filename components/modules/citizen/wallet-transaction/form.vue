@@ -25,7 +25,7 @@
                     <FormError :error="v$?.formWalletTransaction?.note?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.note?.[0]" />
                 </div>
-                <div class="space-y-1" v-if="props.formType === 'create'">
+                <div class="space-y-1">
                     <div class="flex flex-col items-center">
                         <input type="file" ref="file" @change="onFileChange" class="hidden" />
                         <div class="relative cursor-pointer" @click="triggerFileInput">
