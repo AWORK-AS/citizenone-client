@@ -2458,6 +2458,9 @@
                     "successfullyUpdated": "Firma opdateret med succes"
                 },
                 "checkinReminder": "Påmindelse om check ind",
+                "AllowPlans": "Tillad medarbejdere at oprette planer",
+                "AllowGoals": "Tillad medarbejdere at oprette mål",
+                "AllowSubGoals": "Tillad medarbejdere at oprette delmål",
                 "city": "By",
                 "companyName": "Firmanavn",
                 "cvr": "CVR",

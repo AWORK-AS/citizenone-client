@@ -2458,6 +2458,9 @@
                     "successfullyUpdated": "Company successfully updated"
                 },
                 "checkinReminder": "Check in reminder",
+                "AllowPlans": "Allow employees to create plans",
+                "AllowGoals": "Allow employees to create goals",
+                "AllowSubGoals": "Allow employees to create subgoals",
                 "city": "City",
                 "companyName": "Company name",
                 "cvr": "CVR",
