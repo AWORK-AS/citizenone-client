@@ -223,9 +223,9 @@ watch(() => userStore.getUser, (newValue: any) => {
             post_code: newValue?.company?.company_address?.post_code,
             group_chat_enabled: newValue?.company?.group_chat_enabled ?? false,
             checkin_enabled: newValue?.company?.checkin_enabled ?? false,
-            plans_enabled: newValue?.company?.plans_enabled ?? false,
-            goals_enabled: newValue?.company?.goals_enabled ?? false,
-            subgoals_enabled: newValue?.company?.subgoals_enabled ?? false,
+            plans_enabled: newValue?.company?.employee_create_plans_enabled ?? false,
+            goals_enabled: newValue?.company?.employee_create_goals_enabled ?? false,
+            subgoals_enabled: newValue?.company?.employee_create_subgoals_enabled ?? false,
         }
         fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
         fetchCities(newValue?.company?.company_address?.municipality?.uuid)
