@@ -101,6 +101,27 @@
                                 {{ $t('settings.company.form.checkinReminder') }}
                             </p>
                         </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.plans_enabled"
+                                @toggleSwitch="state.formCompany.plans_enabled = !state.formCompany.plans_enabled" />
+                            <p>
+                                {{ $t('Allow employees to create plans') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.goals_enabled"
+                                @toggleSwitch="state.formCompany.goals_enabled = !state.formCompany.goals_enabled" />
+                            <p>
+                                {{ $t('Allow employees to create goals') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.subgoals_enabled"
+                                @toggleSwitch="state.formCompany.subgoals_enabled = !state.formCompany.subgoals_enabled" />
+                            <p>
+                                {{ $t('Allow employees to create subgoals') }}
+                            </p>
+                        </div>
                     </div>
                     <div class="mt-6">
                         <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
@@ -144,6 +165,9 @@ const state = reactive({
         post_code: '',
         group_chat_enabled: false,
         checkin_enabled: false,
+        plans_enabled: false,
+        goals_enabled: false,
+        subgoals_enabled: false,
     },
     isPageLoading: false,
     options: {
@@ -199,6 +223,9 @@ watch(() => userStore.getUser, (newValue: any) => {
             post_code: newValue?.company?.company_address?.post_code,
             group_chat_enabled: newValue?.company?.group_chat_enabled ?? false,
             checkin_enabled: newValue?.company?.checkin_enabled ?? false,
+            plans_enabled: newValue?.company?.plans_enabled ?? false,
+            goals_enabled: newValue?.company?.goals_enabled ?? false,
+            subgoals_enabled: newValue?.company?.subgoals_enabled ?? false,
         }
         fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
         fetchCities(newValue?.company?.company_address?.municipality?.uuid)
@@ -312,6 +339,9 @@ async function submitForm() {
                 post_code: state.formCompany.post_code,
                 group_chat_enabled: state.formCompany.group_chat_enabled,
                 checkin_enabled: state.formCompany.checkin_enabled,
+                employee_create_plans_enabled: state.formCompany.plans_enabled,
+                employee_create_goals_enabled: state.formCompany.goals_enabled,
+                employee_create_subgoals_enabled: state.formCompany.subgoals_enabled,
             }
             const response = await userService.updateCompany(params)
             if (response.data) {
