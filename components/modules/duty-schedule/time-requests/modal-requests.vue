@@ -75,7 +75,7 @@
                     @close="state.modal.isApproveRequest = false" @confirm="approveScheduleRequest" />
                 <DialogConfirmation :isModalOpen="state.modal.isDispproveRequest"
                     :message="$t('dutySchedules.scheduleRequests.table.confirmation.disapproveConfirmation') + '?'"
-                    @close="state.modal.isDispproveRequest = false" @confirm="deleteScheduleRequest" />
+                    @close="state.modal.isDispproveRequest = false" @confirm="rejectScheduleRequest" />
             </template>
         </Modal>
     </div>
@@ -220,12 +220,12 @@ function confirmDispproveScheduleRequest(request: any) {
     state.modal.isDispproveRequest = true
 }
 
-async function deleteScheduleRequest() {
+async function rejectScheduleRequest() {
     state.error = {}
     state.isTableLoading = true
     try {
         const scheduleRequestUuid = state.selectedScheduleRequest.uuid
-        const response = await scheduleRequestService.deleteScheduleRequest(scheduleRequestUuid)
+        const response = await scheduleRequestService.rejectScheduleRequest(scheduleRequestUuid)
         if (response) {
             fetchScheduleRequests()
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.table.alert.scheduleSuccessfullyDisapproved')}.`)

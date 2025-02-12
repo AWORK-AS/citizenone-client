@@ -13,8 +13,8 @@ class ScheduleRequestService extends BaseAPIService {
         return await this.request(`/user/schedule-requests/${scheduleRequestUuid}/approve`, 'POST')
     }
 
-    async deleteScheduleRequest(scheduleRequestUuid: any): Promise<any> {
-        return await this.request(`/user/schedule-requests/${scheduleRequestUuid}`, 'DELETE')
+    async rejectScheduleRequest(scheduleRequestUuid: any): Promise<any> {
+        return await this.request(`/user/schedule-requests/${scheduleRequestUuid}/reject`, 'POST')
     }
 }
 
