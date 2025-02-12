@@ -28,7 +28,7 @@
                                 {{ $t('plansandgoals.createStatusReport') }}
                             </FormButton>
                             <FormButton buttonStyle="action" class="rounded-lg"
-                                @click="state.modal.isAddPlanOpen = true">
+                                @click="state.modal.isAddPlanOpen = true" v-if="hasCreatePlanAccess()">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('plansandgoals.newPlan') }}
                             </FormButton>
@@ -161,6 +161,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { planService } from '@/components/api/PlanService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
@@ -168,6 +169,7 @@ const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const userStore = useUserStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
@@ -196,6 +198,22 @@ const state = reactive({
 onMounted(() => {
     fetchPlans()
 })
+
+function hasCreatePlanAccess() {
+    const user = userStore.getUser
+    const hasAdminAccess = isAdmin(user?.roles)
+    const employeeCanCreatePlan = user?.company?.employee_create_plans_enabled
+    if (hasAdminAccess) {
+        return true
+    } else if (employeeCanCreatePlan) {
+        return true
+    }
+    return false
+}
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
+}
 
 async function fetchPlans() {
     state.error = {}

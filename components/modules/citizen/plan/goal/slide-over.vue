@@ -56,7 +56,7 @@
                                     <div class="relative flex-1 px-4 py-6 sm:px-6 space-y-3">
                                         <div class="flex justify-end items-center">
                                             <FormButton buttonStyle="action" class="rounded-md"
-                                                @click="state.modal.isAddGoalOpen = true">
+                                                @click="state.modal.isAddGoalOpen = true" v-if="hasCreateGoalsAccess()">
                                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                                 {{ $t('plansandgoals.newGoal') }}
                                             </FormButton>
@@ -90,7 +90,8 @@
                                                             </div>
                                                             <div class="flex gap-x-2">
                                                                 <FormButton class="rounded-md" buttonSize="sm"
-                                                                    @click="addSubgoal(goal)">
+                                                                    @click="addSubgoal(goal)"
+                                                                    v-if="hasCreateSubgoalsAccess()">
                                                                     <Icon name="ph:plus" class="size-4" />
                                                                     <span class="hidden md:block">
                                                                         {{ $t('plansandgoals.newSubgoal') }}
@@ -329,6 +330,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { goalService } from '@/components/api/GoalService'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const { formatDateToReadable } = useDatetimeFormatter()
@@ -342,6 +344,7 @@ const props = defineProps({
         required: true,
     },
 })
+const userStore = useUserStore() as any
 const emit = defineEmits(['close'])
 
 const state = reactive({
@@ -387,6 +390,34 @@ const state = reactive({
 
 function closeSlide() {
     emit('close')
+}
+
+function hasCreateGoalsAccess() {
+    const user = userStore.getUser
+    const hasAdminAccess = isAdmin(user?.roles)
+    const employeeCanCreateGoals = user?.company?.employee_create_goals_enabled
+    if (hasAdminAccess) {
+        return true
+    } else if (employeeCanCreateGoals) {
+        return true
+    }
+    return false
+}
+
+function hasCreateSubgoalsAccess() {
+    const user = userStore.getUser
+    const hasAdminAccess = isAdmin(user?.roles)
+    const employeeCanCreateSubgoals = user?.company?.employee_create_subgoals_enabled
+    if (hasAdminAccess) {
+        return true
+    } else if (employeeCanCreateSubgoals) {
+        return true
+    }
+    return false
+}
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
 }
 
 watch(() => props.selectedPlan, (newValue: any) => {
