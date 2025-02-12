@@ -105,21 +105,21 @@
                             <FormSwitch :value="state.formCompany.plans_enabled"
                                 @toggleSwitch="state.formCompany.plans_enabled = !state.formCompany.plans_enabled" />
                             <p>
-                                {{ $t('Allow employees to create plans') }}
+                                {{ $t('settings.company.form.AllowPlans') }}
                             </p>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.goals_enabled"
                                 @toggleSwitch="state.formCompany.goals_enabled = !state.formCompany.goals_enabled" />
                             <p>
-                                {{ $t('Allow employees to create goals') }}
+                                {{ $t('settings.company.form.AllowGoals') }}
                             </p>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.subgoals_enabled"
                                 @toggleSwitch="state.formCompany.subgoals_enabled = !state.formCompany.subgoals_enabled" />
                             <p>
-                                {{ $t('Allow employees to create subgoals') }}
+                                {{ $t('settings.company.form.AllowSubGoals') }}
                             </p>
                         </div>
                     </div>
