@@ -925,7 +925,7 @@
                 "dateCompleted": "Dato afsluttet",
                 "description": "Beskrivelse",
                 "expectedLevels": {
-                    "expectedLevel": "Expected level",
+                    "expectedLevel": "Forventet niveau",
                     "minorChallenges": "Mindre udfordringer",
                     "moderateChallenges": "Moderate udfordringer",
                     "significantChallenges": "Markante udfordringer",
@@ -2182,7 +2182,7 @@
             "description": "Beskrivelse",
             "goalCompletionDate": "Mål afslutningsdato",
             "expectedLevels": {
-                "expectedLevel": "Expected level",
+                "expectedLevel": "Forventet niveau",
                 "minorChallenges": "Mindre udfordringer",
                 "moderateChallenges": "Moderate udfordringer",
                 "significantChallenges": "Markante udfordringer",
