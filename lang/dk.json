@@ -1686,14 +1686,14 @@
             "successfullyUpdated": "Begivenhed blev opdateret med succes"
         },
         "calendar": "Kalender",
-        "citizens": "Citizens",
+        "citizens": "Borgere",
         "createdBy": "Oprettet af",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne begivenhed"
         },
         "delete": "Slet",
         "editEvent": "Rediger begivenhed",
-        "employees": "Employees",
+        "employees": "Medarbejdere",
         "form": {
             "citizens": "Borgere",
             "datetimeStart": "Start dato og tid",
@@ -1705,7 +1705,7 @@
             "sendInvitation": "Send invitationen",
             "title": "Titel"
         },
-        "myself": "Myself",
+        "myself": "Mig selv",
         "newEvent": "Ny begivenhed",
         "noEventFound": "Ingen begivenhed fundet",
         "pleaseSelectWhomYouWouldLikeToCreateTheEventFor": "Please select whom you would like to create the event for",

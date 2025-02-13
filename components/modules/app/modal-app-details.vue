@@ -35,11 +35,17 @@
                             class="w-full rounded-md">
                             {{ $t('apps.contactUs') }}
                         </FormButton>
+                        <FormButton type="button" buttonStyle="action" class="w-full"
+                            @click="navigateToExternalLink(props.selectedApp?.url_field)"
+                            v-if="props.selectedApp?.url_field">
+                            {{ $t('apps.goToPartner') }}
+                        </FormButton>
                         <FormButton type="button"
                             :buttonStyle="props.selectedApp?.user_activated ? 'warning' : 'action'" :class="[
                                 props.selectedApp?.user_activated && 'cursor-not-allowed',
                                 'w-full'
-                            ]" color="primary" @click="!props.selectedApp?.user_activated && confirmTACAcceptance()">
+                            ]" color="primary" @click="!props.selectedApp?.user_activated && confirmTACAcceptance()"
+                            v-else>
                             {{ props.selectedApp?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
                         </FormButton>
                     </div>
@@ -101,6 +107,17 @@ async function navigateToSupport() {
             target: '_blank',
         }
     })
+}
+
+async function navigateToExternalLink(link: any) {
+    if (link) {
+        await navigateTo(link, {
+            external: true,
+            open: {
+                target: '_blank',
+            }
+        })
+    }
 }
 
 function confirmTACAcceptance() {
