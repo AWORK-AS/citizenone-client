@@ -2112,12 +2112,14 @@
         },
         "form": {
             "active": "Active",
+            "audience": "Audience",
             "alert": {
                 "newNewsSuccessfullySaved": "New news successfully saved",
                 "newsSuccessfullyDeleted": "News successfully deleted",
                 "newsSuccessfullyUpdated": "News successfully updated"
             },
             "content": "Content",
+            "department": "Department",
             "image": "Image",
             "featured": "Featured",
             "link": "Link",

@@ -2112,12 +2112,14 @@
         },
         "form": {
             "active": "Aktiv",
+            "audience": "Målgruppe",
             "alert": {
                 "newNewsSuccessfullySaved": "Nyhed er blevet gemt",
                 "newsSuccessfullyDeleted": "Nyhederne blev slettet",
                 "newsSuccessfullyUpdated": "Nyhed er blevet opdateret"
             },
             "content": "Indhold",
+            "department": "Afdeling",
             "image": "Billede",
             "featured": "Fremhævet",
             "link": "Link",

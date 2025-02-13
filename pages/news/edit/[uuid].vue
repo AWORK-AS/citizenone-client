@@ -41,9 +41,11 @@ const state = reactive({
         title: '',
         link: '',
         content: '',
+        audience: [],
+        department: [],
         is_featured: false,
         is_active: false,
-    },
+    } as any,
     isPageLoading: false,
 })
 
@@ -62,9 +64,17 @@ async function fetchNews() {
                 title: response?.data?.title ?? '',
                 link: response?.data?.link ?? '',
                 content: response?.data?.content ?? '',
+                audience: [],
+                department: [],
                 is_featured: response?.data?.is_featured ?? '',
                 is_active: response?.data?.is_active ?? '',
             }
+            response?.data?.audiences?.forEach((department: any) => {
+                state.formNews.audience.push(department?.uuid)
+            })
+            response?.data?.departments?.forEach((department: any) => {
+                state.formNews.department.push(department?.uuid)
+            })
         }
     } catch (error: any) {
         state.error = error
@@ -81,6 +91,8 @@ async function updateNews(newsDetails: any) {
         params.append('title', newsDetails.title)
         params.append('link', newsDetails.link)
         params.append('content', newsDetails.content)
+        params.append('audience_uuid', newsDetails.audience)
+        params.append('department_uuid', newsDetails.department)
         params.append('is_featured', newsDetails.is_featured)
         params.append('is_active', newsDetails.is_active)
         const response = await newsService.updateNews(uuid, params)

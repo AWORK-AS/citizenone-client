@@ -5,4 +5,6 @@ export interface NewsForm {
     content: string,
     is_featured: boolean,
     is_active: boolean,
+    audience: any,
+    department: any,
 }
