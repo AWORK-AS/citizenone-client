@@ -6,7 +6,7 @@
             {{ $t('dailyOverview.dailyMedicineOverview.dailyMedicineOverview') }}
         </h3>
 
-        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
+        <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
             v-if="state.medicines?.data?.length === 0">
             {{ $t('dailyOverview.noMedicinesToShow') }}
         </div>

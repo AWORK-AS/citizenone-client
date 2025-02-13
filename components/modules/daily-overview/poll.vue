@@ -7,7 +7,8 @@
             {{ $t('dailyOverview.poll.poll') }}
         </h3>
 
-        <div class="flex items-center justify-center h-80 text-sm mt-10" v-if="state.polls?.data?.length === 0">
+        <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center h-80 text-sm mt-10"
+            v-if="state.polls?.data?.length === 0">
             {{ $t('dailyOverview.poll.noPollToShow') }}
         </div>
 

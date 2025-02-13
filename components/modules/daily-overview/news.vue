@@ -6,7 +6,7 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
 
-        <div class="flex items-center justify-center h-80 text-sm mt-10"
+        <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center h-80 text-sm mt-10"
             v-if="state.salesCampaigns?.data?.length === 0">
             {{ $t('dailyOverview.noNewsToShow') }}
         </div>
