@@ -175,7 +175,7 @@ async function fetchAllAudiences() {
             response.data.forEach(
                 (item: any) => options.push({
                     value: item?.uuid,
-                    label: item?.name,
+                    label: item?.type,
                 })
             )
             state.options.audiences = options
