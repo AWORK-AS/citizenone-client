@@ -501,7 +501,7 @@
             <ModulesDutyScheduleScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
                 :selectedDay="state.manageScheduleSlot.selectedDay"
                 @close="state.modal.isManageScheduleSlotOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
-            <ModulesDutyScheduleModalCopyMultipleWeeks :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
+            <ModulesDutyScheduleDraftModalCopyMultipleWeeks :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
                 @refreshDutySchedules="fetchDutySchedule()" />
             <DialogConfirmation :isModalOpen="state.modal.isPublishScheduleOpen"
