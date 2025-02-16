@@ -17,83 +17,203 @@
                 <div id="apps-checkout"></div>
                 <div v-if="!state.isAppsHidden">
                     <div class="flex item-center gap-x-2">
-                        <FormButton buttonSize="sm" :class="[
-                            [''].includes(state.filter.type) && 'border-secondary bg-secondary text-white',
-                            'rounded-md w-full md:w-fit']" @click="filterApp('')">
-                            All
-                        </FormButton>
-                        <FormButton buttonSize="sm" :class="[
-                            ['marketing'].includes(state.filter.type) && 'border-secondary bg-secondary text-white',
-                            'rounded-md w-full md:w-fit']" @click="filterApp('marketing')">
+                        <FormButton buttonSize="sm" @click="scrollToSection('marketing')">
                             Marketing
                         </FormButton>
-                        <FormButton buttonSize="sm" :class="[
-                            ['visual'].includes(state.filter.type) && 'border-secondary bg-secondary text-white',
-                            'rounded-md w-full md:w-fit']" @click="filterApp('visual')">
+                        <FormButton buttonSize="sm" @click="scrollToSection('visual')">
                             Visual
                         </FormButton>
-                        <FormButton buttonSize="sm" :class="[
-                            ['other'].includes(state.filter.type) && 'border-secondary bg-secondary text-white',
-                            'rounded-md w-full md:w-fit']" @click="filterApp('other')">
+                        <FormButton buttonSize="sm" @click="scrollToSection('other')">
                             Other
                         </FormButton>
                     </div>
-                    <div class="mt-3 ltablet:grid-cols-3 grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                        <div v-for="(app, index) in state.apps?.data" :key="index"
-                            class="bg-white p-6 border rounded-md">
-                            <div class="mb-3 flex justify-between">
-                                <div class="flex items-center gap-3">
-                                    <img :src="app.logo" alt="App logo" class="w-10" />
-                                    <div class="leading-none">
-                                        <h4 class="text-muted-800 dark:text-muted-100 font-sans text-sm font-medium">
-                                            {{ app.name }}
-                                        </h4>
+
+                    <div id="marketing"
+                        class="mt-5 grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-11 border-b border-gray-900/10">
+                        <div class="md:col-span-2">
+                            <h2 class="text-base font-semibold leading-7 text-gray-900">
+                                {{ $t('apps.categories.marketing') }}
+                            </h2>
+                            <p class="mt-1 text-sm leading-6 text-gray-600" v-if="language.locale.value === 'en'">
+                                Tools and solutions designed to enhance brand visibility, optimize campaigns, and drive
+                                customer engagement.
+                            </p>
+                            <p class="mt-1 text-sm leading-6 text-gray-600" v-if="language.locale.value === 'dk'">
+                                Værktøjer og løsninger designet til at øge brandets synlighed, optimere kampagner og
+                                engagere kunder.
+                            </p>
+                        </div>
+                        <div class="md:col-span-9 space-y-3 px-4 py-6 sm:px-8 sm:py-6">
+                            <div class="ltablet:grid-cols-3 grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                                <div v-for="(app, index) in state.apps?.marketing" :key="index"
+                                    class="bg-white p-6 border rounded-md">
+                                    <div class="mb-3 flex justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <img :src="app.logo" alt="App logo" class="w-10" />
+                                            <div class="leading-none">
+                                                <h4
+                                                    class="text-muted-800 dark:text-muted-100 font-sans text-sm font-medium">
+                                                    {{ app.name }}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <Badge type="primary" class="text-xxs truncate w-fit h-fit"
+                                            v-if="app?.is_thirdparty">
+                                            {{ $t('apps.thirdPartyApp') }}
+                                        </Badge>
+                                    </div>
+                                    <div class="my-4 space-y-3">
+                                        <p class="text-muted-800 dark:text-muted-100 font-sans text-sm line-clamp-2">
+                                            {{ app?.description }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <FormButton type="button" buttonStyle="action" class="w-full"
+                                            @click="readMore(app)">
+                                            {{ $t('apps.readMore') }}
+                                        </FormButton>
+                                        <FormButton type="button" buttonStyle="action" class="w-full"
+                                            @click="navigateToExternalLink(app?.url_field)" v-if="app?.url_field">
+                                            {{ $t('apps.goToPartner') }}
+                                        </FormButton>
+                                        <FormButton type="button"
+                                            :buttonStyle="app?.user_activated ? 'warning' : 'action'" :class="[
+                                                app?.user_activated && 'cursor-not-allowed',
+                                                'w-full'
+                                            ]" color="primary"
+                                            @click="!app?.user_activated && confirmTACAcceptance(app)" v-else>
+                                            {{ app?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
+                                        </FormButton>
                                     </div>
                                 </div>
-                                <Badge type="primary" class="text-xxs truncate w-fit h-fit" v-if="app?.is_thirdparty">
-                                    {{ $t('apps.thirdPartyApp') }}
-                                </Badge>
-                            </div>
-                            <div class="my-4 space-y-3">
-                                <!-- <div class="text-muted-400 flex items-center gap-1">
-                                    <Icon name="material-symbols:receipt" class="size-4" />
-                                    <div class="font-sans text-sm" v-if="app?.is_one_time_fee">
-                                        {{ formatAmount(app?.price) }}
-                                        {{ $t('excludeVat') }}
-                                    </div>
-                                    <div class="font-sans text-sm" v-else>
-                                        {{ formatAmount(app?.monthly_price) }}
-                                        <span class="lowercase">/{{ $t('apps.month') }}</span>
-                                        <span>
-                                            ({{ formatAmount(app?.yearly_price) }}
-                                            <span class="lowercase">/{{ $t('apps.year') }}</span>)
-                                        </span>
-                                        {{ $t('excludeVat') }}
-                                    </div>
-                                </div> -->
-                                <p class="text-muted-800 dark:text-muted-100 font-sans text-sm line-clamp-1">
-                                    {{ app?.description }}
-                                </p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <FormButton type="button" buttonStyle="action" class="w-full" @click="readMore(app)">
-                                    {{ $t('apps.readMore') }}
-                                </FormButton>
-                                <FormButton type="button" buttonStyle="action" class="w-full"
-                                    @click="navigateToExternalLink(app?.url_field)" v-if="app?.url_field">
-                                    {{ $t('apps.goToPartner') }}
-                                </FormButton>
-                                <FormButton type="button" :buttonStyle="app?.user_activated ? 'warning' : 'action'"
-                                    :class="[
-                                        app?.user_activated && 'cursor-not-allowed',
-                                        'w-full'
-                                    ]" color="primary" @click="!app?.user_activated && confirmTACAcceptance(app)"
-                                    v-else>
-                                    {{ app?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
-                                </FormButton>
                             </div>
                         </div>
                     </div>
+
+                    <div id="visual"
+                        class="mt-5 grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-11 border-b border-gray-900/10">
+                        <div class="md:col-span-2">
+                            <h2 class="text-base font-semibold leading-7 text-gray-900">
+                                {{ $t('apps.categories.visual') }}
+                            </h2>
+                            <p class="mt-1 text-sm leading-6 text-gray-600" v-if="language.locale.value === 'en'">
+                                Applications focused on design, creativity, and media, enabling stunning graphics,
+                                videos, and interactive experiences.
+                            </p>
+                            <p class="mt-1 text-sm leading-6 text-gray-600" v-if="language.locale.value === 'dk'">
+                                Applikationer med fokus på design, kreativitet og medier, der muliggør imponerende
+                                grafik, videoer og interaktive oplevelser.
+                            </p>
+                        </div>
+                        <div class="md:col-span-9 space-y-3 px-4 py-6 sm:px-8 sm:py-6">
+                            <div class="ltablet:grid-cols-3 grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                                <div v-for="(app, index) in state.apps?.visual" :key="index"
+                                    class="bg-white p-6 border rounded-md">
+                                    <div class="mb-3 flex justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <img :src="app.logo" alt="App logo" class="w-10" />
+                                            <div class="leading-none">
+                                                <h4
+                                                    class="text-muted-800 dark:text-muted-100 font-sans text-sm font-medium">
+                                                    {{ app.name }}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <Badge type="primary" class="text-xxs truncate w-fit h-fit"
+                                            v-if="app?.is_thirdparty">
+                                            {{ $t('apps.thirdPartyApp') }}
+                                        </Badge>
+                                    </div>
+                                    <div class="my-4 space-y-3">
+                                        <p class="text-muted-800 dark:text-muted-100 font-sans text-sm line-clamp-2">
+                                            {{ app?.description }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <FormButton type="button" buttonStyle="action" class="w-full"
+                                            @click="readMore(app)">
+                                            {{ $t('apps.readMore') }}
+                                        </FormButton>
+                                        <FormButton type="button" buttonStyle="action" class="w-full"
+                                            @click="navigateToExternalLink(app?.url_field)" v-if="app?.url_field">
+                                            {{ $t('apps.goToPartner') }}
+                                        </FormButton>
+                                        <FormButton type="button"
+                                            :buttonStyle="app?.user_activated ? 'warning' : 'action'" :class="[
+                                                app?.user_activated && 'cursor-not-allowed',
+                                                'w-full'
+                                            ]" color="primary"
+                                            @click="!app?.user_activated && confirmTACAcceptance(app)" v-else>
+                                            {{ app?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
+                                        </FormButton>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="other"
+                        class="mt-5 grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-11 border-b border-gray-900/10">
+                        <div class="md:col-span-2">
+                            <h2 class="text-base font-semibold leading-7 text-gray-900">
+                                {{ $t('apps.categories.other') }}
+                            </h2>
+                            <p class="mt-1 text-sm leading-6 text-gray-600" v-if="language.locale.value === 'en'">
+                                A collection of versatile apps catering to various needs, from productivity and
+                                organization to niche solutions.
+                            </p>
+                            <p class="mt-1 text-sm leading-6 text-gray-600" v-if="language.locale.value === 'dk'">
+                                En samling alsidige apps, der dækker forskellige behov, fra produktivitet og
+                                organisering til nicheløsninger.
+                            </p>
+                        </div>
+                        <div class="md:col-span-9 space-y-3 px-4 py-6 sm:px-8 sm:py-6">
+                            <div class="ltablet:grid-cols-3 grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                                <div v-for="(app, index) in state.apps?.other" :key="index"
+                                    class="bg-white p-6 border rounded-md">
+                                    <div class="mb-3 flex justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <img :src="app.logo" alt="App logo" class="w-10" />
+                                            <div class="leading-none">
+                                                <h4
+                                                    class="text-muted-800 dark:text-muted-100 font-sans text-sm font-medium">
+                                                    {{ app.name }}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <Badge type="primary" class="text-xxs truncate w-fit h-fit"
+                                            v-if="app?.is_thirdparty">
+                                            {{ $t('apps.thirdPartyApp') }}
+                                        </Badge>
+                                    </div>
+                                    <div class="my-4 space-y-3">
+                                        <p class="text-muted-800 dark:text-muted-100 font-sans text-sm line-clamp-2">
+                                            {{ app?.description }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <FormButton type="button" buttonStyle="action" class="w-full"
+                                            @click="readMore(app)">
+                                            {{ $t('apps.readMore') }}
+                                        </FormButton>
+                                        <FormButton type="button" buttonStyle="action" class="w-full"
+                                            @click="navigateToExternalLink(app?.url_field)" v-if="app?.url_field">
+                                            {{ $t('apps.goToPartner') }}
+                                        </FormButton>
+                                        <FormButton type="button"
+                                            :buttonStyle="app?.user_activated ? 'warning' : 'action'" :class="[
+                                                app?.user_activated && 'cursor-not-allowed',
+                                                'w-full'
+                                            ]" color="primary"
+                                            @click="!app?.user_activated && confirmTACAcceptance(app)" v-else>
+                                            {{ app?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
+                                        </FormButton>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="mt-6">
                         <Pagination :data="state.apps" @previous="previous" @next="next" />
                     </div>
@@ -110,18 +230,22 @@
 
 <script setup lang="ts">
 import { appService } from '@/components/api/AppService'
-import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { formatAmount } = useAmountFormatter()
+const language = useI18n()
 let currentTablePage = 1
 let checkout = null as any
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
 
 const state = reactive({
-    apps: [] as any,
+    apps: {
+        marketing: [] as any,
+        other: [] as any,
+        visual: [] as any,
+    },
     error: {} as Error,
     filter: {
         type: '',
@@ -149,13 +273,39 @@ async function fetchApps() {
         }
         const response = await appService.getApps(params)
         if (response) {
-            state.apps = response
+            const apps = response?.data
+            state.apps.marketing = filterAppsByType(apps, 'marketing')
+            state.apps.visual = filterAppsByType(apps, 'visual')
+            state.apps.other = filterAppsByType(apps, 'other')
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
 }
+
+function filterAppsByType(apps: any, type: string) {
+    return apps.filter((app: any) => app.type === type)
+}
+
+function scrollToSection(sectionId: string) {
+    const section = document.getElementById(sectionId)
+    if (section) {
+        if (sectionId === 'marketing') {
+            window.scrollTo({
+                top: section.offsetTop + 70, // Adjust offset if needed
+                behavior: "smooth"
+            })
+
+        } else {
+            window.scrollTo({
+                top: section.offsetTop + 50, // Adjust offset if needed
+                behavior: "smooth"
+            })
+        }
+    }
+}
+
 
 function previous() {
     currentTablePage--
@@ -164,11 +314,6 @@ function previous() {
 
 function next() {
     currentTablePage++
-    fetchApps()
-}
-
-function filterApp(filterType: string) {
-    state.filter.type = filterType
     fetchApps()
 }
 

@@ -238,6 +238,11 @@
             "messageSuccessfullySent": "Message successfully sent"
         },
         "apps": "Apps",
+        "categories": {
+            "marketing": "Marketing",
+            "other": "Other",
+            "visual": "Visual"
+        },
         "confirmation": {
             "confirmationOfTerms": "I confirm that I have read and accept the terms and conditions before activating this app"
         },

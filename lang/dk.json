@@ -2713,6 +2713,11 @@
                 "appSuccessfullyDeleted": "App slettet med succes"
             },
             "apps": "Apps",
+            "categories": {
+                "marketing": "Marketing",
+                "other": "Andet",
+                "visual": "Visuel"
+            },
             "confirmation": {
                 "deleteAppConfirmation": "Er du sikker på, at du vil slette denne app"
             },
