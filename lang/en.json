@@ -1410,7 +1410,8 @@
                 },
                 "note": "Note",
                 "timeIn": "Time in",
-                "timeOut": "Time out"
+                "timeOut": "Time out",
+                "whyDoYouWantToRequestAdditionalHours": "Why do you want to request additional hours or change hours"
             },
             "newRequest": "New request",
             "requests": "Requests",
