@@ -96,6 +96,9 @@ const rules = computed(() => {
             time_out: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            note: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
         },
     }
 })
