@@ -324,14 +324,6 @@
                                                                 aria-hidden="true" />
                                                         </button>
                                                     </Tooltip>
-                                                    <Tooltip :text="$t('dutySchedules.scheduleRequests.requests')">
-                                                        <button
-                                                            class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                            @click="viewRequests(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
-                                                            <Icon name="mdi:calendar-question-outline" class="h-3 w-3"
-                                                                aria-hidden="true" />
-                                                        </button>
-                                                    </Tooltip>
                                                     <Tooltip :text="$t('dutySchedules.newSchedule')">
                                                         <button
                                                             class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
@@ -350,7 +342,7 @@
                                                             shift?.name === 'sick_leave' && 'bg-shifts-sickleave',
                                                             'rounded-md p-1 relative'
                                                         ]" :style="{
-                                                            width: moment(shift?.date_time_end).startOf('day').diff(moment(shift?.date_time_start).startOf('day'), 'days') >= 1 && weekIndex.toString() !== 'sunday' ? '17.5rem' : 'auto',
+                                                            width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                             marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
                                                         }">
                                                         <div class="flex">
@@ -378,17 +370,6 @@
                                                             v-if="isAdmin(userStore.getUser?.roles)">
                                                             <Tooltip :text="$t('dutySchedules.removeSchedule')">
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
-                                                            </Tooltip>
-                                                        </button>
-                                                        <button
-                                                            class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="requestTimeAdjustment(weeklyScheduleIndex, shift)"
-                                                            v-else
-                                                            v-if="userStore.getUser?.uuid === weeklySchedule?.employee?.uuid">
-                                                            <Tooltip
-                                                                :text="$t('dutySchedules.scheduleRequests.newRequest')">
-                                                                <Icon name="ic:baseline-question-mark"
-                                                                    class="h-2.5 w-2.5" aria-hidden="true" />
                                                             </Tooltip>
                                                         </button>
                                                     </div>
@@ -563,13 +544,13 @@ function sortMultiDayShiftsFirst(shifts: any) {
     return sortedShifts
 }
 
-function getMultiDayShift(shifts: any) {
-    return shifts
-        .find((shift: any) => {
-            const startDay = moment(shift.date_time_start).startOf('day')
-            const endDay = moment(shift.date_time_end).startOf('day')
-            return endDay.diff(startDay, 'days') >= 1
-        })
+function calculateShiftWidth(shift: any, weekIndex: string) {
+    const startDay = moment(shift?.date_time_start).startOf('day')
+    const endDay = moment(shift?.date_time_end).startOf('day')
+    const isMultiDay = endDay.diff(startDay, 'days') >= 1
+    const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+
+    return isMultiDay && !isExcluded && weekIndex !== 'sunday' ? '17.5rem' : 'auto'
 }
 
 function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: number) {
@@ -588,6 +569,18 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
     }
 
     return overlapCount > 0 ? 3.625 + (overlapCount - 1) * 3.125 : 0
+}
+
+function getMultiDayShift(shifts: any) {
+    return shifts
+        .find((shift: any) => {
+            const startDay = moment(shift.date_time_start).startOf('day')
+            const endDay = moment(shift.date_time_end).startOf('day')
+            const isMultiDay = endDay.diff(startDay, 'days') >= 1
+            const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+
+            return isMultiDay && !isExcluded
+        })
 }
 
 async function fetchDutyScheduleAbsencePercentage() {
