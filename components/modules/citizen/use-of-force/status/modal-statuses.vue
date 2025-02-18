@@ -27,62 +27,62 @@
                                                 <p class="text-xxs truncate">
                                                     <span v-if="status?.area_type === 'functional_level'">
                                                         {{
-                                                            $t('citizens.nursingAreas.statuses.areaTypes.functionalLevel')
+                                                            $t('citizens.useOfForce.statuses.areaTypes.functionalLevel')
                                                         }}
                                                     </span>
                                                     <span v-if="status?.area_type === 'musculoskeletal_system'">
                                                         {{
-                                                            $t('citizens.nursingAreas.statuses.areaTypes.musculoskeletalSystem')
+                                                            $t('citizens.useOfForce.statuses.areaTypes.musculoskeletalSystem')
                                                         }}
                                                     </span>
                                                     <span v-if="status?.area_type === 'nutrition'">
                                                         {{
-                                                            $t('citizens.nursingAreas.statuses.areaTypes.nutrition')
+                                                            $t('citizens.useOfForce.statuses.areaTypes.nutrition')
                                                         }}
                                                     </span>
                                                     <span v-if="status?.area_type === 'skin_and_mucous_membranes'">
                                                         {{
-                                                            $t('citizens.nursingAreas.statuses.areaTypes.skinAndMucousMembranes')
+                                                            $t('citizens.useOfForce.statuses.areaTypes.skinAndMucousMembranes')
                                                         }}
                                                     </span>
                                                     <span v-if="status?.area_type === 'communication'">
                                                         {{
-                                                            $t('citizens.nursingAreas.statuses.areaTypes.communication')
+                                                            $t('citizens.useOfForce.statuses.areaTypes.communication')
                                                         }}
                                                     </span>
                                                     <span v-if="status?.area_type === 'psychosocial_conditions'">
                                                         {{
-                                                            $t('citizens.nursingAreas.statuses.areaTypes.psychosocialConditions')
+                                                            $t('citizens.useOfForce.statuses.areaTypes.psychosocialConditions')
                                                         }}
                                                     </span>
                                                     <span v-if="status?.area_type === 'respiration_and_circulation'">
                                                         {{
-                                                            $t('citizens.nursingAreas.statuses.areaTypes.respirationAndCirculation')
+                                                            $t('citizens.useOfForce.statuses.areaTypes.respirationAndCirculation')
                                                         }}
                                                     </span>
                                                     <span v-if="status?.area_type === 'sexuality'">
                                                         {{
-                                                            $t('citizens.nursingAreas.statuses.areaTypes.sexuality')
+                                                            $t('citizens.useOfForce.statuses.areaTypes.sexuality')
                                                         }}
                                                     </span>
                                                     <span v-if="status?.area_type === 'pain_and_sensory_impressions'">
                                                         {{
-                                                            $t('citizens.nursingAreas.statuses.areaTypes.painAndSensoryImpressions')
+                                                            $t('citizens.useOfForce.statuses.areaTypes.painAndSensoryImpressions')
                                                         }}
                                                     </span>
                                                     <span v-if="status?.area_type === 'sleep_and_rest'">
                                                         {{
-                                                            $t('citizens.nursingAreas.statuses.areaTypes.sleepAndRest')
+                                                            $t('citizens.useOfForce.statuses.areaTypes.sleepAndRest')
                                                         }}
                                                     </span>
                                                     <span v-if="status?.area_type === 'knowledge_and_development'">
                                                         {{
-                                                            $t('citizens.nursingAreas.statuses.areaTypes.knowledgeAndDevelopment')
+                                                            $t('citizens.useOfForce.statuses.areaTypes.knowledgeAndDevelopment')
                                                         }}
                                                     </span>
                                                     <span v-if="status?.area_type === 'excretion_of_waste'">
                                                         {{
-                                                            $t('citizens.nursingAreas.statuses.areaTypes.excretionOfWaste')
+                                                            $t('citizens.useOfForce.statuses.areaTypes.excretionOfWaste')
                                                         }}
                                                     </span>
                                                 </p>
@@ -91,27 +91,27 @@
                                             <Badge type="primary" class="w-fit" v-if="status.score">
                                                 <p class="text-xxs truncate" v-if="status.score == 1">
                                                     {{
-                                                        $t('citizens.nursingAreas.statuses.expectedLevels.minorChallenges')
+                                                        $t('citizens.useOfForce.statuses.expectedLevels.minorChallenges')
                                                     }}
                                                 </p>
                                                 <p class="text-xxs truncate" v-if="status.score == 2">
                                                     {{
-                                                        $t('citizens.nursingAreas.statuses.expectedLevels.moderateChallenges')
+                                                        $t('citizens.useOfForce.statuses.expectedLevels.moderateChallenges')
                                                     }}
                                                 </p>
                                                 <p class="text-xxs truncate" v-if="status.score == 3">
                                                     {{
-                                                        $t('citizens.nursingAreas.statuses.expectedLevels.significantChallenges')
+                                                        $t('citizens.useOfForce.statuses.expectedLevels.significantChallenges')
                                                     }}
                                                 </p>
                                                 <p class="text-xxs truncate" v-if="status.score == 4">
                                                     {{
-                                                        $t('citizens.nursingAreas.statuses.expectedLevels.severeChallenges')
+                                                        $t('citizens.useOfForce.statuses.expectedLevels.severeChallenges')
                                                     }}
                                                 </p>
                                                 <p class="text-xxs truncate" v-if="status.score == 5">
                                                     {{
-                                                        $t('citizens.nursingAreas.statuses.expectedLevels.verySubstantialChallenges')
+                                                        $t('citizens.useOfForce.statuses.expectedLevels.verySubstantialChallenges')
                                                     }}
                                                 </p>
                                             </Badge>
