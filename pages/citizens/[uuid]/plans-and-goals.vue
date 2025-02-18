@@ -27,7 +27,7 @@
                                 <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('plansandgoals.createStatusReport') }}
                             </FormButton>
-                            <Menu as="div" class="relative inline-block text-left z-20">
+                            <Menu as="div" class="relative inline-block text-left z-20" v-if="hasCreatePlanAccess()">
                                 <div>
                                     <MenuButton>
                                         <FormButton buttonStyle="action" class="rounded-lg">
