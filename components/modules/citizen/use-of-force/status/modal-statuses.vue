@@ -67,12 +67,12 @@
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="editStatus(status)" v-if="status?.is_editable">
                                                     <Icon name="ph:pencil" class="size-4" />
-                                                    {{ $t('citizens.useOfForce.statues.table.actions.edit') }}
+                                                    {{ $t('citizens.useOfForce.statuses.table.actions.edit') }}
                                                 </FormButton>
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="confirmStatusDeletion(status)" v-if="status?.is_deletable">
                                                     <Icon name="heroicons:trash" class="size-4" />
-                                                    {{ $t('citizens.useOfForce.statues.table.actions.delete') }}
+                                                    {{ $t('citizens.useOfForce.statuses.table.actions.delete') }}
                                                 </FormButton>
                                             </div>
                                         </td>
