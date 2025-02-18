@@ -4,7 +4,7 @@
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenPlanStatusForm formType="update" :selectedStatus="props.selectedStatus"
+                    <ModulesCitizenUseOfForceStatusForm formType="update" :selectedStatus="props.selectedStatus"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateStatus" />
                 </LoadingSpinner>

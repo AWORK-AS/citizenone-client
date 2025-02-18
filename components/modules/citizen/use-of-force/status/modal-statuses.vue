@@ -20,98 +20,36 @@
                                 <template #body v-if="!(state.isTableLoading || (state.statuses?.data?.length === 0))">
                                     <tr v-for="(status, index) in state.statuses?.data" :key="index">
                                         <td width="20%">
-                                            <span>{{ formatDateToReadable(status?.date) }}</span>
+                                            <p>
+                                                {{ status.title }}
+                                            </p>
                                         </td>
-                                        <td width="20%">
-                                            <Badge type="primary" class="w-fit" v-if="status?.area_type">
-                                                <p class="text-xxs truncate">
-                                                    <span v-if="status?.area_type === 'functional_level'">
-                                                        {{
-                                                            $t('citizens.useOfForce.statuses.areaTypes.functionalLevel')
-                                                        }}
-                                                    </span>
-                                                    <span v-if="status?.area_type === 'musculoskeletal_system'">
-                                                        {{
-                                                            $t('citizens.useOfForce.statuses.areaTypes.musculoskeletalSystem')
-                                                        }}
-                                                    </span>
-                                                    <span v-if="status?.area_type === 'nutrition'">
-                                                        {{
-                                                            $t('citizens.useOfForce.statuses.areaTypes.nutrition')
-                                                        }}
-                                                    </span>
-                                                    <span v-if="status?.area_type === 'skin_and_mucous_membranes'">
-                                                        {{
-                                                            $t('citizens.useOfForce.statuses.areaTypes.skinAndMucousMembranes')
-                                                        }}
-                                                    </span>
-                                                    <span v-if="status?.area_type === 'communication'">
-                                                        {{
-                                                            $t('citizens.useOfForce.statuses.areaTypes.communication')
-                                                        }}
-                                                    </span>
-                                                    <span v-if="status?.area_type === 'psychosocial_conditions'">
-                                                        {{
-                                                            $t('citizens.useOfForce.statuses.areaTypes.psychosocialConditions')
-                                                        }}
-                                                    </span>
-                                                    <span v-if="status?.area_type === 'respiration_and_circulation'">
-                                                        {{
-                                                            $t('citizens.useOfForce.statuses.areaTypes.respirationAndCirculation')
-                                                        }}
-                                                    </span>
-                                                    <span v-if="status?.area_type === 'sexuality'">
-                                                        {{
-                                                            $t('citizens.useOfForce.statuses.areaTypes.sexuality')
-                                                        }}
-                                                    </span>
-                                                    <span v-if="status?.area_type === 'pain_and_sensory_impressions'">
-                                                        {{
-                                                            $t('citizens.useOfForce.statuses.areaTypes.painAndSensoryImpressions')
-                                                        }}
-                                                    </span>
-                                                    <span v-if="status?.area_type === 'sleep_and_rest'">
-                                                        {{
-                                                            $t('citizens.useOfForce.statuses.areaTypes.sleepAndRest')
-                                                        }}
-                                                    </span>
-                                                    <span v-if="status?.area_type === 'knowledge_and_development'">
-                                                        {{
-                                                            $t('citizens.useOfForce.statuses.areaTypes.knowledgeAndDevelopment')
-                                                        }}
-                                                    </span>
-                                                    <span v-if="status?.area_type === 'excretion_of_waste'">
-                                                        {{
-                                                            $t('citizens.useOfForce.statuses.areaTypes.excretionOfWaste')
-                                                        }}
-                                                    </span>
-                                                </p>
-                                            </Badge>
+                                        <td width="30%">
                                             <div v-html="status.status" class="content" />
                                             <Badge type="primary" class="w-fit" v-if="status.score">
-                                                <p class="text-xxs truncate" v-if="status.score == 1">
+                                                <p class="text-xxs" v-if="status.score == 1">
                                                     {{
-                                                        $t('citizens.useOfForce.statuses.expectedLevels.minorChallenges')
+                                                        $t('citizens.useOfForce.statuses.currentLevels.minorChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs truncate" v-if="status.score == 2">
+                                                <p class="text-xxs" v-if="status.score == 2">
                                                     {{
-                                                        $t('citizens.useOfForce.statuses.expectedLevels.moderateChallenges')
+                                                        $t('citizens.useOfForce.statuses.currentLevels.moderateChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs truncate" v-if="status.score == 3">
+                                                <p class="text-xxs" v-if="status.score == 3">
                                                     {{
-                                                        $t('citizens.useOfForce.statuses.expectedLevels.significantChallenges')
+                                                        $t('citizens.useOfForce.statuses.currentLevels.significantChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs truncate" v-if="status.score == 4">
+                                                <p class="text-xxs" v-if="status.score == 4">
                                                     {{
-                                                        $t('citizens.useOfForce.statuses.expectedLevels.severeChallenges')
+                                                        $t('citizens.useOfForce.statuses.currentLevels.severeChallenges')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs truncate" v-if="status.score == 5">
+                                                <p class="text-xxs" v-if="status.score == 5">
                                                     {{
-                                                        $t('citizens.useOfForce.statuses.expectedLevels.verySubstantialChallenges')
+                                                        $t('citizens.useOfForce.statuses.currentLevels.verySubstantialChallenges')
                                                     }}
                                                 </p>
                                             </Badge>
@@ -124,17 +62,17 @@
                                                 {{ status?.user?.firstname + ' ' + status?.user?.lastname }}
                                             </span>
                                         </td>
-                                        <td width="20%">
+                                        <td width="10%">
                                             <div class="flex items-end gap-2">
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="editStatus(status)" v-if="status?.is_editable">
                                                     <Icon name="ph:pencil" class="size-4" />
-                                                    {{ $t('plansandgoals.table.actions.edit') }}
+                                                    {{ $t('citizens.useOfForce.table.actions.edit') }}
                                                 </FormButton>
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="confirmStatusDeletion(status)" v-if="status?.is_deletable">
                                                     <Icon name="heroicons:trash" class="size-4" />
-                                                    {{ $t('plansandgoals.table.actions.delete') }}
+                                                    {{ $t('citizens.useOfForce.table.actions.delete') }}
                                                 </FormButton>
                                             </div>
                                         </td>
@@ -145,14 +83,14 @@
                         <Pagination :data="state.statuses" @previous="previous" @next="next" />
                     </div>
                 </div>
-                <LazyModulesCitizenUseOfForceStatusModalNew :isModalOpen="state.modal.isAddStatusOpen"
+                <ModulesCitizenUseOfForceStatusModalNew :isModalOpen="state.modal.isAddStatusOpen"
                     :selectedData="props.selectedData" :selectedStatus="state.selectedStatus"
                     @close="state.modal.isAddStatusOpen = false" @refreshStatuses="fetchStatuses" />
-                <LazyModulesCitizenUseOfForceStatusModalEdit :isModalOpen="state.modal.isEditStatusOpen"
+                <ModulesCitizenUseOfForceStatusModalEdit :isModalOpen="state.modal.isEditStatusOpen"
                     :selectedStatus="state.selectedStatus" @close="state.modal.isEditStatusOpen = false"
                     @refreshStatuses="fetchStatuses" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
-                    :message="`${$t('plansandgoals.confirmation.deleteStatusConfirmation')}?`"
+                    :message="`${$t('citizens.useOfForce.statuses.confirmation.deleteStatusConfirmation')}?`"
                     @close="state.modal.isDeleteStatusOpen = false" @confirm="deleteStatus" />
             </template>
         </Modal>
@@ -166,12 +104,10 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
-import { useCustomPagesStore } from '@/store/custom-pages'
 
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const customPagesStore = useCustomPagesStore() as any
 let currentTablePage = 1
 
 const props = defineProps({
@@ -192,7 +128,7 @@ const state = reactive({
         { column: 'status' },
     ],
     columnHeaders: [
-        { name: 'citizens.useOfForce.statuses.table.date' },
+        { name: 'citizens.useOfForce.statuses.table.title', sorter: true, key: 'title' },
         { name: 'citizens.useOfForce.statuses.table.status', sorter: true, key: 'status' },
         { name: 'citizens.useOfForce.statuses.table.dateCreated' },
         { name: 'citizens.useOfForce.statuses.table.createdBy' },

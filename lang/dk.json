@@ -1077,40 +1077,22 @@
                     "statusSuccessfullyAdded": "Status tilføjet med succes",
                     "statusSuccessfullyUpdated": "Status opdateret med succes"
                 },
-                "areaTypes": {
-                    "areaType": "Områdetype",
-                    "functionalLevel": "Funktionelt niveau",
-                    "musculoskeletalSystem": "Muskuloskeletalt system",
-                    "nutrition": "Ernæring",
-                    "skinAndMucousMembranes": "Hud og slimhinder",
-                    "communication": "Kommunikation",
-                    "psychosocialConditions": "Psykosociale forhold",
-                    "respirationAndCirculation": "Respiration og kredsløb",
-                    "sexuality": "Seksualitet",
-                    "painAndSensoryImpressions": "Smerte og sanseindtryk",
-                    "sleepAndRest": "Søvn og hvile",
-                    "knowledgeAndDevelopment": "Viden og udvikling",
-                    "excretionOfWaste": "Affaldsudskillelse"
+                "confirmation": {
+                    "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
+                },
+                "currentLevels": {
+                    "currentLevel": "Nuværende niveau",
+                    "minorChallenges": "Mindre udfordringer",
+                    "moderateChallenges": "Moderat udfordringer",
+                    "significantChallenges": "Betydelige udfordringer",
+                    "severeChallenges": "Alvorlige udfordringer",
+                    "verySubstantialChallenges": "Meget omfattende udfordringer"
                 },
                 "editStatus": "Rediger status",
-                "expectedLevels": {
-                    "minorChallenges": "Mindre udfordringer",
-                    "moderateChallenges": "Moderate udfordringer",
-                    "significantChallenges": "Markante udfordringer",
-                    "severeChallenges": "Alvorlige udfordringer",
-                    "verySubstantialChallenges": "Meget store udfordringer"
-                },
                 "form": {
-                    "currentLevels": {
-                        "currentLevel": "Nuværende niveau",
-                        "minorChallenges": "Mindre udfordringer",
-                        "moderateChallenges": "Moderate udfordringer",
-                        "significantChallenges": "Markante udfordringer",
-                        "severeChallenges": "Alvorlige udfordringer",
-                        "verySubstantialChallenges": "Meget store udfordringer"
-                    },
-                    "date": "Dato",
-                    "status": "Status"
+                    "currentLevel": "Nuværende niveau",
+                    "status": "Status",
+                    "title": "Titel"
                 },
                 "newStatus": "Ny status",
                 "statuses": "Statusser",
@@ -1122,12 +1104,12 @@
                     "alert": {
                         "statusSuccessfullyDeleted": "Status slettet med succes"
                     },
+                    "createdBy": "Oprettet af",
                     "confirmation": {
                         "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
                     },
-                    "date": "Dato",
                     "dateCreated": "Oprettelsesdato",
-                    "createdBy": "Oprettet af",
+                    "title": "Titel",
                     "status": "Status"
                 }
             },

@@ -4,20 +4,14 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="date" :label="$t('citizens.useOfForce.statuses.form.date')" />
-                <FormDateField id="date" name="date" :placeholder="$t('citizens.useOfForce.statuses.form.date')"
-                    v-model="state.formStatus.date" />
-                <FormError :error="v$?.formStatus?.date?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.date?.[0]" />
+                <FormLabel for="title" :label="$t('citizens.useOfForce.statuses.form.title')" />
+                <FormTextField id="title" name="title" :placeholder="$t('citizens.useOfForce.statuses.form.title')"
+                    v-model="state.formStatus.title" />
+                <FormError :error="v$?.formStatus?.title?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.title?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="area_type" :label="$t('citizens.useOfForce.statuses.areaTypes.areaType')" />
-                <FormSelect id="area_type" :options="state.options.area_types" v-model="state.formStatus.area_type" />
-                <FormError :error="v$?.formStatus?.area_type?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.area_type?.[0]" />
-            </div>
-            <div class="space-y-1">
-                <FormLabel for="score" :label="$t('citizens.useOfForce.statuses.form.currentLevels.currentLevel')" />
+                <FormLabel for="score" :label="$t('citizens.useOfForce.statuses.form.currentLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formStatus.score" />
                 <FormError :error="v$?.formStatus?.score?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.score?.[0]" />
@@ -84,40 +78,24 @@ const editorStatusConfig = ref({
 
 const state = reactive({
     formStatus: {
-        date: '',
-        area_type: '',
+        title: '',
         score: '',
         status: '',
     },
     options: {
-        area_types: [
-            { value: 'functional_level', label: `${t('citizens.treatments.form.areaTypes.functionalLevel')}` },
-            { value: 'musculoskeletal_system', label: `${t('citizens.treatments.form.areaTypes.musculoskeletalSystem')}` },
-            { value: 'nutrition', label: `${t('citizens.treatments.form.areaTypes.nutrition')}` },
-            { value: 'skin_and_mucous_membranes', label: `${t('citizens.treatments.form.areaTypes.skinAndMucousMembranes')}` },
-            { value: 'communication', label: `${t('citizens.treatments.form.areaTypes.communication')}` },
-            { value: 'psychosocial_conditions', label: `${t('citizens.treatments.form.areaTypes.psychosocialConditions')}` },
-            { value: 'respiration_and_circulation', label: `${t('citizens.treatments.form.areaTypes.respirationAndCirculation')}` },
-            { value: 'sexuality', label: `${t('citizens.treatments.form.areaTypes.sexuality')}` },
-            { value: 'pain_and_sensory_impressions', label: `${t('citizens.treatments.form.areaTypes.painAndSensoryImpressions')}` },
-            { value: 'sleep_and_rest', label: `${t('citizens.treatments.form.areaTypes.sleepAndRest')}` },
-            { value: 'knowledge_and_development', label: `${t('citizens.treatments.form.areaTypes.knowledgeAndDevelopment')}` },
-            { value: 'excretion_of_waste', label: `${t('citizens.treatments.form.areaTypes.excretionOfWaste')}` },
-        ],
         scores: [
-            { value: 1, label: `1. ${t('citizens.useOfForce.statuses.form.currentLevels.minorChallenges')}` },
-            { value: 2, label: `2. ${t('citizens.useOfForce.statuses.form.currentLevels.moderateChallenges')}` },
-            { value: 3, label: `3. ${t('citizens.useOfForce.statuses.form.currentLevels.significantChallenges')}` },
-            { value: 4, label: `4. ${t('citizens.useOfForce.statuses.form.currentLevels.severeChallenges')}` },
-            { value: 5, label: `5. ${t('citizens.useOfForce.statuses.form.currentLevels.verySubstantialChallenges')}` },
+            { value: 1, label: `1. ${t('citizens.useOfForce.statuses.currentLevels.minorChallenges')}` },
+            { value: 2, label: `2. ${t('citizens.useOfForce.statuses.currentLevels.moderateChallenges')}` },
+            { value: 3, label: `3. ${t('citizens.useOfForce.statuses.currentLevels.significantChallenges')}` },
+            { value: 4, label: `4. ${t('citizens.useOfForce.statuses.currentLevels.severeChallenges')}` },
+            { value: 5, label: `5. ${t('citizens.useOfForce.statuses.currentLevels.verySubstantialChallenges')}` },
         ]
     },
 })
 
 onMounted(() => {
     state.formStatus = {
-        date: props.selectedStatus.date,
-        area_type: props.selectedStatus.area_type,
+        title: props.selectedStatus.title,
         score: props.selectedStatus.score,
         status: props.selectedStatus.status,
     }
@@ -126,8 +104,7 @@ onMounted(() => {
 watch(() => props.selectedStatus, (newValue: any) => {
     if (newValue != null) {
         state.formStatus = {
-            date: newValue.date,
-            area_type: newValue.area_type,
+            title: newValue.title,
             score: newValue.score,
             status: newValue.status,
         }
@@ -137,7 +114,7 @@ watch(() => props.selectedStatus, (newValue: any) => {
 const rules = computed(() => {
     return {
         formStatus: {
-            date: {
+            title: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             status: {

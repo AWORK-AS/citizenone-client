@@ -1077,40 +1077,22 @@
                     "statusSuccessfullyAdded": "Status successfully added",
                     "statusSuccessfullyUpdated": "Status successfully updated"
                 },
-                "areaTypes": {
-                    "areaType": "Area type",
-                    "functionalLevel": "Functional level",
-                    "musculoskeletalSystem": "Musculoskeletal system",
-                    "nutrition": "Nutrition",
-                    "skinAndMucousMembranes": "Skin and mucous membranes",
-                    "communication": "Communication",
-                    "psychosocialConditions": "Psychosocial conditions",
-                    "respirationAndCirculation": "Respiration and circulation",
-                    "sexuality": "Sexuality",
-                    "painAndSensoryImpressions": "Pain and sensory impressions",
-                    "sleepAndRest": "Sleep and rest",
-                    "knowledgeAndDevelopment": "Knowledge and development",
-                    "excretionOfWaste": "Excretion of waste"
+                "confirmation": {
+                    "deleteStatusConfirmation": "Are you sure you want to delete this status"
                 },
-                "editStatus": "Edit status",
-                "expectedLevels": {
+                "currentLevels": {
+                    "currentLevel": "Current level",
                     "minorChallenges": "Minor challenges",
                     "moderateChallenges": "Moderate challenges",
                     "significantChallenges": "Significant challenges",
                     "severeChallenges": "Severe challenges",
                     "verySubstantialChallenges": "Very substantial challenges"
                 },
+                "editStatus": "Edit status",
                 "form": {
-                    "currentLevels": {
-                        "currentLevel": "Current level",
-                        "minorChallenges": "Minor challenges",
-                        "moderateChallenges": "Moderate challenges",
-                        "significantChallenges": "Significant challenges",
-                        "severeChallenges": "Severe challenges",
-                        "verySubstantialChallenges": "Very substantial challenges"
-                    },
-                    "date": "Date",
-                    "status": "Status"
+                    "currentLevel": "Current level",
+                    "status": "Status",
+                    "title": "Title"
                 },
                 "newStatus": "New status",
                 "statuses": "Statuses",
@@ -1122,12 +1104,12 @@
                     "alert": {
                         "statusSuccessfullyDeleted": "Status successfully deleted"
                     },
+                    "createdBy": "Created by",
                     "confirmation": {
                         "deleteStatusConfirmation": "Are you sure you want to delete this status"
                     },
-                    "date": "Date",
                     "dateCreated": "Date created",
-                    "createdBy": "Created by",
+                    "title": "Title",
                     "status": "Status"
                 }
             },
