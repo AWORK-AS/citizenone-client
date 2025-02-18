@@ -23,7 +23,8 @@
             </div>
             <div class="space-y-1">
                 <FormLabel for="note" :label="$t('dutySchedules.scheduleRequests.form.note')" />
-                <FormTextArea id="note" name="note" :placeholder="$t('dutySchedules.scheduleRequests.form.note')"
+                <FormTextArea id="note" name="note"
+                    :placeholder="`${$t('dutySchedules.scheduleRequests.form.whyDoYouWantToRequestAdditionalHours')}?`"
                     v-model="state.formScheduleRequest.note" />
                 <FormError :error="v$?.formScheduleRequest?.note?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.note?.[0]" />
@@ -93,6 +94,9 @@ const rules = computed(() => {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             time_out: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            note: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
