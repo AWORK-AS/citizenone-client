@@ -135,6 +135,26 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="space-y-1">
+                                    <Label :label="$t('employees.form.mediaRisks.mediaRisks')" />
+                                    <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1">
+                                        <div class="text-xs flex flex-wrap gap-2"
+                                            v-if="state.selectedEmployee?.media_risks?.length > 0">
+                                            <span v-for="(media, index) in state.selectedEmployee?.media_risks"
+                                                :key=index class="bg-primary px-2 py-1 text-white rounded-md">
+                                                <span v-if="media?.type === 'Incident report'">
+                                                    {{ $t('employees.form.mediaRisks.incidentReport') }}
+                                                </span>
+                                                <span v-if="media?.type === 'Medicine deviation'">
+                                                    {{ $t('employees.form.mediaRisks.medicineDeviation') }}
+                                                </span>
+                                                <span v-if="media?.type === 'Use of force'">
+                                                    {{ $t('employees.form.mediaRisks.useOfForce') }}
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div
@@ -406,6 +426,7 @@ const state = reactive({
         city: '',
         post_code: '',
         permissions: [],
+        media_risks: [],
         employment: {
             employment_date: '',
             job_title: '',
@@ -463,6 +484,7 @@ async function fetchEmployee() {
                 city: response?.data?.employee_address?.city?.name ?? '',
                 post_code: response?.data?.employee_address?.post_code ?? '',
                 permissions: response?.data?.permissions ?? [],
+                media_risks: response?.data?.media_risks ?? [],
                 employment: {
                     employment_date: response?.data?.employee_detail?.date_of_employment,
                     job_title: response?.data?.employee_detail?.job?.title,
