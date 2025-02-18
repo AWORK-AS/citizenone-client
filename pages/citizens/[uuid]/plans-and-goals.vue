@@ -157,12 +157,23 @@
                                     </div>
                                     <div>
                                         <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
-                                            <FormButton class="rounded-md" buttonSize="sm" @click="viewPlan(plan)">
+                                            <FormButton class="rounded-md min-w-36" buttonSize="sm"
+                                                @click="viewSubgoals(plan)" v-if="plan?.is_single_goal">
+                                                <Icon name="ph:eye" class="size-4" />
+                                                {{ $t('plansandgoals.table.actions.seeSubgoals') }}
+                                            </FormButton>
+                                            <FormButton class="rounded-md min-w-36" buttonSize="sm"
+                                                @click="viewPlan(plan)" v-else>
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('plansandgoals.table.actions.seeGoals') }}
                                             </FormButton>
+                                            <FormButton class="rounded-md" buttonSize="sm" @click="editGoal(plan)"
+                                                v-if="plan?.is_editable && plan?.is_single_goal">
+                                                <Icon name="ph:pencil-duotone" class="size-4" />
+                                                {{ $t('plansandgoals.table.actions.edit') }}
+                                            </FormButton>
                                             <FormButton class="rounded-md" buttonSize="sm" @click="editPlan(plan)"
-                                                v-if="plan?.is_editable">
+                                                v-if="plan?.is_editable && !plan?.is_single_goal">
                                                 <Icon name="ph:pencil-duotone" class="size-4" />
                                                 {{ $t('plansandgoals.table.actions.edit') }}
                                             </FormButton>
@@ -205,6 +216,8 @@
                 @close="state.modal.isDeletePlanOpen = false" @confirm="deletePlan" />
             <ModulesCitizenPlanGoalSlideOver :isOpen="state.slideOver.isGoalOpen" :selectedPlan="state.selectedPlan"
                 @close="state.slideOver.isGoalOpen = false" />
+            <ModulesCitizenPlanSingleGoalSlideOver :isOpen="state.slideOver.isSubgoalOpen"
+                :selectedGoal="state.selectedGoal" @close="state.slideOver.isSubgoalOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -244,12 +257,19 @@ const state = reactive({
     selectedGoal: {} as any,
     selectedPlan: {} as any,
     slideOver: {
-        isGoalOpen: false
+        isGoalOpen: false,
+        isSubgoalOpen: false,
     },
     sortData: {
         sortField: 'completion_date',
         sortOrder: 'descend',
     },
+})
+
+watch(() => (state.slideOver.isGoalOpen), (isGoalOpen: boolean) => {
+    if (!isGoalOpen) {
+        fetchPlans()
+    }
 })
 
 onMounted(() => {
@@ -313,6 +333,11 @@ function next() {
     fetchPlans()
 }
 
+function editGoal(goal: any) {
+    state.selectedGoal = goal
+    state.modal.isEditSingleGoalOpen = true
+}
+
 function editPlan(plan: any) {
     state.selectedPlan = plan
     state.modal.isEditPlanOpen = true
@@ -321,6 +346,11 @@ function editPlan(plan: any) {
 function viewStatuses(plan: any) {
     state.selectedPlan = plan
     state.modal.isStatusesOpen = true
+}
+
+function viewSubgoals(goal: any) {
+    state.selectedGoal = goal
+    state.slideOver.isSubgoalOpen = true
 }
 
 function viewPlan(plan: any) {

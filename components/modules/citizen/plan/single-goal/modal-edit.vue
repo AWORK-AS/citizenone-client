@@ -32,7 +32,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshGoals'])
+const emit = defineEmits(['close', 'refreshPlans'])
 
 const state = reactive({
     error: {} as Error,
@@ -43,8 +43,8 @@ function closeModal() {
     emit('close')
 }
 
-function refreshGoals() {
-    emit('refreshGoals')
+function refreshPlans() {
+    emit('refreshPlans')
 }
 
 async function updateGoal(goalDetails: any) {
@@ -61,7 +61,7 @@ async function updateGoal(goalDetails: any) {
         }
         const response = await goalService.updateGoal(goalUuid, params)
         if (response?.data) {
-            refreshGoals()
+            refreshPlans()
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.goalSuccessfullyUpdated')}.`)
         }

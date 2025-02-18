@@ -2237,6 +2237,7 @@
                 "edit": "Edit",
                 "delete": "Delete",
                 "seeGoals": "See goals",
+                "seeSubgoals": "See subgoals",
                 "notes": "Notes"
             },
             "createdBy": "Created by",
