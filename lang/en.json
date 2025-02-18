@@ -2737,6 +2737,11 @@
                 "appSuccessfullyDeleted": "App successfully deleted"
             },
             "apps": "Apps",
+            "categories": {
+                "marketing": "Marketing",
+                "other": "Other",
+                "visual": "Visual"
+            },
             "confirmation": {
                 "deleteAppConfirmation": "Are you sure you want to delete this app"
             },
