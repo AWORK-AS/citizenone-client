@@ -176,6 +176,7 @@ const state = reactive({
         title: '',
         date: '',
         description: '',
+        risk_level: '',
         is_draft: false,
     },
     incidents: [] as any,
@@ -242,6 +243,7 @@ function editIncident(incident: any) {
         title: incident.title,
         date: incident.date,
         description: incident.description,
+        risk_level: incident.risk_level,
         is_draft: incident.is_draft,
     }
     state.modal.isEditIncidentOpen = true
