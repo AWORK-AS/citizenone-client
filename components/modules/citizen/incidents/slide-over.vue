@@ -110,6 +110,12 @@
                                                                     <Icon name="ph:pencil-duotone" class="w-4 h-4" />
                                                                 </FormButton>
                                                             </div>
+                                                            <div>
+                                                                <FormButton class="rounded-md h-fit" buttonSize="xs"
+                                                                    @click="viewStatuses(incident)">
+                                                                    {{ $t('citizens.useOfForce.table.statuses') }}
+                                                                </FormButton>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div v-if="state.incidents?.data?.length === 0">
@@ -126,6 +132,10 @@
                                             :isModalOpen="state.modal.isEditIncidentOpen"
                                             @close="state.modal.isEditIncidentOpen = false"
                                             @refreshIncidents="fetchIncidents" />
+                                        <ModulesCitizenIncidentsStatusModalStatuses
+                                            :isModalOpen="state.modal.isStatusesOpen"
+                                            :selectedData="state.selectedIncident" @close="closeStatusesModal"
+                                            @refreshData="fetchIncidents" />
                                     </LoadingSpinner>
                                 </div>
                             </DialogPanel>
@@ -171,8 +181,10 @@ const state = reactive({
     incidents: [] as any,
     isPageLoading: false,
     modal: {
-        isEditIncidentOpen: false
+        isEditIncidentOpen: false,
+        isStatusesOpen: false
     },
+    selectedIncident: {} as any,
     sortData: {
         sortField: 'date',
         sortOrder: 'descend',
@@ -213,6 +225,15 @@ function previous() {
 function next() {
     currentTablePage++
     fetchIncidents()
+}
+
+function viewStatuses(incidents: any) {
+    state.selectedIncident = incidents
+    state.modal.isStatusesOpen = true
+}
+
+function closeStatusesModal() {
+    state.modal.isStatusesOpen = false
 }
 
 function editIncident(incident: any) {

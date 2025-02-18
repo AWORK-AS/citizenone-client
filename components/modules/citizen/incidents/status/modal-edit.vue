@@ -4,7 +4,7 @@
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenUseOfForceStatusForm formType="update" :selectedStatus="props.selectedStatus"
+                    <ModulesCitizenIncidentsStatusForm formType="update" :selectedStatus="props.selectedStatus"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateStatus" />
                 </LoadingSpinner>
@@ -62,7 +62,7 @@ async function updateStatus(statusDetails: any) {
         if (response?.data) {
             refreshStatuses()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.useOfForce.statuses.alert.statusSuccessfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.statuses.alert.statusSuccessfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error

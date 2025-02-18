@@ -67,7 +67,7 @@ async function saveStatus(statusDetails: any) {
         if (response?.data) {
             refreshStatuses()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('Use of force status save sucessfully.')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.useOfForce.statuses.alert.statusSuccessfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error

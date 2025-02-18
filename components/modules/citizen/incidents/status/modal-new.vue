@@ -1,12 +1,12 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('citizens.useOfForce.statuses.editStatus')" :show="props.isModalOpen"
+        <Modal size="sm" :title="$t('citizens.useOfForce.statuses.newStatus')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenUseOfForceStatusForm formType="update" :selectedStatus="props.selectedStatus"
+                    <ModulesCitizenIncidentsStatusForm formType="create" :selectedStatus="state.formStatus"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="updateStatus" />
+                        @closeModal="closeModal" @submitForm="saveStatus" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -27,16 +27,22 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedStatus: {
+    selectedData: {
         type: Object,
         required: true,
     },
 })
+
 const emit = defineEmits(['close', 'refreshStatuses'])
 
 const state = reactive({
     error: {} as Error,
-    isPageLoading: false
+    isPageLoading: false,
+    formStatus: {
+        title: '',
+        score: '',
+        status: '',
+    },
 })
 
 function closeModal() {
@@ -47,22 +53,21 @@ function refreshStatuses() {
     emit('refreshStatuses')
 }
 
-async function updateStatus(statusDetails: any) {
+async function saveStatus(statusDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const statusUuid = props.selectedStatus.uuid
-
         let params = {
+            model_uuid: props.selectedData.uuid,
             title: statusDetails.title,
             score: statusDetails.score,
             status: statusDetails.status,
         }
-        const response = await statusService.updateStatus(statusUuid, params)
+        const response = await statusService.saveStatus(params)
         if (response?.data) {
             refreshStatuses()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.useOfForce.statuses.alert.statusSuccessfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.statuses.alert.statusSuccessfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error
