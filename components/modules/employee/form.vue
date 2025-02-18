@@ -144,13 +144,13 @@
                             <FormCheckbox :id="mediaRisk?.uuid"
                                 :value="checkIfMediaRiskUuidIsChecked(mediaRisk?.uuid)" />
                             <span v-if="mediaRisk?.type === 'Incident report'">
-                                {{ $t('employees.form.mediaRisks.useOfForce') }}
+                                {{ $t('employees.form.mediaRisks.incidentReport') }}
                             </span>
                             <span v-if="mediaRisk?.type === 'Medicine deviation'">
                                 {{ $t('employees.form.mediaRisks.medicineDeviation') }}
                             </span>
                             <span v-if="mediaRisk?.type === 'Use of force'">
-                                {{ $t('employees.form.mediaRisks.incidentReport') }}
+                                {{ $t('employees.form.mediaRisks.useOfForce') }}
                             </span>
                         </div>
                     </div>

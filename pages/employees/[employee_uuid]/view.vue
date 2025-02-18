@@ -140,15 +140,15 @@
                                     <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1">
                                         <div class="text-xs flex flex-wrap gap-2"
                                             v-if="state.selectedEmployee?.media_risks?.length > 0">
-                                            <span v-for="(media, index) in state.selectedEmployee?.media_risks"
+                                            <span v-for="(mediaRisk, index) in state.selectedEmployee?.media_risks"
                                                 :key=index class="bg-primary px-2 py-1 text-white rounded-md">
-                                                <span v-if="media?.type === 'Incident report'">
+                                                <span v-if="mediaRisk?.type === 'Incident report'">
                                                     {{ $t('employees.form.mediaRisks.incidentReport') }}
                                                 </span>
-                                                <span v-if="media?.type === 'Medicine deviation'">
+                                                <span v-if="mediaRisk?.type === 'Medicine deviation'">
                                                     {{ $t('employees.form.mediaRisks.medicineDeviation') }}
                                                 </span>
-                                                <span v-if="media?.type === 'Use of force'">
+                                                <span v-if="mediaRisk?.type === 'Use of force'">
                                                     {{ $t('employees.form.mediaRisks.useOfForce') }}
                                                 </span>
                                             </span>
