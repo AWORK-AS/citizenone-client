@@ -23,23 +23,6 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-8 space-y-5">
                         <div class="flex justify-between flex-col-reverse md:flex-row gap-3">
-                            <!-- <div class="space-y-3 flex-none md:space-y-0 md:flex items-center gap-2">
-                                <FormButton class="w-full md:w-fit"
-                                    :buttonStyle="citizenJournalStore.getFilterView === 'Standard view' ? 'primary' : ''"
-                                    @click="setFilterView('Standard view')">
-                                    {{ $t('citizens.citizenJournals.filter.standardView') }}
-                                </FormButton>
-                                <FormButton class="w-full md:w-fit"
-                                    :buttonStyle="citizenJournalStore.getFilterView === 'Journal note view' ? 'primary' : ''"
-                                    @click="setFilterView('Journal note view')">
-                                    {{ $t('citizens.citizenJournals.filter.journalNoteView') }}
-                                </FormButton>
-                                <FormButton class="w-full md:w-fit"
-                                    :buttonStyle="citizenJournalStore.getFilterView === 'Risk assessment view' ? 'primary' : ''"
-                                    @click="setFilterView('Risk assessment view')">
-                                    {{ customPagesStore.getCustomPagesName?.riskAssessment + ' ' + $t('view') }}
-                                </FormButton>
-                            </div> -->
                             <button class="flex items-center gap-x-1 text-sm text-primary group"
                                 @click="state.modal.isFilterJournalOpen = true">
                                 <Icon name="ic:outline-filter-list"
@@ -246,7 +229,7 @@
                 </LoadingSpinner>
             </div>
             <ModulesCitizenJournalModalFilter :isModalOpen="state.modal.isFilterJournalOpen"
-                @close="state.modal.isFilterJournalOpen = false" />
+                @close="state.modal.isFilterJournalOpen = false" @setFilterView="setFilterView" />
             <ModulesCitizenJournalModalNew :isModalOpen="state.modal.isAddJournalOpen"
                 @close="state.modal.isAddJournalOpen = false" @refreshJournal="fetchJournals" />
             <ModulesCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
@@ -327,6 +310,10 @@ onMounted(() => {
     fetchJournals()
 })
 
+function setFilterView(view: any) {
+    citizenJournalStore.setFilterView(view)
+}
+
 async function fetchJournals() {
     state.error = {}
     state.isPageLoading = true
@@ -367,10 +354,6 @@ function filterJournalByDate(event: any) {
         state.dataFilter.end_date = endDate
         fetchJournals()
     }
-}
-
-function setFilterView(view: any) {
-    citizenJournalStore.setFilterView(view)
 }
 
 function sortJournalAscending(filterDataBy: any) {

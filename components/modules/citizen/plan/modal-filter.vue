@@ -15,15 +15,15 @@
                                         <span class="flex flex-1">
                                             <span class="flex flex-col">
                                                 <p class="block text-sm font-medium text-gray-900">
-                                                    <span v-if="viewFilter.title === 'Standard view'">
-                                                        {{ $t('citizens.citizenJournals.filter.standardView') }}
+                                                    <span v-if="viewFilter.title === 'Plans and goals'">
+                                                        {{ $t('plansandgoals.filter.showAllPlansAndGoals') }}
                                                     </span>
-                                                    <span v-if="viewFilter.title === 'Journal note view'">
-                                                        {{ $t('citizens.citizenJournals.filter.journalNoteView') }}
+                                                    <span v-if="viewFilter.title === 'Plans with goals'">
+                                                        {{ $t('plansandgoals.filter.showOnlyPlansWithGoals')
+                                                        }}
                                                     </span>
-                                                    <span v-if="viewFilter.title === 'Risk assessment view'">
-                                                        {{ customPagesStore.getCustomPagesName?.riskAssessment + ' ' +
-                                                            $t('view') }}
+                                                    <span v-if="viewFilter.title === 'Single goals'">
+                                                        {{ $t('plansandgoals.filter.showOnlySingleGoals') }}
                                                     </span>
                                                 </p>
                                             </span>
@@ -57,11 +57,9 @@
 
 <script setup lang="ts">
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
-import { useCitizenJournalStore } from '@/store/citizen-journal'
-import { useCustomPagesStore } from '@/store/custom-pages'
+import { useCitizenPlansAndGoalsStore } from '@/store/citizen-plans-and-goals'
 
-const customPagesStore = useCustomPagesStore() as any
-const citizenJournalStore = useCitizenJournalStore()
+const citizenPlansAndGoalsStore = useCitizenPlansAndGoalsStore()
 
 const props = defineProps({
     isModalOpen: {
@@ -72,19 +70,19 @@ const props = defineProps({
 const emit = defineEmits(['close', 'setFilterView'])
 
 const state = reactive({
-    selectedViewFilter: citizenJournalStore.getFilterView as any,
+    selectedViewFilter: citizenPlansAndGoalsStore.getFilterView as any,
     options: {
         viewFilterLists: [
-            { id: 1, title: 'Standard view' },
-            { id: 2, title: 'Journal note view' },
-            { id: 3, title: 'Risk assessment view' },
+            { id: 1, title: 'Plans and goals' },
+            { id: 2, title: 'Plans with goals' },
+            { id: 3, title: 'Single goals' },
         ]
     }
 })
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
-        state.selectedViewFilter = state.options.viewFilterLists.find((item: any) => item.title === citizenJournalStore.getFilterView)
+        state.selectedViewFilter = state.options.viewFilterLists.find((item: any) => item.title === citizenPlansAndGoalsStore.getFilterView)
     }
 })
 

@@ -16,6 +16,8 @@
         props.type === 'low-risk' && 'bg-yellow-500 text-white text-xs',
         props.type === 'moderate-risk' && 'bg-orange-500 text-white text-xs',
         props.type === 'high-risk' && 'bg-red-500 text-white text-xs',
+        props.type === 'plans-and-goals' && 'bg-yellow-600 text-white text-xs',
+        props.type === 'single-goal' && 'bg-blue-600 text-white text-xs',
     ]">
         <slot />
     </div>
