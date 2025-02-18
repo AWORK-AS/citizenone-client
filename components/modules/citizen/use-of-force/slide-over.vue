@@ -114,10 +114,14 @@
                                                                         }}
                                                                     </button>
                                                                 </div>
-                                                                <div>
-                                                                    <FormButton @click="viewStatuses(useOfForce)">
+                                                                <div class="flex items-center">
+                                                                    <button
+                                                                        class="flex items-center gap-x-1 text-xs text-primary hover:text-primary-700"
+                                                                        @click="viewStatuses(useOfForce)">
+                                                                        <Icon name="ph:file" class="h-4 w-4"
+                                                                            aria-hidden="true" />
                                                                         {{ $t('citizens.useOfForce.table.statuses') }}
-                                                                    </FormButton>
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </div>
