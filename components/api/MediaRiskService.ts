@@ -1,8 +1,8 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class MediaRiskService extends BaseAPIService {
-    async getMediaRisks(params: object): Promise<any> {
-        return await this.request(`/user/media-risks`, 'GET', params)
+    async getMediaRisks(): Promise<any> {
+        return await this.request(`/user/media-risks`, 'GET')
     }
 
     async getMediaRisk(mediaRiskUuid: any): Promise<any> {
@@ -15,6 +15,10 @@ class MediaRiskService extends BaseAPIService {
 
     async updateMediaRisk(mediaRiskUuid: any, params: object): Promise<any> {
         return await this.request(`/user/media-risks/${mediaRiskUuid}`, 'PUT', params)
+    }
+
+    async getAllMediaRisks(): Promise<any> {
+        return await this.request(`/user/media-risks/all/list`, 'GET')
     }
 
 }
