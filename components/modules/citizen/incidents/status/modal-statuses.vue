@@ -1,13 +1,13 @@
 <template>
     <div>
-        <Modal size="4xl" :title="$t('citizens.useOfForce.statuses.statuses')" :show="props.isModalOpen"
+        <Modal size="4xl" :title="$t('citizens.incidents.statuses.statuses')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
                         <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddStatusOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.useOfForce.statuses.newStatus') }}
+                            {{ $t('citizens.incidents.statuses.newStatus') }}
                         </FormButton>
                     </div>
                     <div class="space-y-5">
@@ -29,27 +29,27 @@
                                             <Badge type="primary" class="w-fit" v-if="status.score">
                                                 <p class="text-xxs" v-if="status.score == 1">
                                                     {{
-                                                        $t('citizens.useOfForce.statuses.currentLevels.minorChallenges')
+                                                        $t('citizens.incidents.statuses.currentLevels.minorChallenges')
                                                     }}
                                                 </p>
                                                 <p class="text-xxs" v-if="status.score == 2">
                                                     {{
-                                                        $t('citizens.useOfForce.statuses.currentLevels.moderateChallenges')
+                                                        $t('citizens.incidents.statuses.currentLevels.moderateChallenges')
                                                     }}
                                                 </p>
                                                 <p class="text-xxs" v-if="status.score == 3">
                                                     {{
-                                                        $t('citizens.useOfForce.statuses.currentLevels.significantChallenges')
+                                                        $t('citizens.incidents.statuses.currentLevels.significantChallenges')
                                                     }}
                                                 </p>
                                                 <p class="text-xxs" v-if="status.score == 4">
                                                     {{
-                                                        $t('citizens.useOfForce.statuses.currentLevels.severeChallenges')
+                                                        $t('citizens.incidents.statuses.currentLevels.severeChallenges')
                                                     }}
                                                 </p>
                                                 <p class="text-xxs" v-if="status.score == 5">
                                                     {{
-                                                        $t('citizens.useOfForce.statuses.currentLevels.verySubstantialChallenges')
+                                                        $t('citizens.incidents.statuses.currentLevels.verySubstantialChallenges')
                                                     }}
                                                 </p>
                                             </Badge>
@@ -67,12 +67,12 @@
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="editStatus(status)" v-if="status?.is_editable">
                                                     <Icon name="ph:pencil" class="size-4" />
-                                                    {{ $t('citizens.useOfForce.statuses.table.actions.edit') }}
+                                                    {{ $t('citizens.incidents.statuses.table.actions.edit') }}
                                                 </FormButton>
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="confirmStatusDeletion(status)" v-if="status?.is_deletable">
                                                     <Icon name="heroicons:trash" class="size-4" />
-                                                    {{ $t('citizens.useOfForce.statuses.table.actions.delete') }}
+                                                    {{ $t('citizens.incidents.statuses.table.actions.delete') }}
                                                 </FormButton>
                                             </div>
                                         </td>
@@ -90,7 +90,7 @@
                     :selectedStatus="state.selectedStatus" @close="state.modal.isEditStatusOpen = false"
                     @refreshStatuses="fetchStatuses" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
-                    :message="`${$t('citizens.useOfForce.statuses.confirmation.deleteStatusConfirmation')}?`"
+                    :message="`${$t('citizens.incidents.statuses.confirmation.deleteStatusConfirmation')}?`"
                     @close="state.modal.isDeleteStatusOpen = false" @confirm="deleteStatus" />
             </template>
         </Modal>
@@ -128,10 +128,10 @@ const state = reactive({
         { column: 'status' },
     ],
     columnHeaders: [
-        { name: 'citizens.useOfForce.statuses.table.title', sorter: true, key: 'title' },
-        { name: 'citizens.useOfForce.statuses.table.status', sorter: true, key: 'status' },
-        { name: 'citizens.useOfForce.statuses.table.dateCreated' },
-        { name: 'citizens.useOfForce.statuses.table.createdBy' },
+        { name: 'citizens.incidents.statuses.table.title', sorter: true, key: 'title' },
+        { name: 'citizens.incidents.statuses.table.status', sorter: true, key: 'status' },
+        { name: 'citizens.incidents.statuses.table.dateCreated' },
+        { name: 'citizens.incidents.statuses.table.createdBy' },
         { name: '' },
     ],
     dataFilter: {

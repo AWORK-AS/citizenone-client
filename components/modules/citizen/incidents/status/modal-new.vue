@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('citizens.useOfForce.statuses.newStatus')" :show="props.isModalOpen"
+        <Modal size="sm" :title="$t('citizens.incidents.statuses.newStatus')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -67,7 +67,7 @@ async function saveStatus(statusDetails: any) {
         if (response?.data) {
             refreshStatuses()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.statuses.alert.statusSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.incidents.statuses.alert.statusSuccessfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error

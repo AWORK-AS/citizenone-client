@@ -104,16 +104,16 @@
                                                                 </p>
                                                             </div>
                                                             <div>
-                                                                <FormButton class="rounded-md h-fit" buttonSize="xs"
+                                                                <FormButton class="rounded-md h-fit"
                                                                     @click="editIncident(incident)"
                                                                     v-if="incident?.is_editable">
                                                                     <Icon name="ph:pencil-duotone" class="w-4 h-4" />
                                                                 </FormButton>
                                                             </div>
                                                             <div>
-                                                                <FormButton class="rounded-md h-fit" buttonSize="xs"
+                                                                <FormButton class="rounded-md h-fit"
                                                                     @click="viewStatuses(incident)">
-                                                                    {{ $t('citizens.useOfForce.table.statuses') }}
+                                                                    {{ $t('citizens.incidents.table.statuses') }}
                                                                 </FormButton>
                                                             </div>
                                                         </div>

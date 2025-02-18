@@ -690,6 +690,47 @@
             "incidentRegistration": "Incident registration",
             "reportIncident": "Report incident",
             "seePreviousIncident": "See previous incident",
+            "statuses": {
+                "alert": {
+                    "statusSuccessfullyAdded": "Status successfully added",
+                    "statusSuccessfullyUpdated": "Status successfully updated"
+                },
+                "confirmation": {
+                    "deleteStatusConfirmation": "Are you sure you want to delete this status"
+                },
+                "currentLevels": {
+                    "currentLevel": "Current level",
+                    "minorChallenges": "Minor challenges",
+                    "moderateChallenges": "Moderate challenges",
+                    "significantChallenges": "Significant challenges",
+                    "severeChallenges": "Severe challenges",
+                    "verySubstantialChallenges": "Very substantial challenges"
+                },
+                "editStatus": "Edit status",
+                "form": {
+                    "currentLevel": "Current level",
+                    "status": "Status",
+                    "title": "Title"
+                },
+                "newStatus": "New status",
+                "statuses": "Statuses",
+                "table": {
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit"
+                    },
+                    "alert": {
+                        "statusSuccessfullyDeleted": "Status successfully deleted"
+                    },
+                    "createdBy": "Created by",
+                    "confirmation": {
+                        "deleteStatusConfirmation": "Are you sure you want to delete this status"
+                    },
+                    "dateCreated": "Date created",
+                    "title": "Title",
+                    "status": "Status"
+                }
+            },
             "table": {
                 "date": "Date",
                 "description": "Description",
@@ -701,6 +742,7 @@
                     "lowRisk": "Low risk",
                     "moderateRisk": "Moderate risk"
                 },
+                "statuses": "Statuses",
                 "title": "Title"
             }
         },

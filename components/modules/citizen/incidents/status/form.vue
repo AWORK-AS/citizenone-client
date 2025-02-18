@@ -4,21 +4,21 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="title" :label="$t('citizens.useOfForce.statuses.form.title')" />
-                <FormTextField id="title" name="title" :placeholder="$t('citizens.useOfForce.statuses.form.title')"
+                <FormLabel for="title" :label="$t('citizens.incidents.statuses.form.title')" />
+                <FormTextField id="title" name="title" :placeholder="$t('citizens.incidents.statuses.form.title')"
                     v-model="state.formStatus.title" />
                 <FormError :error="v$?.formStatus?.title?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.title?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="score" :label="$t('citizens.useOfForce.statuses.form.currentLevel')" />
+                <FormLabel for="score" :label="$t('citizens.incidents.statuses.form.currentLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formStatus.score" />
                 <FormError :error="v$?.formStatus?.score?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.score?.[0]" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
-                    {{ $t('citizens.useOfForce.statuses.form.status') }}
+                    {{ $t('citizens.incidents.statuses.form.status') }}
                 </p>
                 <ckeditor :editor="editor" v-model="state.formStatus.status" :config="editorStatusConfig"></ckeditor>
                 <FormError :error="v$?.formStatus?.status?.$errors[0]?.$message.toString()" />
@@ -84,11 +84,11 @@ const state = reactive({
     },
     options: {
         scores: [
-            { value: 1, label: `1. ${t('citizens.useOfForce.statuses.currentLevels.minorChallenges')}` },
-            { value: 2, label: `2. ${t('citizens.useOfForce.statuses.currentLevels.moderateChallenges')}` },
-            { value: 3, label: `3. ${t('citizens.useOfForce.statuses.currentLevels.significantChallenges')}` },
-            { value: 4, label: `4. ${t('citizens.useOfForce.statuses.currentLevels.severeChallenges')}` },
-            { value: 5, label: `5. ${t('citizens.useOfForce.statuses.currentLevels.verySubstantialChallenges')}` },
+            { value: 1, label: `1. ${t('citizens.incidents.statuses.currentLevels.minorChallenges')}` },
+            { value: 2, label: `2. ${t('citizens.incidents.statuses.currentLevels.moderateChallenges')}` },
+            { value: 3, label: `3. ${t('citizens.incidents.statuses.currentLevels.significantChallenges')}` },
+            { value: 4, label: `4. ${t('citizens.incidents.statuses.currentLevels.severeChallenges')}` },
+            { value: 5, label: `5. ${t('citizens.incidents.statuses.currentLevels.verySubstantialChallenges')}` },
         ]
     },
 })
