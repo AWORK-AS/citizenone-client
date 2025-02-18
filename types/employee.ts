@@ -15,6 +15,7 @@ export interface EmployeeForm {
     employment: any,
     emergencyInfo: any,
     permissions: Permission[]
+    media_risks: any
     pages: any
 }
 

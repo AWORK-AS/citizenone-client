@@ -150,7 +150,7 @@
                             {{ $t('employees.form.mediaRisks.useOfForce') }}
                         </div>
                     </div>
-                    <FormError :error="props?.error?.errors?.permission?.[0]" />
+                    <FormError :error="props?.error?.errors?.media_risk?.[0]" />
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="permissions" :label="$t('employees.form.permissions.permissions')" />
@@ -994,7 +994,6 @@ function includeUseOfForce() {
 }
 
 function removeMedia(mediaToRemove: string) {
-
     state.formEmployee.media_risks = state.formEmployee.media_risks.filter((media: string) => media !== mediaToRemove);
 }
 
