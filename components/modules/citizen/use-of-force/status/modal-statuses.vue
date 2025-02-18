@@ -1,12 +1,13 @@
 <template>
     <div>
-        <Modal size="4xl" :title="$t('Statuses')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="4xl" :title="$t('citizens.useOfForce.statuses.statuses')" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
                         <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddStatusOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('New Status') }}
+                            {{ $t('citizens.useOfForce.statuses.newStatus') }}
                         </FormButton>
                     </div>
                     <div class="space-y-5">

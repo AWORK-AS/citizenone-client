@@ -1,6 +1,7 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('New Status')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="sm" :title="$t('citizens.useOfForce.statuses.newStatus')" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesCitizenUseOfForceStatusForm formType="create" :selectedStatus="state.formStatus"
@@ -73,9 +74,4 @@ async function saveStatus(statusDetails: any) {
     }
     state.isPageLoading = false
 }
-
-onMounted(() => {
-    console.log("on mounted data:")
-    console.log(props.selectedData)
-})
 </script>

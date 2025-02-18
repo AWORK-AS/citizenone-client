@@ -1,6 +1,7 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('Edit Status')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="sm" :title="$t('citizens.useOfForce.statuses.editStatus')" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesCitizenPlanStatusForm formType="update" :selectedStatus="props.selectedStatus"

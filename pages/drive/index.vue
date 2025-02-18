@@ -269,7 +269,6 @@ function handleSearch(value: any) {
 }
 
 async function downloadFile(document: any) {
-    console.log('document', document)
     state.error = {}
     state.isTableLoading = true
     try {
