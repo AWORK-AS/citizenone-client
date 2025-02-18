@@ -137,15 +137,16 @@
                     <FormLabel for="media-risk" :label="$t('employees.form.mediaRisks.mediaRisks')" />
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
                         <div class="w-fit flex items-center cursor-pointer" @click="includeIncidentReport()">
-                            <FormCheckbox id="permissions" :value="state.media_risk.incidentReport" />
+                            <FormCheckbox id="media-risk" :value="state.media_risk.incidentReport" />
                             {{ $t('employees.form.mediaRisks.incidentReport') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer" @click="includeMedicineDeviation()">
-                            <FormCheckbox id="permissions_update" :value="state.media_risk.medicineDeviation" />
+                            <FormCheckbox id="media_risk_medicine_deviation"
+                                :value="state.media_risk.medicineDeviation" />
                             {{ $t('employees.form.mediaRisks.medicineDeviation') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer" @click="includeUseOfForce()">
-                            <FormCheckbox id="permissions_delete" :value="state.media_risk.useOfForce" />
+                            <FormCheckbox id="media_risk_use_of_force" :value="state.media_risk.useOfForce" />
                             {{ $t('employees.form.mediaRisks.useOfForce') }}
                         </div>
                     </div>
@@ -420,6 +421,7 @@ import { pageService } from '@/components/api/PageService'
 import { regionService } from '@/components/api/RegionService'
 import { municipalityService } from '@/components/api/MunicipalityService'
 import { cityService } from '@/components/api/CityService'
+import { mediaRiskService } from '@/components/api/MediaRiskService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -601,13 +603,13 @@ watch(() => props.selectedEmployee, (newValue: any) => {
         newValue?.media_risks.forEach((media: any) => {
             if (media?.type === 'Incident report') {
                 state.media_risk.incidentReport = true
-                state.formEmployee.media_risks.push("ad500e01-8476-4f40-b02b-ba8c9f70680e")
+                state.formEmployee.media_risks.push(media?.uuid)
             } else if (media?.type === 'Medicine deviation') {
                 state.media_risk.medicineDeviation = true
-                state.formEmployee.media_risks.push("c421637f-2a9f-42f5-86c5-01a955869958")
+                state.formEmployee.media_risks.push(media?.uuid)
             } else if (media?.type === 'Use of force') {
                 state.media_risk.useOfForce = true
-                state.formEmployee.media_risks.push("8219c219-d9b7-435e-b1b8-bed1ce6d80b2")
+                state.formEmployee.media_risks.push(media?.uuid)
             }
         })
     }
@@ -670,6 +672,7 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
+    fetchMediaRiskUuid()
     fetchDepartments()
     fetchJobTitles()
     fetchPages()
@@ -889,6 +892,25 @@ async function fetchCities(municipalityUuid: any) {
     emit('isPageLoading', false)
 }
 
+async function fetchMediaRiskUuid() {
+    state.error = {};
+    emit('isPageLoading', true);
+
+    try {
+        const response = await mediaRiskService.getMediaRisks();
+        if (response.data) {
+            state.media_risk_uuids = response.data.reduce((acc: any, item: any) => {
+                acc[item.type] = item.uuid;
+                return acc;
+            }, {});
+        }
+    } catch (error: any) {
+        state.error = error;
+    }
+
+    emit('isPageLoading', false);
+}
+
 function changeSelectedRegion(regionUuid: string) {
     fetchMunicipalitiesPerRegion(regionUuid)
 }
@@ -947,31 +969,32 @@ function removePermission(permissionToRemove: string) {
 function includeIncidentReport() {
     state.media_risk.incidentReport = !state.media_risk.incidentReport;
     if (state.media_risk.incidentReport) {
-        state.formEmployee.media_risks.push("ad500e01-8476-4f40-b02b-ba8c9f70680e");
+        state.formEmployee.media_risks.push(state.media_risk_uuids["Incident report"]);
     } else {
-        removeMedia("ad500e01-8476-4f40-b02b-ba8c9f70680e");
+        removeMedia(state.media_risk_uuids["Incident report"]);
     }
 }
 
 function includeMedicineDeviation() {
     state.media_risk.medicineDeviation = !state.media_risk.medicineDeviation;
     if (state.media_risk.medicineDeviation) {
-        state.formEmployee.media_risks.push("c421637f-2a9f-42f5-86c5-01a955869958");
+        state.formEmployee.media_risks.push(state.media_risk_uuids["Medicine deviation"]);
     } else {
-        removeMedia("c421637f-2a9f-42f5-86c5-01a955869958");
+        removeMedia(state.media_risk_uuids["Medicine deviation"]);
     }
 }
 
 function includeUseOfForce() {
     state.media_risk.useOfForce = !state.media_risk.useOfForce;
     if (state.media_risk.useOfForce) {
-        state.formEmployee.media_risks.push("8219c219-d9b7-435e-b1b8-bed1ce6d80b2");
+        state.formEmployee.media_risks.push(state.media_risk_uuids["Use of force"]);
     } else {
-        removeMedia("8219c219-d9b7-435e-b1b8-bed1ce6d80b2");
+        removeMedia(state.media_risk_uuids["Use of force"]);
     }
 }
 
 function removeMedia(mediaToRemove: string) {
+
     state.formEmployee.media_risks = state.formEmployee.media_risks.filter((media: string) => media !== mediaToRemove);
 }
 
