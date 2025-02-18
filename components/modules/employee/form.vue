@@ -134,20 +134,24 @@
                     </div>
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="media-risk" :label="$t('employees.form.mediaRisks.mediaRisks')" />
+                    <p class="text-sm text-gray-600">
+                        {{ $t('employees.form.mediaRisks.mediaRisks') }}
+                    </p>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-                        <div class="w-fit flex items-center cursor-pointer" @click="includeIncidentReport()">
-                            <FormCheckbox id="media-risk" :value="state.media_risk.incidentReport" />
-                            {{ $t('employees.form.mediaRisks.incidentReport') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer" @click="includeMedicineDeviation()">
-                            <FormCheckbox id="media_risk_medicine_deviation"
-                                :value="state.media_risk.medicineDeviation" />
-                            {{ $t('employees.form.mediaRisks.medicineDeviation') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer" @click="includeUseOfForce()">
-                            <FormCheckbox id="media_risk_use_of_force" :value="state.media_risk.useOfForce" />
-                            {{ $t('employees.form.mediaRisks.useOfForce') }}
+                        <div class="w-fit flex items-center cursor-pointer"
+                            v-for="(mediaRisk, index) in state.options.media_risks" :key="index"
+                            @click="toggleMediaRiskCheckbox(mediaRisk?.uuid)">
+                            <FormCheckbox :id="mediaRisk?.uuid"
+                                :value="checkIfMediaRiskUuidIsChecked(mediaRisk?.uuid)" />
+                            <span v-if="mediaRisk?.type === 'Incident report'">
+                                {{ $t('employees.form.mediaRisks.useOfForce') }}
+                            </span>
+                            <span v-if="mediaRisk?.type === 'Medicine deviation'">
+                                {{ $t('employees.form.mediaRisks.medicineDeviation') }}
+                            </span>
+                            <span v-if="mediaRisk?.type === 'Use of force'">
+                                {{ $t('employees.form.mediaRisks.incidentReport') }}
+                            </span>
                         </div>
                     </div>
                     <FormError :error="props?.error?.errors?.media_risk?.[0]" />
@@ -493,16 +497,6 @@ const state = reactive({
         update: false,
         delete: false,
     },
-    media_risk: {
-        incidentReport: false,
-        medicineDeviation: false,
-        useOfForce: false,
-    },
-    media_risk_uuids: {
-        "Incident report": null,
-        "Medicine deviation": null,
-        "Use of force": null,
-    },
     options: {
         cities: [],
         departments: [],
@@ -513,6 +507,7 @@ const state = reactive({
         ],
         jobSpecialties: [],
         jobTitles: [],
+        media_risks: [] as any,
         municipalities: [],
         pages: [],
         regions: [],
@@ -568,7 +563,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             city_uuid: newValue.city_uuid,
             post_code: newValue.post_code,
             permissions: [],
-            media_risks: [],
+            media_risks: newValue.media_risks,
             pages: newValue.pages,
             emergencyInfo: {
                 emergency_contacts: newValue.emergencyInfo.emergency_contacts,
@@ -597,19 +592,6 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             } else if (permission?.name === 'delete') {
                 state.permissions.delete = true
                 state.formEmployee.permissions.push("delete")
-            }
-        })
-
-        newValue?.media_risks.forEach((media: any) => {
-            if (media?.type === 'Incident report') {
-                state.media_risk.incidentReport = true
-                state.formEmployee.media_risks.push(media?.uuid)
-            } else if (media?.type === 'Medicine deviation') {
-                state.media_risk.medicineDeviation = true
-                state.formEmployee.media_risks.push(media?.uuid)
-            } else if (media?.type === 'Use of force') {
-                state.media_risk.useOfForce = true
-                state.formEmployee.media_risks.push(media?.uuid)
             }
         })
     }
@@ -672,7 +654,7 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
-    fetchMediaRiskUuid()
+    fetchMediaRisks()
     fetchDepartments()
     fetchJobTitles()
     fetchPages()
@@ -892,23 +874,30 @@ async function fetchCities(municipalityUuid: any) {
     emit('isPageLoading', false)
 }
 
-async function fetchMediaRiskUuid() {
-    state.error = {};
-    emit('isPageLoading', true);
-
+async function fetchMediaRisks() {
+    state.error = {}
+    emit('isPageLoading', true)
     try {
-        const response = await mediaRiskService.getMediaRisks();
-        if (response.data) {
-            state.media_risk_uuids = response.data.reduce((acc: any, item: any) => {
-                acc[item.type] = item.uuid;
-                return acc;
-            }, {});
+        const response = await mediaRiskService.getMediaRisks()
+        if (response) {
+            state.options.media_risks = response.data
         }
     } catch (error: any) {
-        state.error = error;
+        state.error = error
     }
+    emit('isPageLoading', false)
+}
 
-    emit('isPageLoading', false);
+function checkIfMediaRiskUuidIsChecked(mediaRiskUuid: string) {
+    return state.formEmployee.media_risks.includes(mediaRiskUuid)
+}
+
+function toggleMediaRiskCheckbox(mediaRisk: string) {
+    if (state.formEmployee.media_risks.includes(mediaRisk)) {
+        state.formEmployee.media_risks = state.formEmployee.media_risks.filter((media: string) => media !== mediaRisk);
+    } else {
+        state.formEmployee.media_risks.push(mediaRisk)
+    }
 }
 
 function changeSelectedRegion(regionUuid: string) {
@@ -966,36 +955,7 @@ function removePermission(permissionToRemove: string) {
     state.formEmployee.permissions = state.formEmployee.permissions.filter((permission: any) => permission !== permissionToRemove);
 }
 
-function includeIncidentReport() {
-    state.media_risk.incidentReport = !state.media_risk.incidentReport;
-    if (state.media_risk.incidentReport) {
-        state.formEmployee.media_risks.push(state.media_risk_uuids["Incident report"]);
-    } else {
-        removeMedia(state.media_risk_uuids["Incident report"]);
-    }
-}
-
-function includeMedicineDeviation() {
-    state.media_risk.medicineDeviation = !state.media_risk.medicineDeviation;
-    if (state.media_risk.medicineDeviation) {
-        state.formEmployee.media_risks.push(state.media_risk_uuids["Medicine deviation"]);
-    } else {
-        removeMedia(state.media_risk_uuids["Medicine deviation"]);
-    }
-}
-
-function includeUseOfForce() {
-    state.media_risk.useOfForce = !state.media_risk.useOfForce;
-    if (state.media_risk.useOfForce) {
-        state.formEmployee.media_risks.push(state.media_risk_uuids["Use of force"]);
-    } else {
-        removeMedia(state.media_risk_uuids["Use of force"]);
-    }
-}
-
 function removeMedia(mediaToRemove: string) {
     state.formEmployee.media_risks = state.formEmployee.media_risks.filter((media: string) => media !== mediaToRemove);
 }
-
-
 </script>

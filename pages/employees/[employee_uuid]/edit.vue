@@ -124,7 +124,7 @@ async function fetchEmployee() {
                 city_uuid: response?.data?.employee_address?.city?.uuid.toString() ?? '',
                 post_code: response?.data?.employee_address?.post_code ?? '',
                 permissions: response?.data?.permissions ?? [],
-                media_risks: response?.data?.media_risks ?? [],
+                media_risks: [],
                 pages: [],
                 employment: {
                     employment_date: response?.data?.employee_detail?.date_of_employment,
@@ -138,6 +138,9 @@ async function fetchEmployee() {
                     trustees: [],
                 },
             }
+            response?.data?.media_risks.forEach((media_risk: any) => {
+                state.formEmployee.media_risks.push(media_risk?.uuid)
+            })
             response?.data?.employee_specialties.forEach((job_specialty: any) => {
                 state.formEmployee.employment.job_specialties.push(job_specialty?.uuid)
             })
