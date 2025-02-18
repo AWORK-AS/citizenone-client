@@ -104,10 +104,16 @@
                                                                 </p>
                                                             </div>
                                                             <div>
-                                                                <FormButton class="rounded-md h-fit" buttonSize="xs"
+                                                                <FormButton class="rounded-md h-fit"
                                                                     @click="editIncident(incident)"
                                                                     v-if="incident?.is_editable">
                                                                     <Icon name="ph:pencil-duotone" class="w-4 h-4" />
+                                                                </FormButton>
+                                                            </div>
+                                                            <div>
+                                                                <FormButton class="rounded-md h-fit"
+                                                                    @click="viewStatuses(incident)">
+                                                                    {{ $t('citizens.incidents.table.statuses') }}
                                                                 </FormButton>
                                                             </div>
                                                         </div>
@@ -126,6 +132,10 @@
                                             :isModalOpen="state.modal.isEditIncidentOpen"
                                             @close="state.modal.isEditIncidentOpen = false"
                                             @refreshIncidents="fetchIncidents" />
+                                        <ModulesCitizenIncidentsStatusModalStatuses
+                                            :isModalOpen="state.modal.isStatusesOpen"
+                                            :selectedData="state.selectedIncident" @close="closeStatusesModal"
+                                            @refreshData="fetchIncidents" />
                                     </LoadingSpinner>
                                 </div>
                             </DialogPanel>
@@ -166,13 +176,16 @@ const state = reactive({
         title: '',
         date: '',
         description: '',
+        risk_level: '',
         is_draft: false,
     },
     incidents: [] as any,
     isPageLoading: false,
     modal: {
-        isEditIncidentOpen: false
+        isEditIncidentOpen: false,
+        isStatusesOpen: false
     },
+    selectedIncident: {} as any,
     sortData: {
         sortField: 'date',
         sortOrder: 'descend',
@@ -215,12 +228,22 @@ function next() {
     fetchIncidents()
 }
 
+function viewStatuses(incidents: any) {
+    state.selectedIncident = incidents
+    state.modal.isStatusesOpen = true
+}
+
+function closeStatusesModal() {
+    state.modal.isStatusesOpen = false
+}
+
 function editIncident(incident: any) {
     state.formIncident = {
         uuid: incident.uuid,
         title: incident.title,
         date: incident.date,
         description: incident.description,
+        risk_level: incident.risk_level,
         is_draft: incident.is_draft,
     }
     state.modal.isEditIncidentOpen = true

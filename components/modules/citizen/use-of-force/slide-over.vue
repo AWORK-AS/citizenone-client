@@ -78,39 +78,47 @@
                                                                     {{ useOfForce?.user?.lastname }}
                                                                 </p>
                                                             </div>
-                                                            <div v-if="useOfForce?.is_form_missing"
-                                                                @click="attachUseOfForceAttachment(useOfForce)">
-                                                                <button class="flex items-center text-xs gap-x-2">
-                                                                    <Icon name="ph:warning"
-                                                                        class="h-5 w-5 text-yellow-500"
-                                                                        aria-hidden="true" />
-                                                                    {{
-                                                                        $t('citizens.useOfForce.table.missingAttachment')
-                                                                    }}. <br />
-                                                                    {{
-                                                                        $t('citizens.useOfForce.table.clickToUpload')
-                                                                    }}.
-                                                                </button>
-                                                                <FormError :error="state?.error?.errors?.file?.[0]"
-                                                                    class="text-center" />
-                                                            </div>
-                                                            <div class="flex items-center gap-x-3" v-else>
-                                                                <button
-                                                                    class="flex items-center gap-x-1 text-xs text-primary hover:text-primary-700"
-                                                                    @click="downloadAttachment(useOfForce)">
-                                                                    <Icon name="ph:download" class="h-4 w-4"
-                                                                        aria-hidden="true" />
-                                                                    {{ $t('citizens.useOfForce.table.download') }}
-                                                                </button>
-                                                                <button
-                                                                    class="flex items-center gap-x-1 text-xs text-red-500 hover:text-red-700"
-                                                                    @click="confirmAttachmentDeletion(useOfForce)">
-                                                                    <Icon name="ph:trash" class="h-4 w-4"
-                                                                        aria-hidden="true" />
-                                                                    {{
-                                                                        $t('citizens.useOfForce.table.deleteAttachment')
-                                                                    }}
-                                                                </button>
+                                                            <div class="flex gap-x-3">
+                                                                <div class="flex items-center"
+                                                                    v-if="useOfForce?.is_form_missing"
+                                                                    @click="attachUseOfForceAttachment(useOfForce)">
+                                                                    <button class="flex items-center text-xs gap-x-2">
+                                                                        <Icon name="ph:warning"
+                                                                            class="h-5 w-5 text-yellow-500"
+                                                                            aria-hidden="true" />
+                                                                        {{
+                                                                            $t('citizens.useOfForce.table.missingAttachment')
+                                                                        }}. <br />
+                                                                        {{
+                                                                            $t('citizens.useOfForce.table.clickToUpload')
+                                                                        }}.
+                                                                    </button>
+                                                                    <FormError :error="state?.error?.errors?.file?.[0]"
+                                                                        class="text-center" />
+                                                                </div>
+                                                                <div class="flex items-center gap-x-3" v-else>
+                                                                    <button
+                                                                        class="flex items-center gap-x-1 text-xs text-primary hover:text-primary-700"
+                                                                        @click="downloadAttachment(useOfForce)">
+                                                                        <Icon name="ph:download" class="h-4 w-4"
+                                                                            aria-hidden="true" />
+                                                                        {{ $t('citizens.useOfForce.table.download') }}
+                                                                    </button>
+                                                                    <button
+                                                                        class="flex items-center gap-x-1 text-xs text-red-500 hover:text-red-700"
+                                                                        @click="confirmAttachmentDeletion(useOfForce)">
+                                                                        <Icon name="ph:trash" class="h-4 w-4"
+                                                                            aria-hidden="true" />
+                                                                        {{
+                                                                            $t('citizens.useOfForce.table.deleteAttachment')
+                                                                        }}
+                                                                    </button>
+                                                                </div>
+                                                                <div>
+                                                                    <FormButton @click="viewStatuses(useOfForce)">
+                                                                        {{ $t('citizens.useOfForce.table.statuses') }}
+                                                                    </FormButton>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -129,6 +137,9 @@
                                 <DialogConfirmation :isModalOpen="state.modal.isDeleteAttachmentOpen"
                                     :message="$t('citizens.useOfForce.table.confirmation.deleteAttachmentConfirmation') + '?'"
                                     @close="state.modal.isDeleteAttachmentOpen = false" @confirm="deleteAttachment" />
+                                <ModulesCitizenUseOfForceStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
+                                    :selectedData="state.selectedUseOfForce" @close="closeStatusesModal"
+                                    @refreshData="fetchUseOfForce" />
                             </DialogPanel>
                         </TransitionChild>
                     </div>
@@ -175,6 +186,7 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isDeleteAttachmentOpen: false,
+        isStatusesOpen: false,
     },
     selectedUseOfForce: {} as any,
     sortData: {
@@ -217,6 +229,15 @@ function previous() {
 function next() {
     currentTablePage++
     fetchUseOfForce()
+}
+
+function viewStatuses(useOfForce: any) {
+    state.selectedUseOfForce = useOfForce
+    state.modal.isStatusesOpen = true
+}
+
+function closeStatusesModal() {
+    state.modal.isStatusesOpen = false
 }
 
 function attachUseOfForceAttachment(useOfForce: any) {

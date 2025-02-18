@@ -238,6 +238,11 @@
             "messageSuccessfullySent": "Besked sendt med succes"
         },
         "apps": "Apps",
+        "categories": {
+            "marketing": "Marketing",
+            "other": "Andet",
+            "visual": "Visuel"
+        },
         "confirmation": {
             "confirmationOfTerms": "Jeg bekræfter, at jeg har læst og accepterer vilkårene og betingelserne, før jeg aktiverer denne app"
         },
@@ -618,6 +623,47 @@
             "ssn": "CPR-nummer",
             "street": "Gade"
         },
+        "statuses": {
+            "alert": {
+                "statusSuccessfullyAdded": "Status tilføjet med succes",
+                "statusSuccessfullyUpdated": "Status opdateret med succes"
+            },
+            "confirmation": {
+                "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
+            },
+            "currentLevels": {
+                "currentLevel": "Nuværende niveau",
+                "minorChallenges": "Mindre udfordringer",
+                "moderateChallenges": "Moderat udfordringer",
+                "significantChallenges": "Betydelige udfordringer",
+                "severeChallenges": "Alvorlige udfordringer",
+                "verySubstantialChallenges": "Meget omfattende udfordringer"
+            },
+            "editStatus": "Rediger status",
+            "form": {
+                "currentLevel": "Nuværende niveau",
+                "status": "Status",
+                "title": "Titel"
+            },
+            "newStatus": "Ny status",
+            "statuses": "Statusser",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "alert": {
+                    "statusSuccessfullyDeleted": "Status slettet med succes"
+                },
+                "createdBy": "Oprettet af",
+                "confirmation": {
+                    "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
+                },
+                "dateCreated": "Oprettelsesdato",
+                "title": "Titel",
+                "status": "Status"
+            }
+        },
         "incidents": {
             "alert": {
                 "deletedSuccessfully": "Hændelse blev slettet med succes",
@@ -644,6 +690,47 @@
             "incidentRegistration": "Hændelsesregistrering",
             "reportIncident": "Rapporter hændelse",
             "seePreviousIncident": "Se tidligere hændelse",
+            "statuses": {
+                "alert": {
+                    "statusSuccessfullyAdded": "Status tilføjet med succes",
+                    "statusSuccessfullyUpdated": "Status opdateret med succes"
+                },
+                "confirmation": {
+                    "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
+                },
+                "currentLevels": {
+                    "currentLevel": "Nuværende niveau",
+                    "minorChallenges": "Mindre udfordringer",
+                    "moderateChallenges": "Moderat udfordringer",
+                    "significantChallenges": "Betydelige udfordringer",
+                    "severeChallenges": "Alvorlige udfordringer",
+                    "verySubstantialChallenges": "Meget omfattende udfordringer"
+                },
+                "editStatus": "Rediger status",
+                "form": {
+                    "currentLevel": "Nuværende niveau",
+                    "status": "Status",
+                    "title": "Titel"
+                },
+                "newStatus": "Ny status",
+                "statuses": "Statusser",
+                "table": {
+                    "actions": {
+                        "delete": "Slet",
+                        "edit": "Rediger"
+                    },
+                    "alert": {
+                        "statusSuccessfullyDeleted": "Status slettet med succes"
+                    },
+                    "createdBy": "Oprettet af",
+                    "confirmation": {
+                        "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
+                    },
+                    "dateCreated": "Oprettelsesdato",
+                    "title": "Titel",
+                    "status": "Status"
+                }
+            },
             "table": {
                 "date": "Dato",
                 "description": "Beskrivelse",
@@ -655,6 +742,7 @@
                     "lowRisk": "Lav risiko",
                     "moderateRisk": "Moderat risiko"
                 },
+                "statuses": "Statusser",
                 "title": "Titel"
             }
         },
@@ -1067,6 +1155,47 @@
             "missingAttachmentToOneOrMoreRecord": "Mangler vedhæftning til en eller flere poster",
             "reportUseOfForce": "Rapporter magtanvendelse",
             "seePreviousUseOfForce": "Se tidligere magtanvendelse",
+            "statuses": {
+                "alert": {
+                    "statusSuccessfullyAdded": "Status tilføjet med succes",
+                    "statusSuccessfullyUpdated": "Status opdateret med succes"
+                },
+                "confirmation": {
+                    "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
+                },
+                "currentLevels": {
+                    "currentLevel": "Nuværende niveau",
+                    "minorChallenges": "Mindre udfordringer",
+                    "moderateChallenges": "Moderat udfordringer",
+                    "significantChallenges": "Betydelige udfordringer",
+                    "severeChallenges": "Alvorlige udfordringer",
+                    "verySubstantialChallenges": "Meget omfattende udfordringer"
+                },
+                "editStatus": "Rediger status",
+                "form": {
+                    "currentLevel": "Nuværende niveau",
+                    "status": "Status",
+                    "title": "Titel"
+                },
+                "newStatus": "Ny status",
+                "statuses": "Statusser",
+                "table": {
+                    "actions": {
+                        "delete": "Slet",
+                        "edit": "Rediger"
+                    },
+                    "alert": {
+                        "statusSuccessfullyDeleted": "Status slettet med succes"
+                    },
+                    "createdBy": "Oprettet af",
+                    "confirmation": {
+                        "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
+                    },
+                    "dateCreated": "Oprettelsesdato",
+                    "title": "Titel",
+                    "status": "Status"
+                }
+            },
             "table": {
                 "alert": {
                     "attachmentDeletedSuccessfully": "Vedhæftning slettet med succes",
@@ -1089,6 +1218,7 @@
                     "lowRisk": "Lav risiko",
                     "moderateRisk": "Moderat risiko"
                 },
+                "statuses": "Statusser",
                 "title": "Titel"
             },
             "useOfForce": "Magtanvendelse"

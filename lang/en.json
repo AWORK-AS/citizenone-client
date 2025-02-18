@@ -623,6 +623,47 @@
             "ssn": "Social security number",
             "street": "Street"
         },
+        "statuses": {
+            "alert": {
+                "statusSuccessfullyAdded": "Status successfully added",
+                "statusSuccessfullyUpdated": "Status successfully updated"
+            },
+            "confirmation": {
+                "deleteStatusConfirmation": "Are you sure you want to delete this status"
+            },
+            "currentLevels": {
+                "currentLevel": "Current level",
+                "minorChallenges": "Minor challenges",
+                "moderateChallenges": "Moderate challenges",
+                "significantChallenges": "Significant challenges",
+                "severeChallenges": "Severe challenges",
+                "verySubstantialChallenges": "Very substantial challenges"
+            },
+            "editStatus": "Edit status",
+            "form": {
+                "currentLevel": "Current level",
+                "status": "Status",
+                "title": "Title"
+            },
+            "newStatus": "New status",
+            "statuses": "Statuses",
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "alert": {
+                    "statusSuccessfullyDeleted": "Status successfully deleted"
+                },
+                "createdBy": "Created by",
+                "confirmation": {
+                    "deleteStatusConfirmation": "Are you sure you want to delete this status"
+                },
+                "dateCreated": "Date created",
+                "title": "Title",
+                "status": "Status"
+            }
+        },
         "incidents": {
             "alert": {
                 "deletedSuccessfully": "Incident successfully deleted",
@@ -649,6 +690,47 @@
             "incidentRegistration": "Incident registration",
             "reportIncident": "Report incident",
             "seePreviousIncident": "See previous incident",
+            "statuses": {
+                "alert": {
+                    "statusSuccessfullyAdded": "Status successfully added",
+                    "statusSuccessfullyUpdated": "Status successfully updated"
+                },
+                "confirmation": {
+                    "deleteStatusConfirmation": "Are you sure you want to delete this status"
+                },
+                "currentLevels": {
+                    "currentLevel": "Current level",
+                    "minorChallenges": "Minor challenges",
+                    "moderateChallenges": "Moderate challenges",
+                    "significantChallenges": "Significant challenges",
+                    "severeChallenges": "Severe challenges",
+                    "verySubstantialChallenges": "Very substantial challenges"
+                },
+                "editStatus": "Edit status",
+                "form": {
+                    "currentLevel": "Current level",
+                    "status": "Status",
+                    "title": "Title"
+                },
+                "newStatus": "New status",
+                "statuses": "Statuses",
+                "table": {
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit"
+                    },
+                    "alert": {
+                        "statusSuccessfullyDeleted": "Status successfully deleted"
+                    },
+                    "createdBy": "Created by",
+                    "confirmation": {
+                        "deleteStatusConfirmation": "Are you sure you want to delete this status"
+                    },
+                    "dateCreated": "Date created",
+                    "title": "Title",
+                    "status": "Status"
+                }
+            },
             "table": {
                 "date": "Date",
                 "description": "Description",
@@ -660,6 +742,7 @@
                     "lowRisk": "Low risk",
                     "moderateRisk": "Moderate risk"
                 },
+                "statuses": "Statuses",
                 "title": "Title"
             }
         },
@@ -1072,6 +1155,47 @@
             "missingAttachmentToOneOrMoreRecord": "Missing attachment to one or more record",
             "reportUseOfForce": "Report use of force",
             "seePreviousUseOfForce": "See previous use of force",
+            "statuses": {
+                "alert": {
+                    "statusSuccessfullyAdded": "Status successfully added",
+                    "statusSuccessfullyUpdated": "Status successfully updated"
+                },
+                "confirmation": {
+                    "deleteStatusConfirmation": "Are you sure you want to delete this status"
+                },
+                "currentLevels": {
+                    "currentLevel": "Current level",
+                    "minorChallenges": "Minor challenges",
+                    "moderateChallenges": "Moderate challenges",
+                    "significantChallenges": "Significant challenges",
+                    "severeChallenges": "Severe challenges",
+                    "verySubstantialChallenges": "Very substantial challenges"
+                },
+                "editStatus": "Edit status",
+                "form": {
+                    "currentLevel": "Current level",
+                    "status": "Status",
+                    "title": "Title"
+                },
+                "newStatus": "New status",
+                "statuses": "Statuses",
+                "table": {
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit"
+                    },
+                    "alert": {
+                        "statusSuccessfullyDeleted": "Status successfully deleted"
+                    },
+                    "createdBy": "Created by",
+                    "confirmation": {
+                        "deleteStatusConfirmation": "Are you sure you want to delete this status"
+                    },
+                    "dateCreated": "Date created",
+                    "title": "Title",
+                    "status": "Status"
+                }
+            },
             "table": {
                 "alert": {
                     "attachmentDeletedSuccessfully": "Attachment deleted successfully",
@@ -1094,6 +1218,7 @@
                     "lowRisk": "Low risk",
                     "moderateRisk": "Moderate risk"
                 },
+                "statuses": "Statuses",
                 "title": "Title"
             },
             "useOfForce": "Use of force"
@@ -2737,6 +2862,11 @@
                 "appSuccessfullyDeleted": "App successfully deleted"
             },
             "apps": "Apps",
+            "categories": {
+                "marketing": "Marketing",
+                "other": "Other",
+                "visual": "Visual"
+            },
             "confirmation": {
                 "deleteAppConfirmation": "Are you sure you want to delete this app"
             },
