@@ -78,6 +78,11 @@
                                                                     {{ useOfForce?.user?.lastname }}
                                                                 </p>
                                                             </div>
+                                                            <div>
+                                                                <FormButton @click="viewStatuses(useOfForce)">
+                                                                    {{ $t('citizens.useOfForce.table.statuses') }}
+                                                                </FormButton>
+                                                            </div>
                                                             <div v-if="useOfForce?.is_form_missing"
                                                                 @click="attachUseOfForceAttachment(useOfForce)">
                                                                 <button class="flex items-center text-xs gap-x-2">
@@ -129,6 +134,9 @@
                                 <DialogConfirmation :isModalOpen="state.modal.isDeleteAttachmentOpen"
                                     :message="$t('citizens.useOfForce.table.confirmation.deleteAttachmentConfirmation') + '?'"
                                     @close="state.modal.isDeleteAttachmentOpen = false" @confirm="deleteAttachment" />
+                                <ModulesCitizenUseOfForceStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
+                                    :selectedData="state.selectedUseOfForce" @close="closeStatusesModal"
+                                    @refreshData="fetchUseOfForce" />
                             </DialogPanel>
                         </TransitionChild>
                     </div>
@@ -175,6 +183,7 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isDeleteAttachmentOpen: false,
+        isStatusesOpen: false,
     },
     selectedUseOfForce: {} as any,
     sortData: {
@@ -217,6 +226,15 @@ function previous() {
 function next() {
     currentTablePage++
     fetchUseOfForce()
+}
+
+function viewStatuses(useOfForce: any) {
+    state.selectedUseOfForce = useOfForce
+    state.modal.isStatusesOpen = true
+}
+
+function closeStatusesModal() {
+    state.modal.isStatusesOpen = false
 }
 
 function attachUseOfForceAttachment(useOfForce: any) {
