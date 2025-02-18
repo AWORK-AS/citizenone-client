@@ -134,6 +134,24 @@
                     </div>
                 </div>
                 <div class="space-y-1">
+                    <FormLabel for="media-risk" :label="$t('employees.form.mediaRisks.mediaRisks')" />
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+                        <div class="w-fit flex items-center cursor-pointer" @click="includeIncidentReport()">
+                            <FormCheckbox id="permissions" :value="state.media_risk.incidentReport" />
+                            {{ $t('employees.form.mediaRisks.incidentReport') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer" @click="includeMedicineDeviation()">
+                            <FormCheckbox id="permissions_update" :value="state.media_risk.medicineDeviation" />
+                            {{ $t('employees.form.mediaRisks.medicineDeviation') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer" @click="includeUseOfForce()">
+                            <FormCheckbox id="permissions_delete" :value="state.media_risk.useOfForce" />
+                            {{ $t('employees.form.mediaRisks.useOfForce') }}
+                        </div>
+                    </div>
+                    <FormError :error="props?.error?.errors?.permission?.[0]" />
+                </div>
+                <div class="space-y-1">
                     <FormLabel for="permissions" :label="$t('employees.form.permissions.permissions')" />
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
                         <div class="w-fit flex items-center cursor-pointer" @click="changePermissionRead()">
@@ -448,6 +466,7 @@ const state = reactive({
         city_uuid: '',
         post_code: '',
         permissions: [],
+        media_risks: [],
         pages: [],
         employment: {
             employment_date: '',
@@ -471,6 +490,16 @@ const state = reactive({
         create: false,
         update: false,
         delete: false,
+    },
+    media_risk: {
+        incidentReport: false,
+        medicineDeviation: false,
+        useOfForce: false,
+    },
+    media_risk_uuids: {
+        "Incident report": null,
+        "Medicine deviation": null,
+        "Use of force": null,
     },
     options: {
         cities: [],
@@ -537,6 +566,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             city_uuid: newValue.city_uuid,
             post_code: newValue.post_code,
             permissions: [],
+            media_risks: [],
             pages: newValue.pages,
             emergencyInfo: {
                 emergency_contacts: newValue.emergencyInfo.emergency_contacts,
@@ -565,6 +595,19 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             } else if (permission?.name === 'delete') {
                 state.permissions.delete = true
                 state.formEmployee.permissions.push("delete")
+            }
+        })
+
+        newValue?.media_risks.forEach((media: any) => {
+            if (media?.type === 'Incident report') {
+                state.media_risk.incidentReport = true
+                state.formEmployee.media_risks.push("ad500e01-8476-4f40-b02b-ba8c9f70680e")
+            } else if (media?.type === 'Medicine deviation') {
+                state.media_risk.medicineDeviation = true
+                state.formEmployee.media_risks.push("c421637f-2a9f-42f5-86c5-01a955869958")
+            } else if (media?.type === 'Use of force') {
+                state.media_risk.useOfForce = true
+                state.formEmployee.media_risks.push("8219c219-d9b7-435e-b1b8-bed1ce6d80b2")
             }
         })
     }
@@ -900,4 +943,37 @@ function changePermissionDelete() {
 function removePermission(permissionToRemove: string) {
     state.formEmployee.permissions = state.formEmployee.permissions.filter((permission: any) => permission !== permissionToRemove);
 }
+
+function includeIncidentReport() {
+    state.media_risk.incidentReport = !state.media_risk.incidentReport;
+    if (state.media_risk.incidentReport) {
+        state.formEmployee.media_risks.push("ad500e01-8476-4f40-b02b-ba8c9f70680e");
+    } else {
+        removeMedia("ad500e01-8476-4f40-b02b-ba8c9f70680e");
+    }
+}
+
+function includeMedicineDeviation() {
+    state.media_risk.medicineDeviation = !state.media_risk.medicineDeviation;
+    if (state.media_risk.medicineDeviation) {
+        state.formEmployee.media_risks.push("c421637f-2a9f-42f5-86c5-01a955869958");
+    } else {
+        removeMedia("c421637f-2a9f-42f5-86c5-01a955869958");
+    }
+}
+
+function includeUseOfForce() {
+    state.media_risk.useOfForce = !state.media_risk.useOfForce;
+    if (state.media_risk.useOfForce) {
+        state.formEmployee.media_risks.push("8219c219-d9b7-435e-b1b8-bed1ce6d80b2");
+    } else {
+        removeMedia("8219c219-d9b7-435e-b1b8-bed1ce6d80b2");
+    }
+}
+
+function removeMedia(mediaToRemove: string) {
+    state.formEmployee.media_risks = state.formEmployee.media_risks.filter((media: string) => media !== mediaToRemove);
+}
+
+
 </script>

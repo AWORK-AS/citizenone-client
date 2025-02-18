@@ -1639,6 +1639,12 @@
                 "essentialDetailsOfTheEmployee": "Essential details of the employee"
             },
             "lastname": "Last name",
+            "mediaRisks": {
+                "mediaRisks": "Media Risks",
+                "incidentReport": "Incident Report",
+                "medicineDeviation": "Medicine Deviation",
+                "useOfForce": "Use of force"
+            },
             "municipality": "Municipality",
             "pageAccess": "Page access",
             "permissions": {

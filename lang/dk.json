@@ -1634,6 +1634,12 @@
                 "essentialDetailsOfTheEmployee": "Væsentlige oplysninger om medarbejderen"
             },
             "lastname": "Efternavn",
+            "mediaRisks": {
+                "mediaRisks": "Medierisici",
+                "incidentReport": "Hændelsesrapport",
+                "medicineDeviation": "Medicinafvigelse",
+                "useOfForce": "Brug af magt"
+            },
             "municipality": "Kommune",
             "pageAccess": "Sideadgang",
             "permissions": {
