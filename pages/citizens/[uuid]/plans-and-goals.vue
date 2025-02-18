@@ -213,7 +213,7 @@
                 </LoadingSpinner>
             </div>
             <ModulesCitizenPlanModalFilter :isModalOpen="state.modal.isFilterPlansAndGoalsOpen"
-                @close="state.modal.isFilterPlansAndGoalsOpen = false" />
+                @close="state.modal.isFilterPlansAndGoalsOpen = false" @setFilterView="setFilterView" />
             <ModulesCitizenPlanModalNew :isModalOpen="state.modal.isAddPlanOpen"
                 @close="state.modal.isAddPlanOpen = false" @refreshPlans="fetchPlans" />
             <ModulesCitizenPlanModalEdit :isModalOpen="state.modal.isEditPlanOpen" :selectedPlan="state.selectedPlan"
@@ -243,6 +243,7 @@ import { planService } from '@/components/api/PlanService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { useCitizenPlansAndGoalsStore } from '@/store/citizen-plans-and-goals'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
@@ -250,6 +251,7 @@ const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const citizenPlansAndGoalsStore = useCitizenPlansAndGoalsStore()
 const userStore = useUserStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
@@ -307,6 +309,11 @@ function isAdmin(roles: any) {
     return roles && roles.some((role: any) => role.name === 'Admin')
 }
 
+function setFilterView(view: any) {
+    citizenPlansAndGoalsStore.setFilterView(view)
+    fetchPlans()
+}
+
 async function fetchPlans() {
     state.error = {}
     state.isPageLoading = true
@@ -316,6 +323,7 @@ async function fetchPlans() {
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
+            view_filter: citizenPlansAndGoalsStore.getFilterView,
             ...state.dataFilter
         }
         const response = await planService.getPlans(params)
