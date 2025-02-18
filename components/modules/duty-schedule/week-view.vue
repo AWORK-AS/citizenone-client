@@ -355,7 +355,7 @@
                                                             shift?.name === 'sick_leave' && 'bg-shifts-sickleave',
                                                             'rounded-md p-1 relative'
                                                         ]" :style="{
-                                                            width: moment(shift?.date_time_end).startOf('day').diff(moment(shift?.date_time_start).startOf('day'), 'days') >= 1 && weekIndex.toString() !== 'sunday' ? '17.5rem' : 'auto',
+                                                            width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                             marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
                                                         }">
                                                         <div class="flex">
@@ -580,13 +580,13 @@ function sortMultiDayShiftsFirst(shifts: any) {
     return sortedShifts
 }
 
-function getMultiDayShift(shifts: any) {
-    return shifts
-        .find((shift: any) => {
-            const startDay = moment(shift.date_time_start).startOf('day')
-            const endDay = moment(shift.date_time_end).startOf('day')
-            return endDay.diff(startDay, 'days') >= 1
-        })
+function calculateShiftWidth(shift: any, weekIndex: string) {
+    const startDay = moment(shift?.date_time_start).startOf('day')
+    const endDay = moment(shift?.date_time_end).startOf('day')
+    const isMultiDay = endDay.diff(startDay, 'days') >= 1
+    const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+
+    return isMultiDay && !isExcluded && weekIndex !== 'sunday' ? '17.5rem' : 'auto'
 }
 
 function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: number) {
@@ -605,6 +605,18 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
     }
 
     return overlapCount > 0 ? 3.625 + (overlapCount - 1) * 3.125 : 0
+}
+
+function getMultiDayShift(shifts: any) {
+    return shifts
+        .find((shift: any) => {
+            const startDay = moment(shift.date_time_start).startOf('day')
+            const endDay = moment(shift.date_time_end).startOf('day')
+            const isMultiDay = endDay.diff(startDay, 'days') >= 1
+            const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+
+            return isMultiDay && !isExcluded
+        })
 }
 
 async function fetchDutyScheduleAbsencePercentage() {

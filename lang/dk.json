@@ -1405,7 +1405,8 @@
                 },
                 "note": "Bemærkning",
                 "timeIn": "Tid ind",
-                "timeOut": "Tid ud"
+                "timeOut": "Tid ud",
+                "whyDoYouWantToRequestAdditionalHours": "Hvorfor vil du anmode om ekstra timer eller ændre timer"
             },
             "newRequest": "Ny anmodning",
             "requests": "Anmodninger",

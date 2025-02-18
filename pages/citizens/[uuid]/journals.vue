@@ -23,7 +23,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-8 space-y-5">
                         <div class="flex justify-between flex-col-reverse md:flex-row gap-3">
-                            <div class="space-y-3 flex-none md:space-y-0 md:flex items-center gap-2">
+                            <!-- <div class="space-y-3 flex-none md:space-y-0 md:flex items-center gap-2">
                                 <FormButton class="w-full md:w-fit"
                                     :buttonStyle="citizenJournalStore.getFilterView === 'Standard view' ? 'primary' : ''"
                                     @click="setFilterView('Standard view')">
@@ -39,7 +39,15 @@
                                     @click="setFilterView('Risk assessment view')">
                                     {{ customPagesStore.getCustomPagesName?.riskAssessment + ' ' + $t('view') }}
                                 </FormButton>
-                            </div>
+                            </div> -->
+                            <button class="flex items-center gap-x-1 text-sm text-primary group"
+                                @click="state.modal.isFilterJournalOpen = true">
+                                <Icon name="ic:outline-filter-list"
+                                    class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                                <span class="group-hover:text-primary-700">
+                                    {{ $t('filter') }}
+                                </span>
+                            </button>
                             <div class="flex items-center gap-x-2 justify-end">
                                 <FormButton buttonStyle="action" class="rounded-lg"
                                     @click="state.modal.isAddJournalOpen = true">
@@ -237,6 +245,8 @@
                     </div>
                 </LoadingSpinner>
             </div>
+            <ModulesCitizenJournalModalFilter :isModalOpen="state.modal.isFilterJournalOpen"
+                @close="state.modal.isFilterJournalOpen = false" />
             <ModulesCitizenJournalModalNew :isModalOpen="state.modal.isAddJournalOpen"
                 @close="state.modal.isAddJournalOpen = false" @refreshJournal="fetchJournals" />
             <ModulesCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
@@ -286,6 +296,7 @@ const state = reactive({
         isDeleteJournalOpen: false,
         isDownloadJournalOpen: false,
         isEditJournalOpen: false,
+        isFilterJournalOpen: false,
     },
     selectedJournal: [] as any,
     sortData: {
