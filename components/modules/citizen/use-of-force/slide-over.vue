@@ -79,7 +79,8 @@
                                                                 </p>
                                                             </div>
                                                             <div class="flex gap-x-3">
-                                                                <div v-if="useOfForce?.is_form_missing"
+                                                                <div class="flex items-center"
+                                                                    v-if="useOfForce?.is_form_missing"
                                                                     @click="attachUseOfForceAttachment(useOfForce)">
                                                                     <button class="flex items-center text-xs gap-x-2">
                                                                         <Icon name="ph:warning"
