@@ -27,11 +27,49 @@
                                 <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('plansandgoals.createStatusReport') }}
                             </FormButton>
-                            <FormButton buttonStyle="action" class="rounded-lg"
-                                @click="state.modal.isAddPlanOpen = true" v-if="hasCreatePlanAccess()">
-                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('plansandgoals.newPlan') }}
-                            </FormButton>
+                            <Menu as="div" class="relative inline-block text-left z-20">
+                                <div>
+                                    <MenuButton>
+                                        <FormButton buttonStyle="action" class="rounded-lg">
+                                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                            {{ $t('plansandgoals.new') }}
+                                        </FormButton>
+                                    </MenuButton>
+                                </div>
+
+                                <transition enter-active-class="transition duration-100 ease-out"
+                                    enter-from-class="transform scale-95 opacity-0"
+                                    enter-to-class="transform scale-100 opacity-100"
+                                    leave-active-class="transition duration-75 ease-in"
+                                    leave-from-class="transform scale-100 opacity-100"
+                                    leave-to-class="transform scale-95 opacity-0">
+                                    <MenuItems
+                                        class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                        <div class="px-1 py-1">
+                                            <MenuItem v-slot="{ active }" @click="state.modal.isAddPlanOpen = true">
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                            ]">
+                                                <Icon name="ph:plus" class="mr-2 h-4 w-4" aria-hidden="true" />
+                                                {{ $t('plansandgoals.newPlan') }}
+                                            </button>
+                                            </MenuItem>
+                                            <MenuItem v-slot="{ active }"
+                                                @click="state.modal.isAddSingleGoalOpen = true">
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                            ]">
+                                                <Icon name="ph:plus" class="mr-2 h-4 w-4" aria-hidden="true" />
+                                                {{ $t('plansandgoals.newSingleGoal') }}
+                                            </button>
+                                            </MenuItem>
+                                        </div>
+                                    </MenuItems>
+                                </transition>
+                            </Menu>
+
                             <FormButton buttonStyle="action" class="rounded-lg" @click="downloadPlansAndGoals">
                                 <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('plansandgoals.download') }}
@@ -47,6 +85,16 @@
                                 v-for="(plan, index) in state.plans?.data" :key="index">
                                 <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-10">
                                     <div class="grow space-y-1">
+                                        <Badge type="plans-and-goals" class="w-fit" v-if="plan?.is_plans_with_goals">
+                                            <p class="text-xxs truncate">
+                                                {{ $t('plansandgoals.categories.plansAndGoals') }}
+                                            </p>
+                                        </Badge>
+                                        <Badge type="single-goal" class="w-fit" v-if="plan?.is_single_goal">
+                                            <p class="text-xxs truncate">
+                                                {{ $t('plansandgoals.categories.singleGoal') }}
+                                            </p>
+                                        </Badge>
                                         <div class="flex items-center gap-x-2">
                                             <div>
                                                 <Badge :type="plan?.is_completed ? 'active' : 'primary'">
@@ -145,6 +193,11 @@
                 @close="state.modal.isAddPlanOpen = false" @refreshPlans="fetchPlans" />
             <ModulesCitizenPlanModalEdit :isModalOpen="state.modal.isEditPlanOpen" :selectedPlan="state.selectedPlan"
                 @close="closeEditPlanModal" @refreshPlans="fetchPlans" />
+            <ModulesCitizenPlanSingleGoalModalNew :isModalOpen="state.modal.isAddSingleGoalOpen"
+                @close="state.modal.isAddSingleGoalOpen = false" @refreshPlans="fetchPlans" />
+            <ModulesCitizenPlanSingleGoalModalEdit :isModalOpen="state.modal.isEditSingleGoalOpen"
+                :selectedGoal="state.selectedGoal" @close="state.modal.isEditSingleGoalOpen = false"
+                @refreshPlans="fetchPlans" />
             <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
                 :selectedData="state.selectedPlan" @close="closeStatusesModal" @refreshData="fetchPlans" />
             <DialogConfirmation :isModalOpen="state.modal.isDeletePlanOpen"
@@ -157,6 +210,7 @@
 </template>
 
 <script setup lang="ts">
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { planService } from '@/components/api/PlanService'
 import { useI18n } from "vue-i18n"
@@ -180,12 +234,15 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isAddPlanOpen: false,
+        isAddSingleGoalOpen: false,
         isDeletePlanOpen: false,
         isEditPlanOpen: false,
+        isEditSingleGoalOpen: false,
         isStatusesOpen: false,
     },
     plans: [] as any,
-    selectedPlan: [] as any,
+    selectedGoal: {} as any,
+    selectedPlan: {} as any,
     slideOver: {
         isGoalOpen: false
     },

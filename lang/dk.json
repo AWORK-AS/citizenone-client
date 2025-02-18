@@ -2168,6 +2168,10 @@
             "subgoalSuccessfullyAdded": "Delmål succesfuldt tilføjet",
             "subgoalSuccessfullyUpdated": "Delmål succesfuldt opdateret"
         },
+        "categories": {
+            "plansAndGoals": "Planer og mål",
+            "singleGoal": "Enkeltmål"
+        },
         "confirmation": {
             "deletePlanConfirmation": "Er du sikker på, at du vil slette denne plan",
             "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
@@ -2183,6 +2187,11 @@
         "editNote": "Rediger note",
         "editPlan": "Rediger plan",
         "editSubgoal": "Rediger delmål",
+        "filter": {
+            "showAllPlansAndGoals": "Vis alle planer og mål",
+            "showOnlyPlansWithGoals": "Vis kun planer med mål",
+            "showOnlySingleGoals": "Vis kun enkeltmål"
+        },
         "form": {
             "completed": "Fuldført",
             "completionDate": "Afslutningsdato",
@@ -2209,9 +2218,11 @@
             "useTemplate": "Brug skabelon"
         },
         "inProgress": "I gang",
+        "new": "Ny",
         "newGoal": "Nyt mål",
         "newNote": "Ny note",
         "newPlan": "Ny plan",
+        "newSingleGoal": "New single goal",
         "newSubgoal": "Nyt delmål",
         "noAvailableSubgoals": "Der er ingen delmål tilgængelige at vise",
         "notes": "Noter",
