@@ -152,6 +152,7 @@
                     </div>
                 </div>
                 <ckeditor :editor="editor" v-model="state.formJournal.note" :config="editorNoteConfig"></ckeditor>
+                <FormError :error="v$?.formJournal?.note?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.note?.[0]" />
             </div>
             <div class="space-y-1">
@@ -415,15 +416,45 @@ watch(() => props.selectedJournal, (newValue: any) => {
 })
 
 const rules = computed(() => {
-    return {
-        formJournal: {
-            title: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal) {
+        return {
+            formJournal: {
+                title: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                content: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            date: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        }
+    } else if (state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal) {
+        return {
+            formJournal: {
+                title: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                note: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-        },
+        }
+    } else {
+        return {
+            formJournal: {
+                title: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            },
+        }
     }
 })
 
