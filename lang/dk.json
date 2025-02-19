@@ -2295,11 +2295,13 @@
             "planSuccessfullyDeleted": "Planen er succesfuldt slettet",
             "planSuccessfullyUpdated": "Planen er succesfuldt opdateret",
             "goalSuccessfullyAdded": "Målet er succesfuldt tilføjet",
+            "goalSuccessfullyDeleted": "Mål slettet med succes",
             "goalSuccessfullyUpdated": "Målet er succesfuldt opdateret",
             "statusSuccessfullyAdded": "Status er succesfuldt tilføjet",
             "statusSuccessfullyDeleted": "Status er succesfuldt slettet",
             "statusSuccessfullyUpdated": "Status er succesfuldt opdateret",
             "subgoalSuccessfullyAdded": "Delmål succesfuldt tilføjet",
+            "subgoalSuccessfullyDelete": "Delmål slettet med succes",
             "subgoalSuccessfullyUpdated": "Delmål succesfuldt opdateret"
         },
         "categories": {
@@ -2307,6 +2309,7 @@
             "singleGoal": "Enkeltmål"
         },
         "confirmation": {
+            "deleteGoalConfirmation": "Er du sikker på, at du vil slette dette mål",
             "deletePlanConfirmation": "Er du sikker på, at du vil slette denne plan",
             "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
         },
