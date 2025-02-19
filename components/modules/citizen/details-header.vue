@@ -90,7 +90,6 @@ async function fetchCitizen() {
         const response = await citizenService.getCitizen(citizenUuid)
         if (response) {
             state.selectedCitizen = response
-            console.log(state.selectedCitizen)
         }
     } catch (error: any) {
         state.error = error
