@@ -583,10 +583,19 @@ function sortMultiDayShiftsFirst(shifts: any) {
 function calculateShiftWidth(shift: any, weekIndex: string) {
     const startDay = moment(shift?.date_time_start).startOf('day')
     const endDay = moment(shift?.date_time_end).startOf('day')
-    const isMultiDay = endDay.diff(startDay, 'days') >= 1
-    const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+    const dayDifference = endDay.diff(startDay, 'days')
 
-    return isMultiDay && !isExcluded && weekIndex !== 'sunday' ? '17.5rem' : 'auto'
+    if (weekIndex === 'sunday') {
+        return 'auto'
+    }
+
+    if (dayDifference === 1) {
+        return '17.5rem' // Width for shifts spanning 2 days
+    } else if (dayDifference === 2) {
+        return '27rem' // Width for shifts spanning 3 days
+    } else {
+        return 'auto' // Default width for single-day shifts
+    }
 }
 
 function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: number) {
