@@ -3,9 +3,9 @@
         <Modal size="sm" :title="$t('citizens.documents.form.newFolder')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenDocumentForm formType="create" :selectedDocument="state.formDirectory"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveDirectory" />
+                    <ModulesDocumentForm formType="create" :selectedDocument="state.formDirectory" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
+                        @submitForm="saveDirectory" />
                 </LoadingSpinner>
             </template>
         </Modal>

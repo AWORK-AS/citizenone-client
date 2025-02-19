@@ -149,7 +149,7 @@ async function fetchTemplates() {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        const response = await folderStructureService.getAllTemplates()
+        const response = await folderStructureService.getAllTemplatesForCitizen()
         if (response) {
             let options: any = []
             response.data.forEach(
