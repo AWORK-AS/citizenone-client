@@ -1,13 +1,12 @@
 <template>
     <div>
-        <Modal size="2xl" :title="$t('citizens.documents.folderStructure.folderStructure')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="2xl" :title="$t('folderStructure.folderStructure')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action" class="rounded-lg"
                         @click="state.modal.newFolderStructureOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('citizens.documents.folderStructure.newFolderStructure') }}
+                        {{ $t('folderStructure.newFolderStructure') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -28,7 +27,7 @@
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editFolderStructure(folder_structure)">
                                                 <Icon name="ph:pencil" class="size-4" />
-                                                {{ $t('citizens.documents.folderStructure.table.actions.edit') }}
+                                                {{ $t('folderStructure.table.actions.edit') }}
                                             </FormButton>
                                         </div>
                                     </td>

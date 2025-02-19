@@ -465,36 +465,6 @@
                 "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
                 "upgradeStorageConfirmation": "Vil du opgradere dit lager"
             },
-            "folderStructure": {
-                "alert": {
-                    "folderStructureSuccessfullyDeleted": "Mappestruktur slettet med succes",
-                    "folderStructureSuccessfullyUpdated": "Mappestruktur opdateret med succes"
-                },
-                "confirmation": {
-                    "deleteFolderStructureConfirmation": "Er du sikker på, at du vil slette denne mappestruktur"
-                },
-                "editFolderStructure": "Rediger mappestruktur",
-                "folderStructure": "Mappestruktur",
-                "form": {
-                    "addSubfolder": "Tilføj undermappe",
-                    "alert": {
-                        "newFolderStructureSuccessfullyCreated": "Mappestruktur oprettet med succes"
-                    },
-                    "folderName": "Mappenavn",
-                    "name": "Navn",
-                    "rootFolder": "Rodmappe",
-                    "subfolder": "Undermappe"
-                },
-                "newFolderStructure": "Ny mappestruktur",
-                "table": {
-                    "actions": {
-                        "delete": "Slet",
-                        "edit": "Rediger"
-                    },
-                    "name": "Navn",
-                    "structure": "Struktur"
-                }
-            },
             "form": {
                 "editFile": "Rediger fil",
                 "editFolder": "Rediger mappe",
@@ -1653,7 +1623,9 @@
             "forAdministratorsOnly": "Kun for administratorer",
             "moveFile": "Flyt fil",
             "name": "Navn",
-            "newFolder": "Ny mappe"
+            "newFolder": "Ny mappe",
+            "template": "Skabelon",
+            "useTemplate": "Brug skabelon"
         },
         "table": {
             "actions": {
@@ -1973,6 +1945,36 @@
             },
             "getInquiriesViaFindSocialeTilbudDk": "Udfyld formularen for at få henvendelser fra sagsbehandlere",
             "showInterest": "Vis interesse"
+        }
+    },
+    "folderStructure": {
+        "alert": {
+            "folderStructureSuccessfullyDeleted": "Mappestruktur slettet med succes",
+            "folderStructureSuccessfullyUpdated": "Mappestruktur opdateret med succes"
+        },
+        "confirmation": {
+            "deleteFolderStructureConfirmation": "Er du sikker på, at du vil slette denne mappestruktur"
+        },
+        "editFolderStructure": "Rediger mappestruktur",
+        "folderStructure": "Mappestruktur",
+        "form": {
+            "addSubfolder": "Tilføj undermappe",
+            "alert": {
+                "newFolderStructureSuccessfullyCreated": "Mappestruktur oprettet med succes"
+            },
+            "folderName": "Mappenavn",
+            "name": "Navn",
+            "rootFolder": "Rodmappe",
+            "subfolder": "Undermappe"
+        },
+        "newFolderStructure": "Ny mappestruktur",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "name": "Navn",
+            "structure": "Struktur"
         }
     },
     "forms": {

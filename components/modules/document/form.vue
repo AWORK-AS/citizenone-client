@@ -9,7 +9,7 @@
                 @click="state.formDirectory.is_use_template = !state.formDirectory.is_use_template"
                 v-if="props.formType === 'create'">
                 <FormCheckbox :value="state.formDirectory.is_use_template" />
-                {{ $t('plansandgoals.form.useTemplate') }}
+                {{ $t('drive.form.useTemplate') }}
             </div>
             <div v-if="state.formDirectory.is_use_template">
                 <div class="space-y-3">

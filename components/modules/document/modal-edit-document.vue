@@ -1,7 +1,7 @@
 <template>
     <div>
         <Modal size="sm"
-            :title="props.selectedDocument?.type === 'folder' ? $t('citizens.documents.form.editFolder') : $t('citizens.documents.form.editFile')"
+            :title="props.selectedDocument?.type === 'folder' ? $t('drive.form.editFolder') : $t('drive.form.editFile')"
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">

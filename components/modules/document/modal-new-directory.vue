@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('citizens.documents.form.newFolder')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="sm" :title="$t('drive.form.newFolder')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesDocumentForm formType="create" :selectedDocument="state.formDirectory" :error="state.error"
@@ -55,11 +55,21 @@ async function saveDirectory(directoryDetails: any) {
     state.isPageLoading = true
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
-        const params = {
-            ...(folderUuid && { folder_uuid: folderUuid }),
-            name: directoryDetails.name,
-            is_admin_access: directoryDetails.is_admin_access,
-            type: 'folder',
+        let params = {}
+        if (directoryDetails.is_use_template) {
+            params = {
+                ...(folderUuid && { folder_uuid: folderUuid }),
+                folder_structure_uuid: directoryDetails.template,
+                is_admin_access: directoryDetails.is_admin_access,
+                type: 'folder',
+            }
+        } else {
+            params = {
+                ...(folderUuid && { folder_uuid: folderUuid }),
+                name: directoryDetails.name,
+                is_admin_access: directoryDetails.is_admin_access,
+                type: 'folder',
+            }
         }
         const response = await documentService.saveFileFolder(params)
         if (response?.data) {

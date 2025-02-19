@@ -465,36 +465,6 @@
                 "deleteFolderConfirmation": "Are you sure you want to delete this folder",
                 "upgradeStorageConfirmation": "Do you want to upgrade your storage"
             },
-            "folderStructure": {
-                "alert": {
-                    "folderStructureSuccessfullyDeleted": "Folder structure successfully deleted",
-                    "folderStructureSuccessfullyUpdated": "Folder structure successfully updated"
-                },
-                "confirmation": {
-                    "deleteFolderStructureConfirmation": "Are you sure you want to delete this folder structure"
-                },
-                "editFolderStructure": "Edit folder structure",
-                "folderStructure": "Folder structure",
-                "form": {
-                    "addSubfolder": "Add subfolder",
-                    "alert": {
-                        "newFolderStructureSuccessfullyCreated": "New folder structure successfully created"
-                    },
-                    "folderName": "Folder name",
-                    "name": "Name",
-                    "rootFolder": "Root folder",
-                    "subfolder": "Sub folder"
-                },
-                "newFolderStructure": "New folder structure",
-                "table": {
-                    "actions": {
-                        "delete": "Delete",
-                        "edit": "Edit"
-                    },
-                    "name": "Name",
-                    "structure": "Structure"
-                }
-            },
             "form": {
                 "editFile": "Edit file",
                 "editFolder": "Edit folder",
@@ -1653,7 +1623,9 @@
             "forAdministratorsOnly": "For administrator only",
             "moveFile": "Move file",
             "name": "Name",
-            "newFolder": "New folder"
+            "newFolder": "New folder",
+            "template": "Template",
+            "useTemplate": "Use template"
         },
         "table": {
             "actions": {
@@ -1973,6 +1945,36 @@
             },
             "getInquiriesViaFindSocialeTilbudDk": "Get inquiries via FindSocialeTilbud.dk",
             "showInterest": "Show interest"
+        }
+    },
+    "folderStructure": {
+        "alert": {
+            "folderStructureSuccessfullyDeleted": "Folder structure successfully deleted",
+            "folderStructureSuccessfullyUpdated": "Folder structure successfully updated"
+        },
+        "confirmation": {
+            "deleteFolderStructureConfirmation": "Are you sure you want to delete this folder structure"
+        },
+        "editFolderStructure": "Edit folder structure",
+        "folderStructure": "Folder structure",
+        "form": {
+            "addSubfolder": "Add subfolder",
+            "alert": {
+                "newFolderStructureSuccessfullyCreated": "New folder structure successfully created"
+            },
+            "folderName": "Folder name",
+            "name": "Name",
+            "rootFolder": "Root folder",
+            "subfolder": "Sub folder"
+        },
+        "newFolderStructure": "New folder structure",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "name": "Name",
+            "structure": "Structure"
         }
     },
     "forms": {

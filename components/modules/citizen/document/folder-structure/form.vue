@@ -4,8 +4,8 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="name" :label="$t('citizens.documents.folderStructure.form.name')" />
-                <FormTextField id="name" name="name" :placeholder="$t('citizens.documents.folderStructure.form.name')"
+                <FormLabel for="name" :label="$t('folderStructure.form.name')" />
+                <FormTextField id="name" name="name" :placeholder="$t('folderStructure.form.name')"
                     v-model="state.formFolderStructure.name" />
                 <FormError :error="v$?.formFolderStructure?.name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.name?.[0]" />
@@ -14,14 +14,13 @@
                 <!-- Root Folders -->
                 <div v-for="(root, index) in state.formFolderStructure.structure" :key="index" class="space-y-3">
                     <div class="space-y-1">
-                        <FormLabel :for="`root-${index}`"
-                            :label="`${t('citizens.documents.folderStructure.form.rootFolder')}`" />
+                        <FormLabel :for="`root-${index}`" :label="`${t('folderStructure.form.rootFolder')}`" />
                         <div class="flex items-center justify-between space-x-2">
                             <div class="space-y-1 w-full">
                                 <!-- Root Folder Input -->
                                 <FormTextField :id="`root-${index}`" :name="`root-${index}`"
                                     v-model="state.formFolderStructure.structure[index].root"
-                                    :placeholder="$t('citizens.documents.folderStructure.form.rootFolder')" />
+                                    :placeholder="$t('folderStructure.form.rootFolder')" />
                             </div>
                             <!-- Remove Root Folder Button -->
                             <div v-if="state.formFolderStructure.structure?.length > 1">
@@ -42,7 +41,7 @@
                     <!-- Add Subfolder Button -->
                     <button type="button" class="text-primary text-sm hover:underline ml-6"
                         @click="addSubfolder(state.formFolderStructure.structure[index])">
-                        {{ t('citizens.documents.folderStructure.form.addSubfolder') }}
+                        {{ t('folderStructure.form.addSubfolder') }}
                     </button>
                 </div>
             </div>

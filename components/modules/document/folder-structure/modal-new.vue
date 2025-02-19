@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('citizens.documents.folderStructure.newFolderStructure')" :show="props.isModalOpen"
+        <Modal size="lg" :title="$t('folderStructure.newFolderStructure')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -58,7 +58,7 @@ async function saveFolderStructure(folderStuctureDetails: any) {
         }
         const response = await folderStructureService.saveFolderStructure(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.folderStructure.form.alert.newFolderStructureSuccessfullyCreated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('folderStructure.form.alert.newFolderStructureSuccessfullyCreated')}.`)
             refreshFolderStructures()
             closeModal()
         }

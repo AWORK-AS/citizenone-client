@@ -38,7 +38,7 @@
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isViewFolderStructureOpen = true">
                             <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.documents.folderStructure.folderStructure') }}
+                            {{ $t('folderStructure.folderStructure') }}
                         </FormButton>
                     </div>
                 </div>
