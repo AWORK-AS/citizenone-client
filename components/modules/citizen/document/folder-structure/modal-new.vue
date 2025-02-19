@@ -52,6 +52,7 @@ async function saveFolderStructure(folderStuctureDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
+            type: 'citizen',
             name: folderStuctureDetails.name,
             structure: JSON.stringify(folderStuctureDetails.structure),
         }

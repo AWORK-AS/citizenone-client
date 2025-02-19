@@ -502,7 +502,9 @@
                 "folderName": "Folder name",
                 "moveFile": "Move file",
                 "name": "Name",
-                "newFolder": "New folder"
+                "newFolder": "New folder",
+                "template": "Template",
+                "useTemplate": "Use template"
             },
             "table": {
                 "actions": {

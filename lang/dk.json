@@ -502,7 +502,9 @@
                 "folderName": "Mappenavn",
                 "moveFile": "Move file",
                 "name": "Navn",
-                "newFolder": "Ny mappe"
+                "newFolder": "Ny mappe",
+                "template": "Skabelon",
+                "useTemplate": "Brug skabelon"
             },
             "table": {
                 "actions": {

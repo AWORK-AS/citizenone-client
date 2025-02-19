@@ -103,6 +103,7 @@ async function fetchFolderStructures() {
     state.isTableLoading = true
     try {
         const params = {
+            type: 'citizen',
             citizen_uuid: citizenUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
