@@ -539,6 +539,7 @@
                 "goal": "Goal",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
                 "journalNoteTags": "Journal note tags",
+                "note": "Note",
                 "plan": "Plan",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",

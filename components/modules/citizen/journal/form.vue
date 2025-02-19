@@ -135,15 +135,20 @@
                 </div>
             </div>
             <div class="space-y-1" v-if="state.formJournal.assessment !== null">
-                <div class="flex justify-end">
-                    <input ref="riskAssessmentFileInput" type="file" @change="handleRiskAssessmentFileChange"
-                        class="hidden" />
-                    <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
-                        @click="triggerRiskAssessmentFileInput">
-                        <div>
-                            <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
+                <div class="flex items-center">
+                    <p class="text-sm text-gray-600">
+                        {{ $t('citizens.citizenJournals.form.note') }}
+                    </p>
+                    <div class="flex-1 flex justify-end">
+                        <input ref="riskAssessmentFileInput" type="file" @change="handleRiskAssessmentFileChange"
+                            class="hidden" />
+                        <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
+                            @click="triggerRiskAssessmentFileInput">
+                            <div>
+                                <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
+                            </div>
+                            {{ $t('citizens.citizenJournals.form.attachFile') }}
                         </div>
-                        {{ $t('citizens.citizenJournals.form.attachFile') }}
                     </div>
                 </div>
                 <ckeditor :editor="editor" v-model="state.formJournal.note" :config="editorNoteConfig"></ckeditor>
