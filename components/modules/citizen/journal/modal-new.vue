@@ -178,6 +178,7 @@ async function fetchPlans() {
         const response = await planService.getPlans(params)
         if (response) {
             state.plans = response
+            console.log('test', state.plans)
             if (state.plans?.data?.length > 0) {
                 state.modal.showCurrentPlansAndGoals = true
             }

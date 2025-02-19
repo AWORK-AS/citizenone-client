@@ -125,7 +125,7 @@
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="giveMedicine(medicine)">
                                                 <Icon name="ph:plus" class="size-4" />
-                                                {{ $t('citizens.medicineJournals.table.actions.giveMedicine') }}
+                                                {{ customPagesStore.getCustomPagesName?.giveMedicine }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="viewMedicineHistory(medicine)">
@@ -173,12 +173,14 @@ import { medicineJournalService } from '@/components/api/MedicineJournalService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useNumberFormatter } from '@/composables/numberFormatter'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const { formatNumber } = useNumberFormatter()
+const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid

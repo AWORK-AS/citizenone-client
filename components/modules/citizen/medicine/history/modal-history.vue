@@ -8,7 +8,7 @@
                         <FormButton buttonStyle="action" class="rounded-lg"
                             @click="state.modal.isAddMedicineHistoryOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.medicineJournals.history.giveMedicine') }}
+                            {{ customPagesStore.getCustomPagesName?.giveMedicine }}
                         </FormButton>
                     </div>
                     <div class="space-y-5">
@@ -112,6 +112,7 @@
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { medicineHistoryService } from '@/components/api/MedicineHistoryService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -131,6 +132,7 @@ const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter(
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const { formatNumber } = useNumberFormatter()
+const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
 let currentTablePage = 1
 const emit = defineEmits(['close'])

@@ -6,6 +6,7 @@ export const useCustomPagesStore = defineStore('customPagesStore', {
         customName: {
             citizens: '',
             dutySchedules: '',
+            giveMedicine: '',
             riskAssessment: '',
         },
     }),
@@ -18,6 +19,9 @@ export const useCustomPagesStore = defineStore('customPagesStore', {
         },
         setRiskAssessmentNaming(name) {
             this.customName.riskAssessment = name
+        },
+        setGiveMedicineNaming(name) {
+            this.customName.giveMedicine = name
         },
     },
     getters: {
