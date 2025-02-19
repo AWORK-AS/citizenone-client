@@ -18,6 +18,9 @@
                             {{ state.selectedCitizen?.data?.lastname }}
                         </h1>
                         <p class="text-sm font-medium text-gray-700">
+                            {{ state.selectedCitizen?.data?.social_security_number }}
+                        </p>
+                        <p class="text-sm font-medium text-gray-700">
                             {{ state.selectedCitizen?.data?.email }}
                         </p>
                         <p class="text-sm font-medium text-gray-700">
@@ -87,6 +90,7 @@ async function fetchCitizen() {
         const response = await citizenService.getCitizen(citizenUuid)
         if (response) {
             state.selectedCitizen = response
+            console.log(state.selectedCitizen)
         }
     } catch (error: any) {
         state.error = error
