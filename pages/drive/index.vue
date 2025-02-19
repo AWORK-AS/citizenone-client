@@ -35,6 +35,11 @@
                             </FormButton>
                             <input type="file" ref="documentFile" @change="uploadFile" class="hidden" />
                         </LoadingSpinner>
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            @click="state.modal.isViewFolderStructureOpen = true">
+                            <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.documents.folderStructure.folderStructure') }}
+                        </FormButton>
                     </div>
                 </div>
 
@@ -127,6 +132,9 @@
                 <ModulesDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
                     @refreshDocuments="fetchDocuments" />
+                <ModulesDocumentFolderStructureModalFolderStructures
+                    :isModalOpen="state.modal.isViewFolderStructureOpen"
+                    @close="state.modal.isViewFolderStructureOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
                     :message="$t('drive.confirmation.archiveConfirmation') + '?'"
                     @close="state.modal.isArchiveDocumentOpen = false" @confirm="archiveDocument" />
@@ -187,6 +195,7 @@ const state = reactive({
         isMoveFileOpen: false,
         isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
+        isViewFolderStructureOpen: false,
     },
     selectedDocument: [] as any,
     sortData: {
