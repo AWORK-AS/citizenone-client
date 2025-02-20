@@ -13,20 +13,21 @@
         <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
             v-else>
             <div v-for="(citizen, index) in state.citizensOrigin?.data" :key="index" class="pl-4 pr-3 py-5">
-                <div class="flex items-center justify-between gap-x-3">
-                    <div class="flex gap-x-2">
-                        <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
-                            class="rounded-full w-12 h-12 object-cover" />
-                        <div>
-                            <p class="text-sm font-medium text-primary">
-                                {{ citizen?.firstname + ' ' + citizen?.lastname }}
-                            </p>
-                        </div>
+                <div class="flex gap-x-2">
+                    <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
+                        class="rounded-full w-12 h-12 object-cover" />
+                    <div>
+                        <p class="text-sm font-medium text-primary">
+                            {{ citizen?.firstname + ' ' + citizen?.lastname }}
+                        </p>
+                        <p class="text-xxs text-muted-400 mt-1">
+                            {{ citizen?.email }}
+                        </p>
+                        <p class="flex items-center gap-x-1 text-xs text-muted-400 mt-1">
+                            <Icon name="ph:map-pin-area" class="h-4 w-4" aria-hidden="true" />
+                            {{ citizen?.origin?.name }}
+                        </p>
                     </div>
-                    <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1">
-                        {{ citizen?.origin?.name }}
-                    </div>
-
                 </div>
             </div>
         </div>
