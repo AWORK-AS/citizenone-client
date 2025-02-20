@@ -1333,12 +1333,15 @@
                 "dailyMedicineOverview": "Daily medicine overview",
                 "gender": "Gender",
                 "goalsStatistics": "Goals statistics",
+                "incidentStatistics": "Incident statistics",
                 "journalStatistics": "Journal statistics",
                 "latestJournal": "Latest journal notes",
+                "medicineDeviationStatistics": "Medicine deviated",
                 "myDailyEvents": "My daily events",
                 "riskAssessment": "Risk assessment",
                 "statusesStatistics": "Statuses statistics",
-                "subgoalsStatistics": "Subgoals statistics"
+                "subgoalsStatistics": "Subgoals statistics",
+                "useOfForceStatistics": "Use of force statistics"
             },
             "show": "Show",
             "startDate": "Start date"

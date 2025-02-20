@@ -1333,12 +1333,15 @@
                 "dailyMedicineOverview": "Daglig medicinoversigt",
                 "gender": "Køn",
                 "goalsStatistics": "Målsstatistik",
+                "incidentStatistics": "Hændelsesstatistik",
                 "journalStatistics": "Journalstatistik",
                 "latestJournal": "Seneste journalnotater",
+                "medicineDeviationStatistics": "Medicin afveget",
                 "myDailyEvents": "Mine daglige begivenheder",
                 "riskAssessment": "Risikovurdering",
                 "subgoalsStatistics": "Delmålsstatistik",
-                "statusesStatistics": "Statusstatistik"
+                "statusesStatistics": "Statusstatistik",
+                "useOfForceStatistics": "Brug af magt statistik"
             },
             "show": "Vis",
             "startDate": "Startdato"

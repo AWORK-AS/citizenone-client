@@ -83,17 +83,18 @@
                     <div class="w-fit flex items-center cursor-pointer text-sm"
                         @click="dailyOverviewStore.setDailyOverviewFilterShowIncidentStatistics(!dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics)">
                         <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics" />
-                        {{ $t('Incident statistics') }}
+                        {{ $t('dailyOverview.filter.items.incidentStatistics') }}
                     </div>
                     <div class="w-fit flex items-center cursor-pointer text-sm"
                         @click="dailyOverviewStore.setDailyOverviewFilterShowUseOfForceStatistics(!dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics)">
                         <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics" />
-                        {{ $t('Use of force') }}
+                        {{ $t('dailyOverview.filter.items.useOfForceStatistics') }}
                     </div>
                     <div class="w-fit flex items-center cursor-pointer text-sm"
                         @click="dailyOverviewStore.setDailyOverviewFilterShowMedicineDeviationStatistics(!dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics)">
-                        <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics" />
-                        {{ $t('Medicine deviation') }}
+                        <FormCheckbox
+                            :value="dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics" />
+                        {{ $t('dailyOverview.filter.items.medicineDeviationStatistics') }}
                     </div>
                 </div>
                 <div class="mt-5 flex gap-x-3 justify-end">
