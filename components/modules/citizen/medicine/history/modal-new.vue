@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="customPagesStore.getCustomPagesName?.giveMedicine" :show="props.isModalOpen"
+        <Modal size="xs" :title="$t('citizens.medicineJournals.history.giveMedicine')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -18,12 +18,10 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { medicineHistoryService } from '@/components/api/MedicineHistoryService'
-import { useCustomPagesStore } from '@/store/custom-pages'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
-const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 

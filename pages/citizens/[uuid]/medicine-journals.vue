@@ -125,7 +125,7 @@
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="giveMedicine(medicine)">
                                                 <Icon name="ph:plus" class="size-4" />
-                                                {{ customPagesStore.getCustomPagesName?.giveMedicine }}
+                                                {{ $t('citizens.medicineJournals.table.actions.giveMedicine') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="viewMedicineHistory(medicine)">
