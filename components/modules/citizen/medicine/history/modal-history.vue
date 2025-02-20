@@ -158,8 +158,8 @@ const state = reactive({
     },
     selectedMedicineHistory: [] as any,
     sortData: {
-        sortField: '',
-        sortOrder: '',
+        sortField: 'id',
+        sortOrder: 'descend',
     },
 })
 
