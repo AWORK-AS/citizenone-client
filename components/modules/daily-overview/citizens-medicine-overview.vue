@@ -11,9 +11,10 @@
             {{ $t('dailyOverview.noMedicinesToShow') }}
         </div>
 
-        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 pr-5 pt-4 pb-4 pl-6 mr-1"
+        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96 mr-1"
             v-else>
-            <div v-for="(medicine, index) in state.medicines?.data" :key="index" class="py-3">
+            <div v-for="(medicine, index) in state.medicines?.data" :key="index"
+                class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100" @click="viewMedicineHistory(medicine)">
                 <div class="flex justify-between gap-x-2">
                     <div class="flex gap-x-2">
                         <img :src="medicine?.citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname}`"
@@ -22,6 +23,11 @@
                             <p class="text-sm font-medium text-primary">
                                 {{ medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname }}
                             </p>
+                            <Badge type="primary" class="flex items-center w-fit" v-if="medicine?.is_pn_medicine">
+                                <p class="text-xxs px-2">
+                                    {{ $t('citizens.medicineJournals.table.pnMedicine') }}
+                                </p>
+                            </Badge>
                             <h3 class="text-base font-semibold">
                                 {{ medicine?.medicine }}
                             </h3>
@@ -61,6 +67,8 @@
                 </div>
             </div>
         </div>
+        <ModulesCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineOpen"
+            :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineOpen = false" />
     </LoadingSpinner>
 </template>
 
@@ -84,11 +92,21 @@ const state = reactive({
     isPageLoading: false,
     error: {} as Error,
     medicines: [] as any,
+    modal: {
+        isViewMedicineOpen: false,
+    },
+    selectedMedicine: {} as any,
 })
 
 watch(() => props.dateRange, () => {
     fetchCitizensMedicines()
 }, { deep: true })
+
+watch(() => state.modal.isViewMedicineOpen, (isViewMedicineOpen: boolean) => {
+    if (!isViewMedicineOpen) {
+        fetchCitizensMedicines()
+    }
+})
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
@@ -122,5 +140,10 @@ async function fetchCitizensMedicines() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function viewMedicineHistory(medicine: any) {
+    state.selectedMedicine = medicine
+    state.modal.isViewMedicineOpen = true
 }
 </script>

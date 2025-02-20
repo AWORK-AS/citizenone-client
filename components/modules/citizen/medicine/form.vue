@@ -255,6 +255,9 @@ const rules = computed(() => {
                 description: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
+                schedule_frequency: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
                 current_stocks: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },

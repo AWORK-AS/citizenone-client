@@ -1,7 +1,8 @@
 <template>
     <div>
-        <Modal size="4xl" :title="$t('citizens.medicineJournals.history.medicineHistory')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="4xl"
+            :title="`${$t('citizens.medicineJournals.history.medicineHistory')} (${props.selectedMedicine?.medicine})`"
+            :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
