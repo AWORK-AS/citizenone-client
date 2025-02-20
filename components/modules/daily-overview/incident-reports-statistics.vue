@@ -82,10 +82,8 @@ async function fetchIncidentReportStatistics() {
         }
 
         if (props.dateRange) {
-            params.date = {
-                end_date: props.dateRange.end_date,
-                start_date: props.dateRange.start_date
-            }
+            params.end_date = props.dateRange.end_date
+            params.start_date = props.dateRange.start_date
         }
         const response = await dailyOverviewService.getIncidentsStatistics(params)
         if (response) {
