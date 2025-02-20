@@ -229,6 +229,7 @@ async function rejectScheduleRequest() {
         if (response) {
             fetchScheduleRequests()
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.table.alert.scheduleSuccessfullyDisapproved')}.`)
+            emit('refreshDutySchedules')
         }
     } catch (error: any) {
         state.error = error
