@@ -1300,6 +1300,7 @@
     "contactUs": "Contact us",
     "create": "Create",
     "dailyOverview": {
+        "addDailyEvents": "Add daily events",
         "bulletBoard": "Bullet board",
         "campaign": "Campaign",
         "citizensAddictions": "Citizens addictions",

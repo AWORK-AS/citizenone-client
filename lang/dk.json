@@ -1300,6 +1300,7 @@
     "contactUs": "Kontakt os",
     "create": "Opret",
     "dailyOverview": {
+        "addDailyEvents": "Tilføj daglige begivenheder",
         "bulletBoard": "Opslagstavle",
         "campaign": "Kampagne",
         "citizensAddictions": "Borgernes afhængigheder",

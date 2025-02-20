@@ -8,7 +8,17 @@
 
         <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
             v-if="state.myCalendarEvents?.data?.length === 0">
-            {{ $t('dailyOverview.noEventsForToday') }}
+            <div>
+                <p>
+                    {{ $t('dailyOverview.noEventsForToday') }}
+                </p>
+                <div class="flex items-center justify-center mt-2">
+                    <button class="w-fit text-center text-primary hover:text-primary-700"
+                        @click="navigateTo('/calendar')">
+                        {{ $t('dailyOverview.addDailyEvents') }}
+                    </button>
+                </div>
+            </div>
         </div>
         <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 pr-5 pt-4 pb-4 pl-6 mr-1"
             v-else>

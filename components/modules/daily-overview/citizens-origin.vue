@@ -10,18 +10,23 @@
             v-if="state.citizensOrigin?.data?.length === 0">
             {{ $t('dailyOverview.noDataToDisplay') }}
         </div>
-        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 pr-5 pt-4 pb-4 pl-6 mr-1"
+        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
             v-else>
-            <div v-for="(citizen, index) in state.citizensOrigin?.data" :key="index" class="py-3">
+            <div v-for="(citizen, index) in state.citizensOrigin?.data" :key="index" class="pl-4 pr-3 py-5">
                 <div class="flex items-center justify-between gap-x-3">
-                    <Badge type="primary" class="w-fit">
-                        <p class="text-xs px-2">
-                            {{ citizen?.firstname + ' ' + citizen?.lastname }}
-                        </p>
-                    </Badge>
+                    <div class="flex gap-x-2">
+                        <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
+                            class="rounded-full w-12 h-12 object-cover" />
+                        <div>
+                            <p class="text-sm font-medium text-primary">
+                                {{ citizen?.firstname + ' ' + citizen?.lastname }}
+                            </p>
+                        </div>
+                    </div>
                     <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1">
                         {{ citizen?.origin?.name }}
                     </div>
+
                 </div>
             </div>
         </div>
