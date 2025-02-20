@@ -56,6 +56,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import { useDepartmentStore } from '@/store/department'
