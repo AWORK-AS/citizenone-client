@@ -455,6 +455,8 @@
                 "documentSuccessfullyArchived": "Document successfully archived",
                 "fileSuccessfullyAdded": "New file successfully saved",
                 "fileSuccessfullyMoved": "File successfully moved to another directory",
+                "fileSuccessfullyShared": "File successfully shared",
+                "fileSuccessfullyUnshared": "File successfully unshared",
                 "folderSuccessfullyAdded": "New folder successfully saved",
                 "folderSuccessfullyUpdated": "Folder successfully updated"
             },
@@ -463,6 +465,8 @@
                 "archiveConfirmation": "Are you sure you want to archive this document",
                 "deleteFileConfirmation": "Are you sure you want to delete this file",
                 "deleteFolderConfirmation": "Are you sure you want to delete this folder",
+                "shareConfirmation": "Are you sure you want to share this document",
+                "unshareConfirmation": "Are you sure you want to unshare this document",
                 "upgradeStorageConfirmation": "Do you want to upgrade your storage"
             },
             "form": {
@@ -482,6 +486,8 @@
                     "edit": "Edit",
                     "delete": "Delete",
                     "move": "Move",
+                    "share": "Share",
+                    "unshare": "Unshare",
                     "view": "View"
                 },
                 "dateCreated": "Date created",

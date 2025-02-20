@@ -91,6 +91,13 @@
                                                 {{ $t('citizens.documents.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="confirmDocumentShareUnshare(document)"
+                                                v-if="document?.type === 'file'">
+                                                <Icon name="ph:share" class="size-4" />
+                                                {{ document?.is_shared ? $t('citizens.documents.table.actions.unshare')
+                                                    : $t('citizens.documents.table.actions.share') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="confirmDocumentArchiving(document)">
                                                 <Icon name="ph:archive-light" class="size-4" />
                                                 {{ $t('citizens.documents.table.actions.archive') }}
@@ -131,6 +138,9 @@
                 <ModulesCitizenDocumentFolderStructureModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureOpen"
                     @close="state.modal.isViewFolderStructureOpen = false" />
+                <DialogConfirmation :isModalOpen="state.modal.isShareDocumentOpen"
+                    :message="state.selectedDocument?.is_shared ? $t('citizens.documents.confirmation.unshareConfirmation') : $t('citizens.documents.confirmation.shareConfirmation') + '?'"
+                    @close="state.modal.isShareDocumentOpen = false" @confirm="shareUnshareDocument" />
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
                     :message="$t('citizens.documents.confirmation.archiveConfirmation') + '?'"
                     @close="state.modal.isArchiveDocumentOpen = false" @confirm="archiveDocument" />
@@ -191,6 +201,7 @@ const state = reactive({
         isDeleteFileOpen: false,
         isEditDocumentOpen: false,
         isMoveFileOpen: false,
+        isShareDocumentOpen: false,
         isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
         isViewFolderStructureOpen: false,
@@ -330,6 +341,32 @@ async function viewDirectory(document: any) {
 function editDocument(document: any) {
     state.selectedDocument = document
     state.modal.isEditDocumentOpen = true
+}
+
+function confirmDocumentShareUnshare(document: any) {
+    state.selectedDocument = document
+    state.modal.isShareDocumentOpen = true
+}
+
+async function shareUnshareDocument() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const documentUuid = state.selectedDocument?.uuid
+        const isDocumentShared = state.selectedDocument?.is_shared
+        const response = await citizenDocumentService.shareUnshareDocument(documentUuid)
+        if (response.data) {
+            if (isDocumentShared) {
+                successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.fileSuccessfullyUnshared')}.`)
+            } else {
+                successAlert(`${t('alert.success')}!`, `${t('citizens.documents.alert.fileSuccessfullyShared')}.`)
+            }
+            fetchDocuments()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 function confirmDocumentArchiving(document: any) {

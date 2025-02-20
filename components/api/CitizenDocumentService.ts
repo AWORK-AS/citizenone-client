@@ -25,6 +25,10 @@ class CitizenDocumentService extends BaseAPIService {
         return await this.request(`/user/citizen-file-folders/${citizenFileFolderUuid}/download`, 'GET')
     }
 
+    async shareUnshareDocument(citizenFileFolderUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-file-folders/${citizenFileFolderUuid}/share-file`, 'PUT')
+    }
+
     async archiveUnarchiveDocument(citizenFileFolderUuid: any): Promise<any> {
         return await this.request(`/user/citizen-file-folders/${citizenFileFolderUuid}/archive`, 'PUT')
     }

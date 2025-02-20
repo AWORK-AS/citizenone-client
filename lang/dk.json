@@ -455,6 +455,8 @@
                 "documentSuccessfullyArchived": "Dokument arkiveret med succes",
                 "fileSuccessfullyAdded": "Ny fil gemt med succes",
                 "fileSuccessfullyMoved": "Filen blev flyttet til en anden mappe med succes",
+                "fileSuccessfullyShared": "Fil delt med succes",
+                "fileSuccessfullyUnshared": "Filens deling blev fjernet med succes",
                 "folderSuccessfullyAdded": "Ny mappe gemt med succes",
                 "folderSuccessfullyUpdated": "Mappe opdateret med succes"
             },
@@ -463,6 +465,8 @@
                 "archiveConfirmation": "Er du sikker på, at du vil arkivere dette dokument",
                 "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil",
                 "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
+                "shareConfirmation": "Er du sikker på, at du vil dele dette dokument",
+                "unshareConfirmation": "Er du sikker på, at du vil fjerne delingen af dette dokument",
                 "upgradeStorageConfirmation": "Vil du opgradere dit lager"
             },
             "form": {
@@ -482,6 +486,8 @@
                     "edit": "Rediger",
                     "delete": "Slet",
                     "move": "Flyt",
+                    "share": "Del",
+                    "unshare": "Fjern deling",
                     "view": "Se"
                 },
                 "dateCreated": "Oprettelsesdato",
