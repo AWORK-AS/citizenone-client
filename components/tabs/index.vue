@@ -10,9 +10,15 @@
                 </option>
             </select>
         </div>
-        <div class="hidden md:block">
+        <div :class="[
+            props.tabs?.length > 0 && 'bg-white ring-1 ring-gray-200 rounded-md pl-5 pr-5 border-l-4 border-secondary',
+            'hidden md:block'
+        ]">
             <div class="border-b border-gray-200">
-                <nav class="-mb-px flex flex-wrap space-x-2">
+                <nav :class="[
+                    props.isJustifyBetween && 'xl:justify-between',
+                    '-mb-px flex flex-wrap space-x-2'
+                ]">
                     <a v-for="tab in props.tabs" :key="tab.name" :class="[
                         tab.routeNames?.includes($route.name)
                             ? 'border-primary text-primary'
@@ -31,6 +37,10 @@
 const props = defineProps({
     id: {
         type: String,
+        required: false,
+    },
+    isJustifyBetween: {
+        type: Boolean,
         required: false,
     },
     tabs: {
