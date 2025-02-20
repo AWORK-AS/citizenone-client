@@ -3,59 +3,69 @@
         <LoadingSpinner :isActive="state.isPageLoading">
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
-            <div class="md:flex md:justify-between md:space-x-5 relative">
-                <div class="flex items-start space-x-5">
-                    <div class="flex-shrink-0">
-                        <div class="relative">
-                            <img :src="state.selectedCitizen?.data?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${state.selectedCitizen?.data?.firstname + ' ' + state.selectedCitizen?.data?.lastname}`"
-                                class="rounded-full w-16 h-16 object-cover" />
-                            <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
+            <div class="grid grid-cols-12 gap-6 relative">
+                <div :class="[
+                    ['citizens-uuid-medicine-journals', 'citizens-uuid-journals'].includes($route.name as any) ? 'col-span-12 lg:col-span-9' : 'col-span-12',
+                    'w-full bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary'
+                ]">
+                    <div class="md:flex md:items-start md:gap-x-8">
+                        <div class="flex justify-center flex-shrink-0">
+                            <div class="relative">
+                                <img :src="state.selectedCitizen?.data?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${state.selectedCitizen?.data?.firstname + ' ' + state.selectedCitizen?.data?.lastname}`"
+                                    class="rounded-full w-28 h-28 object-cover" />
+                                <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="pt-1.5 space-y-1">
-                        <h1 class="text-2xl font-bold text-gray-900">
-                            {{ state.selectedCitizen?.data?.firstname }}
-                            {{ state.selectedCitizen?.data?.lastname }}
-                        </h1>
-                        <p class="text-sm font-medium text-gray-700">
-                            {{ state.selectedCitizen?.data?.social_security_number }}
-                        </p>
-                        <p class="text-sm font-medium text-gray-700">
-                            {{ state.selectedCitizen?.data?.email }}
-                        </p>
-                        <p class="text-sm font-medium text-gray-700">
-                            {{ state.selectedCitizen?.data?.phone }}
-                        </p>
-                        <div class="text-xxs flex items-center flex-wrap gap-1"
-                            v-if="state.selectedCitizen?.data?.addictions?.length > 0">
-                            <p>{{ $t('citizens.addictions') }}:</p>
-                            <span v-for="(addiction, index) in state.selectedCitizen?.data?.addictions" :key=index
-                                class="bg-primary p-1 text-white rounded-md">
-                                {{ addiction?.name }}
-                            </span>
+                        <div class="pt-1.5 space-y-4">
+                            <div class="text-center md:text-left">
+                                <h1 class="text-2xl font-bold text-gray-900 gr">
+                                    {{ state.selectedCitizen?.data?.firstname }}
+                                    {{ state.selectedCitizen?.data?.lastname }}
+                                </h1>
+                                <p class="text-sm font-medium text-gray-700">
+                                    {{ state.selectedCitizen?.data?.social_security_number }}
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-700">
+                                    {{ state.selectedCitizen?.data?.email }}
+                                </p>
+                                <p class="text-sm font-medium text-gray-700">
+                                    {{ state.selectedCitizen?.data?.phone }}
+                                </p>
+                            </div>
+                            <div class="space-y-1.5">
+                                <div class="text-xs flex items-center flex-wrap gap-1"
+                                    v-if="state.selectedCitizen?.data?.addictions?.length > 0">
+                                    <p>{{ $t('citizens.addictions') }}:</p>
+                                    <span v-for="(addiction, index) in state.selectedCitizen?.data?.addictions"
+                                        :key=index class="bg-primary p-1 text-white rounded-md text-xxs">
+                                        {{ addiction?.name }}
+                                    </span>
+                                </div>
+                                <div class="text-xs flex items-center flex-wrap gap-1"
+                                    v-if="state.selectedCitizen?.data?.diagnoses?.length > 0">
+                                    <p>{{ $t('citizens.diagnoses') }}:</p>
+                                    <span v-for="(diagnosis, index) in state.selectedCitizen?.data?.diagnoses"
+                                        :key=index class="bg-primary p-1 text-white rounded-md text-xxs">
+                                        {{ diagnosis?.name }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="text-xs font-medium text-gray-700"
+                                :class="state.showExpandedNote ? '' : 'line-clamp-2'">
+                                {{ state.selectedCitizen?.data?.note }}
+                            </div>
+                            <button @click="state.showExpandedNote = !state.showExpandedNote"
+                                class="text-primary text-xs hover:text-primary-700">
+                                {{ state.showExpandedNote ? $t('showLess') : $t('showMore') }}
+                            </button>
                         </div>
-                        <div class="text-xxs flex items-center flex-wrap gap-1"
-                            v-if="state.selectedCitizen?.data?.diagnoses?.length > 0">
-                            <p>{{ $t('citizens.diagnoses') }}:</p>
-                            <span v-for="(diagnosis, index) in state.selectedCitizen?.data?.diagnoses" :key=index
-                                class="bg-primary p-1 text-white rounded-md">
-                                {{ diagnosis?.name }}
-                            </span>
-                        </div>
-                        <div class="text-xs font-medium text-gray-700"
-                            :class="state.showExpandedNote ? '' : 'line-clamp-2'">
-                            {{ state.selectedCitizen?.data?.note }}
-                        </div>
-                        <button @click="state.showExpandedNote = !state.showExpandedNote"
-                            class="text-primary text-xs hover:text-primary-700">
-                            {{ state.showExpandedNote ? $t('showLess') : $t('showMore') }}
-                        </button>
                     </div>
                 </div>
-                <ModulesCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
-                    v-if="$route.name === 'citizens-uuid-medicine-journals'"
-                    class="lg:absolute lg:right-0 lg:-top-14 xl:-top-16" />
-                <div class="flex items-center gap-x-3">
+                <div class="col-span-12 lg:col-span-3 flex flex-col justify-center lg:gap-8">
+                    <ModulesCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
+                        v-if="$route.name === 'citizens-uuid-medicine-journals'" />
                     <ModulesCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
                         v-if="$route.name === 'citizens-uuid-journals'" />
                     <ModulesCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
