@@ -14,7 +14,7 @@
                 </NuxtLink>
             </div>
 
-            <div class="flex justify-between">
+            <div class="flex gap-x-2">
                 <button class="flex items-center gap-x-1 text-sm text-primary group"
                     @click="state.modal.isFilterDailyOverviewViewAllOpen = true">
                     <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
@@ -22,57 +22,60 @@
                         {{ $t('showHide') }}
                     </span>
                 </button>
-                <div class="flex items-center gap-x-3">
-                    <div class="space-y-1 col-span-1 md:col-span-3">
-                        <FormLabel for="start_date" :label="$t('protocols.form.startDate')" />
-                        <FormDateField id="start_date" name="start_date" :placeholder="$t('protocols.table.startDate')"
-                            v-model="state.searchFilter.start_date" />
-                    </div>
-                    <div class="space-y-1 col-span-1 md:col-span-3">
-                        <FormLabel for="end_date" :label="$t('protocols.form.endDate')" />
-                        <FormDateField id="end_date" name="end_date" :placeholder="$t('protocols.table.endDate')"
-                            v-model="state.searchFilter.end_date" />
-                    </div>
-                </div>
+                <button class="text-sm text-primary hover:text-primary-700 hover:underline"
+                    @click="state.modal.isDailyOverviewDateRangeOpen = true">
+                    ({{ formatDateToReadable(state.dateRange.formDateRange.start_date) }} -
+                    {{ formatDateToReadable(state.dateRange.formDateRange.end_date) }})
+                </button>
             </div>
 
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                     <div v-if="dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents">
-                        <ModulesDailyOverviewCitizensDailyEvents :startDate="state.searchFilter.start_date"
-                            :endDate="state.searchFilter.end_date" />
+                        <ModulesDailyOverviewCitizensDailyEvents :dateRange="state.dateRange.formDateRange" />
                     </div>
                     <div v-if="dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview">
-                        <ModulesDailyOverviewCitizensMedicineOverview :startDate="state.searchFilter.start_date"
-                            :endDate="state.searchFilter.end_date" />
+                        <ModulesDailyOverviewCitizensMedicineOverview :dateRange="state.dateRange.formDateRange" />
                     </div>
                     <div v-if="dailyOverviewStore.getViewAllFilter.showLatestJournalNotes">
-                        <ModulesDailyOverviewLatestJournal :startDate="state.searchFilter.start_date"
-                            :endDate="state.searchFilter.end_date" />
+                        <ModulesDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange" />
                     </div>
                 </div>
             </div>
 
-            <ModulesDailyOverviewFilterModalDailyOverviewAll :isModalOpen="state.modal.isFilterDailyOverviewViewAllOpen"
+            <ModulesDailyOverviewFilterAllModalShowHide :isModalOpen="state.modal.isFilterDailyOverviewViewAllOpen"
                 @close="state.modal.isFilterDailyOverviewViewAllOpen = false" />
+            <ModulesDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDailyOverviewDateRangeOpen"
+                :dateRange="state.dateRange" @close="state.modal.isDailyOverviewDateRangeOpen = false"
+                @filterDate="filterDailyOverviewByDate" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 
 const runtimeConfig = useRuntimeConfig()
 const dailyOverviewStore = useDailyOverviewStore()
+const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
+    dateRange: {
+        formDateRange: {
+            start_date: moment().format('YYYY-MM-DD'),
+            end_date: moment().format('YYYY-MM-DD'),
+        },
+    } as any,
     modal: {
+        isDailyOverviewDateRangeOpen: false,
         isFilterDailyOverviewViewAllOpen: false,
     },
-    searchFilter: {
-        'end_date': moment().format('YYYY-MM-DD'),
-        'start_date': moment().format('YYYY-MM-DD'),
-    },
 })
+
+function filterDailyOverviewByDate(formDateRange: any) {
+    state.dateRange.formDateRange.start_date = formDateRange.start_date
+    state.dateRange.formDateRange.end_date = formDateRange.end_date
+}
 </script>

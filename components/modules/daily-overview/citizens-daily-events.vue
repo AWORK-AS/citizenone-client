@@ -56,19 +56,14 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
 const props = defineProps({
-    endDate: {
-        type: String,
-        required: false,
-    },
-    startDate: {
-        type: String,
+    dateRange: {
+        type: Object,
         required: false,
     },
 })
@@ -80,25 +75,11 @@ const state = reactive({
     isPageLoading: false,
     citizenCalendarEvents: [] as any,
     error: {} as Error,
-    searchFilter: {
-        end_date: props.endDate,
-        start_date: props.startDate
-    }
 })
 
-watch(() => props.startDate, (date: any) => {
-    if (date != null) {
-        state.searchFilter.start_date = date
-        fetchCitizenCalendarEvents()
-    }
-})
-
-watch(() => props.endDate, (date: any) => {
-    if (date != null) {
-        state.searchFilter.end_date = date
-        fetchCitizenCalendarEvents()
-    }
-})
+watch(() => props.dateRange, () => {
+    fetchCitizenCalendarEvents()
+}, { deep: true })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
@@ -118,10 +99,10 @@ async function fetchCitizenCalendarEvents() {
             department: departmentStore.getSelectedDepartmentName
         }
 
-        if (state.searchFilter.end_date && state.searchFilter.start_date) {
+        if (props.dateRange) {
             params.date = {
-                end_date: state.searchFilter.end_date,
-                start_date: state.searchFilter.start_date
+                end_date: props.dateRange.end_date,
+                start_date: props.dateRange.start_date
             }
         }
         const response = await dailyOverviewService.getCitizenDailyEvents(params)

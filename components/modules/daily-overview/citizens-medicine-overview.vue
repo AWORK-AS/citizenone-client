@@ -15,30 +15,36 @@
             v-else>
             <div v-for="(medicine, index) in state.medicines?.data" :key="index" class="py-3">
                 <div class="flex justify-between gap-x-2">
-                    <Badge type="primary" class="w-fit">
-                        <p class="text-xs px-2">
-                            {{ medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname }}
-                        </p>
-                    </Badge>
-                    <Badge type="active" class="flex items-center w-fit" v-if="medicine?.given_today">
-                        <p class="text-xxs px-2">
-                            {{ $t('dailyOverview.dailyMedicineOverview.given') }}
-                        </p>
-                    </Badge>
-                    <Badge type="inactive" class="flex items-center w-fit" v-else>
-                        <p class="text-xxs px-2">
-                            {{ $t('dailyOverview.dailyMedicineOverview.notGiven') }}
-                        </p>
-                    </Badge>
+                    <div class="flex gap-x-2">
+                        <img :src="medicine?.citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname}`"
+                            class="rounded-full w-12 h-12 object-cover" />
+                        <div>
+                            <p class="text-sm font-medium text-primary">
+                                {{ medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname }}
+                            </p>
+                            <h3 class="text-base font-semibold">
+                                {{ medicine?.medicine }}
+                            </h3>
+                            <p class="text-xxs" v-if="medicine?.user?.firstname && medicine?.user?.lastname">
+                                {{ $t('dailyOverview.createdBy') }}
+                                {{ medicine?.user?.firstname + ' ' + medicine?.user?.lastname }}
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <Badge type="active" class="flex items-center w-fit" v-if="medicine?.given_today">
+                            <p class="text-xxs px-2">
+                                {{ $t('dailyOverview.dailyMedicineOverview.given') }}
+                            </p>
+                        </Badge>
+                        <Badge type="inactive" class="flex items-center w-fit" v-else>
+                            <p class="text-xxs px-2">
+                                {{ $t('dailyOverview.dailyMedicineOverview.notGiven') }}
+                            </p>
+                        </Badge>
+                    </div>
                 </div>
-                <p class="text-xs py-1" v-if="medicine?.user?.firstname && medicine?.user?.lastname">
-                    {{ $t('dailyOverview.createdBy') }}
-                    {{ medicine?.user?.firstname + ' ' + medicine?.user?.lastname }}
-                </p>
-                <div class="px-1 space-y-1">
-                    <h3 class="text-base font-semibold">
-                        {{ medicine?.medicine }}
-                    </h3>
+                <div class="mt-2 px-1 space-y-1">
                     <div class="text-xxs flex flex-wrap gap-1" v-if="medicine.time?.length > 0">
                         <span v-for="(time, index) in JSON.parse(medicine.time)" :key=index
                             class="bg-primary px-2 py-1 text-white rounded-md">
@@ -65,12 +71,8 @@ import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
 const props = defineProps({
-    endDate: {
-        type: String,
-        required: false,
-    },
-    startDate: {
-        type: String,
+    dateRange: {
+        type: Object,
         required: false,
     },
 })
@@ -82,37 +84,23 @@ const state = reactive({
     isPageLoading: false,
     error: {} as Error,
     medicines: [] as any,
-    searchFilter: {
-        end_date: props.endDate,
-        start_date: props.startDate
-    }
 })
 
-watch(() => props.startDate, (date: any) => {
-    if (date != null) {
-        state.searchFilter.start_date = date
-        fetchCitizens()
-    }
-})
-
-watch(() => props.endDate, (date: any) => {
-    if (date != null) {
-        state.searchFilter.end_date = date
-        fetchCitizens()
-    }
-})
+watch(() => props.dateRange, () => {
+    fetchCitizensMedicines()
+}, { deep: true })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
-        fetchCitizens()
+        fetchCitizensMedicines()
     }
 })
 
 onMounted(() => {
-    fetchCitizens()
+    fetchCitizensMedicines()
 })
 
-async function fetchCitizens() {
+async function fetchCitizensMedicines() {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -120,10 +108,10 @@ async function fetchCitizens() {
             department: departmentStore.getSelectedDepartmentName
         }
 
-        if (state.searchFilter.end_date && state.searchFilter.start_date) {
+        if (props.dateRange) {
             params.date = {
-                end_date: state.searchFilter.end_date,
-                start_date: state.searchFilter.start_date
+                end_date: props.dateRange.end_date,
+                start_date: props.dateRange.start_date
             }
         }
         const response = await dailyOverviewService.getCitizenDailyMedicineOverview(params)

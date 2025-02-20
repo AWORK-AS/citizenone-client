@@ -95,7 +95,8 @@
                         <div v-if="dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics" class="mt-2">
                             <ModulesDailyOverviewUseOfForceStatistics />
                         </div>
-                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics" class="mt-2">
+                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics"
+                            class="mt-2">
                             <ModulesDailyOverviewMedicineDeviationStatistics />
                         </div>
                     </div>
@@ -114,7 +115,7 @@
                     </div>
                 </div>
             </div>
-            <ModulesDailyOverviewFilterModalDailyOverview :isModalOpen="state.modal.isFilterDailyOverviewOpen"
+            <ModulesDailyOverviewFilterModalShowHide :isModalOpen="state.modal.isFilterDailyOverviewOpen"
                 @close="state.modal.isFilterDailyOverviewOpen = false" />
         </NuxtLayout>
     </div>

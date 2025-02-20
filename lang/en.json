@@ -1353,10 +1353,10 @@
         },
         "incidentStatistics": {
             "incidentStatistics": "Incident statistics",
-             "harmless": "Harmless",
-             "lowRisk": "Low risk",
-             "moderateRisk": "Moderate risk",
-             "highRisk": "High risk"
+            "harmless": "Harmless",
+            "lowRisk": "Low risk",
+            "moderateRisk": "Moderate risk",
+            "highRisk": "High risk"
         },
         "journalStatistics": "Journal statistics",
         "latestJournal": {
@@ -1398,10 +1398,10 @@
         },
         "useForceStatistics": {
             "useForceStatistics": "Use of force statistics",
-             "harmless": "Harmless",
-             "lowRisk": "Low risk",
-             "moderateRisk": "Moderate risk",
-             "highRisk": "High risk"
+            "harmless": "Harmless",
+            "lowRisk": "Low risk",
+            "moderateRisk": "Moderate risk",
+            "highRisk": "High risk"
         },
         "viewAll": "View all"
     },
@@ -1850,6 +1850,7 @@
         "subscribe": "Subscribe"
     },
     "excludeVat": "excl. vat",
+    "filterDate": "Filter date",
     "findsocialetilbuddk": {
         "manageCompany": {
             "form": {
