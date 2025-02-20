@@ -80,6 +80,21 @@
                         <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics" />
                         {{ $t('dailyOverview.filter.items.statusesStatistics') }}
                     </div>
+                    <div class="w-fit flex items-center cursor-pointer text-sm"
+                        @click="dailyOverviewStore.setDailyOverviewFilterShowIncidentStatistics(!dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics)">
+                        <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics" />
+                        {{ $t('Incident statistics') }}
+                    </div>
+                    <div class="w-fit flex items-center cursor-pointer text-sm"
+                        @click="dailyOverviewStore.setDailyOverviewFilterShowUseOfForceStatistics(!dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics)">
+                        <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics" />
+                        {{ $t('Use of force') }}
+                    </div>
+                    <div class="w-fit flex items-center cursor-pointer text-sm"
+                        @click="dailyOverviewStore.setDailyOverviewFilterShowMedicineDeviationStatistics(!dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics)">
+                        <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics" />
+                        {{ $t('Medicine deviation') }}
+                    </div>
                 </div>
                 <div class="mt-5 flex gap-x-3 justify-end">
                     <FormButton buttonStyle="primary" @click="closeModal" class="rounded-md">

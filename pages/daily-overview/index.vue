@@ -88,6 +88,17 @@
                             <ModulesDailyOverviewStatusesScoreStatistics />
                         </div>
                     </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics" class="mt-2">
+                            <ModulesDailyOverviewIncidentReportsStatistics />
+                        </div>
+                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics" class="mt-2">
+                            <ModulesDailyOverviewUseOfForceStatistics />
+                        </div>
+                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics" class="mt-2">
+                            <ModulesDailyOverviewMedicineDeviationStatistics />
+                        </div>
+                    </div>
                     <div>
                         <p class="text-xl font-bold text-primary">
                             {{ $t('dailyOverview.from') }} CitizenOne<sup class="text-sm">&#8482;</sup>

@@ -64,6 +64,18 @@ class DailyOverviewService extends BaseAPIService {
     async getStatusesScoreStatistics(): Promise<any> {
         return await this.request(`/user/statuses/score/statistics`, 'GET')
     }
+    
+    async getIncidentsStatistics(params: object): Promise<any> {
+        return await this.request(`/user/citizen-incidents-statistics/score/statistics`, 'GET', params)
+    }
+
+    async getUseForceStatistics(params: object): Promise<any> {
+        return await this.request(`/user/use-of-force-statistics/score/statistics`, 'GET', params)
+    }
+
+    async getMedicineDeviationStatistics(params: object): Promise<any> {
+        return await this.request(`/user/citizen-medicine-statistics/score/statistics`, 'GET', params)
+    }
 
     async getNews(): Promise<any> {
         return await this.request(`/user/news/daily/overview `, 'GET')
