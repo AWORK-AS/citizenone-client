@@ -103,7 +103,7 @@
                     </div>
                 </div>
             </div>
-            <ModulesDailyOverviewModalFilter :isModalOpen="state.modal.isFilterDailyOverviewOpen"
+            <ModulesDailyOverviewFilterModalDailyOverview :isModalOpen="state.modal.isFilterDailyOverviewOpen"
                 @close="state.modal.isFilterDailyOverviewOpen = false" />
         </NuxtLayout>
     </div>

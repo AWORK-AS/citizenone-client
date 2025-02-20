@@ -15,27 +15,13 @@
             </div>
 
             <div class="flex justify-between">
-                <div class="flex items-center gap-x-3">
-                    <p class="text-sm">{{ $t('dailyOverview.filter.show') }}</p>
-                    <FormButton buttonSize="sm" :class="[
-                        dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents && 'border-secondary bg-secondary text-white',
-                        'rounded-md w-full md:w-fit']"
-                        @click="dailyOverviewStore.setViewAllShowCitizenDailyEvents(!dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents)">
-                        {{ $t('dailyOverview.citizensDailyEvents') }}
-                    </FormButton>
-                    <FormButton buttonSize="sm" :class="[
-                        dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview && 'border-secondary bg-secondary text-white',
-                        'rounded-md w-full md:w-fit']"
-                        @click="dailyOverviewStore.setViewAllShowCitizenMedicineOverview(!dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview)">
-                        {{ $t('dailyOverview.dailyMedicineOverview.dailyMedicineOverview') }}
-                    </FormButton>
-                    <FormButton buttonSize="sm" :class="[
-                        dailyOverviewStore.getViewAllFilter.showLatestJournalNotes && 'border-secondary bg-secondary text-white',
-                        'rounded-md w-full md:w-fit']"
-                        @click="dailyOverviewStore.setViewAllShowLatestJournalNotes(!dailyOverviewStore.getViewAllFilter.showLatestJournalNotes)">
-                        {{ $t('dailyOverview.latestJournal.latestJournal') }}
-                    </FormButton>
-                </div>
+                <button class="flex items-center gap-x-1 text-sm text-primary group"
+                    @click="state.modal.isFilterDailyOverviewViewAllOpen = true">
+                    <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                    <span class="group-hover:text-primary-700">
+                        {{ $t('showHide') }}
+                    </span>
+                </button>
                 <div class="flex items-center gap-x-3">
                     <div class="space-y-1 col-span-1 md:col-span-3">
                         <FormLabel for="start_date" :label="$t('protocols.form.startDate')" />
@@ -66,6 +52,9 @@
                     </div>
                 </div>
             </div>
+
+            <ModulesDailyOverviewFilterModalDailyOverviewAll :isModalOpen="state.modal.isFilterDailyOverviewViewAllOpen"
+                @close="state.modal.isFilterDailyOverviewViewAllOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -78,6 +67,9 @@ const runtimeConfig = useRuntimeConfig()
 const dailyOverviewStore = useDailyOverviewStore()
 
 const state = reactive({
+    modal: {
+        isFilterDailyOverviewViewAllOpen: false,
+    },
     searchFilter: {
         'end_date': moment().format('YYYY-MM-DD'),
         'start_date': moment().format('YYYY-MM-DD'),
