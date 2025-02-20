@@ -1351,10 +1351,21 @@
             "nonbinary": "Ikke-binær",
             "willNotDisclose": "Vil ikke oplyse"
         },
+        "incidentStatistics": {
+            "incidentStatistics": "Hændelsesstatistik",
+            "harmless": "Harmløs",
+            "lowRisk": "Lav risiko",
+            "moderateRisk": "Moderat risiko",
+            "highRisk": "Høj risiko"
+        },
         "journalStatistics": "Journalstatistik",
         "latestJournal": {
             "latestJournal": "Seneste journalnotater",
             "score": "Score"
+        },
+        "medicineDeviationStatistics": {
+            "medicineDeviationStatistics": "Medicin afveget",
+            "deviated": "Afveget"
         },
         "myDailyEvents": "Mine daglige begivenheder",
         "news": "Nyheder",
@@ -1384,6 +1395,13 @@
                 "noRisk": "Ingen risiko"
             },
             "riskAssessment": "Risikovurdering"
+        },
+        "useForceStatistics": {
+            "useForceStatistics": "Brug af magt statistik",
+            "harmless": "Harmløs",
+            "lowRisk": "Lav risiko",
+            "moderateRisk": "Moderat risiko",
+            "highRisk": "Høj risiko"
         },
         "viewAll": "Se alle"
     },
