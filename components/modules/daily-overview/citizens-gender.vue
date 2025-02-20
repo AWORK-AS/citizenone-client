@@ -49,10 +49,10 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchCitizensAdmissionDischarged()
+    fetchCitizensGender()
 })
 
-async function fetchCitizensAdmissionDischarged() {
+async function fetchCitizensGender() {
     state.error = {}
     state.isPageLoading = true
     try {

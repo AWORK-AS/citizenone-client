@@ -56,6 +56,13 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { CalendarEventResponse, Error } from '@/types'
 
+const props = defineProps({
+    dateRange: {
+        type: Object,
+        required: false,
+    },
+})
+
 const { formatTimeToReadable } = useDatetimeFormatter()
 
 const state = reactive({
@@ -63,6 +70,10 @@ const state = reactive({
     myCalendarEvents: {} as CalendarEventResponse,
     error: {} as Error,
 })
+
+watch(() => props.dateRange, () => {
+    fetchMyCalendarEvents()
+}, { deep: true })
 
 onMounted(() => {
     fetchMyCalendarEvents()
@@ -72,7 +83,14 @@ async function fetchMyCalendarEvents() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await dailyOverviewService.getMyDailyEvents()
+        const params: any = {}
+        if (props.dateRange) {
+            params.date = {
+                end_date: props.dateRange.end_date,
+                start_date: props.dateRange.start_date
+            }
+        }
+        const response = await dailyOverviewService.getMyDailyEvents(params)
         if (response) {
             state.myCalendarEvents = response
         }

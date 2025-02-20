@@ -36,11 +36,22 @@
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { Error } from '@/types'
 
+const props = defineProps({
+    dateRange: {
+        type: Object,
+        required: false,
+    },
+})
+
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     journal_score_statistics: [] as any,
 })
+
+watch(() => props.dateRange, () => {
+    fetchJournalScoreStatistics()
+}, { deep: true })
 
 onMounted(() => {
     fetchJournalScoreStatistics()
@@ -50,7 +61,14 @@ async function fetchJournalScoreStatistics() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await dailyOverviewService.getCitizensJournalScoreStatistics()
+        const params: any = {}
+        if (props.dateRange) {
+            params.date = {
+                end_date: props.dateRange.end_date,
+                start_date: props.dateRange.start_date
+            }
+        }
+        const response = await dailyOverviewService.getCitizensJournalScoreStatistics(params)
         if (response) {
             state.journal_score_statistics = response
         }

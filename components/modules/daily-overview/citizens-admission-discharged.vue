@@ -44,6 +44,13 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { Error } from '@/types'
 
+const props = defineProps({
+    dateRange: {
+        type: Object,
+        required: false,
+    },
+})
+
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
@@ -51,6 +58,10 @@ const state = reactive({
     isPageLoading: false,
     error: {} as Error,
 })
+
+watch(() => props.dateRange, () => {
+    fetchCitizensAdmissionDischarged()
+}, { deep: true })
 
 onMounted(() => {
     fetchCitizensAdmissionDischarged()
@@ -60,7 +71,14 @@ async function fetchCitizensAdmissionDischarged() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await dailyOverviewService.getCitizensAdmissionAndDischarged()
+        const params: any = {}
+        if (props.dateRange) {
+            params.date = {
+                end_date: props.dateRange.end_date,
+                start_date: props.dateRange.start_date
+            }
+        }
+        const response = await dailyOverviewService.getCitizensAdmissionAndDischarged(params)
         if (response) {
             state.citizensAdmissionDischarged = response
         }

@@ -44,6 +44,13 @@ import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { Error } from '@/types'
 import { useDepartmentStore } from '@/store/department'
 
+const props = defineProps({
+    dateRange: {
+        type: Object,
+        required: false,
+    },
+})
+
 const departmentStore = useDepartmentStore()
 
 const state = reactive({
@@ -52,14 +59,18 @@ const state = reactive({
     citizen_incidents_statistics: [] as any,
 })
 
-onMounted(() => {
+watch(() => props.dateRange, () => {
     fetchIncidentReportStatistics()
-})
+}, { deep: true })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
         fetchIncidentReportStatistics()
     }
+})
+
+onMounted(() => {
+    fetchIncidentReportStatistics()
 })
 
 async function fetchIncidentReportStatistics() {
@@ -70,6 +81,12 @@ async function fetchIncidentReportStatistics() {
             department: departmentStore.getSelectedDepartmentName
         }
 
+        if (props.dateRange) {
+            params.date = {
+                end_date: props.dateRange.end_date,
+                start_date: props.dateRange.start_date
+            }
+        }
         const response = await dailyOverviewService.getIncidentsStatistics(params)
         if (response) {
             state.citizen_incidents_statistics = response

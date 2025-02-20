@@ -1,12 +1,12 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class DailyOverviewService extends BaseAPIService {
-    async getCitizensAdmissionAndDischarged(): Promise<any> {
-        return await this.request(`/user/citizens/all/admitted-discharged`, 'GET')
+    async getCitizensAdmissionAndDischarged(params: object): Promise<any> {
+        return await this.request(`/user/citizens/all/admitted-discharged`, 'GET', params)
     }
 
-    async getCitizensRiskAssessment(): Promise<any> {
-        return await this.request(`user/citizen-journals/risk-assessments/count`, 'GET')
+    async getCitizensRiskAssessment(params: object): Promise<any> {
+        return await this.request(`user/citizen-journals/risk-assessments/count`, 'GET', params)
     }
 
     async getCitizensGender(): Promise<any> {
@@ -25,12 +25,8 @@ class DailyOverviewService extends BaseAPIService {
         return await this.request(`user/citizens/all/with-diagnoses`, 'GET')
     }
 
-    async getCitizensAddiction(): Promise<any> {
-        return await this.request(`user/citizens/all/with-addictions`, 'GET')
-    }
-
-    async getMyDailyEvents(): Promise<any> {
-        return await this.request(`/user/my-calendars/daily/events`, 'GET')
+    async getMyDailyEvents(params: object): Promise<any> {
+        return await this.request(`/user/my-calendars/daily/events`, 'GET', params)
     }
 
     async getCitizenDailyEvents(params: object): Promise<any> {
@@ -41,8 +37,8 @@ class DailyOverviewService extends BaseAPIService {
         return await this.request(`/user/citizens/all/overview`, 'GET', params)
     }
 
-    async getCitizensJournalScoreStatistics(): Promise<any> {
-        return await this.request(`/user/citizen-journals/score/statistics`, 'GET')
+    async getCitizensJournalScoreStatistics(params: object): Promise<any> {
+        return await this.request(`/user/citizen-journals/score/statistics`, 'GET', params)
     }
 
     async getCitizenDailyMedicineOverview(params: object): Promise<any> {
@@ -53,18 +49,18 @@ class DailyOverviewService extends BaseAPIService {
         return await this.request(`/user/sales-campaigns`, 'GET')
     }
 
-    async getGoalsScoreStatistics(): Promise<any> {
-        return await this.request(`/user/citizen-goals/score/statistics`, 'GET')
+    async getGoalsScoreStatistics(params: object): Promise<any> {
+        return await this.request(`/user/citizen-goals/score/statistics`, 'GET', params)
     }
 
-    async getSubgoalsScoreStatistics(): Promise<any> {
-        return await this.request(`/user/citizen-goals/score/statistics`, 'GET')
+    async getSubgoalsScoreStatistics(params: object): Promise<any> {
+        return await this.request(`/user/citizen-subgoals/score/statistics`, 'GET', params)
     }
 
-    async getStatusesScoreStatistics(): Promise<any> {
-        return await this.request(`/user/statuses/score/statistics`, 'GET')
+    async getStatusesScoreStatistics(params: object): Promise<any> {
+        return await this.request(`/user/statuses/score/statistics`, 'GET', params)
     }
-    
+
     async getIncidentsStatistics(params: object): Promise<any> {
         return await this.request(`/user/citizen-incidents-statistics/score/statistics`, 'GET', params)
     }

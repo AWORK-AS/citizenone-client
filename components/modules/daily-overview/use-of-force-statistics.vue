@@ -12,10 +12,14 @@
                 <div v-for="(count, risk_level) in state.use_of_force_statistics?.data" :key="risk_level"
                     class="flex items-center space-x-4">
                     <p class="w-1/4 text-sm text-left">
-                        <span v-if="risk_level.toString() === 'harmless'">{{ $t('dailyOverview.useForceStatistics.harmless') }}</span>
-                        <span v-if="risk_level.toString() === 'low_risk'">{{ $t('dailyOverview.useForceStatistics.lowRisk') }}</span>
-                        <span v-if="risk_level.toString() === 'moderate_risk'">{{ $t('dailyOverview.useForceStatistics.moderateRisk') }}</span>
-                        <span v-if="risk_level.toString() === 'high_risk'">{{ $t('dailyOverview.useForceStatistics.highRisk') }}</span>
+                        <span v-if="risk_level.toString() === 'harmless'">{{
+                            $t('dailyOverview.useForceStatistics.harmless') }}</span>
+                        <span v-if="risk_level.toString() === 'low_risk'">{{
+                            $t('dailyOverview.useForceStatistics.lowRisk') }}</span>
+                        <span v-if="risk_level.toString() === 'moderate_risk'">{{
+                            $t('dailyOverview.useForceStatistics.moderateRisk') }}</span>
+                        <span v-if="risk_level.toString() === 'high_risk'">{{
+                            $t('dailyOverview.useForceStatistics.highRisk') }}</span>
                     </p>
                     <div class="flex-1">
                         <div class="h-2 bg-gray-300 rounded-full relative">
@@ -37,6 +41,13 @@ import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { Error } from '@/types'
 import { useDepartmentStore } from '@/store/department'
 
+const props = defineProps({
+    dateRange: {
+        type: Object,
+        required: false,
+    },
+})
+
 const departmentStore = useDepartmentStore()
 
 const state = reactive({
@@ -45,14 +56,18 @@ const state = reactive({
     use_of_force_statistics: [] as any,
 })
 
-onMounted(() => {
+watch(() => props.dateRange, () => {
     fetchUseForceStatistics()
-})
+}, { deep: true })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
         fetchUseForceStatistics()
     }
+})
+
+onMounted(() => {
+    fetchUseForceStatistics()
 })
 
 async function fetchUseForceStatistics() {
@@ -62,7 +77,13 @@ async function fetchUseForceStatistics() {
         const params: any = {
             department: departmentStore.getSelectedDepartmentName
         }
-        
+
+        if (props.dateRange) {
+            params.date = {
+                end_date: props.dateRange.end_date,
+                start_date: props.dateRange.start_date
+            }
+        }
         const response = await dailyOverviewService.getUseForceStatistics(params)
         if (response) {
             state.use_of_force_statistics = response

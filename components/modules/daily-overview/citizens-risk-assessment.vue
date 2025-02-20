@@ -58,6 +58,13 @@ import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
 
+const props = defineProps({
+    dateRange: {
+        type: Object,
+        required: false,
+    },
+})
+
 const customPagesStore = useCustomPagesStore() as any
 
 const state = reactive({
@@ -66,15 +73,26 @@ const state = reactive({
     error: {} as Error,
 })
 
+watch(() => props.dateRange, () => {
+    fetchCitizenRiskAssessment()
+}, { deep: true })
+
 onMounted(() => {
-    fetchCitizensAdmissionDischarged()
+    fetchCitizenRiskAssessment()
 })
 
-async function fetchCitizensAdmissionDischarged() {
+async function fetchCitizenRiskAssessment() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await dailyOverviewService.getCitizensRiskAssessment()
+        const params: any = {}
+        if (props.dateRange) {
+            params.date = {
+                end_date: props.dateRange.end_date,
+                start_date: props.dateRange.start_date
+            }
+        }
+        const response = await dailyOverviewService.getCitizensRiskAssessment(params)
         if (response) {
             state.citizensRiskAssessment = response
         }

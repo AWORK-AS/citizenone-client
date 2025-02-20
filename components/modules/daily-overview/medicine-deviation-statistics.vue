@@ -25,12 +25,16 @@
 <script setup lang="ts">
 import { dailyOverviewService } from '@/components/api/DailyOverviewService'
 import type { Error } from '@/types'
-import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 
-const departmentStore = useDepartmentStore()
+const props = defineProps({
+    dateRange: {
+        type: Object,
+        required: false,
+    },
+})
 
-const customPagesStore = useCustomPagesStore() as any
+const departmentStore = useDepartmentStore()
 
 const state = reactive({
     citizenMedicineDeviationStatistics: [] as any,
@@ -38,14 +42,18 @@ const state = reactive({
     error: {} as Error,
 })
 
-onMounted(() => {
+watch(() => props.dateRange, () => {
     fetchMedicineDeviationStatistics()
-})
+}, { deep: true })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
         fetchMedicineDeviationStatistics()
     }
+})
+
+onMounted(() => {
+    fetchMedicineDeviationStatistics()
 })
 
 async function fetchMedicineDeviationStatistics() {
@@ -56,6 +64,12 @@ async function fetchMedicineDeviationStatistics() {
             department: departmentStore.getSelectedDepartmentName
         }
 
+        if (props.dateRange) {
+            params.date = {
+                end_date: props.dateRange.end_date,
+                start_date: props.dateRange.start_date
+            }
+        }
         const response = await dailyOverviewService.getMedicineDeviationStatistics(params)
         if (response) {
             state.citizenMedicineDeviationStatistics = response
