@@ -19,7 +19,7 @@
         <!-- Nested Subfolders -->
         <!-- level: {{ subfolder }} -->
         <div v-if="subfolder.subfolder && subfolder.subfolder.length > 0" class="ml-6">
-            <ModulesCitizenDocumentFolderStructureRecursiveSubfolders :subfolders="subfolder.subfolder"
+            <ModulesDocumentFolderStructureRecursiveSubfolders :subfolders="subfolder.subfolder"
                 :parentIndex="`${parentIndex}-${index}`" @addSubfolder="addSubfolder"
                 @removeSubfolder="removeSubfolder" />
         </div>

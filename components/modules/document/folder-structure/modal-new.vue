@@ -4,7 +4,7 @@
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenDocumentFolderStructureForm formType="create" :error="state.error"
+                    <ModulesDocumentFolderStructureForm formType="create" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveFolderStructure" />
                 </LoadingSpinner>
@@ -52,7 +52,7 @@ async function saveFolderStructure(folderStuctureDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
-            type: 'citizen',
+            type: 'company',
             name: folderStuctureDetails.name,
             structure: JSON.stringify(folderStuctureDetails.structure),
         }

@@ -9,12 +9,12 @@
                 @click="state.formDirectory.is_use_template = !state.formDirectory.is_use_template"
                 v-if="props.formType === 'create'">
                 <FormCheckbox :value="state.formDirectory.is_use_template" />
-                {{ $t('plansandgoals.form.useTemplate') }}
+                {{ $t('citizens.documents.form.useTemplate') }}
             </div>
             <div v-if="state.formDirectory.is_use_template">
                 <div class="space-y-3">
                     <div class="space-y-1">
-                        <FormLabel for="template" :label="$t('plansandgoals.form.template')" />
+                        <FormLabel for="template" :label="$t('citizens.documents.form.template')" />
                         <FormSelect id="template" :options="state.options.templates"
                             v-model="state.formDirectory.template" />
                         <FormError :error="v$?.formDirectory?.template?.$errors[0]?.$message.toString()" />
@@ -149,7 +149,7 @@ async function fetchTemplates() {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        const response = await folderStructureService.getAllTemplates()
+        const response = await folderStructureService.getAllTemplatesForCitizen()
         if (response) {
             let options: any = []
             response.data.forEach(

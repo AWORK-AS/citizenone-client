@@ -2,8 +2,27 @@
     <form @submit.prevent="submitForm()">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="grid grid-cols-1 gap-y-3">
-            <div class="space-y-1">
+        <Alert type="danger" :text="state?.error?.message"
+            v-if="state.error?.message && state.error.message.length > 0" />
+        <div class="space-y-3">
+            <div class="w-fit flex items-center cursor-pointer"
+                @click="state.formDirectory.is_use_template = !state.formDirectory.is_use_template"
+                v-if="props.formType === 'create'">
+                <FormCheckbox :value="state.formDirectory.is_use_template" />
+                {{ $t('drive.form.useTemplate') }}
+            </div>
+            <div v-if="state.formDirectory.is_use_template">
+                <div class="space-y-3">
+                    <div class="space-y-1">
+                        <FormLabel for="template" :label="$t('plansandgoals.form.template')" />
+                        <FormSelect id="template" :options="state.options.templates"
+                            v-model="state.formDirectory.template" />
+                        <FormError :error="v$?.formDirectory?.template?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.template_uuid?.[0]" />
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-1" v-else>
                 <FormLabel for="name" :label="$t('citizens.documents.form.name')" />
                 <FormTextField id="name" name="name" :placeholder="$t('citizens.documents.form.name')"
                     v-model="state.formDirectory.name" />
@@ -33,9 +52,11 @@
 </template>
 
 <script setup lang="ts">
+import { folderStructureService } from '@/components/api/FolderStructureService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
 
 const props = defineProps({
     error: {
@@ -51,16 +72,22 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['closeModal', 'submitForm'])
+const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading'])
 
 const { t } = useI18n()
 
 const state = reactive({
+    error: {} as Error,
     formDirectory: {
         id: '',
         uuid: '',
         name: '',
         is_admin_access: false,
+        is_use_template: false,
+        template: '',
+    },
+    options: {
+        templates: [] as any
     },
 })
 
@@ -70,7 +97,10 @@ onMounted(() => {
         uuid: props.selectedDocument.uuid,
         name: props.selectedDocument.name,
         is_admin_access: props.selectedDocument.is_admin_access,
+        is_use_template: false,
+        template: '',
     }
+    fetchTemplates()
 })
 
 watch(() => props.selectedDocument, (newValue: any) => {
@@ -80,17 +110,29 @@ watch(() => props.selectedDocument, (newValue: any) => {
             uuid: newValue.uuid,
             name: newValue.name,
             is_admin_access: newValue.is_admin_access,
+            is_use_template: false,
+            template: '',
         }
     }
 })
 
 const rules = computed(() => {
-    return {
-        formDirectory: {
-            name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (state.formDirectory.is_use_template) {
+        return {
+            formDirectory: {
+                template: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-        },
+        }
+    } else {
+        return {
+            formDirectory: {
+                name: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            },
+        }
     }
 })
 
@@ -102,4 +144,32 @@ function submitForm() {
         emit('submitForm', state.formDirectory)
     }
 }
+
+async function fetchTemplates() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await folderStructureService.getAllTemplatesForCompany()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.templates = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
 </script>
+
+<style>
+#formDirectory .multiselect-dropdown {
+    max-height: 4.8rem !important;
+}
+</style>

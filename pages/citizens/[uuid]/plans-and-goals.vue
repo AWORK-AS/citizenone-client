@@ -194,7 +194,14 @@
                                                 {{ $t('plansandgoals.table.actions.notes') }}
                                             </FormButton>
                                             <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="confirmPlanDeletion(plan)" v-if="plan?.is_deletable">
+                                                @click="confirmPlanDeletion(plan)"
+                                                v-if="plan?.is_deletable && !plan?.is_single_goal">
+                                                <Icon name="heroicons:trash" class="size-4" />
+                                                {{ $t('plansandgoals.table.actions.delete') }}
+                                            </FormButton>
+                                            <FormButton class="rounded-md" buttonSize="sm"
+                                                @click="confirmGoalDeletion(plan)"
+                                                v-if="plan?.is_deletable && plan?.is_single_goal">
                                                 <Icon name="heroicons:trash" class="size-4" />
                                                 {{ $t('plansandgoals.table.actions.delete') }}
                                             </FormButton>
@@ -228,6 +235,9 @@
             <DialogConfirmation :isModalOpen="state.modal.isDeletePlanOpen"
                 :message="`${$t('plansandgoals.confirmation.deletePlanConfirmation')}?`"
                 @close="state.modal.isDeletePlanOpen = false" @confirm="deletePlan" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteSingleGoalOpen"
+                :message="`${$t('plansandgoals.confirmation.deleteGoalConfirmation')}?`"
+                @close="state.modal.isDeleteSingleGoalOpen = false" @confirm="deleteGoal" />
             <ModulesCitizenPlanGoalSlideOver :isOpen="state.slideOver.isGoalOpen" :selectedPlan="state.selectedPlan"
                 @close="state.slideOver.isGoalOpen = false" />
             <ModulesCitizenPlanSingleGoalSlideOver :isOpen="state.slideOver.isSubgoalOpen"
@@ -240,6 +250,7 @@
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { planService } from '@/components/api/PlanService'
+import { goalService } from '@/components/api/GoalService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
@@ -265,6 +276,7 @@ const state = reactive({
         isAddPlanOpen: false,
         isAddSingleGoalOpen: false,
         isDeletePlanOpen: false,
+        isDeleteSingleGoalOpen: false,
         isEditPlanOpen: false,
         isEditSingleGoalOpen: false,
         isFilterPlansAndGoalsOpen: false,
@@ -408,6 +420,30 @@ async function deletePlan() {
                 fetchPlans()
             }
             successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.planSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function confirmGoalDeletion(goal: any) {
+    state.selectedGoal = goal
+    state.modal.isDeleteSingleGoalOpen = true
+}
+
+async function deleteGoal() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await goalService.deleteGoal(state.selectedGoal.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            if (state.plans?.data?.length === 1) {
+                resetFilter()
+            } else {
+                fetchPlans()
+            }
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.goalSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error

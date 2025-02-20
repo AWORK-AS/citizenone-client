@@ -321,19 +321,24 @@
                                                 v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber)">
                                                 <div class="flex justify-end gap-2"
                                                     v-if="isAdmin(userStore.getUser?.roles)">
+                                                    <Tooltip
+                                                        :text="`${week?.additional_hour_requests} ${week?.additional_hour_requests === 1 ? $t('dutySchedules.scheduleRequests.request') : $t('dutySchedules.scheduleRequests.requests')}`"
+                                                        v-if="week?.additional_hour_requests > 0" class="relative">
+                                                        <button
+                                                            class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                            @click="viewRequests(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
+                                                            <Icon name="mdi:calendar-question-outline" class="h-3 w-3"
+                                                                aria-hidden="true" />
+                                                        </button>
+                                                        <div
+                                                            class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1">
+                                                        </div>
+                                                    </Tooltip>
                                                     <Tooltip :text="$t('dutySchedules.copy.copy')">
                                                         <button
                                                             class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                             @click="copyEmployeeSchedule(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
                                                             <Icon name="mdi:content-copy" class="h-3 w-3"
-                                                                aria-hidden="true" />
-                                                        </button>
-                                                    </Tooltip>
-                                                    <Tooltip :text="$t('dutySchedules.scheduleRequests.requests')">
-                                                        <button
-                                                            class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                            @click="viewRequests(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
-                                                            <Icon name="mdi:calendar-question-outline" class="h-3 w-3"
                                                                 aria-hidden="true" />
                                                         </button>
                                                     </Tooltip>
@@ -583,10 +588,19 @@ function sortMultiDayShiftsFirst(shifts: any) {
 function calculateShiftWidth(shift: any, weekIndex: string) {
     const startDay = moment(shift?.date_time_start).startOf('day')
     const endDay = moment(shift?.date_time_end).startOf('day')
-    const isMultiDay = endDay.diff(startDay, 'days') >= 1
-    const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+    const dayDifference = endDay.diff(startDay, 'days')
 
-    return isMultiDay && !isExcluded && weekIndex !== 'sunday' ? '17.5rem' : 'auto'
+    if (weekIndex === 'sunday') {
+        return 'auto'
+    }
+
+    if (dayDifference === 1) {
+        return '17.5rem' // Width for shifts spanning 2 days
+    } else if (dayDifference === 2) {
+        return '27rem' // Width for shifts spanning 3 days
+    } else {
+        return 'auto' // Default width for single-day shifts
+    }
 }
 
 function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: number) {

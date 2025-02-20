@@ -34,7 +34,7 @@
 
                     <!-- Subfolders -->
                     <div v-if="root.subfolder && root.subfolder.length > 0" class="ml-6">
-                        <ModulesCitizenDocumentFolderStructureRecursiveSubfolders :subfolders="root.subfolder"
+                        <ModulesDocumentFolderStructureRecursiveSubfolders :subfolders="root.subfolder"
                             :parentIndex="index" @addSubfolder="addSubfolder" @removeSubfolder="removeSubfolder" />
                     </div>
 

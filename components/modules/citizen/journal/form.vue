@@ -135,18 +135,24 @@
                 </div>
             </div>
             <div class="space-y-1" v-if="state.formJournal.assessment !== null">
-                <div class="flex justify-end">
-                    <input ref="riskAssessmentFileInput" type="file" @change="handleRiskAssessmentFileChange"
-                        class="hidden" />
-                    <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
-                        @click="triggerRiskAssessmentFileInput">
-                        <div>
-                            <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
+                <div class="flex items-center">
+                    <p class="text-sm text-gray-600">
+                        {{ $t('citizens.citizenJournals.form.note') }}
+                    </p>
+                    <div class="flex-1 flex justify-end">
+                        <input ref="riskAssessmentFileInput" type="file" @change="handleRiskAssessmentFileChange"
+                            class="hidden" />
+                        <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
+                            @click="triggerRiskAssessmentFileInput">
+                            <div>
+                                <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
+                            </div>
+                            {{ $t('citizens.citizenJournals.form.attachFile') }}
                         </div>
-                        {{ $t('citizens.citizenJournals.form.attachFile') }}
                     </div>
                 </div>
                 <ckeditor :editor="editor" v-model="state.formJournal.note" :config="editorNoteConfig"></ckeditor>
+                <FormError :error="v$?.formJournal?.note?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.note?.[0]" />
             </div>
             <div class="space-y-1">
@@ -410,15 +416,45 @@ watch(() => props.selectedJournal, (newValue: any) => {
 })
 
 const rules = computed(() => {
-    return {
-        formJournal: {
-            title: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal) {
+        return {
+            formJournal: {
+                title: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                content: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            date: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        }
+    } else if (state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal) {
+        return {
+            formJournal: {
+                title: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                note: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-        },
+        }
+    } else {
+        return {
+            formJournal: {
+                title: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            },
+        }
     }
 })
 

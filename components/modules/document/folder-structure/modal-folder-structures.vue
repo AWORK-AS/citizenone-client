@@ -37,10 +37,10 @@
                     </div>
                     <Pagination :data="state.folder_structures" @previous="previous" @next="next" />
                 </div>
-                <ModulesCitizenDocumentFolderStructureModalNew :isModalOpen="state.modal.newFolderStructureOpen"
+                <ModulesDocumentFolderStructureModalNew :isModalOpen="state.modal.newFolderStructureOpen"
                     @close="state.modal.newFolderStructureOpen = false"
                     @refreshFolderStructures="fetchFolderStructures" />
-                <ModulesCitizenDocumentFolderStructureModalEdit :isModalOpen="state.modal.editFolderStructureOpen"
+                <ModulesDocumentFolderStructureModalEdit :isModalOpen="state.modal.editFolderStructureOpen"
                     :selectedFolderStructure="state.selected_folder_structure"
                     @close="state.modal.editFolderStructureOpen = false"
                     @refreshFolderStructures="fetchFolderStructures" />
@@ -102,7 +102,7 @@ async function fetchFolderStructures() {
     state.isTableLoading = true
     try {
         const params = {
-            type: 'citizen',
+            type: 'company',
             citizen_uuid: citizenUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,

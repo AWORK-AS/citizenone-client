@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('citizens.documents.folderStructure.editFolderStructure')" :show="props.isModalOpen"
+        <Modal size="lg" :title="$t('folderStructure.editFolderStructure')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -62,7 +62,7 @@ async function updateFolderStructure(folderStructureDetails: any) {
         if (response?.data) {
             refreshFolderStructures()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.folderStructure.alert.folderStructureSuccessfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('folderStructure.alert.folderStructureSuccessfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error

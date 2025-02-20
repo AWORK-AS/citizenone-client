@@ -1,17 +1,19 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('folderStructure.newFolderStructure')" :show="props.isModalOpen"
+        <Modal size="lg" :title="$t('folderStructure.editFolderStructure')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenDocumentFolderStructureForm formType="create" :error="state.error"
+                    <ModulesDocumentFolderStructureForm formType="update"
+                        :selectedFolderStructure="props.selectedFolderStructure" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="saveFolderStructure" />
+                        @submitForm="updateFolderStructure" />
                 </LoadingSpinner>
             </template>
         </Modal>
     </div>
 </template>
+
 
 <script setup lang="ts">
 import { folderStructureService } from '@/components/api/FolderStructureService'
@@ -27,16 +29,16 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    selectedFolderStructure: {
+        type: Object,
+        required: true,
+    },
 })
 const emit = defineEmits(['close', 'refreshFolderStructures'])
 
 const state = reactive({
     error: {} as Error,
-    formFolderStructure: {
-        name: '',
-        structure: '',
-    },
-    isPageLoading: false,
+    isPageLoading: false
 })
 
 function closeModal() {
@@ -47,20 +49,20 @@ function refreshFolderStructures() {
     emit('refreshFolderStructures')
 }
 
-async function saveFolderStructure(folderStuctureDetails: any) {
+async function updateFolderStructure(folderStructureDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
+        const folderStructureUuid = props?.selectedFolderStructure?.uuid
         const params = {
-            type: 'citizen',
-            name: folderStuctureDetails.name,
-            structure: JSON.stringify(folderStuctureDetails.structure),
+            name: folderStructureDetails.name,
+            structure: JSON.stringify(folderStructureDetails.structure),
         }
-        const response = await folderStructureService.saveFolderStructure(params)
-        if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('folderStructure.form.alert.newFolderStructureSuccessfullyCreated')}.`)
+        const response = await folderStructureService.updateFolderStructure(folderStructureUuid, params)
+        if (response?.data) {
             refreshFolderStructures()
             closeModal()
+            successAlert(`${t('alert.success')}!`, `${t('folderStructure.alert.folderStructureSuccessfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error

@@ -455,6 +455,8 @@
                 "documentSuccessfullyArchived": "Dokument arkiveret med succes",
                 "fileSuccessfullyAdded": "Ny fil gemt med succes",
                 "fileSuccessfullyMoved": "Filen blev flyttet til en anden mappe med succes",
+                "fileSuccessfullyShared": "Fil delt med succes",
+                "fileSuccessfullyUnshared": "Filens deling blev fjernet med succes",
                 "folderSuccessfullyAdded": "Ny mappe gemt med succes",
                 "folderSuccessfullyUpdated": "Mappe opdateret med succes"
             },
@@ -463,37 +465,9 @@
                 "archiveConfirmation": "Er du sikker på, at du vil arkivere dette dokument",
                 "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil",
                 "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
+                "shareConfirmation": "Er du sikker på, at du vil dele dette dokument",
+                "unshareConfirmation": "Er du sikker på, at du vil fjerne delingen af dette dokument",
                 "upgradeStorageConfirmation": "Vil du opgradere dit lager"
-            },
-            "folderStructure": {
-                "alert": {
-                    "folderStructureSuccessfullyDeleted": "Mappestruktur slettet med succes",
-                    "folderStructureSuccessfullyUpdated": "Mappestruktur opdateret med succes"
-                },
-                "confirmation": {
-                    "deleteFolderStructureConfirmation": "Er du sikker på, at du vil slette denne mappestruktur"
-                },
-                "editFolderStructure": "Rediger mappestruktur",
-                "folderStructure": "Mappestruktur",
-                "form": {
-                    "addSubfolder": "Tilføj undermappe",
-                    "alert": {
-                        "newFolderStructureSuccessfullyCreated": "Mappestruktur oprettet med succes"
-                    },
-                    "folderName": "Mappenavn",
-                    "name": "Navn",
-                    "rootFolder": "Rodmappe",
-                    "subfolder": "Undermappe"
-                },
-                "newFolderStructure": "Ny mappestruktur",
-                "table": {
-                    "actions": {
-                        "delete": "Slet",
-                        "edit": "Rediger"
-                    },
-                    "name": "Navn",
-                    "structure": "Struktur"
-                }
             },
             "form": {
                 "editFile": "Rediger fil",
@@ -502,7 +476,9 @@
                 "folderName": "Mappenavn",
                 "moveFile": "Move file",
                 "name": "Navn",
-                "newFolder": "Ny mappe"
+                "newFolder": "Ny mappe",
+                "template": "Skabelon",
+                "useTemplate": "Brug skabelon"
             },
             "table": {
                 "actions": {
@@ -510,6 +486,8 @@
                     "edit": "Rediger",
                     "delete": "Slet",
                     "move": "Flyt",
+                    "share": "Del",
+                    "unshare": "Fjern deling",
                     "view": "Se"
                 },
                 "dateCreated": "Oprettelsesdato",
@@ -567,6 +545,7 @@
                 "goal": "Mål",
                 "hideCurrentPlansGoalsAndSubgoals": "Skjul nuværende planer, mål og delmål",
                 "journalNoteTags": "Journalnotetag",
+                "note": "Note",
                 "plan": "Plan",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",
@@ -1557,6 +1536,7 @@
                 "whyDoYouWantToRequestAdditionalHours": "Hvorfor vil du anmode om ekstra timer eller ændre timer"
             },
             "newRequest": "Ny anmodning",
+            "request": "Anmodning",
             "requests": "Anmodninger",
             "table": {
                 "actions": {
@@ -1669,7 +1649,9 @@
             "forAdministratorsOnly": "Kun for administratorer",
             "moveFile": "Flyt fil",
             "name": "Navn",
-            "newFolder": "Ny mappe"
+            "newFolder": "Ny mappe",
+            "template": "Skabelon",
+            "useTemplate": "Brug skabelon"
         },
         "table": {
             "actions": {
@@ -1991,6 +1973,36 @@
             "showInterest": "Vis interesse"
         }
     },
+    "folderStructure": {
+        "alert": {
+            "folderStructureSuccessfullyDeleted": "Mappestruktur slettet med succes",
+            "folderStructureSuccessfullyUpdated": "Mappestruktur opdateret med succes"
+        },
+        "confirmation": {
+            "deleteFolderStructureConfirmation": "Er du sikker på, at du vil slette denne mappestruktur"
+        },
+        "editFolderStructure": "Rediger mappestruktur",
+        "folderStructure": "Mappestruktur",
+        "form": {
+            "addSubfolder": "Tilføj undermappe",
+            "alert": {
+                "newFolderStructureSuccessfullyCreated": "Mappestruktur oprettet med succes"
+            },
+            "folderName": "Mappenavn",
+            "name": "Navn",
+            "rootFolder": "Rodmappe",
+            "subfolder": "Undermappe"
+        },
+        "newFolderStructure": "Ny mappestruktur",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "name": "Navn",
+            "structure": "Struktur"
+        }
+    },
     "forms": {
         "addNewQuestion": "Tilføj nyt spørgsmål",
         "addOption": "Tilføj mulighed",
@@ -2309,11 +2321,13 @@
             "planSuccessfullyDeleted": "Planen er succesfuldt slettet",
             "planSuccessfullyUpdated": "Planen er succesfuldt opdateret",
             "goalSuccessfullyAdded": "Målet er succesfuldt tilføjet",
+            "goalSuccessfullyDeleted": "Mål slettet med succes",
             "goalSuccessfullyUpdated": "Målet er succesfuldt opdateret",
             "statusSuccessfullyAdded": "Status er succesfuldt tilføjet",
             "statusSuccessfullyDeleted": "Status er succesfuldt slettet",
             "statusSuccessfullyUpdated": "Status er succesfuldt opdateret",
             "subgoalSuccessfullyAdded": "Delmål succesfuldt tilføjet",
+            "subgoalSuccessfullyDelete": "Delmål slettet med succes",
             "subgoalSuccessfullyUpdated": "Delmål succesfuldt opdateret"
         },
         "categories": {
@@ -2321,6 +2335,7 @@
             "singleGoal": "Enkeltmål"
         },
         "confirmation": {
+            "deleteGoalConfirmation": "Er du sikker på, at du vil slette dette mål",
             "deletePlanConfirmation": "Er du sikker på, at du vil slette denne plan",
             "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
         },

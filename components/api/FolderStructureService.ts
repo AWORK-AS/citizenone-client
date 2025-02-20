@@ -17,8 +17,12 @@ class FolderStructureService extends BaseAPIService {
         return await this.request(`/user/folder-structures/${folderStructureUuid}`, 'PUT', params)
     }
 
-    async getAllTemplates(): Promise<any> {
-        return await this.request(`/user/folder-structures/all/list`, 'GET')
+    async getAllTemplatesForCompany(): Promise<any> {
+        return await this.request(`/user/folder-structures/company/list`, 'GET')
+    }
+
+    async getAllTemplatesForCitizen(): Promise<any> {
+        return await this.request(`/user/folder-structures/citizen/list`, 'GET')
     }
 }
 
