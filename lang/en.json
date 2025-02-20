@@ -1372,10 +1372,21 @@
             "nonbinary": "Nonbinary",
             "willNotDisclose": "Will note disclose"
         },
+        "incidentStatistics": {
+            "incidentStatistics": "Incident statistics",
+             "harmless": "Harmless",
+             "lowRisk": "Low risk",
+             "moderateRisk": "Moderate risk",
+             "highRisk": "High risk"
+        },
         "journalStatistics": "Journal statistics",
         "latestJournal": {
             "latestJournal": "Latest journal notes",
             "score": "Score"
+        },
+        "medicineDeviationStatistics": {
+            "medicineDeviationStatistics": "Medicine deviated",
+            "deviated": "Deviated"
         },
         "myDailyEvents": "My daily events",
         "news": "News",
@@ -1405,6 +1416,13 @@
                 "noRisk": "No risk"
             },
             "riskAssessment": "Risk assessment"
+        },
+        "useForceStatistics": {
+            "useForceStatistics": "Use of force statistics",
+             "harmless": "Harmless",
+             "lowRisk": "Low risk",
+             "moderateRisk": "Moderate risk",
+             "highRisk": "High risk"
         },
         "viewAll": "View all"
     },
