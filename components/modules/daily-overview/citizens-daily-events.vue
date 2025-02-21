@@ -26,23 +26,20 @@
                 <div class="space-y-2">
                     <Badge type="primary" class="w-fit">
                         <p class="text-xs px-2">
-                            {{ event?.user?.firstname + ' ' + event?.user?.lastname }}
+                            {{ event?.citizen_name }}
                         </p>
                     </Badge>
                     <p class="text-xs">
                         {{ $t('dailyOverview.createdBy') }}
-                        <span v-if="event?.my_calendar?.user?.firstname">
-                            {{ event?.my_calendar?.user?.firstname + ' ' }}
-                        </span>
-                        <span v-if="event?.my_calendar?.user?.lastname">
-                            {{ event?.my_calendar?.user?.lastname }}
+                        <span v-if="event?.creator_name">
+                            {{ event?.creator_name }}
                         </span>
                     </p>
                     <p class="text-base font-semibold text-gray-700 xl:pr-0">
-                        {{ event?.my_calendar?.title }}
+                        {{ event?.title }}
                     </p>
                     <div class="text-gray-700 xl:pr-0 text-xs line-clamp-2">
-                        {{ event?.my_calendar?.description }}
+                        {{ event?.description }}
                     </div>
                     <div class="me-auto max-w-full">
                         <div class="flex items-center gap-x-2 text-xs ">
@@ -52,9 +49,9 @@
                             </div>
                             <div class="">
                                 <p>
-                                    {{ formatDateTimeToReadable(event?.my_calendar?.date_time_start ?? moment()) }}
+                                    {{ formatDateTimeToReadable(event?.date_time_start ?? moment()) }}
                                     -
-                                    {{ formatDateTimeToReadable(event?.my_calendar?.date_time_end ?? moment()) }}
+                                    {{ formatDateTimeToReadable(event?.date_time_end ?? moment()) }}
                                 </p>
                             </div>
                         </div>
