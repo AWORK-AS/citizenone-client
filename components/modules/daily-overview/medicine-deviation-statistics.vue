@@ -15,7 +15,7 @@
                     </p>
                 </div>
                 <p class="text-sm">
-                    {{ state.citizenMedicineDeviationStatistics?.data?.Deviated ?? 0 }}
+                    {{ state.citizenMedicineDeviationStatistics?.data?.deviated ?? 0 }}
                 </p>
             </div>
         </div>
