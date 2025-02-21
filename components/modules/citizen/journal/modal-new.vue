@@ -29,6 +29,16 @@
                             v-for="(plan, index) in state.plans?.data" :key="index">
                             <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-10">
                                 <div class="grow space-y-1">
+                                    <Badge type="plans-and-goals" class="w-fit" v-if="plan?.is_plans_with_goals">
+                                        <p class="text-xxs truncate">
+                                            {{ $t('plansandgoals.categories.plansAndGoals') }}
+                                        </p>
+                                    </Badge>
+                                    <Badge type="single-goal" class="w-fit" v-if="plan?.is_single_goal">
+                                        <p class="text-xxs truncate">
+                                            {{ $t('plansandgoals.categories.singleGoal') }}
+                                        </p>
+                                    </Badge>
                                     <div class="flex items-center gap-x-2">
                                         <div>
                                             <Badge :type="plan?.is_completed ? 'active' : 'primary'">
