@@ -39,19 +39,17 @@
                                             {{ $t('plansandgoals.categories.singleGoal') }}
                                         </p>
                                     </Badge>
-                                    <div class="flex items-center gap-x-2">
-                                        <div>
-                                            <Badge :type="plan?.is_completed ? 'active' : 'primary'">
-                                                <p class="text-xxs truncate">
-                                                    {{ plan?.is_completed ? $t('plansandgoals.completed') :
-                                                        $t('plansandgoals.inProgress') }}
-                                                </p>
-                                            </Badge>
-                                        </div>
-                                        <h3 class="text-lg font-semibold">
-                                            {{ plan?.name }}
-                                        </h3>
+                                    <div>
+                                        <Badge :type="plan?.is_completed ? 'active' : 'primary'" class="w-fit">
+                                            <p class="text-xxs truncate">
+                                                {{ plan?.is_completed ? $t('plansandgoals.completed') :
+                                                    $t('plansandgoals.inProgress') }}
+                                            </p>
+                                        </Badge>
                                     </div>
+                                    <h3 class="text-lg font-semibold">
+                                        {{ plan?.name }}
+                                    </h3>
                                     <div class="text-sm">
                                         <div v-html="plan?.description" class="content" />
                                     </div>
