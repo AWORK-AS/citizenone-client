@@ -5,6 +5,10 @@ class PlanService extends BaseAPIService {
         return await this.request(`/user/citizen-plans`, 'GET', params)
     }
 
+    async getJournalPlanList(params: object): Promise<any> {
+        return await this.request(`/user/citizen-plans/journal/plan/list`, 'GET', params)
+    }
+
     async savePlan(params: object): Promise<any> {
         return await this.request(`/user/citizen-plans`, 'POST', params)
     }

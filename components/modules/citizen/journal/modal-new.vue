@@ -175,7 +175,7 @@ async function fetchPlans() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await planService.getPlans(params)
+        const response = await planService.getJournalPlanList(params)
         if (response) {
             state.plans = response
             if (state.plans?.data?.length > 0) {
