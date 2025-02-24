@@ -6,6 +6,10 @@
                 <Title>{{ $t('procedures.procedures') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('procedures.procedures') }}</template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
@@ -21,6 +25,13 @@ import { useUserStore } from '@/store/user'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
+const breadcrumbLinks = [
+    {
+        name: 'procedures.procedures',
+        translate: true,
+        href: '/procedures',
+    },
+]
 
 const state = reactive({
     isPageLoading: true,

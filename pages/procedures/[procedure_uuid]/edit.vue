@@ -6,6 +6,10 @@
                 <Title>{{ $t('procedures.editProcedure') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('procedures.editProcedure') }}</template>
 
             <div>
@@ -34,6 +38,18 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const procedureUuid = router?.currentRoute?.value?.params?.procedure_uuid
+const breadcrumbLinks = [
+    {
+        name: 'procedures.procedures',
+        translate: true,
+        href: '/procedures',
+    },
+    {
+        name: 'procedures.editProcedure',
+        translate: true,
+        href: `/procedures/${procedureUuid}/edit`,
+    },
+]
 
 const state = reactive({
     error: {} as Error,

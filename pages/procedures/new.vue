@@ -6,6 +6,10 @@
                 <Title>{{ $t('procedures.newProcedure') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('procedures.newProcedure') }}</template>
 
             <div>
@@ -32,6 +36,18 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const breadcrumbLinks = [
+    {
+        name: 'procedures.procedures',
+        translate: true,
+        href: '/procedures',
+    },
+    {
+        name: 'procedures.newProcedure',
+        translate: true,
+        href: '/procedures/new',
+    },
+]
 
 const state = reactive({
     error: {} as Error,
