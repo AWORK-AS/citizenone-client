@@ -6,6 +6,10 @@
                 <Title>{{ $t('messages.messages') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('messages.messages') }}</template>
 
             <div class="space-y-5">
@@ -251,6 +255,13 @@ let currentPage = 1
 let scrollHeight = 0
 const fileInput = ref(null) as any
 const files = ref<File[]>([])
+const breadcrumbLinks = [
+    {
+        name: 'messages.messages',
+        translate: true,
+        href: '/messages',
+    },
+]
 
 const state = reactive({
     chat: [] as any,
