@@ -11,11 +11,7 @@
             </Head>
 
             <template #header>
-                {{
-                    customPage('citizens') === 'Citizens' ?
-                        $t('citizens.citizens') :
-                        customPage('citizens')
-                }}
+                {{ customPagesStore.getCustomPagesName?.citizens }}
             </template>
 
             <div>
