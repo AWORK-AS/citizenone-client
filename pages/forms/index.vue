@@ -6,6 +6,10 @@
                 <Title>{{ $t('forms.forms') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('forms.forms') }}</template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
@@ -21,6 +25,13 @@ import { useUserStore } from '@/store/user'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
+const breadcrumbLinks = [
+    {
+        name: 'forms.forms',
+        translate: true,
+        href: '/forms',
+    },
+]
 
 const state = reactive({
     isPageLoading: true,

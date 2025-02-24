@@ -6,6 +6,10 @@
                 <Title>{{ $t('forms.createResponse') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('forms.createResponse') }}</template>
 
             <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/forms">
@@ -212,6 +216,18 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const formUuid = router?.currentRoute?.value?.params?.form_uuid
+const breadcrumbLinks = [
+    {
+        name: 'forms.forms',
+        translate: true,
+        href: '/forms',
+    },
+    {
+        name: 'forms.createResponse',
+        translate: true,
+        href: `/forms/${formUuid}/respond`,
+    },
+]
 
 const state = reactive({
     error: {} as Error,
