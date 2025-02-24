@@ -6,6 +6,10 @@
                 <Title>{{ $t('events.calendar') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('events.calendar') }}</template>
 
             <div class="flex justify-end items-center mb-5 gap-x-2">
@@ -142,6 +146,13 @@ const language = useI18n()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const employeeUuid = router?.currentRoute?.value?.query?.employee_uuid
+const breadcrumbLinks = [
+    {
+        name: 'events.calendar',
+        translate: true,
+        href: '/calendar',
+    },
+]
 
 const state = reactive({
     calendarView: 'default',
