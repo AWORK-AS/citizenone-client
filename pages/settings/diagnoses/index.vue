@@ -6,6 +6,10 @@
                 <Title>{{ $t('diagnoses.diagnoses') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('diagnoses.diagnoses') }}</template>
 
             <ModulesSettingsTab />
@@ -33,7 +37,7 @@
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/diagnoses/edit/${diagnosis.uuid}`)">
+                                                @click="navigateTo(`/settings/diagnoses/${diagnosis.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('diagnoses.table.actions.edit') }}
                                             </FormButton>
@@ -53,6 +57,13 @@
 <script setup lang="ts">
 import { diagnosisService } from '@/components/api/DiagnosisService'
 import type { Error } from '@/types'
+const breadcrumbLinks = [
+    {
+        name: 'diagnoses.diagnoses',
+        translate: true,
+        href: '/settings/diagnoses',
+    },
+]
 
 const runtimeConfig = useRuntimeConfig()
 let currentTablePage = 1

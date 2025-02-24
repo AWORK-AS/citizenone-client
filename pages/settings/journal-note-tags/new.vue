@@ -6,6 +6,10 @@
                 <Title>{{ $t('journalNoteTags.addNewTag') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('journalNoteTags.addNewTag') }}</template>
 
             <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
@@ -31,6 +35,18 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const breadcrumbLinks = [
+    {
+        name: 'journalNoteTags.journalNoteTags',
+        translate: true,
+        href: '/settings/journal-note-tags',
+    },
+    {
+        name: 'journalNoteTags.addNewTag',
+        translate: true,
+        href: '/settings/journal-note-tags/new',
+    },
+]
 
 const state = reactive({
     error: {} as Error,

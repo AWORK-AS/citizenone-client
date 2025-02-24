@@ -6,6 +6,10 @@
                 <Title>{{ $t('subscription.subscription') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('subscription.subscription') }}</template>
 
             <ModulesSettingsTab />
@@ -131,4 +135,11 @@ const { formatAmount } = useAmountFormatter()
 const userStore = useUserStore() as any
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
+const breadcrumbLinks = [
+    {
+        name: 'subscription.subscription',
+        translate: true,
+        href: '/settings/subscription',
+    },
+]
 </script>

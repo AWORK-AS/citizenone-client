@@ -6,6 +6,10 @@
                 <Title>{{ $t('activityLogs.activityLogs') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('activityLogs.activityLogs') }}</template>
 
             <ModulesSettingsTab />
@@ -51,6 +55,13 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 const userStore = useUserStore() as any
 const isUserLoggedInAdmin = userStore.getUser?.roles.some((role: any) => role.name === 'Admin')
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'activityLogs.activityLogs',
+        translate: true,
+        href: '/settings/activity-logs',
+    },
+]
 
 const state = reactive({
     columnHeaders: [

@@ -6,6 +6,10 @@
                 <Title>{{ $t('invoices.invoices') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('invoices.invoices') }}</template>
 
             <ModulesSettingsTab />
@@ -103,6 +107,13 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'invoices.invoices',
+        translate: true,
+        href: '/settings/invoices',
+    },
+]
 
 const state = reactive({
     columnFilter: [

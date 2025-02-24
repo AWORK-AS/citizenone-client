@@ -6,6 +6,10 @@
                 <Title>{{ $t('relationships.addNewRelationship') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('relationships.addNewRelationship') }}</template>
 
             <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
@@ -31,6 +35,18 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const breadcrumbLinks = [
+    {
+        name: 'relationships.relationships',
+        translate: true,
+        href: '/settings/relationships',
+    },
+    {
+        name: 'relationships.addNewRelationship',
+        translate: true,
+        href: '/settings/relationships/new',
+    },
+]
 
 const state = reactive({
     error: {} as Error,

@@ -6,6 +6,10 @@
                 <Title>{{ $t('timeLogs.timeLogs') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('timeLogs.timeLogs') }}</template>
 
             <ModulesSettingsTab />
@@ -46,8 +50,15 @@ import { timeLogService } from '@/components/api/TimeLogService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { formatDateTimeToReadable, formatTimeToReadable } = useDatetimeFormatter()
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'timeLogs.timeLogs',
+        translate: true,
+        href: '/settings/time-logs',
+    },
+]
 
 const state = reactive({
     columnHeaders: [

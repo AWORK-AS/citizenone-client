@@ -6,6 +6,10 @@
                 <Title>{{ $t('relationships.editRelationship') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('relationships.editRelationship') }}</template>
 
             <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
@@ -33,6 +37,18 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const relationshipUuid = router?.currentRoute?.value?.params?.uuid
+const breadcrumbLinks = [
+    {
+        name: 'relationships.relationships',
+        translate: true,
+        href: '/settings/relationships',
+    },
+    {
+        name: 'relationships.editRelationship',
+        translate: true,
+        href: `/settings/relationships/${relationshipUuid}/edit`,
+    },
+]
 
 const state = reactive({
     error: {} as Error,

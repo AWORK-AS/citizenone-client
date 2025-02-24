@@ -8,6 +8,10 @@
                 </Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('invoiceDetails.invoiceDetails') }}</template>
 
             <ModulesSettingsTab />
@@ -112,6 +116,18 @@ const { formatAmount } = useAmountFormatter()
 const { formatDateToReadable } = useDatetimeFormatter()
 const router = useRouter()
 const invoiceUuid = router?.currentRoute?.value?.params?.invoice_uuid
+const breadcrumbLinks = [
+    {
+        name: 'invoices.invoices',
+        translate: true,
+        href: '/settings/invoices',
+    },
+    {
+        name: 'invoiceDetails.invoiceDetails',
+        translate: true,
+        href: `/settings/invoices/${invoiceUuid}`,
+    },
+]
 
 const state = reactive({
     columnHeaders: [

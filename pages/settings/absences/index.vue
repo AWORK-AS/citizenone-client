@@ -6,6 +6,10 @@
                 <Title>{{ $t('absences.absences') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('absences.absences') }}</template>
 
             <ModulesSettingsTab />
@@ -33,7 +37,7 @@
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/absences/edit/${absence.uuid}`)">
+                                                @click="navigateTo(`/settings/absences/${absence.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('absences.table.actions.edit') }}
                                             </FormButton>
@@ -56,6 +60,13 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'absences.absences',
+        translate: true,
+        href: '/settings/absences',
+    },
+]
 
 const state = reactive({
     absences: [] as any,

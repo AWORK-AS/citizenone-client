@@ -6,6 +6,10 @@
                 <Title>{{ $t('archived.tabs.archivedDocuments') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('archived.tabs.archivedDocuments') }}</template>
 
             <ModulesSettingsTab />
@@ -91,6 +95,13 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'archived.tabs.archivedDocuments',
+        translate: true,
+        href: '/settings/archived/documents',
+    },
+]
 
 const state = reactive({
     columnHeaders: [

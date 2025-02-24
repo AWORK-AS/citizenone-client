@@ -6,6 +6,10 @@
                 <Title>{{ $t('settings.tabs.profile') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('settings.tabs.profile') }}</template>
 
             <ModulesSettingsTab />
@@ -123,6 +127,13 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const image = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
+const breadcrumbLinks = [
+    {
+        name: 'settings.tabs.profile',
+        translate: true,
+        href: '/settings/profile',
+    },
+]
 
 const state = reactive({
     error: {} as Error,

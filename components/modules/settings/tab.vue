@@ -68,6 +68,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                     routeNames: [
                         'settings-archived-citizens',
                         'settings-archived-employees',
+                        'settings-archived-documents',
                     ]
                 },
                 {

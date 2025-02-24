@@ -6,6 +6,10 @@
                 <Title>{{ $t('absences.newAbsence') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('absences.newAbsence') }}</template>
 
             <div>
@@ -31,6 +35,18 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const breadcrumbLinks = [
+    {
+        name: 'absences.absences',
+        translate: true,
+        href: '/settings/absences',
+    },
+    {
+        name: 'absences.newAbsence',
+        translate: true,
+        href: '/settings/absences/new',
+    },
+]
 
 const state = reactive({
     error: {} as Error,

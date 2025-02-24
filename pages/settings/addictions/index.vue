@@ -6,6 +6,10 @@
                 <Title>{{ $t('addictions.addictions') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('addictions.addictions') }}</template>
 
             <ModulesSettingsTab />
@@ -33,7 +37,7 @@
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/addictions/edit/${addiction.uuid}`)">
+                                                @click="navigateTo(`/settings/addictions/${addiction.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('addictions.table.actions.edit') }}
                                             </FormButton>
@@ -56,6 +60,13 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'addictions.addictions',
+        translate: true,
+        href: '/settings/addictions',
+    },
+]
 
 const state = reactive({
     addictions: [] as any,

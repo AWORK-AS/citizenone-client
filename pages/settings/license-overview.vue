@@ -8,6 +8,10 @@
                 </Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('settings.licenseOverview.licenseOverview') }}</template>
 
             <ModulesSettingsTab />
@@ -185,6 +189,13 @@ const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const userStore = useUserStore() as any
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'settings.licenseOverview.licenseOverview',
+        translate: true,
+        href: '/settings/license-overview',
+    },
+]
 
 const state = reactive({
     columnFilter: [

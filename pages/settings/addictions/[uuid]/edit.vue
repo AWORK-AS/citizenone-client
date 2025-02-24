@@ -3,21 +3,25 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('departments.editDepartment') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('addictions.editAddiction') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('departments.editDepartment') }}</template>
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
+            <template #header>{{ $t('addictions.editAddiction') }}</template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    to="/settings/departments">
+                    to="/settings/addictions">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesDepartmentForm formType="update" :selectedDepartment="state.formDepartment"
+                    <ModulesAddictionForm formType="update" :selectedAddiction="state.formAddiction"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @submitForm="updateDepartment" />
+                        @submitForm="updateAddiction" />
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
@@ -25,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { departmentService } from '@/components/api/DepartmentService'
+import { addictionService } from '@/components/api/AddictionService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -34,27 +38,39 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
-const departmentUuid = router?.currentRoute?.value?.params?.uuid
+const addictionUuid = router?.currentRoute?.value?.params?.uuid
+const breadcrumbLinks = [
+    {
+        name: 'addictions.addictions',
+        translate: true,
+        href: '/settings/addictions',
+    },
+    {
+        name: 'addictions.editAddiction',
+        translate: true,
+        href: `/settings/addictions/${addictionUuid}/edit`,
+    },
+]
 
 const state = reactive({
     error: {} as Error,
-    formDepartment: {
+    formAddiction: {
         name: '',
     },
     isPageLoading: false,
 })
 
 onMounted(() => {
-    fetchDepartment()
+    fetchAddiction()
 })
 
-async function fetchDepartment() {
+async function fetchAddiction() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await departmentService.getDepartment(departmentUuid)
+        const response = await addictionService.getAddiction(addictionUuid)
         if (response) {
-            state.formDepartment = {
+            state.formAddiction = {
                 name: response?.data?.name ?? '',
             }
         }
@@ -64,17 +80,17 @@ async function fetchDepartment() {
     state.isPageLoading = false
 }
 
-async function updateDepartment(departmentDetails: any) {
+async function updateAddiction(addictionDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            name: departmentDetails.name,
+            name: addictionDetails.name,
         }
-        const response = await departmentService.updateDepartment(departmentUuid, params)
+        const response = await addictionService.updateAddiction(addictionUuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('departments.form.alert.departmentSuccessfullyUpdated')}.`)
-            navigateTo('/settings/departments')
+            successAlert(`${t('alert.success')}!`, `${t('addictions.form.alert.addictionSuccessfullyUpdated')}.`)
+            navigateTo('/settings/addictions')
         }
     } catch (error: any) {
         state.error = error
