@@ -7,7 +7,7 @@
             </Head>
 
             <template #breadcrumb>
-                <Breadcrumb :links="links">
+                <Breadcrumb :links="breadcrumbLinks">
                     <template #custom-link>
                         <div class="flex items-center">
                             <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
@@ -60,7 +60,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
-const links = [
+const breadcrumbLinks = [
     {
         name: 'citizens.editCitizen',
         translate: true,

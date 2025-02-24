@@ -7,7 +7,7 @@
             </Head>
 
             <template #breadcrumb>
-                <Breadcrumb :links="links">
+                <Breadcrumb :links="breadcrumbLinks">
                     <template #custom-link>
                         <div class="flex items-center">
                             <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
@@ -98,7 +98,7 @@ const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 let currentTablePage = 1
-const links = [
+const breadcrumbLinks = [
     {
         name: 'citizens.wallets.wallets',
         translate: true,

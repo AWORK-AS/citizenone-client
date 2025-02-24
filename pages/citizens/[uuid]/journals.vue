@@ -7,7 +7,7 @@
             </Head>
 
             <template #breadcrumb>
-                <Breadcrumb :links="links">
+                <Breadcrumb :links="breadcrumbLinks">
                     <template #custom-link>
                         <div class="flex items-center">
                             <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
@@ -278,7 +278,7 @@ const router = useRouter()
 const citizenJournalStore = useCitizenJournalStore()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
-const links = [
+const breadcrumbLinks = [
     {
         name: 'citizens.tabs.journals',
         translate: true,

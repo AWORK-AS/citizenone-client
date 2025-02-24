@@ -7,7 +7,7 @@
             </Head>
 
             <template #breadcrumb>
-                <Breadcrumb :links="links">
+                <Breadcrumb :links="breadcrumbLinks">
                     <template #custom-link>
                         <div class="flex items-center">
                             <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
@@ -86,7 +86,7 @@ const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const links = [
+const breadcrumbLinks = [
     {
         name: 'citizens.tabs.calendar',
         translate: true,
