@@ -8,6 +8,21 @@
 
             <template #header>{{ $t('citizens.tabs.contacts') }}</template>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="links">
+                    <template #custom-link>
+                        <div class="flex items-center">
+                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
+                                aria-hidden="true" />
+                            <button @click="navigateTo('/citizens')"
+                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                                {{ customPagesStore.getCustomPagesName?.citizens }}
+                            </button>
+                        </div>
+                    </template>
+                </Breadcrumb>
+            </template>
+
             <div class="space-y-5">
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
@@ -121,14 +136,23 @@
 import { citizenContactService } from '@/components/api/CitizenContactService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 let currentTablePage = 1
+const links = [
+    {
+        name: 'citizens.tabs.contacts',
+        translate: true,
+        href: `/citizens/${citizenUuid}/contacts`,
+    },
+]
 
 const state = reactive({
     columnFilter: [

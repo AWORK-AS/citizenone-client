@@ -6,6 +6,21 @@
                 <Title>{{ state.selectedProtocol?.data?.name ?? '' }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="state.breadcrumbLinks">
+                    <template #custom-link>
+                        <div class="flex items-center">
+                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
+                                aria-hidden="true" />
+                            <button @click="navigateTo('/citizens')"
+                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                                {{ customPagesStore.getCustomPagesName?.citizens }}
+                            </button>
+                        </div>
+                    </template>
+                </Breadcrumb>
+            </template>
+
             <template #header>
                 {{ $t('citizens.attendance.protocol') + ': ' + (state.selectedProtocol?.data?.name ?? '') }}
             </template>
@@ -98,16 +113,27 @@ import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenProtocolService } from '@/components/api/CitizenProtocolService'
 import { protocolService } from '@/components/api/ProtocolService'
+import { useCustomPagesStore } from '@/store/custom-pages'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
+const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const citizenProtocolUuid = router?.currentRoute?.value?.params?.citizen_protocol_uuid
 let currentTablePage = 1
 
 const state = reactive({
+    breadcrumbLinks: [
+        {
+            name: 'citizens.tabs.attendance',
+            translate: true,
+            href: `/citizens/${citizenUuid}/attendance`,
+        },
+    ],
     citizenProtocols: [] as any,
     citizenProtocolsCount: [] as any,
     columnHeaders: [
@@ -161,6 +187,11 @@ async function fetchProtocol() {
         const response = await protocolService.getProtocol(citizenProtocolUuid)
         if (response) {
             state.selectedProtocol = response
+            state.breadcrumbLinks.push({
+                name: t('citizens.attendance.protocol') + ': ' + (response?.data?.name ?? ''),
+                translate: false,
+                href: `/citizens/${citizenUuid}/attendance/${citizenProtocolUuid}`,
+            })
         }
     } catch (error: any) {
         state.error = error

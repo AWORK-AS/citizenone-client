@@ -6,6 +6,21 @@
                 <Title>{{ $t('citizens.tabs.plansAndGoals') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="links">
+                    <template #custom-link>
+                        <div class="flex items-center">
+                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
+                                aria-hidden="true" />
+                            <button @click="navigateTo('/citizens')"
+                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                                {{ customPagesStore.getCustomPagesName?.citizens }}
+                            </button>
+                        </div>
+                    </template>
+                </Breadcrumb>
+            </template>
+
             <template #header>{{ $t('citizens.tabs.plansAndGoals') }}</template>
 
             <div class="space-y-5">
@@ -255,6 +270,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { useCitizenPlansAndGoalsStore } from '@/store/citizen-plans-and-goals'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
@@ -263,10 +279,18 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const citizenPlansAndGoalsStore = useCitizenPlansAndGoalsStore()
+const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
+const links = [
+    {
+        name: 'citizens.tabs.plansAndGoals',
+        translate: true,
+        href: `/citizens/${citizenUuid}/plans-and-goals`,
+    },
+]
 
 const state = reactive({
     dataFilter: [],

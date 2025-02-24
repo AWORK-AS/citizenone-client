@@ -6,6 +6,21 @@
                 <Title>{{ $t('citizens.newCitizen') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="links">
+                    <template #custom-link>
+                        <div class="flex items-center">
+                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
+                                aria-hidden="true" />
+                            <button @click="navigateTo('/citizens')"
+                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                                {{ customPagesStore.getCustomPagesName?.citizens }}
+                            </button>
+                        </div>
+                    </template>
+                </Breadcrumb>
+            </template>
+
             <template #header>{{ $t('citizens.newCitizen') }}</template>
 
             <div>
@@ -25,13 +40,22 @@
 
 <script setup lang="ts">
 import { citizenService } from '@/components/api/CitizenService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { CitizenForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const links = [
+    {
+        name: 'citizens.newCitizen',
+        translate: true,
+        href: '/citizens/new',
+    },
+]
 
 const state = reactive({
     error: {} as Error,
