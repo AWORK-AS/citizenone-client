@@ -8,6 +8,10 @@
 
             <template #header>{{ state.selectedProtocol?.data?.name }}</template>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="state.breadcrumbLinks" />
+            </template>
+
             <div class="space-y-5">
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/protocols">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
@@ -96,10 +100,17 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
 const router = useRouter()
-const uuid = router?.currentRoute?.value?.params?.uuid
+const protocolUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
 
 const state = reactive({
+    breadcrumbLinks: [
+        {
+            name: 'protocols.protocols',
+            translate: true,
+            href: '/protocols',
+        },
+    ],
     citizenProtocols: [] as any,
     columnFilter: [
         { column: 'citizen' },
@@ -139,9 +150,14 @@ async function fetchProtocol() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await protocolService.getProtocol(uuid)
+        const response = await protocolService.getProtocol(protocolUuid)
         if (response) {
             state.selectedProtocol = response
+            state.breadcrumbLinks.push({
+                name: response?.data?.name ?? '',
+                translate: false,
+                href: `/protocols/${protocolUuid}`,
+            })
         }
     } catch (error: any) {
         state.error = error
@@ -159,7 +175,7 @@ async function fetchCitizenProtocols() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await protocolService.getCitizenProtocols(uuid, params)
+        const response = await protocolService.getCitizenProtocols(protocolUuid, params)
         if (response) {
             state.citizenProtocols = response
         }

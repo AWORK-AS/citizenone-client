@@ -464,7 +464,8 @@ const navigation = [
         href: '/schedules',
         icon: 'ph:calendar-dots',
         activeRouteNames: [
-            'schedules'
+            'schedules',
+            'schedules-draft'
         ]
     },
     {

@@ -8,6 +8,10 @@
 
             <template #header>{{ $t('protocols.protocols') }}</template>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <div>
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/protocols/new')">
@@ -91,6 +95,13 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'protocols.protocols',
+        translate: true,
+        href: '/protocols',
+    },
+]
 
 const state = reactive({
     citizenOptions: [],
