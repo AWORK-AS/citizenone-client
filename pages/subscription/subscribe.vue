@@ -6,6 +6,10 @@
                 <Title>{{ $t('subscription.subscription') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('subscription.subscription') }}</template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
@@ -372,6 +376,13 @@ const language = useI18n()
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
 let checkout = null as any
+const breadcrumbLinks = [
+    {
+        name: 'subscription.subscription',
+        translate: true,
+        href: '/subscription/subscribe',
+    },
+]
 
 const state = reactive({
     error: {} as Error,
