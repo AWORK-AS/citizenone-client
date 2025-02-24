@@ -6,6 +6,10 @@
                 <Title>{{ $t('bulletBoard.bulletBoard') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('bulletBoard.bulletBoard') }}</template>
 
             <div>
@@ -59,7 +63,7 @@
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/news/edit/${news.uuid}`)">
+                                                @click="navigateTo(`/news/${news.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('news.table.actions.edit') }}
                                             </FormButton>
@@ -94,6 +98,13 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'bulletBoard.bulletBoard',
+        translate: true,
+        href: '/news',
+    },
+]
 
 const state = reactive({
     columnFilter: [
