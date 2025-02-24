@@ -6,6 +6,10 @@
                 <Title>{{ $t('employees.newEmployee') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('employees.newEmployee') }}</template>
 
             <div>
@@ -31,6 +35,18 @@ import type { EmployeeForm, Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const breadcrumbLinks = [
+    {
+        name: 'employees.employees',
+        translate: true,
+        href: '/employees',
+    },
+    {
+        name: 'employees.newEmployee',
+        translate: true,
+        href: '/employees/new',
+    },
+]
 
 const state = reactive({
     error: {} as Error,

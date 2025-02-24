@@ -6,6 +6,10 @@
                 <Title>{{ $t('employees.editEmployee') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('employees.editEmployee') }}</template>
 
             <div>
@@ -56,6 +60,18 @@ const { t } = useI18n()
 const userStore = useUserStore() as any
 const router = useRouter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
+const breadcrumbLinks = [
+    {
+        name: 'employees.employees',
+        translate: true,
+        href: '/employees',
+    },
+    {
+        name: 'employees.editEmployee',
+        translate: true,
+        href: `/employees/${employeeUuid}/edit`,
+    },
+]
 
 const state = reactive({
     error: {} as Error,

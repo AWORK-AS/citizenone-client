@@ -6,6 +6,10 @@
                 <Title>{{ $t('employees.viewEmployee') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('employees.viewEmployee') }}</template>
 
             <div>
@@ -402,6 +406,18 @@ const router = useRouter()
 const userStore = useUserStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
+const breadcrumbLinks = [
+    {
+        name: 'employees.employees',
+        translate: true,
+        href: '/employees',
+    },
+    {
+        name: 'employees.viewEmployee',
+        translate: true,
+        href: `/employees/${employeeUuid}/view`,
+    },
+]
 
 const state = reactive({
     error: {} as Error,
