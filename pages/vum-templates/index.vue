@@ -6,6 +6,10 @@
                 <Title>{{ $t('plansandgoals.VUMTemplates.templates') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('plansandgoals.VUMTemplates.templates') }}</template>
 
             <div>
@@ -85,6 +89,13 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'plansandgoals.VUMTemplates.templates',
+        translate: true,
+        href: '/vum-templates',
+    },
+]
 
 const state = reactive({
     columnHeaders: [

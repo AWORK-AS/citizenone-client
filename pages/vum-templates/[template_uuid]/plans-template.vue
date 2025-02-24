@@ -8,6 +8,10 @@
                 </Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('plansandgoals.VUMTemplates.plansTemplate') }}</template>
 
             <div class="space-y-5">
@@ -103,6 +107,18 @@ const { t } = useI18n()
 const router = useRouter()
 const templateUuid = router?.currentRoute?.value?.params?.template_uuid
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'plansandgoals.VUMTemplates.templates',
+        translate: true,
+        href: '/vum-templates',
+    },
+    {
+        name: 'plansandgoals.VUMTemplates.plansTemplate',
+        translate: true,
+        href: `/vum-templates/${templateUuid}/plans-template`,
+    },
+]
 
 const state = reactive({
     dataFilter: [],
