@@ -1491,7 +1491,8 @@
                 "successfullyPublished": "Vagtplaner offentliggjort med succes"
             },
             "confirmation": {
-                "publishConfirmation": "Er du sikker på, at du vil offentliggøre denne vagtplan"
+                "publishForAllDepartmentConfirmation": "Er du sikker på, at du vil offentliggøre denne vagtplan for afdelingen",
+                "publishForSpecificDepartmentConfirmation": "Er du sikker på, at du vil offentliggøre denne vagtplan for alle afdelinger"
             },
             "draft": "Kladde",
             "publish": "Offentliggør"

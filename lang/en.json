@@ -1491,7 +1491,8 @@
                 "successfullyPublished": "Schedules successfully published"
             },
             "confirmation": {
-                "publishConfirmation": "Are you sure you want to publish this schedule"
+                "publishForSpecificDepartmentConfirmation": "Are you sure you want to publish this schedule for department",
+                "publishForAllDepartmentConfirmation": "Are you sure you want to publish this schedule for all departments"
             },
             "draft": "Draft",
             "publish": "Publish"

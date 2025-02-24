@@ -431,7 +431,9 @@
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
                 @refreshDutySchedules="fetchDutySchedule()" />
             <DialogConfirmation :isModalOpen="state.modal.isPublishScheduleOpen"
-                :message="$t('dutySchedules.draft.confirmation.publishConfirmation') + '?'"
+                :message="['All departments', 'Alle afdelinger'].includes(departmentStore.getSelectedDepartmentName) ?
+                    $t('dutySchedules.draft.confirmation.publishForAllDepartmentConfirmation') + '?' :
+                    $t('dutySchedules.draft.confirmation.publishForSpecificDepartmentConfirmation') + ' ' + departmentStore.getSelectedDepartmentName + '?'"
                 @close="state.modal.isPublishScheduleOpen = false" @confirm="publishSchedule" />
         </LoadingSpinner>
     </div>
