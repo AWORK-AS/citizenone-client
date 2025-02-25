@@ -139,8 +139,6 @@ async function switchLanguage(selectedLanguage: any) {
                 response = await citizenService.updateCitizenLangugage(params)
             } else if (['Admin', 'User'].includes(userStore.getUser?.role)) {
                 response = await userService.updateUserLangugage(params)
-            } else {
-                response = await userService.updateUserLangugage(params)
             }
             if (response) {
                 const languageCode = selectedLanguage.code
