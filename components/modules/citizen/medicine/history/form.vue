@@ -221,7 +221,7 @@ const v$ = useVuelidate(rules, state)
 function validateForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        if (parseInt(state.formMedicineHistory.quantity) > parseInt(props.selectedMedicine?.daily_dose)) {
+        if (parseInt(state.formMedicineHistory.quantity) !== parseInt(props.selectedMedicine?.daily_dose)) {
             state.modal.isMoreThanMedicineDailyConfirmationOpen = true
         } else {
             submitForm()
