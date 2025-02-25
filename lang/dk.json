@@ -2273,6 +2273,7 @@
         "newWishes": "Nye ønsker",
         "logout": "Log ud",
         "procedures": "Procedurer",
+        "reminders": "Påmindelser",
         "subscription": "Abonnement",
         "settings": "Indstillinger",
         "switchLanguage": "Skift sprog"
@@ -2625,7 +2626,31 @@
         "checkinReminder": "Påmindelse om at tjekke ind",
         "dontForgetToCheckInToday": "Glem ikke at tjekke ind i dag",
         "doNotShowAgain": "Vis ikke igen",
-        "iDontNeedToCheckinNow": "Jeg behøver ikke tjekke ind nu"
+        "iDontNeedToCheckinNow": "Jeg behøver ikke tjekke ind nu",
+        "reminders": "Påmindelser",
+        "newReminder": "Ny påmindelse",
+        "Assignees": "Modtagere",
+        "dateCreated": "Oprettelsesdato",
+        "dueDate": "Afleveringsfrist",
+        "time": "Tid",
+        "title": "Titel",
+        "notes": "Notat",
+        "never": "Aldrig",
+        "daily": "Dagligt",
+        "weekdays": "Hverdage",
+        "weekends": "Weekender",
+        "weekly": "Ugentligt",
+        "biWeekly": "Hver anden uge",
+        "monthly": "Månedligt",
+        "everyThreeMonths": "Hver tredje måned",
+        "everySixMonths": "Hver sjette måned",
+        "yearly": "Årligt",
+        "repeat": "Gentag",
+        "form": {
+            "alert": {
+                "taskSuccessfullySaved": "Opgaven blev oprettet med succes"
+            }
+        }
     },
     "resetPassword": {
         "form": {
