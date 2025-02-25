@@ -291,7 +291,7 @@
                                                                                 <FormButton class="rounded-md"
                                                                                     buttonSize="sm"
                                                                                     @click="confirmSubgoalDeletion(subgoal)"
-                                                                                    v-if="goal?.is_deletable">
+                                                                                    v-if="subgoal?.is_deletable">
                                                                                     <Icon name="ph:trash"
                                                                                         class="size-4" />
                                                                                     <span class="hidden md:block">

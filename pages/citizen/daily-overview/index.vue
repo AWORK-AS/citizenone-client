@@ -25,21 +25,10 @@
                     </div>
                 </div>
             </div>
-            <ModulesDailyOverviewModalFilter :isModalOpen="state.modal.isFilterDailyOverviewOpen"
-                @close="state.modal.isFilterDailyOverviewOpen = false" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
-import { useDailyOverviewStore } from '@/store/daily-overview'
-
 const runtimeConfig = useRuntimeConfig()
-const dailyOverviewStore = useDailyOverviewStore()
-
-const state = reactive({
-    modal: {
-        isFilterDailyOverviewOpen: false,
-    }
-})
 </script>
