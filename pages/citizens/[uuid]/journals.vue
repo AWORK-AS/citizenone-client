@@ -244,7 +244,7 @@
                 </LoadingSpinner>
             </div>
             <ModulesCitizenJournalModalFilter :isModalOpen="state.modal.isFilterJournalOpen"
-                @close="state.modal.isFilterJournalOpen = false" @setFilterView="setFilterView" />
+                @close="state.modal.isFilterJournalOpen = false" @setFilter="setFilter" />
             <ModulesCitizenJournalModalNew :isModalOpen="state.modal.isAddJournalOpen"
                 @close="state.modal.isAddJournalOpen = false" @refreshJournal="fetchJournals" />
             <ModulesCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
@@ -332,8 +332,10 @@ onMounted(() => {
     fetchJournals()
 })
 
-function setFilterView(view: any) {
-    citizenJournalStore.setFilterView(view)
+function setFilter(filter: any) {
+    citizenJournalStore.setFilterView(filter.selectedView.title)
+    state.dataFilter.tags_uuid = JSON.stringify(filter.tags)
+    fetchJournals()
 }
 
 async function fetchJournals() {
