@@ -256,8 +256,6 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
-
 import {
     Dialog,
     DialogPanel,
@@ -272,7 +270,7 @@ import {
     TransitionRoot,
 } from '@headlessui/vue'
 import { authService } from '@/components/api/AuthService'
-import { userService } from '@/components/api/UserService'
+import { citizenService } from '@/components/api/citizen/CitizenService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -337,7 +335,7 @@ function animateAssets() {
 async function fetchUser() {
     state.error = {}
     try {
-        const response = await userService.getUser()
+        const response = await citizenService.getCurrentLoggedInCitizen()
         if (response?.data) {
             userStore.setUser(response?.data)
             userStore.setLanguage(response?.data?.language?.code)

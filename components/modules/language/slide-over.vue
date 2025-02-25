@@ -77,6 +77,7 @@
 </template>
 
 <script setup lang="ts">
+import { citizenService } from '@/components/api/citizen/CitizenService'
 import { userService } from '@/components/api/UserService'
 import { languageService } from '@/components/api/LanguageService'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
@@ -84,7 +85,7 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
-const userStore = useUserStore()
+const userStore = useUserStore() as any
 const language = useI18n()
 
 const props = defineProps({
@@ -133,7 +134,14 @@ async function switchLanguage(selectedLanguage: any) {
             const params = {
                 language_uuid: languageUuid,
             }
-            const response = await userService.updateUserLangugage(params)
+            let response = ''
+            if (userStore.getUser?.role === 'Citizen') {
+                response = await citizenService.updateCitizenLangugage(params)
+            } else if (['Admin', 'User'].includes(userStore.getUser?.role)) {
+                response = await userService.updateUserLangugage(params)
+            } else {
+                response = await userService.updateUserLangugage(params)
+            }
             if (response) {
                 const languageCode = selectedLanguage.code
                 userStore.setLanguage(languageCode)
