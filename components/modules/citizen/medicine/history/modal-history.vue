@@ -43,7 +43,7 @@
                                                 {{ $t('citizens.medicineJournals.history.table.type.deviated') }}
                                             </span>
                                             <span v-if="medicineHistory?.type === 'given'">
-                                                {{ $t('citizens.medicineJournals.history.table.type.given') }}
+                                                {{ customPagesStore.getCustomPagesName?.giveMedicine }}
                                             </span>
                                         </td>
                                         <td width="15%">
@@ -115,6 +115,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import { medicineHistoryService } from '@/components/api/MedicineHistoryService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -133,6 +134,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 let currentTablePage = 1
 const emit = defineEmits(['close'])
 

@@ -55,7 +55,6 @@
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig()
 import { useCustomPagesStore } from '@/store/custom-pages'
-import { useUserStore } from '@/store/user'
 
 const customPagesStore = useCustomPagesStore() as any
 
