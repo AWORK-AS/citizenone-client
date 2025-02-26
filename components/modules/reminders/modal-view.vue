@@ -1,18 +1,18 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('reminder.Assignees')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('reminder.assignees')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="flex items-end space-x-2">
                     <div class="flex-1">
                         <p class="text-sm text-gray-600">
-                            {{ $t('reminder.Assignees') }}
+                            {{ $t('reminder.assignees') }}
                         </p>
                         <FormSelectMultiple id="pages" :options="state.options.employees" v-model="state.employee_uuid"
                             class="w-full" />
                     </div>
                     <FormButton class="rounded-md h-[45px] flex items-center justify-center" buttonSize="sm"
                         @click="saveReminderUser(state.employee_uuid, props.reminder_uuid)">
-                        Add
+                        {{ $t('reminder.assign') }}
                     </FormButton>
                 </div>
 

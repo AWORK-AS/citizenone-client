@@ -29,21 +29,22 @@
                                 <div class="text-sm">
                                     <div v-html="reminder?.notes" class="content" />
                                 </div>
-                                <p class="text-sm">
-                                    {{ $t('reminder.dueDate') }}: {{
-                                        formatDateToReadable(reminder?.date_time) }}
+                                <p class="text-sm bg-primary p-1 rounded-md text-white w-fit">
+                                    {{ $t('reminder.dueDate') }}: {{ formatDateToReadable(reminder?.date_time) }}
                                 </p>
-                                <p class="text-sm">
-                                    {{ $t('reminder.time') }}: {{
-                                        formatTimeToReadable(reminder?.date_time) }} - {{ reminder?.repeat }}
+                                <p class="text-sm bg-primary p-1 rounded-md text-white w-fit">
+                                    {{ $t('reminder.time') }}: {{ formatTimeToReadable(reminder?.date_time) }} ~ {{
+                                    reminder?.repeat
+                                    }}
                                 </p>
+
                             </div>
                             <div>
                                 <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
                                     <FormButton class="rounded-md min-w-36" buttonSize="sm"
                                         @click="openView(reminder?.uuid)">
                                         <Icon name="ph:user-plus" class="h-4 w-4" aria-hidden="true" />
-                                        {{ $t('reminder.Assignees') }}
+                                        {{ $t('reminder.assignees') }}
                                     </FormButton>
                                 </div>
                             </div>

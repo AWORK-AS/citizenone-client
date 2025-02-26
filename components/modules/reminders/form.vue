@@ -25,7 +25,7 @@
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
-                    {{ $t('reminder.Assignees') }}
+                    {{ $t('reminder.assignees') }}
                 </p>
                 <FormSelectMultiple id="pages" :options="state.options.employees"
                     v-model="state.formStatus.employee_uuid" />
