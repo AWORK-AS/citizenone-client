@@ -82,24 +82,4 @@ async function saveStatus(statusDetails: any) {
     }
     state.isPageLoading = false
 }
-
-async function saveReminderUser(employee_uuid: string[], reminder_uuid: any) {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        let params = {
-            employee_uuid: employee_uuid,
-            reminder_uuid: reminder_uuid,
-        };
-        const response = await reminderUserService.saveReminderUser(params)
-        if (response?.data) {
-            refreshReminders()
-            closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.taskSuccessfullySaved')}.`)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
 </script>
