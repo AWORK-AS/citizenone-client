@@ -332,6 +332,37 @@ function animateAssets() {
     observer.observe(image)
 }
 
+watch(() => userStore.getUser, (user: any) => {
+    if (user) {
+        setCustomPageNames()
+    }
+})
+
+watch(() => language.locale.value, () => {
+    setCustomPageNames()
+})
+
+function setCustomPageNames() {
+    const selectedLanguage = language.locale.value
+    const customPageCitizens = customPage('citizens')
+    const customPageDutySchedules = customPage('duty_schedules')
+    const customPageRiskAssessment = customPage('risk_assessment')
+    const customNameGiveMedicine = customPage('give_medicine')
+    const citizensName = selectedLanguage === 'en' ? customPageCitizens?.en_name : customPageCitizens?.dk_name
+    const dutySchedulesName = selectedLanguage === 'en' ? customPageDutySchedules?.en_name : customPageDutySchedules?.dk_name
+    const riskAssessmentName = selectedLanguage === 'en' ? customPageRiskAssessment?.en_name : customPageRiskAssessment?.dk_name
+    const giveMedicineName = selectedLanguage === 'en' ? customNameGiveMedicine?.en_name : customNameGiveMedicine?.dk_name
+    customPagesStore.setCitizensNaming(citizensName)
+    customPagesStore.setDutySchedulesNaming(dutySchedulesName)
+    customPagesStore.setRiskAssessmentNaming(riskAssessmentName)
+    customPagesStore.setGiveMedicineNaming(giveMedicineName)
+}
+
+function customPage(page: String) {
+    return userStore.getUser?.custom_pages?.find((item: any) => item.page_type ===
+        page)
+}
+
 async function fetchUser() {
     state.error = {}
     try {
