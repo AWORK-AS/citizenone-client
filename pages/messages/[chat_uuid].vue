@@ -368,7 +368,6 @@ async function readChat() {
         }
         const response = await messageService.readChat(params)
         if (response) {
-            console.log('read')
         }
     } catch (error: any) {
         state.error = { message: error.message }
