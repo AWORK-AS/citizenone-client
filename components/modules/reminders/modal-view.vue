@@ -179,7 +179,6 @@ async function saveReminderUser(employee_uuid: string[], reminder_uuid: any) {
         const response = await reminderUserService.saveReminderUser(params)
         if (response?.data) {
             fetchAssignees()
-            successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.taskSuccessfullySaved')}.`)
         }
     } catch (error: any) {
         state.error = error
