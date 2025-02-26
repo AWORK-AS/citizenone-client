@@ -6,6 +6,10 @@
                 <Title>{{ $t('news.editNews') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('news.editNews') }}</template>
 
             <div>
@@ -32,7 +36,19 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
-const uuid = router?.currentRoute?.value?.params?.uuid
+const newsUuid = router?.currentRoute?.value?.params?.uuid
+const breadcrumbLinks = [
+    {
+        name: 'bulletBoard.bulletBoard',
+        translate: true,
+        href: '/news',
+    },
+    {
+        name: 'news.editNews',
+        translate: true,
+        href: `/news/${newsUuid}/edit`,
+    },
+]
 
 const state = reactive({
     error: {} as Error,
@@ -57,7 +73,7 @@ async function fetchNews() {
     state.isPageLoading = true
     state.error = {}
     try {
-        const response = await newsService.getSelectedNews(uuid)
+        const response = await newsService.getSelectedNews(newsUuid)
         if (response) {
             state.formNews = {
                 image: response?.data?.image ?? '',
@@ -95,7 +111,7 @@ async function updateNews(newsDetails: any) {
         params.append('department_uuid', JSON.stringify(newsDetails.department))
         params.append('is_featured', newsDetails.is_featured)
         params.append('is_active', newsDetails.is_active)
-        const response = await newsService.updateNews(uuid, params)
+        const response = await newsService.updateNews(newsUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('news.form.alert.newsSuccessfullyUpdated')}.`)
             navigateTo('/news')

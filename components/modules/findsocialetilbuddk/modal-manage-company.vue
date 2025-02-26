@@ -87,7 +87,7 @@
                                 <div class="space-y-1">
                                     <FormLabel for="offers"
                                         :label="$t('findsocialetilbuddk.manageCompany.form.offers')" />
-                                    <FormSelect id="offers" :options="state.options.offers"
+                                    <FormSelectMultiple id="offers" :options="state.options.offers"
                                         v-model="state.formManageCompany.offers" />
                                     <FormError
                                         :error="v$?.formManageCompany?.offers?.$errors[0]?.$message.toString()" />
@@ -194,7 +194,8 @@
                                 <div class="space-y-1">
                                     <FormLabel for="additional_services"
                                         :label="$t('findsocialetilbuddk.manageCompany.form.additionalServices')" />
-                                    <FormSelect id="additional_services" :options="state.options.additional_services"
+                                    <FormSelectMultiple id="additional_services"
+                                        :options="state.options.additional_services"
                                         v-model="state.formManageCompany.additional_services" />
                                     <FormError
                                         :error="v$?.formManageCompany?.additional_services?.$errors[0]?.$message.toString()" />
@@ -323,7 +324,7 @@ const state = reactive({
             lastname: '',
         },
         phone_number: '',
-        offers: '',
+        offers: [],
         number_of_available_spots: '',
         number_of_allocated_spots: '',
         deputy_manager: '',
@@ -334,7 +335,7 @@ const state = reactive({
         notice_period: '',
         diagnosis: '',
         age: '',
-        additional_services: '',
+        additional_services: [],
         municipality: '',
         region: '',
         link_to_the_offer_portal: '',
@@ -424,7 +425,7 @@ watch(() => props.isModalOpen, () => {
             lastname: '',
         },
         phone_number: '',
-        offers: '',
+        offers: [],
         number_of_available_spots: '',
         number_of_allocated_spots: '',
         deputy_manager: '',
@@ -435,7 +436,7 @@ watch(() => props.isModalOpen, () => {
         notice_period: '',
         diagnosis: '',
         age: '',
-        additional_services: '',
+        additional_services: [],
         municipality: '',
         region: '',
         link_to_the_offer_portal: '',
@@ -635,7 +636,7 @@ async function sendMessage() {
         state.formManageCompany.selected_files.forEach((file: any) => {
             params.append('selected_files[]', file)
         })
-        params.append('additional_services', state.formManageCompany.additional_services)
+        params.append('additional_services', JSON.stringify(state.formManageCompany.additional_services))
         params.append('address', state.formManageCompany.address)
         params.append('age', state.formManageCompany.age)
         params.append('chairperson', state.formManageCompany.chairperson)
@@ -652,7 +653,7 @@ async function sendMessage() {
         params.append('notice_period', state.formManageCompany.notice_period)
         params.append('number_of_allocated_spots', state.formManageCompany.number_of_allocated_spots)
         params.append('number_of_available_spots', state.formManageCompany.number_of_available_spots)
-        params.append('offers', state.formManageCompany.offers)
+        params.append('offers', JSON.stringify(state.formManageCompany.offers))
         params.append('phone_number', state.formManageCompany.phone_number)
         params.append('prices', state.formManageCompany.prices)
         params.append('region', state.formManageCompany.region)

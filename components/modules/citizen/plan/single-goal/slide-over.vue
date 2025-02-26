@@ -105,6 +105,14 @@
                                                                         {{ $t('plansandgoals.table.actions.notes') }}
                                                                     </span>
                                                                 </FormButton>
+                                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                                    @click="confirmSubgoalDeletion(subgoal)"
+                                                                    v-if="subgoal?.is_deletable">
+                                                                    <Icon name="ph:trash" class="size-4" />
+                                                                    <span class="hidden md:block">
+                                                                        {{ $t('plansandgoals.table.actions.delete') }}
+                                                                    </span>
+                                                                </FormButton>
                                                             </div>
                                                         </div>
                                                         <div class="mt-1">
@@ -169,6 +177,9 @@
                 @close="state.modal.isEditSubgoalOpen = false" @refreshGoals="fetchSubgoals" />
             <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isSubGoalStatusesOpen"
                 :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchSubgoals" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteSubgoalOpen"
+                :message="`${$t('plansandgoals.confirmation.deleteSubgoalConfirmation')}?`"
+                @close="state.modal.isDeleteSubgoalOpen = false" @confirm="deleteSubgoal" />
         </Dialog>
     </TransitionRoot>
 </template>
@@ -176,9 +187,10 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { subgoalService } from '@/components/api/SubgoalService'
 import { useUserStore } from '@/store/user'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const { formatDateToReadable } = useDatetimeFormatter()
@@ -193,6 +205,8 @@ const props = defineProps({
     },
 })
 const userStore = useUserStore() as any
+const { successAlert } = useAlert()
+const { t } = useI18n()
 const emit = defineEmits(['close'])
 
 const state = reactive({
@@ -200,6 +214,7 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isAddSubgoalOpen: false,
+        isDeleteSubgoalOpen: false,
         isEditSubgoalOpen: false,
         isSubGoalStatusesOpen: false,
     },
@@ -281,6 +296,26 @@ function editSubGoal(subgoal: any) {
 function viewSubgoalStatuses(subgoal: any) {
     state.selectedSubgoal = subgoal
     state.modal.isSubGoalStatusesOpen = true
+}
+
+function confirmSubgoalDeletion(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isDeleteSubgoalOpen = true
+}
+
+async function deleteSubgoal() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await subgoalService.deleteSubgoal(state.selectedSubgoal.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.subgoalSuccessfullyDeleted')}.`)
+            fetchSubgoals()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 function closeSubgoalStatusesModal() {

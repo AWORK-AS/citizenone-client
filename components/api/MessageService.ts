@@ -29,7 +29,7 @@ class MessageService extends BaseAPIService {
         return await this.request(`/user/chat-members`, 'GET', params)
     }
 
-    async getAllAvailableUsers(params: object): Promise<any> {
+    async getAllAvailableUsers(params: object = {}): Promise<any> {
         return await this.request(`/user/chat-members/available/list`, 'GET', params)
     }
 

@@ -6,6 +6,10 @@
                 <Title>{{ $t('employees.employees') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('employees.employees') }}</template>
 
             <div>
@@ -92,6 +96,13 @@ const employeeStore = useEmployeeStore()
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'employees.employees',
+        translate: true,
+        href: '/employees',
+    },
+]
 
 const state = reactive({
     columnFilter: [

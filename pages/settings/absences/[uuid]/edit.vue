@@ -6,6 +6,10 @@
                 <Title>{{ $t('absences.editAbsence') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('absences.editAbsence') }}</template>
 
             <div>
@@ -33,6 +37,19 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const absenceUuid = router?.currentRoute?.value?.params?.uuid
+
+const breadcrumbLinks = [
+    {
+        name: 'absences.absences',
+        translate: true,
+        href: '/settings/absences',
+    },
+    {
+        name: 'absences.editAbsence',
+        translate: true,
+        href: `/settings/absences/${absenceUuid}/edit`,
+    },
+]
 
 const state = reactive({
     error: {} as Error,

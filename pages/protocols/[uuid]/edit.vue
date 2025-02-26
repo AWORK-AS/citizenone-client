@@ -8,6 +8,10 @@
 
             <template #header>{{ $t('protocols.editProtocol') }}</template>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/protocols">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
@@ -32,7 +36,19 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
-const uuid = router?.currentRoute?.value?.params?.uuid
+const protocolUuid = router?.currentRoute?.value?.params?.uuid
+const breadcrumbLinks = [
+    {
+        name: 'protocols.protocols',
+        translate: true,
+        href: '/protocols',
+    },
+    {
+        name: 'protocols.editProtocol',
+        translate: true,
+        href: `/protocols/${protocolUuid}/edit`,
+    },
+]
 
 const state = reactive({
     error: {} as Error,

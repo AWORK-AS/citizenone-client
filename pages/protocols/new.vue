@@ -8,6 +8,10 @@
 
             <template #header>{{ $t('protocols.newProtocol') }}</template>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/protocols">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
@@ -31,6 +35,18 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const breadcrumbLinks = [
+    {
+        name: 'protocols.protocols',
+        translate: true,
+        href: '/protocols',
+    },
+    {
+        name: 'protocols.newProtocol',
+        translate: true,
+        href: '/protocols/new',
+    },
+]
 
 const state = reactive({
     error: {} as Error,

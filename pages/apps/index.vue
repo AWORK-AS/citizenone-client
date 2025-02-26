@@ -6,6 +6,10 @@
                 <Title>{{ $t('apps.apps') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('apps.apps') }}</template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
@@ -239,6 +243,13 @@ let currentTablePage = 1
 let checkout = null as any
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
+const breadcrumbLinks = [
+    {
+        name: 'apps.apps',
+        translate: true,
+        href: '/apps',
+    },
+]
 
 const state = reactive({
     apps: {

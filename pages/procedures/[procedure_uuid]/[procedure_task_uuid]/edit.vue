@@ -6,6 +6,10 @@
                 <Title>{{ $t('tasks.editTask') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('tasks.editTask') }}</template>
 
             <div>
@@ -36,6 +40,23 @@ const { t } = useI18n()
 const router = useRouter()
 const procedureUuid = router?.currentRoute?.value?.params?.procedure_uuid
 const procedureTaskUuid = router?.currentRoute?.value?.params?.procedure_task_uuid
+const breadcrumbLinks = [
+    {
+        name: 'procedures.procedures',
+        translate: true,
+        href: '/procedures',
+    },
+    {
+        name: 'tasks.tasks',
+        translate: true,
+        href: `/procedures/${procedureUuid}`,
+    },
+    {
+        name: 'tasks.editTask',
+        translate: true,
+        href: `/procedures/${procedureUuid}/${procedureTaskUuid}/edit`,
+    },
+]
 
 const state = reactive({
     error: {} as Error,

@@ -6,6 +6,10 @@
                 <Title>{{ $t('jobSpecialties.newJobSpecialty') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('jobSpecialties.newJobSpecialty') }}</template>
 
             <div>
@@ -35,6 +39,23 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const jobTitleUuid = router?.currentRoute?.value?.params?.job_title_uuid
+const breadcrumbLinks = [
+    {
+        name: 'jobTitles.jobTitles',
+        translate: true,
+        href: '/settings/job-titles',
+    },
+    {
+        name: 'jobSpecialties.jobSpecialties',
+        translate: true,
+        href: `/settings/job-titles/${jobTitleUuid}`,
+    },
+    {
+        name: 'jobSpecialties.newJobSpecialty',
+        translate: true,
+        href: `/settings/job-titles/${jobTitleUuid}/new`,
+    },
+]
 
 const state = reactive({
     error: {} as Error,

@@ -6,6 +6,10 @@
                 <Title>{{ $t('relationships.relationships') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('relationships.relationships') }}</template>
 
             <ModulesSettingsTab />
@@ -35,7 +39,7 @@
                                     <td width="30%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/relationships/edit/${relationship.uuid}`)">
+                                                @click="navigateTo(`/settings/relationships/${relationship.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('relationships.table.actions.edit') }}
                                             </FormButton>
@@ -71,6 +75,13 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'relationships.relationships',
+        translate: true,
+        href: '/settings/relationships',
+    },
+]
 
 const state = reactive({
     columnHeaders: [

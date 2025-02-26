@@ -595,7 +595,12 @@ function calculateShiftWidth(shift: any, weekIndex: string) {
     }
 
     if (dayDifference === 1) {
-        return '17.5rem' // Width for shifts spanning 2 days
+        if (moment(shift?.date_time_end).format('HH:mm:ss') === '00:00:00') {
+            return 'auto'
+
+        } else {
+            return '17.5rem' // Width for shifts spanning 2 days
+        }
     } else if (dayDifference === 2) {
         return '27rem' // Width for shifts spanning 3 days
     } else {

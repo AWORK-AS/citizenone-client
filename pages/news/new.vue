@@ -6,6 +6,10 @@
                 <Title>{{ $t('news.newNews') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('news.newNews') }}</template>
 
             <div>
@@ -35,6 +39,18 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const breadcrumbLinks = [
+    {
+        name: 'bulletBoard.bulletBoard',
+        translate: true,
+        href: '/news',
+    },
+    {
+        name: 'news.newNews',
+        translate: true,
+        href: '/news/new',
+    },
+]
 
 const state = reactive({
     error: {} as Error,

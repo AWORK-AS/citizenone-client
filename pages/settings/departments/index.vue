@@ -6,6 +6,10 @@
                 <Title>{{ $t('departments.departments') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('departments.departments') }}</template>
 
             <ModulesSettingsTab />
@@ -34,7 +38,7 @@
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/departments/edit/${department.uuid}`)">
+                                                @click="navigateTo(`/settings/departments/${department.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('departments.table.actions.edit') }}
                                             </FormButton>
@@ -57,6 +61,13 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'departments.departments',
+        translate: true,
+        href: '/settings/departments',
+    },
+]
 
 const state = reactive({
     columnFilter: [

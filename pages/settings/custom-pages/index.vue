@@ -6,6 +6,10 @@
                 <Title>{{ $t('customPages.customPages') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('customPages.customPages') }}</template>
 
             <ModulesSettingsTab />
@@ -34,7 +38,7 @@
                                     <td width="30%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/custom-pages/edit/${customPages.uuid}`)">
+                                                @click="navigateTo(`/settings/custom-pages/${customPages.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('customPages.table.actions.edit') }}
                                             </FormButton>
@@ -54,14 +58,17 @@
 
 <script setup lang="ts">
 import { customPagesService } from '@/components/api/CustomPagesService'
-import { useI18n } from "vue-i18n"
-import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { successAlert } = useAlert()
-const { t } = useI18n()
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'customPages.customPages',
+        translate: true,
+        href: '/settings/custom-pages',
+    },
+]
 
 const state = reactive({
     columnHeaders: [

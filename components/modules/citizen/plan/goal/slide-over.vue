@@ -112,6 +112,14 @@
                                                                         {{ $t('plansandgoals.table.actions.notes') }}
                                                                     </span>
                                                                 </FormButton>
+                                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                                    @click="confirmGoalDeletion(goal)"
+                                                                    v-if="goal?.is_deletable">
+                                                                    <Icon name="ph:trash" class="size-4" />
+                                                                    <span class="hidden md:block">
+                                                                        {{ $t('plansandgoals.table.actions.delete') }}
+                                                                    </span>
+                                                                </FormButton>
                                                                 <DisclosureButton>
                                                                     <FormButton class="rounded-md" buttonSize="sm">
                                                                         <Icon name="ic:round-keyboard-arrow-down"
@@ -280,6 +288,18 @@
                                                                                         }}
                                                                                     </span>
                                                                                 </FormButton>
+                                                                                <FormButton class="rounded-md"
+                                                                                    buttonSize="sm"
+                                                                                    @click="confirmSubgoalDeletion(subgoal)"
+                                                                                    v-if="subgoal?.is_deletable">
+                                                                                    <Icon name="ph:trash"
+                                                                                        class="size-4" />
+                                                                                    <span class="hidden md:block">
+                                                                                        {{
+                                                                                            $t('plansandgoals.table.actions.delete')
+                                                                                        }}
+                                                                                    </span>
+                                                                                </FormButton>
                                                                             </div>
                                                                         </div>
                                                                         <div class="space-y-1">
@@ -321,6 +341,12 @@
                 :selectedData="state.selectedGoal" @close="closeGoalStatusesModal" @refreshData="fetchGoals" />
             <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isSubGoalStatusesOpen"
                 :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchGoals" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteGoalOpen"
+                :message="`${$t('plansandgoals.confirmation.deleteGoalConfirmation')}?`"
+                @close="state.modal.isDeleteGoalOpen = false" @confirm="deleteGoal" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteSubgoalOpen"
+                :message="`${$t('plansandgoals.confirmation.deleteSubgoalConfirmation')}?`"
+                @close="state.modal.isDeleteSubgoalOpen = false" @confirm="deleteSubgoal" />
         </Dialog>
     </TransitionRoot>
 </template>
@@ -330,7 +356,10 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { goalService } from '@/components/api/GoalService'
+import { subgoalService } from '@/components/api/SubgoalService'
 import { useUserStore } from '@/store/user'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const { formatDateToReadable } = useDatetimeFormatter()
@@ -344,6 +373,8 @@ const props = defineProps({
         required: true,
     },
 })
+const { successAlert } = useAlert()
+const { t } = useI18n()
 const userStore = useUserStore() as any
 const emit = defineEmits(['close'])
 
@@ -353,6 +384,8 @@ const state = reactive({
     modal: {
         isAddGoalOpen: false,
         isAddSubgoalOpen: false,
+        isDeleteGoalOpen: false,
+        isDeleteSubgoalOpen: false,
         isEditGoalOpen: false,
         isEditSubgoalOpen: false,
         isGoalStatusesOpen: false,
@@ -501,5 +534,45 @@ function closeSubgoalStatusesModal() {
         date_completed: '',
         is_completed: false,
     }
+}
+
+function confirmGoalDeletion(goal: any) {
+    state.selectedGoal = goal
+    state.modal.isDeleteGoalOpen = true
+}
+
+async function deleteGoal() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await goalService.deleteGoal(state.selectedGoal.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.goalSuccessfullyDeleted')}.`)
+            fetchGoals()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function confirmSubgoalDeletion(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isDeleteSubgoalOpen = true
+}
+
+async function deleteSubgoal() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await subgoalService.deleteSubgoal(state.selectedSubgoal.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.subgoalSuccessfullyDeleted')}.`)
+            fetchGoals()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>

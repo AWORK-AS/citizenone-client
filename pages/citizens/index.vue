@@ -10,12 +10,23 @@
                 </Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb>
+                    <template #custom-link>
+                        <div class="flex items-center">
+                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
+                                aria-hidden="true" />
+                            <button @click="navigateTo('/citizens')"
+                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                                {{ customPagesStore.getCustomPagesName?.citizens }}
+                            </button>
+                        </div>
+                    </template>
+                </Breadcrumb>
+            </template>
+
             <template #header>
-                {{
-                    customPage('citizens') === 'Citizens' ?
-                        $t('citizens.citizens') :
-                        customPage('citizens')
-                }}
+                {{ customPagesStore.getCustomPagesName?.citizens }}
             </template>
 
             <div>

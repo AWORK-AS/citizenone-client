@@ -47,7 +47,7 @@
                                     {{ $t('citizens.medicineJournals.history.form.type.deviated') }}
                                 </span>
                                 <span v-if="type.title === 'Given'">
-                                    {{ $t('citizens.medicineJournals.history.form.type.given') }}
+                                    {{ customPagesStore.getCustomPagesName?.giveMedicine }}
                                 </span>
                             </div>
                         </RadioGroupOption>
@@ -100,6 +100,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { euDecimalValidation } from "@/composables/euDecimalValidation"
+import { useCustomPagesStore } from '@/store/custom-pages'
 
 const props = defineProps({
     error: {
@@ -123,6 +124,7 @@ const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading', 'error'])
 
 const { t } = useI18n()
 const language = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 const { validateEuropeanDecimal } = euDecimalValidation()
 
 const state = reactive({
@@ -221,7 +223,7 @@ const v$ = useVuelidate(rules, state)
 function validateForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        if (parseInt(state.formMedicineHistory.quantity) > parseInt(props.selectedMedicine?.daily_dose)) {
+        if (parseInt(state.formMedicineHistory.quantity) !== parseInt(props.selectedMedicine?.daily_dose)) {
             state.modal.isMoreThanMedicineDailyConfirmationOpen = true
         } else {
             submitForm()

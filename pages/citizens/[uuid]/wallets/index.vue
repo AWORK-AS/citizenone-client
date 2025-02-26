@@ -6,6 +6,21 @@
                 <Title>{{ $t('citizens.wallets.wallets') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks">
+                    <template #custom-link>
+                        <div class="flex items-center">
+                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
+                                aria-hidden="true" />
+                            <button @click="navigateTo('/citizens')"
+                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                                {{ customPagesStore.getCustomPagesName?.citizens }}
+                            </button>
+                        </div>
+                    </template>
+                </Breadcrumb>
+            </template>
+
             <template #header>{{ $t('citizens.wallets.wallets') }}</template>
 
             <div class="space-y-5">
@@ -72,15 +87,24 @@ import { citizenWalletService } from '@/components/api/CitizenWalletService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'citizens.wallets.wallets',
+        translate: true,
+        href: `/citizens/${citizenUuid}/wallets`,
+    },
+]
 
 const state = reactive({
     columnFilter: [

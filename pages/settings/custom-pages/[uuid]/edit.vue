@@ -6,6 +6,10 @@
                 <Title>{{ $t('customPages.editCustomPage') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('customPages.editCustomPage') }}</template>
 
             <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/settings/custom-pages">
@@ -32,6 +36,19 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const customPageUuid = router?.currentRoute?.value?.params?.uuid
+const breadcrumbLinks = [
+    {
+        name: 'customPages.customPages',
+        translate: true,
+        href: '/settings/custom-pages',
+    },
+    {
+        name: 'customPages.editCustomPage',
+        translate: true,
+        href: `/settings/custom-pages/${customPageUuid}/edit`,
+    },
+]
+
 const state = reactive({
     error: {} as Error,
     formCustomPage: {

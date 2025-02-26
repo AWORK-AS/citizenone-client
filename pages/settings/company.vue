@@ -6,6 +6,10 @@
                 <Title>{{ $t('settings.tabs.company') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('settings.tabs.company') }}</template>
 
             <ModulesSettingsTab />
@@ -150,6 +154,13 @@ const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const breadcrumbLinks = [
+    {
+        name: 'settings.tabs.company',
+        translate: true,
+        href: '/settings/company',
+    },
+]
 
 const state = reactive({
     error: {} as Error,

@@ -6,6 +6,10 @@
                 <Title>{{ $t('messages.messages') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('messages.messages') }}</template>
 
             <div class="space-y-5">
@@ -84,6 +88,13 @@ const router = useRouter()
 const userStore = useUserStore() as any
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
 const { t } = useI18n()
+const breadcrumbLinks = [
+    {
+        name: 'messages.messages',
+        translate: true,
+        href: '/messages',
+    },
+]
 
 const state = reactive({
     chats: [] as any,

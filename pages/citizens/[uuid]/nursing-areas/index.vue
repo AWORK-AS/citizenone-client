@@ -9,6 +9,21 @@
                 </Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks">
+                    <template #custom-link>
+                        <div class="flex items-center">
+                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
+                                aria-hidden="true" />
+                            <button @click="navigateTo('/citizens')"
+                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                                {{ customPagesStore.getCustomPagesName?.citizens }}
+                            </button>
+                        </div>
+                    </template>
+                </Breadcrumb>
+            </template>
+
             <template #header>{{ $t('citizens.nursingAreas.nursingProfessionalRecords') }}</template>
 
             <div class="space-y-5">
@@ -32,5 +47,17 @@
 </template>
 
 <script setup lang="ts">
+import { useCustomPagesStore } from '@/store/custom-pages'
+
+const customPagesStore = useCustomPagesStore() as any
 const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
+const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const breadcrumbLinks = [
+    {
+        name: 'citizens.nursingAreas.nursingProfessionalRecords',
+        translate: true,
+        href: `/citizens/${citizenUuid}/nursing-areas`,
+    },
+]
 </script>

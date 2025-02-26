@@ -6,9 +6,14 @@
                 <Title>{{ $t('jobSpecialties.jobSpecialties') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('jobSpecialties.jobSpecialties') }}</template>
 
             <ModulesSettingsTab />
+            <ModulesSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
 
             <div class="mt-5">
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
@@ -42,7 +47,7 @@
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/job-titles/${jobTitleUuid}/edit/${jobSpecialty.uuid}`)">
+                                                @click="navigateTo(`/settings/job-titles/${jobTitleUuid}/${jobSpecialty.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('jobSpecialties.table.actions.edit') }}
                                             </FormButton>
@@ -64,9 +69,21 @@ import { jobSpecialtyService } from '@/components/api/JobSpecialtyService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-let currentTablePage = 1
 const router = useRouter()
 const jobTitleUuid = router?.currentRoute?.value?.params?.job_title_uuid
+let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'jobTitles.jobTitles',
+        translate: true,
+        href: '/settings/job-titles',
+    },
+    {
+        name: 'jobSpecialties.jobSpecialties',
+        translate: true,
+        href: `/settings/job-titles/${jobTitleUuid}`,
+    },
+]
 
 const state = reactive({
     columnFilter: [

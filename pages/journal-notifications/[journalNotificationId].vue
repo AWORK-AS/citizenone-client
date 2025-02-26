@@ -8,6 +8,10 @@
                 </Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="state.breadcrumbLinks" />
+            </template>
+
             <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/journal-notifications">
                 <Icon name="ph:arrow-left" size="20" class="text-black" />
                 <span>{{ $t('back') }}</span>
@@ -51,15 +55,24 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { notificationService } from '@/components/api/NotificationService'
 import { journalService } from '@/components/api/JournalService'
 import { useUserStore } from '@/store/user'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { t } = useI18n()
 const router = useRouter()
 const journalNotificationId = router?.currentRoute?.value?.params?.journalNotificationId
 
 const state = reactive({
+    breadcrumbLinks: [
+        {
+            name: 'journalNotifications.unreadJournalNotes',
+            translate: true,
+            href: '/journal-notifications',
+        },
+    ],
     error: {} as Error,
     isPageLoading: false,
     notification: [] as any,
@@ -109,6 +122,11 @@ async function fetchJournal() {
         const response = await journalService.getJournal(journalUuid)
         if (response) {
             state.journal = response
+            state.breadcrumbLinks.push({
+                name: response?.data?.title ?? '',
+                translate: false,
+                href: `/journal-notifications/${journalNotificationId}`,
+            })
         }
     } catch (error: any) {
         state.error = error

@@ -6,6 +6,10 @@
                 <Title>{{ $t('forms.newForm') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('forms.newForm') }}</template>
 
             <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/forms">
@@ -433,6 +437,18 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const breadcrumbLinks = [
+    {
+        name: 'forms.forms',
+        translate: true,
+        href: '/forms',
+    },
+    {
+        name: 'forms.newForm',
+        translate: true,
+        href: '/forms/new',
+    },
+]
 
 const state = reactive({
     error: {} as Error,

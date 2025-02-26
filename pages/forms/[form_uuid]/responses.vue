@@ -6,6 +6,10 @@
                 <Title>{{ $t('forms.viewResponses') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('forms.viewResponses') }}</template>
 
             <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/forms">
@@ -69,6 +73,18 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const formUuid = router?.currentRoute?.value?.params?.form_uuid
+const breadcrumbLinks = [
+    {
+        name: 'forms.forms',
+        translate: true,
+        href: '/forms',
+    },
+    {
+        name: 'forms.viewResponses',
+        translate: true,
+        href: `/forms/${formUuid}/responses`,
+    },
+]
 
 const state = reactive({
     error: {} as Error,

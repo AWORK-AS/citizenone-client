@@ -1491,7 +1491,8 @@
                 "successfullyPublished": "Vagtplaner offentliggjort med succes"
             },
             "confirmation": {
-                "publishConfirmation": "Er du sikker på, at du vil offentliggøre denne vagtplan"
+                "publishForAllDepartmentConfirmation": "Er du sikker på, at du vil offentliggøre denne vagtplan for afdelingen",
+                "publishForSpecificDepartmentConfirmation": "Er du sikker på, at du vil offentliggøre denne vagtplan for alle afdelinger"
             },
             "draft": "Kladde",
             "publish": "Offentliggør"
@@ -2068,6 +2069,7 @@
         "nonbinary": "Ikke-binær",
         "willNotDisclose": "Vil ikke oplyse"
     },
+    "home": "Hjem",
     "invitation": {
         "invitationAccepted": "Invitation accepteret",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har med succes accepteret invitationen"
@@ -2333,7 +2335,7 @@
             "statusSuccessfullyDeleted": "Status er succesfuldt slettet",
             "statusSuccessfullyUpdated": "Status er succesfuldt opdateret",
             "subgoalSuccessfullyAdded": "Delmål succesfuldt tilføjet",
-            "subgoalSuccessfullyDelete": "Delmål slettet med succes",
+            "subgoalSuccessfullyDeleted": "Delmål slettet med succes",
             "subgoalSuccessfullyUpdated": "Delmål succesfuldt opdateret"
         },
         "categories": {
@@ -2342,6 +2344,7 @@
         },
         "confirmation": {
             "deleteGoalConfirmation": "Er du sikker på, at du vil slette dette mål",
+            "deleteSubgoalConfirmation": "Er du sikker på, at du vil slette dette delmål",
             "deletePlanConfirmation": "Er du sikker på, at du vil slette denne plan",
             "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
         },
@@ -2391,7 +2394,7 @@
         "newGoal": "Nyt mål",
         "newNote": "Ny note",
         "newPlan": "Ny plan",
-        "newSingleGoal": "New single goal",
+        "newSingleGoal": "Nyt enkeltmål",
         "newSubgoal": "Nyt delmål",
         "noAvailableSubgoals": "Der er ingen delmål tilgængelige at vise",
         "notes": "Noter",

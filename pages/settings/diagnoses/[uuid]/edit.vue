@@ -3,21 +3,25 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('addictions.editAddiction') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('diagnoses.editDiagnosis') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('addictions.editAddiction') }}</template>
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
+            <template #header>{{ $t('diagnoses.editDiagnosis') }}</template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    to="/settings/addictions">
+                    to="/settings/diagnoses">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesAddictionForm formType="update" :selectedAddiction="state.formAddiction"
+                    <ModulesDiagnosisForm formType="update" :selectedDiagnosis="state.formDiagnosis"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @submitForm="updateAddiction" />
+                        @submitForm="updateDiagnosis" />
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
@@ -25,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { addictionService } from '@/components/api/AddictionService'
+import { diagnosisService } from '@/components/api/DiagnosisService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -34,27 +38,39 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
-const addictionUuid = router?.currentRoute?.value?.params?.uuid
+const diagnosisUuid = router?.currentRoute?.value?.params?.uuid
+const breadcrumbLinks = [
+    {
+        name: 'diagnoses.diagnoses',
+        translate: true,
+        href: '/settings/diagnoses',
+    },
+    {
+        name: 'diagnoses.editDiagnosis',
+        translate: true,
+        href: `/settings/diagnoses/${diagnosisUuid}/edit`,
+    },
+]
 
 const state = reactive({
     error: {} as Error,
-    formAddiction: {
+    formDiagnosis: {
         name: '',
     },
     isPageLoading: false,
 })
 
 onMounted(() => {
-    fetchAddiction()
+    fetchDiagnosis()
 })
 
-async function fetchAddiction() {
+async function fetchDiagnosis() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await addictionService.getAddiction(addictionUuid)
+        const response = await diagnosisService.getDiagnosis(diagnosisUuid)
         if (response) {
-            state.formAddiction = {
+            state.formDiagnosis = {
                 name: response?.data?.name ?? '',
             }
         }
@@ -64,16 +80,16 @@ async function fetchAddiction() {
     state.isPageLoading = false
 }
 
-async function updateAddiction(addictionDetails: any) {
+async function updateDiagnosis(diagnosisDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            name: addictionDetails.name,
+            name: diagnosisDetails.name,
         }
-        const response = await addictionService.updateAddiction(addictionUuid, params)
+        const response = await diagnosisService.updateDiagnosis(diagnosisUuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('addictions.form.alert.addictionSuccessfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('diagnoses.form.alert.diagnosisSuccessfullyUpdated')}.`)
             navigateTo('/settings/diagnoses')
         }
     } catch (error: any) {

@@ -374,6 +374,9 @@
                 <main class="py-10 relative">
                     <div class="px-4 sm:px-6 lg:px-8">
                         <div>
+                            <slot name="breadcrumb"></slot>
+                        </div>
+                        <div class="mt-4">
                             <h1 class="text-2xl text-primary font-bold">
                                 <slot name="header"></slot>
                             </h1>
@@ -470,7 +473,8 @@ const navigation = [
         href: '/schedules',
         icon: 'ph:calendar-dots',
         activeRouteNames: [
-            'schedules'
+            'schedules',
+            'schedules-draft'
         ]
     },
     {

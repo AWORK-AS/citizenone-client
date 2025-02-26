@@ -6,6 +6,10 @@
                 <Title>{{ $t('settings.tabs.transactions') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('settings.tabs.transactions') }}</template>
 
             <ModulesSettingsTab />
@@ -28,6 +32,14 @@
 
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig()
+
+const breadcrumbLinks = [
+    {
+        name: 'settings.tabs.transactions',
+        translate: true,
+        href: '/settings/transactions',
+    },
+]
 
 const state = reactive({
     modal: {

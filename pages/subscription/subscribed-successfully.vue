@@ -6,6 +6,10 @@
                 <Title>{{ $t('subscription.subscription') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div class="isolate mx-auto mt-10 grid max-w-lg">
                     <div class="ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
@@ -54,6 +58,13 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const paymentId = router?.currentRoute?.value?.query?.paymentId
+const breadcrumbLinks = [
+    {
+        name: 'subscription.subscription',
+        translate: true,
+        href: '/subscription/subscribed-successfully',
+    },
+]
 
 const state = reactive({
     error: {} as Error,

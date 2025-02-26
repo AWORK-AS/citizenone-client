@@ -6,6 +6,10 @@
                 <Title>{{ $t('diagnoses.newDiagnosis') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('diagnoses.newDiagnosis') }}</template>
 
             <div>
@@ -33,6 +37,18 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const breadcrumbLinks = [
+    {
+        name: 'diagnoses.diagnoses',
+        translate: true,
+        href: '/settings/diagnoses',
+    },
+    {
+        name: 'diagnoses.newDiagnosis',
+        translate: true,
+        href: '/settings/diagnoses/new',
+    },
+]
 
 const state = reactive({
     error: {} as Error,

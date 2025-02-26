@@ -8,6 +8,10 @@
                 </Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('journalNotifications.unreadJournalNotes') }}</template>
 
             <div class="min-h-44 space-y-3">
@@ -73,6 +77,13 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
 const userStore = useUserStore()
+const breadcrumbLinks = [
+    {
+        name: 'journalNotifications.unreadJournalNotes',
+        translate: true,
+        href: '/journal-notifications',
+    },
+]
 
 const state = reactive({
     error: {} as Error,

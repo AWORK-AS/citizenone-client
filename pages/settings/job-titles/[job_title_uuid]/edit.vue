@@ -3,10 +3,14 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('jobSpecialties.editJobSpecialty') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('jobTitles.editJobTitle') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('jobSpecialties.editJobSpecialty') }}</template>
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
+            <template #header>{{ $t('jobTitles.editJobTitle') }}</template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
@@ -15,9 +19,8 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesJobSpecialtyForm formType="update" :selectedJobSpecialty="state.formJobSpecialty"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @submitForm="updateJobSpecialty" />
+                    <ModulesJobTitleForm formType="update" :selectedJobTitle="state.formJobTitle" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateJobTitle" />
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
@@ -25,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { jobSpecialtyService } from '@/components/api/JobSpecialtyService'
+import { jobTitleService } from '@/components/api/JobTitleService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -35,27 +38,38 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const jobTitleUuid = router?.currentRoute?.value?.params?.job_title_uuid
-const jobSpecialtyUuid = router?.currentRoute?.value?.params?.job_specialty_uuid
+const breadcrumbLinks = [
+    {
+        name: 'jobTitles.jobTitles',
+        translate: true,
+        href: '/settings/job-titles',
+    },
+    {
+        name: 'jobTitles.editJobTitle',
+        translate: true,
+        href: `/settings/job-titles/${jobTitleUuid}/edit`,
+    },
+]
 
 const state = reactive({
     error: {} as Error,
-    formJobSpecialty: {
+    formJobTitle: {
         title: '',
     },
     isPageLoading: false,
 })
 
 onMounted(() => {
-    fetchJobSpecialty()
+    fetchJobTitle()
 })
 
-async function fetchJobSpecialty() {
+async function fetchJobTitle() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await jobSpecialtyService.getJobSpecialty(jobSpecialtyUuid)
+        const response = await jobTitleService.getJobTitle(jobTitleUuid)
         if (response) {
-            state.formJobSpecialty = {
+            state.formJobTitle = {
                 title: response?.data?.title ?? '',
             }
         }
@@ -65,17 +79,17 @@ async function fetchJobSpecialty() {
     state.isPageLoading = false
 }
 
-async function updateJobSpecialty(jobSpecialtyDetails: any) {
+async function updateJobTitle(jobTitleDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            title: jobSpecialtyDetails.title,
+            title: jobTitleDetails.title,
         }
-        const response = await jobSpecialtyService.updateJobSpecialty(jobSpecialtyUuid, params)
+        const response = await jobTitleService.updateJobTitle(jobTitleUuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('jobSpecialties.form.alert.jobSpecialtySuccessfullyUpdated')}.`)
-            navigateTo(`/settings/job-titles/${jobTitleUuid}`)
+            successAlert(`${t('alert.success')}!`, `${t('jobTitles.form.alert.jobTitleSuccessfullyUpdated')}.`)
+            navigateTo('/settings/job-titles')
         }
     } catch (error: any) {
         state.error = error

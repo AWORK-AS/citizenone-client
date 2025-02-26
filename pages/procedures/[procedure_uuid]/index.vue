@@ -6,6 +6,10 @@
                 <Title>{{ $t('tasks.tasks') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('tasks.tasks') }}</template>
 
             <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/procedures">
@@ -90,6 +94,18 @@ let currentTablePage = 1
 const router = useRouter()
 const procedureUuid = router?.currentRoute?.value?.params?.procedure_uuid
 const expandedRecords = reactive([] as boolean[])
+const breadcrumbLinks = [
+    {
+        name: 'procedures.procedures',
+        translate: true,
+        href: '/procedures',
+    },
+    {
+        name: 'tasks.tasks',
+        translate: true,
+        href: `/procedures/${procedureUuid}`,
+    },
+]
 
 const state = reactive({
     columnFilter: [

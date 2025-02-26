@@ -6,6 +6,10 @@
                 <Title>FindSocialeTilbud.dk - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>FindSocialeTilbud.dk</template>
 
             <div
@@ -182,10 +186,19 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
-const runtimeConfig = useRuntimeConfig()
 import { useUserStore } from '@/store/user'
+
+const runtimeConfig = useRuntimeConfig()
 const language = useI18n()
 const userStore = useUserStore()
+const breadcrumbLinks = [
+    {
+        name: 'FindSocialeTilbud.dk',
+        translate: false,
+        href: '/findsocialetilbud.dk',
+    },
+]
+
 const state = reactive({
     modal: {
         isManageCompanyOpen: false,

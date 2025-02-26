@@ -39,7 +39,6 @@
 </template>
 
 <script setup lang="ts">
-import { userService } from '@/components/api/UserService'
 import { messageService } from '@/components/api/MessageService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -101,7 +100,7 @@ async function fetchAllUsers() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await userService.getAllUsers()
+        const response = await messageService.getAllAvailableUsers()
         if (response.data) {
             let options: any = []
             response.data.forEach(

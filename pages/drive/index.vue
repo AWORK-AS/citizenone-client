@@ -6,6 +6,10 @@
                 <Title>{{ $t('drive.companyDocuments') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>{{ $t('drive.companyDocuments') }}</template>
 
             <div class="space-y-5">
@@ -167,6 +171,13 @@ const { t } = useI18n()
 const router = useRouter()
 const documentFile = ref(null) as any
 let currentTablePage = 1
+const breadcrumbLinks = [
+    {
+        name: 'drive.companyDocuments',
+        translate: true,
+        href: '/drive',
+    },
+]
 
 const state = reactive({
     columnFilter: [
