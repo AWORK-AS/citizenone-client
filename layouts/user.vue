@@ -316,6 +316,15 @@
                                     </div>
                                     </MenuItem>
                                     <MenuItem>
+                                    <div @click="navigateTo('/reminders')"
+                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                        <div class="flex items-center gap-x-3">
+                                            <Icon name="ph:note-pencil" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.reminders') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
                                     <div @click="navigateTo('/forms')"
                                         class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
                                         <div class="flex items-center gap-x-3">

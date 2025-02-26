@@ -2275,6 +2275,7 @@
         "newWishes": "New wishes",
         "logout": "Log out",
         "procedures": "Procedures",
+        "reminders": "Reminders",
         "subscription": "Subscription",
         "settings": "Settings",
         "switchLanguage": "Switch language"
@@ -2628,7 +2629,34 @@
         "checkinReminder": "Check-in reminder",
         "dontForgetToCheckInToday": "Don't forget to check in today",
         "doNotShowAgain": "Do not show again",
-        "iDontNeedToCheckinNow": "I don't need to check in now"
+        "iDontNeedToCheckinNow": "I don't need to check in now",
+        "reminders": "Reminders",
+        "newReminder": "New reminder",
+        "assignees": "Assignees",
+        "assign": "Assign",
+        "dateCreated": "Date created",
+        "dueDate": "Due date",
+        "time": "Time",
+        "title": "Title",
+        "notes": "Notes",
+        "never": "Never",
+        "daily": "Daily",
+        "weekdays": "Weekdays",
+        "weekends": "Weekends",
+        "weekly": "Weekly",
+        "biWeekly": "Bi weekly",
+        "monthly": "Monthly",
+        "everyThreeMonths": "Every three months",
+        "everySixMonths": "Every six months",
+        "yearly": "Yearly",
+        "repeat": "Repeat",
+        "form": {
+            "alert": {
+                "taskSuccessfullySaved": "Task successfully created",
+                "employeeSuccessfullyAssigned": "Employee successfully assigned",
+                "employeeSuccessfullyRemoved": "Employee successfully removed"
+            }
+        }
     },
     "resetPassword": {
         "form": {
