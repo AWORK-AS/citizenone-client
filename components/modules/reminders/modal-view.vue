@@ -2,47 +2,53 @@
     <div>
         <Modal size="md" :title="$t('reminder.assignees')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <div class="flex items-end space-x-2">
-                    <div class="flex-1">
-                        <p class="text-sm text-gray-600">
-                            {{ $t('reminder.assignees') }}
-                        </p>
-                        <FormSelectMultiple id="pages" :options="state.options.employees" v-model="state.employee_uuid"
-                            class="w-full" />
+                <LoadingSpinner :isActive="state.isLoading">
+                    <div class="flex items-end space-x-2">
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-600">
+                                {{ $t('reminder.assignees') }}
+                            </p>
+                            <FormSelectMultiple id="pages" :options="state.options.employees"
+                                v-model="state.employee_uuid" class="w-full" />
+                        </div>
+                        <FormButton class="rounded-md h-[45px] flex items-center justify-center" buttonSize="sm"
+                            @click="saveReminderUser(state.employee_uuid, props.reminder_uuid)">
+                            {{ $t('reminder.assign') }}
+                        </FormButton>
                     </div>
-                    <FormButton class="rounded-md h-[45px] flex items-center justify-center" buttonSize="sm"
-                        @click="saveReminderUser(state.employee_uuid, props.reminder_uuid)">
-                        {{ $t('reminder.assign') }}
-                    </FormButton>
-                </div>
-
-
-                <div v-if="state.assignees.length > 0" class="mt-4 space-y-2">
-                    <div v-for="assignee in state.assignees" :key="assignee.id"
-                        class="bg-white shadow-md rounded-md border-l-8 mt-2 text-sm space-y-2 pr-5 pt-5 pb-5 pl-6 mr-1"
-                        :class="{
-                            'border-green-600': assignee.status === 'completed',
-                            'border-yellow-500': assignee.status === 'pending',
-                            'border-red-600': assignee.status === 'failed'
-                        }">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-x-2">
-                                <p class="text-sm font-medium">
-                                    {{ assignee.user.firstname }} {{ assignee.user.lastname }}
-                                </p>
-                            </div>
-                            <div class="flex items-center gap-x-4">
-                                <p class="text-sm font-semibold">
-                                    {{ assignee.status.charAt(0).toUpperCase() + assignee.status.slice(1) }}
-                                </p>
-                                <div class="h-5 w-px bg-gray-300"></div>
-                                <FormButton class="rounded-md" buttonSize="sm" @click="removeAssignee(assignee.uuid)">
-                                    <Icon name="ph:trash" class="h-4 w-4" aria-hidden="true" />
-                                </FormButton>
+                    <div v-if="state.assignees.length > 0" class="mt-12 space-y-2">
+                        <div v-for="assignee in state.assignees" :key="assignee.id"
+                            class="bg-white shadow-md rounded-md border-l-8 mt-2 text-sm space-y-2 pr-5 pt-5 pb-5 pl-6 mr-1"
+                            :class="{
+                                'border-green-600': assignee.status === 'completed',
+                                'border-yellow-500': assignee.status === 'pending',
+                                'border-red-600': assignee.status === 'failed'
+                            }">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-x-2">
+                                    <p class="text-sm font-medium">
+                                        {{ assignee.user.firstname }} {{ assignee.user.lastname }}
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-x-4">
+                                    <p class="text-sm font-semibold">
+                                        {{ assignee.status.charAt(0).toUpperCase() + assignee.status.slice(1) }}
+                                    </p>
+                                    <div class="h-5 w-px bg-gray-300"></div>
+                                    <FormButton class="rounded-md" buttonSize="sm"
+                                        @click="removeAssignee(assignee.uuid)">
+                                        <Icon name="ph:trash" class="h-4 w-4" aria-hidden="true" />
+                                    </FormButton>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div v-if="state.assignees.length === 0"
+                        class="mt-24 mb-24 p-4 bg-gray-100 text-gray-500 text-center rounded-md">
+                        No assignees yet.
+                    </div>
+
+                </LoadingSpinner>
             </template>
         </Modal>
     </div>
@@ -63,6 +69,7 @@ const { t } = useI18n()
 
 const props = defineProps({
     error: {} as Error,
+    isPageLoading: false,
     isModalOpen: {
         type: Boolean,
         required: true,
@@ -97,13 +104,13 @@ function closeModal() {
     emit('close')
 }
 
-watch(() => props.reminder_uuid, (newUuid) => {
-    if (newUuid) {
-        state.reminder_uuid = "?reminder_uuid=" + newUuid
+watch(() => props.isModalOpen, (isOpen: any) => {
+    if (isOpen) {
+        state.reminder_uuid = "?reminder_uuid=" + props.reminder_uuid
         fetchAssignees()
         fetchEmployees()
     }
-}, { immediate: true })
+})
 
 async function fetchAssignees() {
     try {
@@ -120,6 +127,7 @@ async function fetchAssignees() {
     } finally {
         state.isLoading = false
     }
+    state.isLoading = false
 }
 
 async function fetchEmployees() {
