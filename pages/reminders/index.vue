@@ -35,7 +35,7 @@
                                 </p>
                                 <p class="text-sm">
                                     {{ $t('reminder.time') }}: {{
-                                        formatTimeToReadable(reminder?.date_time)}} - {{ reminder?.repeat }}
+                                        formatTimeToReadable(reminder?.date_time) }} - {{ reminder?.repeat }}
                                 </p>
                             </div>
                             <div>
@@ -58,25 +58,25 @@
             </div>
             <ModulesRemindersModalNew :isModalOpen="state.modal.isNewTaskOpen" :selectedReminder="state.reminders"
                 @close="state.modal.isNewTaskOpen = false" @refreshReminders="fetchReminders()" />
-            <ModulesRemindersModalView :isModalOpen="state.modal.isAssignReminderOpen" @close="state.modal.isAssignReminderOpen = false"
-                :reminder_uuid="state.modal.selectedReminderUuid" />
+            <ModulesRemindersModalView :isModalOpen="state.modal.isAssignReminderOpen"
+                @close="state.modal.isAssignReminderOpen = false" :reminder_uuid="state.modal.selectedReminderUuid" />
 
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useI18n } from "vue-i18n";
-import { useAlert } from "@/composables/alert";
-import { useRuntimeConfig } from "#imports";
+import { ref } from "vue"
+import { useI18n } from "vue-i18n"
+import { useAlert } from "@/composables/alert"
+import { useRuntimeConfig } from "#imports"
 import { reminderService } from '@/components/api/ReminderService'
 
-const runtimeConfig = useRuntimeConfig();
-const { successAlert } = useAlert();
-const { t } = useI18n();
+const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 
-let currentTablePage = 1;
+let currentTablePage = 1
 
 const state = reactive({
     error: {} as Error,
@@ -118,13 +118,13 @@ const formatDateToReadable = (dateString: string) => {
 };
 
 function formatTimeToReadable(dateTime: string) {
-    if (!dateTime) return '';
+    if (!dateTime) return ''
 
-    const timePart = dateTime.split(' ')[1];
+    const timePart = dateTime.split(' ')[1]
 
-    if (!timePart) return '';
+    if (!timePart) return ''
 
-    const [hours, minutes, seconds] = timePart.split(':').map(Number);
+    const [hours, minutes, seconds] = timePart.split(':').map(Number)
 
     const date = new Date();
     date.setHours(hours, minutes, seconds);
@@ -136,8 +136,8 @@ function formatTimeToReadable(dateTime: string) {
     }).format(date);
 }
 function openView(reminderUuid: string) {
-    state.modal.selectedReminderUuid = reminderUuid;
-    state.modal.isAssignReminderOpen = true; 
+    state.modal.selectedReminderUuid = reminderUuid
+    state.modal.isAssignReminderOpen = true;
 }
 
 

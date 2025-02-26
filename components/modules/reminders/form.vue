@@ -27,7 +27,8 @@
                 <p class="text-sm text-gray-600">
                     {{ $t('reminder.Assignees') }}
                 </p>
-                <FormSelectMultiple id="pages" :options="state.options.employees" v-model="state.formStatus.employee_uuid" />
+                <FormSelectMultiple id="pages" :options="state.options.employees"
+                    v-model="state.formStatus.employee_uuid" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
