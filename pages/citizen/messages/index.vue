@@ -1,6 +1,6 @@
 <template>
     <div>
-        <NuxtLayout name="user">
+        <NuxtLayout name="citizen">
 
             <Head>
                 <Title>{{ $t('messages.messages') }} - {{ runtimeConfig?.public?.appName }}</Title>
@@ -19,7 +19,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4" v-if="state.chats?.data?.length > 0">
                         <div class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto"
                             style="height: 80vh;">
-                            <ModulesMessagesChats :chats="state.chats" />
+                            <ModulesCitizenMessagesChats :chats="state.chats" />
                         </div>
                     </div>
                     <div v-else class="mx-auto max-w-lg py-20">
@@ -75,10 +75,9 @@
 
 <script setup lang="ts">
 import pusher from '@/services/pusher'
-import { userService } from '@/components/api/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
-import { messageService } from '@/components/api/MessageService'
+import { messageService } from '@/components/api/citizen/MessageService'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
@@ -183,7 +182,7 @@ async function sendMessage() {
             const response = await messageService.sendMessageViaReceiverUuid(params)
             if (response) {
                 const chatUuid = response?.data?.chat?.uuid
-                navigateTo(`/messages/${chatUuid}`)
+                navigateTo(`/citizen/messages/${chatUuid}`)
             }
         } catch (error: any) {
             state.error = error

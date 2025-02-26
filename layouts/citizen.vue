@@ -158,7 +158,7 @@
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-3">
                         <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
-                            @click="navigateTo('/messages')">
+                            @click="navigateTo('/citizen/messages')">
                             <Icon name="ph:chat-circle" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
                             <Badge type="notification" class="w-fit absolute -top-4 left-4">
                                 {{ userStore.getUser?.unread_messages_count ?? 0 }}

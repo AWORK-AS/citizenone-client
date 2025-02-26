@@ -1,6 +1,6 @@
 <template>
     <div>
-        <NuxtLayout name="user">
+        <NuxtLayout name="citizen">
 
             <Head>
                 <Title>{{ $t('messages.messages') }} - {{ runtimeConfig?.public?.appName }}</Title>
@@ -23,7 +23,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
                     <LoadingSpinner :isActive="state.isChatLoading"
                         class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto" style="height: 80vh;">
-                        <ModulesMessagesChats :chats="state.chats" />
+                        <ModulesCitizenMessagesChats :chats="state.chats" />
                     </LoadingSpinner>
                     <LoadingSpinner :isActive="state.isChatHistoryDividerLoading"
                         class="md:col-span-7 xl:col-span-8 bg-white rounded-md pb-6">
@@ -227,10 +227,10 @@
                 </div>
                 <ModulesMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
                     @close="state.modal.isManageGroupChatMembersOpen = false" @refreshChat="fetchChat" />
-                <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+                <!-- <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
                     :title="$t('citizens.documents.upgradeStorage')"
                     :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
-                    @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
+                    @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" /> -->
             </div>
         </NuxtLayout>
     </div>
@@ -239,7 +239,7 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import pusher from '@/services/pusher'
-import { messageService } from '@/components/api/MessageService'
+import { messageService } from '@/components/api/citizen/MessageService'
 import { useUserStore } from '@/store/user'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
@@ -368,7 +368,6 @@ async function readChat() {
         }
         const response = await messageService.readChat(params)
         if (response) {
-            console.log('read')
         }
     } catch (error: any) {
         state.error = { message: error.message }
