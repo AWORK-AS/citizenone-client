@@ -5,7 +5,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesRemindersForm formType="create" :selectedReminder="state.formStatus" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="saveStatus" />
+                        @submitForm="saveReminder" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -14,7 +14,6 @@
 
 <script setup lang="ts">
 import { reminderService } from '@/components/api/ReminderService'
-import { reminderUserService } from '@/components/api/ReminderUserService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -58,7 +57,7 @@ function refreshReminders() {
     emit('refreshReminders')
 }
 
-async function saveStatus(statusDetails: any) {
+async function saveReminder(statusDetails: any) {
     state.error = {}
     state.isPageLoading = true
     let reminder_uuid = ''

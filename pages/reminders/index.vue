@@ -67,7 +67,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
 import { useI18n } from "vue-i18n"
 import { useAlert } from "@/composables/alert"
 import { useRuntimeConfig } from "#imports"
@@ -76,8 +75,6 @@ import { reminderService } from '@/components/api/ReminderService'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
-
-let currentTablePage = 1
 
 const state = reactive({
     error: {} as Error,
