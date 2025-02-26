@@ -5,7 +5,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <form @submit.prevent="addToGroupMembers">
+                    <form @submit.prevent="addToGroupMembers" id="formGroupMember">
                         <div class="space-y-3">
                             <div class="space-y-1">
                                 <FormLabel for="users" :label="$t('messages.users')" />
@@ -127,3 +127,9 @@ async function addToGroupMembers() {
     }
 }
 </script>
+
+<style>
+#formGroupMember .multiselect-dropdown {
+    max-height: 4.8rem !important;
+}
+</style>
