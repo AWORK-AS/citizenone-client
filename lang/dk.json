@@ -2648,7 +2648,9 @@
         "repeat": "Gentag",
         "form": {
             "alert": {
-                "taskSuccessfullySaved": "Opgaven blev oprettet med succes"
+                "taskSuccessfullySaved": "Opgaven blev oprettet med succes",
+                "employeeSuccessfullyAssigned": "Medarbejder tildelt succesfuldt",
+                "employeeSuccessfullyRemoved": "Medarbejder fjernet succesfuldt"
             }
         }
     },

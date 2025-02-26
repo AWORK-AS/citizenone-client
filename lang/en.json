@@ -2648,7 +2648,9 @@
         "repeat": "Repeat",
         "form": {
             "alert": {
-                "taskSuccessfullySaved": "Task successfully created"
+                "taskSuccessfullySaved": "Task successfully created",
+                "employeeSuccessfullyAssigned": "Employee successfully assigned",
+                "employeeSuccessfullyRemoved": "Employee successfully removed"
             }
         }
     },

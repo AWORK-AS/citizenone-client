@@ -159,6 +159,7 @@ async function removeAssignee(Uuid: string) {
         if (response && response.message) {
             closeModal()
             fetchAssignees()
+            successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.employeeSuccessfullyRemoved')}.`)
         }
 
     } catch (error: any) {
@@ -179,6 +180,7 @@ async function saveReminderUser(employee_uuid: string[], reminder_uuid: any) {
         const response = await reminderUserService.saveReminderUser(params)
         if (response?.data) {
             fetchAssignees()
+            successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.employeeSuccessfullyAssigned')}.`)
         }
     } catch (error: any) {
         state.error = error
