@@ -19,4 +19,8 @@ export interface CitizenForm {
     date_admitted: string,
     date_discharged: string,
     note: string,
+    has_system_access: boolean,
+    has_chat_access: boolean,
+    has_duty_schedule_access: boolean,
+    has_bullet_board_access: boolean,
 }

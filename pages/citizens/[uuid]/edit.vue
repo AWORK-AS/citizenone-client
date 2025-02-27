@@ -91,6 +91,10 @@ const state = reactive({
         date_admitted: '',
         date_discharged: '',
         note: '',
+        has_system_access: false,
+        has_chat_access: false,
+        has_duty_schedule_access: false,
+        has_bullet_board_access: false,
     } as CitizenForm,
     isPageLoading: false,
     modal: {
@@ -129,6 +133,10 @@ async function fetchCitizen() {
                 date_admitted: response?.data?.date_admitted ?? '',
                 date_discharged: response?.data?.date_discharged ?? '',
                 note: response?.data?.note ?? '',
+                has_system_access: response?.data?.has_system_access ?? '',
+                has_chat_access: response?.data?.has_chat_access ?? '',
+                has_duty_schedule_access: response?.data?.has_duty_schedule_access ?? '',
+                has_bullet_board_access: response?.data?.has_bullet_board_access ?? '',
             }
             response?.data?.departments?.forEach((department: any) => {
                 state.formCitizen.departments.push(department?.uuid)
@@ -183,6 +191,10 @@ async function updateCitizen(citizenDetails: any) {
         params.append('date_admitted', citizenDetails.date_admitted != 'Invalid date' ? citizenDetails.date_admitted : '')
         params.append('date_discharged', citizenDetails.date_discharged != 'Invalid date' ? citizenDetails.date_discharged : '')
         params.append('note', citizenDetails.note)
+        params.append('has_system_access', citizenDetails.has_system_access)
+        params.append('has_chat_access', citizenDetails.has_chat_access)
+        params.append('has_duty_schedule_access', citizenDetails.has_duty_schedule_access)
+        params.append('has_bullet_board_access', citizenDetails.has_bullet_board_access)
         const response = await citizenService.updateCitizen(citizenUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyUpdate')}.`)
