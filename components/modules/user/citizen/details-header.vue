@@ -76,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { citizenService } from '@/components/api/CitizenService'
+import { citizenService } from '@/components/api/user/CitizenService'
 import type { Error } from '@/types'
 
 const router = useRouter()

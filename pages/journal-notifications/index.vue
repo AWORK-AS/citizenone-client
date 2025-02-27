@@ -70,7 +70,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { notificationService } from '@/components/api/NotificationService'
+import { notificationService } from '@/components/api/user/NotificationService'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 

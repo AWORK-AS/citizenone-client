@@ -50,8 +50,8 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { scheduleSlotService } from '@/components/api/ScheduleSlotService'
-import { scheduleGrabberService } from '@/components/api/ScheduleGrabberService'
+import { scheduleSlotService } from '@/components/api/user/ScheduleSlotService'
+import { scheduleGrabberService } from '@/components/api/user/ScheduleGrabberService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

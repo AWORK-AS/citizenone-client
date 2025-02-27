@@ -111,8 +111,8 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { citizenProtocolService } from '@/components/api/CitizenProtocolService'
-import { protocolService } from '@/components/api/ProtocolService'
+import { citizenProtocolService } from '@/components/api/user/CitizenProtocolService'
+import { protocolService } from '@/components/api/user/ProtocolService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

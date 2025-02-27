@@ -94,7 +94,7 @@
 </template>
 
 <script setup lang="ts">
-import { invoiceService } from '@/components/api/InvoiceService'
+import { invoiceService } from '@/components/api/user/InvoiceService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"

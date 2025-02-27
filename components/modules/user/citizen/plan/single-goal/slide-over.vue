@@ -187,7 +187,7 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { subgoalService } from '@/components/api/SubgoalService'
+import { subgoalService } from '@/components/api/user/SubgoalService'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"

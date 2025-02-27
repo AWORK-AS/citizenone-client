@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { diagnosisService } from '@/components/api/DiagnosisService'
+import { diagnosisService } from '@/components/api/user/DiagnosisService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

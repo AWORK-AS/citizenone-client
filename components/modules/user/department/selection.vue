@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { departmentService } from '@/components/api/DepartmentService'
+import { departmentService } from '@/components/api/user/DepartmentService'
 import { useDepartmentStore } from '@/store/department'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import type { Error } from '@/types'

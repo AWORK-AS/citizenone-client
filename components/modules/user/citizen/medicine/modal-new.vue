@@ -15,7 +15,7 @@
 
 
 <script setup lang="ts">
-import { medicineJournalService } from '@/components/api/MedicineJournalService'
+import { medicineJournalService } from '@/components/api/user/MedicineJournalService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

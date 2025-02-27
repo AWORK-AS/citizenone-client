@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { folderStructureService } from '@/components/api/FolderStructureService'
+import { folderStructureService } from '@/components/api/user/FolderStructureService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"

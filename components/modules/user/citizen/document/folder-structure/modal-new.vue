@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { folderStructureService } from '@/components/api/FolderStructureService'
+import { folderStructureService } from '@/components/api/user/FolderStructureService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

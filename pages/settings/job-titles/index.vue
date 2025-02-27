@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { jobTitleService } from '@/components/api/JobTitleService'
+import { jobTitleService } from '@/components/api/user/JobTitleService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()

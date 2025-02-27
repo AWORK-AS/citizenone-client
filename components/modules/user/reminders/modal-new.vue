@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { reminderService } from '@/components/api/ReminderService'
+import { reminderService } from '@/components/api/user/ReminderService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

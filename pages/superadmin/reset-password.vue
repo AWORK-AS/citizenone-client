@@ -75,7 +75,7 @@
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers, minLength, sameAs } from '@vuelidate/validators'
-import { authService } from '@/components/api/AuthService'
+import { authService } from '@/components/api/user/AuthService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'

@@ -105,9 +105,9 @@
 </template>
 
 <script setup lang="ts">
-import { addOnDealsService } from '@/components/api/AddOnDealsService'
-import { userSubscriptionService } from '@/components/api/UserSubscriptionService'
-import { storageService } from '@/components/api/StorageService'
+import { addOnDealsService } from '@/components/api/user/AddOnDealsService'
+import { userSubscriptionService } from '@/components/api/user/UserSubscriptionService'
+import { storageService } from '@/components/api/user/StorageService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import type { Error } from '@/types'
 

@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { myCalendarService } from '@/components/api/MyCalendarService'
+import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

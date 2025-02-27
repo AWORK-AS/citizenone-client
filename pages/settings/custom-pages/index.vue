@@ -57,7 +57,7 @@
 
 
 <script setup lang="ts">
-import { customPagesService } from '@/components/api/CustomPagesService'
+import { customPagesService } from '@/components/api/user/CustomPagesService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()

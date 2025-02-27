@@ -420,8 +420,8 @@ import {
     TransitionChild,
     TransitionRoot,
 } from '@headlessui/vue'
-import { authService } from '@/components/api/AuthService'
-import { userService } from '@/components/api/UserService'
+import { authService } from '@/components/api/user/AuthService'
+import { userService } from '@/components/api/user/UserService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"

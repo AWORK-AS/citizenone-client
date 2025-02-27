@@ -74,7 +74,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { citizenService } from '@/components/api/CitizenService'
+import { citizenService } from '@/components/api/user/CitizenService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'

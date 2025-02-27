@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { formService } from '@/components/api/FormService'
+import { formService } from '@/components/api/user/FormService'
 import type { Error } from '@/types'
 
 let currentTablePage = 1

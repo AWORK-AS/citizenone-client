@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { activityLogService } from '@/components/api/ActivityLogService'
+import { activityLogService } from '@/components/api/user/ActivityLogService'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 

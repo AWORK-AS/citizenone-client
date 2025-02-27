@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/BaseAPIService'
+import BaseAPIService from '@/components/api/user/BaseAPIService'
 
 class LicenseService extends BaseAPIService {
     async getSubscription(companyUuid: any): Promise<any> {

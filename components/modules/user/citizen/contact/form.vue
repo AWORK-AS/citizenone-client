@@ -183,13 +183,13 @@
 </template>
 
 <script setup lang="ts">
-import { relationshipService } from '@/components/api/RelationshipService'
-import { regionService } from '@/components/api/RegionService'
-import { municipalityService } from '@/components/api/MunicipalityService'
-import { cityService } from '@/components/api/CityService'
-import { userService } from '@/components/api/UserService'
-import { contactNotificationTypesService } from '@/components/api/ContactNotificationTypesService'
-import { riskLevelService } from '@/components/api/RiskLevelService'
+import { relationshipService } from '@/components/api/user/RelationshipService'
+import { regionService } from '@/components/api/user/RegionService'
+import { municipalityService } from '@/components/api/user/MunicipalityService'
+import { cityService } from '@/components/api/user/CityService'
+import { userService } from '@/components/api/user/UserService'
+import { contactNotificationTypesService } from '@/components/api/user/ContactNotificationTypesService'
+import { riskLevelService } from '@/components/api/user/RiskLevelService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"

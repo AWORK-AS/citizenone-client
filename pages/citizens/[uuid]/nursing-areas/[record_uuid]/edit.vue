@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { nursingAreasService } from '@/components/api/NursingAreasService'
+import { nursingAreasService } from '@/components/api/user/NursingAreasService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'

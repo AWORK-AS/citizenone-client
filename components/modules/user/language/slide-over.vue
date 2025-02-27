@@ -77,8 +77,8 @@
 </template>
 
 <script setup lang="ts">
-import { userService } from '@/components/api/UserService'
-import { languageService } from '@/components/api/LanguageService'
+import { userService } from '@/components/api/user/UserService'
+import { languageService } from '@/components/api/user/LanguageService'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"

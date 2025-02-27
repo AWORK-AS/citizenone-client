@@ -232,11 +232,11 @@
 </template>
 
 <script setup lang="ts">
-import { journalService } from '@/components/api/JournalService'
-import { journalNoteTagService } from '@/components/api/JournalNoteTagService'
-import { planService } from '@/components/api/PlanService'
-import { goalService } from '@/components/api/GoalService'
-import { subgoalService } from '@/components/api/SubgoalService'
+import { journalService } from '@/components/api/user/JournalService'
+import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
+import { planService } from '@/components/api/user/PlanService'
+import { goalService } from '@/components/api/user/GoalService'
+import { subgoalService } from '@/components/api/user/SubgoalService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"

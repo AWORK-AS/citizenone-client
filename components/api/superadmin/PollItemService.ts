@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/BaseAPIService'
+import BaseAPIService from '@/components/api/user/BaseAPIService'
 
 class PollItemService extends BaseAPIService {
     async getPollItems(params: object): Promise<any> {

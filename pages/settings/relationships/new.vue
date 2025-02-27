@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { relationshipService } from '@/components/api/RelationshipService'
+import { relationshipService } from '@/components/api/user/RelationshipService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

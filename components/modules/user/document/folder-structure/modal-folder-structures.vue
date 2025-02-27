@@ -51,7 +51,7 @@
 
 
 <script setup lang="ts">
-import { folderStructureService } from '@/components/api/FolderStructureService'
+import { folderStructureService } from '@/components/api/user/FolderStructureService'
 import type { Error } from '@/types'
 
 const props = defineProps({

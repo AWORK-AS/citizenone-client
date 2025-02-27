@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { messageService } from '@/components/api/MessageService'
+import { messageService } from '@/components/api/user/MessageService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'

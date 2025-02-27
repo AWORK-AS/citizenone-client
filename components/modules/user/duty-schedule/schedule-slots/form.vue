@@ -90,8 +90,8 @@
 </template>
 
 <script setup lang="ts">
-import { jobTitleService } from '@/components/api/JobTitleService'
-import { jobSpecialtyService } from '@/components/api/JobSpecialtyService'
+import { jobTitleService } from '@/components/api/user/JobTitleService'
+import { jobSpecialtyService } from '@/components/api/user/JobSpecialtyService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"

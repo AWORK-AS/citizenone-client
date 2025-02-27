@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { procedureTaskService } from '@/components/api/ProcedureTaskService'
+import { procedureTaskService } from '@/components/api/user/ProcedureTaskService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'

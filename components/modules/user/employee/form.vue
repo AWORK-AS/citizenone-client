@@ -418,14 +418,14 @@
 </template>
 
 <script setup lang="ts">
-import { jobTitleService } from '@/components/api/JobTitleService'
-import { jobSpecialtyService } from '@/components/api/JobSpecialtyService'
-import { departmentService } from '@/components/api/DepartmentService'
-import { pageService } from '@/components/api/PageService'
-import { regionService } from '@/components/api/RegionService'
-import { municipalityService } from '@/components/api/MunicipalityService'
-import { cityService } from '@/components/api/CityService'
-import { mediaRiskService } from '@/components/api/MediaRiskService'
+import { jobTitleService } from '@/components/api/user/JobTitleService'
+import { jobSpecialtyService } from '@/components/api/user/JobSpecialtyService'
+import { departmentService } from '@/components/api/user/DepartmentService'
+import { pageService } from '@/components/api/user/PageService'
+import { regionService } from '@/components/api/user/RegionService'
+import { municipalityService } from '@/components/api/user/MunicipalityService'
+import { cityService } from '@/components/api/user/CityService'
+import { mediaRiskService } from '@/components/api/user/MediaRiskService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"

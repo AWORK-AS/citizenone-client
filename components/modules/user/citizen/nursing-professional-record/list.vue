@@ -263,7 +263,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { nursingAreasService } from '@/components/api/NursingAreasService'
+import { nursingAreasService } from '@/components/api/user/NursingAreasService'
 import type { Error } from '@/types'
 
 const router = useRouter()

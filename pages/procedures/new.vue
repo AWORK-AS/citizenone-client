@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { procedureService } from '@/components/api/ProcedureService'
+import { procedureService } from '@/components/api/user/ProcedureService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'

@@ -71,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { authService } from '@/components/api/AuthService'
+import { authService } from '@/components/api/user/AuthService'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"

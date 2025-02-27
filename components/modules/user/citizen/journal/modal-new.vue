@@ -97,8 +97,8 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { planService } from '@/components/api/PlanService'
-import { journalService } from '@/components/api/JournalService'
+import { planService } from '@/components/api/user/PlanService'
+import { journalService } from '@/components/api/user/JournalService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

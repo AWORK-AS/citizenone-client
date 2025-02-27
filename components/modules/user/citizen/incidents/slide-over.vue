@@ -149,7 +149,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { incidentService } from '@/components/api/IncidentService'
+import { incidentService } from '@/components/api/user/IncidentService'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import type { Error } from '@/types'
 

@@ -463,7 +463,7 @@
 
 <script setup lang="ts">
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import { nursingAreasService } from '@/components/api/NursingAreasService'
+import { nursingAreasService } from '@/components/api/user/NursingAreasService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"

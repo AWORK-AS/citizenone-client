@@ -16,7 +16,7 @@
 
 
 <script setup lang="ts">
-import { citizenWalletTransactionService } from '@/components/api/CitizenWalletTransactionService'
+import { citizenWalletTransactionService } from '@/components/api/user/CitizenWalletTransactionService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

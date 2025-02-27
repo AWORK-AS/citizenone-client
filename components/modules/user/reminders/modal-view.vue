@@ -57,8 +57,8 @@
 
 <script setup lang="ts">
 import { watch, reactive } from 'vue'
-import { reminderUserService } from '@/components/api/ReminderUserService'
-import { employeeService } from '@/components/api/EmployeeService'
+import { reminderUserService } from '@/components/api/user/ReminderUserService'
+import { employeeService } from '@/components/api/user/EmployeeService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useDepartmentStore } from '@/store/department'

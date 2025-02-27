@@ -15,7 +15,7 @@
 
 
 <script setup lang="ts">
-import { journalService } from '@/components/api/JournalService'
+import { journalService } from '@/components/api/user/JournalService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

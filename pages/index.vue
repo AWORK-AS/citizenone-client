@@ -100,7 +100,7 @@
 </template>
 
 <script setup lang="ts">
-import { authService } from '@/components/api/AuthService'
+import { authService } from '@/components/api/user/AuthService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useDepartmentStore } from '@/store/department'

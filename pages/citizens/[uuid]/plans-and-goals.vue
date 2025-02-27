@@ -264,8 +264,8 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { planService } from '@/components/api/PlanService'
-import { goalService } from '@/components/api/GoalService'
+import { planService } from '@/components/api/user/PlanService'
+import { goalService } from '@/components/api/user/GoalService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'

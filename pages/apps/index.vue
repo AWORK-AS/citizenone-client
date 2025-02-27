@@ -234,7 +234,7 @@
 </template>
 
 <script setup lang="ts">
-import { appService } from '@/components/api/AppService'
+import { appService } from '@/components/api/user/AppService'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 

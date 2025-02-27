@@ -61,8 +61,8 @@
 </template>
 
 <script setup lang="ts">
-import { citizenService } from '@/components/api/CitizenService'
-import { userService } from '@/components/api/UserService'
+import { citizenService } from '@/components/api/user/CitizenService'
+import { userService } from '@/components/api/user/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"

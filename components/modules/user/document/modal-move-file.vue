@@ -35,7 +35,7 @@
 
 
 <script setup lang="ts">
-import { documentService } from '@/components/api/DocumentService'
+import { documentService } from '@/components/api/user/DocumentService'
 import { useAlert } from '@/composables/alert'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'

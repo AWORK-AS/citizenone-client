@@ -53,7 +53,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { dailyOverviewService } from '@/components/api/DailyOverviewService'
+import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import type { CalendarEventResponse, Error } from '@/types'
 
 const props = defineProps({

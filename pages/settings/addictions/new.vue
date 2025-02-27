@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { addictionService } from '@/components/api/AddictionService'
+import { addictionService } from '@/components/api/user/AddictionService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'

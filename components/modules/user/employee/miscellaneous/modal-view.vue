@@ -71,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { employeeDocumentService } from '@/components/api/EmployeeDocumentService'
+import { employeeDocumentService } from '@/components/api/user/EmployeeDocumentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { saveAs } from 'file-saver'

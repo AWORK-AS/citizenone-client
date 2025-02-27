@@ -15,7 +15,7 @@
 
 
 <script setup lang="ts">
-import { planTemplateService } from '@/components/api/PlanTemplateService'
+import { planTemplateService } from '@/components/api/user/PlanTemplateService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

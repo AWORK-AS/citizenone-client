@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { employeeService } from '@/components/api/EmployeeService'
+import { employeeService } from '@/components/api/user/EmployeeService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'

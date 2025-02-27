@@ -476,7 +476,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { dutyScheduleService } from '@/components/api/DutyScheduleService'
+import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'

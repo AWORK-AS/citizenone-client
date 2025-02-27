@@ -52,8 +52,8 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { notificationService } from '@/components/api/NotificationService'
-import { journalService } from '@/components/api/JournalService'
+import { notificationService } from '@/components/api/user/NotificationService'
+import { journalService } from '@/components/api/user/JournalService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

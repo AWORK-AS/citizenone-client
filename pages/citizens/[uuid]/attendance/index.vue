@@ -74,7 +74,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { protocolService } from '@/components/api/ProtocolService'
+import { protocolService } from '@/components/api/user/ProtocolService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 

@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { addictionService } from '@/components/api/AddictionService'
+import { addictionService } from '@/components/api/user/AddictionService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()

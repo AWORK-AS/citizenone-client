@@ -117,7 +117,7 @@
 </template>
 
 <script setup lang="ts">
-import { dosageService } from '@/components/api/DosageService'
+import { dosageService } from '@/components/api/user/DosageService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"

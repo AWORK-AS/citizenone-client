@@ -106,7 +106,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { invitationService } from '@/components/api/InvitationService'
+import { invitationService } from '@/components/api/user/InvitationService'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"

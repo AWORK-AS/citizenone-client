@@ -34,9 +34,9 @@
                                         </td>
                                         <td width="20%">
                                             <span>{{ moment(request?.schedule?.time_in, "HH:mm").format('HH:mm')
-                                                }}</span> -
+                                            }}</span> -
                                             <span>{{ moment(request?.schedule?.time_out, "HH:mm").format('HH:mm')
-                                                }}</span>
+                                            }}</span>
                                         </td>
                                         <td width="20%">
                                             <span>{{ moment(request?.time_in, "HH:mm").format('HH:mm') }}</span> -
@@ -84,7 +84,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { scheduleRequestService } from '@/components/api/ScheduleRequestService'
+import { scheduleRequestService } from '@/components/api/user/ScheduleRequestService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'

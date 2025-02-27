@@ -93,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import { citizenService } from '@/components/api/CitizenService'
+import { citizenService } from '@/components/api/user/CitizenService'
 import { useDepartmentStore } from '@/store/department'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'

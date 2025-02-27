@@ -97,8 +97,8 @@
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
-import { audienceService } from '@/components/api/AudienceService'
-import { departmentService } from '@/components/api/DepartmentService'
+import { audienceService } from '@/components/api/user/AudienceService'
+import { departmentService } from '@/components/api/user/DepartmentService'
 import { useI18n } from "vue-i18n"
 import type { NewsForm, Error } from '@/types'
 

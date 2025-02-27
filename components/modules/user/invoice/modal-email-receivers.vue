@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { invoiceReceiverService } from '@/components/api/InvoiceReceiverService'
+import { invoiceReceiverService } from '@/components/api/user/InvoiceReceiverService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'

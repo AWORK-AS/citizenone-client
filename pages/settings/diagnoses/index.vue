@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { diagnosisService } from '@/components/api/DiagnosisService'
+import { diagnosisService } from '@/components/api/user/DiagnosisService'
 import type { Error } from '@/types'
 const breadcrumbLinks = [
     {

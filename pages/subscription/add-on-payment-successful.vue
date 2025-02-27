@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { addOnDealsService } from '@/components/api/AddOnDealsService'
+import { addOnDealsService } from '@/components/api/user/AddOnDealsService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()

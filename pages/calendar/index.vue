@@ -130,9 +130,9 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import { citizenService } from '@/components/api/CitizenService'
-import { myCalendarService } from '@/components/api/MyCalendarService'
-import { userService } from '@/components/api/UserService'
+import { citizenService } from '@/components/api/user/CitizenService'
+import { myCalendarService } from '@/components/api/user/MyCalendarService'
+import { userService } from '@/components/api/user/UserService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useDepartmentStore } from '@/store/department'

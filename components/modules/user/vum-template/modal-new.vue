@@ -15,7 +15,7 @@
 
 
 <script setup lang="ts">
-import { planGoalSubgoalTemplateService } from '@/components/api/PlanGoalSubgoalTemplateService'
+import { planGoalSubgoalTemplateService } from '@/components/api/user/PlanGoalSubgoalTemplateService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

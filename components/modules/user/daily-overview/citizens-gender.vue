@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { dailyOverviewService } from '@/components/api/DailyOverviewService'
+import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import type { Error } from '@/types'
 
 const state = reactive({

@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { procedureService } from '@/components/api/ProcedureService'
+import { procedureService } from '@/components/api/user/ProcedureService'
 import type { Error } from '@/types'
 
 let currentTablePage = 1

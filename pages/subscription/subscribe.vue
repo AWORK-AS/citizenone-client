@@ -361,8 +361,8 @@
 </template>
 
 <script setup lang="ts">
-import { dealService } from '@/components/api/DealService'
-import { userSubscriptionService } from '@/components/api/UserSubscriptionService'
+import { dealService } from '@/components/api/user/DealService'
+import { userSubscriptionService } from '@/components/api/user/UserSubscriptionService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"

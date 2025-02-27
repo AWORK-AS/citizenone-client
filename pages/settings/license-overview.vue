@@ -180,7 +180,7 @@
 </template>
 
 <script setup lang="ts">
-import { licenseService } from '@/components/api/LicenseService'
+import { licenseService } from '@/components/api/user/LicenseService'
 import { useUserStore } from '@/store/user'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import type { Error } from '@/types'

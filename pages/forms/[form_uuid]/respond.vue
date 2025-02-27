@@ -205,8 +205,8 @@
 </template>
 
 <script setup lang="ts">
-import { formService } from '@/components/api/FormService'
-import { formFieldService } from '@/components/api/FormFieldService'
+import { formService } from '@/components/api/user/FormService'
+import { formFieldService } from '@/components/api/user/FormFieldService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'

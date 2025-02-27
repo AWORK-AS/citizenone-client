@@ -84,8 +84,8 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { citizenService } from '@/components/api/CitizenService'
-import { protocolService } from '@/components/api/ProtocolService'
+import { citizenService } from '@/components/api/user/CitizenService'
+import { protocolService } from '@/components/api/user/ProtocolService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'

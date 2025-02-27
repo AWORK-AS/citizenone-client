@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { citizenService } from '@/components/api/CitizenService'
+import { citizenService } from '@/components/api/user/CitizenService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'

@@ -14,7 +14,7 @@
 
 
 <script setup lang="ts">
-import { citizenDocumentService } from '@/components/api/CitizenDocumentService'
+import { citizenDocumentService } from '@/components/api/user/CitizenDocumentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

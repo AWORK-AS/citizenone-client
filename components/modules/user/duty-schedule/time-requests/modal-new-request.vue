@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { scheduleRequestService } from '@/components/api/ScheduleRequestService'
+import { scheduleRequestService } from '@/components/api/user/ScheduleRequestService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

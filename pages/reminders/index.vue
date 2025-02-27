@@ -29,15 +29,18 @@
                                 <div class="text-sm">
                                     <div v-html="reminder?.notes" class="content" />
                                 </div>
-                                <p class="text-sm bg-primary p-1 rounded-md text-white w-fit">
-                                    {{ $t('reminder.dueDate') }}: {{ formatDateToReadable(reminder?.date_time) }}
-                                </p>
-                                <p class="text-sm bg-primary p-1 rounded-md text-white w-fit">
-                                    {{ $t('reminder.time') }}: {{ formatTimeToReadable(reminder?.date_time) }} ~ {{
-                                        reminder?.repeat
-                                    }}
-                                </p>
-
+                                <Badge type="primary" class="w-fit">
+                                    <p class="text-xs">
+                                        {{ $t('reminder.dueDate') }}: {{ formatDateToReadable(reminder?.date_time) }}
+                                    </p>
+                                </Badge>
+                                <Badge type="primary" class="w-fit">
+                                    <p class="text-xs">
+                                        {{ $t('reminder.time') }}: {{ formatTimeToReadable(reminder?.date_time) }} ~ {{
+                                            reminder?.repeat
+                                        }}
+                                    </p>
+                                </Badge>
                             </div>
                             <div>
                                 <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
@@ -70,7 +73,7 @@
 import { useI18n } from "vue-i18n"
 import { useAlert } from "@/composables/alert"
 import { useRuntimeConfig } from "#imports"
-import { reminderService } from '@/components/api/ReminderService'
+import { reminderService } from '@/components/api/user/ReminderService'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()

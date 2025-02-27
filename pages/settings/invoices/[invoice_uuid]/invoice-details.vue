@@ -105,7 +105,7 @@
 </template>
 
 <script setup lang="ts">
-import { invoiceService } from '@/components/api/InvoiceService'
+import { invoiceService } from '@/components/api/user/InvoiceService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'

@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { absenceService } from '@/components/api/AbsenceService'
+import { absenceService } from '@/components/api/user/AbsenceService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'

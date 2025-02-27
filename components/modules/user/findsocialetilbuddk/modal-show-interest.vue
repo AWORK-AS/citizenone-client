@@ -94,7 +94,7 @@
 </template>
 
 <script setup lang="ts">
-import { findSocialeTilbudDkService } from '@/components/api/FindSocialeTilbudDkService'
+import { findSocialeTilbudDkService } from '@/components/api/user/FindSocialeTilbudDkService'
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 import { useVuelidate } from "@vuelidate/core"

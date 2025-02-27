@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import { documentService } from '@/components/api/DocumentService'
+import { documentService } from '@/components/api/user/DocumentService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'

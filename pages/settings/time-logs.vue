@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { timeLogService } from '@/components/api/TimeLogService'
+import { timeLogService } from '@/components/api/user/TimeLogService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()

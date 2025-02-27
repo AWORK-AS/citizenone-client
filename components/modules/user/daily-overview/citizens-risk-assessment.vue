@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { dailyOverviewService } from '@/components/api/DailyOverviewService'
+import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
 

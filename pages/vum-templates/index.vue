@@ -80,7 +80,7 @@
 </template>
 
 <script setup lang="ts">
-import { planGoalSubgoalTemplateService } from '@/components/api/PlanGoalSubgoalTemplateService'
+import { planGoalSubgoalTemplateService } from '@/components/api/user/PlanGoalSubgoalTemplateService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'

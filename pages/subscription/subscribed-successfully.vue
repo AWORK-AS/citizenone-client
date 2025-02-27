@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { userSubscriptionService } from '@/components/api/UserSubscriptionService'
+import { userSubscriptionService } from '@/components/api/user/UserSubscriptionService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()

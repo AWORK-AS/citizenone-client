@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { protocolService } from '@/components/api/ProtocolService'
+import { protocolService } from '@/components/api/user/ProtocolService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

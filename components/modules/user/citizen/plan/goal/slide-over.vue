@@ -356,8 +356,8 @@
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
-import { goalService } from '@/components/api/GoalService'
-import { subgoalService } from '@/components/api/SubgoalService'
+import { goalService } from '@/components/api/user/GoalService'
+import { subgoalService } from '@/components/api/user/SubgoalService'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"

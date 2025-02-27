@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { dutyScheduleService } from '@/components/api/DutyScheduleService'
+import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import type { Error } from '@/types'
 import { useDepartmentStore } from '@/store/department'
 import { useVuelidate } from "@vuelidate/core"

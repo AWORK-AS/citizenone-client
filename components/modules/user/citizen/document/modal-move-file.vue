@@ -35,7 +35,7 @@
 
 
 <script setup lang="ts">
-import { citizenDocumentService } from '@/components/api/CitizenDocumentService'
+import { citizenDocumentService } from '@/components/api/user/CitizenDocumentService'
 import { useAlert } from '@/composables/alert'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'

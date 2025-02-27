@@ -239,7 +239,7 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import pusher from '@/services/pusher'
-import { messageService } from '@/components/api/MessageService'
+import { messageService } from '@/components/api/user/MessageService'
 import { useUserStore } from '@/store/user'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'

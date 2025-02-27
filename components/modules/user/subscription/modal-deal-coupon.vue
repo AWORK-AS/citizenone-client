@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { couponService } from '@/components/api/CouponService'
+import { couponService } from '@/components/api/user/CouponService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'

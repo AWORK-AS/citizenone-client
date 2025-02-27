@@ -122,8 +122,8 @@
 
 <script setup lang="ts">
 import { useAmountFormatter } from '@/composables/amountFormatter'
-import { citizenWalletService } from '@/components/api/CitizenWalletService'
-import { citizenWalletTransactionService } from '@/components/api/CitizenWalletTransactionService'
+import { citizenWalletService } from '@/components/api/user/CitizenWalletService'
+import { citizenWalletTransactionService } from '@/components/api/user/CitizenWalletTransactionService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'

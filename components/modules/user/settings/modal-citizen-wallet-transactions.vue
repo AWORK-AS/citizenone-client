@@ -44,9 +44,9 @@
 </template>
 
 <script setup lang="ts">
-import { citizenService } from '@/components/api/CitizenService'
-import { citizenWalletService } from '@/components/api/CitizenWalletService'
-import { citizenWalletTransactionService } from '@/components/api/CitizenWalletTransactionService'
+import { citizenService } from '@/components/api/user/CitizenService'
+import { citizenWalletService } from '@/components/api/user/CitizenWalletService'
+import { citizenWalletTransactionService } from '@/components/api/user/CitizenWalletTransactionService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'

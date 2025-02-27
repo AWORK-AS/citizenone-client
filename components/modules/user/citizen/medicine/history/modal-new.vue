@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { medicineHistoryService } from '@/components/api/MedicineHistoryService'
+import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

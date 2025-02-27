@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { storageService } from '@/components/api/StorageService'
+import { storageService } from '@/components/api/user/StorageService'
 import type { Error } from '@/types'
 
 const state = reactive({

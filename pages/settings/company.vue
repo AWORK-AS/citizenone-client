@@ -141,10 +141,10 @@
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
-import { userService } from "@/components/api/UserService";
-import { regionService } from '@/components/api/RegionService'
-import { municipalityService } from '@/components/api/MunicipalityService'
-import { cityService } from '@/components/api/CityService'
+import { userService } from "@/components/api/user/UserService";
+import { regionService } from '@/components/api/user/RegionService'
+import { municipalityService } from '@/components/api/user/MunicipalityService'
+import { cityService } from '@/components/api/user/CityService'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"

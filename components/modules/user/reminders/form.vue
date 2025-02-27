@@ -59,7 +59,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useDepartmentStore } from '@/store/department'
-import { employeeService } from '@/components/api/EmployeeService'
+import { employeeService } from '@/components/api/user/EmployeeService'
 
 const departmentStore = useDepartmentStore()
 

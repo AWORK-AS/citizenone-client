@@ -397,7 +397,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { employeeService } from '@/components/api/EmployeeService'
+import { employeeService } from '@/components/api/user/EmployeeService'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 

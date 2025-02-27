@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { jobSpecialtyService } from '@/components/api/JobSpecialtyService'
+import { jobSpecialtyService } from '@/components/api/user/JobSpecialtyService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'

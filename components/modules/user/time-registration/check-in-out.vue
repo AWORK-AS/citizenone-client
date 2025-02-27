@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { userService } from '@/components/api/UserService'
+import { userService } from '@/components/api/user/UserService'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 

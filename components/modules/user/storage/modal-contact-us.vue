@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { contactUsService } from '@/components/api/ContactUsService'
+import { contactUsService } from '@/components/api/user/ContactUsService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'

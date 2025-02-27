@@ -174,7 +174,7 @@
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
-import { goalTemplateService } from '@/components/api/GoalTemplateService'
+import { goalTemplateService } from '@/components/api/user/GoalTemplateService'
 import type { Error } from '@/types'
 
 const { formatDateToReadable } = useDatetimeFormatter()

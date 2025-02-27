@@ -165,7 +165,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { treatmentService } from '@/components/api/TreatmentService'
+import { treatmentService } from '@/components/api/user/TreatmentService'
 import type { Error } from '@/types'
 
 const router = useRouter()

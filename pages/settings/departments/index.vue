@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { departmentService } from '@/components/api/DepartmentService'
+import { departmentService } from '@/components/api/user/DepartmentService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()

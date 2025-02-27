@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { employeeDocumentService } from '@/components/api/EmployeeDocumentService'
+import { employeeDocumentService } from '@/components/api/user/EmployeeDocumentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

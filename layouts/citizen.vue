@@ -269,7 +269,7 @@ import {
     TransitionChild,
     TransitionRoot,
 } from '@headlessui/vue'
-import { authService } from '@/components/api/AuthService'
+import { authService } from '@/components/api/user/AuthService'
 import { citizenService } from '@/components/api/citizen/CitizenService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'

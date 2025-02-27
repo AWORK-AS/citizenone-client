@@ -112,9 +112,9 @@
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
-import { languageService } from '@/components/api/LanguageService'
-import { pageService } from '@/components/api/PageService'
-import { userService } from "@/components/api/UserService"
+import { languageService } from '@/components/api/user/LanguageService'
+import { pageService } from '@/components/api/user/PageService'
+import { userService } from "@/components/api/user/UserService"
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"

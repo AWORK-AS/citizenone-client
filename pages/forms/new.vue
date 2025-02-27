@@ -427,7 +427,7 @@
 </template>
 
 <script setup lang="ts">
-import { formService } from '@/components/api/FormService'
+import { formService } from '@/components/api/user/FormService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useVuelidate } from "@vuelidate/core"

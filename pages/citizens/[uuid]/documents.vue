@@ -176,7 +176,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { citizenDocumentService } from '@/components/api/CitizenDocumentService'
+import { citizenDocumentService } from '@/components/api/user/CitizenDocumentService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'

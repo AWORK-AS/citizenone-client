@@ -112,7 +112,7 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
-import { medicineHistoryService } from '@/components/api/MedicineHistoryService'
+import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'

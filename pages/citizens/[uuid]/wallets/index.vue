@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import { citizenWalletService } from '@/components/api/CitizenWalletService'
+import { citizenWalletService } from '@/components/api/user/CitizenWalletService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'

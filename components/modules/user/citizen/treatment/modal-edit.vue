@@ -14,7 +14,7 @@
 
 
 <script setup lang="ts">
-import { treatmentService } from '@/components/api/TreatmentService'
+import { treatmentService } from '@/components/api/user/TreatmentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

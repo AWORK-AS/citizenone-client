@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { incidentService } from '@/components/api/IncidentService'
+import { incidentService } from '@/components/api/user/IncidentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

@@ -58,7 +58,7 @@
 
 <script setup lang="ts">
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import { procedureService } from '@/components/api/ProcedureService'
+import { procedureService } from '@/components/api/user/ProcedureService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"

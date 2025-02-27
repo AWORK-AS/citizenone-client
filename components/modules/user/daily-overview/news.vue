@@ -48,7 +48,7 @@
 
 <script setup lang="ts">
 import { Carousel, Slide, Pagination } from 'vue3-carousel'
-import { dailyOverviewService } from '@/components/api/DailyOverviewService'
+import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import type { Error } from '@/types'
 
 const state = reactive({

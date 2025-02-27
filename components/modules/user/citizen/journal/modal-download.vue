@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { journalService } from '@/components/api/JournalService'
+import { journalService } from '@/components/api/user/JournalService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import type { Error } from '@/types'

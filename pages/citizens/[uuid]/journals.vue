@@ -262,7 +262,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { journalService } from '@/components/api/JournalService'
+import { journalService } from '@/components/api/user/JournalService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCitizenJournalStore } from '@/store/citizen-journal'

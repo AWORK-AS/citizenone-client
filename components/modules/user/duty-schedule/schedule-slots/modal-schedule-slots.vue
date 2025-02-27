@@ -105,7 +105,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { scheduleSlotService } from '@/components/api/ScheduleSlotService'
+import { scheduleSlotService } from '@/components/api/user/ScheduleSlotService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'

@@ -292,9 +292,9 @@
 </template>
 
 <script setup lang="ts">
-import { regionService } from '@/components/api/RegionService'
-import { municipalityService } from '@/components/api/MunicipalityService'
-import { findSocialeTilbudDkService } from '@/components/api/FindSocialeTilbudDkService'
+import { regionService } from '@/components/api/user/RegionService'
+import { municipalityService } from '@/components/api/user/MunicipalityService'
+import { findSocialeTilbudDkService } from '@/components/api/user/FindSocialeTilbudDkService'
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 import { useVuelidate } from "@vuelidate/core"

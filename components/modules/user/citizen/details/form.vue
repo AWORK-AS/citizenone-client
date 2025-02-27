@@ -235,12 +235,12 @@
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
-import { departmentService } from '@/components/api/DepartmentService'
-import { diagnosisService } from '@/components/api/DiagnosisService'
-import { addictionService } from '@/components/api/AddictionService'
-import { regionService } from '@/components/api/RegionService'
-import { municipalityService } from '@/components/api/MunicipalityService'
-import { cityService } from '@/components/api/CityService'
+import { departmentService } from '@/components/api/user/DepartmentService'
+import { diagnosisService } from '@/components/api/user/DiagnosisService'
+import { addictionService } from '@/components/api/user/AddictionService'
+import { regionService } from '@/components/api/user/RegionService'
+import { municipalityService } from '@/components/api/user/MunicipalityService'
+import { cityService } from '@/components/api/user/CityService'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 

@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { scheduleGrabberService } from '@/components/api/ScheduleGrabberService'
+import { scheduleGrabberService } from '@/components/api/user/ScheduleGrabberService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'

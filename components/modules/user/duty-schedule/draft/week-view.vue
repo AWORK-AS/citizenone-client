@@ -443,7 +443,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { draftScheduleService } from '@/components/api/DraftScheduleService'
+import { draftScheduleService } from '@/components/api/user/DraftScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'

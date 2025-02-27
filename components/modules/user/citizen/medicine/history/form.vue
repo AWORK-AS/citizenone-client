@@ -94,7 +94,7 @@
 </template>
 
 <script setup lang="ts">
-import { userService } from '@/components/api/UserService'
+import { userService } from '@/components/api/user/UserService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'

@@ -133,7 +133,7 @@
 </template>
 
 <script setup lang="ts">
-import { citizenContactService } from '@/components/api/CitizenContactService'
+import { citizenContactService } from '@/components/api/user/CitizenContactService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'

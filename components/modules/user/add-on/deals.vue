@@ -148,8 +148,8 @@
 </template>
 
 <script setup lang="ts">
-import { addOnDealsService } from '@/components/api/AddOnDealsService'
-import { cartService } from '@/components/api/CartService'
+import { addOnDealsService } from '@/components/api/user/AddOnDealsService'
+import { cartService } from '@/components/api/user/CartService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useUserStore } from '@/store/user'
 import { useCouponStore } from '@/store/coupon'

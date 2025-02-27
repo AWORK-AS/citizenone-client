@@ -94,7 +94,7 @@
 </template>
 
 <script setup lang="ts">
-import { planTemplateService } from '@/components/api/PlanTemplateService'
+import { planTemplateService } from '@/components/api/user/PlanTemplateService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'

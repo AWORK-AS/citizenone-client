@@ -161,7 +161,7 @@
 
 
 <script setup lang="ts">
-import { statusService } from '@/components/api/StatusService'
+import { statusService } from '@/components/api/user/StatusService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"

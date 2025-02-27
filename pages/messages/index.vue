@@ -75,10 +75,10 @@
 
 <script setup lang="ts">
 import pusher from '@/services/pusher'
-import { userService } from '@/components/api/UserService'
+import { userService } from '@/components/api/user/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
-import { messageService } from '@/components/api/MessageService'
+import { messageService } from '@/components/api/user/MessageService'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
