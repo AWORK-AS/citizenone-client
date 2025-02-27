@@ -104,7 +104,7 @@ const state = reactive({
     isPageLoading: false,
     options: {
         languages: [],
-    }
+    } as any,
 })
 
 onMounted(() => {
