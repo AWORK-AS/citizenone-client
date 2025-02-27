@@ -272,12 +272,18 @@
         "alert": {
             "citizenSuccessfullyUnarchive": "Borger genåbnet med succes",
             "documentSuccessfullyUnarchive": "Dokument genåbnet med succes",
-            "employeeSuccessfullyUnarchive": "Medarbejder genåbnet med succes"
+            "employeeSuccessfullyUnarchive": "Medarbejder genåbnet med succes",
+            "goalSuccessfullyUnarchive": "Mål gendannet med succes",
+            "planSuccessfullyUnarchive": "Plan gendannet med succes",
+            "subgoalSuccessfullyUnarchive": "Delmål gendannet med succes"
         },
         "confirmation": {
             "unarchiveCitizen": "Er du sikker på, at du vil genåbne denne borger",
             "unarchiveDocument": "Er du sikker på, at du vil genåbne dette dokument",
-            "unarchiveEmployee": "Er du sikker på, at du vil genåbne denne medarbejder"
+            "unarchiveEmployee": "Er du sikker på, at du vil genåbne denne medarbejder",
+            "unarchiveGoal": "Er du sikker på, at du vil gendanne dette mål",
+            "unarchivePlan": "Er du sikker på, at du vil gendanne denne plan",
+            "unarchiveSubgoal": "Er du sikker på, at du vil gendanne dette delmål"
         },
         "table": {
             "actions": {
@@ -298,7 +304,10 @@
         "tabs": {
             "archivedCitizens": "Arkiverede borgere",
             "archivedDocuments": "Arkiverede dokumenter",
-            "archivedEmployees": "Arkiverede medarbejdere"
+            "archivedEmployees": "Arkiverede medarbejdere",
+            "archivedGoals": "Archived goals",
+            "archivedPlans": "Archived plans",
+            "archivedSubgoals": "Archived subgoals"
         }
     },
     "back": "Tilbage",

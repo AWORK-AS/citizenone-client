@@ -441,7 +441,7 @@ async function archiveGoal() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await goalService.archiveGoal(state.selectedGoal.uuid)
+        const response = await goalService.archiveUnarchiveGoal(state.selectedGoal.uuid)
         if (response?.data) {
             if (state.plans?.data?.length === 1) {
                 resetFilter()
@@ -465,7 +465,7 @@ async function archivePlan() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await planService.archivePlan(state.selectedPlan.uuid)
+        const response = await planService.archiveUnarchivePlan(state.selectedPlan.uuid)
         if (response?.data) {
             if (state.plans?.data?.length === 1) {
                 resetFilter()

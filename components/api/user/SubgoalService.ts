@@ -17,8 +17,12 @@ class SubgoalService extends BaseAPIService {
         return await this.request(`/user/citizen-subgoals/${subgoalUuid}`, 'DELETE')
     }
 
-    async archiveSubgoal(subgoalUuid: any): Promise<any> {
+    async archiveUnarchiveSubgoal(subgoalUuid: any): Promise<any> {
         return await this.request(`/user/citizen-subgoals/${subgoalUuid}/toggle-archive`, 'PUT')
+    }
+
+    async getArchiveSubgoals(params: object): Promise<any> {
+        return await this.request(`/user/citizen-subgoals/archived/list`, 'GET', params)
     }
 
     async getAllSubgoals(goalUuid: any): Promise<any> {

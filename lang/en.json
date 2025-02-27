@@ -272,12 +272,18 @@
         "alert": {
             "citizenSuccessfullyUnarchive": "Citizen successfully unarchive",
             "documentSuccessfullyUnarchive": "Document successfully unarchive",
-            "employeeSuccessfullyUnarchive": "Employee successfully unarchive"
+            "employeeSuccessfullyUnarchive": "Employee successfully unarchive",
+            "goalSuccessfullyUnarchive": "Goal successfully unarchive",
+            "planSuccessfullyUnarchive": "Plan successfully unarchive",
+            "subgoalSuccessfullyUnarchive": "Subgoal successfully unarchive"
         },
         "confirmation": {
             "unarchiveCitizen": "Are you sure you want to unarchive this citizen",
             "unarchiveDocument": "Are you sure you want to unarchive this document",
-            "unarchiveEmployee": "Are you sure you want to unarchive this employee"
+            "unarchiveEmployee": "Are you sure you want to unarchive this employee",
+            "unarchiveGoal": "Are you sure you want to unarchive this goal",
+            "unarchivePlan": "Are you sure you want to unarchive this plan",
+            "unarchiveSubgoal": "Are you sure you want to unarchive this subgoal"
         },
         "table": {
             "actions": {
@@ -298,7 +304,10 @@
         "tabs": {
             "archivedCitizens": "Archived citizens",
             "archivedDocuments": "Archived documents",
-            "archivedEmployees": "Archived employees"
+            "archivedEmployees": "Archived employees",
+            "archivedGoals": "Archived goals",
+            "archivedPlans": "Archived plans",
+            "archivedSubgoals": "Archived subgoals"
         }
     },
     "back": "Back",
