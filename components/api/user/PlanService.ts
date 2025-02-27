@@ -21,6 +21,10 @@ class PlanService extends BaseAPIService {
         return await this.request(`/user/citizen-plans/${planUuid}`, 'DELETE')
     }
 
+    async archivePlan(planUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-plans/${planUuid}/toggle-archive`, 'PUT')
+    }
+
     async downloadPlansAndGoals(params: object): Promise<any> {
         return await this.request(`/user/citizen-plans/download/reports`, 'GET', params)
     }

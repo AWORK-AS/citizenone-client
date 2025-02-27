@@ -17,6 +17,10 @@ class GoalService extends BaseAPIService {
         return await this.request(`/user/citizen-goals/${goalUuid}`, 'DELETE')
     }
 
+    async archiveGoal(goalUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-goals/${goalUuid}/toggle-archive`, 'PUT')
+    }
+
     async getAllGoals(planUuid: any): Promise<any> {
         return await this.request(`/user/citizen-goals/${planUuid}/all/list`, 'GET')
     }

@@ -204,6 +204,16 @@
                                                 <Icon name="ph:pencil-duotone" class="size-4" />
                                                 {{ $t('plansandgoals.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton class="rounded-md" buttonSize="sm"
+                                                @click="confirmGoalArchive(plan)" v-if="plan?.is_single_goal">
+                                                <Icon name="ph:pencil-duotone" class="size-4" />
+                                                {{ $t('plansandgoals.table.actions.archive') }}
+                                            </FormButton>
+                                            <FormButton class="rounded-md" buttonSize="sm"
+                                                @click="confirmPlanArchive(plan)" v-if="!plan?.is_single_goal">
+                                                <Icon name="ph:pencil-duotone" class="size-4" />
+                                                {{ $t('plansandgoals.table.actions.archive') }}
+                                            </FormButton>
                                             <FormButton class="rounded-md" buttonSize="sm" @click="viewStatuses(plan)">
                                                 <Icon name="ph:check-square-offset" class="size-4" />
                                                 {{ $t('plansandgoals.table.actions.notes') }}
@@ -247,6 +257,12 @@
                 @refreshPlans="fetchPlans" />
             <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
                 :selectedData="state.selectedPlan" @close="closeStatusesModal" @refreshData="fetchPlans" />
+            <DialogConfirmation :isModalOpen="state.modal.isArchiveGoalOpen"
+                :message="`${$t('plansandgoals.confirmation.archiveGoalConfirmation')}?`"
+                @close="state.modal.isArchiveGoalOpen = false" @confirm="archiveGoal" />
+            <DialogConfirmation :isModalOpen="state.modal.isArchivePlanOpen"
+                :message="`${$t('plansandgoals.confirmation.archivePlanConfirmation')}?`"
+                @close="state.modal.isArchivePlanOpen = false" @confirm="archivePlan" />
             <DialogConfirmation :isModalOpen="state.modal.isDeletePlanOpen"
                 :message="`${$t('plansandgoals.confirmation.deletePlanConfirmation')}?`"
                 @close="state.modal.isDeletePlanOpen = false" @confirm="deletePlan" />
@@ -299,6 +315,8 @@ const state = reactive({
     modal: {
         isAddPlanOpen: false,
         isAddSingleGoalOpen: false,
+        isArchiveGoalOpen: false,
+        isArchivePlanOpen: false,
         isDeletePlanOpen: false,
         isDeleteSingleGoalOpen: false,
         isEditPlanOpen: false,
@@ -400,6 +418,54 @@ function editGoal(goal: any) {
 function editPlan(plan: any) {
     state.selectedPlan = plan
     state.modal.isEditPlanOpen = true
+}
+
+function confirmGoalArchive(plan: any) {
+    state.selectedGoal = plan
+    state.modal.isArchiveGoalOpen = true
+}
+
+async function archiveGoal() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await goalService.archiveGoal(state.selectedGoal.uuid)
+        if (response?.data) {
+            if (state.plans?.data?.length === 1) {
+                resetFilter()
+            } else {
+                fetchPlans()
+            }
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.goalSuccessfullyArchived')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function confirmPlanArchive(plan: any) {
+    state.selectedPlan = plan
+    state.modal.isArchivePlanOpen = true
+}
+
+async function archivePlan() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await planService.archivePlan(state.selectedPlan.uuid)
+        if (response?.data) {
+            if (state.plans?.data?.length === 1) {
+                resetFilter()
+            } else {
+                fetchPlans()
+            }
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.planSuccessfullyArchived')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 function viewStatuses(plan: any) {

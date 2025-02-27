@@ -2330,15 +2330,18 @@
     "plansandgoals": {
         "alert": {
             "planSuccessfullyAdded": "Planen er succesfuldt tilføjet",
+            "planSuccessfullyArchived": "Plan arkiveret med succes",
             "planSuccessfullyDeleted": "Planen er succesfuldt slettet",
             "planSuccessfullyUpdated": "Planen er succesfuldt opdateret",
             "goalSuccessfullyAdded": "Målet er succesfuldt tilføjet",
+            "goalSuccessfullyArchived": "Mål arkiveret med succes",
             "goalSuccessfullyDeleted": "Mål slettet med succes",
             "goalSuccessfullyUpdated": "Målet er succesfuldt opdateret",
             "statusSuccessfullyAdded": "Status er succesfuldt tilføjet",
             "statusSuccessfullyDeleted": "Status er succesfuldt slettet",
             "statusSuccessfullyUpdated": "Status er succesfuldt opdateret",
             "subgoalSuccessfullyAdded": "Delmål succesfuldt tilføjet",
+            "subgoalSuccessfullyArchived": "Delmål arkiveret med succes",
             "subgoalSuccessfullyDeleted": "Delmål slettet med succes",
             "subgoalSuccessfullyUpdated": "Delmål succesfuldt opdateret"
         },
@@ -2347,6 +2350,9 @@
             "singleGoal": "Enkeltmål"
         },
         "confirmation": {
+            "archiveGoalConfirmation": "Er du sikker på, at du vil arkivere dette mål",
+            "archivePlanConfirmation": "Er du sikker på, at du vil arkivere denne plan",
+            "archiveSubgoalConfirmation": "Er du sikker på, at du vil arkivere dette delmål",
             "deleteGoalConfirmation": "Er du sikker på, at du vil slette dette mål",
             "deleteSubgoalConfirmation": "Er du sikker på, at du vil slette dette delmål",
             "deletePlanConfirmation": "Er du sikker på, at du vil slette denne plan",
@@ -2405,6 +2411,7 @@
         "subgoals": "Delmål",
         "table": {
             "actions": {
+                "archive": "Arkivér",
                 "edit": "Rediger",
                 "delete": "Slet",
                 "seeGoals": "Se mål",

@@ -105,6 +105,13 @@
                                                                     </span>
                                                                 </FormButton>
                                                                 <FormButton class="rounded-md" buttonSize="sm"
+                                                                    @click="confirmGoalArchive(goal)">
+                                                                    <Icon name="ph:pencil-duotone" class="size-4" />
+                                                                    <span class="hidden md:block">
+                                                                        {{ $t('plansandgoals.table.actions.archive') }}
+                                                                    </span>
+                                                                </FormButton>
+                                                                <FormButton class="rounded-md" buttonSize="sm"
                                                                     @click="viewGoalStatuses(goal)">
                                                                     <Icon name="ph:check-square-offset"
                                                                         class="size-4" />
@@ -279,6 +286,17 @@
                                                                                 </FormButton>
                                                                                 <FormButton class="rounded-md"
                                                                                     buttonSize="sm"
+                                                                                    @click="confirmSubgoalArchive(subgoal)">
+                                                                                    <Icon name="ph:pencil-duotone"
+                                                                                        class="size-4" />
+                                                                                    <span class="hidden md:block">
+                                                                                        {{
+                                                                                            $t('plansandgoals.table.actions.archive')
+                                                                                        }}
+                                                                                    </span>
+                                                                                </FormButton>
+                                                                                <FormButton class="rounded-md"
+                                                                                    buttonSize="sm"
                                                                                     @click="viewSubgoalStatuses(subgoal)">
                                                                                     <Icon name="ph:check-square-offset"
                                                                                         class="size-4" />
@@ -342,6 +360,12 @@
                 :selectedData="state.selectedGoal" @close="closeGoalStatusesModal" @refreshData="fetchGoals" />
             <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isSubGoalStatusesOpen"
                 :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchGoals" />
+            <DialogConfirmation :isModalOpen="state.modal.isArchiveGoalOpen"
+                :message="`${$t('plansandgoals.confirmation.archiveGoalConfirmation')}?`"
+                @close="state.modal.isArchiveGoalOpen = false" @confirm="archiveGoal" />
+            <DialogConfirmation :isModalOpen="state.modal.isArchiveSubgoalOpen"
+                :message="`${$t('plansandgoals.confirmation.archiveSubgoalConfirmation')}?`"
+                @close="state.modal.isArchiveSubgoalOpen = false" @confirm="archiveSubgoal" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteGoalOpen"
                 :message="`${$t('plansandgoals.confirmation.deleteGoalConfirmation')}?`"
                 @close="state.modal.isDeleteGoalOpen = false" @confirm="deleteGoal" />
@@ -385,6 +409,8 @@ const state = reactive({
     modal: {
         isAddGoalOpen: false,
         isAddSubgoalOpen: false,
+        isArchiveGoalOpen: false,
+        isArchiveSubgoalOpen: false,
         isDeleteGoalOpen: false,
         isDeleteSubgoalOpen: false,
         isEditGoalOpen: false,
@@ -535,6 +561,46 @@ function closeSubgoalStatusesModal() {
         date_completed: '',
         is_completed: false,
     }
+}
+
+function confirmGoalArchive(plan: any) {
+    state.selectedGoal = plan
+    state.modal.isArchiveGoalOpen = true
+}
+
+async function archiveGoal() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await goalService.archiveGoal(state.selectedGoal.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchGoals()
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.goalSuccessfullyArchived')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function confirmSubgoalArchive(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isArchiveSubgoalOpen = true
+}
+
+async function archiveSubgoal() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await subgoalService.archiveSubgoal(state.selectedSubgoal.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchGoals()
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.subgoalSuccessfullyArchived')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 function confirmGoalDeletion(goal: any) {
