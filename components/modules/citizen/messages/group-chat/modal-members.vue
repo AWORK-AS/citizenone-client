@@ -29,8 +29,7 @@
                         </div>
                     </div>
                 </LoadingSpinner>
-                <ModulesUserCitizenMessagesGroupChatModalNewMembers
-                    :isModalOpen="state.modal.isAddNewGroupChatMembersOpen"
+                <ModulesCitizenMessagesGroupChatModalNewMembers :isModalOpen="state.modal.isAddNewGroupChatMembersOpen"
                     @close="state.modal.isAddNewGroupChatMembersOpen = false"
                     @refreshGroupChatMembers="fetchGroupMembers" @refreshChat="emit('refreshChat')" />
                 <DialogConfirmation :isModalOpen="state.modal.isRemoveUserOpen"

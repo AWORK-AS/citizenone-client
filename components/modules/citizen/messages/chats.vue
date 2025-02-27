@@ -81,7 +81,7 @@
                 </div>
             </li>
         </ul>
-        <ModulesUserCitizenMessagesModalNewChat :isModalOpen="state.modal.isNewChatOpen"
+        <ModulesCitizenMessagesModalNewChat :isModalOpen="state.modal.isNewChatOpen"
             @close="state.modal.isNewChatOpen = false" />
     </div>
 </template>

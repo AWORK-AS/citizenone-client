@@ -2,8 +2,6 @@
     <div class="space-y-5">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <Alert type="danger" :text="state?.errorUpdateShift?.message"
-            v-if="state.errorUpdateShift?.message && state.errorUpdateShift.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
             <div class="flex h-full flex-col">
                 <header class="grid grid-cols-1 md:grid-cols-3 md:items-center justify-between py-4 gap-3">
@@ -166,16 +164,9 @@
                                     </div>
                                 </div>
 
-                                <div class="relative mt-0.5"
-                                    @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule(weekNumber)"
-                                    :class="[
-                                        isWeeklyScheduleCopied(weekNumber) && 'border-1.5 border-dashed border-gray-700',
-                                        !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && 'cursor-copy relative group',
-                                        !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && isPastWeek() && 'cursor-not-allowed'
-                                    ]">
+                                <div class="relative mt-0.5">
                                     <div v-for="(weeklySchedule, weeklyScheduleIndex) in state.weeklySchedules"
-                                        :key="weeklyScheduleIndex" class="grid grid-cols-9"
-                                        v-if="!isWeeklyScheduleCopied(weekNumber)">
+                                        :key="weeklyScheduleIndex" class="grid grid-cols-9">
                                         <div class="p-3 col-span-2 space-y-2 border-0.5">
                                             <div class="relative">
                                                 <div class="flex items-center gap-x-2">
@@ -245,13 +236,8 @@
                                             </div>
                                         </div>
                                         <div class="p-3 border-0.5" v-for="(week, weekIndex) in weeklySchedule?.weeks"
-                                            :key="weekIndex" :class="[
-                                                isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && 'border-1.5 border-dashed border-gray-700',
-                                                !isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isScheduleCopiedEmpty() && 'cursor-copy relative group'
-                                            ]"
-                                            @click="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isScheduleCopiedEmpty() && pasteEmployeeSchedule(weeklyScheduleIndex, weekIndex)">
-                                            <div class="space-y-2"
-                                                v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber)">
+                                            :key="weekIndex">
+                                            <div class="space-y-2">
                                                 <div class="text-xs">
                                                     <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
                                                         :key="shiftIndex" :class="[
@@ -267,14 +253,12 @@
                                                         }">
                                                         <div class="flex">
                                                             <FormTimeFieldTransparent name="time_in"
-                                                                class="rounded-tl-md rounded-bl-md cursor-not-allowed"
+                                                                class="rounded-tl-md rounded-bl-md"
                                                                 :value="moment(shift?.date_time_start).format('HH:mm')"
-                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="true" />
                                                             <FormTimeFieldTransparent name="time_out"
-                                                                class="rounded-tr-md rounded-br-md cursor-not-allowed"
+                                                                class="rounded-tr-md rounded-br-md"
                                                                 :value="moment(shift?.date_time_end).format('HH:mm')"
-                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 :disabled="true" />
                                                         </div>
                                                         <button
@@ -321,13 +305,6 @@ const year = computed(() => currentDate.value.format('YYYY'))
 
 
 const state = reactive({
-    addShift: {
-        selectedEmployeeSchedules: {}
-    } as any,
-    copy: {
-        allEmployeeSchedules: {},
-        selectedEmployeeSchedules: {}
-    } as any,
     shiftPercentage: {} as any,
     shiftDateRange: {
         formDateRange: {
@@ -337,7 +314,6 @@ const state = reactive({
     } as any,
     employees: [] as any,
     error: {} as Error,
-    errorUpdateShift: {} as Error,
     isPageLoading: false,
     manageScheduleSlot: {
         selectedDay: [],
@@ -348,23 +324,14 @@ const state = reactive({
         selectedSchedule: {},
     },
     modal: {
-        isAddShiftOpen: false,
-        isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
-        isDownloadOpen: false,
-        isManageScheduleSlotOpen: false,
-        isManageRequestsOpen: false,
-        isRequestTimeAdjustmentOpen: false,
     } as any,
-    newShiftError: {} as Error,
     progress: {
         percentage: 100,
         pendingRequests: 0,
         showProgressBar: false,
         totalRequests: 0,
     },
-    isRemoveShift: false,
-    isUpdateShift: false,
     originalWeeklySchedules: [] as any,
     weeklySchedules: [] as any,
 })
@@ -539,236 +506,4 @@ const weekDays = computed(() => {
         }
     })
 })
-
-function setSelectedDay(day: any) {
-    selectedDay.value = day.fullDate
-    stopCopying()
-}
-
-function isPastWeek() {
-    return moment(currentDate.value).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')
-}
-
-function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: any, week: any) {
-    state.modal.isAddShiftOpen = true
-    state.addShift.selectedEmployeeSchedules = {
-        weeklyScheduleIndex: weeklyScheduleIndex,
-        weekIndex: weekIndex,
-        ...week
-    }
-}
-
-function openManageScheduleSlotModal(day: any) {
-    state.manageScheduleSlot.selectedDay = day
-    state.modal.isManageScheduleSlotOpen = true
-}
-
-function viewRequests(weeklyScheduleIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
-    const selectedEmployee = state.weeklySchedules[weeklyScheduleIndex]?.employee
-    const selectedDate = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex]?.date
-    state.manageTimeRequest.selectedEmployee = selectedEmployee
-    state.manageTimeRequest.selectedDate = selectedDate
-    state.modal.isManageRequestsOpen = true
-}
-
-function requestTimeAdjustment(weeklyScheduleIndex: number, shift: any) {
-    const selectedEmployee = state.weeklySchedules[weeklyScheduleIndex]?.employee
-    state.manageTimeRequest.selectedEmployee = selectedEmployee
-    state.manageTimeRequest.selectedSchedule = shift
-    state.modal.isRequestTimeAdjustmentOpen = true
-}
-
-function identifyTheProgressPercentage() {
-    if (state.progress.totalRequests === 0) {
-        state.progress.percentage = 100
-    } else {
-        state.progress.percentage = (state.progress.pendingRequests / state.progress.totalRequests) * 100
-        if (state.progress.percentage == 100) {
-            state.progress.percentage = 50
-        }
-    }
-}
-
-function isScheduleCopiedEmpty() {
-    return Object.keys(state.copy.selectedEmployeeSchedules).length === 0
-}
-
-function isScheduleCopied(weeklyScheduleIndex: number, weekIndex: number, weekNumber: number) {
-    return state.copy.selectedEmployeeSchedules.weeklyScheduleIndex === weeklyScheduleIndex && state.copy.selectedEmployeeSchedules.weekIndex === weekIndex && state.copy.selectedEmployeeSchedules.weekNumber === weekNumber
-}
-
-function copyEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
-    state.copy.selectedEmployeeSchedules = {
-        weeklyScheduleIndex: weeklyScheduleIndex,
-        weekNumber: weekNumber,
-        weekIndex: weekIndex,
-        weeklySchedule: weeklySchedule,
-    }
-}
-
-function stopCopying() {
-    state.copy.allEmployeeSchedules = {}
-    state.copy.selectedEmployeeSchedules = {}
-}
-
-async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
-    const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeSchedules
-    const copiedWeekIndex = copiedSelectedEmployeeSchedule.weekIndex
-    const shiftsToPaste = copiedSelectedEmployeeSchedule.weeklySchedule.weeks[copiedWeekIndex].shifts
-
-    // Create a deep copy of the shifts to paste
-    const copiedShifts = shiftsToPaste.map((shift: any) => ({ ...shift }))
-
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = copiedShifts
-
-    const userSource = copiedSelectedEmployeeSchedule.weeklySchedule.employee
-    const dateSource = copiedSelectedEmployeeSchedule.weeklySchedule.weeks[copiedWeekIndex].date
-    const userDestination = state.weeklySchedules[weeklyScheduleIndex].employee
-    const dateDestination = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
-    const params = {
-        user_uuid_source: userSource.uuid,
-        user_uuid_destination: userDestination.uuid,
-        date_source: dateSource,
-        date_destination: dateDestination,
-    }
-    saveDutySchedule(params)
-}
-
-function isAllWeeklyScheduleCopiedEmpty() {
-    return Object.keys(state.copy.allEmployeeSchedules).length === 0
-}
-
-function isWeeklyScheduleCopied(weekNumber: number) {
-    return state.copy.allEmployeeSchedules.weekNumber === weekNumber
-}
-
-function copyWeeklySchedule(weekNumber: number) {
-    state.copy.allEmployeeSchedules = {
-        weekNumber: weekNumber,
-        weeklySchedules: state.weeklySchedules
-    }
-}
-
-function pasteWeeklySchedule(weekNumber: number) {
-    state.weeklySchedules = state.copy.allEmployeeSchedules.weeklySchedules
-    const params = {
-        department: departmentStore.getSelectedDepartmentName,
-        week_source: state.copy.allEmployeeSchedules.weekNumber,
-        week_destination: weekNumber,
-    }
-    saveCopiedWeeklyDutySchedule(params)
-}
-
-async function saveCopiedWeeklyDutySchedule(params: object) {
-    try {
-        state.progress.totalRequests = state.progress.totalRequests + 1
-        state.progress.pendingRequests = state.progress.pendingRequests + 1
-        identifyTheProgressPercentage()
-        const response = await dutyScheduleService.saveDutySchedule(params)
-        if (response) {
-            state.progress.totalRequests = state.progress.totalRequests - 1
-            state.progress.pendingRequests = state.progress.pendingRequests - 1
-            identifyTheProgressPercentage()
-            fetchDutySchedule()
-        }
-    } catch (error: any) {
-        state.error = error
-        state.progress.totalRequests = state.progress.totalRequests - 1
-        state.progress.pendingRequests = state.progress.pendingRequests - 1
-        identifyTheProgressPercentage()
-    }
-}
-
-async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: number, shift: any, shiftIndex: number) {
-    state.isRemoveShift = true
-    const scheduleUuid = shift.schedule_uuid
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.splice(shiftIndex, 1)
-    try {
-        state.progress.totalRequests = state.progress.totalRequests + 1
-        state.progress.pendingRequests = state.progress.pendingRequests + 1
-        identifyTheProgressPercentage()
-        const response = await dutyScheduleService.deleteDutySchedule(scheduleUuid)
-        if (response) {
-            state.progress.totalRequests = state.progress.totalRequests - 1
-            state.progress.pendingRequests = state.progress.pendingRequests - 1
-            identifyTheProgressPercentage()
-            fetchDutySchedule()
-        }
-    } catch (error: any) {
-        state.error = error
-        state.progress.totalRequests = state.progress.totalRequests - 1
-        state.progress.pendingRequests = state.progress.pendingRequests - 1
-        identifyTheProgressPercentage()
-    } finally {
-        state.isRemoveShift = false
-    }
-}
-
-function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
-    if (!isScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
-
-    if (state.isRemoveShift || state.isUpdateShift) return
-
-    const timeIn = event.target.value
-    const timeOut = shift?.time_out
-    const scheduleUuid = shift?.schedule_uuid
-    const date = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
-    const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_in = timeIn
-    const params = {
-        time_in: timeIn,
-        time_out: timeOut,
-        user_uuid: userUuid,
-        date: date,
-        shift_type: shift?.name,
-    }
-    updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
-}
-
-function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
-    if (!isScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
-
-    if (state.isRemoveShift || state.isUpdateShift) return
-
-    const timeOut = event.target.value
-    const timeIn = shift?.time_in
-    const scheduleUuid = shift?.schedule_uuid
-    const date = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
-    const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_out = timeOut
-    const params = {
-        time_in: timeIn,
-        time_out: timeOut,
-        user_uuid: userUuid,
-        date: date,
-        shift_type: shift?.name,
-    }
-    updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
-}
-
-async function updateDutySchedule(scheduleUuid: any, params: object, weeklyScheduleIndex: number, weekIndex: any, shiftIndex: number) {
-    state.isUpdateShift = true
-    let errorUpdateShift = {}
-    try {
-        state.progress.totalRequests = state.progress.totalRequests + 1
-        state.progress.pendingRequests = state.progress.pendingRequests + 1
-        identifyTheProgressPercentage()
-        const response = await dutyScheduleService.updateDutySchedule(scheduleUuid, params)
-        if (response) {
-            state.progress.totalRequests = state.progress.totalRequests - 1
-            state.progress.pendingRequests = state.progress.pendingRequests - 1
-            identifyTheProgressPercentage()
-            fetchDutySchedule()
-        }
-    } catch (error: any) {
-        errorUpdateShift = error
-        state.progress.totalRequests = state.progress.totalRequests - 1
-        state.progress.pendingRequests = state.progress.pendingRequests - 1
-        identifyTheProgressPercentage()
-    } finally {
-        state.errorUpdateShift = errorUpdateShift
-        state.isUpdateShift = false
-        fetchDutySchedule()
-    }
-}
 </script>
