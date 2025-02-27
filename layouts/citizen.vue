@@ -131,7 +131,7 @@
                             </ul>
                         </li>
                         <li class="mt-auto space-y-2">
-                            <ModulesSidebarCompanyId />
+                            <ModulesUserSidebarCompanyId />
                         </li>
                     </ul>
                 </nav>
@@ -248,9 +248,9 @@
                 </main>
             </div>
         </div>
-        <ModulesLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
+        <ModulesCitizenLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
-        <ModulesSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
+        <ModulesCitizenSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
     </LoadingSpinner>
 </template>

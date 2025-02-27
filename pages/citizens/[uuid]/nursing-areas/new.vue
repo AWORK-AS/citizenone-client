@@ -33,7 +33,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenNursingProfessionalRecordForm formType="create"
+                    <ModulesUserCitizenNursingProfessionalRecordForm formType="create"
                         :selectedRecord="state.formNursingProfessionalRecord" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="saveRecord" />
                 </LoadingSpinner>

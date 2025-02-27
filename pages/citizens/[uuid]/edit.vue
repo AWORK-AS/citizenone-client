@@ -35,7 +35,7 @@
                             {{ $t('citizens.archiveCitizen') }}
                         </FormButton>
                     </div>
-                    <ModulesCitizenDetailsForm formType="update" :selectedCitizen="state.formCitizen"
+                    <ModulesUserCitizenDetailsForm formType="update" :selectedCitizen="state.formCitizen"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @submitForm="updateCitizen" />
                 </LoadingSpinner>

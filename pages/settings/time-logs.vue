@@ -12,7 +12,7 @@
 
             <template #header>{{ $t('timeLogs.timeLogs') }}</template>
 
-            <ModulesSettingsTab />
+            <ModulesUserSettingsTab />
 
             <div class="mt-10 space-y-5">
                 <Alert type="danger" :text="state?.error?.message"

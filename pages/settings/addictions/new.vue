@@ -19,7 +19,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesAddictionForm formType="create" :selectedAddiction="state.formAddiction"
+                    <ModulesUserAddictionForm formType="create" :selectedAddiction="state.formAddiction"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @submitForm="saveAddiction" />
                 </LoadingSpinner>

@@ -18,8 +18,9 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesProtocolForm formType="create" :selectedProtocol="state.formProtocol" :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="saveProtocol" />
+                    <ModulesUserProtocolForm formType="create" :selectedProtocol="state.formProtocol"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @submitForm="saveProtocol" />
                 </LoadingSpinner>
             </div>
         </NuxtLayout>

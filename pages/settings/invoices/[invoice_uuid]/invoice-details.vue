@@ -14,7 +14,7 @@
 
             <template #header>{{ $t('invoiceDetails.invoiceDetails') }}</template>
 
-            <ModulesSettingsTab />
+            <ModulesUserSettingsTab />
 
             <div class="mt-10">
                 <LoadingSpinner :isActive="state.isPageLoading">

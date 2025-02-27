@@ -14,7 +14,7 @@
 
             <template #header>{{ $t('settings.licenseOverview.licenseOverview') }}</template>
 
-            <ModulesSettingsTab />
+            <ModulesUserSettingsTab />
 
             <div v-if="userStore.getUser?.user_subscription === null">
                 <div class="isolate mx-auto mt-8 grid max-w-lg">

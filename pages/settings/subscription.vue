@@ -12,7 +12,7 @@
 
             <template #header>{{ $t('subscription.subscription') }}</template>
 
-            <ModulesSettingsTab />
+            <ModulesUserSettingsTab />
 
             <Alert type="danger" :text="error" v-if="error && error.length > 0" />
             <div v-if="userStore.getUser?.user_subscription === null">
@@ -118,7 +118,7 @@
                         </div>
                     </div>
                     <div class="mt-10 w-full">
-                        <ModulesAddOnDeals />
+                        <ModulesUserAddOnDeals />
                     </div>
                 </div>
             </div>

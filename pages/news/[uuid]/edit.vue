@@ -18,7 +18,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesNewsForm formType="update" :selectedNews="state.formNews" :error="state.error"
+                    <ModulesUserNewsForm formType="update" :selectedNews="state.formNews" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateNews" />
                 </LoadingSpinner>
             </div>

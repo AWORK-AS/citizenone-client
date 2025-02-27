@@ -32,8 +32,8 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesCitizenDetailsHeader />
-                <ModulesCitizenJournalTabs />
+                <ModulesUserCitizenDetailsHeader />
+                <ModulesUserCitizenJournalTabs />
 
                 <div>
                     <div class="mt-8 space-y-5">

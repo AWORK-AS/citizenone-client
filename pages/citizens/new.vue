@@ -29,7 +29,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesCitizenDetailsForm formType="create" :selectedCitizen="state.formCitizen"
+                    <ModulesUserCitizenDetailsForm formType="create" :selectedCitizen="state.formCitizen"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @submitForm="saveCitizen" />
                 </LoadingSpinner>

@@ -101,26 +101,26 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesMyCalendarDefaultView :myCalendarEvents="state.myCalendarEvents" @changeDate="changeDate"
-                        @editMyCalendarEvent="editMyCalendarEvent"
+                    <ModulesUserMyCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
+                        @changeDate="changeDate" @editMyCalendarEvent="editMyCalendarEvent"
                         @openEventDeletionModal="state.modal.isDeleteScheduleOpen = true"
                         @deleteMyCalendarEvent="deleteMyCalendarEvent" v-if="state.calendarView === 'default'" />
-                    <ModulesMyCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
+                    <ModulesUserMyCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
                         @changeDatePerWeek="changeDatePerWeek" @editMyCalendarEvent="editMyCalendarEvent"
                         v-if="state.calendarView === 'week'" />
-                    <ModulesMyCalendarMonthView :myCalendarEvents="state.myCalendarEvents"
+                    <ModulesUserMyCalendarMonthView :myCalendarEvents="state.myCalendarEvents"
                         @changeMonthYear="changeMonthYear" @editMyCalendarEvent="editMyCalendarEvent"
                         v-if="state.calendarView === 'month'" />
                 </LoadingSpinner>
             </div>
 
-            <ModulesMyCalendarMyselfModalNew :isModalOpen="state.modal.isAddEventForMyselfOpen"
+            <ModulesUserMyCalendarMyselfModalNew :isModalOpen="state.modal.isAddEventForMyselfOpen"
                 @close="state.modal.isAddEventForMyselfOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
-            <ModulesMyCalendarCitizenModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen"
+            <ModulesUserMyCalendarCitizenModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen"
                 @close="state.modal.isAddEventForCitizenOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
-            <ModulesMyCalendarEmployeeModalNew :isModalOpen="state.modal.isAddEventForEmployeeOpen"
+            <ModulesUserMyCalendarEmployeeModalNew :isModalOpen="state.modal.isAddEventForEmployeeOpen"
                 @close="state.modal.isAddEventForEmployeeOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
-            <ModulesMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
+            <ModulesUserMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
                 @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
         </NuxtLayout>

@@ -116,7 +116,7 @@
                         </div>
                     </div>
                     <div class="mt-10 w-full">
-                        <ModulesAddOnDeals />
+                        <ModulesUserAddOnDeals />
                     </div>
                 </div>
             </div>

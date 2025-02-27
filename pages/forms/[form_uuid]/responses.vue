@@ -58,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-                <ModulesFormModalResponses :isModalOpen="state.modal.showResponsesOpen"
+                <ModulesUserFormModalResponses :isModalOpen="state.modal.showResponsesOpen"
                     :selectedFormField="state.selectedFormField" :selectedFormFieldIndex="state.selectedFormFieldIndex"
                     @close="state.modal.showResponsesOpen = false" />
             </LoadingSpinner>

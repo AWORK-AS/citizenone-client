@@ -19,7 +19,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesDiagnosisForm formType="create" :selectedDiagnosis="state.formDiagnosis"
+                    <ModulesUserDiagnosisForm formType="create" :selectedDiagnosis="state.formDiagnosis"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @submitForm="saveDiagnosis" />
                 </LoadingSpinner>

@@ -128,15 +128,15 @@
                     </div>
                     <Pagination :data="state.documents" @previous="previous" @next="next" />
                 </div>
-                <ModulesDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
+                <ModulesUserDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
                     @close="state.modal.isAddDirectoryOpen = false" @refreshDocuments="fetchDocuments" />
-                <ModulesDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
+                <ModulesUserDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
-                <ModulesDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
+                <ModulesUserDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
                     @refreshDocuments="fetchDocuments" />
-                <ModulesDocumentFolderStructureModalFolderStructures
+                <ModulesUserDocumentFolderStructureModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureOpen"
                     @close="state.modal.isViewFolderStructureOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"

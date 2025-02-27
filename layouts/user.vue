@@ -99,10 +99,10 @@
                                             </ul>
                                         </li>
                                         <li class="mt-auto space-y-2">
-                                            <ModulesTimeRegistrationCheckInOut />
-                                            <ModulesSidebarSubscribeButton
+                                            <ModulesUserTimeRegistrationCheckInOut />
+                                            <ModulesUserSidebarSubscribeButton
                                                 v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null" />
-                                            <ModulesSidebarCompanyId />
+                                            <ModulesUserSidebarCompanyId />
                                         </li>
                                     </ul>
                                 </nav>
@@ -195,8 +195,8 @@
                             </ul>
                         </li>
                         <li class="mt-auto space-y-2">
-                            <ModulesTimeRegistrationCheckInOut />
-                            <ModulesSidebarCompanyId />
+                            <ModulesUserTimeRegistrationCheckInOut />
+                            <ModulesUserSidebarCompanyId />
                         </li>
                     </ul>
                 </nav>
@@ -221,11 +221,11 @@
                             {{ userStore.getUser?.company?.name }}
                         </p>
                         <div class="text-xs">
-                            <ModulesDepartmentSelection />
+                            <ModulesUserDepartmentSelection />
                         </div>
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-3">
-                        <ModulesNavbarSubscribeButton
+                        <ModulesUserNavbarSubscribeButton
                             v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null"
                             class="hidden md:block" />
                         <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
@@ -393,13 +393,13 @@
                 </main>
             </div>
         </div>
-        <ModulesReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen"
+        <ModulesUserReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen"
             @close="state.modal.isCheckinReminderOpen = false" />
-        <ModulesLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
+        <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
-        <ModulesSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
+        <ModulesUserSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
-        <ModulesWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
+        <ModulesUserWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
             @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
     </LoadingSpinner>
 </template>

@@ -98,7 +98,7 @@
                     </div>
                 </div>
             </LoadingSpinner>
-            <ModulesStorageModalContactUs :isModalOpen="state.modal.isContactUsOpen"
+            <ModulesUserStorageModalContactUs :isModalOpen="state.modal.isContactUsOpen"
                 @close="state.modal.isContactUsOpen = false" />
         </NuxtLayout>
     </div>

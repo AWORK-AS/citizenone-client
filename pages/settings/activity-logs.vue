@@ -12,7 +12,7 @@
 
             <template #header>{{ $t('activityLogs.activityLogs') }}</template>
 
-            <ModulesSettingsTab />
+            <ModulesUserSettingsTab />
 
             <div class="mt-10 space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
@@ -29,7 +29,7 @@
                                     <span>{{ log?.causer?.firstname + ' ' + log?.causer?.lastname }}</span>
                                 </td>
                                 <td :width="isUserLoggedInAdmin ? '30%' : '40%'">
-                                    <ModulesActivityLogsDescription :description="log?.description" />
+                                    <ModulesUserActivityLogsDescription :description="log?.description" />
                                 </td>
                                 <td width="10%">
                                     <span>{{ log?.properties?.ip_address }}</span>

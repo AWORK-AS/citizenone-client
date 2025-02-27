@@ -12,8 +12,8 @@
 
             <template #header>{{ $t('absences.absences') }}</template>
 
-            <ModulesSettingsTab />
-            <ModulesSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
+            <ModulesUserSettingsTab />
+            <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">

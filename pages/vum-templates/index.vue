@@ -67,9 +67,9 @@
                     <Pagination :data="state.templates" @previous="previous" @next="next" />
                 </div>
             </div>
-            <ModulesVumTemplateModalNew :isModalOpen="state.modal.isAddNewTemplateOpen"
+            <ModulesUserVumTemplateModalNew :isModalOpen="state.modal.isAddNewTemplateOpen"
                 @close="state.modal.isAddNewTemplateOpen = false" @refreshTemplates="fetchTemplates" />
-            <ModulesVumTemplateModalEdit :isModalOpen="state.modal.isEditTemplateOpen"
+            <ModulesUserVumTemplateModalEdit :isModalOpen="state.modal.isEditTemplateOpen"
                 :selectedTemplate="state.selectedTemplate" @close="state.modal.isEditTemplateOpen = false"
                 @refreshTemplates="fetchTemplates" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteTemplateOpen"

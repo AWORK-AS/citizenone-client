@@ -380,16 +380,16 @@
                     </LoadingSpinner>
                 </div>
             </div>
-            <ModulesEmployeeEmploymentContractModalView :isModalOpen="state.modal.isViewEmploymentContractsOpen"
+            <ModulesUserEmployeeEmploymentContractModalView :isModalOpen="state.modal.isViewEmploymentContractsOpen"
                 @close="state.modal.isViewEmploymentContractsOpen = false" />
-            <ModulesEmployeeCriminalRecordModalView :isModalOpen="state.modal.isViewCriminalRecordsOpen"
+            <ModulesUserEmployeeCriminalRecordModalView :isModalOpen="state.modal.isViewCriminalRecordsOpen"
                 @close="state.modal.isViewCriminalRecordsOpen = false" />
-            <ModulesEmployeeChildProtectionCertificateModalView
+            <ModulesUserEmployeeChildProtectionCertificateModalView
                 :isModalOpen="state.modal.isViewChildProtectionCertificatesOpen"
                 @close="state.modal.isViewChildProtectionCertificatesOpen = false" />
-            <ModulesEmployeeDriversLicenseModalView :isModalOpen="state.modal.isViewDriversLicenseOpen"
+            <ModulesUserEmployeeDriversLicenseModalView :isModalOpen="state.modal.isViewDriversLicenseOpen"
                 @close="state.modal.isViewDriversLicenseOpen = false" />
-            <ModulesEmployeeMiscellaneousModalView :isModalOpen="state.modal.isMiscellaneousOpen"
+            <ModulesUserEmployeeMiscellaneousModalView :isModalOpen="state.modal.isMiscellaneousOpen"
                 @close="state.modal.isMiscellaneousOpen = false" />
         </NuxtLayout>
     </div>

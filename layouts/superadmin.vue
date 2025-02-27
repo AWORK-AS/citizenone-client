@@ -261,7 +261,7 @@
                 </div>
             </main>
         </div>
-        <ModulesLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
+        <ModulesSuperadminLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
     </LoadingSpinner>
 </template>

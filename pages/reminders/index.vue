@@ -34,7 +34,7 @@
                                 </p>
                                 <p class="text-sm bg-primary p-1 rounded-md text-white w-fit">
                                     {{ $t('reminder.time') }}: {{ formatTimeToReadable(reminder?.date_time) }} ~ {{
-                                    reminder?.repeat
+                                        reminder?.repeat
                                     }}
                                 </p>
 
@@ -57,9 +57,9 @@
                     </div>
                 </div>
             </div>
-            <ModulesRemindersModalNew :isModalOpen="state.modal.isNewTaskOpen" :selectedReminder="state.reminders"
+            <ModulesUserRemindersModalNew :isModalOpen="state.modal.isNewTaskOpen" :selectedReminder="state.reminders"
                 @close="state.modal.isNewTaskOpen = false" @refreshReminders="fetchReminders()" />
-            <ModulesRemindersModalView :isModalOpen="state.modal.isAssignReminderOpen"
+            <ModulesUserRemindersModalView :isModalOpen="state.modal.isAssignReminderOpen"
                 @close="state.modal.isAssignReminderOpen = false" :reminder_uuid="state.modal.selectedReminderUuid" />
 
         </NuxtLayout>

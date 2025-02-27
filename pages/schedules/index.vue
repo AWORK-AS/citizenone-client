@@ -46,7 +46,7 @@
             </div> -->
 
             <div class="mt-5 space-y-5">
-                <ModulesDutyScheduleWeekView v-if="state.calendarView === 'week'" />
+                <ModulesUserDutyScheduleWeekView v-if="state.calendarView === 'week'" />
             </div>
         </NuxtLayout>
     </div>

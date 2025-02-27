@@ -29,8 +29,8 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesCitizenDetailsHeader />
-                <ModulesCitizenJournalTabs />
+                <ModulesUserCitizenDetailsHeader />
+                <ModulesUserCitizenJournalTabs />
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
@@ -69,9 +69,9 @@
                     </div>
                     <Pagination :data="state.wallets" @previous="previous" @next="next" />
                 </div>
-                <ModulesCitizenWalletModalNew :isModalOpen="state.modal.isAddWalletOpen"
+                <ModulesUserCitizenWalletModalNew :isModalOpen="state.modal.isAddWalletOpen"
                     @close="state.modal.isAddWalletOpen = false" @refreshWallets="fetchWallets" />
-                <ModulesCitizenWalletModalEdit :isModalOpen="state.modal.isEditWalletOpen"
+                <ModulesUserCitizenWalletModalEdit :isModalOpen="state.modal.isEditWalletOpen"
                     :selectedWallet="state.selectedWallet" @close="closeEditWalletModal"
                     @refreshWallets="fetchWallets" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteWalletOpen"

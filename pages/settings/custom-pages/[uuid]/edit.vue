@@ -17,7 +17,7 @@
                 <span>{{ $t('back') }}</span>
             </NuxtLink>
             <LoadingSpinner :isActive="state.isPageLoading">
-                <ModulesCustomPagesForm formType="update" :selectedCustomPage="state.formCustomPage"
+                <ModulesUserCustomPagesForm formType="update" :selectedCustomPage="state.formCustomPage"
                     :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                     @submitForm="updateCustomPage" />
             </LoadingSpinner>

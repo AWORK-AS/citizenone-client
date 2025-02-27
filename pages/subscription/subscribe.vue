@@ -354,7 +354,7 @@
                     </span>
                 </p>
             </LoadingSpinner>
-            <ModulesSubscriptionModalDealCoupon :isModalOpen="state.modal.isEnterCouponShow"
+            <ModulesUserSubscriptionModalDealCoupon :isModalOpen="state.modal.isEnterCouponShow"
                 @close="state.modal.isEnterCouponShow = false" />
         </NuxtLayout>
     </div>

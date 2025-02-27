@@ -18,7 +18,7 @@
                 <span>{{ $t('back') }}</span>
             </NuxtLink>
             <LoadingSpinner :isActive="state.isPageLoading">
-                <ModulesRelationshipForm formType="update" :selectedRelationship="state.formRelationship"
+                <ModulesUserRelationshipForm formType="update" :selectedRelationship="state.formRelationship"
                     :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                     @submitForm="updateRelationship" />
             </LoadingSpinner>

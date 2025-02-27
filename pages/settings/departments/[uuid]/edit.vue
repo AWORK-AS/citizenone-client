@@ -19,7 +19,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesDepartmentForm formType="update" :selectedDepartment="state.formDepartment"
+                    <ModulesUserDepartmentForm formType="update" :selectedDepartment="state.formDepartment"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @submitForm="updateDepartment" />
                 </LoadingSpinner>

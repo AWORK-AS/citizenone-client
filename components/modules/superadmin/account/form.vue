@@ -85,7 +85,7 @@
                 </FormButton>
             </div>
         </div>
-        <ModulesDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
+        <ModulesUserDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
             @close="state.modal.isAddDepartmentOpen = false" />
     </form>
 </template>

@@ -12,10 +12,10 @@
 
             <template #header>{{ $t('storage.storage') }}</template>
 
-            <ModulesSettingsTab />
+            <ModulesUserSettingsTab />
 
             <div class="mt-8 max-w-3xl">
-                <ModulesStorageIndicator />
+                <ModulesUserStorageIndicator />
             </div>
         </NuxtLayout>
     </div>

@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-        <ModulesLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
+        <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
     </LoadingSpinner>
 </template>

@@ -29,8 +29,8 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesCitizenDetailsHeader />
-                <ModulesCitizenJournalTabs />
+                <ModulesUserCitizenDetailsHeader />
+                <ModulesUserCitizenJournalTabs />
 
                 <div>
                     <div class="mt-8 flex items-center gap-x-3">
@@ -53,18 +53,18 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <LoadingSpinner :isActive="state.isPageLoading">
-                        <ModulesCitizenCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
+                        <ModulesUserCitizenCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
                             @changeDate="changeDate" @deleteMyCalendarEvent="deleteMyCalendarEvent"
                             v-if="state.calendarView === 'default'" />
-                        <ModulesCitizenCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
+                        <ModulesUserCitizenCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
                             @changeDatePerWeek="changeDatePerWeek" v-if="state.calendarView === 'week'"
                             @viewMyCalendarEvent="viewMyCalendarEvent" />
-                        <ModulesCitizenCalendarMonthView :myCalendarEvents="state.myCalendarEvents"
+                        <ModulesUserCitizenCalendarMonthView :myCalendarEvents="state.myCalendarEvents"
                             @changeMonthYear="changeMonthYear" v-if="state.calendarView === 'month'"
                             @viewMyCalendarEvent="viewMyCalendarEvent" />
                     </LoadingSpinner>
                 </div>
-                <ModulesCitizenCalendarModalView :isModalOpen="state.modal.isViewEventOpen"
+                <ModulesUserCitizenCalendarModalView :isModalOpen="state.modal.isViewEventOpen"
                     :selectedSchedule="state.selectedSchedule" @close="state.modal.isViewEventOpen = false"
                     @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
             </div>

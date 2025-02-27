@@ -29,8 +29,8 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesCitizenDetailsHeader />
-                <ModulesCitizenJournalTabs />
+                <ModulesUserCitizenDetailsHeader />
+                <ModulesUserCitizenJournalTabs />
 
                 <div>
                     <div class="mt-8 flex justify-end items-center gap-x-3">
@@ -142,15 +142,15 @@
                     </div>
                     <Pagination :data="state.documents" @previous="previous" @next="next" />
                 </div>
-                <ModulesCitizenDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
+                <ModulesUserCitizenDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
                     @close="state.modal.isAddDirectoryOpen = false" @refreshDocuments="fetchDocuments" />
-                <ModulesCitizenDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
+                <ModulesUserCitizenDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
-                <ModulesCitizenDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
+                <ModulesUserCitizenDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
                     @refreshDocuments="fetchDocuments" />
-                <ModulesCitizenDocumentFolderStructureModalFolderStructures
+                <ModulesUserCitizenDocumentFolderStructureModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureOpen"
                     @close="state.modal.isViewFolderStructureOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isShareDocumentOpen"

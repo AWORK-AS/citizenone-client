@@ -32,8 +32,8 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesCitizenDetailsHeader />
-                <ModulesCitizenJournalTabs />
+                <ModulesUserCitizenDetailsHeader />
+                <ModulesUserCitizenJournalTabs />
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-8 space-y-3">
@@ -234,18 +234,18 @@
                     </div>
                 </LoadingSpinner>
             </div>
-            <ModulesCitizenPlanModalFilter :isModalOpen="state.modal.isFilterPlansAndGoalsOpen"
+            <ModulesUserCitizenPlanModalFilter :isModalOpen="state.modal.isFilterPlansAndGoalsOpen"
                 @close="state.modal.isFilterPlansAndGoalsOpen = false" @setFilterView="setFilterView" />
-            <ModulesCitizenPlanModalNew :isModalOpen="state.modal.isAddPlanOpen"
+            <ModulesUserCitizenPlanModalNew :isModalOpen="state.modal.isAddPlanOpen"
                 @close="state.modal.isAddPlanOpen = false" @refreshPlans="fetchPlans" />
-            <ModulesCitizenPlanModalEdit :isModalOpen="state.modal.isEditPlanOpen" :selectedPlan="state.selectedPlan"
-                @close="closeEditPlanModal" @refreshPlans="fetchPlans" />
-            <ModulesCitizenPlanSingleGoalModalNew :isModalOpen="state.modal.isAddSingleGoalOpen"
+            <ModulesUserCitizenPlanModalEdit :isModalOpen="state.modal.isEditPlanOpen"
+                :selectedPlan="state.selectedPlan" @close="closeEditPlanModal" @refreshPlans="fetchPlans" />
+            <ModulesUserCitizenPlanSingleGoalModalNew :isModalOpen="state.modal.isAddSingleGoalOpen"
                 @close="state.modal.isAddSingleGoalOpen = false" @refreshPlans="fetchPlans" />
-            <ModulesCitizenPlanSingleGoalModalEdit :isModalOpen="state.modal.isEditSingleGoalOpen"
+            <ModulesUserCitizenPlanSingleGoalModalEdit :isModalOpen="state.modal.isEditSingleGoalOpen"
                 :selectedGoal="state.selectedGoal" @close="state.modal.isEditSingleGoalOpen = false"
                 @refreshPlans="fetchPlans" />
-            <ModulesCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
+            <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
                 :selectedData="state.selectedPlan" @close="closeStatusesModal" @refreshData="fetchPlans" />
             <DialogConfirmation :isModalOpen="state.modal.isDeletePlanOpen"
                 :message="`${$t('plansandgoals.confirmation.deletePlanConfirmation')}?`"
@@ -253,9 +253,9 @@
             <DialogConfirmation :isModalOpen="state.modal.isDeleteSingleGoalOpen"
                 :message="`${$t('plansandgoals.confirmation.deleteGoalConfirmation')}?`"
                 @close="state.modal.isDeleteSingleGoalOpen = false" @confirm="deleteGoal" />
-            <ModulesCitizenPlanGoalSlideOver :isOpen="state.slideOver.isGoalOpen" :selectedPlan="state.selectedPlan"
+            <ModulesUserCitizenPlanGoalSlideOver :isOpen="state.slideOver.isGoalOpen" :selectedPlan="state.selectedPlan"
                 @close="state.slideOver.isGoalOpen = false" />
-            <ModulesCitizenPlanSingleGoalSlideOver :isOpen="state.slideOver.isSubgoalOpen"
+            <ModulesUserCitizenPlanSingleGoalSlideOver :isOpen="state.slideOver.isSubgoalOpen"
                 :selectedGoal="state.selectedGoal" @close="state.slideOver.isSubgoalOpen = false" />
         </NuxtLayout>
     </div>

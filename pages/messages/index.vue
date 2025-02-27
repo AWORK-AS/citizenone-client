@@ -19,7 +19,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4" v-if="state.chats?.data?.length > 0">
                         <div class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto"
                             style="height: 80vh;">
-                            <ModulesMessagesChats :chats="state.chats" />
+                            <ModulesUserMessagesChats :chats="state.chats" />
                         </div>
                     </div>
                     <div v-else class="mx-auto max-w-lg py-20">

@@ -32,8 +32,8 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesCitizenDetailsHeader />
-                <ModulesCitizenJournalTabs />
+                <ModulesUserCitizenDetailsHeader />
+                <ModulesUserCitizenJournalTabs />
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-8 space-y-5">
@@ -243,14 +243,14 @@
                     </div>
                 </LoadingSpinner>
             </div>
-            <ModulesCitizenJournalModalFilter :isModalOpen="state.modal.isFilterJournalOpen"
+            <ModulesUserCitizenJournalModalFilter :isModalOpen="state.modal.isFilterJournalOpen"
                 @close="state.modal.isFilterJournalOpen = false" @setFilter="setFilter" />
-            <ModulesCitizenJournalModalNew :isModalOpen="state.modal.isAddJournalOpen"
+            <ModulesUserCitizenJournalModalNew :isModalOpen="state.modal.isAddJournalOpen"
                 @close="state.modal.isAddJournalOpen = false" @refreshJournal="fetchJournals" />
-            <ModulesCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
+            <ModulesUserCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
                 :selectedJournal="state.selectedJournal" @close="closeEditJournalModal"
                 @refreshJournal="fetchJournals" />
-            <ModulesCitizenJournalModalDownload :isModalOpen="state.modal.isDownloadJournalOpen"
+            <ModulesUserCitizenJournalModalDownload :isModalOpen="state.modal.isDownloadJournalOpen"
                 @close="state.modal.isDownloadJournalOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalOpen"
                 :message="$t('citizens.citizenJournals.confirmation.deleteConfirmation') + '?'"

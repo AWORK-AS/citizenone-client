@@ -32,8 +32,9 @@
                             </FormButton>
                         </div>
                     </div>
-                    <ModulesEmployeeForm formType="update" :selectedEmployee="state.formEmployee" :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateEmployee" />
+                    <ModulesUserEmployeeForm formType="update" :selectedEmployee="state.formEmployee"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @submitForm="updateEmployee" />
                 </LoadingSpinner>
             </div>
             <DialogConfirmation :isModalOpen="state.modal.isArchiveEmployeeOpen"

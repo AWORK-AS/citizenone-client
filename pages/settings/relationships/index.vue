@@ -12,9 +12,9 @@
 
             <template #header>{{ $t('relationships.relationships') }}</template>
 
-            <ModulesSettingsTab />
+            <ModulesUserSettingsTab />
 
-            <ModulesSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
+            <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">

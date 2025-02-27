@@ -81,7 +81,7 @@
                 </div>
                 <Pagination :data="state.citizenProtocols" @previous="previous" @next="next" />
             </div>
-            <ModulesAbsenceModalAbsent :isModalOpen="state.modal.isMarkAsAbsentOpen"
+            <ModulesUserAbsenceModalAbsent :isModalOpen="state.modal.isMarkAsAbsentOpen"
                 @close="state.modal.isMarkAsAbsentOpen = false" @markAsAbsent="markAsAbsent" />
             <DialogConfirmation :isModalOpen="state.modal.isRemoveCitizenProtocolOpen"
                 :message="$t('protocols.table.confirmation.deleteConfirmation') + '?'"

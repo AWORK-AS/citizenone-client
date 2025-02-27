@@ -12,8 +12,8 @@
 
             <template #header>{{ $t('customPages.customPages') }}</template>
 
-            <ModulesSettingsTab />
-            <ModulesSettingsOtherSubTab id="sub-tab-other" class="mt-5" />
+            <ModulesUserSettingsTab />
+            <ModulesUserSettingsOtherSubTab id="sub-tab-other" class="mt-5" />
 
             <div class="mt-8">
                 <div class="space-y-5">

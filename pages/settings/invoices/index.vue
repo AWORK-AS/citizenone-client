@@ -12,7 +12,7 @@
 
             <template #header>{{ $t('invoices.invoices') }}</template>
 
-            <ModulesSettingsTab />
+            <ModulesUserSettingsTab />
 
             <div class="mt-10">
                 <div class="space-y-5">
@@ -87,7 +87,7 @@
                     <Pagination :data="state.invoices" @previous="previous" @next="next" />
                 </div>
             </div>
-            <ModulesInvoiceModalEmailReceivers :isModalOpen="state.modal.isEmailReceiversOpen"
+            <ModulesUserInvoiceModalEmailReceivers :isModalOpen="state.modal.isEmailReceiversOpen"
                 @close="state.modal.isEmailReceiversOpen = false" />
         </NuxtLayout>
     </div>

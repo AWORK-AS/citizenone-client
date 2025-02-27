@@ -293,7 +293,7 @@
                     </div>
                 </div>
             </div>
-            <ModulesDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
+            <ModulesUserDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDepartmentSickLeaveDate" />
         </LoadingSpinner>

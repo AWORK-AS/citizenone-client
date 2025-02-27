@@ -86,7 +86,7 @@
                 </div>
             </div>
 
-            <ModulesCitizenModalLatestJournal :isModalOpen="state.modal.showNote"
+            <ModulesUserCitizenModalLatestJournal :isModalOpen="state.modal.showNote"
                 :selectedCitizen="state.selectedCitizen" @close="state.modal.showNote = false" />
         </NuxtLayout>
     </div>

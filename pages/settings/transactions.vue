@@ -12,8 +12,8 @@
 
             <template #header>{{ $t('settings.tabs.transactions') }}</template>
 
-            <ModulesSettingsTab />
-            <ModulesSettingsOtherSubTab id="sub-tab-other" class="mt-5" />
+            <ModulesUserSettingsTab />
+            <ModulesUserSettingsOtherSubTab id="sub-tab-other" class="mt-5" />
 
             <div class="py-10">
                 <div class="grid grid-cols-4 gap-x-3">
@@ -24,7 +24,8 @@
                     </button>
                 </div>
             </div>
-            <ModulesSettingsModalCitizenWalletTransactions :isModalOpen="state.modal.isCitizenWalletTransactionsShow"
+            <ModulesUserSettingsModalCitizenWalletTransactions
+                :isModalOpen="state.modal.isCitizenWalletTransactionsShow"
                 @close="state.modal.isCitizenWalletTransactionsShow = false" />
         </NuxtLayout>
     </div>

@@ -31,8 +31,8 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesCitizenDetailsHeader />
-                <ModulesCitizenJournalTabs />
+                <ModulesUserCitizenDetailsHeader />
+                <ModulesUserCitizenJournalTabs />
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-8 flex justify-between items-center mb-5 gap-x-2">
@@ -108,10 +108,10 @@
                     </div>
                     <Pagination :data="state.walletTransactions" @previous="previous" @next="next" />
                 </div>
-                <ModulesCitizenWalletTransactionModalNew :isModalOpen="state.modal.isAddWalletTransactionOpen"
+                <ModulesUserCitizenWalletTransactionModalNew :isModalOpen="state.modal.isAddWalletTransactionOpen"
                     @close="state.modal.isAddWalletTransactionOpen = false"
                     @refreshWalletTransactions="refreshWalletTransactions" />
-                <ModulesCitizenWalletTransactionModalEdit :isModalOpen="state.modal.isEditWalletTransactionOpen"
+                <ModulesUserCitizenWalletTransactionModalEdit :isModalOpen="state.modal.isEditWalletTransactionOpen"
                     :selectedWalletTranscation="state.selectedWalletTransaction"
                     @close="state.modal.isEditWalletTransactionOpen = false"
                     @refreshWalletTransactions="refreshWalletTransactions" />

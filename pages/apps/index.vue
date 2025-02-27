@@ -222,9 +222,10 @@
                         <Pagination :data="state.apps" @previous="previous" @next="next" />
                     </div>
                 </div>
-                <ModulesAppModalAppDetails :isModalOpen="state.modal.showAppDetails" :selectedApp="state.selectedApp"
-                    @close="state.modal.showAppDetails = false" @activateApp="activateApp" />
-                <ModulesAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
+                <ModulesUserAppModalAppDetails :isModalOpen="state.modal.showAppDetails"
+                    :selectedApp="state.selectedApp" @close="state.modal.showAppDetails = false"
+                    @activateApp="activateApp" />
+                <ModulesUserAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     :selectedApp="state.selectedApp" @close="state.modal.isAcceptTACOpen = false"
                     @confirm="activateApp" />
             </LoadingSpinner>

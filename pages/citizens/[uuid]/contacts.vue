@@ -29,8 +29,8 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesCitizenDetailsHeader />
-                <ModulesCitizenJournalTabs />
+                <ModulesUserCitizenDetailsHeader />
+                <ModulesUserCitizenJournalTabs />
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
@@ -119,9 +119,9 @@
                     </div>
                     <Pagination :data="state.contacts" @previous="previous" @next="next" />
                 </div>
-                <ModulesCitizenContactModalNew :isModalOpen="state.modal.isAddContactOpen"
+                <ModulesUserCitizenContactModalNew :isModalOpen="state.modal.isAddContactOpen"
                     @close="state.modal.isAddContactOpen = false" @refreshContacts="fetchContacts" />
-                <ModulesCitizenContactModalEdit :isModalOpen="state.modal.isEditContactOpen"
+                <ModulesUserCitizenContactModalEdit :isModalOpen="state.modal.isEditContactOpen"
                     :selectedContact="state.selectedContact" @close="state.modal.isEditContactOpen = false"
                     @refreshContacts="fetchContacts" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteContactOpen"

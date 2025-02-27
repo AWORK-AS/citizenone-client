@@ -79,7 +79,7 @@
                     <Pagination :data="state.proceduretasks" @previous="previous" @next="next" />
                 </div>
             </div>
-            <ModulesProcedureTaskModalProgressView :isModalOpen="state.modal.isViewProgressOpen"
+            <ModulesUserProcedureTaskModalProgressView :isModalOpen="state.modal.isViewProgressOpen"
                 :selectedProcedureTask="state.selectedProceduretask" @close="state.modal.isViewProgressOpen = false" />
         </NuxtLayout>
     </div>

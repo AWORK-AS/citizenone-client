@@ -18,7 +18,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesAbsenceForm formType="create" :selectedAbsence="state.formAbsence" :error="state.error"
+                    <ModulesUserAbsenceForm formType="create" :selectedAbsence="state.formAbsence" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="saveAbsence" />
                 </LoadingSpinner>
             </div>

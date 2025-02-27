@@ -18,8 +18,9 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesEmployeeForm formType="create" :selectedEmployee="state.formEmployee" :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="saveEmployee" />
+                    <ModulesUserEmployeeForm formType="create" :selectedEmployee="state.formEmployee"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @submitForm="saveEmployee" />
                 </LoadingSpinner>
             </div>
         </NuxtLayout>

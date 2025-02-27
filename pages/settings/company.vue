@@ -12,7 +12,7 @@
 
             <template #header>{{ $t('settings.tabs.company') }}</template>
 
-            <ModulesSettingsTab />
+            <ModulesUserSettingsTab />
 
             <LoadingSpinner :isActive="state.isPageLoading">
                 <form @submit.prevent="submitForm()" class="mt-8 max-w-3xl">

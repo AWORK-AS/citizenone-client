@@ -29,8 +29,8 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesCitizenDetailsHeader />
-                <ModulesCitizenJournalTabs />
+                <ModulesUserCitizenDetailsHeader />
+                <ModulesUserCitizenJournalTabs />
 
                 <div>
                     <div class="mt-8 flex justify-end items-center gap-x-2">
@@ -166,13 +166,13 @@
                     </div>
                     <Pagination :data="state.medicines" @previous="previous" @next="next" />
                 </div>
-                <ModulesCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isGiveMedicineOpen"
+                <ModulesUserCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isGiveMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isGiveMedicineOpen = false" />
-                <ModulesCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineOpen"
+                <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineOpen = false" />
-                <ModulesCitizenMedicineModalNew :isModalOpen="state.modal.isAddMedicineOpen"
+                <ModulesUserCitizenMedicineModalNew :isModalOpen="state.modal.isAddMedicineOpen"
                     @close="state.modal.isAddMedicineOpen = false" @refreshMedicines="fetchCitizenMedicines" />
-                <ModulesCitizenMedicineModalEdit :isModalOpen="state.modal.isEditMedicineOpen"
+                <ModulesUserCitizenMedicineModalEdit :isModalOpen="state.modal.isEditMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="closeEditMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineOpen"

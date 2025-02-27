@@ -12,9 +12,9 @@
 
             <template #header>{{ $t('archived.tabs.archivedCitizens') }}</template>
 
-            <ModulesSettingsTab />
+            <ModulesUserSettingsTab />
 
-            <ModulesSettingsArchiveSubTab id="archived" class="mt-5" />
+            <ModulesUserSettingsArchiveSubTab id="archived" class="mt-5" />
 
             <div class="mt-10">
                 <div class="space-y-5">

@@ -32,20 +32,20 @@
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                     <div v-if="dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents">
-                        <ModulesDailyOverviewCitizensDailyEvents :dateRange="state.dateRange.formDateRange" />
+                        <ModulesUserDailyOverviewCitizensDailyEvents :dateRange="state.dateRange.formDateRange" />
                     </div>
                     <div v-if="dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview">
-                        <ModulesDailyOverviewCitizensMedicineOverview :dateRange="state.dateRange.formDateRange" />
+                        <ModulesUserDailyOverviewCitizensMedicineOverview :dateRange="state.dateRange.formDateRange" />
                     </div>
                     <div v-if="dailyOverviewStore.getViewAllFilter.showLatestJournalNotes">
-                        <ModulesDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange" />
+                        <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange" />
                     </div>
                 </div>
             </div>
 
-            <ModulesDailyOverviewFilterAllModalShowHide :isModalOpen="state.modal.isFilterDailyOverviewViewAllOpen"
+            <ModulesUserDailyOverviewFilterAllModalShowHide :isModalOpen="state.modal.isFilterDailyOverviewViewAllOpen"
                 @close="state.modal.isFilterDailyOverviewViewAllOpen = false" />
-            <ModulesDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDailyOverviewDateRangeOpen"
+            <ModulesUserDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDailyOverviewDateRangeOpen"
                 :dateRange="state.dateRange" @close="state.modal.isDailyOverviewDateRangeOpen = false"
                 @filterDate="filterDailyOverviewByDate" />
         </NuxtLayout>

@@ -80,15 +80,15 @@
                     </div>
                 </LoadingSpinner>
             </div>
-            <ModulesVumTemplatePlanModalNew :isModalOpen="state.modal.isAddPlanOpen"
+            <ModulesUserVumTemplatePlanModalNew :isModalOpen="state.modal.isAddPlanOpen"
                 @close="state.modal.isAddPlanOpen = false" @refreshTemplates="fetchPlans" />
-            <ModulesVumTemplatePlanModalEdit :isModalOpen="state.modal.isEditPlanOpen"
+            <ModulesUserVumTemplatePlanModalEdit :isModalOpen="state.modal.isEditPlanOpen"
                 :selectedTemplate="state.selectedPlan" @close="closeEditPlanModal" @refreshTemplates="fetchPlans" />
             <DialogConfirmation :isModalOpen="state.modal.isDeletePlanOpen"
                 :message="`${$t('plansandgoals.confirmation.deletePlanConfirmation')}?`"
                 @close="state.modal.isDeletePlanOpen = false" @confirm="deletePlan" />
-            <ModulesVumTemplatePlanGoalSlideOver :isOpen="state.slideOver.isGoalOpen" :selectedPlan="state.selectedPlan"
-                @close="state.slideOver.isGoalOpen = false" />
+            <ModulesUserVumTemplatePlanGoalSlideOver :isOpen="state.slideOver.isGoalOpen"
+                :selectedPlan="state.selectedPlan" @close="state.slideOver.isGoalOpen = false" />
         </NuxtLayout>
     </div>
 </template>
