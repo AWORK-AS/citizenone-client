@@ -89,44 +89,43 @@
                                                                 </div>
                                                             </div>
                                                             <div class="flex gap-x-2">
-                                                                <FormButton class="rounded-md" buttonSize="sm"
-                                                                    @click="addSubgoal(goal)"
+                                                                <Tooltip :text="$t('plansandgoals.newSubgoal')"
                                                                     v-if="hasCreateSubgoalsAccess()">
-                                                                    <Icon name="ph:plus" class="size-4" />
-                                                                    <span class="hidden md:block">
-                                                                        {{ $t('plansandgoals.newSubgoal') }}
-                                                                    </span>
-                                                                </FormButton>
-                                                                <FormButton class="rounded-md" buttonSize="sm"
-                                                                    @click="editGoal(goal)" v-if="goal?.is_editable">
-                                                                    <Icon name="ph:pencil-duotone" class="size-4" />
-                                                                    <span class="hidden md:block">
-                                                                        {{ $t('plansandgoals.table.actions.edit') }}
-                                                                    </span>
-                                                                </FormButton>
-                                                                <FormButton class="rounded-md" buttonSize="sm"
-                                                                    @click="confirmGoalArchive(goal)">
-                                                                    <Icon name="ph:pencil-duotone" class="size-4" />
-                                                                    <span class="hidden md:block">
-                                                                        {{ $t('plansandgoals.table.actions.archive') }}
-                                                                    </span>
-                                                                </FormButton>
-                                                                <FormButton class="rounded-md" buttonSize="sm"
-                                                                    @click="viewGoalStatuses(goal)">
-                                                                    <Icon name="ph:check-square-offset"
-                                                                        class="size-4" />
-                                                                    <span class="hidden md:block">
-                                                                        {{ $t('plansandgoals.table.actions.notes') }}
-                                                                    </span>
-                                                                </FormButton>
-                                                                <FormButton class="rounded-md" buttonSize="sm"
-                                                                    @click="confirmGoalDeletion(goal)"
+                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                        @click="addSubgoal(goal)">
+                                                                        <Icon name="ph:plus" class="size-4" />
+                                                                    </FormButton>
+                                                                </Tooltip>
+                                                                <Tooltip :text="$t('plansandgoals.table.actions.edit')"
+                                                                    v-if="goal?.is_editable">
+                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                        @click="editGoal(goal)">
+                                                                        <Icon name="ph:pencil-duotone" class="size-4" />
+                                                                    </FormButton>
+                                                                </Tooltip>
+                                                                <Tooltip
+                                                                    :text="$t('plansandgoals.table.actions.archive')">
+                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                        @click="confirmGoalArchive(goal)">
+                                                                        <Icon name="ph:archive" class="size-4" />
+                                                                    </FormButton>
+                                                                </Tooltip>
+                                                                <Tooltip
+                                                                    :text="$t('plansandgoals.table.actions.notes')">
+                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                        @click="viewGoalStatuses(goal)">
+                                                                        <Icon name="ph:check-square-offset"
+                                                                            class="size-4" />
+                                                                    </FormButton>
+                                                                </Tooltip>
+                                                                <Tooltip
+                                                                    :text="$t('plansandgoals.table.actions.delete')"
                                                                     v-if="goal?.is_deletable">
-                                                                    <Icon name="ph:trash" class="size-4" />
-                                                                    <span class="hidden md:block">
-                                                                        {{ $t('plansandgoals.table.actions.delete') }}
-                                                                    </span>
-                                                                </FormButton>
+                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                        @click="confirmGoalDeletion(goal)">
+                                                                        <Icon name="ph:trash" class="size-4" />
+                                                                    </FormButton>
+                                                                </Tooltip>
                                                                 <DisclosureButton>
                                                                     <FormButton class="rounded-md" buttonSize="sm">
                                                                         <Icon name="ic:round-keyboard-arrow-down"
@@ -272,52 +271,45 @@
                                                                                 </p>
                                                                             </div>
                                                                             <div class="flex gap-x-1">
-                                                                                <FormButton class="rounded-md"
-                                                                                    buttonSize="sm"
-                                                                                    @click="editSubGoal(subgoal)"
+                                                                                <Tooltip
+                                                                                    :text="$t('plansandgoals.table.actions.edit')"
                                                                                     v-if="subgoal?.is_editable">
-                                                                                    <Icon name="ph:pencil-duotone"
-                                                                                        class="size-4" />
-                                                                                    <span class="hidden md:block">
-                                                                                        {{
-                                                                                            $t('plansandgoals.table.actions.edit')
-                                                                                        }}
-                                                                                    </span>
-                                                                                </FormButton>
-                                                                                <FormButton class="rounded-md"
-                                                                                    buttonSize="sm"
-                                                                                    @click="confirmSubgoalArchive(subgoal)">
-                                                                                    <Icon name="ph:pencil-duotone"
-                                                                                        class="size-4" />
-                                                                                    <span class="hidden md:block">
-                                                                                        {{
-                                                                                            $t('plansandgoals.table.actions.archive')
-                                                                                        }}
-                                                                                    </span>
-                                                                                </FormButton>
-                                                                                <FormButton class="rounded-md"
-                                                                                    buttonSize="sm"
-                                                                                    @click="viewSubgoalStatuses(subgoal)">
-                                                                                    <Icon name="ph:check-square-offset"
-                                                                                        class="size-4" />
-                                                                                    <span class="hidden md:block">
-                                                                                        {{
-                                                                                            $t('plansandgoals.table.actions.notes')
-                                                                                        }}
-                                                                                    </span>
-                                                                                </FormButton>
-                                                                                <FormButton class="rounded-md"
-                                                                                    buttonSize="sm"
-                                                                                    @click="confirmSubgoalDeletion(subgoal)"
+                                                                                    <FormButton class="rounded-md"
+                                                                                        buttonSize="sm"
+                                                                                        @click="editSubGoal(subgoal)">
+                                                                                        <Icon name="ph:pencil-duotone"
+                                                                                            class="size-4" />
+                                                                                    </FormButton>
+                                                                                </Tooltip>
+                                                                                <Tooltip
+                                                                                    :text="$t('plansandgoals.table.actions.archive')">
+                                                                                    <FormButton class="rounded-md"
+                                                                                        buttonSize="sm"
+                                                                                        @click="confirmSubgoalArchive(subgoal)">
+                                                                                        <Icon name="ph:archive"
+                                                                                            class="size-4" />
+                                                                                    </FormButton>
+                                                                                </Tooltip>
+                                                                                <Tooltip
+                                                                                    :text="$t('plansandgoals.table.actions.notes')">
+                                                                                    <FormButton class="rounded-md"
+                                                                                        buttonSize="sm"
+                                                                                        @click="viewSubgoalStatuses(subgoal)">
+                                                                                        <Icon
+                                                                                            name="ph:check-square-offset"
+                                                                                            class="size-4" />
+                                                                                    </FormButton>
+                                                                                </Tooltip>
+                                                                                <Tooltip
+                                                                                    :text="$t('plansandgoals.table.actions.delete')"
                                                                                     v-if="subgoal?.is_deletable">
-                                                                                    <Icon name="ph:trash"
-                                                                                        class="size-4" />
-                                                                                    <span class="hidden md:block">
-                                                                                        {{
-                                                                                            $t('plansandgoals.table.actions.delete')
-                                                                                        }}
-                                                                                    </span>
-                                                                                </FormButton>
+                                                                                    <FormButton class="rounded-md"
+                                                                                        buttonSize="sm"
+                                                                                        @click="confirmSubgoalDeletion(subgoal)">
+                                                                                        <Icon name="ph:trash"
+                                                                                            class="size-4" />
+                                                                                    </FormButton>
+                                                                                </Tooltip>
                                                                             </div>
                                                                         </div>
                                                                         <div class="space-y-1">

@@ -184,52 +184,64 @@
                                     </div>
                                     <div>
                                         <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
-                                            <FormButton class="rounded-md min-w-36" buttonSize="sm"
-                                                @click="viewSubgoals(plan)" v-if="plan?.is_single_goal">
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('plansandgoals.table.actions.seeSubgoals') }}
-                                            </FormButton>
-                                            <FormButton class="rounded-md min-w-36" buttonSize="sm"
-                                                @click="viewPlan(plan)" v-else>
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('plansandgoals.table.actions.seeGoals') }}
-                                            </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="sm" @click="editGoal(plan)"
+                                            <Tooltip :text="$t('plansandgoals.table.actions.seeSubgoals')"
+                                                v-if="plan?.is_single_goal">
+                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                    @click="viewSubgoals(plan)">
+                                                    <Icon name="ph:eye" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('plansandgoals.table.actions.seeGoals')" v-else>
+                                                <FormButton class="rounded-md" buttonSize="sm" @click="viewPlan(plan)">
+                                                    <Icon name="ph:eye" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('plansandgoals.table.actions.edit')"
                                                 v-if="plan?.is_editable && plan?.is_single_goal">
-                                                <Icon name="ph:pencil-duotone" class="size-4" />
-                                                {{ $t('plansandgoals.table.actions.edit') }}
-                                            </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="sm" @click="editPlan(plan)"
+                                                <FormButton class="rounded-md" buttonSize="sm" @click="editGoal(plan)">
+                                                    <Icon name="ph:pencil-duotone" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('plansandgoals.table.actions.edit')"
                                                 v-if="plan?.is_editable && !plan?.is_single_goal">
-                                                <Icon name="ph:pencil-duotone" class="size-4" />
-                                                {{ $t('plansandgoals.table.actions.edit') }}
-                                            </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="confirmGoalArchive(plan)" v-if="plan?.is_single_goal">
-                                                <Icon name="ph:pencil-duotone" class="size-4" />
-                                                {{ $t('plansandgoals.table.actions.archive') }}
-                                            </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="confirmPlanArchive(plan)" v-if="!plan?.is_single_goal">
-                                                <Icon name="ph:pencil-duotone" class="size-4" />
-                                                {{ $t('plansandgoals.table.actions.archive') }}
-                                            </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="sm" @click="viewStatuses(plan)">
-                                                <Icon name="ph:check-square-offset" class="size-4" />
-                                                {{ $t('plansandgoals.table.actions.notes') }}
-                                            </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="confirmPlanDeletion(plan)"
+                                                <FormButton class="rounded-md" buttonSize="sm" @click="editPlan(plan)">
+                                                    <Icon name="ph:pencil-duotone" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('plansandgoals.table.actions.archive')"
+                                                v-if="plan?.is_single_goal">
+                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                    @click="confirmGoalArchive(plan)">
+                                                    <Icon name="ph:archive" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('plansandgoals.table.actions.archive')"
+                                                v-if="!plan?.is_single_goal">
+                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                    @click="confirmPlanArchive(plan)">
+                                                    <Icon name="ph:archive" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('plansandgoals.table.actions.notes')">
+                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                    @click="viewStatuses(plan)">
+                                                    <Icon name="ph:check-square-offset" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('plansandgoals.table.actions.delete')"
                                                 v-if="plan?.is_deletable && !plan?.is_single_goal">
-                                                <Icon name="heroicons:trash" class="size-4" />
-                                                {{ $t('plansandgoals.table.actions.delete') }}
-                                            </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="confirmGoalDeletion(plan)"
+                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                    @click="confirmPlanDeletion(plan)">
+                                                    <Icon name="heroicons:trash" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('plansandgoals.table.actions.delete')"
                                                 v-if="plan?.is_deletable && plan?.is_single_goal">
-                                                <Icon name="heroicons:trash" class="size-4" />
-                                                {{ $t('plansandgoals.table.actions.delete') }}
-                                            </FormButton>
+                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                    @click="confirmGoalDeletion(plan)">
+                                                    <Icon name="heroicons:trash" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                         </div>
                                     </div>
                                 </div>
