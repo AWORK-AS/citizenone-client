@@ -1701,6 +1701,16 @@
             "rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years": "Husk, at du skal opbevare medarbejderoplysninger i 5 år",
             "thisCantBeUndone": "Dette kan ikke fortrydes"
         },
+        "citizens": {
+            "assign": "Tildel",
+            "citizens": "Borgere",
+            "assignedCitizens": "Tildelte borgere",
+            "assignCitizens": "Tildel borgere",
+            "table": {
+                "firstname": "Fornavn",
+                "lastname": "Efternavn"
+            }
+        },
         "deleteEmployee": "Slet medarbejder",
         "documents": {
             "alert": {

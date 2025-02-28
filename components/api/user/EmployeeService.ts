@@ -20,6 +20,10 @@ class EmployeeService extends BaseAPIService {
     async archiveEmployee(employeeUuid: any): Promise<any> {
         return await this.request(`/user/employees/${employeeUuid}/archive`, 'PUT')
     }
+    
+    async assignCitizen(employeeUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/employees/${employeeUuid}/assign/citizen`, 'PUT', params)
+    }
 
     async getArchivedEmployees(params: object): Promise<any> {
         return await this.request(`/user/employees/archived/list`, 'GET', params)
