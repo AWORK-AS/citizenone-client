@@ -64,7 +64,6 @@
                 @close="state.modal.isNewTaskOpen = false" @refreshReminders="fetchReminders()" />
             <ModulesUserRemindersModalView :isModalOpen="state.modal.isAssignReminderOpen"
                 @close="state.modal.isAssignReminderOpen = false" :reminder_uuid="state.modal.selectedReminderUuid" />
-
         </NuxtLayout>
     </div>
 </template>
@@ -88,7 +87,7 @@ const state = reactive({
         isAssignReminderOpen: false,
         selectedReminderUuid: '',
     },
-});
+})
 
 async function fetchReminders() {
     state.error = {}
@@ -110,13 +109,13 @@ onMounted(() => {
 })
 
 const formatDateToReadable = (dateString: string) => {
-    const date = new Date(dateString);
+    const date = new Date(dateString)
     return date.toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
-    });
-};
+    })
+}
 
 function formatTimeToReadable(dateTime: string) {
     if (!dateTime) return ''
@@ -127,20 +126,19 @@ function formatTimeToReadable(dateTime: string) {
 
     const [hours, minutes, seconds] = timePart.split(':').map(Number)
 
-    const date = new Date();
-    date.setHours(hours, minutes, seconds);
+    const date = new Date()
+    date.setHours(hours, minutes, seconds)
 
     return new Intl.DateTimeFormat('en-US', {
         hour: '2-digit',
         minute: '2-digit',
         hour12: false,
-    }).format(date);
+    }).format(date)
 }
+
 function openView(reminderUuid: string) {
     state.modal.selectedReminderUuid = reminderUuid
-    state.modal.isAssignReminderOpen = true;
+    state.modal.isAssignReminderOpen = true
 }
-
-
 
 </script>
