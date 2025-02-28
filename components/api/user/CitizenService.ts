@@ -33,6 +33,14 @@ class CitizenService extends BaseAPIService {
         return await this.request(`/user/citizens/all/list`, 'GET')
     }
 
+    async getAllAssignedCitizens(params: object): Promise<any> {
+        return await this.request(`/user/citizens/all/user/assigned`, 'GET', params)
+    }
+
+    async getAllAssignee(): Promise<any> {
+        return await this.request(`user/citizens/all/assignee/list`, 'GET')
+    }
+
     async getAllAvailableCitizens(params: object): Promise<any> {
         return await this.request(`/user/citizens/all/available-citizens`, 'GET', params)
     }

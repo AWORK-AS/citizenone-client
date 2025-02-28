@@ -27,6 +27,12 @@
                                     {{ $t('employees.editEmployee') }}
                                 </FormButton>
                             </div>
+                            <div class="flex justify-end">
+                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                    @click="state.modal.isViewCitizensOpen = true">
+                                    {{ $t('employees.citizens.assignedCitizens') }}
+                                </FormButton>
+                            </div>
                         </div>
                         <div
                             class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
@@ -391,6 +397,8 @@
                 @close="state.modal.isViewDriversLicenseOpen = false" />
             <ModulesUserEmployeeMiscellaneousModalView :isModalOpen="state.modal.isMiscellaneousOpen"
                 @close="state.modal.isMiscellaneousOpen = false" />
+            <ModulesUserEmployeeCitizenModalView :isModalOpen="state.modal.isViewCitizensOpen"
+                @close="state.modal.isViewCitizensOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -427,6 +435,7 @@ const state = reactive({
         isViewChildProtectionCertificatesOpen: false,
         isViewDriversLicenseOpen: false,
         isMiscellaneousOpen: false,
+        isViewCitizensOpen: false,
     },
     selectedEmployee: {
         firstname: '',

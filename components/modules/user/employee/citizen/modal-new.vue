@@ -1,23 +1,22 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('reminder.assignees')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('employees.citizens.assignCitizens')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isLoading">
-                    <form @submit.prevent="saveReminderUser(state.employee_uuid, props.reminder_uuid)"
-                        id="formGroupMember">
+                    <form @submit.prevent="assignCitizen()" id="formGroupMember">
                         <div class="flex items-end space-x-2 pb-24">
                             <div class="flex-1">
                                 <p class="text-sm text-gray-600">
-                                    {{ $t('reminder.assignees') }}
+                                    {{ $t('employees.citizens.citizens') }}
                                 </p>
-                                <FormSelectMultiple id="pages" :options="state.options.employees"
-                                    v-model="state.employee_uuid" class="w-full" />
+                                <FormSelect id="pages" :options="state.options.citizens" v-model="state.citizen_uuid"
+                                    class="w-full" />
                             </div>
                         </div>
                         <FormButton type="submit" class="w-full rounded-md" buttonStyle="primary">
-                            {{ $t('reminder.assign') }}
+                            {{ $t('employees.citizens.assign') }}
                         </FormButton>
                     </form>
                 </LoadingSpinner>
@@ -29,28 +28,23 @@
 
 <script setup lang="ts">
 import { watch, reactive } from 'vue'
-import { reminderUserService } from '@/components/api/user/ReminderUserService'
+import { citizenService } from '@/components/api/user/CitizenService'
 import { employeeService } from '@/components/api/user/EmployeeService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useDepartmentStore } from '@/store/department'
 
+const router = useRouter()
 const departmentStore = useDepartmentStore()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 
 const props = defineProps({
-    error: {} as Error,
-    isPageLoading: false,
     isModalOpen: {
         type: Boolean,
         required: true,
     },
-    reminder_uuid: {
-        type: String,
-        required: false,
-        default: null
-    }
 })
 
 let currentTablePage = 1
@@ -62,12 +56,10 @@ const state = reactive({
         sortField: 'id',
         sortOrder: 'descend',
     },
-    reminder_uuid: '',
-    assignees: [] as any[],
-    employee_uuid: [],
     isLoading: false,
+    citizen_uuid: '',
     options: {
-        employees: []
+        citizens: []
     },
 })
 
@@ -79,25 +71,17 @@ function closeModal() {
 
 watch(() => props.isModalOpen, (isOpen: any) => {
     if (isOpen) {
-        state.reminder_uuid = "?reminder_uuid=" + props.reminder_uuid
-        fetchEmployees()
+        fetchCitizens()
     }
 })
 
-async function fetchEmployees() {
+async function fetchCitizens() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const params = {
-            department: departmentStore.getSelectedDepartmentName,
-            page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
-            ...state.dataFilter
-        }
-        const response = await employeeService.getEmployees(params)
+        const response = await citizenService.getAllAssignee()
         if (response) {
-            state.options.employees = response
+            state.options.citizens = response
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
@@ -105,7 +89,7 @@ async function fetchEmployees() {
                     label: item.firstname + " " + item.lastname,
                 })
             )
-            state.options.employees = options
+            state.options.citizens = options
         }
     } catch (error: any) {
         state.error = error
@@ -113,16 +97,14 @@ async function fetchEmployees() {
     state.isTableLoading = false
 }
 
-
-async function saveReminderUser(employee_uuid: string[], reminder_uuid: any) {
+async function assignCitizen() {
     state.error = {}
     state.isPageLoading = true
+    const params = {
+        citizen_uuid: state.citizen_uuid
+    }
     try {
-        let params = {
-            employee_uuid: employee_uuid,
-            reminder_uuid: reminder_uuid,
-        }
-        const response = await reminderUserService.saveReminderUser(params)
+        const response = await employeeService.assignCitizen(employeeUuid, params)
         if (response?.data) {
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.employeeSuccessfullyAssigned')}.`)
@@ -132,5 +114,4 @@ async function saveReminderUser(employee_uuid: string[], reminder_uuid: any) {
     }
     state.isPageLoading = false
 }
-
 </script>
