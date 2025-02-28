@@ -7,7 +7,7 @@
                 <LoadingSpinner :isActive="state.isLoading">
                     <form @submit.prevent="saveReminderUser(state.employee_uuid, props.reminder_uuid)"
                         id="formGroupMember">
-                        <div class="flex items-end space-x-2 pb-5">
+                        <div class="flex items-end space-x-2 pb-24">
                             <div class="flex-1">
                                 <p class="text-sm text-gray-600">
                                     {{ $t('reminder.assignees') }}

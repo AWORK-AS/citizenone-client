@@ -6,7 +6,7 @@
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isLoading">
                     <form @submit.prevent="assignCitizen()" id="formGroupMember">
-                        <div class="flex items-end space-x-2 pb-16">
+                        <div class="flex items-end space-x-2 pb-24">
                             <div class="flex-1">
                                 <p class="text-sm text-gray-600">
                                     {{ $t('employees.citizens.citizens') }}
