@@ -1,8 +1,8 @@
 import BaseAPIService from '@/components/api/user/BaseAPIService'
 
 class ReminderUserService extends BaseAPIService {
-    async getRemindersUsers(): Promise<any> {
-        return await this.request(`/user/reminder-users`, 'GET')
+    async getRemindersUsers(params: object): Promise<any> {
+        return await this.request(`/user/reminder-users`, 'GET', params)
     }
 
     async getReminderUser(reminderUuid: any): Promise<any> {

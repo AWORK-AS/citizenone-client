@@ -129,7 +129,10 @@ function confirmEmployeeDeletion(status: any) {
 async function fetchAssignees() {
     try {
         state.isLoading = true
-        const response = await reminderUserService.getReminderUser(state.reminder_uuid)
+        let params = {
+            reminder_uuid: props.reminder_uuid
+        }
+        const response = await reminderUserService.getRemindersUsers(params)
 
         if (response?.data) {
             state.assignees = response.data
