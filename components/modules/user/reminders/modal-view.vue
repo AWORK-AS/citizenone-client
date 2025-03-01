@@ -115,7 +115,7 @@ function closeAssignModal() {
 
 watch(() => props.isModalOpen, (isOpen: any) => {
     if (isOpen) {
-        state.reminder_uuid = "?reminder_uuid=" + props.reminder_uuid
+        state.reminder_uuid = props.reminder_uuid
         fetchAssignees()
         fetchEmployees()
     }
