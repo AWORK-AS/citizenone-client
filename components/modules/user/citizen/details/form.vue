@@ -183,28 +183,28 @@
                 <FormError :error="v$?.formCitizen?.note?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.note?.[0]" />
             </div>
-            <div class="space-y-1 flex items-center gap-x-2">
+            <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1 flex items-center gap-x-2">
                 <FormSwitch :value="state.formCitizen.has_system_access"
                     @toggleSwitch="state.formCitizen.has_system_access = !state.formCitizen.has_system_access" />
                 <p>
                     {{ $t('citizens.form.allowSystemAccess') }}
                 </p>
             </div>
-            <div class="space-y-1 flex items-center gap-x-2">
+            <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1 flex items-center gap-x-2">
                 <FormSwitch :value="state.formCitizen.has_chat_access"
                     @toggleSwitch="state.formCitizen.has_chat_access = !state.formCitizen.has_chat_access" />
                 <p>
                     {{ $t('citizens.form.allowChatAccess') }}
                 </p>
             </div>
-            <div class="space-y-1 flex items-center gap-x-2">
+            <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1 flex items-center gap-x-2">
                 <FormSwitch :value="state.formCitizen.has_duty_schedule_access"
                     @toggleSwitch="state.formCitizen.has_duty_schedule_access = !state.formCitizen.has_duty_schedule_access" />
                 <p>
                     {{ $t('citizens.form.allowDutyScheduleAccess') }}
                 </p>
             </div>
-            <div class="space-y-1 flex items-center gap-x-2">
+            <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1 flex items-center gap-x-2">
                 <FormSwitch :value="state.formCitizen.has_bullet_board_access"
                     @toggleSwitch="state.formCitizen.has_bullet_board_access = !state.formCitizen.has_bullet_board_access" />
                 <p>
@@ -241,9 +241,11 @@ import { addictionService } from '@/components/api/user/AddictionService'
 import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { cityService } from '@/components/api/user/CityService'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
+const userStore = useUserStore() as any
 const { t } = useI18n()
 const language = useI18n()
 const image = ref<HTMLInputElement | null>(null)
@@ -402,6 +404,9 @@ onMounted(() => {
     fetchAddictions()
     fetchRegions()
     fetchMunicipalities()
+    console.log(userStore.getUser?.has_citizen_app)
+
+
 })
 
 const isValidDate = (y: string, m: string, d: string): boolean => {

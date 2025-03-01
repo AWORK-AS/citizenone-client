@@ -44,14 +44,14 @@
                     <FormError :error="v$?.formNews?.content?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.content?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1">
                     <FormLabel for="audience" :label="$t('news.form.audience')" />
                     <FormSelectMultiple id="audience" :options="state.options.audiences"
                         v-model="state.formNews.audience" />
                     <FormError :error="v$?.formNews?.audience?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.audience_uuid?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="departments" :label="$t('news.form.department')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -101,7 +101,9 @@ import { audienceService } from '@/components/api/user/AudienceService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { useI18n } from "vue-i18n"
 import type { NewsForm, Error } from '@/types'
+import { useUserStore } from '@/store/user'
 
+const userStore = useUserStore() as any
 const props = defineProps({
     error: {
         type: Object,
@@ -116,6 +118,7 @@ const props = defineProps({
         required: false,
     },
 })
+
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
@@ -218,12 +221,6 @@ const rules = computed(() => {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 content: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                audience: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                department: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
