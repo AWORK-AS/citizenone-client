@@ -406,7 +406,7 @@ function resetFilter() {
     currentTablePage = 1
     state.dataFilter = []
     state.sortData = {
-        sortField: 'date',
+        sortField: 'completion_date',
         sortOrder: 'descend',
     }
     fetchPlans()

@@ -565,7 +565,7 @@ async function archiveGoal() {
     state.isPageLoading = true
     try {
         const response = await goalService.archiveUnarchiveGoal(state.selectedGoal.uuid)
-        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+        if (response?.data) {
             fetchGoals()
             successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.goalSuccessfullyArchived')}.`)
         }
@@ -585,7 +585,7 @@ async function archiveSubgoal() {
     state.isPageLoading = true
     try {
         const response = await subgoalService.archiveUnarchiveSubgoal(state.selectedSubgoal.uuid)
-        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+        if (response?.data) {
             fetchGoals()
             successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.subgoalSuccessfullyArchived')}.`)
         }

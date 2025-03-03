@@ -105,6 +105,13 @@
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
+                                                                    :text="$t('plansandgoals.table.actions.archive')">
+                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                        @click="confirmSubgoalArchive(subgoal)">
+                                                                        <Icon name="ph:archive" class="size-4" />
+                                                                    </FormButton>
+                                                                </Tooltip>
+                                                                <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.delete')"
                                                                     v-if="subgoal?.is_deletable">
                                                                     <FormButton class="rounded-md" buttonSize="sm"
@@ -176,6 +183,9 @@
                 @close="state.modal.isEditSubgoalOpen = false" @refreshGoals="fetchSubgoals" />
             <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isSubGoalStatusesOpen"
                 :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchSubgoals" />
+            <DialogConfirmation :isModalOpen="state.modal.isArchiveSubgoalOpen"
+                :message="`${$t('plansandgoals.confirmation.archiveSubgoalConfirmation')}?`"
+                @close="state.modal.isArchiveSubgoalOpen = false" @confirm="archiveSubgoal" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteSubgoalOpen"
                 :message="`${$t('plansandgoals.confirmation.deleteSubgoalConfirmation')}?`"
                 @close="state.modal.isDeleteSubgoalOpen = false" @confirm="deleteSubgoal" />
@@ -212,6 +222,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     modal: {
+        isArchiveSubgoalOpen: false,
         isAddSubgoalOpen: false,
         isDeleteSubgoalOpen: false,
         isEditSubgoalOpen: false,
@@ -295,6 +306,26 @@ function editSubGoal(subgoal: any) {
 function viewSubgoalStatuses(subgoal: any) {
     state.selectedSubgoal = subgoal
     state.modal.isSubGoalStatusesOpen = true
+}
+
+function confirmSubgoalArchive(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isArchiveSubgoalOpen = true
+}
+
+async function archiveSubgoal() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await subgoalService.archiveUnarchiveSubgoal(state.selectedSubgoal.uuid)
+        if (response?.data) {
+            fetchSubgoals()
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.subgoalSuccessfullyArchived')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 function confirmSubgoalDeletion(subgoal: any) {
