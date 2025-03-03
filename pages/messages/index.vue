@@ -138,13 +138,13 @@ async function fetchAllAvailableChatUsers() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await messageService.getAllAvailableUsers()
+        const response = await userService.getAllUsers()
         if (response.data) {
             let options: any = []
             response.data.forEach(
                 (user: any) => options.push({
                     value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname + " (" + user?.role + ")",
+                    label: user?.firstname + " " + user?.lastname,
                 })
             )
             state.options.receivers = options

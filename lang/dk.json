@@ -1701,6 +1701,16 @@
             "rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years": "Husk, at du skal opbevare medarbejderoplysninger i 5 år",
             "thisCantBeUndone": "Dette kan ikke fortrydes"
         },
+        "citizens": {
+            "assign": "Tildel",
+            "citizens": "Borgere",
+            "assignedCitizens": "Tildelte borgere",
+            "assignCitizens": "Tildel borgere",
+            "table": {
+                "firstname": "Fornavn",
+                "lastname": "Efternavn"
+            }
+        },
         "deleteEmployee": "Slet medarbejder",
         "documents": {
             "alert": {
@@ -2647,6 +2657,9 @@
     "reminder": {
         "checkIn": "Tjek ind",
         "checkinReminder": "Påmindelse om at tjekke ind",
+        "confirmation": {
+            "removeEmployeeConfirmation": "Er du sikker på, at du vil fjerne denne medarbejder"
+        },
         "dontForgetToCheckInToday": "Glem ikke at tjekke ind i dag",
         "doNotShowAgain": "Vis ikke igen",
         "iDontNeedToCheckinNow": "Jeg behøver ikke tjekke ind nu",
@@ -2654,6 +2667,7 @@
         "newReminder": "Ny påmindelse",
         "assignees": "Modtagere",
         "assign": "Tildel",
+        "assignAnEmployee": "Tildel en medarbejder",
         "dateCreated": "Oprettelsesdato",
         "dueDate": "Afleveringsfrist",
         "time": "Tid",

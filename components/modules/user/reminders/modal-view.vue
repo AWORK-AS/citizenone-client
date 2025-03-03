@@ -3,17 +3,11 @@
         <Modal size="md" :title="$t('reminder.assignees')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isLoading">
-                    <div class="flex items-end space-x-2">
-                        <div class="flex-1">
-                            <p class="text-sm text-gray-600">
-                                {{ $t('reminder.assignees') }}
-                            </p>
-                            <FormSelectMultiple id="pages" :options="state.options.employees"
-                                v-model="state.employee_uuid" class="w-full" />
-                        </div>
-                        <FormButton class="rounded-md h-[45px] flex items-center justify-center" buttonSize="sm"
-                            @click="saveReminderUser(state.employee_uuid, props.reminder_uuid)">
-                            {{ $t('reminder.assign') }}
+                    <div class="flex justify-end items-center mb-5">
+                        <FormButton buttonStyle="action" class="rounded-lg"
+                            @click="state.modal.isAssignEmployeeReminderOpen = true">
+                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('reminder.assignAnEmployee') }}
                         </FormButton>
                     </div>
                     <div v-if="state.assignees.length > 0" class="mt-12 space-y-2">
@@ -36,7 +30,7 @@
                                     </p>
                                     <div class="h-5 w-px bg-gray-300"></div>
                                     <FormButton class="rounded-md" buttonSize="sm"
-                                        @click="removeAssignee(assignee.uuid)">
+                                        @click="confirmEmployeeDeletion(assignee)">
                                         <Icon name="ph:trash" class="h-4 w-4" aria-hidden="true" />
                                     </FormButton>
                                 </div>
@@ -49,6 +43,11 @@
                     </div>
 
                 </LoadingSpinner>
+                <ModulesUserRemindersModalAssignReminder :isModalOpen="state.modal.isAssignEmployeeReminderOpen"
+                    @close="closeAssignModal" :reminder_uuid="props.reminder_uuid" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
+                    :message="`${$t('reminder.confirmation.removeEmployeeConfirmation')}?`"
+                    @close="state.modal.isDeleteStatusOpen = false" @confirm="removeAssignee()" />
             </template>
         </Modal>
     </div>
@@ -92,9 +91,14 @@ const state = reactive({
     reminder_uuid: '',
     assignees: [] as any[],
     employee_uuid: [],
+    selectedEmployee: {} as any,
     isLoading: false,
     options: {
         employees: []
+    },
+    modal: {
+        isAssignEmployeeReminderOpen: false,
+        isDeleteStatusOpen: false
     },
 })
 
@@ -104,18 +108,31 @@ function closeModal() {
     emit('close')
 }
 
+function closeAssignModal() {
+    state.modal.isAssignEmployeeReminderOpen = false
+    fetchAssignees()
+}
+
 watch(() => props.isModalOpen, (isOpen: any) => {
     if (isOpen) {
-        state.reminder_uuid = "?reminder_uuid=" + props.reminder_uuid
+        state.reminder_uuid = props.reminder_uuid
         fetchAssignees()
         fetchEmployees()
     }
 })
 
+function confirmEmployeeDeletion(status: any) {
+    state.selectedEmployee = status
+    state.modal.isDeleteStatusOpen = true
+}
+
 async function fetchAssignees() {
     try {
         state.isLoading = true
-        const response = await reminderUserService.getReminderUser(state.reminder_uuid)
+        let params = {
+            reminder_uuid: props.reminder_uuid
+        }
+        const response = await reminderUserService.getRemindersUsers(params)
 
         if (response?.data) {
             state.assignees = response.data
@@ -159,13 +176,12 @@ async function fetchEmployees() {
     state.isTableLoading = false
 }
 
-async function removeAssignee(Uuid: string) {
+async function removeAssignee() {
     try {
         state.isLoading = true
-        const response = await reminderUserService.deleteReminderUser(Uuid)
+        const response = await reminderUserService.deleteReminderUser(state.selectedEmployee.uuid)
 
         if (response && response.message) {
-            closeModal()
             fetchAssignees()
             successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.employeeSuccessfullyRemoved')}.`)
         }

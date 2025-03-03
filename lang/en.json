@@ -1701,6 +1701,16 @@
             "rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years": "Remember that you must hold employee information for a history of 5 years",
             "thisCantBeUndone": "This can't be undone"
         },
+        "citizens": {
+            "assign": "Assign",
+            "citizens": "Citizens",
+            "assignedCitizens": "Assigned citizens",
+            "assignCitizens": "Assign citizens",
+            "table": {
+                "firstname": "First name",
+                "lastname": "Last name"
+            }
+        },
         "deleteEmployee": "Delete employee",
         "documents": {
             "alert": {
@@ -2647,6 +2657,9 @@
     "reminder": {
         "checkIn": "Check in",
         "checkinReminder": "Check-in reminder",
+        "confirmation": {
+            "removeEmployeeConfirmation": "Are you sure you want to remove this employee"
+        },
         "dontForgetToCheckInToday": "Don't forget to check in today",
         "doNotShowAgain": "Do not show again",
         "iDontNeedToCheckinNow": "I don't need to check in now",
@@ -2654,6 +2667,7 @@
         "newReminder": "New reminder",
         "assignees": "Assignees",
         "assign": "Assign",
+        "assignAnEmployee": "Assign an employee",
         "dateCreated": "Date created",
         "dueDate": "Due date",
         "time": "Time",

@@ -45,6 +45,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
+import { userService } from '@/components/api/user/UserService'
 
 const props = defineProps({
     isModalOpen: {
@@ -100,13 +101,13 @@ async function fetchAllAvailableChatUsers() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await messageService.getAllAvailableUsers()
+        const response = await userService.getAllUsers()
         if (response.data) {
             let options: any = []
             response.data.forEach(
                 (user: any) => options.push({
                     value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname + " (" + user?.role + ")",
+                    label: user?.firstname + " " + user?.lastname,
                 })
             )
             state.options.receivers = options
