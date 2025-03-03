@@ -1,6 +1,6 @@
 <template>
     <div>
-        <NuxtLayout name="citizen">
+        <NuxtLayout name="relative">
 
             <Head>
                 <Title>{{ $t('messages.messages') }} - {{ runtimeConfig?.public?.appName }}</Title>
@@ -23,7 +23,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
                     <LoadingSpinner :isActive="state.isChatLoading"
                         class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto" style="height: 80vh;">
-                        <ModulesCitizenMessagesChats :chats="state.chats" />
+                        <ModulesRelativeMessagesChats :chats="state.chats" />
                     </LoadingSpinner>
                     <LoadingSpinner :isActive="state.isChatHistoryDividerLoading"
                         class="md:col-span-7 xl:col-span-8 bg-white rounded-md pb-6">
@@ -225,7 +225,7 @@
                         </div>
                     </LoadingSpinner>
                 </div>
-                <ModulesCitizenMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
+                <ModulesRelativeMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
                     @close="state.modal.isManageGroupChatMembersOpen = false" @refreshChat="fetchChat" />
                 <!-- <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
                     :title="$t('citizens.documents.upgradeStorage')"
@@ -239,7 +239,7 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import pusher from '@/services/pusher'
-import { messageService } from '@/components/api/citizen/MessageService'
+import { messageService } from '@/components/api/relative/MessageService'
 import { useUserStore } from '@/store/user'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'

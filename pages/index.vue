@@ -181,6 +181,8 @@ async function login() {
                     navigateTo('/daily-overview')
                 } else if (response.data.user?.role === 'Citizen') {
                     navigateTo('/citizen/daily-overview')
+                } else if (response.data.user?.role === 'Relative') {
+                    navigateTo('/relative/citizens')
                 }
             }
         } catch (error: any) {
