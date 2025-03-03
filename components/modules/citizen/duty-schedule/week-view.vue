@@ -240,24 +240,18 @@
                                             <div class="space-y-2">
                                                 <div class="text-xs">
                                                     <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
-                                                        :key="shiftIndex" :class="[
-                                                            shift?.name === 'Regular shift' && 'bg-shifts-regular',
-                                                            shift?.name === 'Awake night shift' && 'bg-shifts-awake_night',
-                                                            shift?.name === 'Sleeping night shift' && 'bg-shifts-sleeping_night',
-                                                            shift?.name === 'Vacation leave' && 'bg-shifts-vacation',
-                                                            shift?.name === 'Sick leave' && 'bg-shifts-sickleave',
-                                                            'rounded-md p-1 relative'
-                                                        ]" :style="{
+                                                        :key="shiftIndex" class="rounded-md p-1 relative" :style="{
+                                                            backgroundColor: `${shift?.type?.color}`,
                                                             width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                             marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
                                                         }">
                                                         <div class="flex">
                                                             <FormTimeFieldTransparent name="time_in"
-                                                                class="rounded-tl-md rounded-bl-md"
+                                                                class="rounded-tl-md rounded-bl-md cursor-not-allowed"
                                                                 :value="moment(shift?.date_time_start).format('HH:mm')"
                                                                 :disabled="true" />
                                                             <FormTimeFieldTransparent name="time_out"
-                                                                class="rounded-tr-md rounded-br-md"
+                                                                class="rounded-tr-md rounded-br-md cursor-not-allowed"
                                                                 :value="moment(shift?.date_time_end).format('HH:mm')"
                                                                 :disabled="true" />
                                                         </div>

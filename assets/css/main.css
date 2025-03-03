@@ -12,7 +12,7 @@ input:disabled {
     @apply cursor-not-allowed;
 }
 
-.flatpickr-input[readonly] {
+.cursor-not-allowed {
     cursor: not-allowed !important;
 }
 
