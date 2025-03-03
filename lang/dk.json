@@ -2775,6 +2775,7 @@
             "subscription": "Abonnement",
             "timeLogs": "Tidslogfiler",
             "transactions": "Transaktioner",
+            "shifts": "Vagter",
             "other": "Andet"
         },
         "wallets": {
@@ -2788,6 +2789,33 @@
                 "sendCitizenWalletTransactions": "Send borger tegnebogstransaktioner",
                 "wallets": "Wallets"
             }
+        }
+    },
+    "shifts": {
+        "addNewShift": "Tilføj ny vagt",
+        "alert": {
+            "shiftSuccessfullyDeleted": "Vagt slettet med succes"
+        },
+        "editShift": "Rediger vagt",
+        "form": {
+            "alert": {
+                "shiftSuccessfullyUpdated": "Vagt opdateret med succes",
+                "newShiftSuccessfullySaved": "Ny vagt gemt med succes"
+            },
+            "name": "Navn"
+        },
+        "newShift": "Ny vagt",
+        "shifts": "Vagter",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteShiftConfirmation": "Er du sikker på, at du vil slette denne vagt"
+            },
+            "nameDanish": "Navn (dansk)",
+            "nameEnglish": "Navn (engelsk)"
         }
     },
     "show": "Vis",

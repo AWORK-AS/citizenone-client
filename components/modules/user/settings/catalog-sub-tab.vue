@@ -65,6 +65,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                 routeNames: [
                     'settings-relationships'
                 ]
+            },
+            {
+                name: 'settings.tabs.shifts',
+                href: `/settings/shifts`,
+                routeNames: [
+                    'settings-shifts'
+                ]
             }
         ]
     }
