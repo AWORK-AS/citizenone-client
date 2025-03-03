@@ -335,11 +335,11 @@
                                                 <div class="text-xs">
                                                     <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
                                                         :key="shiftIndex" :class="[
-                                                            shift?.name === 'regular_shift' && 'bg-shifts-regular',
-                                                            shift?.name === 'awake_night_shift' && 'bg-shifts-awake_night',
-                                                            shift?.name === 'sleeping_night_shift' && 'bg-shifts-sleeping_night',
-                                                            shift?.name === 'vacation_leave' && 'bg-shifts-vacation',
-                                                            shift?.name === 'sick_leave' && 'bg-shifts-sickleave',
+                                                            shift?.name === 'Regular shift' && 'bg-shifts-regular',
+                                                            shift?.name === 'Awake night shift' && 'bg-shifts-awake_night',
+                                                            shift?.name === 'Sleeping night shift' && 'bg-shifts-sleeping_night',
+                                                            shift?.name === 'Vacation leave' && 'bg-shifts-vacation',
+                                                            shift?.name === 'Sick leave' && 'bg-shifts-sickleave',
                                                             'rounded-md p-1 relative'
                                                         ]" :style="{
                                                             width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
