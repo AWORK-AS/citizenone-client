@@ -35,6 +35,13 @@
                             <FormError :error="v$?.formRegister?.name?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.name?.[0]" />
                         </div>
+                        <div class="space-y-1">
+                            <FormLabel for="industry" :label="$t('register.form.industry')" />
+                            <FormSelect id="industry" :options="state.options.industries"
+                                v-model="state.formRegister.industry" />
+                            <FormError :error="v$?.formRegister?.industry?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.industry?.[0]" />
+                        </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div class="space-y-1">
                                 <FormLabel for="firstname" :label="$t('register.form.firstname')" />
@@ -123,6 +130,7 @@
 
 <script setup lang="ts">
 import { authService } from '@/components/api/user/AuthService'
+import { industryService } from '@/components/api/user/IndustryService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers, minLength, sameAs } from '@vuelidate/validators'
 import { useUserStore } from '@/store/user'
@@ -144,6 +152,7 @@ const state = reactive({
     error: {} as Error,
     formRegister: {
         name: '',
+        industry: '',
         firstname: '',
         lastname: '',
         phone: '',
@@ -153,6 +162,9 @@ const state = reactive({
         agreeToTerms: false
     },
     isPageLoading: false,
+    options: {
+        industries: [] as any,
+    },
     slideOver: {
         isLanguageSwitcherOpen: false
     },
@@ -162,6 +174,9 @@ const rules = computed(() => {
     return {
         formRegister: {
             name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            industry: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             firstname: {
@@ -191,6 +206,13 @@ const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
     animateAssets()
+    fetchAllIndustries()
+})
+
+watch(() => language.locale.value, (newValue: any) => {
+    if (newValue != null) {
+        fetchAllIndustries()
+    }
 })
 
 function animateAssets() {
@@ -210,6 +232,27 @@ function animateAssets() {
     observer.observe(animatedAsset02)
 }
 
+async function fetchAllIndustries() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await industryService.getAllIndustries()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (industry: any) => options.push({
+                    value: industry?.uuid,
+                    label: language.locale.value === 'en' ? industry.en_name : industry.dk_name,
+                })
+            )
+            state.options.industries = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 async function register() {
     state.error = {}
     v$.value.$validate()
@@ -223,6 +266,7 @@ async function register() {
         try {
             const params = {
                 name: state.formRegister.name,
+                industry_uuid: state.formRegister.industry,
                 firstname: state.formRegister.firstname,
                 lastname: state.formRegister.lastname,
                 phone: state.formRegister.phone,

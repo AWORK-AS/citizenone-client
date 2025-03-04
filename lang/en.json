@@ -2616,6 +2616,7 @@
             "createAccount": "Create account",
             "alreadyHaveAnAccount": "Already have an account",
             "companyName": "Company name",
+            "industry": "Industry",
             "firstname": "First name",
             "lastname": "Last name",
             "emailAddress": "Email address",
