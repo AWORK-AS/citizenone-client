@@ -28,6 +28,13 @@
                                     <FormError :error="v$?.formCompany?.name?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.name?.[0]" />
                                 </div>
+                                <div class="space-y-1">
+                                    <FormLabel for="industry" :label="$t('superadmin.companies.form.industry')" />
+                                    <FormSelect id="industry" :options="state.options.industries"
+                                        v-model="state.formCompany.industry" />
+                                    <FormError :error="v$?.formCompany?.industry?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.industry?.[0]" />
+                                </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
                                         <FormLabel for="website" :label="$t('superadmin.companies.form.website')" />
@@ -68,6 +75,7 @@
 
 <script setup lang="ts">
 import { companyService } from '@/components/api/superadmin/CompanyService'
+import { industryService } from '@/components/api/superadmin/IndustryService'
 import { useAlert } from '@/composables/alert'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -78,23 +86,31 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
+const language = useI18n()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 
 const state = reactive({
     error: {} as Error,
     formCompany: {
         name: '',
+        industry: '',
         cvr: '',
         website: '',
         is_active: '',
     } as any,
     isPageLoading: false,
+    options: {
+        industries: [] as any,
+    },
 })
 
 const rules = computed(() => {
     return {
         formCompany: {
             name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            industry: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
@@ -104,7 +120,35 @@ const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
     fetchCompany()
+    fetchAllIndustries()
 })
+
+watch(() => language.locale.value, (newValue: any) => {
+    if (newValue != null) {
+        fetchAllIndustries()
+    }
+})
+
+async function fetchAllIndustries() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await industryService.getAllIndustries()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (industry: any) => options.push({
+                    value: industry?.uuid,
+                    label: language.locale.value === 'en' ? industry.en_name : industry.dk_name,
+                })
+            )
+            state.options.industries = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 
 async function fetchCompany() {
     state.isPageLoading = true
@@ -114,6 +158,7 @@ async function fetchCompany() {
         if (response) {
             state.formCompany = {
                 name: response?.data?.name ?? '',
+                industry: response?.data?.industry?.uuid ?? '',
                 cvr: response?.data?.cvr ?? '',
                 website: response?.data?.website ?? '',
                 is_active: response?.data?.is_active ?? '',
@@ -133,6 +178,7 @@ async function updateCompany() {
         try {
             const params = {
                 name: state.formCompany.name,
+                industry_uuid: state.formCompany.industry,
                 cvr: state.formCompany.cvr,
                 website: state.formCompany.website,
                 is_active: state.formCompany.is_active,

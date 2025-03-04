@@ -3078,6 +3078,7 @@
                 "cvr": "CVR",
                 "companyName": "Company name",
                 "inactive": "Inactive",
+                "industry": "Industry",
                 "firstname": "First name",
                 "lastname": "Last name",
                 "emailAddress": "Email address",

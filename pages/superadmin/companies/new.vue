@@ -28,6 +28,13 @@
                                     <FormError :error="v$?.formCompany?.name?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.name?.[0]" />
                                 </div>
+                                <div class="space-y-1">
+                                    <FormLabel for="industry" :label="$t('superadmin.companies.form.industry')" />
+                                    <FormSelect id="industry" :options="state.options.industries"
+                                        v-model="state.formCompany.industry" />
+                                    <FormError :error="v$?.formCompany?.industry?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.industry?.[0]" />
+                                </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
                                         <FormLabel for="firstname" :label="$t('superadmin.companies.form.firstname')" />
@@ -106,6 +113,7 @@
 
 <script setup lang="ts">
 import { companyService } from '@/components/api/superadmin/CompanyService'
+import { industryService } from '@/components/api/superadmin/IndustryService'
 import { useAlert } from '@/composables/alert'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -113,6 +121,7 @@ import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const language = useI18n()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
@@ -120,6 +129,7 @@ const state = reactive({
     error: {} as Error,
     formCompany: {
         name: '',
+        industry: '',
         firstname: '',
         lastname: '',
         email: '',
@@ -128,12 +138,18 @@ const state = reactive({
         cvr: '',
     },
     isPageLoading: false,
+    options: {
+        industries: [] as any,
+    },
 })
 
 const rules = computed(() => {
     return {
         formCompany: {
             name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            industry: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             firstname: {
@@ -153,6 +169,37 @@ const rules = computed(() => {
 })
 const v$ = useVuelidate(rules, state)
 
+onMounted(() => {
+    fetchAllIndustries()
+})
+
+watch(() => language.locale.value, (newValue: any) => {
+    if (newValue != null) {
+        fetchAllIndustries()
+    }
+})
+
+async function fetchAllIndustries() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await industryService.getAllIndustries()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (industry: any) => options.push({
+                    value: industry?.uuid,
+                    label: language.locale.value === 'en' ? industry.en_name : industry.dk_name,
+                })
+            )
+            state.options.industries = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 async function saveCompany() {
     state.error = {}
     state.isPageLoading = true
@@ -161,6 +208,7 @@ async function saveCompany() {
         try {
             const params = {
                 name: state.formCompany.name,
+                industry_uuid: state.formCompany.industry,
                 firstname: state.formCompany.firstname,
                 lastname: state.formCompany.lastname,
                 email: state.formCompany.email,
