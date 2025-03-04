@@ -125,7 +125,7 @@
                             </ul>
                         </li>
                         <li class="mt-auto space-y-2">
-                            <ModulesUserSidebarCompanyId />
+                            <ModulesRelativeSidebarCompanyId />
                         </li>
                     </ul>
                 </nav>
@@ -151,17 +151,6 @@
                         </p>
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-3">
-                        <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
-                            @click="navigateTo('/relative/messages')">
-                            <Icon name="ph:chat-circle" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
-                            <Badge type="notification" class="w-fit absolute -top-4 left-4">
-                                {{ userStore.getUser?.unread_messages_count ?? 0 }}
-                            </Badge>
-                        </button>
-
-                        <!-- Separator -->
-                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
-
                         <button type="button"
                             class="-m-2.5 p-2.5 flex items-center gap-x-2 text-sm text-primary hover:text-primary-700"
                             @click="openSupport">
@@ -264,7 +253,7 @@ import {
     TransitionRoot,
 } from '@headlessui/vue'
 import { authService } from '@/components/api/user/AuthService'
-import { citizenService } from '@/components/api/relative/CitizenService'
+import { relativeService } from '@/components/api/relative/RelativeService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -352,7 +341,7 @@ function customPage(page: String) {
 async function fetchUser() {
     state.error = {}
     try {
-        const response = await citizenService.getCurrentLoggedInCitizen()
+        const response = await relativeService.getCurrentLoggedInRelative()
         if (response?.data) {
             userStore.setUser(response?.data)
             userStore.setLanguage(response?.data?.language?.code)

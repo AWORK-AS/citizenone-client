@@ -1,7 +1,7 @@
 import BaseAPIService from '@/components/api/user/BaseAPIService'
 
-class CitizenService extends BaseAPIService {
-    async getCurrentLoggedInCitizen(): Promise<any> {
+class RelativeService extends BaseAPIService {
+    async getCurrentLoggedInRelative(): Promise<any> {
         return await this.request(`/relative`, 'GET')
     }
 
@@ -10,4 +10,4 @@ class CitizenService extends BaseAPIService {
     }
 }
 
-export const citizenService = new CitizenService()
+export const relativeService = new RelativeService()

@@ -27,13 +27,13 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/relative/citizens">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesUserCitizenDetailsHeader />
-                <ModulesUserCitizenJournalTabs />
+                <ModulesRelativeCitizenDetailsHeader />
+                <ModulesRelativeCitizenJournalTabs />
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-8 space-y-5">
@@ -47,11 +47,6 @@
                                 </span>
                             </button>
                             <div class="flex items-center gap-x-2 justify-end">
-                                <FormButton buttonStyle="action" class="rounded-lg"
-                                    @click="state.modal.isAddJournalOpen = true">
-                                    <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                    {{ $t('citizens.citizenJournals.newJournal') }}
-                                </FormButton>
                                 <FormButton buttonStyle="action" class="rounded-lg" @click="showDownloadJournalModal">
                                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.download') }}

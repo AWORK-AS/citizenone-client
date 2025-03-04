@@ -16,7 +16,7 @@
                         <div class="flex items-center">
                             <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
                                 aria-hidden="true" />
-                            <button @click="navigateTo('/citizens')"
+                            <button @click="navigateTo('/relative/citizens')"
                                 class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
                                 {{ customPagesStore.getCustomPagesName?.citizens }}
                             </button>
@@ -30,12 +30,6 @@
             </template>
 
             <div>
-                <div class="flex justify-end items-center mb-5" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')">
-                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('citizens.newCitizen') }}
-                    </FormButton>
-                </div>
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
@@ -61,15 +55,9 @@
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
+                                                @click="navigateTo(`/relative/citizens/${citizen.uuid}/journals`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('citizens.table.actions.view') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/citizens/${citizen.uuid}/edit`)"
-                                                v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('citizens.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="showCitizenNote(citizen)">
