@@ -9,8 +9,8 @@
             <div class="relative hidden w-0 flex-1 lg:block overflow-clip">
                 <img src="https://citizenone.dk/wp-content/uploads/2024/09/CitizenOne-6.jpg" alt="Image failed to load"
                     class="absolute inset-0 h-full w-full object-cover" />
-                <img src="https://citizenone.dk/wp-content/uploads/2024/09/2.svg" alt="Image failed to load"
-                    class="absolute w-1/2" style="top: -16%; left: -11%;" />
+                <img src="https://citizenone.dk/wp-content/uploads/2025/03/citizenone-journalsystem.svg"
+                    alt="Image failed to load" class="absolute w-1/2" style="top: -16%; left: -11%;" />
                 <div>
                     <img src="/img/icons/asset-01.svg" alt="Image failed to load"
                         class="absolute w-2/4 -bottom-56 -right-12" />
