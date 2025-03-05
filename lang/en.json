@@ -551,6 +551,7 @@
                 },
                 "date": "Date",
                 "draft": "Draft",
+                "forTeeth": "For teeth",
                 "goal": "Goal",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
                 "journalNoteTags": "Journal note tags",
@@ -567,6 +568,7 @@
                 "showCurrentPlansGoalsAndSubgoals": "Show current plans, goals, and subgoals",
                 "subgoal": "Subgoal",
                 "tags": "Tags",
+                "teeth": "Teeth",
                 "title": "Title"
             },
             "editJournal": "Edit journal",

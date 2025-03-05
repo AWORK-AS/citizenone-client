@@ -178,11 +178,7 @@ async function login() {
                 userStore.setLanguage(response?.data?.user?.language?.code)
                 language.locale.value = response?.data?.user?.language?.code
                 if (['Admin', 'User'].includes(response.data.user?.role)) {
-                    if (response.data.user?.industry === 'Dentists and dental hygienists') {
-                        navigateTo('/dentist/citizens')
-                    } else {
-                        navigateTo('/daily-overview')
-                    }
+                    navigateTo('/daily-overview')
                 } else if (response.data.user?.role === 'Citizen') {
                     navigateTo('/citizen/daily-overview')
                 } else if (response.data.user?.role === 'Relative') {

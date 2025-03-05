@@ -210,6 +210,28 @@
                     {{ $t('citizens.citizenJournals.form.draft') }}
                 </div>
             </div>
+            <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formJournal.is_for_teeth = !state.formJournal.is_for_teeth">
+                    <FormCheckbox :value="state.formJournal.is_for_teeth" />
+                    {{ $t('citizens.citizenJournals.form.forTeeth') }}
+                </div>
+            </div>
+            <div class="space-y-1" v-if="props?.formType === 'create' && state.formJournal.is_for_teeth">
+                <FormLabel for="teeth" :label="$t('citizens.citizenJournals.form.teeth')" />
+                <FormSelectMultiple id="teeth" :options="state.options.teeth" v-model="state.formJournal.teeth" />
+                <FormError :error="v$?.formJournal?.teeth?.$errors[0]?.$message.toString()" />
+                <FormError :error="state?.error?.errors?.teeth_uuid?.[0]" />
+            </div>
+            <div class="space-y-1" v-if="props?.formType === 'update' && state.formJournal.is_for_teeth">
+                <FormLabel for="teeth" :label="$t('citizens.citizenJournals.form.teeth')" />
+                <FormSelect id="teeth" :options="state.options.teeth" v-model="state.formJournal.tooth" />
+                <FormError :error="v$?.formJournal?.teeth?.$errors[0]?.$message.toString()" />
+                <FormError :error="state?.error?.errors?.teeth_uuid?.[0]" />
+            </div>
+            <div class="flex items-center justify-center" v-if="state.formJournal.is_for_teeth">
+                <img src="/img/journal/tooth-chart.png" alt="Tooth chart">
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -234,6 +256,7 @@
 <script setup lang="ts">
 import { journalService } from '@/components/api/user/JournalService'
 import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
+import { teethService } from '@/components/api/user/TeethService'
 import { planService } from '@/components/api/user/PlanService'
 import { goalService } from '@/components/api/user/GoalService'
 import { subgoalService } from '@/components/api/user/SubgoalService'
@@ -260,6 +283,7 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
+const language = useI18n()
 
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
@@ -319,7 +343,10 @@ const state = reactive({
         assessment: null,
         note: '',
         risk_assessment_tags: [],
-        score: ''
+        score: '',
+        teeth: [],
+        tooth: '',
+        is_for_teeth: false,
     } as any,
     modal: {
         isAddJournalNoteTagsOpen: false,
@@ -353,13 +380,15 @@ const state = reactive({
             { value: 3, label: 3 },
             { value: 4, label: 4 },
             { value: 5, label: 5 },
-        ]
+        ],
+        teeth: [],
     }
 })
 
 onMounted(() => {
     fetchAllPlans()
     fetchAllJournalNoteTags()
+    fetchAllTeeth()
     state.formJournal = {
         id: props.selectedJournal.id,
         uuid: props.selectedJournal.uuid,
@@ -380,6 +409,9 @@ onMounted(() => {
         note: props.selectedJournal.note === null ? '' : props.selectedJournal.note,
         risk_assessment_tags: [],
         score: props.selectedJournal.score,
+        is_for_teeth: props.selectedJournal.tooth ? true : false,
+        teeth: props.selectedJournal.tooth ? [props.selectedJournal.tooth?.uuid] : [],
+        tooth: props.selectedJournal.tooth ? props.selectedJournal.tooth?.uuid : '',
     }
     props.selectedJournal.journal_tags?.forEach((journalTag: any) => {
         state.formJournal.journal_note_tags.push(journalTag?.uuid)
@@ -387,6 +419,12 @@ onMounted(() => {
     props.selectedJournal.risk_tags?.forEach((riskAssessmentTag: any) => {
         state.formJournal.risk_assessment_tags.push(riskAssessmentTag?.uuid)
     })
+})
+
+watch(() => language.locale.value, (newValue: any) => {
+    if (newValue != null) {
+        fetchAllTeeth()
+    }
 })
 
 watch(() => props.selectedJournal, (newValue: any) => {
@@ -411,6 +449,9 @@ watch(() => props.selectedJournal, (newValue: any) => {
             note: newValue.note === null ? '' : newValue.note,
             risk_assessment_tags: [],
             score: newValue.score,
+            is_for_teeth: newValue.is_for_teeth,
+            teeth: newValue.selectedJournal?.tooth ? newValue.selectedJournal.tooth?.uuid : [],
+            tooth: newValue.selectedJournal?.tooth ? newValue.selectedJournal.tooth?.uuid : '',
         }
     }
 })
@@ -668,6 +709,28 @@ async function fetchAllJournalNoteTags() {
             )
             state.options.journal_note_tags = options
             state.options.risk_assessment_tags = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchAllTeeth() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        state.options.teeth = []
+        const response = await teethService.getAllTeeth()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (teeth: any) => options.push({
+                    value: teeth?.uuid,
+                    label: language.locale.value === 'en' ? teeth?.en_name : teeth?.dk_name,
+                })
+            )
+            state.options.teeth = options
         }
     } catch (error: any) {
         state.error = error

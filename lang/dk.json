@@ -551,6 +551,7 @@
                 },
                 "date": "Dato",
                 "draft": "Udkast",
+                "forTeeth": "Til tænder",
                 "goal": "Mål",
                 "hideCurrentPlansGoalsAndSubgoals": "Skjul nuværende planer, mål og delmål",
                 "journalNoteTags": "Journalnotetag",
@@ -567,6 +568,7 @@
                 "showCurrentPlansGoalsAndSubgoals": "Vis nuværende planer, mål og delmål",
                 "subgoal": "Delmål",
                 "tags": "Tags",
+                "teeth": "Tænder",
                 "title": "Titel"
             },
             "editJournal": "Rediger Journal",

@@ -143,7 +143,8 @@ const state = reactive({
         assessment: null,
         risk_assessment_tags: [],
         note: '',
-        score: 1
+        score: 1,
+        teeth_uuid: [],
     },
     modal: {
         showCurrentPlansAndGoals: false,
@@ -248,6 +249,7 @@ async function saveJournal(journalDetails: any) {
             note: journalDetails.note,
             risk_assessment_tags_uuid: journalDetails.risk_assessment_tags,
             score: journalDetails.score,
+            teeth_uuid: journalDetails.teeth,
         }
         const response = await journalService.saveJournal(params)
         if (response?.data) {
