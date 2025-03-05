@@ -2805,7 +2805,9 @@
                 "shiftSuccessfullyUpdated": "Shift successfully updated",
                 "newShiftSuccessfullySaved": "New shift successfully saved"
             },
-            "name": "Name"
+            "color": "Color",
+            "nameDanish": "Name (danish)",
+            "nameEnglish": "Name (english)"
         },
         "newShift": "New shift",
         "shifts": "Shift",

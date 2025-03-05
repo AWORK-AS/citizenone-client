@@ -50,7 +50,9 @@ const breadcrumbLinks = [
 const state = reactive({
     error: {} as Error,
     formShift: {
-        name: '',
+        en_name: '',
+        dk_name: '',
+        color: '',
     },
     isPageLoading: false,
 })
@@ -60,7 +62,9 @@ async function saveShift(shiftDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
-            name: shiftDetails.name,
+            en_name: shiftDetails.en_name,
+            dk_name: shiftDetails.dk_name,
+            color: shiftDetails.color,
         }
         const response = await shiftService.saveShift(params)
         if (response.data) {

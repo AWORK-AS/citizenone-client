@@ -2805,7 +2805,9 @@
                 "shiftSuccessfullyUpdated": "Vagt opdateret med succes",
                 "newShiftSuccessfullySaved": "Ny vagt gemt med succes"
             },
-            "name": "Navn"
+            "color": "Farve",
+            "nameDanish": "Navn (dansk)",
+            "nameEnglish": "Navn (engelsk)"
         },
         "newShift": "Ny vagt",
         "shifts": "Vagter",

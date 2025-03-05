@@ -4,11 +4,24 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="name" :label="$t('shifts.form.name')" />
-                <FormTextField id="name" name="name" :placeholder="$t('shifts.form.name')"
-                    v-model="state.formShift.name" />
-                <FormError :error="v$?.formShift?.name?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.name?.[0]" />
+                <FormLabel for="en_name" :label="$t('shifts.form.nameEnglish')" />
+                <FormTextField id="en_name" name="en_name" :placeholder="$t('shifts.form.nameEnglish')"
+                    v-model="state.formShift.en_name" />
+                <FormError :error="v$?.formShift?.en_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.en_name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="dk_name" :label="$t('shifts.form.nameDanish')" />
+                <FormTextField id="dk_name" name="dk_name" :placeholder="$t('shifts.form.nameDanish')"
+                    v-model="state.formShift.dk_name" />
+                <FormError :error="v$?.formShift?.dk_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.dk_name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="color" :label="$t('shifts.form.color')" />
+                <FormColorPicker id="color" v-model="state.formShift.color" />
+                <FormError :error="v$?.formShift?.color?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.color?.[0]" />
             </div>
         </div>
         <div class="mt-6">
@@ -54,14 +67,18 @@ const { t } = useI18n()
 const state = reactive({
     error: {} as Error,
     formShift: {
-        name: '',
+        en_name: '',
+        dk_name: '',
+        color: '',
     },
 })
 
 watch(() => props.selectedShift, (newValue: any) => {
     if (newValue != null) {
         state.formShift = {
-            name: newValue.name,
+            en_name: newValue.en_name,
+            dk_name: newValue.dk_name,
+            color: newValue.color,
         }
     }
 })
@@ -69,7 +86,13 @@ watch(() => props.selectedShift, (newValue: any) => {
 const rules = computed(() => {
     return {
         formShift: {
-            name: {
+            en_name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            dk_name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            color: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },

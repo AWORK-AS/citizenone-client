@@ -284,13 +284,9 @@ import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/citizen/DutyScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { useCustomPagesStore } from '@/store/custom-pages'
-import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
-const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
-const customPagesStore = useCustomPagesStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 const currentDate = ref(moment())
 const selectedDay = ref(moment())
