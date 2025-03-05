@@ -15,7 +15,7 @@
                 <FormSelect id="shift_type" name="shift_type" :options="state.options.shifts"
                     v-model="state.formScheduleSlot.shift_type" />
                 <FormError :error="v$?.formScheduleSlot?.shift_type?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.shift_type?.[0]" />
+                <FormError :error="props?.error?.errors?.shift_uuid?.[0]" />
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
@@ -92,6 +92,7 @@
 <script setup lang="ts">
 import { jobTitleService } from '@/components/api/user/JobTitleService'
 import { jobSpecialtyService } from '@/components/api/user/JobSpecialtyService'
+import { shiftService } from '@/components/api/user/ShiftService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -119,6 +120,7 @@ const props = defineProps({
 const emit = defineEmits(['isPageLoading', 'submitForm', 'closeModal'])
 const { errorAlert } = useAlert()
 const { t } = useI18n()
+const language = useI18n()
 
 const state = reactive({
     error: {} as Error,
@@ -129,7 +131,7 @@ const state = reactive({
         available_slots: props.selectedScheduleSlot?.available_slots.toString(),
         time_in: props.selectedScheduleSlot?.time_in,
         time_out: props.selectedScheduleSlot?.time_out,
-        shift_type: props.selectedScheduleSlot?.shift_type,
+        shift_type: props.selectedScheduleSlot?.shift?.uuid,
     } as any,
     modal: {
         isAddJobSpecialtyOpen: false,
@@ -138,17 +140,12 @@ const state = reactive({
     options: {
         jobSpecialties: [],
         jobTitles: [],
-        shifts: [
-            { value: 'regular_shift', label: `${t('dutySchedules.shifts.regularShift')}` },
-            { value: 'awake_night_shift', label: `${t('dutySchedules.shifts.awakeNightShift')}` },
-            { value: 'sleeping_night_shift', label: `${t('dutySchedules.shifts.sleepingNightShift')}` },
-            { value: 'vacation_leave', label: `${t('dutySchedules.shifts.vacationLeave')}` },
-            { value: 'sick_leave', label: `${t('dutySchedules.shifts.sickLeave')}` },
-        ]
+        shifts: []
     }
 })
 
 onMounted(() => {
+    fetchAllShifts()
     fetchJobTitles()
     if (props.selectedScheduleSlot?.job?.uuid) {
         fetchJobSpecialties(props.selectedScheduleSlot?.job?.uuid)
@@ -162,6 +159,27 @@ onMounted(() => {
 
 function closeModal() {
     emit('closeModal')
+}
+
+async function fetchAllShifts() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await shiftService.getAllShifts()
+        if (response?.data) {
+            let options: any = []
+            response.data.forEach(
+                (shift: any) => options.push({
+                    value: shift?.uuid,
+                    label: language.locale.value === 'en' ? shift?.en_name : shift?.dk_name,
+                })
+            )
+            state.options.shifts = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
 }
 
 async function fetchJobTitles() {

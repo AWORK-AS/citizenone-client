@@ -23,21 +23,10 @@
                                     v-if="!(state.isTableLoading || (state.scheduleSlots?.data?.length === 0))">
                                     <tr v-for="(slot, index) in state.scheduleSlots?.data" :key="index">
                                         <td width="15%">
-                                            <span v-if="slot?.shift_type === 'regular_shift'">
-                                                {{ $t('dutySchedules.shifts.regularShift') }}
-                                            </span>
-                                            <span v-if="slot?.shift_type === 'sleeping_night_shift'">
-                                                {{ $t('dutySchedules.shifts.sleepingNightShift') }}
-                                            </span>
-                                            <span v-if="slot?.shift_type === 'awake_night_shift'">
-                                                {{ $t('dutySchedules.shifts.awakeNightShift') }}
-                                            </span>
-                                            <span v-if="slot?.shift_type === 'sick_leave'">
-                                                {{ $t('dutySchedules.shifts.sickLeave') }}
-                                            </span>
-                                            <span v-if="slot?.shift_type === 'vacation_leave'">
-                                                {{ $t('dutySchedules.shifts.vacationLeave') }}
-                                            </span>
+                                            <p>
+                                                {{ language.locale.value === 'en' ? slot?.shift?.en_name :
+                                                    slot?.shift?.dk_name }}
+                                            </p>
                                         </td>
                                         <td width="20%">
                                             <span>{{ slot?.job?.title }}</span>
@@ -125,6 +114,7 @@ const emit = defineEmits(['close', 'refreshDutySchedules'])
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const language = useI18n()
 let currentTablePage = 1
 
 const state = reactive({

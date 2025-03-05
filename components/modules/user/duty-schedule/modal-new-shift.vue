@@ -13,6 +13,7 @@
                             <FormSelect id="shift_type" name="shift_type" :options="state.options.shifts"
                                 v-model="state.formShift.shift_type" />
                             <FormError :error="v$?.formShift?.shift_type?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.shift_uuid?.[0]" />
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div class="space-y-1">

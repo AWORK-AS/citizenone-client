@@ -58,7 +58,7 @@ async function updateScheduleSlot(scheduleSlotDetails: any) {
             available_slots: scheduleSlotDetails.available_slots,
             time_in: scheduleSlotDetails.time_in,
             time_out: scheduleSlotDetails.time_out,
-            shift_type: scheduleSlotDetails.shift_type,
+            shift_type_uuid: scheduleSlotDetails.shift_type,
         }
         const response = await scheduleSlotService.updateScheduleSlot(scheduleSlotUuid, params)
         if (response) {
