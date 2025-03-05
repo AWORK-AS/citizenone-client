@@ -4,7 +4,7 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <div class="grid grid-cols-1 gap-y-3">
+        <div class="space-y-3">
             <div class="grid md:grid-cols-2 gap-x-3">
                 <div class="space-y-1">
                     <FormLabel for="title" :label="$t('citizens.citizenJournals.form.title')" />
@@ -210,27 +210,29 @@
                     {{ $t('citizens.citizenJournals.form.draft') }}
                 </div>
             </div>
-            <div class="space-y-1">
-                <div class="w-fit flex items-center cursor-pointer"
-                    @click="state.formJournal.is_for_teeth = !state.formJournal.is_for_teeth">
-                    <FormCheckbox :value="state.formJournal.is_for_teeth" />
-                    {{ $t('citizens.citizenJournals.form.forTeeth') }}
+            <div class="space-y-3" v-if="userStore?.getUser?.industry === 'Dentists and dental hygienists'">
+                <div class="space-y-1">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formJournal.is_for_teeth = !state.formJournal.is_for_teeth">
+                        <FormCheckbox :value="state.formJournal.is_for_teeth" />
+                        {{ $t('citizens.citizenJournals.form.forTeeth') }}
+                    </div>
                 </div>
-            </div>
-            <div class="space-y-1" v-if="props?.formType === 'create' && state.formJournal.is_for_teeth">
-                <FormLabel for="teeth" :label="$t('citizens.citizenJournals.form.teeth')" />
-                <FormSelectMultiple id="teeth" :options="state.options.teeth" v-model="state.formJournal.teeth" />
-                <FormError :error="v$?.formJournal?.teeth?.$errors[0]?.$message.toString()" />
-                <FormError :error="state?.error?.errors?.teeth_uuid?.[0]" />
-            </div>
-            <div class="space-y-1" v-if="props?.formType === 'update' && state.formJournal.is_for_teeth">
-                <FormLabel for="teeth" :label="$t('citizens.citizenJournals.form.teeth')" />
-                <FormSelect id="teeth" :options="state.options.teeth" v-model="state.formJournal.tooth" />
-                <FormError :error="v$?.formJournal?.teeth?.$errors[0]?.$message.toString()" />
-                <FormError :error="state?.error?.errors?.teeth_uuid?.[0]" />
-            </div>
-            <div class="flex items-center justify-center" v-if="state.formJournal.is_for_teeth">
-                <img src="/img/journal/tooth-chart.png" alt="Tooth chart">
+                <div class="space-y-1" v-if="props?.formType === 'create' && state.formJournal.is_for_teeth">
+                    <FormLabel for="teeth" :label="$t('citizens.citizenJournals.form.teeth')" />
+                    <FormSelectMultiple id="teeth" :options="state.options.teeth" v-model="state.formJournal.teeth" />
+                    <FormError :error="v$?.formJournal?.teeth?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.teeth_uuid?.[0]" />
+                </div>
+                <div class="space-y-1" v-if="props?.formType === 'update' && state.formJournal.is_for_teeth">
+                    <FormLabel for="teeth" :label="$t('citizens.citizenJournals.form.teeth')" />
+                    <FormSelect id="teeth" :options="state.options.teeth" v-model="state.formJournal.tooth" />
+                    <FormError :error="v$?.formJournal?.teeth?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.teeth_uuid?.[0]" />
+                </div>
+                <div class="flex items-center justify-center" v-if="state.formJournal.is_for_teeth">
+                    <img src="/img/journal/tooth-chart.png" alt="Tooth chart">
+                </div>
             </div>
         </div>
         <div class="mt-6">
@@ -264,6 +266,7 @@ import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -283,6 +286,7 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
+const userStore = useUserStore() as any
 const language = useI18n()
 
 const { t } = useI18n()

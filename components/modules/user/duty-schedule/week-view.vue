@@ -32,10 +32,10 @@
                                 v-for="(shiftPercentage, index) in state.shiftPercentage?.data" :key="index">
                                 <div class="flex items-center gap-x-2">
                                     <div class="w-3 h-3 rounded-sm"
-                                        :style="{ backgroundColor: shiftPercentage.shift?.color }"></div>
+                                        :style="{ backgroundColor: shiftPercentage?.color }"></div>
                                     <span>
-                                        {{ language.locale.value === 'en' ? shiftPercentage.shift?.en_name :
-                                            shiftPercentage.shift?.dk_name }}
+                                        {{ language.locale.value === 'en' ? shiftPercentage?.en_name :
+                                            shiftPercentage?.dk_name }}
                                     </span>
                                 </div>
                                 <p class="text-xs">{{ shiftPercentage?.percentage }}%</p>
