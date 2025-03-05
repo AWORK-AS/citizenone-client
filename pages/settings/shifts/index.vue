@@ -32,11 +32,15 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.shifts?.data?.length === 0))">
                                 <tr v-for="(shift, index) in state.shifts?.data" :key="index">
-                                    <td width="35%">
+                                    <td width="30%">
                                         <span>{{ shift?.en_name }}</span>
                                     </td>
-                                    <td width="35%">
+                                    <td width="30%">
                                         <span>{{ shift?.dk_name }}</span>
+                                    </td>
+                                    <td width="10%">
+                                        <span :style="{ backgroundColor: shift?.color }"
+                                            class="inline-block w-8 h-8 rounded" />
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end gap-2">
@@ -89,6 +93,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'shifts.table.nameEnglish', sorter: true, key: 'en_name' },
         { name: 'shifts.table.nameDanish', sorter: true, key: 'dk_name' },
+        { name: 'shifts.table.color' },
         { name: '' }
     ],
     dataFilter: {

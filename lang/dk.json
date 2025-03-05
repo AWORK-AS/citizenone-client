@@ -2819,6 +2819,7 @@
             "confirmation": {
                 "deleteShiftConfirmation": "Er du sikker på, at du vil slette denne vagt"
             },
+            "color": "Farve",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)"
         }

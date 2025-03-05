@@ -2819,6 +2819,7 @@
             "confirmation": {
                 "deleteShiftConfirmation": "Are you sure you want to delete this shift"
             },
+            "color": "Color",
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)"
         }

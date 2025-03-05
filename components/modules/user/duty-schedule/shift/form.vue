@@ -69,7 +69,7 @@ const state = reactive({
     formShift: {
         en_name: '',
         dk_name: '',
-        color: '',
+        color: '#000000',
     },
 })
 
