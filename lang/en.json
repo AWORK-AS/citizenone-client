@@ -478,6 +478,7 @@
                 "unshareConfirmation": "Are you sure you want to unshare this document",
                 "upgradeStorageConfirmation": "Do you want to upgrade your storage"
             },
+            "documents": "Documents",
             "form": {
                 "editFile": "Edit file",
                 "editFolder": "Edit folder",

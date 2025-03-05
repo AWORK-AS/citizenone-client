@@ -478,6 +478,7 @@
                 "unshareConfirmation": "Er du sikker på, at du vil fjerne delingen af dette dokument",
                 "upgradeStorageConfirmation": "Vil du opgradere dit lager"
             },
+            "documents": "Dokumenter",
             "form": {
                 "editFile": "Rediger fil",
                 "editFolder": "Rediger mappe",

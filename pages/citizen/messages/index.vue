@@ -91,7 +91,7 @@ const breadcrumbLinks = [
     {
         name: 'messages.messages',
         translate: true,
-        href: '/messages',
+        href: '/citizen/messages',
     },
 ]
 
