@@ -6,6 +6,8 @@
                     <form @submit.prevent="saveShift()" id="formShift" class="space-y-3">
                         <Alert type="danger" :text="props?.error?.message"
                             v-if="props.error?.message && props.error.message.length > 0" />
+                        <Alert type="danger" :text="state?.error?.message"
+                            v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="space-y-1">
                             <FormLabel for="shift_type" :label="$t('dutySchedules.typeofShift')" />
                             <FormSelect id="shift_type" name="shift_type" :options="state.options.shifts"
@@ -54,10 +56,11 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import type { Error } from '@/types'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
+import { shiftService } from '@/components/api/user/ShiftService'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
 
 const props = defineProps({
     error: {
@@ -71,8 +74,10 @@ const props = defineProps({
 })
 const { t } = useI18n()
 const emit = defineEmits(['close', 'saveShift', 'resetNewShiftError'])
+const language = useI18n()
 
 const state = reactive({
+    error: {} as Error,
     isPageLoading: false,
     formShift: {
         shift_type: '',
@@ -81,25 +86,17 @@ const state = reactive({
         in_meeting: false,
     },
     options: {
-        shifts: [
-            { value: 'regular_shift', label: 'Regular shift' },
-            { value: 'awake_night_shift', label: 'Awake night shift' },
-            { value: 'sleeping_night_shift', label: 'Sleeping night shift' },
-            { value: 'vacation_leave', label: 'Vacation leave' },
-            { value: 'sick_leave', label: 'Sick leave' },
-        ]
+        shifts: []
     }
 })
 
-watch(() => props.isModalOpen, () => {
+watch(() => props.isModalOpen, (isModalOpen) => {
     v$.value.$reset()
     emit('resetNewShiftError')
     state.formShift.shift_type = ''
-    state.options.shifts[0].label = `${t('dutySchedules.shifts.regularShift')}`
-    state.options.shifts[1].label = `${t('dutySchedules.shifts.awakeNightShift')}`
-    state.options.shifts[2].label = `${t('dutySchedules.shifts.sleepingNightShift')}`
-    state.options.shifts[3].label = `${t('dutySchedules.shifts.vacationLeave')}`
-    state.options.shifts[4].label = `${t('dutySchedules.shifts.sickLeave')}`
+    if (isModalOpen) {
+        fetchAllShifts()
+    }
 })
 
 const rules = computed(() => {
@@ -121,6 +118,27 @@ const v$ = useVuelidate(rules, state)
 
 function closeModal() {
     emit('close')
+}
+
+async function fetchAllShifts() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await shiftService.getAllShifts()
+        if (response?.data) {
+            let options: any = []
+            response.data.forEach(
+                (shift: any) => options.push({
+                    value: shift?.uuid,
+                    label: language.locale.value === 'en' ? shift?.en_name : shift?.dk_name,
+                })
+            )
+            state.options.shifts = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function saveShift() {

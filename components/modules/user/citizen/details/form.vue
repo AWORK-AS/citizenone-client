@@ -404,7 +404,6 @@ onMounted(() => {
     fetchAddictions()
     fetchRegions()
     fetchMunicipalities()
-    console.log(userStore.getUser?.has_citizen_app)
 
 
 })

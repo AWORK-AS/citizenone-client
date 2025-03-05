@@ -471,6 +471,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
+import { shiftService } from '@/components/api/user/ShiftService'
 import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -533,6 +534,7 @@ const state = reactive({
     isRemoveShift: false,
     isUpdateShift: false,
     originalWeeklySchedules: [] as any,
+    shifts: [],
     weeklySchedules: [] as any,
 })
 
@@ -554,6 +556,7 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 })
 
 onMounted(() => {
+    fetchAllShifts()
     fetchDutySchedule()
 })
 
@@ -630,6 +633,20 @@ function getMultiDayShift(shifts: any) {
 
             return isMultiDay && !isExcluded
         })
+}
+
+async function fetchAllShifts() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await shiftService.getAllShifts()
+        if (response) {
+            state.shifts = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function fetchDutyScheduleAbsencePercentage() {
@@ -753,7 +770,7 @@ async function saveShift(shiftDetails: any) {
     const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex
     const shiftType = shiftDetails.shift_type
     const params = {
-        shift_type: shiftType,
+        shift_type_uuid: shiftType,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
