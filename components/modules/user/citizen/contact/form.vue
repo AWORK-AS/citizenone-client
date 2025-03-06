@@ -164,6 +164,13 @@
                         <FormError :error="props?.error?.errors?.post_code?.[0]" />
                     </div>
                 </div>
+                <div class="space-y-1" v-if="userStore.getUser?.has_relative_app">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formContact.has_system_access = !state.formContact.has_system_access">
+                        <FormCheckbox :value="state.formContact.has_system_access" />
+                        {{ $t('citizens.contacts.form.allowSystemAccess') }}
+                    </div>
+                </div>
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -193,6 +200,7 @@ import { riskLevelService } from '@/components/api/user/RiskLevelService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -212,6 +220,7 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
 const language = useI18n()
+const userStore = useUserStore() as any
 
 const state = reactive({
     error: {} as Error,
@@ -236,6 +245,7 @@ const state = reactive({
             notification_uuid: '',
             risk_level_uuid: '',
         }] as any,
+        has_system_access: false,
     },
     isPageLoading: false,
     modal: {
@@ -285,6 +295,7 @@ onMounted(() => {
         city: props.selectedContact?.city?.uuid,
         post_code: props.selectedContact?.post_code,
         notifications: [],
+        has_system_access: props.selectContact?.has_system_access
     }
     props.selectedContact?.notification_types?.forEach((notification_type: any) => {
         state.formContact.notifications.push({
@@ -322,6 +333,7 @@ watch(() => props.selectedContact, (newValue: any) => {
             city: props.selectedContact?.city?.uuid,
             post_code: props.selectedContact?.post_code,
             notifications: [],
+            has_system_access: props.selectContact?.has_system_access
         }
         props.selectedContact?.notification_types?.forEach((notification_type: any) => {
             state.formContact.notifications.push({

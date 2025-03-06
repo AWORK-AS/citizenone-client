@@ -73,6 +73,7 @@ async function updateContact(contactDetails: any) {
                 municipality_uuid: contactDetails.municipality,
                 city_uuid: contactDetails.city,
                 post_code: contactDetails.post_code,
+                has_system_access: contactDetails.has_system_access,
             }
         }
         const response = await citizenContactService.updateContact(contactUuid, params)

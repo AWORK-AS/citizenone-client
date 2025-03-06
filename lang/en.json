@@ -405,6 +405,7 @@
                     "contactSuccessfullyAdded": "Contact successfully added",
                     "contactSuccessfullyUpdated": "Contact successfully updated"
                 },
+                "allowSystemAccess": "Allow system access",
                 "city": "City",
                 "companyName": "Company name",
                 "email": "Email address",
@@ -440,6 +441,7 @@
                     "delete": "Delete",
                     "edit": "Edit"
                 },
+                "allowSystemAccess": "Allow system access",
                 "address": "Address",
                 "companyName": "Company name",
                 "email": "Email address",

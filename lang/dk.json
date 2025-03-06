@@ -405,6 +405,7 @@
                     "contactSuccessfullyAdded": "Kontakt tilføjet med succes",
                     "contactSuccessfullyUpdated": "Kontakt opdateret med succes"
                 },
+                "allowSystemAccess": "Tillad systemadgang",
                 "city": "By",
                 "companyName": "Virksomhedsnavn",
                 "email": "E-mailadresse",
@@ -441,6 +442,7 @@
                     "edit": "Rediger"
                 },
                 "address": "Adresse",
+                "allowSystemAccess": "Tillad systemadgang",
                 "companyName": "Virksomhedsnavn",
                 "email": "E-mailadresse",
                 "name": "Navn",

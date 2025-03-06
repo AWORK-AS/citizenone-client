@@ -54,6 +54,7 @@ const state = reactive({
             notification_uuid: '',
             risk_level_uuid: '',
         }],
+        has_system_access: false,
     },
 })
 
@@ -93,6 +94,7 @@ async function saveContact(contactDetails: any) {
                 municipality_uuid: contactDetails.municipality,
                 city_uuid: contactDetails.city,
                 post_code: contactDetails.post_code,
+                has_system_access: contactDetails.has_system_access,
             }
         }
         const response = await citizenContactService.saveContact(params)
