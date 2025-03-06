@@ -664,7 +664,7 @@ async function saveShift(shiftDetails: any) {
     const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex
     const shiftType = shiftDetails.shift_type
     const params = {
-        shift_type: shiftType,
+        shift_type_uuid: shiftType,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
