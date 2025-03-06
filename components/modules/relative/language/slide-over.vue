@@ -78,8 +78,8 @@
 
 <script setup lang="ts">
 import { citizenService } from '@/components/api/citizen/CitizenService'
-import { userService } from '@/components/api/user/UserService'
-import { languageService } from '@/components/api/user/LanguageService'
+import { relativeService } from '@/components/api/relative/RelativeService'
+import { languageService } from '@/components/api/relative/LanguageService'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -134,12 +134,7 @@ async function switchLanguage(selectedLanguage: any) {
             const params = {
                 language_uuid: languageUuid,
             }
-            let response = ''
-            if (userStore.getUser?.role === 'Citizen') {
-                response = await citizenService.updateCitizenLangugage(params)
-            } else {
-                response = await userService.updateUserLangugage(params)
-            }
+            const response = await relativeService.updateRelativeLangugage(params)
             if (response) {
                 const languageCode = selectedLanguage.code
                 userStore.setLanguage(languageCode)

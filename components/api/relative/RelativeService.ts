@@ -5,7 +5,7 @@ class RelativeService extends BaseAPIService {
         return await this.request(`/relative`, 'GET')
     }
 
-    async updateCitizenLangugage(params: object): Promise<any> {
+    async updateRelativeLangugage(params: object): Promise<any> {
         return await this.request(`/relative/update/language`, 'PUT', params)
     }
 }
