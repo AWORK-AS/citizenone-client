@@ -74,6 +74,11 @@
                                                     {{ contact?.relationship?.name }}
                                                 </p>
                                             </Badge>
+                                            <Badge type="primary" class="w-fit mt-1" v-if="contact?.has_system_access">
+                                                <p class="text-xxs px-2">
+                                                    {{ $t('citizens.contacts.table.allowSystemAccess') }}
+                                                </p>
+                                            </Badge>
                                         </span>
                                     </td>
                                     <td width="20%">
