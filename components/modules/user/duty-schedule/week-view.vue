@@ -817,6 +817,7 @@ async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: num
 }
 
 async function copyDutySchedule(params: object) {
+    state.copyShiftError = {}
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
