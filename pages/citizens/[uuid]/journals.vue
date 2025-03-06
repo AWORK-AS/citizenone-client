@@ -199,6 +199,12 @@
                                                 {{ riskTag?.name }}
                                             </div>
                                         </div>
+                                        <div class="text-sm">
+                                            <p v-for="(tooth, index) in journal?.teeth" :key="index">
+                                                {{ tooth?.number }}.
+                                                {{ language.locale.value === 'en' ? tooth?.en_name : tooth?.dk_name }}
+                                            </p>
+                                        </div>
                                         <p class="text-xs">
                                             {{ $t('citizens.citizenJournals.createdBy') }}:
                                             {{ journal.user?.firstname }} {{ journal.user?.lastname }}
@@ -273,11 +279,13 @@ const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenJournalStore = useCitizenJournalStore()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
+
 const breadcrumbLinks = [
     {
         name: 'citizens.tabs.journals',

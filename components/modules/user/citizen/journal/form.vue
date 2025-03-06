@@ -218,15 +218,9 @@
                         {{ $t('citizens.citizenJournals.form.forTeeth') }}
                     </div>
                 </div>
-                <div class="space-y-1" v-if="props?.formType === 'create' && state.formJournal.is_for_teeth">
+                <div class="space-y-1" v-if="state.formJournal.is_for_teeth">
                     <FormLabel for="teeth" :label="$t('citizens.citizenJournals.form.teeth')" />
                     <FormSelectMultiple id="teeth" :options="state.options.teeth" v-model="state.formJournal.teeth" />
-                    <FormError :error="v$?.formJournal?.teeth?.$errors[0]?.$message.toString()" />
-                    <FormError :error="state?.error?.errors?.teeth_uuid?.[0]" />
-                </div>
-                <div class="space-y-1" v-if="props?.formType === 'update' && state.formJournal.is_for_teeth">
-                    <FormLabel for="teeth" :label="$t('citizens.citizenJournals.form.teeth')" />
-                    <FormSelect id="teeth" :options="state.options.teeth" v-model="state.formJournal.tooth" />
                     <FormError :error="v$?.formJournal?.teeth?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.teeth_uuid?.[0]" />
                 </div>
@@ -349,7 +343,6 @@ const state = reactive({
         risk_assessment_tags: [],
         score: '',
         teeth: [],
-        tooth: '',
         is_for_teeth: false,
     } as any,
     modal: {
@@ -413,15 +406,17 @@ onMounted(() => {
         note: props.selectedJournal.note === null ? '' : props.selectedJournal.note,
         risk_assessment_tags: [],
         score: props.selectedJournal.score,
-        is_for_teeth: props.selectedJournal.tooth ? true : false,
-        teeth: props.selectedJournal.tooth ? [props.selectedJournal.tooth?.uuid] : [],
-        tooth: props.selectedJournal.tooth ? props.selectedJournal.tooth?.uuid : '',
+        is_for_teeth: props.selectedJournal.teeth ? true : false,
+        teeth: [],
     }
     props.selectedJournal.journal_tags?.forEach((journalTag: any) => {
         state.formJournal.journal_note_tags.push(journalTag?.uuid)
     })
     props.selectedJournal.risk_tags?.forEach((riskAssessmentTag: any) => {
         state.formJournal.risk_assessment_tags.push(riskAssessmentTag?.uuid)
+    })
+    props.selectedJournal.teeth?.forEach((tooth: any) => {
+        state.formJournal.teeth.push(tooth?.uuid)
     })
 })
 
@@ -454,9 +449,17 @@ watch(() => props.selectedJournal, (newValue: any) => {
             risk_assessment_tags: [],
             score: newValue.score,
             is_for_teeth: newValue.is_for_teeth,
-            teeth: newValue.selectedJournal?.tooth ? newValue.selectedJournal.tooth?.uuid : [],
-            tooth: newValue.selectedJournal?.tooth ? newValue.selectedJournal.tooth?.uuid : '',
+            teeth: [],
         }
+        newValue.journal_tags?.forEach((journalTag: any) => {
+            state.formJournal.journal_note_tags.push(journalTag?.uuid)
+        })
+        newValue.risk_tags?.forEach((riskAssessmentTag: any) => {
+            state.formJournal.risk_assessment_tags.push(riskAssessmentTag?.uuid)
+        })
+        newValue.teeth?.forEach((tooth: any) => {
+            state.formJournal.teeth.push(tooth?.uuid)
+        })
     }
 })
 
