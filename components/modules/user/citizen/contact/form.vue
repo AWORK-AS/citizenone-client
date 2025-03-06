@@ -295,7 +295,7 @@ onMounted(() => {
         city: props.selectedContact?.city?.uuid,
         post_code: props.selectedContact?.post_code,
         notifications: [],
-        has_system_access: props.selectContact?.has_system_access
+        has_system_access: props.selectedContact?.has_system_access
     }
     props.selectedContact?.notification_types?.forEach((notification_type: any) => {
         state.formContact.notifications.push({
@@ -333,7 +333,7 @@ watch(() => props.selectedContact, (newValue: any) => {
             city: props.selectedContact?.city?.uuid,
             post_code: props.selectedContact?.post_code,
             notifications: [],
-            has_system_access: props.selectContact?.has_system_access
+            has_system_access: props.selectedContact?.has_system_access
         }
         props.selectedContact?.notification_types?.forEach((notification_type: any) => {
             state.formContact.notifications.push({
