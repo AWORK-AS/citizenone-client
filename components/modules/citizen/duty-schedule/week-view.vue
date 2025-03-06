@@ -15,40 +15,17 @@
                             </button>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 text-sm">
-                            <div class="flex items-center justify-between gap-x-2">
+                            <div class="flex items-center justify-between gap-x-2"
+                                v-for="(shiftPercentage, index) in state.shiftPercentage?.data" :key="index">
                                 <div class="flex items-center gap-x-2">
-                                    <div class="w-3 h-3 rounded-sm bg-shifts-regular"></div>
-                                    <span>{{ $t('dutySchedules.shifts.regularShift') }}</span>
+                                    <div class="w-3 h-3 rounded-sm"
+                                        :style="{ backgroundColor: shiftPercentage?.color }"></div>
+                                    <span>
+                                        {{ language.locale.value === 'en' ? shiftPercentage?.en_name :
+                                            shiftPercentage?.dk_name }}
+                                    </span>
                                 </div>
-                                <p class="text-xs">{{ state.shiftPercentage?.data?.regular_shift }}%</p>
-                            </div>
-                            <div class="flex items-center justify-between gap-x-2">
-                                <div class="flex items-center gap-x-2">
-                                    <div class="w-3 h-3 rounded-sm bg-shifts-awake_night"></div>
-                                    <span>{{ $t('dutySchedules.shifts.awakeNightShift') }}</span>
-                                </div>
-                                <p class="text-xs">{{ state.shiftPercentage?.data?.awake_night_shift }}%</p>
-                            </div>
-                            <div class="flex items-center justify-between gap-x-2">
-                                <div class="flex items-center gap-x-2">
-                                    <div class="w-3 h-3 rounded-sm bg-shifts-sleeping_night"></div>
-                                    <span>{{ $t('dutySchedules.shifts.sleepingNightShift') }}</span>
-                                </div>
-                                <p class="text-xs">{{ state.shiftPercentage?.data?.sleeping_night_shift }}%</p>
-                            </div>
-                            <div class="flex items-center justify-between gap-x-2">
-                                <div class="flex items-center gap-x-2">
-                                    <div class="w-3 h-3 rounded-sm bg-shifts-vacation"></div>
-                                    <span>{{ $t('dutySchedules.shifts.vacationLeave') }}</span>
-                                </div>
-                                <p class="text-xs">{{ state.shiftPercentage?.data?.vacation_leave }}%</p>
-                            </div>
-                            <div class="flex items-center justify-between gap-x-2">
-                                <div class="flex items-center gap-x-2">
-                                    <div class="w-3 h-3 rounded-sm bg-shifts-sickleave"></div>
-                                    <span>{{ $t('dutySchedules.shifts.sickLeave') }}</span>
-                                </div>
-                                <p class="text-xs">{{ state.shiftPercentage?.data?.sick_leave }}%</p>
+                                <p class="text-xs">{{ shiftPercentage?.percentage }}%</p>
                             </div>
                         </div>
                     </div>
@@ -284,6 +261,7 @@ import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/citizen/DutyScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const departmentStore = useDepartmentStore()
@@ -292,7 +270,7 @@ const currentDate = ref(moment())
 const selectedDay = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
-
+const language = useI18n()
 
 const state = reactive({
     shiftPercentage: {} as any,

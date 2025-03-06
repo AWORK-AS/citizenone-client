@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class InvitationService extends BaseAPIService {
     async acceptCalendarInvitation(calendarUserUuid: any): Promise<any> {

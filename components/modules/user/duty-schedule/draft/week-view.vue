@@ -418,11 +418,11 @@
 import moment from 'moment'
 import { draftScheduleService } from '@/components/api/user/DraftScheduleService'
 import { useDepartmentStore } from '@/store/department'
-import type { Error } from '@/types'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
 
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()

@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class ProtocolService extends BaseAPIService {
     async getProtocols(params: object): Promise<any> {

@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class TimeLogService extends BaseAPIService {
     async getTimeLogs(params: object): Promise<any> {

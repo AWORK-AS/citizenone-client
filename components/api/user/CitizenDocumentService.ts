@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class CitizenDocumentService extends BaseAPIService {
     async getCitizenFileFolders(params: object): Promise<any> {

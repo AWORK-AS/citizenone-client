@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class SubgoalTemplateService extends BaseAPIService {
     async getTemplates(params: object): Promise<any> {

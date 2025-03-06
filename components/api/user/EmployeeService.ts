@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class EmployeeService extends BaseAPIService {
     async getEmployees(params: object): Promise<any> {
@@ -20,7 +20,7 @@ class EmployeeService extends BaseAPIService {
     async archiveEmployee(employeeUuid: any): Promise<any> {
         return await this.request(`/user/employees/${employeeUuid}/archive`, 'PUT')
     }
-    
+
     async assignCitizen(employeeUuid: any, params: object): Promise<any> {
         return await this.request(`/user/employees/${employeeUuid}/assign/citizen`, 'PUT', params)
     }

@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class ScheduleSlotService extends BaseAPIService {
     async getScheduleSlots(params: object): Promise<any> {

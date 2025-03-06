@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class ShiftService extends BaseAPIService {
     async getShifts(params: object): Promise<any> {

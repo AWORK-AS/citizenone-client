@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class AbsenceService extends BaseAPIService {
     async getAbsences(params: object): Promise<any> {

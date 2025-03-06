@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class CompanyService extends BaseAPIService {
     async getCompanies(params: object): Promise<any> {

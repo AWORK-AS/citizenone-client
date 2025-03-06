@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class UseOfForceService extends BaseAPIService {
     async getUseOfForces(params: object): Promise<any> {

@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class ScheduleGrabberService extends BaseAPIService {
     async requestScheduleSlot(params: object): Promise<any> {

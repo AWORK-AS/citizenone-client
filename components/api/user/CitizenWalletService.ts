@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class CitizenWalletService extends BaseAPIService {
     async getWallets(params: object): Promise<any> {

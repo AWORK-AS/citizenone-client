@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class ScheduleRequestService extends BaseAPIService {
     async getScheduleRequests(params: object): Promise<any> {

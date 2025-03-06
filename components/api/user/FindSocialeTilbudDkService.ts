@@ -1,4 +1,4 @@
-import BaseAPIService from '@/components/api/user/BaseAPIService'
+import BaseAPIService from '@/components/api/BaseAPIService'
 
 class FindSocialeTilbudDkService extends BaseAPIService {
     async sendManageCompany(params: object): Promise<any> {
