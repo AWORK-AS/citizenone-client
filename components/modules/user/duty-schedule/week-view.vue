@@ -4,6 +4,8 @@
             v-if="state.error?.message && state.error.message.length > 0" />
         <Alert type="danger" :text="state?.errorUpdateShift?.message"
             v-if="state.errorUpdateShift?.message && state.errorUpdateShift.message.length > 0" />
+        <Alert type="danger" :text="state?.copyShiftError?.message"
+            v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
             <div class="flex justify-end gap-x-3">
                 <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft')"
@@ -449,7 +451,6 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
-import { shiftService } from '@/components/api/user/ShiftService'
 import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -475,6 +476,7 @@ const state = reactive({
         allEmployeeSchedules: {},
         selectedEmployeeSchedules: {}
     } as any,
+    copyShiftError: {} as Error,
     shiftPercentage: {} as any,
     shiftDateRange: {
         formDateRange: {
@@ -535,7 +537,6 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 })
 
 onMounted(() => {
-    fetchAllShifts()
     fetchDutySchedule()
 })
 
@@ -612,20 +613,6 @@ function getMultiDayShift(shifts: any) {
 
             return isMultiDay && !isExcluded
         })
-}
-
-async function fetchAllShifts() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const response = await shiftService.getAllShifts()
-        if (response) {
-            state.shifts = response
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
 }
 
 async function fetchDutyScheduleAbsencePercentage() {
@@ -815,12 +802,6 @@ function stopCopying() {
 async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
     const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeSchedules
     const copiedWeekIndex = copiedSelectedEmployeeSchedule.weekIndex
-    const shiftsToPaste = copiedSelectedEmployeeSchedule.weeklySchedule.weeks[copiedWeekIndex].shifts
-
-    // Create a deep copy of the shifts to paste
-    const copiedShifts = shiftsToPaste.map((shift: any) => ({ ...shift }))
-
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = copiedShifts
 
     const userSource = copiedSelectedEmployeeSchedule.weeklySchedule.employee
     const dateSource = copiedSelectedEmployeeSchedule.weeklySchedule.weeks[copiedWeekIndex].date
@@ -832,7 +813,28 @@ async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: num
         date_source: dateSource,
         date_destination: dateDestination,
     }
-    saveDutySchedule(params)
+    copyDutySchedule(params)
+}
+
+async function copyDutySchedule(params: object) {
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await dutyScheduleService.saveDutySchedule(params)
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDutySchedule()
+            state.modal.isAddShiftOpen = false
+        }
+    } catch (error: any) {
+        state.copyShiftError = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
 }
 
 function isAllWeeklyScheduleCopiedEmpty() {

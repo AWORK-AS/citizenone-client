@@ -4,6 +4,8 @@
             v-if="state.error?.message && state.error.message.length > 0" />
         <Alert type="danger" :text="state?.errorUpdateShift?.message"
             v-if="state.errorUpdateShift?.message && state.errorUpdateShift.message.length > 0" />
+        <Alert type="danger" :text="state?.copyShiftError?.message"
+            v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
             <div class="flex justify-end gap-x-3">
                 <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isPublishScheduleOpen = true">
@@ -441,6 +443,7 @@ const state = reactive({
         allEmployeeSchedules: {},
         selectedEmployeeSchedules: {}
     } as any,
+    copyShiftError: {} as Error,
     shiftPercentage: {} as any,
     shiftDateRange: {
         formDateRange: {
@@ -522,10 +525,24 @@ function sortMultiDayShiftsFirst(shifts: any) {
 function calculateShiftWidth(shift: any, weekIndex: string) {
     const startDay = moment(shift?.date_time_start).startOf('day')
     const endDay = moment(shift?.date_time_end).startOf('day')
-    const isMultiDay = endDay.diff(startDay, 'days') >= 1
-    const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+    const dayDifference = endDay.diff(startDay, 'days')
 
-    return isMultiDay && !isExcluded && weekIndex !== 'sunday' ? '17.5rem' : 'auto'
+    if (weekIndex === 'sunday') {
+        return 'auto'
+    }
+
+    if (dayDifference === 1) {
+        if (moment(shift?.date_time_end).format('HH:mm:ss') === '00:00:00') {
+            return 'auto'
+
+        } else {
+            return '17.5rem' // Width for shifts spanning 2 days
+        }
+    } else if (dayDifference === 2) {
+        return '27rem' // Width for shifts spanning 3 days
+    } else {
+        return 'auto' // Default width for single-day shifts
+    }
 }
 
 function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: number) {
@@ -742,12 +759,6 @@ function stopCopying() {
 async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
     const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeSchedules
     const copiedWeekIndex = copiedSelectedEmployeeSchedule.weekIndex
-    const shiftsToPaste = copiedSelectedEmployeeSchedule.weeklySchedule.weeks[copiedWeekIndex].shifts
-
-    // Create a deep copy of the shifts to paste
-    const copiedShifts = shiftsToPaste.map((shift: any) => ({ ...shift }))
-
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts = copiedShifts
 
     const userSource = copiedSelectedEmployeeSchedule.weeklySchedule.employee
     const dateSource = copiedSelectedEmployeeSchedule.weeklySchedule.weeks[copiedWeekIndex].date
@@ -759,7 +770,28 @@ async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: num
         date_source: dateSource,
         date_destination: dateDestination,
     }
-    saveDutySchedule(params)
+    pasteDutySchedule(params)
+}
+
+async function pasteDutySchedule(params: object) {
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await draftScheduleService.saveScheduleDraft(params)
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDutySchedule()
+            state.modal.isAddShiftOpen = false
+        }
+    } catch (error: any) {
+        state.copyShiftError = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
 }
 
 function isAllWeeklyScheduleCopiedEmpty() {
