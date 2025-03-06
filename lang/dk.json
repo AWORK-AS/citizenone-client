@@ -305,9 +305,9 @@
             "archivedCitizens": "Arkiverede borgere",
             "archivedDocuments": "Arkiverede dokumenter",
             "archivedEmployees": "Arkiverede medarbejdere",
-            "archivedGoals": "Archived goals",
-            "archivedPlans": "Archived plans",
-            "archivedSubgoals": "Archived subgoals"
+            "archivedGoals": "Arkiverede mål",
+            "archivedPlans": "Arkiverede planer",
+            "archivedSubgoals": "Arkiverede delmål"
         }
     },
     "back": "Tilbage",
