@@ -6,7 +6,8 @@
             v-if="state.errorUpdateShift?.message && state.errorUpdateShift.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
             <div class="flex justify-end gap-x-3">
-                <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft')">
+                <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft')"
+                    v-if="isAdmin(userStore.getUser?.roles)">
                     <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('dutySchedules.draft.draft') }}
                     {{ customPagesStore.getCustomPagesName?.dutySchedules }}
