@@ -11,7 +11,7 @@
             </Head>
 
             <template #breadcrumb>
-                <Breadcrumb>
+                <BreadcrumbRelative>
                     <template #custom-link>
                         <div class="flex items-center">
                             <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
@@ -22,7 +22,7 @@
                             </button>
                         </div>
                     </template>
-                </Breadcrumb>
+                </BreadcrumbRelative>
             </template>
 
             <template #header>

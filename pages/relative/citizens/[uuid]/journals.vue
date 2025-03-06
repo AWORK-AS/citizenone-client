@@ -7,18 +7,18 @@
             </Head>
 
             <template #breadcrumb>
-                <Breadcrumb :links="breadcrumbLinks">
+                <BreadcrumbRelative :links="breadcrumbLinks">
                     <template #custom-link>
                         <div class="flex items-center">
                             <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
                                 aria-hidden="true" />
-                            <button @click="navigateTo('/citizens')"
+                            <button @click="navigateTo('/relative/citizens')"
                                 class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
                                 {{ customPagesStore.getCustomPagesName?.citizens }}
                             </button>
                         </div>
                     </template>
-                </Breadcrumb>
+                </BreadcrumbRelative>
             </template>
 
             <template #header>{{ $t('citizens.tabs.journals') }}</template>
@@ -33,7 +33,7 @@
                 </NuxtLink>
 
                 <ModulesRelativeCitizenDetailsHeader />
-                <ModulesRelativeCitizenJournalTabs />
+                <!-- <ModulesRelativeCitizenJournalTabs /> -->
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-8 space-y-5">
@@ -46,12 +46,6 @@
                                     {{ $t('filter') }}
                                 </span>
                             </button>
-                            <div class="flex items-center gap-x-2 justify-end">
-                                <FormButton buttonStyle="action" class="rounded-lg" @click="showDownloadJournalModal">
-                                    <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                                    {{ $t('citizens.citizenJournals.download') }}
-                                </FormButton>
-                            </div>
                         </div>
 
                         <div>
@@ -201,31 +195,6 @@
                                             {{ formatDateTimeToReadable(journal.created_at) }}
                                         </p>
                                     </div>
-                                    <div class="ms-auto">
-                                        <div class="flex items-center gap-x-2">
-                                            <FormButton class="rounded-md" buttonSize="xs" @click="editJournal(journal)"
-                                                v-if=journal?.is_editable>
-                                                <Icon name="ph:pencil-duotone" class="size-4" />
-                                            </FormButton>
-                                            <FormButton buttonSize="xs" :class="[
-                                                journal?.is_favorite && 'border-secondary bg-secondary text-white',
-                                                'rounded-md w-full md:w-fit']"
-                                                @click="addRemoveJournalToFavorite(journal.uuid)">
-                                                <Icon name="ph:star" class="size-4" />
-                                            </FormButton>
-                                            <FormButton buttonSize="xs" :class="[
-                                                journal?.is_locked && 'border-secondary bg-secondary text-white',
-                                                'rounded-md w-full md:w-fit']"
-                                                @click="lockUnlockJournal(journal.uuid)">
-                                                <Icon name="ph:lock" class="size-4" v-if="journal.is_locked" />
-                                                <Icon name="ph:lock-open" class="size-4" v-else />
-                                            </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="xs"
-                                                @click="confirmJournalDeletion(journal)" v-if="journal?.is_deletable">
-                                                <Icon name="ph:trash-duotone" class="size-4" />
-                                            </FormButton>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div v-if="state.journals?.data?.length === 0">
@@ -240,16 +209,6 @@
             </div>
             <ModulesUserCitizenJournalModalFilter :isModalOpen="state.modal.isFilterJournalOpen"
                 @close="state.modal.isFilterJournalOpen = false" @setFilter="setFilter" />
-            <ModulesUserCitizenJournalModalNew :isModalOpen="state.modal.isAddJournalOpen"
-                @close="state.modal.isAddJournalOpen = false" @refreshJournal="fetchJournals" />
-            <ModulesUserCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
-                :selectedJournal="state.selectedJournal" @close="closeEditJournalModal"
-                @refreshJournal="fetchJournals" />
-            <ModulesUserCitizenJournalModalDownload :isModalOpen="state.modal.isDownloadJournalOpen"
-                @close="state.modal.isDownloadJournalOpen = false" />
-            <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalOpen"
-                :message="$t('citizens.citizenJournals.confirmation.deleteConfirmation') + '?'"
-                @close="state.modal.isDeleteJournalOpen = false" @confirm="deleteJournal" />
         </NuxtLayout>
     </div>
 </template>
@@ -257,17 +216,13 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { journalService } from '@/components/api/user/JournalService'
-import { useI18n } from "vue-i18n"
-import { useAlert } from '@/composables/alert'
+import { journalService } from '@/components/api/relative/JournalService'
 import { useCitizenJournalStore } from '@/store/citizen-journal'
 import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
-const { successAlert } = useAlert()
-const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenJournalStore = useCitizenJournalStore()
@@ -277,7 +232,7 @@ const breadcrumbLinks = [
     {
         name: 'citizens.tabs.journals',
         translate: true,
-        href: `/citizens/${citizenUuid}/journals`,
+        href: `/relative/citizens/${citizenUuid}/journals`,
     },
 ]
 
@@ -354,10 +309,6 @@ async function fetchJournals() {
     state.isPageLoading = false
 }
 
-function showDownloadJournalModal() {
-    state.modal.isDownloadJournalOpen = true
-}
-
 function filterJournal() {
     state.dataFilter.title = state.filter.journal
     fetchJournals()
@@ -431,69 +382,5 @@ function previous() {
 function next() {
     currentTablePage++
     fetchJournals()
-}
-
-function editJournal(journal: any) {
-    state.selectedJournal = journal
-    state.modal.isEditJournalOpen = true
-}
-
-function closeEditJournalModal() {
-    state.modal.isEditJournalOpen = false
-    state.selectedJournal = []
-}
-
-async function addRemoveJournalToFavorite(journalUuid: any) {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const response = await journalService.updateJournalFavorite(journalUuid)
-        if (response?.data) {
-            fetchJournals()
-            successAlert(`${t('alert.success')}!`, response?.data?.is_favorite ? `${t('citizens.citizenJournals.alert.addedToFavorites')}.` : `${t('citizens.citizenJournals.alert.removedToFavorites')}.`)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function lockUnlockJournal(journalUuid: any) {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const response = await journalService.updateJournalLock(journalUuid)
-        if (response?.data) {
-            fetchJournals()
-            successAlert(`${t('alert.success')}!`, response?.data?.is_locked ? `${t('citizens.citizenJournals.alert.lockJournal')}.` : `${t('citizens.citizenJournals.alert.unlockJournal')}.`)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-function confirmJournalDeletion(journal: any) {
-    state.selectedJournal = journal
-    state.modal.isDeleteJournalOpen = true
-}
-
-async function deleteJournal() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const response = await journalService.deleteJournal(state.selectedJournal.uuid)
-        if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            if (state.journals?.data?.length === 1) {
-                resetFilter()
-            } else {
-                fetchJournals()
-            }
-            successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.alert.deletedSuccessfully')}.`)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
 }
 </script>
