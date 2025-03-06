@@ -453,11 +453,15 @@ const navigation = [
             'citizens-uuid-journals',
             'citizens-uuid-medicine-journals',
             'citizens-uuid-plans-and-goals',
+            'citizens-uuid-nursing-areas',
             'citizens-uuid-documents',
             'citizens-uuid-documents-document_uuid',
             'citizens-uuid-attendance',
             'citizens-uuid-attendance-citizen_protocol_uuid',
             'citizens-uuid-calendar',
+            'citizens-uuid-wallets',
+            'citizens-uuid-wallets-wallet_uuid',
+            'citizens-uuid-contacts',
         ]
     },
     {
