@@ -248,45 +248,23 @@
                                                     </p>
                                                 </div>
                                                 <div class="col-span-3 space-y-2">
-                                                    <p>{{ $t('dutySchedules.table.timer') }}</p>
-                                                    <p>{{ $t('dutySchedules.table.holidayHours') }}</p>
-                                                    <p>{{ $t('dutySchedules.table.awakeNightShiftHours') }}</p>
-                                                    <p>{{ $t('dutySchedules.table.sleepingNightShiftHours') }}</p>
-                                                    <p>{{ $t('dutySchedules.table.sickLeaveHours') }}</p>
+                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                        :key="timeIndex">
+                                                        {{ language.locale.value === 'en' ? time?.shift?.en_name :
+                                                            time?.shift?.dk_name }}
+                                                    </p>
                                                 </div>
                                                 <div class="col-span-2 flex gap-2 flex-col items-end">
-                                                    <p>
-                                                        {{ weeklySchedule?.employee?.total_hours ?? 0 }}
-                                                    </p>
-                                                    <p>
-                                                        {{ weeklySchedule?.employee?.holiday_hours ?? 0 }}
-                                                    </p>
-                                                    <p>
-                                                        {{ weeklySchedule?.employee?.awake_night_hours ?? 0 }}
-                                                    </p>
-                                                    <p>
-                                                        {{ weeklySchedule?.employee?.sleep_night_hours ?? 0 }}
-                                                    </p>
-                                                    <p>
-                                                        {{ weeklySchedule?.employee?.sick_hours ?? 0 }}
+                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                        :key="timeIndex">
+                                                        {{ time?.weekly_hours }}
                                                     </p>
                                                 </div>
                                                 <div
                                                     class="col-span-2 flex gap-2 flex-col items-end border-l-2 border-gray-200 ml-3">
-                                                    <p>
-                                                        {{ weeklySchedule?.employee?.yearly_total_hours ?? 0 }}
-                                                    </p>
-                                                    <p>
-                                                        {{ weeklySchedule?.employee?.yearly_holiday_hours ?? 0 }}
-                                                    </p>
-                                                    <p>
-                                                        {{ weeklySchedule?.employee?.yearly_awake_night_hours ?? 0 }}
-                                                    </p>
-                                                    <p>
-                                                        {{ weeklySchedule?.employee?.yearly_sleep_night_hours ?? 0 }}
-                                                    </p>
-                                                    <p>
-                                                        {{ weeklySchedule?.employee?.yearly_sick_hours ?? 0 }}
+                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                        :key="timeIndex">
+                                                        {{ time?.yearly_hours }}
                                                     </p>
                                                 </div>
                                             </div>
