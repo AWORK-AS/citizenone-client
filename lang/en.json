@@ -1603,12 +1603,12 @@
                         "requestSuccessfullyApproved": "Request successfully approved",
                         "requestSuccessfullyDisapproved": "Request successfully disapproved"
                     },
+                    "assignee": "Assignee",
                     "confirmation": {
                         "approveConfirmation": "Are you sure you want to approve this request",
                         "disapproveConfirmation": "Are you sure you want to disapprove this request"
                     },
                     "note": "Note",
-                    "requester": "Requester",
                     "schedule": "Schedule",
                     "shiftType": "Shift type"
                 }

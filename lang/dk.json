@@ -1603,12 +1603,12 @@
                         "requestSuccessfullyApproved": "Anmodning godkendt med succes",
                         "requestSuccessfullyDisapproved": "Anmodning afvist med succes"
                     },
+                    "assignee": "Tildelt person",
                     "confirmation": {
                         "approveConfirmation": "Er du sikker på, at du vil godkende denne anmodning",
                         "disapproveConfirmation": "Er du sikker på, at du vil afvise denne anmodning"
                     },
                     "note": "Bemærkning",
-                    "requester": "Anmoder",
                     "schedule": "Vagtplan",
                     "shiftType": "Vagttype"
                 }

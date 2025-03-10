@@ -16,36 +16,28 @@
                                     v-if="!(state.isTableLoading || (state.scheduleRequests?.data?.length === 0))">
                                     <tr v-for="(request, index) in state.scheduleRequests?.data" :key="index">
                                         <td width="15%">
-                                            <span v-if="request?.schedule?.shift_type === 'regular_shift'">
-                                                {{ $t('dutySchedules.shifts.regularShift') }}
-                                            </span>
-                                            <span v-if="request?.schedule?.shift_type === 'sleeping_night_shift'">
-                                                {{ $t('dutySchedules.shifts.sleepingNightShift') }}
-                                            </span>
-                                            <span v-if="request?.schedule?.shift_type === 'awake_night_shift'">
-                                                {{ $t('dutySchedules.shifts.awakeNightShift') }}
-                                            </span>
-                                            <span v-if="request?.schedule?.shift_type === 'sick_leave'">
-                                                {{ $t('dutySchedules.shifts.sickLeave') }}
-                                            </span>
-                                            <span v-if="request?.schedule?.shift_type === 'vacation_leave'">
-                                                {{ $t('dutySchedules.shifts.vacationLeave') }}
-                                            </span>
+                                            <p>
+                                                {{ request?.recipient?.firstname + ' ' + request?.recipient?.lastname }}
+                                            </p>
                                         </td>
                                         <td width="20%">
-                                            <span>{{ moment(request?.schedule?.time_in, "HH:mm").format('HH:mm')
-                                                }}</span> -
-                                            <span>{{ moment(request?.schedule?.time_out, "HH:mm").format('HH:mm')
-                                                }}</span>
+                                            <p>
+                                                {{ language.locale.value === 'en' ? request?.schedule?.shift?.en_name :
+                                                    request?.schedule?.shift?.dk_name }}
+                                            </p>
                                         </td>
                                         <td width="20%">
-                                            <span>{{ moment(request?.time_in, "HH:mm").format('HH:mm') }}</span> -
-                                            <span>{{ moment(request?.time_out, "HH:mm").format('HH:mm') }}</span>
+                                            <span>
+                                                {{ moment(request?.schedule?.time_in, "HH:mm").format('HH:mm') }}
+                                            </span> -
+                                            <span>
+                                                {{ moment(request?.schedule?.time_out, "HH:mm").format('HH:mm') }}
+                                            </span>
                                         </td>
-                                        <td width="5%">
+                                        <td width="25%">
                                             <span>{{ request?.note }}</span>
                                         </td>
-                                        <td width="40%">
+                                        <td width="20%">
                                             <div class="flex items-end gap-2">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="confirmApproveScheduleRequest(request)">
@@ -108,11 +100,12 @@ const emit = defineEmits(['close', 'refreshDutySchedules'])
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const language = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'dutySchedules.scheduleRequests.swapSchedule.table.requester' },
+        { name: 'dutySchedules.scheduleRequests.swapSchedule.table.assignee' },
         { name: 'dutySchedules.scheduleRequests.swapSchedule.table.shiftType' },
         { name: 'dutySchedules.scheduleRequests.swapSchedule.table.schedule' },
         { name: 'dutySchedules.scheduleRequests.swapSchedule.table.note' },
@@ -206,7 +199,7 @@ async function approveScheduleRequest() {
         const response = await shiftSwapRequestService.approveScheduleSwapRequest(scheduleRequestUuid)
         if (response) {
             fetchScheduleRequests()
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.swapSchedule.table.alert.scheduleSuccessfullyApproved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.swapSchedule.table.alert.requestSuccessfullyApproved')}.`)
             emit('refreshDutySchedules')
         }
     } catch (error: any) {
@@ -227,8 +220,8 @@ async function rejectScheduleRequest() {
         const scheduleRequestUuid = state.selectedScheduleRequest.uuid
         const response = await shiftSwapRequestService.rejectScheduleSwapRequest(scheduleRequestUuid)
         if (response) {
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.swapSchedule.table.alert.requestSuccessfullyDisapproved')}.`)
             fetchScheduleRequests()
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.swapSchedule.table.alert.scheduleSuccessfullyDisapproved')}.`)
             emit('refreshDutySchedules')
         }
     } catch (error: any) {
