@@ -2698,6 +2698,7 @@
         "checkIn": "Tjek ind",
         "checkinReminder": "Påmindelse om at tjekke ind",
         "confirmation": {
+            "deleteReminderConfirmation": "Er du sikker på, at du vil slette denne påmindelse",
             "removeEmployeeConfirmation": "Er du sikker på, at du vil fjerne denne medarbejder"
         },
         "dontForgetToCheckInToday": "Glem ikke at tjekke ind i dag",

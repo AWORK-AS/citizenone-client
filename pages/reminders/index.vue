@@ -69,14 +69,11 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from "vue-i18n"
-import { useAlert } from "@/composables/alert"
 import { useRuntimeConfig } from "#imports"
 import { reminderService } from '@/components/api/user/ReminderService'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { successAlert } = useAlert()
-const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,

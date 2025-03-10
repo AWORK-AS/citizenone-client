@@ -2698,6 +2698,7 @@
         "checkIn": "Check in",
         "checkinReminder": "Check-in reminder",
         "confirmation": {
+            "deleteReminderConfirmation": "Are you sure you want to delete this reminder",
             "removeEmployeeConfirmation": "Are you sure you want to remove this employee"
         },
         "dontForgetToCheckInToday": "Don't forget to check in today",

@@ -6,8 +6,8 @@
             <div class="space-y-1">
                 <FormLabel for="title" :label="$t('reminder.title')" />
                 <FormTextField id="title" name="title" :placeholder="$t('reminder.title')"
-                    v-model="state.formStatus.title" />
-                <FormError :error="v$?.formStatus?.title?.$errors[0]?.$message.toString()" />
+                    v-model="state.formReminder.title" />
+                <FormError :error="v$?.formReminder?.title?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.title?.[0]" />
             </div>
             <div class="space-y-1">
@@ -15,27 +15,31 @@
                     {{ $t('reminder.dueDate') }}
                 </p>
                 <FormDateTimeField id="date_time" name="date_time" :placeholder="$t('reminder.dueDate')"
-                    v-model="state.formStatus.date_time" />
+                    v-model="state.formReminder.date_time" />
+                <FormError :error="v$?.formReminder?.date_time?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.date_time?.[0]" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
                     {{ $t('reminder.repeat') }}
                 </p>
-                <FormSelect id="repeat" :options="state.options.repeat" v-model="state.formStatus.repeat" />
+                <FormSelect id="repeat" :options="state.options.repeat" v-model="state.formReminder.repeat" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
                     {{ $t('reminder.assignees') }}
                 </p>
                 <FormSelectMultiple id="pages" :options="state.options.employees"
-                    v-model="state.formStatus.employee_uuid" />
+                    v-model="state.formReminder.employee" />
+                <FormError :error="v$?.formReminder?.employee?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.employee_uuid?.[0]" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
                     {{ $t('reminder.notes') }}
                 </p>
-                <ckeditor :editor="editor" v-model="state.formStatus.notes" :config="editorStatusConfig"></ckeditor>
-                <FormError :error="v$?.formStatus?.notes?.$errors[0]?.$message.toString()" />
+                <ckeditor :editor="editor" v-model="state.formReminder.notes" :config="editorStatusConfig"></ckeditor>
+                <FormError :error="v$?.formReminder?.notes?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.notes?.[0]" />
             </div>
         </div>
@@ -59,7 +63,8 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useDepartmentStore } from '@/store/department'
-import { employeeService } from '@/components/api/user/EmployeeService'
+import { userService } from '@/components/api/user/UserService'
+import type { Error } from '@/types'
 
 const departmentStore = useDepartmentStore()
 
@@ -96,17 +101,18 @@ const editorStatusConfig = ref({
 let currentTablePage = 1
 
 const state = reactive({
+    error: {} as Error,
     isTableLoading: false,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
     },
-    formStatus: {
+    formReminder: {
         title: '',
         date_time: '',
         notes: '',
         repeat: '',
-        employee_uuid: []
+        employee: []
     },
     options: {
         repeat: [
@@ -127,21 +133,23 @@ const state = reactive({
 
 onMounted(() => {
     fetchEmployees()
-    state.formStatus = {
+    state.formReminder = {
         title: props.selectedReminder.title,
         date_time: props.selectedReminder.date_time,
         notes: props.selectedReminder.notes,
         repeat: props.selectedReminder.repeat,
+        employee: [],
     }
 })
 
 watch(() => props.selectedReminder, (newValue: any) => {
     if (newValue != null) {
-        state.formStatus = {
-            title: newValue.title,
-            date_time: newValue.date_time,
-            notes: newValue.notes,
-            repeat: newValue.repeat
+        state.formReminder = {
+            title: newValue?.title,
+            date_time: newValue?.date_time,
+            notes: newValue?.notes,
+            repeat: newValue?.repeat,
+            employee: [],
         }
     }
 })
@@ -150,14 +158,7 @@ async function fetchEmployees() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const params = {
-            department: departmentStore.getSelectedDepartmentName,
-            page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
-            ...state.dataFilter
-        }
-        const response = await employeeService.getEmployees(params)
+        const response = await userService.getAllUsers()
         if (response) {
             state.options.employees = response
             let options: any = []
@@ -177,8 +178,14 @@ async function fetchEmployees() {
 
 const rules = computed(() => {
     return {
-        formStatus: {
+        formReminder: {
             title: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            date_time: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            employee: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             notes: {
@@ -193,7 +200,7 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formStatus)
+        emit('submitForm', state.formReminder)
     }
 }
 </script>

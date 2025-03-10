@@ -41,7 +41,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formStatus: {
-        employee_uuid: '',
+        employee: '',
         title: '',
         date_time: '',
         repeat: '',
@@ -63,7 +63,7 @@ async function saveReminder(statusDetails: any) {
     let reminder_uuid = ''
     try {
         let params = {
-            employee_uuid: statusDetails.employee_uuid,
+            employee_uuid: statusDetails.employee,
             title: statusDetails.title,
             date_time: statusDetails.date_time,
             repeat: statusDetails.repeat,
