@@ -1551,6 +1551,7 @@
         "scheduleRequests": {
             "changeTime": {
                 "changeTimeRequest": "Anmodning om tidsændring",
+                "changeTimeRequests": "Anmodninger om tidsændring",
                 "form": {
                     "alert": {
                         "requestSuccessfullySent": "Anmodning sendt med succes"
@@ -1592,6 +1593,7 @@
                     "whyDoYouWantToRequestAScheduleSwap": "Hvorfor vil du anmode om at bytte vagtplan"
                 },
                 "swapSchedules": "Byt vagtplan",
+                "swapScheduleRequests": "Anmodninger om vagtbytte",
                 "table": {
                     "actions": {
                         "approve": "Godkend",

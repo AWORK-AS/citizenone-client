@@ -34,9 +34,9 @@
                                         </td>
                                         <td width="20%">
                                             <span>{{ moment(request?.schedule?.time_in, "HH:mm").format('HH:mm')
-                                            }}</span> -
+                                                }}</span> -
                                             <span>{{ moment(request?.schedule?.time_out, "HH:mm").format('HH:mm')
-                                            }}</span>
+                                                }}</span>
                                         </td>
                                         <td width="20%">
                                             <span>{{ moment(request?.time_in, "HH:mm").format('HH:mm') }}</span> -
@@ -51,14 +51,14 @@
                                                     @click="confirmApproveScheduleRequest(request)">
                                                     <Icon name="ph:check" class="size-4" />
                                                     {{
-                                                        $t('dutySchedules.scheduleRequests.changeTime.table.actions.approve')
+                                                        $t('dutySchedules.scheduleRequests.swapSchedule.table.actions.approve')
                                                     }}
                                                 </FormButton>
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="confirmDispproveScheduleRequest(request)">
                                                     <Icon name="ph:x" class="size-4" />
                                                     {{
-                                                        $t('dutySchedules.scheduleRequests.changeTime.table.actions.disapprove')
+                                                        $t('dutySchedules.scheduleRequests.swapSchedule.table.actions.disapprove')
                                                     }}
                                                 </FormButton>
                                             </div>
@@ -71,10 +71,10 @@
                     </div>
                 </div>
                 <DialogConfirmation :isModalOpen="state.modal.isApproveRequest"
-                    :message="$t('dutySchedules.scheduleRequests.changeTime.table.confirmation.approveConfirmation') + '?'"
+                    :message="$t('dutySchedules.scheduleRequests.swapSchedule.table.confirmation.approveConfirmation') + '?'"
                     @close="state.modal.isApproveRequest = false" @confirm="approveScheduleRequest" />
                 <DialogConfirmation :isModalOpen="state.modal.isDispproveRequest"
-                    :message="$t('dutySchedules.scheduleRequests.changeTime.table.confirmation.disapproveConfirmation') + '?'"
+                    :message="$t('dutySchedules.scheduleRequests.swapSchedule.table.confirmation.disapproveConfirmation') + '?'"
                     @close="state.modal.isDispproveRequest = false" @confirm="rejectScheduleRequest" />
             </template>
         </Modal>
@@ -84,7 +84,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { scheduleRequestService } from '@/components/api/user/ScheduleRequestService'
+import { shiftSwapRequestService } from '@/components/api/user/ShiftSwapRequestService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -112,10 +112,10 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'dutySchedules.scheduleRequests.changeTime.table.shiftType' },
-        { name: 'dutySchedules.scheduleRequests.changeTime.table.originalTime' },
-        { name: 'dutySchedules.scheduleRequests.changeTime.table.requestedTime' },
-        { name: 'dutySchedules.scheduleRequests.changeTime.table.note' },
+        { name: 'dutySchedules.scheduleRequests.swapSchedule.table.requester' },
+        { name: 'dutySchedules.scheduleRequests.swapSchedule.table.shiftType' },
+        { name: 'dutySchedules.scheduleRequests.swapSchedule.table.schedule' },
+        { name: 'dutySchedules.scheduleRequests.swapSchedule.table.note' },
         { name: '' },
     ],
     dataFilter: {
@@ -158,7 +158,7 @@ async function fetchScheduleRequests() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await scheduleRequestService.getScheduleRequests(params)
+        const response = await shiftSwapRequestService.getScheduleSwapRequests(params)
         if (response) {
             state.scheduleRequests = response
         }
@@ -203,10 +203,10 @@ async function approveScheduleRequest() {
     state.isTableLoading = true
     try {
         const scheduleRequestUuid = state.selectedScheduleRequest.uuid
-        const response = await scheduleRequestService.approveScheduleRequest(scheduleRequestUuid)
+        const response = await shiftSwapRequestService.approveScheduleSwapRequest(scheduleRequestUuid)
         if (response) {
             fetchScheduleRequests()
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.changeTime.table.alert.scheduleSuccessfullyApproved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.swapSchedule.table.alert.scheduleSuccessfullyApproved')}.`)
             emit('refreshDutySchedules')
         }
     } catch (error: any) {
@@ -225,10 +225,10 @@ async function rejectScheduleRequest() {
     state.isTableLoading = true
     try {
         const scheduleRequestUuid = state.selectedScheduleRequest.uuid
-        const response = await scheduleRequestService.rejectScheduleRequest(scheduleRequestUuid)
+        const response = await shiftSwapRequestService.rejectScheduleSwapRequest(scheduleRequestUuid)
         if (response) {
             fetchScheduleRequests()
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.changeTime.table.alert.scheduleSuccessfullyDisapproved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.swapSchedule.table.alert.scheduleSuccessfullyDisapproved')}.`)
             emit('refreshDutySchedules')
         }
     } catch (error: any) {

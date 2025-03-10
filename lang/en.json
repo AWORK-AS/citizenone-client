@@ -1551,6 +1551,7 @@
         "scheduleRequests": {
             "changeTime": {
                 "changeTimeRequest": "Change time request",
+                "changeTimeRequests": "Change time requests",
                 "form": {
                     "alert": {
                         "requestSuccessfullySent": "Request successfully sent"
@@ -1592,6 +1593,7 @@
                     "whyDoYouWantToRequestAScheduleSwap": "Why do you want to request a schedule swap"
                 },
                 "swapSchedule": "Swap schedule",
+                "swapScheduleRequests": "Swap schedule requests",
                 "table": {
                     "actions": {
                         "approve": "Approve",
