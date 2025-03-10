@@ -4,24 +4,24 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="title" :label="$t('reminder.title')" />
-                <FormTextField id="title" name="title" :placeholder="$t('reminder.title')"
+                <FormLabel for="title" :label="$t('reminder.form.title')" />
+                <FormTextField id="title" name="title" :placeholder="$t('reminder.form.title')"
                     v-model="state.formReminder.title" />
                 <FormError :error="v$?.formReminder?.title?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.title?.[0]" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
-                    {{ $t('reminder.dueDate') }}
+                    {{ $t('reminder.form.dueDate') }}
                 </p>
-                <FormDateTimeField id="date_time" name="date_time" :placeholder="$t('reminder.dueDate')"
+                <FormDateTimeField id="date_time" name="date_time" :placeholder="$t('reminder.form.dueDate')"
                     v-model="state.formReminder.date_time" />
                 <FormError :error="v$?.formReminder?.date_time?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date_time?.[0]" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
-                    {{ $t('reminder.repeat') }}
+                    {{ $t('reminder.form.repeat.repeat') }}
                 </p>
                 <FormSelect id="repeat" :options="state.options.repeat" v-model="state.formReminder.repeat" />
             </div>
@@ -62,11 +62,8 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
-import { useDepartmentStore } from '@/store/department'
 import { userService } from '@/components/api/user/UserService'
 import type { Error } from '@/types'
-
-const departmentStore = useDepartmentStore()
 
 const props = defineProps({
     error: {
@@ -98,8 +95,6 @@ const editorStatusConfig = ref({
     height: 500
 })
 
-let currentTablePage = 1
-
 const state = reactive({
     error: {} as Error,
     isTableLoading: false,
@@ -116,23 +111,23 @@ const state = reactive({
     },
     options: {
         repeat: [
-            { value: 'never', label: `${t('reminder.never')}` },
-            { value: 'daily', label: `${t('reminder.daily')}` },
-            { value: 'weekdays', label: `${t('reminder.weekdays')}` },
-            { value: 'weekends', label: `${t('reminder.weekends')}` },
-            { value: 'weekly', label: `${t('reminder.weekly')}` },
-            { value: 'biweekly', label: `${t('reminder.biWeekly')}` },
-            { value: 'monthly', label: `${t('reminder.monthly')}` },
-            { value: 'every_three_months', label: `${t('reminder.everyThreeMonths')}` },
-            { value: 'every_six_months', label: `${t('reminder.everySixMonths')}` },
-            { value: 'yearly', label: `${t('reminder.yearly')}` },
+            { value: 'never', label: `${t('reminder.form.repeat.never')}` },
+            { value: 'daily', label: `${t('reminder.form.repeat.daily')}` },
+            { value: 'weekdays', label: `${t('reminder.form.repeat.weekdays')}` },
+            { value: 'weekends', label: `${t('reminder.form.repeat.weekends')}` },
+            { value: 'weekly', label: `${t('reminder.form.repeat.weekly')}` },
+            { value: 'biweekly', label: `${t('reminder.form.repeat.biWeekly')}` },
+            { value: 'monthly', label: `${t('reminder.form.repeat.monthly')}` },
+            { value: 'every_three_months', label: `${t('reminder.form.repeat.everyThreeMonths')}` },
+            { value: 'every_six_months', label: `${t('reminder.form.repeat.everySixMonths')}` },
+            { value: 'yearly', label: `${t('reminder.form.repeat.yearly')}` },
         ],
         employees: []
     },
 })
 
 onMounted(() => {
-    fetchEmployees()
+    fetchAllEmployees()
     state.formReminder = {
         title: props.selectedReminder.title,
         date_time: props.selectedReminder.date_time,
@@ -154,7 +149,7 @@ watch(() => props.selectedReminder, (newValue: any) => {
     }
 })
 
-async function fetchEmployees() {
+async function fetchAllEmployees() {
     state.error = {}
     state.isTableLoading = true
     try {

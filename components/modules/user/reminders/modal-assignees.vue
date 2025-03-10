@@ -2,7 +2,7 @@
     <div>
         <Modal size="md" :title="$t('reminder.assignees')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <LoadingSpinner :isActive="state.isLoading">
+                <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="flex justify-end items-center mb-5">
                         <FormButton buttonStyle="action" class="rounded-lg"
                             @click="state.modal.isAssignEmployeeReminderOpen = true">
@@ -10,7 +10,7 @@
                             {{ $t('reminder.assignAnEmployee') }}
                         </FormButton>
                     </div>
-                    <div v-if="state.assignees.length > 0" class="mt-12 space-y-2">
+                    <div v-if="state.assignees.length > 0" class="mt-10 mb-4 space-y-2">
                         <div v-for="assignee in state.assignees" :key="assignee.id"
                             class="bg-white shadow-md rounded-md border-l-8 mt-2 text-sm space-y-2 pr-5 pt-5 pb-5 pl-6 mr-1"
                             :class="{
@@ -37,14 +37,13 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="state.assignees.length === 0"
-                        class="mt-24 mb-24 p-4 bg-gray-100 text-gray-500 text-center rounded-md">
-                        No assignees yet.
+                    <div v-if="state.assignees.length === 0" class="py-24 text-center">
+                        {{ $t('reminder.noAssigneeYet') }}
                     </div>
-
                 </LoadingSpinner>
+
                 <ModulesUserRemindersModalAssignReminder :isModalOpen="state.modal.isAssignEmployeeReminderOpen"
-                    @close="closeAssignModal" :reminder_uuid="props.reminder_uuid" />
+                    :selectedReminder="props.selectedReminder" @close="closeAssignModal" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
                     :message="`${$t('reminder.confirmation.removeEmployeeConfirmation')}?`"
                     @close="state.modal.isDeleteStatusOpen = false" @confirm="removeAssignee()" />
@@ -57,42 +56,35 @@
 <script setup lang="ts">
 import { watch, reactive } from 'vue'
 import { reminderUserService } from '@/components/api/user/ReminderUserService'
-import { employeeService } from '@/components/api/user/EmployeeService'
+import { userService } from '@/components/api/user/UserService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import { useDepartmentStore } from '@/store/department'
+import type { Error } from '@/types'
 
-const departmentStore = useDepartmentStore()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
 const props = defineProps({
-    error: {} as Error,
-    isPageLoading: false,
     isModalOpen: {
         type: Boolean,
         required: true,
     },
-    reminder_uuid: {
-        type: String,
-        required: false,
-        default: null
+    selectedReminder: {
+        type: Object,
+        required: true,
     }
 })
 
-let currentTablePage = 1
 
 const state = reactive({
-    isTableLoading: false,
+    error: {} as Error,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
     },
-    reminder_uuid: '',
     assignees: [] as any[],
-    employee_uuid: [],
     selectedEmployee: {} as any,
-    isLoading: false,
+    isPageLoading: false,
     options: {
         employees: []
     },
@@ -113,11 +105,10 @@ function closeAssignModal() {
     fetchAssignees()
 }
 
-watch(() => props.isModalOpen, (isOpen: any) => {
-    if (isOpen) {
-        state.reminder_uuid = props.reminder_uuid
+watch(() => props.isModalOpen, (isModalOpen: any) => {
+    if (isModalOpen) {
         fetchAssignees()
-        fetchEmployees()
+        fetchAllEmployees()
     }
 })
 
@@ -127,38 +118,28 @@ function confirmEmployeeDeletion(status: any) {
 }
 
 async function fetchAssignees() {
-    try {
-        state.isLoading = true
-        let params = {
-            reminder_uuid: props.reminder_uuid
-        }
-        const response = await reminderUserService.getRemindersUsers(params)
-
-        if (response?.data) {
-            state.assignees = response.data
-        } else {
-            state.assignees = []
-        }
-    } catch (error: any) {
-        state.assignees = []
-    } finally {
-        state.isLoading = false
-    }
-    state.isLoading = false
-}
-
-async function fetchEmployees() {
     state.error = {}
-    state.isTableLoading = true
+    state.isPageLoading = true
     try {
         const params = {
-            department: departmentStore.getSelectedDepartmentName,
-            page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
-            ...state.dataFilter
+            reminder_uuid: props.selectedReminder?.uuid
         }
-        const response = await employeeService.getEmployees(params)
+        const response = await reminderUserService.getRemindersUsers(params)
+        if (response) {
+            state.assignees = response.data
+        }
+    } catch (error: any) {
+        state.error = error
+        state.assignees = []
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllEmployees() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await userService.getAllUsers()
         if (response) {
             state.options.employees = response
             let options: any = []
@@ -173,43 +154,22 @@ async function fetchEmployees() {
     } catch (error: any) {
         state.error = error
     }
-    state.isTableLoading = false
+    state.isPageLoading = false
 }
 
 async function removeAssignee() {
-    try {
-        state.isLoading = true
-        const response = await reminderUserService.deleteReminderUser(state.selectedEmployee.uuid)
-
-        if (response && response.message) {
-            fetchAssignees()
-            successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.employeeSuccessfullyRemoved')}.`)
-        }
-
-    } catch (error: any) {
-        state.assignees = []
-    } finally {
-        state.isLoading = false
-    }
-}
-
-async function saveReminderUser(employee_uuid: string[], reminder_uuid: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        let params = {
-            employee_uuid: employee_uuid,
-            reminder_uuid: reminder_uuid,
-        }
-        const response = await reminderUserService.saveReminderUser(params)
-        if (response?.data) {
+        const employeeUuid = state.selectedEmployee.uuid
+        const response = await reminderUserService.deleteReminderUser(employeeUuid)
+        if (response) {
+            successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.employeeSuccessfullyRemoved')}.`)
             fetchAssignees()
-            successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.employeeSuccessfullyAssigned')}.`)
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
 }
-
 </script>

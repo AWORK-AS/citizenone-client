@@ -2695,6 +2695,7 @@
         }
     },
     "reminder": {
+        "assignees": "Modtagere",
         "checkIn": "Tjek ind",
         "checkinReminder": "Påmindelse om at tjekke ind",
         "confirmation": {
@@ -2706,31 +2707,47 @@
         "iDontNeedToCheckinNow": "Jeg behøver ikke tjekke ind nu",
         "reminders": "Påmindelser",
         "newReminder": "Ny påmindelse",
-        "assignees": "Modtagere",
         "assign": "Tildel",
         "assignAnEmployee": "Tildel en medarbejder",
         "dateCreated": "Oprettelsesdato",
-        "dueDate": "Afleveringsfrist",
-        "time": "Tid",
-        "title": "Titel",
         "notes": "Notat",
-        "never": "Aldrig",
-        "daily": "Dagligt",
-        "weekdays": "Hverdage",
-        "weekends": "Weekender",
-        "weekly": "Ugentligt",
-        "biWeekly": "Hver anden uge",
-        "monthly": "Månedligt",
-        "everyThreeMonths": "Hver tredje måned",
-        "everySixMonths": "Hver sjette måned",
-        "yearly": "Årligt",
-        "repeat": "Gentag",
+        "noAssigneeYet": "Ingen tildelt endnu",
         "form": {
             "alert": {
                 "taskSuccessfullySaved": "Opgaven blev oprettet med succes",
                 "employeeSuccessfullyAssigned": "Medarbejder tildelt succesfuldt",
                 "employeeSuccessfullyRemoved": "Medarbejder fjernet succesfuldt"
-            }
+            },
+            "dueDate": "Afleveringsfrist",
+            "repeat": {
+                "repeat": "Gentag",
+                "never": "Aldrig",
+                "daily": "Dagligt",
+                "weekdays": "Hverdage",
+                "weekends": "Weekender",
+                "weekly": "Ugentligt",
+                "biWeekly": "Hver anden uge",
+                "monthly": "Månedligt",
+                "everyThreeMonths": "Hver tredje måned",
+                "everySixMonths": "Hver sjette måned",
+                "yearly": "Årligt"
+            },
+            "title": "Titel"
+        },
+        "table": {
+            "alert": {
+                "reminderSuccessfullyDeleted": "Påmindelse slettet med succes"
+            },
+            "confirmation": {
+                "deleteReminderConfirmation": "Er du sikker på, at du vil slette denne påmindelse"
+            },
+            "actions": {
+                "assignees": "Modtagere",
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "dueDate": "Afleveringsfrist",
+            "time": "Tid"
         }
     },
     "resetPassword": {

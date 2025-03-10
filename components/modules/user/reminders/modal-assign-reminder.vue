@@ -1,24 +1,25 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('reminder.assignees')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('reminder.assignAnEmployee')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <Alert type="danger" :text="state?.error?.message"
-                    v-if="state.error?.message && state.error.message.length > 0" />
-                <LoadingSpinner :isActive="state.isLoading">
-                    <form @submit.prevent="saveReminderUser(state.employee_uuid, props.reminder_uuid)"
-                        id="formGroupMember">
-                        <div class="flex items-end space-x-2 pb-24">
-                            <div class="flex-1">
-                                <p class="text-sm text-gray-600">
-                                    {{ $t('reminder.assignees') }}
-                                </p>
-                                <FormSelectMultiple id="pages" :options="state.options.employees"
-                                    v-model="state.employee_uuid" class="w-full" />
-                            </div>
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
+                    <form @submit.prevent="saveReminderUser()" id="formAssignees">
+                        <div class="space-y-1">
+                            <p class="text-sm text-gray-600">
+                                {{ $t('reminder.assignees') }}
+                            </p>
+                            <FormSelectMultiple id="employees" :options="state.options.employees"
+                                v-model="state.formAssignees.assignees" />
+                            <FormError :error="v$?.formAssignees?.assignees?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.employee_uuid?.[0]" />
                         </div>
-                        <FormButton type="submit" class="w-full rounded-md" buttonStyle="primary">
-                            {{ $t('reminder.assign') }}
-                        </FormButton>
+                        <div class="mt-6">
+                            <FormButton type="submit" class="w-full rounded-md" buttonStyle="primary">
+                                {{ $t('reminder.assign') }}
+                            </FormButton>
+                        </div>
                     </form>
                 </LoadingSpinner>
             </template>
@@ -30,42 +31,37 @@
 <script setup lang="ts">
 import { watch, reactive } from 'vue'
 import { reminderUserService } from '@/components/api/user/ReminderUserService'
-import { employeeService } from '@/components/api/user/EmployeeService'
+import { userService } from '@/components/api/user/UserService'
+import { useVuelidate } from "@vuelidate/core"
+import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import { useDepartmentStore } from '@/store/department'
+import type { Error } from '@/types'
 
-const departmentStore = useDepartmentStore()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
 const props = defineProps({
-    error: {} as Error,
-    isPageLoading: false,
+    error: {
+        type: Object,
+        required: false,
+    },
     isModalOpen: {
         type: Boolean,
         required: true,
     },
-    reminder_uuid: {
-        type: String,
-        required: false,
-        default: null
+    selectedReminder: {
+        type: Object,
+        required: true,
     }
 })
 
-let currentTablePage = 1
-
 const state = reactive({
     error: {} as Error,
-    isTableLoading: false,
-    sortData: {
-        sortField: 'id',
-        sortOrder: 'descend',
+    formAssignees: {
+        assignees: [],
     },
-    reminder_uuid: '',
-    assignees: [] as any[],
-    employee_uuid: [],
-    isLoading: false,
+    isPageLoading: false,
     options: {
         employees: []
     },
@@ -79,23 +75,28 @@ function closeModal() {
 
 watch(() => props.isModalOpen, (isOpen: any) => {
     if (isOpen) {
-        state.reminder_uuid = "?reminder_uuid=" + props.reminder_uuid
-        fetchEmployees()
+        // state.reminderUuid = "?reminderUuid=" + props.reminderUuid
+        fetchAllEmployees()
     }
 })
 
-async function fetchEmployees() {
+const rules = computed(() => {
+    return {
+        formAssignees: {
+            assignees: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+        },
+    }
+})
+
+const v$ = useVuelidate(rules, state)
+
+async function fetchAllEmployees() {
     state.error = {}
-    state.isTableLoading = true
+    state.isPageLoading = true
     try {
-        const params = {
-            department: departmentStore.getSelectedDepartmentName,
-            page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
-            ...state.dataFilter
-        }
-        const response = await employeeService.getEmployees(params)
+        const response = await userService.getAllUsers()
         if (response) {
             state.options.employees = response
             let options: any = []
@@ -110,27 +111,36 @@ async function fetchEmployees() {
     } catch (error: any) {
         state.error = error
     }
-    state.isTableLoading = false
-}
-
-
-async function saveReminderUser(employee_uuid: string[], reminder_uuid: any) {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        let params = {
-            employee_uuid: employee_uuid,
-            reminder_uuid: reminder_uuid,
-        }
-        const response = await reminderUserService.saveReminderUser(params)
-        if (response?.data) {
-            closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.employeeSuccessfullyAssigned')}.`)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
     state.isPageLoading = false
 }
 
+
+async function saveReminderUser() {
+    v$.value.$validate()
+    if (!v$.value.$error) {
+        state.error = {}
+        state.isPageLoading = true
+        try {
+            const reminderUuid = props?.selectedReminder?.uuid
+            const params = {
+                reminder_uuid: reminderUuid,
+                employee_uuid: state.formAssignees.assignees,
+            }
+            const response = await reminderUserService.saveReminderUser(params)
+            if (response?.data) {
+                closeModal()
+                successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.employeeSuccessfullyAssigned')}.`)
+            }
+        } catch (error: any) {
+            state.error = error
+        }
+        state.isPageLoading = false
+    }
+}
 </script>
+
+<style>
+#formAssignees .multiselect-dropdown {
+    max-height: 4.8rem !important;
+}
+</style>

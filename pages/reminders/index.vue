@@ -31,12 +31,14 @@
                                 </div>
                                 <Badge type="primary" class="w-fit">
                                     <p class="text-xs">
-                                        {{ $t('reminder.dueDate') }}: {{ formatDateToReadable(reminder?.date_time) }}
+                                        {{ $t('reminder.table.dueDate') }}: {{ formatDateToReadable(reminder?.date_time)
+                                        }}
                                     </p>
                                 </Badge>
                                 <Badge type="primary" class="w-fit">
                                     <p class="text-xs">
-                                        {{ $t('reminder.time') }}: {{ formatTimeToReadable(reminder?.date_time) }} ~ {{
+                                        {{ $t('reminder.table.time') }}: {{ formatTimeToReadable(reminder?.date_time) }}
+                                        ~ {{
                                             reminder?.repeat
                                         }}
                                     </p>
@@ -45,9 +47,14 @@
                             <div>
                                 <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
                                     <FormButton class="rounded-md min-w-36" buttonSize="sm"
-                                        @click="openView(reminder?.uuid)">
+                                        @click="viewAssignees(reminder)">
                                         <Icon name="ph:user-plus" class="h-4 w-4" aria-hidden="true" />
-                                        {{ $t('reminder.assignees') }}
+                                        {{ $t('reminder.table.actions.assignees') }}
+                                    </FormButton>
+                                    <FormButton class="rounded-md min-w-36" buttonSize="sm"
+                                        @click="deleteReminderConfirmation(reminder)">
+                                        <Icon name="ph:trash" class="h-4 w-4" aria-hidden="true" />
+                                        {{ $t('reminder.table.actions.delete') }}
                                     </FormButton>
                                 </div>
                             </div>
@@ -62,8 +69,11 @@
             </div>
             <ModulesUserRemindersModalNew :isModalOpen="state.modal.isNewTaskOpen" :selectedReminder="state.reminders"
                 @close="state.modal.isNewTaskOpen = false" @refreshReminders="fetchReminders()" />
-            <ModulesUserRemindersModalView :isModalOpen="state.modal.isAssignReminderOpen"
-                @close="state.modal.isAssignReminderOpen = false" :reminder_uuid="state.modal.selectedReminderUuid" />
+            <ModulesUserRemindersModalAssignees :isModalOpen="state.modal.isAssignReminderOpen"
+                :selectedReminder="state.selectedReminder" @close="state.modal.isAssignReminderOpen = false" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteAssignReminderOpen"
+                :message="$t('reminder.table.confirmation.deleteReminderConfirmation') + '?'"
+                @close="state.modal.isDeleteAssignReminderOpen = false" @confirm="deleteReminder" />
         </NuxtLayout>
     </div>
 </template>
@@ -71,9 +81,12 @@
 <script setup lang="ts">
 import { useRuntimeConfig } from "#imports"
 import { reminderService } from '@/components/api/user/ReminderService'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
@@ -82,8 +95,9 @@ const state = reactive({
     modal: {
         isNewTaskOpen: false,
         isAssignReminderOpen: false,
-        selectedReminderUuid: '',
+        isDeleteAssignReminderOpen: false,
     },
+    selectedReminder: {} as any,
 })
 
 async function fetchReminders() {
@@ -133,9 +147,29 @@ function formatTimeToReadable(dateTime: string) {
     }).format(date)
 }
 
-function openView(reminderUuid: string) {
-    state.modal.selectedReminderUuid = reminderUuid
+function viewAssignees(reminder: any) {
+    state.selectedReminder = reminder
     state.modal.isAssignReminderOpen = true
 }
 
+function deleteReminderConfirmation(reminder: any) {
+    state.selectedReminder = reminder
+    state.modal.isDeleteAssignReminderOpen = true
+}
+
+async function deleteReminder() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const reminderUuid = state.selectedReminder?.uuid
+        const response = await reminderService.deleteReminder(reminderUuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            successAlert(`${t('alert.success')}!`, `${t('reminder.table.alert.reminderSuccessfullyDeleted')}.`)
+            fetchReminders()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 </script>
