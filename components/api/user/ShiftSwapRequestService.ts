@@ -14,7 +14,7 @@ class ShiftSwapRequestService extends BaseAPIService {
     }
 
     async rejectScheduleSwapRequest(shiftSwapRequestUuid: any): Promise<any> {
-        return await this.request(`/user/shift-swap-requests/${shiftSwapRequestUuid}/reject`, 'POST')
+        return await this.request(`/user/shift-swap-requests/${shiftSwapRequestUuid}/reject`, 'DELETE')
     }
 
     async getAllAvailableUsers(params: object = {}): Promise<any> {
