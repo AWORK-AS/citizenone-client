@@ -310,7 +310,7 @@
                                                                 class="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                                 <div class="py-1">
                                                                     <MenuItem v-slot="{ active }">
-                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
+                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
                                                                         @click="viewChangeTimeRequests(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
                                                                         {{
                                                                             $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')
@@ -318,7 +318,7 @@
                                                                     </a>
                                                                     </MenuItem>
                                                                     <MenuItem v-slot="{ active }">
-                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
+                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
                                                                         @click="viewSwapScheduleRequests(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
                                                                         {{
                                                                             $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')
