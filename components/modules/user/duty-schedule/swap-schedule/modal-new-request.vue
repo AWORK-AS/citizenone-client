@@ -1,11 +1,11 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest')"
+        <Modal size="xs" :title="$t('dutySchedules.scheduleRequests.swapSchedule.swapSchedule')"
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserDutyScheduleTimeRequestsForm formType="create"
-                        :selectedSchedule="state.formScheduleSlot" :error="state.error"
+                    <ModulesUserDutyScheduleSwapScheduleForm formType="create" :error="state.error"
+                        :selectedSchedule="props.selectedSchedule"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveScheduleRequest" />
                 </LoadingSpinner>
@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { scheduleRequestService } from '@/components/api/user/ScheduleRequestService'
+import { shiftSwapRequestService } from '@/components/api/user/ShiftSwapRequestService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -28,10 +28,6 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedEmployee: {
-        type: Object,
-        required: true,
-    },
     selectedSchedule: {
         type: Object,
         required: true,
@@ -41,20 +37,7 @@ const emit = defineEmits(['close', 'closeModal'])
 
 const state = reactive({
     error: {} as Error,
-    formScheduleSlot: {
-        time_in: '',
-        time_out: '',
-        note: '',
-    },
     isPageLoading: false,
-})
-
-watch(() => props.selectedSchedule, (selectedSchedule: any) => {
-    if (selectedSchedule) {
-        state.formScheduleSlot.time_in = selectedSchedule?.time_in
-        state.formScheduleSlot.time_out = selectedSchedule?.time_out
-        state.formScheduleSlot.note = selectedSchedule?.note
-    }
 })
 
 function closeModal() {
@@ -66,13 +49,12 @@ async function saveScheduleRequest(scheduleRequestDetails: any) {
         const selectedScheduleUuid = props.selectedSchedule?.schedule_uuid
         const params = {
             schedule_uuid: selectedScheduleUuid,
-            time_in: scheduleRequestDetails.time_in,
-            time_out: scheduleRequestDetails.time_out,
+            recipient_uuid: scheduleRequestDetails.recipient,
             note: scheduleRequestDetails.note,
         }
-        const response = await scheduleRequestService.saveScheduleRequest(params)
+        const response = await shiftSwapRequestService.saveScheduleSwapRequest(params)
         if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.changeTime.form.alert.requestSuccessfullySent')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.swapSchedule.form.alert.requestSuccessfullySent')}.`)
             closeModal()
         }
     } catch (error: any) {

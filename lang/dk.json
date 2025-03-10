@@ -1549,35 +1549,67 @@
             }
         },
         "scheduleRequests": {
-            "form": {
-                "alert": {
-                    "requestSuccessfullySent": "Anmodning sendt med succes"
+            "changeTime": {
+                "changeTimeRequest": "Anmodning om tidsændring",
+                "form": {
+                    "alert": {
+                        "requestSuccessfullySent": "Anmodning sendt med succes"
+                    },
+                    "note": "Bemærkning",
+                    "timeIn": "Tid ind",
+                    "timeOut": "Tid ud",
+                    "whyDoYouWantToRequestAdditionalHours": "Hvorfor vil du anmode om ekstra timer eller ændre timer"
                 },
-                "note": "Bemærkning",
-                "timeIn": "Tid ind",
-                "timeOut": "Tid ud",
-                "whyDoYouWantToRequestAdditionalHours": "Hvorfor vil du anmode om ekstra timer eller ændre timer"
+                "table": {
+                    "actions": {
+                        "approve": "Godkend",
+                        "disapprove": "Afvis"
+                    },
+                    "alert": {
+                        "scheduleSuccessfullyApproved": "Vagtplan godkendt med succes",
+                        "scheduleSuccessfullyDisapproved": "Vagtplan afvist med succes"
+                    },
+                    "confirmation": {
+                        "approveConfirmation": "Er du sikker på, at du vil godkende denne anmodning",
+                        "disapproveConfirmation": "Er du sikker på, at du vil afvise denne anmodning"
+                    },
+                    "note": "Bemærkning",
+                    "originalTime": "Oprindelig tid",
+                    "requestedTime": "Anmodet tid",
+                    "shiftType": "Vagttype"
+                }
             },
             "newRequest": "Ny anmodning",
             "request": "Anmodning",
             "requests": "Anmodninger",
-            "table": {
-                "actions": {
-                    "approve": "Godkend",
-                    "disapprove": "Afvis"
+            "swapSchedule": {
+                "form": {
+                    "alert": {
+                        "requestSuccessfullySent": "Anmodning sendt med succes"
+                    },
+                    "assignee": "Tildelt person",
+                    "note": "Note",
+                    "whyDoYouWantToRequestAScheduleSwap": "Hvorfor vil du anmode om at bytte vagtplan"
                 },
-                "alert": {
-                    "scheduleSuccessfullyApproved": "Vagtplan godkendt med succes",
-                    "scheduleSuccessfullyDisapproved": "Vagtplan afvist med succes"
-                },
-                "confirmation": {
-                    "approveConfirmation": "Er du sikker på, at du vil godkende denne anmodning",
-                    "disapproveConfirmation": "Er du sikker på, at du vil afvise denne anmodning"
-                },
-                "note": "Bemærkning",
-                "originalTime": "Oprindelig tid",
-                "requestedTime": "Anmodet tid",
-                "shiftType": "Vagttype"
+                "swapSchedules": "Byt vagtplan",
+                "table": {
+                    "actions": {
+                        "approve": "Godkend",
+                        "disapprove": "Afvis"
+                    },
+                    "alert": {
+                        "requestSuccessfullyApproved": "Anmodning godkendt med succes",
+                        "requestSuccessfullyDisapproved": "Anmodning afvist med succes"
+                    },
+                    "confirmation": {
+                        "approveConfirmation": "Er du sikker på, at du vil godkende denne anmodning",
+                        "disapproveConfirmation": "Er du sikker på, at du vil afvise denne anmodning"
+                    },
+                    "note": "Bemærkning",
+                    "requester": "Anmoder",
+                    "schedule": "Vagtplan",
+                    "shiftType": "Vagttype"
+                }
             }
         },
         "scheduleSlots": {

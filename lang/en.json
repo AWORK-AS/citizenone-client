@@ -1549,35 +1549,67 @@
             }
         },
         "scheduleRequests": {
-            "form": {
-                "alert": {
-                    "requestSuccessfullySent": "Request successfully sent"
+            "changeTime": {
+                "changeTimeRequest": "Change time request",
+                "form": {
+                    "alert": {
+                        "requestSuccessfullySent": "Request successfully sent"
+                    },
+                    "note": "Note",
+                    "timeIn": "Time in",
+                    "timeOut": "Time out",
+                    "whyDoYouWantToRequestAdditionalHours": "Why do you want to request additional hours or change hours"
                 },
-                "note": "Note",
-                "timeIn": "Time in",
-                "timeOut": "Time out",
-                "whyDoYouWantToRequestAdditionalHours": "Why do you want to request additional hours or change hours"
+                "table": {
+                    "actions": {
+                        "approve": "Approve",
+                        "disapprove": "Disapprove"
+                    },
+                    "alert": {
+                        "scheduleSuccessfullyApproved": "Schedule successfully approved",
+                        "scheduleSuccessfullyDisapproved": "Schedule successfully disapproved"
+                    },
+                    "confirmation": {
+                        "approveConfirmation": "Are you sure you want to approve this request",
+                        "disapproveConfirmation": "Are you sure you want to disapprove this request"
+                    },
+                    "note": "Note",
+                    "originalTime": "Original time",
+                    "requestedTime": "Requested time",
+                    "shiftType": "Shift type"
+                }
             },
             "newRequest": "New request",
             "request": "Request",
             "requests": "Requests",
-            "table": {
-                "actions": {
-                    "approve": "Approve",
-                    "disapprove": "Disapprove"
+            "swapSchedule": {
+                "form": {
+                    "alert": {
+                        "requestSuccessfullySent": "Request successfully sent"
+                    },
+                    "assignee": "Assignee",
+                    "note": "Note",
+                    "whyDoYouWantToRequestAScheduleSwap": "Why do you want to request a schedule swap"
                 },
-                "alert": {
-                    "scheduleSuccessfullyApproved": "Schedule successfully approved",
-                    "scheduleSuccessfullyDisapproved": "Schedule successfully disapproved"
-                },
-                "confirmation": {
-                    "approveConfirmation": "Are you sure you want to approve this request",
-                    "disapproveConfirmation": "Are you sure you want to disapprove this request"
-                },
-                "note": "Note",
-                "originalTime": "Original time",
-                "requestedTime": "Requested time",
-                "shiftType": "Shift type"
+                "swapSchedule": "Swap schedule",
+                "table": {
+                    "actions": {
+                        "approve": "Approve",
+                        "disapprove": "Disapprove"
+                    },
+                    "alert": {
+                        "requestSuccessfullyApproved": "Request successfully approved",
+                        "requestSuccessfullyDisapproved": "Request successfully disapproved"
+                    },
+                    "confirmation": {
+                        "approveConfirmation": "Are you sure you want to approve this request",
+                        "disapproveConfirmation": "Are you sure you want to disapprove this request"
+                    },
+                    "note": "Note",
+                    "requester": "Requester",
+                    "schedule": "Schedule",
+                    "shiftType": "Shift type"
+                }
             }
         },
         "scheduleSlots": {

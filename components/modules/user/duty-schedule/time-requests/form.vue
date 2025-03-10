@@ -4,27 +4,27 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="time_in" :label="$t('dutySchedules.scheduleRequests.form.timeIn')" />
+                <FormLabel for="time_in" :label="$t('dutySchedules.scheduleRequests.changeTime.form.timeIn')" />
                 <FormTimeField id="time_in" name="time_in"
-                    :placeholder="$t('dutySchedules.scheduleRequests.form.timeIn')"
+                    :placeholder="$t('dutySchedules.scheduleRequests.changeTime.form.timeIn')"
                     v-model="state.formScheduleRequest.time_in"
                     class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
                 <FormError :error="v$?.formScheduleRequest?.time_in?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.time_in?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="time_out" :label="$t('dutySchedules.scheduleRequests.form.timeOut')" />
+                <FormLabel for="time_out" :label="$t('dutySchedules.scheduleRequests.changeTime.form.timeOut')" />
                 <FormTimeField id="time_out" name="time_out"
-                    :placeholder="$t('dutySchedules.scheduleRequests.form.timeOut')"
+                    :placeholder="$t('dutySchedules.scheduleRequests.changeTime.form.timeOut')"
                     v-model="state.formScheduleRequest.time_out"
                     class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
                 <FormError :error="v$?.formScheduleRequest?.time_out?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.time_out?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="note" :label="$t('dutySchedules.scheduleRequests.form.note')" />
+                <FormLabel for="note" :label="$t('dutySchedules.scheduleRequests.changeTime.form.note')" />
                 <FormTextArea id="note" name="note"
-                    :placeholder="`${$t('dutySchedules.scheduleRequests.form.whyDoYouWantToRequestAdditionalHours')}?`"
+                    :placeholder="`${$t('dutySchedules.scheduleRequests.changeTime.form.whyDoYouWantToRequestAdditionalHours')}?`"
                     v-model="state.formScheduleRequest.note" />
                 <FormError :error="v$?.formScheduleRequest?.note?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.note?.[0]" />
