@@ -2466,12 +2466,42 @@
         "newSubgoal": "New subgoal",
         "noAvailableSubgoals": "There's no subgoals available to display",
         "notes": "Notes",
+        "notifications": {
+            "editNotification": "Edit notification",
+            "form": {
+                "alert": {
+                    "notificationSuccessfullySaved": "Notification successfully saved",
+                    "notificationSuccessfullyUpdated": "Notification successfully updated"
+                },
+                "dateTime": "Date time",
+                "note": "Note",
+                "users": "Users"
+            },
+            "newNotification": "New notification",
+            "notifications": "Notifications",
+            "table": {
+                "actions": {
+                    "edit": "Edit",
+                    "delete": "Delete"
+                },
+                "alert": {
+                    "notificationSuccessfullyDeleted": "Notification successfully deleted"
+                },
+                "confirmation": {
+                    "deleteNotificationConfirmation": "Are you sure you want to delete this notification"
+                },
+                "dateTime": "Date time",
+                "note": "Note",
+                "users": "Users"
+            }
+        },
         "subgoals": "Subgoals",
         "table": {
             "actions": {
                 "archive": "Archive",
                 "edit": "Edit",
                 "delete": "Delete",
+                "notifications": "Notifications",
                 "seeGoals": "See goals",
                 "seeSubgoals": "See subgoals",
                 "notes": "Notes"

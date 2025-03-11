@@ -228,6 +228,12 @@
                                                     <Icon name="ph:check-square-offset" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="$t('plansandgoals.table.actions.notifications')">
+                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                    @click="viewNotifications(plan)">
+                                                    <Icon name="ph:bell" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('plansandgoals.table.actions.delete')"
                                                 v-if="plan?.is_deletable && !plan?.is_single_goal">
                                                 <FormButton class="rounded-md" buttonSize="sm"
@@ -269,6 +275,8 @@
                 @refreshPlans="fetchPlans" />
             <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
                 :selectedData="state.selectedPlan" @close="closeStatusesModal" @refreshData="fetchPlans" />
+            <ModulesUserCitizenPlanNotificationModalNotifications :isModalOpen="state.modal.isNotificationsOpen"
+                :selectedData="state.selectedPlan" @close="state.modal.isNotificationsOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isArchiveGoalOpen"
                 :message="`${$t('plansandgoals.confirmation.archiveGoalConfirmation')}?`"
                 @close="state.modal.isArchiveGoalOpen = false" @confirm="archiveGoal" />
@@ -334,6 +342,7 @@ const state = reactive({
         isEditPlanOpen: false,
         isEditSingleGoalOpen: false,
         isFilterPlansAndGoalsOpen: false,
+        isNotificationsOpen: false,
         isStatusesOpen: false,
     },
     plans: [] as any,
@@ -485,6 +494,11 @@ function viewStatuses(plan: any) {
     state.modal.isStatusesOpen = true
 }
 
+function viewNotifications(plan: any) {
+    state.selectedPlan = plan
+    state.modal.isNotificationsOpen = true
+}
+
 function viewSubgoals(goal: any) {
     state.selectedGoal = goal
     state.slideOver.isSubgoalOpen = true
@@ -497,12 +511,12 @@ function viewPlan(plan: any) {
 
 function closeEditPlanModal() {
     state.modal.isEditPlanOpen = false
-    state.selectedPlan = []
+    state.selectedPlan = {}
 }
 
 function closeStatusesModal() {
     state.modal.isStatusesOpen = false
-    state.selectedPlan = []
+    state.selectedPlan = {}
 }
 
 function confirmPlanDeletion(plan: any) {

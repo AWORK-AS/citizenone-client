@@ -2466,12 +2466,42 @@
         "newSubgoal": "Nyt delmål",
         "noAvailableSubgoals": "Der er ingen delmål tilgængelige at vise",
         "notes": "Noter",
+        "notifications": {
+            "editNotification": "Rediger notifikation",
+            "form": {
+                "alert": {
+                    "notificationSuccessfullySaved": "Notifikation gemt med succes",
+                    "notificationSuccessfullyUpdated": "Notifikation opdateret med succes"
+                },
+                "dateTime": "Dato og tid",
+                "note": "Bemærkning",
+                "users": "Brugere"
+            },
+            "newNotification": "Ny notifikation",
+            "notifications": "Notifikationer",
+            "table": {
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                },
+                "alert": {
+                    "notificationSuccessfullyDeleted": "Notifikation slettet med succes"
+                },
+                "confirmation": {
+                    "deleteNotificationConfirmation": "Er du sikker på, at du vil slette denne notifikation"
+                },
+                "dateTime": "Dato og tid",
+                "note": "Bemærkning",
+                "users": "Brugere"
+            }
+        },
         "subgoals": "Delmål",
         "table": {
             "actions": {
                 "archive": "Arkivér",
                 "edit": "Rediger",
                 "delete": "Slet",
+                "notifications": "Notifikationer",
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
                 "notes": "Noter"
