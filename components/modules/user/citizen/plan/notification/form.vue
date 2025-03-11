@@ -91,7 +91,7 @@ const state = reactive({
         date_time: '',
         user: [],
         note: '',
-    },
+    } as any,
     isPageLoading: false,
     options: {
         users: []
@@ -105,16 +105,9 @@ onMounted(() => {
         note: props.selectedNotification?.note,
     }
     fetchAllUsers()
-})
-
-watch(() => props.selectedNotification, (newValue: any) => {
-    if (newValue != null) {
-        state.formNotification = {
-            date_time: newValue?.date_time,
-            user: [],
-            note: newValue?.note,
-        }
-    }
+    props?.selectedNotification?.notification_users?.forEach((notificationUser: any) => {
+        state.formNotification.user.push(notificationUser?.user?.uuid)
+    })
 })
 
 async function fetchAllUsers() {

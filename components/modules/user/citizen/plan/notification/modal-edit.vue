@@ -54,9 +54,9 @@ async function updateNotification(notificationDetails: any) {
     try {
         const notificationUuid = props.selectedNotification.uuid
         const params = {
-            title: notificationDetails.title,
-            score: notificationDetails.score,
-            notification: notificationDetails.notification,
+            date_time: notificationDetails.date_time,
+            user_uuid: notificationDetails.user,
+            note: notificationDetails.note,
         }
         const response = await planGoalSubgoalNotificationService.updateNotification(notificationUuid, params)
         if (response?.data) {

@@ -21,17 +21,19 @@
                                 <template #body
                                     v-if="!(state.isTableLoading || (state.notifications?.data?.length === 0))">
                                     <tr v-for="(notification, index) in state.notifications?.data" :key="index">
-                                        <td width="20%">
+                                        <td width="25%">
                                             <p>
                                                 {{ formatDateTimeToReadable(notification.date_time) }}
                                             </p>
                                         </td>
-                                        <td width="20%">
-                                            <span>
-                                                {{ notification?.user?.firstname + ' ' + notification?.user?.lastname }}
-                                            </span>
+                                        <td width="30%">
+                                            <p v-for="(notificationUser, index) in notification?.notification_users"
+                                                :key="index">
+                                                {{ notificationUser?.user?.firstname }} {{
+                                                    notificationUser?.user?.lastname }}
+                                            </p>
                                         </td>
-                                        <td width="20%">
+                                        <td width="35%">
                                             <div v-html="notification?.note" class="content table-responsive" />
                                         </td>
                                         <td width="10%">

@@ -54,15 +54,15 @@ function refreshNotifications() {
     emit('refreshNotifications')
 }
 
-async function saveNotification(statusDetails: any) {
+async function saveNotification(notificationDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         let params = {
             plan_goal_subgoal_uuid: props.selectedData?.uuid,
-            date_time: statusDetails.date_time,
-            user_uuid: statusDetails.user,
-            note: statusDetails.note,
+            date_time: notificationDetails.date_time,
+            user_uuid: notificationDetails.user,
+            note: notificationDetails.note,
         }
         const response = await planGoalSubgoalNotificationService.saveNotification(params)
         if (response?.data) {
