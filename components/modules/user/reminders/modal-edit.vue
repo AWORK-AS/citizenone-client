@@ -1,11 +1,11 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('reminder.newReminder')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="sm" :title="$t('reminder.editReminder')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserRemindersForm formType="create" :selectedReminder="state.formReminder"
+                    <ModulesUserRemindersForm formType="update" :selectedReminder="props.selectedReminder"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveReminder" />
+                        @closeModal="closeModal" @submitForm="updateReminder" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -26,6 +26,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    selectedReminder: {
+        type: Object,
+        required: true,
+    },
 })
 
 const emit = defineEmits(['close', 'refreshReminders'])
@@ -33,13 +37,6 @@ const emit = defineEmits(['close', 'refreshReminders'])
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
-    formReminder: {
-        employee: '',
-        title: '',
-        date_time: '',
-        repeat: '',
-        notes: '',
-    },
 })
 
 function closeModal() {
@@ -50,22 +47,23 @@ function refreshReminders() {
     emit('refreshReminders')
 }
 
-async function saveReminder(reminderDetails: any) {
+async function updateReminder(reminderDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        let params = {
+        const reminderUuid = props.selectedReminder?.uuid
+        const params = {
             employee_uuid: reminderDetails.employee,
             title: reminderDetails.title,
             date_time: reminderDetails.date_time,
             repeat: reminderDetails.repeat,
             notes: reminderDetails.notes,
         };
-        const response = await reminderService.saveReminder(params)
+        const response = await reminderService.updateReminder(reminderUuid, params)
         if (response?.data) {
             refreshReminders()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.reminderSuccessfullySaved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.reminderSuccessfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error

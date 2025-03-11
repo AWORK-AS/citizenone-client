@@ -2704,6 +2704,7 @@
         },
         "dontForgetToCheckInToday": "Don't forget to check in today",
         "doNotShowAgain": "Do not show again",
+        "editReminder": "Edit reminder",
         "iDontNeedToCheckinNow": "I don't need to check in now",
         "reminders": "Reminders",
         "newReminder": "New reminder",
@@ -2714,9 +2715,10 @@
         "noAssigneeYet": "No assignee yet",
         "form": {
             "alert": {
-                "taskSuccessfullySaved": "Task successfully created",
+                "reminderSuccessfullySaved": "Reminder successfully saved",
                 "employeeSuccessfullyAssigned": "Employee successfully assigned",
-                "employeeSuccessfullyRemoved": "Employee successfully removed"
+                "employeeSuccessfullyRemoved": "Employee successfully removed",
+                "reminderSuccessfullyUpdated": "Reminder successfully updated"
             },
             "dueDate": "Due date",
             "repeat": {
@@ -2736,7 +2738,8 @@
         },
         "table": {
             "alert": {
-                "reminderSuccessfullyDeleted": "Reminder successfully deleted"
+                "reminderSuccessfullyDeleted": "Reminder successfully deleted",
+                "reminderSuccessfullyUpdated": "Reminder successfully updated"
             },
             "confirmation": {
                 "deleteReminderConfirmation": "Are you sure you want to delete this reminder"

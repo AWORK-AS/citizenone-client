@@ -46,12 +46,15 @@
                             </div>
                             <div>
                                 <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
-                                    <FormButton class="rounded-md min-w-36" buttonSize="sm"
-                                        @click="viewAssignees(reminder)">
+                                    <FormButton class="rounded-md" buttonSize="sm" @click="viewAssignees(reminder)">
                                         <Icon name="ph:user-plus" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('reminder.table.actions.assignees') }}
                                     </FormButton>
-                                    <FormButton class="rounded-md min-w-36" buttonSize="sm"
+                                    <FormButton class="rounded-md" buttonSize="sm" @click="editReminder(reminder)">
+                                        <Icon name="ph:pencil" class="h-4 w-4" aria-hidden="true" />
+                                        {{ $t('reminder.table.actions.edit') }}
+                                    </FormButton>
+                                    <FormButton class="rounded-md" buttonSize="sm"
                                         @click="deleteReminderConfirmation(reminder)">
                                         <Icon name="ph:trash" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('reminder.table.actions.delete') }}
@@ -67,8 +70,11 @@
                     </div>
                 </div>
             </div>
-            <ModulesUserRemindersModalNew :isModalOpen="state.modal.isNewTaskOpen" :selectedReminder="state.reminders"
+            <ModulesUserRemindersModalNew :isModalOpen="state.modal.isNewTaskOpen"
                 @close="state.modal.isNewTaskOpen = false" @refreshReminders="fetchReminders()" />
+            <ModulesUserRemindersModalEdit :isModalOpen="state.modal.isEditReminderOpen"
+                :selectedReminder="state.selectedReminder" @close="state.modal.isEditReminderOpen = false"
+                @refreshReminders="fetchReminders()" />
             <ModulesUserRemindersModalAssignees :isModalOpen="state.modal.isAssignReminderOpen"
                 :selectedReminder="state.selectedReminder" @close="state.modal.isAssignReminderOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteAssignReminderOpen"
@@ -96,6 +102,7 @@ const state = reactive({
         isNewTaskOpen: false,
         isAssignReminderOpen: false,
         isDeleteAssignReminderOpen: false,
+        isEditReminderOpen: false,
     },
     selectedReminder: {} as any,
 })
@@ -150,6 +157,11 @@ function formatTimeToReadable(dateTime: string) {
 function viewAssignees(reminder: any) {
     state.selectedReminder = reminder
     state.modal.isAssignReminderOpen = true
+}
+
+function editReminder(reminder: any) {
+    state.selectedReminder = reminder
+    state.modal.isEditReminderOpen = true
 }
 
 function deleteReminderConfirmation(reminder: any) {

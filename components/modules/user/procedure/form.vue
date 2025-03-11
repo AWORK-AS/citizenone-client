@@ -94,7 +94,7 @@ const editorContentConfig = ref({
     },
     extraPlugins: [ContentUploadAdapterPlugin],
     height: 500  // Set the editor height here
-})
+}) as any
 const contentFileInput = ref(null) as any
 
 const state = reactive({

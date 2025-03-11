@@ -98,7 +98,7 @@ const editorDescriptionConfig = ref({
         ]
     },
     height: 500  // Set the editor height here
-})
+}) as any
 
 const state = reactive({
     formSubgoal: {

@@ -93,7 +93,7 @@ const editorStatusConfig = ref({
         ]
     },
     height: 500
-})
+}) as any
 
 const state = reactive({
     error: {} as Error,
@@ -108,7 +108,7 @@ const state = reactive({
         notes: '',
         repeat: '',
         employee: []
-    },
+    } as any,
     options: {
         repeat: [
             { value: 'never', label: `${t('reminder.form.repeat.never')}` },
@@ -135,18 +135,10 @@ onMounted(() => {
         repeat: props.selectedReminder.repeat,
         employee: [],
     }
-})
-
-watch(() => props.selectedReminder, (newValue: any) => {
-    if (newValue != null) {
-        state.formReminder = {
-            title: newValue?.title,
-            date_time: newValue?.date_time,
-            notes: newValue?.notes,
-            repeat: newValue?.repeat,
-            employee: [],
-        }
-    }
+    console.log('test', props.selectedReminder?.reminder_users)
+    props.selectedReminder?.reminder_users.forEach((reminderUser: any) => {
+        state.formReminder.employee.push(reminderUser?.user?.uuid)
+    })
 })
 
 async function fetchAllEmployees() {

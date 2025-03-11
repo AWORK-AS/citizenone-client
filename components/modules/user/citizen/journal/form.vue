@@ -304,7 +304,7 @@ const editorContentConfig = ref({
     },
     extraPlugins: [ContentUploadAdapterPlugin],
     height: 500  // Set the editor height here
-})
+}) as any
 const editorNoteConfig = ref({
     // Add your custom configuration here
     toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'imageUpload'],
@@ -318,7 +318,7 @@ const editorNoteConfig = ref({
     },
     extraPlugins: [NoteUploadAdapterPlugin],
     height: 500  // Set the editor height here
-})
+}) as any
 
 const state = reactive({
     error: {} as Error,

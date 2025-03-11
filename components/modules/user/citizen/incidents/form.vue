@@ -152,7 +152,7 @@ const editorDescriptionConfig = ref({
     },
     extraPlugins: [DescriptionUploadAdapterPlugin],
     height: 500  // Set the editor height here
-})
+}) as any
 const { t } = useI18n()
 const descriptionFileInput = ref(null) as any
 

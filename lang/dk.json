@@ -2704,6 +2704,7 @@
         },
         "dontForgetToCheckInToday": "Glem ikke at tjekke ind i dag",
         "doNotShowAgain": "Vis ikke igen",
+        "editReminder": "Rediger påmindelse",
         "iDontNeedToCheckinNow": "Jeg behøver ikke tjekke ind nu",
         "reminders": "Påmindelser",
         "newReminder": "Ny påmindelse",
@@ -2714,9 +2715,10 @@
         "noAssigneeYet": "Ingen tildelt endnu",
         "form": {
             "alert": {
-                "taskSuccessfullySaved": "Opgaven blev oprettet med succes",
+                "reminderSuccessfullySaved": "Påmindelse gemt med succes",
                 "employeeSuccessfullyAssigned": "Medarbejder tildelt succesfuldt",
-                "employeeSuccessfullyRemoved": "Medarbejder fjernet succesfuldt"
+                "employeeSuccessfullyRemoved": "Medarbejder fjernet succesfuldt",
+                "reminderSuccessfullyUpdated": "Påmindelse opdateret med succes"
             },
             "dueDate": "Afleveringsfrist",
             "repeat": {
@@ -2736,7 +2738,8 @@
         },
         "table": {
             "alert": {
-                "reminderSuccessfullyDeleted": "Påmindelse slettet med succes"
+                "reminderSuccessfullyDeleted": "Påmindelse slettet med succes",
+                "reminderSuccessfullyUpdated": "Påmindelse opdateret med succes"
             },
             "confirmation": {
                 "deleteReminderConfirmation": "Er du sikker på, at du vil slette denne påmindelse"
