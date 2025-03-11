@@ -62,7 +62,7 @@ async function updateNotification(notificationDetails: any) {
         if (response?.data) {
             refreshNotifications()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('plansandgoals..notifications.table.alert.notificationSuccessfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.notifications.form.alert.notificationSuccessfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error
