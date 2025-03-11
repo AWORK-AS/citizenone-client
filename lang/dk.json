@@ -2433,6 +2433,13 @@
             "showOnlyPlansWithGoals": "Vis kun planer med mål",
             "showOnlySingleGoals": "Vis kun enkeltmål"
         },
+        "forCompletion": {
+            "goal": "Mål",
+            "managePendingPlansGoalsandSubgoals": "Administrer afventende planer, mål og delmål",
+            "noMorePendingPlansGoalsSubgoals": "Ingen flere afventende planer, mål og delmål",
+            "plan": "Plan",
+            "subgoal": "Delmål"
+        },
         "form": {
             "completed": "Fuldført",
             "completionDate": "Afslutningsdato",
@@ -2637,6 +2644,7 @@
             "title": "Titel"
         }
     },
+    "proceed": "Fortsæt",
     "protocols": {
         "editProtocol": "Rediger protokol",
         "form": {
@@ -2725,7 +2733,7 @@
             "name": "Navn"
         }
     },
-    "reminder": {
+    "reminders": {
         "assignees": "Modtagere",
         "checkIn": "Tjek ind",
         "checkinReminder": "Påmindelse om at tjekke ind",

@@ -2433,6 +2433,13 @@
             "showOnlyPlansWithGoals": "Show only plans with goals",
             "showOnlySingleGoals": "Show only single goals"
         },
+        "forCompletion": {
+            "goal": "Goal",
+            "managePendingPlansGoalsandSubgoals": "Manage pending plans, goals, and subgoals",
+            "noMorePendingPlansGoalsSubgoals": "No more pending plans, goals, and subgoals",
+            "plan": "Plan",
+            "subgoal": "Subgoal"
+        },
         "form": {
             "completed": "Completed",
             "completionDate": "Completion date",
@@ -2637,6 +2644,7 @@
             "title": "Title"
         }
     },
+    "proceed": "Proceed",
     "protocols": {
         "editProtocol": "Edit protocol",
         "form": {
@@ -2725,7 +2733,7 @@
             "name": "Name"
         }
     },
-    "reminder": {
+    "reminders": {
         "assignees": "Assignees",
         "checkIn": "Check in",
         "checkinReminder": "Check-in reminder",

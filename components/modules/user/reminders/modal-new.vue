@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('reminder.newReminder')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="sm" :title="$t('reminders.newReminder')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserRemindersForm formType="create" :selectedReminder="state.formReminder"
@@ -65,7 +65,7 @@ async function saveReminder(reminderDetails: any) {
         if (response?.data) {
             refreshReminders()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.reminderSuccessfullySaved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('reminders.form.alert.reminderSuccessfullySaved')}.`)
         }
     } catch (error: any) {
         state.error = error

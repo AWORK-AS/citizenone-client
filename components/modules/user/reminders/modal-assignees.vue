@@ -1,13 +1,13 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('reminder.assignees')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('reminders.assignees')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="flex justify-end items-center mb-5">
                         <FormButton buttonStyle="action" class="rounded-lg"
                             @click="state.modal.isAssignEmployeeReminderOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('reminder.assignAnEmployee') }}
+                            {{ $t('reminders.assignAnEmployee') }}
                         </FormButton>
                     </div>
                     <div v-if="state.assignees.length > 0" class="mt-10 mb-4 space-y-2">
@@ -38,14 +38,14 @@
                         </div>
                     </div>
                     <div v-if="state.assignees.length === 0" class="py-24 text-center">
-                        {{ $t('reminder.noAssigneeYet') }}
+                        {{ $t('reminders.noAssigneeYet') }}
                     </div>
                 </LoadingSpinner>
 
                 <ModulesUserRemindersModalAssignReminder :isModalOpen="state.modal.isAssignEmployeeReminderOpen"
                     :selectedReminder="props.selectedReminder" @close="closeAssignModal" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
-                    :message="`${$t('reminder.confirmation.removeEmployeeConfirmation')}?`"
+                    :message="`${$t('reminders.confirmation.removeEmployeeConfirmation')}?`"
                     @close="state.modal.isDeleteStatusOpen = false" @confirm="removeAssignee()" />
             </template>
         </Modal>
@@ -164,7 +164,7 @@ async function removeAssignee() {
         const employeeUuid = state.selectedEmployee.uuid
         const response = await reminderUserService.deleteReminderUser(employeeUuid)
         if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.employeeSuccessfullyRemoved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('reminders.form.alert.employeeSuccessfullyRemoved')}.`)
             fetchAssignees()
         }
     } catch (error: any) {

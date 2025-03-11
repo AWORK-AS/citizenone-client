@@ -105,7 +105,7 @@ async function assignCitizen() {
         const response = await employeeService.assignCitizen(employeeUuid, params)
         if (response?.data) {
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.employeeSuccessfullyAssigned')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('reminders.form.alert.employeeSuccessfullyAssigned')}.`)
         }
     } catch (error: any) {
         state.error = error

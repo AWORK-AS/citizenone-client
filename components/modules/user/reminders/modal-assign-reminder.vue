@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('reminder.assignAnEmployee')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('reminders.assignAnEmployee')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <Alert type="danger" :text="state?.error?.message"
@@ -8,7 +8,7 @@
                     <form @submit.prevent="saveReminderUser()" id="formAssignees">
                         <div class="space-y-1">
                             <p class="text-sm text-gray-600">
-                                {{ $t('reminder.assignees') }}
+                                {{ $t('reminders.assignees') }}
                             </p>
                             <FormSelectMultiple id="employees" :options="state.options.employees"
                                 v-model="state.formAssignees.assignees" />
@@ -17,7 +17,7 @@
                         </div>
                         <div class="mt-6">
                             <FormButton type="submit" class="w-full rounded-md" buttonStyle="primary">
-                                {{ $t('reminder.assign') }}
+                                {{ $t('reminders.assign') }}
                             </FormButton>
                         </div>
                     </form>
@@ -129,7 +129,7 @@ async function saveReminderUser() {
             const response = await reminderUserService.saveReminderUser(params)
             if (response?.data) {
                 closeModal()
-                successAlert(`${t('alert.success')}!`, `${t('reminder.form.alert.employeeSuccessfullyAssigned')}.`)
+                successAlert(`${t('alert.success')}!`, `${t('reminders.form.alert.employeeSuccessfullyAssigned')}.`)
             }
         } catch (error: any) {
             state.error = error

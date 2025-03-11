@@ -1,23 +1,23 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('reminder.checkinReminder')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs" :title="$t('reminders.checkinReminder')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="space-y-5">
                     <p>
-                        {{ $t('reminder.dontForgetToCheckInToday') }}
+                        {{ $t('reminders.dontForgetToCheckInToday') }}
                     </p>
                     <div class="w-fit flex items-center cursor-pointer mb-4"
                         @click="state.doNotShowAgain = !state.doNotShowAgain">
                         <FormCheckbox :value="state.doNotShowAgain" class="mr-2" />
-                        <label class="text-sm cursor-pointer">{{ $t('reminder.doNotShowAgain') }}</label>
+                        <label class="text-sm cursor-pointer">{{ $t('reminders.doNotShowAgain') }}</label>
                     </div>
                     <div class="flex flex-col items-center gap-2">
                         <FormButton buttonStyle="primary" class="w-full rounded-md" @click="handleCheckIn">
-                            {{ $t('reminder.checkIn') }}
+                            {{ $t('reminders.checkIn') }}
                         </FormButton>
                         <p class="w-fit text-sm text-center text-primary cursor-pointer hover:text-primary-700"
                             @click="handleIDontNeedToCheckinNow">
-                            {{ $t('reminder.iDontNeedToCheckinNow') }}
+                            {{ $t('reminders.iDontNeedToCheckinNow') }}
                         </p>
                     </div>
                 </div>

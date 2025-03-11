@@ -172,7 +172,7 @@
                                                 formatDateToReadable(plan?.created_at) }}
                                         </p>
                                         <p class="text-sm">
-                                            <span v-if="plan?.is_completed">
+                                            <span v-if="plan?.is_completed && plan?.date_completed">
                                                 {{ $t('plansandgoals.dateCompleted') }}: {{
                                                     formatDateToReadable(plan?.date_completed) }}
                                             </span>

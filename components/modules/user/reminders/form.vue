@@ -4,30 +4,30 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="title" :label="$t('reminder.form.title')" />
-                <FormTextField id="title" name="title" :placeholder="$t('reminder.form.title')"
+                <FormLabel for="title" :label="$t('reminders.form.title')" />
+                <FormTextField id="title" name="title" :placeholder="$t('reminders.form.title')"
                     v-model="state.formReminder.title" />
                 <FormError :error="v$?.formReminder?.title?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.title?.[0]" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
-                    {{ $t('reminder.form.dueDate') }}
+                    {{ $t('reminders.form.dueDate') }}
                 </p>
-                <FormDateTimeField id="date_time" name="date_time" :placeholder="$t('reminder.form.dueDate')"
+                <FormDateTimeField id="date_time" name="date_time" :placeholder="$t('reminders.form.dueDate')"
                     v-model="state.formReminder.date_time" />
                 <FormError :error="v$?.formReminder?.date_time?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date_time?.[0]" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
-                    {{ $t('reminder.form.repeat.repeat') }}
+                    {{ $t('reminders.form.repeat.repeat') }}
                 </p>
                 <FormSelect id="repeat" :options="state.options.repeat" v-model="state.formReminder.repeat" />
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
-                    {{ $t('reminder.assignees') }}
+                    {{ $t('reminders.assignees') }}
                 </p>
                 <FormSelectMultiple id="pages" :options="state.options.employees"
                     v-model="state.formReminder.employee" />
@@ -36,7 +36,7 @@
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
-                    {{ $t('reminder.notes') }}
+                    {{ $t('reminders.notes') }}
                 </p>
                 <ckeditor :editor="editor" v-model="state.formReminder.notes" :config="editorStatusConfig"></ckeditor>
                 <FormError :error="v$?.formReminder?.notes?.$errors[0]?.$message.toString()" />
@@ -111,16 +111,16 @@ const state = reactive({
     } as any,
     options: {
         repeat: [
-            { value: 'never', label: `${t('reminder.form.repeat.never')}` },
-            { value: 'daily', label: `${t('reminder.form.repeat.daily')}` },
-            { value: 'weekdays', label: `${t('reminder.form.repeat.weekdays')}` },
-            { value: 'weekends', label: `${t('reminder.form.repeat.weekends')}` },
-            { value: 'weekly', label: `${t('reminder.form.repeat.weekly')}` },
-            { value: 'biweekly', label: `${t('reminder.form.repeat.biWeekly')}` },
-            { value: 'monthly', label: `${t('reminder.form.repeat.monthly')}` },
-            { value: 'every_three_months', label: `${t('reminder.form.repeat.everyThreeMonths')}` },
-            { value: 'every_six_months', label: `${t('reminder.form.repeat.everySixMonths')}` },
-            { value: 'yearly', label: `${t('reminder.form.repeat.yearly')}` },
+            { value: 'never', label: `${t('reminders.form.repeat.never')}` },
+            { value: 'daily', label: `${t('reminders.form.repeat.daily')}` },
+            { value: 'weekdays', label: `${t('reminders.form.repeat.weekdays')}` },
+            { value: 'weekends', label: `${t('reminders.form.repeat.weekends')}` },
+            { value: 'weekly', label: `${t('reminders.form.repeat.weekly')}` },
+            { value: 'biweekly', label: `${t('reminders.form.repeat.biWeekly')}` },
+            { value: 'monthly', label: `${t('reminders.form.repeat.monthly')}` },
+            { value: 'every_three_months', label: `${t('reminders.form.repeat.everyThreeMonths')}` },
+            { value: 'every_six_months', label: `${t('reminders.form.repeat.everySixMonths')}` },
+            { value: 'yearly', label: `${t('reminders.form.repeat.yearly')}` },
         ],
         employees: []
     },

@@ -395,6 +395,9 @@
         </div>
         <ModulesUserReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen"
             @close="state.modal.isCheckinReminderOpen = false" />
+        <ModulesUserCitizenPlanModalCompletionReminder
+            :isModalOpen="state.modal.isPlanGoalSubgoalCompletionReminderOpen"
+            @close="state.modal.isPlanGoalSubgoalCompletionReminderOpen = false" />
         <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesUserSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
@@ -519,6 +522,7 @@ const state = reactive({
     modal: {
         isCheckinReminderOpen: false,
         isContactUsOpen: false,
+        isPlanGoalSubgoalCompletionReminderOpen: false,
     },
     showSubscribeButton: false,
     slideOver: {
@@ -587,10 +591,17 @@ async function fetchUser() {
             userStore.setUser(response?.data)
             userStore.setLanguage(response?.data?.language?.code)
             language.locale.value = response?.data?.language?.code
+            plansGoalsSubgoalsCompletionReminderModalVisibility(response)
             checkInReminderModalVisibility(response)
         }
     } catch (error: any) {
         state.error = error
+    }
+}
+
+function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
+    if (response?.data?.plans_goals_subgoals_reached_deadline_count > 0 && routeName !== 'plans-goals-subgoals-completions') {
+        state.modal.isPlanGoalSubgoalCompletionReminderOpen = true
     }
 }
 

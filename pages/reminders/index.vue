@@ -3,17 +3,17 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('reminder.reminders') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('reminders.reminders') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('reminder.reminders') }}</template>
+            <template #header>{{ $t('reminders.reminders') }}</template>
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action" class="rounded-lg"
                         @click="state.modal.isNewTaskOpen = !state.modal.isNewTaskOpen">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('reminder.newReminder') }}
+                        {{ $t('reminders.newReminder') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -31,13 +31,15 @@
                                 </div>
                                 <Badge type="primary" class="w-fit">
                                     <p class="text-xs">
-                                        {{ $t('reminder.table.dueDate') }}: {{ formatDateToReadable(reminder?.date_time)
+                                        {{ $t('reminders.table.dueDate') }}: {{
+                                            formatDateToReadable(reminder?.date_time)
                                         }}
                                     </p>
                                 </Badge>
                                 <Badge type="primary" class="w-fit">
                                     <p class="text-xs">
-                                        {{ $t('reminder.table.time') }}: {{ formatTimeToReadable(reminder?.date_time) }}
+                                        {{ $t('reminders.table.time') }}: {{ formatTimeToReadable(reminder?.date_time)
+                                        }}
                                         ~ {{
                                             reminder?.repeat
                                         }}
@@ -48,16 +50,16 @@
                                 <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
                                     <FormButton class="rounded-md" buttonSize="sm" @click="viewAssignees(reminder)">
                                         <Icon name="ph:user-plus" class="h-4 w-4" aria-hidden="true" />
-                                        {{ $t('reminder.table.actions.assignees') }}
+                                        {{ $t('reminders.table.actions.assignees') }}
                                     </FormButton>
                                     <FormButton class="rounded-md" buttonSize="sm" @click="editReminder(reminder)">
                                         <Icon name="ph:pencil" class="h-4 w-4" aria-hidden="true" />
-                                        {{ $t('reminder.table.actions.edit') }}
+                                        {{ $t('reminders.table.actions.edit') }}
                                     </FormButton>
                                     <FormButton class="rounded-md" buttonSize="sm"
                                         @click="deleteReminderConfirmation(reminder)">
                                         <Icon name="ph:trash" class="h-4 w-4" aria-hidden="true" />
-                                        {{ $t('reminder.table.actions.delete') }}
+                                        {{ $t('reminders.table.actions.delete') }}
                                     </FormButton>
                                 </div>
                             </div>
@@ -78,7 +80,7 @@
             <ModulesUserRemindersModalAssignees :isModalOpen="state.modal.isAssignReminderOpen"
                 :selectedReminder="state.selectedReminder" @close="state.modal.isAssignReminderOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteAssignReminderOpen"
-                :message="$t('reminder.table.confirmation.deleteReminderConfirmation') + '?'"
+                :message="$t('reminders.table.confirmation.deleteReminderConfirmation') + '?'"
                 @close="state.modal.isDeleteAssignReminderOpen = false" @confirm="deleteReminder" />
         </NuxtLayout>
     </div>
@@ -176,7 +178,7 @@ async function deleteReminder() {
         const reminderUuid = state.selectedReminder?.uuid
         const response = await reminderService.deleteReminder(reminderUuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            successAlert(`${t('alert.success')}!`, `${t('reminder.table.alert.reminderSuccessfullyDeleted')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('reminders.table.alert.reminderSuccessfullyDeleted')}.`)
             fetchReminders()
         }
     } catch (error: any) {
