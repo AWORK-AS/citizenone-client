@@ -105,6 +105,13 @@
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
+                                                                    :text="$t('plansandgoals.table.actions.notifications')">
+                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                        @click="viewNotifications(subgoal)">
+                                                                        <Icon name="ph:bell" class="size-4" />
+                                                                    </FormButton>
+                                                                </Tooltip>
+                                                                <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.archive')">
                                                                     <FormButton class="rounded-md" buttonSize="sm"
                                                                         @click="confirmSubgoalArchive(subgoal)">
@@ -183,6 +190,8 @@
                 @close="state.modal.isEditSubgoalOpen = false" @refreshGoals="fetchSubgoals" />
             <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isSubGoalStatusesOpen"
                 :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchSubgoals" />
+            <ModulesUserCitizenPlanNotificationModalNotifications :isModalOpen="state.modal.isNotificationsOpen"
+                :selectedData="state.selectedSubgoal" @close="state.modal.isNotificationsOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isArchiveSubgoalOpen"
                 :message="`${$t('plansandgoals.confirmation.archiveSubgoalConfirmation')}?`"
                 @close="state.modal.isArchiveSubgoalOpen = false" @confirm="archiveSubgoal" />
@@ -226,6 +235,7 @@ const state = reactive({
         isAddSubgoalOpen: false,
         isDeleteSubgoalOpen: false,
         isEditSubgoalOpen: false,
+        isNotificationsOpen: false,
         isSubGoalStatusesOpen: false,
     },
     selectedGoal: {},
@@ -306,6 +316,11 @@ function editSubGoal(subgoal: any) {
 function viewSubgoalStatuses(subgoal: any) {
     state.selectedSubgoal = subgoal
     state.modal.isSubGoalStatusesOpen = true
+}
+
+function viewNotifications(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isNotificationsOpen = true
 }
 
 function confirmSubgoalArchive(subgoal: any) {

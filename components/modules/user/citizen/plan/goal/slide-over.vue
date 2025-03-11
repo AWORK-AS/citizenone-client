@@ -119,6 +119,13 @@
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
+                                                                    :text="$t('plansandgoals.table.actions.notifications')">
+                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                        @click="viewGoalNotifications(goal)">
+                                                                        <Icon name="ph:bell" class="size-4" />
+                                                                    </FormButton>
+                                                                </Tooltip>
+                                                                <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.delete')"
                                                                     v-if="goal?.is_deletable">
                                                                     <FormButton class="rounded-md" buttonSize="sm"
@@ -301,6 +308,15 @@
                                                                                     </FormButton>
                                                                                 </Tooltip>
                                                                                 <Tooltip
+                                                                                    :text="$t('plansandgoals.table.actions.notifications')">
+                                                                                    <FormButton class="rounded-md"
+                                                                                        buttonSize="sm"
+                                                                                        @click="viewSubgoalNotifications(subgoal)">
+                                                                                        <Icon name="ph:bell"
+                                                                                            class="size-4" />
+                                                                                    </FormButton>
+                                                                                </Tooltip>
+                                                                                <Tooltip
                                                                                     :text="$t('plansandgoals.table.actions.delete')"
                                                                                     v-if="subgoal?.is_deletable">
                                                                                     <FormButton class="rounded-md"
@@ -352,6 +368,12 @@
                 :selectedData="state.selectedGoal" @close="closeGoalStatusesModal" @refreshData="fetchGoals" />
             <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isSubGoalStatusesOpen"
                 :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchGoals" />
+
+            <ModulesUserCitizenPlanNotificationModalNotifications :isModalOpen="state.modal.isGoalNotificationsOpen"
+                :selectedData="state.selectedGoal" @close="state.modal.isGoalNotificationsOpen = false" />
+            <ModulesUserCitizenPlanNotificationModalNotifications :isModalOpen="state.modal.isSubgoalNotificationsOpen"
+                :selectedData="state.selectedSubgoal" @close="state.modal.isSubgoalNotificationsOpen = false" />
+
             <DialogConfirmation :isModalOpen="state.modal.isArchiveGoalOpen"
                 :message="`${$t('plansandgoals.confirmation.archiveGoalConfirmation')}?`"
                 @close="state.modal.isArchiveGoalOpen = false" @confirm="archiveGoal" />
@@ -407,7 +429,9 @@ const state = reactive({
         isDeleteSubgoalOpen: false,
         isEditGoalOpen: false,
         isEditSubgoalOpen: false,
+        isGoalNotificationsOpen: false,
         isGoalStatusesOpen: false,
+        isSubgoalNotificationsOpen: false,
         isSubGoalStatusesOpen: false,
     },
     selectedPlan: {
@@ -524,9 +548,19 @@ function viewGoalStatuses(goal: any) {
     state.modal.isGoalStatusesOpen = true
 }
 
+function viewGoalNotifications(goal: any) {
+    state.selectedGoal = goal
+    state.modal.isGoalNotificationsOpen = true
+}
+
 function viewSubgoalStatuses(subgoal: any) {
     state.selectedSubgoal = subgoal
     state.modal.isSubGoalStatusesOpen = true
+}
+
+function viewSubgoalNotifications(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isSubgoalNotificationsOpen = true
 }
 
 function closeGoalStatusesModal() {
