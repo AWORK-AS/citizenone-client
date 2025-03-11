@@ -1593,6 +1593,7 @@
                     "whyDoYouWantToRequestAScheduleSwap": "Hvorfor vil du anmode om at bytte vagtplan"
                 },
                 "swapSchedules": "Byt vagtplan",
+                "swapScheduleRequest": "Anmodning om vagtbytte",
                 "swapScheduleRequests": "Anmodninger om vagtbytte",
                 "table": {
                     "actions": {

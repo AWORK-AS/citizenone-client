@@ -1593,6 +1593,7 @@
                     "whyDoYouWantToRequestAScheduleSwap": "Why do you want to request a schedule swap"
                 },
                 "swapSchedule": "Swap schedule",
+                "swapScheduleRequest": "Swap schedule request",
                 "swapScheduleRequests": "Swap schedule requests",
                 "table": {
                     "actions": {

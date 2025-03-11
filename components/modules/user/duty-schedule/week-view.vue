@@ -285,7 +285,7 @@
                                                             <MenuButton
                                                                 class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
                                                                 <Tooltip :text="`
-                                                                    ${week?.additional_hour_requests} ${week?.additional_hour_requests === 1 ? $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest') : $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')} | 
+                                                                    ${week?.additional_hour_requests} ${week?.additional_hour_requests <= 1 ? $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest') : $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')} | 
                                                                     ${week?.swap_requests?.length} ${week?.swap_requests?.length === 1 ? $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest') : $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')}
                                                                     `"
                                                                     v-if="week?.additional_hour_requests > 0 || week?.swap_requests?.length > 0"

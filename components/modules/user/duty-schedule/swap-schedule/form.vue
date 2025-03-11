@@ -11,10 +11,9 @@
                     <FormError :error="state?.error?.errors?.recipient_uuid?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="note"
-                        :label="$t('dutySchedules.scheduleRequests.changeTime.form.whyDoYouWantToRequestAdditionalHours')" />
+                    <FormLabel for="note" :label="$t('dutySchedules.scheduleRequests.swapSchedule.form.note')" />
                     <FormTextArea id="note" name="note"
-                        :placeholder="`${$t('dutySchedules.scheduleRequests.changeTime.form.whyDoYouWantToRequestAdditionalHours')}?`"
+                        :placeholder="`${$t('dutySchedules.scheduleRequests.swapSchedule.form.whyDoYouWantToRequestAScheduleSwap')}?`"
                         v-model="state.formSwapScheduleRequest.note" />
                     <FormError :error="v$?.formSwapScheduleRequest?.note?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.note?.[0]" />
