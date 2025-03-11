@@ -135,7 +135,6 @@ onMounted(() => {
         repeat: props.selectedReminder.repeat,
         employee: [],
     }
-    console.log('test', props.selectedReminder?.reminder_users)
     props.selectedReminder?.reminder_users.forEach((reminderUser: any) => {
         state.formReminder.employee.push(reminderUser?.user?.uuid)
     })
