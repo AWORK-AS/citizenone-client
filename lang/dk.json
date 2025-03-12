@@ -2787,7 +2787,8 @@
             "actions": {
                 "assignees": "Modtagere",
                 "delete": "Slet",
-                "edit": "Rediger"
+                "edit": "Rediger",
+                "view": "Vis"
             },
             "dueDate": "Afleveringsfrist",
             "time": "Tid"

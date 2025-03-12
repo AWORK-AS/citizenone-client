@@ -600,7 +600,9 @@ async function fetchUser() {
 }
 
 function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
-    if (response?.data?.plans_goals_subgoals_reached_deadline_count > 0 && routeName !== 'plans-goals-subgoals-completions') {
+    const lastHidden = localStorage.getItem('plansGoalsSubgoalsReminderHidden')
+    const today = moment().format('YYYY-MM-DD')
+    if (lastHidden !== today && response?.data?.plans_goals_subgoals_reached_deadline_count > 0 && routeName !== 'plans-goals-subgoals-completions') {
         state.modal.isPlanGoalSubgoalCompletionReminderOpen = true
     }
 }

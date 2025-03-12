@@ -48,6 +48,10 @@
                             </div>
                             <div>
                                 <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
+                                    <FormButton class="rounded-md" buttonSize="sm" @click="viewReminder(reminder)">
+                                        <Icon name="ph:eye" class="h-4 w-4" aria-hidden="true" />
+                                        {{ $t('reminders.table.actions.view') }}
+                                    </FormButton>
                                     <FormButton class="rounded-md" buttonSize="sm" @click="viewAssignees(reminder)">
                                         <Icon name="ph:user-plus" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('reminders.table.actions.assignees') }}
@@ -105,6 +109,7 @@ const state = reactive({
         isAssignReminderOpen: false,
         isDeleteAssignReminderOpen: false,
         isEditReminderOpen: false,
+        isViewReminderOpen: false,
     },
     selectedReminder: {} as any,
 })
@@ -154,6 +159,11 @@ function formatTimeToReadable(dateTime: string) {
         minute: '2-digit',
         hour12: false,
     }).format(date)
+}
+
+function viewReminder(reminder: any) {
+    state.selectedReminder = reminder
+    state.modal.isViewReminderOpen = true
 }
 
 function viewAssignees(reminder: any) {

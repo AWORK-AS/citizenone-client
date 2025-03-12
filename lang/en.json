@@ -2787,7 +2787,8 @@
             "actions": {
                 "assignees": "Assignees",
                 "delete": "Delete",
-                "edit": "Edit"
+                "edit": "Edit",
+                "view": "View"
             },
             "dueDate": "Due date",
             "time": "Time"
