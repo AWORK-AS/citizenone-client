@@ -133,7 +133,7 @@
                     </div>
                 </LoadingSpinner>
                 <ModulesUserCitizenPlanModalEdit :isModalOpen="state.modal.isEditPlanOpen"
-                    :selectedPlan="state.selectedPlan" @close="state.modal.isEditPlanOpen = true"
+                    :selectedPlan="state.selectedPlan" @close="state.modal.isEditPlanOpen = false"
                     @refreshPlans="fetchPendingPlansGoalsSubgoals" />
                 <ModulesUserCitizenPlanGoalModalEdit :isModalOpen="state.modal.isEditGoalOpen"
                     :selectedGoal="state.selectedGoal" @close="state.modal.isEditGoalOpen = false"
