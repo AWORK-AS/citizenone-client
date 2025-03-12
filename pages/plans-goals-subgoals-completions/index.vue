@@ -146,7 +146,6 @@
     </div>
 </template>
 
-
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { planGoalSubgoalService } from '@/components/api/user/PlanGoalSubgoalService'

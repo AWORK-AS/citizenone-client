@@ -20,6 +20,10 @@ class ReminderService extends BaseAPIService {
     async deleteReminder(reminderUuid: any): Promise<any> {
         return await this.request(`/user/reminders/${reminderUuid}`, 'DELETE')
     }
+
+    async toggleReminderCompleteIncomplete(params: object): Promise<any> {
+        return await this.request(`/user/reminders/toggle/status`, 'POST', params)
+    }
 }
 
 export const reminderService = new ReminderService()

@@ -2791,6 +2791,8 @@
                 "view": "Vis"
             },
             "dueDate": "Afleveringsfrist",
+            "markAsComplete": "Markér som fuldført",
+            "markAsIncomplete": "Markér som ikke fuldført",
             "time": "Tid"
         }
     },
