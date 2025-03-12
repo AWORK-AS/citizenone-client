@@ -135,7 +135,7 @@ onMounted(() => {
         repeat: props.selectedReminder.repeat,
         employee: [],
     }
-    props.selectedReminder?.reminder_users.forEach((reminderUser: any) => {
+    props.selectedReminder?.reminder_users?.forEach((reminderUser: any) => {
         state.formReminder.employee.push(reminderUser?.user?.uuid)
     })
 })
@@ -148,7 +148,7 @@ async function fetchAllEmployees() {
         if (response) {
             state.options.employees = response
             let options: any = []
-            response.data.forEach(
+            response.data?.forEach(
                 (item: any) => options.push({
                     value: item.uuid,
                     label: item.firstname + " " + item.lastname,
