@@ -52,10 +52,6 @@
                                         <Icon name="ph:eye" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('reminders.table.actions.view') }}
                                     </FormButton>
-                                    <FormButton class="rounded-md" buttonSize="sm" @click="viewAssignees(reminder)">
-                                        <Icon name="ph:user-plus" class="h-4 w-4" aria-hidden="true" />
-                                        {{ $t('reminders.table.actions.assignees') }}
-                                    </FormButton>
                                     <FormButton class="rounded-md" buttonSize="sm" @click="editReminder(reminder)">
                                         <Icon name="ph:pencil" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('reminders.table.actions.edit') }}
@@ -81,8 +77,8 @@
             <ModulesUserRemindersModalEdit :isModalOpen="state.modal.isEditReminderOpen"
                 :selectedReminder="state.selectedReminder" @close="state.modal.isEditReminderOpen = false"
                 @refreshReminders="fetchReminders()" />
-            <ModulesUserRemindersModalAssignees :isModalOpen="state.modal.isAssignReminderOpen"
-                :selectedReminder="state.selectedReminder" @close="state.modal.isAssignReminderOpen = false" />
+            <ModulesUserRemindersModalView :isModalOpen="state.modal.isViewReminderOpen"
+                :selectedReminder="state.selectedReminder" @close="state.modal.isViewReminderOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteAssignReminderOpen"
                 :message="$t('reminders.table.confirmation.deleteReminderConfirmation') + '?'"
                 @close="state.modal.isDeleteAssignReminderOpen = false" @confirm="deleteReminder" />
@@ -106,7 +102,6 @@ const state = reactive({
     reminders: [] as any,
     modal: {
         isNewTaskOpen: false,
-        isAssignReminderOpen: false,
         isDeleteAssignReminderOpen: false,
         isEditReminderOpen: false,
         isViewReminderOpen: false,
@@ -164,11 +159,6 @@ function formatTimeToReadable(dateTime: string) {
 function viewReminder(reminder: any) {
     state.selectedReminder = reminder
     state.modal.isViewReminderOpen = true
-}
-
-function viewAssignees(reminder: any) {
-    state.selectedReminder = reminder
-    state.modal.isAssignReminderOpen = true
 }
 
 function editReminder(reminder: any) {
