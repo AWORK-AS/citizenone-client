@@ -135,39 +135,15 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers, minLength, sameAs } from '@vuelidate/validators'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
+import { useGtag } from '@/composables/gTags'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
-
-// Inject Google Tag Manager Script to track conversion
-useHead({
-    script: [
-        {
-            type: 'text/javascript',
-            innerHTML: `
-                function gtag_report_conversion(url) {
-                    var callback = function () {
-                        if (typeof(url) !== 'undefined') {
-                            window.location = url
-                        }
-                    }
-                    gtag('event', 'conversion', {
-                        'send_to': 'AW-16858750370/fKRlCNrJ0J8aEKK78OY-',
-                        'value': 1.0,
-                        'currency': 'DKK',
-                        'event_callback': callback
-                    })
-                    return false
-                }
-            `,
-        }
-    ],
-    __dangerouslyDisableSanitizers: ['script'],
-})
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const language = useI18n()
 const { successAlert } = useAlert()
+const { gtagReportConversion } = useGtag()
 const { t } = useI18n()
 
 // Set language
@@ -280,12 +256,7 @@ async function fetchAllIndustries() {
 }
 
 async function register() {
-    // Call Google Analytics conversion tracking on form submit
-    if (typeof gtag === 'function') {
-        gtag_report_conversion();
-    } else {
-        console.error("Google Tag is not defined.");
-    }
+    gtagReportConversion('https://app.citizenone.dk')
     state.error = {}
     v$.value.$validate()
     if (!state.formRegister.agreeToTerms) {
