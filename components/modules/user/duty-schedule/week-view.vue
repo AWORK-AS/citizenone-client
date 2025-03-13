@@ -267,6 +267,12 @@
                                                         {{ time?.yearly_hours }}
                                                     </p>
                                                 </div>
+                                                <div class="col-span-7 space-y-2 mt-1">
+                                                    {{
+                                                        $t('dutySchedules.availableVacationHours')
+                                                    }}:
+                                                    {{ weeklySchedule?.employee?.available_vacation_hours ?? 0 }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="p-3 border-0.5" v-for="(week, weekIndex) in weeklySchedule?.weeks"
