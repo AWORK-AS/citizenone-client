@@ -9,7 +9,7 @@
             class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 pr-5 pt-5 pb-5 pl-6 mr-1">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-x-2">
-                    <div class="w-2.5 h-2.5 bg-yellow-500 rounded-sm"></div>
+                    <div class="w-2.5 h-2.5 bg-red-600 rounded-sm"></div>
                     <p class="text-sm">
                         {{ $t('dailyOverview.medicineDeviationStatistics.deviated') }}
                     </p>
