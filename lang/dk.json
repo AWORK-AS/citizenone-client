@@ -2302,6 +2302,34 @@
             "description": "Beskrivelse"
         }
     },
+    "medicines": {
+        "addNewMedicine": "Tilføj ny medicin",
+        "alert": {
+            "medicineSuccessfullyDeleted": "Medicin slettet med succes"
+        },
+        "editMedicine": "Rediger medicin",
+        "form": {
+            "alert": {
+                "medicineSuccessfullyUpdated": "Medicin opdateret med succes",
+                "newMedicineSuccessfullySaved": "Ny medicin gemt med succes"
+            },
+            "nameDanish": "Navn (dansk)",
+            "nameEnglish": "Navn (engelsk)"
+        },
+        "newMedicine": "Ny medicin",
+        "medicines": "Medicin",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteMedicineConfirmation": "Er du sikker på, at du vil slette denne medicin"
+            },
+            "nameDanish": "Navn (dansk)",
+            "nameEnglish": "Navn (engelsk)"
+        }
+    },
     "messages": {
         "allMessagesAreLoaded": "Alle beskeder er indlæst",
         "groupChat": {
@@ -2874,6 +2902,7 @@
             "journalNoteTags": "Journalnotetag",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
+            "medicines": "Medicin",
             "profile": "Profil",
             "storage": "Lager",
             "relationships": "Forhold",

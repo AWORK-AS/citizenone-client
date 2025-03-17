@@ -67,6 +67,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.medicines',
+                href: `/settings/medicines`,
+                routeNames: [
+                    'settings-medicines'
+                ]
+            },
+            {
                 name: 'settings.tabs.shifts',
                 href: `/settings/shifts`,
                 routeNames: [
