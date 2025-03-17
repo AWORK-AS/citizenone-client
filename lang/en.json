@@ -759,11 +759,14 @@
                     "successfullyUpdated": "Medicine successfully update"
                 },
                 "currentStocks": "Current stocks",
-                "dailyDose": "Daily dose",
                 "description": "Description",
+                "dosage": "Dosage",
                 "dosageForm": "Dosage form",
                 "image": "Image",
+                "maxDosagePerTime": "Max dosage per time",
+                "maxDailyDose": "Max daily dose",
                 "medicine": "Medicine",
+                "packageLeafletLink": "Package leaflet link",
                 "pnMedicine": "PN-medicine",
                 "scheduleFrequency": "Schedule frequency",
                 "strength": "Strength",
@@ -783,8 +786,8 @@
                         "successfullyAdded": "Medicine history successfully added",
                         "successfullyUpdated": "Medicine history successfully update"
                     },
-                    "dailyDose": "Daily dose",
                     "date": "Date",
+                    "dailyDose": "Daily dose",
                     "evaluator": "Evaluator",
                     "evaluationFrequency": "Evaluation frequency",
                     "type": {
@@ -801,8 +804,8 @@
                         "edit": "Edit",
                         "delete": "Delete"
                     },
-                    "date": "Date",
                     "dailyDose": "Daily dose",
+                    "date": "Date",
                     "dateCreated": "Date created",
                     "evaluator": "Evaluator",
                     "evaluationFrequency": "Evaluation frequency",
@@ -841,10 +844,11 @@
                 },
                 "activeIngredients": "Active ingredients",
                 "currentStocks": "Current stocks",
-                "dailyDose": "Daily dose",
                 "description": "Description",
                 "dosageForm": "Dosage form",
                 "image": "Image",
+                "maxDosagePerTime": "Max dosage per time",
+                "maxDailyDose": "Max daily dose",
                 "medicine": "Medicine",
                 "pnMedicine": "PN-medicine",
                 "quantity": "Quantity",
@@ -1333,7 +1337,6 @@
         "createdBy": "Created by",
         "dailyMedicineOverview": {
             "dailyMedicineOverview": "Daily medicine overview",
-            "dailyDose": "Daily dose",
             "given": "Given",
             "notGiven": "Not given"
         },

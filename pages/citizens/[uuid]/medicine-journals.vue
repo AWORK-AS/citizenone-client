@@ -29,7 +29,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesUserCitizenDetailsHeader />
+                <!-- <ModulesUserCitizenDetailsHeader /> -->
                 <ModulesUserCitizenJournalTabs />
 
                 <div>
@@ -62,7 +62,12 @@
                                     </td>
                                     <td width="13%">
                                         <div class="space-y-1">
-                                            <p>{{ medicine?.medicine }}</p>
+                                            <p v-if="language.locale.value === 'en'">
+                                                {{ medicine?.medicine_name?.en_name }}
+                                            </p>
+                                            <p v-if="language.locale.value === 'dk'">
+                                                {{ medicine?.medicine_name?.dk_name }}
+                                            </p>
                                             <div v-if="medicine.is_pn_medicine">
                                                 <Badge type="primary" class="w-fit">
                                                     <p class="text-xxs">
@@ -83,12 +88,8 @@
                                     <td width="7%">
                                         <span>{{ medicine?.current_stocks }}</span>
                                     </td>
-                                    <td width="15%">
+                                    <!-- <td width="15%">
                                         <div class="space-y-1">
-                                            <p>
-                                                {{ language.locale.value === 'dk' ? formatNumber(medicine?.daily_dose) :
-                                                    medicine?.daily_dose }}
-                                            </p>
                                             <div class="text-xs">
                                                 <span v-if="medicine?.schedule_frequency === 'everyday'">
                                                     {{ $t('citizens.medicineJournals.scheduleFrequencies.everyday') }}
@@ -134,7 +135,7 @@
                                                 </span>
                                             </div>
                                         </div>
-                                    </td>
+                                    </td> -->
                                     <td width="10%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
@@ -218,7 +219,6 @@ const state = reactive({
         { name: 'citizens.medicineJournals.table.strength' },
         { name: 'citizens.medicineJournals.table.dosageForm' },
         { name: 'citizens.medicineJournals.table.currentStocks' },
-        { name: 'citizens.medicineJournals.table.dailyDose', sorter: true, key: 'daily_dose' },
         { name: '' },
     ],
     dataFilter: {

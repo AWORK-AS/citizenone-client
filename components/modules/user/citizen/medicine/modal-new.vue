@@ -39,16 +39,19 @@ const state = reactive({
     formMedicine: {
         citizen_uuid: '',
         image: '',
+        is_pn_medicine: false,
         medicine: '',
-        strength: '',
-        dosage_uuid: '',
-        daily_dose: '',
-        active_ingredients: '',
-        description: '',
+        dosage: '',
         schedule_frequency: [],
         current_stocks: '',
-        time: [],
-        is_pn_medicine: false,
+        strength: '',
+        max_daily_dose: '',
+        max_dosage_per_time: [
+            { time: '', dosage: '' },
+        ],
+        package_leaflet_link: '',
+        active_ingredients: '',
+        description: '',
     },
 })
 
@@ -69,16 +72,17 @@ async function saveMedicine(medicineDetails: any) {
         if (medicineDetails.image) {
             params.append('image', medicineDetails.image)
         }
-        params.append('dosage_uuid', medicineDetails.dosage_uuid)
-        params.append('medicine', medicineDetails.medicine)
-        params.append('strength', medicineDetails.strength)
-        params.append('daily_dose', medicineDetails.daily_dose.replace(',', '.'))
-        params.append('active_ingredients', medicineDetails.active_ingredients)
-        params.append('description', medicineDetails.description)
+        params.append('is_pn_medicine', medicineDetails.is_pn_medicine)
+        params.append('medicine_uuid', medicineDetails.medicine)
+        params.append('dosage_uuid', medicineDetails.dosage)
         params.append('schedule_frequency', medicineDetails.schedule_frequency)
         params.append('current_stocks', medicineDetails.current_stocks)
-        params.append('time', JSON.stringify(medicineDetails.time))
-        params.append('is_pn_medicine', medicineDetails.is_pn_medicine)
+        params.append('strength', medicineDetails.strength)
+        params.append('max_daily_dose', medicineDetails.max_daily_dose.replace(',', '.'))
+        params.append('max_dosage_per_time', JSON.stringify(medicineDetails.max_dosage_per_time))
+        params.append('package_leaflet_link', medicineDetails.package_leaflet_link)
+        params.append('active_ingredients', medicineDetails.active_ingredients)
+        params.append('description', medicineDetails.description)
         const response = await medicineJournalService.saveMedicine(params)
         if (response?.data) {
             refreshMedicines()

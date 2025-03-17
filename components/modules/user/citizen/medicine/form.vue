@@ -22,37 +22,23 @@
                 <FormError :error="props?.error?.errors?.image?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="medicine" :label="$t('citizens.medicineJournals.form.medicine')" />
-                <FormTextField id="medicine" name="medicine"
-                    :placeholder="$t('citizens.medicineJournals.form.medicine')"
-                    v-model="state.formMedicine.medicine" />
-                <FormError :error="v$?.formMedicine?.medicine?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.medicine?.[0]" />
+                <div class="w-fit flex cursor-pointer"
+                    @click="state.formMedicine.is_pn_medicine = !state.formMedicine.is_pn_medicine">
+                    <FormCheckbox :value="state.formMedicine.is_pn_medicine" />
+                    <p>{{ $t('citizens.medicineJournals.form.pnMedicine') }}</p>
+                </div>
             </div>
             <div class="space-y-1">
-                <FormLabel for="dosage_uuid" :label="$t('citizens.medicineJournals.form.dosageForm')" />
-                <FormSelect id="dosage_uuid" :options="state.options.dosage_form"
-                    v-model="state.formMedicine.dosage_uuid" />
-                <FormError :error="v$?.formMedicine?.dosage_uuid?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
+                <FormLabel for="medicine" :label="$t('citizens.medicineJournals.form.medicine')" />
+                <FormSelect id="medicine" :options="state.options.medicines" v-model="state.formMedicine.medicine" />
+                <FormError :error="v$?.formMedicine?.medicine?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.medicine_uuid?.[0]" />
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="strength" :label="$t('citizens.medicineJournals.form.strength')" />
-                    <FormTextField id="strength" name="strength"
-                        :placeholder="$t('citizens.medicineJournals.form.strength')"
-                        v-model="state.formMedicine.strength" />
-                    <FormError :error="v$?.formMedicine?.strength?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.strength?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="daily_dose" :label="$t('citizens.medicineJournals.form.dailyDose')" />
-                    <FormTextField id="daily_dose" name="daily_dose"
-                        :placeholder="$t('citizens.medicineJournals.form.dailyDose')"
-                        v-model="state.formMedicine.daily_dose" @input="handleDailyDoseInput" />
-                    <FormError :error="v$?.formMedicine?.daily_dose?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.daily_dose?.[0]" />
-                </div>
+            <div class="space-y-1">
+                <FormLabel for="dosage" :label="$t('citizens.medicineJournals.form.dosageForm')" />
+                <FormSelect id="dosage" :options="state.options.dosage_form" v-model="state.formMedicine.dosage" />
+                <FormError :error="v$?.formMedicine?.dosage?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
@@ -72,11 +58,72 @@
                     <FormError :error="props?.error?.errors?.current_stocks?.[0]" />
                 </div>
             </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <FormLabel for="strength" :label="$t('citizens.medicineJournals.form.strength')" />
+                    <FormTextField id="strength" name="strength"
+                        :placeholder="$t('citizens.medicineJournals.form.strength')"
+                        v-model="state.formMedicine.strength" />
+                    <FormError :error="v$?.formMedicine?.strength?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.strength?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="max_daily_dose" :label="$t('citizens.medicineJournals.form.maxDailyDose')" />
+                    <FormTextField id="max_daily_dose" name="max_daily_dose"
+                        :placeholder="$t('citizens.medicineJournals.form.maxDailyDose')"
+                        v-model="state.formMedicine.max_daily_dose" @input="handleMaxDailyDoseInput" />
+                    <FormError :error="v$?.formMedicine?.max_daily_dose?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.max_daily_dose?.[0]" />
+                </div>
+            </div>
             <div class="space-y-1">
-                <FormLabel for="time" :label="$t('citizens.medicineJournals.form.time')" />
-                <FormSelectMultiple id="time" :options="state.options.time" v-model="state.formMedicine.time" />
-                <FormError :error="v$?.formMedicine?.time?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.time?.[0]" />
+                <p class="text-sm text-gray-600">
+                    {{ $t('citizens.medicineJournals.form.maxDosagePerTime') }}
+                </p>
+                <div class="space-y-4">
+                    <div v-for="(data, index) in state.formMedicine.max_dosage_per_time" :key="index" class="relative ">
+                        <div
+                            class="grid grid-cols-2 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+                            <div class="space-y-1">
+                                <p class="text-sm text-gray-600">
+                                    {{ $t('citizens.medicineJournals.form.time') }}
+                                </p>
+                                <FormSelect :options="state.options.time" :value="data?.time"
+                                    @change="(event: any) => state.formMedicine.max_dosage_per_time[index].time = event" />
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-sm text-gray-600">
+                                    {{ $t('citizens.medicineJournals.form.dosage') }}
+                                </p>
+                                <FormTextField :id="`max_daily_dose_${index}`" :name="`max_daily_dose_${index}`"
+                                    :placeholder="$t('citizens.medicineJournals.form.dosage')" :value="data?.dosage"
+                                    @input="(event: any) => handleDoseInput(event, index)" />
+                            </div>
+                            <button type="button"
+                                class="absolute -top-3 -right-3 bg-red-700 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"
+                                @click="removeMaxDosagePerTime(index)"
+                                v-if="state.formMedicine.max_dosage_per_time.length > 1">
+                                <Icon name="ph:trash" class="h-4 w-4 text-white" aria-hidden="true" />
+                            </button>
+                            <button type="button"
+                                class="absolute -bottom-4 inset-x-1/2 shadow-md bg-secondary hover:bg-secondary-800 rounded-full w-8 h-8 flex items-center justify-center"
+                                @click="addMaxDosagePerTime()"
+                                v-if="index === state.formMedicine.max_dosage_per_time.length - 1">
+                                <Icon name="ph:plus" class="h-4 w-4 text-white" aria-hidden="true" />
+                            </button>
+                        </div>
+                        <FormError :error="props?.error?.errors?.max_dosage_per_time?.[0]" />
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="package_leaflet_link"
+                    :label="$t('citizens.medicineJournals.form.packageLeafletLink')" />
+                <FormTextField id="package_leaflet_link" name="package_leaflet_link"
+                    :placeholder="$t('citizens.medicineJournals.form.packageLeafletLink')"
+                    v-model="state.formMedicine.package_leaflet_link" />
+                <FormError :error="v$?.formMedicine?.package_leaflet_link?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.package_leaflet_link?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="active_ingredients" :label="$t('citizens.medicineJournals.form.activeIngredients')" />
@@ -93,13 +140,6 @@
                     v-model="state.formMedicine.description" />
                 <FormError :error="v$?.formMedicine?.description?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.description?.[0]" />
-            </div>
-            <div class="space-y-1">
-                <div class="w-fit flex cursor-pointer"
-                    @click="state.formMedicine.is_pn_medicine = !state.formMedicine.is_pn_medicine">
-                    <FormCheckbox :value="state.formMedicine.is_pn_medicine" />
-                    <p>{{ $t('citizens.medicineJournals.form.pnMedicine') }}</p>
-                </div>
             </div>
         </div>
         <div class="mt-6">
@@ -118,6 +158,7 @@
 
 <script setup lang="ts">
 import { dosageService } from '@/components/api/user/DosageService'
+import { medicineService } from '@/components/api/user/MedicineService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -148,19 +189,21 @@ const state = reactive({
     formMedicine: {
         uuid: '',
         image: '',
+        is_pn_medicine: false,
         medicine: '',
-        strength: '',
-        dosage_uuid: '',
-        daily_dose: '',
-        active_ingredients: '',
-        description: '',
+        dosage: '',
         schedule_frequency: [],
         current_stocks: '',
-        time: [] as any,
-        is_pn_medicine: false,
-    },
+        strength: '',
+        max_daily_dose: '',
+        max_dosage_per_time: [],
+        package_leaflet_link: '',
+        active_ingredients: '',
+        description: '',
+    } as any,
     options: {
         dosage_form: [],
+        medicines: [],
         schedule_frequencies: [
             { value: 'everyday', label: `${t('citizens.medicineJournals.scheduleFrequencies.everyday')}` },
             { value: 'every_other_day', label: `${t('citizens.medicineJournals.scheduleFrequencies.every2Days')}` },
@@ -183,54 +226,20 @@ onMounted(() => {
     state.formMedicine = {
         uuid: props.selectedMedicine.uuid,
         image: props.selectedMedicine.image,
+        is_pn_medicine: props.selectedMedicine.is_pn_medicine ? true : false,
         medicine: props.selectedMedicine.medicine,
         strength: props.selectedMedicine.strength,
-        dosage_uuid: props.selectedMedicine.dosage?.uuid,
-        daily_dose: language.locale.value === 'dk' ? props.selectedMedicine.daily_dose.replace('.', ',') : props.selectedMedicine.daily_dose,
+        dosage: props.selectedMedicine.dosage,
+        max_dosage_per_time: props?.selectedMedicine?.max_dosage_per_time,
+        max_daily_dose: language.locale.value === 'dk' ? props.selectedMedicine.max_daily_dose.replace('.', ',').toString() : props.selectedMedicine.max_daily_dose.toString(),
+        package_leaflet_link: props.selectedMedicine.package_leaflet_link,
         active_ingredients: props.selectedMedicine.active_ingredients,
         description: props.selectedMedicine.description,
         schedule_frequency: props.selectedMedicine.schedule_frequency,
         current_stocks: props.selectedMedicine.current_stocks?.toString(),
-        time: [],
-        is_pn_medicine: props.selectedMedicine.is_pn_medicine ? true : false,
-    }
-
-    if (props.selectedMedicine.time?.length > 0) {
-        state.formMedicine.time = []
-        JSON.parse(props.selectedMedicine.time).forEach((time: any) => {
-            state.formMedicine.time.push(time)
-        })
     }
     fetchDosageForm()
-})
-
-watch(() => props.selectedMedicine, (selectedMedicine: any) => {
-    if (selectedMedicine != null) {
-        if (selectedMedicine.image_url) {
-            imageUrl.value = selectedMedicine.image_url
-        }
-        state.formMedicine = {
-            uuid: selectedMedicine.uuid,
-            image: selectedMedicine.image,
-            medicine: selectedMedicine.medicine,
-            strength: selectedMedicine.strength,
-            dosage_uuid: selectedMedicine.dosage?.uuid,
-            daily_dose: language.locale.value === 'dk' ? selectedMedicine.daily_dose.replace('.', ',') : selectedMedicine.daily_dose,
-            active_ingredients: selectedMedicine.active_ingredients,
-            description: selectedMedicine.description,
-            schedule_frequency: selectedMedicine.schedule_frequency,
-            current_stocks: selectedMedicine.current_stocks?.toString(),
-            time: [],
-            is_pn_medicine: selectedMedicine.is_pn_medicine ? true : false,
-        }
-
-        if (props.selectedMedicine.time?.length > 0) {
-            state.formMedicine.time = []
-            JSON.parse(props.selectedMedicine.time).forEach((time: any) => {
-                state.formMedicine.time.push(time)
-            })
-        }
-    }
+    fetchMedicines()
 })
 
 const rules = computed(() => {
@@ -243,10 +252,13 @@ const rules = computed(() => {
                 strength: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
-                dosage_uuid: {
+                dosage: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
-                daily_dose: {
+                max_dosage_per_time: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                max_daily_dose: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 active_ingredients: {
@@ -261,9 +273,6 @@ const rules = computed(() => {
                 current_stocks: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
-                time: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
             },
         }
     } else {
@@ -275,10 +284,13 @@ const rules = computed(() => {
                 strength: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
-                dosage_uuid: {
+                dosage: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
-                daily_dose: {
+                max_dosage_per_time: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                max_daily_dose: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 active_ingredients: {
@@ -288,9 +300,6 @@ const rules = computed(() => {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 current_stocks: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                time: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
@@ -349,6 +358,27 @@ async function fetchDosageForm() {
     emit('isPageLoading', false)
 }
 
+async function fetchMedicines() {
+    emit('error', {})
+    emit('isPageLoading', true)
+    try {
+        const response = await medicineService.getAllMedicines()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: language.locale.value === 'en' ? item.en_name : item.dk_name,
+                })
+            )
+            state.options.medicines = options
+        }
+    } catch (error: any) {
+        emit('error', error)
+    }
+    emit('isPageLoading', false)
+}
+
 generateTimeIntervals()
 
 function generateTimeIntervals() {
@@ -364,12 +394,31 @@ function generateTimeIntervals() {
     state.options.time = times
 }
 
-function handleDailyDoseInput(event: Event) {
+function handleMaxDailyDoseInput(event: Event) {
     const target = event.target as HTMLInputElement
     if (language.locale.value === 'dk') {
         target.value = validateEuropeanDecimal(target.value)
     }
-    state.formMedicine.daily_dose = target.value
+    state.formMedicine.max_daily_dose = target.value
+}
+
+function handleDoseInput(event: Event, index: number) {
+    const target = event.target as HTMLInputElement
+    if (language.locale.value === 'dk') {
+        target.value = validateEuropeanDecimal(target.value)
+    }
+    state.formMedicine.max_dosage_per_time[index].dosage = target.value
+}
+
+function addMaxDosagePerTime() {
+    state.formMedicine.max_dosage_per_time.push({
+        time: '',
+        dosage: '',
+    })
+}
+
+function removeMaxDosagePerTime(index: number) {
+    state.formMedicine.max_dosage_per_time.splice(index, 1)
 }
 </script>
 
