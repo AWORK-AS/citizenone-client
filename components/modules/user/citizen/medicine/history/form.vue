@@ -25,8 +25,6 @@
                         <FormTextField :id="`quantity_${index}`" :name="`quantity_${index}`"
                             :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')"
                             v-model="state.formMedicineHistory.dosages[index].dosage" />
-                        <FormError :error="v$?.formMedicineHistory?.quantity?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.quantity?.[0]" />
                     </div>
                     <div class="space-y-2">
                         <p class="text-sm text-gray-600">
@@ -36,8 +34,6 @@
                             <FormSelect :id="`type_${index}`" :name="`type_${index}`" :options="state.options.types"
                                 v-model="state.formMedicineHistory.dosages[index].type" />
                         </div>
-                        <FormError :error="v$?.formMedicineHistory?.type?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.type?.[0]" />
                     </div>
                 </div>
             </div>
