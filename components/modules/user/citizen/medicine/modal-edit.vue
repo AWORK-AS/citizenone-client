@@ -73,7 +73,7 @@ watch(() => props.isModalOpen, (isModalOpen) => {
             current_stocks: props.selectedMedicine?.current_stocks,
             strength: props.selectedMedicine?.strength,
             max_daily_dose: props.selectedMedicine?.max_daily_dose,
-            max_dosage_per_time: JSON.parse(JSON.parse(props.selectedMedicine?.max_dosage_per_time)),
+            max_dosage_per_time: JSON.parse(props.selectedMedicine?.max_dosage_per_time),
             package_leaflet_link: props.selectedMedicine?.package_leaflet_link,
             active_ingredients: props.selectedMedicine?.active_ingredients,
             description: props.selectedMedicine?.description,
