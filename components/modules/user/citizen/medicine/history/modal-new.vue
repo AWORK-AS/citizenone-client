@@ -44,7 +44,6 @@ const state = reactive({
         date: moment().format('YYYY-MM-DD'),
         dosages: [],
         evaluator_uuid: '',
-        evaluation_frequency: [],
     },
 })
 
@@ -68,7 +67,6 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
                 date: medicineHistoryDetails.date,
                 dosages: medicineHistoryDetails.dosages,
                 evaluator_uuid: medicineHistoryDetails.evaluator,
-                evaluation_frequency: JSON.stringify(medicineHistoryDetails.evaluation_frequency),
             }
         } else {
             params = {

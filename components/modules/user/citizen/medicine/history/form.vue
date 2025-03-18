@@ -12,7 +12,7 @@
             </div>
             <div class="space-y-8">
                 <div v-for="(dosage, index) in state.formMedicineHistory.dosages" :key="index"
-                    class="grid grid-cols-3 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+                    class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
                     <div class="space-y-1">
                         <FormLabel :for="`time_${index}`" :label="$t('citizens.medicineJournals.history.form.time')" />
                         <FormTextField :id="`time_${index}`" :name="`time_${index}`"
@@ -35,6 +35,13 @@
                                 v-model="state.formMedicineHistory.dosages[index].type" />
                         </div>
                     </div>
+                    <div class="space-y-1 col-span-3">
+                        <FormLabel :for="`comment_${index}`"
+                            :label="$t('citizens.medicineJournals.history.form.comment')" />
+                        <FormTextArea :id="`comment_${index}`" :name="`comment_${index}`"
+                            :placeholder="$t('citizens.medicineJournals.history.form.comment')"
+                            v-model="state.formMedicineHistory.dosages[index].comment" />
+                    </div>
                 </div>
             </div>
             <div class="space-y-3" v-if="props.selectedMedicine.is_pn_medicine">
@@ -44,16 +51,6 @@
                         v-model="state.formMedicineHistory.evaluator" />
                     <FormError :error="v$?.formMedicineHistory?.evaluator?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.evaluator?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="evaluation_frequency"
-                        :label="$t('citizens.medicineJournals.history.form.evaluationFrequency')" />
-                    <FormSelectMultiple id="evaluation_frequency" name="evaluation_frequency"
-                        :options="state.options.evaluation_frequencies"
-                        v-model="state.formMedicineHistory.evaluation_frequency" />
-                    <FormError
-                        :error="v$?.formMedicineHistory?.evaluation_frequency?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.evaluation_frequency?.[0]" />
                 </div>
             </div>
         </div>
@@ -115,7 +112,6 @@ const state = reactive({
         date: '',
         dosages: [],
         evaluator: '',
-        evaluation_frequency: [] as any,
     } as any,
     modal: {
         isMoreThanMedicineDailyConfirmationOpen: false,
@@ -140,28 +136,9 @@ onMounted(() => {
         date: props.selectedMedicineHistory.date,
         dosages: [],
         evaluator: props.selectedMedicineHistory.evaluator?.uuid,
-        evaluation_frequency: [],
     }
     generateDosage()
-    // if (props.selectedMedicineHistory.evaluation_frequency?.length > 0) {
-    //     JSON.parse(props.selectedMedicineHistory.evaluation_frequency).forEach((time: any) => {
-    //         state.formMedicineHistory.evaluation_frequency.push(time)
-    //     })
-    // }
 })
-
-// watch(() => props.selectedMedicineHistory, (newValue: any) => {
-//     if (newValue != null) {
-//         state.formMedicineHistory = {
-//             uuid: newValue.uuid,
-//             date: newValue.date,
-//             quantity: language.locale.value === 'dk' ? newValue.quantity?.toString().replace('.', ',') : newValue.quantity?.toString(),
-//             type: newValue.type,
-//             evaluator: props.selectedMedicineHistory.evaluator?.uuid,
-//             evaluation_frequency: [],
-//         }
-//     }
-// })
 
 const rules = computed(() => {
     if (props.selectedMedicine.is_pn_medicine) {
@@ -174,9 +151,6 @@ const rules = computed(() => {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 evaluator: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                evaluation_frequency: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
@@ -200,12 +174,20 @@ const v$ = useVuelidate(rules, state)
 function validateForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        if (parseInt(state.formMedicineHistory.quantity) !== parseInt(props.selectedMedicine?.daily_dose)) {
+        if (computeAllEnteredQuantities() !== parseInt(props.selectedMedicine?.max_daily_dose)) {
             state.modal.isMoreThanMedicineDailyConfirmationOpen = true
         } else {
             submitForm()
         }
     }
+}
+
+function computeAllEnteredQuantities() {
+    let total = 0
+    state.formMedicineHistory.dosages.forEach((dosage: any) => {
+        total += parseFloat(dosage?.dosage)
+    })
+    return total
 }
 
 function submitForm() {

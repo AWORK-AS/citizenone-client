@@ -767,7 +767,7 @@
                 "maxDailyDose": "Maksimal daglig dosis",
                 "medicine": "Medicin",
                 "packageLeafletLink": "Indlægsseddel",
-                "pnMedicine": "PN-medicine",
+                "pnMedicine": "PN-medicin",
                 "scheduleFrequency": "Planlægningsfrekvens",
                 "strength": "Styrke",
                 "time": "Tid"
@@ -786,6 +786,7 @@
                         "successfullyAdded": "Medicinhistorik tilføjet med succes",
                         "successfullyUpdated": "Medicinhistorik opdateret med succes"
                     },
+                    "comment": "Kommentar",
                     "dailyDose": "Daglig dosis",
                     "date": "Dato",
                     "evaluator": "Evaluator",
@@ -805,6 +806,7 @@
                         "edit": "Rediger",
                         "delete": "Slet"
                     },
+                    "comment": "Kommentar",
                     "dailyDose": "Daglig dosis",
                     "date": "Dato",
                     "dateCreated": "Oprettelsesdato",
@@ -851,7 +853,7 @@
                 "maxDosagePerTime": "Maksimal dosis pr. gang",
                 "maxDailyDose": "Maksimal daglig dosis",
                 "medicine": "Medicin",
-                "pnMedicine": "PN-medicine",
+                "pnMedicine": "PN-medicin",
                 "quantity": "Mængde",
                 "strength": "Styrke"
             }

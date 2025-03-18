@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('citizens.medicineJournals.history.editMedicine')" :show="props.isModalOpen"
+        <Modal size="xl" :title="$t('citizens.medicineJournals.history.editMedicine')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -57,20 +57,21 @@ async function updateMedicineHistory(medicineHistoryDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
+        const selectedMedicineUuid = props.selectedMedicine?.uuid
         const medicineHistoryUuid = medicineHistoryDetails.uuid
         let params = {}
         if (props.selectedMedicine?.is_pn_medicine) {
             params = {
                 date: medicineHistoryDetails.date,
-                quantity: medicineHistoryDetails.quantity.replace(',', '.'),
-                type: medicineHistoryDetails.type,
+                medicine_uuid: selectedMedicineUuid,
+                dosages: medicineHistoryDetails.dosages,
                 evaluator_uuid: medicineHistoryDetails.evaluator,
-                evaluation_frequency: JSON.stringify(medicineHistoryDetails.evaluation_frequency),
             }
         } else {
             params = {
                 date: medicineHistoryDetails.date,
-                quantity: medicineHistoryDetails.quantity.replace(',', '.'),
+                medicine_uuid: selectedMedicineUuid,
+                dosages: medicineHistoryDetails.dosages,
                 type: medicineHistoryDetails.type,
             }
         }

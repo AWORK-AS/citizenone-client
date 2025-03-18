@@ -786,6 +786,7 @@
                         "successfullyAdded": "Medicine history successfully added",
                         "successfullyUpdated": "Medicine history successfully update"
                     },
+                    "comment": "Comment",
                     "date": "Date",
                     "dailyDose": "Daily dose",
                     "evaluator": "Evaluator",
@@ -805,6 +806,7 @@
                         "edit": "Edit",
                         "delete": "Delete"
                     },
+                    "comment": "Comment",
                     "dailyDose": "Daily dose",
                     "date": "Date",
                     "dateCreated": "Date created",
