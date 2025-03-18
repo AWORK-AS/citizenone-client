@@ -66,7 +66,7 @@ watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
         state.formMedicine = {
             image: props.selectedMedicine?.image_url,
-            is_pn_medicine: props.selectedMedicine?.image_url,
+            is_pn_medicine: props.selectedMedicine?.is_pn_medicine,
             medicine: props.selectedMedicine?.medicine_name?.uuid,
             dosage: props.selectedMedicine?.dosage?.uuid,
             schedule_frequency: props.selectedMedicine?.schedule_frequency,

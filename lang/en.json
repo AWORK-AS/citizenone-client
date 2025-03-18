@@ -790,6 +790,7 @@
                     "dailyDose": "Daily dose",
                     "evaluator": "Evaluator",
                     "evaluationFrequency": "Evaluation frequency",
+                    "time": "Time",
                     "type": {
                         "type": "Type",
                         "delivered": "Delivered",

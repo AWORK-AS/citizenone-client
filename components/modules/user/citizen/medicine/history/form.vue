@@ -10,51 +10,36 @@
                 <FormError :error="v$?.formMedicineHistory?.date?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date?.[0]" />
             </div>
-            <div class="space-y-1">
-                <FormLabel for="quantity" :label="$t('citizens.medicineJournals.history.form.dailyDose')" />
-                <FormTextField id="quantity" name="quantity"
-                    :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')"
-                    v-model="state.formMedicineHistory.quantity" @input="handleQuantityInput" />
-                <FormError :error="v$?.formMedicineHistory?.quantity?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.quantity?.[0]" />
-            </div>
-            <div class="space-y-1">
-                <p class="text-sm text-gray-600">
-                    {{ $t('citizens.medicineJournals.history.form.type.type') }}
-                </p>
-                <div>
-                    <RadioGroup v-model="state.formMedicineHistory.type"
-                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                        <RadioGroupOption as="template" v-for="(type, index) in state.options.types" :key="index"
-                            :value="type.value" v-slot="{ active, checked }">
-                            <div :class="[
-                                active ? 'ring-1 ring-offset-2' : '',
-                                type.title === 'Delivered' && 'ring-primary',
-                                type.title === 'Deviated' && 'ring-red-600',
-                                type.title === 'Given' && 'ring-green-700',
-                                checked && type.title === 'Delivered' && 'bg-primary text-white ring-0 hover:bg-primary',
-                                checked && type.title === 'Deviated' && 'bg-red-600 text-white ring-0 hover:bg-red-600',
-                                checked && type.title === 'Given' && 'bg-green-700 text-white ring-0 hover:bg-green-700',
-                                !active && !checked && type.title === 'Delivered' && 'border border-primary ring-inset',
-                                !active && !checked && type.title === 'Deviated' && 'border border-red-600 ring-inset',
-                                !active && !checked && type.title === 'Given' && 'border border-green-700 ring-inset',
-                                active && checked ? 'text-white ring-1' : '',
-                                'cursor-pointer flex items-center justify-center rounded-md px-2 py-2 text-xs']">
-                                <span v-if="type.title === 'Delivered'">
-                                    {{ $t('citizens.medicineJournals.history.form.type.delivered') }}
-                                </span>
-                                <span v-if="type.title === 'Deviated'">
-                                    {{ $t('citizens.medicineJournals.history.form.type.deviated') }}
-                                </span>
-                                <span v-if="type.title === 'Given'">
-                                    {{ customPagesStore.getCustomPagesName?.giveMedicine }}
-                                </span>
-                            </div>
-                        </RadioGroupOption>
-                    </RadioGroup>
+            <div class="space-y-8">
+                <div v-for="(dosage, index) in state.formMedicineHistory.dosages" :key="index"
+                    class="grid grid-cols-3 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+                    <div class="space-y-1">
+                        <FormLabel :for="`time_${index}`" :label="$t('citizens.medicineJournals.history.form.time')" />
+                        <FormTextField :id="`time_${index}`" :name="`time_${index}`"
+                            :placeholder="$t('citizens.medicineJournals.history.form.time')" :value="dosage?.time"
+                            :disabled="true" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel :for="`quantity_${index}`"
+                            :label="$t('citizens.medicineJournals.history.form.dailyDose')" />
+                        <FormTextField :id="`quantity_${index}`" :name="`quantity_${index}`"
+                            :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')"
+                            v-model="state.formMedicineHistory.dosages[index].dosage" />
+                        <FormError :error="v$?.formMedicineHistory?.quantity?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.quantity?.[0]" />
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-sm text-gray-600">
+                            {{ $t('citizens.medicineJournals.history.form.type.type') }}
+                        </p>
+                        <div>
+                            <FormSelect :id="`type_${index}`" :name="`type_${index}`" :options="state.options.types"
+                                v-model="state.formMedicineHistory.dosages[index].type" />
+                        </div>
+                        <FormError :error="v$?.formMedicineHistory?.type?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.type?.[0]" />
+                    </div>
                 </div>
-                <FormError :error="v$?.formMedicineHistory?.type?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.type?.[0]" />
             </div>
             <div class="space-y-3" v-if="props.selectedMedicine.is_pn_medicine">
                 <div class="space-y-1">
@@ -95,7 +80,6 @@
 
 <script setup lang="ts">
 import { userService } from '@/components/api/user/UserService'
-import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -131,54 +115,54 @@ const state = reactive({
     formMedicineHistory: {
         uuid: '',
         date: '',
-        quantity: '',
-        type: '',
+        dosages: [],
         evaluator: '',
         evaluation_frequency: [] as any,
-    },
+    } as any,
     modal: {
         isMoreThanMedicineDailyConfirmationOpen: false,
     },
     options: {
         evaluation_frequencies: [] as any,
         evaluators: [],
-        types: [
-            { value: 'delivered', title: 'Delivered' },
-            { value: 'deviated', title: 'Deviated' },
-            { value: 'given', title: 'Given' },
-        ] as any
+        types: [] as any
     }
 })
 
 onMounted(() => {
+    state.options.types = [
+        { value: 'delivered', label: `${t('citizens.medicineJournals.history.form.type.delivered')}` },
+        { value: 'deviated', label: `${t('citizens.medicineJournals.history.form.type.deviated')}` },
+        { value: 'given', label: `${customPagesStore.getCustomPagesName?.giveMedicine}` },
+    ]
     fetchAllUsers()
     state.formMedicineHistory = {
         uuid: props.selectedMedicineHistory.uuid,
         date: props.selectedMedicineHistory.date,
-        quantity: language.locale.value === 'dk' ? props.selectedMedicineHistory.quantity?.toString().replace('.', ',') : props.selectedMedicineHistory.quantity?.toString(),
-        type: props.selectedMedicineHistory.type,
+        dosages: [],
         evaluator: props.selectedMedicineHistory.evaluator?.uuid,
         evaluation_frequency: [],
     }
-    if (props.selectedMedicineHistory.evaluation_frequency?.length > 0) {
-        JSON.parse(props.selectedMedicineHistory.evaluation_frequency).forEach((time: any) => {
-            state.formMedicineHistory.evaluation_frequency.push(time)
-        })
-    }
+    generateDosage()
+    // if (props.selectedMedicineHistory.evaluation_frequency?.length > 0) {
+    //     JSON.parse(props.selectedMedicineHistory.evaluation_frequency).forEach((time: any) => {
+    //         state.formMedicineHistory.evaluation_frequency.push(time)
+    //     })
+    // }
 })
 
-watch(() => props.selectedMedicineHistory, (newValue: any) => {
-    if (newValue != null) {
-        state.formMedicineHistory = {
-            uuid: newValue.uuid,
-            date: newValue.date,
-            quantity: language.locale.value === 'dk' ? newValue.quantity?.toString().replace('.', ',') : newValue.quantity?.toString(),
-            type: newValue.type,
-            evaluator: props.selectedMedicineHistory.evaluator?.uuid,
-            evaluation_frequency: [],
-        }
-    }
-})
+// watch(() => props.selectedMedicineHistory, (newValue: any) => {
+//     if (newValue != null) {
+//         state.formMedicineHistory = {
+//             uuid: newValue.uuid,
+//             date: newValue.date,
+//             quantity: language.locale.value === 'dk' ? newValue.quantity?.toString().replace('.', ',') : newValue.quantity?.toString(),
+//             type: newValue.type,
+//             evaluator: props.selectedMedicineHistory.evaluator?.uuid,
+//             evaluation_frequency: [],
+//         }
+//     }
+// })
 
 const rules = computed(() => {
     if (props.selectedMedicine.is_pn_medicine) {
@@ -187,10 +171,7 @@ const rules = computed(() => {
                 date: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
-                quantity: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                type: {
+                dosages: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 evaluator: {
@@ -207,10 +188,7 @@ const rules = computed(() => {
                 date: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
-                quantity: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                type: {
+                dosages: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
@@ -235,7 +213,16 @@ function submitForm() {
     emit('submitForm', state.formMedicineHistory)
 }
 
-
+function generateDosage() {
+    JSON.parse(props.selectedMedicine?.max_dosage_per_time).forEach((dosage: any) => {
+        state.formMedicineHistory.dosages.push({
+            medicine_uuid: props.selectedMedicine?.uuid,
+            time: dosage?.time,
+            dosage: '',
+            type: '',
+        })
+    })
+}
 
 async function fetchAllUsers() {
     emit('error', {})

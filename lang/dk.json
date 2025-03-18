@@ -790,6 +790,7 @@
                     "date": "Dato",
                     "evaluator": "Evaluator",
                     "evaluationFrequency": "Evalueringsfrekvens",
+                    "time": "Tid",
                     "type": {
                         "type": "Type",
                         "delivered": "Udleveret",

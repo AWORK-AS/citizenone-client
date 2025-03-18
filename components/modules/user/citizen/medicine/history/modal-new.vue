@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('citizens.medicineJournals.history.giveMedicine')" :show="props.isModalOpen"
+        <Modal size="xl" :title="$t('citizens.medicineJournals.history.giveMedicine')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -42,8 +42,7 @@ const state = reactive({
     isPageLoading: false,
     formMedicineHistory: {
         date: moment().format('YYYY-MM-DD'),
-        quantity: '',
-        type: '',
+        dosages: [],
         evaluator_uuid: '',
         evaluation_frequency: [],
     },
@@ -67,8 +66,7 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
             params = {
                 medicine_uuid: selectedMedicineUuid,
                 date: medicineHistoryDetails.date,
-                quantity: medicineHistoryDetails.quantity.replace(',', '.'),
-                type: medicineHistoryDetails.type,
+                dosages: medicineHistoryDetails.dosages,
                 evaluator_uuid: medicineHistoryDetails.evaluator,
                 evaluation_frequency: JSON.stringify(medicineHistoryDetails.evaluation_frequency),
             }
@@ -76,8 +74,7 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
             params = {
                 medicine_uuid: selectedMedicineUuid,
                 date: medicineHistoryDetails.date,
-                quantity: medicineHistoryDetails.quantity.replace(',', '.'),
-                type: medicineHistoryDetails.type,
+                dosages: medicineHistoryDetails.dosages,
             }
         }
         const response = await medicineHistoryService.saveMedicineHistory(params)
