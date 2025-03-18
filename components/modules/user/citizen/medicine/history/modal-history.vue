@@ -1,8 +1,6 @@
 <template>
     <div>
-        <Modal size="4xl"
-            :title="`${$t('citizens.medicineJournals.history.medicineHistory')} (${props.selectedMedicine?.medicine})`"
-            :show="props.isModalOpen" @close="closeModal">
+        <Modal size="4xl" :title="modalTitle()" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
@@ -173,6 +171,10 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
 
 function closeModal() {
     emit('close')
+}
+
+function modalTitle() {
+    return `${t('citizens.medicineJournals.history.medicineHistory')} (${language.locale.value === 'en' ? props.selectedMedicine?.medicine_name?.en_name : props.selectedMedicine?.medicine_name?.dk_name})`
 }
 
 async function fetchCitizenMedicineHistories() {

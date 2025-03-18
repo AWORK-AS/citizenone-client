@@ -86,9 +86,65 @@
                                         <span>{{ medicine?.max_daily_dose }}</span>
                                     </td>
                                     <td width="25%">
-                                        <div class="space-y-3">
+                                        <div>
                                             <p>{{ medicine?.dosage?.name }}</p>
-                                            <div class="text-xxs flex flex-wrap gap-2">
+                                            <div class="space-y-1">
+                                                <div class="text-xs">
+                                                    <span v-if="medicine?.schedule_frequency === 'everyday'">
+                                                        {{ $t('citizens.medicineJournals.scheduleFrequencies.everyday')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="medicine?.schedule_frequency === 'every_other_day'">
+                                                        {{
+                                                            $t('citizens.medicineJournals.scheduleFrequencies.every2Days')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="medicine?.schedule_frequency === 'every_third_day'">
+                                                        {{
+                                                            $t('citizens.medicineJournals.scheduleFrequencies.every3Days')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="medicine?.schedule_frequency === 'every_four_days'">
+                                                        {{
+                                                            $t('citizens.medicineJournals.scheduleFrequencies.every4Days')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="medicine?.schedule_frequency === 'every_five_days'">
+                                                        {{
+                                                            $t('citizens.medicineJournals.scheduleFrequencies.every5Days')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="medicine?.schedule_frequency === 'every_six_days'">
+                                                        {{
+                                                            $t('citizens.medicineJournals.scheduleFrequencies.every6Days')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="medicine?.schedule_frequency === 'weekly'">
+                                                        {{ $t('citizens.medicineJournals.scheduleFrequencies.weekly') }}
+                                                    </span>
+                                                    <span v-if="medicine?.schedule_frequency === 'biweekly'">
+                                                        {{ $t('citizens.medicineJournals.scheduleFrequencies.biweekly')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="medicine?.schedule_frequency === 'monthly'">
+                                                        {{ $t('citizens.medicineJournals.scheduleFrequencies.monthly')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="medicine?.schedule_frequency === 'bimonthly'">
+                                                        {{ $t('citizens.medicineJournals.scheduleFrequencies.bimonthly')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="medicine?.schedule_frequency === 'quarterly'">
+                                                        {{ $t('citizens.medicineJournals.scheduleFrequencies.quarterly')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="medicine?.schedule_frequency === 'annually'">
+                                                        {{ $t('citizens.medicineJournals.scheduleFrequencies.annually')
+                                                        }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="mt-2 text-xxs flex flex-wrap gap-2">
                                                 <div v-for="(dosage, index) in JSON.parse(medicine?.max_dosage_per_time)"
                                                     :key="index">
                                                     <span class="bg-primary p-1 text-white rounded-md">
@@ -101,54 +157,6 @@
                                     <td width="10%">
                                         <span>{{ medicine?.current_stocks }}</span>
                                     </td>
-                                    <!-- <td width="15%">
-                                        <div class="space-y-1">
-                                            <div class="text-xs">
-                                                <span v-if="medicine?.schedule_frequency === 'everyday'">
-                                                    {{ $t('citizens.medicineJournals.scheduleFrequencies.everyday') }}
-                                                </span>
-                                                <span v-if="medicine?.schedule_frequency === 'every_other_day'">
-                                                    {{ $t('citizens.medicineJournals.scheduleFrequencies.every2Days') }}
-                                                </span>
-                                                <span v-if="medicine?.schedule_frequency === 'every_third_day'">
-                                                    {{ $t('citizens.medicineJournals.scheduleFrequencies.every3Days') }}
-                                                </span>
-                                                <span v-if="medicine?.schedule_frequency === 'every_four_days'">
-                                                    {{ $t('citizens.medicineJournals.scheduleFrequencies.every4Days') }}
-                                                </span>
-                                                <span v-if="medicine?.schedule_frequency === 'every_five_days'">
-                                                    {{ $t('citizens.medicineJournals.scheduleFrequencies.every5Days') }}
-                                                </span>
-                                                <span v-if="medicine?.schedule_frequency === 'every_six_days'">
-                                                    {{ $t('citizens.medicineJournals.scheduleFrequencies.every6Days') }}
-                                                </span>
-                                                <span v-if="medicine?.schedule_frequency === 'weekly'">
-                                                    {{ $t('citizens.medicineJournals.scheduleFrequencies.weekly') }}
-                                                </span>
-                                                <span v-if="medicine?.schedule_frequency === 'biweekly'">
-                                                    {{ $t('citizens.medicineJournals.scheduleFrequencies.biweekly') }}
-                                                </span>
-                                                <span v-if="medicine?.schedule_frequency === 'monthly'">
-                                                    {{ $t('citizens.medicineJournals.scheduleFrequencies.monthly') }}
-                                                </span>
-                                                <span v-if="medicine?.schedule_frequency === 'bimonthly'">
-                                                    {{ $t('citizens.medicineJournals.scheduleFrequencies.bimonthly') }}
-                                                </span>
-                                                <span v-if="medicine?.schedule_frequency === 'quarterly'">
-                                                    {{ $t('citizens.medicineJournals.scheduleFrequencies.quarterly') }}
-                                                </span>
-                                                <span v-if="medicine?.schedule_frequency === 'annually'">
-                                                    {{ $t('citizens.medicineJournals.scheduleFrequencies.annually') }}
-                                                </span>
-                                            </div>
-                                            <div class="text-xs flex flex-wrap gap-2" v-if="medicine.time?.length > 0">
-                                                <span v-for="(time, index) in JSON.parse(medicine.time)" :key=index
-                                                    class="bg-primary p-1 text-white rounded-md">
-                                                    {{ time }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </td> -->
                                     <td width="10%">
                                         <div class="flex items-end gap-2">
                                             <Tooltip

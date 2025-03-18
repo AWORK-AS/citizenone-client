@@ -23,8 +23,8 @@
                         <FormLabel :for="`quantity_${index}`"
                             :label="$t('citizens.medicineJournals.history.form.dailyDose')" />
                         <FormTextField :id="`quantity_${index}`" :name="`quantity_${index}`"
-                            :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')"
-                            v-model="state.formMedicineHistory.dosages[index].dosage" />
+                            :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')" :value="dosage.dosage"
+                            @keyup="(event: any) => handleQuantityInput(event, index)" />
                     </div>
                     <div class="space-y-2">
                         <p class="text-sm text-gray-600">
@@ -75,7 +75,9 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { userService } from '@/components/api/user/UserService'
+import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -132,6 +134,7 @@ onMounted(() => {
         { value: 'given', label: `${customPagesStore.getCustomPagesName?.giveMedicine}` },
     ]
     fetchAllUsers()
+    fetchMedicineHistoryPerMedicine(moment().format('YYYY-MM-DD'))
     state.formMedicineHistory = {
         uuid: props.selectedMedicineHistory.uuid,
         date: props.selectedMedicineHistory.date,
@@ -220,6 +223,23 @@ function generateDosage() {
     })
 }
 
+async function fetchMedicineHistoryPerMedicine(date: any) {
+    emit('error', {})
+    emit('isPageLoading', true)
+    try {
+        const params = {
+            date: date
+        }
+        const response = await medicineHistoryService.getMedicineHistoryByMedicineUuid(props.selectedMedicine?.uuid, params)
+        if (response) {
+            state.formMedicineHistory.dosages = response.data
+        }
+    } catch (error: any) {
+        emit('error', error)
+    }
+    emit('isPageLoading', false)
+}
+
 async function fetchAllUsers() {
     emit('error', {})
     emit('isPageLoading', true)
@@ -256,11 +276,11 @@ function generateEvaluationFrequenciesTimeIntervals() {
     state.options.evaluation_frequencies = times
 }
 
-function handleQuantityInput(event: Event) {
+function handleQuantityInput(event: Event, index: number) {
     const target = event.target as HTMLInputElement
     if (language.locale.value === 'dk') {
         target.value = validateEuropeanDecimal(target.value)
     }
-    state.formMedicineHistory.quantity = target.value
+    state.formMedicineHistory.dosages[index].dosage = target.value
 }
 </script>

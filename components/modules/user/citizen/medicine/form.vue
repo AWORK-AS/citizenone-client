@@ -40,8 +40,10 @@
                 <FormError :error="v$?.formMedicine?.dosage?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
+            <div class="grid grid-cols-1 gap-3" :class="[
+                !state.formMedicine.is_pn_medicine && 'md:grid-cols-2'
+            ]">
+                <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
                     <FormLabel for="schedule_frequency"
                         :label="$t('citizens.medicineJournals.form.scheduleFrequency')" />
                     <FormSelect id="schedule_frequency" name="schedule_frequency"

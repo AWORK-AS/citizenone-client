@@ -75,7 +75,9 @@ async function saveMedicine(medicineDetails: any) {
         params.append('is_pn_medicine', medicineDetails.is_pn_medicine)
         params.append('medicine_uuid', medicineDetails.medicine)
         params.append('dosage_uuid', medicineDetails.dosage)
-        params.append('schedule_frequency', medicineDetails.schedule_frequency)
+        if (!medicineDetails.is_pn_medicine) {
+            params.append('schedule_frequency', medicineDetails.schedule_frequency)
+        }
         params.append('current_stocks', medicineDetails.current_stocks)
         params.append('strength', medicineDetails.strength)
         params.append('max_daily_dose', medicineDetails.max_daily_dose.replace(',', '.'))
