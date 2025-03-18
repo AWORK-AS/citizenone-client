@@ -79,13 +79,23 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="7%">
+                                    <td width="10%">
                                         <span>{{ medicine?.strength }}</span>
                                     </td>
-                                    <td width="7%">
-                                        <span>{{ medicine?.dosage?.name }}</span>
+                                    <td width="20%">
+                                        <div class="space-y-3">
+                                            <p>{{ medicine?.dosage?.name }}</p>
+                                            <div class="text-xxs flex flex-wrap gap-2">
+                                                <div v-for="(dosage, index) in JSON.parse(medicine?.max_dosage_per_time)"
+                                                    :key="index">
+                                                    <span class="bg-primary p-1 text-white rounded-md">
+                                                        {{ dosage?.dosage }} @ {{ dosage?.time }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td width="7%">
+                                    <td width="10%">
                                         <span>{{ medicine?.current_stocks }}</span>
                                     </td>
                                     <!-- <td width="15%">
@@ -138,27 +148,34 @@
                                     </td> -->
                                     <td width="10%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="giveMedicine(medicine)">
-                                                <Icon name="ph:plus" class="size-4" />
-                                                {{ $t('citizens.medicineJournals.table.actions.giveMedicine') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="viewMedicineHistory(medicine)">
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('citizens.medicineJournals.table.actions.medicineHistory') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="editMedicine(medicine)" v-if="medicine?.is_editable">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('citizens.medicineJournals.table.actions.edit') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                @click="confirmMedicineDeletion(medicine)"
+                                            <Tooltip
+                                                :text="`${$t('citizens.medicineJournals.table.actions.giveMedicine')}`">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="giveMedicine(medicine)">
+                                                    <Icon name="ph:plus" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip
+                                                :text="`${$t('citizens.medicineJournals.table.actions.medicineHistory')}`">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="viewMedicineHistory(medicine)">
+                                                    <Icon name="ph:files" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.edit')}`"
+                                                v-if="medicine?.is_editable">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="editMedicine(medicine)">
+                                                    <Icon name="ph:pencil-simple" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.delete')}`"
                                                 v-if="medicine?.is_deletable">
-                                                <Icon name="ph:trash-duotone" class="size-4" />
-                                                {{ $t('citizens.medicineJournals.table.actions.delete') }}
-                                            </FormButton>
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                    @click="confirmMedicineDeletion(medicine)">
+                                                    <Icon name="ph:trash-duotone" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                         </div>
                                     </td>
                                 </tr>
