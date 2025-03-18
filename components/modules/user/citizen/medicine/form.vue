@@ -183,7 +183,7 @@ const { t } = useI18n()
 const { validateEuropeanDecimal } = euDecimalValidation()
 const language = useI18n()
 const image = ref<HTMLInputElement | null>(null)
-const imageUrl = ref(props.selectedMedicine?.image_url ?? '')
+let imageUrl = ref(props.selectedMedicine?.image ?? '')
 
 const state = reactive({
     formMedicine: {
@@ -225,7 +225,7 @@ const state = reactive({
 onMounted(() => {
     state.formMedicine = {
         uuid: props.selectedMedicine.uuid,
-        image: props.selectedMedicine.image,
+        image: '',
         is_pn_medicine: props.selectedMedicine?.is_pn_medicine ? true : false,
         medicine: props.selectedMedicine.medicine,
         strength: props.selectedMedicine.strength,

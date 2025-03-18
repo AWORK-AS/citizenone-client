@@ -56,11 +56,11 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.medicines?.data?.length === 0))">
                                 <tr v-for="(medicine, index) in state.medicines?.data" :key="index">
-                                    <td width="12%">
+                                    <td width="15%">
                                         <img :src="medicine?.image_url" alt="Image failed to load" class="w-28"
                                             v-if="medicine?.image_url">
                                     </td>
-                                    <td width="13%">
+                                    <td width="20%">
                                         <div class="space-y-1">
                                             <p v-if="language.locale.value === 'en'">
                                                 {{ medicine?.medicine_name?.en_name }}
@@ -82,7 +82,10 @@
                                     <td width="10%">
                                         <span>{{ medicine?.strength }}</span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="10%">
+                                        <span>{{ medicine?.max_daily_dose }}</span>
+                                    </td>
+                                    <td width="25%">
                                         <div class="space-y-3">
                                             <p>{{ medicine?.dosage?.name }}</p>
                                             <div class="text-xxs flex flex-wrap gap-2">
@@ -234,6 +237,7 @@ const state = reactive({
         { name: 'citizens.medicineJournals.table.image' },
         { name: 'citizens.medicineJournals.table.medicine', sorter: true, key: 'medicine' },
         { name: 'citizens.medicineJournals.table.strength' },
+        { name: 'citizens.medicineJournals.table.maxDailyDose' },
         { name: 'citizens.medicineJournals.table.dosageForm' },
         { name: 'citizens.medicineJournals.table.currentStocks' },
         { name: '' },
