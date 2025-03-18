@@ -280,6 +280,12 @@ watch(() => state.modal.isViewMedicineOpen, (isViewMedicineOpen: any) => {
     }
 })
 
+watch(() => language.locale.value, (newValue: any) => {
+    if (newValue != null) {
+        fetchCitizenMedicines()
+    }
+})
+
 async function navigateToExternalLink(link: any) {
     await navigateTo(link, {
         external: true,
