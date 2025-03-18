@@ -85,7 +85,7 @@ async function updateMedicine(medicineDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const medicineUuid = medicineDetails.uuid
+        const medicineUuid = props.selectedMedicine?.uuid
         let params = new FormData()
         if (medicineDetails.image) {
             params.append('image', medicineDetails.image)
