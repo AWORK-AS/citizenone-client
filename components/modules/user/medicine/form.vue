@@ -3,7 +3,7 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
-            <div class="space-y-1">
+            <!-- <div class="space-y-1">
                 <FormLabel for="image" :label="$t('medicines.form.image')" />
                 <div class="h-36 w-36">
                     <input type="file" ref="image" id="image" @change="onFileChange" class="hidden" />
@@ -20,6 +20,24 @@
                 </div>
                 <FormError :error="v$?.formMedicine?.image?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.image?.[0]" />
+            </div> -->
+            <div class="space-y-1">
+                <div class="flex flex-col items-center">
+                    <input type="file" ref="image" @change="onFileChange" class="hidden" />
+                    <div class="relative cursor-pointer" @click="triggerFileInput">
+                        <img :src="imageUrl" alt="Avatar"
+                            class="w-36 h-36 rounded-full object-cover border-2 border-tertiary-25" />
+                        <div
+                            class="rounded-full absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
+                            <div class="flex items-center w-full h-full justify-center text-xs">
+                                Change Image
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <FormError :error="v$?.formEmployee?.profile_image?.$errors[0]?.$message.toString()"
+                    class="text-center" />
+                <FormError :error="props?.error?.errors?.profile_image?.[0]" class="text-center" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="en_name" :label="$t('medicines.form.nameEnglish')" />
@@ -88,13 +106,13 @@ const state = reactive({
 
 watch(() => props.selectedMedicine, (newValue: any) => {
     if (newValue != null) {
+        if (newValue.image) {
+            imageUrl.value = newValue.image
+        }
         state.formMedicine = {
             image: '',
             en_name: newValue.en_name,
             dk_name: newValue.dk_name,
-        }
-        if (newValue?.image) {
-            imageUrl.value = newValue?.image
         }
     }
 })
