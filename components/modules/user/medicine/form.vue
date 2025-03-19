@@ -68,14 +68,13 @@ const props = defineProps({
     },
     selectedMedicine: {
         type: Object,
-        required: false,
+        required: true,
     },
 })
 
 const image = ref<HTMLInputElement | null>(null)
 let imageUrl = ref(props.selectedMedicine?.image ?? '')
 const emit = defineEmits(['isPageLoading', 'submitForm'])
-
 const { t } = useI18n()
 
 const state = reactive({
@@ -90,9 +89,12 @@ const state = reactive({
 watch(() => props.selectedMedicine, (newValue: any) => {
     if (newValue != null) {
         state.formMedicine = {
-            image: newValue.image,
+            image: '',
             en_name: newValue.en_name,
             dk_name: newValue.dk_name,
+        }
+        if (newValue?.image) {
+            imageUrl.value = newValue?.image
         }
     }
 })
