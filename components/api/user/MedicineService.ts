@@ -14,7 +14,7 @@ class MedicineService extends BaseAPIService {
     }
 
     async updateMedicine(medicineUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/medicines/${medicineUuid}`, 'PUT', params)
+        return await this.request(`/user/medicines/${medicineUuid}/update`, 'POST', params)
     }
 
     async deleteMedicine(medicineUuid: any): Promise<any> {

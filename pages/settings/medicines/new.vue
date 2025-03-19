@@ -49,9 +49,9 @@ const breadcrumbLinks = [
 const state = reactive({
     error: {} as Error,
     formMedicine: {
+        image: '',
         en_name: '',
         dk_name: '',
-        color: '',
     },
     isPageLoading: false,
 })
@@ -60,11 +60,12 @@ async function saveMedicine(medicineDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            en_name: medicineDetails.en_name,
-            dk_name: medicineDetails.dk_name,
-            color: medicineDetails.color,
+        let params = new FormData()
+        if (medicineDetails?.image) {
+            params.append('image', medicineDetails.image)
         }
+        params.append('en_name', medicineDetails.en_name)
+        params.append('dk_name', medicineDetails.dk_name)
         const response = await medicineService.saveMedicine(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('medicines.form.alert.newMedicineSuccessfullySaved')}.`)

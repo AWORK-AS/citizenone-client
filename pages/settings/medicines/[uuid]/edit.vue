@@ -51,9 +51,9 @@ const breadcrumbLinks = [
 const state = reactive({
     error: {} as Error,
     formMedicine: {
+        image: '',
         en_name: '',
         dk_name: '',
-        color: '',
     },
     isPageLoading: false,
 })
@@ -69,9 +69,9 @@ async function fetchMedicine() {
         const response = await medicineService.getMedicine(medicineUuid)
         if (response) {
             state.formMedicine = {
+                image: response?.data?.image_url ?? '',
                 en_name: response?.data?.en_name ?? '',
                 dk_name: response?.data?.dk_name ?? '',
-                color: response?.data?.color ?? '',
             }
         }
     } catch (error: any) {
@@ -84,11 +84,12 @@ async function updateMedicine(medicineDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            en_name: medicineDetails.en_name,
-            dk_name: medicineDetails.dk_name,
-            color: medicineDetails.color,
+        let params = new FormData()
+        if (medicineDetails?.image) {
+            params.append('image', medicineDetails.image)
         }
+        params.append('en_name', medicineDetails.en_name)
+        params.append('dk_name', medicineDetails.dk_name)
         const response = await medicineService.updateMedicine(medicineUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('medicines.form.alert.medicineSuccessfullyUpdated')}.`)

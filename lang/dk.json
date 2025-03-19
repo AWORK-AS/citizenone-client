@@ -2319,6 +2319,7 @@
                 "medicineSuccessfullyUpdated": "Medicin opdateret med succes",
                 "newMedicineSuccessfullySaved": "Ny medicin gemt med succes"
             },
+            "image": "Billede",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)"
         },
@@ -2332,6 +2333,7 @@
             "confirmation": {
                 "deleteMedicineConfirmation": "Er du sikker på, at du vil slette denne medicin"
             },
+            "image": "Billede",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)"
         }

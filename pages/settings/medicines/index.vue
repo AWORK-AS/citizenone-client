@@ -32,13 +32,16 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.medicines?.data?.length === 0))">
                                 <tr v-for="(medicine, index) in state.medicines?.data" :key="index">
-                                    <td width="35%">
-                                        <span>{{ medicine?.en_name }}</span>
-                                    </td>
-                                    <td width="35%">
-                                        <span>{{ medicine?.dk_name }}</span>
+                                    <td width="15%">
+                                        <img :src="medicine?.image_url" class="h-24" v-if="medicine?.image_url" />
                                     </td>
                                     <td width="30%">
+                                        <span>{{ medicine?.en_name }}</span>
+                                    </td>
+                                    <td width="30%">
+                                        <span>{{ medicine?.dk_name }}</span>
+                                    </td>
+                                    <td width="25%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/medicines/${medicine.uuid}/edit`)">
@@ -87,6 +90,7 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
+        { name: 'medicines.table.image' },
         { name: 'medicines.table.nameEnglish', sorter: true, key: 'en_name' },
         { name: 'medicines.table.nameDanish', sorter: true, key: 'dk_name' },
         { name: '' }
