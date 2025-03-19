@@ -119,6 +119,13 @@
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
+                                                                    :text="$t('plansandgoals.table.actions.graph')">
+                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                        @click="openChart(subgoal)">
+                                                                        <Icon name="ph:chart-line" class="size-4" />
+                                                                    </FormButton>
+                                                                </Tooltip>
+                                                                <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.delete')"
                                                                     v-if="subgoal?.is_deletable">
                                                                     <FormButton class="rounded-md" buttonSize="sm"
@@ -188,6 +195,8 @@
             <ModulesUserCitizenPlanGoalSubgoalModalEdit :isModalOpen="state.modal.isEditSubgoalOpen"
                 :selectedGoal="props.selectedGoal" :selectedSubgoal="state.selectedSubgoal"
                 @close="state.modal.isEditSubgoalOpen = false" @refreshGoals="fetchSubgoals" />
+            <ModulesUserCitizenPlanChartModalChart :isModalOpen="state.modal.isChartOpen"
+                :selectedData="state.selectedSubgoal" @close="state.modal.isChartOpen = false" />
             <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isSubGoalStatusesOpen"
                 :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchSubgoals" />
             <ModulesUserCitizenPlanNotificationModalNotifications :isModalOpen="state.modal.isNotificationsOpen"
@@ -233,6 +242,7 @@ const state = reactive({
     modal: {
         isArchiveSubgoalOpen: false,
         isAddSubgoalOpen: false,
+        isChartOpen: false,
         isDeleteSubgoalOpen: false,
         isEditSubgoalOpen: false,
         isNotificationsOpen: false,
@@ -303,11 +313,6 @@ async function fetchSubgoals() {
     state.isPageLoading = false
 }
 
-function addSubgoal(goal: any) {
-    state.selectedGoal = goal
-    state.modal.isAddSubgoalOpen = true
-}
-
 function editSubGoal(subgoal: any) {
     state.selectedSubgoal = subgoal
     state.modal.isEditSubgoalOpen = true
@@ -341,6 +346,11 @@ async function archiveSubgoal() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function openChart(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isChartOpen = true
 }
 
 function confirmSubgoalDeletion(subgoal: any) {

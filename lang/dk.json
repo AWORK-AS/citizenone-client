@@ -2500,6 +2500,7 @@
             "title": "Titel",
             "useTemplate": "Brug skabelon"
         },
+        "graph": "Graf",
         "inProgress": "I gang",
         "new": "Ny",
         "newGoal": "Nyt mål",
@@ -2544,6 +2545,7 @@
                 "archive": "Arkivér",
                 "edit": "Rediger",
                 "delete": "Slet",
+                "graph": "Graf",
                 "notifications": "Notifikationer",
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",

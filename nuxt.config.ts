@@ -24,8 +24,14 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxt/icon',
-    'vue3-carousel-nuxt'
+    'vue3-carousel-nuxt',
+    "nuxt-echarts"
   ],
+
+  echarts: {
+    charts: ['BarChart'],
+    components: ['DatasetComponent', 'GridComponent', 'TooltipComponent'],
+  },
 
   plugins: [
     '@/plugins/vue-notification.ts',

@@ -2500,6 +2500,7 @@
             "title": "Title",
             "useTemplate": "Use template"
         },
+        "graph": "Graph",
         "inProgress": "In progress",
         "new": "New",
         "newGoal": "New goal",
@@ -2544,6 +2545,7 @@
                 "archive": "Archive",
                 "edit": "Edit",
                 "delete": "Delete",
+                "graph": "Graph",
                 "notifications": "Notifications",
                 "seeGoals": "See goals",
                 "seeSubgoals": "See subgoals",

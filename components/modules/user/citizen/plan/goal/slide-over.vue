@@ -111,6 +111,13 @@
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
+                                                                    :text="$t('plansandgoals.table.actions.graph')">
+                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                        @click="openGoalChart(goal)">
+                                                                        <Icon name="ph:chart-line" class="size-4" />
+                                                                    </FormButton>
+                                                                </Tooltip>
+                                                                <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.notes')">
                                                                     <FormButton class="rounded-md" buttonSize="sm"
                                                                         @click="viewGoalStatuses(goal)">
@@ -298,6 +305,15 @@
                                                                                     </FormButton>
                                                                                 </Tooltip>
                                                                                 <Tooltip
+                                                                                    :text="$t('plansandgoals.table.actions.graph')">
+                                                                                    <FormButton class="rounded-md"
+                                                                                        buttonSize="sm"
+                                                                                        @click="openSubgoalChart(subgoal)">
+                                                                                        <Icon name="ph:chart-line"
+                                                                                            class="size-4" />
+                                                                                    </FormButton>
+                                                                                </Tooltip>
+                                                                                <Tooltip
                                                                                     :text="$t('plansandgoals.table.actions.notes')">
                                                                                     <FormButton class="rounded-md"
                                                                                         buttonSize="sm"
@@ -364,6 +380,12 @@
             <ModulesUserCitizenPlanGoalSubgoalModalEdit :isModalOpen="state.modal.isEditSubgoalOpen"
                 :selectedGoal="state.selectedGoal" :selectedSubgoal="state.selectedSubgoal"
                 @close="state.modal.isEditSubgoalOpen = false" @refreshGoals="fetchGoals" />
+
+            <ModulesUserCitizenPlanChartModalChart :isModalOpen="state.modal.isGoalChartOpen"
+                :selectedData="state.selectedGoal" @close="state.modal.isGoalChartOpen = false" />
+            <ModulesUserCitizenPlanChartModalChart :isModalOpen="state.modal.isSubgoalChartOpen"
+                :selectedData="state.selectedSubgoal" @close="state.modal.isSubgoalChartOpen = false" />
+
             <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isGoalStatusesOpen"
                 :selectedData="state.selectedGoal" @close="closeGoalStatusesModal" @refreshData="fetchGoals" />
             <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isSubGoalStatusesOpen"
@@ -429,8 +451,10 @@ const state = reactive({
         isDeleteSubgoalOpen: false,
         isEditGoalOpen: false,
         isEditSubgoalOpen: false,
+        isGoalChartOpen: false,
         isGoalNotificationsOpen: false,
         isGoalStatusesOpen: false,
+        isSubgoalChartOpen: false,
         isSubgoalNotificationsOpen: false,
         isSubGoalStatusesOpen: false,
     },
@@ -541,6 +565,16 @@ function editGoal(goal: any) {
 function editSubGoal(subgoal: any) {
     state.selectedSubgoal = subgoal
     state.modal.isEditSubgoalOpen = true
+}
+
+function openGoalChart(goal: any) {
+    state.selectedGoal = goal
+    state.modal.isGoalChartOpen = true
+}
+
+function openSubgoalChart(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isGoalChartOpen = true
 }
 
 function viewGoalStatuses(goal: any) {

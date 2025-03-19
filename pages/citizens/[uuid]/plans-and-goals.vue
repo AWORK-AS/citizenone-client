@@ -222,6 +222,11 @@
                                                     <Icon name="ph:archive" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="$t('plansandgoals.table.actions.graph')">
+                                                <FormButton class="rounded-md" buttonSize="sm" @click="openChart(plan)">
+                                                    <Icon name="ph:chart-line" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('plansandgoals.table.actions.notes')">
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="viewStatuses(plan)">
@@ -273,6 +278,8 @@
             <ModulesUserCitizenPlanSingleGoalModalEdit :isModalOpen="state.modal.isEditSingleGoalOpen"
                 :selectedGoal="state.selectedGoal" @close="state.modal.isEditSingleGoalOpen = false"
                 @refreshPlans="fetchPlans" />
+            <ModulesUserCitizenPlanChartModalChart :isModalOpen="state.modal.isChartOpen"
+                :selectedData="state.selectedPlan" @close="state.modal.isChartOpen = false" />
             <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
                 :selectedData="state.selectedPlan" @close="closeStatusesModal" @refreshData="fetchPlans" />
             <ModulesUserCitizenPlanNotificationModalNotifications :isModalOpen="state.modal.isNotificationsOpen"
@@ -337,6 +344,7 @@ const state = reactive({
         isAddSingleGoalOpen: false,
         isArchiveGoalOpen: false,
         isArchivePlanOpen: false,
+        isChartOpen: false,
         isDeletePlanOpen: false,
         isDeleteSingleGoalOpen: false,
         isEditPlanOpen: false,
@@ -487,6 +495,11 @@ async function archivePlan() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function openChart(plan: any) {
+    state.selectedPlan = plan
+    state.modal.isChartOpen = true
 }
 
 function viewStatuses(plan: any) {
