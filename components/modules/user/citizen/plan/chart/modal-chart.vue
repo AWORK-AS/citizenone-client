@@ -81,12 +81,14 @@ async function fetchPlanGoalSubgoalGraph() {
         const planGoalSubgoalUuid = props.selectedData?.uuid
         const response = await planGoalSubgoalService.getPlanGoalSubgoalGraph(planGoalSubgoalUuid)
         if (response) {
+            state.chartOption.dataset.source = []
             response?.data?.forEach((data: any) => {
                 state.chartOption.dataset.source.push({
                     label: formatDateToReadable(data?.date),
                     level: parseInt(data?.level)
                 })
             })
+            console.log('source', state.chartOption.dataset.source)
         }
     } catch (error: any) {
         state.error = error

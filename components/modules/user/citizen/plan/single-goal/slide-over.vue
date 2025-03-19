@@ -97,14 +97,6 @@
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
-                                                                    :text="$t('plansandgoals.table.actions.notes')">
-                                                                    <FormButton class="rounded-md" buttonSize="sm"
-                                                                        @click="viewSubgoalStatuses(subgoal)">
-                                                                        <Icon name="ph:check-square-offset"
-                                                                            class="size-4" />
-                                                                    </FormButton>
-                                                                </Tooltip>
-                                                                <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.notifications')">
                                                                     <FormButton class="rounded-md" buttonSize="sm"
                                                                         @click="viewNotifications(subgoal)">
@@ -116,6 +108,14 @@
                                                                     <FormButton class="rounded-md" buttonSize="sm"
                                                                         @click="confirmSubgoalArchive(subgoal)">
                                                                         <Icon name="ph:archive" class="size-4" />
+                                                                    </FormButton>
+                                                                </Tooltip>
+                                                                <Tooltip
+                                                                    :text="$t('plansandgoals.table.actions.notes')">
+                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                        @click="viewSubgoalStatuses(subgoal)">
+                                                                        <Icon name="ph:check-square-offset"
+                                                                            class="size-4" />
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip

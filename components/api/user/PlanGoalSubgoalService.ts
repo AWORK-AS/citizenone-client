@@ -6,7 +6,7 @@ class PlanGoalSubgoalService extends BaseAPIService {
     }
 
     async getPlanGoalSubgoalGraph(modelUuid: object): Promise<any> {
-        return await this.request(`/user/citizen-plans/${modelUuid}/statistics-graph`, 'GET')
+        return await this.request(`/user/citizen-plans-goals-subgoals/${modelUuid}/statistics-graph`, 'GET')
     }
 }
 export const planGoalSubgoalService = new PlanGoalSubgoalService()

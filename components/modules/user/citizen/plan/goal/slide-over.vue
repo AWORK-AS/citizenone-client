@@ -574,7 +574,7 @@ function openGoalChart(goal: any) {
 
 function openSubgoalChart(subgoal: any) {
     state.selectedSubgoal = subgoal
-    state.modal.isGoalChartOpen = true
+    state.modal.isSubgoalChartOpen = true
 }
 
 function viewGoalStatuses(goal: any) {
