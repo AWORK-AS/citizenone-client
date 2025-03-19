@@ -130,7 +130,7 @@ onMounted(() => {
         { value: 'given', label: `${customPagesStore.getCustomPagesName?.giveMedicine}` },
     ]
     fetchAllUsers()
-    fetchMedicineHistoryPerMedicine(moment().format('YYYY-MM-DD'))
+    fetchMedicineHistoryPerMedicine(moment(props.selectedMedicineHistory?.date).format('YYYY-MM-DD'))
     state.formMedicineHistory = {
         uuid: props.selectedMedicineHistory.uuid,
         date: props.selectedMedicineHistory.date,
@@ -201,6 +201,7 @@ function generateDosage() {
             time: dosage?.time,
             dosage: '',
             type: '',
+            comment: '',
         })
     })
 }
