@@ -38,7 +38,6 @@ const state = reactive({
     isPageLoading: false,
     formMedicine: {
         citizen_uuid: '',
-        image: '',
         is_pn_medicine: false,
         medicine: '',
         dosage: '',
@@ -69,9 +68,6 @@ async function saveMedicine(medicineDetails: any) {
     try {
         let params = new FormData()
         params.append('citizen_uuid', citizenUuid.toString())
-        if (medicineDetails.image) {
-            params.append('image', medicineDetails.image)
-        }
         params.append('is_pn_medicine', medicineDetails.is_pn_medicine)
         params.append('medicine_uuid', medicineDetails.medicine)
         params.append('dosage_uuid', medicineDetails.dosage)

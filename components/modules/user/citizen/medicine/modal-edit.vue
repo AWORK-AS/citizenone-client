@@ -38,7 +38,6 @@ const emit = defineEmits(['close', 'refreshMedicines'])
 const state = reactive({
     error: {} as Error,
     formMedicine: {
-        image: '',
         is_pn_medicine: false,
         medicine: '',
         dosage: '',
@@ -65,7 +64,6 @@ function refreshMedicines() {
 watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
         state.formMedicine = {
-            image: props.selectedMedicine?.image_url,
             is_pn_medicine: props.selectedMedicine?.is_pn_medicine,
             medicine: props.selectedMedicine?.medicine_name?.uuid,
             dosage: props.selectedMedicine?.dosage?.uuid,
@@ -87,9 +85,6 @@ async function updateMedicine(medicineDetails: any) {
     try {
         const medicineUuid = props.selectedMedicine?.uuid
         let params = new FormData()
-        if (medicineDetails.image) {
-            params.append('image', medicineDetails.image)
-        }
         params.append('is_pn_medicine', medicineDetails.is_pn_medicine)
         params.append('medicine_uuid', medicineDetails.medicine)
         params.append('dosage_uuid', medicineDetails.dosage)

@@ -29,7 +29,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesUserCitizenDetailsHeader />
+                <!-- <ModulesUserCitizenDetailsHeader /> -->
                 <ModulesUserCitizenJournalTabs />
 
                 <div>
@@ -57,8 +57,8 @@
                             <template #body v-if="!(state.isTableLoading || (state.medicines?.data?.length === 0))">
                                 <tr v-for="(medicine, index) in state.medicines?.data" :key="index">
                                     <td width="15%">
-                                        <img :src="medicine?.image_url" alt="Image failed to load" class="w-28"
-                                            v-if="medicine?.image_url">
+                                        <img :src="medicine?.medicine_name?.image_url" alt="Image failed to load"
+                                            class="w-28" v-if="medicine?.medicine_name?.image_url">
                                     </td>
                                     <td width="20%">
                                         <div class="space-y-1">
@@ -195,15 +195,15 @@
                     </div>
                     <Pagination :data="state.medicines" @previous="previous" @next="next" />
                 </div>
-                <ModulesUserCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isGiveMedicineOpen"
-                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isGiveMedicineOpen = false" />
-                <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineOpen"
-                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineOpen = false" />
                 <ModulesUserCitizenMedicineModalNew :isModalOpen="state.modal.isAddMedicineOpen"
                     @close="state.modal.isAddMedicineOpen = false" @refreshMedicines="fetchCitizenMedicines" />
                 <ModulesUserCitizenMedicineModalEdit :isModalOpen="state.modal.isEditMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="closeEditMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines" />
+                <ModulesUserCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isGiveMedicineOpen"
+                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isGiveMedicineOpen = false" />
+                <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineOpen"
+                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deleteConfirmation') + '?'"
                     @close="state.modal.isDeleteMedicineOpen = false" @confirm="deleteMedicine" />
