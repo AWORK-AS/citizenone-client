@@ -1,143 +1,157 @@
 <template>
-    <form @submit.prevent="submitForm()" id="formMedicine">
-        <Alert type="danger" :text="props?.error?.message"
-            v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="grid grid-cols-1 gap-y-3">
-            <div class="space-y-1">
-                <div class="w-fit flex cursor-pointer"
-                    @click="state.formMedicine.is_pn_medicine = !state.formMedicine.is_pn_medicine">
-                    <FormCheckbox :value="state.formMedicine.is_pn_medicine" />
-                    <p>{{ $t('citizens.medicineJournals.form.pnMedicine') }}</p>
-                </div>
-            </div>
-            <div class="space-y-1">
-                <FormLabel for="medicine" :label="$t('citizens.medicineJournals.form.medicine')" />
-                <FormSelect id="medicine" :options="state.options.medicines" v-model="state.formMedicine.medicine" />
-                <FormError :error="v$?.formMedicine?.medicine?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.medicine_uuid?.[0]" />
-            </div>
-            <div class="space-y-1">
-                <FormLabel for="dosage" :label="$t('citizens.medicineJournals.form.dosageForm')" />
-                <FormSelect id="dosage" :options="state.options.dosage_form" v-model="state.formMedicine.dosage" />
-                <FormError :error="v$?.formMedicine?.dosage?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
-            </div>
-            <div class="grid grid-cols-1 gap-3" :class="[
-                !state.formMedicine.is_pn_medicine && 'md:grid-cols-2'
-            ]">
-                <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
-                    <FormLabel for="schedule_frequency"
-                        :label="$t('citizens.medicineJournals.form.scheduleFrequency')" />
-                    <FormSelect id="schedule_frequency" name="schedule_frequency"
-                        :options="state.options.schedule_frequencies" v-model="state.formMedicine.schedule_frequency" />
-                    <FormError :error="v$?.formMedicine?.schedule_frequency?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.schedule_frequency?.[0]" />
-                </div>
+    <div>
+        <form @submit.prevent="submitForm()" id="formMedicine">
+            <Alert type="danger" :text="props?.error?.message"
+                v-if="props.error?.message && props.error.message.length > 0" />
+            <div class="grid grid-cols-1 gap-y-3">
                 <div class="space-y-1">
-                    <FormLabel for="current_stocks" :label="$t('citizens.medicineJournals.form.currentStocks')" />
-                    <FormTextField id="current_stocks" name="current_stocks"
-                        :placeholder="$t('citizens.medicineJournals.form.currentStocks')"
-                        v-model="state.formMedicine.current_stocks" />
-                    <FormError :error="v$?.formMedicine?.current_stocks?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.current_stocks?.[0]" />
-                </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="strength" :label="$t('citizens.medicineJournals.form.strength')" />
-                    <FormTextField id="strength" name="strength"
-                        :placeholder="$t('citizens.medicineJournals.form.strength')"
-                        v-model="state.formMedicine.strength" />
-                    <FormError :error="v$?.formMedicine?.strength?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.strength?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="max_daily_dose" :label="$t('citizens.medicineJournals.form.maxDailyDose')" />
-                    <FormTextField id="max_daily_dose" name="max_daily_dose"
-                        :placeholder="$t('citizens.medicineJournals.form.maxDailyDose')"
-                        v-model="state.formMedicine.max_daily_dose" @input="handleMaxDailyDoseInput" />
-                    <FormError :error="v$?.formMedicine?.max_daily_dose?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.max_daily_dose?.[0]" />
-                </div>
-            </div>
-            <div class="space-y-1">
-                <p class="text-sm text-gray-600">
-                    {{ $t('citizens.medicineJournals.form.maxDosagePerTime') }}
-                </p>
-                <div class="space-y-4">
-                    <div v-for="(data, index) in state.formMedicine.max_dosage_per_time" :key="index" class="relative ">
-                        <div
-                            class="grid grid-cols-2 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
-                            <div class="space-y-1">
-                                <p class="text-sm text-gray-600">
-                                    {{ $t('citizens.medicineJournals.form.time') }}
-                                </p>
-                                <FormSelect :options="state.options.time" :value="data?.time"
-                                    @change="(event: any) => state.formMedicine.max_dosage_per_time[index].time = event" />
-                            </div>
-                            <div class="space-y-1">
-                                <p class="text-sm text-gray-600">
-                                    {{ $t('citizens.medicineJournals.form.dosage') }}
-                                </p>
-                                <FormTextField :id="`max_daily_dose_${index}`" :name="`max_daily_dose_${index}`"
-                                    :placeholder="$t('citizens.medicineJournals.form.dosage')" :value="data?.dosage"
-                                    @input="(event: any) => handleDoseInput(event, index)" />
-                            </div>
-                            <button type="button"
-                                class="absolute -top-3 -right-3 bg-red-700 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"
-                                @click="removeMaxDosagePerTime(index)"
-                                v-if="state.formMedicine.max_dosage_per_time.length > 1">
-                                <Icon name="ph:trash" class="h-4 w-4 text-white" aria-hidden="true" />
-                            </button>
-                            <button type="button"
-                                class="absolute -bottom-4 inset-x-1/2 shadow-md bg-secondary hover:bg-secondary-800 rounded-full w-8 h-8 flex items-center justify-center"
-                                @click="addMaxDosagePerTime()"
-                                v-if="index === state.formMedicine.max_dosage_per_time.length - 1">
-                                <Icon name="ph:plus" class="h-4 w-4 text-white" aria-hidden="true" />
-                            </button>
-                        </div>
-                        <FormError :error="props?.error?.errors?.max_dosage_per_time?.[0]" />
+                    <div class="w-fit flex cursor-pointer"
+                        @click="state.formMedicine.is_pn_medicine = !state.formMedicine.is_pn_medicine">
+                        <FormCheckbox :value="state.formMedicine.is_pn_medicine" />
+                        <p>{{ $t('citizens.medicineJournals.form.pnMedicine') }}</p>
                     </div>
                 </div>
+                <div class="space-y-1">
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="medicine" :label="$t('citizens.medicineJournals.form.medicine')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.modal.isAddNewMedicineOpen = true">
+                            {{ $t('medicines.addNewMedicine') }}
+                        </span>
+                    </div>
+                    <FormSelect id="medicine" :options="state.options.medicines"
+                        v-model="state.formMedicine.medicine" />
+                    <FormError :error="v$?.formMedicine?.medicine?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.medicine_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="dosage" :label="$t('citizens.medicineJournals.form.dosageForm')" />
+                    <FormSelect id="dosage" :options="state.options.dosage_form" v-model="state.formMedicine.dosage" />
+                    <FormError :error="v$?.formMedicine?.dosage?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
+                </div>
+                <div class="grid grid-cols-1 gap-3" :class="[
+                    !state.formMedicine.is_pn_medicine && 'md:grid-cols-2'
+                ]">
+                    <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
+                        <FormLabel for="schedule_frequency"
+                            :label="$t('citizens.medicineJournals.form.scheduleFrequency')" />
+                        <FormSelect id="schedule_frequency" name="schedule_frequency"
+                            :options="state.options.schedule_frequencies"
+                            v-model="state.formMedicine.schedule_frequency" />
+                        <FormError :error="v$?.formMedicine?.schedule_frequency?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.schedule_frequency?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="current_stocks" :label="$t('citizens.medicineJournals.form.currentStocks')" />
+                        <FormTextField id="current_stocks" name="current_stocks"
+                            :placeholder="$t('citizens.medicineJournals.form.currentStocks')"
+                            v-model="state.formMedicine.current_stocks" />
+                        <FormError :error="v$?.formMedicine?.current_stocks?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.current_stocks?.[0]" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="strength" :label="$t('citizens.medicineJournals.form.strength')" />
+                        <FormTextField id="strength" name="strength"
+                            :placeholder="$t('citizens.medicineJournals.form.strength')"
+                            v-model="state.formMedicine.strength" />
+                        <FormError :error="v$?.formMedicine?.strength?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.strength?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="max_daily_dose" :label="$t('citizens.medicineJournals.form.maxDailyDose')" />
+                        <FormTextField id="max_daily_dose" name="max_daily_dose"
+                            :placeholder="$t('citizens.medicineJournals.form.maxDailyDose')"
+                            v-model="state.formMedicine.max_daily_dose" @input="handleMaxDailyDoseInput" />
+                        <FormError :error="v$?.formMedicine?.max_daily_dose?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.max_daily_dose?.[0]" />
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <p class="text-sm text-gray-600">
+                        {{ $t('citizens.medicineJournals.form.maxDosagePerTime') }}
+                    </p>
+                    <div class="space-y-4">
+                        <div v-for="(data, index) in state.formMedicine.max_dosage_per_time" :key="index"
+                            class="relative ">
+                            <div
+                                class="grid grid-cols-2 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+                                <div class="space-y-1">
+                                    <p class="text-sm text-gray-600">
+                                        {{ $t('citizens.medicineJournals.form.time') }}
+                                    </p>
+                                    <FormSelect :options="state.options.time" :value="data?.time"
+                                        @change="(event: any) => state.formMedicine.max_dosage_per_time[index].time = event" />
+                                </div>
+                                <div class="space-y-1">
+                                    <p class="text-sm text-gray-600">
+                                        {{ $t('citizens.medicineJournals.form.dosage') }}
+                                    </p>
+                                    <FormTextField :id="`max_daily_dose_${index}`" :name="`max_daily_dose_${index}`"
+                                        :placeholder="$t('citizens.medicineJournals.form.dosage')" :value="data?.dosage"
+                                        @input="(event: any) => handleDoseInput(event, index)" />
+                                </div>
+                                <button type="button"
+                                    class="absolute -top-3 -right-3 bg-red-700 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"
+                                    @click="removeMaxDosagePerTime(index)"
+                                    v-if="state.formMedicine.max_dosage_per_time.length > 1">
+                                    <Icon name="ph:trash" class="h-4 w-4 text-white" aria-hidden="true" />
+                                </button>
+                                <button type="button"
+                                    class="absolute -bottom-4 inset-x-1/2 shadow-md bg-secondary hover:bg-secondary-800 rounded-full w-8 h-8 flex items-center justify-center"
+                                    @click="addMaxDosagePerTime()"
+                                    v-if="index === state.formMedicine.max_dosage_per_time.length - 1">
+                                    <Icon name="ph:plus" class="h-4 w-4 text-white" aria-hidden="true" />
+                                </button>
+                            </div>
+                            <FormError :error="props?.error?.errors?.max_dosage_per_time?.[0]" />
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="package_leaflet_link"
+                        :label="$t('citizens.medicineJournals.form.packageLeafletLink')" />
+                    <FormTextField id="package_leaflet_link" name="package_leaflet_link"
+                        :placeholder="$t('citizens.medicineJournals.form.packageLeafletLink')"
+                        v-model="state.formMedicine.package_leaflet_link" />
+                    <FormError :error="v$?.formMedicine?.package_leaflet_link?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.package_leaflet_link?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="active_ingredients"
+                        :label="$t('citizens.medicineJournals.form.activeIngredients')" />
+                    <FormTextArea id="active_ingredients" name="active_ingredients"
+                        :placeholder="$t('citizens.medicineJournals.form.activeIngredients')"
+                        v-model="state.formMedicine.active_ingredients" />
+                    <FormError :error="v$?.formMedicine?.active_ingredients?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.active_ingredients?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="description" :label="$t('citizens.medicineJournals.form.description')" />
+                    <FormTextArea id="description" name="description"
+                        :placeholder="$t('citizens.medicineJournals.form.description')"
+                        v-model="state.formMedicine.description" />
+                    <FormError :error="v$?.formMedicine?.description?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.description?.[0]" />
+                </div>
             </div>
-            <div class="space-y-1">
-                <FormLabel for="package_leaflet_link"
-                    :label="$t('citizens.medicineJournals.form.packageLeafletLink')" />
-                <FormTextField id="package_leaflet_link" name="package_leaflet_link"
-                    :placeholder="$t('citizens.medicineJournals.form.packageLeafletLink')"
-                    v-model="state.formMedicine.package_leaflet_link" />
-                <FormError :error="v$?.formMedicine?.package_leaflet_link?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.package_leaflet_link?.[0]" />
+            <div class="mt-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                        {{ $t('cancel') }}
+                    </FormButton>
+                    <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                        {{ props.formType === 'create' ? $t('save') :
+                            $t('update') }}
+                    </FormButton>
+                </div>
             </div>
-            <div class="space-y-1">
-                <FormLabel for="active_ingredients" :label="$t('citizens.medicineJournals.form.activeIngredients')" />
-                <FormTextArea id="active_ingredients" name="active_ingredients"
-                    :placeholder="$t('citizens.medicineJournals.form.activeIngredients')"
-                    v-model="state.formMedicine.active_ingredients" />
-                <FormError :error="v$?.formMedicine?.active_ingredients?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.active_ingredients?.[0]" />
-            </div>
-            <div class="space-y-1">
-                <FormLabel for="description" :label="$t('citizens.medicineJournals.form.description')" />
-                <FormTextArea id="description" name="description"
-                    :placeholder="$t('citizens.medicineJournals.form.description')"
-                    v-model="state.formMedicine.description" />
-                <FormError :error="v$?.formMedicine?.description?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.description?.[0]" />
-            </div>
-        </div>
-        <div class="mt-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
-                    {{ $t('cancel') }}
-                </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
-                    {{ props.formType === 'create' ? $t('save') :
-                        $t('update') }}
-                </FormButton>
-            </div>
-        </div>
-    </form>
+        </form>
+        <ModulesUserMedicineModalNew :isModalOpen="state.modal.isAddNewMedicineOpen"
+            @close="state.modal.isAddNewMedicineOpen = false" @refreshMedicines="fetchAllMedicines" />
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -182,6 +196,9 @@ const state = reactive({
         active_ingredients: '',
         description: '',
     } as any,
+    modal: {
+        isAddNewMedicineOpen: false,
+    },
     options: {
         dosage_form: [],
         medicines: [],
@@ -219,7 +236,7 @@ onMounted(() => {
         current_stocks: props.selectedMedicine.current_stocks?.toString(),
     }
     fetchDosageForm()
-    fetchMedicines()
+    fetchAllMedicines()
 })
 
 const rules = computed(() => {
@@ -382,7 +399,7 @@ async function fetchDosageForm() {
     emit('isPageLoading', false)
 }
 
-async function fetchMedicines() {
+async function fetchAllMedicines() {
     emit('error', {})
     emit('isPageLoading', true)
     try {

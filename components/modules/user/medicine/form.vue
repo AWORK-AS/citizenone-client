@@ -4,7 +4,7 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="image" :label="$t('citizens.medicineJournals.form.image')" />
+                <FormLabel for="image" :label="$t('medicines.form.image')" />
                 <div class="h-36 w-36">
                     <input type="file" ref="image" id="image" @change="onFileChange" class="hidden" />
                     <div class="relative cursor-pointer" @click="triggerFileInput">

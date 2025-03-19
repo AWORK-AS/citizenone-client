@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('medicines.newMedicine')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="sm" :title="$t('medicines.newMedicine')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserMedicineModalForm formType="create" :selectedMedicine="state.formMedicine"
@@ -32,6 +32,7 @@ const emit = defineEmits(['close', 'refreshMedicines'])
 const state = reactive({
     error: {} as Error,
     formMedicine: {
+        image: '',
         en_name: '',
         dk_name: '',
     },
@@ -50,10 +51,12 @@ async function saveMedicine(medicineDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            en_name: medicineDetails.en_name,
-            dk_name: medicineDetails.dk_name,
+        let params = new FormData()
+        if (medicineDetails?.image) {
+            params.append('image', medicineDetails.image)
         }
+        params.append('en_name', medicineDetails.en_name)
+        params.append('dk_name', medicineDetails.dk_name)
         const response = await medicineService.saveMedicine(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('medicines.form.alert.newMedicineSuccessfullySaved')}.`)
