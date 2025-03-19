@@ -29,7 +29,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <!-- <ModulesUserCitizenDetailsHeader /> -->
+                <ModulesUserCitizenDetailsHeader />
                 <ModulesUserCitizenJournalTabs />
 
                 <div>
