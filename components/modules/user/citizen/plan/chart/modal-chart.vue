@@ -88,7 +88,6 @@ async function fetchPlanGoalSubgoalGraph() {
                     level: parseInt(data?.level)
                 })
             })
-            console.log('source', state.chartOption.dataset.source)
         }
     } catch (error: any) {
         state.error = error
