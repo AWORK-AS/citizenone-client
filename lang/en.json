@@ -2320,6 +2320,11 @@
             "to": "To"
         },
         "inbox": "Inbox",
+        "loading": {
+            "loadingEmailConfigurations": "Loading email configurations",
+            "loadingUserSettings": "Loading user settings",
+            "loadingYourEmails": "Loading your emails"
+        },
         "mail": "Mail",
         "outbox": "Outbox",
         "sent": "Sent",
