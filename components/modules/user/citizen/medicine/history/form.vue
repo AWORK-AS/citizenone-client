@@ -2,7 +2,7 @@
     <form @submit.prevent="validateForm()">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="grid grid-cols-1 gap-y-3">
+        <div class="grid grid-cols-1 gap-y-4">
             <div class="space-y-1">
                 <FormLabel for="date" :label="$t('citizens.medicineJournals.history.form.date')" />
                 <FormDateField id="date" name="date" :placeholder="$t('citizens.medicineJournals.history.form.date')"
@@ -10,39 +10,52 @@
                 <FormError :error="v$?.formMedicineHistory?.date?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date?.[0]" />
             </div>
-            <div class="space-y-8">
-                <div v-for="(dosage, index) in state.formMedicineHistory.dosages" :key="index"
-                    class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
-                    <div class="space-y-1">
-                        <FormLabel :for="`time_${index}`" :label="$t('citizens.medicineJournals.history.form.time')" />
-                        <FormTextField :id="`time_${index}`" :name="`time_${index}`"
-                            :placeholder="$t('citizens.medicineJournals.history.form.time')" :value="dosage?.time"
-                            :disabled="true" />
+            <div class="space-y-4">
+                <Disclosure v-slot="{ open }" v-for="(dosage, index) in state.formMedicineHistory.dosages" :key="index">
+                    <div>
+                        <DisclosureButton class="w-full bg-gray-100 ring-1 ring-gray-100 flex justify-between p-3.5"
+                            :class="!open ? 'rounded-md' : 'rounded-tl-md rounded-tr-md'">
+                            <p class="text-sm font-semibold text-gray-700">
+                                {{ t('citizens.medicineJournals.history.form.time') }}:
+                                {{ dosage?.time }}
+                            </p>
+                            <div class="flex items-center">
+                                <Icon name="ic:round-keyboard-arrow-down" class="w-4 h-4" v-if="!open" />
+                                <Icon name="ic:round-keyboard-arrow-up" class="w-4 h-4" v-else />
+                            </div>
+                        </DisclosureButton>
+                        <DisclosurePanel>
+                            <div
+                                class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-bl-lg rounded-br-lg px-4 py-6 sm:p-8">
+                                <div class="space-y-1">
+                                    <FormLabel :for="`quantity_${index}`"
+                                        :label="$t('citizens.medicineJournals.history.form.dailyDose')" />
+                                    <FormTextField :id="`quantity_${index}`" :name="`quantity_${index}`"
+                                        :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')"
+                                        :value="dosage.dosage"
+                                        @keyup="(event: any) => handleQuantityInput(event, index)" />
+                                </div>
+                                <div class="space-y-2">
+                                    <p class="text-sm text-gray-600">
+                                        {{ $t('citizens.medicineJournals.history.form.type.type') }}
+                                    </p>
+                                    <div>
+                                        <FormSelect :id="`type_${index}`" :name="`type_${index}`"
+                                            :options="state.options.types"
+                                            v-model="state.formMedicineHistory.dosages[index].type" />
+                                    </div>
+                                </div>
+                                <div class="space-y-1 col-span-2">
+                                    <FormLabel :for="`comment_${index}`"
+                                        :label="$t('citizens.medicineJournals.history.form.comment')" />
+                                    <FormTextArea :id="`comment_${index}`" :name="`comment_${index}`"
+                                        :placeholder="$t('citizens.medicineJournals.history.form.comment')"
+                                        v-model="state.formMedicineHistory.dosages[index].comment" />
+                                </div>
+                            </div>
+                        </DisclosurePanel>
                     </div>
-                    <div class="space-y-1">
-                        <FormLabel :for="`quantity_${index}`"
-                            :label="$t('citizens.medicineJournals.history.form.dailyDose')" />
-                        <FormTextField :id="`quantity_${index}`" :name="`quantity_${index}`"
-                            :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')" :value="dosage.dosage"
-                            @keyup="(event: any) => handleQuantityInput(event, index)" />
-                    </div>
-                    <div class="space-y-2">
-                        <p class="text-sm text-gray-600">
-                            {{ $t('citizens.medicineJournals.history.form.type.type') }}
-                        </p>
-                        <div>
-                            <FormSelect :id="`type_${index}`" :name="`type_${index}`" :options="state.options.types"
-                                v-model="state.formMedicineHistory.dosages[index].type" />
-                        </div>
-                    </div>
-                    <div class="space-y-1 col-span-3">
-                        <FormLabel :for="`comment_${index}`"
-                            :label="$t('citizens.medicineJournals.history.form.comment')" />
-                        <FormTextArea :id="`comment_${index}`" :name="`comment_${index}`"
-                            :placeholder="$t('citizens.medicineJournals.history.form.comment')"
-                            v-model="state.formMedicineHistory.dosages[index].comment" />
-                    </div>
-                </div>
+                </Disclosure>
             </div>
             <div class="space-y-3" v-if="props.selectedMedicine.is_pn_medicine">
                 <div class="space-y-1">
@@ -73,6 +86,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { userService } from '@/components/api/user/UserService'
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
 import { useVuelidate } from "@vuelidate/core"
@@ -138,6 +152,10 @@ onMounted(() => {
         evaluator: props.selectedMedicineHistory.evaluator?.uuid,
     }
     generateDosage()
+})
+
+watch(() => state.formMedicineHistory.date, (date: any) => {
+    fetchMedicineHistoryPerMedicine(date)
 })
 
 const rules = computed(() => {
