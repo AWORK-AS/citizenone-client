@@ -27,8 +27,14 @@
 
 <script setup lang="ts">
 import type { Error } from '@/types'
+import { useUserStore } from '@/store/user'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from "vue-i18n"
 
 const runtimeConfig = useRuntimeConfig()
+const userStore = useUserStore() as any
+const { errorAlert } = useAlert()
+const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
@@ -36,5 +42,14 @@ const state = reactive({
     modal: {
         isConnectYourMailOpen: false,
     },
+})
+
+watch(() => userStore.getUser, (user: any) => {
+    if (user) {
+        if (!user?.is_secure_mail_active) {
+            navigateTo(`/daily-overview`)
+            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        }
+    }
 })
 </script>
