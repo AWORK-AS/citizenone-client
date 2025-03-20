@@ -1,8 +1,8 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class MailService extends BaseAPIService {
-    async getMails(): Promise<any> {
-        return await this.request(`/user/emails`, 'GET')
+    async getMails(params: object): Promise<any> {
+        return await this.request(`/user/emails`, 'GET', params)
     }
 
     async getMail(emailUuid: any): Promise<any> {

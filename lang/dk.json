@@ -2312,6 +2312,10 @@
         "connectYourMessage": "Forbind din mail til systemet, så du kan se dine modtagne og sendte mails",
         "connectYourMail": "Forbind din mail",
         "compose": "Opret",
+        "content": {
+            "from": "Fra",
+            "on": "Den"
+        },
         "draft": "Kladde",
         "form": {
             "message": "Besked",
