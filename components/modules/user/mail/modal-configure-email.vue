@@ -104,7 +104,7 @@
 </template>
 
 <script setup lang="ts">
-import { mailService } from "@/components/api/user/MailService"
+import { mailSettingService } from "@/components/api/user/MailSettingService"
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
@@ -198,7 +198,7 @@ async function fetchEmailConfiguration() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await mailService.fetchMailConfiguration()
+        const response = await mailSettingService.getMailSettings()
         if (response?.data) {
             state.formMail = {
                 smtp_host: response?.data?.smtp_host?.toString(),
@@ -235,7 +235,7 @@ async function saveEmailConfiguration() {
             imap_password: state.formMail.imap_password,
             imap_encryption: state.formMail.imap_encryption,
         }
-        const response = await mailService.saveUpdateMailConfiguration(params)
+        const response = await mailSettingService.saveUpdateMailSettings(params)
         if (response?.data) {
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t('mail.settings.alert.mailConfigurationSuccessfullySaved')}.`)

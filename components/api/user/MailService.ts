@@ -1,12 +1,20 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class MailService extends BaseAPIService {
-    async fetchMailConfiguration(): Promise<any> {
-        return await this.request(`/user/email-settings`, 'GET')
+    async getMails(params: object): Promise<any> {
+        return await this.request(`/user/emails`, 'GET', params)
     }
 
-    async saveUpdateMailConfiguration(params: object): Promise<any> {
-        return await this.request(`/user/email-settings`, 'POST', params)
+    async getMail(emailUuid: any): Promise<any> {
+        return await this.request(`/user/emails/${emailUuid}`, 'GET')
+    }
+
+    async sendMail(params: object): Promise<any> {
+        return await this.request(`/user/emails`, 'POST', params)
+    }
+
+    async deleteMail(emailUuid: any): Promise<any> {
+        return await this.request(`/user/emails/${emailUuid}`, 'DELETE')
     }
 }
 export const mailService = new MailService()
