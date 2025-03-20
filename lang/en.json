@@ -2308,6 +2308,40 @@
             "description": "Description"
         }
     },
+    "mail": {
+        "connectYourMessage": "Connect your mail to the system, so that you can see your received and sent mails",
+        "connectYourMail": "Connect your mail",
+        "compose": "Compose",
+        "draft": "Draft",
+        "form": {
+            "message": "Message",
+            "send": "Send",
+            "subject": "Subject",
+            "to": "To"
+        },
+        "inbox": "Inbox",
+        "mail": "Mail",
+        "outbox": "Outbox",
+        "sent": "Sent",
+        "settings": {
+            "alert": {
+                "mailConfigurationSuccessfullySaved": "Mail configuration successfully saved"
+            },
+            "connect": "Connect",
+            "imap": "IMAP",
+            "imapHost": "Imap host",
+            "imapPort": "IMAP port",
+            "imapUsername": "IMAP username",
+            "imapPassword": "IMAP password",
+            "portEncryption": "IMAP encryption",
+            "smtp": "SMTP",
+            "smtpHost": "SMTP Host",
+            "smtpPort": "SMTP Port",
+            "smtpUsername": "SMTP Username",
+            "smtpPassword": "SMTP Password",
+            "smtpEncryption": "SMTP Encryption"
+        }
+    },
     "medicines": {
         "addNewMedicine": "Add new medicine",
         "alert": {

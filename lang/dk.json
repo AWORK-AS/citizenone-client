@@ -2308,6 +2308,40 @@
             "description": "Beskrivelse"
         }
     },
+    "mail": {
+        "connectYourMessage": "Forbind din mail til systemet, så du kan se dine modtagne og sendte mails",
+        "connectYourMail": "Forbind din mail",
+        "compose": "Opret",
+        "draft": "Kladde",
+        "form": {
+            "message": "Besked",
+            "send": "Send",
+            "subject": "Emne",
+            "to": "Til"
+        },
+        "inbox": "Indbakke",
+        "mail": "Mail",
+        "outbox": "Udbakke",
+        "sent": "Sendt",
+        "settings": {
+            "alert": {
+                "mailConfigurationSuccessfullySaved": "Mailkonfiguration gemt med succes"
+            },
+            "connect": "Forbind",
+            "imap": "IMAP",
+            "imapHost": "IMAP vært",
+            "imapPort": "IMAP port",
+            "imapUsername": "IMAP brugernavn",
+            "imapPassword": "IMAP adgangskode",
+            "portEncryption": "IMAP kryptering",
+            "smtp": "SMTP",
+            "smtpHost": "SMTP vært",
+            "smtpPort": "SMTP port",
+            "smtpUsername": "SMTP brugernavn",
+            "smtpPassword": "SMTP adgangskode",
+            "smtpEncryption": "SMTP kryptering"
+        }
+    },
     "medicines": {
         "addNewMedicine": "Tilføj ny medicin",
         "alert": {
