@@ -59,6 +59,9 @@
                                                         <span v-if="item.name === 'Protocols'">
                                                             {{ $t('sidebar.protocols') }}
                                                         </span>
+                                                        <span v-if="item.name === 'Mail'">
+                                                            {{ $t('sidebar.mail') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Documents'">
                                                             {{ $t('sidebar.documents') }}
                                                         </span>
@@ -150,6 +153,9 @@
                                         </span>
                                         <span v-if="item.name === 'Protocols'">
                                             {{ $t('sidebar.protocols') }}
+                                        </span>
+                                        <span v-if="item.name === 'Mail'">
+                                            {{ $t('sidebar.mail') }}
                                         </span>
                                         <span v-if="item.name === 'Documents'">
                                             {{ $t('sidebar.documents') }}
@@ -436,83 +442,7 @@ const language = useI18n()
 const router = useRouter()
 const routeName = router?.currentRoute?.value?.name
 
-const navigation = [
-    {
-        name: 'Daily overview',
-        href: '/daily-overview',
-        icon: 'material-symbols:dashboard',
-        activeRouteNames: [
-            'daily-overview',
-        ]
-    },
-    {
-        name: 'Citizens',
-        href: '/citizens',
-        icon: 'heroicons:user-group',
-        activeRouteNames: [
-            'citizens',
-            'citizens-new',
-            'citizens-uuid-edit',
-            'citizens-uuid-journals',
-            'citizens-uuid-medicine-journals',
-            'citizens-uuid-plans-and-goals',
-            'citizens-uuid-nursing-areas',
-            'citizens-uuid-documents',
-            'citizens-uuid-documents-document_uuid',
-            'citizens-uuid-attendance',
-            'citizens-uuid-attendance-citizen_protocol_uuid',
-            'citizens-uuid-calendar',
-            'citizens-uuid-wallets',
-            'citizens-uuid-wallets-wallet_uuid',
-            'citizens-uuid-contacts',
-        ]
-    },
-    {
-        name: 'Calendar',
-        href: '/calendar',
-        icon: 'ph:calendar-blank',
-        activeRouteNames: [
-            'calendar'
-        ]
-    },
-    {
-        name: 'Duty schedules',
-        href: '/schedules',
-        icon: 'ph:calendar-dots',
-        activeRouteNames: [
-            'schedules',
-            'schedules-draft'
-        ]
-    },
-    {
-        name: 'Protocols',
-        href: '/protocols',
-        icon: 'ic:outline-shield',
-        activeRouteNames: [
-            'protocols',
-            'protocols-new',
-            'protocols-uuid'
-        ]
-    },
-    {
-        name: 'Documents',
-        href: '/drive',
-        icon: 'ph:folder',
-        activeRouteNames: [
-            'drive'
-        ]
-    },
-    {
-        name: 'Bullet Board',
-        href: '/news',
-        icon: 'ph:newspaper',
-        activeRouteNames: [
-            'news',
-            'news-new',
-            'news-edit-uuid',
-        ]
-    },
-] as any
+let navigation = [] as any
 
 const sidebarOpen = ref(false)
 
@@ -540,12 +470,181 @@ watch(() => userStore.getUser, (user: any) => {
     if (user) {
         setCustomPageNames()
         state.showSubscribeButton = true
+        generateSidebarLinks(user)
     }
 })
 
 watch(() => language.locale.value, () => {
     setCustomPageNames()
 })
+
+function generateSidebarLinks(user: any) {
+    if (user?.is_secure_mail_active) {
+        navigation = [
+            {
+                name: 'Daily overview',
+                href: '/daily-overview',
+                icon: 'material-symbols:dashboard',
+                activeRouteNames: [
+                    'daily-overview',
+                ]
+            },
+            {
+                name: 'Citizens',
+                href: '/citizens',
+                icon: 'heroicons:user-group',
+                activeRouteNames: [
+                    'citizens',
+                    'citizens-new',
+                    'citizens-uuid-edit',
+                    'citizens-uuid-journals',
+                    'citizens-uuid-medicine-journals',
+                    'citizens-uuid-plans-and-goals',
+                    'citizens-uuid-nursing-areas',
+                    'citizens-uuid-documents',
+                    'citizens-uuid-documents-document_uuid',
+                    'citizens-uuid-attendance',
+                    'citizens-uuid-attendance-citizen_protocol_uuid',
+                    'citizens-uuid-calendar',
+                    'citizens-uuid-wallets',
+                    'citizens-uuid-wallets-wallet_uuid',
+                    'citizens-uuid-contacts',
+                ]
+            },
+            {
+                name: 'Calendar',
+                href: '/calendar',
+                icon: 'ph:calendar-blank',
+                activeRouteNames: [
+                    'calendar'
+                ]
+            },
+            {
+                name: 'Duty schedules',
+                href: '/schedules',
+                icon: 'ph:calendar-dots',
+                activeRouteNames: [
+                    'schedules',
+                    'schedules-draft'
+                ]
+            },
+            {
+                name: 'Protocols',
+                href: '/protocols',
+                icon: 'ic:outline-shield',
+                activeRouteNames: [
+                    'protocols',
+                    'protocols-new',
+                    'protocols-uuid'
+                ]
+            },
+            {
+                name: 'Documents',
+                href: '/drive',
+                icon: 'ph:folder',
+                activeRouteNames: [
+                    'drive'
+                ]
+            },
+            {
+                name: 'Mail',
+                href: '/mail',
+                icon: 'ph:envelope-open',
+                activeRouteNames: [
+                    'mail'
+                ]
+            },
+            {
+                name: 'Bullet Board',
+                href: '/news',
+                icon: 'ph:newspaper',
+                activeRouteNames: [
+                    'news',
+                    'news-new',
+                    'news-edit-uuid',
+                ]
+            },
+        ]
+    } else {
+        navigation = [
+            {
+                name: 'Daily overview',
+                href: '/daily-overview',
+                icon: 'material-symbols:dashboard',
+                activeRouteNames: [
+                    'daily-overview',
+                ]
+            },
+            {
+                name: 'Citizens',
+                href: '/citizens',
+                icon: 'heroicons:user-group',
+                activeRouteNames: [
+                    'citizens',
+                    'citizens-new',
+                    'citizens-uuid-edit',
+                    'citizens-uuid-journals',
+                    'citizens-uuid-medicine-journals',
+                    'citizens-uuid-plans-and-goals',
+                    'citizens-uuid-nursing-areas',
+                    'citizens-uuid-documents',
+                    'citizens-uuid-documents-document_uuid',
+                    'citizens-uuid-attendance',
+                    'citizens-uuid-attendance-citizen_protocol_uuid',
+                    'citizens-uuid-calendar',
+                    'citizens-uuid-wallets',
+                    'citizens-uuid-wallets-wallet_uuid',
+                    'citizens-uuid-contacts',
+                ]
+            },
+            {
+                name: 'Calendar',
+                href: '/calendar',
+                icon: 'ph:calendar-blank',
+                activeRouteNames: [
+                    'calendar'
+                ]
+            },
+            {
+                name: 'Duty schedules',
+                href: '/schedules',
+                icon: 'ph:calendar-dots',
+                activeRouteNames: [
+                    'schedules',
+                    'schedules-draft'
+                ]
+            },
+            {
+                name: 'Protocols',
+                href: '/protocols',
+                icon: 'ic:outline-shield',
+                activeRouteNames: [
+                    'protocols',
+                    'protocols-new',
+                    'protocols-uuid'
+                ]
+            },
+            {
+                name: 'Documents',
+                href: '/drive',
+                icon: 'ph:folder',
+                activeRouteNames: [
+                    'drive'
+                ]
+            },
+            {
+                name: 'Bullet Board',
+                href: '/news',
+                icon: 'ph:newspaper',
+                activeRouteNames: [
+                    'news',
+                    'news-new',
+                    'news-edit-uuid',
+                ]
+            },
+        ]
+    }
+}
 
 function setCustomPageNames() {
     const selectedLanguage = language.locale.value
