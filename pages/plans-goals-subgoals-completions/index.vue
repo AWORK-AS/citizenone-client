@@ -125,6 +125,7 @@
                                 </div>
                             </div>
                         </div>
+                        <Pagination :data="state.pendingPlansGoalsSubgoals" @previous="previous" @next="next" />
                     </div>
                     <div v-else class="min-h-44 flex items-center">
                         <p class="text-center grow">
@@ -160,6 +161,7 @@ const breadcrumbLinks = [
         href: '/plans-goals-subgoals-completions',
     },
 ]
+let currentTablePage = 1
 
 const state = reactive({
     error: {} as Error,
@@ -190,6 +192,7 @@ async function fetchPendingPlansGoalsSubgoals() {
         const params = {
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
+            page: currentTablePage,
         }
         const response = await planGoalSubgoalService.getPendingPlansGoalsSubgoals(params)
         if (response) {
@@ -199,6 +202,16 @@ async function fetchPendingPlansGoalsSubgoals() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function previous() {
+    currentTablePage--
+    fetchPendingPlansGoalsSubgoals()
+}
+
+function next() {
+    currentTablePage++
+    fetchPendingPlansGoalsSubgoals()
 }
 
 function editPlan(pendingPlanGoalSubgoal: any) {
