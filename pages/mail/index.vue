@@ -31,14 +31,15 @@
                         <span class="dot5">.</span>
                     </div>
                     <div v-else>
-                        <div class="space-y-8 mt-44 flex items-center justify-center"
-                            v-if="!state.hasEmailConfiguration">
-                            <p>{{ $t('mail.connectYourMessage') }}.</p>
-                            <div class="flex justify-center">
-                                <FormButton buttonStyle="primary" @click="state.modal.isConnectYourMailOpen = true"
-                                    class="rounded-md">
-                                    {{ $t('mail.connectYourMail') }}
-                                </FormButton>
+                        <div class="mt-44 flex items-center justify-center" v-if="!state.hasEmailConfiguration">
+                            <div class="space-y-6">
+                                <p>{{ $t('mail.connectYourMessage') }}.</p>
+                                <div class="flex justify-center">
+                                    <FormButton buttonStyle="primary" @click="state.modal.isConnectYourMailOpen = true"
+                                        class="rounded-md">
+                                        {{ $t('mail.connectYourMail') }}
+                                    </FormButton>
+                                </div>
                             </div>
                         </div>
                         <div v-else>
