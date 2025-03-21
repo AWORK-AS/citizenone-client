@@ -45,7 +45,7 @@
                         <div v-else>
                             <div class="flex gap-x-6">
                                 <div class="flex flex-col items-center gap-4 py-4">
-                                    <Tooltip :text="$t('mail.compose')">
+                                    <Tooltip :text="$t('mail.compose')" @click="state.modal.isSendEmailOpen = true">
                                         <button
                                             class="flex flex-col items-center justify-center p-5 rounded-full text-white bg-primary">
                                             <Icon name="ph:pencil" class="h-6 w-6" aria-hidden="true" />
@@ -124,6 +124,8 @@
             </div>
             <ModulesUserMailModalConfigureEmail :isModalOpen="state.modal.isConnectYourMailOpen" formType="create"
                 @close="state.modal.isConnectYourMailOpen = false" />
+            <ModulesUserMailModalSendEmail :isModalOpen="state.modal.isSendEmailOpen"
+                @close="state.modal.isSendEmailOpen = false" @refreshSentEmails="fetchSentMails" />
         </NuxtLayout>
     </div>
 </template>
@@ -154,6 +156,7 @@ const state = reactive({
     },
     modal: {
         isConnectYourMailOpen: false,
+        isSendEmailOpen: false,
     },
     selectedEmail: null as any,
     sentEmails: [] as any,

@@ -2318,6 +2318,9 @@
         },
         "draft": "Draft",
         "form": {
+            "alert": {
+                "emailSuccessfullySent": "Email successfully sent"
+            },
             "message": "Message",
             "send": "Send",
             "subject": "Subject",

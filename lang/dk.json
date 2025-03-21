@@ -2318,6 +2318,9 @@
         },
         "draft": "Kladde",
         "form": {
+            "alert": {
+                "emailSuccessfullySent": "E-mail sendt med succes"
+            },
             "message": "Besked",
             "send": "Send",
             "subject": "Emne",
