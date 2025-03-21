@@ -5,6 +5,10 @@ class MailService extends BaseAPIService {
         return await this.request(`/user/emails`, 'GET', params)
     }
 
+    async getSentMails(params: object): Promise<any> {
+        return await this.request(`/user/emails/sent/list`, 'GET', params)
+    }
+
     async getMail(emailUuid: any): Promise<any> {
         return await this.request(`/user/emails/${emailUuid}`, 'GET')
     }

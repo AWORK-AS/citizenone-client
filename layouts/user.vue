@@ -624,7 +624,7 @@ function generateSidebarLinks(user: any) {
             },
             {
                 name: 'Mail',
-                href: '/mail',
+                href: '/mail/inbox',
                 icon: 'ph:envelope-open',
                 activeRouteNames: [
                     'mail'

@@ -2330,7 +2330,6 @@
             "loadingYourEmails": "Loading your emails"
         },
         "mail": "Mail",
-        "outbox": "Outbox",
         "sent": "Sent",
         "settings": {
             "alert": {

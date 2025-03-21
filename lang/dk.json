@@ -2325,7 +2325,6 @@
         },
         "inbox": "Indbakke",
         "mail": "Mail",
-        "outbox": "Udbakke",
         "sent": "Sendt",
         "settings": {
             "alert": {
