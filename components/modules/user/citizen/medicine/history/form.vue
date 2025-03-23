@@ -26,31 +26,68 @@
                         </DisclosureButton>
                         <DisclosurePanel>
                             <div
-                                class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-bl-lg rounded-br-lg px-4 py-6 sm:p-8">
-                                <div class="space-y-1">
-                                    <FormLabel :for="`quantity_${index}`"
-                                        :label="$t('citizens.medicineJournals.history.form.dailyDose')" />
-                                    <FormTextField :id="`quantity_${index}`" :name="`quantity_${index}`"
-                                        :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')"
-                                        :value="dosage.dosage"
-                                        @keyup="(event: any) => handleQuantityInput(event, index)" />
-                                </div>
-                                <div class="space-y-2">
-                                    <p class="text-sm text-gray-600">
-                                        {{ $t('citizens.medicineJournals.history.form.type.type') }}
-                                    </p>
-                                    <div>
-                                        <FormSelect :id="`type_${index}`" :name="`type_${index}`"
-                                            :options="state.options.types"
-                                            v-model="state.formMedicineHistory.dosages[index].type" />
+                                class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-bl-lg rounded-br-lg px-4 py-6 sm:p-8">
+                                <div class="space-y-3">
+                                    <div class="space-y-1">
+                                        <FormLabel :for="`quantity_${index}`"
+                                            :label="$t('citizens.medicineJournals.history.form.dailyDose')" />
+                                        <FormTextField :id="`quantity_${index}`" :name="`quantity_${index}`"
+                                            :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')"
+                                            :value="dosage.dosage"
+                                            @keyup="(event: any) => handleQuantityInput(event, index)" />
                                     </div>
-                                </div>
-                                <div class="space-y-1 col-span-2">
-                                    <FormLabel :for="`comment_${index}`"
-                                        :label="$t('citizens.medicineJournals.history.form.comment')" />
-                                    <FormTextArea :id="`comment_${index}`" :name="`comment_${index}`"
-                                        :placeholder="$t('citizens.medicineJournals.history.form.comment')"
-                                        v-model="state.formMedicineHistory.dosages[index].comment" />
+                                    <div class="space-y-1">
+                                        <p class="text-sm text-gray-600">
+                                            {{ $t('citizens.medicineJournals.history.form.type.type') }}
+                                        </p>
+                                        <div>
+                                            <RadioGroup v-model="state.formMedicineHistory.dosages[index].type"
+                                                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                                                <RadioGroupOption as="template"
+                                                    v-for="(type, index) in state.options.types" :key="index"
+                                                    :value="type.value" v-slot="{ active, checked }">
+                                                    <div
+                                                        :class="[
+                                                            active ? 'ring-1 ring-offset-2' : '',
+                                                            type.title === 'Delivered' && 'ring-primary',
+                                                            type.title === 'Deviated' && 'ring-red-600',
+                                                            type.title === 'Given' && 'ring-green-700',
+                                                            checked && type.title === 'Delivered' && 'bg-primary text-white ring-0 hover:bg-primary',
+                                                            checked && type.title === 'Deviated' && 'bg-red-600 text-white ring-0 hover:bg-red-600',
+                                                            checked && type.title === 'Given' && 'bg-green-700 text-white ring-0 hover:bg-green-700',
+                                                            !active && !checked && type.title === 'Delivered' && 'border border-primary ring-inset',
+                                                            !active && !checked && type.title === 'Deviated' && 'border border-red-600 ring-inset',
+                                                            !active && !checked && type.title === 'Given' && 'border border-green-700 ring-inset',
+                                                            active && checked ? 'text-white ring-1' : '',
+                                                            'cursor-pointer flex items-center justify-center rounded-md px-2 py-2 text-xs']">
+                                                        <span v-if="type.title === 'Delivered'">
+                                                            {{
+                                                                $t('citizens.medicineJournals.history.form.type.delivered')
+                                                            }}
+                                                        </span>
+                                                        <span v-if="type.title === 'Deviated'">
+                                                            {{
+                                                                $t('citizens.medicineJournals.history.form.type.deviated')
+                                                            }}
+                                                        </span>
+                                                        <span v-if="type.title === 'Given'">
+                                                            {{ customPagesStore.getCustomPagesName?.giveMedicine }}
+                                                        </span>
+                                                    </div>
+                                                </RadioGroupOption>
+                                            </RadioGroup>
+                                        </div>
+                                        <FormError
+                                            :error="v$?.formMedicineHistory?.type?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="props?.error?.errors?.type?.[0]" />
+                                    </div>
+                                    <div class="space-y-1 col-span-2">
+                                        <FormLabel :for="`comment_${index}`"
+                                            :label="$t('citizens.medicineJournals.history.form.comment')" />
+                                        <FormTextArea :id="`comment_${index}`" :name="`comment_${index}`"
+                                            :placeholder="$t('citizens.medicineJournals.history.form.comment')"
+                                            v-model="state.formMedicineHistory.dosages[index].comment" />
+                                    </div>
                                 </div>
                             </div>
                         </DisclosurePanel>
@@ -94,6 +131,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { euDecimalValidation } from "@/composables/euDecimalValidation"
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 
 const props = defineProps({
     error: {
@@ -133,16 +171,15 @@ const state = reactive({
     options: {
         evaluation_frequencies: [] as any,
         evaluators: [],
-        types: [] as any
+        types: [
+            { value: 'delivered', title: 'Delivered' },
+            { value: 'deviated', title: 'Deviated' },
+            { value: 'given', title: 'Given' },
+        ] as any
     }
 })
 
 onMounted(() => {
-    state.options.types = [
-        { value: 'delivered', label: `${t('citizens.medicineJournals.history.form.type.delivered')}` },
-        { value: 'deviated', label: `${t('citizens.medicineJournals.history.form.type.deviated')}` },
-        { value: 'given', label: `${customPagesStore.getCustomPagesName?.giveMedicine}` },
-    ]
     fetchAllUsers()
     fetchMedicineHistoryPerMedicine(moment(props.selectedMedicineHistory?.date).format('YYYY-MM-DD'))
     state.formMedicineHistory = {
