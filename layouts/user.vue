@@ -402,8 +402,7 @@
         <ModulesUserReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen"
             @close="state.modal.isCheckinReminderOpen = false" />
         <ModulesUserCitizenPlanModalCompletionReminder
-            :isModalOpen="state.modal.isPlanGoalSubgoalCompletionReminderOpen"
-            @close="state.modal.isPlanGoalSubgoalCompletionReminderOpen = false" />
+            :isModalOpen="state.modal.isPlanGoalSubgoalCompletionReminderOpen" @close="closeCompletionReminder" />
         <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesUserSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
@@ -715,6 +714,15 @@ function checkInReminderModalVisibility(response: any) {
             state.modal.isCheckinReminderOpen = true
         }
     }
+}
+
+function closeCompletionReminder(doNotShowAgain: boolean) {
+    if (doNotShowAgain) {
+        const now = moment().format('YYYY-MM-DD')
+        localStorage.setItem('plansGoalsSubgoalsReminderHidden', now)
+    }
+    state.modal.isPlanGoalSubgoalCompletionReminderOpen = false
+
 }
 
 async function logout() {

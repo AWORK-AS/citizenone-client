@@ -56,7 +56,7 @@ const state = reactive({
 })
 
 function closeModal() {
-    emit('close')
+    emit('close', state.doNotShowAgain)
 }
 
 function handleProceed() {
