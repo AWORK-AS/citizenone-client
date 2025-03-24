@@ -69,7 +69,7 @@
                         <FormError :error="props?.error?.errors?.max_daily_dose?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
                     <p class="text-sm text-gray-600">
                         {{ $t('citizens.medicineJournals.form.maxDosagePerTime') }}
                     </p>
