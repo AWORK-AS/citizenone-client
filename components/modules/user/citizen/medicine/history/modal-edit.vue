@@ -62,17 +62,18 @@ async function updateMedicineHistory(medicineHistoryDetails: any) {
         let params = {}
         if (props.selectedMedicine?.is_pn_medicine) {
             params = {
-                date: medicineHistoryDetails.date,
                 medicine_uuid: selectedMedicineUuid,
-                dosages: medicineHistoryDetails.dosages,
+                date: medicineHistoryDetails.date,
+                dosage: medicineHistoryDetails.dosage,
+                type: medicineHistoryDetails.type,
                 evaluator_uuid: medicineHistoryDetails.evaluator,
+                evaluation_frequency: medicineHistoryDetails.evaluation_frequency,
             }
         } else {
             params = {
-                date: medicineHistoryDetails.date,
                 medicine_uuid: selectedMedicineUuid,
+                date: medicineHistoryDetails.date,
                 dosages: medicineHistoryDetails.dosages,
-                type: medicineHistoryDetails.type,
             }
         }
         const response = await medicineHistoryService.updateMedicineHistory(medicineHistoryUuid, params)

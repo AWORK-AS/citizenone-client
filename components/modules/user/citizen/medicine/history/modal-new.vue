@@ -65,8 +65,10 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
             params = {
                 medicine_uuid: selectedMedicineUuid,
                 date: medicineHistoryDetails.date,
-                dosages: medicineHistoryDetails.dosages,
+                dosage: medicineHistoryDetails.dosage,
+                type: medicineHistoryDetails.type,
                 evaluator_uuid: medicineHistoryDetails.evaluator,
+                evaluation_frequency: medicineHistoryDetails.evaluation_frequency,
             }
         } else {
             params = {
