@@ -27,8 +27,6 @@ const props = defineProps({
     },
 })
 
-const language = useI18n()
-
 const state = reactive({
     dateValue: props.modelValue ? new Date(props.modelValue) : new Date(),
     datePickerConfig: {
@@ -41,6 +39,7 @@ const state = reactive({
     }
 })
 
+const language = useI18n()
 if (language.locale.value === 'dk') {
     state.datePickerConfig.locale = {
         ...Danish,
@@ -69,9 +68,7 @@ watch(() => language.locale.value, (language: any) => {
 
 watch(() => props.modelValue, (newValue: any) => {
     if (newValue != null) {
-        console.log('triggered 0.0', newValue)
         state.dateValue = new Date(newValue)  // use Date object here
-        console.log('triggered 0.1', state.dateValue)
     }
 })
 
@@ -82,22 +79,6 @@ function updateValue(selectedDates: any) {
     if (date) {
         const formattedDate = moment(date).format('YYYY-MM-DD')
         emit('update:modelValue', formattedDate)
-    }
-}
-
-function formatDateToYYYYMMDD(dateString: any) {
-    if (dateString) {
-        let date = moment(dateString, 'DD. MMMM YYYY')
-        let formattedDate = date.format('YYYY-MM-DD')
-        return formattedDate
-    }
-}
-
-function formatDateToDDMMMMYYYY(dateString: any) {
-    if (dateString) {
-        let date = moment(dateString, 'YYYY-MM-DD')
-        let formattedDate = date.format('DD. MMMM YYYY')
-        return formattedDate
     }
 }
 </script>
