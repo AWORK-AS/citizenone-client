@@ -248,8 +248,11 @@ onMounted(() => {
     state.formMedicineHistory = {
         uuid: props.selectedMedicineHistory.uuid,
         date: props.selectedMedicineHistory.date,
+        dosage: props.selectedMedicineHistory?.quantity,
+        type: props.selectedMedicineHistory?.type,
         dosages: [],
         evaluator: props.selectedMedicineHistory.evaluator?.uuid,
+        evaluation_frequency: state.formMedicineHistory?.evaluation_frequency,
     }
     generateDosage()
 })
