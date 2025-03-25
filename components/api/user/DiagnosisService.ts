@@ -17,6 +17,10 @@ class DiagnosisService extends BaseAPIService {
         return await this.request(`/user/diagnoses/${diagnosisUuid}`, 'PUT', params)
     }
 
+    async deleteDiagnosis(diagnosisUuid: any): Promise<any> {
+        return await this.request(`/user/diagnoses/${diagnosisUuid}`, 'DELETE')
+    }
+
     async getAllDiagnoses(): Promise<any> {
         return await this.request(`/user/diagnoses/all/list`, 'GET')
     }

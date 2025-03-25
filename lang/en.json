@@ -1487,7 +1487,14 @@
         "newDiagnosis": "New diagnosis",
         "table": {
             "actions": {
+                "delete": "Delete",
                 "edit": "Edit"
+            },
+            "alert": {
+                "diagnosisSuccessfullyDeleted": "Diagnosis successfully deleted"
+            },
+            "confirmation": {
+                "deleteDiagnosisConfirmation": "Are you sure you want to delete this diagnosis"
             },
             "name": "Name"
         }

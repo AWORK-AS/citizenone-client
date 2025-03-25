@@ -41,6 +41,11 @@
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('diagnoses.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="deleteDiagnosisConfirmation(diagnosis)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('diagnoses.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -50,12 +55,17 @@
                     <Pagination :data="state.diagnoses" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteDiagnosisOpen"
+                :message="$t('diagnoses.table.confirmation.deleteDiagnosisConfirmation') + '?'"
+                @close="state.modal.isDeleteDiagnosisOpen = false" @confirm="deleteDiagnosis" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { diagnosisService } from '@/components/api/user/DiagnosisService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 const breadcrumbLinks = [
     {
@@ -66,6 +76,8 @@ const breadcrumbLinks = [
 ]
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
@@ -81,7 +93,11 @@ const state = reactive({
     },
     diagnoses: [] as any,
     error: {} as Error,
+    modal: {
+        isDeleteDiagnosisOpen: false,
+    },
     isTableLoading: false,
+    selectedDiagnosis: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -135,5 +151,25 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchDiagnoses()
+}
+
+function deleteDiagnosisConfirmation(diagnosis: any) {
+    state.selectedDiagnosis = diagnosis
+    state.modal.isDeleteDiagnosisOpen = true
+}
+
+async function deleteDiagnosis() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await diagnosisService.deleteDiagnosis(state.selectedDiagnosis.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchDiagnoses()
+            successAlert(`${t('alert.success')}!`, `${t('diagnoses.table.alert.diagnosisSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

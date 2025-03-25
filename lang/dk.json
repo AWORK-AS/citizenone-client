@@ -1487,7 +1487,14 @@
         "newDiagnosis": "Ny diagnose",
         "table": {
             "actions": {
+                "delete": "Delete",
                 "edit": "Rediger"
+            },
+            "alert": {
+                "diagnosisSuccessfullyDeleted": "Diagnose slettet med succes"
+            },
+            "confirmation": {
+                "deleteDiagnosisConfirmation": "Er du sikker på, at du vil slette denne diagnose"
             },
             "name": "Navn"
         }
