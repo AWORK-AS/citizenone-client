@@ -41,6 +41,11 @@
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('addictions.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="deleteAddictionConfirmation(addiction)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('addictions.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -50,15 +55,22 @@
                     <Pagination :data="state.addictions" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteAddictionOpen"
+                :message="$t('addictions.table.confirmation.deleteAddictionConfirmation') + '?'"
+                @close="state.modal.isDeleteAddictionOpen = false" @confirm="deleteAddiction" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { addictionService } from '@/components/api/user/AddictionService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
@@ -82,6 +94,10 @@ const state = reactive({
     },
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isDeleteAddictionOpen: false,
+    },
+    selectedAddiction: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -135,5 +151,25 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchAddictions()
+}
+
+function deleteAddictionConfirmation(addiction: any) {
+    state.selectedAddiction = addiction
+    state.modal.isDeleteAddictionOpen = true
+}
+
+async function deleteAddiction() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await addictionService.deleteAddiction(state.selectedAddiction.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchAddictions()
+            successAlert(`${t('alert.success')}!`, `${t('addictions.table.alert.addictionSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

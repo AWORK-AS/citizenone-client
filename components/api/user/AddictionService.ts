@@ -17,12 +17,12 @@ class AddictionService extends BaseAPIService {
         return await this.request(`/user/addictions/${addictionUuid}`, 'PUT', params)
     }
 
-    async getAllAddictions(): Promise<any> {
-        return await this.request(`/user/addictions/all/list`, 'GET')
-    }
-
     async deleteAddiction(addictionUuid: any): Promise<any> {
         return await this.request(`/user/addictions/${addictionUuid}`, 'DELETE')
+    }
+
+    async getAllAddictions(): Promise<any> {
+        return await this.request(`/user/addictions/all/list`, 'GET')
     }
 }
 

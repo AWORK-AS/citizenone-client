@@ -41,7 +41,14 @@
         "newAddiction": "New addiction",
         "table": {
             "actions": {
+                "delete": "Delete",
                 "edit": "Edit"
+            },
+            "alert": {
+                "addictionSuccessfullyDeleted": "Addiction successfully deleted"
+            },
+            "confirmation": {
+                "deleteAddictionConfirmation": "Are you sure you want to delete this addiction"
             },
             "name": "Name"
         }

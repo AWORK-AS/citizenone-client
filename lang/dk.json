@@ -41,7 +41,14 @@
         "newAddiction": "Ny afhængighed",
         "table": {
             "actions": {
+                "delete": "Delete",
                 "edit": "Rediger"
+            },
+            "alert": {
+                "addictionSuccessfullyDeleted": "Afhængighed slettet med succes"
+            },
+            "confirmation": {
+                "deleteAddictionConfirmation": "Er du sikker på, at du vil slette denne afhængighed"
             },
             "name": "Navn"
         }
