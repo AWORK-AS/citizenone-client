@@ -1627,7 +1627,7 @@
                     "note": "Note",
                     "whyDoYouWantToRequestAScheduleSwap": "Hvorfor vil du anmode om at bytte vagtplan"
                 },
-                "swapSchedules": "Byt vagtplan",
+                "swapSchedule": "Byt vagtplan",
                 "swapScheduleRequest": "Anmodning om vagtbytte",
                 "swapScheduleRequests": "Anmodninger om vagtbytte",
                 "table": {
@@ -2368,6 +2368,11 @@
             "to": "Til"
         },
         "inbox": "Indbakke",
+        "loading": {
+            "loadingEmailConfigurations": "Indlæser e-mailkonfigurationer",
+            "loadingUserSettings": "Indlæser brugerindstillinger",
+            "loadingYourEmails": "Indlæser dine e-mails"
+        },
         "mail": "Mail",
         "sent": "Sendt",
         "settings": {
@@ -2497,6 +2502,7 @@
             "title": "Titel"
         }
     },
+    "noResultFound": "Ingen resultater fundet",
     "pagination": {
         "of": "af",
         "next": "Næste",

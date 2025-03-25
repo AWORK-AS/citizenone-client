@@ -2502,6 +2502,7 @@
             "title": "Title"
         }
     },
+    "noResultFound": "No result found",
     "pagination": {
         "of": "of",
         "next": "Next",
