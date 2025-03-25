@@ -2246,8 +2246,15 @@
         "newJobTitle": "New job title",
         "table": {
             "actions": {
+                "delete": "Delete",
                 "edit": "Edit",
                 "view": "View"
+            },
+            "alert": {
+                "jobTitleSuccessfullyDeleted": "Job title successfully deleted"
+            },
+            "confirmation": {
+                "deleteJobTitleConfirmation": "Are you sure you want to delete this job title"
             },
             "title": "Title"
         }
@@ -2267,8 +2274,7 @@
         "table": {
             "actions": {
                 "delete": "Delete",
-                "edit": "Edit",
-                "view": "View"
+                "edit": "Edit"
             },
             "alert": {
                 "jobSpecialtySuccessfullyDeleted": "Job specialty successfully deleted"

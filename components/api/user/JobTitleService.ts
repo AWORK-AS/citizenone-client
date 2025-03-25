@@ -17,6 +17,10 @@ class JobTitleService extends BaseAPIService {
         return await this.request(`/user/job-titles/${jobTitleUuid}`, 'PUT', params)
     }
 
+    async deleteJobTitle(jobTitleUuid: any): Promise<any> {
+        return await this.request(`/user/job-titles/${jobTitleUuid}`, 'DELETE')
+    }
+
     async getAllJobTitles(): Promise<any> {
         return await this.request(`/user/job-titles/all/list`, 'GET')
     }

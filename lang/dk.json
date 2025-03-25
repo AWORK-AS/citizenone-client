@@ -2246,8 +2246,15 @@
         "newJobTitle": "Ny Jobtitel",
         "table": {
             "actions": {
+                "delete": "Delete",
                 "edit": "Rediger",
                 "view": "Se"
+            },
+            "alert": {
+                "jobTitleSuccessfullyDeleted": "Jobtitel slettet med succes"
+            },
+            "confirmation": {
+                "deleteJobTitleConfirmation": "Er du sikker på, at du vil slette denne jobtitel"
             },
             "title": "Titel"
         }
@@ -2267,8 +2274,7 @@
         "table": {
             "actions": {
                 "delete": "Slet",
-                "edit": "Rediger",
-                "view": "Se"
+                "edit": "Rediger"
             },
             "alert": {
                 "jobSpecialtySuccessfullyDeleted": "Jobspeciale slettet med succes"

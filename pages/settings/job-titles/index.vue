@@ -46,6 +46,11 @@
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('jobTitles.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="deleteJobTitleConfirmation(jobTitle)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('jobTitles.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -55,15 +60,22 @@
                     <Pagination :data="state.jobTitles" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteJobTitleOpen"
+                :message="$t('jobTitles.table.confirmation.deleteJobTitleConfirmation') + '?'"
+                @close="state.modal.isDeleteJobTitleOpen = false" @confirm="deleteJobTitle" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { jobTitleService } from '@/components/api/user/JobTitleService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
@@ -87,6 +99,10 @@ const state = reactive({
     jobTitles: [] as any,
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isDeleteJobTitleOpen: false,
+    },
+    selectedJobTitle: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -140,5 +156,25 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchJobTitles()
+}
+
+function deleteJobTitleConfirmation(jobTitle: any) {
+    state.selectedJobTitle = jobTitle
+    state.modal.isDeleteJobTitleOpen = true
+}
+
+async function deleteJobTitle() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await jobTitleService.deleteJobTitle(state.selectedJobTitle.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchJobTitles()
+            successAlert(`${t('alert.success')}!`, `${t('jobTitles.table.alert.jobTitleSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>
