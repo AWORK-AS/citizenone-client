@@ -1460,7 +1460,14 @@
         "newDepartment": "Ny afdeling",
         "table": {
             "actions": {
+                "delete": "Slet",
                 "edit": "Rediger"
+            },
+            "alert": {
+                "departmentSuccessfullyDeleted": "Afdeling slettet med succes"
+            },
+            "confirmation": {
+                "deleteDepartmentConfirmation": "Er du sikker på, at du vil slette denne afdeling"
             },
             "name": "Navn"
         }

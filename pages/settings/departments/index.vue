@@ -42,6 +42,11 @@
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('departments.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="deleteDepartmentConfirmation(department)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('departments.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -51,15 +56,22 @@
                     <Pagination :data="state.departments" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteDepartmentOpen"
+                :message="$t('departments.table.confirmation.deleteDepartmentConfirmation') + '?'"
+                @close="state.modal.isDeleteDepartmentOpen = false" @confirm="deleteDepartment" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { departmentService } from '@/components/api/user/DepartmentService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
@@ -83,6 +95,10 @@ const state = reactive({
     departments: [] as any,
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isDeleteDepartmentOpen: false,
+    },
+    selectedDepartment: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -136,5 +152,25 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchDepartments()
+}
+
+function deleteDepartmentConfirmation(department: any) {
+    state.selectedDepartment = department
+    state.modal.isDeleteDepartmentOpen = true
+}
+
+async function deleteDepartment() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await departmentService.deleteDepartment(state.selectedDepartment.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchDepartments()
+            successAlert(`${t('alert.success')}!`, `${t('departments.table.alert.departmentSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

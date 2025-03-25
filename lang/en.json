@@ -1460,7 +1460,14 @@
         "newDepartment": "New department",
         "table": {
             "actions": {
+                "delete": "Delete",
                 "edit": "Edit"
+            },
+            "alert": {
+                "departmentSuccessfullyDeleted": "Department successfully deleted"
+            },
+            "confirmation": {
+                "deleteDepartmentConfirmation": "Are you sure you want to delete this department"
             },
             "name": "Name"
         }
