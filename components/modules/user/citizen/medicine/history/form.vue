@@ -255,7 +255,7 @@ onMounted(() => {
         evaluation_frequency: [],
     }
     if (props.selectedMedicineHistory.evaluation_frequency?.length > 0) {
-        JSON.parse(props.selectedMedicineHistory.evaluation_frequency).forEach((time: any) => {
+        props.selectedMedicineHistory.evaluation_frequency?.forEach((time: any) => {
             state.formMedicineHistory.evaluation_frequency.push(time)
         })
     }
