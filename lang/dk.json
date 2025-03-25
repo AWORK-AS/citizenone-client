@@ -2153,7 +2153,7 @@
         },
         "viewResponses": "Se svar"
     },
-    "filter": "Filter",
+    "filter": "Filtrer",
     "forgotPassword": {
         "emailAddress": "E-mail adresse",
         "enterEmailAssociated": "Indtast e-mailadressen, der er tilknyttet din konto, for at nulstille din adgangskode",
@@ -3455,7 +3455,7 @@
             "companiesWithoutLicenses": "Virksomheder uden licenser",
             "dashboard": "Dashboard",
             "revenue": {
-                "filter": "Filter",
+                "filter": "Filtrer",
                 "filterDate": "Filtrer dato",
                 "revenue": "Omsætning"
             },

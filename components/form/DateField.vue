@@ -30,7 +30,7 @@ const config = ref({
     dateFormat: 'd. F Y',
     disableMobile: true,
     locale: {
-        firstDayOfWeek: 1 // Set Monday as the first day of the week
+        firstDayOfWeek: 1, // Set Monday as the first day of the week
     }
 })
 
