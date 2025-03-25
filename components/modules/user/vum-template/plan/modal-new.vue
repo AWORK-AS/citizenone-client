@@ -6,7 +6,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserVumTemplatePlanForm formType="create" :selectedTemplate="state.formTemplate"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @nameModal="closeModal" @submitForm="saveTemplate" />
+                        @closeModal="closeModal" @submitForm="saveTemplate" />
                 </LoadingSpinner>
             </template>
         </Modal>
