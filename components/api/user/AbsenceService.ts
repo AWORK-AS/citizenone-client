@@ -17,6 +17,10 @@ class AbsenceService extends BaseAPIService {
         return await this.request(`/user/absences/${absenceUuid}`, 'PUT', params)
     }
 
+    async deleteAbsence(absenceUuid: any): Promise<any> {
+        return await this.request(`/user/absences/${absenceUuid}`, 'DELETE')
+    }
+
     async getAllAbsences(): Promise<any> {
         return await this.request(`/user/absences/all/list`, 'GET')
     }

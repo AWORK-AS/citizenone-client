@@ -14,8 +14,15 @@
         "markAsAbsent": "Mark as absent",
         "newAbsence": "New absence",
         "table": {
+            "alert": {
+                "absenceSuccessfullyDeleted": "Absence successfully deleted"
+            },
             "actions": {
+                "delete": "Delete",
                 "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteAbsenceConfirmation": "Are you sure you want to delete this absence"
             },
             "name": "Name"
         }

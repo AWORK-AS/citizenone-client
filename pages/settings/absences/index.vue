@@ -41,6 +41,11 @@
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('absences.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="deleteAbsenceConfirmation(absence)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('absences.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -50,15 +55,22 @@
                     <Pagination :data="state.absences" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteAbsenceOpen"
+                :message="$t('absences.table.confirmation.deleteAbsenceConfirmation') + '?'"
+                @close="state.modal.isDeleteAbsenceOpen = false" @confirm="deleteAbsence" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { absenceService } from '@/components/api/user/AbsenceService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
@@ -82,6 +94,10 @@ const state = reactive({
     },
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isDeleteAbsenceOpen: false,
+    },
+    selectedAbsence: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -135,5 +151,25 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchAbsences()
+}
+
+function deleteAbsenceConfirmation(absence: any) {
+    state.selectedAbsence = absence
+    state.modal.isDeleteAbsenceOpen = true
+}
+
+async function deleteAbsence() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await absenceService.deleteAbsence(state.selectedAbsence.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchAbsences()
+            successAlert(`${t('alert.success')}!`, `${t('absences.table.alert.absenceSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

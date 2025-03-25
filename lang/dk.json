@@ -14,8 +14,15 @@
         "markAsAbsent": "Markér som fraværende",
         "newAbsence": "Nyt fravær",
         "table": {
+            "alert": {
+                "absenceSuccessfullyDeleted": "Fravær slettet med succes"
+            },
             "actions": {
+                "delete": "Slet",
                 "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteAbsenceConfirmation": "Er du sikker på, at du vil slette dette fravær"
             },
             "name": "Navn"
         }
