@@ -17,6 +17,10 @@ class JobSpecialtyService extends BaseAPIService {
         return await this.request(`/user/job-specialties/${jobSpecialtyUuid}`, 'PUT', params)
     }
 
+    async deleteJobSpecialty(jobSpecialtyUuid: any): Promise<any> {
+        return await this.request(`/user/job-specialties/${jobSpecialtyUuid}`, 'DELETE')
+    }
+
     async getAllJobSpecialties(params: object): Promise<any> {
         return await this.request(`/user/job-specialties/all/list`, 'GET', params)
     }

@@ -51,6 +51,11 @@
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('jobSpecialties.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="deleteJobSpecialtyConfirmation(jobSpecialty)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('jobSpecialties.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -60,15 +65,22 @@
                     <Pagination :data="state.jobSpecialties" @previous="previous" @next="next" />
                 </div>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteJobSpecialtyOpen"
+                :message="$t('jobSpecialties.table.confirmation.deleteJobSpecialtyConfirmation') + '?'"
+                @close="state.modal.isDeleteJobSpecialtyOpen = false" @confirm="deleteJobSpecialty" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { jobSpecialtyService } from '@/components/api/user/JobSpecialtyService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 const router = useRouter()
 const jobTitleUuid = router?.currentRoute?.value?.params?.job_title_uuid
 let currentTablePage = 1
@@ -99,6 +111,10 @@ const state = reactive({
     jobSpecialties: [] as any,
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isDeleteJobSpecialtyOpen: false,
+    },
+    selectedJobSpecialty: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -153,5 +169,25 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchJobSpecialties()
+}
+
+function deleteJobSpecialtyConfirmation(jobSpecialty: any) {
+    state.selectedJobSpecialty = jobSpecialty
+    state.modal.isDeleteJobSpecialtyOpen = true
+}
+
+async function deleteJobSpecialty() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await jobSpecialtyService.deleteJobSpecialty(state.selectedJobSpecialty.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchJobSpecialties()
+            successAlert(`${t('alert.success')}!`, `${t('jobSpecialties.table.alert.jobSpecialtySuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

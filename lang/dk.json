@@ -2266,8 +2266,15 @@
         "newJobSpecialty": "Ny jobspecialitet",
         "table": {
             "actions": {
+                "delete": "Slet",
                 "edit": "Rediger",
                 "view": "Se"
+            },
+            "alert": {
+                "jobSpecialtySuccessfullyDeleted": "Jobspeciale slettet med succes"
+            },
+            "confirmation": {
+                "deleteJobSpecialtyConfirmation": "Er du sikker på, at du vil slette dette jobspeciale"
             },
             "title": "Titel"
         }
