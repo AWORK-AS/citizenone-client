@@ -390,7 +390,9 @@ watch(() => state.formCitizen.social_security_number, (ssn) => {
 
         if (isValidDate(year, month, day)) {
             // Update the birthday field if the date is valid
-            state.formCitizen.birthday = dateOfBirth
+            if (!state.formCitizen.birthday) {
+                state.formCitizen.birthday = dateOfBirth
+            }
         } else {
             // Handle invalid date case (optional: clear or show error)
             state.formCitizen.birthday = ''
