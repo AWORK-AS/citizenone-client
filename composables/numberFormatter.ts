@@ -1,5 +1,5 @@
 export function useNumberFormatter() {
-    function formatNumber(amount: any) {
+    function formatNumber(language: string, amount: any) {
         // Ensure the input is a valid number
         if (isNaN(amount) || amount === null || amount === undefined) {
             return 0
@@ -17,7 +17,19 @@ export function useNumberFormatter() {
         let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
 
         // Combine the integer part with the decimal part
-        return formattedIntegerPart + ',' + decimalPart
+        if (language === 'dk') {
+            if (decimalPart === '00') {
+                return formattedIntegerPart
+            } else {
+                return formattedIntegerPart + ',' + decimalPart
+            }
+        } else {
+            if (decimalPart === '00') {
+                return formattedIntegerPart
+            } else {
+                return formattedIntegerPart + '.' + decimalPart
+            }
+        }
     }
 
     return { formatNumber }

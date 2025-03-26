@@ -28,9 +28,7 @@
                                         </td>
                                         <td width="5%">
                                             <p>
-                                                {{ language.locale.value === 'dk' ?
-                                                    formatNumber(medicineHistory?.quantity) :
-                                                    medicineHistory?.quantity }}
+                                                {{ formatNumber(language.locale.value, medicineHistory?.quantity) }}
                                             </p>
                                         </td>
                                         <td width="10%">
