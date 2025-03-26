@@ -51,12 +51,28 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
+                    <!-- <div v-if="citizenMedicineStore.getSelectedMedicines?.length > 0">
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            @click="state.modal.isGiveMedicinesOpen = true">
+                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.medicineJournals.history.giveMedicines') }}
+                        </FormButton>
+                    </div> -->
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.medicines"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.medicines?.data?.length === 0))">
                                 <tr v-for="(medicine, index) in state.medicines?.data" :key="index">
-                                    <td width="15%">
+                                    <td width="15%" class="pl-4">
+                                        <!-- <div class="flex items-center">
+                                            <div>
+                                                <FormCheckbox :id="`medicine_${medicine?.uuid}`"
+                                                    :value="citizenMedicineStore.getSelectedMedicines?.some((med: any) => med.uuid === medicine?.uuid)"
+                                                    @click="addRemoveMedicine(medicine)" />
+                                            </div>
+                                            <img :src="medicine?.medicine_name?.image_url" alt="Image failed to load"
+                                                class="w-28" v-if="medicine?.medicine_name?.image_url">
+                                        </div> -->
                                         <img :src="medicine?.medicine_name?.image_url" alt="Image failed to load"
                                             class="w-28" v-if="medicine?.medicine_name?.image_url">
                                     </td>
@@ -202,6 +218,8 @@
                     @refreshMedicines="fetchCitizenMedicines" />
                 <ModulesUserCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isGiveMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isGiveMedicineOpen = false" />
+                <!-- <ModulesUserCitizenMedicineHistoryModalGiveMultipleMedicine
+                    :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false" /> -->
                 <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineOpen"
@@ -216,15 +234,15 @@
 import { medicineJournalService } from '@/components/api/user/MedicineJournalService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
-import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useCitizenMedicineStore } from '@/store/citizen-medicines'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const { formatNumber } = useNumberFormatter()
 const customPagesStore = useCustomPagesStore() as any
+const citizenMedicineStore = useCitizenMedicineStore() as any
 const language = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
@@ -261,6 +279,7 @@ const state = reactive({
         isDeleteMedicineOpen: false,
         isEditMedicineOpen: false,
         isGiveMedicineOpen: false,
+        isGiveMedicinesOpen: false,
         isViewMedicineOpen: false,
     },
     selectedMedicine: {} as any,
@@ -339,6 +358,10 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchCitizenMedicines()
+}
+
+function addRemoveMedicine(medicine: any) {
+    citizenMedicineStore.addRemoveMedicine(medicine)
 }
 
 function giveMedicine(medicine: any) {
