@@ -68,7 +68,6 @@ watch(() => props.isModalOpen, (isModalOpen) => {
 })
 
 watch(() => state.filter.date_range, (dates: any) => {
-    console.log('dates', dates)
     state.formDateRange.start_date = dates?.[0]
     state.formDateRange.end_date = dates?.[1]
 })
