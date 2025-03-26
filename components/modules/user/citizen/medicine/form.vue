@@ -228,7 +228,7 @@ onMounted(() => {
         strength: props.selectedMedicine.strength,
         dosage: props.selectedMedicine.dosage,
         max_dosage_per_time: props?.selectedMedicine?.max_dosage_per_time ?? [],
-        max_daily_dose: language.locale.value === 'dk' ? props.selectedMedicine.max_daily_dose.toString() : props.selectedMedicine.max_daily_dose.toString(),
+        max_daily_dose: language.locale.value === 'dk' ? props.selectedMedicine.max_daily_dose?.toString() : props.selectedMedicine.max_daily_dose?.toString(),
         package_leaflet_link: props.selectedMedicine.package_leaflet_link,
         active_ingredients: props.selectedMedicine.active_ingredients,
         description: props.selectedMedicine.description,
