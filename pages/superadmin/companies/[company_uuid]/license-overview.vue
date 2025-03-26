@@ -130,7 +130,7 @@
                                         <h3 class="py-3 text-sm font-semibold">
                                             {{ $t('settings.licenseOverview.licenses') }}
                                         </h3>
-                                        <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
+                                        <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10 space-y-5">
                                             <div class="mb-5 flex items-center gap-x-5 justify-end">
                                                 <div>
                                                     <span class="text-sm font-semibold">
