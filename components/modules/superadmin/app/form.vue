@@ -143,9 +143,9 @@ const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
 const logo = ref<HTMLInputElement | null>(null)
-const logoUrl = ref(`https://via.placeholder.com/1024x1024.png?text=Upload+Image`)
+const logoUrl = ref(`/img/icons/asset-02.svg`)
 const image = ref<HTMLInputElement | null>(null)
-const imageUrl = ref(`https://via.placeholder.com/1024x1024.png?text=Upload+Image`)
+const imageUrl = ref(`/img/icons/asset-02.svg`)
 const language = useI18n()
 
 const state = reactive({

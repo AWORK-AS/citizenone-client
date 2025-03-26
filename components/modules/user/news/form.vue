@@ -123,7 +123,7 @@ const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
 const image = ref<HTMLInputElement | null>(null)
-const avatarUrl = ref(`https://via.placeholder.com/1024x1024.png?text=Upload+Image`)
+const avatarUrl = ref(`/img/icons/asset-02.svg`)
 
 const state = reactive({
     error: {} as Error,
