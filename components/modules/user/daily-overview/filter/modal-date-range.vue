@@ -1,12 +1,10 @@
 <template>
     <div>
-        <Modal size="xs" :title="`${$t('superadmin.dashboard.revenue.filterDate')}`" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="xs" :title="`${$t('filterDate')}`" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <form @submit.prevent="filterRevenue" class="mt-3">
+                <form @submit.prevent="filterDailyOverview" class="mt-3">
                     <div class="space-y-3">
-                        <FormDateRangeField name="date_range"
-                            :placeholder="$t('superadmin.dashboard.revenue.filterDate')"
+                        <FormDateRangeField name="date_range" :placeholder="$t('filterDate')"
                             v-model="state.filter.date_range" />
                         <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
                     </div>
@@ -16,7 +14,7 @@
                                 {{ $t('cancel') }}
                             </FormButton>
                             <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
-                                {{ $t('superadmin.dashboard.revenue.filter') }}
+                                {{ $t('filter') }}
                             </FormButton>
                         </div>
                     </div>
@@ -38,7 +36,7 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    revenueData: {
+    dateRange: {
         type: Object,
         required: true,
     }
@@ -54,19 +52,24 @@ const state = reactive({
     },
     isPageLoading: false,
     formDateRange: {
-        start_date: props.revenueData?.formDateRange?.start_date,
-        end_date: props.revenueData?.formDateRange?.end_date,
+        start_date: props.dateRange?.formDateRange?.start_date,
+        end_date: props.dateRange?.formDateRange?.end_date,
     },
 })
 
 watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
-        const startDate = moment(props?.revenueData?.formDateRange?.start_date).format('YYYY-MM-DD')
-        const endDate = moment(props?.revenueData?.formDateRange?.end_date).format('YYYY-MM-DD')
+        const startDate = moment(props?.dateRange?.formDateRange?.start_date).format('YYYY-MM-DD')
+        const endDate = moment(props?.dateRange?.formDateRange?.end_date).format('YYYY-MM-DD')
 
         state.error = {}
         state.filter.date_range = [startDate, endDate]
     }
+})
+
+watch(() => state.filter.date_range, (dates: any) => {
+    state.formDateRange.start_date = dates?.[0]
+    state.formDateRange.end_date = dates?.[1]
 })
 
 const rules = computed(() => {
@@ -85,12 +88,7 @@ function closeModal() {
     emit('close')
 }
 
-watch(() => state.filter.date_range, (dates: any) => {
-    state.formDateRange.start_date = dates?.[0]
-    state.formDateRange.end_date = dates?.[1]
-})
-
-function filterRevenue() {
+function filterDailyOverview() {
     v$.value.$validate()
     if (!v$.value.$error) {
         emit('filterDate', state.formDateRange)

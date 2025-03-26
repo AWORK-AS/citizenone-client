@@ -45,7 +45,7 @@
 
             <ModulesUserDailyOverviewFilterAllModalShowHide :isModalOpen="state.modal.isFilterDailyOverviewViewAllOpen"
                 @close="state.modal.isFilterDailyOverviewViewAllOpen = false" />
-            <ModulesUserDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDailyOverviewDateRangeOpen"
+            <ModulesUserDailyOverviewFilterModalDateRange :isModalOpen="state.modal.isDailyOverviewDateRangeOpen"
                 :dateRange="state.dateRange" @close="state.modal.isDailyOverviewDateRangeOpen = false"
                 @filterDate="filterDailyOverviewByDate" />
         </NuxtLayout>

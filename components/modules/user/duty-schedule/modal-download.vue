@@ -20,8 +20,8 @@
                                     <FormLabel for="date" :label="$t('dutySchedules.download.date')" />
                                     <FormDateRangeField name="date_range"
                                         :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
-                                        @change="setDateRange" />
-                                    <FormError :error="v$?.date_range?.$errors[0]?.$message.toString()" />
+                                        v-model="state.filter.date_range" />
+                                    <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
                                 </div>
                             </div>
                             <div class="mt-6">
@@ -44,7 +44,6 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import type { Error } from '@/types'
 import { useVuelidate } from "@vuelidate/core"
@@ -62,8 +61,10 @@ const { t } = useI18n()
 const emit = defineEmits(['close', 'saveShift'])
 
 const state = reactive({
-    date_range: null,
     error: {} as Error,
+    filter: {
+        date_range: [] as any,
+    },
     isPageLoading: false,
     formDownload: {
         download_type: '',
@@ -87,8 +88,10 @@ watch(() => props.isModalOpen, () => {
 
 const rules = computed(() => {
     return {
-        date_range: {
-            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        filter: {
+            date_range: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
         },
         formDownload: {
             download_type: {
@@ -103,15 +106,10 @@ function closeModal() {
     emit('close')
 }
 
-async function setDateRange(event: any) {
-    const dateRange = event.target.value
-    const dates = dateRange.split(" to ")
-    const startDate = moment(dates[0], "DD. MMMM YYYY").format("YYYY-MM-DD")
-    const endDate = dates[1] ? moment(dates[1], "DD. MMMM YYYY").format("YYYY-MM-DD") : startDate
-    state.formDownload.date_start = startDate
-    state.formDownload.date_end = endDate
-    state.date_range = dateRange
-}
+watch(() => state.filter.date_range, (dates: any) => {
+    state.formDownload.date_start = dates?.[0]
+    state.formDownload.date_end = dates?.[1]
+})
 
 async function handleDownload() {
     v$.value.$validate()

@@ -5,7 +5,7 @@
                 <form @submit.prevent="filterRevenue" class="mt-3">
                     <div class="space-y-3">
                         <FormDateRangeField name="date_range" :placeholder="$t('dutySchedules.filterDate')"
-                            @change="setDateRange" v-model="state.date_range" />
+                            v-model="state.filter.date_range" />
                         <FormError :error="v$?.date_range?.$errors[0]?.$message.toString()" />
                     </div>
                     <div class="mt-6">
@@ -46,31 +46,30 @@ const { t } = useI18n()
 const emit = defineEmits(['close', 'filterDate'])
 
 const state = reactive({
-    date_range: [] as any,
     error: {} as Error,
-    isPageLoading: false,
-    formDateRange: {
-        start_date: props.dateRange?.formDateRange?.start_date,
-        end_date: props.dateRange?.formDateRange?.end_date,
+    filter: {
+        date_range: [] as any,
     },
+    isPageLoading: false,
 })
 
 watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
-
-        const startDate = moment(props?.dateRange?.formDateRange?.start_date, "YYYY-MM-DD").format("DD. MMMM YYYY")
-        const endDate = moment(props?.dateRange?.formDateRange?.end_date, "YYYY-MM-DD").format("DD. MMMM YYYY")
+        const startDate = moment(props?.dateRange?.formDateRange?.start_date).format('YYYY-MM-DD')
+        const endDate = moment(props?.dateRange?.formDateRange?.end_date).format('YYYY-MM-DD')
 
         state.error = {}
-        state.date_range = [startDate, endDate]
+        state.filter.date_range = [startDate, endDate]
     }
 })
 
 const rules = computed(() => {
     return {
-        date_range: {
-            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-        },
+        filter: {
+            date_range: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+        }
     }
 })
 
@@ -80,20 +79,10 @@ function closeModal() {
     emit('close')
 }
 
-async function setDateRange(event: any) {
-    const dateRange = event.target.value
-    const dates = dateRange.split(" to ")
-    const startDate = moment(dates[0], "DD. MMMM YYYY").format("YYYY-MM-DD")
-    const endDate = dates[1] ? moment(dates[1], "DD. MMMM YYYY").format("YYYY-MM-DD") : startDate
-    state.formDateRange.start_date = startDate
-    state.formDateRange.end_date = endDate
-    state.date_range = [dates[0], dates[1]]
-}
-
 function filterRevenue() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('filterDate', state.formDateRange)
+        emit('filterDate', state.filter.date_range)
         closeModal()
     }
 }

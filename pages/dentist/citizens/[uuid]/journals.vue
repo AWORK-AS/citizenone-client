@@ -67,8 +67,7 @@
                                     @keyup.enter="filterJournal" />
                                 <FormDateRangeField id="date_range" name="date_range"
                                     :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
-                                    v-model="state.filter.date_range" class="w-full md:w-96 h-11"
-                                    @change="filterJournalByDate" />
+                                    v-model="state.filter.date_range" class="w-full md:w-96 h-11" />
                                 <FormButton buttonSize="sm" :class="[
                                     ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
                                     'rounded-md w-full md:w-fit']" @click="sortJournalAscending('Journal ascending')">
@@ -332,6 +331,12 @@ onMounted(() => {
     fetchJournals()
 })
 
+watch(() => state.filter.date_range, (dates: any) => {
+    state.dataFilter.start_date = dates?.[0]
+    state.dataFilter.end_date = dates?.[1]
+    fetchJournals()
+})
+
 function setFilter(filter: any) {
     citizenJournalStore.setFilterView(filter.selectedView.title)
     state.dataFilter.tags_uuid = JSON.stringify(filter.tags)
@@ -366,18 +371,6 @@ function showDownloadJournalModal() {
 function filterJournal() {
     state.dataFilter.title = state.filter.journal
     fetchJournals()
-}
-
-function filterJournalByDate(event: any) {
-    const dateRange = event.target.value
-    const dates = dateRange.split(" to ")
-    const startDate = moment(dates[0], "DD. MMMM YYYY").format("YYYY-MM-DD")
-    const endDate = dates[1] ? moment(dates[1], "DD. MMMM YYYY").format("YYYY-MM-DD") : startDate
-    if (startDate && endDate) {
-        state.dataFilter.start_date = startDate
-        state.dataFilter.end_date = endDate
-        fetchJournals()
-    }
 }
 
 function sortJournalAscending(filterDataBy: any) {
@@ -423,7 +416,7 @@ function resetFilter() {
         sortField: 'date',
         sortOrder: 'descend',
     }
-    state.filter.date_range = null
+    state.filter.date_range = []
     state.filter.journal = ''
     fetchJournals()
 }

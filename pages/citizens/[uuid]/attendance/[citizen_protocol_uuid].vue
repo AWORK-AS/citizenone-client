@@ -61,7 +61,7 @@
                         <div class="grid grid-cols-3 gap-x-3">
                             <FormDateRangeField name="date_range"
                                 :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
-                                @change="setDateRange" />
+                                v-model="state.filter.date_range" />
                             <div class="col-span-2">
                                 <TableSearch @search="handleSearch" />
                             </div>
@@ -146,6 +146,9 @@ const state = reactive({
         end_date: '',
     },
     error: {} as Error,
+    filter: {
+        date_range: [],
+    },
     isPageLoading: false,
     isTableLoading: false,
     modal: {
@@ -180,6 +183,13 @@ watch(() => state.page_limit, (newValue: any) => {
         fetchCitizenProtocols()
     }
 })
+
+watch(() => state.filter.date_range, (dates: any) => {
+    state.dataFilter.start_date = dates?.[0]
+    state.dataFilter.end_date = dates?.[1]
+    fetchCitizenProtocols()
+})
+
 async function fetchProtocol() {
     state.error = {}
     state.isPageLoading = true

@@ -8,10 +8,9 @@
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="space-y-1">
-                            <FormDateRangeField name="date_range"
-                                :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
-                                @change="setDateRange" />
-                            <FormError :error="v$?.date_range?.$errors[0]?.$message.toString()" />
+                            <FormDateRangeField name="date_range" v-model="state.filter.date_range"
+                                :placeholder="$t('citizens.citizenJournals.filter.filterDate')" />
+                            <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
                         </div>
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.downloadForm.include_risk_assessment = !state.downloadForm.include_risk_assessment">
@@ -59,21 +58,25 @@ const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({
-    date_range: null,
     downloadForm: {
         start_date: '',
         end_date: '',
         include_risk_assessment: false,
     },
     error: {} as Error,
+    filter: {
+        date_range: [],
+    },
     isPageLoading: false
 })
 
 const rules = computed(() => {
     return {
-        date_range: {
-            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-        },
+        filter: {
+            date_range: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+        }
     }
 })
 
@@ -83,15 +86,10 @@ function closeModal() {
     emit('close')
 }
 
-async function setDateRange(event: any) {
-    const dateRange = event.target.value
-    const dates = dateRange.split(" to ")
-    const startDate = moment(dates[0], "DD. MMMM YYYY").format("YYYY-MM-DD")
-    const endDate = dates[1] ? moment(dates[1], "DD. MMMM YYYY").format("YYYY-MM-DD") : startDate
-    state.downloadForm.start_date = startDate
-    state.downloadForm.end_date = endDate
-    state.date_range = dateRange
-}
+watch(() => state.filter.date_range, (dates: any) => {
+    state.downloadForm.start_date = dates?.[0]
+    state.downloadForm.end_date = dates?.[1]
+})
 
 async function downloadJournals() {
     state.error = {}
