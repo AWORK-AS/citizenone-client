@@ -8,24 +8,13 @@ export const useCitizenMedicineStore = defineStore('citizenMedicineStore',
         }),
         actions: {
             addRemoveMedicine(medicine) {
-                const index = this.selectedMedicines.findIndex(
-                    (med) => med.uuid === medicine.uuid
-                )
+                const index = this.selectedMedicines.indexOf(medicine?.uuid)
 
                 if (index === -1) {
-                    // Medicine not found, add it
-                    this.selectedMedicines.push({
-                        id: medicine?.id,
-                        uuid: medicine?.uuid,
-                        en_name: medicine?.medicine_name?.en_name,
-                        dk_name: medicine?.medicine_name?.dk_name,
-                        medicine_type: medicine?.medicine_type,
-                        is_pn_medicine: medicine?.is_pn_medicine,
-                        max_daily_dose: medicine?.max_daily_dose,
-                        max_dosage_per_time: medicine?.max_dosage_per_time,
-                    })
+                    // Medicine uuid not found, add it
+                    this.selectedMedicines.push(medicine?.uuid)
                 } else {
-                    // Medicine found, remove it
+                    // Medicine uuid found, remove it
                     this.selectedMedicines.splice(index, 1)
                 }
             },

@@ -21,7 +21,10 @@
                     </div>
                 </div>
                 <div class="mt-6">
-                    <div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="handleCancel()">
+                            {{ $t('cancel') }}
+                        </FormButton>
                         <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full"
                             @click="handleProceed()">
                             {{ $t('proceed') }}
@@ -56,6 +59,14 @@ const state = reactive({
 })
 
 function closeModal() {
+    emit('close', state.doNotShowAgain)
+}
+
+function handleCancel() {
+    if (state.doNotShowAgain) {
+        const now = moment().format('YYYY-MM-DD')
+        localStorage.setItem('plansGoalsSubgoalsReminderHidden', now)
+    }
     emit('close', state.doNotShowAgain)
 }
 

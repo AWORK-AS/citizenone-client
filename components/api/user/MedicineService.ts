@@ -24,6 +24,10 @@ class MedicineService extends BaseAPIService {
     async getAllMedicines(): Promise<any> {
         return await this.request(`/user/medicines/all/list`, 'GET')
     }
+
+    async getAllSelectedMedicines(params: object): Promise<any> {
+        return await this.request(`/user/medicines/multiple/list`, 'GET', params)
+    }
 }
 
 export const medicineService = new MedicineService()

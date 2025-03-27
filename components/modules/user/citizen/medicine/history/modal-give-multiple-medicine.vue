@@ -239,6 +239,7 @@
 import moment from 'moment'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
+import { medicineService } from '@/components/api/user/MedicineService'
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
 import { userService } from '@/components/api/user/UserService'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -304,16 +305,17 @@ function generateEvaluationFrequenciesTimeIntervals() {
 
 watch(() => props.isModalOpen, (newValue) => {
     if (newValue) {
-        state.formGiveMedicine = citizenMedicineStore.getSelectedMedicines.map((medicine: any) => ({
-            dosage: '',
-            dosages: [],
-            type: '',
-            evaluator: '',
-            evaluation_frequency: [],
-        }))
-        console.log('state.formGiveMedicine', state.formGiveMedicine)
+        // state.formGiveMedicine = citizenMedicineStore.getSelectedMedicines.map((medicine: any) => ({
+        //     dosage: '',
+        //     dosages: [],
+        //     type: '',
+        //     evaluator: '',
+        //     evaluation_frequency: [],
+        // }))
+        // console.log('state.formGiveMedicine', state.formGiveMedicine)
+        fetchAllUsers()
+        fetchAllSelectedMedicines()
     }
-    fetchAllUsers()
 })
 
 async function fetchAllUsers() {
@@ -330,6 +332,23 @@ async function fetchAllUsers() {
                 })
             )
             state.options.evaluators = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllSelectedMedicines() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            medicine_uuid: Array(citizenMedicineStore.getSelectedMedicines),
+        }
+        const response = await medicineService.getAllSelectedMedicines(params)
+        if (response.data) {
+
         }
     } catch (error: any) {
         state.error = error
