@@ -101,23 +101,45 @@
                                     </p>
                                 </div>
                                 <div>
-                                    <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
-                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')"
-                                            v-if="pendingPlanGoalSubgoal?.type === 'Plan'">
+                                    <div class="flex items-center gap-2 flex-wrap md:flex-nowrap"
+                                        v-if="pendingPlanGoalSubgoal?.type === 'Plan'">
+                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')">
+                                            <FormButton class="rounded-md" buttonSize="sm"
+                                                @click="markPlanAsCompletedConfirmation(pendingPlanGoalSubgoal)">
+                                                <Icon name="ph:check" class="size-4" />
+                                            </FormButton>
+                                        </Tooltip>
+                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')">
                                             <FormButton class="rounded-md" buttonSize="sm"
                                                 @click="extendPlan(pendingPlanGoalSubgoal)">
                                                 <Icon name="ph:arrows-out" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
-                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')"
-                                            v-if="pendingPlanGoalSubgoal?.type === 'Goal'">
+                                    </div>
+                                    <div class="flex items-center gap-2 flex-wrap md:flex-nowrap"
+                                        v-if="pendingPlanGoalSubgoal?.type === 'Goal'">
+                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')">
+                                            <FormButton class="rounded-md" buttonSize="sm"
+                                                @click="markGoalAsCompletedConfirmation(pendingPlanGoalSubgoal)">
+                                                <Icon name="ph:check" class="size-4" />
+                                            </FormButton>
+                                        </Tooltip>
+                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')">
                                             <FormButton class="rounded-md" buttonSize="sm"
                                                 @click="extendGoal(pendingPlanGoalSubgoal)">
                                                 <Icon name="ph:arrows-out" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
-                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')"
-                                            v-if="pendingPlanGoalSubgoal?.type === 'Subgoal'">
+                                    </div>
+                                    <div class="flex items-center gap-2 flex-wrap md:flex-nowrap"
+                                        v-if="pendingPlanGoalSubgoal?.type === 'Subgoal'">
+                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')">
+                                            <FormButton class="rounded-md" buttonSize="sm"
+                                                @click="markSubgoalAsCompletedConfirmation(pendingPlanGoalSubgoal)">
+                                                <Icon name="ph:check" class="size-4" />
+                                            </FormButton>
+                                        </Tooltip>
+                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')">
                                             <FormButton class="rounded-md" buttonSize="sm"
                                                 @click="extendSubgoal(pendingPlanGoalSubgoal)">
                                                 <Icon name="ph:arrows-out" class="size-4" />
@@ -144,6 +166,17 @@
                 <ModulesUserCitizenPlanGoalSubgoalModalExtendDeadline :isModalOpen="state.modal.isExtendSubgoalOpen"
                     :selectedSubgoal="state.selectedSubgoal" @close="state.modal.isExtendSubgoalOpen = false"
                     @refreshGoals="fetchPendingPlansGoalsSubgoals" />
+
+                <DialogConfirmation :isModalOpen="state.modal.isMarkPlanAsCompletedConfirmationOpen"
+                    :message="$t('plansandgoals.forCompletion.confirmation.completionConfirmation') + '?'"
+                    @close="state.modal.isMarkPlanAsCompletedConfirmationOpen = false" @confirm="markPlanAsCompleted" />
+                <DialogConfirmation :isModalOpen="state.modal.isMarkGoalAsCompletedConfirmationOpen"
+                    :message="$t('plansandgoals.forCompletion.confirmation.completionConfirmation') + '?'"
+                    @close="state.modal.isMarkGoalAsCompletedConfirmationOpen = false" @confirm="markGoalAsCompleted" />
+                <DialogConfirmation :isModalOpen="state.modal.isMarkSubgoalAsCompletedConfirmationOpen"
+                    :message="$t('plansandgoals.forCompletion.confirmation.completionConfirmation') + '?'"
+                    @close="state.modal.isMarkSubgoalAsCompletedConfirmationOpen = false"
+                    @confirm="markSubgoalAsCompleted" />
             </div>
         </NuxtLayout>
     </div>
@@ -152,10 +185,17 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { planGoalSubgoalService } from '@/components/api/user/PlanGoalSubgoalService'
+import { planService } from '@/components/api/user/PlanService'
+import { goalService } from '@/components/api/user/GoalService'
+import { subgoalService } from '@/components/api/user/SubgoalService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { t } = useI18n()
+const { successAlert } = useAlert()
 const breadcrumbLinks = [
     {
         name: 'plansandgoals.forCompletion.managePendingPlansGoalsandSubgoals',
@@ -172,11 +212,14 @@ const state = reactive({
         isExtendPlanOpen: false,
         isExtendGoalOpen: false,
         isExtendSubgoalOpen: false,
+        isMarkPlanAsCompletedConfirmationOpen: false,
+        isMarkGoalAsCompletedConfirmationOpen: false,
+        isMarkSubgoalAsCompletedConfirmationOpen: false,
     },
     pendingPlansGoalsSubgoals: [] as any,
-    selectedGoal: {},
-    selectedPlan: {},
-    selectedSubgoal: {},
+    selectedGoal: {} as any,
+    selectedPlan: {} as any,
+    selectedSubgoal: {} as any,
     sortData: {
         sortField: 'completion_date',
         sortOrder: 'descend',
@@ -229,5 +272,68 @@ function extendGoal(pendingPlanGoalSubgoal: any) {
 function extendSubgoal(pendingPlanGoalSubgoal: any) {
     state.selectedSubgoal = pendingPlanGoalSubgoal
     state.modal.isExtendSubgoalOpen = true
+}
+
+function markPlanAsCompletedConfirmation(plan: any) {
+    state.selectedPlan = plan
+    state.modal.isMarkPlanAsCompletedConfirmationOpen = true
+}
+
+async function markPlanAsCompleted() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const planUuid = state.selectedPlan?.uuid
+        const response = await planService.togglePlanCompletionDate(planUuid)
+        if (response?.data) {
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.forCompletion.alert.planSuccessfullyMarkedAsCompleted')}.`)
+            fetchPendingPlansGoalsSubgoals()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function markGoalAsCompletedConfirmation(goal: any) {
+    state.selectedGoal = goal
+    state.modal.isMarkGoalAsCompletedConfirmationOpen = true
+}
+
+async function markGoalAsCompleted() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const goalUuid = state.selectedGoal?.uuid
+        const response = await goalService.toggleGoalCompletionDate(goalUuid)
+        if (response?.data) {
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.forCompletion.alert.goalSuccessfullyMarkedAsCompleted')}.`)
+            fetchPendingPlansGoalsSubgoals()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function markSubgoalAsCompletedConfirmation(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isMarkSubgoalAsCompletedConfirmationOpen = true
+}
+
+async function markSubgoalAsCompleted() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const subgoalUuid = state.selectedSubgoal?.uuid
+        const response = await subgoalService.toggleSubgoalCompletionDate(subgoalUuid)
+        if (response?.data) {
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.forCompletion.alert.subgoalSuccessfullyMarkedAsCompleted')}.`)
+            fetchPendingPlansGoalsSubgoals()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>

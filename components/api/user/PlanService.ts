@@ -17,6 +17,10 @@ class PlanService extends BaseAPIService {
         return await this.request(`/user/citizen-plans/${planUuid}`, 'PUT', params)
     }
 
+    async togglePlanCompletionDate(planUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-plans/${planUuid}/toggle-date-complete`, 'PUT')
+    }
+
     async deletePlan(planUuid: any): Promise<any> {
         return await this.request(`/user/citizen-plans/${planUuid}`, 'DELETE')
     }

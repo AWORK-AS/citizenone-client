@@ -13,6 +13,10 @@ class SubgoalService extends BaseAPIService {
         return await this.request(`/user/citizen-subgoals/${subgoalUuid}`, 'PUT', params)
     }
 
+    async toggleSubgoalCompletionDate(subgoalUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-subgoals/${subgoalUuid}/toggle-date-complete`, 'PUT')
+    }
+
     async deleteSubgoal(subgoalUuid: any): Promise<any> {
         return await this.request(`/user/citizen-subgoals/${subgoalUuid}`, 'DELETE')
     }

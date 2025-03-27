@@ -13,6 +13,10 @@ class GoalService extends BaseAPIService {
         return await this.request(`/user/citizen-goals/${goalUuid}`, 'PUT', params)
     }
 
+    async toggleGoalCompletionDate(goalUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-goals/${goalUuid}/toggle-date-complete`, 'PUT')
+    }
+
     async deleteGoal(goalUuid: any): Promise<any> {
         return await this.request(`/user/citizen-goals/${goalUuid}`, 'DELETE')
     }

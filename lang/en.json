@@ -2560,10 +2560,19 @@
             "showOnlySingleGoals": "Show only single goals"
         },
         "forCompletion": {
+            "alert": {
+                "goalSuccessfullyMarkedAsCompleted": "Goal successfully marked as completed",
+                "planSuccessfullyMarkedAsCompleted": "Plan successfully marked as completed",
+                "subgoalSuccessfullyMarkedAsCompleted": "Subgoal successfully marked as completed"
+            },
+            "confirmation": {
+                "completionConfirmation": "Are you sure you want to mark this as completed"
+            },
             "extendDeadline": "Extend deadline",
             "goal": "Goal",
             "hereAreThePlansGoalsAndSubgoalsThatReachedTheDeadline": "Here are the plans, goals, and subgoals that reached the deadline",
             "managePendingPlansGoalsandSubgoals": "Manage pending plans, goals, and subgoals",
+            "markAsCompleted": "Mark as completed",
             "noMorePendingPlansGoalsSubgoals": "No more pending plans, goals, and subgoals",
             "plan": "Plan",
             "subgoal": "Subgoal"
