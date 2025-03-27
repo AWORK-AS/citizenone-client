@@ -180,7 +180,7 @@ function closeModal() {
 }
 
 function modalTitle() {
-    return `${t('citizens.medicineJournals.history.medicineHistory')} (${language.locale.value === 'en' ? props.selectedMedicine?.medicine_name?.en_name : props.selectedMedicine?.medicine_name?.dk_name})`
+    return `${t('citizens.medicineJournals.history.medicineHistory')} (${language.locale.value === 'en' ? props.selectedMedicine?.medicine?.en_name : props.selectedMedicine?.medicine?.dk_name})`
 }
 
 async function fetchCitizenMedicineHistories() {

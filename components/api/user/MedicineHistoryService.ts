@@ -13,6 +13,10 @@ class MedicineHistoryService extends BaseAPIService {
         return await this.request(`/user/citizen-medicine-histories`, 'POST', params)
     }
 
+    async saveAllMedicineHistory(params: object): Promise<any> {
+        return await this.request(`/user/citizen-medicine-histories/save/all`, 'POST', params)
+    }
+
     async updateMedicineHistory(medicineHistoryUuid: any, params: object): Promise<any> {
         return await this.request(`/user/citizen-medicine-histories/${medicineHistoryUuid}`, 'PUT', params)
     }

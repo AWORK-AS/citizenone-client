@@ -16,6 +16,10 @@ class MedicineJournalService extends BaseAPIService {
     async deleteMedicine(medicineUuid: any): Promise<any> {
         return await this.request(`/user/citizen-medicines/${medicineUuid}`, 'DELETE')
     }
+
+    async getAllSelectedMedicines(params: object): Promise<any> {
+        return await this.request(`/user/citizen-medicines/multiple/list`, 'GET', params)
+    }
 }
 
 export const medicineJournalService = new MedicineJournalService()

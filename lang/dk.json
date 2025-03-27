@@ -814,7 +814,7 @@
                     }
                 },
                 "giveMedicine": "Giv medicin",
-                "giveMedicines": "Giv medicin",
+                "giveAllMedicines": "Giv al medicin",
                 "medicineHistory": "Medicinhistorik",
                 "table": {
                     "actions": {

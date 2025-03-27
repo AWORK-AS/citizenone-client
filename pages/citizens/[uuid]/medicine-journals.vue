@@ -55,7 +55,7 @@
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isGiveMedicinesOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.medicineJournals.history.giveMedicines') }}
+                            {{ $t('citizens.medicineJournals.history.giveAllMedicines') }}
                         </FormButton>
                     </div>
                     <div class="table-responsive">
@@ -70,17 +70,17 @@
                                                     :value="citizenMedicineStore.getSelectedMedicines?.includes(medicine?.uuid)"
                                                     @click="addRemoveMedicine(medicine)" />
                                             </div>
-                                            <img :src="medicine?.medicine_name?.image_url" alt="Image failed to load"
-                                                class="w-28" v-if="medicine?.medicine_name?.image_url">
+                                            <img :src="medicine?.medicine?.image_url" alt="Image failed to load"
+                                                class="w-28" v-if="medicine?.medicine?.image_url">
                                         </div>
                                     </td>
                                     <td width="20%">
                                         <div class="space-y-1">
                                             <p v-if="language.locale.value === 'en'">
-                                                {{ medicine?.medicine_name?.en_name }}
+                                                {{ medicine?.medicine?.en_name }}
                                             </p>
                                             <p v-if="language.locale.value === 'dk'">
-                                                {{ medicine?.medicine_name?.dk_name }}
+                                                {{ medicine?.medicine?.dk_name }}
                                             </p>
                                             <div v-if="medicine.is_pn_medicine">
                                                 <Badge type="primary" class="w-fit">
@@ -359,7 +359,7 @@ function handleSearch(value: any) {
 }
 
 function addRemoveMedicine(medicine: any) {
-    citizenMedicineStore.addRemoveMedicine(medicine)
+    citizenMedicineStore.addRemoveSelectedMedicine(medicine)
 }
 
 function giveMedicine(medicine: any) {

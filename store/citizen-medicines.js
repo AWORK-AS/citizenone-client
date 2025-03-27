@@ -7,7 +7,7 @@ export const useCitizenMedicineStore = defineStore('citizenMedicineStore',
             selectedMedicines: [],
         }),
         actions: {
-            addRemoveMedicine(medicine) {
+            addRemoveSelectedMedicine(medicine) {
                 const index = this.selectedMedicines.indexOf(medicine?.uuid)
 
                 if (index === -1) {
@@ -18,7 +18,7 @@ export const useCitizenMedicineStore = defineStore('citizenMedicineStore',
                     this.selectedMedicines.splice(index, 1)
                 }
             },
-            resetMedicine() {
+            resetSelectedMedicine() {
                 this.selectedMedicines = []
             },
         },
