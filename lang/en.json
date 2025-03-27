@@ -2560,7 +2560,9 @@
             "showOnlySingleGoals": "Show only single goals"
         },
         "forCompletion": {
+            "extendDeadline": "Extend deadline",
             "goal": "Goal",
+            "hereAreThePlansGoalsAndSubgoalsThatReachedTheDeadline": "Here are the plans, goals, and subgoals that reached the deadline",
             "managePendingPlansGoalsandSubgoals": "Manage pending plans, goals, and subgoals",
             "noMorePendingPlansGoalsSubgoals": "No more pending plans, goals, and subgoals",
             "plan": "Plan",

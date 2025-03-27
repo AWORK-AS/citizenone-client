@@ -2560,7 +2560,9 @@
             "showOnlySingleGoals": "Vis kun enkeltmål"
         },
         "forCompletion": {
+            "extendDeadline": "Forlæng deadline",
             "goal": "Mål",
+            "hereAreThePlansGoalsAndSubgoalsThatReachedTheDeadline": "Her er de planer, mål og delmål, der har nået deadline",
             "managePendingPlansGoalsandSubgoals": "Administrer afventende planer, mål og delmål",
             "noMorePendingPlansGoalsSubgoals": "Ingen flere afventende planer, mål og delmål",
             "plan": "Plan",

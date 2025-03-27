@@ -13,7 +13,9 @@
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('plansandgoals.forCompletion.managePendingPlansGoalsandSubgoals') }}</template>
+            <template #header>
+                {{ $t('plansandgoals.forCompletion.hereAreThePlansGoalsAndSubgoalsThatReachedTheDeadline') }}
+            </template>
 
             <div class="min-h-44 space-y-3">
                 <Alert type="danger" :text="state?.error?.message"
@@ -100,25 +102,25 @@
                                 </div>
                                 <div>
                                     <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
-                                        <Tooltip :text="$t('plansandgoals.table.actions.edit')"
+                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')"
                                             v-if="pendingPlanGoalSubgoal?.type === 'Plan'">
                                             <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="editPlan(pendingPlanGoalSubgoal)">
-                                                <Icon name="ph:pencil-duotone" class="size-4" />
+                                                @click="extendPlan(pendingPlanGoalSubgoal)">
+                                                <Icon name="ph:arrows-out" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
-                                        <Tooltip :text="$t('plansandgoals.table.actions.edit')"
+                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')"
                                             v-if="pendingPlanGoalSubgoal?.type === 'Goal'">
                                             <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="editGoal(pendingPlanGoalSubgoal)">
-                                                <Icon name="ph:pencil-duotone" class="size-4" />
+                                                @click="extendGoal(pendingPlanGoalSubgoal)">
+                                                <Icon name="ph:arrows-out" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
-                                        <Tooltip :text="$t('plansandgoals.table.actions.edit')"
+                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')"
                                             v-if="pendingPlanGoalSubgoal?.type === 'Subgoal'">
                                             <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="editSubgoal(pendingPlanGoalSubgoal)">
-                                                <Icon name="ph:pencil-duotone" class="size-4" />
+                                                @click="extendSubgoal(pendingPlanGoalSubgoal)">
+                                                <Icon name="ph:arrows-out" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
                                     </div>
@@ -133,14 +135,14 @@
                         </p>
                     </div>
                 </LoadingSpinner>
-                <ModulesUserCitizenPlanModalEdit :isModalOpen="state.modal.isEditPlanOpen"
-                    :selectedPlan="state.selectedPlan" @close="state.modal.isEditPlanOpen = false"
+                <ModulesUserCitizenPlanModalExtendDeadline :isModalOpen="state.modal.isExtendPlanOpen"
+                    :selectedPlan="state.selectedPlan" @close="state.modal.isExtendPlanOpen = false"
                     @refreshPlans="fetchPendingPlansGoalsSubgoals" />
-                <ModulesUserCitizenPlanGoalModalEdit :isModalOpen="state.modal.isEditGoalOpen"
-                    :selectedGoal="state.selectedGoal" @close="state.modal.isEditGoalOpen = false"
+                <ModulesUserCitizenPlanGoalModalExtendDeadline :isModalOpen="state.modal.isExtendGoalOpen"
+                    :selectedGoal="state.selectedGoal" @close="state.modal.isExtendGoalOpen = false"
                     @refreshGoals="fetchPendingPlansGoalsSubgoals" />
-                <ModulesUserCitizenPlanGoalSubgoalModalEdit :isModalOpen="state.modal.isEditSubgoalOpen"
-                    :selectedSubgoal="state.selectedSubgoal" @close="state.modal.isEditSubgoalOpen = false"
+                <ModulesUserCitizenPlanGoalSubgoalModalExtendDeadline :isModalOpen="state.modal.isExtendSubgoalOpen"
+                    :selectedSubgoal="state.selectedSubgoal" @close="state.modal.isExtendSubgoalOpen = false"
                     @refreshGoals="fetchPendingPlansGoalsSubgoals" />
             </div>
         </NuxtLayout>
@@ -167,9 +169,9 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     modal: {
-        isEditPlanOpen: false,
-        isEditGoalOpen: false,
-        isEditSubgoalOpen: false,
+        isExtendPlanOpen: false,
+        isExtendGoalOpen: false,
+        isExtendSubgoalOpen: false,
     },
     pendingPlansGoalsSubgoals: [] as any,
     selectedGoal: {},
@@ -214,18 +216,18 @@ function next() {
     fetchPendingPlansGoalsSubgoals()
 }
 
-function editPlan(pendingPlanGoalSubgoal: any) {
+function extendPlan(pendingPlanGoalSubgoal: any) {
     state.selectedPlan = pendingPlanGoalSubgoal
-    state.modal.isEditPlanOpen = true
+    state.modal.isExtendPlanOpen = true
 }
 
-function editGoal(pendingPlanGoalSubgoal: any) {
+function extendGoal(pendingPlanGoalSubgoal: any) {
     state.selectedGoal = pendingPlanGoalSubgoal
-    state.modal.isEditGoalOpen = true
+    state.modal.isExtendGoalOpen = true
 }
 
-function editSubgoal(pendingPlanGoalSubgoal: any) {
+function extendSubgoal(pendingPlanGoalSubgoal: any) {
     state.selectedSubgoal = pendingPlanGoalSubgoal
-    state.modal.isEditSubgoalOpen = true
+    state.modal.isExtendSubgoalOpen = true
 }
 </script>

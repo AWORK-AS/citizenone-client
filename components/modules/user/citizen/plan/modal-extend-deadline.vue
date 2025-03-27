@@ -4,9 +4,9 @@
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserCitizenPlanGoalForm formType="update" :selectedGoal="props.selectedGoal"
+                    <ModulesUserCitizenPlanForm formType="update" :selectedPlan="props.selectedPlan"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="updateGoal" />
+                        @closeModal="closeModal" @submitForm="updatePlan" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -15,7 +15,7 @@
 
 
 <script setup lang="ts">
-import { goalService } from '@/components/api/user/GoalService'
+import { planService } from '@/components/api/user/PlanService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -28,12 +28,12 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedGoal: {
+    selectedPlan: {
         type: Object,
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshGoals'])
+const emit = defineEmits(['close', 'refreshPlans'])
 
 const state = reactive({
     error: {} as Error,
@@ -44,27 +44,28 @@ function closeModal() {
     emit('close')
 }
 
-function refreshGoals() {
-    emit('refreshGoals')
+function refreshPlans() {
+    emit('refreshPlans')
 }
 
-async function updateGoal(goalDetails: any) {
+async function updatePlan(planDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const goalUuid = goalDetails.uuid
+        const planUuid = planDetails.uuid
         const params = {
-            name: goalDetails.name,
-            description: goalDetails.description,
-            completion_date: goalDetails.completion_date,
-            date_completed: goalDetails.date_completed,
-            score: goalDetails.score,
+            name: planDetails.name,
+            completion_date: planDetails.completion_date,
+            score: planDetails.score,
+            description: planDetails.description,
+            date_completed: planDetails.date_completed,
+            is_completed: planDetails.is_completed,
         }
-        const response = await goalService.updateGoal(goalUuid, params)
+        const response = await planService.updatePlan(planUuid, params)
         if (response?.data) {
-            refreshGoals()
+            refreshPlans()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.goalSuccessfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.planSuccessfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error

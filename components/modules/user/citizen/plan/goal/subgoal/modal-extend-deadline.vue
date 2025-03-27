@@ -1,12 +1,11 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('plansandgoals.forCompletion.extendDeadline')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="md" :title="$t('plansandgoals.editSubgoal')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserCitizenPlanGoalForm formType="update" :selectedGoal="props.selectedGoal"
+                    <ModulesUserCitizenPlanGoalSubgoalForm formType="update" :selectedSubgoal="props.selectedSubgoal"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="updateGoal" />
+                        @closeModal="closeModal" @submitForm="updateSubgoal" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -15,7 +14,7 @@
 
 
 <script setup lang="ts">
-import { goalService } from '@/components/api/user/GoalService'
+import { subgoalService } from '@/components/api/user/SubgoalService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -28,7 +27,7 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedGoal: {
+    selectedSubgoal: {
         type: Object,
         required: true,
     },
@@ -48,23 +47,23 @@ function refreshGoals() {
     emit('refreshGoals')
 }
 
-async function updateGoal(goalDetails: any) {
+async function updateSubgoal(subgoalDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const goalUuid = goalDetails.uuid
+        const subgoalUuid = subgoalDetails.uuid
         const params = {
-            name: goalDetails.name,
-            description: goalDetails.description,
-            completion_date: goalDetails.completion_date,
-            date_completed: goalDetails.date_completed,
-            score: goalDetails.score,
+            name: subgoalDetails.name,
+            description: subgoalDetails.description,
+            completion_date: subgoalDetails.completion_date,
+            date_completed: subgoalDetails.date_completed,
+            score: subgoalDetails.score,
         }
-        const response = await goalService.updateGoal(goalUuid, params)
+        const response = await subgoalService.updateSubgoal(subgoalUuid, params)
         if (response?.data) {
             refreshGoals()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.goalSuccessfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.subgoalSuccessfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error
