@@ -13,7 +13,7 @@
                         <div
                             class="absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
                             <div class="flex items-center w-full h-full justify-center text-xs">
-                                Change Image
+                                {{ $t('changeImage') }}
                             </div>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                         <div
                             class="rounded-full absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
                             <div class="flex items-center w-full h-full justify-center text-xs">
-                                Change Image
+                                {{ $t('changeImage') }}
                             </div>
                         </div>
                     </div>
