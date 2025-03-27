@@ -96,7 +96,7 @@
                                                         :label="$t('citizens.medicineJournals.history.form.evaluator')" />
                                                     <FormSelect id="evaluator" name="evaluator"
                                                         :options="state.options.evaluators"
-                                                        v-model="state.formGiveMedicine.medicines[selecedMedicineIndex].evaluator" />
+                                                        v-model="state.formGiveMedicine.medicines[selecedMedicineIndex].evaluator_uuid" />
                                                 </div>
                                                 <div class="space-y-1">
                                                     <FormLabel for="evaluation_frequency"
@@ -403,8 +403,8 @@ async function giveAllMedicines() {
         }
         const response = await medicineHistoryService.saveAllMedicineHistory(params)
         if (response?.data) {
-            closeModal()
             successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.history.form.alert.successfullyAdded')}.`)
+            closeModal()
             citizenMedicineStore.resetSelectedMedicine()
         }
     } catch (error: any) {
