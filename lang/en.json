@@ -3453,7 +3453,6 @@
             }
         },
         "dashboard": {
-            "activeLicenses": "Active Licenses",
             "companyStorage": {
                 "companyStorage": "Company Storage",
                 "storagePaid": "Storage paid",
@@ -3464,18 +3463,19 @@
                     "storageUsed": "Storage used"
                 }
             },
-            "companiesWithLicenses": "Companies with Licenses",
-            "companiesWithoutLicenses": "Companies without Licenses",
             "dashboard": "Dashboard",
+            "numberOfTotalActiveLincenses": "Number of total active licenses",
+            "numberOfUnusedLicenses": "Number of unused licenses",
+            "numberOfPayingCompnanies": "Number of paying companies",
+            "numberOfTotalCompanies": "Number of total companies",
+            "numberOfNonpayingCompanies": "Number of non-paying companies",
+            "numberOfUsersWithLicenses": "Number of users with licenses",
             "revenue": {
                 "filter": "Filter",
                 "filterDate": "Filter date",
                 "revenue": "Revenue"
             },
             "sharedCitizenOne": "Shared CitizenOne",
-            "unusedLicenses": "Unused Licenses",
-            "usersWithLicenses": "Users with Licenses",
-            "usersWithoutLicenses": "Users without Licenses",
             "viewAll": "View all"
         },
         "orders": {

@@ -10,18 +10,18 @@
 
             <div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.activeLicenses')"
-                        :value="state.dashboard.activeLicenses" />
-                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.unusedLicenses')"
+                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfTotalActiveLincenses')"
+                        :value="state.dashboard.totalActiveLicenses" />
+                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfUnusedLicenses')"
                         :value="state.dashboard.unusedLicenses" />
-                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.companiesWithLicenses')"
-                        :value="state.dashboard.companiesWithLicenses" />
-                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.companiesWithoutLicenses')"
-                        :value="state.dashboard.companiesWithoutLicenses" />
-                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.usersWithLicenses')"
+                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfPayingCompnanies')"
+                        :value="state.dashboard.payingCompanies" />
+                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfTotalCompanies')"
+                        :value="state.dashboard.totalCompanies" />
+                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfNonpayingCompanies')"
+                        :value="state.dashboard.nonPayingCompanies" />
+                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfUsersWithLicenses')"
                         :value="state.dashboard.usersWithLicenses" />
-                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.usersWithoutLicenses')"
-                        :value="state.dashboard.usersWithoutLicenses" />
                     <ModulesSuperadminDashboardRevenueCard :title="$t('superadmin.dashboard.revenue.revenue')"
                         :revenueData="state.dashboard.revenue" @filterDate="filterDate" />
                     <ModulesSuperadminDashboardCard title="Shared CitizenOne"
@@ -44,19 +44,21 @@ const runtimeConfig = useRuntimeConfig()
 
 const state = reactive({
     dashboard: {
-        activeLicenses: 0,
+        totalActiveLicenses: 0,
         unusedLicenses: 0,
-        companiesWithLicenses: 0,
-        companiesWithoutLicenses: 0,
+        payingCompanies: 0,
+        totalCompanies: 0,
+        nonPayingCompanies: 0,
         usersWithLicenses: 0,
-        usersWithoutLicenses: 0,
+        total_revenue: 0,
+        company_storage: 0,
         sharedCitizenOne: 0,
         revenue: {
             formDateRange: {
                 start_date: moment(),
                 end_date: moment(),
             },
-            amount: 'DKK0'
+            amount: 0,
         },
         companyStorage: [],
     },
@@ -80,12 +82,13 @@ async function fetchDashboardData() {
         }
         const response = await dashboardService.getDashboardData(params)
         if (response) {
-            state.dashboard.activeLicenses = response?.data?.active_licenses ?? 0
+            state.dashboard.totalActiveLicenses = response?.data?.total_active_licenses ?? 0
             state.dashboard.unusedLicenses = response?.data?.unused_licenses ?? 0
-            state.dashboard.companiesWithLicenses = response?.data?.companies_with_license ?? 0
-            state.dashboard.companiesWithoutLicenses = response?.data?.companies_without_license ?? 0
-            state.dashboard.usersWithLicenses = response?.data?.users_with_license ?? 0
-            state.dashboard.usersWithoutLicenses = response?.data?.users_without_license ?? 0
+            state.dashboard.payingCompanies = response?.data?.paying_companies ?? 0
+            state.dashboard.totalCompanies = response?.data?.total_companies ?? 0
+            state.dashboard.nonPayingCompanies = response?.data?.non_paying_companies ?? 0
+            state.dashboard.usersWithLicenses = response?.data?.users_with_licenses ?? 0
+
             state.dashboard.sharedCitizenOne = response?.data?.shared_citizen ?? 0
             state.dashboard.revenue.amount = response?.data?.total_revenue ?? 0
             state.dashboard.companyStorage = response?.data?.company_storage ?? 0

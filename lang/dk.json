@@ -3453,7 +3453,6 @@
             }
         },
         "dashboard": {
-            "activeLicenses": "Aktive licenser",
             "companyStorage": {
                 "companyStorage": "Virksomhedslager",
                 "storagePaid": "Betalt lager",
@@ -3464,18 +3463,19 @@
                     "storageUsed": "Brugt lager"
                 }
             },
-            "companiesWithLicenses": "Virksomheder med licenser",
-            "companiesWithoutLicenses": "Virksomheder uden licenser",
             "dashboard": "Dashboard",
+            "numberOfTotalActiveLincenses": "Antal aktive licenser i alt",
+            "numberOfUnusedLicenses": "Antal ubrugte licenser",
+            "numberOfPayingCompnanies": "Antal betalende virksomheder",
+            "numberOfTotalCompanies": "Antal virksomheder i alt",
+            "numberOfNonpayingCompanies": "Antal ikke-betalende virksomheder",
+            "numberOfUsersWithLicenses": "Antal brugere med licenser",
             "revenue": {
                 "filter": "Filtrer",
                 "filterDate": "Filtrer dato",
                 "revenue": "Omsætning"
             },
             "sharedCitizenOne": "Delt CitizenOne",
-            "unusedLicenses": "Ubrugte licenser",
-            "usersWithLicenses": "Brugere med licenser",
-            "usersWithoutLicenses": "Brugere uden licenser",
             "viewAll": "Se alle"
         },
         "orders": {
