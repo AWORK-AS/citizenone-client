@@ -68,6 +68,7 @@ async function updateMedicineHistory(medicineHistoryDetails: any) {
                 type: medicineHistoryDetails.type,
                 evaluator_uuid: medicineHistoryDetails.evaluator,
                 evaluation_frequency: medicineHistoryDetails.evaluation_frequency,
+                comment: medicineHistoryDetails.comment,
             }
         } else {
             params = {

@@ -78,6 +78,12 @@
                         :error="v$?.formMedicineHistory?.evaluation_frequency?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.evaluation_frequency?.[0]" />
                 </div>
+                <div class="space-y-1">
+                    <FormLabel :for="`comment`" :label="$t('citizens.medicineJournals.history.form.comment')" />
+                    <FormTextArea :id="`comment`" :name="`comment`"
+                        :placeholder="$t('citizens.medicineJournals.history.form.comment')"
+                        v-model="state.formMedicineHistory.comment" />
+                </div>
             </div>
             <div class="space-y-4" v-else>
                 <Disclosure v-slot="{ open }" v-for="(dosage, index) in state.formMedicineHistory.dosages" :key="index">
@@ -227,6 +233,7 @@ const state = reactive({
         evaluator: '',
         evaluation_frequency: [],
         dosages: [],
+        comment: '',
     } as any,
     modal: {
         isMoreThanMedicineDailyConfirmationOpen: false,
