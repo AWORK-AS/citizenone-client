@@ -214,9 +214,6 @@ const rules = computed(() => {
     if (props.formType === 'create') {
         return {
             formNews: {
-                image: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
                 title: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
