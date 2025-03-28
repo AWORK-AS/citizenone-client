@@ -44,9 +44,6 @@
                                                         <span v-if="item.name === 'Daily overview'">
                                                             {{ $t('sidebar.dailyOverview') }}
                                                         </span>
-                                                        <span v-if="item.name === 'Documents'">
-                                                            {{ $t('sidebar.documents') }}
-                                                        </span>
                                                         <span v-if="item.name === 'Duty schedules'">
                                                             {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                                                         </span>
@@ -106,9 +103,6 @@
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
                                         <span v-if="item.name === 'Daily overview'">
                                             {{ $t('sidebar.dailyOverview') }}
-                                        </span>
-                                        <span v-if="item.name === 'Documents'">
-                                            {{ $t('sidebar.documents') }}
                                         </span>
                                         <span v-if="item.name === 'Duty schedules'">
                                             {{ customPagesStore.getCustomPagesName?.dutySchedules }}
@@ -295,14 +289,6 @@ const navigation = [
         icon: 'material-symbols:dashboard',
         activeRouteNames: [
             'citizen-daily-overview',
-        ]
-    },
-    {
-        name: 'Documents',
-        href: '/citizen/documents',
-        icon: 'ph:files',
-        activeRouteNames: [
-            'citizen-documents'
         ]
     },
     {

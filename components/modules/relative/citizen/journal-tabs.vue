@@ -1,5 +1,5 @@
 <template>
-    <Tabs :tabs="state.tabs" :isJustifyBetween="true" @changeTab="changeTab" />
+    <Tabs :tabs="state.tabs" :isJustifyBetween="false" @changeTab="changeTab" />
 </template>
 
 <script setup lang="ts">
@@ -12,15 +12,25 @@ const state = reactive({
             name: 'citizens.tabs.journals',
             href: `/relative/citizens/${citizenUuid}/journals`,
             routeNames: [
-                'citizens-uuid-journals',
+                'relative-citizens-uuid-journals',
             ]
-        }
+        },
+        {
+            name: 'citizens.tabs.documents',
+            href: `/relative/citizens/${citizenUuid}/documents`,
+            routeNames: [
+                'relative-citizens-uuid-documents',
+            ]
+        },
     ] as any,
 })
 
 function changeTab(value: any) {
     if (value === 'Journals' || value === 'Journaler') {
         navigateTo(`/relative/citizens/${citizenUuid}/journals`)
+    }
+    else if (value === 'Documents' || value === 'Dokumenter') {
+        navigateTo(`/relative/citizens/${citizenUuid}/documents`)
     }
 }
 </script>

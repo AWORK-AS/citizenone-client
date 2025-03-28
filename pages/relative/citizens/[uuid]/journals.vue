@@ -33,7 +33,7 @@
                 </NuxtLink>
 
                 <ModulesRelativeCitizenDetailsHeader />
-                <!-- <ModulesRelativeCitizenJournalTabs /> -->
+                <ModulesRelativeCitizenJournalTabs />
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-8 space-y-5">
@@ -239,7 +239,7 @@ const state = reactive({
     dataFilter: [] as any,
     error: {} as Error,
     filter: {
-        date_range: null as any,
+        date_range: [] as any,
         journal: '' as any,
         view: "Standard view"
     },

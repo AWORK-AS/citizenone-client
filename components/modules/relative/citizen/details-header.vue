@@ -27,12 +27,24 @@
                                 </p>
                             </div>
                             <div>
-                                <p class="text-sm font-medium text-gray-700">
-                                    {{ state.selectedCitizen?.data?.email }}
-                                </p>
-                                <p class="text-sm font-medium text-gray-700">
-                                    {{ state.selectedCitizen?.data?.phone }}
-                                </p>
+                                <div class="flex items-center gap-x-1">
+                                    <Icon name="ph:cake" class="h-4 w-4" aria-hidden="true" />
+                                    <p class="text-sm font-medium text-gray-700">
+                                        {{ formatDateToReadable(state.selectedCitizen?.data?.birthday) }}
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-x-1">
+                                    <Icon name="ph:envelope-open" class="h-4 w-4" aria-hidden="true" />
+                                    <p class="text-sm font-medium text-gray-700">
+                                        {{ state.selectedCitizen?.data?.email }}
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-x-1">
+                                    <Icon name="ph:phone" class="h-4 w-4" aria-hidden="true" />
+                                    <p class="text-sm font-medium text-gray-700">
+                                        {{ state.selectedCitizen?.data?.phone }}
+                                    </p>
+                                </div>
                             </div>
                             <div class="space-y-1.5">
                                 <div class="text-xs flex items-center flex-wrap gap-1"
@@ -77,10 +89,12 @@
 
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
     error: {} as Error,

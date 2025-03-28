@@ -1,18 +1,37 @@
 <template>
     <div>
-        <NuxtLayout name="citizen">
+        <NuxtLayout name="relative">
 
             <Head>
-                <Title>{{ $t('citizens.documents.documents') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('citizens.tabs.documents') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
-                <Breadcrumb :links="breadcrumbLinks" />
+                <BreadcrumbRelative :links="breadcrumbLinks">
+                    <template #custom-link>
+                        <div class="flex items-center">
+                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
+                                aria-hidden="true" />
+                            <button @click="navigateTo('/relative/citizens')"
+                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                                {{ customPagesStore.getCustomPagesName?.citizens }}
+                            </button>
+                        </div>
+                    </template>
+                </BreadcrumbRelative>
             </template>
 
-            <template #header>{{ $t('citizens.documents.documents') }}</template>
+            <template #header>{{ $t('citizens.tabs.documents') }}</template>
 
             <div class="space-y-5">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
+                    <Icon name="ph:arrow-left" size="20" class="text-black" />
+                    <span>{{ $t('back') }}</span>
+                </NuxtLink>
+
+                <ModulesRelativeCitizenDetailsHeader />
+                <ModulesRelativeCitizenJournalTabs />
+
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
@@ -69,24 +88,22 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { documentService } from '@/components/api/citizen/DocumentService'
-import { useI18n } from "vue-i18n"
-import { useAlert } from '@/composables/alert'
-import type { Error } from '@/types'
+import { citizenDocumentService } from '@/components/api/relative/CitizenDocumentService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { saveAs } from 'file-saver'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
-const { successAlert } = useAlert()
-const { t } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
-const documentFile = ref(null) as any
+const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
-        name: 'citizens.documents.documents',
+        name: 'citizens.tabs.documents',
         translate: true,
-        href: '/citizen/documents',
+        href: `/relative/citizens/${citizenUuid}/documents`,
     },
 ]
 
@@ -95,31 +112,18 @@ const state = reactive({
         { column: 'name' },
     ],
     columnHeaders: [
-        { name: 'drive.table.name', sorter: true, key: 'name' },
-        { name: 'drive.table.owner' },
-        { name: 'drive.table.dateCreated', sorter: true, key: 'created_at' },
-        { name: 'drive.table.lastModified', sorter: true, key: 'updated_at' },
+        { name: 'citizens.documents.table.name', sorter: true, key: 'name' },
+        { name: 'citizens.documents.table.owner' },
+        { name: 'citizens.documents.table.dateCreated', sorter: true, key: 'created_at' },
+        { name: 'citizens.documents.table.lastModified', sorter: true, key: 'updated_at' },
         { name: '' },
     ],
     dataFilter: {
         search: ''
     },
     error: {} as Error,
-    isPageLoading: false,
     isTableLoading: false,
     documents: [] as any,
-    modal: {
-        isAddDirectoryOpen: false,
-        isArchiveDocumentOpen: false,
-        isDeleteDirectoryOpen: false,
-        isDeleteFileOpen: false,
-        isEditDocumentOpen: false,
-        isMoveFileOpen: false,
-        isUpgradeStorageOpen: false,
-        isUploadFileOpen: false,
-        isViewFolderStructureOpen: false,
-    },
-    selectedDocument: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -138,33 +142,20 @@ const handleRouteChange = () => {
     fetchDocuments()
 }
 
-async function navigateToExternalLink(link: any) {
-    await navigateTo(link, {
-        external: true,
-        open: {
-            target: '_blank',
-        }
-    })
-}
-
-function closeUpgradeStorageModal() {
-    state.modal.isUpgradeStorageOpen = false
-    state.error = {}
-}
-
 async function fetchDocuments(folderUuid: any = null) {
     state.error = {}
     state.isTableLoading = true
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
         const params = {
+            citizen_uuid: citizenUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
             ...(folderUuid && { folder_uuid: folderUuid }),
         }
-        const response = await documentService.getDocuments(params)
+        const response = await citizenDocumentService.getCitizenDocuments(params)
         if (response) {
             state.documents = response
         }
@@ -204,7 +195,7 @@ async function downloadFile(document: any) {
     state.isTableLoading = true
     try {
         const documentUuid = document?.uuid
-        const response = await documentService.downloadFile(documentUuid)
+        const response = await citizenDocumentService.downloadCitizenFile(documentUuid)
         if (response) {
             saveAs(response, document?.name)
         }
@@ -214,107 +205,7 @@ async function downloadFile(document: any) {
     state.isTableLoading = false
 }
 
-function triggerFileInput() {
-    documentFile.value.click()
-}
-
-async function uploadFile(event: any) {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const folderUuid = router?.currentRoute?.value?.query?.folder_uuid as any
-        let params = new FormData()
-        params.append('type', 'file')
-        params.append('is_admin_access', 'false')
-        params.append('file', event.target.files[0])
-        if (folderUuid) {
-            params.append('folder_uuid', folderUuid)
-        }
-        const response = await documentService.saveFileFolder(params)
-        if (response?.data) {
-            resetFileInput()
-            fetchDocuments()
-            successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded')}.`)
-        }
-    } catch (error: any) {
-        state.error = error
-        resetFileInput()
-        if (error?.message === 'You do not have enough storage space to upload new files.') {
-            state.modal.isUpgradeStorageOpen = true
-        } else if (error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
-            state.modal.isUpgradeStorageOpen = true
-        }
-    }
-    state.isPageLoading = false
-}
-
-const resetFileInput = () => {
-    if (documentFile.value) {
-        documentFile.value.value = null
-    }
-}
-
 async function viewDirectory(document: any) {
-    await navigateTo(`/drive?folder_uuid=${document.uuid}`)
-}
-
-function editDocument(document: any) {
-    state.selectedDocument = document
-    state.modal.isEditDocumentOpen = true
-}
-
-function confirmDocumentArchiving(document: any) {
-    state.selectedDocument = document
-    state.modal.isArchiveDocumentOpen = true
-}
-
-async function archiveDocument() {
-    state.error = {}
-    state.isTableLoading = true
-    try {
-        const documentUuid = state.selectedDocument?.uuid
-        const response = await documentService.archiveUnarchiveDocument(documentUuid)
-        if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('drive.alert.documentSuccessfullyArchived')}.`)
-            fetchDocuments()
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isTableLoading = false
-}
-
-function moveFileConfirmation(document: any) {
-    state.selectedDocument = document
-    state.modal.isMoveFileOpen = true
-}
-
-function deleteDirectoryConfirmation(document: any) {
-    state.selectedDocument = document
-    state.modal.isDeleteDirectoryOpen = true
-}
-
-function deleteFileConfirmation(document: any) {
-    state.selectedDocument = document
-    state.modal.isDeleteFileOpen = true
-}
-
-async function deleteDocument() {
-    state.error = {}
-    state.isTableLoading = true
-    try {
-        const response = await documentService.deleteDocument(state.selectedDocument.uuid)
-        if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            fetchDocuments()
-            if (state.selectedDocument.type === 'folder') {
-                successAlert(`${t('alert.success')}!`, `${t('drive.alert.deletedFolderSuccessfully')}.`)
-            } else {
-                successAlert(`${t('alert.success')}!`, `${t('drive.alert.deletedFileSuccessfully')}.`)
-            }
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isTableLoading = false
+    await navigateTo(`/relative/citizens/${citizenUuid}/documents?folder_uuid=${document.uuid}`)
 }
 </script>

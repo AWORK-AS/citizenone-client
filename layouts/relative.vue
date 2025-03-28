@@ -275,6 +275,7 @@ const navigation = [
         activeRouteNames: [
             'relative-citizens',
             'relative-citizens-uuid-journals',
+            'relative-citizens-uuid-documents',
         ]
     },
 ] as any
