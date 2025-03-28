@@ -106,6 +106,14 @@
                                                         :options="state.options.evaluation_frequencies"
                                                         v-model="state.formGiveMedicine.medicines[selecedMedicineIndex].evaluation_frequency" />
                                                 </div>
+                                                <div class="space-y-1">
+                                                    <FormLabel :for="`comment_${selecedMedicineIndex}`"
+                                                        :label="$t('citizens.medicineJournals.history.form.comment')" />
+                                                    <FormTextArea :id="`comment_${selecedMedicineIndex}`"
+                                                        :name="`comment_${selecedMedicineIndex}`"
+                                                        :placeholder="$t('citizens.medicineJournals.history.form.comment')"
+                                                        v-model="state.formGiveMedicine.medicines[selecedMedicineIndex].comment" />
+                                                </div>
                                             </div>
                                             <div class="space-y-4" v-else>
                                                 <Disclosure v-slot="{ open }"
@@ -357,6 +365,7 @@ async function fetchAllSelectedMedicines() {
                         type: '',
                         evaluator_uuid: '',
                         evaluation_frequency: [],
+                        comment: '',
                     })
                 } else {
                     medicines.push({
