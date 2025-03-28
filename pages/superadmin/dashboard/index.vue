@@ -8,27 +8,32 @@
 
             <template #header>{{ $t('superadmin.dashboard.dashboard') }}</template>
 
-            <div>
+            <div class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfTotalCompanies')"
+                        :value="state.dashboard.totalCompanies" class="cursor-pointer hover:bg-gray-50"
+                        @click="navigateTo('/superadmin/companies')" />
+                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfPayingCompnanies')"
+                        :value="state.dashboard.payingCompanies" class="cursor-pointer hover:bg-gray-50"
+                        @click="navigateTo('/superadmin/companies')" />
+                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfNonpayingCompanies')"
+                        :value="state.dashboard.nonPayingCompanies" class="cursor-pointer hover:bg-gray-50"
+                        @click="navigateTo('/superadmin/companies')" />
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfUsersWithLicenses')"
+                        :value="state.dashboard.usersWithLicenses" />
                     <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfTotalActiveLincenses')"
                         :value="state.dashboard.totalActiveLicenses" />
                     <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfUnusedLicenses')"
                         :value="state.dashboard.unusedLicenses" />
-                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfPayingCompnanies')"
-                        :value="state.dashboard.payingCompanies" />
-                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfTotalCompanies')"
-                        :value="state.dashboard.totalCompanies" />
-                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfNonpayingCompanies')"
-                        :value="state.dashboard.nonPayingCompanies" />
-                    <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfUsersWithLicenses')"
-                        :value="state.dashboard.usersWithLicenses" />
-                    <ModulesSuperadminDashboardRevenueCard :title="$t('superadmin.dashboard.revenue.revenue')"
-                        :revenueData="state.dashboard.revenue" @filterDate="filterDate" />
                     <ModulesSuperadminDashboardCard title="Shared CitizenOne"
                         :value="state.dashboard.sharedCitizenOne" />
                     <ModulesSuperadminDashboardCompanyStorageCard
                         :title="$t('superadmin.dashboard.companyStorage.companyStorage')"
                         :companies="state.dashboard.companyStorage" />
+                    <ModulesSuperadminDashboardRevenueCard :title="$t('superadmin.dashboard.revenue.revenue')"
+                        :revenueData="state.dashboard.revenue" @filterDate="filterDate" />
                 </div>
             </div>
         </NuxtLayout>
