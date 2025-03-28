@@ -15,29 +15,8 @@
             v-else>
             <div v-for="(medicine, index) in state.medicines?.data" :key="index"
                 class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100" @click="viewMedicineHistory(medicine)">
-                <div class="flex justify-between gap-x-2">
-                    <div class="flex gap-x-2">
-                        <img :src="medicine?.citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname}`"
-                            class="rounded-full w-12 h-12 object-cover" />
-                        <div>
-                            <p class="text-sm font-medium text-primary">
-                                {{ medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname }}
-                            </p>
-                            <Badge type="primary" class="flex items-center w-fit" v-if="medicine?.is_pn_medicine">
-                                <p class="text-xxs px-2">
-                                    {{ $t('citizens.medicineJournals.table.pnMedicine') }}
-                                </p>
-                            </Badge>
-                            <h3 class="text-base font-semibold">
-                                {{ medicine?.medicine }}
-                            </h3>
-                            <p class="text-xxs" v-if="medicine?.user?.firstname && medicine?.user?.lastname">
-                                {{ $t('dailyOverview.createdBy') }}
-                                {{ medicine?.user?.firstname + ' ' + medicine?.user?.lastname }}
-                            </p>
-                        </div>
-                    </div>
-                    <div>
+                <div>
+                    <div class="flex items-center justify-end">
                         <Badge type="active" class="flex items-center w-fit" v-if="medicine?.given_today">
                             <p class="text-xxs px-2">
                                 {{ $t('dailyOverview.dailyMedicineOverview.given') }}
@@ -49,6 +28,34 @@
                             </p>
                         </Badge>
                     </div>
+                    <div>
+                        <div>
+                            <div class="flex items-center gap-x-2">
+                                <img :src="medicine?.citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname}`"
+                                    class="rounded-full w-11 h-11 object-cover" />
+                                <span>{{ medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname }}</span>
+                            </div>
+                            <Badge type="primary" class="flex items-center w-fit" v-if="medicine?.is_pn_medicine">
+                                <p class="text-xxs px-2">
+                                    {{ $t('citizens.medicineJournals.table.pnMedicine') }}
+                                </p>
+                            </Badge>
+                            <h3 class="text-base font-semibold">
+                                {{ language.locale.value === 'en' ? medicine?.medicine?.en_name
+                                    : medicine?.medicine?.dk_name }}
+                            </h3>
+                            <div class="text-xxs flex flex-wrap gap-1" v-if="medicine.due_dates?.length > 0">
+                                <span v-for="(due_date, index) in medicine.due_dates" :key=index
+                                    class="bg-primary px-2 py-1 text-white rounded-md">
+                                    {{ formatDateToReadable(due_date) }}
+                                </span>
+                            </div>
+                            <p class="text-xxs mt-0.5" v-if="medicine?.user?.firstname && medicine?.user?.lastname">
+                                {{ $t('dailyOverview.createdBy') }}
+                                {{ medicine?.user?.firstname + ' ' + medicine?.user?.lastname }}
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 <div class="mt-2 px-1 space-y-1">
                     <div class="text-xxs flex flex-wrap gap-1" v-if="medicine.time?.length > 0">
@@ -56,12 +63,6 @@
                             class="bg-primary px-2 py-1 text-white rounded-md">
                             {{ medicine?.daily_dose }} @
                             {{ time }}
-                        </span>
-                    </div>
-                    <div class="text-xxs flex flex-wrap gap-1" v-if="medicine.due_dates?.length > 0">
-                        <span v-for="(due_date, index) in medicine.due_dates" :key=index
-                            class="bg-primary px-2 py-1 text-white rounded-md">
-                            {{ formatDateToReadable(due_date) }}
                         </span>
                     </div>
                 </div>
@@ -76,6 +77,7 @@
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { useDepartmentStore } from '@/store/department'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -87,6 +89,7 @@ const props = defineProps({
 
 const { formatDateToReadable } = useDatetimeFormatter()
 const departmentStore = useDepartmentStore()
+const language = useI18n()
 
 const state = reactive({
     isPageLoading: false,
