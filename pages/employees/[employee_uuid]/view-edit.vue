@@ -26,7 +26,7 @@
                                 {{ $t('employees.archiveEmployee') }}
                             </FormButton>
                         </div>
-                        <div class="flex justify-end">
+                        <div class="flex justify-end" v-if="userStore.getUser?.uuid !== employeeUuid">
                             <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                 @click="confirmEmployeeDeletion">
                                 {{ $t('employees.deleteEmployee') }}
