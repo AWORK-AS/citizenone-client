@@ -63,33 +63,33 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.medicines?.data?.length === 0))">
                                 <tr v-for="(medicine, index) in state.medicines?.data" :key="index">
-                                    <td width="15%" class="pl-4">
-                                        <div class="flex items-center">
-                                            <div>
-                                                <FormCheckbox :id="`medicine_${medicine?.uuid}`"
-                                                    :value="citizenMedicineStore.getSelectedMedicines?.includes(medicine?.uuid)"
-                                                    @click="addRemoveMedicine(medicine)" />
+                                    <td width="30%">
+                                        <div class="flex flex-col gap-2">
+                                            <div class="flex items-center">
+                                                <div>
+                                                    <FormCheckbox :id="`medicine_${medicine?.uuid}`"
+                                                        :value="citizenMedicineStore.getSelectedMedicines?.includes(medicine?.uuid)"
+                                                        @click="addRemoveMedicine(medicine)" />
+                                                </div>
+                                                <img :src="medicine?.medicine?.image_url" alt="Image failed to load"
+                                                    class="w-28" v-if="medicine?.medicine?.image_url">
                                             </div>
-                                            <img :src="medicine?.medicine?.image_url" alt="Image failed to load"
-                                                class="w-28" v-if="medicine?.medicine?.image_url">
-                                        </div>
-                                    </td>
-                                    <td width="20%">
-                                        <div class="space-y-1">
-                                            <p v-if="language.locale.value === 'en'">
-                                                {{ medicine?.medicine?.en_name }}
-                                            </p>
-                                            <p v-if="language.locale.value === 'dk'">
-                                                {{ medicine?.medicine?.dk_name }}
-                                            </p>
-                                            <div v-if="medicine.is_pn_medicine">
-                                                <Badge type="primary" class="w-fit">
-                                                    <p class="text-xxs">
-                                                        {{
-                                                            $t('citizens.medicineJournals.table.pnMedicine')
-                                                        }}
-                                                    </p>
-                                                </Badge>
+                                            <div class="space-y-1 ml-7">
+                                                <p v-if="language.locale.value === 'en'">
+                                                    {{ medicine?.medicine?.en_name }}
+                                                </p>
+                                                <p v-if="language.locale.value === 'dk'">
+                                                    {{ medicine?.medicine?.dk_name }}
+                                                </p>
+                                                <div v-if="medicine.is_pn_medicine">
+                                                    <Badge type="primary" class="w-fit">
+                                                        <p class="text-xxs">
+                                                            {{
+                                                                $t('citizens.medicineJournals.table.pnMedicine')
+                                                            }}
+                                                        </p>
+                                                    </Badge>
+                                                </div>
                                             </div>
                                         </div>
                                     </td>
@@ -99,7 +99,7 @@
                                     <td width="10%">
                                         <span>{{ medicine?.max_daily_dose }}</span>
                                     </td>
-                                    <td width="25%">
+                                    <td width="30%">
                                         <div>
                                             <p>{{ medicine?.dosage?.name }}</p>
                                             <div class="space-y-1">
@@ -258,7 +258,6 @@ const state = reactive({
         { column: 'medicine' },
     ],
     columnHeaders: [
-        { name: 'citizens.medicineJournals.table.image' },
         { name: 'citizens.medicineJournals.table.medicine', sorter: true, key: 'medicine' },
         { name: 'citizens.medicineJournals.table.strength' },
         { name: 'citizens.medicineJournals.table.maxDailyDose' },

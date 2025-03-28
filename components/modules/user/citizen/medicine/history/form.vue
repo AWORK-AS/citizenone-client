@@ -260,6 +260,7 @@ onMounted(() => {
         dosages: [],
         evaluator: props.selectedMedicineHistory.evaluator?.uuid,
         evaluation_frequency: [],
+        comment: props.selectedMedicineHistory.comment,
     }
     if (props.selectedMedicineHistory.evaluation_frequency?.length > 0) {
         props.selectedMedicineHistory.evaluation_frequency?.forEach((time: any) => {
