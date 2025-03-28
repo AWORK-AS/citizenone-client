@@ -3,9 +3,10 @@
         <Modal size="md" :title="$t('plansandgoals.editSubgoal')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserCitizenPlanGoalSubgoalForm formType="update" :selectedSubgoal="props.selectedSubgoal"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="updateSubgoal" />
+                    <ModulesUserCitizenPlanGoalSubgoalFormExtendDeadline formType="update"
+                        :selectedSubgoal="props.selectedSubgoal" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
+                        @submitForm="updateSubgoal" />
                 </LoadingSpinner>
             </template>
         </Modal>

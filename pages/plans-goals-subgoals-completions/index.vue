@@ -103,48 +103,42 @@
                                 <div>
                                     <div class="flex items-center gap-2 flex-wrap md:flex-nowrap"
                                         v-if="pendingPlanGoalSubgoal?.type === 'Plan'">
-                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')">
-                                            <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="markPlanAsCompletedConfirmation(pendingPlanGoalSubgoal)">
-                                                <Icon name="ph:check" class="size-4" />
-                                            </FormButton>
-                                        </Tooltip>
-                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')">
-                                            <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="extendPlan(pendingPlanGoalSubgoal)">
-                                                <Icon name="ph:arrows-out" class="size-4" />
-                                            </FormButton>
-                                        </Tooltip>
+                                        <FormButton class="rounded-md" buttonSize="sm"
+                                            @click="markPlanAsCompletedConfirmation(pendingPlanGoalSubgoal)">
+                                            <Icon name="ph:check" class="size-4" />
+                                            {{ $t('plansandgoals.forCompletion.markAsCompleted') }}
+                                        </FormButton>
+                                        <FormButton class="rounded-md" buttonSize="sm"
+                                            @click="extendPlan(pendingPlanGoalSubgoal)">
+                                            <Icon name="ph:arrows-out" class="size-4" />
+                                            {{ $t('plansandgoals.forCompletion.extendDeadline') }}
+                                        </FormButton>
                                     </div>
                                     <div class="flex items-center gap-2 flex-wrap md:flex-nowrap"
                                         v-if="pendingPlanGoalSubgoal?.type === 'Goal'">
-                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')">
-                                            <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="markGoalAsCompletedConfirmation(pendingPlanGoalSubgoal)">
-                                                <Icon name="ph:check" class="size-4" />
-                                            </FormButton>
-                                        </Tooltip>
-                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')">
-                                            <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="extendGoal(pendingPlanGoalSubgoal)">
-                                                <Icon name="ph:arrows-out" class="size-4" />
-                                            </FormButton>
-                                        </Tooltip>
+                                        <FormButton class="rounded-md" buttonSize="sm"
+                                            @click="markGoalAsCompletedConfirmation(pendingPlanGoalSubgoal)">
+                                            <Icon name="ph:check" class="size-4" />
+                                            {{ $t('plansandgoals.forCompletion.markAsCompleted') }}
+                                        </FormButton>
+                                        <FormButton class="rounded-md" buttonSize="sm"
+                                            @click="extendGoal(pendingPlanGoalSubgoal)">
+                                            <Icon name="ph:arrows-out" class="size-4" />
+                                            {{ $t('plansandgoals.forCompletion.extendDeadline') }}
+                                        </FormButton>
                                     </div>
                                     <div class="flex items-center gap-2 flex-wrap md:flex-nowrap"
                                         v-if="pendingPlanGoalSubgoal?.type === 'Subgoal'">
-                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')">
-                                            <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="markSubgoalAsCompletedConfirmation(pendingPlanGoalSubgoal)">
-                                                <Icon name="ph:check" class="size-4" />
-                                            </FormButton>
-                                        </Tooltip>
-                                        <Tooltip :text="$t('plansandgoals.forCompletion.extendDeadline')">
-                                            <FormButton class="rounded-md" buttonSize="sm"
-                                                @click="extendSubgoal(pendingPlanGoalSubgoal)">
-                                                <Icon name="ph:arrows-out" class="size-4" />
-                                            </FormButton>
-                                        </Tooltip>
+                                        <FormButton class="rounded-md" buttonSize="sm"
+                                            @click="markSubgoalAsCompletedConfirmation(pendingPlanGoalSubgoal)">
+                                            <Icon name="ph:check" class="size-4" />
+                                            {{ $t('plansandgoals.forCompletion.markAsCompleted') }}
+                                        </FormButton>
+                                        <FormButton class="rounded-md" buttonSize="sm"
+                                            @click="extendSubgoal(pendingPlanGoalSubgoal)">
+                                            <Icon name="ph:arrows-out" class="size-4" />
+                                            {{ $t('plansandgoals.forCompletion.extendDeadline') }}
+                                        </FormButton>
                                     </div>
                                 </div>
                             </div>

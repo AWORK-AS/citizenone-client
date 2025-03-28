@@ -4,7 +4,7 @@
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserCitizenPlanGoalForm formType="update" :selectedGoal="props.selectedGoal"
+                    <ModulesUserCitizenPlanGoalFormExtendDeadline formType="update" :selectedGoal="props.selectedGoal"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateGoal" />
                 </LoadingSpinner>
@@ -58,6 +58,7 @@ async function updateGoal(goalDetails: any) {
             description: goalDetails.description,
             completion_date: goalDetails.completion_date,
             date_completed: goalDetails.date_completed,
+            is_completed: goalDetails.is_completed,
             score: goalDetails.score,
         }
         const response = await goalService.updateGoal(goalUuid, params)
