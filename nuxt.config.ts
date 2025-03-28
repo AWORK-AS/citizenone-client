@@ -12,6 +12,19 @@ export default defineNuxtConfig({
           type: 'text/javascript',
           async: true, // Optional: Use async or defer if needed
           defer: true  // Optional: Use async or defer if needed
+        },
+        {
+          src: 'https://www.googletagmanager.com/gtag/js?id=AW-16858750370',
+          async: true
+        },
+        {
+          type: 'text/javascript',
+          children: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-16858750370');
+          `
         }
       ]
     }

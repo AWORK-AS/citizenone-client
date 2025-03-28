@@ -10,7 +10,14 @@
                 {{ formatDateToReadable(props?.revenueData?.formDateRange?.end_date) }})
             </button>
         </div>
-        <p class="text-xl font-semibold">{{ formatAmount(props.revenueData.amount) }}</p>
+        <div class="flex items-end gap-x-1">
+            <p class="text-xl font-semibold">
+                {{ formatAmount(props.revenueData.amount) }}
+            </p>
+            <p class="lowercase text-xs py-1">
+                {{ $t('excludeVat') }}
+            </p>
+        </div>
         <ModulesSuperadminDashboardModalRevenueDateRange :isModalOpen="state.modal.isFilterDateOpen"
             :revenueData="props.revenueData" @close="state.modal.isFilterDateOpen = false" @filterDate="filterDate" />
     </div>
