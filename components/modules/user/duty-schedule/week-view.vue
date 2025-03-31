@@ -665,8 +665,14 @@ function calculateShiftWidth(shift: any, weekIndex: string) {
         }
     } else if (dayDifference === 2) {
         return '27rem' // Width for shifts spanning 3 days
-    } else {
-        return 'auto' // Default width for single-day shifts
+    } else if (dayDifference === 3) {
+        return '36.5rem' // Width for shifts spanning 4 days
+    } else if (dayDifference === 4) {
+        return '46rem' // Width for shifts spanning 5 days
+    } else if (dayDifference === 5) {
+        return '55.5rem' // Width for shifts spanning 6 days
+    } else if (dayDifference >= 6) {
+        return '65rem' // Width for shifts spanning 7 days
     }
 }
 
