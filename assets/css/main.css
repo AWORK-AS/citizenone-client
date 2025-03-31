@@ -29,37 +29,28 @@ input:disabled {
 /* ----------------------------------------------------------------------------------------------------
     Scrollbar
 ---------------------------------------------------------------------------------------------------- */
-/* Style the scrollbar */
+/* Style for the scrollbar */
 ::-webkit-scrollbar {
-    width: 8px;  /* width of the scrollbar */
-    height: 8px; /* height of the horizontal scrollbar */
+    width: 12px;  /* Adjust width for vertical scrollbar */
+    height: 12px; /* Adjust height for horizontal scrollbar */
 }
 
-/* Style the scrollbar track (background) */
+/* Style for the scrollbar track (the background) */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1; /* light background for track */
-    border-radius: 10px; /* rounded corners */
+    background: #f1f1f1;  /* Light gray */
+    border-radius: 10px;
 }
 
-/* Style the scrollbar thumb (the draggable part) */
+/* Style for the scrollbar thumb (the draggable part) */
 ::-webkit-scrollbar-thumb {
-    background: #888; /* dark grey thumb */
-    border-radius: 10px; /* rounded corners */
+    background: #888;  /* Darker gray */
+    border-radius: 10px;
 }
-
-/* Style the scrollbar thumb on hover */
+  
+/* Style when the scrollbar is hovered */
 ::-webkit-scrollbar-thumb:hover {
-    background: #555; /* darker grey on hover */
-}
-
-/* Optional: hide the scrollbar until it's needed (like on macOS) */
-body {
-    overflow: auto;
-    scrollbar-width: thin; /* Firefox */
-    scrollbar-color: #888 #f1f1f1; /* Firefox: thumb and track colors */
-}
-
-
+    background: #555;  /* Darker when hovered */
+}  
 /* ----------------------------------------------------------------------------------------------------
     Table
 ---------------------------------------------------------------------------------------------------- */
