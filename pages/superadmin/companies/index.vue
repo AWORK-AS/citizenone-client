@@ -91,6 +91,9 @@ import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
+const paying = router?.currentRoute?.value?.query?.paying
+console.log('paying', paying)
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
@@ -133,11 +136,22 @@ async function fetchCompanies() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const params = {
-            page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
-            ...state.dataFilter
+        let params = {}
+        if (paying) {
+            params = {
+                paying: paying,
+                page: currentTablePage,
+                sortField: state.sortData.sortField,
+                sortOrder: state.sortData.sortOrder,
+                ...state.dataFilter
+            }
+        } else {
+            params = {
+                page: currentTablePage,
+                sortField: state.sortData.sortField,
+                sortOrder: state.sortData.sortOrder,
+                ...state.dataFilter
+            }
         }
         const response = await companyService.getCompanies(params)
         if (response) {

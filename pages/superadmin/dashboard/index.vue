@@ -15,10 +15,10 @@
                         @click="navigateTo('/superadmin/companies')" />
                     <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfPayingCompnanies')"
                         :value="state.dashboard.payingCompanies" class="cursor-pointer hover:bg-gray-50"
-                        @click="navigateTo('/superadmin/companies')" />
+                        @click="navigateTo('/superadmin/companies?paying=true')" />
                     <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfNonpayingCompanies')"
                         :value="state.dashboard.nonPayingCompanies" class="cursor-pointer hover:bg-gray-50"
-                        @click="navigateTo('/superadmin/companies')" />
+                        @click="navigateTo('/superadmin/companies?paying=false')" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <ModulesSuperadminDashboardCard :title="$t('superadmin.dashboard.numberOfUsersWithLicenses')"
