@@ -12,6 +12,13 @@
                                 :placeholder="$t('citizens.citizenJournals.filter.filterDate')" />
                             <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
                         </div>
+                        <div class="space-y-1">
+                            <p class="text-sm text-gray-600">
+                                {{ $t('journalNoteTags.journalNoteTags') }}
+                            </p>
+                            <FormSelectMultiple id="tags" :options="state.options.tags"
+                                v-model="state.downloadForm.tags" />
+                        </div>
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.downloadForm.include_risk_assessment = !state.downloadForm.include_risk_assessment">
                             <FormCheckbox :value="state.downloadForm.include_risk_assessment" />
@@ -38,6 +45,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
 import { journalService } from '@/components/api/user/JournalService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -62,12 +70,16 @@ const state = reactive({
         start_date: '',
         end_date: '',
         include_risk_assessment: false,
+        tags: [],
     },
     error: {} as Error,
     filter: {
         date_range: [],
     },
-    isPageLoading: false
+    isPageLoading: false,
+    options: {
+        tags: [],
+    },
 })
 
 const rules = computed(() => {
@@ -91,6 +103,31 @@ watch(() => state.filter.date_range, (dates: any) => {
     state.downloadForm.end_date = dates?.[1]
 })
 
+onMounted(() => {
+    fetchAllJournalNoteTags()
+})
+
+async function fetchAllJournalNoteTags() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await journalNoteTagService.getAllJournalNoteTags()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (tag: any) => options.push({
+                    value: tag?.uuid,
+                    label: tag?.name,
+                })
+            )
+            state.options.tags = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 async function downloadJournals() {
     state.error = {}
     state.isPageLoading = true
@@ -102,6 +139,7 @@ async function downloadJournals() {
                 start_date: state.downloadForm.start_date,
                 end_date: state.downloadForm.end_date,
                 include_risk_assessment: state.downloadForm.include_risk_assessment,
+                journal_tags_uuid: Array(state.downloadForm.tags),
             }
             const response = await journalService.downloadJournals(params)
             if (response) {
