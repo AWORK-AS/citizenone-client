@@ -58,6 +58,7 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
+        seniority_date: '',
         departments: [],
         role: '',
         street: '',
@@ -93,6 +94,7 @@ async function saveEmployee(employeeDetails: any) {
         params.append('email', employeeDetails.email)
         params.append('phone', employeeDetails.phone)
         params.append('birthday', employeeDetails.birthday)
+        params.append('seniority_date', employeeDetails.seniority_date)
         params.append('departments_uuid', JSON.stringify(employeeDetails.departments))
         params.append('role', employeeDetails.role)
         params.append('permission', JSON.stringify(employeeDetails.permissions))

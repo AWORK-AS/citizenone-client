@@ -71,6 +71,13 @@
                         <FormError :error="props?.error?.errors?.birthday?.[0]" />
                     </div>
                 </div>
+                <div class="space-y-1">
+                    <FormLabel for="seniority_date" :label="$t('employees.form.seniorityDate')" />
+                    <FormDateField id="seniority_date" name="seniority_date"
+                        :placeholder="$t('employees.form.seniorityDate')" v-model="state.formEmployee.seniority_date" />
+                    <FormError :error="v$?.formEmployee?.seniority_date?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.seniority_date?.[0]" />
+                </div>
                 <div class="grid grid-cols-1 gap-3" :class="[
                     userStore.getUser?.roles?.[0]?.name === 'Admin' && 'md:grid-cols-2'
                 ]">
@@ -464,6 +471,7 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
+        seniority_date: '',
         departments: [],
         role: '',
         street: '',
@@ -555,6 +563,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             email: newValue.email,
             phone: newValue.phone,
             birthday: newValue.birthday,
+            seniority_date: newValue.seniority_date,
             departments: newValue.departments,
             role: newValue.role,
             street: newValue.street,

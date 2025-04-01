@@ -5,6 +5,7 @@ export interface EmployeeForm {
     email: string,
     phone: string,
     birthday: string,
+    seniority_date: string,
     departments: any,
     role: string,
     street: string,

@@ -1889,6 +1889,7 @@
             "postCode": "Post Code",
             "region": "Region",
             "role": "Role",
+            "seniorityDate": "Seniority date",
             "street": "Street"
         },
         "newEmployee": "New employee",

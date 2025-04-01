@@ -1889,6 +1889,7 @@
             "postCode": "Postnummer",
             "region": "Region",
             "role": "Rolle",
+            "seniorityDate": "Anciennitetsdato",
             "street": "Gade"
         },
         "newEmployee": "Ny medarbejder",
