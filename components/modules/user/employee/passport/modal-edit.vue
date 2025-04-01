@@ -3,7 +3,7 @@
         <Modal size="md" :title="$t('employees.documents.editDocument')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserEmployeeCriminalRecordForm formType="update"
+                    <ModulesUserEmployeePassportForm formType="update"
                         :selectedEmployeeDocument="props.selectedEmployeeDocument" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="updateEmployeeDocument" />

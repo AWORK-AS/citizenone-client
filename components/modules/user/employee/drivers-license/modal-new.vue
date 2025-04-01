@@ -3,7 +3,7 @@
         <Modal size="md" :title="$t('employees.documents.newDocument')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserEmployeeEmploymentContractForm formType="create"
+                    <ModulesUserEmployeeDriversLicenseForm formType="create"
                         :selectedEmployeeDocument="state.formEmployeeDocument" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveEmployeeDocument" />

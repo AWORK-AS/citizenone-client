@@ -1,18 +1,17 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('employees.documents.editDocument')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('employees.documents.newDocument')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserEmployeeCriminalRecordForm formType="update"
-                        :selectedEmployeeDocument="props.selectedEmployeeDocument" :error="state.error"
+                    <ModulesUserEmployeePassportForm formType="create"
+                        :selectedEmployeeDocument="state.formEmployeeDocument" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="updateEmployeeDocument" />
+                        @submitForm="saveEmployeeDocument" />
                 </LoadingSpinner>
             </template>
         </Modal>
     </div>
 </template>
-
 
 <script setup lang="ts">
 import { employeeDocumentService } from '@/components/api/user/EmployeeDocumentService'
@@ -22,14 +21,12 @@ import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const router = useRouter()
+const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 
 const props = defineProps({
     isModalOpen: {
         type: Boolean,
-        required: true,
-    },
-    selectedEmployeeDocument: {
-        type: Object,
         required: true,
     },
 })
@@ -37,7 +34,11 @@ const emit = defineEmits(['close', 'refreshEmployeeDocuments'])
 
 const state = reactive({
     error: {} as Error,
-    isPageLoading: false
+    formEmployeeDocument: {
+        file: '',
+        note: '',
+    },
+    isPageLoading: false,
 })
 
 function closeModal() {
@@ -48,18 +49,18 @@ function refreshEmployeeDocuments() {
     emit('refreshEmployeeDocuments')
 }
 
-async function updateEmployeeDocument(employeeDocumentDetails: any) {
+async function saveEmployeeDocument(employeeDocumentDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const selectedEmployeeDocumentUuid = props.selectedEmployeeDocument?.uuid
-        const params = {
-            name: employeeDocumentDetails.name,
-            note: employeeDocumentDetails.note,
-        }
-        const response = await employeeDocumentService.updateDocument(selectedEmployeeDocumentUuid, params)
+        let params = new FormData()
+        params.append('employee_uuid', employeeUuid.toString())
+        params.append('file', employeeDocumentDetails.file)
+        params.append('file_type', 'passport')
+        params.append('note', employeeDocumentDetails.note)
+        const response = await employeeDocumentService.saveDocument(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('employees.documents.form.alert.documentSuccessfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('employees.documents.form.alert.documentSuccessfullySaved')}.`)
             refreshEmployeeDocuments()
             closeModal()
         }

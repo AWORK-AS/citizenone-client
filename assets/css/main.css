@@ -29,28 +29,25 @@ input:disabled {
 /* ----------------------------------------------------------------------------------------------------
     Scrollbar
 ---------------------------------------------------------------------------------------------------- */
-/* Style for the scrollbar */
-::-webkit-scrollbar {
-    width: 12px;  /* Adjust width for vertical scrollbar */
-    height: 12px; /* Adjust height for horizontal scrollbar */
+/* Apply only if .custom-scrollbar is on the body */
+.custom-scrollbar ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
 }
 
-/* Style for the scrollbar track (the background) */
-::-webkit-scrollbar-track {
-    background: #f1f1f1;  /* Light gray */
+.custom-scrollbar ::-webkit-scrollbar-track {
+    background: #f1f1f1;
     border-radius: 10px;
 }
 
-/* Style for the scrollbar thumb (the draggable part) */
-::-webkit-scrollbar-thumb {
-    background: #888;  /* Darker gray */
+.custom-scrollbar ::-webkit-scrollbar-thumb {
+    background: #888;
     border-radius: 10px;
 }
-  
-/* Style when the scrollbar is hovered */
-::-webkit-scrollbar-thumb:hover {
-    background: #555;  /* Darker when hovered */
-}  
+
+.custom-scrollbar ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+} 
 /* ----------------------------------------------------------------------------------------------------
     Table
 ---------------------------------------------------------------------------------------------------- */
