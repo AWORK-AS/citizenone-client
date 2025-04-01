@@ -528,6 +528,15 @@
             "useTemplate": "Use template"
         },
         "citizenJournals": {
+            "actions": {
+                "addToFavorite": "Add to favorite",
+                "delete": "Delete",
+                "edit": "Edit",
+                "lock": "Lock journal",
+                "logs": "Logs",
+                "removeFromFavorite": "Remove from favorite",
+                "unlock": "Unlock journal"
+            },
             "alert": {
                 "addedToFavorites": "Journal successfully added to favorites",
                 "deletedSuccessfully": "Journal successfully deleted",

@@ -213,27 +213,43 @@
                                     </div>
                                     <div class="ms-auto">
                                         <div class="flex items-center gap-x-2">
-                                            <FormButton class="rounded-md" buttonSize="xs" @click="editJournal(journal)"
-                                                v-if=journal?.is_editable>
-                                                <Icon name="ph:pencil-duotone" class="size-4" />
-                                            </FormButton>
-                                            <FormButton buttonSize="xs" :class="[
-                                                journal?.is_favorite && 'border-secondary bg-secondary text-white',
-                                                'rounded-md w-full md:w-fit']"
-                                                @click="addRemoveJournalToFavorite(journal.uuid)">
-                                                <Icon name="ph:star" class="size-4" />
-                                            </FormButton>
-                                            <FormButton buttonSize="xs" :class="[
-                                                journal?.is_locked && 'border-secondary bg-secondary text-white',
-                                                'rounded-md w-full md:w-fit']"
-                                                @click="lockUnlockJournal(journal.uuid)">
-                                                <Icon name="ph:lock" class="size-4" v-if="journal.is_locked" />
-                                                <Icon name="ph:lock-open" class="size-4" v-else />
-                                            </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="xs"
-                                                @click="confirmJournalDeletion(journal)" v-if="journal?.is_deletable">
-                                                <Icon name="ph:trash-duotone" class="size-4" />
-                                            </FormButton>
+                                            <Tooltip :text="$t('citizens.citizenJournals.actions.edit')">
+                                                <FormButton class="rounded-md" buttonSize="xs"
+                                                    @click="editJournal(journal)" v-if=journal?.is_editable>
+                                                    <Icon name="ph:pencil-duotone" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip
+                                                :text="journal?.is_favorite ? $t('citizens.citizenJournals.actions.removeFromFavorite') : $t('citizens.citizenJournals.actions.addToFavorite')">
+                                                <FormButton buttonSize="xs" :class="[
+                                                    journal?.is_favorite && 'border-secondary bg-secondary text-white',
+                                                    'rounded-md w-full md:w-fit']"
+                                                    @click="addRemoveJournalToFavorite(journal.uuid)">
+                                                    <Icon name="ph:star" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip
+                                                :text="journal?.is_locked ? $t('citizens.citizenJournals.actions.unlock') : $t('citizens.citizenJournals.actions.lock')">
+                                                <FormButton buttonSize="xs" :class="[
+                                                    journal?.is_locked && 'border-secondary bg-secondary text-white',
+                                                    'rounded-md w-full md:w-fit']"
+                                                    @click="lockUnlockJournal(journal.uuid)">
+                                                    <Icon name="ph:lock" class="size-4" v-if="journal.is_locked" />
+                                                    <Icon name="ph:lock-open" class="size-4" v-else />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <!-- <Tooltip :text="$t('citizens.citizenJournals.actions.logs')">
+                                                <FormButton class="rounded-md" buttonSize="xs">
+                                                    <Icon name="ph:file" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip> -->
+                                            <Tooltip :text="$t('citizens.citizenJournals.actions.delete')">
+                                                <FormButton class="rounded-md" buttonSize="xs"
+                                                    @click="confirmJournalDeletion(journal)"
+                                                    v-if="journal?.is_deletable">
+                                                    <Icon name="ph:trash-duotone" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                         </div>
                                     </div>
                                 </div>

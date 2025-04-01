@@ -136,7 +136,7 @@
             <div v-if="state.formCitizen.is_foreign_city">
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
-                        <FormLabel for="foreign_city" :label="$t('citizens.form.foreignCity')" />
+                        <FormLabel for="foreign_city" :label="$t('citizens.form.citizenOrigin')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                             @click="state.modal.isAddForeignCityOpen = true">
                             {{ $t('foreignCities.addNewForeignCity') }}
