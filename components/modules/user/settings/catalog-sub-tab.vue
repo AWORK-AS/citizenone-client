@@ -45,6 +45,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.foreignCities',
+                href: `/settings/foreign-cities`,
+                routeNames: [
+                    'settings-foreign-cities'
+                ]
+            },
+            {
                 name: 'settings.tabs.jobTitles',
                 href: `/settings/job-titles`,
                 routeNames: [

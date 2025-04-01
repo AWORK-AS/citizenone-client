@@ -2111,6 +2111,33 @@
             "structure": "Struktur"
         }
     },
+    "foreignCities": {
+        "addNewForeignCity": "Tilføj ny udenlandsk by",
+        "foreignCities": "Udenlandske byer",
+        "foreignCity": "Udenlandsk by",
+        "editForeignCity": "Rediger udenlandsk by",
+        "form": {
+            "alert": {
+                "foreignCitySuccessfullyUpdated": "Udenlandsk by opdateret med succes",
+                "newForeignCitySuccessfullySaved": "Ny udenlandsk by gemt med succes"
+            },
+            "name": "Navn"
+        },
+        "newForeignCity": "Ny udenlandsk by",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "foreignCitySuccessfullyDeleted": "Udenlandsk by slettet med succes"
+            },
+            "confirmation": {
+                "deleteForeignCityConfirmation": "Er du sikker på, at du vil slette denne udenlandske by"
+            },
+            "name": "Navn"
+        }
+    },
     "forms": {
         "addNewQuestion": "Tilføj nyt spørgsmål",
         "addOption": "Tilføj mulighed",
@@ -3009,6 +3036,7 @@
             "customPages": "Ordliste",
             "departments": "Afdelinger",
             "diagnoses": "Diagnoser",
+            "foreignCities": "Udenlandske byer",
             "invoices": "Fakturaer",
             "jobTitles": "Jobtitler",
             "journalNoteTags": "Journalnotetag",

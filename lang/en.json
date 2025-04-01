@@ -2111,6 +2111,33 @@
             "structure": "Structure"
         }
     },
+    "foreignCities": {
+        "addNewForeignCity": "Add new foreign city",
+        "foreignCities": "Foreign cities",
+        "foreignCity": "Foreign city",
+        "editForeignCity": "Edit foreign city",
+        "form": {
+            "alert": {
+                "foreignCitySuccessfullyUpdated": "Foreign city successfully updated",
+                "newForeignCitySuccessfullySaved": "New foreign city successfully saved"
+            },
+            "name": "Name"
+        },
+        "newForeignCity": "New foreign city",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "foreignCitySuccessfullyDeleted": "Foreign city successfully deleted"
+            },
+            "confirmation": {
+                "deleteForeignCityConfirmation": "Are you sure you want to delete this foreign city"
+            },
+            "name": "Name"
+        }
+    },
     "forms": {
         "addNewQuestion": "Add new question",
         "addOption": "Add option",
@@ -3009,6 +3036,7 @@
             "customPages": "Glossary",
             "departments": "Departments",
             "diagnoses": "Diagnoses",
+            "foreignCities": "Foreign cities",
             "invoices": "Invoices",
             "jobTitles": "Job titles",
             "journalNoteTags": "Journal note tags",
