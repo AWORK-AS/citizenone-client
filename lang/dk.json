@@ -629,11 +629,9 @@
             "lastname": "Efternavn",
             "municipality": "Kommune",
             "note": "Bemærkning",
-            "passport": "Pas",
             "phone": "Telefon",
             "postCode": "Postnummer",
             "region": "Region",
-            "seniorityDate": "Anciennitetsdato",
             "ssn": "CPR-nummer",
             "street": "Gade"
         },

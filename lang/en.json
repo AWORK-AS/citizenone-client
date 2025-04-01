@@ -629,11 +629,9 @@
             "lastname": "Last name",
             "municipality": "Municipality",
             "note": "Note",
-            "passport": "Passport",
             "phone": "Phone",
             "postCode": "Post Code",
             "region": "Region",
-            "seniorityDate": "Seniority date",
             "ssn": "Social security number",
             "street": "Street"
         },

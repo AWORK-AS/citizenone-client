@@ -177,32 +177,6 @@
                 </div>
             </div>
             <div class="space-y-1">
-                <FormLabel for="seniority_date" :label="$t('citizens.form.seniorityDate')" />
-                <FormDateField id="seniority_date" name="seniority_date"
-                    :placeholder="$t('citizens.form.seniorityDate')" v-model="state.formCitizen.seniority_date" />
-                <FormError :error="v$?.formCitizen?.seniority_date?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.seniority_date?.[0]" />
-            </div>
-            <div class="space-y-1">
-                <p class="text-sm text-gray-600">
-                    {{ $t('citizens.form.passport') }}
-                </p>
-                <div class="flex flex-start">
-                    <input type="file" ref="citizenPassport" @change="onPassportFileChange" class="hidden" />
-                    <div class="relative cursor-pointer" @click="triggerPassportFileInput">
-                        <img :src="passportUrl" alt="Passport"
-                            class="w-44 h-44 rounded-md object-cover border-2 border-tertiary-25" />
-                        <div
-                            class="rounded-md absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
-                            <div class="flex items-center w-full h-full justify-center text-xs">
-                                {{ $t('changeImage') }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <FormError :error="props?.error?.errors?.passport?.[0]" class="text-center" />
-            </div>
-            <div class="space-y-1">
                 <FormLabel for="note" :label="$t('citizens.form.note')" />
                 <FormTextArea id="note" name="note" :placeholder="$t('citizens.form.note')"
                     v-model="state.formCitizen.note" />
@@ -275,9 +249,7 @@ const userStore = useUserStore() as any
 const { t } = useI18n()
 const language = useI18n()
 const citizenImage = ref<HTMLInputElement | null>(null)
-const citizenPassport = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
-const passportUrl = ref(`/img/icons/asset-02.svg`)
 
 const props = defineProps({
     error: {
@@ -299,7 +271,6 @@ const state = reactive({
     error: {} as Error,
     formCitizen: {
         image: '',
-        passport: '',
         firstname: '',
         lastname: '',
         gender: '',
@@ -318,7 +289,6 @@ const state = reactive({
         addictions: [],
         date_admitted: '',
         date_discharged: '',
-        seniority_date: '',
         note: '',
         has_system_access: false,
         has_chat_access: false,
@@ -384,7 +354,6 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             addictions: selectedCitizen.addictions,
             date_admitted: selectedCitizen.date_admitted,
             date_discharged: selectedCitizen.date_discharged,
-            seniority_date: selectedCitizen.seniority_date,
             note: selectedCitizen.note,
             has_system_access: selectedCitizen.has_system_access,
             has_chat_access: selectedCitizen.has_chat_access,
@@ -680,24 +649,6 @@ function onCitizenImageChange(event: any) {
         const reader = new FileReader()
         reader.onload = (e: any) => {
             avatarUrl.value = e.target.result
-        }
-        reader.readAsDataURL(file)
-    }
-}
-
-function triggerPassportFileInput() {
-    if (citizenPassport.value) {
-        citizenPassport.value.click()
-    }
-}
-
-function onPassportFileChange(event: any) {
-    const file = event.target.files[0]
-    state.formCitizen.passport = event.target.files[0]
-    if (file) {
-        const reader = new FileReader()
-        reader.onload = (e: any) => {
-            passportUrl.value = e.target.result
         }
         reader.readAsDataURL(file)
     }

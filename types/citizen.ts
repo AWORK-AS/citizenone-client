@@ -1,6 +1,5 @@
 export interface CitizenForm {
     image: string,
-    passport: string,
     firstname: string,
     lastname: string,
     gender: string,
@@ -19,7 +18,6 @@ export interface CitizenForm {
     addictions: string[],
     date_admitted: string,
     date_discharged: string,
-    seniority_date: string,
     note: string,
     has_system_access: boolean,
     has_chat_access: boolean,
