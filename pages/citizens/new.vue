@@ -104,12 +104,15 @@ async function saveCitizen(citizenDetails: any) {
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))
         params.append('street', citizenDetails.street)
-        params.append('foreign_city_uuid', citizenDetails.foreign_city)
         params.append('region_uuid', citizenDetails.region)
         params.append('municipality_uuid', citizenDetails.municipality)
         params.append('city_uuid', citizenDetails.city)
         params.append('post_code', citizenDetails.post_code)
-        params.append('origin_uuid', citizenDetails.origin)
+        if (citizenDetails.is_foreign_city) {
+            params.append('foreign_city_uuid', citizenDetails.foreign_city)
+        } else {
+            params.append('origin_uuid', citizenDetails.origin)
+        }
         params.append('diagnoses_uuid', JSON.stringify(citizenDetails.diagnoses))
         params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))
         params.append('date_admitted', citizenDetails.date_admitted != 'Invalid date' ? citizenDetails.date_admitted : '')

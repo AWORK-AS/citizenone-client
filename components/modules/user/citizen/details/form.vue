@@ -96,6 +96,37 @@
                 <FormError :error="v$?.formCitizen?.street?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.street?.[0]" />
             </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <FormLabel for="region" :label="$t('citizens.form.region')" />
+                    <FormSelect id="region" :options="state.options.regions" v-model="state.formCitizen.region"
+                        @change="changeSelectedRegion" />
+                    <FormError :error="v$?.formCitizen?.region?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.region_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="municipality" :label="$t('citizens.form.municipality')" />
+                    <FormSelect id="municipality" :options="state.options.municipalitiesPerRegion"
+                        v-model="state.formCitizen.municipality" @change="changeSelectedMunicipality" />
+                    <FormError :error="v$?.formCitizen?.municipality?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.municipality_uuid?.[0]" />
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <FormLabel for="city" :label="$t('citizens.form.city')" />
+                    <FormSelect id="city" :options="state.options.cities" v-model="state.formCitizen.city" />
+                    <FormError :error="v$?.formCitizen?.city?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.city_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="post_code" :label="$t('citizens.form.postCode')" />
+                    <FormTextField id="post_code" name="post_code" :placeholder="$t('citizens.form.postCode')"
+                        v-model="state.formCitizen.post_code" />
+                    <FormError :error="v$?.formCitizen?.post_code?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.post_code?.[0]" />
+                </div>
+            </div>
             <div class="w-fit flex items-center cursor-pointer"
                 @click="state.formCitizen.is_foreign_city = !state.formCitizen.is_foreign_city">
                 <FormCheckbox id="foreign_city_checkbox" :value="state.formCitizen.is_foreign_city" />
@@ -116,40 +147,7 @@
                     <FormError :error="props?.error?.errors?.foreign_city_uuid?.[0]" />
                 </div>
             </div>
-            <div class="space-y-3" v-else>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1">
-                        <FormLabel for="region" :label="$t('citizens.form.region')" />
-                        <FormSelect id="region" :options="state.options.regions" v-model="state.formCitizen.region"
-                            @change="changeSelectedRegion" />
-                        <FormError :error="v$?.formCitizen?.region?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.region_uuid?.[0]" />
-                    </div>
-                    <div class="space-y-1">
-                        <FormLabel for="municipality" :label="$t('citizens.form.municipality')" />
-                        <FormSelect id="municipality" :options="state.options.municipalitiesPerRegion"
-                            v-model="state.formCitizen.municipality" @change="changeSelectedMunicipality" />
-                        <FormError :error="v$?.formCitizen?.municipality?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.municipality_uuid?.[0]" />
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1">
-                        <FormLabel for="city" :label="$t('citizens.form.city')" />
-                        <FormSelect id="city" :options="state.options.cities" v-model="state.formCitizen.city" />
-                        <FormError :error="v$?.formCitizen?.city?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.city_uuid?.[0]" />
-                    </div>
-                    <div class="space-y-1">
-                        <FormLabel for="post_code" :label="$t('citizens.form.postCode')" />
-                        <FormTextField id="post_code" name="post_code" :placeholder="$t('citizens.form.postCode')"
-                            v-model="state.formCitizen.post_code" />
-                        <FormError :error="v$?.formCitizen?.post_code?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.post_code?.[0]" />
-                    </div>
-                </div>
-            </div>
-            <div class="space-y-1">
+            <div class="space-y-1" v-else>
                 <FormLabel for="origin" :label="$t('citizens.form.citizenOrigin')" />
                 <FormSelect id="origin" :options="state.options.municipalities" v-model="state.formCitizen.origin"
                     @change="changeSelectedMunicipality" />

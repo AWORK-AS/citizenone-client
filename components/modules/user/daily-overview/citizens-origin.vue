@@ -25,7 +25,12 @@
                         </p>
                         <p class="flex items-center gap-x-1 text-xs text-muted-400 mt-1">
                             <Icon name="ph:map-pin-area" class="h-4 w-4" aria-hidden="true" />
-                            {{ citizen?.origin?.name }}
+                            <span v-if="citizen?.origin">
+                                {{ citizen?.origin?.name }}
+                            </span>
+                            <span v-else>
+                                {{ citizen?.foreign_city?.name }}
+                            </span>
                         </p>
                     </div>
                 </div>
