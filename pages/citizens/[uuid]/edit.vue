@@ -72,6 +72,7 @@ const state = reactive({
     error: {} as Error,
     formCitizen: {
         image: '',
+        passport: '',
         firstname: '',
         lastname: '',
         gender: '',
@@ -90,6 +91,7 @@ const state = reactive({
         addictions: [],
         date_admitted: '',
         date_discharged: '',
+        seniority_date: '',
         note: '',
         has_system_access: false,
         has_chat_access: false,
@@ -114,6 +116,7 @@ async function fetchCitizen() {
         if (response) {
             state.formCitizen = {
                 image: response?.data?.image ?? '',
+                passport: response?.data?.passport ?? '',
                 firstname: response?.data?.firstname ?? '',
                 lastname: response?.data?.lastname ?? '',
                 gender: response?.data?.gender ?? '',
@@ -132,6 +135,7 @@ async function fetchCitizen() {
                 addictions: [],
                 date_admitted: response?.data?.date_admitted ?? '',
                 date_discharged: response?.data?.date_discharged ?? '',
+                seniority_date: response?.data?.seniority_date ?? '',
                 note: response?.data?.note ?? '',
                 has_system_access: response?.data?.has_system_access ?? '',
                 has_chat_access: response?.data?.has_chat_access ?? '',
@@ -160,6 +164,7 @@ async function updateCitizen(citizenDetails: any) {
     try {
         let params = new FormData()
         params.append('image', citizenDetails.image)
+        params.append('passport', citizenDetails.passport)
         params.append('firstname', citizenDetails.firstname)
         params.append('lastname', citizenDetails.lastname)
         params.append('gender', citizenDetails.gender)
@@ -190,6 +195,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))
         params.append('date_admitted', citizenDetails.date_admitted != 'Invalid date' ? citizenDetails.date_admitted : '')
         params.append('date_discharged', citizenDetails.date_discharged != 'Invalid date' ? citizenDetails.date_discharged : '')
+        params.append('seniority_date', citizenDetails.seniority_date != 'Invalid date' ? citizenDetails.seniority_date : '')
         params.append('note', citizenDetails.note)
         params.append('has_system_access', citizenDetails.has_system_access)
         params.append('has_chat_access', citizenDetails.has_chat_access)

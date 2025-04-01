@@ -61,6 +61,7 @@ const state = reactive({
     error: {} as Error,
     formCitizen: {
         image: '',
+        passport: '',
         firstname: '',
         lastname: '',
         gender: '',
@@ -79,7 +80,12 @@ const state = reactive({
         addictions: [],
         date_admitted: '',
         date_discharged: '',
+        seniority_date: '',
         note: '',
+        has_system_access: false,
+        has_chat_access: false,
+        has_duty_schedule_access: false,
+        has_bullet_board_access: false,
     } as CitizenForm,
     isPageLoading: false,
 })
@@ -90,6 +96,7 @@ async function saveCitizen(citizenDetails: any) {
     try {
         let params = new FormData()
         params.append('image', citizenDetails.image)
+        params.append('passport', citizenDetails.passport)
         params.append('firstname', citizenDetails.firstname)
         params.append('lastname', citizenDetails.lastname)
         params.append('gender', citizenDetails.gender)
@@ -108,6 +115,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))
         params.append('date_admitted', citizenDetails.date_admitted != 'Invalid date' ? citizenDetails.date_admitted : '')
         params.append('date_discharged', citizenDetails.date_discharged != 'Invalid date' ? citizenDetails.date_discharged : '')
+        params.append('seniority_date', citizenDetails.seniority_date != 'Invalid date' ? citizenDetails.seniority_date : '')
         params.append('note', citizenDetails.note)
         const response = await citizenService.saveCitizen(params)
         if (response.data) {
