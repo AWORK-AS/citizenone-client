@@ -28,7 +28,7 @@ const props = defineProps({
 })
 
 const state = reactive({
-    dateValue: props.modelValue ? new Date(props.modelValue) : new Date(),
+    dateValue: props.modelValue ? new Date(props.modelValue) : '',
     datePickerConfig: {
         enableTime: false,
         dateFormat: 'd. F Y',
@@ -67,7 +67,7 @@ watch(() => language.locale.value, (language: any) => {
 })
 
 watch(() => props.modelValue, (newValue: any) => {
-    if (newValue != null) {
+    if (newValue != null && newValue !== '') {
         state.dateValue = new Date(newValue)  // use Date object here
     }
 })
@@ -79,6 +79,8 @@ function updateValue(selectedDates: any) {
     if (date) {
         const formattedDate = moment(date).format('YYYY-MM-DD')
         emit('update:modelValue', formattedDate)
+    } else {
+        emit('update:modelValue', '')
     }
 }
 </script>
