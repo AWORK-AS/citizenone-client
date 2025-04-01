@@ -626,6 +626,7 @@
             "emailAddress": "E-mail adresse",
             "gender": "Køn",
             "firstname": "Fornavn",
+            "foreignCity": "Udenlandsk by",
             "lastname": "Efternavn",
             "municipality": "Kommune",
             "note": "Bemærkning",

@@ -1,11 +1,11 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('diagnoses.newDiagnosis')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs" :title="$t('foreignCities.newForeignCity')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserDiagnosisModalForm formType="create" :selectedDiagnosis="state.formDiagnosis"
+                    <ModulesUserForeignCityModalForm formType="create" :selectedForeignCity="state.formForeignCity"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveDiagnosis" />
+                        @closeModal="closeModal" @submitForm="saveForeignCity" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { diagnosisService } from '@/components/api/user/DiagnosisService'
+import { foreignCityService } from '@/components/api/user/ForeignCityService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -27,11 +27,11 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshDiagnoses'])
+const emit = defineEmits(['close', 'refreshForeignCities'])
 
 const state = reactive({
     error: {} as Error,
-    formDiagnosis: {
+    formForeignCity: {
         name: '',
     },
     isPageLoading: false,
@@ -41,21 +41,21 @@ function closeModal() {
     emit('close')
 }
 
-function refreshDiagnoses() {
-    emit('refreshDiagnoses')
+function refreshForeignCities() {
+    emit('refreshForeignCities')
 }
 
-async function saveDiagnosis(diagnosisDetails: any) {
+async function saveForeignCity(foreignCityDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            name: diagnosisDetails.name,
+            name: foreignCityDetails.name,
         }
-        const response = await diagnosisService.saveDiagnosis(params)
+        const response = await foreignCityService.saveForeignCity(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('diagnoses.form.alert.newDiagnosisSuccessfullySaved')}.`)
-            refreshDiagnoses()
+            successAlert(`${t('alert.success')}!`, `${t('foreignCities.form.alert.newForeignCitySuccessfullySaved')}.`)
+            refreshForeignCities()
             closeModal()
         }
     } catch (error: any) {

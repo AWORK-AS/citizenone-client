@@ -70,6 +70,7 @@ const state = reactive({
         phone: '',
         departments: [],
         street: '',
+        foreign_city_uuid: '',
         region_uuid: '',
         municipality_uuid: '',
         city_uuid: '',
@@ -103,6 +104,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))
         params.append('street', citizenDetails.street)
+        params.append('foreign_city_uuid', citizenDetails.foreign_city)
         params.append('region_uuid', citizenDetails.region)
         params.append('municipality_uuid', citizenDetails.municipality)
         params.append('city_uuid', citizenDetails.city)

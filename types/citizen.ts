@@ -9,6 +9,7 @@ export interface CitizenForm {
     phone: string,
     departments: string[],
     street: string,
+    foreign_city_uuid: string,
     region_uuid: string,
     municipality_uuid: string,
     city_uuid: string,

@@ -3,10 +3,10 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-1">
-            <FormLabel for="name" :label="$t('diagnoses.form.name')" />
-            <FormTextField id="name" name="name" :placeholder="$t('diagnoses.form.name')"
-                v-model="state.formDiagnosis.name" />
-            <FormError :error="v$?.formDiagnosis?.name?.$errors[0]?.$message.toString()" />
+            <FormLabel for="name" :label="$t('foreignCities.form.name')" />
+            <FormTextField id="name" name="name" :placeholder="$t('foreignCities.form.name')"
+                v-model="state.formForeignCity.name" />
+            <FormError :error="v$?.formForeignCity?.name?.$errors[0]?.$message.toString()" />
             <FormError :error="props?.error?.errors?.name?.[0]" />
         </div>
         <div class="mt-6">
@@ -38,7 +38,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedDiagnosis: {
+    selectedForeignCity: {
         type: Object,
         required: false,
     },
@@ -49,14 +49,14 @@ const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
-    formDiagnosis: {
+    formForeignCity: {
         name: '',
     },
 })
 
-watch(() => props.selectedDiagnosis, (newValue: any) => {
+watch(() => props.selectedForeignCity, (newValue: any) => {
     if (newValue != null) {
-        state.formDiagnosis = {
+        state.formForeignCity = {
             name: newValue.name,
         }
     }
@@ -64,7 +64,7 @@ watch(() => props.selectedDiagnosis, (newValue: any) => {
 
 const rules = computed(() => {
     return {
-        formDiagnosis: {
+        formForeignCity: {
             name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
@@ -78,7 +78,7 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formDiagnosis)
+        emit('submitForm', state.formForeignCity)
     }
 }
 </script>

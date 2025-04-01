@@ -4,7 +4,7 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <div class="grid grid-cols-1 gap-y-3">
+        <div class="space-y-3">
             <div class="space-y-1">
                 <div class="flex flex-col items-center">
                     <input type="file" ref="citizenImage" @change="onCitizenImageChange" class="hidden" />
@@ -96,35 +96,57 @@
                 <FormError :error="v$?.formCitizen?.street?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.street?.[0]" />
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="w-fit flex items-center cursor-pointer"
+                @click="state.formCitizen.is_foreign_city = !state.formCitizen.is_foreign_city">
+                <FormCheckbox id="foreign_city_checkbox" :value="state.formCitizen.is_foreign_city" />
+                {{ $t('citizens.form.foreignCity') }}
+            </div>
+            <div v-if="state.formCitizen.is_foreign_city">
                 <div class="space-y-1">
-                    <FormLabel for="region" :label="$t('citizens.form.region')" />
-                    <FormSelect id="region" :options="state.options.regions" v-model="state.formCitizen.region"
-                        @change="changeSelectedRegion" />
-                    <FormError :error="v$?.formCitizen?.region?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.region_uuid?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="municipality" :label="$t('citizens.form.municipality')" />
-                    <FormSelect id="municipality" :options="state.options.municipalitiesPerRegion"
-                        v-model="state.formCitizen.municipality" @change="changeSelectedMunicipality" />
-                    <FormError :error="v$?.formCitizen?.municipality?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.municipality_uuid?.[0]" />
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="foreign_city" :label="$t('citizens.form.foreignCity')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.modal.isAddForeignCityOpen = true">
+                            {{ $t('foreignCities.addNewForeignCity') }}
+                        </span>
+                    </div>
+                    <FormSelect id="foreign_city" :options="state.options.foreignCities"
+                        v-model="state.formCitizen.foreign_city" @change="changeSelectedRegion" />
+                    <FormError :error="v$?.formCitizen?.foreign_city?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.foreign_city_uuid?.[0]" />
                 </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="space-y-1">
-                    <FormLabel for="city" :label="$t('citizens.form.city')" />
-                    <FormSelect id="city" :options="state.options.cities" v-model="state.formCitizen.city" />
-                    <FormError :error="v$?.formCitizen?.city?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.city_uuid?.[0]" />
+            <div class="space-y-3" v-else>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="region" :label="$t('citizens.form.region')" />
+                        <FormSelect id="region" :options="state.options.regions" v-model="state.formCitizen.region"
+                            @change="changeSelectedRegion" />
+                        <FormError :error="v$?.formCitizen?.region?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.region_uuid?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="municipality" :label="$t('citizens.form.municipality')" />
+                        <FormSelect id="municipality" :options="state.options.municipalitiesPerRegion"
+                            v-model="state.formCitizen.municipality" @change="changeSelectedMunicipality" />
+                        <FormError :error="v$?.formCitizen?.municipality?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.municipality_uuid?.[0]" />
+                    </div>
                 </div>
-                <div class="space-y-1">
-                    <FormLabel for="post_code" :label="$t('citizens.form.postCode')" />
-                    <FormTextField id="post_code" name="post_code" :placeholder="$t('citizens.form.postCode')"
-                        v-model="state.formCitizen.post_code" />
-                    <FormError :error="v$?.formCitizen?.post_code?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.post_code?.[0]" />
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="city" :label="$t('citizens.form.city')" />
+                        <FormSelect id="city" :options="state.options.cities" v-model="state.formCitizen.city" />
+                        <FormError :error="v$?.formCitizen?.city?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.city_uuid?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="post_code" :label="$t('citizens.form.postCode')" />
+                        <FormTextField id="post_code" name="post_code" :placeholder="$t('citizens.form.postCode')"
+                            v-model="state.formCitizen.post_code" />
+                        <FormError :error="v$?.formCitizen?.post_code?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.post_code?.[0]" />
+                    </div>
                 </div>
             </div>
             <div class="space-y-1">
@@ -223,6 +245,8 @@
                 </FormButton>
             </div>
         </div>
+        <ModulesUserForeignCityModalNew :isModalOpen="state.modal.isAddForeignCityOpen"
+            @close="state.modal.isAddForeignCityOpen = false" @refreshForeignCities="fetchForeignCities" />
         <ModulesUserDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
             @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchDepartments" />
         <ModulesUserDiagnosisModalNew :isModalOpen="state.modal.isAddDiagnosisOpen"
@@ -241,6 +265,7 @@ import { addictionService } from '@/components/api/user/AddictionService'
 import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { cityService } from '@/components/api/user/CityService'
+import { foreignCityService } from '@/components/api/user/ForeignCityService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -279,6 +304,8 @@ const state = reactive({
         birthday: '',
         phone: '',
         departments: [],
+        is_foreign_city: false,
+        foreign_city: '',
         street: '',
         region: '',
         municipality: '',
@@ -300,12 +327,14 @@ const state = reactive({
         isAddAddictionOpen: false,
         isAddDepartmentOpen: false,
         isAddDiagnosisOpen: false,
+        isAddForeignCityOpen: false,
     },
     options: {
         addictions: [],
         cities: [],
         departments: [],
         diagnoses: [],
+        foreignCities: [],
         genders: [
             { value: 'male', label: `${t('gender.male')}`, },
             { value: 'female', label: `${t('gender.female')}`, },
@@ -344,6 +373,8 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             birthday: selectedCitizen.birthday,
             phone: selectedCitizen.phone,
             departments: selectedCitizen.departments,
+            is_foreign_city: selectedCitizen.foreign_city_uuid ? true : false,
+            foreign_city: selectedCitizen.foreign_city_uuid,
             street: selectedCitizen.street,
             region: selectedCitizen.region_uuid,
             municipality: selectedCitizen.municipality_uuid,
@@ -404,10 +435,9 @@ onMounted(() => {
     fetchDepartments()
     fetchDiagnoses()
     fetchAddictions()
+    fetchForeignCities()
     fetchRegions()
     fetchMunicipalities()
-
-
 })
 
 const isValidDate = (y: string, m: string, d: string): boolean => {
@@ -471,6 +501,27 @@ async function fetchAddictions() {
                 })
             )
             state.options.addictions = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchForeignCities() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await foreignCityService.getAllForeignCities()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.foreignCities = options
         }
     } catch (error: any) {
         state.error = error
