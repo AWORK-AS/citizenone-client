@@ -190,18 +190,26 @@
                                         </p>
                                     </div>
                                     <div class="space-y-1">
+                                        <Label :label="$t('employees.form.employment.vacationDaysPerYear')" />
+                                        <p class="font-medium">
+                                            {{ state.selectedEmployee.employment.vacation_days_per_year }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.jobTitle')" />
                                         <p class="font-medium">
                                             {{ state.selectedEmployee.employment.job_title }}
                                         </p>
                                     </div>
-                                </div>
-                                <div class="space-y-1">
-                                    <Label :label="$t('employees.form.employment.jobSpecialty')" />
-                                    <p class="font-medium"
-                                        v-if="state.selectedEmployee.employment.employee_specialties">
-                                        {{ state.selectedEmployee.employment.employee_specialties }}
-                                    </p>
+                                    <div class="space-y-1">
+                                        <Label :label="$t('employees.form.employment.jobSpecialty')" />
+                                        <p class="font-medium"
+                                            v-if="state.selectedEmployee.employment.employee_specialties">
+                                            {{ state.selectedEmployee.employment.employee_specialties }}
+                                        </p>
+                                    </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
                                     v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">

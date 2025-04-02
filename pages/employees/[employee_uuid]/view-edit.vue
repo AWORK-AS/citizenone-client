@@ -89,6 +89,7 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
+        seniority_date: '',
         departments: [],
         role: '',
         street: '',
@@ -105,6 +106,7 @@ const state = reactive({
             job_specialties: '',
             working_hours: '',
             employment_status: '',
+            vacation_days_per_year: '',
         },
         emergencyInfo: {
             emergency_contacts: [],
@@ -135,6 +137,7 @@ async function fetchEmployee() {
                 email: response?.data?.email ?? '',
                 phone: response?.data?.phone ?? '',
                 birthday: response?.data?.birthday ?? '',
+                seniority_date: response?.data?.seniority_date ?? '',
                 departments: [],
                 role: response?.data?.roles?.[0]?.name ?? '',
                 street: response?.data?.employee_address?.street ?? '',
@@ -151,6 +154,7 @@ async function fetchEmployee() {
                     job_specialties: [],
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
+                    vacation_days_per_year: response?.data?.employee_detail?.vacation_days_per_year,
                 },
                 emergencyInfo: {
                     emergency_contacts: [],
@@ -202,6 +206,7 @@ async function updateEmployee(employeeDetails: any) {
         params.append('email', employeeDetails.email)
         params.append('phone', employeeDetails.phone)
         params.append('birthday', employeeDetails.birthday)
+        params.append('seniority_date', employeeDetails.seniority_date)
         params.append('departments_uuid', JSON.stringify(employeeDetails.departments))
         params.append('role', employeeDetails.role)
         params.append('permission', JSON.stringify(employeeDetails.permissions))
@@ -219,6 +224,7 @@ async function updateEmployee(employeeDetails: any) {
         params.append('job_specialties_uuid', JSON.stringify(employeeDetails.employment.job_specialties))
         params.append('working_hours', employeeDetails.employment.working_hours)
         params.append('employment_status', employeeDetails.employment.employment_status)
+        params.append('vacation_days_per_year', employeeDetails.employment.vacation_days_per_year)
         params.append('emergency_contacts', JSON.stringify(employeeDetails.emergencyInfo.emergency_contacts))
         params.append('trustees', JSON.stringify(employeeDetails.emergencyInfo.trustees))
         const response = await employeeService.updateEmployee(employeeUuid, params)
