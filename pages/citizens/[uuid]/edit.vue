@@ -92,6 +92,14 @@ const state = reactive({
         date_admitted: '',
         date_discharged: '',
         section: '',
+        pricing: '',
+        pricing_start_date: '',
+        caseworker: '',
+        paying_municipality: '',
+        assessment_municipality: '',
+        responsible_municipality: '',
+        ean_number: '',
+        transportation: '',
         note: '',
         has_system_access: false,
         has_chat_access: false,
@@ -136,6 +144,14 @@ async function fetchCitizen() {
                 date_admitted: response?.data?.date_admitted ?? '',
                 date_discharged: response?.data?.date_discharged ?? '',
                 section: response?.data?.section?.uuid.toString() ?? '',
+                pricing: response?.data?.pricing ?? '',
+                pricing_start_date: response?.data?.pricing_start_date ?? '',
+                caseworker: response?.data?.caseworker ?? '',
+                paying_municipality: response?.data?.paying_municipality ?? '',
+                assessment_municipality: response?.data?.assessment_municipality ?? '',
+                responsible_municipality: response?.data?.responsible_municipality ?? '',
+                ean_number: response?.data?.ean_number ?? '',
+                transportation: response?.data?.transportation ?? '',
                 note: response?.data?.note ?? '',
                 has_system_access: response?.data?.has_system_access ?? '',
                 has_chat_access: response?.data?.has_chat_access ?? '',
@@ -199,6 +215,14 @@ async function updateCitizen(citizenDetails: any) {
         params.append('date_admitted', citizenDetails.date_admitted != 'Invalid date' ? citizenDetails.date_admitted : '')
         params.append('date_discharged', citizenDetails.date_discharged != 'Invalid date' ? citizenDetails.date_discharged : '')
         params.append('section', citizenDetails.section)
+        params.append('pricing', citizenDetails.pricing)
+        params.append('pricing_start_date', citizenDetails.pricing_start_date)
+        params.append('caseworker', citizenDetails.caseworker)
+        params.append('paying_municipality', citizenDetails.paying_municipality)
+        params.append('assessment_municipality', citizenDetails.assessment_municipality)
+        params.append('responsible_municipality', citizenDetails.responsible_municipality)
+        params.append('ean_number', citizenDetails.ean_number)
+        params.append('transportation', citizenDetails.transportation)
         params.append('note', citizenDetails.note)
         params.append('has_system_access', citizenDetails.has_system_access)
         params.append('has_chat_access', citizenDetails.has_chat_access)

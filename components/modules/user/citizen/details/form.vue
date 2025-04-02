@@ -208,6 +208,65 @@
                 <FormError :error="v$?.formCitizen?.section?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.section?.[0]" />
             </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <FormLabel for="pricing" :label="$t('citizens.form.pricing')" />
+                    <FormTextField id="pricing" name="pricing" :placeholder="$t('citizens.form.pricing')"
+                        v-model="state.formCitizen.pricing" />
+                    <FormError :error="v$?.formCitizen?.pricing?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.pricing?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="pricing_start_date" :label="$t('citizens.form.pricingStartDate')" />
+                    <FormDateField id="pricing_start_date" name="start_date"
+                        :placeholder="$t('citizens.form.pricingStartDate')"
+                        v-model="state.formCitizen.pricing_start_date" />
+                    <FormError :error="v$?.formCitizen?.pricing_start_date?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.pricing_start_date?.[0]" />
+                </div>
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="caseworker" :label="$t('citizens.form.caseworker')" />
+                <FormTextField id="caseworker" name="caseworker" :placeholder="$t('citizens.form.caseworker')"
+                    v-model="state.formCitizen.caseworker" />
+                <FormError :error="v$?.formCitizen?.caseworker?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.caseworker?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="paying_municipality" :label="$t('citizens.form.payingMunicipality')" />
+                <FormSelect id="paying_municipality" :options="state.options.municipalities"
+                    v-model="state.formCitizen.paying_municipality" />
+                <FormError :error="v$?.formCitizen?.paying_municipality?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.paying_municipality?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="assessment_municipality" :label="$t('citizens.form.assessmentMunicipality')" />
+                <FormSelect id="assessment_municipality" :options="state.options.municipalities"
+                    v-model="state.formCitizen.assessment_municipality" />
+                <FormError :error="v$?.formCitizen?.assessment_municipality?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.assessment_municipality?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="responsible_municipality" :label="$t('citizens.form.responsibleMunicipality')" />
+                <FormSelect id="responsible_municipality" :options="state.options.municipalities"
+                    v-model="state.formCitizen.responsible_municipality" />
+                <FormError :error="v$?.formCitizen?.responsible_municipality?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.responsible_municipality?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="ean_number" :label="$t('citizens.form.eanNumber')" />
+                <FormTextField id="ean_number" name="ean_number" :placeholder="$t('citizens.form.eanNumber')"
+                    v-model="state.formCitizen.ean_number" />
+                <FormError :error="v$?.formCitizen?.ean_number?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.ean_number?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="transportation" :label="$t('citizens.form.transportation')" />
+                <FormTextField id="transportation" name="transportation"
+                    :placeholder="$t('citizens.form.transportation')" v-model="state.formCitizen.transportation" />
+                <FormError :error="v$?.formCitizen?.transportation?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.transportation?.[0]" />
+            </div>
             <div class="space-y-1">
                 <FormLabel for="note" :label="$t('citizens.form.note')" />
                 <FormTextArea id="note" name="note" :placeholder="$t('citizens.form.note')"
@@ -330,6 +389,14 @@ const state = reactive({
         date_admitted: '',
         date_discharged: '',
         section: '',
+        pricing: '',
+        pricing_start_date: '',
+        caseworker: '',
+        paying_municipality: '',
+        assessment_municipality: '',
+        responsible_municipality: '',
+        ean_number: '',
+        transportation: '',
         note: '',
         has_system_access: false,
         has_chat_access: false,
@@ -402,6 +469,14 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             date_admitted: selectedCitizen.date_admitted,
             date_discharged: selectedCitizen.date_discharged,
             section: selectedCitizen.section,
+            pricing: selectedCitizen.pricing,
+            pricing_start_date: selectedCitizen.pricing_start_date,
+            caseworker: selectedCitizen.caseworker,
+            paying_municipality: selectedCitizen.paying_municipality,
+            assessment_municipality: selectedCitizen.assessment_municipality,
+            responsible_municipality: selectedCitizen.responsible_municipality,
+            ean_number: selectedCitizen.ean_number,
+            transportation: selectedCitizen.transportation,
             note: selectedCitizen.note,
             has_system_access: selectedCitizen.has_system_access,
             has_chat_access: selectedCitizen.has_chat_access,

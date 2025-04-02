@@ -81,6 +81,14 @@ const state = reactive({
         date_admitted: '',
         date_discharged: '',
         section: '',
+        pricing: '',
+        pricing_start_date: '',
+        caseworker: '',
+        paying_municipality: '',
+        assessment_municipality: '',
+        responsible_municipality: '',
+        ean_number: '',
+        transportation: '',
         note: '',
         has_system_access: false,
         has_chat_access: false,
@@ -119,6 +127,14 @@ async function saveCitizen(citizenDetails: any) {
         params.append('date_admitted', citizenDetails.date_admitted != 'Invalid date' ? citizenDetails.date_admitted : '')
         params.append('date_discharged', citizenDetails.date_discharged != 'Invalid date' ? citizenDetails.date_discharged : '')
         params.append('section', citizenDetails.section)
+        params.append('pricing', citizenDetails.pricing)
+        params.append('pricing_start_date', citizenDetails.pricing_start_date)
+        params.append('caseworker', citizenDetails.caseworker)
+        params.append('paying_municipality', citizenDetails.paying_municipality)
+        params.append('assessment_municipality', citizenDetails.assessment_municipality)
+        params.append('responsible_municipality', citizenDetails.responsible_municipality)
+        params.append('ean_number', citizenDetails.ean_number)
+        params.append('transportation', citizenDetails.transportation)
         params.append('note', citizenDetails.note)
         const response = await citizenService.saveCitizen(params)
         if (response.data) {
