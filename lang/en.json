@@ -532,8 +532,8 @@
                 "addToFavorite": "Add to favorite",
                 "delete": "Delete",
                 "edit": "Edit",
+                "journalLogs": "Journal logs",
                 "lock": "Lock journal",
-                "logs": "Logs",
                 "removeFromFavorite": "Remove from favorite",
                 "unlock": "Unlock journal"
             },
@@ -562,6 +562,15 @@
             "downloadJournals": {
                 "downloadJournals": "Download journals",
                 "includeRiskAssessment": "Include risk assessment"
+            },
+            "editJournal": "Edit journal",
+            "filter": {
+                "date": "Date",
+                "filterDate": "Filter date",
+                "journalNoteView": "Journal note view",
+                "riskAssessmentView": "Risk assessment view",
+                "searchJournal": "Search journal",
+                "standardView": "Standard view"
             },
             "form": {
                 "attachFile": "Attach file",
@@ -598,14 +607,13 @@
                 "teeth": "Teeth",
                 "title": "Title"
             },
-            "editJournal": "Edit journal",
-            "filter": {
+            "journalLogs": {
                 "date": "Date",
-                "filterDate": "Filter date",
-                "journalNoteView": "Journal note view",
-                "riskAssessmentView": "Risk assessment view",
-                "searchJournal": "Search journal",
-                "standardView": "Standard view"
+                "description": "Description",
+                "journalLogs": "Journal logs",
+                "newData": "New data",
+                "previousData": "Previous data",
+                "updatedBy": "Updated by"
             },
             "newJournal": "New journal",
             "on": "On",

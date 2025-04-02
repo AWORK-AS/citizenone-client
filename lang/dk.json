@@ -532,8 +532,8 @@
                 "addToFavorite": "Føj til favoritter",
                 "delete": "Slet",
                 "edit": "Rediger",
+                "journalLogs": "Journallogs",
                 "lock": "Lås journal",
-                "logs": "Logfiler",
                 "removeFromFavorite": "Fjern fra favoritter",
                 "unlock": "Lås journal op"
             },
@@ -562,6 +562,15 @@
             "downloadJournals": {
                 "downloadJournals": "Download journaler",
                 "includeRiskAssessment": "Inkluder risikovurdering"
+            },
+            "editJournal": "Rediger Journal",
+            "filter": {
+                "date": "Dato",
+                "filterDate": "Filtrer dato",
+                "journalNoteView": "Journalnotatvisning",
+                "riskAssessmentView": "Risikovurderingsvisning",
+                "searchJournal": "Søg i journal",
+                "standardView": "Standardvisning"
             },
             "form": {
                 "attachFile": "Vedhæft fil",
@@ -598,14 +607,13 @@
                 "teeth": "Tænder",
                 "title": "Titel"
             },
-            "editJournal": "Rediger Journal",
-            "filter": {
+            "journalLogs": {
                 "date": "Dato",
-                "filterDate": "Filtrer dato",
-                "journalNoteView": "Journalnotatvisning",
-                "riskAssessmentView": "Risikovurderingsvisning",
-                "searchJournal": "Søg i journal",
-                "standardView": "Standardvisning"
+                "description": "Beskrivelse",
+                "journalLogs": "Journallogs",
+                "newData": "Nye data",
+                "previousData": "Tidligere data",
+                "updatedBy": "Opdateret af"
             },
             "newJournal": "Ny Journal",
             "on": "Den",

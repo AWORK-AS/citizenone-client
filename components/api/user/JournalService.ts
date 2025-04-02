@@ -40,6 +40,10 @@ class JournalService extends BaseAPIService {
     async uploadAssessmentFile(params: object): Promise<any> {
         return await this.request(`/user/assessment-attachments`, 'POST', params)
     }
+
+    async getJournalLogs(params: object): Promise<any> {
+        return await this.request(`/user/change-logs`, 'GET', params)
+    }
 }
 
 export const journalService = new JournalService()

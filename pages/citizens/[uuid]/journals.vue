@@ -238,11 +238,12 @@
                                                     <Icon name="ph:lock-open" class="size-4" v-else />
                                                 </FormButton>
                                             </Tooltip>
-                                            <!-- <Tooltip :text="$t('citizens.citizenJournals.actions.logs')">
-                                                <FormButton class="rounded-md" buttonSize="xs">
-                                                    <Icon name="ph:file" class="size-4" />
+                                            <Tooltip :text="$t('citizens.citizenJournals.actions.journalLogs')">
+                                                <FormButton class="rounded-md" buttonSize="xs"
+                                                    @click="viewJournalLogs(journal)">
+                                                    <Icon name="ph:clock-clockwise" class="size-4" />
                                                 </FormButton>
-                                            </Tooltip> -->
+                                            </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.delete')">
                                                 <FormButton class="rounded-md" buttonSize="xs"
                                                     @click="confirmJournalDeletion(journal)"
@@ -273,6 +274,8 @@
                 @refreshJournal="fetchJournals" />
             <ModulesUserCitizenJournalModalDownload :isModalOpen="state.modal.isDownloadJournalOpen"
                 @close="state.modal.isDownloadJournalOpen = false" />
+            <ModulesUserCitizenJournalModalLogs :isModalOpen="state.modal.isViewLogsOpen"
+                :selectedJournal="state.selectedJournal" @close="state.modal.isViewLogsOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalOpen"
                 :message="$t('citizens.citizenJournals.confirmation.deleteConfirmation') + '?'"
                 @close="state.modal.isDeleteJournalOpen = false" @confirm="deleteJournal" />
@@ -281,7 +284,6 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { journalService } from '@/components/api/user/JournalService'
 import { useI18n } from "vue-i18n"
@@ -325,6 +327,7 @@ const state = reactive({
         isDownloadJournalOpen: false,
         isEditJournalOpen: false,
         isFilterJournalOpen: false,
+        isViewLogsOpen: false,
     },
     selectedJournal: [] as any,
     sortData: {
@@ -493,6 +496,11 @@ async function lockUnlockJournal(journalUuid: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function viewJournalLogs(journal: any) {
+    state.selectedJournal = journal
+    state.modal.isViewLogsOpen = true
 }
 
 function confirmJournalDeletion(journal: any) {
