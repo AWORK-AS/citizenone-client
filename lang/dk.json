@@ -1877,6 +1877,7 @@
                 "employmentStatus": "Ansættelsesstatus",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitel",
+                "vacationDaysPerYear": "Feriedage pr. år",
                 "workingHours": "Arbejdstimer"
             },
             "firstname": "Fornavn",

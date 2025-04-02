@@ -214,6 +214,18 @@
                         <FormError :error="props?.error?.errors?.employment_date?.[0]" />
                     </div>
                     <div class="space-y-1">
+                        <FormLabel for="vacation_days_per_year"
+                            :label="$t('employees.form.employment.vacationDaysPerYear')" />
+                        <FormTextField id="vacation_days_per_year" name="vacation_days_per_year"
+                            :placeholder="$t('employees.form.employment.vacationDaysPerYear')"
+                            v-model="state.formEmployee.employment.vacation_days_per_year" />
+                        <FormError
+                            :error="v$?.formEmployee?.employment?.vacation_days_per_year?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.vacation_days_per_year?.[0]" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5">
                             <FormLabel for="job_title_uuid" :label="$t('employees.form.employment.jobTitle')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -227,21 +239,22 @@
                             :error="v$?.formEmployee?.employment?.job_title_uuid?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.employment?.job_title_uuid?.[0]" />
                     </div>
-                </div>
-                <div class="space-y-1">
-                    <div class="flex justify-between items-center py-0.5">
-                        <FormLabel for="job_specialties" :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
-                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                            @click="addNewJobSpecialty">
-                            {{ $t('jobSpecialties.addNewJobSpecialty') }}
-                        </span>
+                    <div class="space-y-1">
+                        <div class="flex justify-between items-center py-0.5">
+                            <FormLabel for="job_specialties"
+                                :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
+                            <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                @click="addNewJobSpecialty">
+                                {{ $t('jobSpecialties.addNewJobSpecialty') }}
+                            </span>
+                        </div>
+                        <FormSelectMultiple id="job_specialties" name="job_specialties"
+                            :options="state.options.jobSpecialties"
+                            v-model="state.formEmployee.employment.job_specialties" />
+                        <FormError
+                            :error="v$?.formScheduleSlot?.employment?.job_specialties?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.job_specialties?.[0]" />
                     </div>
-                    <FormSelectMultiple id="job_specialties" name="job_specialties"
-                        :options="state.options.jobSpecialties"
-                        v-model="state.formEmployee.employment.job_specialties" />
-                    <FormError
-                        :error="v$?.formScheduleSlot?.employment?.job_specialties?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.job_specialties?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
@@ -488,6 +501,7 @@ const state = reactive({
             job_specialties: [],
             working_hours: '',
             employment_status: '',
+            vacation_days_per_year: '',
         },
         emergencyInfo: {
             emergency_contacts: [],
@@ -584,6 +598,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 job_specialties: newValue.employment.job_specialties,
                 working_hours: newValue.employment.working_hours,
                 employment_status: newValue.employment.employment_status,
+                vacation_days_per_year: newValue.employment.vacation_days_per_year,
             }
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)
@@ -653,6 +668,9 @@ const rules = computed(() => {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
                 },
                 employment_status: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
+                },
+                vacation_days_per_year: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
                 },
             }
