@@ -1,5 +1,5 @@
 <template>
-    <Tabs :tabs="state.tabs" @changeTab="changeTab" />
+    <Tabs :tabs="state.tabs" :isJustifyBetween="true" @changeTab="changeTab" />
 </template>
 
 <script setup lang="ts">
@@ -81,12 +81,19 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.sections',
+                href: `/settings/sections`,
+                routeNames: [
+                    'settings-sections'
+                ]
+            },
+            {
                 name: 'settings.tabs.shifts',
                 href: `/settings/shifts`,
                 routeNames: [
                     'settings-shifts'
                 ]
-            }
+            },
         ]
     }
 })
@@ -105,6 +112,9 @@ function changeTab(value: any) {
     else if (value === t('settings.tabs.diagnoses')) {
         navigateTo(`/settings/diagnoses`)
     }
+    else if (value === t('settings.tabs.foreignCities')) {
+        navigateTo(`/settings/foreign-cities`)
+    }
     else if (value === t('settings.tabs.jobTitles')) {
         navigateTo(`/settings/job-titles`)
     }
@@ -113,6 +123,15 @@ function changeTab(value: any) {
     }
     else if (value === t('settings.tabs.relationships')) {
         navigateTo(`/settings/relationships`)
+    }
+    else if (value === t('settings.tabs.medicines')) {
+        navigateTo(`/settings/medicines`)
+    }
+    else if (value === t('settings.tabs.sections')) {
+        navigateTo(`/settings/sections`)
+    }
+    else if (value === t('settings.tabs.shifts')) {
+        navigateTo(`/settings/shifts`)
     }
 }
 </script>

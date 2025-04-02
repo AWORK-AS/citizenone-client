@@ -197,6 +197,18 @@
                 </div>
             </div>
             <div class="space-y-1">
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="section" :label="$t('citizens.form.section')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddSectionOpen = true">
+                        {{ $t('sections.addNewSection') }}
+                    </span>
+                </div>
+                <FormSelect id="section" :options="state.options.sections" v-model="state.formCitizen.section" />
+                <FormError :error="v$?.formCitizen?.section?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.section?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="note" :label="$t('citizens.form.note')" />
                 <FormTextArea id="note" name="note" :placeholder="$t('citizens.form.note')"
                     v-model="state.formCitizen.note" />
@@ -251,6 +263,8 @@
             @close="state.modal.isAddDiagnosisOpen = false" @refreshDiagnoses="fetchDiagnoses" />
         <ModulesUserAddictionModalNew :isModalOpen="state.modal.isAddAddictionOpen"
             @close="state.modal.isAddAddictionOpen = false" @refreshAddictions="fetchAddictions" />
+        <ModulesUserSectionModalNew :isModalOpen="state.modal.isAddSectionOpen"
+            @close="state.modal.isAddSectionOpen = false" @refreshSections="fetchSections" />
     </form>
 </template>
 
@@ -260,6 +274,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { diagnosisService } from '@/components/api/user/DiagnosisService'
 import { addictionService } from '@/components/api/user/AddictionService'
+import { sectionService } from '@/components/api/user/SectionService'
 import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { cityService } from '@/components/api/user/CityService'
@@ -314,6 +329,7 @@ const state = reactive({
         addictions: [],
         date_admitted: '',
         date_discharged: '',
+        section: '',
         note: '',
         has_system_access: false,
         has_chat_access: false,
@@ -326,6 +342,7 @@ const state = reactive({
         isAddDepartmentOpen: false,
         isAddDiagnosisOpen: false,
         isAddForeignCityOpen: false,
+        isAddSectionOpen: false,
     },
     options: {
         addictions: [],
@@ -342,6 +359,7 @@ const state = reactive({
         municipalities: [],
         municipalitiesPerRegion: [],
         regions: [],
+        sections: [],
     }
 })
 
@@ -433,6 +451,7 @@ onMounted(() => {
     fetchDepartments()
     fetchDiagnoses()
     fetchAddictions()
+    fetchSections()
     fetchForeignCities()
     fetchRegions()
     fetchMunicipalities()
@@ -499,6 +518,27 @@ async function fetchAddictions() {
                 })
             )
             state.options.addictions = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchSections() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await sectionService.getAllSections()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.sections = options
         }
     } catch (error: any) {
         state.error = error

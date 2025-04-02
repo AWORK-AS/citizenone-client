@@ -650,6 +650,7 @@
             "phone": "Telefon",
             "postCode": "Postnummer",
             "region": "Region",
+            "section": "Paragraf",
             "ssn": "CPR-nummer",
             "street": "Gade"
         },
@@ -2993,6 +2994,32 @@
         "or": "Eller"
     },
     "save": "Gem",
+    "sections": {
+        "addNewSection": "Tilføj ny paragraf",
+        "alert": {
+            "sectionSuccessfullyDeleted": "Paragraf slettet med succes"
+        },
+        "editSection": "Rediger paragraf",
+        "form": {
+            "alert": {
+                "sectionSuccessfullyUpdated": "Paragraf opdateret med succes",
+                "newSectionSuccessfullySaved": "Ny paragraf gemt med succes"
+            },
+            "name": "Navn"
+        },
+        "newSection": "Ny paragraf",
+        "sections": "Paragraffer",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteSectionConfirmation": "Er du sikker på, at du vil slette denne paragraf"
+            },
+            "name": "Navn"
+        }
+    },
     "selectADate": "Vælg en dato",
     "selectADateAndTime": "Vælg en dato og tid",
     "settings": {
@@ -3065,6 +3092,7 @@
             "profile": "Profil",
             "storage": "Lager",
             "relationships": "Forhold",
+            "sections": "Paragraffer",
             "subscription": "Abonnement",
             "timeLogs": "Tidslogfiler",
             "transactions": "Transaktioner",

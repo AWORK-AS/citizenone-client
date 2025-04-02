@@ -650,6 +650,7 @@
             "phone": "Phone",
             "postCode": "Post Code",
             "region": "Region",
+            "section": "Section",
             "ssn": "Social security number",
             "street": "Street"
         },
@@ -2993,6 +2994,32 @@
         "or": "Or"
     },
     "save": "Save",
+    "sections": {
+        "addNewSection": "Add new section",
+        "alert": {
+            "sectionSuccessfullyDeleted": "Section successfully deleted"
+        },
+        "editSection": "Edit section",
+        "form": {
+            "alert": {
+                "sectionSuccessfullyUpdated": "Section successfully updated",
+                "newSectionSuccessfullySaved": "New section successfully saved"
+            },
+            "name": "Name"
+        },
+        "newSection": "New section",
+        "sections": "Sections",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteSectionConfirmation": "Are you sure you want to delete this section"
+            },
+            "name": "Name"
+        }
+    },
     "selectADate": "Select a date",
     "selectADateAndTime": "Select a date and time",
     "settings": {
@@ -3064,6 +3091,7 @@
             "medicines": "Medicines",
             "profile": "Profile",
             "relationships": "Relationships",
+            "sections": "Sections",
             "storage": "Storage",
             "subscription": "Subscription",
             "timeLogs": "Time logs",

@@ -80,6 +80,7 @@ const state = reactive({
         addictions: [],
         date_admitted: '',
         date_discharged: '',
+        section: '',
         note: '',
         has_system_access: false,
         has_chat_access: false,
@@ -117,6 +118,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))
         params.append('date_admitted', citizenDetails.date_admitted != 'Invalid date' ? citizenDetails.date_admitted : '')
         params.append('date_discharged', citizenDetails.date_discharged != 'Invalid date' ? citizenDetails.date_discharged : '')
+        params.append('section', citizenDetails.section)
         params.append('note', citizenDetails.note)
         const response = await citizenService.saveCitizen(params)
         if (response.data) {
