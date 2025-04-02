@@ -135,7 +135,7 @@ async function fetchCitizen() {
                 addictions: [],
                 date_admitted: response?.data?.date_admitted ?? '',
                 date_discharged: response?.data?.date_discharged ?? '',
-                section: response?.data?.section ?? '',
+                section: response?.data?.section?.uuid.toString() ?? '',
                 note: response?.data?.note ?? '',
                 has_system_access: response?.data?.has_system_access ?? '',
                 has_chat_access: response?.data?.has_chat_access ?? '',

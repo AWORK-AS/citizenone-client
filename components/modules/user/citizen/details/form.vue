@@ -401,6 +401,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             addictions: selectedCitizen.addictions,
             date_admitted: selectedCitizen.date_admitted,
             date_discharged: selectedCitizen.date_discharged,
+            section: selectedCitizen.section,
             note: selectedCitizen.note,
             has_system_access: selectedCitizen.has_system_access,
             has_chat_access: selectedCitizen.has_chat_access,
