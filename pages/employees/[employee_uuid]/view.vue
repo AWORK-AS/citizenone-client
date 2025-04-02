@@ -192,7 +192,7 @@
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.vacationDaysPerYear')" />
                                         <p class="font-medium">
-                                            {{ state.selectedEmployee.employment.vacation_days_per_year }}
+                                            {{ state.selectedEmployee.employment.yearly_vacation_days }}
                                         </p>
                                     </div>
                                 </div>

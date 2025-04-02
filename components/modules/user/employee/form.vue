@@ -214,14 +214,14 @@
                         <FormError :error="props?.error?.errors?.employment_date?.[0]" />
                     </div>
                     <div class="space-y-1">
-                        <FormLabel for="vacation_days_per_year"
+                        <FormLabel for="yearly_vacation_days"
                             :label="$t('employees.form.employment.vacationDaysPerYear')" />
-                        <FormTextField id="vacation_days_per_year" name="vacation_days_per_year"
+                        <FormTextField id="yearly_vacation_days" name="yearly_vacation_days"
                             :placeholder="$t('employees.form.employment.vacationDaysPerYear')"
-                            v-model="state.formEmployee.employment.vacation_days_per_year" />
+                            v-model="state.formEmployee.employment.yearly_vacation_days" />
                         <FormError
-                            :error="v$?.formEmployee?.employment?.vacation_days_per_year?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.vacation_days_per_year?.[0]" />
+                            :error="v$?.formEmployee?.employment?.yearly_vacation_days?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.yearly_vacation_days?.[0]" />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -501,7 +501,7 @@ const state = reactive({
             job_specialties: [],
             working_hours: '',
             employment_status: '',
-            vacation_days_per_year: '',
+            yearly_vacation_days: '',
         },
         emergencyInfo: {
             emergency_contacts: [],
@@ -598,7 +598,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 job_specialties: newValue.employment.job_specialties,
                 working_hours: newValue.employment.working_hours,
                 employment_status: newValue.employment.employment_status,
-                vacation_days_per_year: newValue.employment.vacation_days_per_year,
+                yearly_vacation_days: newValue.employment.yearly_vacation_days,
             }
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)
@@ -670,7 +670,7 @@ const rules = computed(() => {
                 employment_status: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
                 },
-                vacation_days_per_year: {
+                yearly_vacation_days: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
                 },
             }
