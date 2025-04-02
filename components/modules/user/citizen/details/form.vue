@@ -130,8 +130,7 @@
             <div class="w-fit flex items-center cursor-pointer"
                 @click="state.formCitizen.is_foreign_city = !state.formCitizen.is_foreign_city">
                 <FormCheckbox id="foreign_city_checkbox" :value="state.formCitizen.is_foreign_city" />
-                {{ $t('citizens.form.citizenOrigin') }}
-                ({{ $t('citizens.form.foreignCity') }})
+                {{ $t('citizens.form.foreignCityOfOrigin') }}
             </div>
             <div v-if="state.formCitizen.is_foreign_city">
                 <div class="space-y-1">

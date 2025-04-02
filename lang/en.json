@@ -643,7 +643,7 @@
             "emailAddress": "Email address",
             "gender": "Gender",
             "firstname": "First name",
-            "foreignCity": "Foreign city",
+            "foreignCityOfOrigin": "Foreign city of origin",
             "lastname": "Last name",
             "municipality": "Municipality",
             "note": "Note",
