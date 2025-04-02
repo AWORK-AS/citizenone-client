@@ -536,6 +536,7 @@ async function fetchEmployee() {
                     employee_specialties: concatenatedJobSpecialties,
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
+                    yearly_vacation_days: response?.data?.employee_detail?.yearly_vacation_days,
                 },
                 emergencyInfo: {
                     emergency_contacts: [],
