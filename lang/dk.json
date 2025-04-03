@@ -1589,6 +1589,7 @@
             "inMeeting": "I møde",
             "private": "Privat",
             "title": "Titel",
+            "useCompensatoryTime": "Brug afspadseringstid",
             "users": "Brugere"
         },
         "newSchedule": "Ny vagtplan",

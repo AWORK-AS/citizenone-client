@@ -31,6 +31,14 @@
                                 <FormError :error="v$?.formShift.date_time_end?.$errors[0]?.$message.toString()" />
                             </div>
                         </div>
+                        <div v-if="[3, 4].includes(state.options.shifts.findIndex((shift: any) => shift.value ===
+                            state.formShift.shift_type))">
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.formShift.use_compensatory_time = !state.formShift.use_compensatory_time">
+                                <FormCheckbox :value="state.formShift.use_compensatory_time" />
+                                {{ $t('dutySchedules.form.useCompensatoryTime') }}
+                            </div>
+                        </div>
                         <div>
                             <div class="w-fit flex items-center cursor-pointer"
                                 @click="state.formShift.in_meeting = !state.formShift.in_meeting">
@@ -85,6 +93,7 @@ const state = reactive({
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
         in_meeting: false,
+        use_compensatory_time: false,
     },
     options: {
         shifts: []

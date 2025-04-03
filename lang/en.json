@@ -1589,6 +1589,7 @@
             "inMeeting": "In Meeting",
             "private": "Private",
             "title": "Title",
+            "useCompensatoryTime": "Use compensatory time",
             "users": "Users"
         },
         "newSchedule": "New schedule",
