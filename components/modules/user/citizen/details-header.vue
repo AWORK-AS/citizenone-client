@@ -26,24 +26,88 @@
                                     {{ state.selectedCitizen?.data?.social_security_number }}
                                 </p>
                             </div>
-                            <div>
-                                <div class="flex items-center gap-x-1">
-                                    <Icon name="ph:cake" class="h-4 w-4" aria-hidden="true" />
-                                    <p class="text-sm font-medium text-gray-700">
-                                        {{ formatDateToReadable(state.selectedCitizen?.data?.birthday) }}
-                                    </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5">
+                                <div class="space-y-1">
+                                    <div class="flex items-center gap-x-1" v-if="state.selectedCitizen?.data?.birthday">
+                                        <Tooltip :text="$t('citizens.form.birthday')" class="flex items-center">
+                                            <Icon name="ph:cake" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ formatDateToReadable(state.selectedCitizen?.data?.birthday) }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-x-1" v-if="state.selectedCitizen?.data?.email">
+                                        <Tooltip :text="$t('citizens.form.emailAddress')" class="flex items-center">
+                                            <Icon name="ph:envelope-open" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ state.selectedCitizen?.data?.email }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-x-1" v-if="state.selectedCitizen?.data?.phone">
+                                        <Tooltip :text="$t('citizens.form.phone')" class="flex items-center">
+                                            <Icon name="ph:phone" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ state.selectedCitizen?.data?.phone }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-x-1"
+                                        v-if="state.selectedCitizen?.data?.caseworker_name">
+                                        <Tooltip :text="$t('citizens.form.caseworker')" class="flex items-center">
+                                            <Icon name="ph:user" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ state.selectedCitizen?.data?.caseworker_name }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-x-1"
+                                        v-if="state.selectedCitizen?.data?.ean_number">
+                                        <Tooltip :text="$t('citizens.form.eanNumber')" class="flex items-center">
+                                            <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ state.selectedCitizen?.data?.ean_number }}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="flex items-center gap-x-1">
-                                    <Icon name="ph:envelope-open" class="h-4 w-4" aria-hidden="true" />
-                                    <p class="text-sm font-medium text-gray-700">
-                                        {{ state.selectedCitizen?.data?.email }}
-                                    </p>
-                                </div>
-                                <div class="flex items-center gap-x-1">
-                                    <Icon name="ph:phone" class="h-4 w-4" aria-hidden="true" />
-                                    <p class="text-sm font-medium text-gray-700">
-                                        {{ state.selectedCitizen?.data?.phone }}
-                                    </p>
+                                <div class="space-y-1">
+                                    <div class="flex items-center gap-x-1"
+                                        v-if="state.selectedCitizen?.data?.paying_municipality">
+                                        <Tooltip :text="$t('citizens.form.payingMunicipality')"
+                                            class="flex items-center">
+                                            <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ state.selectedCitizen?.data?.paying_municipality?.name }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-x-1">
+                                        <Tooltip :text="$t('citizens.form.assessmentMunicipality')"
+                                            class="flex items-center">
+                                            <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ state.selectedCitizen?.data?.assessment_municipality?.name }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-x-1">
+                                        <Tooltip :text="$t('citizens.form.responsibleMunicipality')"
+                                            class="flex items-center">
+                                            <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ state.selectedCitizen?.data?.responsible_municipality?.name }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-x-1">
+                                        <Tooltip :text="$t('citizens.form.transportation')" class="flex items-center">
+                                            <Icon name="ph:airplane" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ state.selectedCitizen?.data?.transportation }}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="space-y-1.5">
