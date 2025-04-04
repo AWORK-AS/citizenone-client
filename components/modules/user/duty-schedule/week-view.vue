@@ -269,6 +269,14 @@
                                                 </div>
                                                 <div class="col-span-7 space-y-2 mt-1">
                                                     {{
+                                                        $t('dutySchedules.compensatoryHours')
+                                                    }}:
+                                                    {{
+                                                        weeklySchedule?.employee?.compensatory_hours?.total_in_hours ?? 0
+                                                    }}
+                                                </div>
+                                                <div class="col-span-7 space-y-2 mt-1">
+                                                    {{
                                                         $t('dutySchedules.availableVacationHours')
                                                     }}:
                                                     {{ weeklySchedule?.employee?.available_vacation_hours ?? 0 }}

@@ -1543,6 +1543,7 @@
             "scheduleSuccessfullyUpdated": "Schedule successfully updated"
         },
         "availableVacationHours": "Available vacation hours",
+        "compensatoryHours": "Compensatory hours",
         "confirmation": {
             "deleteConfirmation": "Are you sure you want to delete this schedule"
         },

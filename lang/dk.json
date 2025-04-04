@@ -1543,6 +1543,7 @@
             "scheduleSuccessfullyUpdated": "Tidsplan opdateret med succes"
         },
         "availableVacationHours": "Tilgængelige ferietimer",
+        "compensatoryHours": "Afspadseringstimer",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne tidsplan"
         },
