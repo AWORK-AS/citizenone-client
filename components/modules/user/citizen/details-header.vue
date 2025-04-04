@@ -16,7 +16,7 @@
                                 <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
                             </div>
                         </div>
-                        <div class="pt-1.5 space-y-4">
+                        <div class="w-full pt-1.5 space-y-4">
                             <div class="text-center md:text-left">
                                 <h1 class="text-2xl font-bold text-gray-900 gr">
                                     {{ state.selectedCitizen?.data?.firstname }}
