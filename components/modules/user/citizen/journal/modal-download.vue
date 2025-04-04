@@ -4,38 +4,40 @@
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="space-y-3">
-                        <Alert type="danger" :text="state?.error?.message"
-                            v-if="state.error?.message && state.error.message.length > 0" />
-                        <div class="space-y-1">
-                            <FormDateRangeField name="date_range" v-model="state.filter.date_range"
-                                :placeholder="$t('citizens.citizenJournals.filter.filterDate')" />
-                            <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
+                    <form id="formDownload">
+                        <div class="space-y-3">
+                            <Alert type="danger" :text="state?.error?.message"
+                                v-if="state.error?.message && state.error.message.length > 0" />
+                            <div class="space-y-1">
+                                <FormDateRangeField name="date_range" v-model="state.filter.date_range"
+                                    :placeholder="$t('citizens.citizenJournals.filter.filterDate')" />
+                                <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-sm text-gray-600">
+                                    {{ $t('journalNoteTags.journalNoteTags') }}
+                                </p>
+                                <FormSelectMultiple id="tags" :options="state.options.tags"
+                                    v-model="state.downloadForm.tags" />
+                            </div>
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.downloadForm.include_risk_assessment = !state.downloadForm.include_risk_assessment">
+                                <FormCheckbox :value="state.downloadForm.include_risk_assessment" />
+                                {{ $t('citizens.citizenJournals.downloadJournals.includeRiskAssessment') }}
+                            </div>
                         </div>
-                        <div class="space-y-1">
-                            <p class="text-sm text-gray-600">
-                                {{ $t('journalNoteTags.journalNoteTags') }}
-                            </p>
-                            <FormSelectMultiple id="tags" :options="state.options.tags"
-                                v-model="state.downloadForm.tags" />
+                        <div class="mt-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal">
+                                    {{ $t('cancel') }}
+                                </FormButton>
+                                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full"
+                                    @click="downloadJournals">
+                                    {{ $t('citizens.citizenJournals.download') }}
+                                </FormButton>
+                            </div>
                         </div>
-                        <div class="w-fit flex items-center cursor-pointer"
-                            @click="state.downloadForm.include_risk_assessment = !state.downloadForm.include_risk_assessment">
-                            <FormCheckbox :value="state.downloadForm.include_risk_assessment" />
-                            {{ $t('citizens.citizenJournals.downloadJournals.includeRiskAssessment') }}
-                        </div>
-                    </div>
-                    <div class="mt-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal">
-                                {{ $t('cancel') }}
-                            </FormButton>
-                            <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full"
-                                @click="downloadJournals">
-                                {{ $t('citizens.citizenJournals.download') }}
-                            </FormButton>
-                        </div>
-                    </div>
+                    </form>
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -152,3 +154,9 @@ async function downloadJournals() {
     state.isPageLoading = false
 }
 </script>
+
+<style>
+#formDownload .multiselect-dropdown {
+    max-height: 4.8rem !important;
+}
+</style>
