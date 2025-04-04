@@ -4,7 +4,7 @@
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <form id="formDownload">
+                    <div id="formDownload">
                         <div class="space-y-3">
                             <Alert type="danger" :text="state?.error?.message"
                                 v-if="state.error?.message && state.error.message.length > 0" />
@@ -37,7 +37,7 @@
                                 </FormButton>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </LoadingSpinner>
             </template>
         </Modal>
