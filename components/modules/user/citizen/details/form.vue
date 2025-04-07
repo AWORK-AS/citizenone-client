@@ -331,7 +331,8 @@
         <ModulesUserSectionModalNew :isModalOpen="state.modal.isAddSectionOpen"
             @close="state.modal.isAddSectionOpen = false" @refreshSections="fetchSections" />
         <ModulesUserCitizenContactModalNewCaseworker :isModalOpen="state.modal.isAddCaseworkerOpen"
-            @close="state.modal.isAddCaseworkerOpen = false" @refreshCaseworkers="fetchCitizenCaseWorkers" />
+            @close="state.modal.isAddCaseworkerOpen = false" @refreshCaseworkers="fetchCitizenCaseWorkers"
+            v-if="state.modal.isAddCaseworkerOpen" />
     </form>
 </template>
 
