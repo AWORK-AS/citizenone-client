@@ -93,7 +93,6 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const paying = router?.currentRoute?.value?.query?.paying
-console.log('paying', paying)
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1

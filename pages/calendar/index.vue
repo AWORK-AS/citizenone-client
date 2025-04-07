@@ -196,7 +196,6 @@ const state = reactive({
 onMounted(() => {
     fetchAllCitizens()
     fetchAllUsers()
-    console.log('calendarStore.getCalendarView', calendarStore.getCalendarView)
     if (calendarStore.getCalendarView === 'default') {
         state.calendarView = 'default'
     } else if (calendarStore.getCalendarView === 'week') {
