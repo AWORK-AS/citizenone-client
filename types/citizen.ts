@@ -22,7 +22,7 @@ export interface CitizenForm {
     section: string,
     pricing: string,
     pricing_start_date: string,
-    caseworker: string,
+    primary_case_worker_uuid: string,
     paying_municipality: string,
     assessment_municipality: string,
     responsible_municipality: string,

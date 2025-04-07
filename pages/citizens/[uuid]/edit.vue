@@ -94,7 +94,7 @@ const state = reactive({
         section: '',
         pricing: '',
         pricing_start_date: '',
-        caseworker: '',
+        primary_case_worker_uuid: '',
         paying_municipality: '',
         assessment_municipality: '',
         responsible_municipality: '',
@@ -146,7 +146,7 @@ async function fetchCitizen() {
                 section: response?.data?.section?.uuid.toString() ?? '',
                 pricing: response?.data?.pricing ?? '',
                 pricing_start_date: response?.data?.pricing_start_date ?? '',
-                caseworker: response?.data?.caseworker_name ?? '',
+                primary_case_worker_uuid: response?.data?.caseworker_name ?? '',
                 paying_municipality: response?.data?.paying_municipality?.uuid.toString() ?? '',
                 assessment_municipality: response?.data?.assessment_municipality?.uuid.toString() ?? '',
                 responsible_municipality: response?.data?.responsible_municipality?.uuid.toString() ?? '',
@@ -217,7 +217,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('section', citizenDetails.section)
         params.append('pricing', citizenDetails.pricing)
         params.append('pricing_start_date', citizenDetails.pricing_start_date)
-        params.append('caseworker', citizenDetails.caseworker)
+        params.append('primary_case_worker_uuid', citizenDetails.primary_case_worker_uuid)
         params.append('paying_municipality', citizenDetails.paying_municipality)
         params.append('assessment_municipality', citizenDetails.assessment_municipality)
         params.append('responsible_municipality', citizenDetails.responsible_municipality)

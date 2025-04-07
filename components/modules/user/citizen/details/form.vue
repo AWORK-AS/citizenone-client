@@ -226,11 +226,11 @@
                 </div>
             </div>
             <div class="space-y-1">
-                <FormLabel for="caseworker" :label="$t('citizens.form.primaryCaseworker')" />
-                <FormTextField id="caseworker" name="caseworker" :placeholder="$t('citizens.form.primaryCaseworker')"
-                    v-model="state.formCitizen.caseworker" />
-                <FormError :error="v$?.formCitizen?.caseworker?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.caseworker?.[0]" />
+                <FormLabel for="primary_case_worker_uuid" :label="$t('citizens.form.primaryCaseworker')" />
+                <FormSelect id="primary_case_worker_uuid" :options="state.options.caseworkers"
+                    v-model="state.formCitizen.primary_case_worker_uuid" />
+                <FormError :error="v$?.formCitizen?.primary_case_worker_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.primary_case_worker_uuid?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="paying_municipality" :label="$t('citizens.form.payingMunicipality')" />
@@ -330,6 +330,7 @@
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
+import { citizenCaseworkerService } from '@/components/api/user/CitizenCaseworkerService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { diagnosisService } from '@/components/api/user/DiagnosisService'
 import { addictionService } from '@/components/api/user/AddictionService'
@@ -347,6 +348,8 @@ const { t } = useI18n()
 const language = useI18n()
 const citizenImage = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
+const router = useRouter()
+const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
 const props = defineProps({
     error: {
@@ -391,7 +394,7 @@ const state = reactive({
         section: '',
         pricing: '',
         pricing_start_date: '',
-        caseworker: '',
+        primary_case_worker_uuid: '',
         paying_municipality: '',
         assessment_municipality: '',
         responsible_municipality: '',
@@ -414,6 +417,7 @@ const state = reactive({
     options: {
         addictions: [],
         cities: [],
+        caseworkers: [],
         departments: [],
         diagnoses: [],
         foreignCities: [],
@@ -471,7 +475,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             section: selectedCitizen.section,
             pricing: selectedCitizen.pricing,
             pricing_start_date: selectedCitizen.pricing_start_date,
-            caseworker: selectedCitizen.caseworker,
+            primary_case_worker_uuid: selectedCitizen.primary_case_worker_uuid,
             paying_municipality: selectedCitizen.paying_municipality,
             assessment_municipality: selectedCitizen.assessment_municipality,
             responsible_municipality: selectedCitizen.responsible_municipality,
@@ -524,6 +528,7 @@ watch(() => state.formCitizen.social_security_number, (ssn) => {
 })
 
 onMounted(() => {
+    fetchCitizenCaseWorkers()
     fetchDepartments()
     fetchDiagnoses()
     fetchAddictions()
@@ -536,6 +541,27 @@ onMounted(() => {
 const isValidDate = (y: string, m: string, d: string): boolean => {
     const date = new Date(parseInt(y), parseInt(m) - 1, parseInt(d)) // Month is zero-based
     return date && date.getFullYear() === parseInt(y) && (date.getMonth() + 1) === parseInt(m) && date.getDate() === parseInt(d)
+}
+
+async function fetchCitizenCaseWorkers() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await citizenCaseworkerService.getAllCitizenCaseworkers(citizenUuid)
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (caseworker: any) => options.push({
+                    value: caseworker.uuid,
+                    label: caseworker.firstname + ' ' + (caseworker.lastname ? caseworker.lastname : ''),
+                })
+            )
+            state.options.caseworkers = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
 }
 
 async function fetchDepartments() {

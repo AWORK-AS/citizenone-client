@@ -83,7 +83,7 @@ const state = reactive({
         section: '',
         pricing: '',
         pricing_start_date: '',
-        caseworker: '',
+        primary_case_worker_uuid: '',
         paying_municipality: '',
         assessment_municipality: '',
         responsible_municipality: '',
@@ -129,7 +129,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('section', citizenDetails.section)
         params.append('pricing', citizenDetails.pricing)
         params.append('pricing_start_date', citizenDetails.pricing_start_date)
-        params.append('caseworker', citizenDetails.caseworker)
+        params.append('primary_case_worker_uuid', citizenDetails.primary_case_worker_uuid)
         params.append('paying_municipality', citizenDetails.paying_municipality)
         params.append('assessment_municipality', citizenDetails.assessment_municipality)
         params.append('responsible_municipality', citizenDetails.responsible_municipality)
