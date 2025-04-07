@@ -256,7 +256,6 @@ async function fetchAllIndustries() {
 }
 
 async function register() {
-    gtagReportConversion('https://app.citizenone.dk')
     state.error = {}
     v$.value.$validate()
     if (!state.formRegister.agreeToTerms) {
@@ -278,6 +277,7 @@ async function register() {
             }
             const response = await authService.register(params)
             if (response.data) {
+                gtagReportConversion('https://app.citizenone.dk')
                 successAlert(`${t('alert.success')}!`, `${t('alert.accountSuccessfullyCreated')}.`)
                 navigateTo('/')
             }
