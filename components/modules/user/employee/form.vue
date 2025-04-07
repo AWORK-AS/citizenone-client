@@ -33,14 +33,14 @@
                     <FormError :error="props?.error?.errors?.profile_image?.[0]" class="text-center" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1">
+                    <div class="space-y-1" ref="firstnameField">
                         <FormLabel for="firstname" :label="$t('employees.form.firstname')" />
                         <FormTextField id="firstname" name="firstname" :placeholder="$t('employees.form.firstname')"
                             v-model="state.formEmployee.firstname" />
                         <FormError :error="v$?.formEmployee?.firstname?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.firstname?.[0]" />
                     </div>
-                    <div class="space-y-1">
+                    <div class="space-y-1" ref="lastnameField">
                         <FormLabel for="lastname" :label="$t('employees.form.lastname')" />
                         <FormTextField id="lastname" name="lastname" :placeholder="$t('employees.form.lastname')"
                             v-model="state.formEmployee.lastname" />
@@ -48,7 +48,7 @@
                         <FormError :error="props?.error?.errors?.lastname?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" ref="emailField">
                     <FormLabel for="email" :label="$t('employees.form.emailAddress')" />
                     <FormTextField id="email" name="email" :placeholder="$t('employees.form.emailAddress')"
                         v-model="state.formEmployee.email" />
@@ -56,14 +56,14 @@
                     <FormError :error="props?.error?.errors?.email?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1">
+                    <div class="space-y-1" ref="phoneField">
                         <FormLabel for="phone" :label="$t('employees.form.phone')" />
                         <FormTextField id="phone" name="phone" :placeholder="$t('employees.form.phone')"
                             v-model="state.formEmployee.phone" />
                         <FormError :error="v$?.formEmployee?.phone?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.phone?.[0]" />
                     </div>
-                    <div class="space-y-1">
+                    <div class="space-y-1" ref="birthdayField">
                         <FormLabel for="birthday" :label="$t('employees.form.birthday')" />
                         <FormDateField id="birthday" name="birthday" :placeholder="$t('employees.form.birthday')"
                             v-model="state.formEmployee.birthday" />
@@ -94,7 +94,7 @@
                         <FormError :error="v$?.formEmployee?.departments?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
                     </div>
-                    <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                    <div class="space-y-1" ref="roleField" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                         <FormLabel for="role" :label="$t('employees.form.role')" />
                         <FormSelect id="role" name="role" :options="state.options.roleOptions"
                             v-model="state.formEmployee.role" />
@@ -102,7 +102,7 @@
                         <FormError :error="props?.error?.errors?.role?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" ref="streetField">
                     <FormLabel for="street" :label="$t('employees.form.street')" />
                     <FormTextField id="street" name="street" :placeholder="$t('employees.form.street')"
                         v-model="state.formEmployee.street" />
@@ -110,14 +110,14 @@
                     <FormError :error="props?.error?.errors?.street?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1">
+                    <div class="space-y-1" ref="regionField">
                         <FormLabel for="region" :label="$t('employees.form.region')" />
                         <FormSelect id="region" :options="state.options.regions"
                             v-model="state.formEmployee.region_uuid" @change="changeSelectedRegion" />
                         <FormError :error="v$?.formEmployee?.region_uuid?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.region_uuid?.[0]" />
                     </div>
-                    <div class="space-y-1">
+                    <div class="space-y-1" ref="municipalityField">
                         <FormLabel for="municipality" :label="$t('employees.form.municipality')" />
                         <FormSelect id="municipality" :options="state.options.municipalities"
                             v-model="state.formEmployee.municipality_uuid" @change="changeSelectedMunicipality" />
@@ -126,13 +126,13 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1">
+                    <div class="space-y-1" ref="cityField">
                         <FormLabel for="city" :label="$t('employees.form.city')" />
                         <FormSelect id="city" :options="state.options.cities" v-model="state.formEmployee.city_uuid" />
                         <FormError :error="v$?.formEmployee?.city_uuid?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.city_uuid?.[0]" />
                     </div>
-                    <div class="space-y-1">
+                    <div class="space-y-1" ref="postCodeField">
                         <FormLabel for="post_code" :label="$t('employees.form.postCode')" />
                         <FormTextField id="post_code" name="post_code" :placeholder="$t('employees.form.postCode')"
                             v-model="state.formEmployee.post_code" />
@@ -204,7 +204,7 @@
             </div>
             <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1">
+                    <div class="space-y-1" ref="employmentDateField">
                         <FormLabel for="employment_date" :label="$t('employees.form.employment.employmentDate')" />
                         <FormDateField id="employment_date" name="employment_date"
                             :placeholder="$t('employees.form.employment.employmentDate')"
@@ -213,7 +213,7 @@
                             :error="v$?.formEmployee?.employment?.employment_date?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.employment_date?.[0]" />
                     </div>
-                    <div class="space-y-1">
+                    <div class="space-y-1" ref="yearlyVacationDaysField">
                         <FormLabel for="yearly_vacation_days"
                             :label="$t('employees.form.employment.vacationDaysPerYear')" />
                         <FormTextField id="yearly_vacation_days" name="yearly_vacation_days"
@@ -226,7 +226,7 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
-                        <div class="flex justify-between items-center py-0.5">
+                        <div class="flex justify-between items-center py-0.5" ref="jobTitleField">
                             <FormLabel for="job_title_uuid" :label="$t('employees.form.employment.jobTitle')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                 @click="state.modal.isAddJobTitleOpen = true">
@@ -257,7 +257,7 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1">
+                    <div class="space-y-1" ref="workingHoursField">
                         <FormLabel for="working_hours" :label="$t('employees.form.employment.workingHours')" />
                         <FormSelect id="working_hours" :options="state.options.working_hours"
                             v-model="state.formEmployee.employment.working_hours" />
@@ -265,7 +265,7 @@
                             :error="v$?.formEmployee?.employment?.working_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.working_hours?.[0]" />
                     </div>
-                    <div class="space-y-1">
+                    <div class="space-y-1" ref="employmentStatusField">
                         <FormLabel for="employment_status" :label="$t('employees.form.employment.employmentStatus')" />
                         <FormSelect id="employment_status" :options="state.options.employment_status"
                             v-model="state.formEmployee.employment.employment_status" />
@@ -474,6 +474,22 @@ const avatarUrl = ref('/img/avatars/user.svg')
 const { errorAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
+const firstnameField = ref<HTMLElement | null>(null)
+const lastnameField = ref<HTMLElement | null>(null)
+const emailField = ref<HTMLElement | null>(null)
+const phoneField = ref<HTMLElement | null>(null)
+const birthdayField = ref<HTMLElement | null>(null)
+const roleField = ref<HTMLElement | null>(null)
+const streetField = ref<HTMLElement | null>(null)
+const regionField = ref<HTMLElement | null>(null)
+const municipalityField = ref<HTMLElement | null>(null)
+const cityField = ref<HTMLElement | null>(null)
+const postCodeField = ref<HTMLElement | null>(null)
+const employmentDateField = ref<HTMLElement | null>(null)
+const yearlyVacationDaysField = ref<HTMLElement | null>(null)
+const jobTitleField = ref<HTMLElement | null>(null)
+const workingHoursField = ref<HTMLElement | null>(null)
+const employmentStatusField = ref<HTMLElement | null>(null)
 
 const state = reactive({
     error: {} as Error,
@@ -937,9 +953,46 @@ function changeSelectedMunicipality(municipalityUuid: string) {
 
 function submitForm() {
     v$.value.$validate()
-    if (!v$.value.$error) {
-        emit('submitForm', state.formEmployee)
+    if (v$.value.$error) {
+        // Check specific fields in the order you want
+        if (v$.value.formEmployee.firstname?.$error && firstnameField.value) {
+            firstnameField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.email?.$error && emailField.value) {
+            emailField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.phone?.$error && phoneField.value) {
+            phoneField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.birthday?.$error && birthdayField.value) {
+            birthdayField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.role?.$error && roleField.value) {
+            roleField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.street?.$error && streetField.value) {
+            streetField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.region_uuid?.$error && regionField.value) {
+            regionField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+
+
+        else if (v$.value.formEmployee.municipality_uuid?.$error && municipalityField.value) {
+            municipalityField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.city_uuid?.$error && cityField.value) {
+            cityField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.post_code?.$error && postCodeField.value) {
+            postCodeField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.employment.employment_date?.$error && employmentDateField.value) {
+            employmentDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.employment.yearly_vacation_days?.$error && yearlyVacationDaysField.value) {
+            yearlyVacationDaysField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.employment.job_title_uuid?.$error && jobTitleField.value) {
+            jobTitleField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.employment.working_hours?.$error && workingHoursField.value) {
+            workingHoursField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.employment.employment_status?.$error && employmentStatusField.value) {
+            employmentStatusField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+        return
     }
+
+    emit('submitForm', state.formEmployee)
 }
 
 function changePermissionRead() {
