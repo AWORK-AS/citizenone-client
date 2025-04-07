@@ -49,7 +49,7 @@
                             <div class="flex justify-end items-center mb-5 gap-x-2">
                                 <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/forms')">
                                     <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
-                                    {{ $t('plansandgoals.createStatusReport') }}
+                                    {{ $t('plansandgoals.createStatusTemplate') }}
                                 </FormButton>
                                 <Menu as="div" class="relative inline-block text-left z-20"
                                     v-if="hasCreatePlanAccess()">
