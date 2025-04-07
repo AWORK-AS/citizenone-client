@@ -135,13 +135,15 @@ import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { userService } from '@/components/api/user/UserService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useCalendarStore } from '@/store/calendar'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
-import { saveAs } from 'file-saver'
+// import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const departmentStore = useDepartmentStore()
+const calendarStore = useCalendarStore()
 const language = useI18n()
 const { successAlert } = useAlert()
 const { t } = useI18n()
@@ -194,6 +196,26 @@ const state = reactive({
 onMounted(() => {
     fetchAllCitizens()
     fetchAllUsers()
+    console.log('calendarStore.getCalendarView', calendarStore.getCalendarView)
+    if (calendarStore.getCalendarView === 'default') {
+        state.calendarView = 'default'
+    } else if (calendarStore.getCalendarView === 'week') {
+        state.calendarView = 'week'
+        const firstDayOfWeek = moment().startOf('isoWeek').format('Y-M-D')
+        const lastDayOfWeek = moment().endOf('isoWeek').format('Y-M-D')
+        state.selectedDate = {
+            end_date: lastDayOfWeek,
+            start_date: firstDayOfWeek,
+        }
+    } else if (calendarStore.getCalendarView === 'month') {
+        const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
+        const lastDayOfMonth = moment().endOf('month').format('Y-M-D')
+        state.calendarView = 'month'
+        state.selectedDate = {
+            end_date: lastDayOfMonth,
+            start_date: firstDayOfMonth,
+        }
+    }
     fetchMyCalendarEvents()
 })
 
@@ -308,6 +330,7 @@ async function fetchMyCalendarEvents() {
 function setCalendarView(viewStyle: any) {
     if (state.calendarView !== viewStyle) {
         state.calendarView = viewStyle
+        calendarStore.setCalendarView(viewStyle)
         state.selectedDate = {
             end_date: '',
             start_date: '',
@@ -397,7 +420,7 @@ async function subscribe() {
         const response = await myCalendarService.downloadCalendar()
         if (response) {
             var file = new File([response], "my-schedule.ics")
-            saveAs(file, 'my-schedule.ics')
+            // saveAs(file, 'my-schedule.ics')
         }
     } catch (error: any) {
         state.error = error
