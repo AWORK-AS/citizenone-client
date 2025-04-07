@@ -146,7 +146,7 @@ async function fetchCitizen() {
                 section: response?.data?.section?.uuid.toString() ?? '',
                 pricing: response?.data?.pricing ?? '',
                 pricing_start_date: response?.data?.pricing_start_date ?? '',
-                primary_case_worker_uuid: response?.data?.caseworker_name ?? '',
+                primary_case_worker_uuid: response?.data?.primary_case_worker?.uuid.toString() ?? '',
                 paying_municipality: response?.data?.paying_municipality?.uuid.toString() ?? '',
                 assessment_municipality: response?.data?.assessment_municipality?.uuid.toString() ?? '',
                 responsible_municipality: response?.data?.responsible_municipality?.uuid.toString() ?? '',

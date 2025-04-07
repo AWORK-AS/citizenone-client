@@ -226,7 +226,13 @@
                 </div>
             </div>
             <div class="space-y-1">
-                <FormLabel for="primary_case_worker_uuid" :label="$t('citizens.form.primaryCaseworker')" />
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="primary_case_worker_uuid" :label="$t('citizens.form.primaryCaseworker')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddCaseworkerOpen = true">
+                        {{ $t('citizens.caseWorker.addNewCaseworker') }}
+                    </span>
+                </div>
                 <FormSelect id="primary_case_worker_uuid" :options="state.options.caseworkers"
                     v-model="state.formCitizen.primary_case_worker_uuid" />
                 <FormError :error="v$?.formCitizen?.primary_case_worker_uuid?.$errors[0]?.$message.toString()" />
@@ -324,6 +330,8 @@
             @close="state.modal.isAddAddictionOpen = false" @refreshAddictions="fetchAddictions" />
         <ModulesUserSectionModalNew :isModalOpen="state.modal.isAddSectionOpen"
             @close="state.modal.isAddSectionOpen = false" @refreshSections="fetchSections" />
+        <ModulesUserCitizenContactModalNewCaseworker :isModalOpen="state.modal.isAddCaseworkerOpen"
+            @close="state.modal.isAddCaseworkerOpen = false" @refreshCaseworkers="fetchCitizenCaseWorkers" />
     </form>
 </template>
 
@@ -409,6 +417,7 @@ const state = reactive({
     formattedSocialSecurityNumber: '',
     modal: {
         isAddAddictionOpen: false,
+        isAddCaseworkerOpen: false,
         isAddDepartmentOpen: false,
         isAddDiagnosisOpen: false,
         isAddForeignCityOpen: false,

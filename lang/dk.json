@@ -407,6 +407,13 @@
             "viewSchedule": "Se tidsplan"
         },
         "citizens": "Borgere",
+        "caseWorker": {
+            "addNewCaseworker": "Tilføj ny sagsbehandler",
+            "alert": {
+                "newCaseWorkerSuccessfullyAdded": "Ny sagsbehandler tilføjet med succes"
+            },
+            "newCaseWorker": "Ny sagsbehandler"
+        },
         "contacts": {
             "alert": {
                 "contactSuccessfullyDeleted": "Kontakt slettet med succes"

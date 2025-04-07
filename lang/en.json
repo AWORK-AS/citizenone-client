@@ -407,6 +407,13 @@
             "viewSchedule": "View schedule"
         },
         "citizens": "Citizens",
+        "caseWorker": {
+            "addNewCaseworker": "Add new case worker",
+            "alert": {
+                "newCaseWorkerSuccessfullyAdded": "New case worker successfully added"
+            },
+            "newCaseWorker": "New case worker"
+        },
         "contacts": {
             "alert": {
                 "contactSuccessfullyDeleted": "Contact successfully deleted"
