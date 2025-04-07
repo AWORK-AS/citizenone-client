@@ -80,11 +80,14 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    selectedDate: {
+        type: String,
+        required: true,
+    },
 })
 const { t } = useI18n()
 const emit = defineEmits(['close', 'saveShift', 'resetNewShiftError'])
 const language = useI18n()
-
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
@@ -107,6 +110,8 @@ watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
         fetchAllShifts()
     }
+    state.formShift.date_time_start = moment(props.selectedDate).startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm')
+    state.formShift.date_time_end = moment(props.selectedDate).startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm')
 })
 
 const rules = computed(() => {

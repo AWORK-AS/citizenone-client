@@ -501,8 +501,8 @@
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDepartmentSickLeaveDate" />
             <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :error="state.newShiftError"
-                @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
-                @resetNewShiftError="state.newShiftError = {}" />
+                :selectedDate="state.newShift.selectedDate" @close="state.modal.isAddShiftOpen = false"
+                @saveShift="saveShift" @resetNewShiftError="state.newShiftError = {}" />
             <ModulesUserDutyScheduleTimeRequestsModalRequests
                 :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
                 :selectedDate="state.manageTimeRequest.selectedDate"
@@ -598,6 +598,9 @@ const state = reactive({
         isRequestTimeAdjustmentOpen: false,
         isRequestSwapScheduleOpen: false,
     } as any,
+    newShift: {
+        selectedDate: '',
+    },
     newShiftError: {} as Error,
     progress: {
         percentage: 100,
@@ -809,6 +812,7 @@ function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: any, week:
         weekIndex: weekIndex,
         ...week
     }
+    state.newShift.selectedDate = week?.date
 }
 
 function openManageScheduleSlotModal(day: any) {
