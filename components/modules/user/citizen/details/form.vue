@@ -226,8 +226,8 @@
                 </div>
             </div>
             <div class="space-y-1">
-                <FormLabel for="caseworker" :label="$t('citizens.form.caseworker')" />
-                <FormTextField id="caseworker" name="caseworker" :placeholder="$t('citizens.form.caseworker')"
+                <FormLabel for="caseworker" :label="$t('citizens.form.primaryCaseworker')" />
+                <FormTextField id="caseworker" name="caseworker" :placeholder="$t('citizens.form.primaryCaseworker')"
                     v-model="state.formCitizen.caseworker" />
                 <FormError :error="v$?.formCitizen?.caseworker?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.caseworker?.[0]" />

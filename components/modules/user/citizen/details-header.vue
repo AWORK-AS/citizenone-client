@@ -54,24 +54,66 @@
                                     </div>
                                     <div class="flex items-center gap-x-1"
                                         v-if="state.selectedCitizen?.data?.caseworker_name">
-                                        <Tooltip :text="$t('citizens.form.caseworker')" class="flex items-center">
+                                        <Tooltip :text="$t('citizens.form.primaryCaseworker')"
+                                            class="flex items-center">
                                             <Icon name="ph:user" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
                                         <p class="text-sm font-medium text-gray-700">
+                                            {{ $t('citizens.form.primaryCaseworker') }}:
                                             {{ state.selectedCitizen?.data?.caseworker_name }}
                                         </p>
                                     </div>
+                                    <div class="flex items-center gap-x-1"
+                                        v-if="state.selectedCitizen?.data?.date_admitted">
+                                        <Tooltip :text="$t('citizens.form.dateAdmitted')" class="flex items-center">
+                                            <Icon name="ph:calendar" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ $t('citizens.form.dateAdmitted') }}:
+                                            {{ formatDateToReadable(state.selectedCitizen?.data?.date_admitted) }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-x-1"
+                                        v-if="state.selectedCitizen?.data?.date_discharged">
+                                        <Tooltip :text="$t('citizens.form.dateDischarged')" class="flex items-center">
+                                            <Icon name="ph:calendar" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ $t('citizens.form.dateDischarged') }}:
+                                            {{ formatDateToReadable(state.selectedCitizen?.data?.date_discharged) }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="space-y-1">
                                     <div class="flex items-center gap-x-1"
                                         v-if="state.selectedCitizen?.data?.ean_number">
                                         <Tooltip :text="$t('citizens.form.eanNumber')" class="flex items-center">
                                             <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
                                         <p class="text-sm font-medium text-gray-700">
+                                            EAN:
                                             {{ state.selectedCitizen?.data?.ean_number }}
                                         </p>
                                     </div>
-                                </div>
-                                <div class="space-y-1">
+                                    <div class="flex items-center gap-x-1" v-if="state.selectedCitizen?.data?.pricing">
+                                        <Tooltip :text="$t('citizens.form.pricing')" class="flex items-center">
+                                            <Icon name="ph:money" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ $t('citizens.form.pricing') }}:
+                                            {{ state.selectedCitizen?.data?.pricing }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-x-1"
+                                        v-if="state.selectedCitizen?.data?.pricing_start_date">
+                                        <Tooltip :text="$t('citizens.form.pricingStartDate')" class="flex items-center">
+                                            <Icon name="ph:calendar" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ $t('citizens.form.pricingStartDate') }}:
+                                            {{ state.selectedCitizen?.data?.pricing_start_date }}
+                                        </p>
+                                    </div>
                                     <div class="flex items-center gap-x-1"
                                         v-if="state.selectedCitizen?.data?.paying_municipality">
                                         <Tooltip :text="$t('citizens.form.payingMunicipality')"
@@ -79,6 +121,7 @@
                                             <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
                                         <p class="text-sm font-medium text-gray-700">
+                                            {{ $t('citizens.form.payingMunicipality') }}:
                                             {{ state.selectedCitizen?.data?.paying_municipality?.name }}
                                         </p>
                                     </div>
@@ -89,6 +132,7 @@
                                             <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
                                         <p class="text-sm font-medium text-gray-700">
+                                            {{ $t('citizens.form.assessmentMunicipality') }}:
                                             {{ state.selectedCitizen?.data?.assessment_municipality?.name }}
                                         </p>
                                     </div>
@@ -99,6 +143,7 @@
                                             <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
                                         <p class="text-sm font-medium text-gray-700">
+                                            {{ $t('citizens.form.responsibleMunicipality') }}:
                                             {{ state.selectedCitizen?.data?.responsible_municipality?.name }}
                                         </p>
                                     </div>
