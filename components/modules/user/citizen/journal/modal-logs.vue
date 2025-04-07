@@ -11,9 +11,9 @@
                                 <td width="25%">
                                     <span>{{ formatDateTimeToReadable(log.created_at) }}</span>
                                 </td>
-                                <td width="50%">
+                                <td width="50%" class="pr-0">
                                     <div :class="expandedDescription[index] ? '' : 'line-clamp-2'">
-                                        <div class="space-y-1.5">
+                                        <div class="bg-green-200 rounded-md space-y-1.5 p-4">
                                             <div>
                                                 <p class="text-sm font-semibold">
                                                     {{ $t('citizens.citizenJournals.journalLogs.newData') }}
@@ -132,7 +132,7 @@
                                                 {{ formatDateTimeToReadable(JSON.parse(log.new_data).created_at) }}
                                             </p>
                                         </div>
-                                        <div class="space-y-1.5 mt-3">
+                                        <div class="bg-yellow-100 rounded-md space-y-1.5 p-4 mt-3">
                                             <div>
                                                 <p class="text-sm font-semibold">
                                                     {{ $t('citizens.citizenJournals.journalLogs.previousData') }}
