@@ -214,14 +214,14 @@
                         <FormError :error="props?.error?.errors?.employment_date?.[0]" />
                     </div>
                     <div class="space-y-1" ref="yearlyVacationDaysField">
-                        <FormLabel for="yearly_vacation_days"
-                            :label="$t('employees.form.employment.vacationDaysPerYear')" />
-                        <FormTextField id="yearly_vacation_days" name="yearly_vacation_days"
-                            :placeholder="$t('employees.form.employment.vacationDaysPerYear')"
-                            v-model="state.formEmployee.employment.yearly_vacation_days" />
+                        <FormLabel for="compensatory_hours"
+                            :label="$t('employees.form.employment.compensatoryHours')" />
+                        <FormTextField id="compensatory_hours" name="compensatory_hours"
+                            :placeholder="$t('employees.form.employment.compensatoryHours')"
+                            v-model="state.formEmployee.employment.compensatory_hours" />
                         <FormError
-                            :error="v$?.formEmployee?.employment?.yearly_vacation_days?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.yearly_vacation_days?.[0]" />
+                            :error="v$?.formEmployee?.employment?.compensatory_hours?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.compensatory_hours?.[0]" />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -517,7 +517,7 @@ const state = reactive({
             job_specialties: [],
             working_hours: '',
             employment_status: '',
-            yearly_vacation_days: '',
+            compensatory_hours: '',
         },
         emergencyInfo: {
             emergency_contacts: [],
@@ -614,7 +614,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 job_specialties: newValue.employment.job_specialties,
                 working_hours: newValue.employment.working_hours,
                 employment_status: newValue.employment.employment_status,
-                yearly_vacation_days: newValue.employment.yearly_vacation_days,
+                compensatory_hours: newValue.employment.compensatory_hours,
             }
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)
@@ -686,7 +686,7 @@ const rules = computed(() => {
                 employment_status: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
                 },
-                yearly_vacation_days: {
+                compensatory_hours: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
                 },
             }
@@ -980,7 +980,7 @@ function submitForm() {
             postCodeField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.employment_date?.$error && employmentDateField.value) {
             employmentDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        } else if (v$.value.formEmployee.employment.yearly_vacation_days?.$error && yearlyVacationDaysField.value) {
+        } else if (v$.value.formEmployee.employment.compensatory_hours?.$error && yearlyVacationDaysField.value) {
             yearlyVacationDaysField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.job_title_uuid?.$error && jobTitleField.value) {
             jobTitleField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })

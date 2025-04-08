@@ -190,9 +190,9 @@
                                         </p>
                                     </div>
                                     <div class="space-y-1">
-                                        <Label :label="$t('employees.form.employment.vacationDaysPerYear')" />
+                                        <Label :label="$t('employees.form.employment.compensatoryHours')" />
                                         <p class="font-medium">
-                                            {{ state.selectedEmployee.employment.yearly_vacation_days }}
+                                            {{ state.selectedEmployee.employment.compensatory_hours }}
                                         </p>
                                     </div>
                                 </div>
@@ -536,7 +536,7 @@ async function fetchEmployee() {
                     employee_specialties: concatenatedJobSpecialties,
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
-                    yearly_vacation_days: response?.data?.employee_detail?.yearly_vacation_days,
+                    compensatory_hours: response?.data?.employee_detail?.compensatory_hours,
                 },
                 emergencyInfo: {
                     emergency_contacts: [],

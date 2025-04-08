@@ -1891,11 +1891,11 @@
                 "trustees": "Trustees"
             },
             "employment": {
+                "compensatoryHours": "Compensatory hours",
                 "employmentDate": "Employment date",
                 "employmentStatus": "Employment status",
                 "jobSpecialty": "Job specialty",
                 "jobTitle": "Job title",
-                "vacationDaysPerYear": "Vacation days per year",
                 "workingHours": "Working hours"
             },
             "firstname": "First name",
