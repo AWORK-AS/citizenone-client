@@ -47,7 +47,8 @@
                                 </span>
                             </button>
                             <div class="flex justify-end items-center mb-5 gap-x-2">
-                                <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/forms')">
+                                <FormButton buttonStyle="action" class="rounded-lg"
+                                    @click="state.modal.isCreateStatusTemplateOpen = true">
                                     <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('plansandgoals.createStatusTemplate') }}
                                 </FormButton>
@@ -269,7 +270,9 @@
             </div>
             <ModulesUserCitizenPlanModalFilter :isModalOpen="state.modal.isFilterPlansAndGoalsOpen"
                 @close="state.modal.isFilterPlansAndGoalsOpen = false" @setFilterView="setFilterView" />
-            <ModulesUserCitizenPlanModalNew :isModalOpen="state.modal.isAddPlanOpen"
+            <ModulesUserCitizenPlanModalNewStatusTemplate :isModalOpen="state.modal.isCreateStatusTemplateOpen"
+                @close="state.modal.isCreateStatusTemplateOpen = false" />
+            <ModulesUserCitizenPlanModalNewPlan :isModalOpen="state.modal.isAddPlanOpen"
                 @close="state.modal.isAddPlanOpen = false" @refreshPlans="fetchPlans" />
             <ModulesUserCitizenPlanModalEdit :isModalOpen="state.modal.isEditPlanOpen"
                 :selectedPlan="state.selectedPlan" @close="closeEditPlanModal" @refreshPlans="fetchPlans" />
@@ -345,6 +348,7 @@ const state = reactive({
         isArchiveGoalOpen: false,
         isArchivePlanOpen: false,
         isChartOpen: false,
+        isCreateStatusTemplateOpen: false,
         isDeletePlanOpen: false,
         isDeleteSingleGoalOpen: false,
         isEditPlanOpen: false,
