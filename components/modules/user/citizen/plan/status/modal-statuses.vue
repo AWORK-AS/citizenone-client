@@ -12,6 +12,9 @@
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                                 <template #body v-if="!(state.isTableLoading || (state.statuses?.data?.length === 0))">
                                     <tr v-for="(status, index) in state.statuses?.data" :key="index">
+                                        <td width="15%">
+                                            <span>{{ formatDateToReadable(status?.created_at) }}</span>
+                                        </td>
                                         <td width="20%">
                                             <p>
                                                 {{ status?.form?.title }}
@@ -27,9 +30,6 @@
                                                     $t('showLess') :
                                                     $t('showMore') }}
                                             </button>
-                                        </td>
-                                        <td width="15%">
-                                            <span>{{ formatDateToReadable(status?.created_at) }}</span>
                                         </td>
                                         <td width="20%">
                                             <span>
@@ -96,9 +96,9 @@ const emit = defineEmits(['close', 'refreshData'])
 
 const state = reactive({
     columnHeaders: [
-        { name: 'plansandgoals.table.title', sorter: true, key: 'title' },
+        { name: 'plansandgoals.table.dateCreated', sorter: true, key: 'created_at' },
+        { name: 'plansandgoals.table.title' },
         { name: 'plansandgoals.table.description' },
-        { name: 'plansandgoals.table.dateCreated' },
         { name: 'plansandgoals.table.createdBy' },
         { name: '' },
     ],
