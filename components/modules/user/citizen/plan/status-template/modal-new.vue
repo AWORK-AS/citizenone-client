@@ -110,6 +110,17 @@ const state = reactive({
 
 function closeModal() {
     emit('close')
+    resetForm()
+}
+
+function resetForm() {
+    state.formStatusTemplate = {
+        form_uuid: '',
+        goal_uuid: '',
+        plan_uuid: '',
+        subgoal_uuid: '',
+    }
+    v$.value.$reset()
 }
 
 watch(() => props.isModalOpen, (isModalOpen: any) => {
