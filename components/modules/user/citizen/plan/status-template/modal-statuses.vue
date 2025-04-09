@@ -71,7 +71,6 @@ import { planGoalSubgoalService } from '@/components/api/user/PlanGoalSubgoalSer
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 

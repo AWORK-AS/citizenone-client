@@ -2637,6 +2637,7 @@
                 "form": "Form",
                 "goal": "Goal",
                 "plan": "Goal",
+                "saveAndDownload": "Save and download PDF",
                 "subgoal": "Subgoal"
             }
         },

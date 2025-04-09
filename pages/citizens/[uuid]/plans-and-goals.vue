@@ -290,7 +290,7 @@
                 :selectedData="state.selectedPlan" @close="state.modal.isChartOpen = false" />
             <ModulesUserCitizenPlanNotesModalNotes :isModalOpen="state.modal.isNotesOpen"
                 :selectedData="state.selectedPlan" @close="closeNotesModal" @refreshData="fetchPlans" />
-            <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatuses"
+            <ModulesUserCitizenPlanStatusTemplateModalStatuses :isModalOpen="state.modal.isStatuses"
                 :selectedData="state.selectedPlan" @close="closeStatusesModal" />
             <ModulesUserCitizenPlanNotificationModalNotifications :isModalOpen="state.modal.isNotificationsOpen"
                 :selectedData="state.selectedPlan" @close="state.modal.isNotificationsOpen = false" />

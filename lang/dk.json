@@ -2637,6 +2637,7 @@
                 "form": "Formular",
                 "goal": "Mål",
                 "plan": "Plan",
+                "saveAndDownload": "Gem og download PDF",
                 "subgoal": "Delmål"
             }
         },

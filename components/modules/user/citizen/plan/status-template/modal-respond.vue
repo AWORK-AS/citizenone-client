@@ -213,12 +213,18 @@
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal()">
-                                    {{ $t('cancel') }}
-                                </FormButton>
                                 <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                     @click="submitResponse">
                                     {{ $t('save') }}
+                                </FormButton>
+                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                    @click="submitResponseAndDownloadPDF">
+                                    {{ $t('plansandgoals.createStatusTemplate.form.saveAndDownload') }}
+                                </FormButton>
+                            </div>
+                            <div class="mt-2 flex justify-center">
+                                <FormButton type="button" buttonStyle="link" class="rounded-md" @click="closeModal()">
+                                    {{ $t('cancel') }}
                                 </FormButton>
                             </div>
                         </div>
@@ -236,6 +242,7 @@ import { formFieldService } from '@/components/api/user/FormFieldService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
+import { saveAs } from 'file-saver'
 
 const props = defineProps({
     isModalOpen: {
@@ -350,6 +357,48 @@ async function submitResponse() {
             successAlert(`${t('alert.success')}!`, `${t('plansandgoals.createStatusTemplate.alert.statusTemplateSuccessfullyAdded')}.`)
             closeModal()
             closeModalNew()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function submitResponseAndDownloadPDF() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        let params = new FormData()
+        params.append('form_uuid', props.selectFormStatusTemplate?.form_uuid.toString())
+        if (props.selectFormStatusTemplate.subgoal_uuid) {
+            params.append('plan_goal_subgoal_uuid', props.selectFormStatusTemplate.subgoal_uuid.toString())
+        } else if (props.selectFormStatusTemplate.goal_uuid) {
+            params.append('plan_goal_subgoal_uuid', props.selectFormStatusTemplate.goal_uuid.toString())
+        } else {
+            params.append('plan_goal_subgoal_uuid', props.selectFormStatusTemplate.plan_uuid.toString())
+        }
+
+        state.form.data.form_fields.forEach((formField: any) => {
+            const fieldType = JSON.parse(formField.field)?.type
+            const fieldUuid = formField.uuid
+
+            if (fieldType === 'uploadfile' && formField.responses instanceof File) {
+                // Handle file uploads separately
+                params.append(`responses[${fieldUuid}]`, formField.responses, formField.responses.name)
+            } else if (Array.isArray(formField.responses)) {
+                // Handle checkboxes, which are arrays
+                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses))
+            } else {
+                // Handle other field types (text, date, rating, etc.)
+                params.append(`responses[${fieldUuid}]`, formField.responses)
+            }
+        })
+        const response = await formFieldService.saveResponsesAndDownloadPDF(params)
+        if (response) {
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.createStatusTemplate.alert.statusTemplateSuccessfullyAdded')}.`)
+            closeModal()
+            closeModalNew()
+            saveAs(response)
         }
     } catch (error: any) {
         state.error = error
