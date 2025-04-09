@@ -1344,6 +1344,21 @@
             "walletTransactions": "Wallet transactions"
         }
     },
+    "createStatusTemplate": {
+        "alert": {
+            "statusTemplateSuccessfullyAdded": "Status template successfully added"
+        },
+        "createStatusTemplate": "Create status template",
+        "form": {
+            "answerForm": "Answer form",
+            "chooseLabel": "Choose whether you want to download the form for offline completion or create a response directly",
+            "downloadForm": "Download form",
+            "form": "Form",
+            "goal": "Goal",
+            "plan": "Goal",
+            "subgoal": "Subgoal"
+        }
+    },
     "customPages": {
         "editCustomPage": "Edit custom page",
         "form": {
@@ -2658,6 +2673,7 @@
                 "severeChallenges": "Severe challenges",
                 "verySubstantialChallenges": "Very substantial challenges"
             },
+            "form": "Form",
             "goalName": "Goal name",
             "notes": "Notes",
             "planCompletionDate": "Plan completion date",
@@ -2669,6 +2685,8 @@
             "useTemplate": "Use template"
         },
         "graph": "Graph",
+        "goal": "Goal",
+        "goals": "Goals",
         "inProgress": "In progress",
         "new": "New",
         "newGoal": "New goal",
@@ -2707,6 +2725,9 @@
                 "users": "Users"
             }
         },
+        "plan": "Plan",
+        "plans": "Plans",
+        "subgoal": "Subgoal",
         "subgoals": "Subgoals",
         "table": {
             "actions": {

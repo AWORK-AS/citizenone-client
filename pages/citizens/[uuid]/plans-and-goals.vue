@@ -270,7 +270,7 @@
             </div>
             <ModulesUserCitizenPlanModalFilter :isModalOpen="state.modal.isFilterPlansAndGoalsOpen"
                 @close="state.modal.isFilterPlansAndGoalsOpen = false" @setFilterView="setFilterView" />
-            <ModulesUserCitizenPlanModalNewStatusTemplate :isModalOpen="state.modal.isCreateStatusTemplateOpen"
+            <ModulesUserCitizenPlanStatusTemplateModalNew :isModalOpen="state.modal.isCreateStatusTemplateOpen"
                 @close="state.modal.isCreateStatusTemplateOpen = false" />
             <ModulesUserCitizenPlanModalNewPlan :isModalOpen="state.modal.isAddPlanOpen"
                 @close="state.modal.isAddPlanOpen = false" @refreshPlans="fetchPlans" />

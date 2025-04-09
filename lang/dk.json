@@ -1344,6 +1344,21 @@
             "walletTransactions": "Transaktionshistorik"
         }
     },
+    "createStatusTemplate": {
+        "alert": {
+            "statusTemplateSuccessfullyAdded": "Status skabelon tilføjet med succes"
+        },
+        "createStatusTemplate": "Opret status skabelon",
+        "form": {
+            "answerForm": "Svar formular",
+            "chooseLabel": "Vælg, om du vil downloade formularen for offline udfyldelse eller oprette et svar direkte",
+            "downloadForm": "Download formular",
+            "form": "Formular",
+            "goal": "Mål",
+            "plan": "Plan",
+            "subgoal": "Delmål"
+        }
+    },
     "customPages": {
         "editCustomPage": "Rediger brugerdefineret side",
         "form": {
@@ -2658,6 +2673,7 @@
                 "severeChallenges": "Alvorlige udfordringer",
                 "verySubstantialChallenges": "Meget store udfordringer"
             },
+            "form": "Formular",
             "goalName": "Målnavn",
             "notes": "Noter",
             "planCompletionDate": "Plan afslutningsdato",
@@ -2669,6 +2685,8 @@
             "useTemplate": "Brug skabelon"
         },
         "graph": "Graf",
+        "goal": "Mål",
+        "goals": "Mål",
         "inProgress": "I gang",
         "new": "Ny",
         "newGoal": "Nyt mål",
@@ -2707,6 +2725,9 @@
                 "users": "Brugere"
             }
         },
+        "plan": "Plan",
+        "plans": "Planer",
+        "subgoal": "Delmål",
         "subgoals": "Delmål",
         "table": {
             "actions": {

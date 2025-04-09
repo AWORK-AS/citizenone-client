@@ -11,7 +11,7 @@ const props = defineProps({
     canClear: {
         type: Boolean,
         required: false,
-        default: true
+        default: false
     },
     options: {
         type: Object,

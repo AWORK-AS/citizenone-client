@@ -20,6 +20,10 @@ class FormService extends BaseAPIService {
     async deleteForm(formUuid: any): Promise<any> {
         return await this.request(`/user/forms/${formUuid}`, 'DELETE')
     }
+
+    async getAllForms(): Promise<any> {
+        return await this.request(`/user/forms/all/list`, 'GET')
+    }
 }
 
 export const formService = new FormService()

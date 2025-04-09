@@ -15,13 +15,13 @@
                     :sortData="state.sortData" @sort="sort">
                     <template #body v-if="!(state.isTableLoading || (state.forms?.data?.length === 0))">
                         <tr v-for="(form, index) in state.forms?.data" :key="index">
-                            <td width="30%">
+                            <td width="50%">
                                 <p>{{ form?.title }}</p>
                             </td>
                             <td width="50%">
                                 <p>{{ form?.description }}</p>
                             </td>
-                            <td width="20%">
+                            <!-- <td width="20%">
                                 <div class="flex items-end gap-2">
                                     <FormButton type="button" buttonStyle="action" class="rounded-md"
                                         @click="navigateTo(`/forms/${form.uuid}/responses`)">
@@ -34,7 +34,7 @@
                                         {{ $t('forms.table.actions.createResponse') }}
                                     </FormButton>
                                 </div>
-                            </td>
+                            </td> -->
                         </tr>
                     </template>
                 </Table>
@@ -57,7 +57,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'forms.table.title', sorter: true, key: 'title' },
         { name: 'forms.table.description' },
-        { name: '' },
+        // { name: '' },
     ],
     dataFilter: {
         search: ''
