@@ -4,14 +4,21 @@
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <form @submit.prevent="submitForm()" id="formStatusTemplate">
+                    <form @submit.prevent="submitForm()" id="formTemplate">
                         <div class="space-y-3">
+                            <div class="space-y-1">
+                                <FormLabel for="folder"
+                                    :label="$t('citizens.documents.createTemplate.form.folderName')" />
+                                <FormSelect id="folder" :options="state.options.folders"
+                                    v-model="state.formTemplate.folder_uuid" />
+                                <FormError :error="v$?.formTemplate?.folder_uuid?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.folder_uuid?.[0]" />
+                            </div>
                             <div class="space-y-1">
                                 <FormLabel for="form" :label="$t('citizens.documents.createTemplate.form.form')" />
                                 <FormSelect id="form" :options="state.options.forms"
-                                    v-model="state.formStatusTemplate.form_uuid" />
-                                <FormError
-                                    :error="v$?.formStatusTemplate?.form_uuid?.$errors[0]?.$message.toString()" />
+                                    v-model="state.formTemplate.form_uuid" />
+                                <FormError :error="v$?.formTemplate?.form_uuid?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.form_uuid?.[0]" />
                             </div>
                             <div class="grid md:grid-cols-3 gap-x-3">
@@ -19,29 +26,27 @@
                                     <FormLabel for="journal_note_plan"
                                         :label="$t('citizens.documents.createTemplate.form.plan')" />
                                     <FormSelect id="journal_note_plan" :options="state.options.plans"
-                                        v-model="state.formStatusTemplate.plan_uuid"
+                                        v-model="state.formTemplate.plan_uuid"
                                         @change="(planUuid: any) => fetchAllGoalsPerPlan(planUuid)" />
-                                    <FormError
-                                        :error="v$?.formStatusTemplate?.plan_uuid?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="v$?.formTemplate?.plan_uuid?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.plan_uuid?.[0]" />
                                 </div>
                                 <div class="space-y-1">
                                     <FormLabel for="journal_note_goal"
                                         :label="$t('citizens.documents.createTemplate.form.goal')" />
                                     <FormSelect id="journal_note_goal" :options="state.options.goals"
-                                        v-model="state.formStatusTemplate.goal_uuid"
+                                        v-model="state.formTemplate.goal_uuid"
                                         @change="(goalUuid: any) => fetchAllSubgoalsPerGoal(goalUuid)" />
-                                    <FormError
-                                        :error="v$?.formStatusTemplate?.goal_uuid?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="v$?.formTemplate?.goal_uuid?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.goal_uuid?.[0]" />
                                 </div>
                                 <div class="space-y-1">
                                     <FormLabel for="journal_note_subgoals"
                                         :label="$t('citizens.documents.createTemplate.form.subgoal')" />
                                     <FormSelect id="journal_note_subgoals" :options="state.options.subgoals"
-                                        v-model="state.formStatusTemplate.subgoal_uuid" />
+                                        v-model="state.formTemplate.subgoal_uuid" />
                                     <FormError
-                                        :error="v$?.formStatusTemplate?.subgoal_uuid?.$errors[0]?.$message.toString()" />
+                                        :error="v$?.formTemplate?.subgoal_uuid?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.subgoal_uuid?.[0]" />
                                 </div>
                             </div>
@@ -58,8 +63,8 @@
                         </div>
                     </form>
                 </LoadingSpinner>
-                <ModulesUserCitizenPlanStatusTemplateModalRespond :isModalOpen="state.modal.isRespondOpen"
-                    :selectFormStatusTemplate="state.formStatusTemplate" @close="state.modal.isRespondOpen = false"
+                <ModulesUserCitizenDocumentStatusTemplateModalRespond :isModalOpen="state.modal.isRespondOpen"
+                    :selectedFormStatusTemplate="state.formTemplate" @close="state.modal.isRespondOpen = false"
                     @closeModalNew="closeModal()" />
             </template>
         </Modal>
@@ -68,6 +73,7 @@
 
 
 <script setup lang="ts">
+import { citizenDocumentService } from '@/components/api/user/CitizenDocumentService'
 import { formService } from '@/components/api/user/FormService'
 import { planService } from '@/components/api/user/PlanService'
 import { goalService } from '@/components/api/user/GoalService'
@@ -92,7 +98,8 @@ const emit = defineEmits(['close'])
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
-    formStatusTemplate: {
+    formTemplate: {
+        folder_uuid: '',
         form_uuid: '',
         goal_uuid: '',
         plan_uuid: '',
@@ -103,6 +110,7 @@ const state = reactive({
     },
     options: {
         forms: [],
+        folders: [],
         plans: [],
         goals: [],
         subgoals: [],
@@ -115,7 +123,8 @@ function closeModal() {
 }
 
 function resetForm() {
-    state.formStatusTemplate = {
+    state.formTemplate = {
+        folder_uuid: '',
         form_uuid: '',
         goal_uuid: '',
         plan_uuid: '',
@@ -126,6 +135,7 @@ function resetForm() {
 
 watch(() => props.isModalOpen, (isModalOpen: any) => {
     if (isModalOpen) {
+        fetchAllFolders()
         fetchAllForms()
         fetchAllPlans()
     }
@@ -133,11 +143,11 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
 
 const rules = computed(() => {
     return {
-        formStatusTemplate: {
-            form_uuid: {
+        formTemplate: {
+            folder_uuid: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            plan_uuid: {
+            form_uuid: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
@@ -145,6 +155,27 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+async function fetchAllFolders() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await citizenDocumentService.getAllFolders(citizenUuid)
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.folders = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 
 async function fetchAllForms() {
     state.error = {}
@@ -240,7 +271,7 @@ async function submitForm() {
 </script>
 
 <style>
-#formStatusTemplate .multiselect-dropdown {
+#formTemplate .multiselect-dropdown {
     max-height: 4.8rem !important;
 }
 </style>

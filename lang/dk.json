@@ -508,10 +508,28 @@
                 },
                 "createTemplate": "Opret skabelon",
                 "form": {
+                    "folderName": "Mappenavn",
                     "form": "Formular",
                     "goal": "Mål",
                     "plan": "Plan",
+                    "saveAndDownload": "Gem og download PDF",
                     "subgoal": "Delmål"
+                },
+                "statuses": "Statusser",
+                "table": {
+                    "actions": {
+                        "delete": "Slet"
+                    },
+                    "alert": {
+                        "templateSuccessfullyDeleted": "Skabelon slettet med succes"
+                    },
+                    "createdBy": "Oprettet af",
+                    "confirmation": {
+                        "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne skabelon"
+                    },
+                    "dateCreated": "Oprettelsesdato",
+                    "description": "Beskrivelse",
+                    "title": "Titel"
                 }
             },
             "documents": "Dokumenter",
@@ -533,6 +551,7 @@
                     "delete": "Slet",
                     "move": "Flyt",
                     "share": "Del",
+                    "statuses": "Statusser",
                     "unshare": "Fjern deling",
                     "view": "Se"
                 },

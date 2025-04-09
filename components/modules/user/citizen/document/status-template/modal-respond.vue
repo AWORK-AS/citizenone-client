@@ -1,7 +1,7 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('plansandgoals.createStatusTemplate.createStatusTemplate')"
-            :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xl" :title="$t('citizens.documents.createTemplate.createTemplate')" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="space-y-5">
@@ -219,7 +219,7 @@
                                 </FormButton>
                                 <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                     @click="submitResponseAndDownloadPDF">
-                                    {{ $t('plansandgoals.createStatusTemplate.form.saveAndDownload') }}
+                                    {{ $t('citizens.documents.createTemplate.form.saveAndDownload') }}
                                 </FormButton>
                             </div>
                             <div class="mt-2 flex justify-center">
@@ -238,7 +238,8 @@
 
 <script setup lang="ts">
 import { formService } from '@/components/api/user/FormService'
-import { formFieldService } from '@/components/api/user/FormFieldService'
+import { citizenDocumentTemplateService } from '@/components/api/user/CitizenDocumentTemplateService'
+import { citizenDocumentStatusService } from '@/components/api/user/CitizenDocumentStatusService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -249,7 +250,7 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectFormStatusTemplate: {
+    selectedFormStatusTemplate: {
         type: Object,
         required: true,
     },
@@ -282,7 +283,7 @@ async function fetchForm() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const formUuid = props.selectFormStatusTemplate?.form_uuid
+        const formUuid = props.selectedFormStatusTemplate?.form_uuid
         const response = await formService.getForm(formUuid)
         if (response) {
             if (response.data?.form_fields) {
@@ -328,13 +329,13 @@ async function submitResponse() {
     state.isPageLoading = true
     try {
         let params = new FormData()
-        params.append('form_uuid', props.selectFormStatusTemplate?.form_uuid.toString())
-        if (props.selectFormStatusTemplate.subgoal_uuid) {
-            params.append('plan_goal_subgoal_uuid', props.selectFormStatusTemplate.subgoal_uuid.toString())
-        } else if (props.selectFormStatusTemplate.goal_uuid) {
-            params.append('plan_goal_subgoal_uuid', props.selectFormStatusTemplate.goal_uuid.toString())
+        params.append('form_uuid', props.selectedFormStatusTemplate?.form_uuid.toString())
+        if (props.selectedFormStatusTemplate.subgoal_uuid) {
+            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.subgoal_uuid.toString())
+        } else if (props.selectedFormStatusTemplate.goal_uuid) {
+            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.goal_uuid.toString())
         } else {
-            params.append('plan_goal_subgoal_uuid', props.selectFormStatusTemplate.plan_uuid.toString())
+            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.plan_uuid.toString())
         }
 
         state.form.data.form_fields.forEach((formField: any) => {
@@ -352,9 +353,9 @@ async function submitResponse() {
                 params.append(`responses[${fieldUuid}]`, formField.responses)
             }
         })
-        const response = await formFieldService.saveResponses(params)
+        const response = await citizenDocumentTemplateService.saveDocumentResponses(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.createStatusTemplate.alert.statusTemplateSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.createTemplate.alert.statusTemplateSuccessfullyAdded')}.`)
             closeModal()
             closeModalNew()
         }
@@ -369,13 +370,14 @@ async function submitResponseAndDownloadPDF() {
     state.isPageLoading = true
     try {
         let params = new FormData()
-        params.append('form_uuid', props.selectFormStatusTemplate?.form_uuid.toString())
-        if (props.selectFormStatusTemplate.subgoal_uuid) {
-            params.append('plan_goal_subgoal_uuid', props.selectFormStatusTemplate.subgoal_uuid.toString())
-        } else if (props.selectFormStatusTemplate.goal_uuid) {
-            params.append('plan_goal_subgoal_uuid', props.selectFormStatusTemplate.goal_uuid.toString())
+        params.append('folder_uuid', props.selectedFormStatusTemplate?.folder_uuid.toString())
+        params.append('form_uuid', props.selectedFormStatusTemplate?.form_uuid.toString())
+        if (props.selectedFormStatusTemplate.subgoal_uuid) {
+            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.subgoal_uuid.toString())
+        } else if (props.selectedFormStatusTemplate.goal_uuid) {
+            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.goal_uuid.toString())
         } else {
-            params.append('plan_goal_subgoal_uuid', props.selectFormStatusTemplate.plan_uuid.toString())
+            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.plan_uuid.toString())
         }
 
         state.form.data.form_fields.forEach((formField: any) => {
@@ -393,9 +395,9 @@ async function submitResponseAndDownloadPDF() {
                 params.append(`responses[${fieldUuid}]`, formField.responses)
             }
         })
-        const response = await formFieldService.savePlanGoalSubgoalResponsesAndDownloadPDF(params)
+        const response = await citizenDocumentTemplateService.saveDocumentResponsesAndDownloadPDF(params)
         if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.createStatusTemplate.alert.statusTemplateSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.createTemplate.alert.statusTemplateSuccessfullyAdded')}.`)
             closeModal()
             closeModalNew()
             saveAs(response)

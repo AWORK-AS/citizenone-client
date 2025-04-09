@@ -51,11 +51,11 @@
                             <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('folderStructure.folderStructure') }}
                         </FormButton>
-                        <!-- <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isAddTemplateOpen = true">
-                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            @click="state.modal.isCreateTemplateOpen = true">
+                            <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.documents.createTemplate.createTemplate') }}
-                        </FormButton> -->
+                        </FormButton>
                     </div>
                 </div>
 
@@ -111,6 +111,11 @@
                                                 {{ $t('citizens.documents.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="viewStatuses(document)">
+                                                <Icon name="ph:file" class="size-4" />
+                                                {{ $t('citizens.documents.table.actions.statuses') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="confirmDocumentShareUnshare(document)"
                                                 v-if="document?.type === 'file'">
                                                 <Icon name="ph:share" class="size-4" />
@@ -152,6 +157,10 @@
                 <ModulesUserCitizenDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
+                <ModulesUserCitizenDocumentStatusTemplateModalStatuses :isModalOpen="state.modal.isViewStatuses"
+                    :selectedData="state.selectedDocument" @close="closeStatusesModal" />
+                <ModulesUserCitizenDocumentStatusTemplateModalNew :isModalOpen="state.modal.isCreateTemplateOpen"
+                    @close="state.modal.isCreateTemplateOpen = false" />
                 <ModulesUserCitizenDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
                     @refreshDocuments="fetchDocuments" />
@@ -225,8 +234,8 @@ const state = reactive({
     documents: [] as any,
     modal: {
         isAddDirectoryOpen: false,
-        isAddTemplateOpen: false,
         isArchiveDocumentOpen: false,
+        isCreateTemplateOpen: false,
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,
         isEditDocumentOpen: false,
@@ -235,6 +244,7 @@ const state = reactive({
         isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
         isViewFolderStructureOpen: false,
+        isViewStatuses: false,
     },
     selectedDocument: [] as any,
     sortData: {
@@ -371,6 +381,16 @@ async function viewDirectory(document: any) {
 function editDocument(document: any) {
     state.selectedDocument = document
     state.modal.isEditDocumentOpen = true
+}
+
+function viewStatuses(document: any) {
+    state.selectedDocument = document
+    state.modal.isViewStatuses = true
+}
+
+function closeStatusesModal() {
+    state.modal.isViewStatuses = false
+    state.selectedDocument = {}
 }
 
 function confirmDocumentShareUnshare(document: any) {

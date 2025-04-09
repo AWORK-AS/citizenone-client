@@ -290,7 +290,7 @@
                 :selectedData="state.selectedPlan" @close="state.modal.isChartOpen = false" />
             <ModulesUserCitizenPlanNotesModalNotes :isModalOpen="state.modal.isNotesOpen"
                 :selectedData="state.selectedPlan" @close="closeNotesModal" @refreshData="fetchPlans" />
-            <ModulesUserCitizenPlanStatusTemplateModalStatuses :isModalOpen="state.modal.isStatuses"
+            <ModulesUserCitizenPlanStatusTemplateModalStatuses :isModalOpen="state.modal.isViewStatuses"
                 :selectedData="state.selectedPlan" @close="closeStatusesModal" />
             <ModulesUserCitizenPlanNotificationModalNotifications :isModalOpen="state.modal.isNotificationsOpen"
                 :selectedData="state.selectedPlan" @close="state.modal.isNotificationsOpen = false" />
@@ -363,7 +363,7 @@ const state = reactive({
         isFilterPlansAndGoalsOpen: false,
         isNotesOpen: false,
         isNotificationsOpen: false,
-        isStatuses: false,
+        isViewStatuses: false,
     },
     plans: [] as any,
     selectedGoal: {} as any,
@@ -526,11 +526,11 @@ function closeNotesModal() {
 
 function viewStatuses(plan: any) {
     state.selectedPlan = plan
-    state.modal.isStatuses = true
+    state.modal.isViewStatuses = true
 }
 
 function closeStatusesModal() {
-    state.modal.isStatuses = false
+    state.modal.isViewStatuses = false
     state.selectedPlan = {}
 }
 

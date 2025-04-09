@@ -508,10 +508,28 @@
                 },
                 "createTemplate": "Create template",
                 "form": {
+                    "folderName": "Folder name",
                     "form": "Form",
                     "goal": "Goal",
-                    "plan": "Goal",
+                    "plan": "Plan",
+                    "saveAndDownload": "Save and download",
                     "subgoal": "Subgoal"
+                },
+                "statuses": "Statuses",
+                "table": {
+                    "actions": {
+                        "delete": "Delete"
+                    },
+                    "alert": {
+                        "templateSuccessfullyDeleted": "Template successfully deleted"
+                    },
+                    "createdBy": "Created by",
+                    "confirmation": {
+                        "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
+                    },
+                    "dateCreated": "Date created",
+                    "description": "Description",
+                    "title": "Title"
                 }
             },
             "documents": "Documents",
@@ -533,6 +551,7 @@
                     "delete": "Delete",
                     "move": "Move",
                     "share": "Share",
+                    "statuses": "Statuses",
                     "unshare": "Unshare",
                     "view": "View"
                 },
@@ -2636,7 +2655,7 @@
                 "downloadForm": "Download form",
                 "form": "Form",
                 "goal": "Goal",
-                "plan": "Goal",
+                "plan": "Plan",
                 "saveAndDownload": "Save and download PDF",
                 "subgoal": "Subgoal"
             }
