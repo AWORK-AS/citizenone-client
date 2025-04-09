@@ -154,11 +154,11 @@ function handleSearch(value: any) {
     fetchStatuses()
 }
 
-async function downloadStatus() {
+async function downloadStatus(status: any) {
     state.isTableLoading = true
     state.error = {}
     try {
-        const attachmentUuid = props.selectedData?.uuid
+        const attachmentUuid = status?.uuid
         const response = await planGoalSubgoalService.downloadPlanGoalSubgoalStatuses(attachmentUuid)
         if (response) {
             saveAs(response)
