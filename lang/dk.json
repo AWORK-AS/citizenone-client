@@ -493,7 +493,6 @@
                 "folderSuccessfullyAdded": "Ny mappe gemt med succes",
                 "folderSuccessfullyUpdated": "Mappe opdateret med succes"
             },
-            "createNewFolder": "Opret ny mappe",
             "confirmation": {
                 "archiveConfirmation": "Er du sikker på, at du vil arkivere dette dokument",
                 "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil",
@@ -501,6 +500,19 @@
                 "shareConfirmation": "Er du sikker på, at du vil dele dette dokument",
                 "unshareConfirmation": "Er du sikker på, at du vil fjerne delingen af dette dokument",
                 "upgradeStorageConfirmation": "Vil du opgradere dit lager"
+            },
+            "createNewFolder": "Opret ny mappe",
+            "createTemplate": {
+                "alert": {
+                    "templateSuccessfullyAdded": "Skabelon tilføjet med succes"
+                },
+                "createTemplate": "Opret skabelon",
+                "form": {
+                    "form": "Formular",
+                    "goal": "Mål",
+                    "plan": "Plan",
+                    "subgoal": "Delmål"
+                }
             },
             "documents": "Dokumenter",
             "form": {

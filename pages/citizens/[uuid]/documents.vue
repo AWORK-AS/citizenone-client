@@ -51,6 +51,11 @@
                             <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('folderStructure.folderStructure') }}
                         </FormButton>
+                        <!-- <FormButton buttonStyle="action" class="rounded-md"
+                            @click="state.modal.isAddTemplateOpen = true">
+                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.documents.createTemplate.createTemplate') }}
+                        </FormButton> -->
                     </div>
                 </div>
 
@@ -220,6 +225,7 @@ const state = reactive({
     documents: [] as any,
     modal: {
         isAddDirectoryOpen: false,
+        isAddTemplateOpen: false,
         isArchiveDocumentOpen: false,
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,

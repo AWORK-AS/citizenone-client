@@ -493,7 +493,6 @@
                 "folderSuccessfullyAdded": "New folder successfully saved",
                 "folderSuccessfullyUpdated": "Folder successfully updated"
             },
-            "createNewFolder": "Create new folder",
             "confirmation": {
                 "archiveConfirmation": "Are you sure you want to archive this document",
                 "deleteFileConfirmation": "Are you sure you want to delete this file",
@@ -501,6 +500,19 @@
                 "shareConfirmation": "Are you sure you want to share this document",
                 "unshareConfirmation": "Are you sure you want to unshare this document",
                 "upgradeStorageConfirmation": "Do you want to upgrade your storage"
+            },
+            "createNewFolder": "Create new folder",
+            "createTemplate": {
+                "alert": {
+                    "templateSuccessfullyAdded": "Template successfully added"
+                },
+                "createTemplate": "Create template",
+                "form": {
+                    "form": "Form",
+                    "goal": "Goal",
+                    "plan": "Goal",
+                    "subgoal": "Subgoal"
+                }
             },
             "documents": "Documents",
             "form": {
