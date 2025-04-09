@@ -1344,21 +1344,6 @@
             "walletTransactions": "Transaktionshistorik"
         }
     },
-    "createStatusTemplate": {
-        "alert": {
-            "statusTemplateSuccessfullyAdded": "Status skabelon tilføjet med succes"
-        },
-        "createStatusTemplate": "Opret status skabelon",
-        "form": {
-            "answerForm": "Svar formular",
-            "chooseLabel": "Vælg, om du vil downloade formularen for offline udfyldelse eller oprette et svar direkte",
-            "downloadForm": "Download formular",
-            "form": "Formular",
-            "goal": "Mål",
-            "plan": "Plan",
-            "subgoal": "Delmål"
-        }
-    },
     "customPages": {
         "editCustomPage": "Rediger brugerdefineret side",
         "form": {
@@ -2628,7 +2613,21 @@
         },
         "completed": "Fuldført",
         "completionDate": "Afslutningsdato",
-        "createStatusTemplate": "Opret status skabelon",
+        "createStatusTemplate": {
+            "alert": {
+                "statusTemplateSuccessfullyAdded": "Status skabelon tilføjet med succes"
+            },
+            "createStatusTemplate": "Opret status skabelon",
+            "form": {
+                "answerForm": "Svar formular",
+                "chooseLabel": "Vælg, om du vil downloade formularen for offline udfyldelse eller oprette et svar direkte",
+                "downloadForm": "Download formular",
+                "form": "Formular",
+                "goal": "Mål",
+                "plan": "Plan",
+                "subgoal": "Delmål"
+            }
+        },
         "currentPlansAndGoals": "Nuværende planer og mål",
         "dateCompleted": "Dato for fuldførelse",
         "dateCreated": "Oprettelsesdato",

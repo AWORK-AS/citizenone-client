@@ -1,7 +1,7 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('createStatusTemplate.createStatusTemplate')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="xl" :title="$t('plansandgoals.createStatusTemplate.createStatusTemplate')"
+            :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <form @submit.prevent="submitForm()" id="formStatusTemplate">

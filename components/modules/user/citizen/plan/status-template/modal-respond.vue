@@ -1,7 +1,7 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('createStatusTemplate.createStatusTemplate')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="xl" :title="$t('plansandgoals.createStatusTemplate.createStatusTemplate')"
+            :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="space-y-5">
@@ -30,6 +30,11 @@
                                                                 <div class="grow space-y-3">
                                                                     <h3>
                                                                         {{ JSON.parse(formField?.field)?.value }}
+                                                                        <span
+                                                                            v-if="JSON.parse(formField?.field)?.required"
+                                                                            class="text-red-600">
+                                                                            *
+                                                                        </span>
                                                                     </h3>
                                                                     <FormTextField :name="'text_field_' + fieldIndex"
                                                                         placeholder="Enter your answer"
@@ -46,6 +51,11 @@
                                                                 <div class="grow space-y-3">
                                                                     <h3>
                                                                         {{ JSON.parse(formField?.field)?.value }}
+                                                                        <span
+                                                                            v-if="JSON.parse(formField?.field)?.required"
+                                                                            class="text-red-600">
+                                                                            *
+                                                                        </span>
                                                                     </h3>
                                                                     <FormTextArea :name="'textarea_' + fieldIndex"
                                                                         placeholder="Enter your answer"
@@ -62,6 +72,11 @@
                                                                 <div class="grow space-y-3">
                                                                     <h3>
                                                                         {{ JSON.parse(formField?.field)?.value }}
+                                                                        <span
+                                                                            v-if="JSON.parse(formField?.field)?.required"
+                                                                            class="text-red-600">
+                                                                            *
+                                                                        </span>
                                                                     </h3>
                                                                     <div class="relative">
                                                                         <FormDateField
@@ -84,6 +99,11 @@
                                                                 <div class="grow space-y-3">
                                                                     <h3>
                                                                         {{ JSON.parse(formField?.field)?.value }}
+                                                                        <span
+                                                                            v-if="JSON.parse(formField?.field)?.required"
+                                                                            class="text-red-600">
+                                                                            *
+                                                                        </span>
                                                                     </h3>
                                                                     <div class="space-y-3">
                                                                         <div v-for="(radio, radioIndex) in JSON.parse(formField?.field)?.options"
@@ -109,7 +129,13 @@
                                                             <div class="flex gap-x-3">
                                                                 <div>{{ fieldIndex + 1 }}.</div>
                                                                 <div class="grow space-y-3">
-                                                                    <h3>{{ JSON.parse(formField?.field)?.value }}</h3>
+                                                                    <h3>{{ JSON.parse(formField?.field)?.value }}
+                                                                        <span
+                                                                            v-if="JSON.parse(formField?.field)?.required"
+                                                                            class="text-red-600">
+                                                                            *
+                                                                        </span>
+                                                                    </h3>
                                                                     <div class="space-y-3">
                                                                         <div v-for="(checkbox, checkboxIndex) in JSON.parse(formField?.field)?.options"
                                                                             :key="checkboxIndex"
@@ -135,6 +161,11 @@
                                                                 <div class="grow space-y-3">
                                                                     <h3>
                                                                         {{ JSON.parse(formField?.field)?.value }}
+                                                                        <span
+                                                                            v-if="JSON.parse(formField?.field)?.required"
+                                                                            class="text-red-600">
+                                                                            *
+                                                                        </span>
                                                                     </h3>
                                                                     <div
                                                                         class="flex items-center justify-between gap-x-2">
@@ -160,6 +191,11 @@
                                                                     <div class="grow space-y-4">
                                                                         <h3>
                                                                             {{ JSON.parse(formField?.field)?.value }}
+                                                                            <span
+                                                                                v-if="JSON.parse(formField?.field)?.required"
+                                                                                class="text-red-600">
+                                                                                *
+                                                                            </span>
                                                                         </h3>
                                                                         <input type="file"
                                                                             @change="onFileChange(fieldIndex, $event)">
@@ -311,7 +347,7 @@ async function submitResponse() {
         })
         const response = await formFieldService.saveResponses(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('forms.alert.responseSuccessfullySaved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.createStatusTemplate.alert.statusTemplateSuccessfullyAdded')}.`)
             closeModal()
             closeModalNew()
         }

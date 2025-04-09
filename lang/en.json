@@ -1344,21 +1344,6 @@
             "walletTransactions": "Wallet transactions"
         }
     },
-    "createStatusTemplate": {
-        "alert": {
-            "statusTemplateSuccessfullyAdded": "Status template successfully added"
-        },
-        "createStatusTemplate": "Create status template",
-        "form": {
-            "answerForm": "Answer form",
-            "chooseLabel": "Choose whether you want to download the form for offline completion or create a response directly",
-            "downloadForm": "Download form",
-            "form": "Form",
-            "goal": "Goal",
-            "plan": "Goal",
-            "subgoal": "Subgoal"
-        }
-    },
     "customPages": {
         "editCustomPage": "Edit custom page",
         "form": {
@@ -2628,7 +2613,21 @@
         },
         "completed": "Completed",
         "completionDate": "Completion date",
-        "createStatusTemplate": "Create status template",
+        "createStatusTemplate": {
+            "alert": {
+                "statusTemplateSuccessfullyAdded": "Status template successfully added"
+            },
+            "createStatusTemplate": "Create status template",
+            "form": {
+                "answerForm": "Answer form",
+                "chooseLabel": "Choose whether you want to download the form for offline completion or create a response directly",
+                "downloadForm": "Download form",
+                "form": "Form",
+                "goal": "Goal",
+                "plan": "Goal",
+                "subgoal": "Subgoal"
+            }
+        },
         "currentPlansAndGoals": "Current plans and goals",
         "dateCompleted": "Date completed",
         "dateCreated": "Date created",
