@@ -99,8 +99,8 @@
                     :selectedStatus="state.selectedStatus" @close="state.modal.isEditStatusOpen = false"
                     @refreshStatuses="fetchNotes" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
-                    :message="`${$t('plansandgoals.confirmation.deleteStatusConfirmation')}?`"
-                    @close="state.modal.isDeleteStatusOpen = false" @confirm="deleteStatus" />
+                    :message="`${$t('plansandgoals.confirmation.deleteNoteConfirmation')}?`"
+                    @close="state.modal.isDeleteStatusOpen = false" @confirm="deleteNote" />
             </template>
         </Modal>
     </div>
@@ -231,7 +231,7 @@ function confirmStatusDeletion(status: any) {
     state.modal.isDeleteStatusOpen = true
 }
 
-async function deleteStatus() {
+async function deleteNote() {
     state.error = {}
     state.isTableLoading = true
     try {

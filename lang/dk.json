@@ -2620,6 +2620,7 @@
             "archivePlanConfirmation": "Er du sikker på, at du vil arkivere denne plan",
             "archiveSubgoalConfirmation": "Er du sikker på, at du vil arkivere dette delmål",
             "deleteGoalConfirmation": "Er du sikker på, at du vil slette dette mål",
+            "deleteNoteConfirmation": "Er du sikker på, at du vil slette denne note",
             "deleteSubgoalConfirmation": "Er du sikker på, at du vil slette dette delmål",
             "deletePlanConfirmation": "Er du sikker på, at du vil slette denne plan",
             "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
