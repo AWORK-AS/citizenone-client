@@ -229,9 +229,14 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('plansandgoals.table.actions.notes')">
+                                                <FormButton class="rounded-md" buttonSize="sm" @click="viewNotes(plan)">
+                                                    <Icon name="ph:check-square-offset" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('plansandgoals.table.actions.statuses')">
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="viewStatuses(plan)">
-                                                    <Icon name="ph:check-square-offset" class="size-4" />
+                                                    <Icon name="ph:file" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('plansandgoals.table.actions.notifications')">
@@ -283,8 +288,10 @@
                 @refreshPlans="fetchPlans" />
             <ModulesUserCitizenPlanChartModalChart :isModalOpen="state.modal.isChartOpen"
                 :selectedData="state.selectedPlan" @close="state.modal.isChartOpen = false" />
-            <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatusesOpen"
-                :selectedData="state.selectedPlan" @close="closeStatusesModal" @refreshData="fetchPlans" />
+            <ModulesUserCitizenPlanNotesModalNotes :isModalOpen="state.modal.isNotesOpen"
+                :selectedData="state.selectedPlan" @close="closeNotesModal" @refreshData="fetchPlans" />
+            <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isStatuses"
+                :selectedData="state.selectedPlan" @close="closeStatusesModal" />
             <ModulesUserCitizenPlanNotificationModalNotifications :isModalOpen="state.modal.isNotificationsOpen"
                 :selectedData="state.selectedPlan" @close="state.modal.isNotificationsOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isArchiveGoalOpen"
@@ -354,8 +361,9 @@ const state = reactive({
         isEditPlanOpen: false,
         isEditSingleGoalOpen: false,
         isFilterPlansAndGoalsOpen: false,
+        isNotesOpen: false,
         isNotificationsOpen: false,
-        isStatusesOpen: false,
+        isStatuses: false,
     },
     plans: [] as any,
     selectedGoal: {} as any,
@@ -506,9 +514,24 @@ function openChart(plan: any) {
     state.modal.isChartOpen = true
 }
 
+function viewNotes(plan: any) {
+    state.selectedPlan = plan
+    state.modal.isNotesOpen = true
+}
+
+function closeNotesModal() {
+    state.modal.isNotesOpen = false
+    state.selectedPlan = {}
+}
+
 function viewStatuses(plan: any) {
     state.selectedPlan = plan
-    state.modal.isStatusesOpen = true
+    state.modal.isStatuses = true
+}
+
+function closeStatusesModal() {
+    state.modal.isStatuses = false
+    state.selectedPlan = {}
 }
 
 function viewNotifications(plan: any) {
@@ -528,11 +551,6 @@ function viewPlan(plan: any) {
 
 function closeEditPlanModal() {
     state.modal.isEditPlanOpen = false
-    state.selectedPlan = {}
-}
-
-function closeStatusesModal() {
-    state.modal.isStatusesOpen = false
     state.selectedPlan = {}
 }
 

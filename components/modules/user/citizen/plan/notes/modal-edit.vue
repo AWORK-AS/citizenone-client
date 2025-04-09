@@ -3,7 +3,7 @@
         <Modal size="sm" :title="$t('plansandgoals.editNote')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserCitizenPlanStatusForm formType="update" :selectedStatus="props.selectedStatus"
+                    <ModulesUserCitizenPlanNotesForm formType="update" :selectedStatus="props.selectedStatus"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateStatus" />
                 </LoadingSpinner>

@@ -386,9 +386,9 @@
             <ModulesUserCitizenPlanChartModalChart :isModalOpen="state.modal.isSubgoalChartOpen"
                 :selectedData="state.selectedSubgoal" @close="state.modal.isSubgoalChartOpen = false" />
 
-            <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isGoalStatusesOpen"
+            <ModulesUserCitizenPlanNotesModalNotes :isModalOpen="state.modal.isGoalStatusesOpen"
                 :selectedData="state.selectedGoal" @close="closeGoalStatusesModal" @refreshData="fetchGoals" />
-            <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isSubGoalStatusesOpen"
+            <ModulesUserCitizenPlanNotesModalNotes :isModalOpen="state.modal.isSubGoalStatusesOpen"
                 :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchGoals" />
 
             <ModulesUserCitizenPlanNotificationModalNotifications :isModalOpen="state.modal.isGoalNotificationsOpen"

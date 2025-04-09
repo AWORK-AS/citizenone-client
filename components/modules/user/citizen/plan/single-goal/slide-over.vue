@@ -197,7 +197,7 @@
                 @close="state.modal.isEditSubgoalOpen = false" @refreshGoals="fetchSubgoals" />
             <ModulesUserCitizenPlanChartModalChart :isModalOpen="state.modal.isChartOpen"
                 :selectedData="state.selectedSubgoal" @close="state.modal.isChartOpen = false" />
-            <ModulesUserCitizenPlanStatusModalStatuses :isModalOpen="state.modal.isSubGoalStatusesOpen"
+            <ModulesUserCitizenPlanNotesModalNotes :isModalOpen="state.modal.isSubGoalStatusesOpen"
                 :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchSubgoals" />
             <ModulesUserCitizenPlanNotificationModalNotifications :isModalOpen="state.modal.isNotificationsOpen"
                 :selectedData="state.selectedSubgoal" @close="state.modal.isNotificationsOpen = false" />

@@ -1,14 +1,8 @@
 <template>
     <div>
-        <Modal size="4xl" :title="$t('plansandgoals.notes')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="4xl" :title="$t('plansandgoals.statuses')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
-                    <div class="flex justify-end items-center mb-5">
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddStatusOpen = true">
-                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('plansandgoals.newNote') }}
-                        </FormButton>
-                    </div>
                     <div class="space-y-5">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
@@ -20,68 +14,23 @@
                                     <tr v-for="(status, index) in state.statuses?.data" :key="index">
                                         <td width="20%">
                                             <p>
-                                                {{ status.title }}
+                                                {{ status?.form?.title }}
                                             </p>
                                         </td>
-                                        <td width="30%">
-                                            <Badge type="primary" class="w-fit lowercase" v-if="status?.copied_from">
-                                                <p class="text-xxs">
-                                                    {{
-                                                        $t('plansandgoals.table.copiedFrom')
-                                                    }}
-                                                    {{ status?.copied_from === 'journal_note' ?
-                                                        $t('plansandgoals.table.journalNote') :
-                                                        customPagesStore.getCustomPagesName?.riskAssessment }}
-                                                </p>
-                                            </Badge>
-                                            <div v-html="status.status" class="content" />
-                                            <Badge type="primary" class="w-fit" v-if="status.score">
-                                                <p class="text-xxs" v-if="status.score == 1">
-                                                    {{
-                                                        $t('plansandgoals.table.expectedLevels.minorChallenges')
-                                                    }}
-                                                </p>
-                                                <p class="text-xxs" v-if="status.score == 2">
-                                                    {{
-                                                        $t('plansandgoals.table.expectedLevels.moderateChallenges')
-                                                    }}
-                                                </p>
-                                                <p class="text-xxs" v-if="status.score == 3">
-                                                    {{
-                                                        $t('plansandgoals.table.expectedLevels.significantChallenges')
-                                                    }}
-                                                </p>
-                                                <p class="text-xxs" v-if="status.score == 4">
-                                                    {{
-                                                        $t('plansandgoals.table.expectedLevels.severeChallenges')
-                                                    }}
-                                                </p>
-                                                <p class="text-xxs" v-if="status.score == 5">
-                                                    {{
-                                                        $t('plansandgoals.table.expectedLevels.verySubstantialChallenges')
-                                                    }}
-                                                </p>
-                                            </Badge>
+                                        <td width="40%">
+                                            <p>
+                                                {{ status?.form?.description }}
+                                            </p>
                                         </td>
                                         <td width="20%">
                                             <span>{{ formatDateToReadable(status?.created_at) }}</span>
                                         </td>
                                         <td width="20%">
-                                            <span>
-                                                {{ status?.user?.firstname + ' ' + status?.user?.lastname }}
-                                            </span>
-                                        </td>
-                                        <td width="10%">
                                             <div class="flex items-end gap-2">
                                                 <FormButton class="rounded-md" buttonSize="sm"
-                                                    @click="editStatus(status)" v-if="status?.is_editable">
-                                                    <Icon name="ph:pencil" class="size-4" />
-                                                    {{ $t('plansandgoals.table.actions.edit') }}
-                                                </FormButton>
-                                                <FormButton class="rounded-md" buttonSize="sm"
-                                                    @click="confirmStatusDeletion(status)" v-if="status?.is_deletable">
-                                                    <Icon name="heroicons:trash" class="size-4" />
-                                                    {{ $t('plansandgoals.table.actions.delete') }}
+                                                    @click="downloadStatus(status)">
+                                                    <Icon name="ph:download" class="size-4" />
+                                                    {{ $t('plansandgoals.table.actions.download') }}
                                                 </FormButton>
                                             </div>
                                         </td>
@@ -92,15 +41,6 @@
                         <Pagination :data="state.statuses" @previous="previous" @next="next" />
                     </div>
                 </div>
-                <ModulesUserCitizenPlanStatusModalNew :isModalOpen="state.modal.isAddStatusOpen"
-                    :selectedData="props.selectedData" :selectedStatus="state.selectedStatus"
-                    @close="state.modal.isAddStatusOpen = false" @refreshStatuses="fetchStatuses" />
-                <ModulesUserCitizenPlanStatusModalEdit :isModalOpen="state.modal.isEditStatusOpen"
-                    :selectedStatus="state.selectedStatus" @close="state.modal.isEditStatusOpen = false"
-                    @refreshStatuses="fetchStatuses" />
-                <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
-                    :message="`${$t('plansandgoals.confirmation.deleteStatusConfirmation')}?`"
-                    @close="state.modal.isDeleteStatusOpen = false" @confirm="deleteStatus" />
             </template>
         </Modal>
     </div>
@@ -108,12 +48,13 @@
 
 
 <script setup lang="ts">
-import { statusService } from '@/components/api/user/StatusService'
+import { planGoalSubgoalService } from '@/components/api/user/PlanGoalSubgoalService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import type { Error } from '@/types'
+import { saveAs } from 'file-saver'
 
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
@@ -137,9 +78,8 @@ const emit = defineEmits(['close', 'refreshData'])
 const state = reactive({
     columnHeaders: [
         { name: 'plansandgoals.table.title', sorter: true, key: 'title' },
-        { name: 'plansandgoals.table.notes', sorter: true, key: 'status' },
+        { name: 'plansandgoals.table.description' },
         { name: 'plansandgoals.table.dateCreated' },
-        { name: 'plansandgoals.table.createdBy' },
         { name: '' },
     ],
     dataFilter: {
@@ -148,9 +88,7 @@ const state = reactive({
     error: {} as Error,
     isTableLoading: false,
     modal: {
-        isAddStatusOpen: false,
         isDeleteStatusOpen: false,
-        isEditStatusOpen: false,
     },
     selectedStatus: {} as any,
     sortData: {
@@ -164,29 +102,24 @@ function closeModal() {
     emit('close')
 }
 
-function refreshData() {
-    emit('refreshData')
-}
-
 watch(() => props.isModalOpen, (newValue: any) => {
     if (newValue) {
         fetchStatuses()
     }
 })
 
-
 async function fetchStatuses() {
     state.error = {}
     state.isTableLoading = true
     try {
         const params = {
-            model_uuid: props.selectedData?.uuid,
+            plan_goal_subgoal_uuid: props.selectedData?.uuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await statusService.getStatuses(params)
+        const response = await planGoalSubgoalService.getPlanGoalSubgoalStatuses(params)
         if (response) {
             state.statuses = response
         }
@@ -221,27 +154,17 @@ function handleSearch(value: any) {
     fetchStatuses()
 }
 
-function editStatus(status: any) {
-    state.selectedStatus = status
-    state.modal.isEditStatusOpen = true
-}
-
-function confirmStatusDeletion(status: any) {
-    state.selectedStatus = status
-    state.modal.isDeleteStatusOpen = true
-}
-
-async function deleteStatus() {
-    state.error = {}
+async function downloadStatus() {
     state.isTableLoading = true
+    state.error = {}
     try {
-        const response = await statusService.deleteStatus(state.selectedStatus.uuid)
-        if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            fetchStatuses()
-            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.statusSuccessfullyDeleted')}.`)
+        const attachmentUuid = props.selectedData?.uuid
+        const response = await planGoalSubgoalService.downloadPlanGoalSubgoalStatuses(attachmentUuid)
+        if (response) {
+            saveAs(response)
         }
     } catch (error: any) {
-        state.error = error
+        state.error.message = error?.message || 'An error occurred during the download.'
     }
     state.isTableLoading = false
 }

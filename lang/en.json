@@ -2727,6 +2727,7 @@
         },
         "plan": "Plan",
         "plans": "Plans",
+        "statuses": "Statuses",
         "subgoal": "Subgoal",
         "subgoals": "Subgoals",
         "table": {
@@ -2734,16 +2735,19 @@
                 "archive": "Archive",
                 "edit": "Edit",
                 "delete": "Delete",
+                "download": "Download",
                 "graph": "Graph",
+                "notes": "Notes",
                 "notifications": "Notifications",
                 "seeGoals": "See goals",
                 "seeSubgoals": "See subgoals",
-                "notes": "Notes"
+                "statuses": "Statuses"
             },
             "createdBy": "Created by",
             "copiedFrom": "Copied from",
             "currentLevel": "Current level",
             "dateCreated": "Date created",
+            "description": "Description",
             "expectedLevels": {
                 "minorChallenges": "Minor challenges",
                 "moderateChallenges": "Moderate challenges",

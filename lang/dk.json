@@ -2727,6 +2727,7 @@
         },
         "plan": "Plan",
         "plans": "Planer",
+        "statuses": "Statusser",
         "subgoal": "Delmål",
         "subgoals": "Delmål",
         "table": {
@@ -2734,16 +2735,19 @@
                 "archive": "Arkivér",
                 "edit": "Rediger",
                 "delete": "Slet",
+                "download": "Download",
                 "graph": "Graf",
+                "notes": "Noter",
                 "notifications": "Notifikationer",
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
-                "notes": "Noter"
+                "statuses": "Statusser"
             },
             "createdBy": "Oprettet af",
             "copiedFrom": "Kopieret fra",
             "currentLevel": "Nuværende niveau",
             "dateCreated": "Oprettelsesdato",
+            "description": "Beskrivelse",
             "expectedLevels": {
                 "minorChallenges": "Mindre udfordringer",
                 "moderateChallenges": "Moderate udfordringer",
