@@ -17,20 +17,36 @@
                                                 {{ status?.form?.title }}
                                             </p>
                                         </td>
-                                        <td width="40%">
-                                            <p>
+                                        <td width="30%">
+                                            <p :class="expandedDescription[index] ? '' : 'line-clamp-3'">
                                                 {{ status?.form?.description }}
                                             </p>
+                                            <button @click="toggleExpanded(index)"
+                                                class="mt-2 text-primary text-sm hover:text-primary-700">
+                                                {{ expandedDescription[index] ?
+                                                    $t('showLess') :
+                                                    $t('showMore') }}
+                                            </button>
                                         </td>
-                                        <td width="20%">
+                                        <td width="15%">
                                             <span>{{ formatDateToReadable(status?.created_at) }}</span>
                                         </td>
                                         <td width="20%">
+                                            <span>
+                                                {{ status?.user?.firstname + ' ' + status?.user?.lastname }}
+                                            </span>
+                                        </td>
+                                        <td width="15%">
                                             <div class="flex items-end gap-2">
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="downloadStatus(status)">
                                                     <Icon name="ph:download" class="size-4" />
                                                     {{ $t('plansandgoals.table.actions.download') }}
+                                                </FormButton>
+                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                    @click="confirmStatusDeletion(status)" v-if="status?.is_deletable">
+                                                    <Icon name="heroicons:trash" class="size-4" />
+                                                    {{ $t('plansandgoals.table.actions.delete') }}
                                                 </FormButton>
                                             </div>
                                         </td>
@@ -41,6 +57,9 @@
                         <Pagination :data="state.statuses" @previous="previous" @next="next" />
                     </div>
                 </div>
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
+                    :message="`${$t('plansandgoals.confirmation.deleteStatusConfirmation')}?`"
+                    @close="state.modal.isDeleteStatusOpen = false" @confirm="deleteStatus" />
             </template>
         </Modal>
     </div>
@@ -59,8 +78,8 @@ import { saveAs } from 'file-saver'
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const customPagesStore = useCustomPagesStore() as any
 let currentTablePage = 1
+const expandedDescription = reactive([] as boolean[])
 
 const props = defineProps({
     isModalOpen: {
@@ -80,6 +99,7 @@ const state = reactive({
         { name: 'plansandgoals.table.title', sorter: true, key: 'title' },
         { name: 'plansandgoals.table.description' },
         { name: 'plansandgoals.table.dateCreated' },
+        { name: 'plansandgoals.table.createdBy' },
         { name: '' },
     ],
     dataFilter: {
@@ -122,6 +142,7 @@ async function fetchStatuses() {
         const response = await planGoalSubgoalService.getPlanGoalSubgoalStatuses(params)
         if (response) {
             state.statuses = response
+            expandedDescription.splice(0, expandedDescription.length, ...response.data.map(() => false))
         }
     } catch (error: any) {
         state.error = error
@@ -154,6 +175,10 @@ function handleSearch(value: any) {
     fetchStatuses()
 }
 
+function toggleExpanded(index: number) {
+    expandedDescription[index] = !expandedDescription[index]
+}
+
 async function downloadStatus(status: any) {
     state.isTableLoading = true
     state.error = {}
@@ -165,6 +190,28 @@ async function downloadStatus(status: any) {
         }
     } catch (error: any) {
         state.error.message = error?.message || 'An error occurred during the download.'
+    }
+    state.isTableLoading = false
+}
+
+function confirmStatusDeletion(status: any) {
+    state.selectedStatus = status
+    state.modal.isDeleteStatusOpen = true
+}
+
+async function deleteStatus() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const attachmentUuid = state.selectedStatus?.uuid
+        const response = await planGoalSubgoalService.deletePlanGoalSubgoalStatuses(attachmentUuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.statusSuccessfullyDeleted')}.`)
+            fetchStatuses()
+            state.modal.isDeleteStatusOpen = false
+        }
+    } catch (error: any) {
+        state.error.message = error?.message || 'An error occurred during the deletion.'
     }
     state.isTableLoading = false
 }

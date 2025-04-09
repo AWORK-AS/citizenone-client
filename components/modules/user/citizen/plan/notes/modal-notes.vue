@@ -238,7 +238,7 @@ async function deleteNote() {
         const response = await statusService.deleteStatus(state.selectedStatus.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchNotes()
-            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.statusSuccessfullyDeleted')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.noteSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error

@@ -2603,6 +2603,7 @@
             "goalSuccessfullyArchived": "Goal successfully archived",
             "goalSuccessfullyDeleted": "Goal successfully deleted",
             "goalSuccessfullyUpdated": "Goal successfully updated",
+            "noteSuccessfullyDeleted": "Note successfully deleted",
             "statusSuccessfullyAdded": "Status successfully added",
             "statusSuccessfullyDeleted": "Status successfully deleted",
             "statusSuccessfullyUpdated": "Status successfully updated",

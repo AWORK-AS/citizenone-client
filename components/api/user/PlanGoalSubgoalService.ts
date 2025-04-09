@@ -13,6 +13,10 @@ class PlanGoalSubgoalService extends BaseAPIService {
         return await this.request(`/user/plan-goal-subgoal-attachments`, 'GET', params)
     }
 
+    async deletePlanGoalSubgoalStatuses(attachmentUuid: any): Promise<any> {
+        return await this.request(`/user/plan-goal-subgoal-attachments/${attachmentUuid}`, 'DELETE')
+    }
+
     async downloadPlanGoalSubgoalStatuses(attachmentUuid: any): Promise<any> {
         return await this.request(`/user/plan-goal-subgoal-attachments/${attachmentUuid}/download`, 'GET')
     }
