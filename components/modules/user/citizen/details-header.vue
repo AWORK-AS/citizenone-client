@@ -125,10 +125,10 @@
                                             {{ state.selectedCitizen?.data?.paying_municipality?.name }}
                                         </p>
                                     </div>
-                                    <div class="flex items-center gap-x-1">
+                                    <div class="flex items-center gap-x-1"
+                                        v-if="state.selectedCitizen?.data?.assessment_municipality">
                                         <Tooltip :text="$t('citizens.form.assessmentMunicipality')"
-                                            class="flex items-center"
-                                            v-if="state.selectedCitizen?.data?.assessment_municipality">
+                                            class="flex items-center">
                                             <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
                                         <p class="text-sm font-medium text-gray-700">
@@ -136,10 +136,10 @@
                                             {{ state.selectedCitizen?.data?.assessment_municipality?.name }}
                                         </p>
                                     </div>
-                                    <div class="flex items-center gap-x-1">
+                                    <div class="flex items-center gap-x-1"
+                                        v-if="state.selectedCitizen?.data?.responsible_municipality">
                                         <Tooltip :text="$t('citizens.form.responsibleMunicipality')"
-                                            class="flex items-center"
-                                            v-if="state.selectedCitizen?.data?.responsible_municipality">
+                                            class="flex items-center">
                                             <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
                                         <p class="text-sm font-medium text-gray-700">
