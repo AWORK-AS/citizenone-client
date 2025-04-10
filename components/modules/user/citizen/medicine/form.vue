@@ -343,12 +343,6 @@ const rules = computed(() => {
                     max_daily_dose: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    start_date: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
-                    end_date: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
                     active_ingredients: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
@@ -376,12 +370,6 @@ const rules = computed(() => {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_daily_dose: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
-                    start_date: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
-                    end_date: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     active_ingredients: {
@@ -418,12 +406,6 @@ const rules = computed(() => {
                     max_daily_dose: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    start_date: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
-                    end_date: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
                     active_ingredients: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
@@ -451,12 +433,6 @@ const rules = computed(() => {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_daily_dose: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
-                    start_date: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
-                    end_date: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     active_ingredients: {
