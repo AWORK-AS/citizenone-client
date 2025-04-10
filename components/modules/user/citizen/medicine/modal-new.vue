@@ -55,7 +55,7 @@ const state = reactive({
         end_date: '',
         doctor: '',
         treatment_reason: '',
-        medication_store: '',
+        medication_storage: '',
         active_ingredients: '',
         description: '',
     },
@@ -92,7 +92,7 @@ async function saveMedicine(medicineDetails: any) {
         params.append('end_date', medicineDetails.end_date)
         params.append('doctor_uuid', medicineDetails.doctor)
         params.append('treatment_reason', medicineDetails.treatment_reason)
-        params.append('medication_store', medicineDetails.medication_store)
+        params.append('medication_storage', medicineDetails.medication_storage)
         params.append('active_ingredients', medicineDetails.active_ingredients)
         params.append('description', medicineDetails.description)
         const response = await medicineJournalService.saveMedicine(params)

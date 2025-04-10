@@ -170,12 +170,12 @@
                     <FormError :error="props?.error?.errors?.treatment_reason?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="medicine_storage" :label="$t('citizens.medicineJournals.form.medicineStorage')" />
-                    <FormTextField id="medicine_storage" name="medicine_storage"
+                    <FormLabel for="medication_storage" :label="$t('citizens.medicineJournals.form.medicineStorage')" />
+                    <FormTextField id="medication_storage" name="medication_storage"
                         :placeholder="$t('citizens.medicineJournals.form.medicineStorage')"
-                        v-model="state.formMedicine.medicine_storage" />
-                    <FormError :error="v$?.formMedicine?.medicine_storage?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.medicine_storage?.[0]" />
+                        v-model="state.formMedicine.medication_storage" />
+                    <FormError :error="v$?.formMedicine?.medication_storage?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.medication_storage?.[0]" />
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="active_ingredients"
@@ -263,7 +263,7 @@ const state = reactive({
         end_date: '',
         doctor: '',
         treatment_reason: '',
-        medication_store: '',
+        medication_storage: '',
         active_ingredients: '',
         description: '',
     } as any,
@@ -309,7 +309,7 @@ onMounted(() => {
         end_date: props.selectedMedicine.end_date,
         doctor: props.selectedMedicine.doctor?.uuid?.toString(),
         treatment_reason: props.selectedMedicine.treatment_reason,
-        medication_store: props.selectedMedicine.medication_store,
+        medication_storage: props.selectedMedicine.medication_storage,
         active_ingredients: props.selectedMedicine.active_ingredients,
         description: props.selectedMedicine.description,
         schedule_frequency: props.selectedMedicine.schedule_frequency,
