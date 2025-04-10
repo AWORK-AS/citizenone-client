@@ -481,6 +481,13 @@
             }
         },
         "diagnoses": "Diagnoses",
+        "doctor": {
+            "addNewDoctor": "Add new doctor",
+            "alert": {
+                "newDoctorSuccessfullyAdded": "New doctor successfully added"
+            },
+            "newDoctor": "New doctor"
+        },
         "documents": {
             "alert": {
                 "deletedFileSuccessfully": "File successfully delete",
@@ -833,24 +840,34 @@
             "download": "Download",
             "editMedicine": "Edit medicine",
             "form": {
+                "active": "Active",
                 "activeIngredients": "Active ingredients",
                 "alert": {
                     "successfullyAdded": "Medicine successfully added",
                     "successfullyUpdated": "Medicine successfully update"
                 },
                 "currentStocks": "Current stocks",
+                "deactivate": "Deactivate",
+                "deactivated": "Deactivated",
                 "description": "Description",
+                "doctor": "Doctor",
                 "dosage": "Dosage",
                 "dosageForm": "Dosage form",
+                "endDate": "End date",
                 "image": "Image",
+                "isActive": "Is active",
                 "maxDosagePerTime": "Max dosage per time",
                 "maxDailyDose": "Max daily dose",
                 "medicine": "Medicine",
+                "medicineStorage": "Medicine storage",
                 "packageLeafletLink": "Package leaflet link",
                 "pnMedicine": "PN-medicine",
                 "scheduleFrequency": "Schedule frequency",
+                "selfAdministration": "Self-administration",
+                "startDate": "Start date",
                 "strength": "Strength",
-                "time": "Time"
+                "time": "Time",
+                "treatmentReason": "Treatment reason"
             },
             "history": {
                 "alert": {

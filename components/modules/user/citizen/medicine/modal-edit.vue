@@ -38,6 +38,8 @@ const emit = defineEmits(['close', 'refreshMedicines'])
 const state = reactive({
     error: {} as Error,
     formMedicine: {
+        is_active: true,
+        is_self_administered: false,
         is_pn_medicine: false,
         medicine: '',
         dosage: '',
@@ -47,6 +49,11 @@ const state = reactive({
         max_daily_dose: '',
         max_dosage_per_time: [],
         package_leaflet_link: '',
+        start_date: '',
+        end_date: '',
+        doctor: '',
+        treatment_reason: '',
+        medication_store: '',
         active_ingredients: '',
         description: '',
     },
@@ -64,6 +71,8 @@ function refreshMedicines() {
 watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
         state.formMedicine = {
+            is_active: props.selectedMedicine?.is_active,
+            is_self_administered: props.selectedMedicine?.is_self_administered,
             is_pn_medicine: props.selectedMedicine?.is_pn_medicine,
             medicine: props.selectedMedicine?.medicine?.uuid,
             dosage: props.selectedMedicine?.dosage?.uuid,
@@ -73,6 +82,11 @@ watch(() => props.isModalOpen, (isModalOpen) => {
             max_daily_dose: props.selectedMedicine?.max_daily_dose,
             max_dosage_per_time: JSON.parse(props.selectedMedicine?.max_dosage_per_time),
             package_leaflet_link: props.selectedMedicine?.package_leaflet_link,
+            start_date: props.selectedMedicine?.start_date,
+            end_date: props.selectedMedicine?.end_date,
+            doctor: props.selectedMedicine?.doctor,
+            treatment_reason: props.selectedMedicine?.treatment_reason,
+            medication_store: props.selectedMedicine?.medication_store,
             active_ingredients: props.selectedMedicine?.active_ingredients,
             description: props.selectedMedicine?.description,
         }
@@ -85,6 +99,8 @@ async function updateMedicine(medicineDetails: any) {
     try {
         const medicineUuid = props.selectedMedicine?.uuid
         let params = new FormData()
+        params.append('is_active', medicineDetails.is_active)
+        params.append('is_self_administered', medicineDetails.is_self_administered)
         params.append('is_pn_medicine', medicineDetails.is_pn_medicine)
         params.append('medicine_uuid', medicineDetails.medicine)
         params.append('dosage_uuid', medicineDetails.dosage)
@@ -96,6 +112,11 @@ async function updateMedicine(medicineDetails: any) {
         params.append('max_daily_dose', medicineDetails.max_daily_dose.replace(',', '.'))
         params.append('max_dosage_per_time', JSON.stringify(medicineDetails.max_dosage_per_time))
         params.append('package_leaflet_link', medicineDetails.package_leaflet_link)
+        params.append('start_date', medicineDetails.start_date)
+        params.append('end_date', medicineDetails.end_date)
+        params.append('doctor_uuid', medicineDetails.doctor)
+        params.append('treatment_reason', medicineDetails.treatment_reason)
+        params.append('medication_store', medicineDetails.medication_store)
         params.append('active_ingredients', medicineDetails.active_ingredients)
         params.append('description', medicineDetails.description)
         const response = await medicineJournalService.updateMedicine(medicineUuid, params)

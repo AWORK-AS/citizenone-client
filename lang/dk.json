@@ -481,6 +481,13 @@
             }
         },
         "diagnoses": "Diagnoser",
+        "doctor": {
+            "addNewDoctor": "Tilføj ny læge",
+            "alert": {
+                "newDoctorSuccessfullyAdded": "Ny læge tilføjet med succes"
+            },
+            "newDoctor": "Ny læge"
+        },
         "documents": {
             "alert": {
                 "deletedFileSuccessfully": "Fil slettet med succes",
@@ -833,24 +840,34 @@
             },
             "editMedicine": "Rediger Medicin",
             "form": {
+                "active": "Aktiv",
                 "activeIngredients": "Aktive ingredienser",
                 "alert": {
                     "successfullyAdded": "Medicin tilføjet med succes",
                     "successfullyUpdated": "Medicin opdateret med succes"
                 },
                 "currentStocks": "Nuværende lagre",
+                "deactivate": "Deaktiver",
+                "deactivated": "Deaktiveret",
                 "description": "Beskrivelse",
+                "doctor": "Doktor",
                 "dosage": "Dosis",
                 "dosageForm": "Doseringsform",
+                "endDate": "Slutdato",
                 "image": "Billede",
+                "isActive": "Er aktiv",
                 "maxDosagePerTime": "Maksimal dosis pr. gang",
                 "maxDailyDose": "Maksimal daglig dosis",
                 "medicine": "Medicin",
+                "medicineStorage": "Medicinopbevaring",
                 "packageLeafletLink": "Indlægsseddel",
                 "pnMedicine": "PN-medicin",
                 "scheduleFrequency": "Planlægningsfrekvens",
+                "selfAdministration": "Selvadministration",
+                "startDate": "Startdato",
                 "strength": "Styrke",
-                "time": "Tid"
+                "time": "Tid",
+                "treatmentReason": "Behandlingsårsag"
             },
             "history": {
                 "alert": {

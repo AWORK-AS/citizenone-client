@@ -6,6 +6,20 @@
             <div class="grid grid-cols-1 gap-y-3">
                 <div class="space-y-1">
                     <div class="w-fit flex cursor-pointer"
+                        @click="state.formMedicine.is_active = !state.formMedicine.is_active">
+                        <FormCheckbox :value="state.formMedicine.is_active" />
+                        <p>{{ $t('citizens.medicineJournals.form.active') }}</p>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <div class="w-fit flex cursor-pointer"
+                        @click="state.formMedicine.is_self_administered = !state.formMedicine.is_self_administered">
+                        <FormCheckbox :value="state.formMedicine.is_self_administered" />
+                        <p>{{ $t('citizens.medicineJournals.form.selfAdministration') }}</p>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <div class="w-fit flex cursor-pointer"
                         @click="state.formMedicine.is_pn_medicine = !state.formMedicine.is_pn_medicine">
                         <FormCheckbox :value="state.formMedicine.is_pn_medicine" />
                         <p>{{ $t('citizens.medicineJournals.form.pnMedicine') }}</p>
@@ -119,6 +133,50 @@
                     <FormError :error="v$?.formMedicine?.package_leaflet_link?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.package_leaflet_link?.[0]" />
                 </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="start_date" :label="$t('citizens.medicineJournals.form.startDate')" />
+                        <FormDateField id="start_date" name="start_date" placeholder="Date"
+                            v-model="state.formMedicine.start_date" />
+                        <FormError :error="v$?.formMedicine?.start_date?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.start_date?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="end_date" :label="$t('citizens.medicineJournals.form.endDate')" />
+                        <FormDateField id="end_date" name="end_date" placeholder="Date"
+                            v-model="state.formMedicine.end_date" />
+                        <FormError :error="v$?.formMedicine?.end_date?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.end_date?.[0]" />
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="doctor" :label="$t('citizens.medicineJournals.form.doctor')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.modal.isAddDoctorOpen = true">
+                            {{ $t('citizens.doctor.addNewDoctor') }}
+                        </span>
+                    </div>
+                    <FormSelect id="doctor" :options="state.options.doctors" v-model="state.formMedicine.doctor" />
+                    <FormError :error="v$?.formCitizen?.doctor?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.doctor_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="treatment_reason" :label="$t('citizens.medicineJournals.form.treatmentReason')" />
+                    <FormTextArea id="treatment_reason" name="treatment_reason"
+                        :placeholder="$t('citizens.medicineJournals.form.treatmentReason')"
+                        v-model="state.formMedicine.treatment_reason" />
+                    <FormError :error="v$?.formMedicine?.treatment_reason?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.treatment_reason?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="medicine_storage" :label="$t('citizens.medicineJournals.form.medicineStorage')" />
+                    <FormTextField id="medicine_storage" name="medicine_storage"
+                        :placeholder="$t('citizens.medicineJournals.form.medicineStorage')"
+                        v-model="state.formMedicine.medicine_storage" />
+                    <FormError :error="v$?.formMedicine?.medicine_storage?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.medicine_storage?.[0]" />
+                </div>
                 <div class="space-y-1">
                     <FormLabel for="active_ingredients"
                         :label="$t('citizens.medicineJournals.form.activeIngredients')" />
@@ -151,10 +209,14 @@
         </form>
         <ModulesUserMedicineModalNew :isModalOpen="state.modal.isAddNewMedicineOpen"
             @close="state.modal.isAddNewMedicineOpen = false" @refreshMedicines="fetchAllMedicines" />
+        <ModulesUserCitizenContactModalNewDoctor :isModalOpen="state.modal.isAddDoctorOpen"
+            @close="state.modal.isAddDoctorOpen = false" @refreshCaseworkers="fetchCitizenDoctors"
+            v-if="state.modal.isAddDoctorOpen" />
     </div>
 </template>
 
 <script setup lang="ts">
+import { citizenDoctorService } from '@/components/api/user/CitizenDoctorService'
 import { dosageService } from '@/components/api/user/DosageService'
 import { medicineService } from '@/components/api/user/MedicineService'
 import { useVuelidate } from "@vuelidate/core"
@@ -180,10 +242,14 @@ const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading', 'error'])
 const { t } = useI18n()
 const { validateEuropeanDecimal } = euDecimalValidation()
 const language = useI18n()
+const router = useRouter()
+const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({
     formMedicine: {
         uuid: '',
+        is_active: true,
+        is_self_administered: true,
         is_pn_medicine: false,
         medicine: '',
         dosage: '',
@@ -193,13 +259,20 @@ const state = reactive({
         max_daily_dose: '',
         max_dosage_per_time: [],
         package_leaflet_link: '',
+        start_date: '',
+        end_date: '',
+        doctor: '',
+        treatment_reason: '',
+        medication_store: '',
         active_ingredients: '',
         description: '',
     } as any,
     modal: {
+        isAddDoctorOpen: false,
         isAddNewMedicineOpen: false,
     },
     options: {
+        doctors: [],
         dosage_form: [],
         medicines: [],
         schedule_frequencies: [
@@ -223,6 +296,8 @@ const state = reactive({
 onMounted(() => {
     state.formMedicine = {
         uuid: props.selectedMedicine.uuid,
+        is_active: props.selectedMedicine?.is_active ? true : false,
+        is_self_administered: props.selectedMedicine?.is_self_administered ? true : false,
         is_pn_medicine: props.selectedMedicine?.is_pn_medicine ? true : false,
         medicine: props.selectedMedicine.medicine,
         strength: props.selectedMedicine.strength,
@@ -230,6 +305,11 @@ onMounted(() => {
         max_dosage_per_time: props?.selectedMedicine?.max_dosage_per_time ?? [],
         max_daily_dose: language.locale.value === 'dk' ? props.selectedMedicine.max_daily_dose?.toString() : props.selectedMedicine.max_daily_dose?.toString(),
         package_leaflet_link: props.selectedMedicine.package_leaflet_link,
+        start_date: props.selectedMedicine.start_date,
+        end_date: props.selectedMedicine.end_date,
+        doctor: props.selectedMedicine.doctor?.uuid?.toString(),
+        treatment_reason: props.selectedMedicine.treatment_reason,
+        medication_store: props.selectedMedicine.medication_store,
         active_ingredients: props.selectedMedicine.active_ingredients,
         description: props.selectedMedicine.description,
         schedule_frequency: props.selectedMedicine.schedule_frequency,
@@ -237,6 +317,7 @@ onMounted(() => {
     }
     fetchDosageForm()
     fetchAllMedicines()
+    fetchCitizenDoctors()
     if (props?.selectedMedicine?.max_dosage_per_time === null) {
         addMaxDosagePerTime()
     }
@@ -260,6 +341,12 @@ const rules = computed(() => {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_daily_dose: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    start_date: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    end_date: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     active_ingredients: {
@@ -289,6 +376,12 @@ const rules = computed(() => {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_daily_dose: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    start_date: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    end_date: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     active_ingredients: {
@@ -325,6 +418,12 @@ const rules = computed(() => {
                     max_daily_dose: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
+                    start_date: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    end_date: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
                     active_ingredients: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
@@ -352,6 +451,12 @@ const rules = computed(() => {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_daily_dose: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    start_date: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    end_date: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     active_ingredients: {
@@ -416,6 +521,27 @@ async function fetchAllMedicines() {
                 })
             )
             state.options.medicines = options
+        }
+    } catch (error: any) {
+        emit('error', error)
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchCitizenDoctors() {
+    emit('error', {})
+    emit('isPageLoading', true)
+    try {
+        const response = await citizenDoctorService.getAllCitizenDoctors(citizenUuid)
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (doctor: any) => options.push({
+                    value: doctor.uuid,
+                    label: doctor.firstname + ' ' + (doctor.lastname ? doctor.lastname : ''),
+                })
+            )
+            state.options.doctors = options
         }
     } catch (error: any) {
         emit('error', error)
