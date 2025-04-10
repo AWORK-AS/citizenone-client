@@ -309,7 +309,7 @@ async function saveContact() {
         if (response?.data) {
             refreshCaseworkers()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.caseWorker.alert.newCaseWorkerSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.doctor.alert.newDoctorSuccessfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error
