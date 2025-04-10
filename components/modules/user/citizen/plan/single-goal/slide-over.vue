@@ -113,9 +113,16 @@
                                                                 <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.notes')">
                                                                     <FormButton class="rounded-md" buttonSize="sm"
-                                                                        @click="viewSubgoalStatuses(subgoal)">
+                                                                        @click="viewSubgoalNotes(subgoal)">
                                                                         <Icon name="ph:check-square-offset"
                                                                             class="size-4" />
+                                                                    </FormButton>
+                                                                </Tooltip>
+                                                                <Tooltip
+                                                                    :text="$t('plansandgoals.table.actions.statuses')">
+                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                        @click="viewStatuses(subgoal)">
+                                                                        <Icon name="ph:file" class="size-4" />
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
@@ -197,8 +204,10 @@
                 @close="state.modal.isEditSubgoalOpen = false" @refreshGoals="fetchSubgoals" />
             <ModulesUserCitizenPlanChartModalChart :isModalOpen="state.modal.isChartOpen"
                 :selectedData="state.selectedSubgoal" @close="state.modal.isChartOpen = false" />
-            <ModulesUserCitizenPlanNotesModalNotes :isModalOpen="state.modal.isSubGoalStatusesOpen"
+            <ModulesUserCitizenPlanNotesModalNotes :isModalOpen="state.modal.isSubGoalNotesOpen"
                 :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchSubgoals" />
+            <ModulesUserCitizenPlanStatusTemplateModalStatuses :isModalOpen="state.modal.isViewStatuses"
+                :selectedData="state.selectedSubgoal" @close="closeStatusesModal" />
             <ModulesUserCitizenPlanNotificationModalNotifications :isModalOpen="state.modal.isNotificationsOpen"
                 :selectedData="state.selectedSubgoal" @close="state.modal.isNotificationsOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isArchiveSubgoalOpen"
@@ -246,7 +255,8 @@ const state = reactive({
         isDeleteSubgoalOpen: false,
         isEditSubgoalOpen: false,
         isNotificationsOpen: false,
-        isSubGoalStatusesOpen: false,
+        isSubGoalNotesOpen: false,
+        isViewStatuses: false,
     },
     selectedGoal: {},
     selectedSubgoal: {
@@ -318,9 +328,18 @@ function editSubGoal(subgoal: any) {
     state.modal.isEditSubgoalOpen = true
 }
 
-function viewSubgoalStatuses(subgoal: any) {
+function viewSubgoalNotes(subgoal: any) {
     state.selectedSubgoal = subgoal
-    state.modal.isSubGoalStatusesOpen = true
+    state.modal.isSubGoalNotesOpen = true
+}
+
+function viewStatuses(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isViewStatuses = true
+}
+
+function closeStatusesModal() {
+    state.modal.isViewStatuses = false
 }
 
 function viewNotifications(subgoal: any) {
@@ -374,7 +393,7 @@ async function deleteSubgoal() {
 }
 
 function closeSubgoalStatusesModal() {
-    state.modal.isSubGoalStatusesOpen = false
+    state.modal.isSubGoalNotesOpen = false
     state.selectedSubgoal = {
         id: '',
         uuid: '',

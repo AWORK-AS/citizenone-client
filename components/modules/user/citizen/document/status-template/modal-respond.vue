@@ -329,13 +329,14 @@ async function submitResponse() {
     state.isPageLoading = true
     try {
         let params = new FormData()
-        params.append('form_uuid', props.selectedFormStatusTemplate?.form_uuid.toString())
+        params.append('folder_uuid', props.selectedFormStatusTemplate?.folder_uuid?.toString())
+        params.append('form_uuid', props.selectedFormStatusTemplate?.form_uuid?.toString())
         if (props.selectedFormStatusTemplate.subgoal_uuid) {
-            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.subgoal_uuid.toString())
+            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.subgoal_uuid?.toString())
         } else if (props.selectedFormStatusTemplate.goal_uuid) {
-            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.goal_uuid.toString())
-        } else {
-            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.plan_uuid.toString())
+            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.goal_uuid?.toString())
+        } else if (props.selectedFormStatusTemplate.plan_uuid) {
+            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.plan_uuid?.toString())
         }
 
         state.form.data.form_fields.forEach((formField: any) => {
@@ -355,7 +356,7 @@ async function submitResponse() {
         })
         const response = await citizenDocumentTemplateService.saveDocumentResponses(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.createTemplate.alert.statusTemplateSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.createTemplate.alert.templateSuccessfullyAdded')}.`)
             closeModal()
             closeModalNew()
         }
@@ -370,14 +371,14 @@ async function submitResponseAndDownloadPDF() {
     state.isPageLoading = true
     try {
         let params = new FormData()
-        params.append('folder_uuid', props.selectedFormStatusTemplate?.folder_uuid.toString())
-        params.append('form_uuid', props.selectedFormStatusTemplate?.form_uuid.toString())
+        params.append('folder_uuid', props.selectedFormStatusTemplate?.folder_uuid?.toString())
+        params.append('form_uuid', props.selectedFormStatusTemplate?.form_uuid?.toString())
         if (props.selectedFormStatusTemplate.subgoal_uuid) {
-            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.subgoal_uuid.toString())
+            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.subgoal_uuid?.toString())
         } else if (props.selectedFormStatusTemplate.goal_uuid) {
-            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.goal_uuid.toString())
-        } else {
-            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.plan_uuid.toString())
+            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.goal_uuid?.toString())
+        } else if (props.selectedFormStatusTemplate.plan_uuid) {
+            params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.plan_uuid?.toString())
         }
 
         state.form.data.form_fields.forEach((formField: any) => {
@@ -397,7 +398,7 @@ async function submitResponseAndDownloadPDF() {
         })
         const response = await citizenDocumentTemplateService.saveDocumentResponsesAndDownloadPDF(params)
         if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.createTemplate.alert.statusTemplateSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.createTemplate.alert.templateSuccessfullyAdded')}.`)
             closeModal()
             closeModalNew()
             saveAs(response)

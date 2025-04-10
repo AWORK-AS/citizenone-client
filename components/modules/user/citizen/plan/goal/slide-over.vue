@@ -120,9 +120,16 @@
                                                                 <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.notes')">
                                                                     <FormButton class="rounded-md" buttonSize="sm"
-                                                                        @click="viewGoalStatuses(goal)">
+                                                                        @click="viewGoalNotes(goal)">
                                                                         <Icon name="ph:check-square-offset"
                                                                             class="size-4" />
+                                                                    </FormButton>
+                                                                </Tooltip>
+                                                                <Tooltip
+                                                                    :text="$t('plansandgoals.table.actions.statuses')">
+                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                        @click="viewGoalStatuses(goal)">
+                                                                        <Icon name="ph:file" class="size-4" />
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
@@ -317,9 +324,18 @@
                                                                                     :text="$t('plansandgoals.table.actions.notes')">
                                                                                     <FormButton class="rounded-md"
                                                                                         buttonSize="sm"
-                                                                                        @click="viewSubgoalStatuses(subgoal)">
+                                                                                        @click="viewSubgoalNotes(subgoal)">
                                                                                         <Icon
                                                                                             name="ph:check-square-offset"
+                                                                                            class="size-4" />
+                                                                                    </FormButton>
+                                                                                </Tooltip>
+                                                                                <Tooltip
+                                                                                    :text="$t('plansandgoals.table.actions.statuses')">
+                                                                                    <FormButton class="rounded-md"
+                                                                                        buttonSize="sm"
+                                                                                        @click="viewSubgoalStatuses(subgoal)">
+                                                                                        <Icon name="ph:file"
                                                                                             class="size-4" />
                                                                                     </FormButton>
                                                                                 </Tooltip>
@@ -386,10 +402,15 @@
             <ModulesUserCitizenPlanChartModalChart :isModalOpen="state.modal.isSubgoalChartOpen"
                 :selectedData="state.selectedSubgoal" @close="state.modal.isSubgoalChartOpen = false" />
 
-            <ModulesUserCitizenPlanNotesModalNotes :isModalOpen="state.modal.isGoalStatusesOpen"
-                :selectedData="state.selectedGoal" @close="closeGoalStatusesModal" @refreshData="fetchGoals" />
-            <ModulesUserCitizenPlanNotesModalNotes :isModalOpen="state.modal.isSubGoalStatusesOpen"
-                :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" @refreshData="fetchGoals" />
+            <ModulesUserCitizenPlanNotesModalNotes :isModalOpen="state.modal.isGoalNotesOpen"
+                :selectedData="state.selectedGoal" @close="closeGoalNotesModal" @refreshData="fetchGoals" />
+            <ModulesUserCitizenPlanNotesModalNotes :isModalOpen="state.modal.isSubGoalNotesOpen"
+                :selectedData="state.selectedSubgoal" @close="closeSubgoalNotesModal" @refreshData="fetchGoals" />
+
+            <ModulesUserCitizenPlanStatusTemplateModalStatuses :isModalOpen="state.modal.isViewGoalStatusesOpen"
+                :selectedData="state.selectedGoal" @close="closeGoalStatusesModal" />
+            <ModulesUserCitizenPlanStatusTemplateModalStatuses :isModalOpen="state.modal.isViewSubgoalStatusesOpen"
+                :selectedData="state.selectedSubgoal" @close="closeSubgoalStatusesModal" />
 
             <ModulesUserCitizenPlanNotificationModalNotifications :isModalOpen="state.modal.isGoalNotificationsOpen"
                 :selectedData="state.selectedGoal" @close="state.modal.isGoalNotificationsOpen = false" />
@@ -453,10 +474,12 @@ const state = reactive({
         isEditSubgoalOpen: false,
         isGoalChartOpen: false,
         isGoalNotificationsOpen: false,
-        isGoalStatusesOpen: false,
+        isGoalNotesOpen: false,
+        isViewGoalStatusesOpen: false,
         isSubgoalChartOpen: false,
         isSubgoalNotificationsOpen: false,
-        isSubGoalStatusesOpen: false,
+        isSubGoalNotesOpen: false,
+        isViewSubgoalStatusesOpen: false,
     },
     selectedPlan: {
         id: '',
@@ -577,28 +600,18 @@ function openSubgoalChart(subgoal: any) {
     state.modal.isSubgoalChartOpen = true
 }
 
+function viewGoalNotes(goal: any) {
+    state.selectedGoal = goal
+    state.modal.isGoalNotesOpen = true
+}
+
 function viewGoalStatuses(goal: any) {
     state.selectedGoal = goal
-    state.modal.isGoalStatusesOpen = true
-}
-
-function viewGoalNotifications(goal: any) {
-    state.selectedGoal = goal
-    state.modal.isGoalNotificationsOpen = true
-}
-
-function viewSubgoalStatuses(subgoal: any) {
-    state.selectedSubgoal = subgoal
-    state.modal.isSubGoalStatusesOpen = true
-}
-
-function viewSubgoalNotifications(subgoal: any) {
-    state.selectedSubgoal = subgoal
-    state.modal.isSubgoalNotificationsOpen = true
+    state.modal.isViewGoalStatusesOpen = true
 }
 
 function closeGoalStatusesModal() {
-    state.modal.isGoalStatusesOpen = false
+    state.modal.isViewGoalStatusesOpen = false
     state.selectedGoal = {
         id: '',
         uuid: '',
@@ -610,8 +623,54 @@ function closeGoalStatusesModal() {
     }
 }
 
+function viewGoalNotifications(goal: any) {
+    state.selectedGoal = goal
+    state.modal.isGoalNotificationsOpen = true
+}
+
+function viewSubgoalNotes(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isSubGoalNotesOpen = true
+}
+
+function viewSubgoalStatuses(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isViewSubgoalStatusesOpen = true
+}
+
 function closeSubgoalStatusesModal() {
-    state.modal.isSubGoalStatusesOpen = false
+    state.modal.isViewSubgoalStatusesOpen = false
+    state.selectedSubgoal = {
+        id: '',
+        uuid: '',
+        name: '',
+        description: '',
+        completion_date: '',
+        date_completed: '',
+        is_completed: false,
+    }
+}
+
+function viewSubgoalNotifications(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isSubgoalNotificationsOpen = true
+}
+
+function closeGoalNotesModal() {
+    state.modal.isGoalNotesOpen = false
+    state.selectedGoal = {
+        id: '',
+        uuid: '',
+        name: '',
+        description: '',
+        completion_date: '',
+        date_completed: '',
+        is_completed: false,
+    }
+}
+
+function closeSubgoalNotesModal() {
+    state.modal.isSubGoalNotesOpen = false
     state.selectedSubgoal = {
         id: '',
         uuid: '',
