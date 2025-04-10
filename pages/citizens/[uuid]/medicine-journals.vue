@@ -173,6 +173,12 @@
                                     </td>
                                     <td width="10%">
                                         <div class="flex items-end gap-2">
+                                            <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.view')}`">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="viewMedicine(medicine)">
+                                                    <Icon name="ph:eye" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip
                                                 :text="`${$t('citizens.medicineJournals.table.actions.giveMedicine')}`">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
@@ -196,7 +202,7 @@
                                             </Tooltip>
                                             <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.delete')}`"
                                                 v-if="medicine?.is_deletable">
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                                     @click="confirmMedicineDeletion(medicine)">
                                                     <Icon name="ph:trash-duotone" class="size-4" />
                                                 </FormButton>
@@ -218,8 +224,8 @@
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isGiveMedicineOpen = false" />
                 <ModulesUserCitizenMedicineHistoryModalGiveMultipleMedicine
                     :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false" />
-                <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineOpen"
-                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineOpen = false" />
+                <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineHistoryOpen"
+                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineHistoryOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deleteConfirmation') + '?'"
                     @close="state.modal.isDeleteMedicineOpen = false" @confirm="deleteMedicine" />
@@ -278,6 +284,7 @@ const state = reactive({
         isGiveMedicineOpen: false,
         isGiveMedicinesOpen: false,
         isViewMedicineOpen: false,
+        isViewMedicineHistoryOpen: false,
     },
     selectedMedicine: {} as any,
     sortData: {
@@ -290,8 +297,8 @@ onMounted(() => {
     fetchCitizenMedicines()
 })
 
-watch(() => state.modal.isViewMedicineOpen, (isViewMedicineOpen: any) => {
-    if (!isViewMedicineOpen) {
+watch(() => state.modal.isViewMedicineHistoryOpen, (isViewMedicineHistoryOpen: any) => {
+    if (!isViewMedicineHistoryOpen) {
         fetchCitizenMedicines()
     }
 })
@@ -361,6 +368,11 @@ function addRemoveMedicine(medicine: any) {
     citizenMedicineStore.addRemoveSelectedMedicine(medicine)
 }
 
+function viewMedicine(medicine: any) {
+    state.selectedMedicine = medicine
+    state.modal.isViewMedicineOpen = true
+}
+
 function giveMedicine(medicine: any) {
     state.selectedMedicine = medicine
     state.modal.isGiveMedicineOpen = true
@@ -368,7 +380,7 @@ function giveMedicine(medicine: any) {
 
 function viewMedicineHistory(medicine: any) {
     state.selectedMedicine = medicine
-    state.modal.isViewMedicineOpen = true
+    state.modal.isViewMedicineHistoryOpen = true
 }
 
 function editMedicine(medicine: any) {

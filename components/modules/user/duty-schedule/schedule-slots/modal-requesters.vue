@@ -24,7 +24,7 @@
                                                 <Icon name="ph:check" class="size-4" />
                                                 {{ $t('dutySchedules.requesters.table.actions.approve') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                                 @click="confirmRequestDisapproval(requester)">
                                                 <Icon name="ph:x" class="size-4" />
                                                 {{ $t('dutySchedules.requesters.table.actions.disapprove') }}

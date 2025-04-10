@@ -25,7 +25,7 @@
                                         </FormButton>
                                     </Tooltip>
                                     <Tooltip :text="$t('reminders.table.markAsIncomplete')" v-else>
-                                        <FormButton buttonStyle="danger" class="rounded-md" buttonSize="sm"
+                                        <FormButton buttonStyle="primary" class="rounded-md" buttonSize="sm"
                                             @click="markAsCompleteIncomplete(due)">
                                             <Icon name="ph:x" class="h-4 w-4" aria-hidden="true" />
                                         </FormButton>

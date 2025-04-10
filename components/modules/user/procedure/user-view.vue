@@ -67,7 +67,7 @@
                                                 @click="toggleTaskProgress(task)" v-if="task?.progress === 0">
                                                 <Icon name="ph:check" class="w-4 h-4" aria-hidden="true" />
                                             </FormButton>
-                                            <FormButton buttonSize="xs" buttonStyle="danger"
+                                            <FormButton buttonSize="xs" buttonStyle="primary"
                                                 class="border border-red-600 hover:border-red-700"
                                                 @click="toggleTaskProgress(task)" v-else>
                                                 <Icon name="ph:x" class="w-4 h-4" aria-hidden="true" />

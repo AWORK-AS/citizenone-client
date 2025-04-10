@@ -67,7 +67,7 @@
                                                     $t('superadmin.accounts.table.actions.deactivate') :
                                                     $t('superadmin.accounts.table.actions.activate') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                                 @click="confirmAccountDeletion(account)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('superadmin.accounts.table.actions.delete') }}

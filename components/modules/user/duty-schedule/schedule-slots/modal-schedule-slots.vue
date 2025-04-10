@@ -58,7 +58,7 @@
                                                     <Icon name="ph:pencil" class="size-4" />
                                                     {{ $t('dutySchedules.scheduleSlots.table.actions.edit') }}
                                                 </FormButton>
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                                     @click="confirmScheduleSlotDeletion(slot)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                     {{ $t('dutySchedules.scheduleSlots.table.actions.delete') }}

@@ -69,7 +69,7 @@
                                         </Tooltip>
                                         <Tooltip :text="$t('protocols.table.actions.removeCitizenForThisDate')"
                                             @click="confirmRemoving(citizenProtocol)">
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md">
+                                            <FormButton type="button" buttonStyle="primary" class="rounded-md">
                                                 <Icon name="ph:trash" class="size-4" />
                                             </FormButton>
                                         </Tooltip>

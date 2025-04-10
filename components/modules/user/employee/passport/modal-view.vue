@@ -40,7 +40,7 @@
                                                     <Icon name="ph:archive-light" class="size-4" />
                                                     {{ $t('employees.documents.table.actions.archive') }}
                                                 </FormButton>
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                                     @click="confirmDocumentDeletion(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                     {{ $t('employees.documents.table.actions.delete') }}

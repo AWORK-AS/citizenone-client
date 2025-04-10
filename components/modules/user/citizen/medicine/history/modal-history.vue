@@ -71,7 +71,7 @@
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                     {{ $t('citizens.medicineJournals.table.actions.edit') }}
                                                 </FormButton>
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                                     @click="confirmMedicineDeletion(medicineHistory)">
                                                     <Icon name="ph:trash-duotone" class="size-4" />
                                                     {{ $t('citizens.medicineJournals.table.actions.delete') }}
