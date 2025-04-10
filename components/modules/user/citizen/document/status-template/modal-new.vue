@@ -263,7 +263,6 @@ async function fetchAllSubgoalsPerGoal(goalUuid: any) {
 
 async function submitForm() {
     v$.value.$validate()
-    console.log('test', v$.value)
     if (!v$.value.$error) {
         state.modal.isRespondOpen = true
     }
