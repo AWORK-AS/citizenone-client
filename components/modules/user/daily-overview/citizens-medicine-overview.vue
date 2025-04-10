@@ -35,11 +35,20 @@
                                     class="rounded-full w-11 h-11 object-cover" />
                                 <span>{{ medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname }}</span>
                             </div>
-                            <Badge type="primary" class="flex items-center w-fit" v-if="medicine?.is_pn_medicine">
+                            <Badge type="primary" class="flex items-center w-fit mt-1" v-if="medicine?.is_pn_medicine">
                                 <p class="text-xxs px-2">
                                     {{ $t('citizens.medicineJournals.table.pnMedicine') }}
                                 </p>
                             </Badge>
+                            <div class="mt-1">
+                                <Badge type="primary" class="w-fit" v-if="medicine.is_self_administered">
+                                    <p class="text-xxs">
+                                        {{
+                                            $t('citizens.medicineJournals.form.selfAdminister')
+                                        }}
+                                    </p>
+                                </Badge>
+                            </div>
                             <h3 class="text-base font-semibold">
                                 {{ language.locale.value === 'en' ? medicine?.medicine?.en_name
                                     : medicine?.medicine?.dk_name }}
