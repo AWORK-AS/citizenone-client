@@ -15,7 +15,7 @@
                     <div class="w-fit flex cursor-pointer"
                         @click="state.formMedicine.is_self_administered = !state.formMedicine.is_self_administered">
                         <FormCheckbox :value="state.formMedicine.is_self_administered" />
-                        <p>{{ $t('citizens.medicineJournals.form.selfAdministration') }}</p>
+                        <p>{{ $t('citizens.medicineJournals.form.selfAdminister') }}</p>
                     </div>
                 </div>
                 <div class="space-y-1">

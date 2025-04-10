@@ -5,6 +5,10 @@ class MedicineJournalService extends BaseAPIService {
         return await this.request(`/user/citizen-medicines`, 'GET', params)
     }
 
+    async getMedicine(medicineUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-medicines/${medicineUuid}`, 'GET')
+    }
+
     async saveMedicine(params: object): Promise<any> {
         return await this.request(`/user/citizen-medicines`, 'POST', params)
     }

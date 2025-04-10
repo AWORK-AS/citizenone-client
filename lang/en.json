@@ -855,7 +855,7 @@
                 "dosageForm": "Dosage form",
                 "endDate": "End date",
                 "image": "Image",
-                "isActive": "Is active",
+                "inactive": "Inactive",
                 "maxDosagePerTime": "Max dosage per time",
                 "maxDailyDose": "Max daily dose",
                 "medicine": "Medicine",
@@ -863,7 +863,7 @@
                 "packageLeafletLink": "Package leaflet link",
                 "pnMedicine": "PN-medicine",
                 "scheduleFrequency": "Schedule frequency",
-                "selfAdministration": "Self-administration",
+                "selfAdminister": "Self-administer",
                 "startDate": "Start date",
                 "strength": "Strength",
                 "time": "Time",
@@ -954,7 +954,8 @@
                 "pnMedicine": "PN-medicine",
                 "quantity": "Quantity",
                 "strength": "Strength"
-            }
+            },
+            "viewMedicine": "View medicine"
         },
         "newCitizen": "New citizen",
         "note": {

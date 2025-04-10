@@ -855,7 +855,7 @@
                 "dosageForm": "Doseringsform",
                 "endDate": "Slutdato",
                 "image": "Billede",
-                "isActive": "Er aktiv",
+                "inactive": "Inaktiv",
                 "maxDosagePerTime": "Maksimal dosis pr. gang",
                 "maxDailyDose": "Maksimal daglig dosis",
                 "medicine": "Medicin",
@@ -863,7 +863,7 @@
                 "packageLeafletLink": "Indlægsseddel",
                 "pnMedicine": "PN-medicin",
                 "scheduleFrequency": "Planlægningsfrekvens",
-                "selfAdministration": "Selvadministration",
+                "selfAdminister": "Self-administer",
                 "startDate": "Startdato",
                 "strength": "Styrke",
                 "time": "Tid",
@@ -954,7 +954,8 @@
                 "pnMedicine": "PN-medicin",
                 "quantity": "Mængde",
                 "strength": "Styrke"
-            }
+            },
+            "viewMedicine": "Se medicin"
         },
         "newCitizen": "Ny borger",
         "note": {

@@ -29,7 +29,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <!-- <ModulesUserCitizenDetailsHeader /> -->
+                <ModulesUserCitizenDetailsHeader />
                 <ModulesUserCitizenJournalTabs />
 
                 <div>
@@ -158,7 +158,8 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div class="mt-2 text-xxs flex flex-wrap gap-2">
+                                            <div class="mt-2 text-xxs flex flex-wrap gap-2"
+                                                v-if="!medicine.is_pn_medicine">
                                                 <div v-for="(dosage, index) in JSON.parse(medicine?.max_dosage_per_time)"
                                                     :key="index">
                                                     <span class="bg-primary p-1 text-white rounded-md">
@@ -215,6 +216,9 @@
                     </div>
                     <Pagination :data="state.medicines" @previous="previous" @next="next" />
                 </div>
+                <ModulesUserCitizenMedicineModalView :isModalOpen="state.modal.isViewMedicineOpen"
+                    :selectedMedicine="state.selectedMedicine" @close="closeViewMedicineModal"
+                    @refreshMedicines="fetchCitizenMedicines" />
                 <ModulesUserCitizenMedicineModalNew :isModalOpen="state.modal.isAddMedicineOpen"
                     @close="state.modal.isAddMedicineOpen = false" @refreshMedicines="fetchCitizenMedicines" />
                 <ModulesUserCitizenMedicineModalEdit :isModalOpen="state.modal.isEditMedicineOpen"
@@ -373,6 +377,11 @@ function viewMedicine(medicine: any) {
     state.modal.isViewMedicineOpen = true
 }
 
+function closeViewMedicineModal() {
+    state.modal.isViewMedicineOpen = false
+    state.selectedMedicine = {}
+}
+
 function giveMedicine(medicine: any) {
     state.selectedMedicine = medicine
     state.modal.isGiveMedicineOpen = true
@@ -390,7 +399,7 @@ function editMedicine(medicine: any) {
 
 function closeEditMedicineModal() {
     state.modal.isEditMedicineOpen = false
-    state.selectedMedicine = []
+    state.selectedMedicine = {}
 }
 
 function confirmMedicineDeletion(journal: any) {
