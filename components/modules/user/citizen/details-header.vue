@@ -150,7 +150,7 @@
                                     <div class="flex items-center gap-x-1"
                                         v-if="state.selectedCitizen?.data?.transportation">
                                         <Tooltip :text="$t('citizens.form.transportation')" class="flex items-center">
-                                            <Icon name="ph:airplane" class="h-4 w-4" aria-hidden="true" />
+                                            <Icon name="ph:bus" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
                                         <p class="text-sm font-medium text-gray-700">
                                             {{ state.selectedCitizen?.data?.transportation }}
