@@ -245,8 +245,8 @@
                                             </div>
                                             <p class="text-xs">
                                                 {{ $t('citizens.citizenJournals.createdBy') }}:
-                                                {{ JSON.parse(log.old_data).user?.firstname }} {{
-                                                    JSON.parse(log.old_data).user?.lastname }}
+                                                {{ JSON.parse(log.old_data)?.user?.firstname }} {{
+                                                    JSON.parse(log.old_data)?.user?.lastname }}
                                                 <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
                                                 {{ formatDateTimeToReadable(JSON.parse(log.old_data).created_at) }}
                                             </p>
