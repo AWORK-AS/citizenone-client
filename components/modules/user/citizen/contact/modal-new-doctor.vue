@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('citizens.caseWorker.newCaseWorker')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="lg" :title="$t('citizens.doctor.newDoctor')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <form @submit.prevent="submitForm()" id="formContact">

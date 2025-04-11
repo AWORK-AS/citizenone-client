@@ -95,25 +95,25 @@
                             {{ state.selectedMedicine?.doctor?.firstname }}
                             {{ state.selectedMedicine?.doctor?.lastname }}
                         </p>
-                        <p>
+                        <p class="break-words">
                             <span class="font-semibold">
                                 {{ $t('citizens.medicineJournals.form.treatmentReason') }}:
                             </span>
                             {{ state.selectedMedicine?.treatment_reason }}
                         </p>
-                        <p>
+                        <p class="break-words">
                             <span class="font-semibold">
                                 {{ $t('citizens.medicineJournals.form.medicineStorage') }}:
                             </span>
                             {{ state.selectedMedicine?.medication_storage }}
                         </p>
-                        <p>
+                        <p class="break-words">
                             <span class="font-semibold">
                                 {{ $t('citizens.medicineJournals.form.activeIngredients') }}:
                             </span>
                             {{ state.selectedMedicine?.active_ingredients }}
                         </p>
-                        <p>
+                        <p class="break-words">
                             <span class="font-semibold">
                                 {{ $t('citizens.medicineJournals.form.description') }}:
                             </span>
