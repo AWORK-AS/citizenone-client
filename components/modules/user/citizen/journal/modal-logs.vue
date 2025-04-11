@@ -58,7 +58,7 @@
                                                 </div>
                                                 <p class="mt-1 text-xs text-muted-400">
                                                     <span>{{ formatDateToReadable(JSON.parse(log.new_data)?.date)
-                                                        }}</span>
+                                                    }}</span>
                                                 </p>
                                             </div>
                                             <div class="mt-1">
@@ -126,10 +126,10 @@
                                             </div>
                                             <p class="text-xs">
                                                 {{ $t('citizens.citizenJournals.createdBy') }}:
-                                                {{ JSON.parse(log.new_data).user?.firstname }} {{
-                                                    JSON.parse(log.new_data).user?.lastname }}
+                                                {{ JSON.parse(log.new_data)?.user?.firstname }} {{
+                                                    JSON.parse(log.new_data)?.user?.lastname }}
                                                 <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
-                                                {{ formatDateTimeToReadable(JSON.parse(log.new_data).created_at) }}
+                                                {{ formatDateTimeToReadable(JSON.parse(log.new_data)?.created_at) }}
                                             </p>
                                         </div>
                                         <div class="bg-yellow-100 rounded-md space-y-1.5 p-4 mt-3">
@@ -177,7 +177,7 @@
                                                 </div>
                                                 <p class="mt-1 text-xs text-muted-400">
                                                     <span>{{ formatDateToReadable(JSON.parse(log.old_data)?.date)
-                                                        }}</span>
+                                                    }}</span>
                                                 </p>
                                             </div>
                                             <div class="mt-1">
