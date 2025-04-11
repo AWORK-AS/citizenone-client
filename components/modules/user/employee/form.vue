@@ -957,6 +957,8 @@ function submitForm() {
         // Check specific fields in the order you want
         if (v$.value.formEmployee.firstname?.$error && firstnameField.value) {
             firstnameField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.lastname?.$error && lastnameField.value) {
+            lastnameField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.email?.$error && emailField.value) {
             emailField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.phone?.$error && phoneField.value) {
@@ -969,10 +971,7 @@ function submitForm() {
             streetField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.region_uuid?.$error && regionField.value) {
             regionField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        }
-
-
-        else if (v$.value.formEmployee.municipality_uuid?.$error && municipalityField.value) {
+        } else if (v$.value.formEmployee.municipality_uuid?.$error && municipalityField.value) {
             municipalityField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.city_uuid?.$error && cityField.value) {
             cityField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
