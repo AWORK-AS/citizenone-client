@@ -9,7 +9,7 @@
                         <template #body v-if="!(state.isTableLoading || (state.journalLogs?.data?.length === 0))">
                             <tr v-for="(log, index) in state.journalLogs?.data" :key="index">
                                 <td width="25%">
-                                    <span>{{ formatDateTimeToReadable(log.created_at) }}</span>
+                                    <span>{{ log?.created_at ? formatDateTimeToReadable(log.created_at) : '-' }}</span>
                                 </td>
                                 <td width="50%" class="pr-0">
                                     <div :class="expandedDescription[index] ? '' : 'line-clamp-2'">
@@ -129,7 +129,8 @@
                                                 {{ JSON.parse(log.new_data)?.user?.firstname }} {{
                                                     JSON.parse(log.new_data)?.user?.lastname }}
                                                 <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
-                                                {{ formatDateTimeToReadable(JSON.parse(log.new_data)?.created_at) }}
+                                                {{ JSON.parse(log.new_data)?.created_at ?
+                                                    formatDateTimeToReadable(JSON.parse(log.new_data)?.created_at) : '-' }}
                                             </p>
                                         </div>
                                         <div class="bg-yellow-100 rounded-md space-y-1.5 p-4 mt-3">
@@ -248,7 +249,8 @@
                                                 {{ JSON.parse(log.old_data)?.user?.firstname }} {{
                                                     JSON.parse(log.old_data)?.user?.lastname }}
                                                 <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
-                                                {{ formatDateTimeToReadable(JSON.parse(log.old_data).created_at) }}
+                                                {{ JSON.parse(log.old_data)?.created_at ?
+                                                    formatDateTimeToReadable(JSON.parse(log.old_data)?.created_at) : '-' }}
                                             </p>
                                         </div>
                                     </div>
@@ -298,7 +300,7 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'citizens.citizenJournals.journalLogs.date', sorter: true, key: 'created_at' },
+        { name: 'citizens.citizenJournals.journalLogs.date', sorter: true, key: 'ß' },
         { name: 'citizens.citizenJournals.journalLogs.description' },
         { name: 'citizens.citizenJournals.journalLogs.updatedBy' },
     ],
