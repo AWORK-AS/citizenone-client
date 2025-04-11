@@ -832,10 +832,14 @@
         },
         "medicineJournals": {
             "alert": {
+                "successfullyActivated": "Medicin aktiveret med succes",
+                "successfullyDeactivated": "Medicin deaktiveret med succes",
                 "successfullyDeleted": "Medicin slettet med succes"
             },
             "download": "Download",
             "confirmation": {
+                "activateConfirmation": "Er du sikker på, at du vil aktivere denne medicin",
+                "deactivateConfirmation": "Er du sikker på, at du vil deaktivere denne medicin",
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne medicin"
             },
             "editMedicine": "Rediger Medicin",
@@ -937,6 +941,8 @@
             "synchronizeWithFMK": "Synkroniser med FMK",
             "table": {
                 "actions": {
+                    "activate": "Aktiver",
+                    "deactivate": "Deaktiver",
                     "edit": "Rediger",
                     "delete": "Slet",
                     "giveMedicine": "Giv medicin",

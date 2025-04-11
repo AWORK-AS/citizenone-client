@@ -211,6 +211,21 @@
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.activate')}`"
+                                                v-if="medicine?.is_deactivated">
+                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                    @click="confirmMedicineActivation(medicine)">
+                                                    <Icon name="ph:check" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip
+                                                :text="`${$t('citizens.medicineJournals.table.actions.deactivate')}`"
+                                                v-else>
+                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                    @click="confirmMedicineDeactivation(medicine)">
+                                                    <Icon name="ph:x" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.delete')}`"
                                                 v-if="medicine?.is_deletable">
                                                 <FormButton type="button" buttonStyle="primary" class="rounded-md"
@@ -242,6 +257,12 @@
                     :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false" />
                 <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineHistoryOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineHistoryOpen = false" />
+                <DialogConfirmation :isModalOpen="state.modal.isActivateMedicineOpen"
+                    :message="$t('citizens.medicineJournals.confirmation.activateConfirmation') + '?'"
+                    @close="state.modal.isActivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeactivateMedicineOpen"
+                    :message="$t('citizens.medicineJournals.confirmation.deactivateConfirmation') + '?'"
+                    @close="state.modal.isDeactivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deleteConfirmation') + '?'"
                     @close="state.modal.isDeleteMedicineOpen = false" @confirm="deleteMedicine" />
@@ -295,6 +316,8 @@ const state = reactive({
     medicines: [] as any,
     modal: {
         isAddMedicineOpen: false,
+        isActivateMedicineOpen: false,
+        isDeactivateMedicineOpen: false,
         isDeleteMedicineOpen: false,
         isEditMedicineOpen: false,
         isFilterMedicineOpen: false,
@@ -433,9 +456,38 @@ function closeEditMedicineModal() {
     state.selectedMedicine = {}
 }
 
+function confirmMedicineActivation(journal: any) {
+    state.selectedMedicine = journal
+    state.modal.isActivateMedicineOpen = true
+}
+
+function confirmMedicineDeactivation(journal: any) {
+    state.selectedMedicine = journal
+    state.modal.isDeactivateMedicineOpen = true
+}
+
 function confirmMedicineDeletion(journal: any) {
     state.selectedMedicine = journal
     state.modal.isDeleteMedicineOpen = true
+}
+
+async function toggleActivateDeactivateMedicine() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await medicineJournalService.activateDeactivateMedicine(state.selectedMedicine.uuid)
+        if (response?.data) {
+            fetchCitizenMedicines()
+            if (response?.data?.is_deactivated) {
+                successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.alert.successfullyDeactivated')}.`)
+            } else {
+                successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.alert.successfullyActivated')}.`)
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 async function deleteMedicine() {
@@ -449,6 +501,7 @@ async function deleteMedicine() {
             }
             fetchCitizenMedicines()
             successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.alert.successfullyDeleted')}.`)
+            state.modal.isDeleteMedicineOpen = false
         }
     } catch (error: any) {
         state.error = error
