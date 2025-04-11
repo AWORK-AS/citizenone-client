@@ -339,13 +339,25 @@ async function fetchCitizenMedicines() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const params = {
-            citizen_uuid: citizenUuid,
-            is_active: citizenMedicineStore.getFilterByActiveInactive === 'active' ? true : false,
-            page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
-            ...state.dataFilter
+        let params = {}
+        if (citizenMedicineStore.getFilterByActiveInactiveDeactivated === 'deactivated') {
+            params = {
+                citizen_uuid: citizenUuid,
+                is_deactivated: citizenMedicineStore.getFilterByActiveInactiveDeactivated === 'deactivated' ? true : false,
+                page: currentTablePage,
+                sortField: state.sortData.sortField,
+                sortOrder: state.sortData.sortOrder,
+                ...state.dataFilter
+            }
+        } else {
+            params = {
+                citizen_uuid: citizenUuid,
+                is_active: citizenMedicineStore.getFilterByActiveInactiveDeactivated === 'active' ? true : false,
+                page: currentTablePage,
+                sortField: state.sortData.sortField,
+                sortOrder: state.sortData.sortOrder,
+                ...state.dataFilter
+            }
         }
         const response = await medicineJournalService.getMedicines(params)
         if (response) {
@@ -383,7 +395,7 @@ function handleSearch(value: any) {
 }
 
 function setFilter(filter: any) {
-    citizenMedicineStore.setFilterByActiveInactive(filter.isActive.value)
+    citizenMedicineStore.setFilterByActiveInactiveDeactivated(filter.isActive.value)
     fetchCitizenMedicines()
 }
 

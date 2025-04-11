@@ -4,7 +4,7 @@ export const useCitizenMedicineStore = defineStore('citizenMedicineStore',
     {
         persist: true,
         state: () => ({
-            filterByActiveInactive: 'active',
+            filterByActiveInactiveDeactivated: 'active',
             selectedMedicines: [],
         }),
         actions: {
@@ -19,18 +19,18 @@ export const useCitizenMedicineStore = defineStore('citizenMedicineStore',
                     this.selectedMedicines.splice(index, 1)
                 }
             },
-            setFilterByActiveInactive(status) {
-                this.filterByActiveInactive = status
+            setFilterByActiveInactiveDeactivated(status) {
+                this.filterByActiveInactiveDeactivated = status
             },
-            resetFilterByActiveInactive() {
-                this.filterByActiveInactive = 'active'
+            resetFilterByActiveInactiveDeactivated() {
+                this.filterByActiveInactiveDeactivated = 'active'
             },
             resetSelectedMedicine() {
                 this.selectedMedicines = []
             },
         },
         getters: {
-            getFilterByActiveInactive: (state) => state.filterByActiveInactive,
+            getFilterByActiveInactiveDeactivated: (state) => state.filterByActiveInactiveDeactivated,
             getSelectedMedicines: (state) => state.selectedMedicines,
         },
     },

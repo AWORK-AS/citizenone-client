@@ -8,7 +8,7 @@
                     <div class="space-y-3">
                         <fieldset>
                             <RadioGroup v-model="state.filter.isActive"
-                                class="mt-6 grid grid-cols-1 gap-y-6 md:grid-cols-2 sm:gap-x-4">
+                                class="mt-6 grid grid-cols-1 gap-y-6 sm:gap-x-4">
                                 <RadioGroupOption as="template" v-for="viewFilter in state.options.activeInactiveFilter"
                                     :key="viewFilter.value" :value="viewFilter" :aria-label="viewFilter.title"
                                     v-slot="{ active, checked }">
@@ -25,6 +25,11 @@
                                                     <span v-if="viewFilter.title === 'Inactive'">
                                                         {{
                                                             $t('citizens.medicineJournals.form.inactive')
+                                                        }}
+                                                    </span>
+                                                    <span v-if="viewFilter.title === 'Deactivated'">
+                                                        {{
+                                                            $t('citizens.medicineJournals.form.deactivated')
                                                         }}
                                                     </span>
                                                 </p>
@@ -76,7 +81,7 @@ const emit = defineEmits(['close', 'setFilter'])
 const state = reactive({
     error: {} as Error,
     filter: {
-        isActive: citizenMedicineStore.getFilterByActiveInactive as any,
+        isActive: citizenMedicineStore.getFilterByActiveInactiveDeactivated as any,
         tags: [],
     },
     isPageLoading: false,
@@ -85,13 +90,14 @@ const state = reactive({
         activeInactiveFilter: [
             { value: 'active', title: 'Active' },
             { value: 'inactive', title: 'Inactive' },
+            { value: 'deactivated', title: 'Deactivated' },
         ]
     }
 })
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
-        state.filter.isActive = state.options.activeInactiveFilter.find((item: any) => item.value === citizenMedicineStore.getFilterByActiveInactive)
+        state.filter.isActive = state.options.activeInactiveFilter.find((item: any) => item.value === citizenMedicineStore.getFilterByActiveInactiveDeactivated)
     }
 })
 
