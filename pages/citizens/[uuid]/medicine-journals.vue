@@ -33,17 +33,27 @@
                 <ModulesUserCitizenJournalTabs />
 
                 <div>
-                    <div class="mt-8 flex justify-end items-center gap-x-2">
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="navigateToExternalLink('https://fmk-online.dk/fmk')">
-                            <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
-                        </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isAddMedicineOpen = true">
-                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.medicineJournals.newMedicine') }}
-                        </FormButton>
+                    <div class="flex justify-between flex-col-reverse md:flex-row gap-3">
+                        <button class="flex items-center gap-x-1 text-sm text-primary group"
+                            @click="state.modal.isFilterMedicineOpen = true">
+                            <Icon name="ic:outline-filter-list"
+                                class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                            <span class="group-hover:text-primary-700">
+                                {{ $t('filter') }}
+                            </span>
+                        </button>
+                        <div class="flex items-center gap-x-2 justify-end">
+                            <FormButton buttonStyle="action" class="rounded-md"
+                                @click="navigateToExternalLink('https://fmk-online.dk/fmk')">
+                                <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
+                            </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-md"
+                                @click="state.modal.isAddMedicineOpen = true">
+                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('citizens.medicineJournals.newMedicine') }}
+                            </FormButton>
+                        </div>
                     </div>
                 </div>
 
@@ -216,6 +226,8 @@
                     </div>
                     <Pagination :data="state.medicines" @previous="previous" @next="next" />
                 </div>
+                <ModulesUserCitizenMedicineModalFilter :isModalOpen="state.modal.isFilterMedicineOpen"
+                    @close="state.modal.isFilterMedicineOpen = false" @setFilter="setFilter" />
                 <ModulesUserCitizenMedicineModalView :isModalOpen="state.modal.isViewMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="closeViewMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines" />
@@ -285,6 +297,7 @@ const state = reactive({
         isAddMedicineOpen: false,
         isDeleteMedicineOpen: false,
         isEditMedicineOpen: false,
+        isFilterMedicineOpen: false,
         isGiveMedicineOpen: false,
         isGiveMedicinesOpen: false,
         isViewMedicineOpen: false,
@@ -328,6 +341,7 @@ async function fetchCitizenMedicines() {
     try {
         const params = {
             citizen_uuid: citizenUuid,
+            is_active: citizenMedicineStore.getFilterByActiveInactive === 'active' ? true : false,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
@@ -365,6 +379,11 @@ function sort(sortingData: any) {
 function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
+    fetchCitizenMedicines()
+}
+
+function setFilter(filter: any) {
+    citizenMedicineStore.setFilterByActiveInactive(filter.isActive.value)
     fetchCitizenMedicines()
 }
 
