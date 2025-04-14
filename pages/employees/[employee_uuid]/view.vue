@@ -241,8 +241,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
-                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                        <div
+                            class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
                             <div>
                                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                                     {{ $t('employees.form.header.emergencyInfo') }}
@@ -252,7 +252,7 @@
                                 </p>
                             </div>
                             <div class="grid grid-cols-1 md:col-span-2 gap-y-3">
-                                <div>
+                                <div v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                                     <p class="text-sm text-gray-600 font-semibold leading-5">
                                         {{ $t('employees.form.emergencyInfo.trustees') }}
                                     </p>
