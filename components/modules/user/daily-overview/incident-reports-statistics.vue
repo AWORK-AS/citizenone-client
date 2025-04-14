@@ -2,6 +2,7 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <h3 class="text-primary text-base font-medium py-2">
             {{ $t('dailyOverview.incidentStatistics.incidentStatistics') }}
+            ({{ state.total_citizen_incidents_statistics }})
         </h3>
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
@@ -57,6 +58,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     citizen_incidents_statistics: [] as any,
+    total_citizen_incidents_statistics: 0,
 })
 
 watch(() => props.dateRange, () => {
@@ -88,6 +90,10 @@ async function fetchIncidentReportStatistics() {
         const response = await dailyOverviewService.getIncidentsStatistics(params)
         if (response) {
             state.citizen_incidents_statistics = response
+            state.total_citizen_incidents_statistics = parseInt(response?.data?.harmless) +
+                parseInt(response?.data?.low_risk) +
+                parseInt(response?.data?.moderate_risk) +
+                parseInt(response?.data?.high_risk)
         }
     } catch (error: any) {
         state.error = error

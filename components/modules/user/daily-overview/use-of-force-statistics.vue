@@ -2,6 +2,7 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <h3 class="text-primary text-base font-medium py-2">
             {{ $t('dailyOverview.useForceStatistics.useForceStatistics') }}
+            ({{ state.total_use_of_force_statistics }})
         </h3>
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
@@ -54,6 +55,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     use_of_force_statistics: [] as any,
+    total_use_of_force_statistics: 0,
 })
 
 watch(() => props.dateRange, () => {
@@ -85,6 +87,10 @@ async function fetchUseForceStatistics() {
         const response = await dailyOverviewService.getUseForceStatistics(params)
         if (response) {
             state.use_of_force_statistics = response
+            state.total_use_of_force_statistics = parseInt(response?.data?.harmless) +
+                parseInt(response?.data?.low_risk) +
+                parseInt(response?.data?.moderate_risk) +
+                parseInt(response?.data?.high_risk)
         }
     } catch (error: any) {
         state.error = error
