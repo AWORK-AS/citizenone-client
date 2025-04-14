@@ -107,6 +107,7 @@ const state = reactive({
             working_hours: '',
             employment_status: '',
             compensatory_hours: '',
+            vacation_days: '',
         },
         emergencyInfo: {
             emergency_contacts: [],
@@ -155,6 +156,7 @@ async function fetchEmployee() {
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
                     compensatory_hours: response?.data?.employee_detail?.compensatory_hours?.toString(),
+                    vacation_days: response?.data?.employee_detail?.vacation_days?.toString(),
                 },
                 emergencyInfo: {
                     emergency_contacts: [],
@@ -225,6 +227,7 @@ async function updateEmployee(employeeDetails: any) {
         params.append('working_hours', employeeDetails.employment.working_hours)
         params.append('employment_status', employeeDetails.employment.employment_status)
         params.append('compensatory_hours', employeeDetails.employment.compensatory_hours)
+        params.append('vacation_days', employeeDetails.employment.vacation_days)
         params.append('emergency_contacts', JSON.stringify(employeeDetails.emergencyInfo.emergency_contacts))
         params.append('trustees', JSON.stringify(employeeDetails.emergencyInfo.trustees))
         const response = await employeeService.updateEmployee(employeeUuid, params)

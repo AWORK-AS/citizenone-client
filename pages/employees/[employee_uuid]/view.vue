@@ -180,19 +180,25 @@
                             </div>
                             <div
                                 class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:px-8 sm:py-6">
+                                <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                    <Label :label="$t('employees.form.employment.employmentDate')" />
+                                    <p class="font-medium" v-if="state.selectedEmployee.employment.employment_date">
+                                        {{
+                                            formatDateToReadable(state.selectedEmployee.employment.employment_date)
+                                        }}
+                                    </p>
+                                </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
-                                        <Label :label="$t('employees.form.employment.employmentDate')" />
-                                        <p class="font-medium" v-if="state.selectedEmployee.employment.employment_date">
-                                            {{
-                                                formatDateToReadable(state.selectedEmployee.employment.employment_date)
-                                            }}
-                                        </p>
-                                    </div>
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.compensatoryHours')" />
                                         <p class="font-medium">
-                                            {{ state.selectedEmployee.employment.compensatory_hours }}
+                                            {{ state.selectedEmployee.employment.compensatory_hours ?? 0 }}
+                                        </p>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <Label :label="$t('employees.form.employment.vacationDays')" />
+                                        <p class="font-medium">
+                                            {{ state.selectedEmployee.employment.vacation_days ?? 0 }}
                                         </p>
                                     </div>
                                 </div>
@@ -537,6 +543,7 @@ async function fetchEmployee() {
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
                     compensatory_hours: response?.data?.employee_detail?.compensatory_hours,
+                    vacation_days: response?.data?.employee_detail?.vacation_days,
                 },
                 emergencyInfo: {
                     emergency_contacts: [],
