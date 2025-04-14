@@ -1054,7 +1054,8 @@
             "table": {
                 "actions": {
                     "edit": "Edit",
-                    "statuses": "Statuses"
+                    "statuses": "Statuses",
+                    "view": "View"
                 },
                 "data": "Data",
                 "date": "Date",
@@ -1072,7 +1073,8 @@
                 "sleepAndRest": "Sleep and rest",
                 "knowledgeAndDevelopment": "Knowledge and development",
                 "excretionOfWaste": "Excretion of waste"
-            }
+            },
+            "viewNursingProfessionalRecord": "View nursing professional record"
         },
         "table": {
             "actions": {

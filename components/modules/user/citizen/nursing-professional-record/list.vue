@@ -26,16 +26,23 @@
                         </div>
                         <div>
                             <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
-                                <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                    @click="viewStatuses(record)">
-                                    <Icon name="ph:eye" class="size-4" />
-                                    {{ $t('citizens.nursingAreas.table.actions.statuses') }}
-                                </FormButton>
-                                <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                    @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/${record.uuid}/edit`)">
-                                    <Icon name="ph:pencil-simple" class="size-4" />
-                                    {{ $t('citizens.nursingAreas.table.actions.edit') }}
-                                </FormButton>
+                                <Tooltip :text="$t('citizens.nursingAreas.table.actions.view')">
+                                    <FormButton class="rounded-md" buttonSize="sm"
+                                        @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/${record.uuid}/view`)">
+                                        <Icon name="ph:eye" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
+                                <Tooltip :text="$t('citizens.nursingAreas.table.actions.statuses')">
+                                    <FormButton class="rounded-md" buttonSize="sm" @click="viewStatuses(record)">
+                                        <Icon name="ph:file" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
+                                <Tooltip :text="$t('citizens.nursingAreas.table.actions.edit')">
+                                    <FormButton class="rounded-md" buttonSize="sm"
+                                        @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/${record.uuid}/edit`)">
+                                        <Icon name="ph:pencil-simple" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
                             </div>
                         </div>
                     </div>

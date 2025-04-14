@@ -1037,7 +1037,8 @@
                 "table": {
                     "actions": {
                         "delete": "Slet",
-                        "edit": "Rediger"
+                        "edit": "Rediger",
+                        "view": "Se"
                     },
                     "alert": {
                         "statusSuccessfullyDeleted": "Status slettet med succes"
@@ -1072,7 +1073,8 @@
                 "sleepAndRest": "Søvn og hvile",
                 "knowledgeAndDevelopment": "Viden og udvikling",
                 "excretionOfWaste": "Udskillelse af affaldsstoffer"
-            }
+            },
+            "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal"
         },
         "table": {
             "actions": {
