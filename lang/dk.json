@@ -1823,6 +1823,33 @@
             "folderSuccessfullyUpdated": "Mappe opdateret med succes"
         },
         "createNewFolder": "Opret ny mappe",
+        "createTemplate": {
+            "alert": {
+                "templateSuccessfullyAdded": "Skabelon tilføjet med succes"
+            },
+            "createTemplate": "Opret skabelon",
+            "form": {
+                "folderName": "Mappenavn",
+                "form": "Formular",
+                "saveAndDownload": "Gem og download PDF"
+            },
+            "statuses": "Statusser",
+            "table": {
+                "actions": {
+                    "delete": "Slet"
+                },
+                "alert": {
+                    "templateSuccessfullyDeleted": "Skabelon slettet med succes"
+                },
+                "createdBy": "Oprettet af",
+                "confirmation": {
+                    "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne skabelon"
+                },
+                "dateCreated": "Oprettelsesdato",
+                "description": "Beskrivelse",
+                "title": "Titel"
+            }
+        },
         "companyDocuments": "Virksomheds dokumenter",
         "confirmation": {
             "archiveConfirmation": "Er du sikker på, at du vil arkivere dette dokument",

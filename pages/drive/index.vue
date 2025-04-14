@@ -44,6 +44,11 @@
                             <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('folderStructure.folderStructure') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            @click="state.modal.isCreateTemplateOpen = true">
+                            <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('drive.createTemplate.createTemplate') }}
+                        </FormButton>
                     </div>
                 </div>
 
@@ -139,6 +144,10 @@
                 <ModulesUserDocumentFolderStructureModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureOpen"
                     @close="state.modal.isViewFolderStructureOpen = false" />
+
+                <ModulesUserDocumentStatusTemplateModalNew :isModalOpen="state.modal.isCreateTemplateOpen"
+                    @close="state.modal.isCreateTemplateOpen = false" />
+
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
                     :message="$t('drive.confirmation.archiveConfirmation') + '?'"
                     @close="state.modal.isArchiveDocumentOpen = false" @confirm="archiveDocument" />
@@ -200,6 +209,7 @@ const state = reactive({
     modal: {
         isAddDirectoryOpen: false,
         isArchiveDocumentOpen: false,
+        isCreateTemplateOpen: false,
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,
         isEditDocumentOpen: false,

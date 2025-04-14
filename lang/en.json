@@ -1823,6 +1823,33 @@
             "folderSuccessfullyUpdated": "Folder successfully updated"
         },
         "createNewFolder": "Create new folder",
+        "createTemplate": {
+            "alert": {
+                "templateSuccessfullyAdded": "Template successfully added"
+            },
+            "createTemplate": "Create template",
+            "form": {
+                "folderName": "Folder name",
+                "form": "Form",
+                "saveAndDownload": "Save and download"
+            },
+            "statuses": "Statuses",
+            "table": {
+                "actions": {
+                    "delete": "Delete"
+                },
+                "alert": {
+                    "templateSuccessfullyDeleted": "Template successfully deleted"
+                },
+                "createdBy": "Created by",
+                "confirmation": {
+                    "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
+                },
+                "dateCreated": "Date created",
+                "description": "Description",
+                "title": "Title"
+            }
+        },
         "companyDocuments": "Company documents",
         "confirmation": {
             "archiveConfirmation": "Are you sure you want to archive this document",
