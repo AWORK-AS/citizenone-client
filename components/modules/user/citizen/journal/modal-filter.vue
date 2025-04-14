@@ -45,6 +45,13 @@
                             </p>
                             <FormSelectMultiple id="tags" :options="state.options.tags" v-model="state.filter.tags" />
                         </div>
+                        <div class="space-y-1">
+                            <p class="text-sm text-gray-600">
+                                {{ $t('journalNoteTags.createdBy') }}
+                            </p>
+                            <FormSelectMultiple id="created_by" :options="state.options.users"
+                                v-model="state.filter.created_by" />
+                        </div>
                     </div>
                     <div class="mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -64,6 +71,7 @@
 
 <script setup lang="ts">
 import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
+import { userService } from '@/components/api/user/UserService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useCitizenJournalStore } from '@/store/citizen-journal'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -83,6 +91,7 @@ const emit = defineEmits(['close', 'setFilter'])
 const state = reactive({
     error: {} as Error,
     filter: {
+        created_by: [],
         selectedView: citizenJournalStore.getFilterView as any,
         tags: [],
     },
@@ -93,7 +102,8 @@ const state = reactive({
             { id: 1, title: 'Standard view' },
             { id: 2, title: 'Journal note view' },
             { id: 3, title: 'Risk assessment view' },
-        ]
+        ],
+        users: [],
     }
 })
 
@@ -109,6 +119,7 @@ function closeModal() {
 
 onMounted(() => {
     fetchAllJournalNoteTags()
+    fetchAllUsersWithoutAllUsersOption()
 })
 
 async function fetchAllJournalNoteTags() {
@@ -125,6 +136,27 @@ async function fetchAllJournalNoteTags() {
                 })
             )
             state.options.tags = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllUsersWithoutAllUsersOption() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await userService.getAllUsersWithoutAllUsersOption()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (user: any) => options.push({
+                    value: user?.uuid,
+                    label: user?.firstname + " " + user?.lastname,
+                })
+            )
+            state.options.users = options
         }
     } catch (error: any) {
         state.error = error

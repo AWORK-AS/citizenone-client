@@ -2429,6 +2429,7 @@
         "alert": {
             "journalTagSuccessfullyDeleted": "Journal note tag successfully deleted"
         },
+        "createdBy": "Created by",
         "editJournalNoteTag": "Edit journal note tag",
         "form": {
             "alert": {

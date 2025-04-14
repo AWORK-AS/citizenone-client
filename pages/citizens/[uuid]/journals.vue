@@ -367,6 +367,7 @@ watch(() => state.filter.date_range, (dates: any) => {
 function setFilter(filter: any) {
     citizenJournalStore.setFilterView(filter.selectedView.title)
     state.dataFilter.tags_uuid = JSON.stringify(filter.tags)
+    state.dataFilter.created_by = JSON.stringify(filter.created_by)
     fetchJournals()
 }
 

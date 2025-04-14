@@ -2429,6 +2429,7 @@
         "alert": {
             "journalTagSuccessfullyDeleted": "Journalnotetag slettet med succes"
         },
+        "createdBy": "Oprettet af",
         "editJournalNoteTag": "Rediger journalnotetag",
         "form": {
             "alert": {
