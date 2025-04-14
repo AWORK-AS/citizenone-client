@@ -1951,7 +1951,8 @@
                 "employmentStatus": "Employment status",
                 "jobSpecialty": "Job specialty",
                 "jobTitle": "Job title",
-                "workingHours": "Working hours"
+                "workingHours": "Working hours",
+                "vacationDays": "Vacation days"
             },
             "firstname": "First name",
             "header": {

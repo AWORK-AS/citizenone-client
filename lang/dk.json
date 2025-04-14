@@ -1951,7 +1951,8 @@
                 "employmentStatus": "Ansættelsesstatus",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitel",
-                "workingHours": "Arbejdstimer"
+                "workingHours": "Arbejdstimer",
+                "vacationDays": "Feriedage"
             },
             "firstname": "Fornavn",
             "header": {

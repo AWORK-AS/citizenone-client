@@ -203,17 +203,17 @@
                 </p>
             </div>
             <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+                <div class="space-y-1" ref="employmentDateField">
+                    <FormLabel for="employment_date" :label="$t('employees.form.employment.employmentDate')" />
+                    <FormDateField id="employment_date" name="employment_date"
+                        :placeholder="$t('employees.form.employment.employmentDate')"
+                        v-model="state.formEmployee.employment.employment_date" />
+                    <FormError
+                        :error="v$?.formEmployee?.employment?.employment_date?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.employment_date?.[0]" />
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1" ref="employmentDateField">
-                        <FormLabel for="employment_date" :label="$t('employees.form.employment.employmentDate')" />
-                        <FormDateField id="employment_date" name="employment_date"
-                            :placeholder="$t('employees.form.employment.employmentDate')"
-                            v-model="state.formEmployee.employment.employment_date" />
-                        <FormError
-                            :error="v$?.formEmployee?.employment?.employment_date?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.employment_date?.[0]" />
-                    </div>
-                    <div class="space-y-1" ref="yearlyVacationDaysField">
+                    <div class="space-y-1" ref="compensatoryHoursField">
                         <FormLabel for="compensatory_hours"
                             :label="$t('employees.form.employment.compensatoryHours')" />
                         <FormTextField id="compensatory_hours" name="compensatory_hours"
@@ -222,6 +222,15 @@
                         <FormError
                             :error="v$?.formEmployee?.employment?.compensatory_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.compensatory_hours?.[0]" />
+                    </div>
+                    <div class="space-y-1" ref="vacationDaysField">
+                        <FormLabel for="vacation_days" :label="$t('employees.form.employment.vacationDays')" />
+                        <FormTextField id="vacation_days" name="vacation_days"
+                            :placeholder="$t('employees.form.employment.vacationDays')"
+                            v-model="state.formEmployee.employment.vacation_days" />
+                        <FormError
+                            :error="v$?.formEmployee?.employment?.vacation_days?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.vacation_days?.[0]" />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -486,7 +495,8 @@ const municipalityField = ref<HTMLElement | null>(null)
 const cityField = ref<HTMLElement | null>(null)
 const postCodeField = ref<HTMLElement | null>(null)
 const employmentDateField = ref<HTMLElement | null>(null)
-const yearlyVacationDaysField = ref<HTMLElement | null>(null)
+const compensatoryHoursField = ref<HTMLElement | null>(null)
+const vacationDaysField = ref<HTMLElement | null>(null)
 const jobTitleField = ref<HTMLElement | null>(null)
 const workingHoursField = ref<HTMLElement | null>(null)
 const employmentStatusField = ref<HTMLElement | null>(null)
@@ -518,6 +528,7 @@ const state = reactive({
             working_hours: '',
             employment_status: '',
             compensatory_hours: '',
+            vacation_days: '',
         },
         emergencyInfo: {
             emergency_contacts: [],
@@ -979,8 +990,10 @@ function submitForm() {
             postCodeField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.employment_date?.$error && employmentDateField.value) {
             employmentDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        } else if (v$.value.formEmployee.employment.compensatory_hours?.$error && yearlyVacationDaysField.value) {
-            yearlyVacationDaysField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.employment.compensatory_hours?.$error && compensatoryHoursField.value) {
+            compensatoryHoursField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.employment.vacation_days?.$error && vacationDaysField.value) {
+            vacationDaysField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.job_title_uuid?.$error && jobTitleField.value) {
             jobTitleField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.working_hours?.$error && workingHoursField.value) {

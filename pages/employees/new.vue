@@ -75,6 +75,7 @@ const state = reactive({
             working_hours: '',
             employment_status: '',
             compensatory_hours: '',
+            vacation_days: '',
         },
         emergencyInfo: {
             emergency_contacts: [],
@@ -112,6 +113,7 @@ async function saveEmployee(employeeDetails: any) {
         params.append('working_hours', employeeDetails.employment.working_hours)
         params.append('employment_status', employeeDetails.employment.employment_status)
         params.append('compensatory_hours', employeeDetails.employment.compensatory_hours)
+        params.append('vacation_days', employeeDetails.employment.vacation_days)
         params.append('emergency_contacts', JSON.stringify(employeeDetails.emergencyInfo.emergency_contacts))
         params.append('trustees', JSON.stringify(employeeDetails.emergencyInfo.trustees))
         const response = await employeeService.saveEmployee(params)
