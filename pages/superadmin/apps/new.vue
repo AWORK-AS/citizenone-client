@@ -41,6 +41,7 @@ const state = reactive({
         type: '',
         logo: '',
         image: '',
+        is_quantifiable: false,
         is_thirdparty: false,
         url_field: '',
     },
@@ -61,6 +62,7 @@ async function saveApp(appDetails: any) {
         params.append('type', appDetails.type)
         params.append('logo', appDetails.logo)
         params.append('image', appDetails.image)
+        params.append('is_quantifiable', appDetails.is_quantifiable)
         params.append('is_thirdparty', appDetails.is_thirdparty)
         params.append('url_field', appDetails.url_field)
         const response = await appService.saveApp(params)

@@ -46,6 +46,7 @@ const state = reactive({
         type: '',
         logo: '',
         image: '',
+        is_quantifiable: false,
         is_thirdparty: false,
         url_field: '',
     },
@@ -72,6 +73,7 @@ async function fetchApp() {
                 type: response?.data?.type ?? '',
                 logo: response?.data?.logo ?? '',
                 image: response?.data?.image ?? '',
+                is_quantifiable: response?.data?.is_quantifiable ? true : false,
                 is_thirdparty: response?.data?.is_thirdparty ? true : false,
                 url_field: response?.data?.url_field ?? '',
             }
@@ -94,6 +96,7 @@ async function updateApp(appDetails: any) {
         params.append('monthly_price', appDetails.monthly_price)
         params.append('yearly_price', appDetails.yearly_price)
         params.append('type', appDetails.type)
+        params.append('is_quantifiable', appDetails.is_quantifiable)
         params.append('is_thirdparty', appDetails.is_thirdparty)
         params.append('url_field', appDetails.url_field)
         if (appDetails.logo) {

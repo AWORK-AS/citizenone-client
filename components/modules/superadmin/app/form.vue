@@ -91,6 +91,13 @@
             </div>
             <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formApp.is_quantifiable = !state.formApp.is_quantifiable">
+                    <FormCheckbox :value="state.formApp.is_quantifiable" />
+                    {{ $t('superadmin.apps.form.quantifiable') }}
+                </div>
+            </div>
+            <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formApp.is_thirdparty = !state.formApp.is_thirdparty">
                     <FormCheckbox :value="state.formApp.is_thirdparty" />
                     {{ $t('superadmin.apps.form.thirdPartyApp') }}
@@ -160,6 +167,7 @@ const state = reactive({
         type: '',
         logo: '',
         image: '',
+        is_quantifiable: false,
         is_thirdparty: false,
         url_field: '',
     } as AppForm,
@@ -184,6 +192,7 @@ watch(() => props.selectedApp, (newValue: any) => {
             type: newValue.type,
             logo: '',
             image: '',
+            is_quantifiable: newValue.is_quantifiable,
             is_thirdparty: newValue.is_thirdparty,
             url_field: newValue.url_field,
         }

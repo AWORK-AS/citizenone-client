@@ -3470,6 +3470,7 @@
                 "monthlyPrice": "Månedlig pris",
                 "name": "Navn",
                 "price": "Pris",
+                "quantifiable": "Kvantificerbar",
                 "thirdPartyApp": "Tredjepartsapp",
                 "type": "Type",
                 "types": {

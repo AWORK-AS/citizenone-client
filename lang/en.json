@@ -3470,6 +3470,7 @@
                 "monthlyPrice": "Monthly price",
                 "name": "Name",
                 "price": "Price",
+                "quantifiable": "Quantifiable",
                 "thirdPartyApp": "Third party app",
                 "type": "Type",
                 "types": {
