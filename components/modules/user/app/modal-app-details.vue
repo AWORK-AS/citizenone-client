@@ -54,7 +54,7 @@
                     :selectedApp="props.selectedApp" @close="state.modal.isContactUsOpen = false" />
                 <ModulesUserAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     :selectedApp="props.selectedApp" @close="state.modal.isAcceptTACOpen = false"
-                    @confirm="activateApp" />
+                    @confirmAppActivation="confirmAppActivation" />
             </template>
         </Modal>
     </div>
@@ -76,7 +76,7 @@ const props = defineProps({
     },
 })
 const { formatAmount } = useAmountFormatter()
-const emit = defineEmits(['close', 'activateApp'])
+const emit = defineEmits(['close', 'confirmAppActivation'])
 
 const state = reactive({
     error: {} as Error,
@@ -124,8 +124,8 @@ function confirmTACAcceptance() {
     state.modal.isAcceptTACOpen = true
 }
 
-async function activateApp(frequency: any) {
+async function confirmAppActivation(formApp: any) {
     closeModal()
-    emit('activateApp', frequency)
+    emit('confirmAppActivation', formApp)
 }
 </script>

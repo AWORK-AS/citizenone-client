@@ -57,7 +57,11 @@
                             {{ $t('excludeVat') }}
                         </div>
                     </div>
-                    <div class="space-y-1" :class="!props.selectedApp?.is_one_time_fee ? 'mt-5' : 'mt-5'">
+                    <div class="space-y-3" :class="!props.selectedApp?.is_one_time_fee ? 'mt-5' : 'mt-5'">
+                        <div>
+                            <FormNumberField name="quantity" placeholder="0" v-model="state.formApp.quantity"
+                                @input="validateAppQuantity" />
+                        </div>
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.formTAC.agreeToTerms = !state.formTAC.agreeToTerms">
                             <FormCheckbox :value="state.formTAC.agreeToTerms" />
@@ -112,7 +116,7 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['close', 'confirm'])
+const emit = defineEmits(['close', 'confirmAppActivation'])
 const { formatAmount } = useAmountFormatter()
 const language = useI18n()
 const frequencies = [
@@ -126,6 +130,7 @@ const state = reactive({
         agreeToTerms: false
     },
     formApp: {
+        quantity: '1',
         frequency: frequencies[0]
     }
 })
@@ -146,9 +151,15 @@ function handleConfirmation() {
         state.agreeToTermsValidation = true
     } else {
         state.agreeToTermsValidation = false
-        emit('confirm', state.formApp.frequency)
+        emit('confirmAppActivation', state.formApp)
         emit('close')
     }
+}
+
+function validateAppQuantity(event: Event) {
+    const input = event.target as HTMLInputElement
+    input.value = input.value.replace(/[^0-9]/g, '').slice(0, 10)
+    state.formApp.quantity = input.value
 }
 
 async function navigateToTAC() {

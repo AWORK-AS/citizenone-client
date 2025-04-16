@@ -224,10 +224,10 @@
                 </div>
                 <ModulesUserAppModalAppDetails :isModalOpen="state.modal.showAppDetails"
                     :selectedApp="state.selectedApp" @close="state.modal.showAppDetails = false"
-                    @activateApp="activateApp" />
+                    @confirmAppActivation="activateApp" />
                 <ModulesUserAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     :selectedApp="state.selectedApp" @close="state.modal.isAcceptTACOpen = false"
-                    @confirm="activateApp" />
+                    @confirmAppActivation="activateApp" />
             </LoadingSpinner>
         </NuxtLayout>
     </div>
@@ -339,14 +339,15 @@ function confirmTACAcceptance(app: any) {
     state.modal.isAcceptTACOpen = true
 }
 
-async function activateApp(frequency: any) {
+async function activateApp(formApp: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {} as any
         if (!state.selectedApp?.is_one_time_fee) {
-            params.terms = frequency.value === 'monthly' ? 'monthly' : 'yearly'
+            params.terms = formApp?.frequency.value === 'monthly' ? 'monthly' : 'yearly'
         }
+        params.quantity = formApp?.quantity
         const appUuid = state.selectedApp?.uuid
         const response = await appService.activateApp(appUuid, params)
         if (response) {
