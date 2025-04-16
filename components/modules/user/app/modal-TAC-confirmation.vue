@@ -158,7 +158,19 @@ function handleConfirmation() {
 
 function validateAppQuantity(event: Event) {
     const input = event.target as HTMLInputElement
-    input.value = input.value.replace(/[^0-9]/g, '').slice(0, 10)
+
+    // Remove non-digit characters and limit to 10 digits
+    let cleanedValue = input.value.replace(/[^0-9]/g, '').slice(0, 10)
+
+    // Convert to number
+    let numericValue = parseInt(cleanedValue, 10)
+
+    // If the value is 0 or invalid, default to 1
+    if (isNaN(numericValue) || numericValue <= 0) {
+        numericValue = 1
+    }
+
+    input.value = numericValue.toString()
     state.formApp.quantity = input.value
 }
 
