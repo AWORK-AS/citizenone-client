@@ -486,8 +486,8 @@ function isAdmin(roles: any) {
 }
 
 function filterDepartmentSickLeaveDate(formDateRange: any) {
-    state.shiftDateRange.formDateRange.start_date = formDateRange.start_date
-    state.shiftDateRange.formDateRange.end_date = formDateRange.end_date
+    state.shiftDateRange.formDateRange.start_date = formDateRange?.[0]
+    state.shiftDateRange.formDateRange.end_date = formDateRange?.[1]
     fetchDutyScheduleAbsencePercentage()
 }
 
