@@ -1082,6 +1082,7 @@
                 "latestJournalEntry": "Seneste journalnotat",
                 "view": "Se"
             },
+            "department": "Afdeling",
             "email": "E-mail",
             "name": "Navn",
             "phone": "Telefon"

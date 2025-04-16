@@ -1082,6 +1082,7 @@
                 "latestJournalEntry": "Latest journal entry",
                 "view": "View"
             },
+            "department": "Department",
             "email": "Email",
             "name": "Name",
             "phone": "Phone"

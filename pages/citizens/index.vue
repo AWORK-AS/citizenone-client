@@ -49,7 +49,15 @@
                                         <div class="flex items-center gap-x-2">
                                             <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
                                                 class="rounded-full w-11 h-11 object-cover" />
-                                            <span>{{ citizen?.firstname }} {{ citizen?.lastname }}</span>
+                                            <div>
+                                                <span>{{ citizen?.firstname }} {{ citizen?.lastname }}</span>
+                                                <div class="text-xxs flex flex-wrap gap-1">
+                                                    <span v-for="(department, index) in citizen?.departments" :key=index
+                                                        class="bg-primary px-2 py-1 text-white rounded-md">
+                                                        {{ department?.name }}
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                     <td width="30%">
