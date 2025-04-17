@@ -215,9 +215,9 @@ async function giveRemoveSecureMailAccess(employee: any) {
         const response = await employeeService.toggleSecureMailLicense(employeeUuid)
         if (response.data) {
             if (response.data?.has_secure_mail_access) {
-                successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.secureMailAccessRemoved')}.`)
-            } else {
                 successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.secureMailAccessGranted')}.`)
+            } else {
+                successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.secureMailAccessRemoved')}.`)
             }
             fetchEmployees()
         }
