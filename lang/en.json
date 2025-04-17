@@ -2033,8 +2033,14 @@
             "actions": {
                 "calendar": "Calendar",
                 "edit": "Edit",
+                "giveSecureMailAccess": "Give secure mail access",
                 "message": "Message",
+                "removeSecureMailAccess": "Remove secure mail access",
                 "view": "View"
+            },
+            "alert": {
+                "secureMailAccessGranted": "Secure mail access granted",
+                "secureMailAccessRemoved": "Secure mail access removed"
             },
             "email": "Email",
             "name": "Name",
@@ -2537,7 +2543,7 @@
             },
             "connect": "Connect",
             "imap": "IMAP",
-            "imapHost": "Imap host",
+            "imapHost": "IMAP host",
             "imapPort": "IMAP port",
             "imapUsername": "IMAP username",
             "imapPassword": "IMAP password",

@@ -71,6 +71,19 @@
                                                 <Icon name="ph:calendar-blank" class="size-4" />
                                                 {{ $t('employees.table.actions.calendar') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="giveRemoveSecureMailAccess(employee)"
+                                                v-if="userStore.getUser?.is_secure_mail_active">
+                                                <Icon name="ph:x" class="size-4"
+                                                    v-if="employee?.has_secure_mail_access" />
+                                                <Icon name="ph:check" class="size-4" v-else />
+                                                <span v-if="employee?.has_secure_mail_access">
+                                                    {{ $t('employees.table.actions.removeSecureMailAccess') }}
+                                                </span>
+                                                <span v-else>
+                                                    {{ $t('employees.table.actions.giveSecureMailAccess') }}
+                                                </span>
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -89,12 +102,16 @@ import { employeeService } from '@/components/api/user/EmployeeService'
 import { useDepartmentStore } from '@/store/department'
 import { useEmployeeStore } from '@/store/employee'
 import { useUserStore } from '@/store/user'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const employeeStore = useEmployeeStore()
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
@@ -188,5 +205,25 @@ function handleSearch(value: any) {
 function messageEmployee(employee: any) {
     employeeStore.setSelectedEmployee(employee)
     navigateTo(`/messages?user_uuid=${employee.uuid}`)
+}
+
+async function giveRemoveSecureMailAccess(employee: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const employeeUuid = employee?.uuid
+        const response = await employeeService.toggleSecureMailLicense(employeeUuid)
+        if (response.data) {
+            if (response.data?.has_secure_mail_access) {
+                successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.secureMailAccessRemoved')}.`)
+            } else {
+                successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.secureMailAccessGranted')}.`)
+            }
+            fetchEmployees()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

@@ -2033,8 +2033,14 @@
             "actions": {
                 "calendar": "Kalender",
                 "edit": "Rediger",
+                "giveSecureMailAccess": "Giv adgang til sikker mail",
                 "message": "Besked",
+                "removeSecureMailAccess": "Fjern adgang til sikker mail",
                 "view": "Se"
+            },
+            "alert": {
+                "secureMailAccessGranted": "Adgang til sikker mail givet",
+                "secureMailAccessRemoved": "Adgang til sikker mail fjernet"
             },
             "email": "E-mail",
             "name": "Navn",
