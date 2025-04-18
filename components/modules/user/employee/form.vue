@@ -697,9 +697,6 @@ const rules = computed(() => {
                 employment_status: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
                 },
-                compensatory_hours: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-                },
             }
         },
     }
@@ -990,10 +987,6 @@ function submitForm() {
             postCodeField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.employment_date?.$error && employmentDateField.value) {
             employmentDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        } else if (v$.value.formEmployee.employment.compensatory_hours?.$error && compensatoryHoursField.value) {
-            compensatoryHoursField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        } else if (v$.value.formEmployee.employment.vacation_days?.$error && vacationDaysField.value) {
-            vacationDaysField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.job_title_uuid?.$error && jobTitleField.value) {
             jobTitleField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.working_hours?.$error && workingHoursField.value) {
