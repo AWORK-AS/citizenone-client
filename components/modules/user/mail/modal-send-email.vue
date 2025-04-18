@@ -28,6 +28,28 @@
                                 <FormError :error="v$?.formEmail?.content?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.content?.[0]" />
                             </div>
+                            <div class="space-y-1">
+                                <div class="w-fit flex items-center cursor-pointer"
+                                    @click="state.formEmail.encrypt_message = !state.formEmail.encrypt_message">
+                                    <FormCheckbox :value="state.formEmail.encrypt_message" />
+                                    {{ $t('mail.form.encryptMessage') }}
+                                </div>
+                            </div>
+                            <div class="space-y-1" v-if="state.formEmail.encrypt_message">
+                                <FormLabel for="password" :label="$t('mail.form.password')" />
+                                <FormTextField id="password" name="password" :placeholder="$t('mail.form.password')"
+                                    v-model="state.formEmail.password" />
+                                <FormError :error="v$?.formEmail?.password?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.password?.[0]" />
+                            </div>
+                            <div class="space-y-1" v-if="state.formEmail.encrypt_message">
+                                <FormLabel for="password_hint" :label="$t('mail.form.passwordHint')" />
+                                <FormTextField id="password_hint" name="password"
+                                    :placeholder="$t('mail.form.passwordHint')"
+                                    v-model="state.formEmail.password_hint" />
+                                <FormError :error="v$?.formEmail?.password_hint?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.password_hint?.[0]" />
+                            </div>
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -73,22 +95,44 @@ const state = reactive({
         recipient: '',
         subject: '',
         content: '',
+        encrypt_message: false,
+        password: '',
+        password_hint: '',
     },
 })
 
 const rules = computed(() => {
-    return {
-        formEmail: {
-            recipient: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (state.formEmail.encrypt_message) {
+        return {
+            formEmail: {
+                recipient: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                subject: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                content: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                password: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            subject: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        }
+    } else {
+        return {
+            formEmail: {
+                recipient: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                subject: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                content: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            content: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-        },
+        }
     }
 })
 

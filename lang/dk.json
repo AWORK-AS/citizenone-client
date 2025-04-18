@@ -2524,7 +2524,10 @@
             "alert": {
                 "emailSuccessfullySent": "E-mail sendt med succes"
             },
+            "encryptMessage": "Krypter besked",
             "message": "Besked",
+            "password": "Adgangskode",
+            "passwordHint": "Adgangskodehint",
             "send": "Send",
             "subject": "Emne",
             "to": "Til"
