@@ -9,8 +9,8 @@
                         <div class="space-y-3">
                             <div class="space-y-1">
                                 <FormLabel for="recipient" :label="$t('mail.form.to')" />
-                                <FormTextField id="recipient" name="recipient" :placeholder="$t('mail.form.to')"
-                                    v-model="state.formEmail.recipient" />
+                                <FormMultipleEmailAddresses id="recipient" name="recipient"
+                                    :placeholder="$t('mail.form.to')" v-model="state.formEmail.recipient" />
                                 <FormError :error="v$?.formEmail?.recipient?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.recipient?.[0]" />
                             </div>
