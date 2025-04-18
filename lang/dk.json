@@ -845,6 +845,7 @@
             },
             "editMedicine": "Rediger Medicin",
             "form": {
+                "activateMedicine": "Aktiver medicine",
                 "active": "Aktiv",
                 "activeIngredients": "Aktive ingredienser",
                 "alert": {
@@ -855,24 +856,26 @@
                 "deactivate": "Deaktiver",
                 "deactivated": "Deaktiveret",
                 "description": "Beskrivelse",
-                "doctor": "Doktor",
+                "doctor": "Ordinerende lage",
                 "dosage": "Dosis",
                 "dosageForm": "Doseringsform",
-                "endDate": "Slutdato",
+                "endDate": "Slutdato for seponering",
                 "image": "Billede",
                 "inactive": "Inaktiv",
                 "maxDosagePerTime": "Maksimal dosis pr. gang",
                 "maxDailyDose": "Maksimal daglig dosis",
                 "medicine": "Medicin",
                 "medicineStorage": "Medicinopbevaring",
-                "packageLeafletLink": "Indlægsseddel",
+                "medicineStoragePlaceholder": "Hvor opbevarer I medicinen",
+                "packageLeafletLink": "Link til indlagsseddel",
                 "pnMedicine": "PN-medicin",
                 "scheduleFrequency": "Planlægningsfrekvens",
-                "selfAdminister": "Self-administer",
-                "startDate": "Startdato",
+                "selfAdminister": "Selvadministrerende medicin",
+                "startDate": "Startdato for seponering",
                 "strength": "Styrke",
                 "time": "Tid",
-                "treatmentReason": "Behandlingsårsag"
+                "treatmentReason": "Behandlingsårsag",
+                "treatmentReasonPlaceholder": "Hvad er ärsagen til, at borgeren fär denne medicin"
             },
             "history": {
                 "alert": {

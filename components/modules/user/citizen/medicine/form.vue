@@ -8,7 +8,7 @@
                     <div class="w-fit flex cursor-pointer"
                         @click="state.formMedicine.is_active = !state.formMedicine.is_active">
                         <FormCheckbox :value="state.formMedicine.is_active" />
-                        <p>{{ $t('citizens.medicineJournals.form.active') }}</p>
+                        <p>{{ $t('citizens.medicineJournals.form.activateMedicine') }}</p>
                     </div>
                 </div>
                 <div class="space-y-1">
@@ -164,7 +164,7 @@
                 <div class="space-y-1">
                     <FormLabel for="treatment_reason" :label="$t('citizens.medicineJournals.form.treatmentReason')" />
                     <FormTextArea id="treatment_reason" name="treatment_reason"
-                        :placeholder="$t('citizens.medicineJournals.form.treatmentReason')"
+                        :placeholder="`${$t('citizens.medicineJournals.form.treatmentReasonPlaceholder')}?`"
                         v-model="state.formMedicine.treatment_reason" />
                     <FormError :error="v$?.formMedicine?.treatment_reason?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.treatment_reason?.[0]" />
@@ -172,7 +172,7 @@
                 <div class="space-y-1">
                     <FormLabel for="medication_storage" :label="$t('citizens.medicineJournals.form.medicineStorage')" />
                     <FormTextField id="medication_storage" name="medication_storage"
-                        :placeholder="$t('citizens.medicineJournals.form.medicineStorage')"
+                        :placeholder="`${$t('citizens.medicineJournals.form.medicineStoragePlaceholder')}?`"
                         v-model="state.formMedicine.medication_storage" />
                     <FormError :error="v$?.formMedicine?.medication_storage?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.medication_storage?.[0]" />

@@ -845,6 +845,7 @@
             "download": "Download",
             "editMedicine": "Edit medicine",
             "form": {
+                "activateMedicine": "Activate medicine",
                 "active": "Active",
                 "activeIngredients": "Active ingredients",
                 "alert": {
@@ -865,6 +866,7 @@
                 "maxDailyDose": "Max daily dose",
                 "medicine": "Medicine",
                 "medicineStorage": "Medicine storage",
+                "medicineStoragePlaceholder": "Where do you store the medicine",
                 "packageLeafletLink": "Package leaflet link",
                 "pnMedicine": "PN-medicine",
                 "scheduleFrequency": "Schedule frequency",
@@ -872,7 +874,8 @@
                 "startDate": "Start date",
                 "strength": "Strength",
                 "time": "Time",
-                "treatmentReason": "Treatment reason"
+                "treatmentReason": "Treatment reason",
+                "treatmentReasonPlaceholder": "What is the reason the citizen is receiving this medication"
             },
             "history": {
                 "alert": {
