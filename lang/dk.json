@@ -2539,6 +2539,19 @@
             "loadingYourEmails": "Indlæser dine e-mails"
         },
         "mail": "Mail",
+        "secured": {
+            "alert": {
+                "invalidPassword": "Ugyldig adgangskode"
+            },
+            "form": {
+                "password": "Adgangskode",
+                "readMessage": "Læs besked"
+            },
+            "from": "Fra",
+            "securedMail": "Sikker mail",
+            "to": "Til",
+            "unlockMessage": "Lås op for besked"
+        },
         "sent": "Sendt",
         "settings": {
             "alert": {
@@ -3020,21 +3033,22 @@
     },
     "register": {
         "form": {
-            "agreetoTAC": "Du skal acceptere vilkårene og betingelserne",
+            "createAccount": "Opret konto",
             "alreadyHaveAnAccount": "Har du allerede en konto",
             "companyName": "Firmanavn",
             "industry": "Industri",
-            "confirmPassword": "Bekræft adgangskode",
-            "createAccount": "Opret konto",
-            "emailAddress": "E-mail adresse",
             "firstname": "Fornavn",
+            "lastname": "Efternavn",
+            "emailAddress": "E-mail adresse",
+            "password": "Adgangskode",
+            "confirmPassword": "Bekræft adgangskode",
+            "phone": "Telefon",
             "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
             "termsAndConditions": "Vilkår og betingelser",
-            "lastname": "Efternavn",
             "loginHere": "Log ind her",
-            "password": "Adgangskode",
-            "phone": "Telefon"
-        }
+            "agreetoTAC": "Du skal acceptere vilkårene og betingelserne"
+        },
+        "register": "Registrer"
     },
     "relationships": {
         "addNewRelationship": "Tilføj nyt forhold",

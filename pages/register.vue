@@ -1,7 +1,7 @@
 <template>
 
     <Head>
-        <Title>Register - {{ runtimeConfig?.public?.appName }}</Title>
+        <Title>{{ $t('register.register') }} - {{ runtimeConfig?.public?.appName }}</Title>
     </Head>
 
     <LoadingSpinner :isActive="state.isPageLoading">

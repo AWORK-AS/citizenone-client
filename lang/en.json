@@ -2539,6 +2539,19 @@
             "loadingYourEmails": "Loading your emails"
         },
         "mail": "Mail",
+        "secured": {
+            "alert": {
+                "invalidPassword": "Invalid password"
+            },
+            "form": {
+                "password": "Password",
+                "readMessage": "Read message"
+            },
+            "from": "From",
+            "securedMail": "Secured mail",
+            "to": "To",
+            "unlockMessage": "Unlock message"
+        },
         "sent": "Sent",
         "settings": {
             "alert": {
@@ -3034,7 +3047,8 @@
             "termsAndConditions": "Terms and Conditions",
             "loginHere": "Login here",
             "agreetoTAC": "You must agree to the terms and conditions"
-        }
+        },
+        "register": "Register"
     },
     "relationships": {
         "addNewRelationship": "Add new relationship",
