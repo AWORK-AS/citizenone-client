@@ -2549,6 +2549,11 @@
             },
             "from": "From",
             "securedMail": "Secured mail",
+            "sent": {
+                "sentWith": "Sent with",
+                "citizenOneMail": "CitizenOne mail",
+                "viaSecuredMail": "Via secured mail"
+            },
             "to": "To",
             "unlockMessage": "Unlock message"
         },

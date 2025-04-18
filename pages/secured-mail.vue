@@ -42,8 +42,35 @@
                             </FormButton>
                         </div>
                     </form>
-                    <div v-else>
-
+                    <div v-else class="space-y-2">
+                        <p>
+                            {{ $t('mail.secured.from') }}:
+                            {{ state.secured_mail?.sender?.firstname }}
+                            {{ state.secured_mail?.sender?.lastname }}
+                        </p>
+                        <div class="flex items-center gap-x-1">
+                            <p>
+                                {{ $t('mail.secured.to') }}:
+                            </p>
+                            <div class="text-xxs flex flex-wrap gap-1">
+                                <span v-for="(receipient, index) in state.secured_mail?.receipient_emails" :key=index
+                                    class="bg-primary px-2 py-1 text-white rounded-md">
+                                    {{ receipient }}
+                                </span>
+                            </div>
+                        </div>
+                        <div v-html="state.secured_mail?.message"></div>
+                        <p class="flex items-center gap-x-1">
+                            <span>
+                                {{ $t('mail.secured.sent.sentWith') }}
+                            </span>
+                            <span class="text-primary">
+                                {{ $t('mail.secured.sent.citizenOneMail') }}
+                            </span>
+                            <span class="lowercase">
+                                {{ $t('mail.secured.sent.viaSecuredMail') }}.
+                            </span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -130,7 +157,8 @@ async function unlockMessage() {
             }
             const response = await securedMailService.unlockMessage(emailUuid, params)
             if (response) {
-                state.secured_mail = response
+                state.secured_mail = response?.data
+                state.showMessage = true
             }
         } catch (error: any) {
             state.error = error

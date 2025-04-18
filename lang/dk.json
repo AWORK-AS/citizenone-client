@@ -2549,6 +2549,11 @@
             },
             "from": "Fra",
             "securedMail": "Sikker mail",
+            "sent": {
+                "sentWith": "Sendt med",
+                "citizenOneMail": "CitizenOne mail",
+                "viaSecuredMail": "Via sikker mail"
+            },
             "to": "Til",
             "unlockMessage": "Lås op for besked"
         },

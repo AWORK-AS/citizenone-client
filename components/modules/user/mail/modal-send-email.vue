@@ -92,7 +92,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formEmail: {
-        recipient: '',
+        recipient: [],
         subject: '',
         content: '',
         encrypt_message: false,
@@ -169,6 +169,15 @@ async function sendEmail() {
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t('mail.form.alert.emailSuccessfullySent')}.`)
             emit('refreshSentEmails')
+            state.formEmail = {
+                recipient: [],
+                subject: '',
+                content: '',
+                encrypt_message: false,
+                password: '',
+                password_hint: '',
+            }
+            v$.value.$reset()
         }
     } catch (error: any) {
         state.error = error
