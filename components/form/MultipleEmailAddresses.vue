@@ -1,6 +1,6 @@
 <template>
     <div class="multi-email-input">
-        <div class="flex flex-wrap gap-1 items-center border border-primary rounded-md px-2 py-1">
+        <div class="flex flex-wrap gap-1 items-center border border-primary rounded-md px-4 py-1">
             <span v-for="(email, index) in emails" :key="index"
                 class="bg-primary text-white px-2 py-1 rounded text-sm flex items-center">
                 {{ email }}
