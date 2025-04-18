@@ -206,10 +206,11 @@
                                         </FormButton>
                                         <FormButton type="button"
                                             :buttonStyle="app?.user_activated ? 'warning' : 'action'" :class="[
-                                                app?.user_activated && 'cursor-not-allowed',
+                                                !(!app?.user_activated || app?.is_quantifiable) && 'cursor-not-allowed',
                                                 'w-full'
                                             ]" color="primary"
-                                            @click="!app?.user_activated && confirmTACAcceptance(app)" v-else>
+                                            @click="(!app?.user_activated || app?.is_quantifiable) && confirmTACAcceptance(app)"
+                                            v-else>
                                             {{ app?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
                                         </FormButton>
                                     </div>

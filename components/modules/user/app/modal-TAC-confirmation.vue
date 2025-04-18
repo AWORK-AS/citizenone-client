@@ -58,7 +58,7 @@
                         </div>
                     </div>
                     <div class="space-y-3" :class="!props.selectedApp?.is_one_time_fee ? 'mt-5' : 'mt-5'">
-                        <div>
+                        <div v-if="props.selectedApp?.is_quantifiable">
                             <FormNumberField name="quantity" placeholder="0" v-model="state.formApp.quantity"
                                 @input="validateAppQuantity" />
                         </div>
