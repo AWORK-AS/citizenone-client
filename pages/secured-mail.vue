@@ -68,6 +68,8 @@ const language = useI18n()
 const { successAlert } = useAlert()
 const { gtagReportConversion } = useGtag()
 const { t } = useI18n()
+const router = useRouter()
+const emailUuid = router?.currentRoute?.value?.query?.token
 
 // Set language
 language.locale.value = userStore.getLanguage
@@ -126,7 +128,7 @@ async function unlockMessage() {
             const params = {
                 password: state.formSecuredMail.password,
             }
-            const response = await securedMailService.getMessage(params)
+            const response = await securedMailService.unlockMessage(emailUuid, params)
             if (response) {
                 state.secured_mail = response
             }

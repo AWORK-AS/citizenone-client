@@ -1,8 +1,8 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class SecuredMailService extends BaseAPIService {
-    async getMessage(): Promise<any> {
-        return await this.request(`/user/unlock-message`, 'GET')
+    async unlockMessage(emailUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/encrypted-email/${emailUuid}/decrypt`, 'GET', params)
     }
 }
 

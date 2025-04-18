@@ -159,6 +159,11 @@ async function sendEmail() {
             subject: state.formEmail.subject,
             content: state.formEmail.content,
         }
+        if (state.formEmail.encrypt_message) {
+            params.is_encrypted = state.formEmail.encrypt_message
+            params.password = state.formEmail.password
+            params.password_hint = state.formEmail.password_hint
+        }
         const response = await mailService.sendMail(params)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             closeModal()
