@@ -685,6 +685,7 @@
             "city": "By",
             "dateAdmitted": "Indskrivningsdato",
             "dateDischarged": "Udskrivningsdato",
+            "dateDischargedReminder": "Påmindelse om udskrivningsdato",
             "department": "Afdeling",
             "diagnoses": "Diagnoser",
             "eanNumber": "EAN-nummer",

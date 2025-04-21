@@ -685,6 +685,7 @@
             "city": "City",
             "dateAdmitted": "Date admitted",
             "dateDischarged": "Date discharged",
+            "dateDischargedReminder": "Date discharged reminder",
             "department": "Department",
             "diagnoses": "Diagnoses",
             "eanNumber": "EAN number",

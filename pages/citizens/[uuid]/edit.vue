@@ -91,6 +91,7 @@ const state = reactive({
         addictions: [],
         date_admitted: '',
         date_discharged: '',
+        date_discharged_reminder: false,
         section: '',
         pricing: '',
         pricing_start_date: '',
@@ -143,6 +144,7 @@ async function fetchCitizen() {
                 addictions: [],
                 date_admitted: response?.data?.date_admitted ?? '',
                 date_discharged: response?.data?.date_discharged ?? '',
+                date_discharged_reminder: response?.data?.date_discharged_reminder ?? false,
                 section: response?.data?.section?.uuid.toString() ?? '',
                 pricing: response?.data?.pricing ?? '',
                 pricing_start_date: response?.data?.pricing_start_date ?? '',
@@ -214,6 +216,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))
         params.append('date_admitted', citizenDetails.date_admitted != 'Invalid date' ? citizenDetails.date_admitted : '')
         params.append('date_discharged', citizenDetails.date_discharged != 'Invalid date' ? citizenDetails.date_discharged : '')
+        params.append('date_discharged_reminder', citizenDetails.date_discharged_reminder)
         params.append('section', citizenDetails.section)
         params.append('pricing', citizenDetails.pricing)
         params.append('pricing_start_date', citizenDetails.pricing_start_date)

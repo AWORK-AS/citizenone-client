@@ -196,6 +196,12 @@
                     <FormError :error="props?.error?.errors?.date_discharged?.[0]" />
                 </div>
             </div>
+            <div class="w-fit flex items-center cursor-pointer"
+                @click="state.formCitizen.date_discharged_reminder = !state.formCitizen.date_discharged_reminder"
+                v-if="state.formCitizen.date_discharged">
+                <FormCheckbox id="date_discharged_reminder" :value="state.formCitizen.date_discharged_reminder" />
+                {{ $t('citizens.form.dateDischargedReminder') }}
+            </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
                     <FormLabel for="section" :label="$t('citizens.form.section')" />
@@ -400,6 +406,7 @@ const state = reactive({
         addictions: [],
         date_admitted: '',
         date_discharged: '',
+        date_discharged_reminder: false,
         section: '',
         pricing: '',
         pricing_start_date: '',
@@ -482,6 +489,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             addictions: selectedCitizen.addictions,
             date_admitted: selectedCitizen.date_admitted,
             date_discharged: selectedCitizen.date_discharged,
+            date_discharged_reminder: selectedCitizen.date_discharged_reminder,
             section: selectedCitizen.section,
             pricing: selectedCitizen.pricing,
             pricing_start_date: selectedCitizen.pricing_start_date,
