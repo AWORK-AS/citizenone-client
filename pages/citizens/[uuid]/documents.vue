@@ -77,13 +77,21 @@
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                             v-if="document?.file_url" @click="downloadFile(document)">
                                             <Icon name="ph:file" class="size-6" />
-                                            <span>{{ document?.name }}</span>
+                                            <span class="truncate">{{ document?.name }}</span>
+                                            <Tooltip :text="$t('citizens.documents.form.forAdministratorsOnly')"
+                                                v-if="document?.is_admin_access">
+                                                <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
+                                            </Tooltip>
                                         </div>
                                         <span v-else class="flex items-center gap-x-1">
                                             <div>
                                                 <Icon name="ph:folder-notch-open-light" class="size-6" />
                                             </div>
-                                            <span>{{ document?.name }}</span>
+                                            <span class="truncate">{{ document?.name }}</span>
+                                            <Tooltip :text="$t('citizens.documents.form.forAdministratorsOnly')"
+                                                v-if="document?.is_admin_access">
+                                                <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
+                                            </Tooltip>
                                         </span>
                                     </td>
                                     <td width="20%">
