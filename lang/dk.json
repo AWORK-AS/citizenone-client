@@ -2756,6 +2756,7 @@
         "editPlan": "Rediger plan",
         "editSubgoal": "Rediger delmål",
         "filter": {
+            "completed": "Fuldført",
             "showAllPlansAndGoals": "Vis alle planer og mål",
             "showOnlyPlansWithGoals": "Vis kun planer med mål",
             "showOnlySingleGoals": "Vis kun enkeltmål"

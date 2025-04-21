@@ -404,8 +404,9 @@ function isAdmin(roles: any) {
     return roles && roles.some((role: any) => role.name === 'Admin')
 }
 
-function setFilterView(view: any) {
-    citizenPlansAndGoalsStore.setFilterView(view)
+function setFilterView(formFilter: any) {
+    citizenPlansAndGoalsStore.setFilterIsCompleted(formFilter?.is_completed)
+    citizenPlansAndGoalsStore.setFilterView(formFilter?.selectedViewFilter?.title)
     fetchPlans()
 }
 
@@ -418,6 +419,7 @@ async function fetchPlans() {
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
+            is_completed: citizenPlansAndGoalsStore.getFilterIsCompleted,
             view_filter: citizenPlansAndGoalsStore.getFilterView,
             ...state.dataFilter
         }

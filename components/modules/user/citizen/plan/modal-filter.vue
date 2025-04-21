@@ -5,7 +5,7 @@
                 <form @submit.prevent="submitForm()">
                     <div class="space-y-3">
                         <fieldset>
-                            <RadioGroup v-model="state.selectedViewFilter"
+                            <RadioGroup v-model="state.formFilter.selectedViewFilter"
                                 class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-1 sm:gap-x-4">
                                 <RadioGroupOption as="template" v-for="viewFilter in state.options.viewFilterLists"
                                     :key="viewFilter.id" :value="viewFilter" :aria-label="viewFilter.title"
@@ -38,6 +38,13 @@
                                 </RadioGroupOption>
                             </RadioGroup>
                         </fieldset>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formFilter.is_completed"
+                                @toggleSwitch="state.formFilter.is_completed = !state.formFilter.is_completed" />
+                            <p>
+                                {{ $t('plansandgoals.filter.completed') }}
+                            </p>
+                        </div>
                     </div>
                     <div class="mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -70,7 +77,10 @@ const props = defineProps({
 const emit = defineEmits(['close', 'setFilterView'])
 
 const state = reactive({
-    selectedViewFilter: citizenPlansAndGoalsStore.getFilterView as any,
+    formFilter: {
+        is_completed: citizenPlansAndGoalsStore.getFilterIsCompleted as any,
+        selectedViewFilter: citizenPlansAndGoalsStore.getFilterView as any,
+    },
     options: {
         viewFilterLists: [
             { id: 1, title: 'Plans and goals' },
@@ -82,7 +92,7 @@ const state = reactive({
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
-        state.selectedViewFilter = state.options.viewFilterLists.find((item: any) => item.title === citizenPlansAndGoalsStore.getFilterView)
+        state.formFilter.selectedViewFilter = state.options.viewFilterLists.find((item: any) => item.title === citizenPlansAndGoalsStore.getFilterView)
     }
 })
 
@@ -91,7 +101,7 @@ function closeModal() {
 }
 
 function submitForm() {
-    emit('setFilterView', state.selectedViewFilter.title)
+    emit('setFilterView', state.formFilter)
     closeModal()
 }
 </script>

@@ -2756,6 +2756,7 @@
         "editPlan": "Edit plan",
         "editSubgoal": "Edit subgoal",
         "filter": {
+            "completed": "Completed",
             "showAllPlansAndGoals": "Show all plans and goals",
             "showOnlyPlansWithGoals": "Show only plans with goals",
             "showOnlySingleGoals": "Show only single goals"
