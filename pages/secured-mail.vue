@@ -43,6 +43,12 @@
                         </div>
                     </form>
                     <div v-else class="space-y-2">
+                        <div class="flex justify-end">
+                            <FormButton buttonStyle="primary" @click="state.modal.isReplySecuredMailOpen = true"
+                                class="rounded-md">
+                                {{ $t('mail.secured.replySecurely') }}
+                            </FormButton>
+                        </div>
                         <p>
                             {{ $t('mail.secured.from') }}:
                             {{ state.secured_mail?.sender?.firstname }}
@@ -77,6 +83,8 @@
         </div>
         <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
+        <ModulesUserSecuredMailModalReply :isModalOpen="state.modal.isReplySecuredMailOpen"
+            @close="state.modal.isReplySecuredMailOpen = false" v-if="state.modal.isReplySecuredMailOpen" />
     </LoadingSpinner>
 </template>
 
@@ -107,6 +115,9 @@ const state = reactive({
         password: '',
     },
     isPageLoading: false,
+    modal: {
+        isReplySecuredMailOpen: false,
+    },
     secured_mail: '',
     showMessage: false,
     slideOver: {

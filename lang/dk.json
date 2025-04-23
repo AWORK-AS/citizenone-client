@@ -2548,10 +2548,16 @@
                 "invalidPassword": "Ugyldig adgangskode"
             },
             "form": {
+                "alert": {
+                    "securedMailSuccessfullySent": "Sikker mail sendt med succes"
+                },
+                "message": "Besked",
                 "password": "Adgangskode",
-                "readMessage": "Læs besked"
+                "readMessage": "Læs besked",
+                "send": "Send"
             },
             "from": "Fra",
+            "replySecurely": "Svar sikkert",
             "securedMail": "Sikker mail",
             "sent": {
                 "sentWith": "Sendt med",

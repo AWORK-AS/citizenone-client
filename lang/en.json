@@ -2548,10 +2548,16 @@
                 "invalidPassword": "Invalid password"
             },
             "form": {
+                "alert": {
+                    "securedMailSuccessfullySent": "Secured mail successfully sent"
+                },
+                "message": "Message",
                 "password": "Password",
-                "readMessage": "Read message"
+                "readMessage": "Read message",
+                "send": "Send"
             },
             "from": "From",
+            "replySecurely": "Reply securely",
             "securedMail": "Secured mail",
             "sent": {
                 "sentWith": "Sent with",
