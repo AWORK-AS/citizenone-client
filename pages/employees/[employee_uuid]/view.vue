@@ -190,9 +190,9 @@
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
-                                        <Label :label="$t('employees.form.employment.compensatoryHours')" />
+                                        <Label :label="$t('employees.form.employment.annualNormHours')" />
                                         <p class="font-medium">
-                                            {{ state.selectedEmployee.employment.compensatory_hours ?? 0 }}
+                                            {{ state.selectedEmployee.employment.annual_norm_hours ?? 0 }}
                                         </p>
                                     </div>
                                     <div class="space-y-1">
@@ -542,7 +542,7 @@ async function fetchEmployee() {
                     employee_specialties: concatenatedJobSpecialties,
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
-                    compensatory_hours: response?.data?.employee_detail?.compensatory_hours,
+                    annual_norm_hours: response?.data?.employee_detail?.annual_norm_hours,
                     vacation_days: response?.data?.employee_detail?.vacation_days,
                 },
                 emergencyInfo: {

@@ -106,7 +106,7 @@ const state = reactive({
             job_specialties: '',
             working_hours: '',
             employment_status: '',
-            compensatory_hours: '',
+            annual_norm_hours: '',
             vacation_days: '',
         },
         emergencyInfo: {
@@ -155,7 +155,7 @@ async function fetchEmployee() {
                     job_specialties: [],
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
-                    compensatory_hours: response?.data?.employee_detail?.compensatory_hours?.toString(),
+                    annual_norm_hours: response?.data?.employee_detail?.annual_norm_hours?.toString(),
                     vacation_days: response?.data?.employee_detail?.vacation_days?.toString(),
                 },
                 emergencyInfo: {
@@ -226,7 +226,7 @@ async function updateEmployee(employeeDetails: any) {
         params.append('job_specialties_uuid', JSON.stringify(employeeDetails.employment.job_specialties))
         params.append('working_hours', employeeDetails.employment.working_hours)
         params.append('employment_status', employeeDetails.employment.employment_status)
-        params.append('compensatory_hours', employeeDetails.employment.compensatory_hours)
+        params.append('annual_norm_hours', employeeDetails.employment.annual_norm_hours)
         params.append('vacation_days', employeeDetails.employment.vacation_days)
         params.append('emergency_contacts', JSON.stringify(employeeDetails.emergencyInfo.emergency_contacts))
         params.append('trustees', JSON.stringify(employeeDetails.emergencyInfo.trustees))

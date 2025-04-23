@@ -1981,6 +1981,7 @@
                 "trustees": "Tillidspersoner"
             },
             "employment": {
+                "annualNormHours": "Årlige normtimer",
                 "compensatoryHours": "Afspadseringstimer",
                 "employmentDate": "Ansættelsesdato",
                 "employmentStatus": "Ansættelsesstatus",

@@ -213,15 +213,14 @@
                     <FormError :error="props?.error?.errors?.employment_date?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1" ref="compensatoryHoursField">
-                        <FormLabel for="compensatory_hours"
-                            :label="$t('employees.form.employment.compensatoryHours')" />
-                        <FormTextField id="compensatory_hours" name="compensatory_hours"
-                            :placeholder="$t('employees.form.employment.compensatoryHours')"
-                            v-model="state.formEmployee.employment.compensatory_hours" />
+                    <div class="space-y-1" ref="annualNormHoursField">
+                        <FormLabel for="annual_norm_hours" :label="$t('employees.form.employment.annualNormHours')" />
+                        <FormTextField id="annual_norm_hours" name="annual_norm_hours"
+                            :placeholder="$t('employees.form.employment.annualNormHours')"
+                            v-model="state.formEmployee.employment.annual_norm_hours" />
                         <FormError
-                            :error="v$?.formEmployee?.employment?.compensatory_hours?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.compensatory_hours?.[0]" />
+                            :error="v$?.formEmployee?.employment?.annual_norm_hours?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.annual_norm_hours?.[0]" />
                     </div>
                     <div class="space-y-1" ref="vacationDaysField">
                         <FormLabel for="vacation_days" :label="$t('employees.form.employment.vacationDays')" />
@@ -495,7 +494,7 @@ const municipalityField = ref<HTMLElement | null>(null)
 const cityField = ref<HTMLElement | null>(null)
 const postCodeField = ref<HTMLElement | null>(null)
 const employmentDateField = ref<HTMLElement | null>(null)
-const compensatoryHoursField = ref<HTMLElement | null>(null)
+const annualNormHoursField = ref<HTMLElement | null>(null)
 const vacationDaysField = ref<HTMLElement | null>(null)
 const jobTitleField = ref<HTMLElement | null>(null)
 const workingHoursField = ref<HTMLElement | null>(null)
@@ -527,7 +526,7 @@ const state = reactive({
             job_specialties: [],
             working_hours: '',
             employment_status: '',
-            compensatory_hours: '',
+            annual_norm_hours: '',
             vacation_days: '',
         },
         emergencyInfo: {
@@ -625,7 +624,8 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 job_specialties: newValue.employment.job_specialties,
                 working_hours: newValue.employment.working_hours,
                 employment_status: newValue.employment.employment_status,
-                compensatory_hours: newValue.employment.compensatory_hours,
+                annual_norm_hours: newValue.employment.annual_norm_hours,
+                vacation_days: newValue.employment.vacation_days,
             }
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)
