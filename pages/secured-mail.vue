@@ -43,11 +43,16 @@
                         </div>
                     </form>
                     <div v-else class="space-y-2">
-                        <div class="flex justify-end">
-                            <FormButton buttonStyle="primary" @click="state.modal.isReplySecuredMailOpen = true"
-                                class="rounded-md">
-                                {{ $t('mail.secured.replySecurely') }}
-                            </FormButton>
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-semibold text-lg">
+                                {{ state.secured_mail?.subject }}
+                            </h3>
+                            <div>
+                                <FormButton buttonStyle="primary" @click="state.modal.isReplySecuredMailOpen = true"
+                                    class="rounded-md">
+                                    {{ $t('mail.secured.replySecurely') }}
+                                </FormButton>
+                            </div>
                         </div>
                         <p>
                             {{ $t('mail.secured.from') }}:
