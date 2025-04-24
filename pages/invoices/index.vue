@@ -46,7 +46,13 @@
                                     <td width="20%">
                                         <div>
                                             <p>
-                                                {{ invoice?.user?.company?.name }}
+                                                {{ invoice?.bill_to_name }}
+                                            </p>
+                                            <p class="text-xs">
+                                                {{ invoice?.bill_to_number }}
+                                            </p>
+                                            <p class="text-xs">
+                                                {{ invoice?.bill_to_address }}
                                             </p>
                                         </div>
                                     </td>
@@ -56,6 +62,16 @@
                                                 @click="navigateTo(`/invoices/${invoice.uuid}/invoice-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('clientInvoices.table.actions.view') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="navigateTo(`/invoices/${invoice.uuid}/edit`)">
+                                                <Icon name="ph:pencil-simple" class="size-4" />
+                                                {{ $t('clientInvoices.table.actions.edit') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="downloadInvoiceDetails(invoice)">
+                                                <Icon name="ph:download" class="size-4" />
+                                                {{ $t('clientInvoices.table.actions.download') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -77,6 +93,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
+import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
@@ -159,5 +176,22 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchClientInvoices()
+}
+
+async function downloadInvoiceDetails(invoice: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const invoiceUuid = invoice?.uuid
+        const response = await clientInvoiceService.downloadClientInvoiceDetails(invoiceUuid)
+        if (response) {
+            if (response) {
+                saveAs(response, invoice?.invoice_number ?? invoiceUuid.toString())
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>
