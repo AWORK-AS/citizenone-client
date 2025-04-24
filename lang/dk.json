@@ -1612,6 +1612,7 @@
             "scheduleSuccessfullyDeleted": "Tidsplan slettet med succes",
             "scheduleSuccessfullyUpdated": "Tidsplan opdateret med succes"
         },
+        "annualNormHours": "Årlige normtimer",
         "availableVacationHours": "Tilgængelige ferietimer",
         "compensatoryHours": "Afspadseringstimer",
         "confirmation": {

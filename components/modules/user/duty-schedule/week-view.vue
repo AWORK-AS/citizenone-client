@@ -218,7 +218,7 @@
                                     <div v-for="(weeklySchedule, weeklyScheduleIndex) in state.weeklySchedules"
                                         :key="weeklyScheduleIndex" class="grid grid-cols-9"
                                         v-if="!isWeeklyScheduleCopied(weekNumber)">
-                                        <div class="p-3 col-span-2 space-y-2 border-0.5">
+                                        <div class="p-3 col-span-2 space-y-5 border-0.5">
                                             <div class="relative">
                                                 <div class="flex items-center gap-x-2">
                                                     <img :src="weeklySchedule?.employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`"
@@ -228,8 +228,12 @@
                                                         {{ weeklySchedule?.employee?.lastname }}
                                                     </p>
                                                 </div>
+                                                <p class="absolute left-10 top-6 text-xs">
+                                                    {{ $t('dutySchedules.annualNormHours') }}:
+                                                    {{ weeklySchedule?.employee?.annual_norm_hours ?? 0 }}
+                                                </p>
                                                 <button
-                                                    class="absolute left-10 top-7 text-xxs text-primary hover:text-primary-700"
+                                                    class="absolute left-10 top-10 text-xxs text-primary hover:text-primary-700"
                                                     @click="navigateTo(`/calendar?employee_uuid=${weeklySchedule?.employee?.uuid}`)">
                                                     {{ $t('dutySchedules.viewCalendar') }}
                                                 </button>
@@ -242,7 +246,7 @@
                                                     </p>
                                                 </div>
                                                 <div
-                                                    class="col-span-2 flex gap-2 flex-col items-end border-l-2 border-gray-200 ml-3">
+                                                    class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200 ml-3">
                                                     <p class="text-xxs py-2">
                                                         {{ $t('dutySchedules.yearToDate') }}
                                                     </p>
@@ -261,25 +265,39 @@
                                                     </p>
                                                 </div>
                                                 <div
-                                                    class="col-span-2 flex gap-2 flex-col items-end border-l-2 border-gray-200 ml-3">
+                                                    class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200 ml-3">
                                                     <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
                                                         :key="timeIndex">
                                                         {{ time?.yearly_hours }}
                                                     </p>
                                                 </div>
-                                                <div class="col-span-7 space-y-2 mt-1">
-                                                    {{
-                                                        $t('dutySchedules.compensatoryHours')
-                                                    }}:
-                                                    {{
-                                                        weeklySchedule?.employee?.compensatory_hours?.total_in_hours ?? 0
-                                                    }}
+                                                <div
+                                                    class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
+                                                    <div :class="[
+                                                        weeklySchedule?.employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                        'flex items-center gap-1'
+                                                    ]">
+                                                        <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
+                                                        {{
+                                                            $t('dutySchedules.compensatoryHours')
+                                                        }}:
+                                                        {{
+                                                            weeklySchedule?.employee?.compensatory_hours?.total_in_hours ??
+                                                            0
+                                                        }}
+                                                    </div>
                                                 </div>
                                                 <div class="col-span-7 space-y-2 mt-1">
-                                                    {{
-                                                        $t('dutySchedules.availableVacationHours')
-                                                    }}:
-                                                    {{ weeklySchedule?.employee?.available_vacation_hours ?? 0 }}
+                                                    <div :class="[
+                                                        weeklySchedule?.employee?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                        'flex items-center gap-1'
+                                                    ]">
+                                                        <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
+                                                        {{
+                                                            $t('dutySchedules.availableVacationHours')
+                                                        }}:
+                                                        {{ weeklySchedule?.employee?.available_vacation_hours ?? 0 }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

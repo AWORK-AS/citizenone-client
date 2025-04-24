@@ -1612,6 +1612,7 @@
             "scheduleSuccessfullyDeleted": "Schedule successfully deleted",
             "scheduleSuccessfullyUpdated": "Schedule successfully updated"
         },
+        "annualNormHours": "Annual norm hours",
         "availableVacationHours": "Available vacation hours",
         "compensatoryHours": "Compensatory hours",
         "confirmation": {
