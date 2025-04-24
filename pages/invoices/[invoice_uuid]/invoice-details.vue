@@ -4,7 +4,7 @@
 
             <Head>
                 <Title>
-                    {{ $t('invoiceDetails.invoiceDetails') }} - {{ runtimeConfig?.public?.appName }}
+                    {{ $t('clientInvoices.invoiceDetails') }} - {{ runtimeConfig?.public?.appName }}
                 </Title>
             </Head>
 
@@ -12,21 +12,18 @@
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('invoiceDetails.invoiceDetails') }}</template>
-
-            <ModulesUserSettingsTab />
+            <template #header>{{ $t('clientInvoices.invoiceDetails') }}</template>
 
             <div class="mt-10">
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                        to="/settings/invoices">
+                    <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/invoices">
                         <Icon name="ph:arrow-left" size="20" class="text-black" />
                         <span>{{ $t('back') }}</span>
                     </NuxtLink>
                     <div class="flex items-center gap-x-2 justify-end">
                         <FormButton buttonStyle="action" class="rounded-lg" @click="downloadInvoiceDetails">
                             <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('invoiceDetails.download') }}
+                            {{ $t('clientInvoices.table.actions.download') }}
                         </FormButton>
                     </div>
                     <div class="grid grid-cols-1 gap-1 md:grid-cols-2">
@@ -42,16 +39,15 @@
                         </div>
                         <div>
                             <div>
-                                {{ $t('invoiceDetails.billTo') }}:
                                 <p class="text-lg">
-                                    {{ state.invoice?.data?.user?.company?.name }}
+                                    {{ $t('invoiceDetails.billTo') }}:
+                                    {{ state.invoice?.data?.bill_to_name }}
                                 </p>
-                                <p class="text-sm">
-                                    {{ state.invoice?.data?.user?.firstname }}
-                                    {{ state.invoice?.data?.user?.lastname }}
+                                <p class="text-sm ml-16">
+                                    {{ state.invoice?.data?.bill_to_number }}
                                 </p>
-                                <p class="text-sm">
-                                    {{ state.invoice?.data?.user?.email }}
+                                <p class="text-sm ml-16">
+                                    {{ state.invoice?.data?.bill_to_address }}
                                 </p>
                             </div>
                         </div>
@@ -67,7 +63,7 @@
                                     <tr v-for="(data, index) in state.invoice?.data?.invoice_details" :key="index">
                                         <td width="20%">
                                             <div>
-                                                {{ data?.deal?.name }}
+                                                {{ data?.description }}
                                             </div>
                                         </td>
                                         <td width="20%">
@@ -95,9 +91,6 @@
                             </Table>
                         </div>
                     </div>
-                    <p class="text-center mt-10 text-sm text-primary">
-                        {{ $t('invoiceDetails.thisInvoiceHasAlreadyBeenPaid') }}
-                    </p>
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
@@ -105,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import { invoiceService } from '@/components/api/user/InvoiceService'
+import { clientInvoiceService } from '@/components/api/user/ClientInvoiceService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
@@ -131,11 +124,11 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'invoiceDetails.table.description' },
-        { name: 'invoiceDetails.table.price' },
-        { name: 'invoiceDetails.table.quantity' },
-        { name: 'invoiceDetails.table.tax' },
-        { name: 'invoiceDetails.table.amount' },
+        { name: 'clientInvoices.table.description' },
+        { name: 'clientInvoices.table.price' },
+        { name: 'clientInvoices.table.quantity' },
+        { name: 'clientInvoices.table.tax' },
+        { name: 'clientInvoices.table.amount' },
     ],
     error: {} as Error,
     invoice: [] as any,
@@ -143,14 +136,14 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchInvoices()
+    fetchClientInvoice()
 })
 
-async function fetchInvoices() {
+async function fetchClientInvoice() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await invoiceService.getInvoiceDetails(invoiceUuid)
+        const response = await clientInvoiceService.getClientInvoiceDetails(invoiceUuid)
         if (response) {
             state.invoice = response
         }
@@ -164,7 +157,7 @@ async function downloadInvoiceDetails() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await invoiceService.downloadInvoiceDetails(invoiceUuid)
+        const response = await clientInvoiceService.downloadClientInvoiceDetails(invoiceUuid)
         if (response) {
             if (response) {
                 saveAs(response, state?.invoice?.data?.invoice_number ?? invoiceUuid.toString())

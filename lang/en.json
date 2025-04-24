@@ -1426,6 +1426,7 @@
         "newInvoice": "New invoice",
         "table": {
             "actions": {
+                "download": "Download",
                 "edit": "Edit",
                 "view": "View"
             },
@@ -1435,7 +1436,8 @@
             "description": "Description",
             "invoiceNumber": "Invoice number",
             "price": "Price",
-            "quantity": "Quantity"
+            "quantity": "Quantity",
+            "tax": "Tax"
         }
     },
     "customPages": {

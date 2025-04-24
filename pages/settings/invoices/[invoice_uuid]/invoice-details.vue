@@ -143,10 +143,10 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchInvoices()
+    fetchInvoice()
 })
 
-async function fetchInvoices() {
+async function fetchInvoice() {
     state.error = {}
     state.isPageLoading = true
     try {

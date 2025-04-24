@@ -1426,6 +1426,7 @@
         "newInvoice": "Ny faktura",
         "table": {
             "actions": {
+                "download": "Download",
                 "edit": "Rediger",
                 "view": "Se"
             },
@@ -1435,7 +1436,8 @@
             "description": "Beskrivelse",
             "invoiceNumber": "Fakturanummer",
             "price": "Pris",
-            "quantity": "Mængde"
+            "quantity": "Mængde",
+            "tax": "Moms"
         }
     },
     "customPages": {
