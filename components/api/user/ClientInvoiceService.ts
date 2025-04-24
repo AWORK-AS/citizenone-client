@@ -9,6 +9,14 @@ class ClientInvoiceService extends BaseAPIService {
         return await this.request(`/user/client-invoices/${clientInvoiceUuid}`, 'GET')
     }
 
+    async saveClientInvoice(params: object): Promise<any> {
+        return await this.request(`/user/client-invoices`, 'POST', params)
+    }
+
+    async updateClientInvoice(clientInvoiceUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/client-invoices/${clientInvoiceUuid}`, 'PUT', params)
+    }
+
     async downloadClientInvoiceDetails(clientInvoiceUuid: any): Promise<any> {
         return await this.request(`/user/client-invoices/${clientInvoiceUuid}/download`, 'GET')
     }

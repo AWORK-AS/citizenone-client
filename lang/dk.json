@@ -1408,9 +1408,25 @@
         }
     },
     "clientInvoices": {
-        "clientInvoices": "Kunde fakturaer",
+        "clientInvoices": "Kundefakturaer",
+        "invoiceDetails": "Faktura detaljer",
+        "form": {
+            "address": "Adresse",
+            "alert": {
+                "invoiceSuccessfullyAdded": "Faktura tilføjet med succes",
+                "invoiceSuccessfullyUpdated": "Faktura opdateret med succes"
+            },
+            "billTo": "Fakturere til",
+            "description": "Beskrivelse",
+            "name": "Navn",
+            "number": "Nummer",
+            "quantity": "Mængde",
+            "price": "Pris"
+        },
+        "newInvoice": "Ny faktura",
         "table": {
             "actions": {
+                "edit": "Rediger",
                 "view": "Se"
             },
             "amount": "Beløb",

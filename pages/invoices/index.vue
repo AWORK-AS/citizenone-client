@@ -13,6 +13,12 @@
             <template #header>{{ $t('clientInvoices.clientInvoices') }}</template>
 
             <div class="mt-10">
+                <div class="flex justify-end items-center mb-5">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/invoices/new')">
+                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('clientInvoices.newInvoice') }}
+                    </FormButton>
+                </div>
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
@@ -80,7 +86,7 @@ const { t } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
-        name: 'invoices.invoices',
+        name: 'clientInvoices.clientInvoices',
         translate: true,
         href: '/invoices',
     },

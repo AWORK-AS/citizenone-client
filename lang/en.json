@@ -1408,9 +1408,25 @@
         }
     },
     "clientInvoices": {
-        "clientInvoices": "Client Invoices",
+        "clientInvoices": "Client invoices",
+        "invoiceDetails": "Invoice details",
+        "form": {
+            "address": "Address",
+            "alert": {
+                "invoiceSuccessfullyAdded": "Invoice successfully added",
+                "invoiceSuccessfullyUpdated": "Invoice successfully updated"
+            },
+            "billTo": "Bill to",
+            "description": "Description",
+            "name": "Name",
+            "number": "Number",
+            "quantity": "Quantity",
+            "price": "Price"
+        },
+        "newInvoice": "New invoice",
         "table": {
             "actions": {
+                "edit": "Edit",
                 "view": "View"
             },
             "amount": "Amount",
