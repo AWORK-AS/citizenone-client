@@ -197,9 +197,9 @@
                 </div>
             </div>
             <div class="w-fit flex items-center cursor-pointer"
-                @click="state.formCitizen.date_discharged_reminder = !state.formCitizen.date_discharged_reminder"
+                @click="state.formCitizen.is_discharge_reminded = !state.formCitizen.is_discharge_reminded"
                 v-if="state.formCitizen.date_discharged">
-                <FormCheckbox id="date_discharged_reminder" :value="state.formCitizen.date_discharged_reminder" />
+                <FormCheckbox id="is_discharge_reminded" :value="state.formCitizen.is_discharge_reminded" />
                 {{ $t('citizens.form.dateDischargedReminder') }}
             </div>
             <div class="space-y-1">
@@ -406,7 +406,7 @@ const state = reactive({
         addictions: [],
         date_admitted: '',
         date_discharged: '',
-        date_discharged_reminder: false,
+        is_discharge_reminded: false,
         section: '',
         pricing: '',
         pricing_start_date: '',
@@ -489,7 +489,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             addictions: selectedCitizen.addictions,
             date_admitted: selectedCitizen.date_admitted,
             date_discharged: selectedCitizen.date_discharged,
-            date_discharged_reminder: selectedCitizen.date_discharged_reminder,
+            is_discharge_reminded: selectedCitizen.is_discharge_reminded,
             section: selectedCitizen.section,
             pricing: selectedCitizen.pricing,
             pricing_start_date: selectedCitizen.pricing_start_date,

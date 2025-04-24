@@ -19,6 +19,7 @@ export interface CitizenForm {
     addictions: string[],
     date_admitted: string,
     date_discharged: string,
+    is_discharge_reminded: boolean,
     section: string,
     pricing: string,
     pricing_start_date: string,
