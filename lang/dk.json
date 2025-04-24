@@ -1409,6 +1409,7 @@
     },
     "clientInvoices": {
         "clientInvoices": "Kundefakturaer",
+        "editInvoice": "Rediger faktura",
         "invoiceDetails": "Faktura detaljer",
         "form": {
             "address": "Adresse",

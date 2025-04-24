@@ -59,8 +59,9 @@
                             <Table :columnHeaders="state.columnHeaders" :data="state.invoice"
                                 :isLoading="state.isPageLoading">
                                 <template #body
-                                    v-if="!(state.isPageLoading || (state.invoice?.data?.invoice_details?.length === 0))">
-                                    <tr v-for="(data, index) in state.invoice?.data?.invoice_details" :key="index">
+                                    v-if="!(state.isPageLoading || (state.invoice?.data?.client_invoice_details?.length === 0))">
+                                    <tr v-for="(data, index) in state.invoice?.data?.client_invoice_details"
+                                        :key="index">
                                         <td width="20%">
                                             <div>
                                                 {{ data?.description }}
@@ -78,12 +79,12 @@
                                         </td>
                                         <td width="20%">
                                             <div>
-                                                {{ formatAmount(data?.tax_amount ?? 0) }}
+                                                {{ formatAmount(data?.tax ?? 0) }}
                                             </div>
                                         </td>
                                         <td width="20%">
                                             <div>
-                                                {{ formatAmount(data?.total ?? 0) }}
+                                                {{ formatAmount(data?.amount ?? 0) }}
                                             </div>
                                         </td>
                                     </tr>

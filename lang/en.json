@@ -1409,6 +1409,7 @@
     },
     "clientInvoices": {
         "clientInvoices": "Client invoices",
+        "editInvoice": "Edit invoice",
         "invoiceDetails": "Invoice details",
         "form": {
             "address": "Address",

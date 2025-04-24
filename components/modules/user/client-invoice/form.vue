@@ -136,8 +136,15 @@ watch(() => props.selectedInvoice, (newValue: any) => {
             bill_to_name: newValue.bill_to_name,
             bill_to_address: newValue.bill_to_address,
             bill_to_number: newValue.bill_to_number,
-            invoice_details: newValue.invoice_details,
+            invoice_details: [],
         }
+        newValue.client_invoice_details.forEach((detail: any) => {
+            state.formInvoice.invoice_details.push({
+                description: detail?.description,
+                quantity: detail?.quantity?.toString(),
+                price: detail?.price?.toString(),
+            })
+        })
     }
 })
 
@@ -153,9 +160,9 @@ const rules = computed(() => {
 
 function addInvoiceDetails() {
     state.formInvoice.invoice_details.push({
-        bill_to_name: '',
-        bill_to_address: '',
-        bill_to_number: '',
+        description: '',
+        quantity: '',
+        price: '',
     })
 }
 
