@@ -686,6 +686,7 @@
             "dateAdmitted": "Indskrivningsdato",
             "dateDischarged": "Udskrivningsdato",
             "dateDischargedReminder": "Påmindelse om udskrivningsdato",
+            "dateDischargedReminderDescription": "Vi vil minde dig om at følge op på nødvendige aftaler eller handlinger 4 uger før udskrivningsdatoen",
             "department": "Afdeling",
             "diagnoses": "Diagnoser",
             "eanNumber": "EAN-nummer",

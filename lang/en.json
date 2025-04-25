@@ -686,6 +686,7 @@
             "dateAdmitted": "Date admitted",
             "dateDischarged": "Date discharged",
             "dateDischargedReminder": "Date discharged reminder",
+            "dateDischargedReminderDescription": "We will remind you 4 weeks before the discharge date to follow up on any necessary appointments or actions",
             "department": "Department",
             "diagnoses": "Diagnoses",
             "eanNumber": "EAN number",

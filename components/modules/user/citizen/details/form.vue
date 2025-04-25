@@ -196,11 +196,16 @@
                     <FormError :error="props?.error?.errors?.date_discharged?.[0]" />
                 </div>
             </div>
-            <div class="w-fit flex items-center cursor-pointer"
+            <div class="w-fit cursor-pointer"
                 @click="state.formCitizen.is_discharge_reminded = !state.formCitizen.is_discharge_reminded"
                 v-if="state.formCitizen.date_discharged">
-                <FormCheckbox id="is_discharge_reminded" :value="state.formCitizen.is_discharge_reminded" />
-                {{ $t('citizens.form.dateDischargedReminder') }}
+                <div class="flex items-center">
+                    <FormCheckbox id="is_discharge_reminded" :value="state.formCitizen.is_discharge_reminded" />
+                    {{ $t('citizens.form.dateDischargedReminder') }}
+                </div>
+                <p class="ml-7 text-xs">
+                    {{ $t('citizens.form.dateDischargedReminderDescription') }}
+                </p>
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
