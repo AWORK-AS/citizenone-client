@@ -3,8 +3,8 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-                <div class="space-y-1 md:col-span-2">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
                     <FormLabel for="bill_to_name"
                         :label="`${$t('clientInvoices.form.billTo')} (${$t('clientInvoices.form.name')})`" />
                     <FormTextField id="bill_to_name" name="bill_to_name"
@@ -13,8 +13,6 @@
                     <FormError :error="v$?.formInvoice?.bill_to_name?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.bill_to_name?.[0]" />
                 </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
                     <FormLabel for="bill_to_address" :label="$t('clientInvoices.form.address')" />
                     <FormTextField id="bill_to_address" name="bill_to_address"
@@ -22,12 +20,21 @@
                     <FormError :error="v$?.formInvoice?.bill_to_address?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.bill_to_address?.[0]" />
                 </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
                     <FormLabel for="bill_to_number" :label="$t('clientInvoices.form.number')" />
                     <FormTextField id="bill_to_number" name="bill_to_number"
                         :placeholder="$t('clientInvoices.form.number')" v-model="state.formInvoice.bill_to_number" />
                     <FormError :error="v$?.formInvoice?.bill_to_number?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.bill_to_number?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="note" :label="$t('clientInvoices.form.note')" />
+                    <FormTextField id="note" name="note" :placeholder="$t('clientInvoices.form.note')"
+                        v-model="state.formInvoice.note" />
+                    <FormError :error="v$?.formInvoice?.note?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.note?.[0]" />
                 </div>
             </div>
             <div class="space-y-3">
@@ -122,6 +129,7 @@ const state = reactive({
         bill_to_name: '',
         bill_to_address: '',
         bill_to_number: '',
+        note: '',
         invoice_details: [{
             description: '',
             quantity: '',
@@ -136,6 +144,7 @@ watch(() => props.selectedInvoice, (newValue: any) => {
             bill_to_name: newValue.bill_to_name,
             bill_to_address: newValue.bill_to_address,
             bill_to_number: newValue.bill_to_number,
+            note: newValue.note,
             invoice_details: [],
         }
         newValue.client_invoice_details.forEach((detail: any) => {

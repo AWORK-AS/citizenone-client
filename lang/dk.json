@@ -1420,6 +1420,7 @@
             "billTo": "Fakturere til",
             "description": "Beskrivelse",
             "name": "Navn",
+            "note": "Bemærkning",
             "number": "Nummer",
             "quantity": "Mængde",
             "price": "Pris"

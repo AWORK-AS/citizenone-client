@@ -61,6 +61,7 @@ const state = reactive({
         bill_to_name: '',
         bill_to_address: '',
         bill_to_number: '',
+        note: '',
         invoice_details: [],
     },
     isPageLoading: false,
@@ -74,6 +75,7 @@ async function saveInvoice(invoiceDetails: any) {
             'bill_to_name': invoiceDetails.bill_to_name,
             'bill_to_address': invoiceDetails.bill_to_address,
             'bill_to_number': invoiceDetails.bill_to_number,
+            'note': invoiceDetails.note,
             'invoice_details': invoiceDetails.invoice_details,
         }
         const response = await clientInvoiceService.saveClientInvoice(params)

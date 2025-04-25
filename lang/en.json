@@ -1420,6 +1420,7 @@
             "billTo": "Bill to",
             "description": "Description",
             "name": "Name",
+            "note": "Note",
             "number": "Number",
             "quantity": "Quantity",
             "price": "Price"
