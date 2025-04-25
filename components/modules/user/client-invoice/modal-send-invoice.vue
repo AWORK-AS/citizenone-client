@@ -90,7 +90,7 @@ async function sendInvoice() {
                 recipient: state.formSendInvoice.recipient,
             }
             const response = await clientInvoiceService.sendClientInvoiceDetails(invoiceUuid, params)
-            if (response.data) {
+            if (response?.message === 'Success.' || response?.message === 'Succes.') {
                 successAlert(`${t('alert.success')}!`, `${t('clientInvoices.table.alert.invoiceSuccessfullySent')}.`)
                 closeModal()
             }
