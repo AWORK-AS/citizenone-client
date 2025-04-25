@@ -48,6 +48,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    selectedClientInvoice: {
+        type: Object,
+        required: true,
+    },
 })
 const emit = defineEmits(['close'])
 
@@ -81,10 +85,11 @@ async function sendInvoice() {
     if (!v$.value.$error) {
         state.isPageLoading = true
         try {
+            const invoiceUuid = props.selectedClientInvoice.uuid
             const params = {
                 recipient: state.formSendInvoice.recipient,
             }
-            const response = await clientInvoiceService.sendClientInvoiceDetails(params)
+            const response = await clientInvoiceService.sendClientInvoiceDetails(invoiceUuid, params)
             if (response.data) {
                 successAlert(`${t('alert.success')}!`, `${t('clientInvoices.table.alert.invoiceSuccessfullySent')}.`)
                 closeModal()
