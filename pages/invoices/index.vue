@@ -73,6 +73,11 @@
                                                 <Icon name="ph:download" class="size-4" />
                                                 {{ $t('clientInvoices.table.actions.download') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="state.modal.isSendInvoiceOpen = true">
+                                                <Icon name="ph:envelope" class="size-4" />
+                                                {{ $t('clientInvoices.table.actions.sendInvoice') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -81,6 +86,8 @@
                     </div>
                     <Pagination :data="state.invoices" @previous="previous" @next="next" />
                 </div>
+                <ModulesUserClientInvoiceModalSendInvoice :isModalOpen="state.modal.isSendInvoiceOpen"
+                    @close="state.modal.isSendInvoiceOpen = false" />
             </div>
         </NuxtLayout>
     </div>
@@ -123,6 +130,9 @@ const state = reactive({
     error: {} as Error,
     invoices: [] as any,
     isTableLoading: false,
+    modal: {
+        isSendInvoiceOpen: false
+    },
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',

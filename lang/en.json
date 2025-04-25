@@ -1422,15 +1422,20 @@
             "name": "Name",
             "note": "Note",
             "number": "Number",
+            "price": "Price",
             "quantity": "Quantity",
-            "price": "Price"
+            "recipient": "Recipient"
         },
         "newInvoice": "New invoice",
         "table": {
             "actions": {
                 "download": "Download",
                 "edit": "Edit",
+                "sendInvoice": "Send invoice",
                 "view": "View"
+            },
+            "alert": {
+                "invoiceSuccessfullySent": "Invoice successfully sent"
             },
             "amount": "Amount",
             "billedTo": "Billed to",

@@ -1422,15 +1422,20 @@
             "name": "Navn",
             "note": "Bemærkning",
             "number": "Nummer",
+            "price": "Pris",
             "quantity": "Mængde",
-            "price": "Pris"
+            "recipient": "Modtager"
         },
         "newInvoice": "Ny faktura",
         "table": {
             "actions": {
                 "download": "Download",
                 "edit": "Rediger",
+                "sendInvoice": "Send faktura",
                 "view": "Se"
+            },
+            "alert": {
+                "invoiceSuccessfullySent": "Faktura sendt med succes"
             },
             "amount": "Beløb",
             "billedTo": "Fakturere til",
