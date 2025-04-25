@@ -8,11 +8,11 @@
                     <form @submit.prevent="saveReply()">
                         <div class="space-y-1">
                             <div class="space-y-1">
-                                <FormLabel for="content" :label="$t('mail.secured.form.message')" />
-                                <FormTextArea id="content" name="content" :placeholder="$t('mail.secured.form.message')"
-                                    v-model="state.formSecuredMail.content" />
-                                <FormError :error="v$?.formSecuredMail?.content?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.content?.[0]" />
+                                <FormLabel for="message" :label="$t('mail.secured.form.message')" />
+                                <FormTextArea id="message" name="message" :placeholder="$t('mail.secured.form.message')"
+                                    v-model="state.formSecuredMail.message" />
+                                <FormError :error="v$?.formSecuredMail?.message?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.message?.[0]" />
                             </div>
                         </div>
                         <div class="mt-6">
@@ -21,8 +21,7 @@
                                     {{ $t('cancel') }}
                                 </FormButton>
                                 <FormButton type="submit" buttonStyle="primary" class="rounded-md">
-                                    {{ props.formType === 'create' ? $t('save') :
-                                        $t('mail.secured.form.send') }}
+                                    {{ $t('mail.secured.form.send') }}
                                 </FormButton>
                             </div>
                         </div>

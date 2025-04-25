@@ -123,7 +123,7 @@ const state = reactive({
     modal: {
         isReplySecuredMailOpen: false,
     },
-    secured_mail: '',
+    secured_mail: {} as any,
     showMessage: false,
     slideOver: {
         isLanguageSwitcherOpen: false
