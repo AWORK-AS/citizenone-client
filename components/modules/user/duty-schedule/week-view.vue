@@ -242,7 +242,15 @@
                                                 <div class="col-span-3 space-y-2" />
                                                 <div class="col-span-2 flex gap-2 flex-col items-end">
                                                     <p class="text-xxs py-2">
-                                                        {{ $t('dutySchedules.week') }}
+                                                        <span v-if="state.customWeekLabel === 'week'">
+                                                            {{ $t('dutySchedules.week') }}
+                                                        </span>
+                                                        <span v-if="state.customWeekLabel === 'month'">
+                                                            {{ $t('dutySchedules.month') }}
+                                                        </span>
+                                                        <span v-if="state.customWeekLabel === 'custom'">
+                                                            {{ $t('dutySchedules.custom') }}
+                                                        </span>
                                                     </p>
                                                 </div>
                                                 <div
@@ -517,7 +525,7 @@
                 @close="state.modal.isDownloadOpen = false" />
             <ModulesUserDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
-                @filterDate="filterDepartmentSickLeaveDate" />
+                @filterDate="filterDutyScheduleDate" />
             <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" @close="state.modal.isAddShiftOpen = false"
                 @saveShift="saveShift" @resetNewShiftError="state.newShiftError = {}" />
@@ -581,6 +589,7 @@ const state = reactive({
         selectedEmployeeSchedules: {}
     } as any,
     copyShiftError: {} as Error,
+    customWeekLabel: 'week',
     shiftPercentage: {} as any,
     shiftDateRange: {
         formDateRange: {
@@ -658,10 +667,42 @@ function isAdmin(roles: any) {
     return roles && roles.some((role: any) => role.name === 'Admin')
 }
 
-function filterDepartmentSickLeaveDate(formDateRange: any) {
+function filterDutyScheduleDate(formDateRange: any) {
     state.shiftDateRange.formDateRange.start_date = formDateRange?.[0]
     state.shiftDateRange.formDateRange.end_date = formDateRange?.[1]
-    fetchDutyScheduleAbsencePercentage()
+    fetchDutyScheduleByDateRange(formDateRange?.[0], formDateRange?.[1])
+    setCustomWeekLabel(formDateRange?.[0], formDateRange?.[1])
+}
+
+function setCustomWeekLabel(startDate: any, endDate: any) {
+    const start = new Date(startDate) as any
+    const end = new Date(endDate) as any
+
+    // Calculate difference in days
+    const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1
+
+    // Check for week
+    const isWeek =
+        (start.getDay() === 0 || start.getDay() === 1) && diffDays === 7
+
+    // Check for full month
+    const isFirstDayOfMonth = start.getDate() === 1
+    const isLastDayOfMonth =
+        end.getDate() === new Date(end.getFullYear(), end.getMonth() + 1, 0).getDate()
+    const isSameMonth =
+        start.getMonth() === end.getMonth() &&
+        start.getFullYear() === end.getFullYear()
+
+    const isMonth = isFirstDayOfMonth && isLastDayOfMonth && isSameMonth
+
+    if (isWeek) {
+        state.customWeekLabel = 'week'
+    }
+    else if (isMonth) {
+        state.customWeekLabel = 'month'
+    } else {
+        state.customWeekLabel = 'custom'
+    }
 }
 
 function sortMultiDayShiftsFirst(shifts: any) {
@@ -782,17 +823,43 @@ async function fetchDutySchedule() {
     state.isPageLoading = false
 }
 
+async function fetchDutyScheduleByDateRange(dateStart: any, dateEnd: any) {
+    state.error = {}
+    state.weeklySchedules = []
+    state.originalWeeklySchedules = []
+    state.isPageLoading = true
+    try {
+        const params = {
+            date_start: dateStart,
+            date_end: dateEnd,
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await dutyScheduleService.getDutySchedules(params)
+        if (response) {
+            state.weeklySchedules = response?.data
+            state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
+            fetchDutyScheduleAbsencePercentage()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 function previousWeek() {
+    state.customWeekLabel = 'week'
     currentDate.value = moment(currentDate.value).subtract(1, 'week')
     fetchDutySchedule()
 }
 
 function setToday() {
+    state.customWeekLabel = 'week'
     currentDate.value = moment()
     fetchDutySchedule()
 }
 
 function nextWeek() {
+    state.customWeekLabel = 'week'
     currentDate.value = moment(currentDate.value).add(1, 'week')
     fetchDutySchedule()
 }

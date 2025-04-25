@@ -1665,6 +1665,7 @@
             "clickHereToStopCopyingTheSchedule": "Click here to stop copying the schedule",
             "stopCopying": "Stop copying"
         },
+        "custom": "Custom",
         "deleteSchedule": "Delete schedule",
         "departmentSickLeaves": "Department sick leaves",
         "download": {
@@ -1698,6 +1699,7 @@
             "useCompensatoryTime": "Use compensatory time",
             "users": "Users"
         },
+        "month": "Month",
         "newSchedule": "New schedule",
         "noScheduleFound": "No schedule found",
         "removeSchedule": "Remove schedule",

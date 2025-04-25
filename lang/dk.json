@@ -1665,6 +1665,7 @@
             "clickHereToStopCopyingTheSchedule": "Klik her for at stoppe med at kopiere",
             "stopCopying": "Stop kopiering"
         },
+        "custom": "Brugerdefineret",
         "deleteSchedule": "Slet tidsplan",
         "departmentSickLeaves": "Afdelingens sygefravær",
         "download": {
@@ -1698,6 +1699,7 @@
             "useCompensatoryTime": "Brug afspadseringstid",
             "users": "Brugere"
         },
+        "month": "Måned",
         "newSchedule": "Ny vagtplan",
         "noScheduleFound": "Ingen tidsplan fundet",
         "removeSchedule": "Fjern tidsplan",
