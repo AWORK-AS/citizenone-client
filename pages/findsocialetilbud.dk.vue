@@ -44,7 +44,7 @@
 
                         <!-- Darkening overlay -->
                         <div v-if="state.modal.isOverlayVisible"
-                            class="fixed inset-0 bg-black bg-opacity-50 z-40 sm:hidden md:block lg:block">
+                            class="fixed inset-0 bg-black bg-opacity-40 z-40 sm:hidden md:block lg:block">
                         </div>
 
 

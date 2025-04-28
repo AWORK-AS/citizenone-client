@@ -1,5 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
+
         <TransitionRoot as="template" :show="sidebarOpen">
             <Dialog as="div" class="relative z-50 lg:hidden" @close="sidebarOpen = false">
                 <TransitionChild as="template" enter="transition-opacity ease-linear duration-300"
@@ -418,6 +419,19 @@
             @close="state.slideOver.isSupportOpen = false" />
         <ModulesUserWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
             @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
+
+        <!-- Darkening overlay -->
+        <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block"
+            v-if="state.modal.isGuidedTourWelcomeOpen || state.modal.isGuidedTourDailyOverviewOpen || state.modal.isGuidedTourCitizensOverviewOpen">
+        </div>
+        <ModulesUserGuidedTourModalWelcome :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
+            @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
+        <ModulesUserGuidedTourModalDailyOverview :isModalOpen="state.modal.isGuidedTourDailyOverviewOpen"
+            :isGuidedTour="true" @close="state.modal.isGuidedTourDailyOverviewOpen = false" @back="handleBackGuidedTour"
+            @next="handleNextGuidedTour" />
+        <ModulesUserGuidedTourModalCitizens :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen"
+            :isGuidedTour="true" @close="state.modal.isGuidedTourCitizensOverviewOpen = false"
+            @back="handleBackGuidedTour" @next="handleNextGuidedTour" />
     </LoadingSpinner>
 </template>
 
@@ -536,6 +550,13 @@ const state = reactive({
     modal: {
         isCheckinReminderOpen: false,
         isContactUsOpen: false,
+        isGuidedTourCalendarOpen: false,
+        isGuidedTourCitizensOverviewOpen: false,
+        isGuidedTourDailyOverviewOpen: false,
+        isGuidedTourDutyScheduleOpen: false,
+        isGuidedTourEmployeesOpen: false,
+        isGuidedTourSubscriptionOpen: false,
+        isGuidedTourWelcomeOpen: false,
         isPlanGoalSubgoalCompletionReminderOpen: false,
     },
     showSubscribeButton: false,
@@ -732,6 +753,60 @@ function closeCompletionReminder(doNotShowAgain: boolean) {
     }
     state.modal.isPlanGoalSubgoalCompletionReminderOpen = false
 
+}
+
+function handleBackGuidedTour(back: any) {
+    if (back === 'welcome') {
+        state.modal.isGuidedTourDailyOverviewOpen = false
+        state.modal.isGuidedTourWelcomeOpen = true
+    }
+    if (back === 'daily-overview') {
+        state.modal.isGuidedTourCitizensOverviewOpen = false
+        state.modal.isGuidedTourDailyOverviewOpen = true
+    }
+    if (back === 'citizens-overview') {
+        state.modal.isGuidedTourCalendarOpen = false
+        state.modal.isGuidedTourCitizensOverviewOpen = true
+    }
+    if (back === 'calendar') {
+        state.modal.isGuidedTourDutyScheduleOpen = false
+        state.modal.isGuidedTourCalendarOpen = true
+    }
+    if (back === 'duty-schedules') {
+        state.modal.isGuidedTourEmployeesOpen = false
+        state.modal.isGuidedTourDutyScheduleOpen = true
+    }
+    if (back === 'employees') {
+        state.modal.isGuidedTourSubscriptionOpen = false
+        state.modal.isGuidedTourEmployeesOpen = true
+    }
+}
+
+function handleNextGuidedTour(next: any) {
+    if (next === 'daily-overview') {
+        state.modal.isGuidedTourWelcomeOpen = false
+        state.modal.isGuidedTourDailyOverviewOpen = true
+    }
+    if (next === 'citizens-overview') {
+        state.modal.isGuidedTourDailyOverviewOpen = false
+        state.modal.isGuidedTourCitizensOverviewOpen = true
+    }
+    if (next === 'calendar') {
+        state.modal.isGuidedTourCitizensOverviewOpen = false
+        state.modal.isGuidedTourCalendarOpen = true
+    }
+    if (next === 'duty-schedules') {
+        state.modal.isGuidedTourCalendarOpen = false
+        state.modal.isGuidedTourDutyScheduleOpen = true
+    }
+    if (next === 'employees') {
+        state.modal.isGuidedTourDutyScheduleOpen = false
+        state.modal.isGuidedTourEmployeesOpen = true
+    }
+    if (next === 'subscription') {
+        state.modal.isGuidedTourEmployeesOpen = false
+        state.modal.isGuidedTourSubscriptionOpen = true
+    }
 }
 
 async function logout() {
