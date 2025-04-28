@@ -169,14 +169,14 @@
                 @close="state.modal.isManageCompanyOpen = false" />
             <ModulesUserFindsocialetilbuddkModalShowInterest :isModalOpen="state.modal.isShowInterestOpen"
                 @close="state.modal.isShowInterestOpen = false" />
-            <ModulesUserFindsocialetilbuddkTutorialModal0 :isModalZeroOpen="state.modal.isModalZeroOpen"
+            <ModulesUserFindsocialetilbuddkModalTutorial0 :isModalZeroOpen="state.modal.isModalZeroOpen"
                 @close="closeModalZero" @button-click="handleButtonClick" />
 
-            <ModulesUserFindsocialetilbuddkTutorialModal1 :isModalOneOpen="state.modal.isModalVisible"
+            <ModulesUserFindsocialetilbuddkModalTutorial1 :isModalOneOpen="state.modal.isModalVisible"
                 @close="closeModal" @button-click="handleButtonClick" />
-            <ModulesUserFindsocialetilbuddkTutorialModal2 :isModalTwoOpen="state.modal.isModalTwoVisible"
+            <ModulesUserFindsocialetilbuddkModalTutorial2 :isModalTwoOpen="state.modal.isModalTwoVisible"
                 @close="closeModal2" @button-click="handleButtonClick" />
-            <ModulesUserFindsocialetilbuddkTutorialModal3 :isModalThreeOpen="state.modal.isModalThreeVisible"
+            <ModulesUserFindsocialetilbuddkModalTutorial3 :isModalThreeOpen="state.modal.isModalThreeVisible"
                 @close="closeModal3" />
 
         </NuxtLayout>

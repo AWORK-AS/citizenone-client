@@ -1,10 +1,8 @@
 <template>
     <div>
-        <div v-if="props.isModalZeroOpen" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-lg p-6 overflow-hidden bg-white border border-gray-300 shadow-lg z-50 rounded-md
-    lg:bottom-44 lg:left-[25rem] lg:transform-none lg:w-96 lg:overflow-visible" :class="modalClasses">
-
-
-
+        <div v-if="props.isModalZeroOpen"
+            class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-lg p-6 overflow-hidden bg-white border border-gray-300 shadow-lg z-50 rounded-md lg:bottom-36 lg:left-[25rem] lg:transform-none lg:w-96 lg:overflow-visible"
+            :class="modalClasses">
             <div class="absolute top-0 right-0 w-52 h-52 overflow-hidden">
                 <img src="/img/icons/asset-01.svg" alt="Image failed to load"
                     class="absolute -top-14 -right-14 z-10 opacity-70 object-cover" id="animatedImage">
@@ -63,7 +61,6 @@
     </div>
 </template>
 
-
 <script setup>
 import { useI18n } from "vue-i18n"
 
@@ -91,26 +88,24 @@ const handleNext = () => {
     scrollToBottom()
     handleClose()
 }
-const pageHeight = ref(window.innerHeight);
+const pageHeight = ref(window.innerHeight)
 
 const updatePageHeight = () => {
-    pageHeight.value = window.innerHeight;
-};
+    pageHeight.value = window.innerHeight
+}
 
 onMounted(() => {
-    window.addEventListener("resize", updatePageHeight);
-});
+    window.addEventListener("resize", updatePageHeight)
+})
 
 onUnmounted(() => {
-    window.removeEventListener("resize", updatePageHeight);
-});
+    window.removeEventListener("resize", updatePageHeight)
+})
 
 const modalClasses = computed(() => {
     return `after:absolute after:-left-4 after:w-0 after:h-0 after:border-t-[20px] after:border-t-transparent
         after:border-b-[20px] after:border-b-transparent after:border-r-[20px] after:border-r-white
-        ${pageHeight.value < 800 ? "after:top-56" : "after:top-4"}`;
-});
-
-
+        ${pageHeight.value < 800 ? "after:top-56" : "after:top-4"}`
+})
 
 </script>

@@ -47,14 +47,10 @@
             </div>
         </div>
     </div>
-
-
 </template>
 
 <script setup>
 import { useI18n } from "vue-i18n"
-
-const language = useI18n()
 
 const props = defineProps({
     isModalOneOpen: {
@@ -62,9 +58,8 @@ const props = defineProps({
         required: true,
     },
 })
-
 const emit = defineEmits(['close', 'button-click'])
-
+const language = useI18n()
 
 const handleClose = () => {
     emit('close')
@@ -82,40 +77,39 @@ const handleNext = () => {
     handleClose()
 }
 
-const pageHeight = ref(window.innerHeight);
-const pageWidth = ref(window.innerWidth);  // Make window width reactive
+const pageHeight = ref(window.innerHeight)
+const pageWidth = ref(window.innerWidth)  // Make window width reactive
 
 const updatePageSize = () => {
-    pageHeight.value = window.innerHeight;
-    pageWidth.value = window.innerWidth;
-};
+    pageHeight.value = window.innerHeight
+    pageWidth.value = window.innerWidth
+}
 
 const updatePageHeight = () => {
-    pageHeight.value = window.innerHeight;
-};
+    pageHeight.value = window.innerHeight
+}
 
 onMounted(() => {
-    window.addEventListener("resize", updatePageHeight);
-    window.addEventListener("resize", updatePageSize);
-});
+    window.addEventListener("resize", updatePageHeight)
+    window.addEventListener("resize", updatePageSize)
+})
 
 onUnmounted(() => {
-    window.removeEventListener("resize", updatePageHeight);
-    window.removeEventListener("resize", updatePageSize);
-});
+    window.removeEventListener("resize", updatePageHeight)
+    window.removeEventListener("resize", updatePageSize)
+})
 
 const modalClasses = computed(() => {
-    const isSmallScreen = pageWidth.value < 768;  // Use the reactive pageWidth value
+    const isSmallScreen = pageWidth.value < 768  // Use the reactive pageWidth value
 
     if (isSmallScreen) {
         return `after:absolute after:top-[-20px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-0 after:h-0 
             after:border-l-[20px] after:border-l-transparent after:border-r-[20px] after:border-r-transparent 
-            after:border-b-[20px] after:border-b-white`;
+            after:border-b-[20px] after:border-b-white`
     } else {
         return `after:absolute after:-right-4 after:w-0 after:h-0 after:border-t-[20px] after:border-t-transparent
             after:border-b-[20px] after:border-b-transparent after:border-l-[20px] after:border-l-white
-            ${pageHeight.value < 800 ? "after:top-40" : "after:top-40"}`;
+            ${pageHeight.value < 800 ? "after:top-40" : "after:top-40"}`
     }
-});
-
+})
 </script>
