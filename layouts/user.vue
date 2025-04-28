@@ -427,7 +427,7 @@
             state.modal.isGuidedTourCalendarOpen ||
             state.modal.isGuidedTourDutyScheduleOpen ||
             state.modal.isGuidedTourEmployeesOpen ||
-            state.modal.isGuidedTourSubscriptionOpen">
+            state.modal.isGuidedTourEndOpen">
         </div>
         <ModulesUserGuidedTourModalWelcome :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
@@ -445,6 +445,9 @@
             @next="handleNextGuidedTour" />
         <ModulesUserGuidedTourModalEmployees :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourEmployeesOpen = false" @back="handleBackGuidedTour"
+            @next="handleNextGuidedTour" />
+        <ModulesUserGuidedTourModalEnd :isModalOpen="state.modal.isGuidedTourEndOpen" :isGuidedTour="true"
+            @close="state.modal.isGuidedTourEndOpen = false" @back="handleBackGuidedTour"
             @next="handleNextGuidedTour" />
     </LoadingSpinner>
 </template>
@@ -569,7 +572,7 @@ const state = reactive({
         isGuidedTourDailyOverviewOpen: false,
         isGuidedTourDutyScheduleOpen: false,
         isGuidedTourEmployeesOpen: false,
-        isGuidedTourSubscriptionOpen: false,
+        isGuidedTourEndOpen: false,
         isGuidedTourWelcomeOpen: true,
         isPlanGoalSubgoalCompletionReminderOpen: false,
     },
@@ -791,7 +794,7 @@ function handleBackGuidedTour(back: any) {
         state.modal.isGuidedTourDutyScheduleOpen = true
     }
     if (back === 'employees') {
-        state.modal.isGuidedTourSubscriptionOpen = false
+        state.modal.isGuidedTourEndOpen = false
         state.modal.isGuidedTourEmployeesOpen = true
     }
 }
@@ -817,9 +820,9 @@ function handleNextGuidedTour(next: any) {
         state.modal.isGuidedTourDutyScheduleOpen = false
         state.modal.isGuidedTourEmployeesOpen = true
     }
-    if (next === 'subscription') {
+    if (next === 'end') {
         state.modal.isGuidedTourEmployeesOpen = false
-        state.modal.isGuidedTourSubscriptionOpen = true
+        state.modal.isGuidedTourEndOpen = true
     }
 }
 

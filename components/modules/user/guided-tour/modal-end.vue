@@ -18,7 +18,7 @@
             <div class="z-10 relative space-y-2 md:space-y-5">
                 <div>
                     <iframe class="w-full h-44 lg:h-[405px]"
-                        src="https://www.youtube.com/embed/LrexiNGd9T0?modestbranding=1&rel=0&controls=1"
+                        src="https://www.youtube.com/embed/O5JCdQHFLOo?modestbranding=1&rel=0&controls=1"
                         title="CitizenOne" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
@@ -27,21 +27,22 @@
 
                 <h3 class="text-lg md:text-2xl font-semibold text-secondary text-center ">
                     <span v-if="language.locale.value === 'en'">
-                        Keep track of the team 👥
+                        🎉 You made it to the finish line 😉
                     </span>
                     <span v-if="language.locale.value === 'dk'">
-                        Hold styr på teamet 👥
+                        🎉 Så kom du i mål 😉
                     </span>
                 </h3>
 
                 <p class="text-center text-primary text-xs md:text-base">
                     <span v-if="language.locale.value === 'en'">
-                        Keep track of employees' attendance, roles, and tasks - and strengthen collaboration across the
-                        organization.
+                        Even though we haven't covered all the features, we hope you've gotten a bit more insight into
+                        CitizenOne. If you have any questions, we're always ready to help you further ☺️
                     </span>
                     <span v-if="language.locale.value === 'dk'">
-                        Følg med i medarbejdernes tilstedeværelse, roller og opgaver - og styrk
-                        samarbejdet på tværs af organisationen.
+                        Selvom vi faktisk ikke har været hele vejen rundt på alle funktioner, så håber vi,
+                        at du er blevet lidt klogere på CitizenOne. Har du spørgsmål, er vi altid klar til at
+                        hjælpe dig videre ☺️
                     </span>
                 </p>
 
@@ -85,8 +86,8 @@
                     <FormButton buttonStyle="primary" @click="handleBack()" class="w-fit rounded-md px-6">
                         {{ $t('back') }}
                     </FormButton>
-                    <FormButton buttonStyle="primary" @click="handleNext()" class="w-fit rounded-md px-6">
-                        {{ $t('next') }}
+                    <FormButton buttonStyle="primary" @click="closeModal" class="w-fit rounded-md px-6">
+                        {{ $t('close') }}
                     </FormButton>
                 </div>
             </div>
@@ -133,11 +134,7 @@ function navigateToSubscription() {
 }
 
 function handleBack() {
-    emit('back', 'duty-schedule')
-}
-
-function handleNext() {
-    emit('next', 'end')
+    emit('back', 'employees')
 }
 
 async function navigateToExternalLink(link: any) {
