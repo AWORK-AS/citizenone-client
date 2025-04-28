@@ -1,8 +1,7 @@
 <template>
     <div>
         <div v-if="props.isModalOpen"
-            class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-lg p-8 overflow-hidden bg-white border shadow-lg z-50 rounded-md lg:top-[4.5rem] lg:h-fit lg:left-[22rem] lg:transform-none lg:max-w-3xl lg:overflow-visible"
-            :class="modalClasses">
+            class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-lg p-8 overflow-hidden bg-white border shadow-lg z-50 rounded-md lg:top-[4.5rem] lg:h-fit lg:left-[22rem] lg:transform-none lg:max-w-3xl lg:overflow-visible">
             <div class="absolute top-0 right-0 w-52 h-52 overflow-hidden">
                 <img src="/img/icons/asset-01.svg" alt="Image failed to load"
                     class="absolute -top-14 -right-14 z-10 opacity-70 object-cover" id="animatedImage">
@@ -19,7 +18,7 @@
             <div class="z-10 relative space-y-2 md:space-y-5">
                 <div>
                     <iframe class="w-full h-44 lg:h-[405px]"
-                        src="https://www.youtube.com/embed/nbR02YD4GYc?modestbranding=1&rel=0&controls=1"
+                        src="https://www.youtube.com/embed/LrexiNGd9T0?modestbranding=1&rel=0&controls=1"
                         title="CitizenOne" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
@@ -28,21 +27,21 @@
 
                 <h3 class="text-lg md:text-2xl font-semibold text-secondary text-center ">
                     <span v-if="language.locale.value === 'en'">
-                        Calendar - overview of all activities 📅
+                        Keep track of the team 👥
                     </span>
                     <span v-if="language.locale.value === 'dk'">
-                        Kalender - overblik over alle aktiviteter 📅
+                        Hold styr på teamet 👥
                     </span>
                 </h3>
 
                 <p class="text-center text-primary text-xs md:text-base">
                     <span v-if="language.locale.value === 'en'">
-                        The calendar in CitizenOne makes it easy to plan and adjust activities - for yourself, the
-                        citizens, and your colleagues.
+                        "Keep track of employees' attendance, roles, and tasks - and strengthen collaboration across the
+                        organization.
                     </span>
                     <span v-if="language.locale.value === 'dk'">
-                        Kalenderen i CitizenOne gør det nemt at planlægge og tilpasse aktiviteter -
-                        både for dig selv, borgerne samt dine kollegaer.
+                        Følg med i medarbejdernes tilstedeværelse, roller og opgaver - og styrk
+                        samarbejdet på tværs af organisationen.
                     </span>
                 </p>
 
@@ -134,11 +133,11 @@ function navigateToSubscription() {
 }
 
 function handleBack() {
-    emit('back', 'citizens-overview')
+    emit('back', 'duty-schedule')
 }
 
 function handleNext() {
-    emit('next', 'duty-schedule')
+    emit('next', 'subscription')
 }
 
 async function navigateToExternalLink(link: any) {
@@ -149,12 +148,4 @@ async function navigateToExternalLink(link: any) {
         }
     })
 }
-
-const pageHeight = ref(window.innerHeight)
-
-const modalClasses = computed(() => {
-    return `after:absolute after:-left-4 after:w-0 after:h-0 after:border-t-[20px] after:border-t-transparent
-        after:border-b-[20px] after:border-b-transparent after:border-r-[20px] after:border-r-white
-        ${pageHeight.value < 800 ? "after:top-96" : "after:top-[7rem]"}`
-})
 </script>

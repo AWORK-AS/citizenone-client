@@ -19,7 +19,7 @@
             <div class="z-10 relative space-y-2 md:space-y-5">
                 <div>
                     <iframe class="w-full h-44 lg:h-[405px]"
-                        src="https://www.youtube.com/embed/nbR02YD4GYc?modestbranding=1&rel=0&controls=1"
+                        src="https://www.youtube.com/embed/TXrYP8GtCKM?modestbranding=1&rel=0&controls=1"
                         title="CitizenOne" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
@@ -28,21 +28,21 @@
 
                 <h3 class="text-lg md:text-2xl font-semibold text-secondary text-center ">
                     <span v-if="language.locale.value === 'en'">
-                        Calendar - overview of all activities 📅
+                        Flexible and clear shift schedule 🕐
                     </span>
                     <span v-if="language.locale.value === 'dk'">
-                        Kalender - overblik over alle aktiviteter 📅
+                        Fleksibel og overskuelig vagtplan 🕐
                     </span>
                 </h3>
 
                 <p class="text-center text-primary text-xs md:text-base">
                     <span v-if="language.locale.value === 'en'">
-                        The calendar in CitizenOne makes it easy to plan and adjust activities - for yourself, the
-                        citizens, and your colleagues.
+                        Create, edit, and share shift schedules with just a few clicks. See how the intuitive shift
+                        planner makes scheduling easy and efficient.
                     </span>
                     <span v-if="language.locale.value === 'dk'">
-                        Kalenderen i CitizenOne gør det nemt at planlægge og tilpasse aktiviteter -
-                        både for dig selv, borgerne samt dine kollegaer.
+                        Opret, rediger og del vagtplaner med få klik. Se hvordan den intuitive vagtplan
+                        gør planlægning nemt og effektivt.
                     </span>
                 </p>
 
@@ -134,11 +134,11 @@ function navigateToSubscription() {
 }
 
 function handleBack() {
-    emit('back', 'citizens-overview')
+    emit('back', 'calendar')
 }
 
 function handleNext() {
-    emit('next', 'duty-schedule')
+    emit('next', 'employees')
 }
 
 async function navigateToExternalLink(link: any) {
@@ -155,6 +155,6 @@ const pageHeight = ref(window.innerHeight)
 const modalClasses = computed(() => {
     return `after:absolute after:-left-4 after:w-0 after:h-0 after:border-t-[20px] after:border-t-transparent
         after:border-b-[20px] after:border-b-transparent after:border-r-[20px] after:border-r-white
-        ${pageHeight.value < 800 ? "after:top-96" : "after:top-[7rem]"}`
+        ${pageHeight.value < 800 ? "after:top-96" : "after:top-[10rem]"}`
 })
 </script>

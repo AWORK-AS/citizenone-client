@@ -424,7 +424,10 @@
         <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block" v-if="state.modal.isGuidedTourWelcomeOpen ||
             state.modal.isGuidedTourDailyOverviewOpen ||
             state.modal.isGuidedTourCitizensOverviewOpen ||
-            state.modal.isGuidedTourCalendarOpen">
+            state.modal.isGuidedTourCalendarOpen ||
+            state.modal.isGuidedTourDutyScheduleOpen ||
+            state.modal.isGuidedTourEmployeesOpen ||
+            state.modal.isGuidedTourSubscriptionOpen">
         </div>
         <ModulesUserGuidedTourModalWelcome :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
@@ -436,6 +439,12 @@
             @back="handleBackGuidedTour" @next="handleNextGuidedTour" />
         <ModulesUserGuidedTourModalCalendar :isModalOpen="state.modal.isGuidedTourCalendarOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourCalendarOpen = false" @back="handleBackGuidedTour"
+            @next="handleNextGuidedTour" />
+        <ModulesUserGuidedTourModalDutySchedule :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen"
+            :isGuidedTour="true" @close="state.modal.isGuidedTourDutyScheduleOpen = false" @back="handleBackGuidedTour"
+            @next="handleNextGuidedTour" />
+        <ModulesUserGuidedTourModalEmployees :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="true"
+            @close="state.modal.isGuidedTourEmployeesOpen = false" @back="handleBackGuidedTour"
             @next="handleNextGuidedTour" />
     </LoadingSpinner>
 </template>
@@ -777,7 +786,7 @@ function handleBackGuidedTour(back: any) {
         state.modal.isGuidedTourDutyScheduleOpen = false
         state.modal.isGuidedTourCalendarOpen = true
     }
-    if (back === 'duty-schedules') {
+    if (back === 'duty-schedule') {
         state.modal.isGuidedTourEmployeesOpen = false
         state.modal.isGuidedTourDutyScheduleOpen = true
     }
@@ -800,7 +809,7 @@ function handleNextGuidedTour(next: any) {
         state.modal.isGuidedTourCitizensOverviewOpen = false
         state.modal.isGuidedTourCalendarOpen = true
     }
-    if (next === 'duty-schedules') {
+    if (next === 'duty-schedule') {
         state.modal.isGuidedTourCalendarOpen = false
         state.modal.isGuidedTourDutyScheduleOpen = true
     }
