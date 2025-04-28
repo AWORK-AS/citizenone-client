@@ -421,8 +421,10 @@
             @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
 
         <!-- Darkening overlay -->
-        <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block"
-            v-if="state.modal.isGuidedTourWelcomeOpen || state.modal.isGuidedTourDailyOverviewOpen || state.modal.isGuidedTourCitizensOverviewOpen">
+        <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block" v-if="state.modal.isGuidedTourWelcomeOpen ||
+            state.modal.isGuidedTourDailyOverviewOpen ||
+            state.modal.isGuidedTourCitizensOverviewOpen ||
+            state.modal.isGuidedTourCalendarOpen">
         </div>
         <ModulesUserGuidedTourModalWelcome :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
@@ -432,6 +434,9 @@
         <ModulesUserGuidedTourModalCitizens :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen"
             :isGuidedTour="true" @close="state.modal.isGuidedTourCitizensOverviewOpen = false"
             @back="handleBackGuidedTour" @next="handleNextGuidedTour" />
+        <ModulesUserGuidedTourModalCalendar :isModalOpen="state.modal.isGuidedTourCalendarOpen" :isGuidedTour="true"
+            @close="state.modal.isGuidedTourCalendarOpen = false" @back="handleBackGuidedTour"
+            @next="handleNextGuidedTour" />
     </LoadingSpinner>
 </template>
 
@@ -556,7 +561,7 @@ const state = reactive({
         isGuidedTourDutyScheduleOpen: false,
         isGuidedTourEmployeesOpen: false,
         isGuidedTourSubscriptionOpen: false,
-        isGuidedTourWelcomeOpen: false,
+        isGuidedTourWelcomeOpen: true,
         isPlanGoalSubgoalCompletionReminderOpen: false,
     },
     showSubscribeButton: false,

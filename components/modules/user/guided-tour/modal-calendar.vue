@@ -19,7 +19,7 @@
             <div class="z-10 relative space-y-2 md:space-y-5">
                 <div>
                     <iframe class="w-full h-44 lg:h-[405px]"
-                        src="https://www.youtube.com/embed/1UQHRbuxfZQ?modestbranding=1&rel=0&controls=1"
+                        src="https://www.youtube.com/embed/nbR02YD4GYc?modestbranding=1&rel=0&controls=1"
                         title="CitizenOne" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
@@ -28,21 +28,21 @@
 
                 <h3 class="text-lg md:text-2xl font-semibold text-secondary text-center ">
                     <span v-if="language.locale.value === 'en'">
-                        Welcome to CitizenOne 👋
+                        Calendar - overview of all activities 📅
                     </span>
                     <span v-if="language.locale.value === 'dk'">
-                        Velkommen til CitizenOne 👋
+                        Kalender - overblik over alle aktiviteter 📅
                     </span>
                 </h3>
 
                 <p class="text-center text-primary text-xs md:text-base">
                     <span v-if="language.locale.value === 'en'">
-                        In this introduction, you will get a quick overview of CitizenOne and how the system creates
-                        clarity and efficiency in your daily work.
+                        The calendar in CitizenOne makes it easy to plan and adjust activities - for yourself, the
+                        citizens, and your colleagues.
                     </span>
                     <span v-if="language.locale.value === 'dk'">
-                        I denne introduktion får du en hurtig gennemgang af CitizenOne og hvordan
-                        systemet skaber overblik og effektivitet i din hverdag.
+                        Kalenderen i CitizenOne gør det nemt at planlægge og tilpasse aktiviteter -
+                        både for dig selv, borgerne samt dine kollegaer.
                     </span>
                 </p>
 
@@ -83,7 +83,10 @@
                 </div>
 
                 <div class="flex gap-x-2 justify-end" v-if="props.isGuidedTour">
-                    <FormButton buttonStyle="primary" @click="handleNext" class="w-fit rounded-md px-6">
+                    <FormButton buttonStyle="primary" @click="handleBack()" class="w-fit rounded-md px-6">
+                        {{ $t('back') }}
+                    </FormButton>
+                    <FormButton buttonStyle="primary" @click="handleNext()" class="w-fit rounded-md px-6">
                         {{ $t('next') }}
                     </FormButton>
                 </div>
@@ -107,7 +110,7 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['close', 'next'])
+const emit = defineEmits(['close', 'back', 'next'])
 const language = useI18n()
 const userStore = useUserStore() as any
 
@@ -130,8 +133,12 @@ function navigateToSubscription() {
     navigateTo('/subscription/subscribe')
 }
 
+function handleBack() {
+    emit('back', 'citizens-overview')
+}
+
 function handleNext() {
-    emit('next', 'daily-overview')
+    emit('next', 'duty-schedules')
 }
 
 async function navigateToExternalLink(link: any) {
@@ -148,6 +155,6 @@ const pageHeight = ref(window.innerHeight)
 const modalClasses = computed(() => {
     return `after:absolute after:-left-4 after:w-0 after:h-0 after:border-t-[20px] after:border-t-transparent
         after:border-b-[20px] after:border-b-transparent after:border-r-[20px] after:border-r-white
-        ${pageHeight.value < 800 ? "after:top-56" : "after:top-4"}`
+        ${pageHeight.value < 800 ? "after:top-96" : "after:top-[7rem]"}`
 })
 </script>
