@@ -350,6 +350,15 @@
                                     </div>
                                     </MenuItem>
                                     <MenuItem>
+                                    <div @click="state.modal.isGuidedTourDailyOverviewOpen = true"
+                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                        <div class="flex items-center gap-x-3">
+                                            <Icon name="ph:question" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.getAGuidedTour') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
                                     <div @click="navigateTo('/procedures')"
                                         class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
                                         <div class="flex items-center gap-x-3">
@@ -429,24 +438,31 @@
             state.modal.isGuidedTourEmployeesOpen ||
             state.modal.isGuidedTourEndOpen">
         </div>
-        <ModulesUserGuidedTourModalWelcome :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
+        <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
+            :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
-        <ModulesUserGuidedTourModalDailyOverview :isModalOpen="state.modal.isGuidedTourDailyOverviewOpen"
-            :isGuidedTour="true" @close="state.modal.isGuidedTourDailyOverviewOpen = false" @back="handleBackGuidedTour"
+        <ModulesUserGuidedTourModalDailyOverview v-if="state.modal.isGuidedTourDailyOverviewOpen"
+            :isModalOpen="state.modal.isGuidedTourDailyOverviewOpen" :isGuidedTour="true"
+            @close="state.modal.isGuidedTourDailyOverviewOpen = false" @back="handleBackGuidedTour"
             @next="handleNextGuidedTour" />
-        <ModulesUserGuidedTourModalCitizens :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen"
-            :isGuidedTour="true" @close="state.modal.isGuidedTourCitizensOverviewOpen = false"
-            @back="handleBackGuidedTour" @next="handleNextGuidedTour" />
-        <ModulesUserGuidedTourModalCalendar :isModalOpen="state.modal.isGuidedTourCalendarOpen" :isGuidedTour="true"
+        <ModulesUserGuidedTourModalCitizens v-if="state.modal.isGuidedTourCitizensOverviewOpen"
+            :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen" :isGuidedTour="true"
+            @close="state.modal.isGuidedTourCitizensOverviewOpen = false" @back="handleBackGuidedTour"
+            @next="handleNextGuidedTour" />
+        <ModulesUserGuidedTourModalCalendar v-if="state.modal.isGuidedTourCalendarOpen"
+            :isModalOpen="state.modal.isGuidedTourCalendarOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourCalendarOpen = false" @back="handleBackGuidedTour"
             @next="handleNextGuidedTour" />
-        <ModulesUserGuidedTourModalDutySchedule :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen"
-            :isGuidedTour="true" @close="state.modal.isGuidedTourDutyScheduleOpen = false" @back="handleBackGuidedTour"
+        <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
+            :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="true"
+            @close="state.modal.isGuidedTourDutyScheduleOpen = false" @back="handleBackGuidedTour"
             @next="handleNextGuidedTour" />
-        <ModulesUserGuidedTourModalEmployees :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="true"
+        <ModulesUserGuidedTourModalEmployees v-if="state.modal.isGuidedTourEmployeesOpen"
+            :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourEmployeesOpen = false" @back="handleBackGuidedTour"
             @next="handleNextGuidedTour" />
-        <ModulesUserGuidedTourModalEnd :isModalOpen="state.modal.isGuidedTourEndOpen" :isGuidedTour="true"
+        <ModulesUserGuidedTourModalEnd v-if="state.modal.isGuidedTourEndOpen"
+            :isModalOpen="state.modal.isGuidedTourEndOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourEndOpen = false" @back="handleBackGuidedTour"
             @next="handleNextGuidedTour" />
     </LoadingSpinner>
@@ -573,7 +589,7 @@ const state = reactive({
         isGuidedTourDutyScheduleOpen: false,
         isGuidedTourEmployeesOpen: false,
         isGuidedTourEndOpen: false,
-        isGuidedTourWelcomeOpen: true,
+        isGuidedTourWelcomeOpen: false,
         isPlanGoalSubgoalCompletionReminderOpen: false,
     },
     showSubscribeButton: false,
@@ -736,6 +752,7 @@ async function fetchUser() {
             language.locale.value = response?.data?.language?.code
             plansGoalsSubgoalsCompletionReminderModalVisibility(response)
             checkInReminderModalVisibility(response)
+            guidedUserTourModalVisibility()
         }
     } catch (error: any) {
         state.error = error
@@ -747,6 +764,14 @@ function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
     const today = moment().format('YYYY-MM-DD')
     if (lastHidden !== today && response?.data?.plans_goals_subgoals_reached_deadline_count > 0 && routeName !== 'plans-goals-subgoals-completions') {
         state.modal.isPlanGoalSubgoalCompletionReminderOpen = true
+    }
+}
+
+function guidedUserTourModalVisibility() {
+    const guidedUserTourFirstTime = localStorage.getItem('guidedUserTourFirstTime')
+    if (guidedUserTourFirstTime === null) {
+        state.modal.isGuidedTourWelcomeOpen = true
+        localStorage.setItem('guidedUserTourFirstTime', 'true')
     }
 }
 

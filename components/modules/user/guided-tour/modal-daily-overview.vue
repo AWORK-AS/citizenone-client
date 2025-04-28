@@ -83,7 +83,8 @@
                 </div>
 
                 <div class="flex gap-x-2 justify-end" v-if="props.isGuidedTour">
-                    <FormButton buttonStyle="primary" @click="handleBack()" class="w-fit rounded-md px-6">
+                    <FormButton buttonStyle="primary" @click="handleBack()" class="w-fit rounded-md px-6"
+                        v-if="checkIfFirstTime()">
                         {{ $t('back') }}
                     </FormButton>
                     <FormButton buttonStyle="primary" @click="handleNext()" class="w-fit rounded-md px-6">
@@ -148,6 +149,10 @@ async function navigateToExternalLink(link: any) {
             target: '_blank',
         }
     })
+}
+
+function checkIfFirstTime() {
+    return !localStorage.getItem('guidedUserTourFirstTime')
 }
 
 const pageHeight = ref(window.innerHeight)
