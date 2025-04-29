@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="props.isModalOpen"
-            class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-lg p-8 overflow-hidden bg-white border shadow-lg z-50 rounded-md lg:top-[4.5rem] lg:h-fit lg:left-[36rem] lg:transform-none lg:max-w-3xl lg:overflow-visible">
+            class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-lg p-8 overflow-hidden bg-white border shadow-lg z-50 rounded-md lg:top-[4.5rem] lg:h-fit lg:left-[30rem] lg:transform-none lg:max-w-3xl lg:overflow-visible">
             <div class="absolute top-0 right-0 w-52 h-52 overflow-hidden">
                 <img src="/img/icons/asset-01.svg" alt="Image failed to load"
                     class="absolute -top-14 -right-14 z-10 opacity-70 object-cover" id="animatedImage">
