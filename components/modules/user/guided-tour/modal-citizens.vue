@@ -19,7 +19,7 @@
             <div class="z-10 relative space-y-2 md:space-y-5">
                 <div>
                     <iframe class="w-full h-44 lg:h-[405px]"
-                        src="https://www.youtube.com/embed/cNzwY94cxHM?modestbranding=1&rel=0&controls=1"
+                        src="https://www.youtube.com/embed/cNzwY94cxHM?vq=hd1080&modestbranding=1&rel=0&controls=1"
                         title="CitizenOne" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
