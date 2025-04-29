@@ -458,7 +458,7 @@
                                                                             <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
                                                                                 @click="requestTimeAdjustment(weeklyScheduleIndex, shift)">
                                                                                 {{
-                                                                                    $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest')
+                                                                                    $t('dutySchedules.scheduleRequests.changeTime.requestAChange')
                                                                                 }}
                                                                             </a>
                                                                             </MenuItem>
@@ -466,7 +466,7 @@
                                                                             <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
                                                                                 @click="requestSwapSchedule(shift)">
                                                                                 {{
-                                                                                    $t('dutySchedules.scheduleRequests.swapSchedule.swapSchedule')
+                                                                                    $t('dutySchedules.scheduleRequests.swapSchedule.swapThisShift')
                                                                                 }}
                                                                             </a>
                                                                             </MenuItem>

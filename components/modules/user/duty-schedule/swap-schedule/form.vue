@@ -5,6 +5,8 @@
                 v-if="props.error?.message && props.error.message.length > 0" />
             <div class="space-y-3">
                 <div class="space-y-1">
+                    <FormLabel for="recipient"
+                        :label="`${$t('dutySchedules.scheduleRequests.swapSchedule.form.whoWouldYouLikeToGiveThisShiftTo')}?`" />
                     <FormSelect id="recipient" :options="state.options.recipients"
                         v-model="state.formSwapScheduleRequest.recipient" />
                     <FormError :error="v$?.formSwapScheduleRequest?.recipient?.$errors[0]?.$message.toString()" />
@@ -13,7 +15,7 @@
                 <div class="space-y-1">
                     <FormLabel for="note" :label="$t('dutySchedules.scheduleRequests.swapSchedule.form.note')" />
                     <FormTextArea id="note" name="note"
-                        :placeholder="`${$t('dutySchedules.scheduleRequests.swapSchedule.form.whyDoYouWantToRequestAScheduleSwap')}?`"
+                        :placeholder="`${$t('dutySchedules.scheduleRequests.swapSchedule.form.whyDoYouWantToSwapThisShift')}?`"
                         v-model="state.formSwapScheduleRequest.note" />
                     <FormError :error="v$?.formSwapScheduleRequest?.note?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.note?.[0]" />

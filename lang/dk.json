@@ -1737,10 +1737,14 @@
                         "requestSuccessfullySent": "Anmodning sendt med succes"
                     },
                     "note": "Bemærkning",
+                    "sendRequest": "Send request",
                     "timeIn": "Tid ind",
                     "timeOut": "Tid ud",
+                    "whatDoYouWantTheEndTimeToBeChangeTo": "Hvad onsker du sluttiden ændret til",
+                    "whatDoYouWantTheStartTimeToBeChangeTo": "Hvad onsker du modetiden ændret til",
                     "whyDoYouWantToChangeTheTimes": "Hvorfor onsker du at æendre tiderne"
                 },
+                "requestAChange": "Anmod om ændring",
                 "table": {
                     "actions": {
                         "approve": "Godkend",
@@ -1770,11 +1774,14 @@
                     },
                     "assignee": "Tildelt person",
                     "note": "Note",
-                    "whyDoYouWantToRequestAScheduleSwap": "Hvorfor vil du anmode om at bytte vagtplan"
+                    "whoWouldYouLikeToGiveThisShiftTo": "Hvem vil du give denne vagt",
+                    "whyDoYouWantToSwapThisShift": "Hvorfor vil du bytte denne vagt"
                 },
                 "swapSchedule": "Byt vagtplan",
                 "swapScheduleRequest": "Anmodning om vagtbytte",
                 "swapScheduleRequests": "Anmodninger om vagtbytte",
+                "swapShift": "Byt vagt",
+                "swapThisShift": "Byt denne vagt",
                 "table": {
                     "actions": {
                         "approve": "Godkend",
@@ -1802,7 +1809,8 @@
             },
             "confirmation": {
                 "deleteConfirmation": "Er du sikker på, at du vil slette dette tidspunkt",
-                "requestConfirmation": "Er du sikker på, at du vil anmode om dette tidsinterval"
+                "requestConfirmation": "Onsker du at tage denne vagt",
+                "requestConfirmButton": "Ja, jeg onsker vagten"
             },
             "editOfferedShift": "Rediger udbudt vagt",
             "form": {
@@ -1822,6 +1830,7 @@
             },
             "numberOfShifts": "Antal vagter",
             "offerNewTime": "Udbyd nye vagter",
+            "opportunityForAShift": "Mulighed for en vagt",
             "scheduleSlots": "Udbyd vagter",
             "table": {
                 "active": "Aktiv",

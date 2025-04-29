@@ -1,7 +1,7 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('dutySchedules.scheduleRequests.swapSchedule.swapSchedule')"
-            :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs" :title="$t('dutySchedules.scheduleRequests.swapSchedule.swapShift')" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDutyScheduleSwapScheduleForm formType="create" :error="state.error"
