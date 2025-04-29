@@ -547,16 +547,6 @@ let navigation = [
         ]
     },
     {
-        name: 'Protocols',
-        href: '/protocols',
-        icon: 'ic:outline-shield',
-        activeRouteNames: [
-            'protocols',
-            'protocols-new',
-            'protocols-uuid'
-        ]
-    },
-    {
         name: 'Documents',
         href: '/drive',
         icon: 'ph:folder',
@@ -610,6 +600,19 @@ watch(() => userStore.getUser, (user: any) => {
         setCustomPageNames()
         state.showSubscribeButton = true
         generateSidebarLinks(user)
+        const userHasPageAttendanceAccess = user?.pages.some((page: any) => page.name === "Attendance")
+        if (userHasPageAttendanceAccess) {
+            navigation.splice(3, 0, {
+                name: 'Protocols',
+                href: '/protocols',
+                icon: 'ic:outline-shield',
+                activeRouteNames: [
+                    'protocols',
+                    'protocols-new',
+                    'protocols-uuid'
+                ]
+            })
+        }
     }
 })
 
@@ -665,16 +668,6 @@ function generateSidebarLinks(user: any) {
                 activeRouteNames: [
                     'schedules',
                     'schedules-draft'
-                ]
-            },
-            {
-                name: 'Protocols',
-                href: '/protocols',
-                icon: 'ic:outline-shield',
-                activeRouteNames: [
-                    'protocols',
-                    'protocols-new',
-                    'protocols-uuid'
                 ]
             },
             {
