@@ -82,7 +82,7 @@
                     </div>
                 </div>
 
-                <div class="flex gap-x-2 justify-end" v-if="props.isGuidedTour">
+                <div class="flex gap-x-2 justify-center lg:justify-end" v-if="props.isGuidedTour">
                     <FormButton buttonStyle="primary" @click="handleBack()" class="w-fit rounded-md px-6"
                         v-if="checkIfFirstTime()">
                         {{ $t('back') }}
@@ -117,6 +117,10 @@ const userStore = useUserStore() as any
 
 const state = reactive({
     isSubscribed: false,
+})
+
+onMounted(() => {
+    state.isSubscribed = true
 })
 
 watch(() => userStore.getUser, (user: any) => {

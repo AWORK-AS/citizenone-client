@@ -401,10 +401,11 @@
                         <div>
                             <slot name="breadcrumb"></slot>
                         </div>
-                        <div class="mt-4">
+                        <div class="mt-4 flex justify-between items-center">
                             <h1 class="text-2xl text-primary font-bold">
                                 <slot name="header"></slot>
                             </h1>
+                            <slot name="guided-tour"></slot>
                         </div>
                         <div class="mt-4">
                             <h3 class="text-lg text-gray-900">
