@@ -122,7 +122,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="space-y-1">
+                                <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
                                     <Label :label="$t('employees.form.permissions.permissions')" />
                                     <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1">
                                         <div class="text-xs flex flex-wrap gap-2"
@@ -145,7 +145,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="space-y-1">
+                                <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
                                     <Label :label="$t('employees.form.mediaRisks.mediaRisks')" />
                                     <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1">
                                         <div class="text-xs flex flex-wrap gap-2"
@@ -188,14 +188,15 @@
                                         }}
                                     </p>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                                    v-if="isAdmin(userStore.getUser?.roles)">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.annualNormHours')" />
                                         <p class="font-medium">
                                             {{ state.selectedEmployee.employment.annual_norm_hours ?? 0 }}
                                         </p>
                                     </div>
-                                    <div class="space-y-1">
+                                    <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
                                         <Label :label="$t('employees.form.employment.vacationDays')" />
                                         <p class="font-medium">
                                             {{ state.selectedEmployee.employment.vacation_days ?? 0 }}
