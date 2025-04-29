@@ -1739,7 +1739,7 @@
                     "note": "Bemærkning",
                     "timeIn": "Tid ind",
                     "timeOut": "Tid ud",
-                    "whyDoYouWantToRequestAdditionalHours": "Hvorfor vil du anmode om ekstra timer eller ændre timer"
+                    "whyDoYouWantToChangeTheTimes": "Hvorfor onsker du at æendre tiderne"
                 },
                 "table": {
                     "actions": {

@@ -1739,7 +1739,7 @@
                     "note": "Note",
                     "timeIn": "Time in",
                     "timeOut": "Time out",
-                    "whyDoYouWantToRequestAdditionalHours": "Why do you want to request additional hours or change hours"
+                    "whyDoYouWantToChangeTheTimes": "Why do you want to change the times"
                 },
                 "table": {
                     "actions": {

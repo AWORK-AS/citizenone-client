@@ -1,5 +1,5 @@
 <template>
-    <div v-if="props?.week?.slots?.length > 0 && isCurrentUser()">
+    <div class="mt-2" v-if="props?.week?.slots?.length > 0 && isCurrentUser()">
         <p class="text-xxs">
             {{ $t('dutySchedules.scheduleSlots.scheduleSlots') }}
         </p>
@@ -12,7 +12,9 @@
                 slot?.shift_type === 'sick_leave', 'bg-shifts-sickleave',
                 'rounded-md p-1 cursor-pointer'
             ]" @click="confirmSlotRequest(slot)">
-                {{ slot?.time_in + ' - ' + slot?.time_out }}
+                <div class="border border-white rounded-md p-2 text-white">
+                    {{ slot?.time_in + ' - ' + slot?.time_out }}
+                </div>
             </div>
         </div>
         <DialogConfirmation :isModalOpen="state.modal.isRequestScheduleSlotOpen"

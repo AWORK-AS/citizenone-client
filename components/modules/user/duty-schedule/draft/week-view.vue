@@ -536,7 +536,7 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
     const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
     const dayIndex = weekDaysOrder.indexOf(weekIndex)
 
-    if (weekIndex === 'monday' || shiftIndex > 0) return 0.5 // If the current index is in the future, return 0
+    if (weekIndex === 'monday' || shiftIndex > 0) return 0 // If the current index is in the future, return 0
 
     let overlapCount = 0
 

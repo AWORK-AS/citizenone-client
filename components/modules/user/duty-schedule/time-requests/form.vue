@@ -24,7 +24,7 @@
             <div class="space-y-1">
                 <FormLabel for="note" :label="$t('dutySchedules.scheduleRequests.changeTime.form.note')" />
                 <FormTextArea id="note" name="note"
-                    :placeholder="`${$t('dutySchedules.scheduleRequests.changeTime.form.whyDoYouWantToRequestAdditionalHours')}?`"
+                    :placeholder="`${$t('dutySchedules.scheduleRequests.changeTime.form.whyDoYouWantToChangeTheTimes')}?`"
                     v-model="state.formScheduleRequest.note" />
                 <FormError :error="v$?.formScheduleRequest?.note?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.note?.[0]" />
