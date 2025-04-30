@@ -602,7 +602,7 @@ watch(() => userStore.getUser, (user: any) => {
         generateSidebarLinks(user)
         const userHasPageAttendanceAccess = user?.pages.some((page: any) => page.name === "Attendance")
         if (userHasPageAttendanceAccess) {
-            navigation.splice(3, 0, {
+            navigation.splice(4, 0, {
                 name: 'Protocols',
                 href: '/protocols',
                 icon: 'ic:outline-shield',
