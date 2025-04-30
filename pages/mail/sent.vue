@@ -44,7 +44,8 @@
                         </div>
                         <div v-else>
                             <div class="flex gap-x-6">
-                                <ModulesUserMailSidebar @refreshSentEmails="fetchSentMails" />
+                                <ModulesUserMailSidebar :unreadMessage="state.unreadEmails"
+                                    @refreshSentEmails="fetchSentMails" />
                                 <div class="grow mt-44 flex items-center justify-center"
                                     v-if="state.loading.isEmailsLoading">
                                     <span class="text-lg">
@@ -150,6 +151,7 @@ const state = reactive({
     },
     selectedEmail: null as any,
     sentEmails: [] as any,
+    unreadEmails: 0,
 })
 
 watch(() => userStore.getUser, (user: any) => {
@@ -199,6 +201,7 @@ async function fetchSentMails() {
         const response = await mailService.getSentMails(params)
         if (response?.data) {
             state.sentEmails = response?.data
+            state.unreadEmails = response?.unread_emails
         }
     } catch (error: any) {
         state.error = error
