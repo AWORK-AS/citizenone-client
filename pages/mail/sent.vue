@@ -78,19 +78,32 @@
                                     <span class="dot5">.</span>
                                 </div>
                                 <div class="grow" v-else>
-                                    <div class="grid grid-cols-6">
-                                        <div class="col-span-2 bg-white rounded-md space-y-1">
+                                    <div class="grid grid-cols-6 gap-x-4">
+                                        <div class="col-span-2 rounded-md space-y-3">
                                             <div v-for="(email, index) in state.sentEmails" :key="index"
-                                                class="px-4 py-5 cursor-pointer bg-gray-100 hover:bg-gray-50"
+                                                class="px-4 py-3 cursor-pointer rounded-md shadow-sm bg-gray-100 hover:bg-gray-200"
                                                 @click="setSelectedEmail(email)">
                                                 <div class="flex justify-between gap-2">
-                                                    <div class="flex items-center gap-x-2">
-                                                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.from}`"
-                                                            class="rounded-full w-9 h-9 object-cover" />
-                                                        <p class="text-xs">{{ email?.from }}</p>
+                                                    <div>
+                                                        <div class="flex items-center gap-x-2">
+                                                            <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.from}`"
+                                                                class="rounded-full w-11 h-11 object-cover" />
+                                                            <div>
+                                                                <p class="text-xs">{{ email?.to }}</p>
+                                                                <p class="text-sm"
+                                                                    v-if="email?.subject && email?.subject?.length > 0">
+                                                                    {{ email?.subject }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="flex items-center">
-                                                        <p class="text-xs">{{ formatDateTimeToReadable(email?.date) }}
+                                                    <div class="flex flex-col items-end justify-end">
+                                                        <Tooltip :text="`Secured`" v-if="email?.is_secure_mail">
+                                                            <Icon name="ic:baseline-security"
+                                                                class="h-4 w-4 text-primary" aria-hidden="true" />
+                                                        </Tooltip>
+                                                        <p class="text-xs">
+                                                            {{ formatDateTimeToReadable(email?.date) }}
                                                         </p>
                                                     </div>
                                                 </div>

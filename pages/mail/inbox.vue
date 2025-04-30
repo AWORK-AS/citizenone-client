@@ -107,18 +107,6 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="flex justify-between gap-2">
-                                                    <div class="flex items-center gap-x-2">
-                                                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.from}`"
-                                                            class="rounded-full w-9 h-9 object-cover" />
-                                                        <p class="text-xs">{{ email?.from }}</p>
-                                                    </div>
-                                                    <div class="flex items-center">
-                                                        <p class="text-xs">
-                                                            {{ formatDateTimeToReadable(email?.date) }}
-                                                        </p>
-                                                    </div>
-                                                </div> -->
                                             </div>
                                         </div>
                                         <div class="col-span-4 bg-white px-6 py-8 rounded-md">
