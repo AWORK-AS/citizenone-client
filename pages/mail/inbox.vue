@@ -44,28 +44,7 @@
                         </div>
                         <div v-else>
                             <div class="flex gap-x-6">
-                                <div class="flex flex-col items-center gap-4 py-4">
-                                    <Tooltip :text="$t('mail.compose')" @click="state.modal.isSendEmailOpen = true">
-                                        <button
-                                            class="flex flex-col items-center justify-center p-5 rounded-full text-white bg-primary">
-                                            <Icon name="ph:pencil" class="h-6 w-6" aria-hidden="true" />
-                                        </button>
-                                    </Tooltip>
-                                    <button
-                                        class="flex flex-col items-center justify-center px-6 py-4 rounded-lg text-gray-900 hover:bg-gray-200"
-                                        :class="$route.name === 'mail-inbox' ? 'bg-gray-100 hover:bg-gray-200' : 'bg-gray-50'"
-                                        @click="navigateTo('/mail/inbox')">
-                                        <Icon name="ph:envelope-open" class="h-6 w-6" aria-hidden="true" />
-                                        <p class="text-xxs">{{ t('mail.inbox') }}</p>
-                                    </button>
-                                    <button
-                                        class="flex flex-col items-center justify-center px-6 py-4 rounded-lg text-gray-900 hover:bg-gray-200"
-                                        :class="$route.name === 'mail-sent' ? 'bg-gray-100 hover:bg-gray-200' : 'bg-gray-50'"
-                                        @click="navigateTo('/mail/sent')">
-                                        <Icon name="ph:paper-plane-tilt" class="h-6 w-6" aria-hidden="true" />
-                                        <p class="text-xxs">{{ t('mail.sent') }}</p>
-                                    </button>
-                                </div>
+                                <ModulesUserMailSidebar />
                                 <div class="grow mt-44 flex items-center justify-center"
                                     v-if="state.loading.isEmailsLoading">
                                     <span class="text-lg">
@@ -83,7 +62,7 @@
                                             <div v-for="(email, index) in state.emails" :key="index"
                                                 class="px-4 py-3 cursor-pointer rounded-md shadow-sm bg-gray-100 hover:bg-gray-200"
                                                 @click="setSelectedEmail(email)">
-                                                <div class="flex justify-between">
+                                                <div class="flex justify-between gap-2">
                                                     <div>
                                                         <div class="flex items-center gap-x-2">
                                                             <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.from}`"
