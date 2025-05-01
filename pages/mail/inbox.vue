@@ -69,10 +69,10 @@
                                                             <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.from}`"
                                                                 class="rounded-full w-11 h-11 object-cover" />
                                                             <div>
-                                                                <p class="text-xs">{{ email?.from }}</p>
+                                                                <p class="text-xs">{{ email?.header?.from }}</p>
                                                                 <p class="text-sm"
-                                                                    v-if="email?.subject && email?.subject?.length > 0">
-                                                                    {{ email?.subject }}
+                                                                    v-if="email?.header?.subject && email?.header?.subject?.length > 0">
+                                                                    {{ email?.header?.subject }}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -83,15 +83,24 @@
                                                                 class="h-4 w-4 text-primary" aria-hidden="true" />
                                                         </Tooltip>
                                                         <p class="text-xs">
-                                                            {{ formatDateTimeToReadable(email?.date) }}
+                                                            {{ formatDateTimeToReadable(email?.header?.date) }}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="text-center"
-                                                v-if="parseInt(state.pagination?.current_page) < parseInt(state.pagination?.total_pages)">
+                                            <div class="text-center text-gray-500 text-sm"
+                                                v-if="state.loading.isEmailsLoadingMore">
+                                                {{ $t('mail.loading.loadingYourEmails') }}
+                                                <span class="dot1">.</span>
+                                                <span class="dot2">.</span>
+                                                <span class="dot3">.</span>
+                                                <span class="dot4">.</span>
+                                                <span class="dot5">.</span>
+                                            </div>
+                                            <div class="text-center" v-else
+                                                v-if="parseInt(state.pagination?.current_page) < parseInt(state.pagination?.last_page)">
                                                 <button class="text-sm"
-                                                    @click="fetchEMails(parseInt(state.pagination?.current_page) + 1)">
+                                                    @click="fetchEmails(parseInt(state.pagination?.current_page) + 1)">
                                                     {{ $t('mail.loadMore') }}
                                                 </button>
                                             </div>
@@ -103,16 +112,18 @@
                                                         {{ t('mail.content.from') }}
                                                     </p>
                                                     <p>
-                                                        {{ state.selectedEmail?.from }}
+                                                        {{ state.selectedEmail?.header?.from }}
                                                     </p>
                                                     <p class="lowercase">
                                                         {{ t('mail.content.on') }}
                                                     </p>
                                                     <p>
-                                                        {{ formatDateTimeToReadable(state.selectedEmail?.date) }}
+                                                        {{
+                                                            formatDateTimeToReadable(state.selectedEmail?.header?.date)
+                                                        }}
                                                     </p>
                                                 </div>
-                                                <div v-html="state.selectedEmail?.body" class="py-6" />
+                                                <div v-html="state.selectedEmail?.bodies?.html" class="py-6" />
                                             </div>
                                         </div>
                                     </div>
@@ -152,6 +163,7 @@ const state = reactive({
     loading: {
         isEmailConfigurationLoading: false,
         isEmailsLoading: false,
+        isEmailsLoadingMore: false,
         isUserLoading: true,
     },
     modal: {
@@ -189,7 +201,7 @@ async function fetchEmailConfiguration() {
         if (response) {
             if (response?.data?.id) {
                 state.hasEmailConfiguration = true
-                fetchEMails(1)
+                fetchEmails(1)
             }
         }
     } catch (error: any) {
@@ -200,23 +212,28 @@ async function fetchEmailConfiguration() {
     }
 }
 
-async function fetchEMails(pageNumber: number) {
+async function fetchEmails(pageNumber: number) {
     state.error = {}
-    state.loading.isEmailsLoading = true
+    if (pageNumber > 1) {
+        state.loading.isEmailsLoadingMore = true
+    } else {
+        state.loading.isEmailsLoading = true
+    }
     try {
         const params = {
             page: pageNumber,
         }
         const response = await mailService.getMails(params)
         if (response?.data) {
-            state.emails.push(...response?.data)
+            state.emails.push(...response?.data?.data)
             state.unreadEmails = response?.unread_emails
-            state.pagination = response?.pagination
+            state.pagination = response?.data
         }
     } catch (error: any) {
         state.error = error
     } finally {
         state.loading.isEmailsLoading = false
+        state.loading.isEmailsLoadingMore = false
     }
 }
 
