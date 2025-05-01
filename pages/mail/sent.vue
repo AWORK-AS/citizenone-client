@@ -64,30 +64,34 @@
                                             <div v-for="(email, index) in state.sentEmails" :key="index"
                                                 class="px-4 py-3 cursor-pointer rounded-md shadow-sm bg-gray-100 hover:bg-gray-200"
                                                 @click="setSelectedEmail(email)">
-                                                <div class="flex justify-between gap-2">
-                                                    <div>
-                                                        <div class="flex items-center gap-x-2">
-                                                            <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.from}`"
-                                                                class="rounded-full w-11 h-11 object-cover" />
-                                                            <div>
-                                                                <p class="text-xs">{{ email?.to }}</p>
-                                                                <p class="text-sm"
-                                                                    v-if="email?.subject && email?.subject?.length > 0">
-                                                                    {{ email?.subject }}
+                                                <div>
+                                                    <div class="flex items-center gap-x-2">
+                                                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.header?.to}`"
+                                                            class="rounded-full w-11 h-11 object-cover" />
+                                                        <div class="grow">
+                                                            <div class="flex justify-between gap-3">
+                                                                <p class="text-xs line-clamp-1">
+                                                                    {{ email?.header?.to }}
                                                                 </p>
+                                                                <div class="flex justify-end">
+                                                                    <Tooltip :text="`Secured`" position="left"
+                                                                        v-if="email?.is_secure_mail">
+                                                                        <Icon name="ic:baseline-security"
+                                                                            class="h-4 w-4 text-primary"
+                                                                            aria-hidden="true" />
+                                                                    </Tooltip>
+                                                                </div>
                                                             </div>
+                                                            <p class="text-sm"
+                                                                v-if="email?.header?.subject && email?.header?.subject?.length > 0">
+                                                                {{ email?.header?.subject }}
+                                                            </p>
                                                         </div>
                                                     </div>
-                                                    <div class="flex flex-col items-end justify-end">
-                                                        <Tooltip :text="`Secured`" v-if="email?.is_secure_mail">
-                                                            <Icon name="ic:baseline-security"
-                                                                class="h-4 w-4 text-primary" aria-hidden="true" />
-                                                        </Tooltip>
-                                                        <p class="text-xs">
-                                                            {{ formatDateTimeToReadable(email?.date) }}
-                                                        </p>
-                                                    </div>
                                                 </div>
+                                                <p class="text-xs text-right">
+                                                    {{ formatDateTimeToReadable(email?.header?.date) }}
+                                                </p>
                                             </div>
                                             <div class="text-center"
                                                 v-if="parseInt(state.pagination?.current_page) < parseInt(state.pagination?.total_pages)">
@@ -99,21 +103,26 @@
                                         </div>
                                         <div class="col-span-4 bg-white px-6 py-8 rounded-md">
                                             <div v-if="state.selectedEmail">
+                                                <p class="text-lg font-semibold">
+                                                    {{ state.selectedEmail?.header?.subject }}
+                                                </p>
                                                 <div class="flex gap-1 text-sm">
                                                     <p>
                                                         {{ t('mail.content.from') }}
                                                     </p>
                                                     <p>
-                                                        {{ state.selectedEmail?.from }}
+                                                        {{ state.selectedEmail?.header?.to }}
                                                     </p>
                                                     <p class="lowercase">
                                                         {{ t('mail.content.on') }}
                                                     </p>
                                                     <p>
-                                                        {{ formatDateTimeToReadable(state.selectedEmail?.date) }}
+                                                        {{
+                                                            formatDateTimeToReadable(state.selectedEmail?.header?.date)
+                                                        }}
                                                     </p>
                                                 </div>
-                                                <div v-html="state.selectedEmail?.body" class="py-6" />
+                                                <div v-html="state.selectedEmail?.bodies?.html" class="py-6" />
                                             </div>
                                         </div>
                                     </div>
@@ -213,8 +222,8 @@ async function fetchSentMails(pageNumber: number) {
         }
         const response = await mailService.getSentMails(params)
         if (response?.data) {
-            state.sentEmails.push(...response?.data?.data)
-            state.unreadEmails = response?.unread_emails
+            state.sentEmails.push(...response?.data?.data?.sort((a: any, b: any) => new Date(b.header.date).getTime() - new Date(a.header.date).getTime()))
+            state.unreadEmails = response?.unread_emails ?? 0
             state.pagination = response?.data
         }
     } catch (error: any) {
