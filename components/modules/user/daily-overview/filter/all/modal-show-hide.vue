@@ -3,37 +3,42 @@
         <Modal size="sm" :title="$t('dailyOverview.filter.chooseWhatToDisplay')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
-                <div class="space-y-3">
-                    <div class="w-fit flex items-center cursor-pointer text-sm"
-                        @click="dailyOverviewStore.setViewAllShowCitizenDailyEvents(!dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents)">
-                        <FormCheckbox :value="dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents" />
-                        {{ $t('dailyOverview.filter.items.citizensDailyEvents') }}
+                <Alert type="danger" :text="state?.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <div class="space-y-3">
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setViewAllShowCitizenDailyEvents()">
+                            <FormCheckbox :value="dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents" />
+                            {{ $t('dailyOverview.filter.items.citizensDailyEvents') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setViewAllShowCitizenMedicineOverview()">
+                            <FormCheckbox :value="dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview" />
+                            {{ $t('dailyOverview.filter.items.dailyMedicineOverview') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setViewAllShowLatestJournalNotes()">
+                            <FormCheckbox :value="dailyOverviewStore.getViewAllFilter.showLatestJournalNotes" />
+                            {{ $t('dailyOverview.filter.items.latestJournal') }}
+                        </div>
                     </div>
-                    <div class="w-fit flex items-center cursor-pointer text-sm"
-                        @click="dailyOverviewStore.setViewAllShowCitizenMedicineOverview(!dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview)">
-                        <FormCheckbox :value="dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview" />
-                        {{ $t('dailyOverview.filter.items.dailyMedicineOverview') }}
+                    <div class="mt-5 flex gap-x-3 justify-end">
+                        <FormButton buttonStyle="primary" @click="closeModal" class="rounded-md">
+                            {{ $t('close') }}
+                        </FormButton>
                     </div>
-                    <div class="w-fit flex items-center cursor-pointer text-sm"
-                        @click="dailyOverviewStore.setViewAllShowLatestJournalNotes(!dailyOverviewStore.getViewAllFilter.showLatestJournalNotes)">
-                        <FormCheckbox :value="dailyOverviewStore.getViewAllFilter.showLatestJournalNotes" />
-                        {{ $t('dailyOverview.filter.items.latestJournal') }}
-                    </div>
-                </div>
-                <div class="mt-5 flex gap-x-3 justify-end">
-                    <FormButton buttonStyle="primary" @click="closeModal" class="rounded-md">
-                        {{ $t('close') }}
-                    </FormButton>
-                </div>
+                </LoadingSpinner>
             </template>
         </Modal>
     </div>
 </template>
 
 <script setup lang="ts">
+import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { useDailyOverviewStore } from '@/store/daily-overview'
-import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import type { Error } from '@/types'
 
 const dailyOverviewStore = useDailyOverviewStore()
 const userStore = useUserStore() as any
@@ -46,6 +51,11 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 
+const state = reactive({
+    error: {} as Error,
+    isPageLoading: false,
+})
+
 watch(() => userStore.getUser, (user: any) => {
     dailyOverviewStore.setViewAllShowCitizenDailyEvents(JSON.parse(user?.view_all_filter)?.showCitizenDailyEvents)
     dailyOverviewStore.setViewAllShowCitizenMedicineOverview(JSON.parse(user?.view_all_filter)?.showCitizenMedicineOverview)
@@ -54,5 +64,71 @@ watch(() => userStore.getUser, (user: any) => {
 
 function closeModal() {
     emit('close')
+}
+
+async function setViewAllShowCitizenDailyEvents() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const viewAllFilter = {
+            showCitizenDailyEvents: !dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents,
+            showCitizenMedicineOverview: dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview,
+            showLatestJournalNotes: dailyOverviewStore.getViewAllFilter.showLatestJournalNotes
+        }
+        const params = {
+            daily_overview_filter: viewAllFilter
+        }
+        const response = await dailyOverviewService.updateViewAllFilter(params)
+        if (response) {
+            dailyOverviewStore.setViewAllShowCitizenDailyEvents(!dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function setViewAllShowCitizenMedicineOverview() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const viewAllFilter = {
+            showCitizenDailyEvents: dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents,
+            showCitizenMedicineOverview: !dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview,
+            showLatestJournalNotes: dailyOverviewStore.getViewAllFilter.showLatestJournalNotes
+        }
+        const params = {
+            daily_overview_filter: viewAllFilter
+        }
+        const response = await dailyOverviewService.updateViewAllFilter(params)
+        if (response) {
+            dailyOverviewStore.setViewAllShowCitizenMedicineOverview(!dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function setViewAllShowLatestJournalNotes() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const viewAllFilter = {
+            showCitizenDailyEvents: dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents,
+            showCitizenMedicineOverview: dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview,
+            showLatestJournalNotes: !dailyOverviewStore.getViewAllFilter.showLatestJournalNotes
+        }
+        const params = {
+            daily_overview_filter: viewAllFilter
+        }
+        const response = await dailyOverviewService.updateViewAllFilter(params)
+        if (response) {
+            dailyOverviewStore.setViewAllShowCitizenMedicineOverview(!dailyOverviewStore.getViewAllFilter.showLatestJournalNotes)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>

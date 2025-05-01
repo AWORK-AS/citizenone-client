@@ -81,6 +81,14 @@ class DailyOverviewService extends BaseAPIService {
         return await this.request(`/user/polls`, 'GET')
     }
 
+    async updateDailyOverviewFilter(params: object): Promise<any> {
+        return await this.request(`/user/daily-overview-filter`, 'PUT', params)
+    }
+
+    async updateViewAllFilter(params: object): Promise<any> {
+        return await this.request(`/user/view-all-filter`, 'PUT', params)
+    }
+
     async saveVote(params: object): Promise<any> {
         return await this.request(`/user/poll-votes`, 'POST', params)
     }
