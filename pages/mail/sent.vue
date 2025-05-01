@@ -94,7 +94,7 @@
                                                 </p>
                                             </div>
                                             <div class="text-center"
-                                                v-if="parseInt(state.pagination?.current_page) < parseInt(state.pagination?.total_pages)">
+                                                v-if="parseInt(state.pagination?.current_page) < parseInt(state.pagination?.last_page)">
                                                 <button class="text-sm"
                                                     @click="fetchSentMails(parseInt(state.pagination?.current_page) + 1)">
                                                     {{ $t('mail.loadMore') }}
