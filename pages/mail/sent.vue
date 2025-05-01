@@ -59,7 +59,8 @@
                                 </div>
                                 <div class="grow" v-else>
                                     <div class="grid grid-cols-6 gap-x-4">
-                                        <div class="col-span-2 rounded-md space-y-3">
+                                        <div class="col-span-2 rounded-md space-y-3 px-2"
+                                            style="height: 80vh; overflow-y: auto;">
                                             <div v-for="(email, index) in state.sentEmails" :key="index"
                                                 class="px-4 py-3 cursor-pointer rounded-md shadow-sm bg-gray-100 hover:bg-gray-200"
                                                 @click="setSelectedEmail(email)">
@@ -87,6 +88,13 @@
                                                         </p>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="text-center"
+                                                v-if="parseInt(state.pagination?.current_page) < parseInt(state.pagination?.total_pages)">
+                                                <button class="text-sm"
+                                                    @click="fetchSentMails(parseInt(state.pagination?.current_page) + 1)">
+                                                    {{ $t('mail.loadMore') }}
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="col-span-4 bg-white px-6 py-8 rounded-md">
@@ -149,6 +157,7 @@ const state = reactive({
         isConnectYourMailOpen: false,
         isSendEmailOpen: false,
     },
+    pagination: {},
     selectedEmail: null as any,
     sentEmails: [] as any,
     unreadEmails: 0,
@@ -180,7 +189,7 @@ async function fetchEmailConfiguration() {
         if (response) {
             if (response?.data?.id) {
                 state.hasEmailConfiguration = true
-                fetchSentMails()
+                fetchSentMails(1)
             }
         }
     } catch (error: any) {
@@ -191,17 +200,18 @@ async function fetchEmailConfiguration() {
     }
 }
 
-async function fetchSentMails() {
+async function fetchSentMails(pageNumber: number) {
     state.error = {}
     state.loading.isEmailsLoading = true
     try {
         const params = {
-            page: currentPage,
+            page: pageNumber,
         }
         const response = await mailService.getSentMails(params)
         if (response?.data) {
-            state.sentEmails = response?.data
+            state.sentEmails.push(...response?.data)
             state.unreadEmails = response?.unread_emails
+            state.pagination = response?.pagination
         }
     } catch (error: any) {
         state.error = error
