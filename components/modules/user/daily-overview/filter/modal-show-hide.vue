@@ -110,9 +110,11 @@
 <script setup lang="ts">
 import { useDailyOverviewStore } from '@/store/daily-overview'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useUserStore } from '@/store/user'
 
 const dailyOverviewStore = useDailyOverviewStore()
 const customPagesStore = useCustomPagesStore() as any
+const userStore = useUserStore() as any
 
 const props = defineProps({
     isModalOpen: {
@@ -121,6 +123,27 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['close'])
+
+watch(() => userStore.getUser, (user: any) => {
+    dailyOverviewStore.setDailyOverviewFilterShowBulletBoard(JSON.parse(user?.daily_overview_filter)?.showBulletBoard)
+    dailyOverviewStore.setDailyOverviewFilterShowCitizenAdditictions(JSON.parse(user?.daily_overview_filter)?.showCitizensAddictions)
+    dailyOverviewStore.setDailyOverviewFilterShowCitizensAdmissionAndDischarged(JSON.parse(user?.daily_overview_filter)?.showCitizensAdmissionAndDischarged)
+    dailyOverviewStore.setDailyOverviewFilterShowCitizensDailyEvents(JSON.parse(user?.daily_overview_filter)?.showCitizensDailyEvents)
+    dailyOverviewStore.setDailyOverviewFilterShowCitizensDiagnoses(JSON.parse(user?.daily_overview_filter)?.showCitizensDiagnoses)
+    dailyOverviewStore.setDailyOverviewFilterShowCitizensOrigin(JSON.parse(user?.daily_overview_filter)?.showCitizensOrigin)
+    dailyOverviewStore.setDailyOverviewFilterShowDailyMedicineOverview(JSON.parse(user?.daily_overview_filter)?.showDailyMedicineOverview)
+    dailyOverviewStore.setDailyOverviewFilterShowGender(JSON.parse(user?.daily_overview_filter)?.showGender)
+    dailyOverviewStore.setDailyOverviewFilterShowLatestJournal(JSON.parse(user?.daily_overview_filter)?.showGoalsScoreStatistics)
+    dailyOverviewStore.setDailyOverviewFilterShowJournalScoreStatistics(JSON.parse(user?.daily_overview_filter)?.showLatestJournal)
+    dailyOverviewStore.setDailyOverviewFilterShowMyDailyEvents(JSON.parse(user?.daily_overview_filter)?.showJournalScoreStatistics)
+    dailyOverviewStore.setDailyOverviewFilterShowRiskAssessment(JSON.parse(user?.daily_overview_filter)?.showMyDailyEvents)
+    dailyOverviewStore.setDailyOverviewFilterShowGoalsScoreStatistics(JSON.parse(user?.daily_overview_filter)?.showRiskAssessment)
+    dailyOverviewStore.setDailyOverviewFilterShowSubgoalsScoreStatistics(JSON.parse(user?.daily_overview_filter)?.showStatusesScoreStatistics)
+    dailyOverviewStore.setDailyOverviewFilterShowStatusesScoreStatistics(JSON.parse(user?.daily_overview_filter)?.showSubgoalsScoreStatistics)
+    dailyOverviewStore.setDailyOverviewFilterShowIncidentStatistics(JSON.parse(user?.daily_overview_filter)?.showIncidentStatistics)
+    dailyOverviewStore.setDailyOverviewFilterShowUseOfForceStatistics(JSON.parse(user?.daily_overview_filter)?.showUseOfForceStatistics)
+    dailyOverviewStore.setDailyOverviewFilterShowMedicineDeviationStatistics(JSON.parse(user?.daily_overview_filter)?.showMedicineDeviationStatistics)
+})
 
 function closeModal() {
     emit('close')

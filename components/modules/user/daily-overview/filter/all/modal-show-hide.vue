@@ -33,9 +33,10 @@
 <script setup lang="ts">
 import { useDailyOverviewStore } from '@/store/daily-overview'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useUserStore } from '@/store/user'
 
 const dailyOverviewStore = useDailyOverviewStore()
-const customPagesStore = useCustomPagesStore() as any
+const userStore = useUserStore() as any
 
 const props = defineProps({
     isModalOpen: {
@@ -44,6 +45,12 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['close'])
+
+watch(() => userStore.getUser, (user: any) => {
+    dailyOverviewStore.setViewAllShowCitizenDailyEvents(JSON.parse(user?.view_all_filter)?.showCitizenDailyEvents)
+    dailyOverviewStore.setViewAllShowCitizenMedicineOverview(JSON.parse(user?.view_all_filter)?.showCitizenMedicineOverview)
+    dailyOverviewStore.setViewAllShowLatestJournalNotes(JSON.parse(user?.view_all_filter)?.showLatestJournalNotes)
+})
 
 function closeModal() {
     emit('close')
