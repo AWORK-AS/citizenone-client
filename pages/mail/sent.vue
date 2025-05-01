@@ -143,7 +143,6 @@ const userStore = useUserStore() as any
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { errorAlert } = useAlert()
 const { t } = useI18n()
-let currentPage = 1
 
 const state = reactive({
     error: {} as Error,
@@ -151,13 +150,14 @@ const state = reactive({
     loading: {
         isEmailConfigurationLoading: false,
         isEmailsLoading: false,
+        isEmailsLoadingMore: false,
         isUserLoading: true,
     },
     modal: {
         isConnectYourMailOpen: false,
         isSendEmailOpen: false,
     },
-    pagination: {},
+    pagination: {} as any,
     selectedEmail: null as any,
     sentEmails: [] as any,
     unreadEmails: 0,
@@ -202,21 +202,26 @@ async function fetchEmailConfiguration() {
 
 async function fetchSentMails(pageNumber: number) {
     state.error = {}
-    state.loading.isEmailsLoading = true
+    if (pageNumber > 1) {
+        state.loading.isEmailsLoadingMore = true
+    } else {
+        state.loading.isEmailsLoading = true
+    }
     try {
         const params = {
             page: pageNumber,
         }
         const response = await mailService.getSentMails(params)
         if (response?.data) {
-            state.sentEmails.push(...response?.data)
+            state.sentEmails.push(...response?.data?.data)
             state.unreadEmails = response?.unread_emails
-            state.pagination = response?.pagination
+            state.pagination = response?.data
         }
     } catch (error: any) {
         state.error = error
     } finally {
         state.loading.isEmailsLoading = false
+        state.loading.isEmailsLoadingMore = false
     }
 }
 
