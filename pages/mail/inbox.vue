@@ -175,7 +175,7 @@ const state = reactive({
         isConnectYourMailOpen: false,
         isSendEmailOpen: false,
     },
-    pagination: {},
+    pagination: {} as any,
     selectedEmail: null as any,
     unreadEmails: 0,
 })
