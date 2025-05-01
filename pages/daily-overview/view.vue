@@ -30,6 +30,7 @@
             </div>
 
             <div class="mt-6">
+                {{ dailyOverviewStore.getViewAllFilter.showLatestJournalNotes }}
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                     <div v-if="dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents">
                         <ModulesUserDailyOverviewCitizensDailyEvents :dateRange="state.dateRange.formDateRange" />

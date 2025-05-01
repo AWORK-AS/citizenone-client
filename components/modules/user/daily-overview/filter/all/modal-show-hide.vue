@@ -76,7 +76,7 @@ async function setViewAllShowCitizenDailyEvents() {
             showLatestJournalNotes: dailyOverviewStore.getViewAllFilter.showLatestJournalNotes
         }
         const params = {
-            daily_overview_filter: viewAllFilter
+            view_all_filter: viewAllFilter
         }
         const response = await dailyOverviewService.updateViewAllFilter(params)
         if (response) {
@@ -98,7 +98,7 @@ async function setViewAllShowCitizenMedicineOverview() {
             showLatestJournalNotes: dailyOverviewStore.getViewAllFilter.showLatestJournalNotes
         }
         const params = {
-            daily_overview_filter: viewAllFilter
+            view_all_filter: viewAllFilter
         }
         const response = await dailyOverviewService.updateViewAllFilter(params)
         if (response) {
@@ -120,11 +120,11 @@ async function setViewAllShowLatestJournalNotes() {
             showLatestJournalNotes: !dailyOverviewStore.getViewAllFilter.showLatestJournalNotes
         }
         const params = {
-            daily_overview_filter: viewAllFilter
+            view_all_filter: viewAllFilter
         }
         const response = await dailyOverviewService.updateViewAllFilter(params)
         if (response) {
-            dailyOverviewStore.setViewAllShowCitizenMedicineOverview(!dailyOverviewStore.getViewAllFilter.showLatestJournalNotes)
+            dailyOverviewStore.setViewAllShowLatestJournalNotes(!dailyOverviewStore.getViewAllFilter.showLatestJournalNotes)
         }
     } catch (error: any) {
         state.error = error
