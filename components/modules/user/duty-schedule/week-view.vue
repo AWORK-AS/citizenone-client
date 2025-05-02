@@ -314,7 +314,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-span-7 flex justify-center mt-1">
+                                                <div class="col-span-7 flex justify-start mt-1">
                                                     <button @click="toggleExpanded(weeklyScheduleIndex)"
                                                         class="text-primary text-xs hover:text-primary-700">
                                                         {{ !expandedRecords[weeklyScheduleIndex] ?
@@ -792,7 +792,7 @@ function getMultiDayShift(shifts: any) {
         })
 }
 
-async function fetchDutyScheduleAbsencePercentage() {
+async function fetchDutySchedulePercentage() {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -831,7 +831,7 @@ async function fetchDutySchedule() {
         if (response) {
             state.weeklySchedules = response?.data
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
-            fetchDutyScheduleAbsencePercentage()
+            fetchDutySchedulePercentage()
             expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
         }
     } catch (error: any) {
@@ -850,16 +850,23 @@ async function fetchDutyScheduleByDateRange(dateStart: any, dateEnd: any) {
     state.originalWeeklySchedules = []
     state.isPageLoading = true
     try {
+        const dateMoment = moment(currentDate.value)
+        const startOfWeek = dateMoment.clone().startOf('isoWeek')
+        const endOfWeek = dateMoment.clone().endOf('isoWeek')
+        const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
+        const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
         const params = {
-            date_start: dateStart,
-            date_end: dateEnd,
+            date_start: startOfWeekFormatted,
+            date_end: endOfWeekFormatted,
+            filter_date_start: dateStart,
+            filter_date_end: dateEnd,
             department: departmentStore.getSelectedDepartmentName,
         }
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
             state.weeklySchedules = response?.data
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
-            fetchDutyScheduleAbsencePercentage()
+            fetchDutySchedulePercentage()
         }
     } catch (error: any) {
         state.error = error
