@@ -46,6 +46,7 @@ const state = reactive({
         phone: '',
         birthday: '',
         role: '',
+        password: '',
         permissions: [],
     } as AccountForm,
     isPageLoading: false,
@@ -68,6 +69,7 @@ async function fetchAccount() {
                 phone: response?.data?.phone ?? '',
                 birthday: response?.data?.birthday ?? '',
                 role: response?.data?.roles?.[0]?.name ?? '',
+                password: '',
                 permissions: response?.data?.permissions ?? [],
             }
         }
@@ -89,6 +91,9 @@ async function updateAccount(accountDetails: any) {
             birthday: accountDetails.birthday,
             role: accountDetails.role,
             permission: accountDetails.permissions,
+        } as any
+        if (accountDetails.password) {
+            params.password = accountDetails.password
         }
         const response = await accountService.updateAccount(accountUuid, params)
         if (response.data) {

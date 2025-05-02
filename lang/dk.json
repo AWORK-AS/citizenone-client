@@ -3516,9 +3516,11 @@
                     "accountSuccessfullyUpdated": "Kontoen er blevet opdateret"
                 },
                 "birthday": "Fødselsdag",
+                "changePassword": "Skift adgangskode",
                 "emailAddress": "E-mailadresse",
                 "firstname": "Fornavn",
                 "lastname": "Efternavn",
+                "password": "Adgangskode",
                 "permissions": {
                     "create": "Opret",
                     "delete": "Slet",

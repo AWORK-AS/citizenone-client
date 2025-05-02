@@ -3516,9 +3516,11 @@
                     "accountSuccessfullyUpdated": "Account successfully updated"
                 },
                 "birthday": "Birthday",
+                "changePassword": "Change password",
                 "emailAddress": "Email address",
                 "firstname": "First name",
                 "lastname": "Last name",
+                "password": "Password",
                 "permissions": {
                     "create": "Create",
                     "delete": "Delete",

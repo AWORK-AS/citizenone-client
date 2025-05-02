@@ -5,6 +5,7 @@ export interface AccountForm {
     phone: string,
     birthday: string,
     role: string,
+    password: string,
     permissions: Permission[]
 }
 
