@@ -89,6 +89,10 @@
                                             </p>
                                         </Badge>
                                     </div>
+                                    <p class="w-fit text-sm" v-if="pendingPlanGoalSubgoal?.citizen">
+                                        {{ pendingPlanGoalSubgoal?.citizen?.firstname }}
+                                        {{ pendingPlanGoalSubgoal?.citizen?.lastname }}
+                                    </p>
                                     <p class="text-sm">
                                         {{ $t('plansandgoals.dateCreated') }}: {{
                                             formatDateToReadable(pendingPlanGoalSubgoal?.created_at) }}
