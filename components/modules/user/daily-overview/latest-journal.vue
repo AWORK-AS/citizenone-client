@@ -14,9 +14,9 @@
         <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
             v-else>
             <div v-for="(citizen, citizenIndex) in state.citizens?.data" :key="citizenIndex">
-                <div v-for="(journal, journalIndex) in citizen?.citizen_journal" :key="journalIndex"
+                <div v-for="(journal, journalIndex) in citizen?.citizen_journals" :key="journalIndex"
                     class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100"
-                    @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)">
+                    @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)" v-if="props?.viewAll">
                     <div class="flex gap-x-2">
                         <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
                             class="rounded-full w-12 h-12 object-cover" />
@@ -41,6 +41,36 @@
                             <p class="text-xs ml-1">
                                 {{ $t('dailyOverview.latestJournal.score') }}:
                                 {{ journal?.score }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div v-else class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100">
+                    <div class="flex gap-x-2">
+                        <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
+                            class="rounded-full w-12 h-12 object-cover" />
+                        <div>
+                            <p class="text-sm font-medium text-primary">
+                                {{ citizen?.firstname + ' ' + citizen?.lastname }}
+                            </p>
+                            <p class="text-xxs"
+                                v-if="citizen?.citizen_journal?.user?.firstname && citizen?.citizen_journal?.user?.lastname">
+                                {{ $t('dailyOverview.createdBy') }}
+                                {{ citizen?.citizen_journal?.user?.firstname + ' ' +
+                                    citizen?.citizen_journal?.user?.lastname }}
+                            </p>
+                            <div class="px-1">
+                                <h3 class="text-base font-semibold">
+                                    {{ citizen?.citizen_journal?.title }}
+                                </h3>
+                                <div v-html="citizen?.citizen_journal?.content" class="table-responsive text-sm" />
+                                <p class="content text-xs text-muted-400 mt-1">
+                                    <span>{{ formatDateToReadable(citizen?.citizen_journal?.date) }}</span>
+                                </p>
+                            </div>
+                            <p class="text-xs ml-1">
+                                {{ $t('dailyOverview.latestJournal.score') }}:
+                                {{ citizen?.citizen_journal?.score }}
                             </p>
                         </div>
                     </div>
