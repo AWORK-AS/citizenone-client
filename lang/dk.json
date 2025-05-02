@@ -1737,10 +1737,14 @@
                         "requestSuccessfullySent": "Anmodning sendt med succes"
                     },
                     "note": "Bemærkning",
+                    "sendRequest": "Send request",
                     "timeIn": "Tid ind",
                     "timeOut": "Tid ud",
-                    "whyDoYouWantToRequestAdditionalHours": "Hvorfor vil du anmode om ekstra timer eller ændre timer"
+                    "whatDoYouWantTheEndTimeToBeChangeTo": "Hvad onsker du sluttiden ændret til",
+                    "whatDoYouWantTheStartTimeToBeChangeTo": "Hvad onsker du modetiden ændret til",
+                    "whyDoYouWantToChangeTheTimes": "Hvorfor onsker du at æendre tiderne"
                 },
+                "requestAChange": "Anmod om ændring",
                 "table": {
                     "actions": {
                         "approve": "Godkend",
@@ -1770,11 +1774,14 @@
                     },
                     "assignee": "Tildelt person",
                     "note": "Note",
-                    "whyDoYouWantToRequestAScheduleSwap": "Hvorfor vil du anmode om at bytte vagtplan"
+                    "whoWouldYouLikeToGiveThisShiftTo": "Hvem vil du give denne vagt",
+                    "whyDoYouWantToSwapThisShift": "Hvorfor vil du bytte denne vagt"
                 },
                 "swapSchedule": "Byt vagtplan",
                 "swapScheduleRequest": "Anmodning om vagtbytte",
                 "swapScheduleRequests": "Anmodninger om vagtbytte",
+                "swapShift": "Byt vagt",
+                "swapThisShift": "Byt denne vagt",
                 "table": {
                     "actions": {
                         "approve": "Godkend",
@@ -1802,7 +1809,8 @@
             },
             "confirmation": {
                 "deleteConfirmation": "Er du sikker på, at du vil slette dette tidspunkt",
-                "requestConfirmation": "Er du sikker på, at du vil anmode om dette tidsinterval"
+                "requestConfirmation": "Onsker du at tage denne vagt",
+                "requestConfirmButton": "Ja, jeg onsker vagten"
             },
             "editOfferedShift": "Rediger udbudt vagt",
             "form": {
@@ -1822,6 +1830,7 @@
             },
             "numberOfShifts": "Antal vagter",
             "offerNewTime": "Udbyd nye vagter",
+            "opportunityForAShift": "Mulighed for en vagt",
             "scheduleSlots": "Udbyd vagter",
             "table": {
                 "active": "Aktiv",
@@ -2377,7 +2386,9 @@
         "nonbinary": "Ikke-binær",
         "willNotDisclose": "Vil ikke oplyse"
     },
+    "hideAll": "Skjul alle",
     "home": "Hjem",
+    "guidedTour": "Guidet tur",
     "invitation": {
         "invitationAccepted": "Invitation accepteret",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har med succes accepteret invitationen"
@@ -2587,6 +2598,7 @@
             "loadingUserSettings": "Indlæser brugerindstillinger",
             "loadingYourEmails": "Indlæser dine e-mails"
         },
+        "loadMore": "Indlæs mere",
         "mail": "Mail",
         "secured": {
             "alert": {
@@ -2696,6 +2708,7 @@
         "apps": "Apps",
         "colleagues": "Kollegaer",
         "forms": "Formularer",
+        "getAGuidedTour": "Get a guided tour",
         "invoices": "Fakturaer",
         "newWishes": "Nye ønsker",
         "logout": "Log ud",
@@ -2741,6 +2754,7 @@
             "title": "Titel"
         }
     },
+    "next": "Næste",
     "noResultFound": "Ingen resultater fundet",
     "pagination": {
         "of": "af",
@@ -3388,6 +3402,7 @@
         "messages": "Beskeder",
         "protocols": "Protokol"
     },
+    "showAll": "Vis alle",
     "showLess": "Vis mindre",
     "showMore": "Vis mere",
     "subscription": {
@@ -3503,9 +3518,11 @@
                     "accountSuccessfullyUpdated": "Kontoen er blevet opdateret"
                 },
                 "birthday": "Fødselsdag",
+                "changePassword": "Skift adgangskode",
                 "emailAddress": "E-mailadresse",
                 "firstname": "Fornavn",
                 "lastname": "Efternavn",
+                "password": "Adgangskode",
                 "permissions": {
                     "create": "Opret",
                     "delete": "Slet",

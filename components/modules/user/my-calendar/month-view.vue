@@ -113,9 +113,9 @@
                                 <li v-for="(myCalendarEvent, index) in day.events" :key="index">
                                     <div class="group cursor-pointer bg-gray-200 p-2 rounded-md text-xxs space-y-1"
                                         :class="[
-                                            myCalendarEvent?.citizen && 'border-yellow-500',
-                                            !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid !== userStore.getUser?.uuid && 'border-green-700',
-                                            !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid === userStore.getUser?.uuid && 'border-primary',
+                                            myCalendarEvent?.type === 'citizens' && 'border-yellow-500',
+                                            myCalendarEvent?.type === 'employees' && 'border-green-700',
+                                            myCalendarEvent?.type === 'my_self' && 'border-primary',
                                             'border-l-4'
                                         ]" @click="editMyCalendarEvent(myCalendarEvent)">
                                         <p
@@ -165,9 +165,9 @@
             <ol class="lg:hidden mt-4 space-y-2 text-sm leading-6 lg:col-span-7 xl:col-span-8" v-if=state.selectedDay>
                 <li v-for="(myCalendarEvent, index) in state.days.find(day => day.date === state.selectedDay?.date)?.events || []"
                     :key="index" :class="[
-                        myCalendarEvent?.citizen && 'border-yellow-500',
-                        !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid !== userStore.getUser?.uuid && 'border-green-700',
-                        !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid === userStore.getUser?.uuid && 'border-primary',
+                        myCalendarEvent?.type === 'citizens' && 'border-yellow-500',
+                        myCalendarEvent?.type === 'employees' && 'border-green-700',
+                        myCalendarEvent?.type === 'my_self' && 'border-primary',
                         'pl-4 border-l-4'
                     ]">
                     <div class="relative flex space-x-6 py-6">

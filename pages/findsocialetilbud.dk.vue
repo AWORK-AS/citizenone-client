@@ -44,7 +44,7 @@
 
                         <!-- Darkening overlay -->
                         <div v-if="state.modal.isOverlayVisible"
-                            class="fixed inset-0 bg-black bg-opacity-50 z-40 sm:hidden md:block lg:block">
+                            class="fixed inset-0 bg-black bg-opacity-40 z-40 sm:hidden md:block lg:block">
                         </div>
 
 
@@ -169,14 +169,14 @@
                 @close="state.modal.isManageCompanyOpen = false" />
             <ModulesUserFindsocialetilbuddkModalShowInterest :isModalOpen="state.modal.isShowInterestOpen"
                 @close="state.modal.isShowInterestOpen = false" />
-            <ModulesUserFindsocialetilbuddkTutorialModal0 :isModalZeroOpen="state.modal.isModalZeroOpen"
+            <ModulesUserFindsocialetilbuddkModalTutorial0 :isModalZeroOpen="state.modal.isModalZeroOpen"
                 @close="closeModalZero" @button-click="handleButtonClick" />
 
-            <ModulesUserFindsocialetilbuddkTutorialModal1 :isModalOneOpen="state.modal.isModalVisible"
+            <ModulesUserFindsocialetilbuddkModalTutorial1 :isModalOneOpen="state.modal.isModalVisible"
                 @close="closeModal" @button-click="handleButtonClick" />
-            <ModulesUserFindsocialetilbuddkTutorialModal2 :isModalTwoOpen="state.modal.isModalTwoVisible"
+            <ModulesUserFindsocialetilbuddkModalTutorial2 :isModalTwoOpen="state.modal.isModalTwoVisible"
                 @close="closeModal2" @button-click="handleButtonClick" />
-            <ModulesUserFindsocialetilbuddkTutorialModal3 :isModalThreeOpen="state.modal.isModalThreeVisible"
+            <ModulesUserFindsocialetilbuddkModalTutorial3 :isModalThreeOpen="state.modal.isModalThreeVisible"
                 @close="closeModal3" />
 
         </NuxtLayout>

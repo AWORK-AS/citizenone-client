@@ -1,7 +1,7 @@
 <template>
-    <div v-if="props?.week?.slots?.length > 0 && isCurrentUser()">
+    <div class="mt-2" v-if="props?.week?.slots?.length > 0 && isCurrentUser()">
         <p class="text-xxs">
-            {{ $t('dutySchedules.scheduleSlots.scheduleSlots') }}
+            {{ $t('dutySchedules.scheduleSlots.opportunityForAShift') }}
         </p>
         <div class="space-y-2 mt-1">
             <div v-for="(slot, index) in props?.week?.slots" :key="index" :class="[
@@ -12,10 +12,13 @@
                 slot?.shift_type === 'sick_leave', 'bg-shifts-sickleave',
                 'rounded-md p-1 cursor-pointer'
             ]" @click="confirmSlotRequest(slot)">
-                {{ slot?.time_in + ' - ' + slot?.time_out }}
+                <div class="border border-white rounded-md p-2 text-white">
+                    {{ slot?.time_in + ' - ' + slot?.time_out }}
+                </div>
             </div>
         </div>
-        <DialogConfirmation :isModalOpen="state.modal.isRequestScheduleSlotOpen"
+        <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlotConfirmation
+            :isModalOpen="state.modal.isRequestScheduleSlotOpen"
             :message="$t('dutySchedules.scheduleSlots.confirmation.requestConfirmation') + '?'"
             @close="state.modal.isRequestScheduleSlotOpen = false" @confirm="requestScheduleSlot" />
     </div>

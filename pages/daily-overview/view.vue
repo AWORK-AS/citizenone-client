@@ -38,7 +38,8 @@
                         <ModulesUserDailyOverviewCitizensMedicineOverview :dateRange="state.dateRange.formDateRange" />
                     </div>
                     <div v-if="dailyOverviewStore.getViewAllFilter.showLatestJournalNotes">
-                        <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange" />
+                        <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange"
+                            :viewAll="true" />
                     </div>
                 </div>
             </div>

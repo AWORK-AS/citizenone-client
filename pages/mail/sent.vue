@@ -44,28 +44,8 @@
                         </div>
                         <div v-else>
                             <div class="flex gap-x-6">
-                                <div class="flex flex-col items-center gap-4 py-4">
-                                    <Tooltip :text="$t('mail.compose')" @click="state.modal.isSendEmailOpen = true">
-                                        <button
-                                            class="flex flex-col items-center justify-center p-5 rounded-full text-white bg-primary">
-                                            <Icon name="ph:pencil" class="h-6 w-6" aria-hidden="true" />
-                                        </button>
-                                    </Tooltip>
-                                    <button
-                                        class="flex flex-col items-center justify-center px-6 py-4 rounded-lg text-gray-900 hover:bg-gray-200"
-                                        :class="$route.name === 'mail-inbox' ? 'bg-gray-100 hover:bg-gray-200' : 'bg-gray-50'"
-                                        @click="navigateTo('/mail/inbox')">
-                                        <Icon name="ph:envelope-open" class="h-6 w-6" aria-hidden="true" />
-                                        <p class="text-xxs">{{ t('mail.inbox') }}</p>
-                                    </button>
-                                    <button
-                                        class="flex flex-col items-center justify-center px-6 py-4 rounded-lg text-gray-900 hover:bg-gray-200"
-                                        :class="$route.name === 'mail-sent' ? 'bg-gray-100 hover:bg-gray-200' : 'bg-gray-50'"
-                                        @click="navigateTo('/mail/sent')">
-                                        <Icon name="ph:paper-plane-tilt" class="h-6 w-6" aria-hidden="true" />
-                                        <p class="text-xxs">{{ t('mail.sent') }}</p>
-                                    </button>
-                                </div>
+                                <ModulesUserMailSidebar :unreadMessage="state.unreadEmails"
+                                    @refreshSentEmails="fetchSentMails" />
                                 <div class="grow mt-44 flex items-center justify-center"
                                     v-if="state.loading.isEmailsLoading">
                                     <span class="text-lg">
@@ -78,41 +58,71 @@
                                     <span class="dot5">.</span>
                                 </div>
                                 <div class="grow" v-else>
-                                    <div class="grid grid-cols-6">
-                                        <div class="col-span-2 bg-white rounded-md space-y-1">
+                                    <div class="grid grid-cols-6 gap-x-4">
+                                        <div class="col-span-2 rounded-md space-y-3 px-2"
+                                            style="height: 80vh; overflow-y: auto;">
                                             <div v-for="(email, index) in state.sentEmails" :key="index"
-                                                class="px-4 py-5 cursor-pointer bg-gray-100 hover:bg-gray-50"
+                                                class="px-4 py-3 cursor-pointer rounded-md shadow-sm bg-gray-100 hover:bg-gray-200"
                                                 @click="setSelectedEmail(email)">
-                                                <div class="flex justify-between gap-2">
+                                                <div>
                                                     <div class="flex items-center gap-x-2">
-                                                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.from}`"
-                                                            class="rounded-full w-9 h-9 object-cover" />
-                                                        <p class="text-xs">{{ email?.from }}</p>
-                                                    </div>
-                                                    <div class="flex items-center">
-                                                        <p class="text-xs">{{ formatDateTimeToReadable(email?.date) }}
-                                                        </p>
+                                                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.header?.to}`"
+                                                            class="rounded-full w-11 h-11 object-cover" />
+                                                        <div class="grow">
+                                                            <div class="flex justify-between gap-3">
+                                                                <p class="text-xs line-clamp-1">
+                                                                    {{ email?.header?.to }}
+                                                                </p>
+                                                                <div class="flex justify-end">
+                                                                    <Tooltip :text="`Secured`" position="left"
+                                                                        v-if="email?.is_secure_mail">
+                                                                        <Icon name="ic:baseline-security"
+                                                                            class="h-4 w-4 text-primary"
+                                                                            aria-hidden="true" />
+                                                                    </Tooltip>
+                                                                </div>
+                                                            </div>
+                                                            <p class="text-sm"
+                                                                v-if="email?.header?.subject && email?.header?.subject?.length > 0">
+                                                                {{ email?.header?.subject }}
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <p class="text-xs text-right">
+                                                    {{ formatDateTimeToReadable(email?.header?.date) }}
+                                                </p>
+                                            </div>
+                                            <div class="text-center"
+                                                v-if="parseInt(state.pagination?.current_page) < parseInt(state.pagination?.last_page)">
+                                                <button class="text-sm"
+                                                    @click="fetchSentMails(parseInt(state.pagination?.current_page) + 1)">
+                                                    {{ $t('mail.loadMore') }}
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="col-span-4 bg-white px-6 py-8 rounded-md">
                                             <div v-if="state.selectedEmail">
+                                                <p class="text-lg font-semibold">
+                                                    {{ state.selectedEmail?.header?.subject }}
+                                                </p>
                                                 <div class="flex gap-1 text-sm">
                                                     <p>
                                                         {{ t('mail.content.from') }}
                                                     </p>
                                                     <p>
-                                                        {{ state.selectedEmail?.from }}
+                                                        {{ state.selectedEmail?.header?.to }}
                                                     </p>
                                                     <p class="lowercase">
                                                         {{ t('mail.content.on') }}
                                                     </p>
                                                     <p>
-                                                        {{ formatDateTimeToReadable(state.selectedEmail?.date) }}
+                                                        {{
+                                                            formatDateTimeToReadable(state.selectedEmail?.header?.date)
+                                                        }}
                                                     </p>
                                                 </div>
-                                                <div v-html="state.selectedEmail?.body" class="py-6" />
+                                                <div v-html="state.selectedEmail?.bodies?.html" class="py-6" />
                                             </div>
                                         </div>
                                     </div>
@@ -124,8 +134,6 @@
             </div>
             <ModulesUserMailModalConfigureEmail :isModalOpen="state.modal.isConnectYourMailOpen" formType="create"
                 @close="state.modal.isConnectYourMailOpen = false" />
-            <ModulesUserMailModalSendEmail :isModalOpen="state.modal.isSendEmailOpen"
-                @close="state.modal.isSendEmailOpen = false" @refreshSentEmails="fetchSentMails" />
         </NuxtLayout>
     </div>
 </template>
@@ -144,7 +152,6 @@ const userStore = useUserStore() as any
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { errorAlert } = useAlert()
 const { t } = useI18n()
-let currentPage = 1
 
 const state = reactive({
     error: {} as Error,
@@ -152,14 +159,17 @@ const state = reactive({
     loading: {
         isEmailConfigurationLoading: false,
         isEmailsLoading: false,
+        isEmailsLoadingMore: false,
         isUserLoading: true,
     },
     modal: {
         isConnectYourMailOpen: false,
         isSendEmailOpen: false,
     },
+    pagination: {} as any,
     selectedEmail: null as any,
     sentEmails: [] as any,
+    unreadEmails: 0,
 })
 
 watch(() => userStore.getUser, (user: any) => {
@@ -188,7 +198,7 @@ async function fetchEmailConfiguration() {
         if (response) {
             if (response?.data?.id) {
                 state.hasEmailConfiguration = true
-                fetchSentMails()
+                fetchSentMails(1)
             }
         }
     } catch (error: any) {
@@ -199,21 +209,28 @@ async function fetchEmailConfiguration() {
     }
 }
 
-async function fetchSentMails() {
+async function fetchSentMails(pageNumber: number) {
     state.error = {}
-    state.loading.isEmailsLoading = true
+    if (pageNumber > 1) {
+        state.loading.isEmailsLoadingMore = true
+    } else {
+        state.loading.isEmailsLoading = true
+    }
     try {
         const params = {
-            page: currentPage,
+            page: pageNumber,
         }
         const response = await mailService.getSentMails(params)
         if (response?.data) {
-            state.sentEmails = response?.data
+            state.sentEmails.push(...response?.data?.data?.sort((a: any, b: any) => new Date(b.header.date).getTime() - new Date(a.header.date).getTime()))
+            state.unreadEmails = response?.unread_emails ?? 0
+            state.pagination = response?.data
         }
     } catch (error: any) {
         state.error = error
     } finally {
         state.loading.isEmailsLoading = false
+        state.loading.isEmailsLoadingMore = false
     }
 }
 

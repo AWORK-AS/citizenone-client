@@ -79,7 +79,7 @@
                     <FormError :error="props?.error?.errors?.seniority_date?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 gap-3" :class="[
-                    userStore.getUser?.roles?.[0]?.name === 'Admin' && 'md:grid-cols-2'
+                    isAdmin(userStore.getUser?.roles) && 'md:grid-cols-2'
                 ]">
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5">
@@ -140,7 +140,7 @@
                         <FormError :error="props?.error?.errors?.post_code?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
                     <p class="text-sm text-gray-600">
                         {{ $t('employees.form.mediaRisks.mediaRisks') }}
                     </p>
@@ -163,7 +163,7 @@
                     </div>
                     <FormError :error="props?.error?.errors?.media_risk?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
                     <FormLabel for="permissions" :label="$t('employees.form.permissions.permissions')" />
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
                         <div class="w-fit flex items-center cursor-pointer" @click="changePermissionRead()">
@@ -185,7 +185,7 @@
                     </div>
                     <FormError :error="props?.error?.errors?.permission?.[0]" />
                 </div>
-                <div class="space-y-1" v-if="props.formType === 'update'">
+                <div class="space-y-1" v-if="props.formType === 'update' && isAdmin(userStore.getUser?.roles)">
                     <FormLabel for="pages" :label="$t('employees.form.pageAccess')" />
                     <FormSelectMultiple id="pages" :options="state.options.pages" v-model="state.formEmployee.pages" />
                     <FormError :error="v$?.formEmployee?.pages?.$errors[0]?.$message.toString()" />
@@ -203,7 +203,7 @@
                 </p>
             </div>
             <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
-                <div class="space-y-1" ref="employmentDateField">
+                <div class="space-y-1" ref="employmentDateField" v-if="isAdmin(userStore.getUser?.roles)">
                     <FormLabel for="employment_date" :label="$t('employees.form.employment.employmentDate')" />
                     <FormDateField id="employment_date" name="employment_date"
                         :placeholder="$t('employees.form.employment.employmentDate')"
@@ -213,7 +213,7 @@
                     <FormError :error="props?.error?.errors?.employment_date?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1" ref="annualNormHoursField">
+                    <div class="space-y-1" ref="annualNormHoursField" v-if="isAdmin(userStore.getUser?.roles)">
                         <FormLabel for="annual_norm_hours" :label="$t('employees.form.employment.annualNormHours')" />
                         <FormTextField id="annual_norm_hours" name="annual_norm_hours"
                             :placeholder="$t('employees.form.employment.annualNormHours')"
@@ -222,7 +222,7 @@
                             :error="v$?.formEmployee?.employment?.annual_norm_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.annual_norm_hours?.[0]" />
                     </div>
-                    <div class="space-y-1" ref="vacationDaysField">
+                    <div class="space-y-1" ref="vacationDaysField" v-if="isAdmin(userStore.getUser?.roles)">
                         <FormLabel for="vacation_days" :label="$t('employees.form.employment.vacationDays')" />
                         <FormTextField id="vacation_days" name="vacation_days"
                             :placeholder="$t('employees.form.employment.vacationDays')"
@@ -265,7 +265,7 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1" ref="workingHoursField">
+                    <div class="space-y-1" ref="workingHoursField" v-if="isAdmin(userStore.getUser?.roles)">
                         <FormLabel for="working_hours" :label="$t('employees.form.employment.workingHours')" />
                         <FormSelect id="working_hours" :options="state.options.working_hours"
                             v-model="state.formEmployee.employment.working_hours" />
@@ -273,7 +273,7 @@
                             :error="v$?.formEmployee?.employment?.working_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.working_hours?.[0]" />
                     </div>
-                    <div class="space-y-1" ref="employmentStatusField">
+                    <div class="space-y-1" ref="employmentStatusField" v-if="isAdmin(userStore.getUser?.roles)">
                         <FormLabel for="employment_status" :label="$t('employees.form.employment.employmentStatus')" />
                         <FormSelect id="employment_status" :options="state.options.employment_status"
                             v-model="state.formEmployee.employment.employment_status" />
@@ -711,6 +711,10 @@ onMounted(() => {
     fetchPages()
     fetchRegions()
 })
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
+}
 
 function triggerFileInput() {
     if (image.value) {

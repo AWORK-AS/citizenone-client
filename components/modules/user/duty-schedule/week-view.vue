@@ -120,7 +120,7 @@
                             <div>
                                 <div class="shadow grid grid-cols-9">
                                     <div class="col-span-2 border-0.5">
-                                        <div class="flex items-center gap-x-3 px-3 py-4 border-0.5">
+                                        <div class="flex items-center gap-x-3 px-3 pt-3">
                                             <p class="text-sm font-medium">
                                                 {{ $t('dutySchedules.week') }} {{ weekNumber }}
                                             </p>
@@ -142,6 +142,14 @@
                                                     </button>
                                                 </Tooltip>
                                             </div>
+                                        </div>
+                                        <div class="px-3 pb-2">
+                                            <button @click="toggleShowHideAllShifts()"
+                                                class="text-primary text-xs hover:text-primary-700">
+                                                {{ state.showAllShifts ?
+                                                    $t('hideAll') :
+                                                    $t('showAll') }}
+                                            </button>
                                         </div>
                                     </div>
                                     <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
@@ -218,7 +226,7 @@
                                     <div v-for="(weeklySchedule, weeklyScheduleIndex) in state.weeklySchedules"
                                         :key="weeklyScheduleIndex" class="grid grid-cols-9"
                                         v-if="!isWeeklyScheduleCopied(weekNumber)">
-                                        <div class="p-3 col-span-2 space-y-5 border-0.5">
+                                        <div class="p-3 col-span-2 border-0.5">
                                             <div class="relative">
                                                 <div class="flex items-center gap-x-2">
                                                     <img :src="weeklySchedule?.employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`"
@@ -238,7 +246,10 @@
                                                     {{ $t('dutySchedules.viewCalendar') }}
                                                 </button>
                                             </div>
-                                            <div class="text-xs grid grid-cols-7">
+                                            <div :class="[
+                                                expandedRecords[weeklyScheduleIndex] && 'hidden',
+                                                'text-xs grid grid-cols-7 mt-5'
+                                            ]">
                                                 <div class="col-span-3 space-y-2" />
                                                 <div class="col-span-2 flex gap-2 flex-col items-end">
                                                     <p class="text-xxs py-2">
@@ -290,7 +301,8 @@
                                                             $t('dutySchedules.compensatoryHours')
                                                         }}:
                                                         {{
-                                                            weeklySchedule?.employee?.compensatory_hours?.total_in_hours ??
+                                                            weeklySchedule?.employee?.compensatory_hours?.total_in_hours
+                                                            ??
                                                             0
                                                         }}
                                                     </div>
@@ -304,9 +316,18 @@
                                                         {{
                                                             $t('dutySchedules.availableVacationHours')
                                                         }}:
-                                                        {{ weeklySchedule?.employee?.available_vacation_hours ?? 0 }}
+                                                        {{ weeklySchedule?.employee?.available_vacation_hours ?? 0
+                                                        }}
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div :class="[expandedRecords[weeklyScheduleIndex] ? 'mt-5' : 'mt-1']">
+                                                <button @click="toggleExpanded(weeklyScheduleIndex)"
+                                                    class="text-primary text-xs hover:text-primary-700">
+                                                    {{ !expandedRecords[weeklyScheduleIndex] ?
+                                                        $t('showLess') :
+                                                        $t('showMore') }}
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="p-3 border-0.5" v-for="(week, weekIndex) in weeklySchedule?.weeks"
@@ -458,7 +479,7 @@
                                                                             <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
                                                                                 @click="requestTimeAdjustment(weeklyScheduleIndex, shift)">
                                                                                 {{
-                                                                                    $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest')
+                                                                                    $t('dutySchedules.scheduleRequests.changeTime.requestAChange')
                                                                                 }}
                                                                             </a>
                                                                             </MenuItem>
@@ -466,7 +487,7 @@
                                                                             <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
                                                                                 @click="requestSwapSchedule(shift)">
                                                                                 {{
-                                                                                    $t('dutySchedules.scheduleRequests.swapSchedule.swapSchedule')
+                                                                                    $t('dutySchedules.scheduleRequests.swapSchedule.swapThisShift')
                                                                                 }}
                                                                             </a>
                                                                             </MenuItem>
@@ -579,6 +600,7 @@ const currentDate = ref(moment())
 const selectedDay = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
+const expandedRecords = reactive([] as boolean[])
 
 const state = reactive({
     addShift: {
@@ -590,11 +612,12 @@ const state = reactive({
     } as any,
     copyShiftError: {} as Error,
     customWeekLabel: 'week',
+    showAllShifts: false,
     shiftPercentage: {} as any,
     shiftDateRange: {
         formDateRange: {
-            start_date: moment(),
-            end_date: moment(),
+            start_date: moment().startOf('week').add(1, 'day'),
+            end_date: moment().startOf('week').add(7, 'day'),
         },
     } as any,
     employees: [] as any,
@@ -670,7 +693,7 @@ function isAdmin(roles: any) {
 function filterDutyScheduleDate(formDateRange: any) {
     state.shiftDateRange.formDateRange.start_date = formDateRange?.[0]
     state.shiftDateRange.formDateRange.end_date = formDateRange?.[1]
-    fetchDutyScheduleByDateRange(formDateRange?.[0], formDateRange?.[1])
+    fetchDutySchedule()
     setCustomWeekLabel(formDateRange?.[0], formDateRange?.[1])
 }
 
@@ -750,7 +773,7 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
     const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
     const dayIndex = weekDaysOrder.indexOf(weekIndex)
 
-    if (weekIndex === 'monday' || shiftIndex > 0) return 0.5 // If the current index is in the future, return 0
+    if (weekIndex === 'monday' || shiftIndex > 0) return 0 // If the current index is in the future, return 0
 
     let overlapCount = 0
 
@@ -776,7 +799,7 @@ function getMultiDayShift(shifts: any) {
         })
 }
 
-async function fetchDutyScheduleAbsencePercentage() {
+async function fetchDutySchedulePercentage() {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -809,13 +832,16 @@ async function fetchDutySchedule() {
         const params = {
             date_start: startOfWeekFormatted,
             date_end: endOfWeekFormatted,
+            filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
+            filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
         }
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
             state.weeklySchedules = response?.data
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
-            fetchDutyScheduleAbsencePercentage()
+            fetchDutySchedulePercentage()
+            expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
         }
     } catch (error: any) {
         state.error = error
@@ -823,27 +849,15 @@ async function fetchDutySchedule() {
     state.isPageLoading = false
 }
 
-async function fetchDutyScheduleByDateRange(dateStart: any, dateEnd: any) {
-    state.error = {}
-    state.weeklySchedules = []
-    state.originalWeeklySchedules = []
-    state.isPageLoading = true
-    try {
-        const params = {
-            date_start: dateStart,
-            date_end: dateEnd,
-            department: departmentStore.getSelectedDepartmentName,
-        }
-        const response = await dutyScheduleService.getDutySchedules(params)
-        if (response) {
-            state.weeklySchedules = response?.data
-            state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
-            fetchDutyScheduleAbsencePercentage()
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
+function toggleShowHideAllShifts() {
+    state.showAllShifts = !state.showAllShifts
+    expandedRecords.forEach((_, index) => {
+        expandedRecords[index] = !state.showAllShifts
+    })
+}
+
+function toggleExpanded(index: number) {
+    expandedRecords[index] = !expandedRecords[index]
 }
 
 function previousWeek() {

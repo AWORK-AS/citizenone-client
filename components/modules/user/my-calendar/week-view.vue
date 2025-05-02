@@ -132,9 +132,9 @@
                                     <div class="p-3 space-y-2">
                                         <div v-for="myCalendarEvent in events" :key="myCalendarEvent.id"
                                             class="bg-gray-200 p-2 rounded-md cursor-pointer" :class="[
-                                                myCalendarEvent?.citizen && 'border-yellow-500',
-                                                !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid !== userStore.getUser?.uuid && 'border-green-700',
-                                                !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid === userStore.getUser?.uuid && 'border-primary',
+                                                myCalendarEvent?.type === 'citizens' && 'border-yellow-500',
+                                                myCalendarEvent?.type === 'employees' && 'border-green-700',
+                                                myCalendarEvent?.type === 'my_self' && 'border-primary',
                                                 'border-l-4'
                                             ]" @click="editMyCalendarEvent(myCalendarEvent)">
                                             <p class="text-xs">
@@ -160,9 +160,9 @@
             </div>
             <ol class="mt-4 space-y-2 text-sm leading-6 lg:col-span-7 xl:col-span-8 lg:hidden" v-if=selectedDay>
                 <li v-for="(event, index) in props.myCalendarEvents?.data" :key="index" :class="[
-                    event?.citizen && 'border-yellow-500',
-                    !event?.citizen && event.user?.uuid !== userStore.getUser?.uuid && 'border-green-700',
-                    !event?.citizen && event.user?.uuid === userStore.getUser?.uuid && 'border-primary',
+                    event?.type === 'citizens' && 'border-yellow-500',
+                    event?.type === 'employees' !== userStore.getUser?.uuid && 'border-green-700',
+                    event?.type === 'my_self' && 'border-primary',
                     'pl-4 border-l-4'
                 ]">
                     <div class="relative flex space-x-6 py-6">

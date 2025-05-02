@@ -1,5 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
+
         <TransitionRoot as="template" :show="sidebarOpen">
             <Dialog as="div" class="relative z-50 lg:hidden" @close="sidebarOpen = false">
                 <TransitionChild as="template" enter="transition-opacity ease-linear duration-300"
@@ -349,6 +350,15 @@
                                     </div>
                                     </MenuItem>
                                     <MenuItem>
+                                    <div @click="state.modal.isGuidedTourDailyOverviewOpen = true"
+                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                        <div class="flex items-center gap-x-3">
+                                            <Icon name="ph:question" class="h-5 w-5" aria-hidden="true" />
+                                            {{ $t('navbar.getAGuidedTour') }}
+                                        </div>
+                                    </div>
+                                    </MenuItem>
+                                    <MenuItem>
                                     <div @click="navigateTo('/procedures')"
                                         class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
                                         <div class="flex items-center gap-x-3">
@@ -391,10 +401,11 @@
                         <div>
                             <slot name="breadcrumb"></slot>
                         </div>
-                        <div class="mt-4">
+                        <div class="mt-4 flex justify-between items-center">
                             <h1 class="text-2xl text-primary font-bold">
                                 <slot name="header"></slot>
                             </h1>
+                            <slot name="guided-tour"></slot>
                         </div>
                         <div class="mt-4">
                             <h3 class="text-lg text-gray-900">
@@ -418,6 +429,43 @@
             @close="state.slideOver.isSupportOpen = false" />
         <ModulesUserWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
             @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
+
+        <!-- Darkening overlay -->
+        <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block" v-if="state.modal.isGuidedTourWelcomeOpen ||
+            state.modal.isGuidedTourDailyOverviewOpen ||
+            state.modal.isGuidedTourCitizensOverviewOpen ||
+            state.modal.isGuidedTourCalendarOpen ||
+            state.modal.isGuidedTourDutyScheduleOpen ||
+            state.modal.isGuidedTourEmployeesOpen ||
+            state.modal.isGuidedTourEndOpen">
+        </div>
+        <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
+            :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
+            @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
+        <ModulesUserGuidedTourModalDailyOverview v-if="state.modal.isGuidedTourDailyOverviewOpen"
+            :isModalOpen="state.modal.isGuidedTourDailyOverviewOpen" :isGuidedTour="true"
+            @close="state.modal.isGuidedTourDailyOverviewOpen = false" @back="handleBackGuidedTour"
+            @next="handleNextGuidedTour" />
+        <ModulesUserGuidedTourModalCitizens v-if="state.modal.isGuidedTourCitizensOverviewOpen"
+            :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen" :isGuidedTour="true"
+            @close="state.modal.isGuidedTourCitizensOverviewOpen = false" @back="handleBackGuidedTour"
+            @next="handleNextGuidedTour" />
+        <ModulesUserGuidedTourModalCalendar v-if="state.modal.isGuidedTourCalendarOpen"
+            :isModalOpen="state.modal.isGuidedTourCalendarOpen" :isGuidedTour="true"
+            @close="state.modal.isGuidedTourCalendarOpen = false" @back="handleBackGuidedTour"
+            @next="handleNextGuidedTour" />
+        <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
+            :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="true"
+            @close="state.modal.isGuidedTourDutyScheduleOpen = false" @back="handleBackGuidedTour"
+            @next="handleNextGuidedTour" />
+        <ModulesUserGuidedTourModalEmployees v-if="state.modal.isGuidedTourEmployeesOpen"
+            :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="true"
+            @close="state.modal.isGuidedTourEmployeesOpen = false" @back="handleBackGuidedTour"
+            @next="handleNextGuidedTour" />
+        <ModulesUserGuidedTourModalEnd v-if="state.modal.isGuidedTourEndOpen"
+            :isModalOpen="state.modal.isGuidedTourEndOpen" :isGuidedTour="true"
+            @close="state.modal.isGuidedTourEndOpen = false" @back="handleBackGuidedTour"
+            @next="handleNextGuidedTour" />
     </LoadingSpinner>
 </template>
 
@@ -499,16 +547,6 @@ let navigation = [
         ]
     },
     {
-        name: 'Protocols',
-        href: '/protocols',
-        icon: 'ic:outline-shield',
-        activeRouteNames: [
-            'protocols',
-            'protocols-new',
-            'protocols-uuid'
-        ]
-    },
-    {
         name: 'Documents',
         href: '/drive',
         icon: 'ph:folder',
@@ -536,6 +574,13 @@ const state = reactive({
     modal: {
         isCheckinReminderOpen: false,
         isContactUsOpen: false,
+        isGuidedTourCalendarOpen: false,
+        isGuidedTourCitizensOverviewOpen: false,
+        isGuidedTourDailyOverviewOpen: false,
+        isGuidedTourDutyScheduleOpen: false,
+        isGuidedTourEmployeesOpen: false,
+        isGuidedTourEndOpen: false,
+        isGuidedTourWelcomeOpen: false,
         isPlanGoalSubgoalCompletionReminderOpen: false,
     },
     showSubscribeButton: false,
@@ -555,6 +600,19 @@ watch(() => userStore.getUser, (user: any) => {
         setCustomPageNames()
         state.showSubscribeButton = true
         generateSidebarLinks(user)
+        const userHasPageAttendanceAccess = user?.pages.some((page: any) => page.name === "Attendance")
+        if (userHasPageAttendanceAccess) {
+            navigation.splice(4, 0, {
+                name: 'Protocols',
+                href: '/protocols',
+                icon: 'ic:outline-shield',
+                activeRouteNames: [
+                    'protocols',
+                    'protocols-new',
+                    'protocols-uuid'
+                ]
+            })
+        }
     }
 })
 
@@ -610,16 +668,6 @@ function generateSidebarLinks(user: any) {
                 activeRouteNames: [
                     'schedules',
                     'schedules-draft'
-                ]
-            },
-            {
-                name: 'Protocols',
-                href: '/protocols',
-                icon: 'ic:outline-shield',
-                activeRouteNames: [
-                    'protocols',
-                    'protocols-new',
-                    'protocols-uuid'
                 ]
             },
             {
@@ -698,6 +746,7 @@ async function fetchUser() {
             language.locale.value = response?.data?.language?.code
             plansGoalsSubgoalsCompletionReminderModalVisibility(response)
             checkInReminderModalVisibility(response)
+            guidedUserTourModalVisibility()
         }
     } catch (error: any) {
         state.error = error
@@ -709,6 +758,14 @@ function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
     const today = moment().format('YYYY-MM-DD')
     if (lastHidden !== today && response?.data?.plans_goals_subgoals_reached_deadline_count > 0 && routeName !== 'plans-goals-subgoals-completions') {
         state.modal.isPlanGoalSubgoalCompletionReminderOpen = true
+    }
+}
+
+function guidedUserTourModalVisibility() {
+    const guidedUserTourFirstTime = localStorage.getItem('guidedUserTourFirstTime')
+    if (guidedUserTourFirstTime === null) {
+        state.modal.isGuidedTourWelcomeOpen = true
+        localStorage.setItem('guidedUserTourFirstTime', 'true')
     }
 }
 
@@ -734,6 +791,60 @@ function closeCompletionReminder(doNotShowAgain: boolean) {
 
 }
 
+function handleBackGuidedTour(back: any) {
+    if (back === 'welcome') {
+        state.modal.isGuidedTourDailyOverviewOpen = false
+        state.modal.isGuidedTourWelcomeOpen = true
+    }
+    if (back === 'daily-overview') {
+        state.modal.isGuidedTourCitizensOverviewOpen = false
+        state.modal.isGuidedTourDailyOverviewOpen = true
+    }
+    if (back === 'citizens-overview') {
+        state.modal.isGuidedTourCalendarOpen = false
+        state.modal.isGuidedTourCitizensOverviewOpen = true
+    }
+    if (back === 'calendar') {
+        state.modal.isGuidedTourDutyScheduleOpen = false
+        state.modal.isGuidedTourCalendarOpen = true
+    }
+    if (back === 'duty-schedule') {
+        state.modal.isGuidedTourEmployeesOpen = false
+        state.modal.isGuidedTourDutyScheduleOpen = true
+    }
+    if (back === 'employees') {
+        state.modal.isGuidedTourEndOpen = false
+        state.modal.isGuidedTourEmployeesOpen = true
+    }
+}
+
+function handleNextGuidedTour(next: any) {
+    if (next === 'daily-overview') {
+        state.modal.isGuidedTourWelcomeOpen = false
+        state.modal.isGuidedTourDailyOverviewOpen = true
+    }
+    if (next === 'citizens-overview') {
+        state.modal.isGuidedTourDailyOverviewOpen = false
+        state.modal.isGuidedTourCitizensOverviewOpen = true
+    }
+    if (next === 'calendar') {
+        state.modal.isGuidedTourCitizensOverviewOpen = false
+        state.modal.isGuidedTourCalendarOpen = true
+    }
+    if (next === 'duty-schedule') {
+        state.modal.isGuidedTourCalendarOpen = false
+        state.modal.isGuidedTourDutyScheduleOpen = true
+    }
+    if (next === 'employees') {
+        state.modal.isGuidedTourDutyScheduleOpen = false
+        state.modal.isGuidedTourEmployeesOpen = true
+    }
+    if (next === 'end') {
+        state.modal.isGuidedTourEmployeesOpen = false
+        state.modal.isGuidedTourEndOpen = true
+    }
+}
+
 async function logout() {
     state.error = {}
     state.isPageLoading = true
@@ -741,6 +852,7 @@ async function logout() {
         const response = await authService.logout()
         if (response) {
             localStorage.removeItem("_token")
+            localStorage.removeItem("remember_me")
             userStore.resetUser()
             navigateTo('/')
         }

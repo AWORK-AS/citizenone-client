@@ -12,6 +12,7 @@
             props.buttonStyle === 'back' && 'text-tertiary hover:text-tertiary/90 pl-0',
             props.buttonStyle === 'cancel' && 'bg-tertiary-50 hover:bg-tertiary-100/90',
             props.buttonStyle === 'white' && 'bg-white hover:hover:bg-tertiary-25',
+            props.buttonStyle === 'get-started' && 'bg-upgrade border border-upgrade text-white hover:bg-green-600',
             !props.buttonStyle && 'text-tertiary border border-tertiary hover:bg-tertiary hover:text-white',
             props.buttonSize === 'sm' && 'p-3',
             props.buttonSize === 'xs' && 'p-2',

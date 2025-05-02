@@ -153,7 +153,7 @@ async function fetchEmployee() {
                     job_specialties: [],
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
-                    annual_norm_hours: response?.data?.employee_detail?.annual_norm_hours?.toString(),
+                    annual_norm_hours: response?.data?.employee_detail?.annual_norm_hours?.toString() ?? '',
                     vacation_days: response?.data?.employee_detail?.vacation_days?.toString(),
                 },
                 emergencyInfo: {

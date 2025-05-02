@@ -11,6 +11,11 @@
             </template>
 
             <template #header>{{ $t('employees.employees') }}</template>
+            <template #guided-tour>
+                <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
+                    <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
+                </Tooltip>
+            </template>
 
             <div>
                 <div class="flex justify-end items-center mb-5">
@@ -93,6 +98,13 @@
                     <Pagination :data="state.employees" @previous="previous" @next="next" />
                 </div>
             </div>
+
+            <!-- Darkening overlay -->
+            <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block"
+                v-if="state.modal.isGuidedTourEmployeesOpen"></div>
+            <ModulesUserGuidedTourModalEmployees v-if="state.modal.isGuidedTourEmployeesOpen"
+                :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="true"
+                @close="state.modal.isGuidedTourEmployeesOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -140,6 +152,9 @@ const state = reactive({
     employees: [] as any,
     error: {} as Error,
     isTableLoading: false,
+    modal: {
+        isGuidedTourEmployeesOpen: false,
+    },
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -155,6 +170,10 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 onMounted(() => {
     fetchEmployees()
 })
+
+function openGuidedTour() {
+    state.modal.isGuidedTourEmployeesOpen = true
+}
 
 async function fetchEmployees() {
     state.error = {}

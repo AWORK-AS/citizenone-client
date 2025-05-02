@@ -227,7 +227,7 @@ const { validateEuropeanDecimal } = euDecimalValidation()
 const state = reactive({
     formMedicineHistory: {
         uuid: '',
-        date: '',
+        date: moment().format('YYYY-MM-DD'),
         dosage: '',
         type: '',
         evaluator: '',

@@ -11,6 +11,11 @@
             </template>
 
             <template #header>{{ $t('events.calendar') }}</template>
+            <template #guided-tour>
+                <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
+                    <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
+                </Tooltip>
+            </template>
 
             <div class="flex justify-end items-center mb-5 gap-x-2">
                 <Menu as="div" class="relative inline-block text-left z-20">
@@ -123,6 +128,13 @@
             <ModulesUserMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
                 @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
+
+            <!-- Darkening overlay -->
+            <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block"
+                v-if="state.modal.isGuidedTourCalendarOpen"></div>
+            <ModulesUserGuidedTourModalCalendar v-if="state.modal.isGuidedTourCalendarOpen"
+                :isModalOpen="state.modal.isGuidedTourCalendarOpen" :isGuidedTour="false"
+                @close="state.modal.isGuidedTourCalendarOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -170,7 +182,8 @@ const state = reactive({
         isAddEventForCitizenOpen: false,
         isAddEventForEmployeeOpen: false,
         isDeleteScheduleOpen: false,
-        isEditEventOpen: false
+        isEditEventOpen: false,
+        isGuidedTourCalendarOpen: false,
     },
     selectedDate: {
         end_date: '',
@@ -228,6 +241,10 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
         fetchMyCalendarEvents()
     }
 })
+
+function openGuidedTour() {
+    state.modal.isGuidedTourCalendarOpen = true
+}
 
 async function fetchAllCitizens() {
     state.error = {}

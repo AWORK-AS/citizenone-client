@@ -16,18 +16,6 @@
             <div v-for="(medicine, index) in state.medicines?.data" :key="index"
                 class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100" @click="viewMedicineHistory(medicine)">
                 <div>
-                    <div class="flex items-center justify-end">
-                        <Badge type="active" class="flex items-center w-fit" v-if="medicine?.given_today">
-                            <p class="text-xxs px-2">
-                                {{ $t('dailyOverview.dailyMedicineOverview.given') }}
-                            </p>
-                        </Badge>
-                        <Badge type="inactive" class="flex items-center w-fit" v-else>
-                            <p class="text-xxs px-2">
-                                {{ $t('dailyOverview.dailyMedicineOverview.notGiven') }}
-                            </p>
-                        </Badge>
-                    </div>
                     <div>
                         <div>
                             <div class="flex items-center gap-x-2">
@@ -53,11 +41,18 @@
                                 {{ language.locale.value === 'en' ? medicine?.medicine?.en_name
                                     : medicine?.medicine?.dk_name }}
                             </h3>
-                            <div class="text-xxs flex flex-wrap gap-1" v-if="medicine.due_dates?.length > 0">
-                                <span v-for="(due_date, index) in medicine.due_dates" :key=index
-                                    class="bg-primary px-2 py-1 text-white rounded-md">
-                                    {{ formatDateToReadable(due_date) }}
-                                </span>
+                            <div class="text-xxs flex flex-wrap gap-x-1 gap-y-3 py-1"
+                                v-if="medicine.due_dates?.length > 0">
+                                <Tooltip v-for="(due_date, dueDateIndex) in medicine.due_dates" :key="dueDateIndex"
+                                    :text="due_date?.given ? $t('dailyOverview.dailyMedicineOverview.given') : $t('dailyOverview.dailyMedicineOverview.notGiven')">
+                                    <span :class="[
+                                        due_date?.given ? 'bg-green-700' : 'bg-red-800',
+                                        'px-2 py-1 text-white rounded-md'
+                                    ]">
+                                        {{ formatDateToReadable(due_date?.date) }} @
+                                        {{ due_date?.time }}
+                                    </span>
+                                </Tooltip>
                             </div>
                             <p class="text-xxs mt-0.5" v-if="medicine?.user?.firstname && medicine?.user?.lastname">
                                 {{ $t('dailyOverview.createdBy') }}

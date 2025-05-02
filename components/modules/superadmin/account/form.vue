@@ -52,6 +52,20 @@
                 </div>
             </div>
             <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.isChangePassword = !state.isChangePassword">
+                    <FormCheckbox id="change_password" :value="state.isChangePassword" />
+                    {{ $t('superadmin.accounts.form.changePassword') }}
+                </div>
+            </div>
+            <div class="space-y-1" v-if="state.isChangePassword">
+                <FormLabel for="password" :label="$t('superadmin.accounts.form.password')" />
+                <FormPasswordField id="password" name="password" :placeholder="$t('superadmin.accounts.form.password')"
+                    v-model="state.formAccount.password" />
+                <FormError :error="v$?.formAccount?.password?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.password?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="permissions" :label="$t('superadmin.accounts.form.permissions.permissions')" />
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
                     <div class="w-fit flex items-center cursor-pointer" @click="changePermissionRead()">
@@ -125,8 +139,10 @@ const state = reactive({
         phone: '',
         birthday: '',
         role: '',
+        password: '',
         permissions: [],
     } as AccountForm,
+    isChangePassword: false,
     modal: {
         isAddDepartmentOpen: false
     },
@@ -153,6 +169,7 @@ watch(() => props.selectedAccount, (newValue: any) => {
             phone: newValue.phone,
             birthday: newValue.birthday,
             role: newValue.role,
+            password: '',
             permissions: [],
         }
         newValue?.permissions.forEach((permission: any) => {
@@ -174,24 +191,49 @@ watch(() => props.selectedAccount, (newValue: any) => {
 })
 
 const rules = computed(() => {
-    return {
-        formAccount: {
-            firstname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (state.isChangePassword) {
+        return {
+            formAccount: {
+                firstname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                lastname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                email: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                phone: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                birthday: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                password: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            lastname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        }
+    } else {
+        return {
+            formAccount: {
+                firstname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                lastname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                email: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                phone: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                birthday: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            email: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            phone: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            birthday: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-        },
+        }
     }
 })
 

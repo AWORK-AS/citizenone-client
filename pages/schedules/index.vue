@@ -29,6 +29,11 @@
             <template #header>
                 {{ customPagesStore.getCustomPagesName?.dutySchedules }}
             </template>
+            <template #guided-tour>
+                <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
+                    <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
+                </Tooltip>
+            </template>
 
             <!-- <div class="flex items-center gap-x-3">
                 <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
@@ -48,6 +53,13 @@
             <div class="mt-5 space-y-5">
                 <ModulesUserDutyScheduleWeekView v-if="state.calendarView === 'week'" />
             </div>
+
+            <!-- Darkening overlay -->
+            <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block"
+                v-if="state.modal.isGuidedTourDutyScheduleOpen"></div>
+            <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
+                :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="false"
+                @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -60,5 +72,12 @@ const customPagesStore = useCustomPagesStore() as any
 
 const state = reactive({
     calendarView: 'week',
+    modal: {
+        isGuidedTourDutyScheduleOpen: false,
+    },
 })
+
+function openGuidedTour() {
+    state.modal.isGuidedTourDutyScheduleOpen = true
+}
 </script>

@@ -114,7 +114,7 @@
                             <div>
                                 <div class="shadow grid grid-cols-9">
                                     <div class="col-span-2 border-0.5">
-                                        <div class="flex items-center gap-x-3 px-3 py-4 border-0.5">
+                                        <div class="flex items-center gap-x-3 px-3 pt-3">
                                             <p class="text-sm font-medium">
                                                 {{ $t('dutySchedules.week') }} {{ weekNumber }}
                                             </p>
@@ -136,6 +136,14 @@
                                                     </button>
                                                 </Tooltip>
                                             </div>
+                                        </div>
+                                        <div class="px-3 pb-2">
+                                            <button @click="toggleShowHideAllShifts()"
+                                                class="text-primary text-xs hover:text-primary-700">
+                                                {{ state.showAllShifts ?
+                                                    $t('hideAll') :
+                                                    $t('showAll') }}
+                                            </button>
                                         </div>
                                     </div>
                                     <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
@@ -232,7 +240,15 @@
                                                 <div class="col-span-3 space-y-2" />
                                                 <div class="col-span-2 flex gap-2 flex-col items-end">
                                                     <p class="text-xxs py-2">
-                                                        {{ $t('dutySchedules.week') }}
+                                                        <span v-if="state.customWeekLabel === 'week'">
+                                                            {{ $t('dutySchedules.week') }}
+                                                        </span>
+                                                        <span v-if="state.customWeekLabel === 'month'">
+                                                            {{ $t('dutySchedules.month') }}
+                                                        </span>
+                                                        <span v-if="state.customWeekLabel === 'custom'">
+                                                            {{ $t('dutySchedules.custom') }}
+                                                        </span>
                                                     </p>
                                                 </div>
                                                 <div
@@ -241,25 +257,38 @@
                                                         {{ $t('dutySchedules.yearToDate') }}
                                                     </p>
                                                 </div>
-                                                <div class="col-span-3 space-y-2">
-                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
-                                                        :key="timeIndex">
-                                                        {{ language.locale.value === 'en' ? time?.shift?.en_name :
-                                                            time?.shift?.dk_name }}
-                                                    </p>
+                                                <div :class="[
+                                                    expandedRecords[weeklyScheduleIndex] && 'max-h-[2.5rem] overflow-hidden',
+                                                    'col-span-7 grid grid-cols-7'
+                                                ]">
+                                                    <div class="col-span-3 space-y-2">
+                                                        <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                            :key="timeIndex">
+                                                            {{ language.locale.value === 'en' ? time?.shift?.en_name :
+                                                                time?.shift?.dk_name }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-span-2 flex gap-2 flex-col items-end">
+                                                        <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                            :key="timeIndex">
+                                                            {{ time?.weekly_hours }}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-span-2 flex gap-2 flex-col items-end border-l-2 border-gray-200 ml-3">
+                                                        <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                            :key="timeIndex">
+                                                            {{ time?.yearly_hours }}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <div class="col-span-2 flex gap-2 flex-col items-end">
-                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
-                                                        :key="timeIndex">
-                                                        {{ time?.weekly_hours }}
-                                                    </p>
-                                                </div>
-                                                <div
-                                                    class="col-span-2 flex gap-2 flex-col items-end border-l-2 border-gray-200 ml-3">
-                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
-                                                        :key="timeIndex">
-                                                        {{ time?.yearly_hours }}
-                                                    </p>
+                                                <div class="col-span-7 flex justify-start mt-1">
+                                                    <button @click="toggleExpanded(weeklyScheduleIndex)"
+                                                        class="text-primary text-xs hover:text-primary-700">
+                                                        {{ !expandedRecords[weeklyScheduleIndex] ?
+                                                            $t('showLess') :
+                                                            $t('showMore') }}
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -371,7 +400,7 @@
             </div>
             <ModulesUserDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
-                @filterDate="filterDepartmentSickLeaveDate" />
+                @filterDate="filterDutyScheduleDate" />
             <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" @close="state.modal.isAddShiftOpen = false"
                 @saveShift="saveShift" @resetNewShiftError="state.newShiftError = {}" />
@@ -412,6 +441,7 @@ const selectedDay = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 const language = useI18n()
+const expandedRecords = reactive([] as boolean[])
 
 const state = reactive({
     addShift: {
@@ -422,6 +452,8 @@ const state = reactive({
         selectedEmployeeSchedules: {}
     } as any,
     copyShiftError: {} as Error,
+    customWeekLabel: 'week',
+    showAllShifts: false,
     shiftPercentage: {} as any,
     shiftDateRange: {
         formDateRange: {
@@ -485,10 +517,42 @@ function isAdmin(roles: any) {
     return roles && roles.some((role: any) => role.name === 'Admin')
 }
 
-function filterDepartmentSickLeaveDate(formDateRange: any) {
+function filterDutyScheduleDate(formDateRange: any) {
     state.shiftDateRange.formDateRange.start_date = formDateRange?.[0]
     state.shiftDateRange.formDateRange.end_date = formDateRange?.[1]
-    fetchDutyScheduleAbsencePercentage()
+    fetchDutySchedule()
+    setCustomWeekLabel(formDateRange?.[0], formDateRange?.[1])
+}
+
+function setCustomWeekLabel(startDate: any, endDate: any) {
+    const start = new Date(startDate) as any
+    const end = new Date(endDate) as any
+
+    // Calculate difference in days
+    const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1
+
+    // Check for week
+    const isWeek =
+        (start.getDay() === 0 || start.getDay() === 1) && diffDays === 7
+
+    // Check for full month
+    const isFirstDayOfMonth = start.getDate() === 1
+    const isLastDayOfMonth =
+        end.getDate() === new Date(end.getFullYear(), end.getMonth() + 1, 0).getDate()
+    const isSameMonth =
+        start.getMonth() === end.getMonth() &&
+        start.getFullYear() === end.getFullYear()
+
+    const isMonth = isFirstDayOfMonth && isLastDayOfMonth && isSameMonth
+
+    if (isWeek) {
+        state.customWeekLabel = 'week'
+    }
+    else if (isMonth) {
+        state.customWeekLabel = 'month'
+    } else {
+        state.customWeekLabel = 'custom'
+    }
 }
 
 function sortMultiDayShiftsFirst(shifts: any) {
@@ -536,7 +600,7 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
     const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
     const dayIndex = weekDaysOrder.indexOf(weekIndex)
 
-    if (weekIndex === 'monday' || shiftIndex > 0) return 0.5 // If the current index is in the future, return 0
+    if (weekIndex === 'monday' || shiftIndex > 0) return 0 // If the current index is in the future, return 0
 
     let overlapCount = 0
 
@@ -562,7 +626,7 @@ function getMultiDayShift(shifts: any) {
         })
 }
 
-async function fetchDutyScheduleAbsencePercentage() {
+async function fetchDutySchedulePercentage() {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -595,18 +659,32 @@ async function fetchDutySchedule() {
         const params = {
             date_start: startOfWeekFormatted,
             date_end: endOfWeekFormatted,
+            filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
+            filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
         }
         const response = await draftScheduleService.getScheduleDrafts(params)
         if (response) {
             state.weeklySchedules = response?.data
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
-            fetchDutyScheduleAbsencePercentage()
+            expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
+            fetchDutySchedulePercentage()
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function toggleShowHideAllShifts() {
+    state.showAllShifts = !state.showAllShifts
+    expandedRecords.forEach((_, index) => {
+        expandedRecords[index] = !state.showAllShifts
+    })
+}
+
+function toggleExpanded(index: number) {
+    expandedRecords[index] = !expandedRecords[index]
 }
 
 function previousWeek() {

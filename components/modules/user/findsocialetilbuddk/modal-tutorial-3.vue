@@ -79,10 +79,7 @@
 							er gældende fra dags dato og 14 dage frem!
 						</p>
 					</span>
-
 				</p>
-
-
 				<div class="flex justify-end">
 					<button v-if="language.locale.value === 'en'" @click="doneAndClose"
 						class="px-6 py-2 bg-tertiary text-white rounded-md text-lg">
@@ -101,13 +98,6 @@
 <script setup>
 import { useI18n } from "vue-i18n"
 
-const language = useI18n()
-const modalTitle = computed(() => {
-	return language.locale.value === 'en'
-		? 'CitizenOne - all in one journal system'
-		: 'CitizenOne - alt i ét journalsystem'
-})
-
 const props = defineProps({
 	isModalThreeOpen: {
 		type: Boolean,
@@ -115,6 +105,12 @@ const props = defineProps({
 	},
 })
 
+const language = useI18n()
+const modalTitle = computed(() => {
+	return language.locale.value === 'en'
+		? 'CitizenOne - all in one journal system'
+		: 'CitizenOne - alt i ét journalsystem'
+})
 const emit = defineEmits(['close'])
 
 const handleClose = () => {

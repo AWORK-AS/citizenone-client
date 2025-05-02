@@ -28,6 +28,11 @@
             <template #header>
                 {{ customPagesStore.getCustomPagesName?.citizens }}
             </template>
+            <template #guided-tour>
+                <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
+                    <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
+                </Tooltip>
+            </template>
 
             <div>
                 <div class="flex justify-end items-center mb-5" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
@@ -96,6 +101,13 @@
 
             <ModulesUserCitizenModalLatestJournal :isModalOpen="state.modal.showNote"
                 :selectedCitizen="state.selectedCitizen" @close="state.modal.showNote = false" />
+
+            <!-- Darkening overlay -->
+            <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block"
+                v-if="state.modal.isGuidedTourCitizensOverviewOpen"></div>
+            <ModulesUserGuidedTourModalCitizens v-if="state.modal.isGuidedTourCitizensOverviewOpen"
+                :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen" :isGuidedTour="false"
+                @close="state.modal.isGuidedTourCitizensOverviewOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -127,6 +139,7 @@ const state = reactive({
     isTableLoading: false,
     citizens: [] as any,
     modal: {
+        isGuidedTourCitizensOverviewOpen: false,
         showNote: false,
     },
     selectedCitizen: [],
@@ -146,9 +159,8 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     }
 })
 
-function customPage(page: String) {
-    return userStore.getUser?.custom_pages?.find((item: any) => item.page_type ===
-        page)?.custom_name
+function openGuidedTour() {
+    state.modal.isGuidedTourCitizensOverviewOpen = true
 }
 
 async function fetchCitizens() {

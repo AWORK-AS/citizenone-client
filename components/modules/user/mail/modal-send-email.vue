@@ -158,7 +158,7 @@ async function sendEmail() {
             recipient: state.formEmail.recipient,
             subject: state.formEmail.subject,
             content: state.formEmail.content,
-        }
+        } as any
         if (state.formEmail.encrypt_message) {
             params.is_encrypted = state.formEmail.encrypt_message
             params.password = state.formEmail.password

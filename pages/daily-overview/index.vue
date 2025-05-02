@@ -7,6 +7,11 @@
             </Head>
 
             <template #header>{{ $t('dailyOverview.dailyOverview') }}</template>
+            <template #guided-tour>
+                <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
+                    <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
+                </Tooltip>
+            </template>
 
             <div class="flex gap-x-2">
                 <button class="flex items-center gap-x-1 text-sm text-primary group"
@@ -70,7 +75,8 @@
                                     :dateRange="state.dateRange.formDateRange" />
                             </div>
                             <div v-if="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal">
-                                <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange" />
+                                <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange"
+                                    :viewAll="false" />
                             </div>
                             <div v-if="dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
                                 <ModulesUserDailyOverviewJournalScoreStatistics
@@ -135,6 +141,13 @@
             <ModulesUserDailyOverviewFilterModalDateRange :isModalOpen="state.modal.isDailyOverviewDateRangeOpen"
                 :dateRange="state.dateRange" @close="state.modal.isDailyOverviewDateRangeOpen = false"
                 @filterDate="filterDailyOverviewByDate" />
+
+            <!-- Darkening overlay -->
+            <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block"
+                v-if="state.modal.isGuidedTourDailyOverviewOpen"></div>
+            <ModulesUserGuidedTourModalDailyOverview v-if="state.modal.isGuidedTourDailyOverviewOpen"
+                :isModalOpen="state.modal.isGuidedTourDailyOverviewOpen" :isGuidedTour="false"
+                @close="state.modal.isGuidedTourDailyOverviewOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -158,8 +171,13 @@ const state = reactive({
     modal: {
         isDailyOverviewDateRangeOpen: false,
         isFilterDailyOverviewOpen: false,
+        isGuidedTourDailyOverviewOpen: false,
     }
 })
+
+function openGuidedTour() {
+    state.modal.isGuidedTourDailyOverviewOpen = true
+}
 
 function filterDailyOverviewByDate(formDateRange: any) {
     state.dateRange.formDateRange.start_date = formDateRange.start_date

@@ -115,7 +115,8 @@
                                             <div class="space-y-1">
                                                 <div class="text-xs">
                                                     <span v-if="medicine?.schedule_frequency === 'everyday'">
-                                                        {{ $t('citizens.medicineJournals.scheduleFrequencies.everyday')
+                                                        {{
+                                                            $t('citizens.medicineJournals.scheduleFrequencies.everyday')
                                                         }}
                                                     </span>
                                                     <span v-if="medicine?.schedule_frequency === 'every_other_day'">
@@ -144,35 +145,42 @@
                                                         }}
                                                     </span>
                                                     <span v-if="medicine?.schedule_frequency === 'weekly'">
-                                                        {{ $t('citizens.medicineJournals.scheduleFrequencies.weekly') }}
+                                                        {{
+                                                            $t('citizens.medicineJournals.scheduleFrequencies.weekly')
+                                                        }}
                                                     </span>
                                                     <span v-if="medicine?.schedule_frequency === 'biweekly'">
-                                                        {{ $t('citizens.medicineJournals.scheduleFrequencies.biweekly')
+                                                        {{
+                                                            $t('citizens.medicineJournals.scheduleFrequencies.biweekly')
                                                         }}
                                                     </span>
                                                     <span v-if="medicine?.schedule_frequency === 'monthly'">
-                                                        {{ $t('citizens.medicineJournals.scheduleFrequencies.monthly')
+                                                        {{
+                                                            $t('citizens.medicineJournals.scheduleFrequencies.monthly')
                                                         }}
                                                     </span>
                                                     <span v-if="medicine?.schedule_frequency === 'bimonthly'">
-                                                        {{ $t('citizens.medicineJournals.scheduleFrequencies.bimonthly')
+                                                        {{
+                                                            $t('citizens.medicineJournals.scheduleFrequencies.bimonthly')
                                                         }}
                                                     </span>
                                                     <span v-if="medicine?.schedule_frequency === 'quarterly'">
-                                                        {{ $t('citizens.medicineJournals.scheduleFrequencies.quarterly')
+                                                        {{
+                                                            $t('citizens.medicineJournals.scheduleFrequencies.quarterly')
                                                         }}
                                                     </span>
                                                     <span v-if="medicine?.schedule_frequency === 'annually'">
-                                                        {{ $t('citizens.medicineJournals.scheduleFrequencies.annually')
+                                                        {{
+                                                            $t('citizens.medicineJournals.scheduleFrequencies.annually')
                                                         }}
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div class="mt-2 text-xxs flex flex-wrap gap-2"
+                                            <div class="mt-2 text-xxs flex flex-wrap gap-x-1 gap-y-3"
                                                 v-if="!medicine.is_pn_medicine">
                                                 <div v-for="(dosage, index) in JSON.parse(medicine?.max_dosage_per_time)"
                                                     :key="index">
-                                                    <span class="bg-primary p-1 text-white rounded-md">
+                                                    <span class="bg-secondary p-1 text-white rounded-md">
                                                         {{ dosage?.dosage }} @ {{ dosage?.time }}
                                                     </span>
                                                 </div>
@@ -301,7 +309,7 @@ const state = reactive({
         { column: 'medicine' },
     ],
     columnHeaders: [
-        { name: 'citizens.medicineJournals.table.medicine', sorter: true, key: 'medicine' },
+        { name: 'citizens.medicineJournals.table.medicine' },
         { name: 'citizens.medicineJournals.table.strength' },
         { name: 'citizens.medicineJournals.table.maxDailyDose' },
         { name: 'citizens.medicineJournals.table.dosageForm' },
