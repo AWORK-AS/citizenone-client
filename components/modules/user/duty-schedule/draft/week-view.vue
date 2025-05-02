@@ -114,7 +114,7 @@
                             <div>
                                 <div class="shadow grid grid-cols-9">
                                     <div class="col-span-2 border-0.5">
-                                        <div class="flex items-center gap-x-3 px-3 py-4 border-0.5">
+                                        <div class="flex items-center gap-x-3 px-3 pt-3">
                                             <p class="text-sm font-medium">
                                                 {{ $t('dutySchedules.week') }} {{ weekNumber }}
                                             </p>
@@ -136,6 +136,14 @@
                                                     </button>
                                                 </Tooltip>
                                             </div>
+                                        </div>
+                                        <div class="px-3 pb-2">
+                                            <button @click="toggleShowHideAllShifts()"
+                                                class="text-primary text-xs hover:text-primary-700">
+                                                {{ state.showAllShifts ?
+                                                    $t('hideAll') :
+                                                    $t('showAll') }}
+                                            </button>
                                         </div>
                                     </div>
                                     <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
@@ -445,6 +453,7 @@ const state = reactive({
     } as any,
     copyShiftError: {} as Error,
     customWeekLabel: 'week',
+    showAllShifts: false,
     shiftPercentage: {} as any,
     shiftDateRange: {
         formDateRange: {
@@ -665,6 +674,13 @@ async function fetchDutySchedule() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function toggleShowHideAllShifts() {
+    state.showAllShifts = !state.showAllShifts
+    expandedRecords.forEach((_, index) => {
+        expandedRecords[index] = !state.showAllShifts
+    })
 }
 
 function toggleExpanded(index: number) {

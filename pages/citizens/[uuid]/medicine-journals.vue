@@ -180,7 +180,7 @@
                                                 v-if="!medicine.is_pn_medicine">
                                                 <div v-for="(dosage, index) in JSON.parse(medicine?.max_dosage_per_time)"
                                                     :key="index">
-                                                    <span class="bg-primary p-1 text-white rounded-md">
+                                                    <span class="bg-secondary p-1 text-white rounded-md">
                                                         {{ dosage?.dosage }} @ {{ dosage?.time }}
                                                     </span>
                                                 </div>

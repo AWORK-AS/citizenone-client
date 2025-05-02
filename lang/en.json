@@ -2387,6 +2387,7 @@
         "willNotDisclose": "Will not disclose"
     },
     "guidedTour": "Guided tour",
+    "hideAll": "Hide all",
     "home": "Home",
     "invitation": {
         "invitationAccepted": "Invitation accepted",
@@ -3401,6 +3402,7 @@
         "messages": "Messages",
         "protocols": "Protocols"
     },
+    "showAll": "Show all",
     "showLess": "Show less",
     "showMore": "Show more",
     "subscription": {
