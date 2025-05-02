@@ -41,7 +41,8 @@
                                 {{ language.locale.value === 'en' ? medicine?.medicine?.en_name
                                     : medicine?.medicine?.dk_name }}
                             </h3>
-                            <div class="text-xxs flex flex-wrap gap-1 py-1" v-if="medicine.due_dates?.length > 0">
+                            <div class="text-xxs flex flex-wrap gap-x-1 gap-y-3 py-1"
+                                v-if="medicine.due_dates?.length > 0">
                                 <Tooltip v-for="(due_date, dueDateIndex) in medicine.due_dates" :key="dueDateIndex"
                                     :text="due_date?.given ? $t('dailyOverview.dailyMedicineOverview.given') : $t('dailyOverview.dailyMedicineOverview.notGiven')">
                                     <span :class="[
