@@ -83,9 +83,9 @@
                     {{ $t('events.noEventFound') }}
                 </p>
                 <li v-for="(myCalendarEvent, index) in props.myCalendarEvents?.data" :key="index" :class="[
-                    myCalendarEvent?.citizen && 'border-yellow-500',
-                    !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid !== userStore.getUser?.uuid && 'border-green-700',
-                    !myCalendarEvent?.citizen && myCalendarEvent.user?.uuid === userStore.getUser?.uuid && 'border-primary',
+                    myCalendarEvent?.type === 'citizens' && 'border-yellow-500',
+                    myCalendarEvent?.type === 'employees' && 'border-green-700',
+                    myCalendarEvent?.type === 'my_self' && 'border-primary',
                     'mt-6 pl-4 border-l-4'
                 ]">
                     <div class="relative flex space-x-6 py-6">
