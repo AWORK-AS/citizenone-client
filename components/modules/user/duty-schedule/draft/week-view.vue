@@ -511,7 +511,7 @@ function isAdmin(roles: any) {
 function filterDutyScheduleDate(formDateRange: any) {
     state.shiftDateRange.formDateRange.start_date = formDateRange?.[0]
     state.shiftDateRange.formDateRange.end_date = formDateRange?.[1]
-    fetchDutyScheduleByDateRange(formDateRange?.[0], formDateRange?.[1])
+    fetchDutySchedule()
     setCustomWeekLabel(formDateRange?.[0], formDateRange?.[1])
 }
 
@@ -650,6 +650,8 @@ async function fetchDutySchedule() {
         const params = {
             date_start: startOfWeekFormatted,
             date_end: endOfWeekFormatted,
+            filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
+            filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
         }
         const response = await draftScheduleService.getScheduleDrafts(params)
@@ -667,36 +669,6 @@ async function fetchDutySchedule() {
 
 function toggleExpanded(index: number) {
     expandedRecords[index] = !expandedRecords[index]
-}
-
-async function fetchDutyScheduleByDateRange(dateStart: any, dateEnd: any) {
-    state.error = {}
-    state.weeklySchedules = []
-    state.originalWeeklySchedules = []
-    state.isPageLoading = true
-    try {
-        const dateMoment = moment(currentDate.value)
-        const startOfWeek = dateMoment.clone().startOf('isoWeek')
-        const endOfWeek = dateMoment.clone().endOf('isoWeek')
-        const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
-        const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
-        const params = {
-            date_start: startOfWeekFormatted,
-            date_end: endOfWeekFormatted,
-            filter_date_start: dateStart,
-            filter_date_end: dateEnd,
-            department: departmentStore.getSelectedDepartmentName,
-        }
-        const response = await draftScheduleService.getScheduleDrafts(params)
-        if (response) {
-            state.weeklySchedules = response?.data
-            state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
-            fetchDutySchedulePercentage()
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
 }
 
 function previousWeek() {
