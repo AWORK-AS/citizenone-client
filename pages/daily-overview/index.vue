@@ -75,7 +75,8 @@
                                     :dateRange="state.dateRange.formDateRange" />
                             </div>
                             <div v-if="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal">
-                                <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange" />
+                                <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange"
+                                    :viewAll="false" />
                             </div>
                             <div v-if="dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
                                 <ModulesUserDailyOverviewJournalScoreStatistics

@@ -61,6 +61,10 @@ const props = defineProps({
         type: Object,
         required: false,
     },
+    viewAll: {
+        type: Boolean,
+        required: true,
+    },
 })
 
 const departmentStore = useDepartmentStore()
@@ -91,7 +95,8 @@ async function fetchCitizensLatestJournal() {
     state.isPageLoading = true
     try {
         const params: any = {
-            department: departmentStore.getSelectedDepartmentName
+            department: departmentStore.getSelectedDepartmentName,
+            is_view_all: props?.viewAll,
         }
 
         if (props.dateRange) {
