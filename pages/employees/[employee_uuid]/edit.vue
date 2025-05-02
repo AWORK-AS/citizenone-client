@@ -228,7 +228,6 @@ async function updateEmployee(employeeDetails: any) {
         params.append('vacation_days', employeeDetails.employment.vacation_days)
         params.append('emergency_contacts', JSON.stringify(employeeDetails.emergencyInfo.emergency_contacts))
         params.append('trustees', JSON.stringify(employeeDetails.emergencyInfo.trustees))
-        console.log('test', employeeDetails.employment.annual_norm_hours)
         const response = await employeeService.updateEmployee(employeeUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employees.form.alert.employeeSuccessfullyUpdated')}.`)
