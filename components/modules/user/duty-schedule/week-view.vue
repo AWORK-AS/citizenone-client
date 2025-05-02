@@ -259,53 +259,68 @@
                                                         {{ $t('dutySchedules.yearToDate') }}
                                                     </p>
                                                 </div>
-                                                <div class="col-span-3 space-y-2">
-                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
-                                                        :key="timeIndex">
-                                                        {{ language.locale.value === 'en' ? time?.shift?.en_name :
-                                                            time?.shift?.dk_name }}
-                                                    </p>
-                                                </div>
-                                                <div class="col-span-2 flex gap-2 flex-col items-end">
-                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
-                                                        :key="timeIndex">
-                                                        {{ time?.weekly_hours }}
-                                                    </p>
-                                                </div>
-                                                <div
-                                                    class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200 ml-3">
-                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
-                                                        :key="timeIndex">
-                                                        {{ time?.yearly_hours }}
-                                                    </p>
-                                                </div>
-                                                <div
-                                                    class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
-                                                    <div :class="[
-                                                        weeklySchedule?.employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                        'flex items-center gap-1'
-                                                    ]">
-                                                        <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
-                                                        {{
-                                                            $t('dutySchedules.compensatoryHours')
-                                                        }}:
-                                                        {{
-                                                            weeklySchedule?.employee?.compensatory_hours?.total_in_hours ??
-                                                            0
-                                                        }}
+                                                <div :class="[
+                                                    expandedRecords[weeklyScheduleIndex] && 'max-h-[2.5rem] overflow-hidden',
+                                                    'col-span-7 grid grid-cols-7'
+                                                ]">
+                                                    <div class="col-span-3 space-y-2">
+                                                        <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                            :key="timeIndex">
+                                                            {{ language.locale.value === 'en' ? time?.shift?.en_name :
+                                                                time?.shift?.dk_name }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-span-2 flex gap-2 flex-col items-end">
+                                                        <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                            :key="timeIndex">
+                                                            {{ time?.weekly_hours }}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200 ml-3">
+                                                        <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                            :key="timeIndex">
+                                                            {{ time?.yearly_hours }}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
+                                                        <div :class="[
+                                                            weeklySchedule?.employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'flex items-center gap-1'
+                                                        ]">
+                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
+                                                            {{
+                                                                $t('dutySchedules.compensatoryHours')
+                                                            }}:
+                                                            {{
+                                                                weeklySchedule?.employee?.compensatory_hours?.total_in_hours
+                                                                ??
+                                                                0
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-span-7 space-y-2 mt-1">
+                                                        <div :class="[
+                                                            weeklySchedule?.employee?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'flex items-center gap-1'
+                                                        ]">
+                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
+                                                            {{
+                                                                $t('dutySchedules.availableVacationHours')
+                                                            }}:
+                                                            {{ weeklySchedule?.employee?.available_vacation_hours ?? 0
+                                                            }}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-span-7 space-y-2 mt-1">
-                                                    <div :class="[
-                                                        weeklySchedule?.employee?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                        'flex items-center gap-1'
-                                                    ]">
-                                                        <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
-                                                        {{
-                                                            $t('dutySchedules.availableVacationHours')
-                                                        }}:
-                                                        {{ weeklySchedule?.employee?.available_vacation_hours ?? 0 }}
-                                                    </div>
+                                                <div class="col-span-7 flex justify-center mt-1">
+                                                    <button @click="toggleExpanded(weeklyScheduleIndex)"
+                                                        class="text-primary text-xs hover:text-primary-700">
+                                                        {{ !expandedRecords[weeklyScheduleIndex] ?
+                                                            $t('showLess') :
+                                                            $t('showMore') }}
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -579,6 +594,7 @@ const currentDate = ref(moment())
 const selectedDay = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
+const expandedRecords = reactive([] as boolean[])
 
 const state = reactive({
     addShift: {
@@ -816,11 +832,16 @@ async function fetchDutySchedule() {
             state.weeklySchedules = response?.data
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
             fetchDutyScheduleAbsencePercentage()
+            expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function toggleExpanded(index: number) {
+    expandedRecords[index] = !expandedRecords[index]
 }
 
 async function fetchDutyScheduleByDateRange(dateStart: any, dateEnd: any) {
