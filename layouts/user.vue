@@ -852,6 +852,7 @@ async function logout() {
         const response = await authService.logout()
         if (response) {
             localStorage.removeItem("_token")
+            localStorage.removeItem("remember_me")
             userStore.resetUser()
             navigateTo('/')
         }

@@ -59,7 +59,8 @@
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <input id="remember-me" name="remember-me" type="checkbox"
-                                    class="w-5 h-5 accent-primary cursor-pointer focus:ring-transparent" />
+                                    class="w-5 h-5 accent-primary cursor-pointer focus:ring-transparent"
+                                    v-model="state.remember_me" />
                                 <label for="remember-me"
                                     class="ml-3 block text-sm leading-6 text-gray-700 cursor-pointer">
                                     {{ $t('login.form.rememberMe') }}
@@ -122,6 +123,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     password: null as any,
+    remember_me: false,
     slideOver: {
         isLanguageSwitcherOpen: false
     },
@@ -141,6 +143,10 @@ const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
     animateAssets()
+    const rememberMe = localStorage.getItem("remember_me")
+    if (rememberMe) {
+        navigateTo('/daily-overview')
+    }
 })
 
 function animateAssets() {
@@ -172,6 +178,11 @@ async function login() {
             }
             const response = await authService.login(params)
             if (response.data) {
+                if (state.remember_me) {
+                    localStorage.setItem("remember_me", state.remember_me?.toString())
+                } else {
+                    localStorage.removeItem("remember_me")
+                }
                 localStorage.setItem("_token", response.data?.token)
                 departmentStore.resetSelectedDepartmentName()
                 userStore.setUser(response?.data?.user)
