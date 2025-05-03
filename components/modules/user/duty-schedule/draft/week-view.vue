@@ -486,6 +486,7 @@ const state = reactive({
         showProgressBar: false,
         totalRequests: 0,
     },
+    isFirstLoad: true,
     isRemoveShift: false,
     isUpdateShift: false,
     originalWeeklySchedules: [] as any,
@@ -667,8 +668,11 @@ async function fetchDutySchedule() {
         if (response) {
             state.weeklySchedules = response?.data
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
-            expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
             fetchDutySchedulePercentage()
+            if (state.isFirstLoad) {
+                expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
+            }
+            state.isFirstLoad = false
         }
     } catch (error: any) {
         state.error = error
