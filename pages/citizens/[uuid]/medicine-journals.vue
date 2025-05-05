@@ -178,9 +178,15 @@
                                             </div>
                                             <div class="mt-2 text-xxs flex flex-wrap gap-x-1 gap-y-3"
                                                 v-if="!medicine.is_pn_medicine">
-                                                <div v-for="(dosage, index) in JSON.parse(medicine?.max_dosage_per_time)"
+                                                <div v-for="(dosage, index) in medicine?.max_dosage_per_time"
                                                     :key="index">
-                                                    <span class="bg-secondary p-1 text-white rounded-md">
+                                                    <span :class="[
+                                                        dosage?.status === null && 'bg-secondary',
+                                                        dosage?.status === 'delivered' && 'bg-primary',
+                                                        dosage?.status === 'deviated' && 'bg-red-600',
+                                                        dosage?.status === 'given' && 'bg-green-700',
+                                                        'p-1 text-white rounded-md'
+                                                    ]">
                                                         {{ dosage?.dosage }} @ {{ dosage?.time }}
                                                     </span>
                                                 </div>
@@ -260,7 +266,8 @@
                     :selectedMedicine="state.selectedMedicine" @close="closeEditMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines" />
                 <ModulesUserCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isGiveMedicineOpen"
-                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isGiveMedicineOpen = false" />
+                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isGiveMedicineOpen = false"
+                    @refreshMedicines="fetchCitizenMedicines()" />
                 <ModulesUserCitizenMedicineHistoryModalGiveMultipleMedicine
                     :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false" />
                 <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineHistoryOpen"
