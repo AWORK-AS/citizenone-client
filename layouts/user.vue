@@ -352,7 +352,7 @@
                                     </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="state.modal.isGuidedTourDailyOverviewOpen = true"
+                                    <div @click="state.modal.isGuidedTourWelcomeOpen = true"
                                         class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
                                         <div class="flex items-center gap-x-3">
                                             <Icon name="ph:question" class="h-5 w-5" aria-hidden="true" />

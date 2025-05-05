@@ -103,7 +103,7 @@
             <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block"
                 v-if="state.modal.isGuidedTourEmployeesOpen"></div>
             <ModulesUserGuidedTourModalEmployees v-if="state.modal.isGuidedTourEmployeesOpen"
-                :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="true"
+                :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourEmployeesOpen = false" />
         </NuxtLayout>
     </div>
