@@ -903,7 +903,8 @@
                         "type": "Type",
                         "delivered": "Delivered",
                         "deviated": "Deviated",
-                        "given": "Given"
+                        "given": "Given",
+                        "notGiven": "Not given"
                     }
                 },
                 "giveMedicine": "Give medicine",

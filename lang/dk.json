@@ -903,7 +903,8 @@
                         "type": "Type",
                         "delivered": "Udleveret",
                         "deviated": "Afvigelse",
-                        "given": "Givet"
+                        "given": "Givet",
+                        "notGiven": "Ikke givet"
                     }
                 },
                 "giveMedicine": "Giv medicin",
