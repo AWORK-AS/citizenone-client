@@ -236,7 +236,10 @@
                                                     {{ $t('dutySchedules.viewCalendar') }}
                                                 </button>
                                             </div>
-                                            <div class="text-xs grid grid-cols-7">
+                                            <div :class="[
+                                                expandedRecords[weeklyScheduleIndex] && 'hidden',
+                                                'text-xs grid grid-cols-7 mt-5'
+                                            ]">
                                                 <div class="col-span-3 space-y-2" />
                                                 <div class="col-span-2 flex gap-2 flex-col items-end">
                                                     <p class="text-xxs py-2">
@@ -257,39 +260,34 @@
                                                         {{ $t('dutySchedules.yearToDate') }}
                                                     </p>
                                                 </div>
-                                                <div :class="[
-                                                    expandedRecords[weeklyScheduleIndex] && 'max-h-[2.5rem] overflow-hidden',
-                                                    'col-span-7 grid grid-cols-7'
-                                                ]">
-                                                    <div class="col-span-3 space-y-2">
-                                                        <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
-                                                            :key="timeIndex">
-                                                            {{ language.locale.value === 'en' ? time?.shift?.en_name :
-                                                                time?.shift?.dk_name }}
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-span-2 flex gap-2 flex-col items-end">
-                                                        <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
-                                                            :key="timeIndex">
-                                                            {{ time?.weekly_hours }}
-                                                        </p>
-                                                    </div>
-                                                    <div
-                                                        class="col-span-2 flex gap-2 flex-col items-end border-l-2 border-gray-200 ml-3">
-                                                        <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
-                                                            :key="timeIndex">
-                                                            {{ time?.yearly_hours }}
-                                                        </p>
-                                                    </div>
+                                                <div class="col-span-3 space-y-2">
+                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                        :key="timeIndex">
+                                                        {{ language.locale.value === 'en' ? time?.shift?.en_name :
+                                                            time?.shift?.dk_name }}
+                                                    </p>
                                                 </div>
-                                                <div class="col-span-7 flex justify-start mt-1">
-                                                    <button @click="toggleExpanded(weeklyScheduleIndex)"
-                                                        class="text-primary text-xs hover:text-primary-700">
-                                                        {{ !expandedRecords[weeklyScheduleIndex] ?
-                                                            $t('showLess') :
-                                                            $t('showMore') }}
-                                                    </button>
+                                                <div class="col-span-2 flex gap-2 flex-col items-end">
+                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                        :key="timeIndex">
+                                                        {{ time?.weekly_hours }}
+                                                    </p>
                                                 </div>
+                                                <div
+                                                    class="col-span-2 flex gap-2 flex-col items-end border-l-2 border-gray-200 ml-3">
+                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                        :key="timeIndex">
+                                                        {{ time?.yearly_hours }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div :class="[expandedRecords[weeklyScheduleIndex] ? 'mt-5' : 'mt-1']">
+                                                <button @click="toggleExpanded(weeklyScheduleIndex)"
+                                                    class="text-primary text-xs hover:text-primary-700">
+                                                    {{ !expandedRecords[weeklyScheduleIndex] ?
+                                                        $t('showLess') :
+                                                        $t('showMore') }}
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="p-3 border-0.5" v-for="(week, weekIndex) in weeklySchedule?.weeks"

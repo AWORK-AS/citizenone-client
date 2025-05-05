@@ -8,6 +8,32 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="space-y-3">
                         <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setDailyOverviewFilterShowCitizensDailyEvents()">
+                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents" />
+                            {{ $t('dailyOverview.filter.items.citizensDailyEvents') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setDailyOverviewFilterShowDailyMedicineOverview()">
+                            <FormCheckbox
+                                :value="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
+                            {{ $t('dailyOverview.filter.items.dailyMedicineOverview') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setDailyOverviewFilterShowLatestJournal()">
+                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal" />
+                            {{ $t('dailyOverview.filter.items.latestJournal') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setDailyOverviewFilterShowMyDailyEvents()">
+                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents" />
+                            {{ $t('dailyOverview.filter.items.myDailyEvents') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setDailyOverviewFilterShowBulletBoard()">
+                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showBulletBoard" />
+                            {{ $t('dailyOverview.filter.items.bulletBoard') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowCitizensAdmissionAndDischarged()">
                             <FormCheckbox
                                 :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged" />
@@ -39,19 +65,26 @@
                             {{ $t('dailyOverview.filter.items.citizensDiagnoses') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowMyDailyEvents()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents" />
-                            {{ $t('dailyOverview.filter.items.myDailyEvents') }}
+                            @click="setDailyOverviewFilterShowStatusesScoreStatistics()">
+                            <FormCheckbox
+                                :value="dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics" />
+                            {{ $t('dailyOverview.filter.items.statusesStatistics') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowCitizensDailyEvents()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents" />
-                            {{ $t('dailyOverview.filter.items.citizensDailyEvents') }}
+                            @click="setDailyOverviewFilterShowGoalsScoreStatistics()">
+                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics" />
+                            {{ $t('dailyOverview.filter.items.goalsStatistics') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowLatestJournal()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal" />
-                            {{ $t('dailyOverview.filter.items.latestJournal') }}
+                            @click="setDailyOverviewFilterShowIncidentStatistics()">
+                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics" />
+                            {{ $t('dailyOverview.filter.items.incidentStatistics') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setDailyOverviewFilterShowMedicineDeviationStatistics()">
+                            <FormCheckbox
+                                :value="dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics" />
+                            {{ $t('dailyOverview.filter.items.medicineDeviationStatistics') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowJournalScoreStatistics()">
@@ -60,48 +93,15 @@
                             {{ $t('dailyOverview.filter.items.journalStatistics') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowDailyMedicineOverview()">
-                            <FormCheckbox
-                                :value="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
-                            {{ $t('dailyOverview.filter.items.dailyMedicineOverview') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowBulletBoard()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showBulletBoard" />
-                            {{ $t('dailyOverview.filter.items.bulletBoard') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowGoalsScoreStatistics()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics" />
-                            {{ $t('dailyOverview.filter.items.goalsStatistics') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowSubgoalsScoreStatistics()">
                             <FormCheckbox
                                 :value="dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics" />
                             {{ $t('dailyOverview.filter.items.subgoalsStatistics') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowStatusesScoreStatistics()">
-                            <FormCheckbox
-                                :value="dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics" />
-                            {{ $t('dailyOverview.filter.items.statusesStatistics') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowIncidentStatistics()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics" />
-                            {{ $t('dailyOverview.filter.items.incidentStatistics') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowUseOfForceStatistics()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics" />
                             {{ $t('dailyOverview.filter.items.useOfForceStatistics') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowMedicineDeviationStatistics()">
-                            <FormCheckbox
-                                :value="dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics" />
-                            {{ $t('dailyOverview.filter.items.medicineDeviationStatistics') }}
                         </div>
                     </div>
                     <div class="mt-5 flex gap-x-3 justify-end">
