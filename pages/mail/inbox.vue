@@ -257,19 +257,19 @@ async function fetchEmails(pageNumber: number) {
 async function setSelectedEmail(emailIndex: any, email: any) {
     state.selectedEmail = email
     if (email?.flags?.seen !== 'Seen') {
-        state.error = {}
-        try {
-            const emailUuid = email?.uuid
-            const response = await mailService.readMail(emailUuid)
-            if (response) {
-                state.emails[emailIndex].flags.seen = 'Seen'
-                if (state.unreadEmails > 0) {
-                    state.unreadEmails--
-                }
-            }
-        } catch (error: any) {
-            state.error = error
+        //     state.error = {}
+        //     try {
+        //         const emailUuid = email?.uuid
+        //         const response = await mailService.readMail(emailUuid)
+        //         if (response) {
+        state.emails[emailIndex].flags.seen = 'Seen'
+        if (state.unreadEmails > 0) {
+            state.unreadEmails--
         }
+        //         }
+        //     } catch (error: any) {
+        //         state.error = error
+        //     }
     }
 }
 </script>
