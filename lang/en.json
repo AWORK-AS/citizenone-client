@@ -2616,6 +2616,7 @@
             },
             "from": "From",
             "replySecurely": "Reply securely",
+            "secured": "Secured",
             "securedMail": "Secured mail",
             "sent": {
                 "sentWith": "Sent with",

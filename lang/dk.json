@@ -2616,6 +2616,7 @@
             },
             "from": "Fra",
             "replySecurely": "Svar sikkert",
+            "secured": "Sikker",
             "securedMail": "Sikker mail",
             "sent": {
                 "sentWith": "Sendt med",

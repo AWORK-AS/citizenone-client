@@ -3,10 +3,10 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('mail.mail') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('mail.sent') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('mail.mail') }}</template>
+            <template #header>{{ $t('mail.sent') }}</template>
             <div>
                 <div v-if="state.loading.isUserLoading" class="mt-44 flex items-center justify-center">
                     <span class="text-lg">
@@ -45,6 +45,7 @@
                         <div v-else>
                             <div class="flex gap-x-6">
                                 <ModulesUserMailSidebar :unreadMessage="state.unreadEmails"
+                                    :unreadSecuredMessage="state.unreadSecuredMessage"
                                     @refreshSentEmails="fetchSentMails" />
                                 <div class="grow mt-44 flex items-center justify-center"
                                     v-if="state.loading.isEmailsLoading">
@@ -170,6 +171,7 @@ const state = reactive({
     selectedEmail: null as any,
     sentEmails: [] as any,
     unreadEmails: 0,
+    unreadSecuredMessage: 0,
 })
 
 watch(() => userStore.getUser, (user: any) => {
@@ -224,6 +226,7 @@ async function fetchSentMails(pageNumber: number) {
         if (response?.data) {
             state.sentEmails.push(...response?.data?.data?.sort((a: any, b: any) => new Date(b.header.date).getTime() - new Date(a.header.date).getTime()))
             state.unreadEmails = response?.unread_emails ?? 0
+            state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
             state.pagination = response?.data
         }
     } catch (error: any) {
