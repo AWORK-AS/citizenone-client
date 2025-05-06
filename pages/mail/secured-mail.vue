@@ -62,8 +62,8 @@
                                     <span class="dot5">.</span>
                                 </div>
                                 <div class="grow" v-else>
-                                    <div class="grid grid-cols-6 gap-x-4">
-                                        <div class="col-span-2 rounded-md space-y-3 px-2"
+                                    <div class="grid grid-cols-6 gap-x-2 gap-y-8">
+                                        <div class="col-span-6 md:col-span-2 rounded-md space-y-3 px-2"
                                             style="height: 80vh; overflow-y: auto;">
                                             <div v-for="(email, emailIndex) in state.emails" :key="emailIndex" :class="[
                                                 email?.is_read ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white hover:bg-gray-100',
@@ -112,12 +112,12 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="col-span-4 bg-white px-6 py-4 rounded-md">
+                                        <div class="col-span-6 md:col-span-4 bg-white px-6 py-4 rounded-md">
                                             <div v-if="state.selectedEmail">
                                                 <p class="text-lg font-semibold">
                                                     {{ state.selectedEmail?.subject }}
                                                 </p>
-                                                <div class="flex gap-1 text-sm">
+                                                <div class="flex-wrap gap-1 text-sm">
                                                     <p>
                                                         {{ t('mail.content.from') }}
                                                     </p>

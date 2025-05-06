@@ -7,7 +7,7 @@
         </Tooltip>
         <div class="relative">
             <button class="w-20 h-16 flex flex-col items-center justify-center px-6 py-4 rounded-lg text-gray-900"
-                :class="$route.name === 'mail-inbox' ? 'bg-white shadow-md hover:bg-gray-100' : 'shadow-sm bg-gray-100 hover:bg-gray-200'"
+                :class="$route.name === 'mail-inbox' ? 'text-primary bg-white shadow-md hover:bg-gray-100' : 'shadow-sm bg-gray-100 hover:bg-gray-200'"
                 @click="navigateTo('/mail/inbox')">
                 <Icon name="ph:envelope-open" class="h-6 w-6" aria-hidden="true" />
                 <p class="text-xxs">{{ $t('mail.inbox') }}</p>
@@ -18,7 +18,7 @@
         </div>
         <div class="relative">
             <button class="w-20 h-20 flex flex-col items-center justify-center px-6 py-4 rounded-lg text-gray-900"
-                :class="$route.name === 'mail-secured-mail' ? 'bg-white shadow-md hover:bg-gray-100' : 'shadow-sm bg-gray-100 hover:bg-gray-200'"
+                :class="$route.name === 'mail-secured-mail' ? 'text-primary bg-white shadow-md hover:bg-gray-100' : 'shadow-sm bg-gray-100 hover:bg-gray-200'"
                 @click="navigateTo('/mail/secured-mail')">
                 <div>
                     <Icon name="ic:baseline-security" class="h-6 w-6" aria-hidden="true" />
@@ -31,7 +31,7 @@
             </Badge>
         </div>
         <button class="w-20 h-16 flex flex-col items-center justify-center px-6 py-4 rounded-lg text-gray-900"
-            :class="$route.name === 'mail-sent' ? 'bg-white shadow-md hover:bg-gray-100' : 'shadow-sm bg-gray-100 hover:bg-gray-200'"
+            :class="$route.name === 'mail-sent' ? 'text-primary bg-white shadow-md hover:bg-gray-100' : 'shadow-sm bg-gray-100 hover:bg-gray-200'"
             @click="navigateTo('/mail/sent')">
             <Icon name="ph:paper-plane-tilt" class="h-6 w-6" aria-hidden="true" />
             <p class="text-xxs">{{ $t('mail.sent') }}</p>
