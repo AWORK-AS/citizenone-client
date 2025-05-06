@@ -65,26 +65,20 @@
                                     <div class="grid grid-cols-6 gap-x-4">
                                         <div class="col-span-2 rounded-md space-y-3 px-2"
                                             style="height: 80vh; overflow-y: auto;">
-                                            <div v-for="(email, emailIndex) in state.emails?.data" :key="emailIndex"
-                                                :class="[
-                                                    email?.is_read ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white hover:bg-gray-100',
-                                                    'px-4 py-3 cursor-pointer rounded-md shadow-sm'
+                                            <div v-for="(email, emailIndex) in state.emails" :key="emailIndex" :class="[
+                                                email?.is_read ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white hover:bg-gray-100',
+                                                'px-4 py-3 cursor-pointer rounded-md shadow-sm'
 
-                                                ]" @click="setSelectedEmail(emailIndex, email)">
+                                            ]" @click="setSelectedEmail(emailIndex, email)">
                                                 <div>
                                                     <div class="flex items-center gap-x-2">
-                                                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.from}`"
+                                                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.email}`"
                                                             class="rounded-full w-11 h-11 object-cover" />
                                                         <div class="grow">
                                                             <div class="flex justify-between gap-3">
-                                                                <div class="line-clamp-1">
-                                                                    <div v-for="(receipient, receipientIndex) in email?.receipient_emails"
-                                                                        :index="receipientIndex">
-                                                                        <p class="text-xs">
-                                                                            {{ receipient }}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
+                                                                <p class="text-xs">
+                                                                    {{ email?.email }}
+                                                                </p>
                                                                 <div class="flex justify-end" v-if="!email?.is_read">
                                                                     <div class="w-2 h-2 rounded-full bg-[#D27B7B]">
                                                                     </div>
@@ -98,7 +92,7 @@
                                                     </div>
                                                 </div>
                                                 <p class="text-xs text-right">
-                                                    {{ formatDateTimeToReadable(email?.header?.date) }}
+                                                    {{ formatDateTimeToReadable(email?.created_at) }}
                                                 </p>
                                             </div>
                                             <div class="text-center text-gray-500 text-sm"
@@ -110,13 +104,13 @@
                                                 <span class="dot4">.</span>
                                                 <span class="dot5">.</span>
                                             </div>
-                                            <!-- <div class="text-center" v-else
-                                                v-if="parseInt(state.pagination?.current_page) < parseInt(state.pagination?.last_page)">
+                                            <div class="text-center" v-else
+                                                v-if="state.pagination?.next_page_url !== null">
                                                 <button class="text-sm"
                                                     @click="fetchEmails(parseInt(state.pagination?.current_page) + 1)">
                                                     {{ $t('mail.loadMore') }}
                                                 </button>
-                                            </div> -->
+                                            </div>
                                         </div>
                                         <div class="col-span-4 bg-white px-6 py-4 rounded-md">
                                             <div v-if="state.selectedEmail">
@@ -127,20 +121,15 @@
                                                     <p>
                                                         {{ t('mail.content.from') }}
                                                     </p>
-                                                    <div class="line-clamp-1">
-                                                        <div v-for="(receipient, receipientIndex) in state?.selectedEmail?.receipient_emails"
-                                                            :index="receipientIndex">
-                                                            <p>
-                                                                {{ receipient }}
-                                                            </p>
-                                                        </div>
-                                                    </div>
+                                                    <p>
+                                                        {{ state?.selectedEmail?.email }}
+                                                    </p>
                                                     <p class="lowercase">
                                                         {{ t('mail.content.on') }}
                                                     </p>
                                                     <p>
                                                         {{
-                                                            formatDateTimeToReadable(state.selectedEmail?.header?.date)
+                                                            formatDateTimeToReadable(state.selectedEmail?.created_at)
                                                         }}
                                                     </p>
                                                 </div>
@@ -191,6 +180,7 @@ const state = reactive({
         isConnectYourMailOpen: false,
         isSendEmailOpen: false,
     },
+    pagination: {} as any,
     selectedEmail: null as any,
     unreadEmails: 0,
     unreadSecuredMessage: 0,
@@ -246,9 +236,10 @@ async function fetchEmails(pageNumber: number) {
         }
         const response = await mailService.getSecuredMails(params)
         if (response?.data) {
-            state.emails = response
+            state.emails.push(...response?.data?.data)
             state.unreadEmails = response?.unread_emails ?? 0
             state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
+            state.pagination = response?.data
         }
     } catch (error: any) {
         state.error = error
@@ -260,13 +251,13 @@ async function fetchEmails(pageNumber: number) {
 
 async function setSelectedEmail(emailIndex: any, email: any) {
     state.selectedEmail = email
-    if (!state.emails.data[emailIndex].is_read) {
+    if (!state.emails[emailIndex].is_read) {
         state.error = {}
         try {
             const emailUuid = email?.uuid
             const response = await mailService.readSecuredMail(emailUuid)
             if (response) {
-                state.emails.data[emailIndex].is_read = true
+                state.emails[emailIndex].is_read = true
                 if (state.unreadSecuredMessage > 0) {
                     state.unreadSecuredMessage--
                 }
