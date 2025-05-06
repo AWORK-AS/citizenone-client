@@ -117,7 +117,7 @@
                                                 <p class="text-lg font-semibold">
                                                     {{ state.selectedEmail?.subject }}
                                                 </p>
-                                                <div class="flex-wrap gap-1 text-sm">
+                                                <div class="flex-wrap md:flex gap-1 text-sm">
                                                     <p>
                                                         {{ t('mail.content.from') }}
                                                     </p>
