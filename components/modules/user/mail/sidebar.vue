@@ -17,11 +17,14 @@
             </Badge>
         </div>
         <div class="relative">
-            <button class="w-20 h-16 flex flex-col items-center justify-center px-6 py-4 rounded-lg text-gray-900"
+            <button class="w-20 h-20 flex flex-col items-center justify-center px-6 py-4 rounded-lg text-gray-900"
                 :class="$route.name === 'mail-secured-mail' ? 'bg-white shadow-md hover:bg-gray-100' : 'shadow-sm bg-gray-100 hover:bg-gray-200'"
                 @click="navigateTo('/mail/secured-mail')">
-                <Icon name="ic:baseline-security" class="h-6 w-6" aria-hidden="true" />
+                <div>
+                    <Icon name="ic:baseline-security" class="h-6 w-6" aria-hidden="true" />
+                </div>
                 <p class="text-xxs">{{ $t('mail.secured.secured') }}</p>
+                <p class="text-xxs">{{ $t('mail.mail') }}</p>
             </button>
             <!-- <Badge type="notification" class="w-fit absolute -right-2 -top-2">
                 {{ props?.unreadSecuredMessage ?? 0 }}

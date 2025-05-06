@@ -7,6 +7,10 @@
             </Head>
 
             <template #header>{{ $t('mail.inbox') }}</template>
+
+            <Alert type="danger" :text="state?.error?.message"
+                v-if="state.error?.message && state.error.message.length > 0" />
+
             <div>
                 <div v-if="state.loading.isUserLoading" class="mt-44 flex items-center justify-center">
                     <span class="text-lg">
@@ -250,16 +254,21 @@ async function fetchEmails(pageNumber: number) {
     }
 }
 
-function setSelectedEmail(emailIndex: any, email: any) {
+async function setSelectedEmail(emailIndex: any, email: any) {
     state.selectedEmail = email
-
-    // Mark email as read if it's not already seen
     if (email?.flags?.seen !== 'Seen') {
-        state.emails[emailIndex].flags.seen = 'Seen'
-
-        // Optionally reduce unread count
-        if (state.unreadEmails > 0) {
-            state.unreadEmails--
+        state.error = {}
+        try {
+            const emailUuid = email?.uuid
+            const response = await mailService.readMail(emailUuid)
+            if (response) {
+                state.emails[emailIndex].flags.seen = 'Seen'
+                if (state.unreadEmails > 0) {
+                    state.unreadEmails--
+                }
+            }
+        } catch (error: any) {
+            state.error = error
         }
     }
 }

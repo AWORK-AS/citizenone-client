@@ -7,6 +7,10 @@
             </Head>
 
             <template #header>{{ $t('mail.secured.securedMail') }}</template>
+
+            <Alert type="danger" :text="state?.error?.message"
+                v-if="state.error?.message && state.error.message.length > 0" />
+
             <div>
                 <div v-if="state.loading.isUserLoading" class="mt-44 flex items-center justify-center">
                     <span class="text-lg">
@@ -63,7 +67,7 @@
                                             style="height: 80vh; overflow-y: auto;">
                                             <div v-for="(email, emailIndex) in state.emails?.data" :key="emailIndex"
                                                 :class="[
-                                                    email?.flags?.seen === 'Seen' ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white hover:bg-gray-100',
+                                                    email?.is_read ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white hover:bg-gray-100',
                                                     'px-4 py-3 cursor-pointer rounded-md shadow-sm'
 
                                                 ]" @click="setSelectedEmail(emailIndex, email)">
@@ -81,8 +85,7 @@
                                                                         </p>
                                                                     </div>
                                                                 </div>
-                                                                <div class="flex justify-end"
-                                                                    v-if="email?.flags?.seen !== 'Seen'">
+                                                                <div class="flex justify-end" v-if="!email?.is_read">
                                                                     <div class="w-2 h-2 rounded-full bg-[#D27B7B]">
                                                                     </div>
                                                                 </div>
@@ -255,8 +258,23 @@ async function fetchEmails(pageNumber: number) {
     }
 }
 
-function setSelectedEmail(emailIndex: any, email: any) {
+async function setSelectedEmail(emailIndex: any, email: any) {
     state.selectedEmail = email
+    if (!state.emails.data[emailIndex].is_read) {
+        state.error = {}
+        try {
+            const emailUuid = email?.uuid
+            const response = await mailService.readSecuredMail(emailUuid)
+            if (response) {
+                state.emails.data[emailIndex].is_read = true
+                if (state.unreadSecuredMessage > 0) {
+                    state.unreadSecuredMessage--
+                }
+            }
+        } catch (error: any) {
+            state.error = error
+        }
+    }
 }
 </script>
 

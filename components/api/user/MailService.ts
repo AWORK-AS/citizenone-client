@@ -24,5 +24,13 @@ class MailService extends BaseAPIService {
     async deleteMail(emailUuid: any): Promise<any> {
         return await this.request(`/user/emails/${emailUuid}`, 'DELETE')
     }
+
+    async readMail(emailUuid: any): Promise<any> {
+        return await this.request(`/user/mails/${emailUuid}/mark-read`, 'PUT')
+    }
+
+    async readSecuredMail(emailUuid: any): Promise<any> {
+        return await this.request(`/user/encrypted-emails/${emailUuid}/mark-read`, 'PUT')
+    }
 }
 export const mailService = new MailService()

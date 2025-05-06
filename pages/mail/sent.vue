@@ -7,6 +7,10 @@
             </Head>
 
             <template #header>{{ $t('mail.sent') }}</template>
+
+            <Alert type="danger" :text="state?.error?.message"
+                v-if="state.error?.message && state.error.message.length > 0" />
+
             <div>
                 <div v-if="state.loading.isUserLoading" class="mt-44 flex items-center justify-center">
                     <span class="text-lg">
