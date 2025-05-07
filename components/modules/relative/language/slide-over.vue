@@ -39,8 +39,8 @@
                                                     v-for="(language, index) in state.options.languages?.data"
                                                     :key="index" @click="switchLanguage(language)">
                                                     <span v-if="language.code === 'en'">
-                                                        <img src="/img/icons/flags/united-states-of-america.svg"
-                                                            alt="flag" class="w-12 h-12">
+                                                        <img src="/img/icons/flags/united-kingdom.svg" alt="flag"
+                                                            class="w-12 h-12">
                                                         <div class="bg-white rounded-full absolute -end-3 -top-3 p-1 w-fit h-fit"
                                                             v-if="userStore.getLanguage === 'en'">
                                                             <div
