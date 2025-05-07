@@ -108,7 +108,7 @@
                                         <div v-if="state.showOnFirstLoad" :class="[
                                             state.selectedEmail && 'slide-from-right',
                                             !state.selectedEmail && 'slide-to-right',
-                                            'absolute top-0 left-0 h-full w-full bg-white px-6 py-4 rounded-md'
+                                            'absolute top-0 left-0 h-full w-full bg-white px-6 py-4 rounded-md overflow-x-scroll'
                                         ]">
                                             <button class="flex items-center gap-x-2"
                                                 @click="state.selectedEmail = null">
