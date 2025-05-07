@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <div v-else>
-                            <div class="flex gap-x-6">
+                            <div class="flex">
                                 <ModulesUserMailSidebar :unreadMessage="state.unreadEmails"
                                     :unreadSecuredMessage="state.unreadSecuredMessage" />
                                 <div class="grow mt-44 flex items-center justify-center"
@@ -62,12 +62,11 @@
                                     <span class="dot5">.</span>
                                 </div>
                                 <div class="grow" v-else>
-                                    <div class="grid grid-cols-6 gap-x-2 gap-y-8">
-                                        <div class="col-span-6 md:col-span-2 rounded-md space-y-3 px-2"
-                                            style="height: 80vh; overflow-y: auto;">
+                                    <div class="relative">
+                                        <div style="height: 80vh; overflow-y: auto;">
                                             <div v-for="(email, emailIndex) in state.emails" :key="emailIndex" :class="[
                                                 email?.is_read ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white hover:bg-gray-100',
-                                                'px-4 py-3 cursor-pointer rounded-md shadow-sm'
+                                                'px-4 py-3 cursor-pointer border-b-0.5 border-gray-00'
 
                                             ]" @click="setSelectedEmail(emailIndex, email)">
                                                 <div>
@@ -84,9 +83,12 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <p class="text-sm line-clamp-1"
+                                                            <p class="text-xs line-clamp-1"
                                                                 v-if="email?.subject && email?.subject?.length > 0">
                                                                 {{ email?.subject }}
+                                                            </p>
+                                                            <p class="text-sm line-clamp-1">
+                                                                {{ email?.message }}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -112,8 +114,15 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="col-span-6 md:col-span-4 bg-white px-6 py-4 rounded-md">
-                                            <div v-if="state.selectedEmail">
+                                        <div v-if="state.showOnFirstLoad" :class="[
+                                            state.selectedEmail && 'slide-from-right',
+                                            !state.selectedEmail && 'slide-to-right',
+                                            'absolute top-0 left-0 h-full w-full bg-white px-6 py-4 rounded-md'
+                                        ]">
+                                            <button @click="state.selectedEmail = null">
+                                                <Icon name="ph:arrow-left" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <div>
                                                 <p class="text-lg font-semibold">
                                                     {{ state.selectedEmail?.subject }}
                                                 </p>
@@ -136,6 +145,7 @@
                                                 <div v-html="state.selectedEmail?.message" class="py-6" />
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -182,6 +192,7 @@ const state = reactive({
     },
     pagination: {} as any,
     selectedEmail: null as any,
+    showOnFirstLoad: false,
     unreadEmails: 0,
     unreadSecuredMessage: 0,
 })
@@ -237,6 +248,26 @@ async function fetchEmails(pageNumber: number) {
         const response = await mailService.getSecuredMails(params)
         if (response?.data) {
             state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
+            state.emails.push(...response?.data?.data)
             state.unreadEmails = response?.unread_emails ?? 0
             state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
             state.pagination = response?.data
@@ -250,6 +281,7 @@ async function fetchEmails(pageNumber: number) {
 }
 
 async function setSelectedEmail(emailIndex: any, email: any) {
+    state.showOnFirstLoad = true
     state.selectedEmail = email
     if (!state.emails[emailIndex].is_read) {
         state.error = {}
@@ -310,5 +342,37 @@ async function setSelectedEmail(emailIndex: any, email: any) {
 .dot5 {
     animation: blink 1.4s infinite both;
     animation-delay: 0.8s;
+}
+
+@keyframes slideFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideToRight {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.slide-from-right {
+    animation: slideFromRight 0.5s ease-out forwards;
+}
+
+.slide-to-right {
+    animation: slideToRight 0.5s ease-in forwards;
 }
 </style>
