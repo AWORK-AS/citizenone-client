@@ -1,27 +1,29 @@
 <template>
-    <form @submit.prevent="submitForm()">
-        <Alert type="danger" :text="state?.error?.message"
-            v-if="state.error?.message && state.error.message.length > 0" />
-        <div class="space-y-3">
-            <div class="space-y-1">
-                <FormLabel for="content" :label="$t('mail.form.message')" />
-                <FormTextArea id="content" name="content" :placeholder="$t('mail.form.message')"
-                    v-model="state.formEmail.content" />
-                <FormError :error="v$?.formEmail?.content?.$errors[0]?.$message.toString()" />
-                <FormError :error="state?.error?.errors?.content?.[0]" />
+    <LoadingSpinner :isActive="state.isPageLoading">
+        <form @submit.prevent="submitForm()">
+            <Alert type="danger" :text="state?.error?.message"
+                v-if="state.error?.message && state.error.message.length > 0" />
+            <div class="space-y-3">
+                <div class="space-y-1">
+                    <FormLabel for="content" :label="$t('mail.form.message')" />
+                    <FormTextArea id="content" name="content" :placeholder="$t('mail.form.message')"
+                        v-model="state.formEmail.content" />
+                    <FormError :error="v$?.formEmail?.content?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.content?.[0]" />
+                </div>
             </div>
-        </div>
-        <div class="mt-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('close')">
-                    {{ $t('cancel') }}
-                </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
-                    {{ $t('mail.form.send') }}
-                </FormButton>
+            <div class="mt-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('close')">
+                        {{ $t('cancel') }}
+                    </FormButton>
+                    <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                        {{ $t('mail.form.send') }}
+                    </FormButton>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </LoadingSpinner>
 </template>
 
 <script setup lang="ts">
