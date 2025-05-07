@@ -145,6 +145,15 @@
                                                 </div>
                                                 <div v-html="state.selectedEmail?.message" class="py-6" />
                                             </div>
+                                            <ModulesUserMailReplySecuredMailForm :selectedEmail="state.selectedEmail"
+                                                @close="state.showReplyForm = false" v-if="state.showReplyForm" />
+                                            <div class="mt-5 flex items-center" v-else>
+                                                <FormButton buttonStyle="primary" class="w-fit rounded-md"
+                                                    @click="state.showReplyForm = !state.showReplyForm">
+                                                    <Icon name="ph:arrow-bend-up-left" size="w-10 h-10" />
+                                                    {{ $t('mail.reply') }}
+                                                </FormButton>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -193,6 +202,7 @@ const state = reactive({
     pagination: {} as any,
     selectedEmail: null as any,
     showOnFirstLoad: false,
+    showReplyForm: false,
     unreadEmails: 0,
     unreadSecuredMessage: 0,
 })

@@ -2601,6 +2601,7 @@
         },
         "loadMore": "Load more",
         "mail": "Mail",
+        "reply": "Reply",
         "secured": {
             "alert": {
                 "invalidPassword": "Invalid password"

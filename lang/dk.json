@@ -2601,6 +2601,7 @@
         },
         "loadMore": "Indlæs mere",
         "mail": "Post",
+        "reply": "Svar",
         "secured": {
             "alert": {
                 "invalidPassword": "Ugyldig adgangskode"
