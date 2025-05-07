@@ -47,11 +47,10 @@
                             </div>
                         </div>
                         <div v-else>
-                            <div class="flex">
+                            <div class="flex bg-white rounded-tr-md rounded-br-md">
                                 <ModulesUserMailSidebar :unreadMessage="state.unreadEmails"
                                     :unreadSecuredMessage="state.unreadSecuredMessage" />
-                                <div class="grow mt-44 flex items-center justify-center"
-                                    v-if="state.loading.isEmailsLoading">
+                                <div class="grow flex items-center justify-center" v-if="state.loading.isEmailsLoading">
                                     <span class="text-lg">
                                         {{ t('mail.loading.loadingYourEmails') }}
                                     </span>
