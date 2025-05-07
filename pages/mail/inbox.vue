@@ -73,7 +73,7 @@
                                                         <div class="w-2 h-2 rounded-full bg-[#D27B7B]"></div>
                                                     </div>
                                                     <div class="flex items-center gap-x-2">
-                                                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.from}`"
+                                                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.header?.from}`"
                                                             class="rounded-full w-11 h-11 object-cover" />
                                                         <div class="grow">
                                                             <p class="text-sm line-clamp-1"
