@@ -582,6 +582,7 @@ watch(() => language.locale.value, () => {
 })
 
 function generateSidebarLinks(user: any) {
+    navigation = []
     const userHasSecuredMailAccess = user?.is_secure_mail_active
     const userHasPageAttendanceAccess = user?.pages.some((page: any) => page.name === "Attendance")
     navigation.push({
