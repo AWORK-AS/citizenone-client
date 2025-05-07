@@ -352,29 +352,11 @@
                                     </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="state.modal.isGuidedTourWelcomeOpen = true"
-                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
-                                        <div class="flex items-center gap-x-3">
-                                            <Icon name="ph:question" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.getAGuidedTour') }}
-                                        </div>
-                                    </div>
-                                    </MenuItem>
-                                    <MenuItem>
                                     <div @click="navigateTo('/procedures')"
                                         class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
                                         <div class="flex items-center gap-x-3">
                                             <Icon name="ph:list-checks" class="h-5 w-5" aria-hidden="true" />
                                             {{ $t('navbar.procedures') }}
-                                        </div>
-                                    </div>
-                                    </MenuItem>
-                                    <MenuItem>
-                                    <div @click="state.modal.isContactUsOpen = true"
-                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
-                                        <div class="flex items-center gap-x-3">
-                                            <Icon name="ph:shooting-star" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.newWishes') }}
                                         </div>
                                     </div>
                                     </MenuItem>
@@ -429,8 +411,6 @@
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesUserSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
-        <ModulesUserWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
-            @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
 
         <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
@@ -568,7 +548,6 @@ const state = reactive({
     isSidebarLoading: true,
     modal: {
         isCheckinReminderOpen: false,
-        isContactUsOpen: false,
         isGuidedTourCalendarOpen: false,
         isGuidedTourCitizensOverviewOpen: false,
         isGuidedTourDailyOverviewOpen: false,
