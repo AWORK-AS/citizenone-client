@@ -849,7 +849,7 @@
             "form": {
                 "activateMedicine": "Aktiver medicine",
                 "active": "Aktiv",
-                "activeIngredients": "Aktive ingredienser",
+                "activeIngredients": "Indholdsstoffer",
                 "alert": {
                     "successfullyAdded": "Medicin tilføjet med succes",
                     "successfullyUpdated": "Medicin opdateret med succes"
@@ -858,7 +858,7 @@
                 "deactivate": "Deaktiver",
                 "deactivated": "Deaktiveret",
                 "description": "Beskrivelse",
-                "doctor": "Ordinerende lage",
+                "doctor": "Ordinerende læge",
                 "dosage": "Dosis",
                 "dosageForm": "Doseringsform",
                 "endDate": "Slutdato for seponering",
@@ -956,7 +956,7 @@
                     "medicineHistory": "Medicinhistorik",
                     "view": "Se"
                 },
-                "activeIngredients": "Aktive ingredienser",
+                "activeIngredients": "Indholdsstoffer",
                 "currentStocks": "Nuværende lagre",
                 "description": "Beskrivelse",
                 "dosageForm": "Doseringsform",
