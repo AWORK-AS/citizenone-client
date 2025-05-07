@@ -97,7 +97,7 @@
                                                     {{ formatDateTimeToReadable(email?.created_at) }}
                                                 </p>
                                             </div>
-                                            <div class="text-center text-gray-500 text-sm"
+                                            <div class="text-center mt-3 text-gray-500 text-sm"
                                                 v-if="state.loading.isEmailsLoadingMore">
                                                 {{ $t('mail.loading.loadingYourEmails') }}
                                                 <span class="dot1">.</span>
@@ -106,7 +106,7 @@
                                                 <span class="dot4">.</span>
                                                 <span class="dot5">.</span>
                                             </div>
-                                            <div class="text-center" v-else
+                                            <div class="text-center mt-3" v-else
                                                 v-if="state.pagination?.next_page_url !== null">
                                                 <button class="text-sm"
                                                     @click="fetchEmails(parseInt(state.pagination?.current_page) + 1)">
