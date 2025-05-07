@@ -119,10 +119,12 @@
                                             !state.selectedEmail && 'slide-to-right',
                                             'absolute top-0 left-0 h-full w-full bg-white px-6 py-4 rounded-md'
                                         ]">
-                                            <button @click="state.selectedEmail = null">
-                                                <Icon name="ph:arrow-left" class="h-5 w-5" aria-hidden="true" />
+                                            <button class="flex items-center gap-x-2"
+                                                @click="state.selectedEmail = null">
+                                                <Icon name="ph:arrow-left" size="20" class="text-black" />
+                                                <span>{{ $t('back') }}</span>
                                             </button>
-                                            <div>
+                                            <div class="mt-3">
                                                 <p class="text-lg font-semibold">
                                                     {{ state.selectedEmail?.subject }}
                                                 </p>
@@ -247,26 +249,6 @@ async function fetchEmails(pageNumber: number) {
         }
         const response = await mailService.getSecuredMails(params)
         if (response?.data) {
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
-            state.emails.push(...response?.data?.data)
             state.emails.push(...response?.data?.data)
             state.unreadEmails = response?.unread_emails ?? 0
             state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
