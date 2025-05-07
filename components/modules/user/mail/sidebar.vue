@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white px-4 rounded-tl-md rounded-bl-md border-r-0.5 border-gray-300">
+    <div class="bg-white px-4 rounded-tl-md rounded-bl-md border-r-0.5 border-gray-300" style="height: 80vh;">
         <div class="flex flex-col items-center gap-5 py-4">
             <Tooltip :text="$t('mail.compose')" @click="state.modal.isSendEmailOpen = true">
                 <button class="flex flex-col items-center justify-center p-5 rounded-full text-white bg-primary">

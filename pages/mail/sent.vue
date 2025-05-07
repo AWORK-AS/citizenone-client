@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <div v-else>
-                            <div class="flex gap-x-6">
+                            <div class="flex">
                                 <ModulesUserMailSidebar :unreadMessage="state.unreadEmails"
                                     :unreadSecuredMessage="state.unreadSecuredMessage"
                                     @refreshSentEmails="fetchSentMails" />
@@ -63,9 +63,8 @@
                                     <span class="dot5">.</span>
                                 </div>
                                 <div class="grow" v-else>
-                                    <div class="grid grid-cols-6 gap-x-2 gap-y-8">
-                                        <div class="col-span-6 md:col-span-2 rounded-md space-y-3 px-2"
-                                            style="height: 80vh; overflow-y: auto;">
+                                    <div class="relative">
+                                        <div style="height: 80vh; overflow-y: auto;">
                                             <div v-for="(email, index) in state.sentEmails" :key="index"
                                                 class="px-4 py-3 cursor-pointer rounded-md shadow-sm bg-gray-100 hover:bg-gray-200"
                                                 @click="setSelectedEmail(email)">
@@ -98,7 +97,16 @@
                                                     {{ formatDateTimeToReadable(email?.header?.date) }}
                                                 </p>
                                             </div>
-                                            <div class="text-center"
+                                            <div class="text-center mt-3 text-gray-500 text-sm"
+                                                v-if="state.loading.isEmailsLoadingMore">
+                                                {{ $t('mail.loading.loadingYourEmails') }}
+                                                <span class="dot1">.</span>
+                                                <span class="dot2">.</span>
+                                                <span class="dot3">.</span>
+                                                <span class="dot4">.</span>
+                                                <span class="dot5">.</span>
+                                            </div>
+                                            <div class="text-center mt-3" v-else
                                                 v-if="parseInt(state.pagination?.current_page) < parseInt(state.pagination?.last_page)">
                                                 <button class="text-sm"
                                                     @click="fetchSentMails(parseInt(state.pagination?.current_page) + 1)">
@@ -106,8 +114,17 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="col-span-6 md:col-span-4 bg-white px-6 py-8 rounded-md">
-                                            <div v-if="state.selectedEmail">
+                                        <div v-if="state.showOnFirstLoad" :class="[
+                                            state.selectedEmail && 'slide-from-right',
+                                            !state.selectedEmail && 'slide-to-right',
+                                            'absolute top-0 left-0 h-full w-full bg-white px-6 py-4 rounded-md overflow-x-scroll'
+                                        ]">
+                                            <button class="flex items-center gap-x-2"
+                                                @click="state.selectedEmail = null">
+                                                <Icon name="ph:arrow-left" size="20" class="text-black" />
+                                                <span>{{ $t('back') }}</span>
+                                            </button>
+                                            <div class="mt-3">
                                                 <p class="text-lg font-semibold">
                                                     {{ state.selectedEmail?.header?.subject }}
                                                 </p>
@@ -174,6 +191,7 @@ const state = reactive({
     pagination: {} as any,
     selectedEmail: null as any,
     sentEmails: [] as any,
+    showOnFirstLoad: false,
     unreadEmails: 0,
     unreadSecuredMessage: 0,
 })
@@ -243,6 +261,7 @@ async function fetchSentMails(pageNumber: number) {
 
 function setSelectedEmail(email: any) {
     state.selectedEmail = email
+    state.showOnFirstLoad = true
 }
 </script>
 
@@ -287,5 +306,37 @@ function setSelectedEmail(email: any) {
 .dot5 {
     animation: blink 1.4s infinite both;
     animation-delay: 0.8s;
+}
+
+@keyframes slideFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideToRight {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.slide-from-right {
+    animation: slideFromRight 0.5s ease-out forwards;
+}
+
+.slide-to-right {
+    animation: slideToRight 0.5s ease-in forwards;
 }
 </style>
