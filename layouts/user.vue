@@ -432,15 +432,6 @@
         <ModulesUserWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
             @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
 
-        <!-- Darkening overlay -->
-        <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block" v-if="state.modal.isGuidedTourWelcomeOpen ||
-            state.modal.isGuidedTourDailyOverviewOpen ||
-            state.modal.isGuidedTourCitizensOverviewOpen ||
-            state.modal.isGuidedTourCalendarOpen ||
-            state.modal.isGuidedTourDutyScheduleOpen ||
-            state.modal.isGuidedTourEmployeesOpen ||
-            state.modal.isGuidedTourEndOpen">
-        </div>
         <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
