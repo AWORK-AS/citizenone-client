@@ -64,9 +64,12 @@
                                 <div class="grow" v-else>
                                     <div class="relative">
                                         <div style="height: 80vh; overflow-y: auto;">
-                                            <div v-for="(email, index) in state.sentEmails" :key="index"
-                                                class="px-4 py-3 cursor-pointer rounded-md shadow-sm bg-gray-100 hover:bg-gray-200"
-                                                @click="setSelectedEmail(email)">
+                                            <div v-for="(email, emailIndex) in state.sentEmails" :key="emailIndex"
+                                                :class="[
+                                                    email?.is_read ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white hover:bg-gray-100',
+                                                    'px-4 py-3 cursor-pointer border-b-0.5 border-gray-300'
+
+                                                ]" @click="setSelectedEmail(emailIndex, email)">
                                                 <div>
                                                     <div class="flex items-center gap-x-2">
                                                         <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.header?.to}`"
@@ -96,7 +99,7 @@
                                                     {{ formatDateTimeToReadable(email?.header?.date) }}
                                                 </p>
                                             </div>
-                                            <div class="text-center mt-3 text-gray-500 text-sm"
+                                            <div class="text-center py-3 text-gray-500 text-sm"
                                                 v-if="state.loading.isEmailsLoadingMore">
                                                 {{ $t('mail.loading.loadingYourEmails') }}
                                                 <span class="dot1">.</span>
@@ -105,7 +108,7 @@
                                                 <span class="dot4">.</span>
                                                 <span class="dot5">.</span>
                                             </div>
-                                            <div class="text-center mt-3" v-else
+                                            <div class="text-center py-3" v-else
                                                 v-if="parseInt(state.pagination?.current_page) < parseInt(state.pagination?.last_page)">
                                                 <button class="text-sm"
                                                     @click="fetchSentMails(parseInt(state.pagination?.current_page) + 1)">
