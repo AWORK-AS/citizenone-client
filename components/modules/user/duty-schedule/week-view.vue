@@ -240,8 +240,12 @@
                                                     {{ $t('dutySchedules.annualNormHours') }}:
                                                     {{ weeklySchedule?.employee?.annual_norm_hours ?? 0 }}
                                                 </p>
+                                                <p class="absolute left-10 top-10 text-xs">
+                                                    {{ $t('dutySchedules.totalHours') }}:
+                                                    {{ weeklySchedule?.employee?.total_hours ?? 0 }}
+                                                </p>
                                                 <button
-                                                    class="absolute left-10 top-10 text-xxs text-primary hover:text-primary-700"
+                                                    class="absolute left-10 top-14 text-xxs text-primary hover:text-primary-700"
                                                     @click="navigateTo(`/calendar?employee_uuid=${weeklySchedule?.employee?.uuid}`)">
                                                     {{ $t('dutySchedules.viewCalendar') }}
                                                 </button>
@@ -322,7 +326,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div :class="[expandedRecords[weeklyScheduleIndex] ? 'mt-5' : 'mt-1']">
+                                            <div :class="[expandedRecords[weeklyScheduleIndex] ? 'mt-8' : 'mt-1']">
                                                 <button @click="toggleExpanded(weeklyScheduleIndex)"
                                                     class="text-primary text-xs hover:text-primary-700">
                                                     {{ !expandedRecords[weeklyScheduleIndex] ?

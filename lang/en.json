@@ -1866,6 +1866,7 @@
             "sleepingNightShiftHours": "Sleeping night shift",
             "timer": "Timer"
         },
+        "totalHours": "Total hours",
         "typeofShift": "Type of shift",
         "typeofShifts": "Type of shifts",
         "viewCalendar": "View calendar",

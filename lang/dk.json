@@ -1866,6 +1866,7 @@
             "sleepingNightShiftHours": "Sovende nattevagt",
             "timer": "Timer"
         },
+        "totalHours": "Samlet antal timer",
         "typeofShift": "Vagttyper",
         "typeofShifts": "Vagttyper",
         "viewCalendar": "Se kalender",
