@@ -78,7 +78,7 @@
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="giveRemoveSecureMailAccess(employee)"
-                                                v-if="userStore.getUser?.is_secure_mail_active">
+                                                v-if="userStore.getUser?.is_secure_mail_active && !employee?.has_secure_mail_access">
                                                 <Icon name="ph:x" class="size-4"
                                                     v-if="employee?.has_secure_mail_access" />
                                                 <Icon name="ph:check" class="size-4" v-else />
