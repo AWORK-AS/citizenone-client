@@ -316,7 +316,8 @@
                                                         {{
                                                             $t('dutySchedules.availableVacationHours')
                                                         }}:
-                                                        {{ weeklySchedule?.employee?.available_vacation_hours ?? 0
+                                                        {{
+                                                            weeklySchedule?.employee?.available_vacation_hours ?? 0
                                                         }}
                                                     </div>
                                                 </div>
@@ -403,7 +404,7 @@
                                                     <Tooltip :text="$t('dutySchedules.newSchedule')">
                                                         <button
                                                             class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
-                                                            @click="openAddNewShiftModal(weeklyScheduleIndex, weekIndex, week)">
+                                                            @click="openAddNewShiftModal(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, week)">
                                                             +
                                                         </button>
                                                     </Tooltip>
@@ -548,8 +549,9 @@
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDutyScheduleDate" />
             <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :error="state.newShiftError"
-                :selectedDate="state.newShift.selectedDate" @close="state.modal.isAddShiftOpen = false"
-                @saveShift="saveShift" @resetNewShiftError="state.newShiftError = {}" />
+                :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
+                @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
+                @resetNewShiftError="state.newShiftError = {}" />
             <ModulesUserDutyScheduleTimeRequestsModalRequests
                 :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
                 :selectedDate="state.manageTimeRequest.selectedDate"
@@ -650,6 +652,7 @@ const state = reactive({
     } as any,
     newShift: {
         selectedDate: '',
+        selectedEmployee: {},
     },
     newShiftError: {} as Error,
     progress: {
@@ -908,7 +911,7 @@ function isPastWeek() {
     return moment(currentDate.value).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')
 }
 
-function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: any, week: any) {
+function openAddNewShiftModal(employee: any, weeklyScheduleIndex: number, weekIndex: any, week: any) {
     state.modal.isAddShiftOpen = true
     state.addShift.selectedEmployeeSchedules = {
         weeklyScheduleIndex: weeklyScheduleIndex,
@@ -916,6 +919,7 @@ function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: any, week:
         ...week
     }
     state.newShift.selectedDate = week?.date
+    state.newShift.selectedEmployee = employee
 }
 
 function openManageScheduleSlotModal(day: any) {
