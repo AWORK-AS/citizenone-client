@@ -63,7 +63,7 @@
                                                 </div>
                                                 <div class="mt-2">
                                                     <FormButton buttonStyle="primary"
-                                                        @click="state.modal.isGuidedTourDailyOverviewOpen = true"
+                                                        @click="state.modal.isGuidedTourWelcomeOpen = true"
                                                         class="w-full rounded-md">
                                                         {{ $t('support.getAGuidedTour') }}
                                                     </FormButton>
