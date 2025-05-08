@@ -274,12 +274,12 @@ async function setSelectedEmail(emailIndex: any, email: any) {
     state.showOnFirstLoad = true
     state.selectedEmail = email
     if (!state.emails[emailIndex].is_read) {
+        state.emails[emailIndex].is_read = true
         state.error = {}
         try {
             const emailUuid = email?.uuid
             const response = await mailService.readSecuredMail(emailUuid)
             if (response) {
-                state.emails[emailIndex].is_read = true
                 if (state.unreadSecuredMessage > 0) {
                     state.unreadSecuredMessage--
                 }
