@@ -6,7 +6,7 @@
             <div class="space-y-3">
                 <div class="space-y-1">
                     <FormLabel for="email" :label="$t('mail.form.to')" />
-                    <FormMultipleEmailAddresses id="recipient" name="recipient" :placeholder="$t('mail.form.to')"
+                    <FormMultipleEmailAddresses id="email" name="email" :placeholder="$t('mail.form.to')"
                         v-model="state.formEmail.email" />
                     <FormError :error="v$?.formEmail?.email?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.email?.[0]" />
