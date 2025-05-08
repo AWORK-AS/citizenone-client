@@ -316,7 +316,7 @@
                                                         </button>
                                                     </Tooltip>
                                                 </div>
-                                                <div class="text-xs">
+                                                <div class="text-xs space-y-3">
                                                     <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
                                                         :key="shiftIndex" class="rounded-md p-1 relative" :style="{
                                                             backgroundColor: `${shift?.type?.color}`,
