@@ -33,8 +33,8 @@ class MailService extends BaseAPIService {
         return await this.request(`/user/encrypted-emails/${emailUuid}/send-reply`, 'POST', params)
     }
 
-    async readMail(emailUuid: any): Promise<any> {
-        return await this.request(`/user/mails/${emailUuid}/mark-read`, 'PUT')
+    async readMail(emailUid: any): Promise<any> {
+        return await this.request(`/user/mails/${emailUid}/mark-read`, 'PUT')
     }
 
     async readSecuredMail(emailUuid: any): Promise<any> {
