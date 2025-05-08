@@ -2583,6 +2583,7 @@
         "draft": "Kladde",
         "form": {
             "alert": {
+                "emailSuccessfullyFowarded": "E-mail videresendt med succes",
                 "emailSuccessfullySent": "E-mail sendt med succes"
             },
             "encryptMessage": "Krypter besked",
@@ -2593,6 +2594,7 @@
             "subject": "Emne",
             "to": "Til"
         },
+        "forward": "Videre",
         "inbox": "Indbakke",
         "loading": {
             "loadingEmailConfigurations": "Indlæser e-mailkonfigurationer",

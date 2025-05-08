@@ -138,11 +138,19 @@
                                             </div>
                                             <ModulesUserMailReplyRegularMailForm :selectedEmail="state.selectedEmail"
                                                 @close="state.showReplyForm = false" v-if="state.showReplyForm" />
-                                            <div class="mt-5 flex items-center" v-else>
+                                            <ModulesUserMailForwardRegularMailForm :selectedEmail="state.selectedEmail"
+                                                @close="state.showForwardForm = false" v-if="state.showForwardForm" />
+                                            <div class="mt-5 flex items-center gap-x-3"
+                                                v-if="!state.showReplyForm && !state.showForwardForm">
                                                 <FormButton buttonStyle="primary" class="w-fit rounded-md"
                                                     @click="state.showReplyForm = !state.showReplyForm">
                                                     <Icon name="ph:arrow-bend-up-left" size="w-10 h-10" />
                                                     {{ $t('mail.reply') }}
+                                                </FormButton>
+                                                <FormButton buttonStyle="primary" class="w-fit rounded-md"
+                                                    @click="state.showForwardForm = !state.showForwardForm">
+                                                    <Icon name="ph:arrow-bend-up-right" size="w-10 h-10" />
+                                                    {{ $t('mail.forward') }}
                                                 </FormButton>
                                             </div>
                                         </div>
@@ -192,6 +200,7 @@ const state = reactive({
     },
     pagination: {} as any,
     selectedEmail: null as any,
+    showForwardForm: false,
     showOnFirstLoad: false,
     showReplyForm: false,
     unreadEmails: 0,
@@ -266,11 +275,11 @@ async function setSelectedEmail(emailIndex: any, email: any) {
     state.showOnFirstLoad = true
     if (email?.flags?.seen !== 'Seen') {
         state.error = {}
+        state.emails[emailIndex].flags.seen = 'Seen'
         try {
             const emailUid = email?.header?.uid
             const response = await mailService.readMail(emailUid)
             if (response) {
-                state.emails[emailIndex].flags.seen = 'Seen'
                 if (state.unreadEmails > 0) {
                     state.unreadEmails--
                 }

@@ -34,11 +34,15 @@ class MailService extends BaseAPIService {
     }
 
     async readMail(emailUid: any): Promise<any> {
-        return await this.request(`/user/mails/${emailUid}/mark-read`, 'PUT')
+        return await this.request(`/user/emails/${emailUid}/mark-read`, 'PUT')
     }
 
     async readSecuredMail(emailUuid: any): Promise<any> {
         return await this.request(`/user/encrypted-emails/${emailUuid}/mark-read`, 'PUT')
+    }
+
+    async forwardMail(emailUid: any, params: object): Promise<any> {
+        return await this.request(`/user/emails/${emailUid}/forward`, 'POST', params)
     }
 }
 export const mailService = new MailService()

@@ -2583,6 +2583,7 @@
         "draft": "Draft",
         "form": {
             "alert": {
+                "emailSuccessfullyFowarded": "Email successfully forwarded",
                 "emailSuccessfullySent": "Email successfully sent"
             },
             "encryptMessage": "Encrypt message",
@@ -2593,6 +2594,7 @@
             "subject": "Subject",
             "to": "To"
         },
+        "forward": "Forward",
         "inbox": "Inbox",
         "loading": {
             "loadingEmailConfigurations": "Loading email configurations",
