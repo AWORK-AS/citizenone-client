@@ -240,8 +240,12 @@
                                                     {{ $t('dutySchedules.annualNormHours') }}:
                                                     {{ weeklySchedule?.employee?.annual_norm_hours ?? 0 }}
                                                 </p>
+                                                <p class="absolute left-10 top-10 text-xs">
+                                                    {{ $t('dutySchedules.totalHours') }}:
+                                                    {{ weeklySchedule?.employee?.total_hours ?? 0 }}
+                                                </p>
                                                 <button
-                                                    class="absolute left-10 top-10 text-xxs text-primary hover:text-primary-700"
+                                                    class="absolute left-10 top-14 text-xxs text-primary hover:text-primary-700"
                                                     @click="navigateTo(`/calendar?employee_uuid=${weeklySchedule?.employee?.uuid}`)">
                                                     {{ $t('dutySchedules.viewCalendar') }}
                                                 </button>
@@ -316,12 +320,13 @@
                                                         {{
                                                             $t('dutySchedules.availableVacationHours')
                                                         }}:
-                                                        {{ weeklySchedule?.employee?.available_vacation_hours ?? 0
+                                                        {{
+                                                            weeklySchedule?.employee?.available_vacation_hours ?? 0
                                                         }}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div :class="[expandedRecords[weeklyScheduleIndex] ? 'mt-5' : 'mt-1']">
+                                            <div :class="[expandedRecords[weeklyScheduleIndex] ? 'mt-8' : 'mt-1']">
                                                 <button @click="toggleExpanded(weeklyScheduleIndex)"
                                                     class="text-primary text-xs hover:text-primary-700">
                                                     {{ !expandedRecords[weeklyScheduleIndex] ?
@@ -403,14 +408,14 @@
                                                     <Tooltip :text="$t('dutySchedules.newSchedule')">
                                                         <button
                                                             class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
-                                                            @click="openAddNewShiftModal(weeklyScheduleIndex, weekIndex, week)">
+                                                            @click="openAddNewShiftModal(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, week)">
                                                             +
                                                         </button>
                                                     </Tooltip>
                                                 </div>
                                                 <div class="text-xs">
                                                     <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
-                                                        :key="shiftIndex" class="rounded-md p-1 relative" :style="{
+                                                        :key="shiftIndex" class="rounded-md p-1 relative mb-2.5" :style="{
                                                             backgroundColor: `${shift?.type?.color}`,
                                                             width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                             marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
@@ -548,8 +553,9 @@
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDutyScheduleDate" />
             <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :error="state.newShiftError"
-                :selectedDate="state.newShift.selectedDate" @close="state.modal.isAddShiftOpen = false"
-                @saveShift="saveShift" @resetNewShiftError="state.newShiftError = {}" />
+                :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
+                @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
+                @resetNewShiftError="state.newShiftError = {}" />
             <ModulesUserDutyScheduleTimeRequestsModalRequests
                 :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
                 :selectedDate="state.manageTimeRequest.selectedDate"
@@ -650,6 +656,7 @@ const state = reactive({
     } as any,
     newShift: {
         selectedDate: '',
+        selectedEmployee: {},
     },
     newShiftError: {} as Error,
     progress: {
@@ -908,7 +915,7 @@ function isPastWeek() {
     return moment(currentDate.value).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')
 }
 
-function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: any, week: any) {
+function openAddNewShiftModal(employee: any, weeklyScheduleIndex: number, weekIndex: any, week: any) {
     state.modal.isAddShiftOpen = true
     state.addShift.selectedEmployeeSchedules = {
         weeklyScheduleIndex: weeklyScheduleIndex,
@@ -916,6 +923,7 @@ function openAddNewShiftModal(weeklyScheduleIndex: number, weekIndex: any, week:
         ...week
     }
     state.newShift.selectedDate = week?.date
+    state.newShift.selectedEmployee = employee
 }
 
 function openManageScheduleSlotModal(day: any) {

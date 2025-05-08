@@ -352,29 +352,11 @@
                                     </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="state.modal.isGuidedTourDailyOverviewOpen = true"
-                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
-                                        <div class="flex items-center gap-x-3">
-                                            <Icon name="ph:question" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.getAGuidedTour') }}
-                                        </div>
-                                    </div>
-                                    </MenuItem>
-                                    <MenuItem>
                                     <div @click="navigateTo('/procedures')"
                                         class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
                                         <div class="flex items-center gap-x-3">
                                             <Icon name="ph:list-checks" class="h-5 w-5" aria-hidden="true" />
                                             {{ $t('navbar.procedures') }}
-                                        </div>
-                                    </div>
-                                    </MenuItem>
-                                    <MenuItem>
-                                    <div @click="state.modal.isContactUsOpen = true"
-                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
-                                        <div class="flex items-center gap-x-3">
-                                            <Icon name="ph:shooting-star" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.newWishes') }}
                                         </div>
                                     </div>
                                     </MenuItem>
@@ -429,18 +411,7 @@
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesUserSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
-        <ModulesUserWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
-            @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
 
-        <!-- Darkening overlay -->
-        <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block" v-if="state.modal.isGuidedTourWelcomeOpen ||
-            state.modal.isGuidedTourDailyOverviewOpen ||
-            state.modal.isGuidedTourCitizensOverviewOpen ||
-            state.modal.isGuidedTourCalendarOpen ||
-            state.modal.isGuidedTourDutyScheduleOpen ||
-            state.modal.isGuidedTourEmployeesOpen ||
-            state.modal.isGuidedTourEndOpen">
-        </div>
         <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
@@ -577,7 +548,6 @@ const state = reactive({
     isSidebarLoading: true,
     modal: {
         isCheckinReminderOpen: false,
-        isContactUsOpen: false,
         isGuidedTourCalendarOpen: false,
         isGuidedTourCitizensOverviewOpen: false,
         isGuidedTourDailyOverviewOpen: false,
@@ -612,6 +582,7 @@ watch(() => language.locale.value, () => {
 })
 
 function generateSidebarLinks(user: any) {
+    navigation = []
     const userHasSecuredMailAccess = user?.is_secure_mail_active
     const userHasPageAttendanceAccess = user?.pages.some((page: any) => page.name === "Attendance")
     navigation.push({
@@ -877,7 +848,7 @@ function selectLanguage() {
 function identifyFlag() {
     const selectedLanguage = userStore.getLanguage
     if (selectedLanguage === 'en') {
-        return '/img/icons/flags/united-states-of-america.svg'
+        return '/img/icons/flags/united-kingdom.svg'
     } else {
         if (selectedLanguage === 'dk') {
             return '/img/icons/flags/denmark.svg'

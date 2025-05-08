@@ -5,6 +5,10 @@ class MailService extends BaseAPIService {
         return await this.request(`/user/emails`, 'GET', params)
     }
 
+    async getSecuredMails(params: object): Promise<any> {
+        return await this.request(`/user/encrypted-emails`, 'GET', params)
+    }
+
     async getSentMails(params: object): Promise<any> {
         return await this.request(`/user/emails/sent/list`, 'GET', params)
     }
@@ -19,6 +23,26 @@ class MailService extends BaseAPIService {
 
     async deleteMail(emailUuid: any): Promise<any> {
         return await this.request(`/user/emails/${emailUuid}`, 'DELETE')
+    }
+
+    async replyMail(emailUid: any, params: object): Promise<any> {
+        return await this.request(`/user/emails/${emailUid}/send-reply`, 'POST', params)
+    }
+
+    async replySecuredMail(emailUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/encrypted-emails/${emailUuid}/send-reply`, 'POST', params)
+    }
+
+    async readMail(emailUid: any): Promise<any> {
+        return await this.request(`/user/emails/${emailUid}/mark-read`, 'PUT')
+    }
+
+    async readSecuredMail(emailUuid: any): Promise<any> {
+        return await this.request(`/user/encrypted-emails/${emailUuid}/mark-read`, 'PUT')
+    }
+
+    async forwardMail(emailUid: any, params: object): Promise<any> {
+        return await this.request(`/user/emails/${emailUid}/forward`, 'POST', params)
     }
 }
 export const mailService = new MailService()

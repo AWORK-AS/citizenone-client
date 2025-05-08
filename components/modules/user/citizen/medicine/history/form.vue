@@ -335,7 +335,7 @@ function submitForm() {
 }
 
 function generateDosage() {
-    JSON.parse(props.selectedMedicine?.max_dosage_per_time).forEach((dosage: any) => {
+    props.selectedMedicine?.max_dosage_per_time.forEach((dosage: any) => {
         state.formMedicineHistory.dosages.push({
             medicine_uuid: props.selectedMedicine?.uuid,
             time: dosage?.time,

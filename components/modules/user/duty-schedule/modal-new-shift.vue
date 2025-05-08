@@ -8,6 +8,37 @@
                             v-if="props.error?.message && props.error.message.length > 0" />
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
+                        <div v-if="props?.selectedEmployee?.with_minor && state.showChildProtectionCertificateWarning">
+                            <div class="bg-red-100 text-black flex items-center px-4 py-3 mb-4 rounded-lg" role="alert">
+                                <svg class="flex-shrink-0 w-5 h-5 text-red-700 dark:text-red-800" fill="currentColor"
+                                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <div class="ml-3 text-sm font-medium">
+                                    <p v-if="language.locale.value === 'en'">
+                                        <span class="text-red-700">
+                                            Underaged citizen found and employee has no child protection certificate.
+                                        </span>
+                                        <span class="cursor-pointer text-primary hover:text-primary-700"
+                                            @click="state.showChildProtectionCertificateWarning = false">
+                                            Upload later.
+                                        </span>
+                                    </p>
+                                    <p v-if="language.locale.value === 'dk'">
+                                        <span class="text-red-700">
+                                            Underage borger fundet, og medarbejderen har ikke
+                                            børnebeskyttelsescertifikat.
+                                        </span>
+                                        <span class="cursor-pointer text-primary hover:text-primary-700"
+                                            @click="state.showChildProtectionCertificateWarning = false">
+                                            Upload senere.
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                         <div class="space-y-1">
                             <FormLabel for="shift_type" :label="$t('dutySchedules.typeofShift')" />
                             <FormSelect id="shift_type" name="shift_type" :options="state.options.shifts"
@@ -84,6 +115,10 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    selectedEmployee: {
+        type: Object,
+        required: true,
+    },
 })
 const { t } = useI18n()
 const emit = defineEmits(['close', 'saveShift', 'resetNewShiftError'])
@@ -98,12 +133,14 @@ const state = reactive({
         in_meeting: false,
         use_compensatory_time: false,
     },
+    showChildProtectionCertificateWarning: false,
     options: {
         shifts: []
     }
 })
 
 watch(() => props.isModalOpen, (isModalOpen) => {
+    state.showChildProtectionCertificateWarning = false
     v$.value.$reset()
     emit('resetNewShiftError')
     state.formShift.shift_type = ''
@@ -112,6 +149,15 @@ watch(() => props.isModalOpen, (isModalOpen) => {
     }
     state.formShift.date_time_start = moment(props.selectedDate).startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm')
     state.formShift.date_time_end = moment(props.selectedDate).startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm')
+})
+
+watch(() => state.formShift.shift_type, (newValue) => {
+    const selectShiftIndex = state.options.shifts.findIndex(shift => shift.value === newValue)
+    if (![3, 4].includes(selectShiftIndex)) {
+        state.showChildProtectionCertificateWarning = true
+    } else {
+        state.showChildProtectionCertificateWarning = false
+    }
 })
 
 const rules = computed(() => {

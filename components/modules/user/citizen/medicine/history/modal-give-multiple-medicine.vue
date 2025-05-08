@@ -386,7 +386,7 @@ async function fetchAllSelectedMedicines() {
 
 function generateDosage(selectedMedicine: any) {
     let dosages = [] as any
-    JSON.parse(selectedMedicine?.max_dosage_per_time).forEach((dosage: any) => {
+    selectedMedicine?.max_dosage_per_time.forEach((dosage: any) => {
         dosages.push({
             medicine_uuid: selectedMedicine?.uuid,
             time: dosage?.time,

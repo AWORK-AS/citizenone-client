@@ -849,7 +849,7 @@
             "form": {
                 "activateMedicine": "Aktiver medicine",
                 "active": "Aktiv",
-                "activeIngredients": "Aktive ingredienser",
+                "activeIngredients": "Indholdsstoffer",
                 "alert": {
                     "successfullyAdded": "Medicin tilføjet med succes",
                     "successfullyUpdated": "Medicin opdateret med succes"
@@ -858,7 +858,7 @@
                 "deactivate": "Deaktiver",
                 "deactivated": "Deaktiveret",
                 "description": "Beskrivelse",
-                "doctor": "Ordinerende lage",
+                "doctor": "Ordinerende læge",
                 "dosage": "Dosis",
                 "dosageForm": "Doseringsform",
                 "endDate": "Slutdato for seponering",
@@ -903,7 +903,8 @@
                         "type": "Type",
                         "delivered": "Udleveret",
                         "deviated": "Afvigelse",
-                        "given": "Givet"
+                        "given": "Givet",
+                        "notGiven": "Ikke givet"
                     }
                 },
                 "giveMedicine": "Giv medicin",
@@ -955,7 +956,7 @@
                     "medicineHistory": "Medicinhistorik",
                     "view": "Se"
                 },
-                "activeIngredients": "Aktive ingredienser",
+                "activeIngredients": "Indholdsstoffer",
                 "currentStocks": "Nuværende lagre",
                 "description": "Beskrivelse",
                 "dosageForm": "Doseringsform",
@@ -1865,6 +1866,7 @@
             "sleepingNightShiftHours": "Sovende nattevagt",
             "timer": "Timer"
         },
+        "totalHours": "Samlet antal timer",
         "typeofShift": "Vagttyper",
         "typeofShifts": "Vagttyper",
         "viewCalendar": "Se kalender",
@@ -2582,6 +2584,7 @@
         "draft": "Kladde",
         "form": {
             "alert": {
+                "emailSuccessfullyFowarded": "E-mail videresendt med succes",
                 "emailSuccessfullySent": "E-mail sendt med succes"
             },
             "encryptMessage": "Krypter besked",
@@ -2592,6 +2595,7 @@
             "subject": "Emne",
             "to": "Til"
         },
+        "forward": "Videre",
         "inbox": "Indbakke",
         "loading": {
             "loadingEmailConfigurations": "Indlæser e-mailkonfigurationer",
@@ -2599,7 +2603,8 @@
             "loadingYourEmails": "Indlæser dine e-mails"
         },
         "loadMore": "Indlæs mere",
-        "mail": "Mail",
+        "mail": "Post",
+        "reply": "Svar",
         "secured": {
             "alert": {
                 "invalidPassword": "Ugyldig adgangskode"
@@ -2615,6 +2620,7 @@
             },
             "from": "Fra",
             "replySecurely": "Svar sikkert",
+            "secured": "Sikker",
             "securedMail": "Sikker mail",
             "sent": {
                 "sentWith": "Sendt med",
@@ -2708,9 +2714,7 @@
         "apps": "Apps",
         "colleagues": "Kollegaer",
         "forms": "Formularer",
-        "getAGuidedTour": "Få en guided tour",
         "invoices": "Fakturaer",
-        "newWishes": "Nye ønsker",
         "logout": "Log ud",
         "procedures": "Procedurer",
         "reminders": "Påmindelser",
@@ -3473,8 +3477,15 @@
     },
     "support": {
         "courseDetails": "Hvis du og dine kollegaer har brug for et kursus i CitizenOne, så klik på knappen nedenfor for at se, hvad vi kan tilbyde, så I bliver godt klædt på",
+        "getAGuidedTour": "Få en guided tour",
         "goToSupportcenter": "Gå til support",
+        "latestNewFeatures": "Seneste nye funktioner",
+        "latestNewFeaturesDetails": "Følg med i de nyeste forbedringer og funktioner i CitizenOne. Vi opdaterer løbende, så du altid er opdateret",
         "needACourse": "Brug for et kursus",
+        "newFeatureRequest": "Har du ønsker til nye funktioner",
+        "newFeatureRequestDetails": "CitizenOne udvikles i tæt samarbejde med vores brugere. Har du forslag eller idéer til nye funktioner? Så del dem med os - vi lytter og prioriterer løbende",
+        "seeTheNewFeatures": "Se de nye funktioner",
+        "sendUsYourRequests": "Send os dine ønsker",
         "support": "Support",
         "weAreReadyToHelp": "Vi er klar til at hjælpe",
         "viewCourses": "Se kurser"

@@ -3,10 +3,14 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('mail.mail') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('mail.inbox') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('mail.mail') }}</template>
+            <template #header>{{ $t('mail.inbox') }}</template>
+
+            <Alert type="danger" :text="state?.error?.message"
+                v-if="state.error?.message && state.error.message.length > 0" />
+
             <div>
                 <div v-if="state.loading.isUserLoading" class="mt-44 flex items-center justify-center">
                     <span class="text-lg">
@@ -43,10 +47,10 @@
                             </div>
                         </div>
                         <div v-else>
-                            <div class="flex gap-x-6">
-                                <ModulesUserMailSidebar :unreadMessage="state.unreadEmails" />
-                                <div class="grow mt-44 flex items-center justify-center"
-                                    v-if="state.loading.isEmailsLoading">
+                            <div class="flex bg-white rounded-tr-md rounded-br-md">
+                                <ModulesUserMailSidebar :unreadMessage="state.unreadEmails"
+                                    :unreadSecuredMessage="state.unreadSecuredMessage" />
+                                <div class="grow flex items-center justify-center" v-if="state.loading.isEmailsLoading">
                                     <span class="text-lg">
                                         {{ t('mail.loading.loadingYourEmails') }}
                                     </span>
@@ -57,28 +61,21 @@
                                     <span class="dot5">.</span>
                                 </div>
                                 <div class="grow" v-else>
-                                    <div class="grid grid-cols-6 gap-x-4">
-                                        <div class="col-span-2 rounded-md space-y-3 px-2"
-                                            style="height: 80vh; overflow-y: auto;">
-                                            <div v-for="(email, index) in state.emails" :key="index"
-                                                class="px-4 py-3 cursor-pointer rounded-md shadow-sm bg-gray-100 hover:bg-gray-200"
-                                                @click="setSelectedEmail(email)">
+                                    <div class="relative">
+                                        <div style="height: 80vh; overflow-y: auto;">
+                                            <div v-for="(email, emailIndex) in state.emails" :key="emailIndex" :class="[
+                                                email?.flags?.seen === 'Seen' ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white hover:bg-gray-100',
+                                                'px-4 py-3 cursor-pointer border-b-0.5 border-gray-100'
+
+                                            ]" @click="setSelectedEmail(emailIndex, email)">
                                                 <div>
+                                                    <div class="flex justify-end" v-if="email?.flags?.seen !== 'Seen'">
+                                                        <div class="w-2 h-2 rounded-full bg-[#D27B7B]"></div>
+                                                    </div>
                                                     <div class="flex items-center gap-x-2">
-                                                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.from}`"
+                                                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.header?.from}`"
                                                             class="rounded-full w-11 h-11 object-cover" />
                                                         <div class="grow">
-                                                            <div class="flex justify-between gap-3">
-                                                                <p class="text-xs">{{ email?.header?.from }}</p>
-                                                                <div class="flex justify-end">
-                                                                    <Tooltip :text="`Secured`" position="left"
-                                                                        v-if="email?.is_secure_mail">
-                                                                        <Icon name="ic:baseline-security"
-                                                                            class="h-4 w-4 text-primary"
-                                                                            aria-hidden="true" />
-                                                                    </Tooltip>
-                                                                </div>
-                                                            </div>
                                                             <p class="text-sm line-clamp-1"
                                                                 v-if="email?.header?.subject && email?.header?.subject?.length > 0">
                                                                 {{ email?.header?.subject }}
@@ -90,7 +87,7 @@
                                                     {{ formatDateTimeToReadable(email?.header?.date) }}
                                                 </p>
                                             </div>
-                                            <div class="text-center text-gray-500 text-sm"
+                                            <div class="text-center py-3 text-gray-500 text-sm"
                                                 v-if="state.loading.isEmailsLoadingMore">
                                                 {{ $t('mail.loading.loadingYourEmails') }}
                                                 <span class="dot1">.</span>
@@ -99,7 +96,7 @@
                                                 <span class="dot4">.</span>
                                                 <span class="dot5">.</span>
                                             </div>
-                                            <div class="text-center" v-else
+                                            <div class="text-center py-3" v-else
                                                 v-if="parseInt(state.pagination?.current_page) < parseInt(state.pagination?.last_page)">
                                                 <button class="text-sm"
                                                     @click="fetchEmails(parseInt(state.pagination?.current_page) + 1)">
@@ -107,12 +104,21 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="col-span-4 bg-white px-6 py-4 rounded-md">
-                                            <div v-if="state.selectedEmail">
+                                        <div v-if="state.showOnFirstLoad" :class="[
+                                            state.selectedEmail && 'slide-from-right',
+                                            !state.selectedEmail && 'slide-to-right',
+                                            'absolute top-0 left-0 h-full w-full bg-white px-6 py-4 rounded-md overflow-x-scroll'
+                                        ]">
+                                            <button class="flex items-center gap-x-2"
+                                                @click="state.selectedEmail = null">
+                                                <Icon name="ph:arrow-left" size="20" class="text-black" />
+                                                <span>{{ $t('back') }}</span>
+                                            </button>
+                                            <div class="mt-3">
                                                 <p class="text-lg font-semibold">
                                                     {{ state.selectedEmail?.header?.subject }}
                                                 </p>
-                                                <div class="flex gap-1 text-sm">
+                                                <div class="flex-wrap md:flex gap-1 text-sm">
                                                     <p>
                                                         {{ t('mail.content.from') }}
                                                     </p>
@@ -129,6 +135,23 @@
                                                     </p>
                                                 </div>
                                                 <div v-html="state.selectedEmail?.bodies?.html" class="py-6" />
+                                            </div>
+                                            <ModulesUserMailReplyRegularMailForm :selectedEmail="state.selectedEmail"
+                                                @close="state.showReplyForm = false" v-if="state.showReplyForm" />
+                                            <ModulesUserMailForwardRegularMailForm :selectedEmail="state.selectedEmail"
+                                                @close="state.showForwardForm = false" v-if="state.showForwardForm" />
+                                            <div class="mt-5 flex items-center gap-x-3"
+                                                v-if="!state.showReplyForm && !state.showForwardForm">
+                                                <FormButton buttonStyle="primary" class="w-fit rounded-md"
+                                                    @click="state.showReplyForm = !state.showReplyForm">
+                                                    <Icon name="ph:arrow-bend-up-left" size="w-10 h-10" />
+                                                    {{ $t('mail.reply') }}
+                                                </FormButton>
+                                                <FormButton buttonStyle="primary" class="w-fit rounded-md"
+                                                    @click="state.showForwardForm = !state.showForwardForm">
+                                                    <Icon name="ph:arrow-bend-up-right" size="w-10 h-10" />
+                                                    {{ $t('mail.forward') }}
+                                                </FormButton>
                                             </div>
                                         </div>
                                     </div>
@@ -177,7 +200,11 @@ const state = reactive({
     },
     pagination: {} as any,
     selectedEmail: null as any,
+    showForwardForm: false,
+    showOnFirstLoad: false,
+    showReplyForm: false,
     unreadEmails: 0,
+    unreadSecuredMessage: 0,
 })
 
 watch(() => userStore.getUser, (user: any) => {
@@ -231,7 +258,8 @@ async function fetchEmails(pageNumber: number) {
         const response = await mailService.getMails(params)
         if (response?.data) {
             state.emails.push(...response?.data?.data?.sort((a: any, b: any) => new Date(b.header.date).getTime() - new Date(a.header.date).getTime()))
-            state.unreadEmails = response?.unread_emails
+            state.unreadEmails = response?.unread_emails ?? 0
+            state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
             state.pagination = response?.data
         }
     } catch (error: any) {
@@ -242,8 +270,24 @@ async function fetchEmails(pageNumber: number) {
     }
 }
 
-function setSelectedEmail(email: any) {
+async function setSelectedEmail(emailIndex: any, email: any) {
     state.selectedEmail = email
+    state.showOnFirstLoad = true
+    if (email?.flags?.seen !== 'Seen') {
+        state.error = {}
+        state.emails[emailIndex].flags.seen = 'Seen'
+        try {
+            const emailUid = email?.header?.uid
+            const response = await mailService.readMail(emailUid)
+            if (response) {
+                if (state.unreadEmails > 0) {
+                    state.unreadEmails--
+                }
+            }
+        } catch (error: any) {
+            state.error = error
+        }
+    }
 }
 </script>
 
@@ -288,5 +332,37 @@ function setSelectedEmail(email: any) {
 .dot5 {
     animation: blink 1.4s infinite both;
     animation-delay: 0.8s;
+}
+
+@keyframes slideFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideToRight {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.slide-from-right {
+    animation: slideFromRight 0.5s ease-out forwards;
+}
+
+.slide-to-right {
+    animation: slideToRight 0.5s ease-in forwards;
 }
 </style>

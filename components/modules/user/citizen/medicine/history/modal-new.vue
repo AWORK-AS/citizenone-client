@@ -35,7 +35,7 @@ const props = defineProps({
         required: true,
     }
 })
-const emit = defineEmits(['close', 'refreshMedicineHistories'])
+const emit = defineEmits(['close', 'refreshMedicines', 'refreshMedicineHistories'])
 
 const state = reactive({
     error: {} as Error,
@@ -49,6 +49,10 @@ const state = reactive({
 
 function closeModal() {
     emit('close')
+}
+
+function refreshMedicines() {
+    emit('refreshMedicines')
 }
 
 function refreshMedicineHistories() {
@@ -80,6 +84,7 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
         }
         const response = await medicineHistoryService.saveMedicineHistory(params)
         if (response?.data) {
+            refreshMedicines()
             refreshMedicineHistories()
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.history.form.alert.successfullyAdded')}.`)

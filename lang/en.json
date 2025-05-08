@@ -903,7 +903,8 @@
                         "type": "Type",
                         "delivered": "Delivered",
                         "deviated": "Deviated",
-                        "given": "Given"
+                        "given": "Given",
+                        "notGiven": "Not given"
                     }
                 },
                 "giveMedicine": "Give medicine",
@@ -1865,6 +1866,7 @@
             "sleepingNightShiftHours": "Sleeping night shift",
             "timer": "Timer"
         },
+        "totalHours": "Total hours",
         "typeofShift": "Type of shift",
         "typeofShifts": "Type of shifts",
         "viewCalendar": "View calendar",
@@ -2582,6 +2584,7 @@
         "draft": "Draft",
         "form": {
             "alert": {
+                "emailSuccessfullyFowarded": "Email successfully forwarded",
                 "emailSuccessfullySent": "Email successfully sent"
             },
             "encryptMessage": "Encrypt message",
@@ -2592,6 +2595,7 @@
             "subject": "Subject",
             "to": "To"
         },
+        "forward": "Forward",
         "inbox": "Inbox",
         "loading": {
             "loadingEmailConfigurations": "Loading email configurations",
@@ -2600,6 +2604,7 @@
         },
         "loadMore": "Load more",
         "mail": "Mail",
+        "reply": "Reply",
         "secured": {
             "alert": {
                 "invalidPassword": "Invalid password"
@@ -2615,6 +2620,7 @@
             },
             "from": "From",
             "replySecurely": "Reply securely",
+            "secured": "Secured",
             "securedMail": "Secured mail",
             "sent": {
                 "sentWith": "Sent with",
@@ -2708,9 +2714,7 @@
         "apps": "Apps",
         "colleagues": "Colleagues",
         "forms": "Forms",
-        "getAGuidedTour": "Get a guided tour",
         "invoices": "Invoices",
-        "newWishes": "New wishes",
         "logout": "Log out",
         "procedures": "Procedures",
         "reminders": "Reminders",
@@ -3473,8 +3477,15 @@
     },
     "support": {
         "courseDetails": "If you and your colleagues need a course in CitizenOne, click the button below to see what we can offer to get you well prepared",
+        "getAGuidedTour": "Get a guided tour",
         "goToSupportcenter": "Go to supportcenter",
+        "latestNewFeatures": "Latest New Features",
+        "latestNewFeaturesDetails": "Stay updated with the latest improvements and features in CitizenOne. We continuously update to keep you informed",
         "needACourse": "Need a course",
+        "newFeatureRequest": "Do you have any requests for new features",
+        "newFeatureRequestDetails": "CitizenOne is developed in close collaboration with our users. Do you have suggestions or ideas for new features? Share them with us - we listen and prioritize continuously",
+        "seeTheNewFeatures": "See the new features",
+        "sendUsYourRequests": "Send us your requests",
         "support": "Support",
         "weAreReadyToHelp": "We are ready to help",
         "viewCourses": "View courses"

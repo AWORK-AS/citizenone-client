@@ -404,7 +404,7 @@ function selectLanguage() {
 function identifyFlag() {
     const selectedLanguage = userStore.getLanguage
     if (selectedLanguage === 'en') {
-        return '/img/icons/flags/united-states-of-america.svg'
+        return '/img/icons/flags/united-kingdom.svg'
     } else {
         if (selectedLanguage === 'dk') {
             return '/img/icons/flags/denmark.svg'

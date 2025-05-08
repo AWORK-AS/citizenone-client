@@ -78,7 +78,7 @@
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="giveRemoveSecureMailAccess(employee)"
-                                                v-if="userStore.getUser?.is_secure_mail_active">
+                                                v-if="userStore.getUser?.is_secure_mail_active && !employee?.has_secure_mail_access">
                                                 <Icon name="ph:x" class="size-4"
                                                     v-if="employee?.has_secure_mail_access" />
                                                 <Icon name="ph:check" class="size-4" v-else />
@@ -103,7 +103,7 @@
             <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block"
                 v-if="state.modal.isGuidedTourEmployeesOpen"></div>
             <ModulesUserGuidedTourModalEmployees v-if="state.modal.isGuidedTourEmployeesOpen"
-                :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="true"
+                :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourEmployeesOpen = false" />
         </NuxtLayout>
     </div>
