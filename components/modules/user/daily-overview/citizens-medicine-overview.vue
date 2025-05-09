@@ -57,10 +57,10 @@
                                         }
                                     })()">
                                     <span :class="[
-                                        dosage?.status === null && 'bg-secondary',
-                                        dosage?.status === 'delivered' && 'bg-primary',
-                                        dosage?.status === 'deviated' && 'bg-red-600',
-                                        dosage?.status === 'given' && 'bg-green-700',
+                                        due_date?.status === null && 'bg-secondary',
+                                        due_date?.status === 'delivered' && 'bg-primary',
+                                        due_date?.status === 'deviated' && 'bg-red-600',
+                                        due_date?.status === 'given' && 'bg-green-700',
                                         'px-2 py-1 text-white rounded-md'
                                     ]">
                                         {{ formatDateToReadable(due_date?.date) }} @

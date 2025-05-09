@@ -1,5 +1,5 @@
 <template>
-    <Tabs :tabs="state.tabs" :isJustifyBetween="true" @changeTab="changeTab" />
+    <Tabs :tabs="state.tabs" :isJustifyBetween="state.tabs?.length > 4 ? true : false" @changeTab="changeTab" />
 </template>
 
 <script setup lang="ts">
@@ -115,37 +115,63 @@ watch(() => userStore.getUser, (newValue: any) => {
             })
         }
 
+        // const route = router?.currentRoute?.value?.name as string
+        // if (!userHasPageContactsAccess && route === 'citizens-uuid-contacts') {
+        //     navigateTo(`/citizens/${citizenUuid}/journals`)
+        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        // } else if (!userHasPageEconomyAccess && route === 'citizens-uuid-wallets') {
+        //     navigateTo(`/citizens/${citizenUuid}/journals`)
+        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        // } else if (!userHasPageCalendarAccess && route === 'citizens-uuid-calendar') {
+        //     navigateTo(`/citizens/${citizenUuid}/journals`)
+        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        // } else if (!userHasPageAttendanceAccess && route === 'citizens-uuid-attendance') {
+        //     navigateTo(`/citizens/${citizenUuid}/journals`)
+        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        // } else if (!userHasPageDocumentsAccess && route === 'citizens-uuid-documents') {
+        //     navigateTo(`/citizens/${citizenUuid}/journals`)
+        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        // } else if (!userHasPageHealthAccess && route === 'citizens-uuid-nursing-areas') {
+        //     navigateTo(`/citizens/${citizenUuid}/journals`)
+        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        // } else if (!userHasPageHealthAccess && route === 'citizens-uuid-nursing-areas') {
+        //     navigateTo(`/citizens/${citizenUuid}/journals`)
+        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        // } else if (!userHasPagePlansAndGoalsAccess && route === 'citizens-uuid-plans-and-goals') {
+        //     navigateTo(`/citizens/${citizenUuid}/journals`)
+        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        // } else if (!userHasPageMedicineCardAccess && route === 'citizens-uuid-medicine-journals') {
+        //     navigateTo(`/citizens/${citizenUuid}/journals`)
+        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        // } else if (!userHasPageJournalsAccess && route === 'citizens-uuid-journals') {
+        //     navigateTo(`/citizens/${citizenUuid}/journals`)
+        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+        // }
+
         const route = router?.currentRoute?.value?.name as string
-        if (!userHasPageContactsAccess && route === 'citizens-uuid-contacts') {
-            navigateTo(`/citizens/${citizenUuid}/journals`)
-            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        } else if (!userHasPageEconomyAccess && route === 'citizens-uuid-wallets') {
-            navigateTo(`/citizens/${citizenUuid}/journals`)
-            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        } else if (!userHasPageCalendarAccess && route === 'citizens-uuid-calendar') {
-            navigateTo(`/citizens/${citizenUuid}/journals`)
-            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        } else if (!userHasPageAttendanceAccess && route === 'citizens-uuid-attendance') {
-            navigateTo(`/citizens/${citizenUuid}/journals`)
-            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        } else if (!userHasPageDocumentsAccess && route === 'citizens-uuid-documents') {
-            navigateTo(`/citizens/${citizenUuid}/journals`)
-            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        } else if (!userHasPageHealthAccess && route === 'citizens-uuid-nursing-areas') {
-            navigateTo(`/citizens/${citizenUuid}/journals`)
-            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        } else if (!userHasPageHealthAccess && route === 'citizens-uuid-nursing-areas') {
-            navigateTo(`/citizens/${citizenUuid}/journals`)
-            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        } else if (!userHasPagePlansAndGoalsAccess && route === 'citizens-uuid-plans-and-goals') {
-            navigateTo(`/citizens/${citizenUuid}/journals`)
-            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        } else if (!userHasPageMedicineCardAccess && route === 'citizens-uuid-medicine-journals') {
-            navigateTo(`/citizens/${citizenUuid}/journals`)
-            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        } else if (!userHasPageJournalsAccess && route === 'citizens-uuid-journals') {
-            navigateTo(`/citizens`)
-            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+
+        // List of routes to navigate to if user has access
+        const accessibleRoutes = [
+            { route: `/citizens/${citizenUuid}/journals`, condition: userHasPageJournalsAccess },
+            { route: `/citizens/${citizenUuid}/medicine-journals`, condition: userHasPageMedicineCardAccess },
+            { route: `/citizens/${citizenUuid}/plans-and-goals/all`, condition: userHasPagePlansAndGoalsAccess },
+            { route: `/citizens/${citizenUuid}/nursing-areas`, condition: userHasPageHealthAccess },
+            { route: `/citizens/${citizenUuid}/documents`, condition: userHasPageDocumentsAccess },
+            { route: `/citizens/${citizenUuid}/attendance`, condition: userHasPageAttendanceAccess },
+            { route: `/citizens/${citizenUuid}/calendar`, condition: userHasPageCalendarAccess },
+            { route: `/citizens/${citizenUuid}/wallets`, condition: userHasPageEconomyAccess },
+            { route: `/citizens/${citizenUuid}/contacts`, condition: userHasPageContactsAccess },
+        ]
+
+        // Find the first route where the user has access
+        const accessibleRoute = accessibleRoutes.find(routeObj => routeObj.condition)
+
+        // // If no accessible route is found, navigate to '/citizens'
+        if (!accessibleRoute) {
+            navigateTo('/citizens')
+        } else {
+            // Navigate to the first accessible route
+            navigateTo(accessibleRoute.route)
         }
     }
 })
