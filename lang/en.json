@@ -1495,6 +1495,8 @@
         "createdBy": "Created by",
         "dailyMedicineOverview": {
             "dailyMedicineOverview": "Daily medicine overview",
+            "delivered": "Delivered",
+            "deviated": "Deviated",
             "given": "Given",
             "notGiven": "Not given"
         },

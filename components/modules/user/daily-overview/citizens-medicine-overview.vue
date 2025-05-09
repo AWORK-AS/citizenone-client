@@ -44,9 +44,23 @@
                             <div class="text-xxs flex flex-wrap gap-x-1 gap-y-3 py-1"
                                 v-if="medicine.due_dates?.length > 0">
                                 <Tooltip v-for="(due_date, dueDateIndex) in medicine.due_dates" :key="dueDateIndex"
-                                    :text="due_date?.given ? $t('dailyOverview.dailyMedicineOverview.given') : $t('dailyOverview.dailyMedicineOverview.notGiven')">
+                                    :text="(() => {
+                                        switch (due_date?.status) {
+                                            case 'delivered':
+                                                return $t('dailyOverview.dailyMedicineOverview.delivered');
+                                            case 'deviated':
+                                                return $t('dailyOverview.dailyMedicineOverview.deviated');
+                                            case 'given':
+                                                return $t('dailyOverview.dailyMedicineOverview.given');
+                                            default:
+                                                return $t('dailyOverview.dailyMedicineOverview.notGiven');
+                                        }
+                                    })()">
                                     <span :class="[
-                                        due_date?.given ? 'bg-green-700' : 'bg-red-800',
+                                        dosage?.status === null && 'bg-secondary',
+                                        dosage?.status === 'delivered' && 'bg-primary',
+                                        dosage?.status === 'deviated' && 'bg-red-600',
+                                        dosage?.status === 'given' && 'bg-green-700',
                                         'px-2 py-1 text-white rounded-md'
                                     ]">
                                         {{ formatDateToReadable(due_date?.date) }} @

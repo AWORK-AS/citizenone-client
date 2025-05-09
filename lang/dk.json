@@ -1495,6 +1495,8 @@
         "createdBy": "Oprettet af",
         "dailyMedicineOverview": {
             "dailyMedicineOverview": "Daglig medicinoversigt",
+            "delivered": "Udleveret",
+            "deviated": "Afvigelse",
             "given": "Givet",
             "notGiven": "Ikke givet"
         },
