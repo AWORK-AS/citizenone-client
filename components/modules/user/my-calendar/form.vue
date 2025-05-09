@@ -136,6 +136,7 @@ const state = reactive({
     },
     options: {
         citizens: [] as Option[],
+        units: [] as Option[],
         users: [] as Option[]
     }
 })
