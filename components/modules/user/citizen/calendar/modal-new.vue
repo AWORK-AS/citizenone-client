@@ -43,6 +43,7 @@ const state = reactive({
         description: '',
         date_time_start: '',
         date_time_end: '',
+        unit_uuid: '',
         is_private: false,
         send_invitation: false,
     },
@@ -67,6 +68,7 @@ async function saveSchedule(scheduleDetails: any) {
             description: scheduleDetails.description,
             date_time_start: scheduleDetails.date_time_start,
             date_time_end: scheduleDetails.date_time_end,
+            unit_uuid: scheduleDetails.unit_uuid,
             is_private: scheduleDetails.is_private,
             send_invitation: scheduleDetails.send_invitation,
         }
