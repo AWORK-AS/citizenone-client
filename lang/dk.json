@@ -2564,7 +2564,7 @@
             "forgotPassword": "Glemt adgangskode",
             "login": "Log ind",
             "password": "Adgangskode",
-            "rememberMe": "Husk mig"
+            "rememberMeFor14Days": "Husk mig i 14 dage"
         }
     },
     "logs": {

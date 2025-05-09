@@ -2564,7 +2564,7 @@
             "forgotPassword": "Forgot password",
             "login": "Login",
             "password": "Password",
-            "rememberMe": "Remember me"
+            "rememberMeFor14Days": "Remember me for 14 days"
         }
     },
     "logs": {
