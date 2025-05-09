@@ -226,17 +226,17 @@
                                                     <Icon name="ph:pencil-duotone" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.archive')"
+                                            <Tooltip :text="$t('plansandgoals.table.actions.unarchive')"
                                                 v-if="plan?.is_single_goal">
                                                 <FormButton class="rounded-md" buttonSize="sm"
-                                                    @click="confirmGoalArchive(plan)">
+                                                    @click="confirmGoalUnarchive(plan)">
                                                     <Icon name="ph:archive" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.archive')"
+                                            <Tooltip :text="$t('plansandgoals.table.actions.unarchive')"
                                                 v-if="!plan?.is_single_goal">
                                                 <FormButton class="rounded-md" buttonSize="sm"
-                                                    @click="confirmPlanArchive(plan)">
+                                                    @click="confirmPlanUnarchive(plan)">
                                                     <Icon name="ph:archive" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
@@ -311,12 +311,12 @@
                 :selectedData="state.selectedPlan" @close="closeStatusesModal" />
             <ModulesUserCitizenPlanNotificationModalNotifications :isModalOpen="state.modal.isNotificationsOpen"
                 :selectedData="state.selectedPlan" @close="state.modal.isNotificationsOpen = false" />
-            <DialogConfirmation :isModalOpen="state.modal.isArchiveGoalOpen"
-                :message="`${$t('plansandgoals.confirmation.archiveGoalConfirmation')}?`"
-                @close="state.modal.isArchiveGoalOpen = false" @confirm="archiveGoal" />
-            <DialogConfirmation :isModalOpen="state.modal.isArchivePlanOpen"
-                :message="`${$t('plansandgoals.confirmation.archivePlanConfirmation')}?`"
-                @close="state.modal.isArchivePlanOpen = false" @confirm="archivePlan" />
+            <DialogConfirmation :isModalOpen="state.modal.isUnarchiveGoalOpen"
+                :message="`${$t('plansandgoals.confirmation.unarchiveGoalConfirmation')}?`"
+                @close="state.modal.isUnarchiveGoalOpen = false" @confirm="unarchiveGoal" />
+            <DialogConfirmation :isModalOpen="state.modal.isUnarchivePlanOpen"
+                :message="`${$t('plansandgoals.confirmation.unarchivePlanConfirmation')}?`"
+                @close="state.modal.isUnarchivePlanOpen = false" @confirm="unarchivePlan" />
             <DialogConfirmation :isModalOpen="state.modal.isDeletePlanOpen"
                 :message="`${$t('plansandgoals.confirmation.deletePlanConfirmation')}?`"
                 @close="state.modal.isDeletePlanOpen = false" @confirm="deletePlan" />
@@ -369,8 +369,8 @@ const state = reactive({
     modal: {
         isAddPlanOpen: false,
         isAddSingleGoalOpen: false,
-        isArchiveGoalOpen: false,
-        isArchivePlanOpen: false,
+        isUnarchiveGoalOpen: false,
+        isUnarchivePlanOpen: false,
         isChartOpen: false,
         isCreateStatusTemplateOpen: false,
         isDeletePlanOpen: false,
@@ -481,12 +481,12 @@ function editPlan(plan: any) {
     state.modal.isEditPlanOpen = true
 }
 
-function confirmGoalArchive(plan: any) {
+function confirmGoalUnarchive(plan: any) {
     state.selectedGoal = plan
-    state.modal.isArchiveGoalOpen = true
+    state.modal.isUnarchiveGoalOpen = true
 }
 
-async function archiveGoal() {
+async function unarchiveGoal() {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -497,7 +497,7 @@ async function archiveGoal() {
             } else {
                 fetchPlans()
             }
-            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.goalSuccessfullyArchived')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.goalSuccessfullyUnarchived')}.`)
         }
     } catch (error: any) {
         state.error = error
@@ -505,12 +505,12 @@ async function archiveGoal() {
     state.isPageLoading = false
 }
 
-function confirmPlanArchive(plan: any) {
+function confirmPlanUnarchive(plan: any) {
     state.selectedPlan = plan
-    state.modal.isArchivePlanOpen = true
+    state.modal.isUnarchivePlanOpen = true
 }
 
-async function archivePlan() {
+async function unarchivePlan() {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -521,7 +521,7 @@ async function archivePlan() {
             } else {
                 fetchPlans()
             }
-            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.planSuccessfullyArchived')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.planSuccessfullyUnarchived')}.`)
         }
     } catch (error: any) {
         state.error = error

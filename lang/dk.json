@@ -2771,10 +2771,12 @@
         "alert": {
             "planSuccessfullyAdded": "Planen er succesfuldt tilføjet",
             "planSuccessfullyArchived": "Plan arkiveret med succes",
+            "planSuccessfullyUnarchived": "Plan gendannet med succes",
             "planSuccessfullyDeleted": "Planen er succesfuldt slettet",
             "planSuccessfullyUpdated": "Planen er succesfuldt opdateret",
             "goalSuccessfullyAdded": "Målet er succesfuldt tilføjet",
             "goalSuccessfullyArchived": "Mål arkiveret med succes",
+            "goalSuccessfullyUnarchived": "Mål gendannet med succes",
             "goalSuccessfullyDeleted": "Mål slettet med succes",
             "goalSuccessfullyUpdated": "Målet er succesfuldt opdateret",
             "noteSuccessfullyDeleted": "Note slettet med succes",
@@ -2783,6 +2785,7 @@
             "statusSuccessfullyUpdated": "Status er succesfuldt opdateret",
             "subgoalSuccessfullyAdded": "Delmål succesfuldt tilføjet",
             "subgoalSuccessfullyArchived": "Delmål arkiveret med succes",
+            "subgoalSuccessfullyUnrchived": "Delmål gendannet med succes",
             "subgoalSuccessfullyDeleted": "Delmål slettet med succes",
             "subgoalSuccessfullyUpdated": "Delmål succesfuldt opdateret"
         },
@@ -2798,7 +2801,10 @@
             "deleteNoteConfirmation": "Er du sikker på, at du vil slette denne note",
             "deleteSubgoalConfirmation": "Er du sikker på, at du vil slette dette delmål",
             "deletePlanConfirmation": "Er du sikker på, at du vil slette denne plan",
-            "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
+            "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status",
+            "unarchiveGoalConfirmation": "Er du sikker på, at du vil gendanne dette mål",
+            "unarchivePlanConfirmation": "Er du sikker på, at du vil gendanne denne plan",
+            "unarchiveSubgoalConfirmation": "Er du sikker på, at du vil gendanne dette delmål"
         },
         "completed": "Fuldført",
         "completionDate": "Afslutningsdato",
@@ -2933,7 +2939,8 @@
                 "notifications": "Notifikationer",
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
-                "statuses": "Statusser"
+                "statuses": "Statusser",
+                "unarchive": "Gendan"
             },
             "createdBy": "Oprettet af",
             "copiedFrom": "Kopieret fra",
