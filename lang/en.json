@@ -2952,6 +2952,11 @@
             "riskAssessment": "Risk assessment",
             "title": "Title"
         },
+        "viewType": {
+            "active": "Active",
+            "all": "All",
+            "archived": "Archived"
+        },
         "VUMTemplates": {
             "editGoal": "Edit goal",
             "editPlan": "Edit plan",

@@ -50,9 +50,9 @@ watch(() => userStore.getUser, (newValue: any) => {
         if (userHasPagePlansAndGoalsAccess) {
             state.tabs.push({
                 name: 'citizens.tabs.plansAndGoals',
-                href: `/citizens/${citizenUuid}/plans-and-goals`,
+                href: `/citizens/${citizenUuid}/plans-and-goals/all`,
                 routeNames: [
-                    'citizens-uuid-plans-and-goals',
+                    'citizens-uuid-plans-and-goals-all',
                 ]
             })
         }
@@ -158,7 +158,7 @@ function changeTab(value: any) {
         navigateTo(`/citizens/${citizenUuid}/medicine-journals`)
     }
     else if (value === 'Plans and goals' || value === 'Planer og mål') {
-        navigateTo(`/citizens/${citizenUuid}/plans-and-goals`)
+        navigateTo(`/citizens/${citizenUuid}/plans-and-goals/all`)
     }
     else if (value === 'Nursing areas' || value === 'Sygeplejeområder') {
         navigateTo(`/citizens/${citizenUuid}/nursing-areas`)

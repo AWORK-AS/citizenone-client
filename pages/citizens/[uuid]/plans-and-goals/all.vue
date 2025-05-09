@@ -37,26 +37,32 @@
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-8 space-y-3">
-                        <div class="flex justify-between flex-col-reverse md:flex-row gap-3">
-                            <button class="flex items-center gap-x-1 text-sm text-primary group"
-                                @click="state.modal.isFilterPlansAndGoalsOpen = true">
-                                <Icon name="ic:outline-filter-list"
-                                    class="text-primary w-6 h-6 group-hover:text-primary-700" />
-                                <span class="group-hover:text-primary-700">
-                                    {{ $t('filter') }}
-                                </span>
-                            </button>
-                            <div class="flex justify-end items-center mb-5 gap-x-2">
+                        <div class="flex justify-between flex-col md:flex-row gap-3">
+                            <div class="flex gap-2">
+                                <FormButton buttonStyle="primary" class="w-28 rounded-lg"
+                                    @click="navigateTo(`/citizens/${citizenUuid}/plans-and-goals/all`)">
+                                    {{ $t('plansandgoals.viewType.all') }}
+                                </FormButton>
+                                <FormButton class="w-28 rounded-lg"
+                                    @click="navigateTo(`/citizens/${citizenUuid}/plans-and-goals/active`)">
+                                    {{ $t('plansandgoals.viewType.active') }}
+                                </FormButton>
+                                <FormButton class="w-28 rounded-lg"
+                                    @click="navigateTo(`/citizens/${citizenUuid}/plans-and-goals/archived`)">
+                                    {{ $t('plansandgoals.viewType.archived') }}
+                                </FormButton>
+                            </div>
+                            <div class="flex flex-col md:flex-row justify-end md:items-center gap-2">
                                 <FormButton buttonStyle="action" class="rounded-lg"
                                     @click="state.modal.isCreateStatusTemplateOpen = true">
                                     <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('plansandgoals.createStatusTemplate.createStatusTemplate') }}
                                 </FormButton>
-                                <Menu as="div" class="relative inline-block text-left z-20"
+                                <Menu as="div" class="w-full md:w-fit relative inline-block text-left z-20"
                                     v-if="hasCreatePlanAccess()">
                                     <div>
-                                        <MenuButton>
-                                            <FormButton buttonStyle="action" class="rounded-lg">
+                                        <MenuButton class="w-full md:w-fit">
+                                            <FormButton buttonStyle="action" class="w-full md:w-fit rounded-lg">
                                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                                 {{ $t('plansandgoals.new') }}
                                             </FormButton>
@@ -106,6 +112,17 @@
                                     {{ $t('plansandgoals.VUMTemplates.templates') }}
                                 </FormButton>
                             </div>
+                        </div>
+
+                        <div>
+                            <button class="flex items-center gap-x-1 text-sm text-primary group"
+                                @click="state.modal.isFilterPlansAndGoalsOpen = true">
+                                <Icon name="ic:outline-filter-list"
+                                    class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                                <span class="group-hover:text-primary-700">
+                                    {{ $t('filter') }}
+                                </span>
+                            </button>
                         </div>
 
                         <div class="space-y-5">
@@ -415,6 +432,7 @@ async function fetchPlans() {
     state.isPageLoading = true
     try {
         const params = {
+            type: 'all',
             citizen_uuid: citizenUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,

@@ -2952,6 +2952,11 @@
             "riskAssessment": "Risikovurdering",
             "title": "Titel"
         },
+        "viewType": {
+            "active": "Aktiv",
+            "all": "Alle",
+            "archived": "Arkiveret"
+        },
         "VUMTemplates": {
             "editGoal": "Rediger mål",
             "editPlan": "Rediger plan",
