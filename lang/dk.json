@@ -3332,7 +3332,8 @@
             "timeLogs": "Tidslogfiler",
             "transactions": "Transaktioner",
             "shifts": "Vagter",
-            "other": "Andet"
+            "other": "Andet",
+            "units": "Enheder"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -4012,6 +4013,32 @@
         "checkOut": "Tjek ud"
     },
     "theresNoDataAvailableToDisplay": "Der er ingen data til rådighed at vise",
+    "units": {
+        "addNewUnit": "Tilføj ny enhed",
+        "alert": {
+            "unitSuccessfullyDeleted": "Enhed slettet med succes"
+        },
+        "editUnit": "Rediger enhed",
+        "form": {
+            "alert": {
+                "unitSuccessfullyUpdated": "Enhed opdateret med succes",
+                "newUnitSuccessfullySaved": "Ny enhed gemt med succes"
+            },
+            "name": "Navn"
+        },
+        "newUnit": "Ny enhed",
+        "units": "Enheder",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteUnitConfirmation": "Er du sikker på, at du vil slette denne enhed"
+            },
+            "name": "Navn"
+        }
+    },
     "update": "Opdater",
     "validation": {
         "thisFieldIsRequired": "Dette felt er påkrævet"

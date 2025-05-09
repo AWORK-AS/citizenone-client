@@ -3332,7 +3332,8 @@
             "timeLogs": "Time logs",
             "transactions": "Transactions",
             "shifts": "Shifts",
-            "other": "Other"
+            "other": "Other",
+            "units": "Units"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
@@ -4012,6 +4013,32 @@
         "checkOut": "Check out"
     },
     "theresNoDataAvailableToDisplay": "There's no data available to display",
+    "units": {
+        "addNewUnit": "Add new unit",
+        "alert": {
+            "unitSuccessfullyDeleted": "Unit successfully deleted"
+        },
+        "editUnit": "Edit unit",
+        "form": {
+            "alert": {
+                "unitSuccessfullyUpdated": "Unit successfully updated",
+                "newUnitSuccessfullySaved": "New unit successfully saved"
+            },
+            "name": "Name"
+        },
+        "newUnit": "New unit",
+        "units": "Units",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteUnitConfirmation": "Are you sure you want to delete this unit"
+            },
+            "name": "Name"
+        }
+    },
     "update": "Update",
     "validation": {
         "thisFieldIsRequired": "This field is required"

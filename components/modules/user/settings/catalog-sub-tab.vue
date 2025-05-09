@@ -94,6 +94,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                     'settings-shifts'
                 ]
             },
+            {
+                name: 'settings.tabs.units',
+                href: `/settings/units`,
+                routeNames: [
+                    'settings-units'
+                ]
+            },
         ]
     }
 })
@@ -132,6 +139,9 @@ function changeTab(value: any) {
     }
     else if (value === t('settings.tabs.shifts')) {
         navigateTo(`/settings/shifts`)
+    }
+    else if (value === t('settings.tabs.units')) {
+        navigateTo(`/settings/units`)
     }
 }
 </script>
