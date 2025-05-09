@@ -39,6 +39,19 @@
                 <FormError :error="props?.error?.errors?.date_time_end?.[0]" />
             </div>
             <div class="space-y-1">
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="unit_uuid" :label="$t('units.unit')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddUnitOpen = true">
+                        {{ $t('units.addNewUnit') }}
+                    </span>
+                </div>
+                <FormSelect id="unit_uuid" name="unit_uuid" :options="state.options.units"
+                    v-model="state.formSchedule.unit_uuid" />
+                <FormError :error="v$?.formSchedule?.unit_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.unit_uuid?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formSchedule.is_private = !state.formSchedule.is_private">
                     <FormCheckbox :value="state.formSchedule.is_private" />
@@ -57,11 +70,14 @@
                 </FormButton>
             </div>
         </div>
+        <ModulesUserUnitModalNew :isModalOpen="state.modal.isAddUnitOpen" @close="state.modal.isAddUnitOpen = false"
+            @refreshUnits="fetchAllUnits" />
     </form>
 </template>
 
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
+import { unitService } from '@/components/api/user/UnitService'
 import { userService } from '@/components/api/user/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -101,11 +117,16 @@ const state = reactive({
         description: '',
         date_time_start: '',
         date_time_end: '',
+        unit_uuid: '',
         is_private: false,
         send_invitation: false,
     },
+    modal: {
+        isAddUnitOpen: false,
+    },
     options: {
         citizens: [] as Option[],
+        units: [] as Option[],
         users: [] as Option[]
     }
 })
@@ -113,6 +134,7 @@ const state = reactive({
 onMounted(() => {
     fetchAllCitizens()
     fetchAllUsers()
+    fetchAllUnits()
     state.formSchedule = {
         id: props.selectedSchedule.id,
         uuid: props.selectedSchedule.uuid,
@@ -121,6 +143,7 @@ onMounted(() => {
         description: props.selectedSchedule.description,
         date_time_start: props.selectedSchedule.start ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.start) : formatDateToYYYYmmddHHmm('', false),
         date_time_end: props.selectedSchedule.end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.end) : formatDateToYYYYmmddHHmm('', true),
+        unit_uuid: props.selectedSchedule.unit_uuid,
         is_private: props.selectedSchedule.is_private,
         send_invitation: props.selectedSchedule.send_invitation,
     }
@@ -234,6 +257,27 @@ async function fetchAllUsers() {
                 })
             )
             state.options.users = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllUnits() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await unitService.getAllUnits()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (user: any) => options.push({
+                    value: user?.uuid,
+                    label: user?.firstname + " " + user?.lastname,
+                })
+            )
+            state.options.units = options
         }
     } catch (error: any) {
         state.error = error

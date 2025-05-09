@@ -4027,6 +4027,7 @@
             "name": "Navn"
         },
         "newUnit": "Ny enhed",
+        "unit": "Enhed",
         "units": "Enheder",
         "table": {
             "actions": {

@@ -4027,6 +4027,7 @@
             "name": "Name"
         },
         "newUnit": "New unit",
+        "unit": "Unit",
         "units": "Units",
         "table": {
             "actions": {
