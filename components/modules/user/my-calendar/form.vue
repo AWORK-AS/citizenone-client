@@ -280,9 +280,9 @@ async function fetchAllUnits() {
         if (response.data) {
             let options: any = []
             response.data.forEach(
-                (user: any) => options.push({
-                    value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname,
+                (unit: any) => options.push({
+                    value: unit?.uuid,
+                    label: unit?.name,
                 })
             )
             state.options.units = options

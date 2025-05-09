@@ -125,6 +125,15 @@
                                         <p class="hidden flex-none text-gray-500 group-hover:text-tertiary xl:block">
                                             {{ myCalendarEvent.time_start }} - {{ myCalendarEvent.time_end }}
                                         </p>
+                                        <div class="flex gap-x-2 text-xxs group-hover:text-tertiary"
+                                            v-if="myCalendarEvent?.unit">
+                                            <p>
+                                                {{ $t('units.unit') }}:
+                                            </p>
+                                            <p>
+                                                {{ myCalendarEvent?.unit?.name }}
+                                            </p>
+                                        </div>
                                         <div class="text-gray-500 text-xxs group-hover:text-tertiary">
                                             {{ $t('events.createdBy') }}
                                             {{ myCalendarEvent.creator?.firstname }}
