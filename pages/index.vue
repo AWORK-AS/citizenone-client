@@ -63,7 +63,7 @@
                                     v-model="state.remember_me" />
                                 <label for="remember-me"
                                     class="ml-3 block text-sm leading-6 text-gray-700 cursor-pointer">
-                                    {{ $t('login.form.rememberMe') }}
+                                    {{ $t('login.form.rememberMeFor14Days') }}
                                 </label>
                             </div>
                             <div class="text-sm leading-6">

@@ -75,6 +75,7 @@ async function updateSchedule(scheduleDetails: any) {
             description: scheduleDetails.description,
             date_time_start: scheduleDetails.date_time_start,
             date_time_end: scheduleDetails.date_time_end,
+            unit_uuid: scheduleDetails.unit_uuid,
             is_private: scheduleDetails.is_private,
         }
         const response = await myCalendarService.updateSchedule(scheduleUuid, params)

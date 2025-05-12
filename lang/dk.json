@@ -1495,6 +1495,8 @@
         "createdBy": "Oprettet af",
         "dailyMedicineOverview": {
             "dailyMedicineOverview": "Daglig medicinoversigt",
+            "delivered": "Udleveret",
+            "deviated": "Afvigelse",
             "given": "Givet",
             "notGiven": "Ikke givet"
         },
@@ -2564,7 +2566,7 @@
             "forgotPassword": "Glemt adgangskode",
             "login": "Log ind",
             "password": "Adgangskode",
-            "rememberMe": "Husk mig"
+            "rememberMeFor14Days": "Husk mig i 14 dage"
         }
     },
     "logs": {
@@ -2771,10 +2773,12 @@
         "alert": {
             "planSuccessfullyAdded": "Planen er succesfuldt tilføjet",
             "planSuccessfullyArchived": "Plan arkiveret med succes",
+            "planSuccessfullyUnarchived": "Plan gendannet med succes",
             "planSuccessfullyDeleted": "Planen er succesfuldt slettet",
             "planSuccessfullyUpdated": "Planen er succesfuldt opdateret",
             "goalSuccessfullyAdded": "Målet er succesfuldt tilføjet",
             "goalSuccessfullyArchived": "Mål arkiveret med succes",
+            "goalSuccessfullyUnarchived": "Mål gendannet med succes",
             "goalSuccessfullyDeleted": "Mål slettet med succes",
             "goalSuccessfullyUpdated": "Målet er succesfuldt opdateret",
             "noteSuccessfullyDeleted": "Note slettet med succes",
@@ -2783,6 +2787,7 @@
             "statusSuccessfullyUpdated": "Status er succesfuldt opdateret",
             "subgoalSuccessfullyAdded": "Delmål succesfuldt tilføjet",
             "subgoalSuccessfullyArchived": "Delmål arkiveret med succes",
+            "subgoalSuccessfullyUnrchived": "Delmål gendannet med succes",
             "subgoalSuccessfullyDeleted": "Delmål slettet med succes",
             "subgoalSuccessfullyUpdated": "Delmål succesfuldt opdateret"
         },
@@ -2798,7 +2803,10 @@
             "deleteNoteConfirmation": "Er du sikker på, at du vil slette denne note",
             "deleteSubgoalConfirmation": "Er du sikker på, at du vil slette dette delmål",
             "deletePlanConfirmation": "Er du sikker på, at du vil slette denne plan",
-            "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status"
+            "deleteStatusConfirmation": "Er du sikker på, at du vil slette denne status",
+            "unarchiveGoalConfirmation": "Er du sikker på, at du vil gendanne dette mål",
+            "unarchivePlanConfirmation": "Er du sikker på, at du vil gendanne denne plan",
+            "unarchiveSubgoalConfirmation": "Er du sikker på, at du vil gendanne dette delmål"
         },
         "completed": "Fuldført",
         "completionDate": "Afslutningsdato",
@@ -2933,7 +2941,8 @@
                 "notifications": "Notifikationer",
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
-                "statuses": "Statusser"
+                "statuses": "Statusser",
+                "unarchive": "Gendan"
             },
             "createdBy": "Oprettet af",
             "copiedFrom": "Kopieret fra",
@@ -2951,6 +2960,11 @@
             "notes": "Noter",
             "riskAssessment": "Risikovurdering",
             "title": "Titel"
+        },
+        "viewType": {
+            "active": "Aktiv",
+            "all": "Alle",
+            "archived": "Arkiveret"
         },
         "VUMTemplates": {
             "editGoal": "Rediger mål",
@@ -3332,7 +3346,8 @@
             "timeLogs": "Tidslogfiler",
             "transactions": "Transaktioner",
             "shifts": "Vagter",
-            "other": "Andet"
+            "other": "Andet",
+            "units": "Enheder"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -4012,6 +4027,33 @@
         "checkOut": "Tjek ud"
     },
     "theresNoDataAvailableToDisplay": "Der er ingen data til rådighed at vise",
+    "units": {
+        "addNewUnit": "Tilføj ny enhed",
+        "alert": {
+            "unitSuccessfullyDeleted": "Enhed slettet med succes"
+        },
+        "editUnit": "Rediger enhed",
+        "form": {
+            "alert": {
+                "unitSuccessfullyUpdated": "Enhed opdateret med succes",
+                "newUnitSuccessfullySaved": "Ny enhed gemt med succes"
+            },
+            "name": "Navn"
+        },
+        "newUnit": "Ny enhed",
+        "unit": "Enhed",
+        "units": "Enheder",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteUnitConfirmation": "Er du sikker på, at du vil slette denne enhed"
+            },
+            "name": "Navn"
+        }
+    },
     "update": "Opdater",
     "validation": {
         "thisFieldIsRequired": "Dette felt er påkrævet"

@@ -36,6 +36,14 @@
                                     {{ props.selectedSchedule?.description }}
                                 </dd>
                             </div>
+                            <div class="flex gap-x-2 text-xs text-gray-500">
+                                <p>
+                                    {{ $t('units.unit') }}:
+                                </p>
+                                <p>
+                                    {{ props.selectedSchedule?.unit?.name }}
+                                </p>
+                            </div>
                             <dl class="text-gray-500">
                                 <div class="flex items-center space-x-3 text-xs">
                                     <dt class="flex items-center">

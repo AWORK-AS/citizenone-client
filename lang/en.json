@@ -1495,6 +1495,8 @@
         "createdBy": "Created by",
         "dailyMedicineOverview": {
             "dailyMedicineOverview": "Daily medicine overview",
+            "delivered": "Delivered",
+            "deviated": "Deviated",
             "given": "Given",
             "notGiven": "Not given"
         },
@@ -2564,7 +2566,7 @@
             "forgotPassword": "Forgot password",
             "login": "Login",
             "password": "Password",
-            "rememberMe": "Remember me"
+            "rememberMeFor14Days": "Remember me for 14 days"
         }
     },
     "logs": {
@@ -2771,10 +2773,12 @@
         "alert": {
             "planSuccessfullyAdded": "Plan successfully added",
             "planSuccessfullyArchived": "Plan successfully archived",
+            "planSuccessfullyUnarchived": "Plan successfully unarchived",
             "planSuccessfullyDeleted": "Plan successfully deleted",
             "planSuccessfullyUpdated": "Plan successfully updated",
             "goalSuccessfullyAdded": "Goal successfully added",
             "goalSuccessfullyArchived": "Goal successfully archived",
+            "goalSuccessfullyUnarchived": "Goal successfully unarchived",
             "goalSuccessfullyDeleted": "Goal successfully deleted",
             "goalSuccessfullyUpdated": "Goal successfully updated",
             "noteSuccessfullyDeleted": "Note successfully deleted",
@@ -2783,6 +2787,7 @@
             "statusSuccessfullyUpdated": "Status successfully updated",
             "subgoalSuccessfullyAdded": "Subgoal successfully added",
             "subgoalSuccessfullyArchived": "Subgoal successfully archived",
+            "subgoalSuccessfullyUnrchived": "Subgoal successfully unarchived",
             "subgoalSuccessfullyDeleted": "Subgoal successfully deleted",
             "subgoalSuccessfullyUpdated": "Subgoal successfully updated"
         },
@@ -2798,7 +2803,10 @@
             "deleteNoteConfirmation": "Are you sure you want to delete this note",
             "deleteSubgoalConfirmation": "Are you sure you want to delete this subgoal",
             "deletePlanConfirmation": "Are you sure you want to delete this plan",
-            "deleteStatusConfirmation": "Are you sure you want to delete this status"
+            "deleteStatusConfirmation": "Are you sure you want to delete this status",
+            "unarchiveGoalConfirmation": "Are you sure you want to unarchive this goal",
+            "unarchivePlanConfirmation": "Are you sure you want to unarchive this plan",
+            "unarchiveSubgoalConfirmation": "Are you sure you want to vacation this subgoal"
         },
         "completed": "Completed",
         "completionDate": "Completion date",
@@ -2933,7 +2941,8 @@
                 "notifications": "Notifications",
                 "seeGoals": "See goals",
                 "seeSubgoals": "See subgoals",
-                "statuses": "Statuses"
+                "statuses": "Statuses",
+                "unarchive": "Unarchive"
             },
             "createdBy": "Created by",
             "copiedFrom": "Copied from",
@@ -2951,6 +2960,11 @@
             "notes": "Notes",
             "riskAssessment": "Risk assessment",
             "title": "Title"
+        },
+        "viewType": {
+            "active": "Active",
+            "all": "All",
+            "archived": "Archived"
         },
         "VUMTemplates": {
             "editGoal": "Edit goal",
@@ -3332,7 +3346,8 @@
             "timeLogs": "Time logs",
             "transactions": "Transactions",
             "shifts": "Shifts",
-            "other": "Other"
+            "other": "Other",
+            "units": "Units"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
@@ -4012,6 +4027,33 @@
         "checkOut": "Check out"
     },
     "theresNoDataAvailableToDisplay": "There's no data available to display",
+    "units": {
+        "addNewUnit": "Add new unit",
+        "alert": {
+            "unitSuccessfullyDeleted": "Unit successfully deleted"
+        },
+        "editUnit": "Edit unit",
+        "form": {
+            "alert": {
+                "unitSuccessfullyUpdated": "Unit successfully updated",
+                "newUnitSuccessfullySaved": "New unit successfully saved"
+            },
+            "name": "Name"
+        },
+        "newUnit": "New unit",
+        "unit": "Unit",
+        "units": "Units",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteUnitConfirmation": "Are you sure you want to delete this unit"
+            },
+            "name": "Name"
+        }
+    },
     "update": "Update",
     "validation": {
         "thisFieldIsRequired": "This field is required"

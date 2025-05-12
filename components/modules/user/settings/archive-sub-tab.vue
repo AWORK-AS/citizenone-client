@@ -19,9 +19,9 @@ watch(() => userStore.getUser, (newValue: any) => {
             { name: 'archived.tabs.archivedCitizens', href: `/settings/archived/citizens`, routeNames: ['settings-archived-citizens'] },
             { name: 'archived.tabs.archivedEmployees', href: `/settings/archived/employees`, routeNames: ['settings-archived-employees'] },
             { name: 'archived.tabs.archivedDocuments', href: `/settings/archived/documents`, routeNames: ['settings-archived-documents'] },
-            { name: 'archived.tabs.archivedPlans', href: `/settings/archived/plans`, routeNames: ['settings-archived-plans'] },
-            { name: 'archived.tabs.archivedGoals', href: `/settings/archived/goals`, routeNames: ['settings-archived-goals'] },
-            { name: 'archived.tabs.archivedSubgoals', href: `/settings/archived/subgoals`, routeNames: ['settings-archived-subgoals'] },
+            // { name: 'archived.tabs.archivedPlans', href: `/settings/archived/plans`, routeNames: ['settings-archived-plans'] },
+            // { name: 'archived.tabs.archivedGoals', href: `/settings/archived/goals`, routeNames: ['settings-archived-goals'] },
+            // { name: 'archived.tabs.archivedSubgoals', href: `/settings/archived/subgoals`, routeNames: ['settings-archived-subgoals'] },
         ]
     }
 })
@@ -36,14 +36,14 @@ function changeTab(value: any) {
     else if (value === t('archived.tabs.archivedDocuments')) {
         navigateTo(`/settings/archived/documents`)
     }
-    else if (value === t('archived.tabs.archivedPlans')) {
-        navigateTo(`/settings/archived/plans`)
-    }
-    else if (value === t('archived.tabs.archivedGoals')) {
-        navigateTo(`/settings/archived/goals`)
-    }
-    else if (value === t('archived.tabs.archivedSubgoals')) {
-        navigateTo(`/settings/archived/subgoals`)
-    }
+    // else if (value === t('archived.tabs.archivedPlans')) {
+    //     navigateTo(`/settings/archived/plans`)
+    // }
+    // else if (value === t('archived.tabs.archivedGoals')) {
+    //     navigateTo(`/settings/archived/goals`)
+    // }
+    // else if (value === t('archived.tabs.archivedSubgoals')) {
+    //     navigateTo(`/settings/archived/subgoals`)
+    // }
 }
 </script>

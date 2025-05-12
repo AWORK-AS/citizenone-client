@@ -15,7 +15,7 @@
             <ModulesUserSettingsTab />
 
             <LoadingSpinner :isActive="state.isPageLoading">
-                <form @submit.prevent="submitForm()" class="mt-8 max-w-3xl">
+                <form @submit.prevent="submitForm()" class="mt-8 max-w-3xl" id="formProfile">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="grid grid-cols-1 md:grid-cols-8 gap-3">
@@ -298,3 +298,9 @@ function onFileChange(event: any) {
     }
 }
 </script>
+
+<style>
+#formProfile .multiselect-dropdown {
+    max-height: 4.8rem !important;
+}
+</style>
