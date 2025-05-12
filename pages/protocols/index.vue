@@ -91,6 +91,7 @@
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { protocolService } from '@/components/api/user/ProtocolService'
+import { useDepartmentStore } from '@/store/department'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -99,6 +100,7 @@ const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const departmentStore = useDepartmentStore()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
@@ -144,6 +146,12 @@ onMounted(() => {
     fetchAllCitizens()
 })
 
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchProtocols()
+    }
+})
+
 async function fetchProtocols() {
     state.error = {}
     state.isTableLoading = true
@@ -153,6 +161,7 @@ async function fetchProtocols() {
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
+            department: departmentStore.getSelectedDepartmentName,
             date: {
                 end_date: state.dataFilter.end_date,
                 start_date: state.dataFilter.start_date,
@@ -220,7 +229,10 @@ async function downloadProtocol(protocol: any) {
     state.isTableLoading = true
     try {
         const protocolUuid = protocol?.uuid
-        const response = await protocolService.downloadProtocol(protocolUuid)
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await protocolService.downloadProtocol(protocolUuid, params)
         if (response) {
             saveAs(response, protocolUuid)
         }
