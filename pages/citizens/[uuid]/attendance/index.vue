@@ -58,6 +58,11 @@
                                                     <Icon name="ph:eye" class="size-4" />
                                                     {{ $t('protocols.table.actions.view') }}
                                                 </FormButton>
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="downloadProtocol(protocol)">
+                                                    <Icon name="ph:download" class="size-4" />
+                                                    {{ $t('protocols.table.actions.download') }}
+                                                </FormButton>
                                             </div>
                                         </td>
                                     </tr>
@@ -74,8 +79,10 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { citizenProtocolService } from '@/components/api/user/CitizenProtocolService'
 import { protocolService } from '@/components/api/user/ProtocolService'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -161,5 +168,23 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchProtocols()
+}
+
+async function downloadProtocol(protocol: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const protocolUuid = protocol?.uuid
+        const params = {
+            citizen_uuid: citizenUuid
+        }
+        const response = await citizenProtocolService.downloadCitizenProtocol(protocolUuid, params)
+        if (response) {
+            saveAs(response, protocolUuid)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

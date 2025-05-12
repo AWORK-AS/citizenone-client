@@ -45,20 +45,25 @@
                                 <FormSelect id="page_limit" name="page_limit" :options="state.options.page_limit"
                                     v-model="state.page_limit" />
                             </div>
-                            <div class="flex gap-x-2">
-                                <Badge type="primary" class="w-fit">
-                                    {{ $t('protocols.table.status.attended') }}:
-                                    {{ state.citizenProtocolsCount?.data?.attended ?? 0 }}
-                                    ({{ state.citizenProtocolsCount?.data?.attended_percent ?? 0 }}%)
-                                </Badge>
-                                <Badge type="inactive" class="w-fit">
-                                    {{ $t('protocols.table.status.absent') }}:
-                                    {{ state.citizenProtocolsCount?.data?.absent ?? 0 }}
-                                    ({{ state.citizenProtocolsCount?.data?.absent_percent ?? 0 }}%)
-                                </Badge>
+                            <div class="flex flex-col-reverse md:flex-row gap-2 md:items-center">
+                                <div class="flex gap-x-2">
+                                    <Badge type="primary" class="w-fit">
+                                        {{ $t('protocols.table.status.attended') }}:
+                                        {{ state.citizenProtocolsCount?.data?.attended ?? 0 }}
+                                        ({{ state.citizenProtocolsCount?.data?.attended_percent ?? 0 }}%)
+                                    </Badge>
+                                    <Badge type="inactive" class="w-fit">
+                                        {{ $t('protocols.table.status.absent') }}:
+                                        {{ state.citizenProtocolsCount?.data?.absent ?? 0 }}
+                                        ({{ state.citizenProtocolsCount?.data?.absent_percent ?? 0 }}%)
+                                    </Badge>
+                                </div>
+                                <FormButton buttonStyle="action" class="rounded-lg" @click="downloadProtocol()">
+                                    {{ $t('protocols.download') }}
+                                </FormButton>
                             </div>
                         </div>
-                        <div class="grid grid-cols-3 gap-x-3">
+                        <div class="md:grid grid-cols-3 gap-x-3 space-y-3 md:space-y-0">
                             <FormDateRangeField name="date_range"
                                 :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
                                 v-model="state.filter.date_range" />
@@ -115,6 +120,7 @@ import { citizenProtocolService } from '@/components/api/user/CitizenProtocolSer
 import { protocolService } from '@/components/api/user/ProtocolService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
+import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -285,6 +291,24 @@ async function setDateRange(event: any) {
         fetchCitizenProtocols()
         fetchCitizenProtocolsCount()
     }
+}
+
+async function downloadProtocol() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const protocolUuid = citizenProtocolUuid
+        const params = {
+            citizen_uuid: citizenUuid
+        }
+        const response = await citizenProtocolService.downloadCitizenProtocol(protocolUuid, params)
+        if (response) {
+            saveAs(response, protocolUuid)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 async function markAsAbsent(citizenProtocolUuid: string) {
