@@ -8,7 +8,8 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 
 const router = useRouter()
-const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const route = useRoute()
+const citizenUuid = route?.params?.uuid
 const userStore = useUserStore()
 const { t } = useI18n()
 const { errorAlert } = useAlert()
@@ -18,160 +19,120 @@ const state = reactive({
 })
 
 watch(() => userStore.getUser, (newValue: any) => {
-    if (newValue != null) {
-        const userHasPageJournalsAccess = newValue?.pages.some((page: any) => page.name === "Journals")
-        const userHasPageMedicineCardAccess = newValue?.pages.some((page: any) => page.name === "Medicine card")
-        const userHasPagePlansAndGoalsAccess = newValue?.pages.some((page: any) => page.name === "Plans and goals")
-        const userHasPageHealthAccess = newValue?.pages.some((page: any) => page.name === "Health")
-        const userHasPageDocumentsAccess = newValue?.pages.some((page: any) => page.name === "Documents")
-        const userHasPageAttendanceAccess = newValue?.pages.some((page: any) => page.name === "Attendance")
-        const userHasPageCalendarAccess = newValue?.pages.some((page: any) => page.name === "Calendar")
-        const userHasPageEconomyAccess = newValue?.pages.some((page: any) => page.name === "Economy")
-        const userHasPageContactsAccess = newValue?.pages.some((page: any) => page.name === "Contacts")
+    if (!newValue) return
 
-        if (userHasPageJournalsAccess) {
-            state.tabs.push({
-                name: 'citizens.tabs.journals',
-                href: `/citizens/${citizenUuid}/journals`,
-                routeNames: [
-                    'citizens-uuid-journals',
-                ]
-            })
-        }
-        if (userHasPageMedicineCardAccess) {
-            state.tabs.push({
-                name: 'citizens.tabs.medicineCard',
-                href: `/citizens/${citizenUuid}/medicine-journals`,
-                routeNames: [
-                    'citizens-uuid-medicine-journals',
-                ]
-            })
-        }
-        if (userHasPagePlansAndGoalsAccess) {
-            state.tabs.push({
-                name: 'citizens.tabs.plansAndGoals',
-                href: `/citizens/${citizenUuid}/plans-and-goals/all`,
-                routeNames: [
-                    'citizens-uuid-plans-and-goals-all',
-                ]
-            })
-        }
-        if (userHasPageHealthAccess) {
-            state.tabs.push({
-                name: 'citizens.tabs.health',
-                href: `/citizens/${citizenUuid}/nursing-areas`,
-                routeNames: [
-                    'citizens-uuid-nursing-areas',
-                    'citizens-uuid-nursing-areas-new', ,
-                    'citizens-uuid-nursing-areas-record_uuid-edit',
-                ]
-            })
-        }
-        if (userHasPageDocumentsAccess) {
-            state.tabs.push({
-                name: 'citizens.tabs.documents',
-                href: `/citizens/${citizenUuid}/documents`,
-                routeNames: [
-                    'citizens-uuid-documents',
-                ]
-            })
-        }
-        if (userHasPageAttendanceAccess) {
-            state.tabs.push({
-                name: 'citizens.tabs.attendance',
-                href: `/citizens/${citizenUuid}/attendance`,
-                routeNames: [
-                    'citizens-uuid-attendance',
-                    'citizens-uuid-attendance-citizen_protocol_uuid',
-                ]
-            })
-        }
-        if (userHasPageCalendarAccess) {
-            state.tabs.push({
-                name: 'citizens.tabs.calendar',
-                href: `/citizens/${citizenUuid}/calendar`,
-                routeNames: [
-                    'citizens-uuid-calendar',
-                ]
-            })
-        }
-        if (userHasPageEconomyAccess) {
-            state.tabs.push({
-                name: 'citizens.tabs.economy',
-                href: `/citizens/${citizenUuid}/wallets`,
-                routeNames: [
-                    'citizens-uuid-wallets',
-                    'citizens-uuid-wallets-wallet_uuid',
-                ]
-            })
-        }
-        if (userHasPageContactsAccess) {
-            state.tabs.push({
-                name: 'citizens.tabs.contacts',
-                href: `/citizens/${citizenUuid}/contacts`,
-                routeNames: [
-                    'citizens-uuid-contacts',
-                ]
-            })
-        }
+    const pages = newValue.pages || []
 
-        // const route = router?.currentRoute?.value?.name as string
-        // if (!userHasPageContactsAccess && route === 'citizens-uuid-contacts') {
-        //     navigateTo(`/citizens/${citizenUuid}/journals`)
-        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        // } else if (!userHasPageEconomyAccess && route === 'citizens-uuid-wallets') {
-        //     navigateTo(`/citizens/${citizenUuid}/journals`)
-        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        // } else if (!userHasPageCalendarAccess && route === 'citizens-uuid-calendar') {
-        //     navigateTo(`/citizens/${citizenUuid}/journals`)
-        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        // } else if (!userHasPageAttendanceAccess && route === 'citizens-uuid-attendance') {
-        //     navigateTo(`/citizens/${citizenUuid}/journals`)
-        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        // } else if (!userHasPageDocumentsAccess && route === 'citizens-uuid-documents') {
-        //     navigateTo(`/citizens/${citizenUuid}/journals`)
-        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        // } else if (!userHasPageHealthAccess && route === 'citizens-uuid-nursing-areas') {
-        //     navigateTo(`/citizens/${citizenUuid}/journals`)
-        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        // } else if (!userHasPageHealthAccess && route === 'citizens-uuid-nursing-areas') {
-        //     navigateTo(`/citizens/${citizenUuid}/journals`)
-        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        // } else if (!userHasPagePlansAndGoalsAccess && route === 'citizens-uuid-plans-and-goals') {
-        //     navigateTo(`/citizens/${citizenUuid}/journals`)
-        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        // } else if (!userHasPageMedicineCardAccess && route === 'citizens-uuid-medicine-journals') {
-        //     navigateTo(`/citizens/${citizenUuid}/journals`)
-        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        // } else if (!userHasPageJournalsAccess && route === 'citizens-uuid-journals') {
-        //     navigateTo(`/citizens/${citizenUuid}/journals`)
-        //     errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-        // }
+    const accessMap = {
+        Journals: pages.some((page: any) => page.name === 'Journals'),
+        MedicineCard: pages.some((page: any) => page.name === 'Medicine card'),
+        PlansAndGoals: pages.some((page: any) => page.name === 'Plans and goals'),
+        Health: pages.some((page: any) => page.name === 'Health'),
+        Documents: pages.some((page: any) => page.name === 'Documents'),
+        Attendance: pages.some((page: any) => page.name === 'Attendance'),
+        Calendar: pages.some((page: any) => page.name === 'Calendar'),
+        Economy: pages.some((page: any) => page.name === 'Economy'),
+        Contacts: pages.some((page: any) => page.name === 'Contacts'),
+    }
 
-        const route = router?.currentRoute?.value?.name as string
+    state.tabs = []
 
-        // List of routes to navigate to if user has access
-        const accessibleRoutes = [
-            { route: `/citizens/${citizenUuid}/journals`, condition: userHasPageJournalsAccess },
-            { route: `/citizens/${citizenUuid}/medicine-journals`, condition: userHasPageMedicineCardAccess },
-            { route: `/citizens/${citizenUuid}/plans-and-goals/all`, condition: userHasPagePlansAndGoalsAccess },
-            { route: `/citizens/${citizenUuid}/nursing-areas`, condition: userHasPageHealthAccess },
-            { route: `/citizens/${citizenUuid}/documents`, condition: userHasPageDocumentsAccess },
-            { route: `/citizens/${citizenUuid}/attendance`, condition: userHasPageAttendanceAccess },
-            { route: `/citizens/${citizenUuid}/calendar`, condition: userHasPageCalendarAccess },
-            { route: `/citizens/${citizenUuid}/wallets`, condition: userHasPageEconomyAccess },
-            { route: `/citizens/${citizenUuid}/contacts`, condition: userHasPageContactsAccess },
-        ]
+    if (accessMap.Journals) {
+        state.tabs.push({
+            name: 'citizens.tabs.journals',
+            href: `/citizens/${citizenUuid}/journals`,
+            routeNames: ['citizens-uuid-journals']
+        })
+    }
 
-        // Find the first route where the user has access
-        const accessibleRoute = accessibleRoutes.find(routeObj => routeObj.condition)
+    if (accessMap.MedicineCard) {
+        state.tabs.push({
+            name: 'citizens.tabs.medicineCard',
+            href: `/citizens/${citizenUuid}/medicine-journals`,
+            routeNames: ['citizens-uuid-medicine-journals']
+        })
+    }
 
-        // // If no accessible route is found, navigate to '/citizens'
-        if (!accessibleRoute) {
-            navigateTo('/citizens')
+    if (accessMap.PlansAndGoals) {
+        state.tabs.push({
+            name: 'citizens.tabs.plansAndGoals',
+            href: `/citizens/${citizenUuid}/plans-and-goals/all`,
+            routeNames: ['citizens-uuid-plans-and-goals-all']
+        })
+    }
+
+    if (accessMap.Health) {
+        state.tabs.push({
+            name: 'citizens.tabs.health',
+            href: `/citizens/${citizenUuid}/nursing-areas`,
+            routeNames: [
+                'citizens-uuid-nursing-areas',
+                'citizens-uuid-nursing-areas-new',
+                'citizens-uuid-nursing-areas-record_uuid-edit'
+            ]
+        })
+    }
+
+    if (accessMap.Documents) {
+        state.tabs.push({
+            name: 'citizens.tabs.documents',
+            href: `/citizens/${citizenUuid}/documents`,
+            routeNames: ['citizens-uuid-documents']
+        })
+    }
+
+    if (accessMap.Attendance) {
+        state.tabs.push({
+            name: 'citizens.tabs.attendance',
+            href: `/citizens/${citizenUuid}/attendance`,
+            routeNames: [
+                'citizens-uuid-attendance',
+                'citizens-uuid-attendance-citizen_protocol_uuid'
+            ]
+        })
+    }
+
+    if (accessMap.Calendar) {
+        state.tabs.push({
+            name: 'citizens.tabs.calendar',
+            href: `/citizens/${citizenUuid}/calendar`,
+            routeNames: ['citizens-uuid-calendar']
+        })
+    }
+
+    if (accessMap.Economy) {
+        state.tabs.push({
+            name: 'citizens.tabs.economy',
+            href: `/citizens/${citizenUuid}/wallets`,
+            routeNames: [
+                'citizens-uuid-wallets',
+                'citizens-uuid-wallets-wallet_uuid'
+            ]
+        })
+    }
+
+    if (accessMap.Contacts) {
+        state.tabs.push({
+            name: 'citizens.tabs.contacts',
+            href: `/citizens/${citizenUuid}/contacts`,
+            routeNames: ['citizens-uuid-contacts']
+        })
+    }
+
+    // Check if current route is allowed
+    const currentRouteName = route.name as string
+    const isCurrentRouteAccessible = state.tabs.some(tab =>
+        tab.routeNames.includes(currentRouteName)
+    )
+
+    if (!isCurrentRouteAccessible) {
+        const firstAccessibleTab = state.tabs[0]
+
+        if (firstAccessibleTab) {
+            navigateTo(firstAccessibleTab.href)
         } else {
-            // Navigate to the first accessible route
-            navigateTo(accessibleRoute.route)
+            navigateTo('/citizens')
+            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
         }
     }
 })
