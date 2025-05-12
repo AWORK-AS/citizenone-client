@@ -3082,6 +3082,7 @@
     },
     "proceed": "Fortsæt",
     "protocols": {
+        "download": "Download",
         "editProtocol": "Rediger protokol",
         "form": {
             "alert": {
@@ -3099,6 +3100,7 @@
         "table": {
             "actions": {
                 "delete": "Slet",
+                "download": "Download",
                 "edit": "Rediger",
                 "markCitizenAsAbent": "Marker borger som fraværende",
                 "markCitizenAsAttended": "Marker borger som tilstede",

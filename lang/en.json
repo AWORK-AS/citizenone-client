@@ -3082,6 +3082,7 @@
     },
     "proceed": "Proceed",
     "protocols": {
+        "download": "Download",
         "editProtocol": "Edit protocol",
         "form": {
             "alert": {
@@ -3099,6 +3100,7 @@
         "table": {
             "actions": {
                 "delete": "Delete",
+                "download": "Download",
                 "edit": "Edit",
                 "markCitizenAsAbent": "Mark citizen as absent",
                 "markCitizenAsAttended": "Mark citizen as attended",

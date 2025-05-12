@@ -19,6 +19,11 @@
                 </NuxtLink>
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
+                <div class="flex justify-end">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="downloadProtocol()">
+                        {{ $t('protocols.download') }}
+                    </FormButton>
+                </div>
                 <TableSearch @search="handleSearch" />
                 <div class="table-responsive">
                     <Table :columnHeaders="state.columnHeaders" :data="state.citizenProtocols"
@@ -95,6 +100,7 @@ import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenProtocolService } from '@/components/api/user/CitizenProtocolService'
 import { protocolService } from '@/components/api/user/ProtocolService'
+import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -208,6 +214,20 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchCitizenProtocols()
+}
+
+async function downloadProtocol() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await protocolService.downloadProtocol(protocolUuid)
+        if (response) {
+            saveAs(response, protocolUuid)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 async function markAsAbsent(citizenProtocolDetails: any) {

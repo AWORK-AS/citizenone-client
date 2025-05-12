@@ -62,6 +62,11 @@
                                                 {{ $t('protocols.table.actions.view') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="downloadProtocol(protocol)">
+                                                <Icon name="ph:download" class="size-4" />
+                                                {{ $t('protocols.table.actions.download') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="deleteProtocolConfirmation(protocol)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('protocols.table.actions.delete') }}
@@ -208,6 +213,21 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchProtocols()
+}
+
+async function downloadProtocol(protocol: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const protocolUuid = protocol?.uuid
+        const response = await protocolService.downloadProtocol(protocolUuid)
+        if (response) {
+            saveAs(response, protocolUuid)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 function deleteProtocolConfirmation(protocol: any) {
