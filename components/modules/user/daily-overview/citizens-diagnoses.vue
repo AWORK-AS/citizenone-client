@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
 const state = reactive({
@@ -39,15 +40,26 @@ const state = reactive({
     error: {} as Error,
 })
 
-onMounted(() => {
-    fetchCitizensAdmissionDischarged()
+const departmentStore = useDepartmentStore()
+
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchCitizensDiagnoses()
+    }
 })
 
-async function fetchCitizensAdmissionDischarged() {
+onMounted(() => {
+    fetchCitizensDiagnoses()
+})
+
+async function fetchCitizensDiagnoses() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await dailyOverviewService.getCitizensDiagnoses()
+        const params: any = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await dailyOverviewService.getCitizensDiagnoses(params)
         if (response) {
             state.citizensDiagnoses = response
         }

@@ -34,7 +34,10 @@
 
 <script setup lang="ts">
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
+
+const departmentStore = useDepartmentStore()
 
 const props = defineProps({
     dateRange: {
@@ -53,6 +56,12 @@ watch(() => props.dateRange, () => {
     fetchStatusesScoreStatistics()
 }, { deep: true })
 
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchStatusesScoreStatistics()
+    }
+})
+
 onMounted(() => {
     fetchStatusesScoreStatistics()
 })
@@ -61,7 +70,9 @@ async function fetchStatusesScoreStatistics() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params: any = {}
+        const params: any = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
         if (props.dateRange) {
             params.end_date = props.dateRange.end_date
             params.start_date = props.dateRange.start_date

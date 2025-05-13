@@ -55,8 +55,9 @@
 
 <script setup lang="ts">
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
-import type { Error } from '@/types'
+import { useDepartmentStore } from '@/store/department'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import type { Error } from '@/types'
 
 const props = defineProps({
     dateRange: {
@@ -66,6 +67,7 @@ const props = defineProps({
 })
 
 const customPagesStore = useCustomPagesStore() as any
+const departmentStore = useDepartmentStore()
 
 const state = reactive({
     citizensRiskAssessment: [] as any,
@@ -77,6 +79,12 @@ watch(() => props.dateRange, () => {
     fetchCitizenRiskAssessment()
 }, { deep: true })
 
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchCitizenRiskAssessment()
+    }
+})
+
 onMounted(() => {
     fetchCitizenRiskAssessment()
 })
@@ -85,7 +93,9 @@ async function fetchCitizenRiskAssessment() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params: any = {}
+        const params: any = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
         if (props.dateRange) {
             params.end_date = props.dateRange.end_date
             params.start_date = props.dateRange.start_date

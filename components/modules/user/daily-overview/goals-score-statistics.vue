@@ -34,6 +34,7 @@
 
 <script setup lang="ts">
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -42,6 +43,8 @@ const props = defineProps({
         required: false,
     },
 })
+
+const departmentStore = useDepartmentStore()
 
 const state = reactive({
     error: {} as Error,
@@ -53,6 +56,12 @@ watch(() => props.dateRange, () => {
     fetchGoalsScoreStatistics()
 }, { deep: true })
 
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchGoalsScoreStatistics()
+    }
+})
+
 onMounted(() => {
     fetchGoalsScoreStatistics()
 })
@@ -61,7 +70,9 @@ async function fetchGoalsScoreStatistics() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params: any = {}
+        const params: any = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
         if (props.dateRange) {
             params.end_date = props.dateRange.end_date
             params.start_date = props.dateRange.start_date

@@ -40,12 +40,21 @@
 
 <script setup lang="ts">
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
+
+const departmentStore = useDepartmentStore()
 
 const state = reactive({
     citizensGender: [] as any,
     isPageLoading: false,
     error: {} as Error,
+})
+
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchCitizensGender()
+    }
 })
 
 onMounted(() => {
@@ -56,7 +65,10 @@ async function fetchCitizensGender() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await dailyOverviewService.getCitizensGender()
+        const params: any = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await dailyOverviewService.getCitizensGender(params)
         if (response) {
             state.citizensGender = response
         }
