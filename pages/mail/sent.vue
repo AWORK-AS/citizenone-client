@@ -69,7 +69,7 @@
                                                     email?.is_read ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white hover:bg-gray-100',
                                                     'px-4 py-3 cursor-pointer border-b-0.5 border-gray-300'
 
-                                                ]" @click="setSelectedEmail(emailIndex, email)">
+                                                ]" @click="setSelectedEmail(email)">
                                                 <div>
                                                     <div class="flex items-center gap-x-2">
                                                         <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.header?.to}`"
