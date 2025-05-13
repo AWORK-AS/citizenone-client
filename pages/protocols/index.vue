@@ -94,6 +94,7 @@ import { protocolService } from '@/components/api/user/ProtocolService'
 import { useDepartmentStore } from '@/store/department'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
