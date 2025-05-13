@@ -462,7 +462,8 @@
             "table": {
                 "action": {
                     "delete": "Slet",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "sendEmail": "Send e-mail"
                 },
                 "address": "Adresse",
                 "allowSystemAccess": "Tillad systemadgang",

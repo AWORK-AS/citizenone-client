@@ -462,7 +462,8 @@
             "table": {
                 "action": {
                     "delete": "Delete",
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "sendEmail": "Send email"
                 },
                 "allowSystemAccess": "Allow system access",
                 "address": "Address",

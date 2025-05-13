@@ -75,7 +75,7 @@
                                                 </p>
                                             </Badge>
                                             <Badge type="primary" class="w-fit mt-1" v-if="contact?.has_system_access">
-                                                <p class="text-xxs px-2">
+                                                <p class="text-xxs px-2 truncate">
                                                     {{ $t('citizens.contacts.table.allowSystemAccess') }}
                                                 </p>
                                             </Badge>
@@ -116,6 +116,11 @@
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('citizens.contacts.table.action.delete') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                @click="sendEmail(contact)" v-if="contact?.email">
+                                                <Icon name="ph:pencil" class="size-4" />
+                                                {{ $t('citizens.contacts.table.action.sendEmail') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -132,6 +137,8 @@
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteContactOpen"
                     :message="$t('citizens.contacts.confirmation.deleteConfirmation') + '?'"
                     @close="state.modal.isDeleteContactOpen = false" @confirm="deleteContact" />
+                <ModulesUserMailModalSendEmail :isModalOpen="state.modal.isSendEmailOpen"
+                    :selectedContact="state.selectedContact" @close="state.modal.isSendEmailOpen = false" />
             </div>
         </NuxtLayout>
     </div>
@@ -182,6 +189,7 @@ const state = reactive({
         isAddContactOpen: false,
         isDeleteContactOpen: false,
         isEditContactOpen: false,
+        isSendEmailOpen: false,
     },
     selectedContact: [] as any,
     sortData: {
@@ -263,5 +271,10 @@ async function deleteContact() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function sendEmail(contact: any) {
+    state.selectedContact = contact
+    state.modal.isSendEmailOpen = true
 }
 </script>
