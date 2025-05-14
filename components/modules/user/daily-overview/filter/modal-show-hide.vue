@@ -40,16 +40,6 @@
                             {{ $t('dailyOverview.filter.items.citizensAdmissionAndDischarged') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowRiskAssessment()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment" />
-                            {{ customPagesStore.getCustomPagesName?.riskAssessment }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowGender()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showGender" />
-                            {{ $t('dailyOverview.filter.items.gender') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowCitizensOrigin()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin" />
                             {{ $t('dailyOverview.filter.items.citizensOrigin') }}
@@ -63,6 +53,16 @@
                             @click="setDailyOverviewFilterShowCitizensDiagnoses()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses" />
                             {{ $t('dailyOverview.filter.items.citizensDiagnoses') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setDailyOverviewFilterShowRiskAssessment()">
+                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment" />
+                            {{ customPagesStore.getCustomPagesName?.riskAssessment }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setDailyOverviewFilterShowGender()">
+                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showGender" />
+                            {{ $t('dailyOverview.filter.items.gender') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowStatusesScoreStatistics()">

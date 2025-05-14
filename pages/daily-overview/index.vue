@@ -66,22 +66,28 @@
                             <ModulesUserDailyOverviewCitizensAdmissionDischarged
                                 :dateRange="state.dateRange.formDateRange" />
                         </div>
-                        <div class="space-y-3"
-                            v-if="dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment || dailyOverviewStore.getDailyOverviewFilter.showGender">
-                            <ModulesUserDailyOverviewCitizensRiskAssessment :dateRange="state.dateRange.formDateRange"
-                                v-if="dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment" />
-                            <ModulesUserDailyOverviewCitizensGender
-                                v-if="dailyOverviewStore.getDailyOverviewFilter.showGender" />
-                        </div>
                         <div v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin">
                             <ModulesUserDailyOverviewCitizensOrigin />
                         </div>
-                        <div class="space-y-3"
-                            v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions || dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses">
+                        <div class="space-y-3" v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions">
                             <ModulesUserDailyOverviewCitizensAddictions :dateRange="state.dateRange.formDateRange"
                                 v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions" />
+                            <ModulesUserDailyOverviewCitizensAddictionsCount :dateRange="state.dateRange.formDateRange"
+                                v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions" />
+                        </div>
+                        <div class="space-y-3" v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses">
                             <ModulesUserDailyOverviewCitizensDiagnoses :dateRange="state.dateRange.formDateRange"
                                 v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses" />
+                            <ModulesUserDailyOverviewCitizensDiagnosesCount :dateRange="state.dateRange.formDateRange"
+                                v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses" />
+                        </div>
+                        <div class="space-y-3" v-if="dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment">
+                            <ModulesUserDailyOverviewCitizensRiskAssessment :dateRange="state.dateRange.formDateRange"
+                                v-if="dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment" />
+                        </div>
+                        <div class="space-y-3" v-if="dailyOverviewStore.getDailyOverviewFilter.showGender">
+                            <ModulesUserDailyOverviewCitizensGender
+                                v-if="dailyOverviewStore.getDailyOverviewFilter.showGender" />
                         </div>
                     </div>
 
