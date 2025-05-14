@@ -57,7 +57,11 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.tabs.push({
             name: 'citizens.tabs.plansAndGoals',
             href: `/citizens/${citizenUuid}/plans-and-goals/all`,
-            routeNames: ['citizens-uuid-plans-and-goals-all']
+            routeNames: [
+                'citizens-uuid-plans-and-goals-all',
+                'citizens-uuid-plans-and-goals-active',
+                'citizens-uuid-plans-and-goals-archived',
+            ]
         })
     }
 
@@ -122,8 +126,9 @@ watch(() => userStore.getUser, (newValue: any) => {
     // Check if current route is allowed
     const currentRouteName = route.name as string
     const isCurrentRouteAccessible = state.tabs.some(tab =>
-        tab.routeNames.includes(currentRouteName)
+        tab.routeNames.some((name: string) => currentRouteName.startsWith(name))
     )
+
 
     if (!isCurrentRouteAccessible) {
         const firstAccessibleTab = state.tabs[0]
