@@ -34,7 +34,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshScheduleSlot', 'closeModal'])
+const emit = defineEmits(['close', 'refreshScheduleSlot', 'refreshDutySchedules', 'closeModal'])
 
 const state = reactive({
     error: {} as Error,
@@ -73,6 +73,7 @@ async function saveScheduleSlot(scheduleSlotDetails: any) {
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleSlots.form.alert.scheduleSlotSuccessfullyAdded')}.`)
             refreshScheduleSlot()
+            emit('refreshDutySchedules')
             closeModal()
         }
     } catch (error: any) {
