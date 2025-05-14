@@ -58,9 +58,12 @@
                         </div>
                     </div>
                     <div class="space-y-3" :class="!props.selectedApp?.is_one_time_fee ? 'mt-5' : 'mt-5'">
-                        <div v-if="props.selectedApp?.is_quantifiable">
-                            <FormNumberField name="quantity" placeholder="0" v-model="state.formApp.quantity"
-                                @input="validateAppQuantity" />
+                        <div v-if="props.selectedApp?.is_quantifiable" class="flex items-center gap-x-3">
+                            <div class="w-28">
+                                <FormNumberField name="quantity" placeholder="0" v-model="state.formApp.quantity"
+                                    @input="validateAppQuantity" />
+                            </div>
+                            <p class="text-sm">{{ $t('apps.form.howManyLicensesDoYouWant') }}?</p>
                         </div>
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.formTAC.agreeToTerms = !state.formTAC.agreeToTerms">

@@ -263,6 +263,7 @@
         "contactUs": "Contact us",
         "form": {
             "annually": "Annually",
+            "howManyLicensesDoYouWant": "How many licenses do you want",
             "monthly": "Monthly",
             "pleaseWriteHere": "Please write here",
             "quantity": "Quantity",
