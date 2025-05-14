@@ -183,29 +183,9 @@
                                                 {{ day.date }}
                                             </span>
                                         </span>
-                                        <div
+                                        <div v-if="getSlotCount(day.longName) > 0"
                                             class="absolute top-3 left-24 text-xxs flex items-center justify-center w-5 h-5 bg-red-400 text-white rounded-full">
-                                            <span v-if="day.longName === 'Mon'">
-                                                {{ state.weeklySlots['monday']?.total_slots }}
-                                            </span>
-                                            <span v-if="day.longName === 'Tue'">
-                                                {{ state.weeklySlots['tuesday']?.total_slots }}
-                                            </span>
-                                            <span v-if="day.longName === 'Wed'">
-                                                {{ state.weeklySlots['wednesday']?.total_slots }}
-                                            </span>
-                                            <span v-if="day.longName === 'Thu'">
-                                                {{ state.weeklySlots['thursday']?.total_slots }}
-                                            </span>
-                                            <span v-if="day.longName === 'Fri'">
-                                                {{ state.weeklySlots['friday']?.total_slots }}
-                                            </span>
-                                            <span v-if="day.longName === 'Sat'">
-                                                {{ state.weeklySlots['saturday']?.total_slots }}
-                                            </span>
-                                            <span v-if="day.longName === 'Sun'">
-                                                {{ state.weeklySlots['sunday']?.total_slots }}
-                                            </span>
+                                            {{ getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName) }}
                                         </div>
                                     </Tooltip>
                                     <div :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" v-for="day in weekDays"
@@ -884,6 +864,20 @@ async function fetchDutySchedule() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function getSlotCount(dayName: string) {
+    const dayMap = {
+        Mon: 'monday',
+        Tue: 'tuesday',
+        Wed: 'wednesday',
+        Thu: 'thursday',
+        Fri: 'friday',
+        Sat: 'saturday',
+        Sun: 'sunday'
+    }
+    const key = dayMap[dayName]
+    return this.state.weeklySlots[key]?.total_slots || 0
 }
 
 function toggleShowHideAllShifts() {
