@@ -2866,6 +2866,7 @@
             "currentLevel": "Nuværende niveau",
             "dateCompleted": "Dato for fuldførelse",
             "description": "Beskrivelse",
+            "enableReminder": "Aktiver påmindelse",
             "goalCompletionDate": "Mål afslutningsdato",
             "expectedLevels": {
                 "expectedLevel": "Forventet niveau",

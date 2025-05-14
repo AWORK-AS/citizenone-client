@@ -55,6 +55,7 @@ async function updateSubgoal(subgoalDetails: any) {
         const params = {
             name: subgoalDetails.name,
             description: subgoalDetails.description,
+            enable_reminder: subgoalDetails.enable_reminder,
             completion_date: subgoalDetails.completion_date,
             date_completed: subgoalDetails.date_completed,
             score: subgoalDetails.score,

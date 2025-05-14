@@ -2866,6 +2866,7 @@
             "currentLevel": "Current level",
             "dateCompleted": "Date completed",
             "description": "Description",
+            "enableReminder": "Enable reminder",
             "goalCompletionDate": "Goal completion date",
             "expectedLevels": {
                 "expectedLevel": "Expected level",

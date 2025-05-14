@@ -42,6 +42,7 @@ const state = reactive({
         uuid: '',
         name: '',
         description: '',
+        enable_reminder: false,
         completion_date: '',
         date_completed: '',
         score: '',
@@ -64,6 +65,7 @@ async function saveGoal(goalDetails: any) {
             plan_uuid: props.selectedPlan.uuid,
             name: goalDetails.name,
             description: goalDetails.description,
+            enable_reminder: goalDetails.enable_reminder,
             completion_date: goalDetails.completion_date,
             score: goalDetails.score,
         }
