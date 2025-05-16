@@ -117,7 +117,8 @@
                                                 {{ $t('citizens.contacts.table.action.delete') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="primary" class="rounded-md"
-                                                @click="sendEmail(contact)" v-if="contact?.email">
+                                                @click="sendEmail(contact)"
+                                                v-if="contact?.email && userStore.getUser?.has_secure_mail_access">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('citizens.contacts.table.action.sendEmail') }}
                                             </FormButton>
@@ -149,6 +150,7 @@ import { citizenContactService } from '@/components/api/user/CitizenContactServi
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -157,6 +159,7 @@ const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
+const userStore = useUserStore() as any
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
