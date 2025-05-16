@@ -867,18 +867,17 @@ async function fetchDutySchedule() {
 }
 
 function getSlotCount(dayName: string) {
-    return 0
-    // const dayMap = {
-    //     Mon: 'monday',
-    //     Tue: 'tuesday',
-    //     Wed: 'wednesday',
-    //     Thu: 'thursday',
-    //     Fri: 'friday',
-    //     Sat: 'saturday',
-    //     Sun: 'sunday'
-    // }
-    // const key = dayMap[dayName]
-    // return this.state.weeklySlots[key]?.total_slots || 0
+    const dayMap = {
+        Mon: 'monday',
+        Tue: 'tuesday',
+        Wed: 'wednesday',
+        Thu: 'thursday',
+        Fri: 'friday',
+        Sat: 'saturday',
+        Sun: 'sunday'
+    }
+    const key = dayMap[dayName]
+    return state.weeklySlots[key]?.total_slots || 0
 }
 
 function toggleShowHideAllShifts() {
