@@ -40,7 +40,7 @@
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
-                    <FormLabel for="unit_uuid" :label="$t('units.unit')" />
+                    <FormLabel for="unit_uuid" :label="`${$t('units.form.doYouWantToReserveAUnit')}?`" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                         @click="state.modal.isAddUnitOpen = true">
                         {{ $t('units.addNewUnit') }}

@@ -4043,6 +4043,7 @@
                 "unitSuccessfullyUpdated": "Enhed opdateret med succes",
                 "newUnitSuccessfullySaved": "Ny enhed gemt med succes"
             },
+            "doYouWantToReserveAUnit": "Vil du reservere en enhed",
             "name": "Navn"
         },
         "newUnit": "Ny enhed",

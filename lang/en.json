@@ -4043,6 +4043,7 @@
                 "unitSuccessfullyUpdated": "Unit successfully updated",
                 "newUnitSuccessfullySaved": "New unit successfully saved"
             },
+            "doYouWantToReserveAUnit": "Do you want to reserve a unit",
             "name": "Name"
         },
         "newUnit": "New unit",
