@@ -853,6 +853,7 @@ async function fetchDutySchedule() {
         if (response) {
             state.weeklySchedules = response?.data
             state.weeklySlots = response?.week_slots
+            console.log('state.weeklySlots', state.weeklySlots)
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
             fetchDutySchedulePercentage()
             if (state.isFirstLoad) {
