@@ -184,7 +184,7 @@
                                             </span>
                                         </span>
                                         <div v-if="getSlotCount(day.longName) > 0"
-                                            class="absolute top-3 left-24 text-xxs flex items-center justify-center w-5 h-5 bg-red-400 text-white rounded-full">
+                                            class="absolute top-2 left-24 text-xxs flex items-center justify-center w-5 h-5 bg-red-400 text-white rounded-full">
                                             {{ getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName) }}
                                         </div>
                                     </Tooltip>
