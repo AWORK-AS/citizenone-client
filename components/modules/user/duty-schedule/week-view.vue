@@ -183,10 +183,10 @@
                                                 {{ day.date }}
                                             </span>
                                         </span>
-                                        <!-- <div v-if="getSlotCount(day.longName) > 0"
+                                        <div v-if="getSlotCount(day.longName) > 0"
                                             class="absolute top-3 left-24 text-xxs flex items-center justify-center w-5 h-5 bg-red-400 text-white rounded-full">
                                             {{ getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName) }}
-                                        </div> -->
+                                        </div>
                                     </Tooltip>
                                     <div :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" v-for="day in weekDays"
                                         :key="day.date" class="flex items-center justify-center py-4 border-0.5"
@@ -866,19 +866,19 @@ async function fetchDutySchedule() {
     state.isPageLoading = false
 }
 
-// function getSlotCount(dayName: string) {
-//     const dayMap = {
-//         Mon: 'monday',
-//         Tue: 'tuesday',
-//         Wed: 'wednesday',
-//         Thu: 'thursday',
-//         Fri: 'friday',
-//         Sat: 'saturday',
-//         Sun: 'sunday'
-//     }
-//     const key = dayMap[dayName]
-//     return this.state.weeklySlots[key]?.total_slots || 0
-// }
+function getSlotCount(dayName: string) {
+    const dayMap = {
+        Mon: 'monday',
+        Tue: 'tuesday',
+        Wed: 'wednesday',
+        Thu: 'thursday',
+        Fri: 'friday',
+        Sat: 'saturday',
+        Sun: 'sunday'
+    }
+    const key = dayMap[dayName]
+    return this.state.weeklySlots[key]?.total_slots || 0
+}
 
 function toggleShowHideAllShifts() {
     state.showAllShifts = !state.showAllShifts
