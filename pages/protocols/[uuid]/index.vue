@@ -19,6 +19,11 @@
                 </NuxtLink>
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
+                <div class="flex justify-end">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="downloadProtocol()">
+                        {{ $t('protocols.download') }}
+                    </FormButton>
+                </div>
                 <TableSearch @search="handleSearch" />
                 <div class="table-responsive">
                     <Table :columnHeaders="state.columnHeaders" :data="state.citizenProtocols"
@@ -95,11 +100,14 @@ import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenProtocolService } from '@/components/api/user/CitizenProtocolService'
 import { protocolService } from '@/components/api/user/ProtocolService'
+import { useDepartmentStore } from '@/store/department'
+import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
 const router = useRouter()
+const departmentStore = useDepartmentStore()
 const protocolUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
 
@@ -146,6 +154,12 @@ onMounted(() => {
     fetchCitizenProtocols()
 })
 
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchCitizenProtocols()
+    }
+})
+
 async function fetchProtocol() {
     state.error = {}
     state.isPageLoading = true
@@ -173,6 +187,7 @@ async function fetchCitizenProtocols() {
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
+            department: departmentStore.getSelectedDepartmentName,
             ...state.dataFilter
         }
         const response = await protocolService.getCitizenProtocols(protocolUuid, params)
@@ -208,6 +223,23 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchCitizenProtocols()
+}
+
+async function downloadProtocol() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await protocolService.downloadProtocol(protocolUuid, params)
+        if (response) {
+            saveAs(response, protocolUuid)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 async function markAsAbsent(citizenProtocolDetails: any) {

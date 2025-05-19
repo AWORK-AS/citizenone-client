@@ -178,7 +178,7 @@
                                 <div class="space-y-1">
                                     <FormLabel for="diagnosis"
                                         :label="$t('findsocialetilbuddk.manageCompany.form.diagnosis')" />
-                                    <FormSelect id="diagnosis" :options="state.options.diagnoses"
+                                    <FormSelectMultiple id="diagnosis" :options="state.options.diagnoses"
                                         v-model="state.formManageCompany.diagnosis" />
                                     <FormError
                                         :error="v$?.formManageCompany?.diagnosis?.$errors[0]?.$message.toString()" />
@@ -186,7 +186,7 @@
                                 </div>
                                 <div class="space-y-1">
                                     <FormLabel for="age" :label="$t('findsocialetilbuddk.manageCompany.form.age')" />
-                                    <FormSelect id="age" :options="state.options.age"
+                                    <FormSelectMultiple id="age" :options="state.options.age"
                                         v-model="state.formManageCompany.age" />
                                     <FormError :error="v$?.formManageCompany?.age?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.age?.[0]" />
@@ -333,8 +333,8 @@ const state = reactive({
         prices: '',
         visitation_manager: '',
         notice_period: '',
-        diagnosis: '',
-        age: '',
+        diagnosis: [],
+        age: [],
         additional_services: [],
         municipality: '',
         region: '',
@@ -434,8 +434,8 @@ watch(() => props.isModalOpen, () => {
         prices: '',
         visitation_manager: '',
         notice_period: '',
-        diagnosis: '',
-        age: '',
+        diagnosis: [],
+        age: [],
         additional_services: [],
         municipality: '',
         region: '',
@@ -638,14 +638,14 @@ async function sendMessage() {
         })
         params.append('additional_services', JSON.stringify(state.formManageCompany.additional_services))
         params.append('address', state.formManageCompany.address)
-        params.append('age', state.formManageCompany.age)
+        params.append('age', JSON.stringify(state.formManageCompany.age))
         params.append('chairperson', state.formManageCompany.chairperson)
         params.append('company_name', state.formManageCompany.company_name)
         params.append('contact_person_firstname', state.formManageCompany.contact_person.firstname)
         params.append('contact_person_lastname', state.formManageCompany.contact_person.lastname)
         params.append('deputy_manager', state.formManageCompany.deputy_manager)
         params.append('description_of_your_social_service', state.formManageCompany.description_of_your_social_service)
-        params.append('diagnosis', state.formManageCompany.diagnosis)
+        params.append('diagnosis', JSON.stringify(state.formManageCompany.diagnosis))
         params.append('domain', state.formManageCompany.domain)
         params.append('leader', state.formManageCompany.leader)
         params.append('link_to_the_offer_portal', state.formManageCompany.link_to_the_offer_portal)

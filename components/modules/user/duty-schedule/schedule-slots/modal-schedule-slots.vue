@@ -79,10 +79,12 @@
                     @refreshScheduleSlotAndDutySchedules="fetchScheduleSlotsAndDutySchedules" />
                 <ModulesUserDutyScheduleScheduleSlotsModalNewScheduleSlot
                     :isModalOpen="state.modal.isAddNewScheduleSlotOpen" :selectedDay="props.selectedDay"
-                    @close="state.modal.isAddNewScheduleSlotOpen = false" @refreshScheduleSlot="fetchScheduleSlots" />
+                    @close="state.modal.isAddNewScheduleSlotOpen = false" @refreshScheduleSlot="fetchScheduleSlots"
+                    @refreshDutySchedules="emit('refreshDutySchedules')" />
                 <ModulesUserDutyScheduleScheduleSlotsModalEditScheduleSlot
                     :isModalOpen="state.modal.isEditScheduleSlotOpen" :selectedScheduleSlot="state.selectedScheduleSlot"
-                    @close="state.modal.isEditScheduleSlotOpen = false" @refreshScheduleSlot="fetchScheduleSlots" />
+                    @close="state.modal.isEditScheduleSlotOpen = false" @refreshScheduleSlot="fetchScheduleSlots"
+                    @refreshDutySchedules="emit('refreshDutySchedules')" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleSlotOpen"
                     :message="$t('dutySchedules.scheduleSlots.confirmation.requestConfirmation') + '?'"
                     @close="state.modal.isDeleteScheduleSlotOpen = false" @confirm="deleteScheduleSlot" />
@@ -235,6 +237,7 @@ async function deleteScheduleSlot() {
         const response = await scheduleSlotService.deleteScheduleSlot(scheduleSlotUuid)
         if (response) {
             fetchScheduleSlots()
+            emit('refreshDutySchedules')
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleSlots.alert.scheduleSlotSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {

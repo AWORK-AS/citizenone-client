@@ -154,7 +154,7 @@
                                     </div>
                                     <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
                                         v-for="day in weekDays" :key="day.date"
-                                        class="cursor-pointer hover:bg-gray-200 flex items-center justify-center py-4 border-0.5"
+                                        class="relative cursor-pointer hover:bg-gray-200 flex items-center justify-center py-4 border-0.5"
                                         @click="openManageScheduleSlotModal(day)"
                                         v-if="isAdmin(userStore.getUser?.roles)">
                                         <span class="flex gap-x-1 text-sm">
@@ -183,6 +183,10 @@
                                                 {{ day.date }}
                                             </span>
                                         </span>
+                                        <div v-if="getSlotCount(day.longName) > 0"
+                                            class="absolute top-2 left-24 text-xxs flex items-center justify-center w-5 h-5 bg-red-400 text-white rounded-full">
+                                            {{ getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName) }}
+                                        </div>
                                     </Tooltip>
                                     <div :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" v-for="day in weekDays"
                                         :key="day.date" class="flex items-center justify-center py-4 border-0.5"
@@ -671,6 +675,7 @@ const state = reactive({
     originalWeeklySchedules: [] as any,
     shifts: [],
     weeklySchedules: [] as any,
+    weeklySlots: {} as any,
 })
 
 watch(() => state.progress.percentage, (newPercentage: any) => {
@@ -847,6 +852,7 @@ async function fetchDutySchedule() {
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
             state.weeklySchedules = response?.data
+            state.weeklySlots = response?.week_slots
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
             fetchDutySchedulePercentage()
             if (state.isFirstLoad) {
@@ -858,6 +864,20 @@ async function fetchDutySchedule() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function getSlotCount(dayName: string) {
+    const dayMap = {
+        Mon: 'monday',
+        Tue: 'tuesday',
+        Wed: 'wednesday',
+        Thu: 'thursday',
+        Fri: 'friday',
+        Sat: 'saturday',
+        Sun: 'sunday'
+    }
+    const key = dayMap[dayName]
+    return state.weeklySlots[key]?.total_slots || 0
 }
 
 function toggleShowHideAllShifts() {

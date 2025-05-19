@@ -82,6 +82,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    selectedContact: {
+        type: Object,
+        required: false,
+    },
 })
 
 const emit = defineEmits(['close', 'refreshSentEmails'])
@@ -99,6 +103,12 @@ const state = reactive({
         password: '',
         password_hint: '',
     },
+})
+
+watch(() => props.selectedContact, (selectedContact: any) => {
+    if (selectedContact.email) {
+        state.formEmail.recipient = [selectedContact.email]
+    }
 })
 
 const rules = computed(() => {

@@ -45,6 +45,11 @@
                         <FormError :error="v$?.formPlan?.subgoal_completion_date?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.subgoal_completion_date?.[0]" />
                     </div>
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formPlan.enable_reminder = !state.formPlan.enable_reminder">
+                        <FormCheckbox :value="state.formPlan.enable_reminder" />
+                        {{ $t('plansandgoals.form.enableReminder') }}
+                    </div>
                 </div>
             </div>
             <div class="space-y-3" v-else>
@@ -79,6 +84,11 @@
                     </ckeditor>
                     <FormError :error="v$?.formPlan?.description?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.description?.[0]" />
+                </div>
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formPlan.enable_reminder = !state.formPlan.enable_reminder">
+                    <FormCheckbox :value="state.formPlan.enable_reminder" />
+                    {{ $t('plansandgoals.form.enableReminder') }}
                 </div>
                 <div v-if="props.formType === 'update'">
                     <div class="w-fit flex items-center cursor-pointer" @click="changeIsCompletedCheckbox">
@@ -158,6 +168,7 @@ const state = reactive({
         completion_date: '',
         score: '',
         description: '',
+        enable_reminder: false,
         date_completed: '',
         is_completed: false,
         is_use_template: false,
@@ -186,6 +197,7 @@ onMounted(() => {
         completion_date: props.selectedPlan.completion_date,
         score: props.selectedPlan.score,
         description: props.selectedPlan.description ?? '',
+        enable_reminder: props.selectedPlan.enable_reminder ? true : false,
         date_completed: props.selectedPlan.date_completed,
         is_completed: props.selectedPlan.is_completed,
         is_use_template: false,
@@ -206,6 +218,7 @@ watch(() => props.selectedPlan, (newValue: any) => {
             completion_date: newValue.completion_date,
             score: newValue.score,
             description: newValue.description ?? '',
+            enable_reminder: newValue.enable_reminder ? true : false,
             date_completed: newValue.date_completed,
             is_completed: newValue.is_completed,
             is_use_template: false,

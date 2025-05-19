@@ -41,7 +41,10 @@
 
 <script setup lang="ts">
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
+
+const departmentStore = useDepartmentStore()
 
 const state = reactive({
     citizensOrigin: [] as any,
@@ -49,15 +52,24 @@ const state = reactive({
     error: {} as Error,
 })
 
-onMounted(() => {
-    fetchCitizensAdmissionDischarged()
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchCitizensOrigin()
+    }
 })
 
-async function fetchCitizensAdmissionDischarged() {
+onMounted(() => {
+    fetchCitizensOrigin()
+})
+
+async function fetchCitizensOrigin() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await dailyOverviewService.getCitizensOrigin()
+        const params: any = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await dailyOverviewService.getCitizensOrigin(params)
         if (response) {
             state.citizensOrigin = response
         }

@@ -263,6 +263,7 @@
         "contactUs": "Kontakt os",
         "form": {
             "annually": "Årligt",
+            "howManyLicensesDoYouWant": "Hvor mange licenser ønsker du",
             "monthly": "Månedligt",
             "pleaseWriteHere": "Venligst skriv her",
             "quantity": "Mængde",
@@ -462,7 +463,8 @@
             "table": {
                 "action": {
                     "delete": "Slet",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "sendEmail": "Send e-mail"
                 },
                 "address": "Adresse",
                 "allowSystemAccess": "Tillad systemadgang",
@@ -877,7 +879,7 @@
                 "strength": "Styrke",
                 "time": "Tid",
                 "treatmentReason": "Behandlingsårsag",
-                "treatmentReasonPlaceholder": "Hvad er ärsagen til, at borgeren fär denne medicin"
+                "treatmentReasonPlaceholder": "Hvad er årsagen til, at borgeren får denne medicin"
             },
             "history": {
                 "alert": {
@@ -2864,6 +2866,7 @@
             "currentLevel": "Nuværende niveau",
             "dateCompleted": "Dato for fuldførelse",
             "description": "Beskrivelse",
+            "enableReminder": "Aktiver påmindelse",
             "goalCompletionDate": "Mål afslutningsdato",
             "expectedLevels": {
                 "expectedLevel": "Forventet niveau",
@@ -3082,6 +3085,7 @@
     },
     "proceed": "Fortsæt",
     "protocols": {
+        "download": "Download",
         "editProtocol": "Rediger protokol",
         "form": {
             "alert": {
@@ -3099,6 +3103,7 @@
         "table": {
             "actions": {
                 "delete": "Slet",
+                "download": "Download",
                 "edit": "Rediger",
                 "markCitizenAsAbent": "Marker borger som fraværende",
                 "markCitizenAsAttended": "Marker borger som tilstede",
@@ -4038,6 +4043,7 @@
                 "unitSuccessfullyUpdated": "Enhed opdateret med succes",
                 "newUnitSuccessfullySaved": "Ny enhed gemt med succes"
             },
+            "doYouWantToReserveAUnit": "Vil du reservere en enhed",
             "name": "Navn"
         },
         "newUnit": "Ny enhed",

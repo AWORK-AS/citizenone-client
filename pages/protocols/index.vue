@@ -62,6 +62,11 @@
                                                 {{ $t('protocols.table.actions.view') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="downloadProtocol(protocol)">
+                                                <Icon name="ph:download" class="size-4" />
+                                                {{ $t('protocols.table.actions.download') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="deleteProtocolConfirmation(protocol)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('protocols.table.actions.delete') }}
@@ -86,14 +91,17 @@
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { protocolService } from '@/components/api/user/ProtocolService'
+import { useDepartmentStore } from '@/store/department'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const departmentStore = useDepartmentStore()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
@@ -139,6 +147,12 @@ onMounted(() => {
     fetchAllCitizens()
 })
 
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchProtocols()
+    }
+})
+
 async function fetchProtocols() {
     state.error = {}
     state.isTableLoading = true
@@ -148,6 +162,7 @@ async function fetchProtocols() {
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
+            department: departmentStore.getSelectedDepartmentName,
             date: {
                 end_date: state.dataFilter.end_date,
                 start_date: state.dataFilter.start_date,
@@ -208,6 +223,24 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchProtocols()
+}
+
+async function downloadProtocol(protocol: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const protocolUuid = protocol?.uuid
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await protocolService.downloadProtocol(protocolUuid, params)
+        if (response) {
+            saveAs(response, protocolUuid)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 function deleteProtocolConfirmation(protocol: any) {

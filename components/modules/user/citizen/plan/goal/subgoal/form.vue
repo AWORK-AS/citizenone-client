@@ -35,6 +35,11 @@
                 <FormError :error="v$?.formSubgoal?.description?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.description?.[0]" />
             </div>
+            <div class="w-fit flex items-center cursor-pointer"
+                @click="state.formSubgoal.enable_reminder = !state.formSubgoal.enable_reminder">
+                <FormCheckbox :value="state.formSubgoal.enable_reminder" />
+                {{ $t('plansandgoals.form.enableReminder') }}
+            </div>
             <div v-if="props.formType === 'update'">
                 <div class="w-fit flex items-center cursor-pointer" @click="changeIsCompletedCheckbox">
                     <FormCheckbox :value="state.formSubgoal.is_completed" />
@@ -106,6 +111,7 @@ const state = reactive({
         uuid: '',
         name: '',
         description: '',
+        enable_reminder: false,
         status: '',
         completion_date: '',
         date_completed: '',
@@ -129,6 +135,7 @@ onMounted(() => {
         uuid: props.selectedSubgoal.uuid,
         name: props.selectedSubgoal.name,
         description: props.selectedSubgoal.description ?? '',
+        enable_reminder: props.selectedSubgoal.enable_reminder ? true : false,
         status: props.selectedSubgoal.status,
         completion_date: props.selectedSubgoal.completion_date,
         date_completed: props.selectedSubgoal.date_completed,
@@ -149,6 +156,7 @@ watch(() => props.selectedSubgoal, (newValue: any) => {
             uuid: newValue.uuid,
             name: newValue.name,
             description: newValue.description ?? '',
+            enable_reminder: newValue.enable_reminder ? true : false,
             status: newValue.status,
             completion_date: newValue.completion_date,
             date_completed: newValue.date_completed,

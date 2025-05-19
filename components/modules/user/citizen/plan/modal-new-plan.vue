@@ -40,6 +40,7 @@ const state = reactive({
         uuid: '',
         name: '',
         description: '',
+        enable_reminder: false,
         completion_date: '',
         score: '',
         date_completed: '',
@@ -67,6 +68,7 @@ async function savePlan(planDetails: any) {
                 plan_completion_date: planDetails.plan_completion_date,
                 goal_completion_date: planDetails.goal_completion_date,
                 subgoal_completion_date: planDetails.subgoal_completion_date,
+                enable_reminder: planDetails.enable_reminder,
             }
         } else {
             params = {
@@ -75,6 +77,7 @@ async function savePlan(planDetails: any) {
                 completion_date: planDetails.completion_date,
                 score: planDetails.score,
                 description: planDetails.description,
+                enable_reminder: planDetails.enable_reminder,
             }
         }
         const response = await planService.savePlan(params)

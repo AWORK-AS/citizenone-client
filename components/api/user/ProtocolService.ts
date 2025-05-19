@@ -21,6 +21,10 @@ class ProtocolService extends BaseAPIService {
         return await this.request(`/user/protocols/${protocolUuid}`, 'DELETE')
     }
 
+    async downloadProtocol(citizenProtocolUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/protocols/${citizenProtocolUuid}/download`, 'GET', params)
+    }
+
     async getCitizenProtocols(protocolUuid: any, params: object): Promise<any> {
         return await this.request(`/user/protocols/${protocolUuid}/citizen-protocols`, 'GET', params)
     }

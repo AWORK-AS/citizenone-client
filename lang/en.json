@@ -263,6 +263,7 @@
         "contactUs": "Contact us",
         "form": {
             "annually": "Annually",
+            "howManyLicensesDoYouWant": "How many licenses do you want",
             "monthly": "Monthly",
             "pleaseWriteHere": "Please write here",
             "quantity": "Quantity",
@@ -462,7 +463,8 @@
             "table": {
                 "action": {
                     "delete": "Delete",
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "sendEmail": "Send email"
                 },
                 "allowSystemAccess": "Allow system access",
                 "address": "Address",
@@ -2864,6 +2866,7 @@
             "currentLevel": "Current level",
             "dateCompleted": "Date completed",
             "description": "Description",
+            "enableReminder": "Enable reminder",
             "goalCompletionDate": "Goal completion date",
             "expectedLevels": {
                 "expectedLevel": "Expected level",
@@ -3082,6 +3085,7 @@
     },
     "proceed": "Proceed",
     "protocols": {
+        "download": "Download",
         "editProtocol": "Edit protocol",
         "form": {
             "alert": {
@@ -3099,6 +3103,7 @@
         "table": {
             "actions": {
                 "delete": "Delete",
+                "download": "Download",
                 "edit": "Edit",
                 "markCitizenAsAbent": "Mark citizen as absent",
                 "markCitizenAsAttended": "Mark citizen as attended",
@@ -4038,6 +4043,7 @@
                 "unitSuccessfullyUpdated": "Unit successfully updated",
                 "newUnitSuccessfullySaved": "New unit successfully saved"
             },
+            "doYouWantToReserveAUnit": "Do you want to reserve a unit",
             "name": "Name"
         },
         "newUnit": "New unit",
