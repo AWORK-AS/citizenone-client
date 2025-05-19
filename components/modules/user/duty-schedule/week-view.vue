@@ -84,38 +84,6 @@
                     :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
                 <div class="isolate flex flex-auto flex-col bg-white">
                     <div class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
-                        <!-- <div class="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
-                            <div class="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
-                                <button v-for="day in weekDays" :key="day.date" type="button"
-                                    class="flex flex-col items-center pb-3 pt-2" @click="setSelectedDay(day)">
-                                    <span v-if="day.longName === 'Mon'">
-                                        {{ $t('calendar.week.oneLetter.Monday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Tue'">
-                                        {{ $t('calendar.week.oneLetter.Tuesday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Wed'">
-                                        {{ $t('calendar.week.oneLetter.Wednesday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Thu'">
-                                        {{ $t('calendar.week.oneLetter.Thursday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Fri'">
-                                        {{ $t('calendar.week.oneLetter.Friday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Sat'">
-                                        {{ $t('calendar.week.oneLetter.Saturday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Sun'">
-                                        {{ $t('calendar.week.oneLetter.Sunday') }}
-                                    </span>
-                                    <span
-                                        :class="moment(selectedDay).format('YYYY-MM-DD') === moment(day.fullDate).format('YYYY-MM-DD') ? 'mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-tertiary font-semibold text-white' : 'mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900'">
-                                        {{ day.date }}
-                                    </span>
-                                </button>
-                            </div>
-                        </div> -->
                         <div>
                             <div>
                                 <div class="shadow grid grid-cols-9">
@@ -465,12 +433,6 @@
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                             v-else
                                                             v-if="userStore.getUser?.uuid === weeklySchedule?.employee?.uuid">
-                                                            <!-- <Tooltip
-                                                                :text="$t('dutySchedules.scheduleRequests.changeTime.newRequest')">
-                                                                <Icon name="ic:baseline-question-mark"
-                                                                    class="h-2.5 w-2.5" aria-hidden="true" />
-                                                            </Tooltip> -->
-
                                                             <Menu as="div"
                                                                 class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
                                                                 <div>
