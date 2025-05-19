@@ -84,6 +84,8 @@
                 </FormButton>
             </div>
         </div>
+        <ModulesUserUnitModalNew :isModalOpen="state.modal.isAddUnitOpen" @close="state.modal.isAddUnitOpen = false"
+            @refreshUnits="fetchAllUnits" />
     </form>
 </template>
 
@@ -134,6 +136,9 @@ const state = reactive({
         citizens_uuid: [],
         users_uuid: [],
         send_invitation: false,
+    },
+    modal: {
+        isAddUnitOpen: false
     },
     options: {
         citizens: [] as Option[],
