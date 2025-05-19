@@ -1666,6 +1666,7 @@
         },
         "copy": {
             "copy": "Copy",
+            "copyEmployeeSchedule": "Copy employee schedule",
             "copyThisWeeksSchedule": "Copy this week's schedule",
             "copyMultipleWeeksSchedule": "Copy multiple weeks' schedules",
             "week": "Week",

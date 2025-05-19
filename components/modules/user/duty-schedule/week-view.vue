@@ -232,13 +232,23 @@
                                         v-if="!isWeeklyScheduleCopied(weekNumber)">
                                         <div class="p-3 col-span-2 border-0.5">
                                             <div class="relative">
-                                                <div class="flex items-center gap-x-2">
-                                                    <img :src="weeklySchedule?.employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`"
-                                                        class="h-8 w-8 rounded-full bg-gray-50 object-cover" />
-                                                    <p class="text-sm font-medium">
-                                                        {{ weeklySchedule?.employee?.firstname }}
-                                                        {{ weeklySchedule?.employee?.lastname }}
-                                                    </p>
+                                                <div class="flex justify-between">
+                                                    <div class="flex items-center gap-x-2">
+                                                        <img :src="weeklySchedule?.employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`"
+                                                            class="h-8 w-8 rounded-full bg-gray-50 object-cover" />
+                                                        <p class="text-sm font-medium">
+                                                            {{ weeklySchedule?.employee?.firstname }}
+                                                            {{ weeklySchedule?.employee?.lastname }}
+                                                        </p>
+                                                    </div>
+                                                    <!-- <Tooltip :text="$t('dutySchedules.copy.copyEmployeeSchedule')">
+                                                        <button
+                                                            class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                            @click="">
+                                                            <Icon name="mdi:content-copy" class="h-3 w-3"
+                                                                aria-hidden="true" />
+                                                        </button>
+                                                    </Tooltip> -->
                                                 </div>
                                                 <p class="absolute left-10 top-6 text-xs">
                                                     {{ $t('dutySchedules.annualNormHours') }}:
@@ -614,11 +624,11 @@ const expandedRecords = reactive([] as boolean[])
 
 const state = reactive({
     addShift: {
-        selectedEmployeeSchedules: {}
+        selectedEmployeeSchedule: {}
     } as any,
     copy: {
         allEmployeeSchedules: {},
-        selectedEmployeeSchedules: {}
+        selectedEmployeeSchedule: {}
     } as any,
     copyShiftError: {} as Error,
     customWeekLabel: 'week',
@@ -937,7 +947,7 @@ function isPastWeek() {
 
 function openAddNewShiftModal(employee: any, weeklyScheduleIndex: number, weekIndex: any, week: any) {
     state.modal.isAddShiftOpen = true
-    state.addShift.selectedEmployeeSchedules = {
+    state.addShift.selectedEmployeeSchedule = {
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekIndex: weekIndex,
         ...week
@@ -980,7 +990,7 @@ function requestSwapSchedule(shift: any) {
 }
 
 async function saveShift(shiftDetails: any) {
-    const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex
+    const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedule.weeklyScheduleIndex
     const shiftType = shiftDetails.shift_type
     const params = {
         shift_type_uuid: shiftType,
@@ -1026,15 +1036,15 @@ function identifyTheProgressPercentage() {
 }
 
 function isScheduleCopiedEmpty() {
-    return Object.keys(state.copy.selectedEmployeeSchedules).length === 0
+    return Object.keys(state.copy.selectedEmployeeSchedule).length === 0
 }
 
 function isScheduleCopied(weeklyScheduleIndex: number, weekIndex: number, weekNumber: number) {
-    return state.copy.selectedEmployeeSchedules.weeklyScheduleIndex === weeklyScheduleIndex && state.copy.selectedEmployeeSchedules.weekIndex === weekIndex && state.copy.selectedEmployeeSchedules.weekNumber === weekNumber
+    return state.copy.selectedEmployeeSchedule.weeklyScheduleIndex === weeklyScheduleIndex && state.copy.selectedEmployeeSchedule.weekIndex === weekIndex && state.copy.selectedEmployeeSchedule.weekNumber === weekNumber
 }
 
 function copyEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
-    state.copy.selectedEmployeeSchedules = {
+    state.copy.selectedEmployeeSchedule = {
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekNumber: weekNumber,
         weekIndex: weekIndex,
@@ -1044,11 +1054,11 @@ function copyEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: any, weekl
 
 function stopCopying() {
     state.copy.allEmployeeSchedules = {}
-    state.copy.selectedEmployeeSchedules = {}
+    state.copy.selectedEmployeeSchedule = {}
 }
 
 async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
-    const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeSchedules
+    const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeSchedule
     const copiedWeekIndex = copiedSelectedEmployeeSchedule.weekIndex
 
     const userSource = copiedSelectedEmployeeSchedule.weeklySchedule.employee

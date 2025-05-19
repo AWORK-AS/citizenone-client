@@ -1666,6 +1666,7 @@
         },
         "copy": {
             "copy": "Kopiér",
+            "copyEmployeeSchedule": "Kopiér medarbejder vagtplan",
             "copyThisWeeksSchedule": "Kopiér denne uges vagtplan",
             "copyMultipleWeeksSchedule": "Kopiér vagtplan for flere uger",
             "week": "Uge",
