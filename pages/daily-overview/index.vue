@@ -150,9 +150,6 @@
                 :dateRange="state.dateRange" @close="state.modal.isDailyOverviewDateRangeOpen = false"
                 @filterDate="filterDailyOverviewByDate" />
 
-            <!-- Darkening overlay -->
-            <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block"
-                v-if="state.modal.isGuidedTourDailyOverviewOpen"></div>
             <ModulesUserGuidedTourModalDailyOverview v-if="state.modal.isGuidedTourDailyOverviewOpen"
                 :isModalOpen="state.modal.isGuidedTourDailyOverviewOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDailyOverviewOpen = false" />
