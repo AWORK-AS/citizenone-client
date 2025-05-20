@@ -2297,6 +2297,27 @@
             "subfolder": "Sub folder"
         },
         "newFolderStructure": "New folder structure",
+        "requests": {
+            "alert": {
+                "newFolderStructureSuccessfullyRequested": "New folder structure successfully requested"
+            },
+            "folderStructureRequests": "Folder structure requests",
+            "newFolderStructureRequest": "New folder structure request",
+            "table": {
+                "actions": {
+                    "approve": "Approve",
+                    "delete": "Delete",
+                    "disapprove": "Disapprove",
+                    "edit": "Edit"
+                },
+                "alert": {
+                    "folderStructureRequestSuccessfullyApproved": "Folder structure request successfully approved",
+                    "folderStructureRequestSuccessfullyDeleted": "Folder structure request successfully deleted",
+                    "folderStructureRequestSuccessfullyDisapproved": "Folder structure request successfully disapproved",
+                    "folderStructureRequestSuccessfullyUpdated": "Folder structure request successfully updated"
+                }
+            }
+        },
         "table": {
             "actions": {
                 "delete": "Delete",

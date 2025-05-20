@@ -2297,6 +2297,27 @@
             "subfolder": "Undermappe"
         },
         "newFolderStructure": "Ny mappestruktur",
+        "requests": {
+            "alert": {
+                "newFolderStructureSuccessfullyRequested": "Ny folderstruktur anmodet med succes"
+            },
+            "folderStructureModificationRequests": "Anmodninger om ændring af folderstruktur",
+            "newFolderStructureModificationRequest": "Ny anmodning om ændring af folderstruktur",
+            "table": {
+                "actions": {
+                    "approve": "Godkend",
+                    "delete": "Slet",
+                    "disapprove": "Afvis",
+                    "edit": "Rediger"
+                },
+                "alert": {
+                    "folderStructureRequestSuccessfullyApproved": "Anmodning om folderstruktur godkendt med succes",
+                    "folderStructureRequestSuccessfullyDeleted": "Anmodning om folderstruktur slettet med succes",
+                    "folderStructureRequestSuccessfullyDisapproved": "Anmodning om folderstruktur afvist med succes",
+                    "folderStructureRequestSuccessfullyUpdated": "Anmodning om folderstruktur opdateret med succes"
+                }
+            }
+        },
         "table": {
             "actions": {
                 "delete": "Slet",
