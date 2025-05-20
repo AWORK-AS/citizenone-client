@@ -319,12 +319,12 @@
                                         </div>
                                         <div class="p-3 border-0.5" v-for="(week, weekIndex) in weeklySchedule?.weeks"
                                             :key="weekIndex" :class="[
-                                                isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && 'border-1.5 border-dashed border-gray-700',
-                                                !isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isScheduleCopiedEmpty() && 'cursor-copy relative group'
+                                                isDailyScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && 'border-1.5 border-dashed border-gray-700',
+                                                !isDailyScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && 'cursor-copy relative group'
                                             ]"
-                                            @click="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isScheduleCopiedEmpty() && pasteEmployeeSchedule(weeklyScheduleIndex, weekIndex)">
+                                            @click="!isDailyScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && pasteEmployeeDailySchedule(weeklyScheduleIndex, weekIndex)">
                                             <div class="space-y-2"
-                                                v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber)">
+                                                v-if="!isDailyScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber)">
                                                 <div class="flex justify-end gap-2"
                                                     v-if="isAdmin(userStore.getUser?.roles)">
                                                     <Menu as="div"
@@ -382,7 +382,7 @@
                                                     <Tooltip :text="$t('dutySchedules.copy.copy')">
                                                         <button
                                                             class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                            @click="copyEmployeeSchedule(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
+                                                            @click="copyEmployeeDailySchedule(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
                                                             <Icon name="mdi:content-copy" class="h-3 w-3"
                                                                 aria-hidden="true" />
                                                         </button>
@@ -495,7 +495,7 @@
                                                 </p>
                                             </div>
                                             <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                                v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isScheduleCopiedEmpty()">
+                                                v-if="!isDailyScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty()">
                                                 <p class="text-white text-xs text-center">
                                                     {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
                                                 </p>
@@ -590,7 +590,7 @@ const state = reactive({
     } as any,
     copy: {
         allEmployeeSchedules: {},
-        selectedEmployeeSchedule: {}
+        selectedEmployeeDailySchedule: {}
     } as any,
     copyShiftError: {} as Error,
     customWeekLabel: 'week',
@@ -997,16 +997,16 @@ function identifyTheProgressPercentage() {
     }
 }
 
-function isScheduleCopiedEmpty() {
-    return Object.keys(state.copy.selectedEmployeeSchedule).length === 0
+function isDailyScheduleCopiedEmpty() {
+    return Object.keys(state.copy.selectedEmployeeDailySchedule).length === 0
 }
 
-function isScheduleCopied(weeklyScheduleIndex: number, weekIndex: number, weekNumber: number) {
-    return state.copy.selectedEmployeeSchedule.weeklyScheduleIndex === weeklyScheduleIndex && state.copy.selectedEmployeeSchedule.weekIndex === weekIndex && state.copy.selectedEmployeeSchedule.weekNumber === weekNumber
+function isDailyScheduleCopied(weeklyScheduleIndex: number, weekIndex: number, weekNumber: number) {
+    return state.copy.selectedEmployeeDailySchedule.weeklyScheduleIndex === weeklyScheduleIndex && state.copy.selectedEmployeeDailySchedule.weekIndex === weekIndex && state.copy.selectedEmployeeDailySchedule.weekNumber === weekNumber
 }
 
-function copyEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
-    state.copy.selectedEmployeeSchedule = {
+function copyEmployeeDailySchedule(weeklyScheduleIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
+    state.copy.selectedEmployeeDailySchedule = {
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekNumber: weekNumber,
         weekIndex: weekIndex,
@@ -1016,11 +1016,11 @@ function copyEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: any, weekl
 
 function stopCopying() {
     state.copy.allEmployeeSchedules = {}
-    state.copy.selectedEmployeeSchedule = {}
+    state.copy.selectedEmployeeDailySchedule = {}
 }
 
-async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
-    const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeSchedule
+async function pasteEmployeeDailySchedule(weeklyScheduleIndex: number, weekIndex: number) {
+    const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeDailySchedule
     const copiedWeekIndex = copiedSelectedEmployeeSchedule.weekIndex
 
     const userSource = copiedSelectedEmployeeSchedule.weeklySchedule.employee
@@ -1129,7 +1129,7 @@ async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: nu
 }
 
 function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
-    if (!isScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
+    if (!isDailyScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
 
     if (state.isRemoveShift || state.isUpdateShift) return
 
@@ -1150,7 +1150,7 @@ function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: a
 }
 
 function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
-    if (!isScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
+    if (!isDailyScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
 
     if (state.isRemoveShift || state.isUpdateShift) return
 
