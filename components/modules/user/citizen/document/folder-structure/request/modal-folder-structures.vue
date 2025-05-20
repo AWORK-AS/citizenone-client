@@ -29,7 +29,17 @@
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editFolderStructure(folderStructure)">
                                                 <Icon name="ph:pencil" class="size-4" />
-                                                {{ $t('folderStructure.table.actions.edit') }}
+                                                {{ $t('folderStructure.requests.table.actions.edit') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="confirmApproveFolderStructureRequest(folderStructure)">
+                                                <Icon name="ph:check" class="size-4" />
+                                                {{ $t('folderStructure.requests.table.actions.approve') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="confirmDisapproveFolderStructureRequest(folderStructure)">
+                                                <Icon name="ph:x" class="size-4" />
+                                                {{ $t('folderStructure.requests.table.actions.disapprove') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -48,6 +58,14 @@
                     :selectedFolderStructureRequest="state.selectedFolderStructureRequest"
                     @close="state.modal.editFolderStructureOpen = false"
                     @refreshFolderStructureRequests="fetchFolderStructureRequests" />
+
+
+                <DialogConfirmation :isModalOpen="state.modal.isApproveRequestOpen"
+                    :message="$t('folderStructure.requests.table.confirmation.approveFolderStructureRequestConfirmation') + '?'"
+                    @close="state.modal.isApproveRequestOpen = false" @confirm="approveFolderStructureRequest" />
+                <DialogConfirmation :isModalOpen="state.modal.isDisapproveRequestOpen"
+                    :message="$t('folderStructure.requests.table.confirmation.disapproveFolderStructureRequestConfirmation') + '?'"
+                    @close="state.modal.isDisapproveRequestOpen = false" @confirm="rejectFolderStructureRequest" />
             </template>
         </Modal>
     </div>
@@ -56,6 +74,8 @@
 
 <script setup lang="ts">
 import { folderStructureRequestService } from '@/components/api/user/FolderStructureRequestService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -66,7 +86,9 @@ const props = defineProps({
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshFolderStructures'])
+const { t } = useI18n()
+const { successAlert } = useAlert()
 let currentTablePage = 1
 
 const state = reactive({
@@ -84,6 +106,8 @@ const state = reactive({
         editFolderStructureOpen: false,
         folderStructureRequestsOpen: false,
         newFolderStructureRequestOpen: false,
+        isApproveRequestOpen: false,
+        isDisapproveRequestOpen: false,
     },
     selectedFolderStructureRequest: {},
     sortData: {
@@ -152,5 +176,48 @@ function handleSearch(value: any) {
 function editFolderStructure(folderStructure: any) {
     state.selectedFolderStructureRequest = folderStructure
     state.modal.editFolderStructureOpen = true
+}
+
+function confirmApproveFolderStructureRequest(folderStructure: any) {
+    state.selectedFolderStructureRequest = folderStructure
+    state.modal.isApproveRequestOpen = true
+}
+
+function confirmDisapproveFolderStructureRequest(folderStructure: any) {
+    state.selectedFolderStructureRequest = folderStructure
+    state.modal.isDisapproveRequestOpen = true
+}
+
+async function approveFolderStructureRequest() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const folderStructureRequestUuid = state.selectedFolderStructureRequest.uuid
+        const response = await folderStructureRequestService.approveFolderStructureRequest(folderStructureRequestUuid)
+        if (response) {
+            fetchFolderStructureRequests()
+            successAlert(`${t('alert.success')}!`, `${t('folderStructure.requests.table.alert.folderStructureRequestSuccessfullyApproved')}.`)
+            emit('refreshFolderStructures')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function rejectFolderStructureRequest() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const folderStructureRequestUuid = state.selectedFolderStructureRequest.uuid
+        const response = await folderStructureRequestService.disapproveFolderStructureRequest(folderStructureRequestUuid)
+        if (response) {
+            fetchFolderStructureRequests()
+            successAlert(`${t('alert.success')}!`, `${t('folderStructure.requests.table.alert.folderStructureRequestSuccessfullyDisapproved')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

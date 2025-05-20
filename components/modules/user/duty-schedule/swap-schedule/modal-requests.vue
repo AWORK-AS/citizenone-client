@@ -65,9 +65,9 @@
                 <DialogConfirmation :isModalOpen="state.modal.isApproveRequest"
                     :message="$t('dutySchedules.scheduleRequests.swapSchedule.table.confirmation.approveConfirmation') + '?'"
                     @close="state.modal.isApproveRequest = false" @confirm="approveScheduleRequest" />
-                <DialogConfirmation :isModalOpen="state.modal.isDispproveRequest"
+                <DialogConfirmation :isModalOpen="state.modal.isDisapproveRequest"
                     :message="$t('dutySchedules.scheduleRequests.swapSchedule.table.confirmation.disapproveConfirmation') + '?'"
-                    @close="state.modal.isDispproveRequest = false" @confirm="rejectScheduleRequest" />
+                    @close="state.modal.isDisapproveRequest = false" @confirm="rejectScheduleRequest" />
             </template>
         </Modal>
     </div>
@@ -118,7 +118,7 @@ const state = reactive({
     isTableLoading: false,
     modal: {
         isApproveRequest: false,
-        isDispproveRequest: false,
+        isDisapproveRequest: false,
     },
     scheduleRequests: [] as any,
     selectedScheduleRequest: [] as any,
@@ -210,7 +210,7 @@ async function approveScheduleRequest() {
 
 function confirmDispproveScheduleRequest(request: any) {
     state.selectedScheduleRequest = request
-    state.modal.isDispproveRequest = true
+    state.modal.isDisapproveRequest = true
 }
 
 async function rejectScheduleRequest() {

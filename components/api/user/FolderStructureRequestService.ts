@@ -16,6 +16,10 @@ class FolderStructureRequestService extends BaseAPIService {
     async approveFolderStructureRequest(folderStructureRequestUuid: any): Promise<any> {
         return await this.request(`/user/folder-structure-edit-requests/${folderStructureRequestUuid}/approve`, 'PUT')
     }
+
+    async disapproveFolderStructureRequest(folderStructureRequestUuid: any): Promise<any> {
+        return await this.request(`/user/folder-structure-edit-requests/${folderStructureRequestUuid}/disapprove`, 'PUT')
+    }
 }
 
 export const folderStructureRequestService = new FolderStructureRequestService()

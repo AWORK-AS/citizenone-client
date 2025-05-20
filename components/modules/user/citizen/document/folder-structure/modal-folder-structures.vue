@@ -52,7 +52,8 @@
 
                 <ModulesUserCitizenDocumentFolderStructureRequestModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureRequestsOpen"
-                    @close="state.modal.isViewFolderStructureRequestsOpen = false" />
+                    @close="state.modal.isViewFolderStructureRequestsOpen = false"
+                    @refreshFolderStructures="fetchFolderStructures" />
             </template>
         </Modal>
     </div>
