@@ -43,10 +43,11 @@
                     :isModalOpen="state.modal.newFolderStructureRequestOpen"
                     @close="state.modal.newFolderStructureRequestOpen = false"
                     @refreshFolderStructureRequests="fetchFolderStructureRequests" />
-                <!-- <ModulesUserCitizenDocumentFolderStructureModalEdit :isModalOpen="state.modal.editFolderStructureOpen"
-                    :selectedFolderStructure="state.selectedFolderStructure"
+                <ModulesUserCitizenDocumentFolderStructureRequestModalEdit
+                    :isModalOpen="state.modal.editFolderStructureOpen"
+                    :selectedFolderStructureRequest="state.selectedFolderStructureRequest"
                     @close="state.modal.editFolderStructureOpen = false"
-                    @refreshFolderStructures="fetchFolderStructureRequests" /> -->
+                    @refreshFolderStructureRequests="fetchFolderStructureRequests" />
             </template>
         </Modal>
     </div>
@@ -84,7 +85,7 @@ const state = reactive({
         folderStructureRequestsOpen: false,
         newFolderStructureRequestOpen: false,
     },
-    selectedFolderStructure: {},
+    selectedFolderStructureRequest: {},
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -148,8 +149,8 @@ function handleSearch(value: any) {
     fetchFolderStructureRequests()
 }
 
-function editFolderStructure(folder_structure: any) {
-    state.selectedFolderStructure = folder_structure
+function editFolderStructure(folderStructure: any) {
+    state.selectedFolderStructureRequest = folderStructure
     state.modal.editFolderStructureOpen = true
 }
 </script>

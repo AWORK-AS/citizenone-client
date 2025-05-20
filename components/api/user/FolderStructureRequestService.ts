@@ -9,12 +9,12 @@ class FolderStructureRequestService extends BaseAPIService {
         return await this.request(`/user/folder-structure-edit-requests`, 'POST', params)
     }
 
-    async updateFolderStructureRequest(folderStructureUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/folder-structure-edit-requests/${folderStructureUuid}`, 'PUT', params)
+    async updateFolderStructureRequest(folderStructureRequestUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/folder-structure-edit-requests/${folderStructureRequestUuid}`, 'PUT', params)
     }
 
-    async approveFolderStructureRequest(folderStructureUuid: any): Promise<any> {
-        return await this.request(`/user/folder-structure-edit-requests/${folderStructureUuid}/approve`, 'PUT')
+    async approveFolderStructureRequest(folderStructureRequestUuid: any): Promise<any> {
+        return await this.request(`/user/folder-structure-edit-requests/${folderStructureRequestUuid}/approve`, 'PUT')
     }
 }
 

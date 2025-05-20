@@ -2301,6 +2301,7 @@
             "alert": {
                 "newFolderStructureSuccessfullyRequested": "New folder structure successfully requested"
             },
+            "editFolderStructureRequest": "Edit folder structure request",
             "folderStructureRequests": "Folder structure requests",
             "newFolderStructureRequest": "New folder structure request",
             "table": {

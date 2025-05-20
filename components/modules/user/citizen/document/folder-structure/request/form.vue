@@ -4,9 +4,12 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="folder_structure" :label="$t('folderStructure.folderStructure')" />
+                <p class="text-sm text-gray-600">
+                    {{ $t('folderStructure.folderStructure') }}
+                </p>
                 <FormSelect id="folder_structure" :options="state.options.folderStructures"
-                    v-model="state.formFolderStructure.folder_structure" />
+                    v-model="state.formFolderStructure.folder_structure" @change="changeFolderStructure"
+                    :disabled="props.formType === 'update'" />
                 <FormError :error="v$?.formFolderStructure?.folder_structure?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.folder_structure_uuid?.[0]" />
             </div>
@@ -77,7 +80,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedFolderStructure: {
+    selectedFolderStructureRequest: {
         type: Object,
         required: false,
     },
@@ -110,12 +113,12 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
-watch(() => state.formFolderStructure.folder_structure, (folderStructure) => {
-    if (folderStructure) {
-        state.formFolderStructure.structure = state.folderStructures.find((item: any) => item.uuid === folderStructure)?.structure
+function changeFolderStructure(folderStructureUuid: string) {
+    if (folderStructureUuid) {
+        state.formFolderStructure.structure = state.folderStructures.find((item: any) => item.uuid === folderStructureUuid)?.structure
         state.formFolderStructure.structure = JSON.parse(state.formFolderStructure.structure)
     }
-})
+}
 
 onMounted(() => {
     fetchFolderStructures()
@@ -140,6 +143,10 @@ async function fetchFolderStructures() {
                 })
             )
             state.options.folderStructures = options
+            if (props.selectedFolderStructureRequest) {
+                state.formFolderStructure.folder_structure = props.selectedFolderStructureRequest?.folder_structure?.uuid
+                state.formFolderStructure.structure = JSON.parse(props.selectedFolderStructureRequest?.structure)
+            }
         }
     } catch (error: any) {
         state.error = error

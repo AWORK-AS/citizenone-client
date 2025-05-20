@@ -2301,6 +2301,7 @@
             "alert": {
                 "newFolderStructureSuccessfullyRequested": "Ny folderstruktur anmodet med succes"
             },
+            "editFolderStructureRequest": "Rediger anmodning om folderstruktur",
             "folderStructureModificationRequests": "Anmodninger om ændring af folderstruktur",
             "newFolderStructureModificationRequest": "Ny anmodning om ændring af folderstruktur",
             "table": {
