@@ -2316,6 +2316,11 @@
                     "folderStructureRequestSuccessfullyDeleted": "Anmodning om folderstruktur slettet med succes",
                     "folderStructureRequestSuccessfullyDisapproved": "Anmodning om folderstruktur afvist med succes",
                     "folderStructureRequestSuccessfullyUpdated": "Anmodning om folderstruktur opdateret med succes"
+                },
+                "confirmation": {
+                    "approveFolderStructureRequestConfirmation": "Er du sikker på, at du vil godkende denne anmodning",
+                    "deleteFolderStructureRequestConfirmation": "Er du sikker på, at du vil slette denne anmodning",
+                    "disapproveFolderStructureRequestConfirmation": "Er du sikker på, at du vil afvise denne anmodning"
                 }
             }
         },

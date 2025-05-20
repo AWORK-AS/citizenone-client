@@ -2316,6 +2316,11 @@
                     "folderStructureRequestSuccessfullyDeleted": "Folder structure request successfully deleted",
                     "folderStructureRequestSuccessfullyDisapproved": "Folder structure request successfully disapproved",
                     "folderStructureRequestSuccessfullyUpdated": "Folder structure request successfully updated"
+                },
+                "confirmation": {
+                    "approveFolderStructureRequestConfirmation": "Are you sure you want to approve this request",
+                    "deleteFolderStructureRequestConfirmation": "Are you sure you want to delete this request",
+                    "disapproveFolderStructureRequestConfirmation": "Are you sure you want to disapprove this request"
                 }
             }
         },
