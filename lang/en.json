@@ -2327,11 +2327,13 @@
         "table": {
             "actions": {
                 "delete": "Delete",
-                "edit": "Edit"
+                "edit": "Edit",
+                "view": "View"
             },
             "name": "Name",
             "structure": "Structure"
-        }
+        },
+        "viewFolderStructure": "View folder structure"
     },
     "foreignCities": {
         "addNewForeignCity": "Add new foreign city",

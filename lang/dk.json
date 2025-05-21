@@ -2327,11 +2327,13 @@
         "table": {
             "actions": {
                 "delete": "Slet",
-                "edit": "Rediger"
+                "edit": "Rediger",
+                "view": "Se"
             },
             "name": "Navn",
             "structure": "Struktur"
-        }
+        },
+        "viewFolderStructure": "Se folderstruktur"
     },
     "foreignCities": {
         "addNewForeignCity": "Tilføj ny udenlandsk by",

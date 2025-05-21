@@ -30,6 +30,11 @@
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="viewFolderStructure(folder_structure)">
+                                                <Icon name="ph:eye" class="size-4" />
+                                                {{ $t('folderStructure.table.actions.view') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editFolderStructure(folder_structure)"
                                                 v-if="isAdmin(userStore.getUser?.roles)">
                                                 <Icon name="ph:pencil" class="size-4" />
@@ -43,6 +48,9 @@
                     </div>
                     <Pagination :data="state.folder_structures" @previous="previous" @next="next" />
                 </div>
+                <ModulesUserCitizenDocumentFolderStructureModalView :isModalOpen="state.modal.viewFolderStructureOpen"
+                    :selectedFolderStructure="state.selected_folder_structure"
+                    @close="state.modal.viewFolderStructureOpen = false" />
                 <ModulesUserCitizenDocumentFolderStructureModalNew :isModalOpen="state.modal.newFolderStructureOpen"
                     @close="state.modal.newFolderStructureOpen = false"
                     @refreshFolderStructures="fetchFolderStructures" />
@@ -93,6 +101,7 @@ const state = reactive({
         editFolderStructureOpen: false,
         isViewFolderStructureRequestsOpen: false,
         newFolderStructureOpen: false,
+        viewFolderStructureOpen: false,
     },
     selected_folder_structure: {},
     sortData: {
@@ -162,8 +171,13 @@ function handleSearch(value: any) {
     fetchFolderStructures()
 }
 
-function editFolderStructure(folder_structure: any) {
-    state.selected_folder_structure = folder_structure
+function viewFolderStructure(folderStructure: any) {
+    state.selected_folder_structure = folderStructure
+    state.modal.viewFolderStructureOpen = true
+}
+
+function editFolderStructure(folderStructure: any) {
+    state.selected_folder_structure = folderStructure
     state.modal.editFolderStructureOpen = true
 }
 </script>
