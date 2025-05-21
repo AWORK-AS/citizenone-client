@@ -32,12 +32,20 @@
                                                 {{ $t('folderStructure.requests.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="confirmApproveFolderStructureRequest(folderStructure)">
+                                                @click="confirmDeleteFolderStructureRequest(folderStructure)"
+                                                v-if="!isAdmin(userStore.getUser?.roles)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('folderStructure.requests.table.actions.delete') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="confirmApproveFolderStructureRequest(folderStructure)"
+                                                v-if="isAdmin(userStore.getUser?.roles)">
                                                 <Icon name="ph:check" class="size-4" />
                                                 {{ $t('folderStructure.requests.table.actions.approve') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="confirmDisapproveFolderStructureRequest(folderStructure)">
+                                                @click="confirmDisapproveFolderStructureRequest(folderStructure)"
+                                                v-if="isAdmin(userStore.getUser?.roles)">
                                                 <Icon name="ph:x" class="size-4" />
                                                 {{ $t('folderStructure.requests.table.actions.disapprove') }}
                                             </FormButton>
@@ -60,6 +68,9 @@
                     @refreshFolderStructureRequests="fetchFolderStructureRequests" />
 
 
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteRequestOpen"
+                    :message="$t('folderStructure.requests.table.confirmation.deleteFolderStructureRequestConfirmation') + '?'"
+                    @close="state.modal.isDeleteRequestOpen = false" @confirm="deleteFolderStructureRequest" />
                 <DialogConfirmation :isModalOpen="state.modal.isApproveRequestOpen"
                     :message="$t('folderStructure.requests.table.confirmation.approveFolderStructureRequestConfirmation') + '?'"
                     @close="state.modal.isApproveRequestOpen = false" @confirm="approveFolderStructureRequest" />
@@ -74,6 +85,7 @@
 
 <script setup lang="ts">
 import { folderStructureRequestService } from '@/components/api/user/FolderStructureRequestService'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -87,6 +99,7 @@ const props = defineProps({
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const emit = defineEmits(['close', 'refreshFolderStructures'])
+const userStore = useUserStore() as any
 const { t } = useI18n()
 const { successAlert } = useAlert()
 let currentTablePage = 1
@@ -107,6 +120,7 @@ const state = reactive({
         folderStructureRequestsOpen: false,
         newFolderStructureRequestOpen: false,
         isApproveRequestOpen: false,
+        isDeleteRequestOpen: false,
         isDisapproveRequestOpen: false,
     },
     selectedFolderStructureRequest: {},
@@ -125,6 +139,10 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
         fetchFolderStructureRequests()
     }
 })
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
+}
 
 async function fetchFolderStructureRequests() {
     state.error = {}
@@ -178,6 +196,11 @@ function editFolderStructure(folderStructure: any) {
     state.modal.editFolderStructureOpen = true
 }
 
+function confirmDeleteFolderStructureRequest(folderStructure: any) {
+    state.selectedFolderStructureRequest = folderStructure
+    state.modal.isDeleteRequestOpen = true
+}
+
 function confirmApproveFolderStructureRequest(folderStructure: any) {
     state.selectedFolderStructureRequest = folderStructure
     state.modal.isApproveRequestOpen = true
@@ -186,6 +209,22 @@ function confirmApproveFolderStructureRequest(folderStructure: any) {
 function confirmDisapproveFolderStructureRequest(folderStructure: any) {
     state.selectedFolderStructureRequest = folderStructure
     state.modal.isDisapproveRequestOpen = true
+}
+
+async function deleteFolderStructureRequest() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const folderStructureRequestUuid = state.selectedFolderStructureRequest.uuid
+        const response = await folderStructureRequestService.deleteFolderStructureRequest(folderStructureRequestUuid)
+        if (response) {
+            fetchFolderStructureRequests()
+            successAlert(`${t('alert.success')}!`, `${t('folderStructure.requests.table.alert.folderStructureRequestSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 async function approveFolderStructureRequest() {
@@ -210,7 +249,7 @@ async function rejectFolderStructureRequest() {
     state.isTableLoading = true
     try {
         const folderStructureRequestUuid = state.selectedFolderStructureRequest.uuid
-        const response = await folderStructureRequestService.disapproveFolderStructureRequest(folderStructureRequestUuid)
+        const response = await folderStructureRequestService.deleteFolderStructureRequest(folderStructureRequestUuid)
         if (response) {
             fetchFolderStructureRequests()
             successAlert(`${t('alert.success')}!`, `${t('folderStructure.requests.table.alert.folderStructureRequestSuccessfullyDisapproved')}.`)

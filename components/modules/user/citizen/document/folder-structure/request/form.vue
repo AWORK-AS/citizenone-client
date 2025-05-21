@@ -8,44 +8,18 @@
                     {{ $t('folderStructure.folderStructure') }}
                 </p>
                 <FormSelect id="folder_structure" :options="state.options.folderStructures"
-                    v-model="state.formFolderStructure.folder_structure" @change="changeFolderStructure"
-                    :disabled="props.formType === 'update'" />
+                    v-model="state.formFolderStructure.folder_structure" :disabled="props.formType === 'update'" />
                 <FormError :error="v$?.formFolderStructure?.folder_structure?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.folder_structure_uuid?.[0]" />
             </div>
-            <div class="space-y-4" v-if="state.formFolderStructure.structure">
-                <!-- Root Folders -->
+            <div class="space-y-4">
                 <div v-for="(root, index) in state.formFolderStructure.structure" :key="index" class="space-y-3">
-                    <div class="space-y-1">
-                        <FormLabel :for="`root-${index}`" :label="`${t('folderStructure.form.rootFolder')}`" />
-                        <div class="flex items-center justify-between space-x-2">
-                            <div class="space-y-1 w-full">
-                                <!-- Root Folder Input -->
-                                <FormTextField :id="`root-${index}`" :name="`root-${index}`"
-                                    v-model="state.formFolderStructure.structure[index].root"
-                                    :placeholder="$t('folderStructure.form.rootFolder')" />
-                            </div>
-                            <!-- Remove Root Folder Button -->
-                            <div v-if="state.formFolderStructure.structure?.length > 1">
-                                <button type="button" class="text-red-500 text-sm hover:underline"
-                                    @click="removeRootFolder(index)">
-                                    <Icon name="ph:trash" class="h-5 w-5 text-red-600" aria-hidden="true" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Subfolders -->
-                    <div v-if="root.subfolder && root.subfolder.length > 0" class="ml-6">
-                        <ModulesUserCitizenDocumentFolderStructureRecursiveSubfolders :subfolders="root.subfolder"
-                            :parentIndex="index" @addSubfolder="addSubfolder" @removeSubfolder="removeSubfolder" />
+                    <div v-if="root.subfolder && root.subfolder.length > 0">
+                        <ModulesUserCitizenDocumentFolderStructureRequestRecursiveSubfolders
+                            :subfolders="root.subfolder" :parentIndex="index" @addSubfolder="addSubfolder"
+                            @removeSubfolder="removeSubfolder" />
                     </div>
-
-                    <!-- Add Subfolder Button -->
-                    <button type="button" class="text-primary text-sm hover:underline ml-6"
-                        @click="addSubfolder(state.formFolderStructure.structure[index])">
-                        {{ t('folderStructure.form.addSubfolder') }}
-                    </button>
                 </div>
             </div>
 
@@ -93,7 +67,17 @@ const state = reactive({
     error: {} as Error,
     formFolderStructure: {
         folder_structure: '',
-        structure: []
+        structure: [{
+            root: "",
+            level: 0,
+            subfolder: [
+                {
+                    folder: "",
+                    level: 1,
+                    subfolder: []
+                },
+            ]
+        }]
     },
     folderStructures: [] as any,
     options: {
@@ -112,13 +96,6 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
-
-function changeFolderStructure(folderStructureUuid: string) {
-    if (folderStructureUuid) {
-        state.formFolderStructure.structure = state.folderStructures.find((item: any) => item.uuid === folderStructureUuid)?.structure
-        state.formFolderStructure.structure = JSON.parse(state.formFolderStructure.structure)
-    }
-}
 
 onMounted(() => {
     fetchFolderStructures()

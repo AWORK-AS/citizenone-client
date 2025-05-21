@@ -4,7 +4,7 @@
             <template #modal-body>
                 <div class="flex justify-end items-center gap-x-5 mb-5">
                     <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="state.modal.newFolderStructureOpen = true">
+                        @click="state.modal.newFolderStructureOpen = true" v-if="isAdmin(userStore.getUser?.roles)">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('folderStructure.newFolderStructure') }}
                     </FormButton>
@@ -30,7 +30,8 @@
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="editFolderStructure(folder_structure)">
+                                                @click="editFolderStructure(folder_structure)"
+                                                v-if="isAdmin(userStore.getUser?.roles)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('folderStructure.table.actions.edit') }}
                                             </FormButton>
@@ -62,6 +63,7 @@
 
 <script setup lang="ts">
 import { folderStructureService } from '@/components/api/user/FolderStructureService'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -73,6 +75,7 @@ const props = defineProps({
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const emit = defineEmits(['close'])
+const userStore = useUserStore() as any
 let currentTablePage = 1
 
 const state = reactive({
@@ -107,6 +110,10 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
         fetchFolderStructures()
     }
 })
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
+}
 
 async function fetchFolderStructures() {
     state.error = {}
