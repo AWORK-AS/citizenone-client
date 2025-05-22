@@ -492,6 +492,29 @@
             "newDoctor": "New doctor"
         },
         "documents": {
+            "access": {
+                "access": "Access",
+                "alert": {
+                    "accessSuccessfullyAdded": "Access successfully added"
+                },
+                "newAccess": "New access",
+                "form": {
+                    "giveAccess": "Give access",
+                    "user": "User"
+                },
+                "table": {
+                    "actions": {
+                        "delete": "Delete"
+                    },
+                    "alert": {
+                        "accessSuccessfullyDeleted": "Access successfully deleted"
+                    },
+                    "confirmation": {
+                        "deleteAccessConfirmation": "Are you sure you want to delete this access"
+                    },
+                    "name": "Name"
+                }
+            },
             "alert": {
                 "deletedFileSuccessfully": "File successfully delete",
                 "deletedFolderSuccessfully": "Folder successfully delete",
@@ -556,6 +579,7 @@
             },
             "table": {
                 "actions": {
+                    "access": "Access",
                     "archive": "Archive",
                     "edit": "Edit",
                     "delete": "Delete",

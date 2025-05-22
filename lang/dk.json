@@ -492,6 +492,29 @@
             "newDoctor": "Ny læge"
         },
         "documents": {
+            "access": {
+                "access": "Adgang",
+                "alert": {
+                    "accessSuccessfullyAdded": "Adgang tilføjet med succes"
+                },
+                "newAccess": "Ny adgang",
+                "form": {
+                    "giveAccess": "Giv adgang",
+                    "user": "Bruger"
+                },
+                "table": {
+                    "actions": {
+                        "delete": "Slet"
+                    },
+                    "alert": {
+                        "accessSuccessfullyDeleted": "Adgang slettet med succes"
+                    },
+                    "confirmation": {
+                        "deleteAccessConfirmation": "Er du sikker på, at du vil slette denne adgang"
+                    },
+                    "name": "Navn"
+                }
+            },
             "alert": {
                 "deletedFileSuccessfully": "Fil slettet med succes",
                 "deletedFolderSuccessfully": "Mappe slettet med succes",
@@ -556,6 +579,7 @@
             },
             "table": {
                 "actions": {
+                    "access": "Adgang",
                     "archive": "Arkiv",
                     "edit": "Rediger",
                     "delete": "Slet",

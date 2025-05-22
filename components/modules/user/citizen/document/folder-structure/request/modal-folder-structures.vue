@@ -106,7 +106,7 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'addictions.table.name' },
+        { name: 'folderStructure.table.name' },
         { name: '' },
     ],
     dataFilter: {
