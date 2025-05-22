@@ -1,11 +1,11 @@
 <template>
     <div>
-        <Modal size="2xl" :title="$t('citizens.documents.access.access')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="2xl" :title="$t('drive.access.access')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="flex justify-end items-center gap-x-5 mb-5">
                     <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddAccessOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('citizens.documents.access.newAccess') }}
+                        {{ $t('drive.access.newAccess') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -27,7 +27,7 @@
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="deleteAccessConfirmation(access)">
                                                 <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('citizens.documents.access.table.actions.delete') }}
+                                                {{ $t('drive.access.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -38,10 +38,10 @@
                     <Pagination :data="state.fileFolderAccess" @previous="previous" @next="next" />
                 </div>
 
-                <ModulesUserCitizenDocumentAccessModalNew :isModalOpen="state.modal.isAddAccessOpen"
+                <ModulesUserDocumentAccessModalNew :isModalOpen="state.modal.isAddAccessOpen"
                     :selectedDocument="props.selectedDocument" @close="state.modal.isAddAccessOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteAccessOpen"
-                    :message="$t('citizens.documents.access.table.confirmation.deleteAccessConfirmation') + '?'"
+                    :message="$t('drive.access.table.confirmation.deleteAccessConfirmation') + '?'"
                     @close="state.modal.isDeleteAccessOpen = false" @confirm="deleteAccess" />
             </template>
         </Modal>
@@ -50,7 +50,7 @@
 
 
 <script setup lang="ts">
-import { citizenDocumentAccessService } from '@/components/api/user/CitizenDocumentAccessService'
+import { documentAccessService } from '@/components/api/user/DocumentAccessService'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
@@ -111,7 +111,7 @@ async function fetchAccesses() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await citizenDocumentAccessService.getCitizenFileFolderAccesses(params)
+        const response = await documentAccessService.getCitizenFileFolderAccesses(params)
         if (response) {
             state.fileFolderAccess = response
         }
@@ -156,10 +156,10 @@ async function deleteAccess() {
     state.isTableLoading = true
     try {
         const selectedAccessUuid = state.selectedAccess.uuid
-        const response = await citizenDocumentAccessService.deleteCitizenFileFolderAccess(selectedAccessUuid)
+        const response = await documentAccessService.deleteFileFoldersAccess(selectedAccessUuid)
         if (response) {
             fetchAccesses()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.documents.access.table.alert.accessSuccessfullyDeleted')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('drive.access.table.alert.accessSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error

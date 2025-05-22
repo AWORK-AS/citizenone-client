@@ -1912,6 +1912,29 @@
             "folderSuccessfullyAdded": "Ny mappe gemt med succes",
             "folderSuccessfullyUpdated": "Mappe opdateret med succes"
         },
+        "access": {
+            "access": "Adgang",
+            "alert": {
+                "accessSuccessfullyAdded": "Adgang tilføjet med succes"
+            },
+            "newAccess": "Ny adgang",
+            "form": {
+                "giveAccess": "Giv adgang",
+                "user": "Bruger"
+            },
+            "table": {
+                "actions": {
+                    "delete": "Slet"
+                },
+                "alert": {
+                    "accessSuccessfullyDeleted": "Adgang slettet med succes"
+                },
+                "confirmation": {
+                    "deleteAccessConfirmation": "Er du sikker på, at du vil slette denne adgang"
+                },
+                "name": "Navn"
+            }
+        },
         "createNewFolder": "Opret ny mappe",
         "createTemplate": {
             "alert": {
@@ -1960,6 +1983,7 @@
         },
         "table": {
             "actions": {
+                "access": "Adgang",
                 "archive": "Arkivér",
                 "edit": "Rediger",
                 "delete": "Slet",
