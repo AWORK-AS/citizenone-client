@@ -112,18 +112,6 @@
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.edit')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="editDocument(document)">
-                                                    <Icon name="ph:pencil-simple" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.access')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="viewDocumentAccess(document)">
-                                                    <Icon name="ph:lock" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
                                             <Tooltip :text="document?.is_shared ? $t('citizens.documents.table.actions.unshare') :
                                                 $t('citizens.documents.table.actions.share')"
                                                 v-if="document?.type === 'file'">
@@ -137,6 +125,18 @@
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="moveFileConfirmation(document)">
                                                     <Icon name="ph:arrows-out" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.documents.table.actions.edit')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="editDocument(document)">
+                                                    <Icon name="ph:pencil-simple" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.documents.table.actions.access')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="viewDocumentAccess(document)">
+                                                    <Icon name="ph:lock" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.archive')">
