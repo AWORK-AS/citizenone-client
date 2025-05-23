@@ -39,7 +39,8 @@
                 </div>
 
                 <ModulesUserCitizenDocumentAccessModalNew :isModalOpen="state.modal.isAddAccessOpen"
-                    :selectedDocument="props.selectedDocument" @close="state.modal.isAddAccessOpen = false" />
+                    :selectedDocument="props.selectedDocument" @close="state.modal.isAddAccessOpen = false"
+                    @refreshAccess="fetchAccesses()" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteAccessOpen"
                     :message="$t('citizens.documents.access.table.confirmation.deleteAccessConfirmation') + '?'"
                     @close="state.modal.isDeleteAccessOpen = false" @confirm="deleteAccess" />
@@ -70,7 +71,7 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'addictions.table.name', sorter: true, key: 'name' },
+        { name: 'addictions.table.name' },
         { name: '' },
     ],
     dataFilter: {

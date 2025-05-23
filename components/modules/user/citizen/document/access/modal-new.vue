@@ -74,7 +74,7 @@ const state = reactive({
     },
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshAccess'])
 
 function closeModal() {
     emit('close')
@@ -122,6 +122,7 @@ async function giveAccess() {
         if (response?.data) {
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t('citizens.documents.access.alert.accessSuccessfullyAdded')}.`)
+            emit('refreshAccess')
         }
     } catch (error: any) {
         state.error = error
