@@ -53,6 +53,8 @@
 <script setup lang="ts">
 import { citizenDocumentAccessService } from '@/components/api/user/CitizenDocumentAccessService'
 import { useUserStore } from '@/store/user'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -67,6 +69,8 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 const userStore = useUserStore() as any
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
