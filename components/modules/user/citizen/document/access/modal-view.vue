@@ -40,7 +40,7 @@
 
                 <ModulesUserCitizenDocumentAccessModalNew :isModalOpen="state.modal.isAddAccessOpen"
                     :selectedDocument="props.selectedDocument" @close="state.modal.isAddAccessOpen = false"
-                    @refreshAccess="fetchAccesses()" />
+                    @refreshAccesses="fetchAccesses()" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteAccessOpen"
                     :message="$t('citizens.documents.access.table.confirmation.deleteAccessConfirmation') + '?'"
                     @close="state.modal.isDeleteAccessOpen = false" @confirm="deleteAccess" />

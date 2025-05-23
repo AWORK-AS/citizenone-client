@@ -39,7 +39,8 @@
                 </div>
 
                 <ModulesUserDocumentAccessModalNew :isModalOpen="state.modal.isAddAccessOpen"
-                    :selectedDocument="props.selectedDocument" @close="state.modal.isAddAccessOpen = false" />
+                    :selectedDocument="props.selectedDocument" @close="state.modal.isAddAccessOpen = false"
+                    @refreshAccesses="fetchAccesses()" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteAccessOpen"
                     :message="$t('drive.access.table.confirmation.deleteAccessConfirmation') + '?'"
                     @close="state.modal.isDeleteAccessOpen = false" @confirm="deleteAccess" />
@@ -52,6 +53,8 @@
 <script setup lang="ts">
 import { documentAccessService } from '@/components/api/user/DocumentAccessService'
 import { useUserStore } from '@/store/user'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -66,11 +69,13 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 const userStore = useUserStore() as any
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'addictions.table.name', sorter: true, key: 'name' },
+        { name: 'addictions.table.name' },
         { name: '' },
     ],
     dataFilter: {
