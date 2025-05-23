@@ -105,7 +105,7 @@ async function fetchAccesses() {
     state.isTableLoading = true
     try {
         const params = {
-            file_folder_uuid: props.selectedDocument?.uuid,
+            company_file_folder_uuid: props.selectedDocument?.uuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,

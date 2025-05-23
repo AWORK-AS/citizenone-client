@@ -115,7 +115,7 @@ async function giveAccess() {
     }
     try {
         const params = {
-            citizen_file_folder_uuid: props.selectedDocument?.uuid,
+            company_file_folder_uuid: props.selectedDocument?.uuid,
             user_uuid: state.formAccess.user_uuid,
         }
         const response = await documentAccessService.saveFileFoldersAccess(params)
