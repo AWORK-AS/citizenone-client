@@ -111,7 +111,7 @@ async function fetchAccesses() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await documentAccessService.getCitizenFileFolderAccesses(params)
+        const response = await documentAccessService.getFileFoldersAccesses(params)
         if (response) {
             state.fileFolderAccess = response
         }
