@@ -1698,7 +1698,7 @@
             "weeksSource": "Weeks source"
         },
         "copyPaste": {
-            "clickHereToPasteTheSchedule": "Click here to paste the schedule",
+            "clickHereToPasteTheSchedule": "Click here to paste the schedule, or press the Escape key on your keyboard to cancel",
             "clickHereToStopCopyingTheSchedule": "Click here to stop copying the schedule",
             "stopCopying": "Stop copying"
         },

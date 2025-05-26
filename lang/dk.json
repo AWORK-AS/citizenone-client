@@ -1698,7 +1698,7 @@
             "weeksSource": "Ugers kilde"
         },
         "copyPaste": {
-            "clickHereToPasteTheSchedule": "Klik her for at indsætte",
+            "clickHereToPasteTheSchedule": "Klik her for at indsætte vagtplanen, eller tryk på Escape-tasten på dit tastatur for at annullere",
             "clickHereToStopCopyingTheSchedule": "Klik her for at stoppe med at kopiere",
             "stopCopying": "Stop kopiering"
         },
