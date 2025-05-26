@@ -45,12 +45,13 @@
                                     <td width="30%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/shifts/${shift.uuid}/edit`)">
+                                                @click="navigateTo(`/settings/shifts/${shift.uuid}/edit`)"
+                                                v-if="shift?.is_editable">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('shifts.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="deleteShiftConfirmation(shift)">
+                                                @click="deleteShiftConfirmation(shift)" v-if="shift?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('shifts.table.actions.delete') }}
                                             </FormButton>
