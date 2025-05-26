@@ -66,7 +66,11 @@
                                         </div>
                                     </td>
                                     <td width="30%">
-                                        <span>{{ citizen?.email }}</span>
+                                        <p v-if="citizen?.email">{{ citizen?.email }}</p>
+                                        <p v-else class="text-primary hover:text-primary-hover cursor-pointer"
+                                            @click="state.modal.showPurchaseEmail = true">
+                                            {{ $t('citizens.purchaseEmail.purchaseEmail') }}
+                                        </p>
                                     </td>
                                     <td width="20%">
                                         <span>{{ citizen?.phone }}</span>
@@ -99,6 +103,8 @@
                 </div>
             </div>
 
+            <ModulesUserCitizenModalPurchaseEmail :isModalOpen="state.modal.showPurchaseEmail"
+                @close="state.modal.showPurchaseEmail = false" />
             <ModulesUserCitizenModalLatestJournal :isModalOpen="state.modal.showNote"
                 :selectedCitizen="state.selectedCitizen" @close="state.modal.showNote = false" />
 
@@ -138,6 +144,7 @@ const state = reactive({
     modal: {
         isGuidedTourCitizensOverviewOpen: false,
         showNote: false,
+        showPurchaseEmail: false,
     },
     selectedCitizen: [],
     sortData: {

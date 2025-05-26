@@ -1109,6 +1109,10 @@
             },
             "viewNursingProfessionalRecord": "View nursing professional record"
         },
+        "purchaseEmail": {
+            "purchaseEmail": "Purchase email",
+            "youAreNowBeingRedirected": "You are now being redirected to a partner where you can purchase an e-mail for the citizen"
+        },
         "table": {
             "actions": {
                 "edit": "Edit",
