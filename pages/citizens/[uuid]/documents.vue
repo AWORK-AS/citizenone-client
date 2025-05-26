@@ -133,7 +133,8 @@
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.access')">
+                                            <Tooltip :text="$t('citizens.documents.table.actions.access')"
+                                                v-if="isAdmin(userStore.getUser?.roles)">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="viewDocumentAccess(document)">
                                                     <Icon name="ph:lock" class="size-4" />
@@ -208,6 +209,7 @@ import { citizenDocumentService } from '@/components/api/user/CitizenDocumentSer
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
@@ -216,6 +218,7 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const userStore = useUserStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const documentFile = ref(null) as any
@@ -282,6 +285,10 @@ const handleRouteChange = () => {
 function closeUpgradeStorageModal() {
     state.modal.isUpgradeStorageOpen = false
     state.error = {}
+}
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
 }
 
 async function fetchDocuments(folderUuid: any = null) {
