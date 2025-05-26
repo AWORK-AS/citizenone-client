@@ -492,6 +492,29 @@
             "newDoctor": "Ny læge"
         },
         "documents": {
+            "access": {
+                "access": "Adgang",
+                "alert": {
+                    "accessSuccessfullyAdded": "Adgang tilføjet med succes"
+                },
+                "newAccess": "Ny adgang",
+                "form": {
+                    "giveAccess": "Giv adgang",
+                    "user": "Bruger"
+                },
+                "table": {
+                    "actions": {
+                        "delete": "Slet"
+                    },
+                    "alert": {
+                        "accessSuccessfullyDeleted": "Adgang slettet med succes"
+                    },
+                    "confirmation": {
+                        "deleteAccessConfirmation": "Er du sikker på, at du vil slette denne adgang"
+                    },
+                    "name": "Navn"
+                }
+            },
             "alert": {
                 "deletedFileSuccessfully": "Fil slettet med succes",
                 "deletedFolderSuccessfully": "Mappe slettet med succes",
@@ -556,6 +579,7 @@
             },
             "table": {
                 "actions": {
+                    "access": "Adgang",
                     "archive": "Arkiv",
                     "edit": "Rediger",
                     "delete": "Slet",
@@ -1666,6 +1690,7 @@
         },
         "copy": {
             "copy": "Kopiér",
+            "copyEmployeeSchedule": "Kopiér medarbejder vagtplan",
             "copyThisWeeksSchedule": "Kopiér denne uges vagtplan",
             "copyMultipleWeeksSchedule": "Kopiér vagtplan for flere uger",
             "week": "Uge",
@@ -1673,7 +1698,7 @@
             "weeksSource": "Ugers kilde"
         },
         "copyPaste": {
-            "clickHereToPasteTheSchedule": "Klik her for at indsætte",
+            "clickHereToPasteTheSchedule": "Klik her for at indsætte vagtplanen, eller tryk på Escape-tasten på dit tastatur for at annullere",
             "clickHereToStopCopyingTheSchedule": "Klik her for at stoppe med at kopiere",
             "stopCopying": "Stop kopiering"
         },
@@ -1887,6 +1912,29 @@
             "folderSuccessfullyAdded": "Ny mappe gemt med succes",
             "folderSuccessfullyUpdated": "Mappe opdateret med succes"
         },
+        "access": {
+            "access": "Adgang",
+            "alert": {
+                "accessSuccessfullyAdded": "Adgang tilføjet med succes"
+            },
+            "newAccess": "Ny adgang",
+            "form": {
+                "giveAccess": "Giv adgang",
+                "user": "Bruger"
+            },
+            "table": {
+                "actions": {
+                    "delete": "Slet"
+                },
+                "alert": {
+                    "accessSuccessfullyDeleted": "Adgang slettet med succes"
+                },
+                "confirmation": {
+                    "deleteAccessConfirmation": "Er du sikker på, at du vil slette denne adgang"
+                },
+                "name": "Navn"
+            }
+        },
         "createNewFolder": "Opret ny mappe",
         "createTemplate": {
             "alert": {
@@ -1935,6 +1983,7 @@
         },
         "table": {
             "actions": {
+                "access": "Adgang",
                 "archive": "Arkivér",
                 "edit": "Rediger",
                 "delete": "Slet",
@@ -2296,14 +2345,43 @@
             "subfolder": "Undermappe"
         },
         "newFolderStructure": "Ny mappestruktur",
+        "requests": {
+            "alert": {
+                "newFolderStructureSuccessfullyRequested": "Ny folderstruktur anmodet med succes"
+            },
+            "editFolderStructureRequest": "Rediger anmodning om folderstruktur",
+            "folderStructureModificationRequests": "Anmodninger om ændring af folderstruktur",
+            "newFolderStructureModificationRequest": "Ny anmodning om ændring af folderstruktur",
+            "table": {
+                "actions": {
+                    "approve": "Godkend",
+                    "delete": "Slet",
+                    "disapprove": "Afvis",
+                    "edit": "Rediger"
+                },
+                "alert": {
+                    "folderStructureRequestSuccessfullyApproved": "Anmodning om folderstruktur godkendt med succes",
+                    "folderStructureRequestSuccessfullyDeleted": "Anmodning om folderstruktur slettet med succes",
+                    "folderStructureRequestSuccessfullyDisapproved": "Anmodning om folderstruktur afvist med succes",
+                    "folderStructureRequestSuccessfullyUpdated": "Anmodning om folderstruktur opdateret med succes"
+                },
+                "confirmation": {
+                    "approveFolderStructureRequestConfirmation": "Er du sikker på, at du vil godkende denne anmodning",
+                    "deleteFolderStructureRequestConfirmation": "Er du sikker på, at du vil slette denne anmodning",
+                    "disapproveFolderStructureRequestConfirmation": "Er du sikker på, at du vil afvise denne anmodning"
+                }
+            }
+        },
         "table": {
             "actions": {
                 "delete": "Slet",
-                "edit": "Rediger"
+                "edit": "Rediger",
+                "view": "Se"
             },
             "name": "Navn",
             "structure": "Struktur"
-        }
+        },
+        "viewFolderStructure": "Se folderstruktur"
     },
     "foreignCities": {
         "addNewForeignCity": "Tilføj ny udenlandsk by",

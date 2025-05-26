@@ -106,45 +106,58 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="viewDirectory(document)" v-if="document?.type === 'folder'">
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('citizens.documents.table.actions.view') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="editDocument(document)">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('citizens.documents.table.actions.edit') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="confirmDocumentShareUnshare(document)"
+                                            <Tooltip :text="$t('citizens.documents.table.actions.view')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="viewDirectory(document)" v-if="document?.type === 'folder'">
+                                                    <Icon name="ph:eye" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="document?.is_shared ? $t('citizens.documents.table.actions.unshare') :
+                                                $t('citizens.documents.table.actions.share')"
                                                 v-if="document?.type === 'file'">
-                                                <Icon name="ph:share" class="size-4" />
-                                                {{ document?.is_shared ? $t('citizens.documents.table.actions.unshare')
-                                                    : $t('citizens.documents.table.actions.share') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="confirmDocumentArchiving(document)">
-                                                <Icon name="ph:archive-light" class="size-4" />
-                                                {{ $t('citizens.documents.table.actions.archive') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                v-if="document?.type === 'file'"
-                                                @click="moveFileConfirmation(document)">
-                                                <Icon name="ph:arrows-out" class="size-4" />
-                                                {{ $t('citizens.documents.table.actions.move') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                v-if="document?.type === 'folder'"
-                                                @click="deleteDirectoryConfirmation(document)">
-                                                <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('citizens.documents.table.actions.delete') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md" v-else
-                                                @click="deleteFileConfirmation(document)">
-                                                <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('citizens.documents.table.actions.delete') }}
-                                            </FormButton>
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="confirmDocumentShareUnshare(document)">
+                                                    <Icon name="ph:share" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.documents.table.actions.move')"
+                                                v-if="document?.type === 'file'">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="moveFileConfirmation(document)">
+                                                    <Icon name="ph:arrows-out" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.documents.table.actions.edit')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="editDocument(document)">
+                                                    <Icon name="ph:pencil-simple" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.documents.table.actions.access')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="viewDocumentAccess(document)">
+                                                    <Icon name="ph:lock" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.documents.table.actions.archive')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="confirmDocumentArchiving(document)">
+                                                    <Icon name="ph:archive-light" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.documents.table.actions.delete')"
+                                                v-if="document?.type === 'folder'">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="deleteDirectoryConfirmation(document)">
+                                                    <Icon name="ph:trash" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.documents.table.actions.delete')" v-else>
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="deleteFileConfirmation(document)">
+                                                    <Icon name="ph:trash" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                         </div>
                                     </td>
                                 </tr>
@@ -158,6 +171,8 @@
                 <ModulesUserCitizenDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
+                <ModulesUserCitizenDocumentAccessModalView :isModalOpen="state.modal.isViewAccessOpen"
+                    :selectedDocument="state.selectedDocument" @close="state.modal.isViewAccessOpen = false" />
                 <ModulesUserCitizenDocumentStatusTemplateModalNew :isModalOpen="state.modal.isCreateTemplateOpen"
                     @close="state.modal.isCreateTemplateOpen = false" />
                 <ModulesUserCitizenDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
@@ -242,6 +257,7 @@ const state = reactive({
         isShareDocumentOpen: false,
         isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
+        isViewAccessOpen: false,
         isViewFolderStructureOpen: false,
     },
     selectedDocument: [] as any,
@@ -379,6 +395,11 @@ async function viewDirectory(document: any) {
 function editDocument(document: any) {
     state.selectedDocument = document
     state.modal.isEditDocumentOpen = true
+}
+
+function viewDocumentAccess(document: any) {
+    state.selectedDocument = document
+    state.modal.isViewAccessOpen = true
 }
 
 function confirmDocumentShareUnshare(document: any) {

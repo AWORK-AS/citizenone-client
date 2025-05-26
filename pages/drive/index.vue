@@ -99,38 +99,51 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="viewDirectory(document)" v-if="document?.type === 'folder'">
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('drive.table.actions.view') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="editDocument(document)">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('drive.table.actions.edit') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="confirmDocumentArchiving(document)">
-                                                <Icon name="ph:archive-light" class="size-4" />
-                                                {{ $t('drive.table.actions.archive') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                v-if="document?.type === 'file'"
-                                                @click="moveFileConfirmation(document)">
-                                                <Icon name="ph:arrows-out" class="size-4" />
-                                                {{ $t('drive.table.actions.move') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                v-if="document?.type === 'folder'"
-                                                @click="deleteDirectoryConfirmation(document)">
-                                                <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('drive.table.actions.delete') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md" v-else
-                                                @click="deleteFileConfirmation(document)">
-                                                <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('drive.table.actions.delete') }}
-                                            </FormButton>
+                                            <Tooltip :text="$t('drive.table.actions.view')"
+                                                v-if="document?.type === 'folder'">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="viewDirectory(document)">
+                                                    <Icon name="ph:eye" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('drive.table.actions.move')"
+                                                v-if="document?.type === 'file'">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="moveFileConfirmation(document)">
+                                                    <Icon name="ph:arrows-out" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('drive.table.actions.edit')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="editDocument(document)">
+                                                    <Icon name="ph:pencil-simple" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('drive.table.actions.access')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="viewDocumentAccess(document)">
+                                                    <Icon name="ph:lock" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('drive.table.actions.archive')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="confirmDocumentArchiving(document)">
+                                                    <Icon name="ph:archive-light" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('drive.table.actions.delete')"
+                                                v-if="document?.type === 'folder'">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="deleteDirectoryConfirmation(document)">
+                                                    <Icon name="ph:trash" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('drive.table.actions.delete')" v-else>
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="deleteFileConfirmation(document)">
+                                                    <Icon name="ph:trash" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                         </div>
                                     </td>
                                 </tr>
@@ -144,6 +157,8 @@
                 <ModulesUserDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
+                <ModulesUserDocumentAccessModalView :isModalOpen="state.modal.isViewAccessOpen"
+                    :selectedDocument="state.selectedDocument" @close="state.modal.isViewAccessOpen = false" />
                 <ModulesUserDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
                     @refreshDocuments="fetchDocuments" />
@@ -222,6 +237,7 @@ const state = reactive({
         isMoveFileOpen: false,
         isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
+        isViewAccessOpen: false,
         isViewFolderStructureOpen: false,
     },
     selectedDocument: [] as any,
@@ -366,6 +382,11 @@ async function viewDirectory(document: any) {
 function editDocument(document: any) {
     state.selectedDocument = document
     state.modal.isEditDocumentOpen = true
+}
+
+function viewDocumentAccess(document: any) {
+    state.selectedDocument = document
+    state.modal.isViewAccessOpen = true
 }
 
 function confirmDocumentArchiving(document: any) {

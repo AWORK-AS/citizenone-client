@@ -102,9 +102,6 @@
             <ModulesUserCitizenModalLatestJournal :isModalOpen="state.modal.showNote"
                 :selectedCitizen="state.selectedCitizen" @close="state.modal.showNote = false" />
 
-            <!-- Darkening overlay -->
-            <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block"
-                v-if="state.modal.isGuidedTourCitizensOverviewOpen"></div>
             <ModulesUserGuidedTourModalCitizens v-if="state.modal.isGuidedTourCitizensOverviewOpen"
                 :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourCitizensOverviewOpen = false" />

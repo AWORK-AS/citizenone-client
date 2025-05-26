@@ -129,9 +129,6 @@
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
                 @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
 
-            <!-- Darkening overlay -->
-            <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block"
-                v-if="state.modal.isGuidedTourCalendarOpen"></div>
             <ModulesUserGuidedTourModalCalendar v-if="state.modal.isGuidedTourCalendarOpen"
                 :isModalOpen="state.modal.isGuidedTourCalendarOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourCalendarOpen = false" />

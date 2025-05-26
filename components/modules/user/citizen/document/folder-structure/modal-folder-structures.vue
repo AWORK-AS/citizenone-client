@@ -2,11 +2,16 @@
     <div>
         <Modal size="2xl" :title="$t('folderStructure.folderStructure')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <div class="flex justify-end items-center mb-5">
+                <div class="flex justify-end items-center gap-x-5 mb-5">
                     <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="state.modal.newFolderStructureOpen = true">
+                        @click="state.modal.newFolderStructureOpen = true" v-if="isAdmin(userStore.getUser?.roles)">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('folderStructure.newFolderStructure') }}
+                    </FormButton>
+                    <FormButton buttonStyle="action" class="rounded-lg"
+                        @click="state.modal.isViewFolderStructureRequestsOpen = true">
+                        <Icon name="ph:folder" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('folderStructure.requests.folderStructureRequests') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -25,7 +30,13 @@
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="editFolderStructure(folder_structure)">
+                                                @click="viewFolderStructure(folder_structure)">
+                                                <Icon name="ph:eye" class="size-4" />
+                                                {{ $t('folderStructure.table.actions.view') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="editFolderStructure(folder_structure)"
+                                                v-if="isAdmin(userStore.getUser?.roles)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('folderStructure.table.actions.edit') }}
                                             </FormButton>
@@ -37,12 +48,20 @@
                     </div>
                     <Pagination :data="state.folder_structures" @previous="previous" @next="next" />
                 </div>
+                <ModulesUserCitizenDocumentFolderStructureModalView :isModalOpen="state.modal.viewFolderStructureOpen"
+                    :selectedFolderStructure="state.selected_folder_structure"
+                    @close="state.modal.viewFolderStructureOpen = false" />
                 <ModulesUserCitizenDocumentFolderStructureModalNew :isModalOpen="state.modal.newFolderStructureOpen"
                     @close="state.modal.newFolderStructureOpen = false"
                     @refreshFolderStructures="fetchFolderStructures" />
                 <ModulesUserCitizenDocumentFolderStructureModalEdit :isModalOpen="state.modal.editFolderStructureOpen"
                     :selectedFolderStructure="state.selected_folder_structure"
                     @close="state.modal.editFolderStructureOpen = false"
+                    @refreshFolderStructures="fetchFolderStructures" />
+
+                <ModulesUserCitizenDocumentFolderStructureRequestModalFolderStructures
+                    :isModalOpen="state.modal.isViewFolderStructureRequestsOpen"
+                    @close="state.modal.isViewFolderStructureRequestsOpen = false"
                     @refreshFolderStructures="fetchFolderStructures" />
             </template>
         </Modal>
@@ -52,6 +71,7 @@
 
 <script setup lang="ts">
 import { folderStructureService } from '@/components/api/user/FolderStructureService'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -63,11 +83,12 @@ const props = defineProps({
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const emit = defineEmits(['close'])
+const userStore = useUserStore() as any
 let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'addictions.table.name', sorter: true, key: 'name' },
+        { name: 'folderStructure.table.name', sorter: true, key: 'name' },
         { name: '' },
     ],
     dataFilter: {
@@ -78,7 +99,9 @@ const state = reactive({
     isTableLoading: false,
     modal: {
         editFolderStructureOpen: false,
+        isViewFolderStructureRequestsOpen: false,
         newFolderStructureOpen: false,
+        viewFolderStructureOpen: false,
     },
     selected_folder_structure: {},
     sortData: {
@@ -96,6 +119,10 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
         fetchFolderStructures()
     }
 })
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
+}
 
 async function fetchFolderStructures() {
     state.error = {}
@@ -144,8 +171,13 @@ function handleSearch(value: any) {
     fetchFolderStructures()
 }
 
-function editFolderStructure(folder_structure: any) {
-    state.selected_folder_structure = folder_structure
+function viewFolderStructure(folderStructure: any) {
+    state.selected_folder_structure = folderStructure
+    state.modal.viewFolderStructureOpen = true
+}
+
+function editFolderStructure(folderStructure: any) {
+    state.selected_folder_structure = folderStructure
     state.modal.editFolderStructureOpen = true
 }
 </script>

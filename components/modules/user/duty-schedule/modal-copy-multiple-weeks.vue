@@ -255,7 +255,7 @@ async function copyWeeklyDutySchedule() {
             weeks_source: state.formCopy.weeks_source,
             weeks_destination: state.formCopy.weeks_destination,
         }
-        const response = await dutyScheduleService.copyWeeklyDutySchedule(params)
+        const response = await dutyScheduleService.copyMultipleWeeklyDutySchedule(params)
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.alert.scheduleSuccessfullyCopied')}.`)
             closeModal()

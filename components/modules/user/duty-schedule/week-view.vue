@@ -84,38 +84,6 @@
                     :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
                 <div class="isolate flex flex-auto flex-col bg-white">
                     <div class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
-                        <!-- <div class="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
-                            <div class="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
-                                <button v-for="day in weekDays" :key="day.date" type="button"
-                                    class="flex flex-col items-center pb-3 pt-2" @click="setSelectedDay(day)">
-                                    <span v-if="day.longName === 'Mon'">
-                                        {{ $t('calendar.week.oneLetter.Monday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Tue'">
-                                        {{ $t('calendar.week.oneLetter.Tuesday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Wed'">
-                                        {{ $t('calendar.week.oneLetter.Wednesday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Thu'">
-                                        {{ $t('calendar.week.oneLetter.Thursday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Fri'">
-                                        {{ $t('calendar.week.oneLetter.Friday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Sat'">
-                                        {{ $t('calendar.week.oneLetter.Saturday') }}
-                                    </span>
-                                    <span v-if="day.longName === 'Sun'">
-                                        {{ $t('calendar.week.oneLetter.Sunday') }}
-                                    </span>
-                                    <span
-                                        :class="moment(selectedDay).format('YYYY-MM-DD') === moment(day.fullDate).format('YYYY-MM-DD') ? 'mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-tertiary font-semibold text-white' : 'mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900'">
-                                        {{ day.date }}
-                                    </span>
-                                </button>
-                            </div>
-                        </div> -->
                         <div>
                             <div>
                                 <div class="shadow grid grid-cols-9">
@@ -230,300 +198,331 @@
                                     <div v-for="(weeklySchedule, weeklyScheduleIndex) in state.weeklySchedules"
                                         :key="weeklyScheduleIndex" class="grid grid-cols-9"
                                         v-if="!isWeeklyScheduleCopied(weekNumber)">
-                                        <div class="p-3 col-span-2 border-0.5">
-                                            <div class="relative">
-                                                <div class="flex items-center gap-x-2">
-                                                    <img :src="weeklySchedule?.employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`"
-                                                        class="h-8 w-8 rounded-full bg-gray-50 object-cover" />
-                                                    <p class="text-sm font-medium">
-                                                        {{ weeklySchedule?.employee?.firstname }}
-                                                        {{ weeklySchedule?.employee?.lastname }}
-                                                    </p>
-                                                </div>
-                                                <p class="absolute left-10 top-6 text-xs">
-                                                    {{ $t('dutySchedules.annualNormHours') }}:
-                                                    {{ weeklySchedule?.employee?.annual_norm_hours ?? 0 }}
-                                                </p>
-                                                <p class="absolute left-10 top-10 text-xs">
-                                                    {{ $t('dutySchedules.totalHours') }}:
-                                                    {{ weeklySchedule?.employee?.total_hours ?? 0 }}
-                                                </p>
-                                                <button
-                                                    class="absolute left-10 top-14 text-xxs text-primary hover:text-primary-700"
-                                                    @click="navigateTo(`/calendar?employee_uuid=${weeklySchedule?.employee?.uuid}`)">
-                                                    {{ $t('dutySchedules.viewCalendar') }}
-                                                </button>
-                                            </div>
-                                            <div :class="[
-                                                expandedRecords[weeklyScheduleIndex] && 'hidden',
-                                                'text-xs grid grid-cols-7 mt-5'
-                                            ]">
-                                                <div class="col-span-3 space-y-2" />
-                                                <div class="col-span-2 flex gap-2 flex-col items-end">
-                                                    <p class="text-xxs py-2">
-                                                        <span v-if="state.customWeekLabel === 'week'">
-                                                            {{ $t('dutySchedules.week') }}
-                                                        </span>
-                                                        <span v-if="state.customWeekLabel === 'month'">
-                                                            {{ $t('dutySchedules.month') }}
-                                                        </span>
-                                                        <span v-if="state.customWeekLabel === 'custom'">
-                                                            {{ $t('dutySchedules.custom') }}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                                <div
-                                                    class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200 ml-3">
-                                                    <p class="text-xxs py-2">
-                                                        {{ $t('dutySchedules.yearToDate') }}
-                                                    </p>
-                                                </div>
-                                                <div class="col-span-3 space-y-2">
-                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
-                                                        :key="timeIndex">
-                                                        {{ language.locale.value === 'en' ? time?.shift?.en_name :
-                                                            time?.shift?.dk_name }}
-                                                    </p>
-                                                </div>
-                                                <div class="col-span-2 flex gap-2 flex-col items-end">
-                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
-                                                        :key="timeIndex">
-                                                        {{ time?.weekly_hours }}
-                                                    </p>
-                                                </div>
-                                                <div
-                                                    class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200 ml-3">
-                                                    <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
-                                                        :key="timeIndex">
-                                                        {{ time?.yearly_hours }}
-                                                    </p>
-                                                </div>
-                                                <div
-                                                    class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
-                                                    <div :class="[
-                                                        weeklySchedule?.employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                        'flex items-center gap-1'
-                                                    ]">
-                                                        <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
-                                                        {{
-                                                            $t('dutySchedules.compensatoryHours')
-                                                        }}:
-                                                        {{
-                                                            weeklySchedule?.employee?.compensatory_hours?.total_in_hours
-                                                            ??
-                                                            0
-                                                        }}
-                                                    </div>
-                                                </div>
-                                                <div class="col-span-7 space-y-2 mt-1">
-                                                    <div :class="[
-                                                        weeklySchedule?.employee?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                        'flex items-center gap-1'
-                                                    ]">
-                                                        <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
-                                                        {{
-                                                            $t('dutySchedules.availableVacationHours')
-                                                        }}:
-                                                        {{
-                                                            weeklySchedule?.employee?.available_vacation_hours ?? 0
-                                                        }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div :class="[expandedRecords[weeklyScheduleIndex] ? 'mt-8' : 'mt-1']">
-                                                <button @click="toggleExpanded(weeklyScheduleIndex)"
-                                                    class="text-primary text-xs hover:text-primary-700">
-                                                    {{ !expandedRecords[weeklyScheduleIndex] ?
-                                                        $t('showLess') :
-                                                        $t('showMore') }}
-                                                </button>
-                                            </div>
+                                        <div class="col-span-9 flex flex-col items-center space-y-2 py-8 cursor-pointer border-1.5 border-dashed border-gray-700"
+                                            @click="stopCopying()"
+                                            v-if="isCopiedWeek() && isEmployeeWeeklyScheduleCopied() && isEmployeeSelectedAsWeeklyScheduleSource(weeklySchedule)">
+                                            <p class="text-center text-sm">
+                                                {{ $t('dutySchedules.copyPaste.stopCopying') }}
+                                            </p>
+                                            <p class="text-center text-xxs">
+                                                {{
+                                                    $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule')
+                                                }}
+                                            </p>
                                         </div>
-                                        <div class="p-3 border-0.5" v-for="(week, weekIndex) in weeklySchedule?.weeks"
-                                            :key="weekIndex" :class="[
-                                                isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && 'border-1.5 border-dashed border-gray-700',
-                                                !isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isScheduleCopiedEmpty() && 'cursor-copy relative group'
-                                            ]"
-                                            @click="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isScheduleCopiedEmpty() && pasteEmployeeSchedule(weeklyScheduleIndex, weekIndex)">
-                                            <div class="space-y-2"
-                                                v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber)">
-                                                <div class="flex justify-end gap-2"
-                                                    v-if="isAdmin(userStore.getUser?.roles)">
-                                                    <Menu as="div"
-                                                        class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
-                                                        <div>
-                                                            <MenuButton
-                                                                class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
-                                                                <Tooltip :text="`
-                                                                    ${week?.additional_hour_requests} ${week?.additional_hour_requests <= 1 ? $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest') : $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')} | 
-                                                                    ${week?.swap_requests} ${week?.swap_requests === 1 ? $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest') : $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')}
-                                                                    `"
-                                                                    v-if="week?.additional_hour_requests > 0 || week?.swap_requests > 0"
-                                                                    class="relative">
-                                                                    <button
-                                                                        class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center">
-                                                                        <Icon name="mdi:calendar-question-outline"
-                                                                            class="h-3 w-3" aria-hidden="true" />
-                                                                    </button>
-                                                                    <div
-                                                                        class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1">
-                                                                    </div>
-                                                                </Tooltip>
-                                                            </MenuButton>
+                                        <div :class="[
+                                            isEmployeeWeeklyScheduleCopied() && 'cursor-copy relative group',
+                                            'col-span-9 grid grid-cols-9'
+                                        ]" v-if="!isCopiedWeek() || !isEmployeeSelectedAsWeeklyScheduleSource(weeklySchedule)"
+                                            @click="isEmployeeWeeklyScheduleCopied() && (!isCopiedWeek() || !isEmployeeSelectedAsWeeklyScheduleSource(weeklySchedule)) && pasteEmployeeWeeklySchedule(weeklySchedule)">
+                                            <div class="p-3 col-span-2 border-0.5">
+                                                <div class="relative">
+                                                    <div class="flex justify-between">
+                                                        <div class="flex items-center gap-x-2">
+                                                            <img :src="weeklySchedule?.employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`"
+                                                                class="h-8 w-8 rounded-full bg-gray-50 object-cover" />
+                                                            <p class="text-sm font-medium">
+                                                                {{ weeklySchedule?.employee?.firstname }}
+                                                                {{ weeklySchedule?.employee?.lastname }}
+                                                            </p>
                                                         </div>
-                                                        <transition
-                                                            enter-active-class="transition ease-out duration-100"
-                                                            enter-from-class="transform opacity-0 scale-95"
-                                                            enter-to-class="transform opacity-100 scale-100"
-                                                            leave-active-class="transition ease-in duration-75"
-                                                            leave-from-class="transform opacity-100 scale-100"
-                                                            leave-to-class="transform opacity-0 scale-95">
-                                                            <MenuItems
-                                                                class="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                                <div class="py-1">
-                                                                    <MenuItem v-slot="{ active }">
-                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
-                                                                        @click="viewChangeTimeRequests(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
-                                                                        {{
-                                                                            $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')
-                                                                        }}
-                                                                    </a>
-                                                                    </MenuItem>
-                                                                    <MenuItem v-slot="{ active }">
-                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
-                                                                        @click="viewSwapScheduleRequests(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
-                                                                        {{
-                                                                            $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')
-                                                                        }}
-                                                                    </a>
-                                                                    </MenuItem>
-                                                                </div>
-                                                            </MenuItems>
-                                                        </transition>
-                                                    </Menu>
-                                                    <Tooltip :text="$t('dutySchedules.copy.copy')">
-                                                        <button
-                                                            class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                            @click="copyEmployeeSchedule(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
-                                                            <Icon name="mdi:content-copy" class="h-3 w-3"
-                                                                aria-hidden="true" />
-                                                        </button>
-                                                    </Tooltip>
-                                                    <Tooltip :text="$t('dutySchedules.newSchedule')">
-                                                        <button
-                                                            class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
-                                                            @click="openAddNewShiftModal(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, week)">
-                                                            +
-                                                        </button>
-                                                    </Tooltip>
-                                                </div>
-                                                <div class="text-xs">
-                                                    <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
-                                                        :key="shiftIndex" class="rounded-md p-1 relative mb-2.5" :style="{
-                                                            backgroundColor: `${shift?.type?.color}`,
-                                                            width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
-                                                            marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
-                                                        }">
-                                                        <div class="flex">
-                                                            <FormTimeFieldTransparent name="time_in"
-                                                                class="rounded-tl-md rounded-bl-md"
-                                                                :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
-                                                                :value="moment(shift?.date_time_start).format('HH:mm')"
-                                                                @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
-                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
-                                                            <FormTimeFieldTransparent name="time_out"
-                                                                class="rounded-tr-md rounded-br-md"
-                                                                :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
-                                                                :value="moment(shift?.date_time_end).format('HH:mm')"
-                                                                @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
-                                                                :disabled="!isAdmin(userStore.getUser?.roles)" />
-                                                        </div>
-                                                        <button
-                                                            class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
-                                                            v-if="shift?.in_meeting">
-                                                            M
-                                                        </button>
-                                                        <button
-                                                            class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
-                                                            v-if="isAdmin(userStore.getUser?.roles)">
-                                                            <Tooltip :text="$t('dutySchedules.removeSchedule')">
-                                                                <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
-                                                            </Tooltip>
-                                                        </button>
-                                                        <button
-                                                            class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                            v-else
-                                                            v-if="userStore.getUser?.uuid === weeklySchedule?.employee?.uuid">
-                                                            <!-- <Tooltip
-                                                                :text="$t('dutySchedules.scheduleRequests.changeTime.newRequest')">
-                                                                <Icon name="ic:baseline-question-mark"
-                                                                    class="h-2.5 w-2.5" aria-hidden="true" />
-                                                            </Tooltip> -->
-
-                                                            <Menu as="div"
-                                                                class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
-                                                                <div>
-                                                                    <MenuButton
-                                                                        class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
-                                                                        <Tooltip
-                                                                            :text="$t('dutySchedules.scheduleRequests.newRequest')">
-                                                                            <Icon name="ic:baseline-question-mark"
-                                                                                class="h-2.5 w-2.5"
-                                                                                aria-hidden="true" />
-                                                                        </Tooltip>
-                                                                    </MenuButton>
-                                                                </div>
-                                                                <transition
-                                                                    enter-active-class="transition ease-out duration-100"
-                                                                    enter-from-class="transform opacity-0 scale-95"
-                                                                    enter-to-class="transform opacity-100 scale-100"
-                                                                    leave-active-class="transition ease-in duration-75"
-                                                                    leave-from-class="transform opacity-100 scale-100"
-                                                                    leave-to-class="transform opacity-0 scale-95">
-                                                                    <MenuItems
-                                                                        class="absolute right-0 z-10 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                                        <div class="py-1">
-                                                                            <MenuItem v-slot="{ active }">
-                                                                            <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
-                                                                                @click="requestTimeAdjustment(weeklyScheduleIndex, shift)">
-                                                                                {{
-                                                                                    $t('dutySchedules.scheduleRequests.changeTime.requestAChange')
-                                                                                }}
-                                                                            </a>
-                                                                            </MenuItem>
-                                                                            <MenuItem v-slot="{ active }">
-                                                                            <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
-                                                                                @click="requestSwapSchedule(shift)">
-                                                                                {{
-                                                                                    $t('dutySchedules.scheduleRequests.swapSchedule.swapThisShift')
-                                                                                }}
-                                                                            </a>
-                                                                            </MenuItem>
-                                                                        </div>
-                                                                    </MenuItems>
-                                                                </transition>
-                                                            </Menu>
-                                                        </button>
+                                                        <Tooltip :text="$t('dutySchedules.copy.copyEmployeeSchedule')">
+                                                            <button
+                                                                class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                                @click="copyEmployeeWeeklySchedule(weeklySchedule)">
+                                                                <Icon name="mdi:content-copy" class="h-3 w-3"
+                                                                    aria-hidden="true" />
+                                                            </button>
+                                                        </Tooltip>
                                                     </div>
-                                                    <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlots
-                                                        :week="week" :employee="weeklySchedule?.employee"
-                                                        @error="(error: any) => state.error = error" />
+                                                    <p class="absolute left-10 top-6 text-xs">
+                                                        {{ $t('dutySchedules.annualNormHours') }}:
+                                                        {{ weeklySchedule?.employee?.annual_norm_hours ?? 0 }}
+                                                    </p>
+                                                    <p class="absolute left-10 top-10 text-xs">
+                                                        {{ $t('dutySchedules.totalHours') }}:
+                                                        {{ weeklySchedule?.employee?.total_hours ?? 0 }}
+                                                    </p>
+                                                    <button
+                                                        class="absolute left-10 top-14 text-xxs text-primary hover:text-primary-700"
+                                                        @click="navigateTo(`/calendar?employee_uuid=${weeklySchedule?.employee?.uuid}`)">
+                                                        {{ $t('dutySchedules.viewCalendar') }}
+                                                    </button>
+                                                </div>
+                                                <div :class="[
+                                                    expandedRecords[weeklyScheduleIndex] && 'hidden',
+                                                    'text-xs grid grid-cols-7 mt-5'
+                                                ]">
+                                                    <div class="col-span-3 space-y-2" />
+                                                    <div class="col-span-2 flex gap-2 flex-col items-end">
+                                                        <p class="text-xxs py-2">
+                                                            <span v-if="state.customWeekLabel === 'week'">
+                                                                {{ $t('dutySchedules.week') }}
+                                                            </span>
+                                                            <span v-if="state.customWeekLabel === 'month'">
+                                                                {{ $t('dutySchedules.month') }}
+                                                            </span>
+                                                            <span v-if="state.customWeekLabel === 'custom'">
+                                                                {{ $t('dutySchedules.custom') }}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200 ml-3">
+                                                        <p class="text-xxs py-2">
+                                                            {{ $t('dutySchedules.yearToDate') }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-span-3 space-y-2">
+                                                        <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                            :key="timeIndex">
+                                                            {{ language.locale.value === 'en' ? time?.shift?.en_name :
+                                                                time?.shift?.dk_name }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-span-2 flex gap-2 flex-col items-end">
+                                                        <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                            :key="timeIndex">
+                                                            {{ time?.weekly_hours }}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200 ml-3">
+                                                        <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                            :key="timeIndex">
+                                                            {{ time?.yearly_hours }}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
+                                                        <div :class="[
+                                                            weeklySchedule?.employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'flex items-center gap-1'
+                                                        ]">
+                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
+                                                            {{
+                                                                $t('dutySchedules.compensatoryHours')
+                                                            }}:
+                                                            {{
+                                                                weeklySchedule?.employee?.compensatory_hours?.total_in_hours
+                                                                ??
+                                                                0
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-span-7 space-y-2 mt-1">
+                                                        <div :class="[
+                                                            weeklySchedule?.employee?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'flex items-center gap-1'
+                                                        ]">
+                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
+                                                            {{
+                                                                $t('dutySchedules.availableVacationHours')
+                                                            }}:
+                                                            {{
+                                                                weeklySchedule?.employee?.available_vacation_hours ?? 0
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div :class="[expandedRecords[weeklyScheduleIndex] ? 'mt-8' : 'mt-1']">
+                                                    <button @click="toggleExpanded(weeklyScheduleIndex)"
+                                                        class="text-primary text-xs hover:text-primary-700">
+                                                        {{ !expandedRecords[weeklyScheduleIndex] ?
+                                                            $t('showLess') :
+                                                            $t('showMore') }}
+                                                    </button>
                                                 </div>
                                             </div>
-                                            <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer" v-else
-                                                @click="stopCopying()">
-                                                <p class="text-center text-sm">
-                                                    {{ $t('dutySchedules.copyPaste.stopCopying') }}
-                                                </p>
-                                                <p class="text-center text-xxs">
-                                                    {{
-                                                        $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule')
-                                                    }}
-                                                </p>
+                                            <div class="p-3 border-0.5"
+                                                v-for="(week, weekIndex) in weeklySchedule?.weeks" :key="weekIndex"
+                                                :class="[
+                                                    isDailyScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && 'border-1.5 border-dashed border-gray-700',
+                                                    !isDailyScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && 'cursor-copy relative group'
+                                                ]"
+                                                @click="!isDailyScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && pasteEmployeeDailySchedule(weeklyScheduleIndex, weekIndex)">
+                                                <div class="space-y-2"
+                                                    v-if="!isDailyScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber)">
+                                                    <div class="flex justify-end gap-2"
+                                                        v-if="isAdmin(userStore.getUser?.roles)">
+                                                        <Menu as="div"
+                                                            class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
+                                                            <div>
+                                                                <MenuButton
+                                                                    class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
+                                                                    <Tooltip :text="`
+                                                                        ${week?.additional_hour_requests} ${week?.additional_hour_requests <= 1 ? $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest') : $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')} | 
+                                                                        ${week?.swap_requests} ${week?.swap_requests === 1 ? $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest') : $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')}
+                                                                        `"
+                                                                        v-if="week?.additional_hour_requests > 0 || week?.swap_requests > 0"
+                                                                        class="relative">
+                                                                        <button
+                                                                            class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center">
+                                                                            <Icon name="mdi:calendar-question-outline"
+                                                                                class="h-3 w-3" aria-hidden="true" />
+                                                                        </button>
+                                                                        <div
+                                                                            class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1">
+                                                                        </div>
+                                                                    </Tooltip>
+                                                                </MenuButton>
+                                                            </div>
+                                                            <transition
+                                                                enter-active-class="transition ease-out duration-100"
+                                                                enter-from-class="transform opacity-0 scale-95"
+                                                                enter-to-class="transform opacity-100 scale-100"
+                                                                leave-active-class="transition ease-in duration-75"
+                                                                leave-from-class="transform opacity-100 scale-100"
+                                                                leave-to-class="transform opacity-0 scale-95">
+                                                                <MenuItems
+                                                                    class="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                                    <div class="py-1">
+                                                                        <MenuItem v-slot="{ active }">
+                                                                        <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
+                                                                            @click="viewChangeTimeRequests(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
+                                                                            {{
+                                                                                $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')
+                                                                            }}
+                                                                        </a>
+                                                                        </MenuItem>
+                                                                        <MenuItem v-slot="{ active }">
+                                                                        <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
+                                                                            @click="viewSwapScheduleRequests(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
+                                                                            {{
+                                                                                $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')
+                                                                            }}
+                                                                        </a>
+                                                                        </MenuItem>
+                                                                    </div>
+                                                                </MenuItems>
+                                                            </transition>
+                                                        </Menu>
+                                                        <Tooltip :text="$t('dutySchedules.copy.copy')">
+                                                            <button
+                                                                class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                                @click="copyEmployeeDailySchedule(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
+                                                                <Icon name="mdi:content-copy" class="h-3 w-3"
+                                                                    aria-hidden="true" />
+                                                            </button>
+                                                        </Tooltip>
+                                                        <Tooltip :text="$t('dutySchedules.newSchedule')">
+                                                            <button
+                                                                class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
+                                                                @click="openAddNewShiftModal(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, week)">
+                                                                +
+                                                            </button>
+                                                        </Tooltip>
+                                                    </div>
+                                                    <div class="text-xs">
+                                                        <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
+                                                            :key="shiftIndex" class="rounded-md p-1 relative mb-2.5"
+                                                            :style="{
+                                                                backgroundColor: `${shift?.type?.color}`,
+                                                                width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
+                                                                marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
+                                                            }">
+                                                            <div class="flex">
+                                                                <FormTimeFieldTransparent name="time_in"
+                                                                    class="rounded-tl-md rounded-bl-md"
+                                                                    :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
+                                                                    :value="moment(shift?.date_time_start).format('HH:mm')"
+                                                                    @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                                    :disabled="!isAdmin(userStore.getUser?.roles)" />
+                                                                <FormTimeFieldTransparent name="time_out"
+                                                                    class="rounded-tr-md rounded-br-md"
+                                                                    :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
+                                                                    :value="moment(shift?.date_time_end).format('HH:mm')"
+                                                                    @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                                    :disabled="!isAdmin(userStore.getUser?.roles)" />
+                                                            </div>
+                                                            <button
+                                                                class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
+                                                                v-if="shift?.in_meeting">
+                                                                M
+                                                            </button>
+                                                            <button
+                                                                class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                                @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
+                                                                v-if="isAdmin(userStore.getUser?.roles)">
+                                                                <Tooltip :text="$t('dutySchedules.removeSchedule')">
+                                                                    <Icon name="ph:x" class="h-2 w-2"
+                                                                        aria-hidden="true" />
+                                                                </Tooltip>
+                                                            </button>
+                                                            <button
+                                                                class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                                v-else
+                                                                v-if="userStore.getUser?.uuid === weeklySchedule?.employee?.uuid">
+                                                                <Menu as="div"
+                                                                    class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
+                                                                    <div>
+                                                                        <MenuButton
+                                                                            class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
+                                                                            <Tooltip
+                                                                                :text="$t('dutySchedules.scheduleRequests.newRequest')">
+                                                                                <Icon name="ic:baseline-question-mark"
+                                                                                    class="h-2.5 w-2.5"
+                                                                                    aria-hidden="true" />
+                                                                            </Tooltip>
+                                                                        </MenuButton>
+                                                                    </div>
+                                                                    <transition
+                                                                        enter-active-class="transition ease-out duration-100"
+                                                                        enter-from-class="transform opacity-0 scale-95"
+                                                                        enter-to-class="transform opacity-100 scale-100"
+                                                                        leave-active-class="transition ease-in duration-75"
+                                                                        leave-from-class="transform opacity-100 scale-100"
+                                                                        leave-to-class="transform opacity-0 scale-95">
+                                                                        <MenuItems
+                                                                            class="absolute right-0 z-10 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                                            <div class="py-1">
+                                                                                <MenuItem v-slot="{ active }">
+                                                                                <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
+                                                                                    @click="requestTimeAdjustment(weeklyScheduleIndex, shift)">
+                                                                                    {{
+                                                                                        $t('dutySchedules.scheduleRequests.changeTime.requestAChange')
+                                                                                    }}
+                                                                                </a>
+                                                                                </MenuItem>
+                                                                                <MenuItem v-slot="{ active }">
+                                                                                <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
+                                                                                    @click="requestSwapSchedule(shift)">
+                                                                                    {{
+                                                                                        $t('dutySchedules.scheduleRequests.swapSchedule.swapThisShift')
+                                                                                    }}
+                                                                                </a>
+                                                                                </MenuItem>
+                                                                            </div>
+                                                                        </MenuItems>
+                                                                    </transition>
+                                                                </Menu>
+                                                            </button>
+                                                        </div>
+                                                        <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlots
+                                                            :week="week" :employee="weeklySchedule?.employee"
+                                                            @error="(error: any) => state.error = error" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer"
+                                                    v-else @click="stopCopying()">
+                                                    <p class="text-center text-sm">
+                                                        {{ $t('dutySchedules.copyPaste.stopCopying') }}
+                                                    </p>
+                                                    <p class="text-center text-xxs">
+                                                        {{
+                                                            $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule')
+                                                        }}
+                                                    </p>
+                                                </div>
+                                                <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                                    v-if="!isDailyScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty()">
+                                                    <p class="text-white text-xs text-center">
+                                                        {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
+                                                    </p>
+                                                </div>
                                             </div>
                                             <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                                v-if="!isScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber) && !isScheduleCopiedEmpty()">
+                                                v-if="isEmployeeWeeklyScheduleCopied()">
                                                 <p class="text-white text-xs text-center">
                                                     {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
                                                 </p>
@@ -614,11 +613,13 @@ const expandedRecords = reactive([] as boolean[])
 
 const state = reactive({
     addShift: {
-        selectedEmployeeSchedules: {}
+        selectedEmployeeSchedule: {}
     } as any,
     copy: {
         allEmployeeSchedules: {},
-        selectedEmployeeSchedules: {}
+        selectedEmployeeDailySchedule: {},
+        selectedEmployeeWeeklySchedule: {},
+        selectedWeekNumber: null,
     } as any,
     copyShiftError: {} as Error,
     customWeekLabel: 'week',
@@ -697,7 +698,18 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 
 onMounted(() => {
     fetchDutySchedule()
+    window.addEventListener('keydown', handleKeyDown)
 })
+
+onBeforeUnmount(() => {
+    window.removeEventListener('keydown', handleKeyDown)
+})
+
+function handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+        stopCopying()
+    }
+}
 
 function isAdmin(roles: any) {
     return roles && roles.some((role: any) => role.name === 'Admin')
@@ -937,7 +949,7 @@ function isPastWeek() {
 
 function openAddNewShiftModal(employee: any, weeklyScheduleIndex: number, weekIndex: any, week: any) {
     state.modal.isAddShiftOpen = true
-    state.addShift.selectedEmployeeSchedules = {
+    state.addShift.selectedEmployeeSchedule = {
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekIndex: weekIndex,
         ...week
@@ -980,7 +992,7 @@ function requestSwapSchedule(shift: any) {
 }
 
 async function saveShift(shiftDetails: any) {
-    const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedules.weeklyScheduleIndex
+    const weeklyScheduleIndex = state.addShift.selectedEmployeeSchedule.weeklyScheduleIndex
     const shiftType = shiftDetails.shift_type
     const params = {
         shift_type_uuid: shiftType,
@@ -1025,16 +1037,16 @@ function identifyTheProgressPercentage() {
     }
 }
 
-function isScheduleCopiedEmpty() {
-    return Object.keys(state.copy.selectedEmployeeSchedules).length === 0
+function isDailyScheduleCopiedEmpty() {
+    return Object.keys(state.copy.selectedEmployeeDailySchedule).length === 0
 }
 
-function isScheduleCopied(weeklyScheduleIndex: number, weekIndex: number, weekNumber: number) {
-    return state.copy.selectedEmployeeSchedules.weeklyScheduleIndex === weeklyScheduleIndex && state.copy.selectedEmployeeSchedules.weekIndex === weekIndex && state.copy.selectedEmployeeSchedules.weekNumber === weekNumber
+function isDailyScheduleCopied(weeklyScheduleIndex: number, weekIndex: number, weekNumber: number) {
+    return state.copy.selectedEmployeeDailySchedule.weeklyScheduleIndex === weeklyScheduleIndex && state.copy.selectedEmployeeDailySchedule.weekIndex === weekIndex && state.copy.selectedEmployeeDailySchedule.weekNumber === weekNumber
 }
 
-function copyEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
-    state.copy.selectedEmployeeSchedules = {
+function copyEmployeeDailySchedule(weeklyScheduleIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
+    state.copy.selectedEmployeeDailySchedule = {
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekNumber: weekNumber,
         weekIndex: weekIndex,
@@ -1044,11 +1056,12 @@ function copyEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: any, weekl
 
 function stopCopying() {
     state.copy.allEmployeeSchedules = {}
-    state.copy.selectedEmployeeSchedules = {}
+    state.copy.selectedEmployeeDailySchedule = {}
+    state.copy.selectedEmployeeWeeklySchedule = {}
 }
 
-async function pasteEmployeeSchedule(weeklyScheduleIndex: number, weekIndex: number) {
-    const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeSchedules
+async function pasteEmployeeDailySchedule(weeklyScheduleIndex: number, weekIndex: number) {
+    const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeDailySchedule
     const copiedWeekIndex = copiedSelectedEmployeeSchedule.weekIndex
 
     const userSource = copiedSelectedEmployeeSchedule.weeklySchedule.employee
@@ -1077,6 +1090,50 @@ async function copyDutySchedule(params: object) {
             identifyTheProgressPercentage()
             fetchDutySchedule()
             state.modal.isAddShiftOpen = false
+        }
+    } catch (error: any) {
+        state.copyShiftError = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
+}
+
+function isCopiedWeek() {
+    return state.copy.selectedWeekNumber === weekNumber?.value
+}
+
+function isEmployeeWeeklyScheduleCopied() {
+    return Object.keys(state.copy.selectedEmployeeWeeklySchedule).length > 0
+}
+
+function isEmployeeSelectedAsWeeklyScheduleSource(weeklySchedule: any) {
+    return state.copy.selectedEmployeeWeeklySchedule?.employee?.uuid === weeklySchedule?.employee?.uuid
+}
+
+function copyEmployeeWeeklySchedule(weeklySchedule: any) {
+    state.copy.selectedEmployeeWeeklySchedule = weeklySchedule
+    state.copy.selectedWeekNumber = weekNumber?.value
+}
+
+async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
+    state.copyShiftError = {}
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const params = {
+            user_uuid_source: state?.copy.selectedEmployeeWeeklySchedule?.employee?.uuid,
+            user_uuid_destination: weeklySchedule?.employee?.uuid,
+            week_source: state.copy.selectedWeekNumber,
+            week_destination: weekNumber?.value,
+        }
+        const response = await dutyScheduleService.copyEmployeeWeeklyDutySchedule(params)
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDutySchedule()
         }
     } catch (error: any) {
         state.copyShiftError = error
@@ -1157,7 +1214,7 @@ async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: nu
 }
 
 function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
-    if (!isScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
+    if (!isDailyScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
 
     if (state.isRemoveShift || state.isUpdateShift) return
 
@@ -1178,7 +1235,7 @@ function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: a
 }
 
 function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
-    if (!isScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
+    if (!isDailyScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
 
     if (state.isRemoveShift || state.isUpdateShift) return
 

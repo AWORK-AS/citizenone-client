@@ -10,7 +10,7 @@
                             <p class="text-sm text-gray-600">
                                 {{ $t('employees.citizens.citizens') }}
                             </p>
-                            <FormSelect id="pages" :options="state.options.citizens" v-model="state.citizen_uuid"
+                            <FormSelect id="citizens" :options="state.options.citizens" v-model="state.citizen_uuid"
                                 class="w-full" />
                         </div>
                         <div class="mt-6">

@@ -54,9 +54,6 @@
                 <ModulesUserDutyScheduleWeekView v-if="state.calendarView === 'week'" />
             </div>
 
-            <!-- Darkening overlay -->
-            <div class="fixed inset-0 bg-black bg-opacity-70 z-40 sm:hidden md:block lg:block"
-                v-if="state.modal.isGuidedTourDutyScheduleOpen"></div>
             <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
                 :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
