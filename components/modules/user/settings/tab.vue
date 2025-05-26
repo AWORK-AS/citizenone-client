@@ -158,8 +158,8 @@ function changeTab(value: any) {
     else if (value === t('settings.tabs.archived')) {
         navigateTo(`/settings/archived/citizens`)
     }
-    else if (value === t('Catalog')) {
-        navigateTo(`/settings/catalog`)
+    else if (value === t('settings.tabs.catalog')) {
+        navigateTo(`/settings/absences`)
     }
     else if (value === t('settings.tabs.departments')) {
         navigateTo(`/settings/departments`)
