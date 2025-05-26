@@ -2,11 +2,16 @@
     <div>
         <Modal size="2xl" :title="$t('folderStructure.folderStructure')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <div class="flex justify-end items-center mb-5">
+                <div class="flex justify-end items-center gap-x-5 mb-5">
                     <FormButton buttonStyle="action" class="rounded-lg"
                         @click="state.modal.newFolderStructureOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('folderStructure.newFolderStructure') }}
+                    </FormButton>
+                    <FormButton buttonStyle="action" class="rounded-lg"
+                        @click="state.modal.isViewFolderStructureRequestsOpen = true">
+                        <Icon name="ph:folder" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('folderStructure.requests.folderStructureRequests') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -25,6 +30,11 @@
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="viewFolderStructure(folder_structure)">
+                                                <Icon name="ph:eye" class="size-4" />
+                                                {{ $t('folderStructure.table.actions.view') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editFolderStructure(folder_structure)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('folderStructure.table.actions.edit') }}
@@ -37,12 +47,19 @@
                     </div>
                     <Pagination :data="state.folder_structures" @previous="previous" @next="next" />
                 </div>
+                <ModulesUserDocumentFolderStructureModalView :isModalOpen="state.modal.viewFolderStructureOpen"
+                    :selectedFolderStructure="state.selected_folder_structure"
+                    @close="state.modal.viewFolderStructureOpen = false" />
                 <ModulesUserDocumentFolderStructureModalNew :isModalOpen="state.modal.newFolderStructureOpen"
                     @close="state.modal.newFolderStructureOpen = false"
                     @refreshFolderStructures="fetchFolderStructures" />
                 <ModulesUserDocumentFolderStructureModalEdit :isModalOpen="state.modal.editFolderStructureOpen"
                     :selectedFolderStructure="state.selected_folder_structure"
                     @close="state.modal.editFolderStructureOpen = false"
+                    @refreshFolderStructures="fetchFolderStructures" />
+                <ModulesUserDocumentFolderStructureRequestModalFolderStructures
+                    :isModalOpen="state.modal.isViewFolderStructureRequestsOpen"
+                    @close="state.modal.isViewFolderStructureRequestsOpen = false"
                     @refreshFolderStructures="fetchFolderStructures" />
             </template>
         </Modal>
@@ -78,7 +95,9 @@ const state = reactive({
     isTableLoading: false,
     modal: {
         editFolderStructureOpen: false,
+        isViewFolderStructureRequestsOpen: false,
         newFolderStructureOpen: false,
+        viewFolderStructureOpen: false,
     },
     selected_folder_structure: {},
     sortData: {
@@ -142,6 +161,11 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchFolderStructures()
+}
+
+function viewFolderStructure(folderStructure: any) {
+    state.selected_folder_structure = folderStructure
+    state.modal.viewFolderStructureOpen = true
 }
 
 function editFolderStructure(folder_structure: any) {
