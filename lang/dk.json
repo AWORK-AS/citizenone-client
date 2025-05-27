@@ -1731,6 +1731,7 @@
         "editSchedule": "Rediger tidsplan",
         "filterDate": "Filtrer dato",
         "form": {
+            "citizens": "Borgere",
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",
             "description": "Beskrivelse",

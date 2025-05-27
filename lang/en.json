@@ -1731,6 +1731,7 @@
         "editSchedule": "Edit schedule",
         "filterDate": "Filter date",
         "form": {
+            "citizens": "Citizens",
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
             "description": "Description",

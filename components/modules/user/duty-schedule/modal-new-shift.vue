@@ -62,6 +62,13 @@
                                 <FormError :error="v$?.formShift.date_time_end?.$errors[0]?.$message.toString()" />
                             </div>
                         </div>
+                        <div class="space-y-1">
+                            <FormLabel for="citizens" :label="$t('dutySchedules.form.citizens')" />
+                            <FormSelectMultiple id="citizens" :options="state.options.citizens"
+                                v-model="state.formShift.citizens" />
+                            <FormError :error="v$?.formShift?.citizens?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.citizen_uuid?.[0]" />
+                        </div>
                         <div v-if="[3, 4].includes(state.options.shifts.findIndex((shift: any) => shift.value ===
                             state.formShift.shift_type))">
                             <div class="w-fit flex items-center cursor-pointer"
@@ -96,6 +103,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { citizenService } from '@/components/api/user/CitizenService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { shiftService } from '@/components/api/user/ShiftService'
@@ -130,11 +138,13 @@ const state = reactive({
         shift_type: '',
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
+        citizens: [],
         in_meeting: false,
         use_compensatory_time: false,
     },
     showChildProtectionCertificateWarning: false,
     options: {
+        citizens: [],
         shifts: []
     }
 })
@@ -146,6 +156,7 @@ watch(() => props.isModalOpen, (isModalOpen) => {
     state.formShift.shift_type = ''
     if (isModalOpen) {
         fetchAllShifts()
+        fetchAllCitizensPerUserDepartment()
     }
     state.formShift.date_time_start = moment(props.selectedDate).startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm')
     state.formShift.date_time_end = moment(props.selectedDate).startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm')
@@ -172,6 +183,9 @@ const rules = computed(() => {
             date_time_end: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            citizens: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
         },
     }
 })
@@ -195,6 +209,30 @@ async function fetchAllShifts() {
                 })
             )
             state.options.shifts = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllCitizensPerUserDepartment() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            user_uuid: props.selectedEmployee?.uuid
+        }
+        const response = await citizenService.getAllCitizensPerUserDepartment(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (citizen: any) => options.push({
+                    value: citizen?.uuid,
+                    label: citizen?.firstname + " " + citizen?.lastname,
+                })
+            )
+            state.options.citizens = options
         }
     } catch (error: any) {
         state.error = error

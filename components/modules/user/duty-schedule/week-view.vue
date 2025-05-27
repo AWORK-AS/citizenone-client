@@ -1002,6 +1002,7 @@ async function saveShift(shiftDetails: any) {
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
+        citizen_uuid: shiftDetails.citizens,
         use_compensatory_time: shiftDetails.use_compensatory_time,
         in_meeting: shiftDetails.in_meeting,
     }

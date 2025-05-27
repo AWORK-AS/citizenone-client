@@ -453,6 +453,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { citizenService } from '@/components/api/user/CitizenService'
 import { draftScheduleService } from '@/components/api/user/DraftScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
@@ -800,6 +801,7 @@ async function saveShift(shiftDetails: any) {
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
+        citizen_uuid: shiftDetails.citizens,
         in_meeting: shiftDetails.in_meeting,
     }
     saveDutySchedule(params)
