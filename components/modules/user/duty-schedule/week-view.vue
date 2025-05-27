@@ -424,8 +424,18 @@
                                                                 width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                                 marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
                                                             }">
-                                                            <div class="flex">
-                                                                <FormTimeFieldTransparent name="time_in"
+                                                            <div class="flex justify-between text-white"
+                                                                :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
+                                                                @click="editSchedule(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, shift, shiftIndex)">
+                                                                <p
+                                                                    class="w-full px-2 py-2 flex items-center justify-center border border-white rounded-tl-md rounded-bl-md">
+                                                                    {{ moment(shift?.date_time_start).format('HH:mm') }}
+                                                                </p>
+                                                                <p
+                                                                    class="w-full px-2 py-2 flex items-center justify-center border border-white  rounded-tr-md rounded-br-md">
+                                                                    {{ moment(shift?.date_time_end).format('HH:mm') }}
+                                                                </p>
+                                                                <!-- <FormTimeFieldTransparent name="time_in"
                                                                     class="rounded-tl-md rounded-bl-md"
                                                                     :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
                                                                     :value="moment(shift?.date_time_start).format('HH:mm')"
@@ -436,7 +446,7 @@
                                                                     :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
                                                                     :value="moment(shift?.date_time_end).format('HH:mm')"
                                                                     @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
-                                                                    :disabled="!isAdmin(userStore.getUser?.roles)" />
+                                                                    :disabled="!isAdmin(userStore.getUser?.roles)" /> -->
                                                             </div>
                                                             <button
                                                                 class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
@@ -562,6 +572,11 @@
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
                 @resetNewShiftError="state.newShiftError = {}" />
+            <ModulesUserDutyScheduleModalEditShift :isModalOpen="state.modal.isEditShiftOpen"
+                :error="state.editShiftError" :selectedEmployee="state.editShift.selectedEmployee"
+                :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
+                @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
+                @updateShift="updateSelectedSchedule" />
             <ModulesUserDutyScheduleTimeRequestsModalRequests
                 :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
                 :selectedDate="state.manageTimeRequest.selectedDate"
@@ -626,13 +641,10 @@ const state = reactive({
     } as any,
     copyShiftError: {} as Error,
     customWeekLabel: 'week',
-    showAllShifts: false,
-    shiftPercentage: {} as any,
-    shiftDateRange: {
-        formDateRange: {
-            start_date: moment().startOf('week').add(1, 'day'),
-            end_date: moment().startOf('week').add(7, 'day'),
-        },
+    editShiftError: {} as Error,
+    editShift: {
+        selectedEmployee: {},
+        selectedEmployeeSchedule: {},
     } as any,
     employees: [] as any,
     error: {} as Error,
@@ -656,6 +668,7 @@ const state = reactive({
         isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
         isDownloadOpen: false,
+        isEditShiftOpen: false,
         isManageScheduleSlotOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
         isManageSwapScheduleRequestsOpen: false,
@@ -673,6 +686,14 @@ const state = reactive({
         showProgressBar: false,
         totalRequests: 0,
     },
+    showAllShifts: false,
+    shiftPercentage: {} as any,
+    shiftDateRange: {
+        formDateRange: {
+            start_date: moment().startOf('week').add(1, 'day'),
+            end_date: moment().startOf('week').add(7, 'day'),
+        },
+    } as any,
     isFirstLoad: true,
     isRemoveShift: false,
     isUpdateShift: false,
@@ -1217,6 +1238,39 @@ async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: nu
     }
 }
 
+function editSchedule(employee: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
+    const date = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
+    const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
+    state.editShift.selectedEmployee = employee
+    state.editShift.selectedEmployeeSchedule = {
+        scheduleUuid: shift?.schedule_uuid,
+        time_in: shift?.time_in,
+        time_out: shift?.time_out,
+        user_uuid: userUuid,
+        date: date,
+        shift_type: shift?.type,
+        in_meeting: shift?.in_meeting,
+        weeklyScheduleIndex: weeklyScheduleIndex,
+        weekIndex: weekIndex,
+        shiftIndex: shiftIndex,
+    }
+    state.modal.isEditShiftOpen = true
+}
+
+function updateSelectedSchedule(shiftDetails: any) {
+    const scheduleUuid = state.editShift.selectedEmployeeSchedule.scheduleUuid
+    const weeklyScheduleIndex = state.editShift.selectedEmployeeSchedule.weeklyScheduleIndex
+    const weekIndex = state.editShift.selectedEmployeeSchedule.weekIndex
+    const shiftIndex = state.editShift.selectedEmployeeSchedule.shiftIndex
+    const params = {
+        date: state.editShift.selectedEmployeeSchedule.date,
+        time_in: moment(shiftDetails?.date_time_start).format('HH:mm'),
+        time_out: moment(shiftDetails?.date_time_end).format('HH:mm'),
+        user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
+    }
+    updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
+}
+
 function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
     if (!isDailyScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
 
@@ -1270,6 +1324,7 @@ async function updateDutySchedule(scheduleUuid: any, params: object, weeklySched
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
+            state.modal.isEditShiftOpen = false
             identifyTheProgressPercentage()
             fetchDutySchedule()
         }

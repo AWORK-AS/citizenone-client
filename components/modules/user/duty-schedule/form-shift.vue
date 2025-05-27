@@ -84,7 +84,8 @@
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
-                    {{ $t('create') }}
+                    {{ props.formType === 'create' ? $t('save') :
+                        $t('update') }}
                 </FormButton>
             </div>
         </div>
@@ -115,7 +116,7 @@ const props = defineProps({
     },
 })
 const { t } = useI18n()
-const emit = defineEmits(['close', 'isPageLoading', 'saveShift', 'resetNewShiftError'])
+const emit = defineEmits(['close', 'isPageLoading', 'saveShift'])
 const language = useI18n()
 const state = reactive({
     error: {} as Error,
@@ -137,11 +138,12 @@ const state = reactive({
 onMounted(() => {
     state.showChildProtectionCertificateWarning = false
     v$.value.$reset()
-    state.formShift.shift_type = ''
     fetchAllShifts()
     fetchAllCitizensPerUserDepartment()
+    state.formShift.shift_type = props.selectedShift.shift_type
     state.formShift.date_time_start = props.selectedShift.date_time_start
     state.formShift.date_time_end = props.selectedShift.date_time_end
+    state.formShift.in_meeting = props.selectedShift.in_meeting
 })
 
 watch(() => state.formShift.shift_type, (newValue) => {

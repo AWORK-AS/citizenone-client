@@ -3,9 +3,10 @@
         <Modal size="sm" :title="$t('dutySchedules.newSchedule')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserDutyScheduleFormShift :error="props.error" :selectedEmployee="props.selectedEmployee"
-                        :selectedShift="state.formShift" @close="closeModal()" @saveShift="saveShift"
-                        @resetNewShiftError="emit('resetNewShiftError')" />
+                    <ModulesUserDutyScheduleFormShift formType="create" :error="props.error"
+                        :selectedEmployee="props.selectedEmployee" :selectedShift="state.formShift"
+                        @close="closeModal()" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @saveShift="saveShift" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -63,9 +64,3 @@ async function saveShift(shiftDetails: any) {
     emit('saveShift', shiftDetails)
 }
 </script>
-
-<style>
-#formShift .multiselect-dropdown {
-    max-height: 6rem !important;
-}
-</style>
