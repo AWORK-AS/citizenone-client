@@ -2204,6 +2204,9 @@
         "subscribe": "Subscribe"
     },
     "excludeVat": "excl. vat",
+    "features": {
+        "seeNewFeatures": "See new features"
+    },
     "filterDate": "Filter date",
     "findsocialetilbuddk": {
         "manageCompany": {

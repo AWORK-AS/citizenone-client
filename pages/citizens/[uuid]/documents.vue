@@ -22,6 +22,12 @@
             </template>
 
             <template #header>{{ $t('citizens.tabs.documents') }}</template>
+            <template #new-feature>
+                <Tooltip :text="$t('features.seeNewFeatures')" position="left">
+                    <Icon name="ph:question" class="h-6 w-6 cursor-pointer" aria-hidden="true"
+                        @click="state.modal.isViewNewFeaturesOpen = true" />
+                </Tooltip>
+            </template>
 
             <div class="space-y-5">
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
@@ -167,6 +173,8 @@
                     </div>
                     <Pagination :data="state.documents" @previous="previous" @next="next" />
                 </div>
+                <ModulesUserCitizenDocumentModalNewFeatures :isModalOpen="state.modal.isViewNewFeaturesOpen"
+                    @close="state.modal.isViewNewFeaturesOpen = false" />
                 <ModulesUserCitizenDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
                     @close="state.modal.isAddDirectoryOpen = false" @refreshDocuments="fetchDocuments" />
                 <ModulesUserCitizenDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
@@ -262,6 +270,7 @@ const state = reactive({
         isUploadFileOpen: false,
         isViewAccessOpen: false,
         isViewFolderStructureOpen: false,
+        isViewNewFeaturesOpen: false,
     },
     selectedDocument: [] as any,
     sortData: {
