@@ -15,7 +15,12 @@
                     <div class="w-full h-full p-2 space-y-2">
                         <div class="relative bg-white rounded-md shadow-md w-full h-full">
                             <div class="bg-no-repeat w-full h-52 bg-cover rounded-t-md"
-                                :style="`background-image: url(${news?.image});`">
+                                :style="`background-image: url(${news?.image});`" v-if="news?.image">
+                            </div>
+                            <div v-else class="px-8 pt-20">
+                                <div class="bg-no-repeat w-full h-52 rounded-t-md"
+                                    :style="`background-image: url('/img/logo.svg');`">
+                                </div>
                             </div>
                             <div class="absolute top-3 right-0 bg-secondary px-3 py-1 rounded-tl-md rounded-bl-md"
                                 v-if="news?.is_featured">
