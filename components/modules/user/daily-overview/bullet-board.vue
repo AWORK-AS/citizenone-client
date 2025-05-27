@@ -17,7 +17,7 @@
                             <div class="bg-no-repeat w-full h-52 bg-cover rounded-t-md"
                                 :style="`background-image: url(${news?.image});`" v-if="news?.image">
                             </div>
-                            <div v-else class="px-8 pt-20">
+                            <div v-else class="px-8 pt-24">
                                 <div class="bg-no-repeat w-full h-52 rounded-t-md"
                                     :style="`background-image: url('/img/logo.svg');`">
                                 </div>
