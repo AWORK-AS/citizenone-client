@@ -109,6 +109,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    selectedShift: {
+        type: Object,
+        required: true,
+    },
 })
 const { t } = useI18n()
 const emit = defineEmits(['close', 'isPageLoading', 'saveShift', 'resetNewShiftError'])
@@ -136,6 +140,8 @@ onMounted(() => {
     state.formShift.shift_type = ''
     fetchAllShifts()
     fetchAllCitizensPerUserDepartment()
+    state.formShift.date_time_start = props.selectedShift.date_time_start
+    state.formShift.date_time_end = props.selectedShift.date_time_end
 })
 
 watch(() => state.formShift.shift_type, (newValue) => {

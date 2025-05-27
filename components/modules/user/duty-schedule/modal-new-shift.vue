@@ -4,7 +4,8 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDutyScheduleFormShift :error="props.error" :selectedEmployee="props.selectedEmployee"
-                        @close="closeModal()" @saveShift="saveShift" @resetNewShiftError="emit('resetNewShiftError')" />
+                        :selectedShift="state.formShift" @close="closeModal()" @saveShift="saveShift"
+                        @resetNewShiftError="emit('resetNewShiftError')" />
                 </LoadingSpinner>
             </template>
         </Modal>
