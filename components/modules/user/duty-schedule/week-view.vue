@@ -435,18 +435,6 @@
                                                                     class="w-full px-2 py-2 flex items-center justify-center border border-white  rounded-tr-md rounded-br-md">
                                                                     {{ moment(shift?.date_time_end).format('HH:mm') }}
                                                                 </p>
-                                                                <!-- <FormTimeFieldTransparent name="time_in"
-                                                                    class="rounded-tl-md rounded-bl-md"
-                                                                    :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
-                                                                    :value="moment(shift?.date_time_start).format('HH:mm')"
-                                                                    @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
-                                                                    :disabled="!isAdmin(userStore.getUser?.roles)" />
-                                                                <FormTimeFieldTransparent name="time_out"
-                                                                    class="rounded-tr-md rounded-br-md"
-                                                                    :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
-                                                                    :value="moment(shift?.date_time_end).format('HH:mm')"
-                                                                    @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
-                                                                    :disabled="!isAdmin(userStore.getUser?.roles)" /> -->
                                                             </div>
                                                             <div :class="[
                                                                 shift?.citizen_schedules?.length > 0 && 'mt-1'
@@ -656,7 +644,6 @@ const state = reactive({
         selectedEmployee: {},
         selectedEmployeeSchedule: {},
     } as any,
-    employees: [] as any,
     error: {} as Error,
     errorUpdateShift: {} as Error,
     isPageLoading: false,
@@ -708,7 +695,6 @@ const state = reactive({
     isRemoveShift: false,
     isUpdateShift: false,
     originalWeeklySchedules: [] as any,
-    shifts: [],
     weeklySchedules: [] as any,
     weeklySlots: {} as any,
 })
@@ -1281,48 +1267,6 @@ function updateSelectedSchedule(shiftDetails: any) {
         user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
         citizen_uuid: shiftDetails.citizens,
         in_meeting: shiftDetails.in_meeting,
-    }
-    updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
-}
-
-function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
-    if (!isDailyScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
-
-    if (state.isRemoveShift || state.isUpdateShift) return
-
-    const timeIn = event.target.value
-    const timeOut = shift?.time_out
-    const scheduleUuid = shift?.schedule_uuid
-    const date = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
-    const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_in = timeIn
-    const params = {
-        time_in: timeIn,
-        time_out: timeOut,
-        user_uuid: userUuid,
-        date: date,
-        shift_type: shift?.name,
-    }
-    updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
-}
-
-function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
-    if (!isDailyScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
-
-    if (state.isRemoveShift || state.isUpdateShift) return
-
-    const timeOut = event.target.value
-    const timeIn = shift?.time_in
-    const scheduleUuid = shift?.schedule_uuid
-    const date = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
-    const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_out = timeOut
-    const params = {
-        time_in: timeIn,
-        time_out: timeOut,
-        user_uuid: userUuid,
-        date: date,
-        shift_type: shift?.name,
     }
     updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
 }

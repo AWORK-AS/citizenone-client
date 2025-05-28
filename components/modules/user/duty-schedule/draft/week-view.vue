@@ -340,18 +340,6 @@
                                                                     class="w-full px-2 py-2 flex items-center justify-center border border-white  rounded-tr-md rounded-br-md">
                                                                     {{ moment(shift?.date_time_end).format('HH:mm') }}
                                                                 </p>
-                                                                <!-- <FormTimeFieldTransparent name="time_in"
-                                                                    class="rounded-tl-md rounded-bl-md"
-                                                                    :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
-                                                                    :value="moment(shift?.date_time_start).format('HH:mm')"
-                                                                    @change="(event: any) => changeShiftTimeIn(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
-                                                                    :disabled="!isAdmin(userStore.getUser?.roles)" />
-                                                                <FormTimeFieldTransparent name="time_out"
-                                                                    class="rounded-tr-md rounded-br-md"
-                                                                    :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
-                                                                    :value="moment(shift?.date_time_end).format('HH:mm')"
-                                                                    @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
-                                                                    :disabled="!isAdmin(userStore.getUser?.roles)" /> -->
                                                             </div>
                                                             <div :class="[
                                                                 shift?.citizen_schedules?.length > 0 && 'mt-1'
@@ -427,8 +415,6 @@
                     </div>
                 </div>
             </div>
-            <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
-                @close="state.modal.isDownloadOpen = false" />
             <ModulesUserDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDutyScheduleDate" />
@@ -459,7 +445,6 @@ import moment from 'moment'
 import { draftScheduleService } from '@/components/api/user/DraftScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
@@ -468,7 +453,6 @@ import type { Error } from '@/types'
 const language = useI18n()
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
-const customPagesStore = useCustomPagesStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
@@ -495,35 +479,15 @@ const state = reactive({
         selectedEmployee: {},
         selectedEmployeeSchedule: {},
     } as any,
-    employees: [] as any,
     error: {} as Error,
     errorUpdateShift: {} as Error,
     isPageLoading: false,
-    manageScheduleSlot: {
-        selectedDay: [],
-    },
-    manageTimeRequest: {
-        selectedDate: '',
-        selectedEmployee: {},
-        selectedSchedule: {},
-    },
-    manageSwapScheduleRequest: {
-        selectedDate: '',
-        selectedEmployee: {},
-        selectedSchedule: {},
-    },
     modal: {
         isAddShiftOpen: false,
         isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
-        isDownloadOpen: false,
         isEditShiftOpen: false,
-        isManageScheduleSlotOpen: false,
-        isManageTimeAdjustmentRequestsOpen: false,
-        isManageSwapScheduleRequestsOpen: false,
         isPublishScheduleOpen: false,
-        isRequestTimeAdjustmentOpen: false,
-        isRequestSwapScheduleOpen: false,
     } as any,
     newShift: {
         selectedDate: '',
@@ -548,9 +512,7 @@ const state = reactive({
     isRemoveShift: false,
     isUpdateShift: false,
     originalWeeklySchedules: [] as any,
-    shifts: [],
     weeklySchedules: [] as any,
-    weeklySlots: {} as any,
 })
 
 watch(() => state.progress.percentage, (newPercentage: any) => {
@@ -738,7 +700,6 @@ async function fetchDutySchedule() {
         const response = await draftScheduleService.getDraftDutySchedules(params)
         if (response) {
             state.weeklySchedules = response?.data
-            state.weeklySlots = response?.week_slots
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
             fetchDutySchedulePercentage()
             if (state.isFirstLoad) {
@@ -750,20 +711,6 @@ async function fetchDutySchedule() {
         state.error = error
     }
     state.isPageLoading = false
-}
-
-function getSlotCount(dayName: string) {
-    const dayMap = {
-        Mon: 'monday',
-        Tue: 'tuesday',
-        Wed: 'wednesday',
-        Thu: 'thursday',
-        Fri: 'friday',
-        Sat: 'saturday',
-        Sun: 'sunday'
-    }
-    const key = dayMap[dayName]
-    return state.weeklySlots[key]?.total_slots || 0
 }
 
 function toggleShowHideAllShifts() {
@@ -830,39 +777,6 @@ function openAddNewShiftModal(employee: any, weeklyScheduleIndex: number, weekIn
     }
     state.newShift.selectedDate = week?.date
     state.newShift.selectedEmployee = employee
-}
-
-function openManageScheduleSlotModal(day: any) {
-    state.manageScheduleSlot.selectedDay = day
-    state.modal.isManageScheduleSlotOpen = true
-}
-
-function viewChangeTimeRequests(weeklyScheduleIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
-    const selectedEmployee = state.weeklySchedules[weeklyScheduleIndex]?.employee
-    const selectedDate = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex]?.date
-    state.manageTimeRequest.selectedEmployee = selectedEmployee
-    state.manageTimeRequest.selectedDate = selectedDate
-    state.modal.isManageTimeAdjustmentRequestsOpen = true
-}
-
-function requestTimeAdjustment(weeklyScheduleIndex: number, shift: any) {
-    const selectedEmployee = state.weeklySchedules[weeklyScheduleIndex]?.employee
-    state.manageTimeRequest.selectedEmployee = selectedEmployee
-    state.manageTimeRequest.selectedSchedule = shift
-    state.modal.isRequestTimeAdjustmentOpen = true
-}
-
-function viewSwapScheduleRequests(weeklyScheduleIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
-    const selectedEmployee = state.weeklySchedules[weeklyScheduleIndex]?.employee
-    const selectedDate = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex]?.date
-    state.manageSwapScheduleRequest.selectedEmployee = selectedEmployee
-    state.manageSwapScheduleRequest.selectedDate = selectedDate
-    state.modal.isManageSwapScheduleRequestsOpen = true
-}
-
-function requestSwapSchedule(shift: any) {
-    state.manageSwapScheduleRequest.selectedSchedule = shift
-    state.modal.isRequestSwapScheduleOpen = true
 }
 
 async function saveShift(shiftDetails: any) {
@@ -1133,48 +1047,6 @@ function updateSelectedSchedule(shiftDetails: any) {
         user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
         citizen_uuid: shiftDetails.citizens,
         in_meeting: shiftDetails.in_meeting,
-    }
-    updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
-}
-
-function changeShiftTimeIn(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
-    if (!isDailyScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
-
-    if (state.isRemoveShift || state.isUpdateShift) return
-
-    const timeIn = event.target.value
-    const timeOut = shift?.time_out
-    const scheduleUuid = shift?.schedule_uuid
-    const date = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
-    const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_in = timeIn
-    const params = {
-        time_in: timeIn,
-        time_out: timeOut,
-        user_uuid: userUuid,
-        date: date,
-        shift_type: shift?.name,
-    }
-    updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
-}
-
-function changeShiftTimeOut(event: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
-    if (!isDailyScheduleCopiedEmpty() || !isAllWeeklyScheduleCopiedEmpty()) return
-
-    if (state.isRemoveShift || state.isUpdateShift) return
-
-    const timeOut = event.target.value
-    const timeIn = shift?.time_in
-    const scheduleUuid = shift?.schedule_uuid
-    const date = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
-    const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts[shiftIndex].time_out = timeOut
-    const params = {
-        time_in: timeIn,
-        time_out: timeOut,
-        user_uuid: userUuid,
-        date: date,
-        shift_type: shift?.name,
     }
     updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
 }
