@@ -1021,8 +1021,8 @@ function editSchedule(employee: any, weeklyScheduleIndex: number, weekIndex: any
     state.editShift.selectedEmployeeSchedule = {
         citizen_schedules: shift?.citizen_schedules,
         scheduleUuid: shift?.schedule_uuid,
-        time_in: shift?.time_in,
-        time_out: shift?.time_out,
+        date_time_start: shift?.date_time_start,
+        date_time_end: shift?.date_time_end,
         user_uuid: userUuid,
         date: date,
         shift_type: shift?.type,
@@ -1040,10 +1040,10 @@ function updateSelectedSchedule(shiftDetails: any) {
     const weekIndex = state.editShift.selectedEmployeeSchedule.weekIndex
     const shiftIndex = state.editShift.selectedEmployeeSchedule.shiftIndex
     const params = {
-        date: state.editShift.selectedEmployeeSchedule.date,
+        // date: state.editShift.selectedEmployeeSchedule.date,
         shift_type_uuid: shiftDetails.shift_type,
-        time_in: moment(shiftDetails?.date_time_start).format('HH:mm'),
-        time_out: moment(shiftDetails?.date_time_end).format('HH:mm'),
+        date_time_start: shiftDetails?.date_time_start,
+        date_time_end: shiftDetails?.date_time_end,
         user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
         citizen_uuid: shiftDetails.citizens,
         in_meeting: shiftDetails.in_meeting,

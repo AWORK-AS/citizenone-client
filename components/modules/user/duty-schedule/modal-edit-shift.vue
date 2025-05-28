@@ -57,8 +57,8 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
 watch(() => props.selectedEmployeeSchedule, (selectedEmployeeSchedule: any) => {
     if (selectedEmployeeSchedule) {
         state.formShift.shift_type = selectedEmployeeSchedule?.shift_type?.uuid
-        state.formShift.date_time_start = moment(`${moment(selectedEmployeeSchedule?.date).format('YYYY-MM-DD')} ${selectedEmployeeSchedule?.time_in}`, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD H:mm')
-        state.formShift.date_time_end = moment(`${moment(selectedEmployeeSchedule?.date).format('YYYY-MM-DD')} ${selectedEmployeeSchedule?.time_out}`, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD H:mm')
+        state.formShift.date_time_start = moment(selectedEmployeeSchedule?.date_time_start).format('YYYY-MM-DD H:mm')
+        state.formShift.date_time_end = moment(selectedEmployeeSchedule?.date_time_end).format('YYYY-MM-DD H:mm')
         state.formShift.in_meeting = selectedEmployeeSchedule?.in_meeting
         state.formShift.citizens = []
         selectedEmployeeSchedule?.citizen_schedules?.forEach((citizenSchedule: any) => {
