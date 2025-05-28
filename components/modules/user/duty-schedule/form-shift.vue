@@ -57,7 +57,8 @@
                 <FormError :error="v$?.formShift.date_time_end?.$errors[0]?.$message.toString()" />
             </div>
         </div>
-        <div class="space-y-1">
+        <div class="space-y-1"
+            v-if="!([3, 4].includes(state.options.shifts.findIndex((shift: any) => shift.value === state.formShift.shift_type)))">
             <FormLabel for="citizens" :label="$t('dutySchedules.form.citizens')" />
             <FormSelectMultiple id="citizens" :options="state.options.citizens" v-model="state.formShift.citizens" />
             <FormError :error="v$?.formShift?.citizens?.$errors[0]?.$message.toString()" />
@@ -161,21 +162,38 @@ watch(() => state.formShift.shift_type, (newValue) => {
 })
 
 const rules = computed(() => {
-    return {
-        formShift: {
-            shift_type: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    const selectShiftIndex = state.options.shifts.findIndex(shift => shift.value === state.formShift.shift_type)
+    if ([3, 4].includes(selectShiftIndex)) {
+        return {
+            formShift: {
+                shift_type: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date_time_start: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date_time_end: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            date_time_start: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        }
+    } else {
+        return {
+            formShift: {
+                shift_type: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date_time_start: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date_time_end: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                citizens: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            date_time_end: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            citizens: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-        },
+        }
     }
 })
 const v$ = useVuelidate(rules, state)
