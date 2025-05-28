@@ -60,6 +60,10 @@ watch(() => props.selectedEmployeeSchedule, (selectedEmployeeSchedule: any) => {
         state.formShift.date_time_start = moment(`${moment(selectedEmployeeSchedule?.date).format('YYYY-MM-DD')} ${selectedEmployeeSchedule?.time_in}`, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD H:mm')
         state.formShift.date_time_end = moment(`${moment(selectedEmployeeSchedule?.date).format('YYYY-MM-DD')} ${selectedEmployeeSchedule?.time_out}`, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD H:mm')
         state.formShift.in_meeting = selectedEmployeeSchedule?.in_meeting
+        state.formShift.citizens = []
+        selectedEmployeeSchedule?.citizen_schedules?.forEach((citizenSchedule: any) => {
+            state.formShift.citizens.push(citizenSchedule.citizen.uuid)
+        })
     }
 })
 

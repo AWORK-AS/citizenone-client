@@ -448,6 +448,16 @@
                                                                     @change="(event: any) => changeShiftTimeOut(event, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                     :disabled="!isAdmin(userStore.getUser?.roles)" /> -->
                                                             </div>
+                                                            <div :class="[
+                                                                shift?.citizen_schedules?.length > 0 && 'mt-1'
+                                                            ]">
+                                                                <p v-for="(citizenSchedule, citizenScheduleIndex) in shift?.citizen_schedules"
+                                                                    :key="citizenScheduleIndex"
+                                                                    class="text-xxs text-white px-1 py-0.5">
+                                                                    {{ citizenSchedule?.citizen?.firstname }}
+                                                                    {{ citizenSchedule?.citizen?.lastname }}
+                                                                </p>
+                                                            </div>
                                                             <button
                                                                 class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
                                                                 v-if="shift?.in_meeting">
@@ -1243,6 +1253,7 @@ function editSchedule(employee: any, weeklyScheduleIndex: number, weekIndex: any
     const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
     state.editShift.selectedEmployee = employee
     state.editShift.selectedEmployeeSchedule = {
+        citizen_schedules: shift?.citizen_schedules,
         scheduleUuid: shift?.schedule_uuid,
         time_in: shift?.time_in,
         time_out: shift?.time_out,
@@ -1268,6 +1279,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         time_in: moment(shiftDetails?.date_time_start).format('HH:mm'),
         time_out: moment(shiftDetails?.date_time_end).format('HH:mm'),
         user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
+        citizen_uuid: shiftDetails.citizens,
     }
     updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
 }

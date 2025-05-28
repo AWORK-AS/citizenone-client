@@ -106,6 +106,10 @@ const props = defineProps({
         type: Object,
         required: false,
     },
+    formType: {
+        type: String,
+        required: true,
+    },
     selectedEmployee: {
         type: Object,
         required: true,
@@ -144,6 +148,7 @@ onMounted(() => {
     state.formShift.date_time_start = props.selectedShift.date_time_start
     state.formShift.date_time_end = props.selectedShift.date_time_end
     state.formShift.in_meeting = props.selectedShift.in_meeting
+    state.formShift.citizens = props.selectedShift.citizens
 })
 
 watch(() => state.formShift.shift_type, (newValue) => {
