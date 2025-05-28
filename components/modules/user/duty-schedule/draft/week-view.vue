@@ -341,7 +341,8 @@
                                                     </div>
                                                     <div class="text-xs space-y-3">
                                                         <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
-                                                            :key="shiftIndex" class="rounded-md p-1 relative" :style="{
+                                                            :key="shiftIndex" class="rounded-md p-1 relative mb-2.5"
+                                                            :style="{
                                                                 backgroundColor: `${shift?.type?.color}`,
                                                                 width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                                 marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
