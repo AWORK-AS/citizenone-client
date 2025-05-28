@@ -1264,6 +1264,7 @@ function updateSelectedSchedule(shiftDetails: any) {
     const shiftIndex = state.editShift.selectedEmployeeSchedule.shiftIndex
     const params = {
         date: state.editShift.selectedEmployeeSchedule.date,
+        shift_type_uuid: shiftDetails.shift_type,
         time_in: moment(shiftDetails?.date_time_start).format('HH:mm'),
         time_out: moment(shiftDetails?.date_time_end).format('HH:mm'),
         user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
