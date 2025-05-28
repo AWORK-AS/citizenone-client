@@ -1280,6 +1280,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         time_out: moment(shiftDetails?.date_time_end).format('HH:mm'),
         user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
         citizen_uuid: shiftDetails.citizens,
+        in_meeting: shiftDetails.in_meeting,
     }
     updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
 }
