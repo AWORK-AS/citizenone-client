@@ -264,7 +264,8 @@
                                                                 $t('dutySchedules.compensatoryHours')
                                                             }}:
                                                             {{
-                                                                weeklySchedule?.employee?.compensatory_hours?.total_in_hours
+                                                                formatNumber(language.locale.value,
+                                                                    weeklySchedule?.employee?.compensatory_hours?.total_in_hours)
                                                                 ??
                                                                 0
                                                             }}
@@ -445,6 +446,7 @@ import moment from 'moment'
 import { draftScheduleService } from '@/components/api/user/DraftScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
@@ -454,6 +456,7 @@ const language = useI18n()
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { formatNumber } = useNumberFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const currentDate = ref(moment())

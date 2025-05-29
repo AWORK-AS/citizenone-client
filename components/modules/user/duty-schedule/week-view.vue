@@ -307,7 +307,8 @@
                                                                 $t('dutySchedules.compensatoryHours')
                                                             }}:
                                                             {{
-                                                                weeklySchedule?.employee?.compensatory_hours?.total_in_hours
+                                                                formatNumber(language.locale.value,
+                                                                    weeklySchedule?.employee?.compensatory_hours?.total_in_hours)
                                                                 ??
                                                                 0
                                                             }}
@@ -323,7 +324,8 @@
                                                                 $t('dutySchedules.availableVacationHours')
                                                             }}:
                                                             {{
-                                                                weeklySchedule?.employee?.available_vacation_hours ?? 0
+                                                                formatNumber(language.locale.value,
+                                                                    weeklySchedule?.employee?.available_vacation_hours) ?? 0
                                                             }}
                                                         </div>
                                                     </div>
@@ -612,6 +614,7 @@ import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -621,6 +624,7 @@ const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const customPagesStore = useCustomPagesStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
+const { formatNumber } = useNumberFormatter()
 const currentDate = ref(moment())
 const selectedDay = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
