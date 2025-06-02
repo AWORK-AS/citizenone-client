@@ -22,6 +22,12 @@
             </template>
 
             <template #header>{{ $t('citizens.tabs.documents') }}</template>
+            <template #new-feature>
+                <Tooltip :text="$t('features.seeNewFeatures')" position="left">
+                    <Icon name="ph:question" class="h-6 w-6 cursor-pointer" aria-hidden="true"
+                        @click="state.modal.isViewNewFeaturesOpen = true" />
+                </Tooltip>
+            </template>
 
             <div class="space-y-5">
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
@@ -133,7 +139,8 @@
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.access')">
+                                            <Tooltip :text="$t('citizens.documents.table.actions.access')"
+                                                v-if="isAdmin(userStore.getUser?.roles)">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="viewDocumentAccess(document)">
                                                     <Icon name="ph:lock" class="size-4" />
@@ -166,6 +173,8 @@
                     </div>
                     <Pagination :data="state.documents" @previous="previous" @next="next" />
                 </div>
+                <ModulesUserCitizenDocumentModalNewFeatures :isModalOpen="state.modal.isViewNewFeaturesOpen"
+                    @close="state.modal.isViewNewFeaturesOpen = false" />
                 <ModulesUserCitizenDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
                     @close="state.modal.isAddDirectoryOpen = false" @refreshDocuments="fetchDocuments" />
                 <ModulesUserCitizenDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
@@ -208,6 +217,7 @@ import { citizenDocumentService } from '@/components/api/user/CitizenDocumentSer
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
@@ -216,6 +226,7 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const userStore = useUserStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const documentFile = ref(null) as any
@@ -259,6 +270,7 @@ const state = reactive({
         isUploadFileOpen: false,
         isViewAccessOpen: false,
         isViewFolderStructureOpen: false,
+        isViewNewFeaturesOpen: false,
     },
     selectedDocument: [] as any,
     sortData: {
@@ -282,6 +294,10 @@ const handleRouteChange = () => {
 function closeUpgradeStorageModal() {
     state.modal.isUpgradeStorageOpen = false
     state.error = {}
+}
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
 }
 
 async function fetchDocuments(folderUuid: any = null) {

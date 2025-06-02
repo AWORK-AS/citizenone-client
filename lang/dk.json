@@ -1109,6 +1109,10 @@
             },
             "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal"
         },
+        "purchaseEmail": {
+            "purchaseEmail": "Køb e-mail",
+            "youAreNowBeingRedirected": "Du bliver nu omdirigeret til en partner, hvor du kan købe en e-mail til borgeren"
+        },
         "table": {
             "actions": {
                 "edit": "Rediger",
@@ -1727,6 +1731,7 @@
         "editSchedule": "Rediger tidsplan",
         "filterDate": "Filtrer dato",
         "form": {
+            "citizens": "Borgere",
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",
             "description": "Beskrivelse",
@@ -2200,6 +2205,9 @@
         "subscribe": "Abonner"
     },
     "excludeVat": "ekskl. moms",
+    "features": {
+        "seeNewFeatures": "Se nye funktioner"
+    },
     "filterDate": "Filtrer dato",
     "findsocialetilbuddk": {
         "manageCompany": {

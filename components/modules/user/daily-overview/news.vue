@@ -18,7 +18,13 @@
                         <div class="w-full h-full p-2 space-y-2">
                             <div class="bg-white rounded-md shadow-md w-full h-full">
                                 <div class="bg-no-repeat w-full h-52 bg-cover rounded-t-md"
-                                    :style="`background-image: url(${salesCampaign?.image});`">
+                                    :style="`background-image: url(${salesCampaign?.image});`"
+                                    v-if="salesCampaign?.image">
+                                </div>
+                                <div v-else class="px-8 pt-20">
+                                    <div class="bg-no-repeat w-full h-52 rounded-t-md"
+                                        :style="`background-image: url('/img/logo.svg');`">
+                                    </div>
                                 </div>
                                 <div class="pb-6 px-5 mt-3 text-left">
                                     <h3 class="font-semibold text-lg">{{ salesCampaign?.title }}</h3>

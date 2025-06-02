@@ -119,7 +119,8 @@
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('drive.table.actions.access')">
+                                            <Tooltip :text="$t('drive.table.actions.access')"
+                                                v-if="isAdmin(userStore.getUser?.roles)">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="viewDocumentAccess(document)">
                                                     <Icon name="ph:lock" class="size-4" />
@@ -191,12 +192,14 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { documentService } from '@/components/api/user/DocumentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
+const userStore = useUserStore() as any
 const { t } = useI18n()
 const router = useRouter()
 const documentFile = ref(null) as any
@@ -257,6 +260,10 @@ watch(() => router?.currentRoute?.value?.query, (newParams, oldParams) => {
 
 const handleRouteChange = () => {
     fetchDocuments()
+}
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
 }
 
 async function navigateToExternalLink(link: any) {

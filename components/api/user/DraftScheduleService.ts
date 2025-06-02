@@ -1,7 +1,7 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class DraftScheduleService extends BaseAPIService {
-    async getScheduleDrafts(params: object): Promise<any> {
+    async getDraftDutySchedules(params: object): Promise<any> {
         return await this.request(`/user/draft-schedules`, 'GET', params)
     }
 
@@ -9,15 +9,15 @@ class DraftScheduleService extends BaseAPIService {
         return await this.request(`/user/draft-schedules/${scheduleUuid}`, 'GET')
     }
 
-    async saveScheduleDraft(params: object): Promise<any> {
+    async saveDraftDutySchedule(params: object): Promise<any> {
         return await this.request(`/user/draft-schedules`, 'POST', params)
     }
 
-    async updateScheduleDraft(scheduleUuid: any, params: object): Promise<any> {
+    async updateDraftDutySchedule(scheduleUuid: any, params: object): Promise<any> {
         return await this.request(`/user/draft-schedules/${scheduleUuid}`, 'PUT', params)
     }
 
-    async deleteScheduleDraft(scheduleUuid: any): Promise<any> {
+    async deleteDraftDutySchedule(scheduleUuid: any): Promise<any> {
         return await this.request(`/user/draft-schedules/${scheduleUuid}`, 'DELETE')
     }
 

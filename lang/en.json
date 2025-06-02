@@ -1109,6 +1109,10 @@
             },
             "viewNursingProfessionalRecord": "View nursing professional record"
         },
+        "purchaseEmail": {
+            "purchaseEmail": "Purchase email",
+            "youAreNowBeingRedirected": "You are now being redirected to a partner where you can purchase an e-mail for the citizen"
+        },
         "table": {
             "actions": {
                 "edit": "Edit",
@@ -1727,6 +1731,7 @@
         "editSchedule": "Edit schedule",
         "filterDate": "Filter date",
         "form": {
+            "citizens": "Citizens",
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
             "description": "Description",
@@ -2200,6 +2205,9 @@
         "subscribe": "Subscribe"
     },
     "excludeVat": "excl. vat",
+    "features": {
+        "seeNewFeatures": "See new features"
+    },
     "filterDate": "Filter date",
     "findsocialetilbuddk": {
         "manageCompany": {
