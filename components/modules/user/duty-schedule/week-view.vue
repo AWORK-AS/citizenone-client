@@ -235,26 +235,37 @@
                                                             </button>
                                                         </Tooltip>
                                                     </div>
-                                                    <p class="absolute left-10 top-6 text-xs">
-                                                        {{ weeklySchedule?.employee?.employee_detail?.job?.title }}
-                                                    </p>
-                                                    <p class="absolute left-10 top-9 text-xs">
-                                                        {{ $t('dutySchedules.annualNormHours') }}:
-                                                        {{ weeklySchedule?.employee?.annual_norm_hours ?? 0 }}
-                                                    </p>
-                                                    <p class="absolute left-10 top-12 text-xs">
-                                                        {{ $t('dutySchedules.totalHours') }}:
-                                                        {{ weeklySchedule?.employee?.total_hours ?? 0 }}
-                                                    </p>
-                                                    <button
-                                                        class="absolute left-10 top-16 text-xxs text-primary hover:text-primary-700"
-                                                        @click="navigateTo(`/calendar?employee_uuid=${weeklySchedule?.employee?.uuid}`)">
-                                                        {{ $t('dutySchedules.viewCalendar') }}
-                                                    </button>
+                                                    <div class="-mt-2 ml-10">
+                                                        <p class="text-xxs">
+                                                            {{ weeklySchedule?.employee?.employee_detail?.job?.title }}
+                                                        </p>
+                                                        <div class="text-xxs">
+                                                            {{ $t('departments.departments') }}:
+                                                            <span
+                                                                v-for="(department, departmentIndex) in weeklySchedule?.employee?.departments"
+                                                                :key="departmentIndex">
+                                                                {{ department?.name }}<span
+                                                                    v-if="departmentIndex < weeklySchedule.employee.departments.length - 1">,
+                                                                </span><span v-else>.</span>
+                                                            </span>
+                                                        </div>
+                                                        <p class="text-xxs">
+                                                            {{ $t('dutySchedules.annualNormHours') }}:
+                                                            {{ weeklySchedule?.employee?.annual_norm_hours ?? 0 }}
+                                                        </p>
+                                                        <p class="text-xxs">
+                                                            {{ $t('dutySchedules.totalHours') }}:
+                                                            {{ weeklySchedule?.employee?.total_hours ?? 0 }}
+                                                        </p>
+                                                        <div class="p-0 m-0 text-xxs text-primary hover:text-primary-700"
+                                                            @click="navigateTo(`/calendar?employee_uuid=${weeklySchedule?.employee?.uuid}`)">
+                                                            {{ $t('dutySchedules.viewCalendar') }}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div :class="[
                                                     expandedRecords[weeklyScheduleIndex] && 'hidden',
-                                                    'text-xs grid grid-cols-7 mt-5'
+                                                    'text-xs grid grid-cols-7'
                                                 ]">
                                                     <div class="col-span-3 space-y-2" />
                                                     <div class="col-span-2 flex gap-2 flex-col items-end">
@@ -330,7 +341,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div :class="[expandedRecords[weeklyScheduleIndex] ? 'mt-10' : 'mt-1']">
+                                                <div>
                                                     <button @click="toggleExpanded(weeklyScheduleIndex)"
                                                         class="text-primary text-xs hover:text-primary-700">
                                                         {{ !expandedRecords[weeklyScheduleIndex] ?
