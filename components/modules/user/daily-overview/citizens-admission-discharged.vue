@@ -10,9 +10,11 @@
             v-if="state.citizensAdmissionDischarged?.data?.length === 0">
             {{ $t('dailyOverview.noDataToDisplay') }}
         </div>
-        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y- divide-y overflow-scroll min-h-96 max-h-96 pr-5 pt-4 pb-4 pl-6 mr-1"
+        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y- divide-y overflow-scroll min-h-96 max-h-96"
             v-else>
-            <div v-for="(citizen, index) in state.citizensAdmissionDischarged?.data" :key="index" class="py-3">
+            <div v-for="(citizen, index) in state.citizensAdmissionDischarged?.data" :key="index"
+                class="pl-6 pr-3 py-5 cursor-pointer hover:bg-gray-100"
+                @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)">
                 <Badge type="primary" class="w-fit">
                     <p class="text-xs px-2">
                         {{ citizen?.firstname + ' ' + citizen?.lastname }}

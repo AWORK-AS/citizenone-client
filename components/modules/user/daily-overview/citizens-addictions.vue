@@ -12,7 +12,9 @@
         </div>
         <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm divide-y overflow-scroll min-h-40 max-h-40"
             v-else>
-            <div v-for="(citizen, index) in state.citizensAddictions?.data" :key="index" class="pl-4 pr-3 py-4">
+            <div v-for="(citizen, index) in state.citizensAddictions?.data" :key="index"
+                class="pl-4 pr-3 py-4 cursor-pointer hover:bg-gray-100"
+                @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)">
                 <p class="text-sm font-medium text-primary">
                     {{ citizen?.firstname + ' ' + citizen?.lastname }}
                 </p>
