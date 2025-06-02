@@ -83,22 +83,25 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('citizens.table.actions.view') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/citizens/${citizen.uuid}/edit`)"
-                                                v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('citizens.table.actions.edit') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="showCitizenNote(citizen)">
-                                                <Icon name="ph:note-blank" class="size-4" />
-                                                {{ $t('citizens.table.actions.latestJournalEntry') }}
-                                            </FormButton>
+                                            <Tooltip :text="$t('citizens.table.actions.view')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
+                                                    <Icon name="ph:eye" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.table.actions.edit')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="navigateTo(`/citizens/${citizen.uuid}/edit`)"
+                                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                                    <Icon name="ph:pencil-simple" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.table.actions.latestJournalEntry')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="showCitizenNote(citizen)">
+                                                    <Icon name="ph:note-blank" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <FormButton type="button"
                                                 :buttonStyle="citizen.latest_risk_assessment === null && 'action' ||
                                                     citizen.latest_risk_assessment?.assessment === 'no risk' && 'no-risk' ||
