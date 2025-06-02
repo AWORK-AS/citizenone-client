@@ -162,38 +162,18 @@ watch(() => state.formShift.shift_type, (newValue) => {
 })
 
 const rules = computed(() => {
-    const selectShiftIndex = state.options.shifts.findIndex(shift => shift.value === state.formShift.shift_type)
-    if ([3, 4].includes(selectShiftIndex)) {
-        return {
-            formShift: {
-                shift_type: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                date_time_start: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                date_time_end: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
+    return {
+        formShift: {
+            shift_type: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-        }
-    } else {
-        return {
-            formShift: {
-                shift_type: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                date_time_start: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                date_time_end: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                citizens: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
+            date_time_start: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-        }
+            date_time_end: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+        },
     }
 })
 const v$ = useVuelidate(rules, state)
