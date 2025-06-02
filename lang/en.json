@@ -1117,6 +1117,7 @@
             "actions": {
                 "edit": "Edit",
                 "latestJournalEntry": "Latest journal entry",
+                "latestRiskAssessment": "Latest risk assessment",
                 "view": "View"
             },
             "department": "Department",

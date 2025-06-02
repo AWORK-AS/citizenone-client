@@ -53,7 +53,13 @@
                                     <td width="30%">
                                         <div class="flex items-center gap-x-2">
                                             <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
-                                                class="rounded-full w-11 h-11 object-cover" />
+                                                :class="[
+                                                    citizen.latest_risk_assessment === null && 'border-secondary',
+                                                    citizen.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
+                                                    citizen.latest_risk_assessment?.assessment === 'increased risk' && 'border-yellow-500',
+                                                    citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'border-red-600',
+                                                    'rounded-full w-12 h-12 object-cover border-2'
+                                                ]" />
                                             <div>
                                                 <span>{{ citizen?.firstname }} {{ citizen?.lastname }}</span>
                                                 <div class="text-xxs flex flex-wrap gap-1">
@@ -92,6 +98,20 @@
                                                 @click="showCitizenNote(citizen)">
                                                 <Icon name="ph:note-blank" class="size-4" />
                                                 {{ $t('citizens.table.actions.latestJournalEntry') }}
+                                            </FormButton>
+                                            <FormButton type="button"
+                                                :buttonStyle="citizen.latest_risk_assessment === null && 'action' ||
+                                                    citizen.latest_risk_assessment?.assessment === 'no risk' && 'no-risk' ||
+                                                    citizen.latest_risk_assessment?.assessment === 'increased risk' && 'increased-risk' ||
+                                                    citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'acute-increased-risk' || 'action'"
+                                                class="rounded-md"
+                                                @click="navigateTo(`/citizens/${citizen.uuid}/journals`)" :class="[
+                                                    citizen.latest_risk_assessment?.assessment === 'no risk' && 'bg-green-700',
+                                                    citizen.latest_risk_assessment?.assessment === 'increased risk' && 'bg-yellow-500',
+                                                    citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'bg-red-600',
+                                                    'rounded-md'
+                                                ]">
+                                                {{ $t('citizens.table.actions.latestRiskAssessment') }}
                                             </FormButton>
                                         </div>
                                     </td>

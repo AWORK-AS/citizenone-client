@@ -1117,6 +1117,7 @@
             "actions": {
                 "edit": "Rediger",
                 "latestJournalEntry": "Seneste journalnotat",
+                "latestRiskAssessment": "Latest risk assessment",
                 "view": "Se"
             },
             "department": "Afdeling",
