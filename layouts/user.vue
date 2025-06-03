@@ -473,10 +473,12 @@ import {
 import { authService } from '@/components/api/user/AuthService'
 import { userService } from '@/components/api/user/UserService'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
+const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
@@ -589,8 +591,17 @@ watch(() => userStore.getUser, (user: any) => {
     }
 })
 
-watch(() => language.locale.value, () => {
+watch(() => language.locale.value, (newLanguage: value) => {
     setCustomPageNames()
+    if (newLanguage === 'en') {
+        if (departmentStore.getSelectedDepartmentName === 'Alle afdelinger') {
+            departmentStore.setSelectedDepartmentName('All departments')
+        }
+    } else if (newLanguage === 'dk') {
+        if (departmentStore.getSelectedDepartmentName === 'All departments') {
+            departmentStore.setSelectedDepartmentName('Alle afdelinger')
+        }
+    }
 })
 
 function generateSidebarLinks(user: any) {
