@@ -102,7 +102,7 @@
                                                     <Icon name="ph:note-blank" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <FormButton type="button"
+                                            <!-- <FormButton type="button"
                                                 :buttonStyle="citizen.latest_risk_assessment === null && 'action' ||
                                                     citizen.latest_risk_assessment?.assessment === 'no risk' && 'no-risk' ||
                                                     citizen.latest_risk_assessment?.assessment === 'increased risk' && 'increased-risk' ||
@@ -115,7 +115,7 @@
                                                     'rounded-md'
                                                 ]">
                                                 {{ $t('citizens.table.actions.latestRiskAssessment') }}
-                                            </FormButton>
+                                            </FormButton> -->
                                         </div>
                                     </td>
                                 </tr>

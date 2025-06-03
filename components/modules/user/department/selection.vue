@@ -52,6 +52,7 @@ import { useI18n } from "vue-i18n"
 
 const { t } = useI18n()
 const { successAlert } = useAlert()
+const language = useI18n()
 const departmentStore = useDepartmentStore()
 
 const state = reactive({
@@ -61,6 +62,10 @@ const state = reactive({
 })
 
 onMounted(() => {
+    fetchDepartments()
+})
+
+watch(() => language.locale.value, (newLanguage: value) => {
     fetchDepartments()
 })
 
