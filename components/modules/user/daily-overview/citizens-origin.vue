@@ -16,7 +16,13 @@
                 <div class="flex gap-x-2 pl-4 pr-3 py-4 cursor-pointer hover:bg-gray-100"
                     @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)">
                     <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
-                        class="rounded-full w-12 h-12 object-cover" />
+                        :class="[
+                            citizen.latest_risk_assessment === null && 'border-secondary',
+                            citizen.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
+                            citizen.latest_risk_assessment?.assessment === 'increased risk' && 'border-yellow-500',
+                            citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'border-red-600',
+                            'rounded-full w-12 h-12 object-cover border-2 border-secondary'
+                        ]" />
                     <div>
                         <p class="text-sm font-medium text-primary">
                             {{ citizen?.firstname + ' ' + citizen?.lastname }}
