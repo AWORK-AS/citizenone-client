@@ -3400,13 +3400,15 @@
                 "alert": {
                     "successfullyUpdated": "Profile successfully updated"
                 },
-                "firstname": "First name",
-                "lastname": "Last name",
-                "emailAddress": "Email address",
-                "phone": "Phone",
                 "birthday": "Birthday",
+                "changePassword": "Change password",
+                "emailAddress": "Email address",
+                "firstname": "First name",
                 "language": "Language",
-                "pageAccess": "Page access"
+                "lastname": "Last name",
+                "pageAccess": "Page access",
+                "password": "Password",
+                "phone": "Phone"
             }
         },
         "settings": "Settings",

@@ -3400,13 +3400,15 @@
                 "alert": {
                     "successfullyUpdated": "Profil opdateret med succes"
                 },
-                "firstname": "Fornavn",
-                "lastname": "Efternavn",
-                "emailAddress": "E-mail adresse",
-                "phone": "Telefon",
                 "birthday": "Fødselsdag",
+                "changePassword": "Skift adgangskode",
+                "emailAddress": "E-mailadresse",
+                "firstname": "Fornavn",
                 "language": "Sprog",
-                "pageAccess": "Sideadgang"
+                "lastname": "Efternavn",
+                "pageAccess": "Sideadgang",
+                "password": "Adgangskode",
+                "phone": "Telefon"
             }
         },
         "settings": "Indstillinger",
