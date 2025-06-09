@@ -10,7 +10,7 @@
                 <FormError :error="v$?.formTag?.name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1 flex items-center gap-x-1">
                 <FormLabel for="color" :label="$t('calendarTags.form.color')" />
                 <FormColorPicker id="color" v-model="state.formTag.color" />
                 <FormError :error="v$?.formTag?.color?.$errors[0]?.$message.toString()" />
