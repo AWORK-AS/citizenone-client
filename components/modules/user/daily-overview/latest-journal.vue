@@ -59,7 +59,7 @@
                                 citizen.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
                                 citizen.latest_risk_assessment?.assessment === 'increased risk' && 'border-yellow-500',
                                 citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'border-red-600',
-                                'rounded-full w-12 h-12 object-cover border-2 border-secondary'
+                                'rounded-full w-12 h-12 object-cover border-2'
                             ]" />
                         <div>
                             <p class="text-sm font-medium text-primary">
