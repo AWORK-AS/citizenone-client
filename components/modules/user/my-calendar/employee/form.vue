@@ -53,6 +53,19 @@
                 <FormError :error="props?.error?.errors?.unit_uuid?.[0]" />
             </div>
             <div class="space-y-1">
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="calendar_tag_uuid" :label="$t('events.form.tags')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddNewCalendarTag = true">
+                        {{ $t('calendarTags.addNewCalendarTag') }}
+                    </span>
+                </div>
+                <FormSelectMultiple id="calendar_tag_uuid" name="calendar_tag_uuid" :options="state.options.tags"
+                    v-model="state.formSchedule.calendar_tag_uuid" />
+                <FormError :error="v$?.formSchedule?.calendar_tag_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.calendar_tag_uuid?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formSchedule.is_private = !state.formSchedule.is_private">
                     <FormCheckbox :value="state.formSchedule.is_private" />
@@ -94,10 +107,13 @@
         </div>
         <ModulesUserUnitModalNew :isModalOpen="state.modal.isAddUnitOpen" @close="state.modal.isAddUnitOpen = false"
             @refreshUnits="fetchAllUnits" />
+        <ModulesUserCalendarTagModalNew :isModalOpen="state.modal.isAddNewCalendarTag"
+            @close="state.modal.isAddNewCalendarTag = false" @refreshCalendarTags="fetchAllCalendarTags" />
     </form>
 </template>
 
 <script setup lang="ts">
+import { calendarTagService } from '@/components/api/user/CalendarTagService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { unitService } from '@/components/api/user/UnitService'
 import { userService } from '@/components/api/user/UserService'
@@ -143,19 +159,23 @@ const state = reactive({
         is_private: false,
         citizens_uuid: [],
         users_uuid: [],
+        calendar_tag_uuid: [],
         send_invitation: false,
     },
     modal: {
+        isAddNewCalendarTag: false,
         isAddUnitOpen: false,
     },
     options: {
         citizens: [] as Option[],
+        tags: [] as Option[],
         units: [] as Option[],
         users: [] as Option[],
     }
 })
 
 onMounted(() => {
+    fetchAllCalendarTags()
     fetchAllCitizens()
     fetchAllUsers()
     fetchAllUnits()
@@ -168,6 +188,7 @@ onMounted(() => {
         date_time_start: props.selectedSchedule.start ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.start) : formatDateToYYYYmmddHHmm('', false),
         date_time_end: props.selectedSchedule.end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.end) : formatDateToYYYYmmddHHmm('', true),
         unit_uuid: props.selectedSchedule.unit_uuid,
+        calendar_tag_uuid: props.selectedSchedule.calendar_tag_uuid,
         is_private: props.selectedSchedule.is_private,
         citizens_uuid: props.selectedSchedule.citizens_uuid,
         users_uuid: props.selectedSchedule.users_uuid,
@@ -243,6 +264,27 @@ function formatDateToYYYYmmddHHmm(dateString: string, is_end_date_time: boolean 
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`
 
     return formattedDate
+}
+
+async function fetchAllCalendarTags() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await calendarTagService.getAllCalendarTags()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (tag: any) => options.push({
+                    value: tag?.uuid,
+                    label: tag?.tag,
+                })
+            )
+            state.options.tags = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function fetchAllCitizens() {

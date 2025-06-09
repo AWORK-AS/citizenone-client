@@ -45,6 +45,19 @@
                 <FormError :error="props?.error?.errors?.unit_uuid?.[0]" />
             </div>
             <div class="space-y-1">
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="calendar_tag_uuid" :label="$t('events.form.tags')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddNewCalendarTag = true">
+                        {{ $t('calendarTags.addNewCalendarTag') }}
+                    </span>
+                </div>
+                <FormSelectMultiple id="calendar_tag_uuid" name="calendar_tag_uuid" :options="state.options.tags"
+                    v-model="state.formSchedule.calendar_tag_uuid" />
+                <FormError :error="v$?.formSchedule?.calendar_tag_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.calendar_tag_uuid?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formSchedule.is_private = !state.formSchedule.is_private">
                     <FormCheckbox :value="state.formSchedule.is_private" />
@@ -64,19 +77,6 @@
                     v-model="state.formSchedule.users_uuid" />
                 <FormError :error="v$?.formSchedule?.users_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.users_uuid?.[0]" />
-            </div>
-            <div class="space-y-1">
-                <div class="flex justify-between items-center py-0.5">
-                    <FormLabel for="calendar_tag_uuid" :label="$t('events.form.tags')" />
-                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                        @click="state.modal.isAddNewCalendarTag = true">
-                        {{ $t('calendarTags.addNewCalendarTag') }}
-                    </span>
-                </div>
-                <FormSelectMultiple id="calendar_tag_uuid" name="calendar_tag_uuid" :options="state.options.tags"
-                    v-model="state.formSchedule.calendar_tag_uuid" />
-                <FormError :error="v$?.formSchedule?.calendar_tag_uuid?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.calendar_tag_uuid?.[0]" />
             </div>
             <div class="space-y-1" v-if="props.formType === 'create'">
                 <div class="w-fit flex items-center cursor-pointer"
@@ -180,10 +180,10 @@ onMounted(() => {
         date_time_start: props.selectedSchedule.start ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.start) : formatDateToYYYYmmddHHmm('', false),
         date_time_end: props.selectedSchedule.end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.end) : formatDateToYYYYmmddHHmm('', true),
         unit_uuid: props.selectedSchedule.unit_uuid,
+        calendar_tag_uuid: props.selectedSchedule.calendar_tag_uuid,
         is_private: props.selectedSchedule.is_private,
         citizens_uuid: props.selectedSchedule.citizens_uuid,
         users_uuid: props.selectedSchedule.users_uuid,
-        calendar_tag_uuid: props.selectedSchedule.calendar_tag_uuid,
         send_invitation: props.selectedSchedule.send_invitation,
     }
 })
