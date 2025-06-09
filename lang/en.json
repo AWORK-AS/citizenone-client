@@ -2224,6 +2224,7 @@
             "eventOwner": "Event owner",
             "private": "Private",
             "sendInvitation": "Send invitation",
+            "tags": "Tags",
             "title": "Title"
         },
         "myself": "Myself",

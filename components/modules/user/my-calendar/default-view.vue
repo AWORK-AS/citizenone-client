@@ -138,6 +138,13 @@
                                     </dd>
                                 </div>
                             </dl>
+                            <div class="text-xxs flex flex-wrap gap-1 mt-1"
+                                v-if="myCalendarEvent.calendar_tags?.length > 0">
+                                <span v-for="(calendarTag, index) in myCalendarEvent.calendar_tags" :key=index
+                                    class="p-1 text-white rounded-md" :style="{ backgroundColor: calendarTag?.color }">
+                                    {{ calendarTag?.tag }}
+                                </span>
+                            </div>
                             <div class="text-gray-500 text-xs mt-1">
                                 {{ $t('events.createdBy') }}
                                 {{ myCalendarEvent.creator?.firstname }}

@@ -51,7 +51,7 @@ async function saveCalendarTag(tagDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
-            name: tagDetails.name,
+            tag: tagDetails.name,
             color: tagDetails.color,
         }
         const response = await calendarTagService.saveCalendarTag(params)

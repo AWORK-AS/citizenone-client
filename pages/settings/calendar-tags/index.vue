@@ -43,12 +43,14 @@
                                     <td width="30%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/calendar-tags/${calendarTag.uuid}/edit`)">
+                                                @click="navigateTo(`/settings/calendar-tags/${calendarTag.uuid}/edit`)"
+                                                v-if="calendarTag?.is_editable">
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('calendarTags.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="deleteCalendarTagConfirmation(calendarTag)">
+                                                @click="deleteCalendarTagConfirmation(calendarTag)"
+                                                v-if="calendarTag?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('calendarTags.table.actions.delete') }}
                                             </FormButton>

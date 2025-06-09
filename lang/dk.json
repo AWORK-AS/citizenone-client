@@ -2224,6 +2224,7 @@
             "eventOwner": "Begivenhedsejer",
             "private": "Privat",
             "sendInvitation": "Send invitationen",
+            "tags": "Etiketter",
             "title": "Titel"
         },
         "myself": "Mig selv",
