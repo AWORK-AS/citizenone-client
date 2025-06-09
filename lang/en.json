@@ -386,6 +386,34 @@
         "edit": "Edit",
         "delete": "Delete"
     },
+    "calendarTags": {
+        "addNewCalendarTag": "Add new calendar tag",
+        "alert": {
+            "calendarTagSuccessfullyDeleted": "Calendar tag successfully deleted"
+        },
+        "calendarTags": "Calendar tags",
+        "editCalendarTag": "Edit calendar tag",
+        "form": {
+            "alert": {
+                "calendarTagSuccessfullyUpdated": "Calendar tag successfully updated",
+                "newCalendarTagSuccessfullySaved": "New calendar tag successfully saved"
+            },
+            "color": "Color",
+            "name": "Name"
+        },
+        "newCalendarTag": "New calendar tag",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteCalendarTagConfirmation": "Are you sure you want to delete this calendar tag"
+            },
+            "color": "Color",
+            "name": "Name"
+        }
+    },
     "cancel": "Cancel",
     "changeImage": "Change image",
     "citizens": {
@@ -3420,6 +3448,7 @@
             "activityLogs": "Activity logs",
             "addictions": "Addictions",
             "archived": "Archived",
+            "calendarTags": "Calendar tags",
             "catalog": "Catalog",
             "company": "Company",
             "customPages": "Glossary",
