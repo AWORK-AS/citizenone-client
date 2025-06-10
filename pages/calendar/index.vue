@@ -407,6 +407,7 @@ function editMyCalendarEvent(selectedCalendarEvent: any) {
     state.selectedSchedule.end = selectedCalendarEvent.date_time_end
     state.selectedSchedule.unit_uuid = selectedCalendarEvent.unit?.uuid ?? ''
     state.selectedSchedule.is_private = selectedCalendarEvent.is_private ? true : false
+    state.selectedSchedule.calendar_tags = selectedCalendarEvent.calendar_tags ?? []
     state.modal.isEditEventOpen = true
 }
 

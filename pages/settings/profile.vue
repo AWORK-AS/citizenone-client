@@ -93,8 +93,25 @@
                                 <FormLabel for="pages" :label="$t('settings.profile.form.pageAccess')" />
                                 <FormSelectMultiple id="pages" :options="state.options.pages"
                                     v-model="state.formProfile.pages" />
-                                <FormError :error="v$?.formEmployee?.pages?.$errors[0]?.$message.toString()" />
+                                <FormError :error="v$?.formProfile?.pages?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.page_uuid?.[0]" />
+                            </div>
+                        </div>
+                        <div class="md:col-span-8 grid md:grid-cols-1">
+                            <div class="space-y-1">
+                                <div class="w-fit flex items-center cursor-pointer"
+                                    @click="state.isChangePassword = !state.isChangePassword">
+                                    <FormCheckbox id="change_password" :value="state.isChangePassword" />
+                                    {{ $t('settings.profile.form.changePassword') }}
+                                </div>
+                            </div>
+                            <div class="space-y-1" v-if="state.isChangePassword">
+                                <FormLabel for="password" :label="$t('settings.profile.form.password')" />
+                                <FormPasswordField id="password" name="password"
+                                    :placeholder="$t('settings.profile.form.password')"
+                                    v-model="state.formProfile.password" />
+                                <FormError :error="v$?.formProfile?.password?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.password?.[0]" />
                             </div>
                         </div>
                     </div>
@@ -146,7 +163,9 @@ const state = reactive({
         birthday: '',
         language_uuid: '',
         pages: [] as any,
+        password: '',
     },
+    isChangePassword: false,
     isPageLoading: false,
     options: {
         languages: [],
@@ -155,27 +174,55 @@ const state = reactive({
 })
 
 const rulesFormProfile = computed(() => {
-    return {
-        formProfile: {
-            firstname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (state.isChangePassword) {
+        return {
+            formProfile: {
+                firstname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                lastname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                email: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                phone: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                birthday: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                language_uuid: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                password: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            lastname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        }
+    } else {
+        return {
+            formProfile: {
+                firstname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                lastname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                email: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                phone: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                birthday: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                language_uuid: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            email: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            phone: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            birthday: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            language_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-        },
+        }
     }
 })
 
@@ -266,11 +313,15 @@ async function submitForm() {
             if (state.formProfile.pages) {
                 params.append('page_uuid', JSON.stringify(state.formProfile.pages))
             }
+            if (state.formProfile.password) {
+                params.append('password', state.formProfile.password)
+            }
             const response = await userService.updateUser(params)
             if (response.data) {
                 userStore.setLanguage(response?.data?.language?.code)
                 userStore.setUser(response?.data)
                 language.locale.value = response?.data?.language?.code
+                state.isChangePassword = false
                 successAlert(`${t('alert.success')}!`, `${t('settings.profile.form.alert.successfullyUpdated')}.`)
             }
         } catch (error: any) {

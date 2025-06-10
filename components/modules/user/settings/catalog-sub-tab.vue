@@ -1,5 +1,5 @@
 <template>
-    <Tabs :tabs="state.tabs" :isJustifyBetween="true" @changeTab="changeTab" />
+    <Tabs :tabs="state.tabs" :isJustifyBetween="false" @changeTab="changeTab" />
 </template>
 
 <script setup lang="ts">
@@ -24,17 +24,24 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
-                name: 'settings.tabs.departments',
-                href: `/settings/departments`,
-                routeNames: [
-                    'settings-departments'
-                ]
-            },
-            {
                 name: 'settings.tabs.addictions',
                 href: `/settings/addictions`,
                 routeNames: [
                     'settings-addictions'
+                ]
+            },
+            {
+                name: 'settings.tabs.calendarTags',
+                href: `/settings/calendar-tags`,
+                routeNames: [
+                    'settings-calendar-tags'
+                ]
+            },
+            {
+                name: 'settings.tabs.departments',
+                href: `/settings/departments`,
+                routeNames: [
+                    'settings-departments'
                 ]
             },
             {
@@ -67,17 +74,17 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
-                name: 'settings.tabs.relationships',
-                href: `/settings/relationships`,
-                routeNames: [
-                    'settings-relationships'
-                ]
-            },
-            {
                 name: 'settings.tabs.medicines',
                 href: `/settings/medicines`,
                 routeNames: [
                     'settings-medicines'
+                ]
+            },
+            {
+                name: 'settings.tabs.relationships',
+                href: `/settings/relationships`,
+                routeNames: [
+                    'settings-relationships'
                 ]
             },
             {
@@ -101,7 +108,8 @@ watch(() => userStore.getUser, (newValue: any) => {
                     'settings-units'
                 ]
             },
-        ]
+        ];
+
     }
 })
 

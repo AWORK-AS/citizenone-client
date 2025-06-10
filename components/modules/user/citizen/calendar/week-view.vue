@@ -132,6 +132,14 @@
                                                 {{ myCalendarEvent?.unit?.name }}
                                             </p>
                                         </div>
+                                        <div class="text-xxs flex flex-wrap gap-1 mt-1"
+                                            v-if="myCalendarEvent.calendar_tags?.length > 0">
+                                            <span v-for="(calendarTag, index) in myCalendarEvent.calendar_tags"
+                                                :key=index class="p-1 text-white rounded-md"
+                                                :style="{ backgroundColor: calendarTag?.color }">
+                                                {{ calendarTag?.tag }}
+                                            </span>
+                                        </div>
                                         <div class="text-gray-500 text-xxs">
                                             {{ $t('events.createdBy') }}
                                             {{ myCalendarEvent.creator?.firstname }}
@@ -191,6 +199,17 @@
                             </dd>
                         </div>
                     </dl>
+                    <div class="text-xxs flex flex-wrap gap-1 mt-1" v-if="event.calendar_tags?.length > 0">
+                        <span v-for="(calendarTag, index) in event.calendar_tags" :key=index
+                            class="p-1 text-white rounded-md" :style="{ backgroundColor: calendarTag?.color }">
+                            {{ calendarTag?.tag }}
+                        </span>
+                    </div>
+                    <div class="text-gray-500 text-xxs mt-1">
+                        {{ $t('events.createdBy') }}
+                        {{ event.creator?.firstname }}
+                        {{ event.creator?.lastname }}
+                    </div>
                 </div>
                 <Menu as="div" class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
                     <div>

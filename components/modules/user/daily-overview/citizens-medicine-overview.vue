@@ -20,7 +20,13 @@
                         <div>
                             <div class="flex items-center gap-x-2">
                                 <img :src="medicine?.citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname}`"
-                                    class="rounded-full w-11 h-11 object-cover" />
+                                    :class="[
+                                        medicine?.citizen.latest_risk_assessment === null && 'border-secondary',
+                                        medicine?.citizen.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
+                                        medicine?.citizen.latest_risk_assessment?.assessment === 'increased risk' && 'border-yellow-500',
+                                        medicine?.citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'border-red-600',
+                                        'rounded-full w-12 h-12 object-cover border-2'
+                                    ]" />
                                 <span>{{ medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname }}</span>
                             </div>
                             <Badge type="primary" class="flex items-center w-fit mt-1" v-if="medicine?.is_pn_medicine">

@@ -44,6 +44,7 @@ const state = reactive({
         date_time_start: '',
         date_time_end: '',
         unit_uuid: '',
+        calendar_tag_uuid: [],
         is_private: false,
         send_invitation: false,
     },
@@ -69,6 +70,7 @@ async function saveSchedule(scheduleDetails: any) {
             date_time_start: scheduleDetails.date_time_start,
             date_time_end: scheduleDetails.date_time_end,
             unit_uuid: scheduleDetails.unit_uuid,
+            calendar_tag_uuid: scheduleDetails.calendar_tag_uuid,
             is_private: scheduleDetails.is_private,
             send_invitation: scheduleDetails.send_invitation,
         }

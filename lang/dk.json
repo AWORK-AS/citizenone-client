@@ -386,6 +386,34 @@
         "edit": "Rediger",
         "delete": "Slet"
     },
+    "calendarTags": {
+        "addNewCalendarTag": "Tilføj ny kalenderetiket",
+        "alert": {
+            "calendarTagSuccessfullyDeleted": "Kalenderetiket slettet med succes"
+        },
+        "calendarTags": "Kalenderetiketter",
+        "editCalendarTag": "Rediger kalenderetiket",
+        "form": {
+            "alert": {
+                "calendarTagSuccessfullyUpdated": "Kalenderetiket opdateret med succes",
+                "newCalendarTagSuccessfullySaved": "Ny kalenderetiket gemt med succes"
+            },
+            "color": "Farve",
+            "name": "Navn"
+        },
+        "newCalendarTag": "Ny kalenderetiket",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteCalendarTagConfirmation": "Er du sikker på, at du vil slette dette kalenderetiket"
+            },
+            "color": "Farve",
+            "name": "Navn"
+        }
+    },
     "cancel": "Annuller",
     "changeImage": "Skift billede",
     "citizens": {
@@ -2196,6 +2224,7 @@
             "eventOwner": "Begivenhedsejer",
             "private": "Privat",
             "sendInvitation": "Send invitationen",
+            "tags": "Etiketter",
             "title": "Titel"
         },
         "myself": "Mig selv",
@@ -3400,13 +3429,15 @@
                 "alert": {
                     "successfullyUpdated": "Profil opdateret med succes"
                 },
-                "firstname": "Fornavn",
-                "lastname": "Efternavn",
-                "emailAddress": "E-mail adresse",
-                "phone": "Telefon",
                 "birthday": "Fødselsdag",
+                "changePassword": "Skift adgangskode",
+                "emailAddress": "E-mailadresse",
+                "firstname": "Fornavn",
                 "language": "Sprog",
-                "pageAccess": "Sideadgang"
+                "lastname": "Efternavn",
+                "pageAccess": "Sideadgang",
+                "password": "Adgangskode",
+                "phone": "Telefon"
             }
         },
         "settings": "Indstillinger",
@@ -3418,6 +3449,7 @@
             "activityLogs": "Aktivitetslogfiler",
             "addictions": "Afhængigheder",
             "archived": "Arkiveret",
+            "calendarTags": "Kalenderetiketter",
             "catalog": "Katalog",
             "company": "Virksomhed",
             "customPages": "Ordliste",
