@@ -23,29 +23,39 @@
         <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 pr-5 pt-4 pb-4 pl-6 mr-1"
             v-else>
             <div v-for="(event, index) in state.citizenCalendarEvents?.data" :key="index" class="py-3">
-                <div class="space-y-2">
-                    <Badge type="primary" class="w-fit">
-                        <p class="text-xs px-2">
-                            {{ event?.citizen_name }}
-                        </p>
-                    </Badge>
-                    <p class="text-xs">
-                        {{ $t('dailyOverview.createdBy') }}
-                        <span v-if="event?.creator_name">
-                            {{ event?.creator_name }}
+                <div class="space-y-1">
+                    <div class="text-xxs flex flex-wrap gap-1" v-if="event.calendar_users?.length > 0">
+                        <span v-for="(citizen, index) in event.calendar_users" :key=index
+                            class="bg-primary px-2 py-1 text-white rounded-md">
+                            {{ citizen?.user?.firstname + ' ' + citizen?.user?.lastname }}
                         </span>
-                    </p>
+                    </div>
                     <p class="text-base font-semibold text-gray-700 xl:pr-0">
                         {{ event?.title }}
                     </p>
-                    <div class="text-gray-700 xl:pr-0 text-xs line-clamp-2">
-                        {{ event?.description }}
+                    <div class="flex gap-x-2">
+                        <dt class="flex mt-1">
+                            <span class="sr-only">Description</span>
+                            <Icon name="heroicons:bars-3-bottom-left" class="h-4 w-4 text-gray-400"
+                                aria-hidden="true" />
+                        </dt>
+                        <dd class="text-gray-900 xl:pr-0">
+                            {{ event?.description }}
+                        </dd>
+                    </div>
+                    <div class="flex gap-x-2 text-xs text-gray-500">
+                        <p>
+                            {{ $t('units.unit') }}:
+                        </p>
+                        <p>
+                            {{ event?.unit?.name }}
+                        </p>
                     </div>
                     <div class="me-auto max-w-full">
                         <div class="flex items-center gap-x-2 text-xs ">
                             <div class="flex items-center">
-                                <span class="sr-only">Time</span>
-                                <Icon name="ph:clock" class="h-4 w-4 text-gray-700" aria-hidden="true" />
+                                <span class="sr-only">Date</span>
+                                <Icon name="ph:calendar" class="h-4 w-4 text-gray-400" aria-hidden="true" />
                             </div>
                             <div class="">
                                 <p>
@@ -56,6 +66,18 @@
                             </div>
                         </div>
                     </div>
+                    <div class="text-xxs flex flex-wrap gap-1 mt-1" v-if="event?.calendar_tags?.length > 0">
+                        <span v-for="(calendarTag, index) in event?.calendar_tags" :key=index
+                            class="p-1 text-white rounded-md" :style="{ backgroundColor: calendarTag?.color }">
+                            {{ calendarTag?.tag }}
+                        </span>
+                    </div>
+                    <p class="text-xs">
+                        {{ $t('dailyOverview.createdBy') }}
+                        <span v-if="event?.creator">
+                            {{ event?.creator?.firstname + ' ' + event?.creator?.lastname }}
+                        </span>
+                    </p>
                 </div>
             </div>
         </div>
