@@ -3364,6 +3364,34 @@
         "or": "Eller"
     },
     "save": "Gem",
+    "scheduleTags": {
+        "addNewScheduleTag": "Tilføj ny vagtplan tag",
+        "alert": {
+            "scheduleTagSuccessfullyDeleted": "Vagtplan tag slettet med succes"
+        },
+        "scheduleTags": "Vagtplan tags",
+        "editScheduleTag": "Rediger vagtplan tag",
+        "form": {
+            "alert": {
+                "scheduleTagSuccessfullyUpdated": "Vagtplan tag opdateret med succes",
+                "newScheduleTagSuccessfullySaved": "Ny vagtplan tag gemt med succes"
+            },
+            "color": "Farve",
+            "name": "Navn"
+        },
+        "newScheduleTag": "Ny vagtplan tag",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteScheduleTagConfirmation": "Er du sikker på, at du vil slette dette vagtplan tag"
+            },
+            "color": "Farve",
+            "name": "Navn"
+        }
+    },
     "sections": {
         "addNewSection": "Tilføj ny paragraf",
         "alert": {
@@ -3469,6 +3497,7 @@
             "subscription": "Abonnement",
             "timeLogs": "Tidslogfiler",
             "transactions": "Transaktioner",
+            "scheduleTags": "Vagtplan tags",
             "shifts": "Vagter",
             "other": "Andet",
             "units": "Enheder"

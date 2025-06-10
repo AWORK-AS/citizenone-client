@@ -3364,6 +3364,34 @@
         "or": "Or"
     },
     "save": "Save",
+    "scheduleTags": {
+        "addNewScheduleTag": "Add new schedule tag",
+        "alert": {
+            "scheduleTagSuccessfullyDeleted": "Schedule tag successfully deleted"
+        },
+        "scheduleTags": "Schedule tags",
+        "editScheduleTag": "Edit schedule tag",
+        "form": {
+            "alert": {
+                "scheduleTagSuccessfullyUpdated": "Schedule tag successfully updated",
+                "newScheduleTagSuccessfullySaved": "New schedule tag successfully saved"
+            },
+            "color": "Color",
+            "name": "Name"
+        },
+        "newScheduleTag": "New schedule tag",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteScheduleTagConfirmation": "Are you sure you want to delete this schedule tag"
+            },
+            "color": "Color",
+            "name": "Name"
+        }
+    },
     "sections": {
         "addNewSection": "Add new section",
         "alert": {
@@ -3469,6 +3497,7 @@
             "subscription": "Subscription",
             "timeLogs": "Time logs",
             "transactions": "Transactions",
+            "scheduleTags": "Schedule tags",
             "shifts": "Shifts",
             "other": "Other",
             "units": "Units"

@@ -88,6 +88,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.scheduleTags',
+                href: `/settings/schedule-tags`,
+                routeNames: [
+                    'settings-schedule-tags'
+                ]
+            },
+            {
                 name: 'settings.tabs.sections',
                 href: `/settings/sections`,
                 routeNames: [
