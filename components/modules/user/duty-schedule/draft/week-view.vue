@@ -360,7 +360,7 @@
                                                             </div>
                                                             <div :class="[
                                                                 shift?.citizen_schedules?.length > 0 && 'mt-1'
-                                                            ]">
+                                                            ]" v-if="shift?.citizen_schedules?.length > 0">
                                                                 <p v-for="(citizenSchedule, citizenScheduleIndex) in shift?.citizen_schedules"
                                                                     :key="citizenScheduleIndex"
                                                                     class="text-xxs text-white px-1 py-0.5">
@@ -368,7 +368,8 @@
                                                                     {{ citizenSchedule?.citizen?.lastname }}
                                                                 </p>
                                                             </div>
-                                                            <div class="flex items-center flex-wrap gap-y-0.5 mt-1">
+                                                            <div class="flex items-center flex-wrap gap-y-0.5 mt-1"
+                                                                v-if="shift?.tags?.length > 0">
                                                                 <Tooltip :text="tag?.tag"
                                                                     v-for="(tag, tagIndex) in shift?.tags"
                                                                     :key="tagIndex">
