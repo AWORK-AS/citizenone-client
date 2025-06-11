@@ -220,7 +220,12 @@
                                                     <div class="flex justify-between">
                                                         <div class="flex items-center gap-x-2">
                                                             <img :src="weeklySchedule?.employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`"
-                                                                class="h-8 w-8 rounded-full bg-gray-50 object-cover" />
+                                                                :class="[
+                                                                    weeklySchedule?.employee?.shift_threshold === 'high' && 'border-green-700',
+                                                                    weeklySchedule?.employee?.shift_threshold === 'moderate' && 'border-yellow-500',
+                                                                    weeklySchedule?.employee?.shift_threshold === 'low' && 'border-red-600',
+                                                                    'h-10 w-10 rounded-full bg-gray-50 object-cover border-2'
+                                                                ]" />
                                                             <p class="text-sm font-medium">
                                                                 {{ weeklySchedule?.employee?.firstname }}
                                                                 {{ weeklySchedule?.employee?.lastname }}
@@ -235,7 +240,7 @@
                                                             </button>
                                                         </Tooltip>
                                                     </div>
-                                                    <div class="-mt-2 ml-10">
+                                                    <div class="-mt-2 ml-12">
                                                         <p class="text-xxs">
                                                             {{ weeklySchedule?.employee?.employee_detail?.job?.title }}
                                                         </p>
