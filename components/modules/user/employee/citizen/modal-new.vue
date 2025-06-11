@@ -10,8 +10,10 @@
                             <p class="text-sm text-gray-600">
                                 {{ $t('employees.citizens.citizens') }}
                             </p>
-                            <FormSelect id="citizens" :options="state.options.citizens" v-model="state.citizen_uuid"
-                                class="w-full" />
+                            <FormSelect id="citizens" :options="state.options.citizens"
+                                v-model="state.formAssignCitizen.citizen_uuid" class="w-full" />
+                            <FormError :error="v$?.formAssignCitizen?.citizen_uuid?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.citizen_uuid?.[0]" />
                         </div>
                         <div class="mt-6">
                             <FormButton type="submit" class="w-full rounded-md" buttonStyle="primary">
@@ -29,8 +31,10 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
 import { employeeService } from '@/components/api/user/EmployeeService'
-import { useAlert } from '@/composables/alert'
+import { useVuelidate } from "@vuelidate/core"
+import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
@@ -54,7 +58,9 @@ const state = reactive({
         sortOrder: 'descend',
     },
     isPageLoading: false,
-    citizen_uuid: '',
+    formAssignCitizen: {
+        citizen_uuid: '',
+    },
     options: {
         citizens: []
     },
@@ -66,9 +72,21 @@ function closeModal() {
     emit('close')
 }
 
+const rules = computed(() => {
+    return {
+        formAssignCitizen: {
+            citizen_uuid: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+        },
+    }
+})
+
+const v$ = useVuelidate(rules, state)
+
 watch(() => props.isModalOpen, (isOpen: any) => {
     if (isOpen) {
-        state.citizen_uuid = ''
+        state.formAssignCitizen.citizen_uuid = ''
         fetchCitizens()
     }
 })
@@ -96,21 +114,24 @@ async function fetchCitizens() {
 }
 
 async function assignCitizen() {
-    state.error = {}
-    state.isPageLoading = true
-    const params = {
-        citizen_uuid: state.citizen_uuid
-    }
-    try {
-        const response = await employeeService.assignCitizen(employeeUuid, params)
-        if (response?.data) {
-            closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('reminders.form.alert.employeeSuccessfullyAssigned')}.`)
+    v$.value.$validate()
+    if (!v$.value.$error) {
+        state.error = {}
+        state.isPageLoading = true
+        try {
+            const params = {
+                citizen_uuid: state.formAssignCitizen.citizen_uuid,
+            }
+            const response = await employeeService.assignCitizen(employeeUuid, params)
+            if (response?.data) {
+                closeModal()
+                successAlert(`${t('alert.success')}!`, `${t('reminders.form.alert.employeeSuccessfullyAssigned')}.`)
+            }
+        } catch (error: any) {
+            state.error = error
         }
-    } catch (error: any) {
-        state.error = error
+        state.isPageLoading = false
     }
-    state.isPageLoading = false
 }
 </script>
 
