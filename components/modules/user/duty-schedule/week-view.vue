@@ -262,7 +262,7 @@
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ weeklySchedule?.employee?.total_hours ?? 0 }}
                                                         </p>
-                                                        <div class="p-0 m-0 text-xxs text-primary hover:text-primary-700"
+                                                        <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                             @click="navigateTo(`/calendar?employee_uuid=${weeklySchedule?.employee?.uuid}`)">
                                                             {{ $t('dutySchedules.viewCalendar') }}
                                                         </div>
