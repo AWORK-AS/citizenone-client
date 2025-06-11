@@ -459,6 +459,18 @@
                                                                     {{ citizenSchedule?.citizen?.lastname }}
                                                                 </p>
                                                             </div>
+                                                            <div class="flex items-center flex-wrap gap-y-0.5 mt-1">
+                                                                <Tooltip :text="tag?.tag"
+                                                                    v-for="(tag, tagIndex) in shift?.tags"
+                                                                    :key="tagIndex">
+                                                                    <div class="text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center"
+                                                                        :style="{ backgroundColor: tag?.color }">
+                                                                        <span v-if="tag?.tag">
+                                                                            {{ tag?.tag?.charAt(0) }}
+                                                                        </span>
+                                                                    </div>
+                                                                </Tooltip>
+                                                            </div>
                                                             <button
                                                                 class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
                                                                 v-if="shift?.in_meeting">
