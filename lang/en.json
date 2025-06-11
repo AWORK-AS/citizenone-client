@@ -2462,6 +2462,9 @@
             "responseSuccessfullySaved": "Response successfully saved"
         },
         "createResponse": "Create response",
+        "confirmation": {
+            "deleteFormConfirmation": "Are you sure you want to delete this form"
+        },
         "fields": {
             "checkbox": "Checkbox",
             "choice": "Choice",
@@ -2492,7 +2495,11 @@
         "table": {
             "actions": {
                 "createResponse": "Create response",
+                "delete": "Delete",
                 "viewResponses": "View responses"
+            },
+            "alert": {
+                "formSuccessfullyDelete": "Form successfully deleted"
             },
             "description": "Description",
             "title": "Title"

@@ -2462,6 +2462,9 @@
             "responseSuccessfullySaved": "Svar gemt med succes"
         },
         "createResponse": "Opret svar",
+        "confirmation": {
+            "deleteFormConfirmation": "Er du sikker på, at du vil slette denne formular"
+        },
         "fields": {
             "checkbox": "Afkrydsningsfelt",
             "choice": "Valg",
@@ -2492,7 +2495,11 @@
         "table": {
             "actions": {
                 "createResponse": "Opret svar",
+                "delete": "Slet",
                 "viewResponses": "Se svar"
+            },
+            "alert": {
+                "formSuccessfullyDeleted": "Formular slettet med succes"
             },
             "description": "Beskrivelse",
             "title": "Titel"
