@@ -451,7 +451,7 @@ const breadcrumbLinks = [
     {
         name: 'employees.viewEmployee',
         translate: true,
-        href: `/employees/${employeeUuid}/view`,
+        href: `/employees/${employeeUuid}/view-details`,
     },
 ]
 
