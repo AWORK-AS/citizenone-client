@@ -2195,6 +2195,10 @@
             "phone": "Telefon",
             "role": "Rolle"
         },
+        "tabs": {
+            "dutySchedule": "Vagtplan",
+            "employeeInformations": "Medarbejderinformationer"
+        },
         "workingHours": {
             "fulltime": "Fuldtid",
             "parttime": "Deltid"

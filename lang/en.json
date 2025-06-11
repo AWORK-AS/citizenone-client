@@ -2195,6 +2195,10 @@
             "phone": "Phone",
             "role": "Role"
         },
+        "tabs": {
+            "dutySchedule": "Duty schedule",
+            "employeeInformations": "Employee informations"
+        },
         "workingHours": {
             "fulltime": "Full time",
             "parttime": "Part time"
