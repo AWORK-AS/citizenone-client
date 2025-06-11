@@ -163,8 +163,8 @@ onMounted(() => {
     state.formShift.shift_type = props.selectedShift.shift_type
     state.formShift.date_time_start = props.selectedShift.date_time_start
     state.formShift.date_time_end = props.selectedShift.date_time_end
-    state.formShift.in_meeting = props.selectedShift.in_meeting
     state.formShift.citizens = props.selectedShift.citizens
+    state.formShift.schedule_tag_uuid = props.selectedShift.schedule_tag_uuid
 })
 
 watch(() => state.formShift.shift_type, (newValue) => {
