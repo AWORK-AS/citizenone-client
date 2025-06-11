@@ -1042,8 +1042,8 @@ async function saveShift(shiftDetails: any) {
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
         citizen_uuid: shiftDetails?.citizens,
-        use_compensatory_time: shiftDetails.use_compensatory_time,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
+        use_compensatory_time: shiftDetails.use_compensatory_time,
     }
     saveDutySchedule(params)
 }

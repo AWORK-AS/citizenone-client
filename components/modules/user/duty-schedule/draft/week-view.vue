@@ -363,11 +363,18 @@
                                                                     {{ citizenSchedule?.citizen?.lastname }}
                                                                 </p>
                                                             </div>
-                                                            <button
-                                                                class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
-                                                                v-if="shift?.in_meeting">
-                                                                M
-                                                            </button>
+                                                            <div class="flex items-center flex-wrap gap-y-0.5 mt-1">
+                                                                <Tooltip :text="tag?.tag"
+                                                                    v-for="(tag, tagIndex) in shift?.tags"
+                                                                    :key="tagIndex">
+                                                                    <div class="text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center"
+                                                                        :style="{ backgroundColor: tag?.color }">
+                                                                        <span v-if="tag?.tag">
+                                                                            {{ tag?.tag?.charAt(0) }}
+                                                                        </span>
+                                                                    </div>
+                                                                </Tooltip>
+                                                            </div>
                                                             <button
                                                                 class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                                 @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
@@ -802,8 +809,8 @@ async function saveShift(shiftDetails: any) {
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
         citizen_uuid: shiftDetails?.citizens,
+        schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
         use_compensatory_time: shiftDetails.use_compensatory_time,
-        in_meeting: shiftDetails.in_meeting,
     }
     saveDutySchedule(params)
 }
@@ -1040,7 +1047,7 @@ function editSchedule(employee: any, weeklyScheduleIndex: number, weekIndex: any
         user_uuid: userUuid,
         date: date,
         shift_type: shift?.type,
-        in_meeting: shift?.in_meeting,
+        tags: shift?.tags,
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,
@@ -1060,7 +1067,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         date_time_end: shiftDetails?.date_time_end,
         user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
         citizen_uuid: shiftDetails.citizens,
-        in_meeting: shiftDetails.in_meeting,
+        schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
     }
     updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
 }
