@@ -55,7 +55,7 @@
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/employees/${employee.uuid}/view`)">
+                                                @click="navigateTo(`/employees/${employee.uuid}/view-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('employees.table.actions.view') }}
                                             </FormButton>
