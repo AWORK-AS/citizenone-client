@@ -10,6 +10,7 @@ const state = reactive({
     tabs: [
         {
             name: 'citizens.tabs.journals',
+            isTranslateName: true,
             href: `/relative/citizens/${citizenUuid}/journals`,
             routeNames: [
                 'relative-citizens-uuid-journals',
@@ -17,6 +18,7 @@ const state = reactive({
         },
         {
             name: 'citizens.tabs.documents',
+            isTranslateName: true,
             href: `/relative/citizens/${citizenUuid}/documents`,
             routeNames: [
                 'relative-citizens-uuid-documents',

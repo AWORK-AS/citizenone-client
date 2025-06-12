@@ -40,6 +40,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.Journals) {
         state.tabs.push({
             name: 'citizens.tabs.journals',
+            isTranslateName: true,
             href: `/citizens/${citizenUuid}/journals`,
             routeNames: ['citizens-uuid-journals']
         })
@@ -48,6 +49,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.MedicineCard) {
         state.tabs.push({
             name: 'citizens.tabs.medicineCard',
+            isTranslateName: true,
             href: `/citizens/${citizenUuid}/medicine-journals`,
             routeNames: ['citizens-uuid-medicine-journals']
         })
@@ -56,6 +58,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.PlansAndGoals) {
         state.tabs.push({
             name: 'citizens.tabs.plansAndGoals',
+            isTranslateName: true,
             href: `/citizens/${citizenUuid}/plans-and-goals/all`,
             routeNames: [
                 'citizens-uuid-plans-and-goals-all',
@@ -68,6 +71,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.Health) {
         state.tabs.push({
             name: 'citizens.tabs.health',
+            isTranslateName: true,
             href: `/citizens/${citizenUuid}/nursing-areas`,
             routeNames: [
                 'citizens-uuid-nursing-areas',
@@ -80,6 +84,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.Documents) {
         state.tabs.push({
             name: 'citizens.tabs.documents',
+            isTranslateName: true,
             href: `/citizens/${citizenUuid}/documents`,
             routeNames: ['citizens-uuid-documents']
         })
@@ -88,6 +93,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.Attendance) {
         state.tabs.push({
             name: 'citizens.tabs.attendance',
+            isTranslateName: true,
             href: `/citizens/${citizenUuid}/attendance`,
             routeNames: [
                 'citizens-uuid-attendance',
@@ -99,6 +105,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.Calendar) {
         state.tabs.push({
             name: 'citizens.tabs.calendar',
+            isTranslateName: true,
             href: `/citizens/${citizenUuid}/calendar`,
             routeNames: ['citizens-uuid-calendar']
         })
@@ -107,6 +114,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.Economy) {
         state.tabs.push({
             name: 'citizens.tabs.economy',
+            isTranslateName: true,
             href: `/citizens/${citizenUuid}/wallets`,
             routeNames: [
                 'citizens-uuid-wallets',
@@ -118,6 +126,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.Contacts) {
         state.tabs.push({
             name: 'citizens.tabs.contacts',
+            isTranslateName: true,
             href: `/citizens/${citizenUuid}/contacts`,
             routeNames: ['citizens-uuid-contacts']
         })

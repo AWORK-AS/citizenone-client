@@ -11,9 +11,9 @@ const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 
 const state = reactive({
     tabs: [
-        { name: 'superadmin.companies.tabs.accounts', href: `/superadmin/companies/${companyUuid}/accounts`, routeNames: ['superadmin-companies-company_uuid-accounts'] },
-        { name: 'superadmin.companies.tabs.licenses', href: `/superadmin/companies/${companyUuid}/license-overview`, routeNames: ['superadmin-companies-company_uuid-license-overview'] },
-        { name: 'superadmin.companies.tabs.apps', href: `/superadmin/companies/${companyUuid}/apps`, routeNames: ['superadmin-companies-company_uuid-apps'] },
+        { name: 'superadmin.companies.tabs.accounts', isTranslateName: true, href: `/superadmin/companies/${companyUuid}/accounts`, routeNames: ['superadmin-companies-company_uuid-accounts'] },
+        { name: 'superadmin.companies.tabs.licenses', isTranslateName: true, href: `/superadmin/companies/${companyUuid}/license-overview`, routeNames: ['superadmin-companies-company_uuid-license-overview'] },
+        { name: 'superadmin.companies.tabs.apps', isTranslateName: true, href: `/superadmin/companies/${companyUuid}/apps`, routeNames: ['superadmin-companies-company_uuid-apps'] },
     ]
 })
 

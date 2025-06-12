@@ -6,7 +6,12 @@
                 class="block w-full rounded-md border border-tertiary py-2 pl-3 pr-10 text-base focus:border-tertiary focus:outline-none focus:ring-tertiary-500 sm:text-sm"
                 @change="changeTab">
                 <option v-for="tab in props.tabs" :key="tab.name" :selected="tab.routeNames?.includes($route.name)">
-                    {{ tab.name && $t(tab.name) }}
+                    <span v-if="tab.isTranslateName">
+                        {{ tab.name && $t(tab.name) }}
+                    </span>
+                    <span v-else>
+                        {{ tab.name }}
+                    </span>
                 </option>
             </select>
         </div>
@@ -25,7 +30,12 @@
                             : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                         'whitespace-nowrap px-4 py-4 border-b-2 font-medium text-sm cursor-pointer',
                     ]" @click="navigate(tab.href)">
-                        {{ tab.name && $t(tab.name) }}
+                        <span v-if="tab.isTranslateName">
+                            {{ tab.name && $t(tab.name) }}
+                        </span>
+                        <span v-else>
+                            {{ tab.name }}
+                        </span>
                     </a>
                 </nav>
             </div>

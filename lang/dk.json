@@ -703,7 +703,7 @@
                 "riskAssessmentTags": "Risikovurderingstag",
                 "showCurrentPlansGoalsAndSubgoals": "Vis nuværende planer, mål og delmål",
                 "subgoal": "Delmål",
-                "tags": "Tags",
+                "tags": "Etiketter",
                 "teeth": "Tænder",
                 "title": "Titel"
             },
@@ -1766,6 +1766,7 @@
             "description": "Beskrivelse",
             "inMeeting": "I møde",
             "private": "Privat",
+            "tags": "Etiketter",
             "title": "Titel",
             "useCompensatoryTime": "Brug afspadseringstid",
             "users": "Brugere"
@@ -2052,6 +2053,15 @@
             "assignedCitizens": "Tildelte borgere",
             "assignCitizens": "Tildel borgere",
             "table": {
+                "actions": {
+                    "delete": "Slet"
+                },
+                "alert": {
+                    "citizenSuccessfullyDeleted": "Borger slettet med succes"
+                },
+                "confirmation": {
+                    "deleteCitizenConfirmation": "Er du sikker på, at du vil slette denne borger"
+                },
                 "firstname": "Fornavn",
                 "lastname": "Efternavn"
             }
@@ -2193,6 +2203,10 @@
             "name": "Navn",
             "phone": "Telefon",
             "role": "Rolle"
+        },
+        "tabs": {
+            "dutySchedule": "Vagtplan",
+            "employeeInformations": "Medarbejderinformationer"
         },
         "workingHours": {
             "fulltime": "Fuldtid",
@@ -2457,6 +2471,9 @@
             "responseSuccessfullySaved": "Svar gemt med succes"
         },
         "createResponse": "Opret svar",
+        "confirmation": {
+            "deleteFormConfirmation": "Er du sikker på, at du vil slette denne formular"
+        },
         "fields": {
             "checkbox": "Afkrydsningsfelt",
             "choice": "Valg",
@@ -2487,7 +2504,11 @@
         "table": {
             "actions": {
                 "createResponse": "Opret svar",
+                "delete": "Slet",
                 "viewResponses": "Se svar"
+            },
+            "alert": {
+                "formSuccessfullyDeleted": "Formular slettet med succes"
             },
             "description": "Beskrivelse",
             "title": "Titel"
@@ -3364,6 +3385,34 @@
         "or": "Eller"
     },
     "save": "Gem",
+    "scheduleTags": {
+        "addNewScheduleTag": "Tilføj ny vagtplan tag",
+        "alert": {
+            "scheduleTagSuccessfullyDeleted": "Vagtplan tag slettet med succes"
+        },
+        "scheduleTags": "Vagtplan tags",
+        "editScheduleTag": "Rediger vagtplan tag",
+        "form": {
+            "alert": {
+                "scheduleTagSuccessfullyUpdated": "Vagtplan tag opdateret med succes",
+                "newScheduleTagSuccessfullySaved": "Ny vagtplan tag gemt med succes"
+            },
+            "color": "Farve",
+            "name": "Navn"
+        },
+        "newScheduleTag": "Ny vagtplan tag",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteScheduleTagConfirmation": "Er du sikker på, at du vil slette dette vagtplan tag"
+            },
+            "color": "Farve",
+            "name": "Navn"
+        }
+    },
     "sections": {
         "addNewSection": "Tilføj ny paragraf",
         "alert": {
@@ -3469,6 +3518,7 @@
             "subscription": "Abonnement",
             "timeLogs": "Tidslogfiler",
             "transactions": "Transaktioner",
+            "scheduleTags": "Vagtplan tags",
             "shifts": "Vagter",
             "other": "Andet",
             "units": "Enheder"

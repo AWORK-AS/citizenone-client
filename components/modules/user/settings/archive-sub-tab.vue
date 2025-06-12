@@ -16,12 +16,12 @@ const state = reactive({
 watch(() => userStore.getUser, (newValue: any) => {
     if (newValue != null) {
         state.tabs = [
-            { name: 'archived.tabs.archivedCitizens', href: `/settings/archived/citizens`, routeNames: ['settings-archived-citizens'] },
-            { name: 'archived.tabs.archivedEmployees', href: `/settings/archived/employees`, routeNames: ['settings-archived-employees'] },
-            { name: 'archived.tabs.archivedDocuments', href: `/settings/archived/documents`, routeNames: ['settings-archived-documents'] },
-            // { name: 'archived.tabs.archivedPlans', href: `/settings/archived/plans`, routeNames: ['settings-archived-plans'] },
-            // { name: 'archived.tabs.archivedGoals', href: `/settings/archived/goals`, routeNames: ['settings-archived-goals'] },
-            // { name: 'archived.tabs.archivedSubgoals', href: `/settings/archived/subgoals`, routeNames: ['settings-archived-subgoals'] },
+            { name: 'archived.tabs.archivedCitizens', isTranslateName: true, href: `/settings/archived/citizens`, routeNames: ['settings-archived-citizens'] },
+            { name: 'archived.tabs.archivedEmployees', isTranslateName: true, href: `/settings/archived/employees`, routeNames: ['settings-archived-employees'] },
+            { name: 'archived.tabs.archivedDocuments', isTranslateName: true, href: `/settings/archived/documents`, routeNames: ['settings-archived-documents'] },
+            // { name: 'archived.tabs.archivedPlans', isTranslateName: true, href: `/settings/archived/plans`, routeNames: ['settings-archived-plans'] },
+            // { name: 'archived.tabs.archivedGoals', isTranslateName: true, href: `/settings/archived/goals`, routeNames: ['settings-archived-goals'] },
+            // { name: 'archived.tabs.archivedSubgoals', isTranslateName: true, href: `/settings/archived/subgoals`, routeNames: ['settings-archived-subgoals'] },
         ]
     }
 })

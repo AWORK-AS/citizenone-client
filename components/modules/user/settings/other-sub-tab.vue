@@ -18,6 +18,7 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.tabs = [
             {
                 name: 'settings.tabs.customPages',
+                isTranslateName: true,
                 href: `/settings/custom-pages`,
                 routeNames: [
                     'settings-custom-pages'
@@ -25,6 +26,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             },
             {
                 name: 'settings.tabs.transactions',
+                isTranslateName: true,
                 href: `/settings/transactions`,
                 routeNames: [
                     'settings-transactions'

@@ -18,8 +18,10 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <div>
-                    <LoadingSpinner :isActive="state.isPageLoading">
+                <ModulesUserEmployeeTabs />
+
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <div class="mt-6">
                         <div class="flex gap-x-3 justify-end mb-6" v-if="isAdmin(userStore.getUser?.roles)">
                             <div class="flex justify-end">
                                 <FormButton type="button" buttonStyle="primary" class="rounded-md"
@@ -407,8 +409,8 @@
                                 </div>
                             </div>
                         </div>
-                    </LoadingSpinner>
-                </div>
+                    </div>
+                </LoadingSpinner>
             </div>
             <ModulesUserEmployeeEmploymentContractModalView :isModalOpen="state.modal.isViewEmploymentContractsOpen"
                 @close="state.modal.isViewEmploymentContractsOpen = false" />
@@ -449,7 +451,7 @@ const breadcrumbLinks = [
     {
         name: 'employees.viewEmployee',
         translate: true,
-        href: `/employees/${employeeUuid}/view`,
+        href: `/employees/${employeeUuid}/view-details`,
     },
 ]
 

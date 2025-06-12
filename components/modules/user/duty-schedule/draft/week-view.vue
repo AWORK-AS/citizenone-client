@@ -177,7 +177,12 @@
                                                     <div class="flex justify-between">
                                                         <div class="flex items-center gap-x-2">
                                                             <img :src="weeklySchedule?.employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`"
-                                                                class="h-8 w-8 rounded-full bg-gray-50 object-cover" />
+                                                                :class="[
+                                                                    weeklySchedule?.employee?.shift_threshold === 'high' && 'border-green-700',
+                                                                    weeklySchedule?.employee?.shift_threshold === 'moderate' && 'border-yellow-500',
+                                                                    weeklySchedule?.employee?.shift_threshold === 'low' && 'border-red-600',
+                                                                    'h-10 w-10 rounded-full bg-gray-50 object-cover border-2'
+                                                                ]" />
                                                             <p class="text-sm font-medium">
                                                                 {{ weeklySchedule?.employee?.firstname }}
                                                                 {{ weeklySchedule?.employee?.lastname }}
@@ -214,7 +219,7 @@
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ weeklySchedule?.employee?.total_hours ?? 0 }}
                                                         </p>
-                                                        <div class="p-0 m-0 text-xxs text-primary hover:text-primary-700"
+                                                        <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                             @click="navigateTo(`/calendar?employee_uuid=${weeklySchedule?.employee?.uuid}`)">
                                                             {{ $t('dutySchedules.viewCalendar') }}
                                                         </div>
@@ -355,7 +360,7 @@
                                                             </div>
                                                             <div :class="[
                                                                 shift?.citizen_schedules?.length > 0 && 'mt-1'
-                                                            ]">
+                                                            ]" v-if="shift?.citizen_schedules?.length > 0">
                                                                 <p v-for="(citizenSchedule, citizenScheduleIndex) in shift?.citizen_schedules"
                                                                     :key="citizenScheduleIndex"
                                                                     class="text-xxs text-white px-1 py-0.5">
@@ -363,11 +368,19 @@
                                                                     {{ citizenSchedule?.citizen?.lastname }}
                                                                 </p>
                                                             </div>
-                                                            <button
-                                                                class="bg-gray-800 text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center absolute -left-1 -top-1"
-                                                                v-if="shift?.in_meeting">
-                                                                M
-                                                            </button>
+                                                            <div class="flex items-center flex-wrap gap-y-0.5 mt-1"
+                                                                v-if="shift?.tags?.length > 0">
+                                                                <Tooltip :text="tag?.tag"
+                                                                    v-for="(tag, tagIndex) in shift?.tags"
+                                                                    :key="tagIndex">
+                                                                    <div class="text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center"
+                                                                        :style="{ backgroundColor: tag?.color }">
+                                                                        <span v-if="tag?.tag">
+                                                                            {{ tag?.tag?.charAt(0) }}
+                                                                        </span>
+                                                                    </div>
+                                                                </Tooltip>
+                                                            </div>
                                                             <button
                                                                 class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                                 @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
@@ -802,8 +815,8 @@ async function saveShift(shiftDetails: any) {
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
         citizen_uuid: shiftDetails?.citizens,
+        schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
         use_compensatory_time: shiftDetails.use_compensatory_time,
-        in_meeting: shiftDetails.in_meeting,
     }
     saveDutySchedule(params)
 }
@@ -1040,7 +1053,7 @@ function editSchedule(employee: any, weeklyScheduleIndex: number, weekIndex: any
         user_uuid: userUuid,
         date: date,
         shift_type: shift?.type,
-        in_meeting: shift?.in_meeting,
+        tags: shift?.tags,
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,
@@ -1060,7 +1073,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         date_time_end: shiftDetails?.date_time_end,
         user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
         citizen_uuid: shiftDetails.citizens,
-        in_meeting: shiftDetails.in_meeting,
+        schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
     }
     updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
 }

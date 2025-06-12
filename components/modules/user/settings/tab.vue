@@ -21,6 +21,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             state.tabs = [
                 {
                     name: 'settings.tabs.profile',
+                    isTranslateName: true,
                     href: `/settings/profile`,
                     routeNames: [
                         'settings-profile'
@@ -28,6 +29,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                 },
                 {
                     name: 'settings.tabs.company',
+                    isTranslateName: true,
                     href: `/settings/company`,
                     routeNames: [
                         'settings-company'
@@ -35,6 +37,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                 },
                 {
                     name: 'settings.tabs.invoices',
+                    isTranslateName: true,
                     href: `/settings/invoices`,
                     routeNames: [
                         'settings-invoices',
@@ -43,6 +46,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                 },
                 {
                     name: 'settings.tabs.storage',
+                    isTranslateName: true,
                     href: `/settings/storage`,
                     routeNames: [
                         'settings-storage'
@@ -50,6 +54,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                 },
                 {
                     name: 'settings.tabs.licenses',
+                    isTranslateName: true,
                     href: `/settings/license-overview`,
                     routeNames: [
                         'settings-license-overview'
@@ -57,6 +62,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                 },
                 {
                     name: 'settings.tabs.subscription',
+                    isTranslateName: true,
                     href: `/settings/subscription`,
                     routeNames: [
                         'settings-subscription'
@@ -64,6 +70,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                 },
                 {
                     name: 'settings.tabs.archived',
+                    isTranslateName: true,
                     href: `/settings/archived/citizens`,
                     routeNames: [
                         'settings-archived-citizens',
@@ -73,6 +80,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                 },
                 {
                     name: 'settings.tabs.catalog',
+                    isTranslateName: true,
                     href: `/settings/absences`,
                     routeNames: [
                         'settings-absences',
@@ -86,6 +94,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                 },
                 {
                     name: 'settings.tabs.activityLogs',
+                    isTranslateName: true,
                     href: `/settings/activity-logs`,
                     routeNames: [
                         'settings-activity-logs'
@@ -93,6 +102,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                 },
                 {
                     name: 'settings.tabs.timeLogs',
+                    isTranslateName: true,
                     href: `/settings/time-logs`,
                     routeNames: [
                         'settings-time-logs'
@@ -100,6 +110,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                 },
                 {
                     name: 'settings.tabs.other',
+                    isTranslateName: true,
                     href: `/settings/custom-pages`,
                     routeNames: [
                         'settings-custom-pages',
@@ -116,6 +127,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             state.tabs = [
                 {
                     name: 'settings.tabs.profile',
+                    isTranslateName: true,
                     href: `/settings/profile`,
                     routeNames: [
                         'settings-profile'
@@ -123,6 +135,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                 },
                 {
                     name: 'settings.tabs.timeLogs',
+                    isTranslateName: true,
                     href: `/settings/time-logs`,
                     routeNames: [
                         'settings-time-logs'

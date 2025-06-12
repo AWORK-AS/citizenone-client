@@ -18,6 +18,7 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.tabs = [
             {
                 name: 'settings.tabs.absences',
+                isTranslateName: true,
                 href: `/settings/absences`,
                 routeNames: [
                     'settings-absences'
@@ -25,6 +26,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             },
             {
                 name: 'settings.tabs.addictions',
+                isTranslateName: true,
                 href: `/settings/addictions`,
                 routeNames: [
                     'settings-addictions'
@@ -32,6 +34,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             },
             {
                 name: 'settings.tabs.calendarTags',
+                isTranslateName: true,
                 href: `/settings/calendar-tags`,
                 routeNames: [
                     'settings-calendar-tags'
@@ -39,6 +42,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             },
             {
                 name: 'settings.tabs.departments',
+                isTranslateName: true,
                 href: `/settings/departments`,
                 routeNames: [
                     'settings-departments'
@@ -46,6 +50,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             },
             {
                 name: 'settings.tabs.diagnoses',
+                isTranslateName: true,
                 href: `/settings/diagnoses`,
                 routeNames: [
                     'settings-diagnoses'
@@ -53,6 +58,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             },
             {
                 name: 'settings.tabs.foreignCities',
+                isTranslateName: true,
                 href: `/settings/foreign-cities`,
                 routeNames: [
                     'settings-foreign-cities'
@@ -60,6 +66,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             },
             {
                 name: 'settings.tabs.jobTitles',
+                isTranslateName: true,
                 href: `/settings/job-titles`,
                 routeNames: [
                     'settings-job-titles',
@@ -68,6 +75,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             },
             {
                 name: 'settings.tabs.journalNoteTags',
+                isTranslateName: true,
                 href: `/settings/journal-note-tags`,
                 routeNames: [
                     'settings-journal-note-tags'
@@ -75,6 +83,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             },
             {
                 name: 'settings.tabs.medicines',
+                isTranslateName: true,
                 href: `/settings/medicines`,
                 routeNames: [
                     'settings-medicines'
@@ -82,13 +91,23 @@ watch(() => userStore.getUser, (newValue: any) => {
             },
             {
                 name: 'settings.tabs.relationships',
+                isTranslateName: true,
                 href: `/settings/relationships`,
                 routeNames: [
                     'settings-relationships'
                 ]
             },
             {
+                name: 'settings.tabs.scheduleTags',
+                isTranslateName: true,
+                href: `/settings/schedule-tags`,
+                routeNames: [
+                    'settings-schedule-tags'
+                ]
+            },
+            {
                 name: 'settings.tabs.sections',
+                isTranslateName: true,
                 href: `/settings/sections`,
                 routeNames: [
                     'settings-sections'
@@ -96,6 +115,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             },
             {
                 name: 'settings.tabs.shifts',
+                isTranslateName: true,
                 href: `/settings/shifts`,
                 routeNames: [
                     'settings-shifts'
@@ -103,6 +123,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             },
             {
                 name: 'settings.tabs.units',
+                isTranslateName: true,
                 href: `/settings/units`,
                 routeNames: [
                     'settings-units'

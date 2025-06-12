@@ -72,12 +72,18 @@
                 {{ $t('dutySchedules.form.useCompensatoryTime') }}
             </div>
         </div>
-        <div>
-            <div class="w-fit flex items-center cursor-pointer"
-                @click="state.formShift.in_meeting = !state.formShift.in_meeting">
-                <FormCheckbox :value="state.formShift.in_meeting" />
-                {{ $t('dutySchedules.form.inMeeting') }}
+        <div class="space-y-1">
+            <div class="flex justify-between items-center py-0.5">
+                <FormLabel for="schedule_tag_uuid" :label="$t('dutySchedules.form.tags')" />
+                <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                    @click="state.modal.isAddNewScheduleTag = true">
+                    {{ $t('scheduleTags.addNewScheduleTag') }}
+                </span>
             </div>
+            <FormSelectMultiple id="schedule_tag_uuid" name="schedule_tag_uuid" :options="state.options.scheduleTags"
+                v-model="state.formShift.schedule_tag_uuid" />
+            <FormError :error="v$?.formShift?.schedule_tag_uuid?.$errors[0]?.$message.toString()" />
+            <FormError :error="state?.error?.errors?.schedule_tag_uuid?.[0]" />
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -90,11 +96,14 @@
                 </FormButton>
             </div>
         </div>
+        <ModulesUserScheduleTagModalNew :isModalOpen="state.modal.isAddNewScheduleTag"
+            @close="state.modal.isAddNewScheduleTag = false" @refreshScheduleTags="fetchAllCalendarTags" />
     </form>
 </template>
 
 <script setup lang="ts">
 import moment from 'moment'
+import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -130,12 +139,16 @@ const state = reactive({
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
         citizens: [],
-        in_meeting: false,
+        schedule_tag_uuid: [],
         use_compensatory_time: false,
+    },
+    modal: {
+        isAddNewScheduleTag: false,
     },
     showChildProtectionCertificateWarning: false,
     options: {
         citizens: [],
+        scheduleTags: [],
         shifts: []
     }
 })
@@ -144,12 +157,14 @@ onMounted(() => {
     state.showChildProtectionCertificateWarning = false
     v$.value.$reset()
     fetchAllShifts()
+    fetchAllCalendarTags()
+    fetchAllScheduleTags()
     fetchAllCitizensPerUserDepartment()
     state.formShift.shift_type = props.selectedShift.shift_type
     state.formShift.date_time_start = props.selectedShift.date_time_start
     state.formShift.date_time_end = props.selectedShift.date_time_end
-    state.formShift.in_meeting = props.selectedShift.in_meeting
     state.formShift.citizens = props.selectedShift.citizens
+    state.formShift.schedule_tag_uuid = props.selectedShift.schedule_tag_uuid
 })
 
 watch(() => state.formShift.shift_type, (newValue) => {
@@ -203,6 +218,48 @@ async function fetchAllShifts() {
     emit('isPageLoading', false)
 }
 
+async function fetchAllCalendarTags() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await scheduleTagService.getAllScheduleTags()
+        if (response?.data) {
+            let options: any = []
+            response.data.forEach(
+                (tag: any) => options.push({
+                    value: tag?.uuid,
+                    label: tag?.tag,
+                })
+            )
+            state.options.scheduleTags = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchAllScheduleTags() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await scheduleTagService.getAllScheduleTags()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (tag: any) => options.push({
+                    value: tag?.uuid,
+                    label: tag?.tag,
+                })
+            )
+            state.options.scheduleTags = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 async function fetchAllCitizensPerUserDepartment() {
     state.error = {}
     emit('isPageLoading', true)
@@ -237,6 +294,6 @@ async function saveShift() {
 
 <style>
 #formShift .multiselect-dropdown {
-    max-height: 6rem !important;
+    max-height: 5rem !important;
 }
 </style>
