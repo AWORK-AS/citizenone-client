@@ -2053,6 +2053,15 @@
             "assignedCitizens": "Tildelte borgere",
             "assignCitizens": "Tildel borgere",
             "table": {
+                "actions": {
+                    "delete": "Slet"
+                },
+                "alert": {
+                    "citizenSuccessfullyDeleted": "Borger slettet med succes"
+                },
+                "confirmation": {
+                    "deleteCitizenConfirmation": "Er du sikker på, at du vil slette denne borger"
+                },
                 "firstname": "Fornavn",
                 "lastname": "Efternavn"
             }

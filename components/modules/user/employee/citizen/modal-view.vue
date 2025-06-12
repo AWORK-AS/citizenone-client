@@ -1,6 +1,7 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('employees.citizens.assignedCitizens')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xl" :title="$t('employees.citizens.assignedCitizens')" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
@@ -17,12 +18,21 @@
                             <Table :columnHeaders="state.columnHeaders" :data="state.citizens"
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                                 <template #body v-if="!(state.isTableLoading || (state.citizens?.data?.length === 0))">
-                                    <tr v-for="(document, index) in state.citizens?.data" :key="index">
-                                        <td width="50%">
-                                            <span>{{ document?.firstname }}</span>
+                                    <tr v-for="(citizen, index) in state.citizens?.data" :key="index">
+                                        <td width="40%">
+                                            <span>{{ citizen?.firstname }}</span>
                                         </td>
-                                        <td width="50%">
-                                            <span>{{ document.lastname }}</span>
+                                        <td width="40%">
+                                            <span>{{ citizen.lastname }}</span>
+                                        </td>
+                                        <td width="20%">
+                                            <div class="flex items-end gap-2">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="confirmDeleteCitizen(citizen)">
+                                                    <Icon name="ph:trash" class="size-4" />
+                                                    {{ $t('employees.citizens.table.actions.delete') }}
+                                                </FormButton>
+                                            </div>
                                         </td>
                                     </tr>
                                 </template>
@@ -31,7 +41,11 @@
                         <Pagination :data="state.citizens" @previous="previous" @next="next" />
                     </div>
                 </div>
-                <ModulesUserEmployeeCitizenModalNew :isModalOpen="state.modal.isAssignCitizenOpen" @close="closeAssignModal" />
+                <ModulesUserEmployeeCitizenModalNew :isModalOpen="state.modal.isAssignCitizenOpen"
+                    @close="closeAssignModal" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteCitizenOpen"
+                    :message="$t('employees.citizens.table.confirmation.deleteCitizenConfirmation') + '?'"
+                    @close="state.modal.isDeleteCitizenOpen = false" @confirm="deleteCitizen" />
             </template>
         </Modal>
     </div>
@@ -60,19 +74,16 @@ const state = reactive({
     columnHeaders: [
         { name: 'employees.citizens.table.firstname' },
         { name: 'employees.citizens.table.lastname' },
+        { name: '' },
     ],
     citizens: [] as any,
     error: {} as Error,
     modal: {
-        isAddNewDocumentOpen: false,
-        isArchiveDocumentOpen: false,
-        isEditDocumentOpen: false,
-        isDeleteDocumentOpen: false,
-        isViewCitizensOpen: false,
         isAssignCitizenOpen: false,
+        isDeleteCitizenOpen: false,
     },
     isTableLoading: false,
-    selectedEmployeeDocument: [] as any,
+    selectedCitizen: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -128,5 +139,26 @@ function sort(sortingData: any) {
         sortOrder: sortingData.sort,
     }
     fetchAssignedCitizens()
+}
+
+function confirmDeleteCitizen(citizen: any) {
+    state.selectedCitizen = citizen
+    state.modal.isDeleteCitizenOpen = true
+}
+
+async function deleteCitizen() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const assignCitizenUuid = state.selectedCitizen?.uuid
+        const response = await citizenService.removeAssignedCitizen(assignCitizenUuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            successAlert(`${t('alert.success')}!`, `${t('employees.citizens.table.confirmation.deleteCitizenConfirmation')}.`)
+            fetchAssignedCitizens()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>
