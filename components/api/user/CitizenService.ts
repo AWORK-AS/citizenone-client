@@ -45,8 +45,8 @@ class CitizenService extends BaseAPIService {
         return await this.request(`user/citizens/all/assignee/list`, 'GET', params)
     }
 
-    async removeAssignedCitizen(assignedCitizenUuid: object): Promise<any> {
-        return await this.request(`/user/citizens/all/user/assigned/${assignedCitizenUuid}`, 'DELETE')
+    async removeAssignedCitizen(params: object): Promise<any> {
+        return await this.request(`/user/citizens/all/user/assigned/remove`, 'DELETE', params)
     }
 
     async getAllAvailableCitizens(params: object): Promise<any> {

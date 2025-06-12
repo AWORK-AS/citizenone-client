@@ -150,8 +150,11 @@ async function deleteCitizen() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const assignCitizenUuid = state.selectedCitizen?.uuid
-        const response = await citizenService.removeAssignedCitizen(assignCitizenUuid)
+        const params = {
+            user_uuid: employeeUuid,
+            citizen_uuid: state.selectedCitizen?.uuid,
+        }
+        const response = await citizenService.removeAssignedCitizen(params)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             successAlert(`${t('alert.success')}!`, `${t('employees.citizens.table.confirmation.deleteCitizenConfirmation')}.`)
             fetchAssignedCitizens()

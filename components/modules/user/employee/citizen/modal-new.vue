@@ -130,6 +130,8 @@ async function assignCitizen() {
                 successAlert(`${t('alert.success')}!`, `${t('reminders.form.alert.employeeSuccessfullyAssigned')}.`)
                 fetchAvailableCitizens()
                 closeModal()
+                state.formAssignCitizen.citizen_uuid = ''
+                v$.value.$reset()
             }
         } catch (error: any) {
             state.error = error
