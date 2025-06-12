@@ -95,7 +95,10 @@ async function fetchCitizens() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await citizenService.getAllAssignee()
+        const params = {
+            user_uuid: employeeUuid,
+        }
+        const response = await citizenService.getAllAssignee(params)
         if (response) {
             state.options.citizens = response
             let options: any = []
