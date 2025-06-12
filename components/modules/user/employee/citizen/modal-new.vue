@@ -87,11 +87,11 @@ const v$ = useVuelidate(rules, state)
 watch(() => props.isModalOpen, (isOpen: any) => {
     if (isOpen) {
         state.formAssignCitizen.citizen_uuid = ''
-        fetchCitizens()
+        fetchAvailableCitizens()
     }
 })
 
-async function fetchCitizens() {
+async function fetchAvailableCitizens() {
     state.error = {}
     state.isTableLoading = true
     try {
@@ -127,8 +127,9 @@ async function assignCitizen() {
             }
             const response = await employeeService.assignCitizen(employeeUuid, params)
             if (response?.data) {
-                closeModal()
                 successAlert(`${t('alert.success')}!`, `${t('reminders.form.alert.employeeSuccessfullyAssigned')}.`)
+                fetchAvailableCitizens()
+                closeModal()
             }
         } catch (error: any) {
             state.error = error
