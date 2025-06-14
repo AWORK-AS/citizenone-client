@@ -97,6 +97,8 @@
                 </FormButton>
             </div>
         </div>
+        <ModulesUserCalendarTagModalNew :isModalOpen="state.modal.isAddNewCalendarTag"
+            @close="state.modal.isAddNewCalendarTag = false" @refreshCalendarTags="fetchAllCalendarTags" />
     </form>
 </template>
 
@@ -148,6 +150,9 @@ const state = reactive({
         users_uuid: [],
         calendar_tag_uuid: [],
         send_invitation: false,
+    },
+    modal: {
+        isAddNewCalendarTag: false,
     },
     options: {
         citizens: [] as Option[],
