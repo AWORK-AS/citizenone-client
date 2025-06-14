@@ -73,7 +73,10 @@
                                         <div class="col-span-11 flex items-center">
                                             <div class="w-full flex items-center justify-between">
                                                 <div>
-                                                    <Tooltip :text="`${chatGroupMembers(state.chat?.data)}.`">
+                                                    <h4 class="font-semibold text-sm" v-if="state.chat?.data?.name">
+                                                        {{ state.chat?.data?.name }}
+                                                    </h4>
+                                                    <Tooltip :text="`${chatGroupMembers(state.chat?.data)}.`" v-else>
                                                         <h4 class="font-semibold text-sm line-clamp-1">
                                                             {{ chatGroupMembers(state.chat?.data) }}.
                                                         </h4>
@@ -85,14 +88,24 @@
                                                         </span>
                                                     </p>
                                                 </div>
-                                                <Tooltip :text="$t('messages.groupChat.groupMembers')">
-                                                    <button v-if="state.chat?.data?.type === 'group'"
-                                                        @click="state.modal.isManageGroupChatMembersOpen = true">
-                                                        <Icon name="mdi:account-supervisor"
-                                                            class="h-6 w-6 text-primary hover:text-primary-700"
-                                                            aria-hidden="true" />
-                                                    </button>
-                                                </Tooltip>
+                                                <div class="flex items-center space-x-1">
+                                                    <Tooltip :text="$t('messages.groupChat.editGroupName')">
+                                                        <button v-if="state.chat?.data?.type === 'group'"
+                                                            @click="editGroupChatName()">
+                                                            <Icon name="ph:pencil-simple"
+                                                                class="h-5 w-5 text-primary hover:text-primary-700"
+                                                                aria-hidden="true" />
+                                                        </button>
+                                                    </Tooltip>
+                                                    <Tooltip :text="$t('messages.groupChat.groupMembers')">
+                                                        <button v-if="state.chat?.data?.type === 'group'"
+                                                            @click="state.modal.isManageGroupChatMembersOpen = true">
+                                                            <Icon name="ph:users-three"
+                                                                class="h-6 w-6 text-primary hover:text-primary-700"
+                                                                aria-hidden="true" />
+                                                        </button>
+                                                    </Tooltip>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -225,6 +238,9 @@
                         </div>
                     </LoadingSpinner>
                 </div>
+                <ModulesUserMessagesGroupChatModalEditName :isModalOpen="state.modal.isEditGroupNameOpen"
+                    :selectedChat="state.selectChat" @close="state.modal.isEditGroupNameOpen = false"
+                    @refreshChatDetails="fetchChat" />
                 <ModulesUserMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
                     @close="state.modal.isManageGroupChatMembersOpen = false" @refreshChat="fetchChat" />
                 <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
@@ -275,9 +291,11 @@ const state = reactive({
     message: '',
     messages: [] as any,
     modal: {
+        isEditGroupNameOpen: false,
         isManageGroupChatMembersOpen: false,
         isUpgradeStorageOpen: false
     },
+    selectChat: {} as any,
 })
 
 onMounted(() => {
@@ -357,6 +375,11 @@ async function fetchChatHistory() {
         state.error = { message: error.message }
     }
     state.isChatHistoryLoading = false
+}
+
+function editGroupChatName() {
+    state.selectChat = state.chat?.data
+    state.modal.isEditGroupNameOpen = true
 }
 
 async function readChat() {
