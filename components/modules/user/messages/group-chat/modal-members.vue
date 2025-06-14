@@ -23,7 +23,7 @@
                             </p>
                             <Tooltip :text="$t('messages.groupChat.removeUser')">
                                 <button @click="confirmUserRemoval(member)">
-                                    <Icon name="line-md:account-delete" class="h-5 w-5" aria-hidden="true" />
+                                    <Icon name="ph:user-minus" class="h-5 w-5" aria-hidden="true" />
                                 </button>
                             </Tooltip>
                         </div>

@@ -2825,6 +2825,7 @@
         "allMessagesAreLoaded": "Alle beskeder er indlæst",
         "groupChat": {
             "alert": {
+                "groupNameSuccessfullyUpdated": "Gruppens navn opdateret med succes",
                 "userSuccessfullyAdded": "Bruger tilføjet til gruppechatten med succes",
                 "usersSuccessfullyAdded": "Brugere tilføjet til gruppechatten med succes",
                 "usersSuccessfullyRemoved": "Brugere fjernet fra gruppechatten med succes"
@@ -2834,6 +2835,10 @@
             "addUsers": "Tilføj brugere",
             "confirmation": {
                 "removeConfirmation": "Er du sikker på, at du vil fjerne denne bruger"
+            },
+            "editGroupName": "Rediger gruppenavn",
+            "form": {
+                "name": "Navn"
             },
             "groupMembers": "Gruppemedlemmer",
             "name": "Navn",

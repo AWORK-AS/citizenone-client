@@ -2825,6 +2825,7 @@
         "allMessagesAreLoaded": "All messages are loaded",
         "groupChat": {
             "alert": {
+                "groupNameSuccessfullyUpdated": "Group name successfully updated",
                 "userSuccessfullyAdded": "User successfully added to the group chat",
                 "usersSuccessfullyAdded": "Users successfully added to the group chat",
                 "usersSuccessfullyRemoved": "Users successfully removed from the group chat"
@@ -2834,6 +2835,10 @@
             "addUsers": "Add users",
             "confirmation": {
                 "removeConfirmation": "Are you sure you want to remove this user"
+            },
+            "editGroupName": "Edit group name",
+            "form": {
+                "name": "Name"
             },
             "groupMembers": "Group members",
             "name": "Name",
