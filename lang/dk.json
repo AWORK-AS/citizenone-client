@@ -244,6 +244,138 @@
         "success": "Succes",
         "successfullySubscribed": "Du har abonneret med succes"
     },
+    "appointments": {
+        "alert": {
+            "appointmentSuccessfullyAdded": "Aftale tilføjet med succes"
+        },
+        "appointments": "Aftaler",
+        "course": {
+            "course": "Kursus",
+            "createACourse": "Opret et kursus",
+            "createACourseByGroupingMultipleEvents": "Opret et kursus ved at gruppere flere begivenheder"
+        },
+        "editAppointment": "Rediger aftale",
+        "formCourse": {
+            "information": {
+                "address": "Adresse",
+                "city": "By",
+                "course": "Kursus",
+                "description": "Beskrivelse",
+                "fillInTheInformationAboutTheCourse": "Udfyld oplysningerne om kurset",
+                "image": "Billede",
+                "name": "Navn",
+                "postcode": "Postnummer"
+            },
+            "sessions": {
+                "addNewSession": "Tilføj ny session",
+                "courseSessions": "Kursus sessioner",
+                "courseSessionsLabel": "Sessioner er begivenheder, der hører til kurset. Her kan du oprette sessioner og tilføje dem til dit kursus",
+                "date": "Dato",
+                "description": "Beskrivelse",
+                "name": "Navn",
+                "recurring": {
+                    "addThisSessions": "Tilføj denne session",
+                    "everyDay": "Hver dag",
+                    "everyWeek": "Hver uge",
+                    "everySecondWeek": "Hver anden uge",
+                    "everyThirdWeek": "Hver tredje uge",
+                    "everyFourthWeek": "Hver fjerde uge",
+                    "everyMonth": "Hver måned",
+                    "repeat": "Gentag",
+                    "until": "Indtil"
+                },
+                "timeEnd": "Tid slut",
+                "timeStart": "Tid start"
+            },
+            "settings": {
+                "availableSpotsAtThisEvent": "Tilgængelige pladser ved denne begivenhed",
+                "moms": "Moms",
+                "notification": {
+                    "notification": "Notifikation",
+                    "sendAnEmailToAllParticipants1DayBeforeTheEvent": "Send en e-mail til alle deltagere 1 dag før begivenheden"
+                },
+                "otherSettings": {
+                    "closeRegistration": "Luk tilmelding",
+                    "dontShowInOnlineBooking": "Vis ikke i online booking",
+                    "dontShowTheNumberOfSpotsLeftOnTheSubmitForm": "Vis ikke antallet af pladser tilbage på tilmeldingsformularen",
+                    "otherSettings": "Andre indstillinger"
+                },
+                "price": "Pris",
+                "tags": "Tags"
+            },
+            "tabs": {
+                "information": "Information",
+                "sessions": "Sessioner",
+                "settings": "Indstillinger",
+                "summary": "Opsummering"
+            }
+        },
+        "formEvent": {
+            "information": {
+                "address": "Adresse",
+                "city": "By",
+                "createMultipleEvents": "Opret flere begivenheder",
+                "createThisEvent": "Opret denne begivenhed",
+                "dateTimeEnd": "Dato og tid slut",
+                "dateTimeStart": "Dato og tid start",
+                "description": "Beskrivelse",
+                "image": "Billede",
+                "name": "Navn",
+                "postcode": "Postnummer",
+                "recurring": {
+                    "everyDay": "Hver dag",
+                    "everyWeek": "Hver uge",
+                    "everySecondWeek": "Hver anden uge",
+                    "everyThirdWeek": "Hver tredje uge",
+                    "everyFourthWeek": "Hver fjerde uge",
+                    "everyMonth": "Hver måned",
+                    "until": "Indtil"
+                }
+            },
+            "settings": {
+                "availableSpotsAtThisEvent": "Tilgængelige pladser ved denne begivenhed",
+                "moms": "Moms",
+                "notification": {
+                    "notification": "Notifikation",
+                    "sendAnEmailToAllParticipants1DayBeforeTheEvent": "Send en e-mail til alle deltagere 1 dag før begivenheden"
+                },
+                "otherSettings": {
+                    "closeRegistration": "Luk tilmelding",
+                    "dontShowInOnlineBooking": "Vis ikke i online booking",
+                    "dontShowTheNumberOfSpotsLeftOnTheSubmitForm": "Vis ikke antallet af pladser tilbage på tilmeldingsformularen",
+                    "otherSettings": "Andre indstillinger"
+                },
+                "price": "Pris",
+                "tags": "Tags"
+            },
+            "tabs": {
+                "information": "Information",
+                "settings": "Indstillinger",
+                "summary": "Opsummering"
+            }
+        },
+        "newAppointment": "Ny aftale",
+        "newEvent": "Ny begivenhed",
+        "singleEvent": {
+            "createASingleEvent": "Opret en enkelt begivenhed",
+            "createASingleOrReccuringEvent": "Opret en enkelt eller tilbagevendende begivenhed",
+            "singleEvent": "Enkelt begivenhed"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "appointmentSuccessfullyDeleted": "Aftale slettet med succes",
+                "appointmentSuccessfullyUpdated": "Aftale opdateret med succes"
+            },
+            "appointment": "Aftaletype",
+            "dateTimeEnd": "Dato og tid slut",
+            "dateTimeStart": "Dato og tid start",
+            "name": "Navn"
+        }
+    },
     "apps": {
         "activate": "Aktivér",
         "activated": "Aktiveret",

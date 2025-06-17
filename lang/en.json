@@ -244,6 +244,138 @@
         "success": "Success",
         "successfullySubscribed": "You have successfully subscribed"
     },
+    "appointments": {
+        "alert": {
+            "appointmentSuccessfullyAdded": "Appointment successfully added"
+        },
+        "appointments": "Appointments",
+        "course": {
+            "course": "Course",
+            "createACourse": "Create a course",
+            "createACourseByGroupingMultipleEvents": "Create a course by grouping multiple events"
+        },
+        "editAppointment": "Edit appointment",
+        "formCourse": {
+            "information": {
+                "address": "Address",
+                "city": "City",
+                "course": "Course",
+                "description": "Description",
+                "fillInTheInformationAboutTheCourse": "Fill in the information about the course",
+                "image": "Image",
+                "name": "Name",
+                "postcode": "Postcode"
+            },
+            "sessions": {
+                "addNewSession": "AddNewSession",
+                "courseSessions": "Course sessions",
+                "courseSessionsLabel": "Sessions are events that belong to the course. Here you can create sessions and add them to your course",
+                "date": "Date",
+                "description": "Description",
+                "name": "Name",
+                "recurring": {
+                    "addThisSessions": "Add this session",
+                    "everyDay": "Every day",
+                    "everyWeek": "Every week",
+                    "everySecondWeek": "Every second week",
+                    "everyThirdWeek": "Every third week",
+                    "everyFourthWeek": "Every fourth week",
+                    "everyMonth": "Every month",
+                    "repeat": "Repeat",
+                    "until": "Until"
+                },
+                "timeEnd": "Time end",
+                "timeStart": "Time start"
+            },
+            "settings": {
+                "availableSpotsAtThisEvent": "Available spots at the event",
+                "moms": "Moms",
+                "notification": {
+                    "notification": "Notification",
+                    "sendAnEmailToAllParticipants1DayBeforeTheEvent": "Send an email to all participants 1 day before the event"
+                },
+                "otherSettings": {
+                    "closeRegistration": "Close registration",
+                    "dontShowInOnlineBooking": "Don't show in online booking",
+                    "dontShowTheNumberOfSpotsLeftOnTheSubmitForm": "Don't show the number of spots left on the submit form",
+                    "otherSettings": "Other settings"
+                },
+                "price": "Price",
+                "tags": "Tags"
+            },
+            "tabs": {
+                "information": "Information",
+                "sessions": "Sessions",
+                "settings": "Settings",
+                "summary": "Summary"
+            }
+        },
+        "formEvent": {
+            "information": {
+                "address": "Address",
+                "city": "City",
+                "createMultipleEvents": "Create multiple events",
+                "createThisEvent": "Create this event",
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
+                "description": "Description",
+                "image": "Image",
+                "name": "Name",
+                "postcode": "Postcode",
+                "recurring": {
+                    "everyDay": "Every day",
+                    "everyWeek": "Every week",
+                    "everySecondWeek": "Every second week",
+                    "everyThirdWeek": "Every third week",
+                    "everyFourthWeek": "Every fourth week",
+                    "everyMonth": "Every month",
+                    "until": "Until"
+                }
+            },
+            "settings": {
+                "availableSpotsAtThisEvent": "Available spots at the event",
+                "moms": "Moms",
+                "notification": {
+                    "notification": "Notification",
+                    "sendAnEmailToAllParticipants1DayBeforeTheEvent": "Send an email to all participants 1 day before the event"
+                },
+                "otherSettings": {
+                    "closeRegistration": "Close registration",
+                    "dontShowInOnlineBooking": "Don't show in online booking",
+                    "dontShowTheNumberOfSpotsLeftOnTheSubmitForm": "Don't show the number of spots left on the submit form",
+                    "otherSettings": "Other settings"
+                },
+                "price": "Price",
+                "tags": "Tags"
+            },
+            "tabs": {
+                "information": "Information",
+                "settings": "Settings",
+                "summary": "Summary"
+            }
+        },
+        "newAppointment": "New appointment",
+        "newEvent": "New event",
+        "singleEvent": {
+            "createASingleEvent": "Create a single",
+            "createASingleOrReccuringEvent": "Create a single or recurring event",
+            "singleEvent": "Single event"
+        },
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "appointmentSuccessfullyDeleted": "Appointment successfully deleted",
+                "appointmentSuccessfullyUpdated": "Appointment successfully updated"
+            },
+            "appointment": "appointment type",
+            "dateTimeEnd": "Date and time end",
+            "dateTimeStart": "Date and time start",
+            "name": "Name"
+        }
+    },
     "apps": {
         "activate": "Activate",
         "activated": "Activated",
