@@ -86,6 +86,32 @@
                                 class="text-center" />
                             <FormError :error="state?.error?.errors?.image?.[0]" class="text-center" />
                         </div>
+                        <div class="space-y-1">
+                            <div>
+                                <h2 class="text-base font-semibold leading-7 text-gray-900">
+                                    {{ $t('appointmentSettings.form.contactInformation') }}
+                                </h2>
+                                <p class="text-sm leading-6 text-gray-600">
+                                    {{ $t('appointmentSettings.form.contactInformationLabel') }}
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formAppointmentSettings.is_address_enabled"
+                                        @toggleSwitch="state.formAppointmentSettings.is_address_enabled = !state.formAppointmentSettings.is_address_enabled" />
+                                    <p>
+                                        {{ $t('appointmentSettings.form.address') }}
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formAppointmentSettings.is_phone_enabled"
+                                        @toggleSwitch="state.formAppointmentSettings.is_phone_enabled = !state.formAppointmentSettings.is_phone_enabled" />
+                                    <p>
+                                        {{ $t('appointmentSettings.form.phone') }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mt-5 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
@@ -117,7 +143,7 @@
                             </p>
                         </div>
 
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-x-3 gap-y-4">
                             <div class="flex items-center gap-x-2">
                                 <FormSwitch :value="!!state.formAppointmentSettings.fields?.email"
                                     @toggleSwitch="toggleField('email')" />
@@ -193,7 +219,7 @@
                                     {{ $t('appointmentSettings.form.fields.socialSecurityNumber') }}
                                 </p>
                             </div>
-                            <div class="md:col-span-3">
+                            <div class="md:col-span-3 flex items-center">
                                 <div class="flex items-center gap-x-2"
                                     v-if="state.formAppointmentSettings.fields?.social_security_number">
                                     <FormSwitch
