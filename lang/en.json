@@ -376,6 +376,42 @@
             "name": "Name"
         }
     },
+    "appointmentSettings": {
+        "alert": {
+            "appointmentSettingsSuccessfullySaved": "Appointment settings successfully saved"
+        },
+        "appointmentSettings": "Appointment settings",
+        "form": {
+            "address": "Address",
+            "contactInformation": "Contact information",
+            "contactInformationLabel": "Choose which of your contact information is shown on the right side of your Online Booking page",
+            "description": "Description",
+            "descriptionLabel": "The description is shown on the right side of your booking form",
+            "fields": {
+                "address": "Address",
+                "conditions": "Conditions",
+                "conditionsLabel": "Enter a link to your conditions. The client must accept these conditions before booking via Online Booking",
+                "dateOfBirth": "Date of Birth",
+                "email": "Email",
+                "fields": "Fields",
+                "fieldsLabel": "Specify which fields a client can fill when a client books an appointment",
+                "notes": "Notes",
+                "phone": "Phone",
+                "required": "Required",
+                "socialSecurityNumber": "Social Security Number"
+            },
+            "header": "Header",
+            "headerLabel": "The header is displayed on the top of your booking form",
+            "image": "Image",
+            "imageLabel": "If you want to show an image on your booking form you can upload it here",
+            "information": "Information",
+            "language": "Language",
+            "languageLabel": "The default language which Online Booking will be displayed in for new clients",
+            "onlineBookingLink": "Online Booking link",
+            "onlineBookingLinkLabel": "The link to your public online booking page",
+            "phone": "Phone"
+        }
+    },
     "apps": {
         "activate": "Activate",
         "activated": "Activated",
@@ -488,6 +524,10 @@
             "October": "October",
             "November": "November",
             "December": "December"
+        },
+        "tabs": {
+            "appointments": "Appointments",
+            "events": "Events"
         },
         "today": "Today",
         "view": {

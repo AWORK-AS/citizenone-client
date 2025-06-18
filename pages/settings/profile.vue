@@ -170,7 +170,7 @@ const state = reactive({
     options: {
         languages: [],
         pages: [],
-    }
+    },
 })
 
 const rulesFormProfile = computed(() => {
@@ -245,6 +245,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             birthday: newValue?.birthday,
             language_uuid: newValue?.language?.uuid,
             pages: [],
+            password: '',
         }
         newValue?.pages.forEach((page: any) => {
             state.formProfile.pages.push(page?.uuid)

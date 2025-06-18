@@ -376,6 +376,42 @@
             "name": "Navn"
         }
     },
+    "appointmentSettings": {
+        "alert": {
+            "appointmentSettingsSuccessfullySaved": "Aftaleindstillinger gemt med succes"
+        },
+        "appointmentSettings": "Aftaleindstillinger",
+        "form": {
+            "address": "Adresse",
+            "contactInformation": "Kontaktinformation",
+            "contactInformationLabel": "Vælg hvilken af dine kontaktinformationer, der vises på højre side af din Online Booking-side",
+            "description": "Beskrivelse",
+            "descriptionLabel": "Beskrivelsen vises på højre side af din bookingformular",
+            "fields": {
+                "address": "Adresse",
+                "conditions": "Betingelser",
+                "conditionsLabel": "Indtast et link til dine betingelser. Kunden skal acceptere disse betingelser før booking via Online Booking",
+                "dateOfBirth": "Fødselsdato",
+                "email": "E-mail",
+                "fields": "Felter",
+                "fieldsLabel": "Angiv hvilke felter en kunde kan udfylde, når de booker en aftale",
+                "notes": "Bemærkninger",
+                "phone": "Telefon",
+                "required": "Påkrævet",
+                "socialSecurityNumber": "CPR-nummer"
+            },
+            "header": "Header",
+            "headerLabel": "Headeren vises øverst på din bookingformular",
+            "image": "Billede",
+            "imageLabel": "Hvis du vil vise et billede på din bookingformular, kan du uploade det her",
+            "information": "Information",
+            "language": "Sprog",
+            "languageLabel": "Standard sprog, som Online Booking vises på for nye kunder",
+            "onlineBookingLink": "Online Booking-link",
+            "onlineBookingLinkLabel": "Linket til din offentlige online booking-side",
+            "phone": "Telefon"
+        }
+    },
     "apps": {
         "activate": "Aktivér",
         "activated": "Aktiveret",
@@ -488,6 +524,10 @@
             "October": "Oktober",
             "November": "November",
             "December": "December"
+        },
+        "tabs": {
+            "appointments": "Aftaler",
+            "events": "Begivenheder"
         },
         "today": "I dag",
         "view": {

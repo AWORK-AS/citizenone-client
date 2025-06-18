@@ -3,17 +3,24 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('appointments.appointments') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('events.calendar') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('appointments.appointments') }}</template>
+            <template #header>{{ $t('events.calendar') }}</template>
 
-            <!-- <div class="flex justify-end items-center mb-5 gap-x-2">
-                <Menu as="div" class="relative inline-block text-left z-20">
+            <ModulesUserCalendarTabs />
+
+            <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
+                <FormButton buttonStyle="action" class="rounded-lg"
+                    @click="navigateTo('/calendar/appointments/settings')">
+                    <Icon name="ph:gear" class="h-4 w-4" aria-hidden="true" />
+                    {{ $t('appointmentSettings.appointmentSettings') }}
+                </FormButton>
+                <!-- <Menu as="div" class="relative inline-block text-left z-20">
                     <div>
                         <MenuButton>
                             <FormButton buttonStyle="action" class="rounded-lg">
@@ -61,8 +68,8 @@
                             </div>
                         </MenuItems>
                     </transition>
-                </Menu>
-            </div> -->
+                </Menu> -->
+            </div>
         </NuxtLayout>
     </div>
 </template>
@@ -82,7 +89,7 @@ const breadcrumbLinks = [
     {
         name: 'appointments.appointments',
         translate: true,
-        href: '/appointments',
+        href: '/calendar/appointments',
     },
 ]
 

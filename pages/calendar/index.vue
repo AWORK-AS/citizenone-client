@@ -17,7 +17,9 @@
                 </Tooltip>
             </template>
 
-            <div class="flex justify-end items-center mb-5 gap-x-2">
+            <ModulesUserCalendarTabs />
+
+            <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
                 <Menu as="div" class="relative inline-block text-left z-20">
                     <div>
                         <MenuButton>

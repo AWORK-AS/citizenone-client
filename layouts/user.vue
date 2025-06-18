@@ -643,7 +643,9 @@ function generateSidebarLinks(user: any) {
         href: '/calendar',
         icon: 'ph:calendar-blank',
         activeRouteNames: [
-            'calendar'
+            'calendar',
+            'calendar-appointments',
+            'calendar-appointments-settings',
         ]
     })
     navigation.push({
