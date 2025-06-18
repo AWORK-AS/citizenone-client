@@ -1,12 +1,20 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class OnlineBookingService extends BaseAPIService {
-    async getOnlineBookingSettings(): Promise<any> {
-        return await this.request(`/user/online-booking-settings`, 'GET')
+    async getOnlineBooking(): Promise<any> {
+        return await this.request(`/user/online-booking`, 'GET')
     }
 
-    async saveOnlineBookingSettings(params: object): Promise<any> {
-        return await this.request(`/user/online-booking-settings`, 'POST', params)
+    async saveOnlineBooking(params: object): Promise<any> {
+        return await this.request(`/user/online-booking`, 'POST', params)
+    }
+
+    async updateOnlineBooking(bookingUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/online-booking/${bookingUuid}/update`, 'POST', params)
+    }
+
+    async deleteOnlineBooking(bookingUuid: any): Promise<any> {
+        return await this.request(`/user/online-booking/${bookingUuid}`, 'DELETE')
     }
 }
 

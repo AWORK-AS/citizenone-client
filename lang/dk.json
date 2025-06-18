@@ -244,17 +244,100 @@
         "success": "Succes",
         "successfullySubscribed": "Du har abonneret med succes"
     },
-    "appointments": {
+    "apps": {
+        "activate": "Aktivér",
+        "activated": "Aktiveret",
+        "agreetoTAC": "Du skal acceptere vilkårene og betingelserne",
         "alert": {
-            "appointmentSuccessfullyAdded": "Aftale tilføjet med succes"
+            "messageSuccessfullySent": "Besked sendt med succes"
         },
-        "appointments": "Aftaler",
+        "apps": "Apps",
+        "categories": {
+            "marketing": "Marketing",
+            "other": "Andet",
+            "visual": "Visuel"
+        },
+        "confirmation": {
+            "confirmationOfTerms": "Jeg bekræfter, at jeg har læst og accepterer vilkårene og betingelserne, før jeg aktiverer denne app"
+        },
+        "contactUs": "Kontakt os",
+        "form": {
+            "annually": "Årligt",
+            "howManyLicensesDoYouWant": "Hvor mange licenser ønsker du",
+            "monthly": "Månedligt",
+            "pleaseWriteHere": "Venligst skriv her",
+            "quantity": "Mængde",
+            "sendMessage": "Send besked",
+            "sendUsAMessage": "Send os en besked, så vender vi tilbage hurtigst muligt"
+        },
+        "goToPartner": "Gå til partner",
+        "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
+        "month": "Måned",
+        "purchased": {
+            "paymentSuccessful": "Betaling gennemført",
+            "purchaseSuccessful": "Køb gennemført",
+            "thankYouForPurchasing": "Tak for dit køb",
+            "yourPaymentHasBeenSuccessfullyProcessed": "Din betaling er blevet behandlet med succes"
+        },
+        "readMore": "Læs mere",
+        "termsAndConditions": "Vilkår og betingelser",
+        "thirdPartyApp": "Tredjepartsapp",
+        "year": "År"
+    },
+    "archived": {
+        "alert": {
+            "citizenSuccessfullyUnarchive": "Borger genåbnet med succes",
+            "documentSuccessfullyUnarchive": "Dokument genåbnet med succes",
+            "employeeSuccessfullyUnarchive": "Medarbejder genåbnet med succes",
+            "goalSuccessfullyUnarchive": "Mål gendannet med succes",
+            "planSuccessfullyUnarchive": "Plan gendannet med succes",
+            "subgoalSuccessfullyUnarchive": "Delmål gendannet med succes"
+        },
+        "confirmation": {
+            "unarchiveCitizen": "Er du sikker på, at du vil genåbne denne borger",
+            "unarchiveDocument": "Er du sikker på, at du vil genåbne dette dokument",
+            "unarchiveEmployee": "Er du sikker på, at du vil genåbne denne medarbejder",
+            "unarchiveGoal": "Er du sikker på, at du vil gendanne dette mål",
+            "unarchivePlan": "Er du sikker på, at du vil gendanne denne plan",
+            "unarchiveSubgoal": "Er du sikker på, at du vil gendanne dette delmål"
+        },
+        "table": {
+            "actions": {
+                "unarchive": "Genåbn",
+                "unarchiveCitizen": "Genåbn borger",
+                "unarchiveDocument": "Genåbn dokument",
+                "unarchiveEmployee": "Genåbn medarbejder"
+            },
+            "belongsTo": "Tilhører",
+            "date": "Dato",
+            "name": "Navn",
+            "type": {
+                "citizen": "Borger",
+                "employee": "Medarbejder",
+                "type": "Type"
+            }
+        },
+        "tabs": {
+            "archivedCitizens": "Arkiverede borgere",
+            "archivedDocuments": "Arkiverede dokumenter",
+            "archivedEmployees": "Arkiverede medarbejdere",
+            "archivedGoals": "Arkiverede mål",
+            "archivedPlans": "Arkiverede planer",
+            "archivedSubgoals": "Arkiverede delmål"
+        }
+    },
+    "back": "Tilbage",
+    "bookings": {
+        "alert": {
+            "bookingSuccessfullyAdded": "Booking tilføjet med succes"
+        },
+        "bookings": "Bookinger",
         "course": {
             "course": "Kursus",
             "createACourse": "Opret et kursus",
             "createACourseByGroupingMultipleEvents": "Opret et kursus ved at gruppere flere begivenheder"
         },
-        "editAppointment": "Rediger aftale",
+        "editBooking": "Rediger booking",
         "formCourse": {
             "information": {
                 "address": "Adresse",
@@ -354,11 +437,11 @@
                 "summary": "Opsummering"
             }
         },
-        "newAppointment": "Ny aftale",
+        "newBooking": "Ny booking",
         "newEvent": "Ny begivenhed",
         "singleEvent": {
             "createASingleEvent": "Opret en enkelt begivenhed",
-            "createASingleOrReccuringEvent": "Opret en enkelt eller tilbagevendende begivenhed",
+            "createASingleEventLabel": "Opret en enkelt eller tilbagevendende begivenhed",
             "singleEvent": "Enkelt begivenhed"
         },
         "table": {
@@ -367,20 +450,20 @@
                 "edit": "Rediger"
             },
             "alert": {
-                "appointmentSuccessfullyDeleted": "Aftale slettet med succes",
-                "appointmentSuccessfullyUpdated": "Aftale opdateret med succes"
+                "bookingSuccessfullyDeleted": "Booking slettet med succes",
+                "bookingSuccessfullyUpdated": "Booking opdateret med succes"
             },
-            "appointment": "Aftaletype",
+            "booking": "Aftaletype",
             "dateTimeEnd": "Dato og tid slut",
             "dateTimeStart": "Dato og tid start",
             "name": "Navn"
         }
     },
-    "appointmentSettings": {
+    "bookingSettings": {
         "alert": {
-            "appointmentSettingsSuccessfullySaved": "Aftaleindstillinger gemt med succes"
+            "bookingSettingsSuccessfullySaved": "Booking indstillinger gemt med succes"
         },
-        "appointmentSettings": "Aftaleindstillinger",
+        "bookingSettings": "Booking indstillinger",
         "form": {
             "address": "Adresse",
             "contactInformation": "Kontaktinformation",
@@ -394,7 +477,7 @@
                 "dateOfBirth": "Fødselsdato",
                 "email": "E-mail",
                 "fields": "Felter",
-                "fieldsLabel": "Angiv hvilke felter en kunde kan udfylde, når de booker en aftale",
+                "fieldsLabel": "Angiv hvilke felter en kunde kan udfylde, når de booker en booking",
                 "notes": "Bemærkninger",
                 "phone": "Telefon",
                 "required": "Påkrævet",
@@ -412,89 +495,6 @@
             "phone": "Telefon"
         }
     },
-    "apps": {
-        "activate": "Aktivér",
-        "activated": "Aktiveret",
-        "agreetoTAC": "Du skal acceptere vilkårene og betingelserne",
-        "alert": {
-            "messageSuccessfullySent": "Besked sendt med succes"
-        },
-        "apps": "Apps",
-        "categories": {
-            "marketing": "Marketing",
-            "other": "Andet",
-            "visual": "Visuel"
-        },
-        "confirmation": {
-            "confirmationOfTerms": "Jeg bekræfter, at jeg har læst og accepterer vilkårene og betingelserne, før jeg aktiverer denne app"
-        },
-        "contactUs": "Kontakt os",
-        "form": {
-            "annually": "Årligt",
-            "howManyLicensesDoYouWant": "Hvor mange licenser ønsker du",
-            "monthly": "Månedligt",
-            "pleaseWriteHere": "Venligst skriv her",
-            "quantity": "Mængde",
-            "sendMessage": "Send besked",
-            "sendUsAMessage": "Send os en besked, så vender vi tilbage hurtigst muligt"
-        },
-        "goToPartner": "Gå til partner",
-        "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
-        "month": "Måned",
-        "purchased": {
-            "paymentSuccessful": "Betaling gennemført",
-            "purchaseSuccessful": "Køb gennemført",
-            "thankYouForPurchasing": "Tak for dit køb",
-            "yourPaymentHasBeenSuccessfullyProcessed": "Din betaling er blevet behandlet med succes"
-        },
-        "readMore": "Læs mere",
-        "termsAndConditions": "Vilkår og betingelser",
-        "thirdPartyApp": "Tredjepartsapp",
-        "year": "År"
-    },
-    "archived": {
-        "alert": {
-            "citizenSuccessfullyUnarchive": "Borger genåbnet med succes",
-            "documentSuccessfullyUnarchive": "Dokument genåbnet med succes",
-            "employeeSuccessfullyUnarchive": "Medarbejder genåbnet med succes",
-            "goalSuccessfullyUnarchive": "Mål gendannet med succes",
-            "planSuccessfullyUnarchive": "Plan gendannet med succes",
-            "subgoalSuccessfullyUnarchive": "Delmål gendannet med succes"
-        },
-        "confirmation": {
-            "unarchiveCitizen": "Er du sikker på, at du vil genåbne denne borger",
-            "unarchiveDocument": "Er du sikker på, at du vil genåbne dette dokument",
-            "unarchiveEmployee": "Er du sikker på, at du vil genåbne denne medarbejder",
-            "unarchiveGoal": "Er du sikker på, at du vil gendanne dette mål",
-            "unarchivePlan": "Er du sikker på, at du vil gendanne denne plan",
-            "unarchiveSubgoal": "Er du sikker på, at du vil gendanne dette delmål"
-        },
-        "table": {
-            "actions": {
-                "unarchive": "Genåbn",
-                "unarchiveCitizen": "Genåbn borger",
-                "unarchiveDocument": "Genåbn dokument",
-                "unarchiveEmployee": "Genåbn medarbejder"
-            },
-            "belongsTo": "Tilhører",
-            "date": "Dato",
-            "name": "Navn",
-            "type": {
-                "citizen": "Borger",
-                "employee": "Medarbejder",
-                "type": "Type"
-            }
-        },
-        "tabs": {
-            "archivedCitizens": "Arkiverede borgere",
-            "archivedDocuments": "Arkiverede dokumenter",
-            "archivedEmployees": "Arkiverede medarbejdere",
-            "archivedGoals": "Arkiverede mål",
-            "archivedPlans": "Arkiverede planer",
-            "archivedSubgoals": "Arkiverede delmål"
-        }
-    },
-    "back": "Tilbage",
     "bulletBoard": {
         "bulletBoard": "Opslagstavle",
         "featured": "Fremhævet"
@@ -526,7 +526,7 @@
             "December": "December"
         },
         "tabs": {
-            "appointments": "Aftaler",
+            "bookings": "Bookinger",
             "events": "Begivenheder"
         },
         "today": "I dag",

@@ -168,7 +168,7 @@ onMounted(() => {
 })
 
 watch(() => state.formShift.shift_type, (newValue) => {
-    const selectShiftIndex = state.options.shifts.findIndex(shift => shift.value === newValue)
+    const selectShiftIndex = state.options.shifts.findIndex((shift: any) => shift.value === newValue)
     if (![3, 4].includes(selectShiftIndex)) {
         state.showChildProtectionCertificateWarning = true
     } else {
@@ -241,7 +241,7 @@ async function fetchAllCalendarTags() {
 
 async function fetchAllScheduleTags() {
     state.error = {}
-    state.isPageLoading = true
+    emit('isPageLoading', true)
     try {
         const response = await scheduleTagService.getAllScheduleTags()
         if (response.data) {
@@ -257,7 +257,7 @@ async function fetchAllScheduleTags() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
+    emit('isPageLoading', false)
 }
 
 async function fetchAllCitizensPerUserDepartment() {

@@ -4,7 +4,7 @@
 
             <Head>
                 <Title>
-                    {{ $t('appointmentSettings.appointmentSettings') }} - {{ runtimeConfig?.public?.appName }}
+                    {{ $t('bookingSettings.bookingSettings') }} - {{ runtimeConfig?.public?.appName }}
                 </Title>
             </Head>
 
@@ -12,62 +12,61 @@
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('appointmentSettings.appointmentSettings') }}</template>
+            <template #header>{{ $t('bookingSettings.bookingSettings') }}</template>
 
-            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/calendar/appointments">
+            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/calendar/bookings">
                 <Icon name="ph:arrow-left" size="20" class="text-black" />
                 <span>{{ $t('back') }}</span>
             </NuxtLink>
 
             <LoadingSpinner :isActive="state.isPageLoading">
-                <form @submit.prevent="submitForm()" class="mt-8 max-w-3xl" id="formAppointmentSettings">
+                <form @submit.prevent="submitForm()" class="mt-8 max-w-3xl" id="formBookingSettings">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
 
                     <div class="mt-3 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
                         <div>
                             <h2 class="text-base font-semibold leading-7 text-gray-900">
-                                {{ $t('appointmentSettings.form.information') }}
+                                {{ $t('bookingSettings.form.information') }}
                             </h2>
                         </div>
                         <div class="space-y-1">
-                            <FormLabel for="header" :label="$t('appointmentSettings.form.header')" />
+                            <FormLabel for="header" :label="$t('bookingSettings.form.header')" />
                             <FormTextField id="header" name="header"
-                                :placeholder="$t('appointmentSettings.form.headerLabel')"
-                                v-model="state.formAppointmentSettings.header" />
-                            <FormError :error="v$?.formAppointmentSettings?.header?.$errors[0]?.$message.toString()" />
+                                :placeholder="$t('bookingSettings.form.headerLabel')"
+                                v-model="state.formBookingSettings.header" />
+                            <FormError :error="v$?.formBookingSettings?.header?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.header?.[0]" />
                         </div>
                         <div class="space-y-1">
-                            <FormLabel for="link" :label="$t('appointmentSettings.form.onlineBookingLink')" />
+                            <FormLabel for="link" :label="$t('bookingSettings.form.onlineBookingLink')" />
                             <div class="flex items-start">
                                 <div class="pl-3 pr-5 bg-gray-100 py-2.5 rounded-tl-md rounded-bl-md">
                                     {{ runtimeConfig.public.appBaseURL }}/book/
                                 </div>
                                 <div class="grow">
                                     <FormTextField id="link" name="link" class="rounded-tl-none rounded-bl-none"
-                                        :placeholder="$t('appointmentSettings.form.onlineBookingLinkLabel')"
-                                        v-model="state.formAppointmentSettings.link" />
+                                        :placeholder="$t('bookingSettings.form.onlineBookingLinkLabel')"
+                                        v-model="state.formBookingSettings.link" />
                                     <FormError
-                                        :error="v$?.formAppointmentSettings?.link?.$errors[0]?.$message.toString()" />
+                                        :error="v$?.formBookingSettings?.link?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.link?.[0]" />
                                 </div>
                             </div>
                         </div>
                         <div class="space-y-1">
                             <p class="text-sm text-gray-600">
-                                {{ $t('appointmentSettings.form.description') }}
+                                {{ $t('bookingSettings.form.description') }}
                             </p>
-                            <ckeditor :editor="editor" v-model="state.formAppointmentSettings.description"
+                            <ckeditor :editor="editor" v-model="state.formBookingSettings.description"
                                 :config="editorDescriptionConfig">
                             </ckeditor>
-                            <FormError
-                                :error="v$?.formAppointmentSettings?.description?.$errors[0]?.$message.toString()" />
+                            <FormError :error="v$?.formBookingSettings?.description?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.description?.[0]" />
                         </div>
                         <div class="space-y-1">
                             <p class="text-sm text-gray-600">
-                                {{ $t('appointmentSettings.form.image') }}
+                                {{ $t('bookingSettings.form.image') }}
                             </p>
                             <div class="flex flex-col items-center">
                                 <input type="file" ref="image" @change="onFileChange" class="hidden" />
@@ -82,32 +81,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <FormError :error="v$?.formAppointmentSettings?.image?.$errors[0]?.$message.toString()"
+                            <FormError :error="v$?.formBookingSettings?.image?.$errors[0]?.$message.toString()"
                                 class="text-center" />
                             <FormError :error="state?.error?.errors?.image?.[0]" class="text-center" />
                         </div>
                         <div class="space-y-1">
                             <div>
                                 <h2 class="text-base font-semibold leading-7 text-gray-900">
-                                    {{ $t('appointmentSettings.form.contactInformation') }}
+                                    {{ $t('bookingSettings.form.contactInformation') }}
                                 </h2>
                                 <p class="text-sm leading-6 text-gray-600">
-                                    {{ $t('appointmentSettings.form.contactInformationLabel') }}
+                                    {{ $t('bookingSettings.form.contactInformationLabel') }}
                                 </p>
                             </div>
                             <div class="grid grid-cols-2 gap-3">
                                 <div class="flex items-center gap-x-2">
-                                    <FormSwitch :value="state.formAppointmentSettings.is_address_enabled"
-                                        @toggleSwitch="state.formAppointmentSettings.is_address_enabled = !state.formAppointmentSettings.is_address_enabled" />
+                                    <FormSwitch :value="state.formBookingSettings.is_address_enabled"
+                                        @toggleSwitch="state.formBookingSettings.is_address_enabled = !state.formBookingSettings.is_address_enabled" />
                                     <p>
-                                        {{ $t('appointmentSettings.form.address') }}
+                                        {{ $t('bookingSettings.form.address') }}
                                     </p>
                                 </div>
                                 <div class="flex items-center gap-x-2">
-                                    <FormSwitch :value="state.formAppointmentSettings.is_phone_enabled"
-                                        @toggleSwitch="state.formAppointmentSettings.is_phone_enabled = !state.formAppointmentSettings.is_phone_enabled" />
+                                    <FormSwitch :value="state.formBookingSettings.is_phone_enabled"
+                                        @toggleSwitch="state.formBookingSettings.is_phone_enabled = !state.formBookingSettings.is_phone_enabled" />
                                     <p>
-                                        {{ $t('appointmentSettings.form.phone') }}
+                                        {{ $t('bookingSettings.form.phone') }}
                                     </p>
                                 </div>
                             </div>
@@ -117,18 +116,18 @@
                     <div class="mt-5 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
                         <div>
                             <h2 class="text-base font-semibold leading-7 text-gray-900">
-                                {{ $t('appointmentSettings.form.language') }}
+                                {{ $t('bookingSettings.form.language') }}
                             </h2>
                             <p class="text-sm leading-6 text-gray-600">
-                                {{ $t('appointmentSettings.form.languageLabel') }}
+                                {{ $t('bookingSettings.form.languageLabel') }}
                             </p>
                         </div>
                         <div class="space-y-1">
-                            <FormLabel for="language" :label="$t('appointmentSettings.form.language')" />
+                            <FormLabel for="language" :label="$t('bookingSettings.form.language')" />
                             <FormSelect id="language" :options="state.options.languages"
-                                v-model="state.formAppointmentSettings.language_uuid" />
+                                v-model="state.formBookingSettings.language_uuid" />
                             <FormError
-                                :error="v$?.formAppointmentSettings?.language_uuid?.$errors[0]?.$message.toString()" />
+                                :error="v$?.formBookingSettings?.language_uuid?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.language_uuid?.[0]" />
                         </div>
                     </div>
@@ -136,134 +135,130 @@
                     <div class="mt-5 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
                         <div>
                             <h2 class="text-base font-semibold leading-7 text-gray-900">
-                                {{ $t('appointmentSettings.form.fields.fields') }}
+                                {{ $t('bookingSettings.form.fields.fields') }}
                             </h2>
                             <p class="text-sm leading-6 text-gray-600">
-                                {{ $t('appointmentSettings.form.fields.fieldsLabel') }}
+                                {{ $t('bookingSettings.form.fields.fieldsLabel') }}
                             </p>
                         </div>
 
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-x-3 gap-y-4">
                             <div class="flex items-center gap-x-2">
-                                <FormSwitch :value="!!state.formAppointmentSettings.fields?.email"
+                                <FormSwitch :value="!!state.formBookingSettings.fields?.email"
                                     @toggleSwitch="toggleField('email')" />
                                 <p>
-                                    {{ $t('appointmentSettings.form.fields.email') }}
+                                    {{ $t('bookingSettings.form.fields.email') }}
                                 </p>
                             </div>
                             <div class="md:col-span-3">
-                                <div class="flex items-center gap-x-2"
-                                    v-if="state.formAppointmentSettings.fields?.email">
-                                    <FormSwitch :value="!!state.formAppointmentSettings.fields?.email?.required"
+                                <div class="flex items-center gap-x-2" v-if="state.formBookingSettings.fields?.email">
+                                    <FormSwitch :value="!!state.formBookingSettings.fields?.email?.required"
                                         @toggleSwitch="toggleFieldRequired('email')" />
                                     <p>
-                                        {{ $t('appointmentSettings.form.fields.required') }}
+                                        {{ $t('bookingSettings.form.fields.required') }}
                                     </p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-x-2">
-                                <FormSwitch :value="!!state.formAppointmentSettings.fields?.phone"
+                                <FormSwitch :value="!!state.formBookingSettings.fields?.phone"
                                     @toggleSwitch="toggleField('phone')" />
                                 <p>
-                                    {{ $t('appointmentSettings.form.fields.phone') }}
+                                    {{ $t('bookingSettings.form.fields.phone') }}
                                 </p>
                             </div>
                             <div class="md:col-span-3">
-                                <div class="flex items-center gap-x-2"
-                                    v-if="state.formAppointmentSettings.fields?.phone">
-                                    <FormSwitch :value="!!state.formAppointmentSettings.fields?.phone?.required"
+                                <div class="flex items-center gap-x-2" v-if="state.formBookingSettings.fields?.phone">
+                                    <FormSwitch :value="!!state.formBookingSettings.fields?.phone?.required"
                                         @toggleSwitch="toggleFieldRequired('phone')" />
                                     <p>
-                                        {{ $t('appointmentSettings.form.fields.required') }}
+                                        {{ $t('bookingSettings.form.fields.required') }}
                                     </p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-x-2">
-                                <FormSwitch :value="!!state.formAppointmentSettings.fields?.address"
+                                <FormSwitch :value="!!state.formBookingSettings.fields?.address"
                                     @toggleSwitch="toggleField('address')" />
                                 <p>
-                                    {{ $t('appointmentSettings.form.fields.address') }}
+                                    {{ $t('bookingSettings.form.fields.address') }}
                                 </p>
                             </div>
                             <div class="md:col-span-3">
-                                <div class="flex items-center gap-x-2"
-                                    v-if="state.formAppointmentSettings.fields?.address">
-                                    <FormSwitch :value="!!state.formAppointmentSettings.fields?.address?.required"
+                                <div class="flex items-center gap-x-2" v-if="state.formBookingSettings.fields?.address">
+                                    <FormSwitch :value="!!state.formBookingSettings.fields?.address?.required"
                                         @toggleSwitch="toggleFieldRequired('address')" />
                                     <p>
-                                        {{ $t('appointmentSettings.form.fields.required') }}
+                                        {{ $t('bookingSettings.form.fields.required') }}
                                     </p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-x-2">
-                                <FormSwitch :value="!!state.formAppointmentSettings.fields?.notes"
+                                <FormSwitch :value="!!state.formBookingSettings.fields?.notes"
                                     @toggleSwitch="toggleField('notes')" />
                                 <p>
-                                    {{ $t('appointmentSettings.form.fields.notes') }}
+                                    {{ $t('bookingSettings.form.fields.notes') }}
                                 </p>
                             </div>
                             <div class="md:col-span-3">
-                                <div class="flex items-center gap-x-2"
-                                    v-if="state.formAppointmentSettings.fields?.notes">
-                                    <FormSwitch :value="!!state.formAppointmentSettings.fields?.notes?.required"
+                                <div class="flex items-center gap-x-2" v-if="state.formBookingSettings.fields?.notes">
+                                    <FormSwitch :value="!!state.formBookingSettings.fields?.notes?.required"
                                         @toggleSwitch="toggleFieldRequired('notes')" />
                                     <p>
-                                        {{ $t('appointmentSettings.form.fields.required') }}
+                                        {{ $t('bookingSettings.form.fields.required') }}
                                     </p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-x-2">
-                                <FormSwitch :value="!!state.formAppointmentSettings.fields?.social_security_number"
+                                <FormSwitch :value="!!state.formBookingSettings.fields?.social_security_number"
                                     @toggleSwitch="toggleField('social_security_number')" />
                                 <p>
-                                    {{ $t('appointmentSettings.form.fields.socialSecurityNumber') }}
+                                    {{ $t('bookingSettings.form.fields.socialSecurityNumber') }}
                                 </p>
                             </div>
                             <div class="md:col-span-3 flex items-center">
                                 <div class="flex items-center gap-x-2"
-                                    v-if="state.formAppointmentSettings.fields?.social_security_number">
+                                    v-if="state.formBookingSettings.fields?.social_security_number">
                                     <FormSwitch
-                                        :value="!!state.formAppointmentSettings.fields?.social_security_number?.required"
+                                        :value="!!state.formBookingSettings.fields?.social_security_number?.required"
                                         @toggleSwitch="toggleFieldRequired('social_security_number')" />
                                     <p>
-                                        {{ $t('appointmentSettings.form.fields.required') }}
+                                        {{ $t('bookingSettings.form.fields.required') }}
                                     </p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-x-2">
-                                <FormSwitch :value="!!state.formAppointmentSettings.fields?.date_of_birth"
+                                <FormSwitch :value="!!state.formBookingSettings.fields?.date_of_birth"
                                     @toggleSwitch="toggleField('date_of_birth')" />
                                 <p>
-                                    {{ $t('appointmentSettings.form.fields.dateOfBirth') }}
+                                    {{ $t('bookingSettings.form.fields.dateOfBirth') }}
                                 </p>
                             </div>
                             <div class="md:col-span-3">
                                 <div class="flex items-center gap-x-2"
-                                    v-if="state.formAppointmentSettings.fields?.date_of_birth">
-                                    <FormSwitch :value="!!state.formAppointmentSettings.fields?.date_of_birth?.required"
+                                    v-if="state.formBookingSettings.fields?.date_of_birth">
+                                    <FormSwitch :value="!!state.formBookingSettings.fields?.date_of_birth?.required"
                                         @toggleSwitch="toggleFieldRequired('date_of_birth')" />
                                     <p>
-                                        {{ $t('appointmentSettings.form.fields.required') }}
+                                        {{ $t('bookingSettings.form.fields.required') }}
                                     </p>
                                 </div>
                             </div>
                             <div class="md:col-span-4 flex items-center gap-x-2">
-                                <FormSwitch :value="!!state.formAppointmentSettings.fields?.conditions"
+                                <FormSwitch :value="!!state.formBookingSettings.fields?.conditions"
                                     @toggleSwitch="toggleField('conditions')" />
                                 <p>
-                                    {{ $t('appointmentSettings.form.fields.conditions') }}
+                                    {{ $t('bookingSettings.form.fields.conditions') }}
                                 </p>
                             </div>
                             <div class="md:col-span-4">
-                                <div v-if="state.formAppointmentSettings.fields?.conditions">
+                                <div v-if="state.formBookingSettings.fields?.conditions">
                                     <p class="text-xs text-gray-600 mb-1">
-                                        {{ $t('appointmentSettings.form.fields.conditionsLabel') }}.
+                                        {{ $t('bookingSettings.form.fields.conditionsLabel') }}.
                                     </p>
                                     <FormTextField id="conditions" name="conditions"
-                                        :placeholder="$t('appointmentSettings.form.fields.conditions')"
-                                        v-model="state.formAppointmentSettings.fields.conditions.value" />
+                                        :placeholder="$t('bookingSettings.form.fields.conditions')"
+                                        v-model="state.formBookingSettings.fields.conditions.value" />
                                     <FormError
-                                        :error="v$?.formAppointmentSettings?.fields?.conditions?.value?.$errors[0]?.$message.toString()" />
+                                        :error="v$?.formBookingSettings?.fields?.conditions?.value?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.fields?.[0]" />
                                 </div>
                             </div>
@@ -284,7 +279,7 @@
 <script setup lang="ts">
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { languageService } from '@/components/api/user/LanguageService'
-import { onlineBookingService } from '@/components/api/user/OnlineBookingService'
+import { onlineBookingSettingsService } from '@/components/api/user/OnlineBookingSettingsService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -314,16 +309,16 @@ const avatarUrl = ref(`/img/icons/asset-02.svg`)
 
 const breadcrumbLinks = [
     {
-        name: 'appointmentSettings.appointmentSettings',
+        name: 'bookingSettings.bookingSettings',
         translate: true,
-        href: '/calendar/appointments/settings',
+        href: '/calendar/bookings/settings',
     },
 ]
 
 const state = reactive({
-    appointments: [],
+    bookings: [],
     error: {} as Error,
-    formAppointmentSettings: {
+    formBookingSettings: {
         header: '',
         link: '',
         image: '',
@@ -344,11 +339,11 @@ const state = reactive({
 })
 
 const rules = computed(() => {
-    const form = state.formAppointmentSettings
+    const form = state.formBookingSettings
     const hasConditions = form.fields?.conditions && form.fields.conditions.enabled
 
     const baseRules: any = {
-        formAppointmentSettings: {
+        formBookingSettings: {
             header: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
@@ -362,7 +357,7 @@ const rules = computed(() => {
     }
 
     if (hasConditions) {
-        baseRules.formAppointmentSettings.fields = {
+        baseRules.formBookingSettings.fields = {
             conditions: {
                 value: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
@@ -379,7 +374,7 @@ const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
     fetchLanguages()
-    fetchAppointmentSettings()
+    fetchBookingSettings()
 })
 
 async function fetchLanguages() {
@@ -403,10 +398,10 @@ async function fetchLanguages() {
     state.isPageLoading = false
 }
 
-async function fetchAppointmentSettings() {
+async function fetchBookingSettings() {
     state.error = {}
     try {
-        const response = await onlineBookingService.getOnlineBookingSettings()
+        const response = await onlineBookingSettingsService.getOnlineBookingSettings()
         if (response?.data) {
             console.log('settings', response?.data)
         }
@@ -423,7 +418,7 @@ function triggerFileInput() {
 
 function onFileChange(event: any) {
     const file = event.target.files[0]
-    state.formAppointmentSettings.image = event.target.files[0]
+    state.formBookingSettings.image = event.target.files[0]
     if (file) {
         const reader = new FileReader()
         reader.onload = (e: any) => {
@@ -434,7 +429,7 @@ function onFileChange(event: any) {
 }
 
 function toggleField(field: string) {
-    const fields = { ...state.formAppointmentSettings.fields }
+    const fields = { ...state.formBookingSettings.fields }
 
     if (fields[field]) {
         delete fields[field]
@@ -444,11 +439,11 @@ function toggleField(field: string) {
             : { enabled: true, required: false }
     }
 
-    state.formAppointmentSettings.fields = fields
+    state.formBookingSettings.fields = fields
 }
 
 function toggleFieldRequired(field: string) {
-    const fields = state.formAppointmentSettings.fields || {}
+    const fields = state.formBookingSettings.fields || {}
 
     if (!fields[field]) {
         fields[field] = { enabled: true, required: true }
@@ -456,7 +451,7 @@ function toggleFieldRequired(field: string) {
         fields[field].required = !fields[field].required
     }
 
-    state.formAppointmentSettings.fields = { ...fields }
+    state.formBookingSettings.fields = { ...fields }
 }
 
 async function submitForm() {
@@ -466,20 +461,20 @@ async function submitForm() {
         state.isPageLoading = true
         try {
             let params = new FormData()
-            params.append('header', state.formAppointmentSettings.header)
-            params.append('link', state.formAppointmentSettings.link)
-            params.append('image', state.formAppointmentSettings.image)
-            params.append('is_address_enabled', state.formAppointmentSettings.is_address_enabled)
-            params.append('is_phone_enabled', state.formAppointmentSettings.is_phone_enabled)
-            params.append('language_uuid', state.formAppointmentSettings.language_uuid)
-            params.append('fields', JSON.stringify(state.formAppointmentSettings.fields))
-            params.append('has_calendar', state.formAppointmentSettings.has_calendar)
-            params.append('is_booking_limit', state.formAppointmentSettings.is_booking_limit)
-            params.append('enable_odd_even_times', state.formAppointmentSettings.enable_odd_even_times)
-            params.append('is_private_calendar', state.formAppointmentSettings.is_private_calendar)
-            const response = await onlineBookingService.saveOnlineBookingSettings(params)
+            params.append('header', state.formBookingSettings.header)
+            params.append('link', state.formBookingSettings.link)
+            params.append('image', state.formBookingSettings.image)
+            params.append('is_address_enabled', state.formBookingSettings.is_address_enabled)
+            params.append('is_phone_enabled', state.formBookingSettings.is_phone_enabled)
+            params.append('language_uuid', state.formBookingSettings.language_uuid)
+            params.append('fields', JSON.stringify(state.formBookingSettings.fields))
+            params.append('has_calendar', state.formBookingSettings.has_calendar)
+            params.append('is_booking_limit', state.formBookingSettings.is_booking_limit)
+            params.append('enable_odd_even_times', state.formBookingSettings.enable_odd_even_times)
+            params.append('is_private_calendar', state.formBookingSettings.is_private_calendar)
+            const response = await onlineBookingSettingsService.saveOnlineBookingSettings(params)
             if (response.data) {
-                successAlert(`${t('alert.success')}!`, `${t('appointmentSettings.alert.appointmentSettingsSuccessfullySaved')}.`)
+                successAlert(`${t('alert.success')}!`, `${t('bookingSettings.alert.bookingSettingsSuccessfullySaved')}.`)
             }
         } catch (error: any) {
             state.error = error

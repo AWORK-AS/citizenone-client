@@ -244,17 +244,100 @@
         "success": "Success",
         "successfullySubscribed": "You have successfully subscribed"
     },
-    "appointments": {
+    "apps": {
+        "activate": "Activate",
+        "activated": "Activated",
+        "agreetoTAC": "You must agree to the terms and conditions",
         "alert": {
-            "appointmentSuccessfullyAdded": "Appointment successfully added"
+            "messageSuccessfullySent": "Message successfully sent"
         },
-        "appointments": "Appointments",
+        "apps": "Apps",
+        "categories": {
+            "marketing": "Marketing",
+            "other": "Other",
+            "visual": "Visual"
+        },
+        "confirmation": {
+            "confirmationOfTerms": "I confirm that I have read and accept the terms and conditions before activating this app"
+        },
+        "contactUs": "Contact us",
+        "form": {
+            "annually": "Annually",
+            "howManyLicensesDoYouWant": "How many licenses do you want",
+            "monthly": "Monthly",
+            "pleaseWriteHere": "Please write here",
+            "quantity": "Quantity",
+            "sendMessage": "Send message",
+            "sendUsAMessage": "Send us a message and we will get back as soon as possible"
+        },
+        "goToPartner": "Go to partner",
+        "iHaveReadAndAcceptThe": "I have read and accept the",
+        "month": "Month",
+        "purchased": {
+            "paymentSuccessful": "Payment successful",
+            "purchaseSuccessful": "Purchase successful",
+            "thankYouForPurchasing": "Thank you for purchasing",
+            "yourPaymentHasBeenSuccessfullyProcessed": "Your payment has been successfully processed"
+        },
+        "readMore": "Read more",
+        "termsAndConditions": "Terms and Conditions",
+        "thirdPartyApp": "Third party app",
+        "year": "Year"
+    },
+    "archived": {
+        "alert": {
+            "citizenSuccessfullyUnarchive": "Citizen successfully unarchive",
+            "documentSuccessfullyUnarchive": "Document successfully unarchive",
+            "employeeSuccessfullyUnarchive": "Employee successfully unarchive",
+            "goalSuccessfullyUnarchive": "Goal successfully unarchive",
+            "planSuccessfullyUnarchive": "Plan successfully unarchive",
+            "subgoalSuccessfullyUnarchive": "Subgoal successfully unarchive"
+        },
+        "confirmation": {
+            "unarchiveCitizen": "Are you sure you want to unarchive this citizen",
+            "unarchiveDocument": "Are you sure you want to unarchive this document",
+            "unarchiveEmployee": "Are you sure you want to unarchive this employee",
+            "unarchiveGoal": "Are you sure you want to unarchive this goal",
+            "unarchivePlan": "Are you sure you want to unarchive this plan",
+            "unarchiveSubgoal": "Are you sure you want to unarchive this subgoal"
+        },
+        "table": {
+            "actions": {
+                "unarchive": "Unarchive",
+                "unarchiveCitizen": "Unarchive citizen",
+                "unarchiveDocument": "Unarchive document",
+                "unarchiveEmployee": "Unarchive employee"
+            },
+            "belongsTo": "Belongs to",
+            "date": "Date",
+            "name": "Name",
+            "type": {
+                "citizen": "Citizen",
+                "employee": "Employee",
+                "type": "Type"
+            }
+        },
+        "tabs": {
+            "archivedCitizens": "Archived citizens",
+            "archivedDocuments": "Archived documents",
+            "archivedEmployees": "Archived employees",
+            "archivedGoals": "Archived goals",
+            "archivedPlans": "Archived plans",
+            "archivedSubgoals": "Archived subgoals"
+        }
+    },
+    "back": "Back",
+    "bookings": {
+        "alert": {
+            "bookingSuccessfullyAdded": "Booking successfully added"
+        },
+        "bookings": "Bookings",
         "course": {
             "course": "Course",
             "createACourse": "Create a course",
             "createACourseByGroupingMultipleEvents": "Create a course by grouping multiple events"
         },
-        "editAppointment": "Edit appointment",
+        "editBooking": "Edit booking",
         "formCourse": {
             "information": {
                 "address": "Address",
@@ -354,11 +437,11 @@
                 "summary": "Summary"
             }
         },
-        "newAppointment": "New appointment",
+        "newBooking": "New booking",
         "newEvent": "New event",
         "singleEvent": {
-            "createASingleEvent": "Create a single",
-            "createASingleOrReccuringEvent": "Create a single or recurring event",
+            "createASingleEvent": "Create a single event",
+            "createASingleEventLabel": "Create a single or recurring event",
             "singleEvent": "Single event"
         },
         "table": {
@@ -367,20 +450,20 @@
                 "edit": "Edit"
             },
             "alert": {
-                "appointmentSuccessfullyDeleted": "Appointment successfully deleted",
-                "appointmentSuccessfullyUpdated": "Appointment successfully updated"
+                "bookingSuccessfullyDeleted": "Booking successfully deleted",
+                "bookingSuccessfullyUpdated": "Booking successfully updated"
             },
-            "appointment": "appointment type",
+            "booking": "booking type",
             "dateTimeEnd": "Date and time end",
             "dateTimeStart": "Date and time start",
             "name": "Name"
         }
     },
-    "appointmentSettings": {
+    "bookingSettings": {
         "alert": {
-            "appointmentSettingsSuccessfullySaved": "Appointment settings successfully saved"
+            "bookingSettingsSuccessfullySaved": "Booking settings successfully saved"
         },
-        "appointmentSettings": "Appointment settings",
+        "bookingSettings": "Booking settings",
         "form": {
             "address": "Address",
             "contactInformation": "Contact information",
@@ -394,7 +477,7 @@
                 "dateOfBirth": "Date of Birth",
                 "email": "Email",
                 "fields": "Fields",
-                "fieldsLabel": "Specify which fields a client can fill when a client books an appointment",
+                "fieldsLabel": "Specify which fields a client can fill when a client books a booking",
                 "notes": "Notes",
                 "phone": "Phone",
                 "required": "Required",
@@ -412,89 +495,6 @@
             "phone": "Phone"
         }
     },
-    "apps": {
-        "activate": "Activate",
-        "activated": "Activated",
-        "agreetoTAC": "You must agree to the terms and conditions",
-        "alert": {
-            "messageSuccessfullySent": "Message successfully sent"
-        },
-        "apps": "Apps",
-        "categories": {
-            "marketing": "Marketing",
-            "other": "Other",
-            "visual": "Visual"
-        },
-        "confirmation": {
-            "confirmationOfTerms": "I confirm that I have read and accept the terms and conditions before activating this app"
-        },
-        "contactUs": "Contact us",
-        "form": {
-            "annually": "Annually",
-            "howManyLicensesDoYouWant": "How many licenses do you want",
-            "monthly": "Monthly",
-            "pleaseWriteHere": "Please write here",
-            "quantity": "Quantity",
-            "sendMessage": "Send message",
-            "sendUsAMessage": "Send us a message and we will get back as soon as possible"
-        },
-        "goToPartner": "Go to partner",
-        "iHaveReadAndAcceptThe": "I have read and accept the",
-        "month": "Month",
-        "purchased": {
-            "paymentSuccessful": "Payment successful",
-            "purchaseSuccessful": "Purchase successful",
-            "thankYouForPurchasing": "Thank you for purchasing",
-            "yourPaymentHasBeenSuccessfullyProcessed": "Your payment has been successfully processed"
-        },
-        "readMore": "Read more",
-        "termsAndConditions": "Terms and Conditions",
-        "thirdPartyApp": "Third party app",
-        "year": "Year"
-    },
-    "archived": {
-        "alert": {
-            "citizenSuccessfullyUnarchive": "Citizen successfully unarchive",
-            "documentSuccessfullyUnarchive": "Document successfully unarchive",
-            "employeeSuccessfullyUnarchive": "Employee successfully unarchive",
-            "goalSuccessfullyUnarchive": "Goal successfully unarchive",
-            "planSuccessfullyUnarchive": "Plan successfully unarchive",
-            "subgoalSuccessfullyUnarchive": "Subgoal successfully unarchive"
-        },
-        "confirmation": {
-            "unarchiveCitizen": "Are you sure you want to unarchive this citizen",
-            "unarchiveDocument": "Are you sure you want to unarchive this document",
-            "unarchiveEmployee": "Are you sure you want to unarchive this employee",
-            "unarchiveGoal": "Are you sure you want to unarchive this goal",
-            "unarchivePlan": "Are you sure you want to unarchive this plan",
-            "unarchiveSubgoal": "Are you sure you want to unarchive this subgoal"
-        },
-        "table": {
-            "actions": {
-                "unarchive": "Unarchive",
-                "unarchiveCitizen": "Unarchive citizen",
-                "unarchiveDocument": "Unarchive document",
-                "unarchiveEmployee": "Unarchive employee"
-            },
-            "belongsTo": "Belongs to",
-            "date": "Date",
-            "name": "Name",
-            "type": {
-                "citizen": "Citizen",
-                "employee": "Employee",
-                "type": "Type"
-            }
-        },
-        "tabs": {
-            "archivedCitizens": "Archived citizens",
-            "archivedDocuments": "Archived documents",
-            "archivedEmployees": "Archived employees",
-            "archivedGoals": "Archived goals",
-            "archivedPlans": "Archived plans",
-            "archivedSubgoals": "Archived subgoals"
-        }
-    },
-    "back": "Back",
     "bulletBoard": {
         "bulletBoard": "Bullet board",
         "featured": "Featured"
@@ -526,7 +526,7 @@
             "December": "December"
         },
         "tabs": {
-            "appointments": "Appointments",
+            "bookings": "Bookings",
             "events": "Events"
         },
         "today": "Today",

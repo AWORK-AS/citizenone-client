@@ -18,12 +18,12 @@ const state = reactive({
             ]
         },
         {
-            name: 'calendar.tabs.appointments',
+            name: 'calendar.tabs.bookings',
             isTranslateName: true,
-            href: `/calendar/appointments`,
+            href: `/calendar/bookings`,
             routeNames: [
-                'calendar-appointments',
-                'calendar-appointments-settings',
+                'calendar-bookings',
+                'calendar-bookings-settings',
             ]
         },
     ] as any
@@ -33,8 +33,8 @@ function changeTab(value: any) {
     if (value === t('calendar.tabs.events')) {
         navigateTo(`/calendar`)
     }
-    else if (value === t('calendar.tabs.appointments')) {
-        navigateTo(`/calendar/appointments`)
+    else if (value === t('calendar.tabs.bookings')) {
+        navigateTo(`/calendar/bookings`)
     }
 }
 </script>
