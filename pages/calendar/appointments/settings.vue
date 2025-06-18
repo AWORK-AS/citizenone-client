@@ -379,6 +379,7 @@ const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
     fetchLanguages()
+    fetchAppointmentSettings()
 })
 
 async function fetchLanguages() {
@@ -400,6 +401,18 @@ async function fetchLanguages() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function fetchAppointmentSettings() {
+    state.error = {}
+    try {
+        const response = await onlineBookingService.getOnlineBookingSettings()
+        if (response?.data) {
+            console.log('settings', response?.data)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
 }
 
 function triggerFileInput() {
