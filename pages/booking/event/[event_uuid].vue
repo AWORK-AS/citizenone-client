@@ -17,8 +17,8 @@
             </div>
         </header>
         <div class="flex-grow">
-            <div class="mx-auto max-w-6xl px-4 py-8 ">
-                adsasddasd
+            <div class="mx-auto max-w-6xl px-4 py-8">
+                <ModulesUserBookingProgress />
             </div>
         </div>
         <footer class="bg-gray-50">
