@@ -332,6 +332,53 @@
             "courseSuccessfullyAdded": "Course successfully added",
             "eventSuccessfullyAdded": "Event successfully added"
         },
+        "booking": {
+            "course": {
+                "confirmation": {
+                    "confirmation": "Confirmation",
+                    "fullname": "Full name",
+                    "information": "Information",
+                    "price": "Price",
+                    "time": "Time"
+                },
+                "continue": "Continue",
+                "continueToConfirmation": "Continue to confirmation",
+                "eventDetails": {
+                    "eventDetails": "Event details",
+                    "eventInformation": "Event Information"
+                },
+                "yourDetails": {
+                    "emailAddress": "Email address",
+                    "firstname": "First name",
+                    "lastname": "Last name",
+                    "yourDetails": "Your details"
+                }
+            },
+            "event": {
+                "confirmation": {
+                    "confirmation": "Confirmation",
+                    "fullname": "Full name",
+                    "information": "Information",
+                    "price": "Price",
+                    "time": "Time"
+                },
+                "continue": "Continue",
+                "continueToConfirmation": "Continue to confirmation",
+                "eventCourseInformation": {
+                    "eventCourseInformation": "Event course information",
+                    "eventDetails": "Event details"
+                },
+                "yourDetails": {
+                    "emailAddress": "Email address",
+                    "firstname": "First name",
+                    "lastname": "Last name",
+                    "yourDetails": "Your details"
+                }
+            },
+            "spotLeft": "Spot left",
+            "spotsLeft": "Spots left",
+            "signUp": "Sign up"
+        },
         "bookings": "Bookings",
         "course": {
             "course": "Course",
@@ -339,6 +386,7 @@
             "createACourseByGroupingMultipleEvents": "Create a course by grouping multiple events"
         },
         "editBooking": "Edit booking",
+        "events": "Events",
         "formCourse": {
             "information": {
                 "address": "Address",
