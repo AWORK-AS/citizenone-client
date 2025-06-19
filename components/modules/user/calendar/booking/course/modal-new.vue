@@ -4,7 +4,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCalendarBookingCourseForm formType="create" :selectedCourse="state.formCourse"
-                        :isSuccessfullyCreated="state.isSuccessfullyCreated" :error="state.error"
+                        :courseData="state.courseData" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveCourse" />
                 </LoadingSpinner>
@@ -32,6 +32,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'refreshBookings'])
 
 const state = reactive({
+    courseData: {},
     error: {} as Error,
     formCourse: {
         name: '',
@@ -70,7 +71,6 @@ const state = reactive({
         is_reminder_enabled: false,
     },
     isPageLoading: false,
-    isSuccessfullyCreated: false,
 })
 
 function closeModal() {
@@ -104,10 +104,9 @@ async function saveCourse(courseDetails: any) {
         params.append('is_reminder_enabled', courseDetails.is_reminder_enabled)
         const response = await bookCoursesEventsService.saveEventCourse(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('bookings.alert.bookingSuccessfullyAdded')}.`)
             refreshBookings()
             closeModal()
-            state.isSuccessfullyCreated = true
+            state.courseData = response.data
         }
     } catch (error: any) {
         state.error = error

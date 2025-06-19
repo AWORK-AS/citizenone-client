@@ -329,7 +329,8 @@
     "back": "Back",
     "bookings": {
         "alert": {
-            "bookingSuccessfullyAdded": "Booking successfully added"
+            "courseSuccessfullyAdded": "Course successfully added",
+            "eventSuccessfullyAdded": "Event successfully added"
         },
         "bookings": "Bookings",
         "course": {
@@ -386,6 +387,10 @@
                 "tags": "Tags",
                 "tax": "Tax"
             },
+            "summary": {
+                "signupForTheEventOnThisAddress": "Signup for the event on this address",
+                "youCanFindAListOfAllFutureEvents": "You can find a list of all future events at"
+            },
             "tabs": {
                 "information": "Information",
                 "sessions": "Sessions",
@@ -431,6 +436,10 @@
                 "price": "Price",
                 "tags": "Tags",
                 "tax": "Tax"
+            },
+            "summary": {
+                "signupForTheEventOnThisAddress": "Signup for the event on this address",
+                "youCanFindAListOfAllFutureEvents": "You can find a list of all future events at"
             },
             "tabs": {
                 "information": "Information",

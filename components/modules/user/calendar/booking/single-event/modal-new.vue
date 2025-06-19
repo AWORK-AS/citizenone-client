@@ -4,7 +4,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCalendarBookingSingleEventForm formType="create" :selectedEvent="state.formEvent"
-                        :isSuccessfullyCreated="state.isSuccessfullyCreated" :error="state.error"
+                        :eventData="state.eventData" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveUnit" />
                 </LoadingSpinner>
@@ -33,6 +33,7 @@ const emit = defineEmits(['close', 'refreshBookings'])
 
 const state = reactive({
     error: {} as Error,
+    eventData: {},
     formEvent: {
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
@@ -94,7 +95,7 @@ async function saveUnit(eventDetails: any) {
             successAlert(`${t('alert.success')}!`, `${t('bookings.alert.bookingSuccessfullyAdded')}.`)
             refreshBookings()
             closeModal()
-            state.isSuccessfullyCreated = true
+            state.eventData = response.data
         }
     } catch (error: any) {
         state.error = error

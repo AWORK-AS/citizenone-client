@@ -329,7 +329,8 @@
     "back": "Tilbage",
     "bookings": {
         "alert": {
-            "bookingSuccessfullyAdded": "Booking tilføjet med succes"
+            "courseSuccessfullyAdded": "Kursus tilføjet med succes",
+            "eventSuccessfullyAdded": "Begivenhed tilføjet med succes"
         },
         "bookings": "Bookinger",
         "course": {
@@ -386,6 +387,10 @@
                 "tags": "Tags",
                 "tax": "Moms"
             },
+            "summary": {
+                "signupForTheEventOnThisAddress": "Tilmeld dig begivenheden på denne adresse",
+                "youCanFindAListOfAllFutureEvents": "Du kan finde en liste over alle fremtidige begivenheder på"
+            },
             "tabs": {
                 "information": "Information",
                 "sessions": "Sessioner",
@@ -431,6 +436,10 @@
                 "price": "Pris",
                 "tags": "Tags",
                 "tax": "Moms"
+            },
+            "summary": {
+                "signupForTheEventOnThisAddress": "Tilmeld dig begivenheden på denne adresse",
+                "youCanFindAListOfAllFutureEvents": "Du kan finde en liste over alle fremtidige begivenheder på"
             },
             "tabs": {
                 "information": "Information",

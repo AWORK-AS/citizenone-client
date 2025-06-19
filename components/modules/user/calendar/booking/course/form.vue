@@ -321,6 +321,34 @@
                     </div>
                 </div>
             </div>
+            <div class="space-y-3" v-if="state.currentStep === 4">
+                <Alert type="success" :text="t('bookings.alert.courseSuccessfullyAdded')" />
+                <div>
+                    <p class="text-gray-600">
+                        {{ $t('bookings.formCourse.summary.signupForTheEventOnThisAddress') }}:
+                    </p>
+                    <div class="flex items-start text-secondary underline cursor-pointer"
+                        @click="navigateToExternalLink(`${runtimeConfig.public.appBaseURL}/book/${props.courseData?.uuid}`)">
+                        <div>
+                            {{ runtimeConfig.public.appBaseURL }}/book/
+                        </div>
+                        <p>{{ props.courseData?.uuid }}</p>
+                    </div>
+                </div>
+                <!-- <div>
+                    <p class="text-sm text-gray-600">
+                        {{ $t('bookings.formCourse.summary.youCanFindAListOfAllFutureEvents') }}:
+                    </p>
+                    <div class="text-sm flex items-start">
+                        <div>
+                            {{ runtimeConfig.public.appBaseURL }}/book/
+                        </div>
+                        <p>
+                            asdasdsad
+                        </p>
+                    </div>
+                </div> -->
+            </div>
             <div class="mt-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="state.currentStep === 4">
                     <FormButton type="button" buttonStyle="cancel" class="col-start-2 rounded-md"
@@ -372,14 +400,15 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    isSuccessfullyCreated: {
-        type: Boolean,
+    courseData: {
+        type: Object,
         required: true,
     },
 })
 
 const emit = defineEmits(['isPageLoading', 'submitForm', 'closeModal'])
 
+const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const editor = ref(ClassicEditor)
 const editorDescriptionConfig = ref({
@@ -462,8 +491,8 @@ const state = reactive({
 //     }
 // })
 
-watch(() => props.isSuccessfullyCreated, (isSuccessfullyCreated: boolean) => {
-    if (isSuccessfullyCreated) {
+watch(() => props.courseData, (courseData: object) => {
+    if (courseData) {
         handleNext()
     }
 })
@@ -537,10 +566,10 @@ function handleNext() {
             ]
         }
     }
-    else if (state.currentStep === 3 && !props.isSuccessfullyCreated) {
+    else if (state.currentStep === 3 && !props.courseData) {
         submitForm()
     }
-    else if (state.currentStep === 3 && props.isSuccessfullyCreated) {
+    else if (state.currentStep === 3 && props.courseData) {
         state.currentStep = 4
         state.steps = [
             { id: '01', name: 'Information', href: '#', status: 'completed' },
@@ -588,6 +617,16 @@ function validateSpotsQuantity(event: Event) {
     const input = event.target as HTMLInputElement
     input.value = input.value.replace(/[^1-9]/g, '').slice(0, 10)
     state.formCourse.spots = input.value
+}
+
+async function navigateToExternalLink(link: string) {
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    await navigateTo(link, {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 
 function submitForm() {
