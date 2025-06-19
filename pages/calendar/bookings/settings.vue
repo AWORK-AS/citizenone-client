@@ -321,6 +321,7 @@ const state = reactive({
     formBookingSettings: {
         header: '',
         link: '',
+        description: '',
         image: '',
         is_address_enabled: false,
         is_phone_enabled: false,
@@ -406,7 +407,8 @@ async function fetchBookingSettings() {
             state.formBookingSettings = {
                 header: response.data?.header,
                 link: response.data?.link,
-                image: response.data?.image_url,
+                description: response.data?.description,
+                image: '',
                 is_address_enabled: response.data?.is_address_enabled,
                 is_phone_enabled: response.data?.is_phone_enabled,
                 language_uuid: response.data?.language?.uuid,
@@ -416,6 +418,7 @@ async function fetchBookingSettings() {
                 enable_odd_even_times: response.data?.enable_odd_even_times,
                 is_private_calendar: response.data?.is_private_calendar,
             }
+            avatarUrl.value = response.data?.image_url
         }
     } catch (error: any) {
         state.error = error
@@ -478,6 +481,7 @@ async function submitForm() {
             let params = new FormData()
             params.append('header', state.formBookingSettings.header)
             params.append('link', state.formBookingSettings.link)
+            params.append('description', state.formBookingSettings.description)
             if (state.formBookingSettings.image) {
                 params.append('image', state.formBookingSettings.image)
             }
