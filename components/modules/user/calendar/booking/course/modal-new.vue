@@ -1,9 +1,9 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('bookings.newEvent')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xl" :title="$t('bookings.course.createACourse')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserCalendarBookingSingleEventForm formType="create" :selectedEvent="state.formEvent"
+                    <ModulesUserCalendarBookingCourseForm formType="create" :selectedEvent="state.formEvent"
                         :isSuccessfullyCreated="state.isSuccessfullyCreated" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveUnit" />
@@ -34,16 +34,13 @@ const emit = defineEmits(['close', 'refreshBookings'])
 const state = reactive({
     error: {} as Error,
     formEvent: {
-        date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
-        date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
-        recurring: '',
-        recurring_until: '',
         name: '',
         description: '',
         address: '',
         post_code: '',
         city: '',
         image: '',
+        sessions: [],
         spots: '',
         tags: [],
         price: '',
