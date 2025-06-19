@@ -325,7 +325,7 @@ const state = reactive({
         is_address_enabled: false,
         is_phone_enabled: false,
         language_uuid: '',
-        fields: [],
+        fields: [] as any,
         has_calendar: false,
         is_booking_limit: false,
         enable_odd_even_times: false,
@@ -403,7 +403,19 @@ async function fetchBookingSettings() {
     try {
         const response = await onlineBookingSettingsService.getOnlineBookingSettings()
         if (response?.data) {
-            console.log('settings', response?.data)
+            state.formBookingSettings = {
+                header: response.data?.header,
+                link: response.data?.link,
+                image: response.data?.image_url,
+                is_address_enabled: response.data?.is_address_enabled,
+                is_phone_enabled: response.data?.is_phone_enabled,
+                language_uuid: response.data?.language?.uuid,
+                fields: response.data?.fields ? JSON.parse(response.data?.fields) : [],
+                has_calendar: response.data?.has_calendar,
+                is_booking_limit: response.data?.is_booking_limit,
+                enable_odd_even_times: response.data?.enable_odd_even_times,
+                is_private_calendar: response.data?.is_private_calendar,
+            }
         }
     } catch (error: any) {
         state.error = error
@@ -429,30 +441,33 @@ function onFileChange(event: any) {
 }
 
 function toggleField(field: string) {
-    const fields = { ...state.formBookingSettings.fields }
+    const fields = { ...state.formBookingSettings.fields } // Create a shallow copy of fields
 
     if (fields[field]) {
+        // If the field already exists, delete it
         delete fields[field]
     } else {
+        // If the field does not exist, add it with a default value
         fields[field] = field === 'conditions'
             ? { enabled: true, value: '' }
             : { enabled: true, required: false }
     }
 
-    state.formBookingSettings.fields = fields
+    state.formBookingSettings.fields = fields // Update the state with the modified fields object
 }
 
 function toggleFieldRequired(field: string) {
-    const fields = state.formBookingSettings.fields || {}
+    const fields = { ...state.formBookingSettings.fields } // Create a shallow copy of fields
 
     if (!fields[field]) {
-        fields[field] = { enabled: true, required: true }
+        fields[field] = { enabled: true, required: true } // Initialize with required if not already present
     } else {
-        fields[field].required = !fields[field].required
+        fields[field].required = !fields[field].required // Toggle the required flag
     }
 
-    state.formBookingSettings.fields = { ...fields }
+    state.formBookingSettings.fields = fields // Update the state with the modified fields object
 }
+
 
 async function submitForm() {
     v$.value.$validate()
@@ -463,7 +478,9 @@ async function submitForm() {
             let params = new FormData()
             params.append('header', state.formBookingSettings.header)
             params.append('link', state.formBookingSettings.link)
-            params.append('image', state.formBookingSettings.image)
+            if (state.formBookingSettings.image) {
+                params.append('image', state.formBookingSettings.image)
+            }
             params.append('is_address_enabled', state.formBookingSettings.is_address_enabled)
             params.append('is_phone_enabled', state.formBookingSettings.is_phone_enabled)
             params.append('language_uuid', state.formBookingSettings.language_uuid)
@@ -474,6 +491,7 @@ async function submitForm() {
             params.append('is_private_calendar', state.formBookingSettings.is_private_calendar)
             const response = await onlineBookingSettingsService.saveOnlineBookingSettings(params)
             if (response.data) {
+                fetchBookingSettings()
                 successAlert(`${t('alert.success')}!`, `${t('bookingSettings.alert.bookingSettingsSuccessfullySaved')}.`)
             }
         } catch (error: any) {
