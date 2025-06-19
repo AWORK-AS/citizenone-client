@@ -143,7 +143,7 @@
                     <FormError :error="state?.error?.errors?.description?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-                    <div class="md:col-span-3">
+                    <div class="md:col-span-3 space-y-3">
                         <div class="space-y-1">
                             <FormLabel for="address" :label="$t('bookings.formEvent.information.address')" />
                             <FormTextField id="address" name="address"

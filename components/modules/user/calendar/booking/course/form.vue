@@ -86,46 +86,46 @@
                 v-if="props.error?.message && props.error.message.length > 0" />
             <div class="space-y-3" v-if="state.currentStep === 1">
                 <div class="space-y-1">
-                    <FormLabel for="name" :label="$t('bookings.formEvent.information.name')" />
-                    <FormTextField id="name" name="name" :placeholder="$t('bookings.formEvent.information.name')"
-                        v-model="state.formEvent.name" />
-                    <FormError :error="v$?.formEvent?.name?.$errors[0]?.$message.toString()" />
+                    <FormLabel for="name" :label="$t('bookings.formCourse.information.name')" />
+                    <FormTextField id="name" name="name" :placeholder="$t('bookings.formCourse.information.name')"
+                        v-model="state.formCourse.name" />
+                    <FormError :error="v$?.formCourse?.name?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.name?.[0]" />
                 </div>
                 <div class="space-y-1">
                     <p class="text-sm text-gray-600">
-                        {{ $t('bookings.formEvent.information.description') }}
+                        {{ $t('bookings.formCourse.information.description') }}
                     </p>
-                    <ckeditor :editor="editor" v-model="state.formEvent.description" :config="editorDescriptionConfig">
+                    <ckeditor :editor="editor" v-model="state.formCourse.description" :config="editorDescriptionConfig">
                     </ckeditor>
-                    <FormError :error="v$?.formEvent?.description?.$errors[0]?.$message.toString()" />
+                    <FormError :error="v$?.formCourse?.description?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.description?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-                    <div class="md:col-span-3">
+                    <div class="md:col-span-3 space-y-3">
                         <div class="space-y-1">
-                            <FormLabel for="address" :label="$t('bookings.formEvent.information.address')" />
+                            <FormLabel for="address" :label="$t('bookings.formCourse.information.address')" />
                             <FormTextField id="address" name="address"
-                                :placeholder="$t('bookings.formEvent.information.address')"
-                                v-model="state.formEvent.address" />
-                            <FormError :error="v$?.formEvent?.address?.$errors[0]?.$message.toString()" />
+                                :placeholder="$t('bookings.formCourse.information.address')"
+                                v-model="state.formCourse.address" />
+                            <FormError :error="v$?.formCourse?.address?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.address?.[0]" />
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div class="space-y-1">
-                                <FormLabel for="post_code" :label="$t('bookings.formEvent.information.postcode')" />
+                                <FormLabel for="post_code" :label="$t('bookings.formCourse.information.postcode')" />
                                 <FormTextField id="post_code" name="post_code"
-                                    :placeholder="$t('bookings.formEvent.information.postcode')"
-                                    v-model="state.formEvent.post_code" />
-                                <FormError :error="v$?.formEvent?.post_code?.$errors[0]?.$message.toString()" />
+                                    :placeholder="$t('bookings.formCourse.information.postcode')"
+                                    v-model="state.formCourse.post_code" />
+                                <FormError :error="v$?.formCourse?.post_code?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.post_code?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="city" :label="$t('bookings.formEvent.information.city')" />
+                                <FormLabel for="city" :label="$t('bookings.formCourse.information.city')" />
                                 <FormTextField id="city" name="city"
-                                    :placeholder="$t('bookings.formEvent.information.city')"
-                                    v-model="state.formEvent.city" />
-                                <FormError :error="v$?.formEvent?.city?.$errors[0]?.$message.toString()" />
+                                    :placeholder="$t('bookings.formCourse.information.city')"
+                                    v-model="state.formCourse.city" />
+                                <FormError :error="v$?.formCourse?.city?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.city?.[0]" />
                             </div>
                         </div>
@@ -148,7 +148,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <FormError :error="v$?.formEvent?.image?.$errors[0]?.$message.toString()"
+                            <FormError :error="v$?.formCourse?.image?.$errors[0]?.$message.toString()"
                                 class="text-center" />
                             <FormError :error="state?.error?.errors?.image?.[0]" class="text-center" />
                         </div>
@@ -156,84 +156,172 @@
                 </div>
             </div>
             <div class="space-y-3" v-if="state.currentStep === 2">
-
+                <div class="space-y-6">
+                    <div v-for="(session, sessionIndex) in state.formCourse.sessions" :key="sessionIndex"
+                        class="relative">
+                        <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg space-y-3 px-4 py-6 sm:p-8">
+                            <div class="flex items-center gap-x-2">
+                                <div class="grow grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    <div class="space-y-1">
+                                        <FormLabel :for="`name_${sessionIndex}`"
+                                            :label="$t('bookings.formCourse.sessions.name')" />
+                                        <FormTextField :id="`name_${sessionIndex}`" :name="`name_${sessionIndex}`"
+                                            :required="true" :placeholder="$t('bookings.formCourse.sessions.name')"
+                                            :value="session.name"
+                                            @keyup="(event: any) => state.formCourse.sessions[sessionIndex].name = event.target.value" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormLabel :for="`date_time_start_${sessionIndex}`"
+                                            :label="$t('bookings.formCourse.sessions.dateTimeStart')" />
+                                        <FormDateTimeField :id="`date_time_start_${sessionIndex}`"
+                                            :name="`date_time_start_${sessionIndex}`"
+                                            :placeholder="`${$t('bookings.formCourse.sessions.dateTimeStart')}`"
+                                            v-model="state.formCourse.sessions[sessionIndex].date_time_start" />
+                                        <FormError
+                                            :error="v$?.formCourse?.sessions?.[sessionIndex]?.date_time_start?.$errors[0]?.$message.toString()" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormLabel :for="`date_time_end_${sessionIndex}`"
+                                            :label="$t('bookings.formCourse.sessions.dateTimeEnd')" />
+                                        <FormDateTimeField :id="`date_time_end_${sessionIndex}`"
+                                            :name="`date_time_end_${sessionIndex}`"
+                                            :placeholder="`${$t('bookings.formCourse.sessions.dateTimeEnd')}`"
+                                            v-model="state.formCourse.sessions[sessionIndex].date_time_end" />
+                                        <FormError
+                                            :error="v$?.formCourse?.sessions?.[sessionIndex]?.date_time_end?.$errors[0]?.$message.toString()" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <Tooltip :text="$t('bookings.formEvent.information.createMultipleEvents')"
+                                        position="left" class="mt-7">
+                                        <button type="button"
+                                            @click="state.formCourse.sessions[sessionIndex].is_recurring = !state.formCourse.sessions[sessionIndex].is_recurring">
+                                            <Icon name="ph:repeat" class="h-6 w-6" aria-hidden="true" />
+                                        </button>
+                                    </Tooltip>
+                                </div>
+                            </div>
+                            <div class="block md:flex items-center space-y-2 gap-x-2 py-2"
+                                v-if="state.formCourse.sessions[sessionIndex].is_recurring">
+                                <p>
+                                    {{ $t('bookings.formCourse.sessions.recurring.addThisSessions') }}
+                                </p>
+                                <div class="space-y-1 grow">
+                                    <FormSelect :id="`recurring_${sessionIndex}`"
+                                        :options="state.options.recurringSchedules"
+                                        v-model="state.formCourse.sessions[sessionIndex].recurring" />
+                                </div>
+                                <p>
+                                    {{ $t('bookings.formCourse.sessions.recurring.until') }}
+                                </p>
+                                <div>
+                                    <FormDateField :id="`recurring_until_${sessionIndex}`" name="recurring_until"
+                                        :placeholder="`${$t('bookings.formEvent.information.recurring.until')}`"
+                                        v-model="state.formCourse.sessions[sessionIndex].recurring_until" />
+                                </div>
+                            </div>
+                            <div>
+                                <div class="space-y-1">
+                                    <p class="text-sm text-gray-600">
+                                        {{ $t('bookings.formCourse.information.description') }}
+                                    </p>
+                                    <ckeditor :editor="editor"
+                                        v-model="state.formCourse.sessions[sessionIndex].description"
+                                        :config="editorDescriptionConfig">
+                                    </ckeditor>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button"
+                            class="absolute -top-3 -right-3 bg-red-700 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"
+                            @click="removeSession(sessionIndex)" v-if="state.formCourse.sessions.length > 2">
+                            <Icon name="ph:trash" class="h-4 w-4 text-white" aria-hidden="true" />
+                        </button>
+                        <button type="button"
+                            class="absolute -bottom-4 inset-x-1/2 shadow-md bg-secondary hover:bg-secondary-800 rounded-full w-8 h-8 flex items-center justify-center"
+                            @click="addSession()" v-if="sessionIndex === state.formCourse.sessions.length - 1">
+                            <Icon name="ph:plus" class="h-4 w-4 text-white" aria-hidden="true" />
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="space-y-3" v-if="state.currentStep === 3">
                 <div class="space-y-1">
-                    <FormLabel for="spots" :label="$t('bookings.formEvent.settings.availableSpotsAtThisEvent')" />
-                    <FormNumberField id="spots" name="spots" placeholder="1" v-model="state.formEvent.spots"
+                    <FormLabel for="spots" :label="$t('bookings.formCourse.settings.availableSpotsAtThisEvent')" />
+                    <FormNumberField id="spots" name="spots" placeholder="1" v-model="state.formCourse.spots"
                         @input="validateSpotsQuantity" />
-                    <FormError :error="v$?.formEvent?.spots?.$errors[0]?.$message.toString()" />
+                    <FormError :error="v$?.formCourse?.spots?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.spots?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="tags" :label="$t('bookings.formEvent.settings.tags')" />
-                    <FormTags id="tags" name="tags" :placeholder="$t('bookings.formEvent.settings.tags')"
-                        v-model="state.formEvent.tags" />
-                    <FormError :error="v$?.formEvent?.tags?.$errors[0]?.$message.toString()" />
+                    <FormLabel for="tags" :label="$t('bookings.formCourse.settings.tags')" />
+                    <FormTags id="tags" name="tags" :placeholder="$t('bookings.formCourse.settings.tags')"
+                        v-model="state.formCourse.tags" />
+                    <FormError :error="v$?.formCourse?.tags?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.tags?.[0]" />
                 </div>
                 <div class="flex items-center gap-x-5">
                     <div class="grow space-y-1">
-                        <FormLabel for="price" :label="$t('bookings.formEvent.settings.price')" />
-                        <FormTextField id="price" name="price" placeholder="1" v-model="state.formEvent.price" />
-                        <FormError :error="v$?.formEvent?.price?.$errors[0]?.$message.toString()" />
+                        <FormLabel for="price" :label="$t('bookings.formCourse.settings.price')" />
+                        <FormTextField id="price" name="price" :placeholder="$t('bookings.formCourse.settings.price')"
+                            v-model="state.formCourse.price" />
+                        <FormError :error="v$?.formCourse?.price?.$errors[0]?.$message.toString()" />
                         <FormError :error="state?.error?.errors?.price?.[0]" />
                     </div>
                     <div class="mt-6 flex items-center">
                         <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formEvent.tax"
-                                @toggleSwitch="state.formEvent.tax = !state.formEvent.tax" />
+                            <FormSwitch :value="state.formCourse.tax"
+                                @toggleSwitch="state.formCourse.tax = !state.formCourse.tax" />
                             <p>
-                                {{ $t('bookings.formEvent.settings.tax') }}
+                                {{ $t('bookings.formCourse.settings.tax') }}
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="space-y-1">
                     <h2 class="text-base font-semibold leading-7 text-gray-900">
-                        {{ $t('bookings.formEvent.settings.otherSettings.otherSettings') }}
+                        {{ $t('bookings.formCourse.settings.otherSettings.otherSettings') }}
                     </h2>
                     <div class="flex items-center gap-x-2">
-                        <FormSwitch :value="state.formEvent.show_spots_left"
-                            @toggleSwitch="state.formEvent.show_spots_left = !state.formEvent.show_spots_left" />
+                        <FormSwitch :value="state.formCourse.show_spots_left"
+                            @toggleSwitch="state.formCourse.show_spots_left = !state.formCourse.show_spots_left" />
                         <p>
                             {{
-                                $t('bookings.formEvent.settings.otherSettings.dontShowTheNumberOfSpotsLeftOnTheSubmitForm')
+                                $t('bookings.formCourse.settings.otherSettings.dontShowTheNumberOfSpotsLeftOnTheSubmitForm')
                             }}
                         </p>
                     </div>
                     <div class="flex items-center gap-x-2">
-                        <FormSwitch :value="state.formEvent.close_registration"
-                            @toggleSwitch="state.formEvent.close_registration = !state.formEvent.close_registration" />
+                        <FormSwitch :value="state.formCourse.close_registration"
+                            @toggleSwitch="state.formCourse.close_registration = !state.formCourse.close_registration" />
                         <p>
-                            {{ $t('bookings.formEvent.settings.otherSettings.closeRegistration') }}
+                            {{ $t('bookings.formCourse.settings.otherSettings.closeRegistration') }}
                         </p>
                     </div>
                     <div class="flex items-center gap-x-2">
-                        <FormSwitch :value="state.formEvent.is_online_booking"
-                            @toggleSwitch="state.formEvent.is_online_booking = !state.formEvent.is_online_booking" />
+                        <FormSwitch :value="state.formCourse.is_online_booking"
+                            @toggleSwitch="state.formCourse.is_online_booking = !state.formCourse.is_online_booking" />
                         <p>
-                            {{ $t('bookings.formEvent.settings.otherSettings.dontShowInOnlineBooking') }}
+                            {{ $t('bookings.formCourse.settings.otherSettings.dontShowInOnlineBooking') }}
                         </p>
                     </div>
                 </div>
                 <div class="space-y-1">
                     <h2 class="text-base font-semibold leading-7 text-gray-900">
-                        {{ $t('bookings.formEvent.settings.notification.notification') }}
+                        {{ $t('bookings.formCourse.settings.notification.notification') }}
                     </h2>
                     <div class="flex items-center gap-x-2">
-                        <FormSwitch :value="state.formEvent.is_reminder_enabled"
-                            @toggleSwitch="state.formEvent.is_reminder_enabled = !state.formEvent.is_reminder_enabled" />
+                        <FormSwitch :value="state.formCourse.is_reminder_enabled"
+                            @toggleSwitch="state.formCourse.is_reminder_enabled = !state.formCourse.is_reminder_enabled" />
                         <p>
                             {{
-                                $t('bookings.formEvent.settings.notification.sendAnEmailToAllParticipants1DayBeforeTheEvent')
+                                $t('bookings.formCourse.settings.notification.sendAnEmailToAllParticipants1DayBeforeTheEvent')
                             }}
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="mt-6">
+            <div class="mt-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="state.currentStep === 4">
                     <FormButton type="button" buttonStyle="cancel" class="col-start-2 rounded-md"
                         @click="emit('closeModal')">
@@ -264,6 +352,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -279,7 +368,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedEvent: {
+    selectedCourse: {
         type: Object,
         required: true,
     },
@@ -313,14 +402,14 @@ const avatarUrl = ref(`/img/icons/asset-02.svg`)
 const state = reactive({
     currentStep: 1,
     error: {} as Error,
-    formEvent: {
+    formCourse: {
         name: '',
         description: '',
         address: '',
         post_code: '',
         city: '',
         image: '',
-        sessions: [],
+        sessions: props.selectedCourse.sessions,
         spots: '',
         tags: [],
         price: '',
@@ -332,12 +421,12 @@ const state = reactive({
     },
     options: {
         recurringSchedules: [
-            { value: 'every_day', label: `${t('bookings.formEvent.information.recurring.everyDay')}` },
-            { value: 'every_week', label: `${t('bookings.formEvent.information.recurring.everyWeek')}` },
-            { value: 'every_second_week', label: `${t('bookings.formEvent.information.recurring.everySecondWeek')}` },
-            { value: 'every_third_week', label: `${t('bookings.formEvent.information.recurring.everyThirdWeek')}` },
-            { value: 'every_fourth_week', label: `${t('bookings.formEvent.information.recurring.everyFourthWeek')}` },
-            { value: 'every_month', label: `${t('bookings.formEvent.information.recurring.everyMonth')}` },
+            { value: 'every_day', label: `${t('bookings.formCourse.sessions.recurring.everyDay')}` },
+            { value: 'every_week', label: `${t('bookings.formCourse.sessions.recurring.everyWeek')}` },
+            { value: 'every_second_week', label: `${t('bookings.formCourse.sessions.recurring.everySecondWeek')}` },
+            { value: 'every_third_week', label: `${t('bookings.formCourse.sessions.recurring.everyThirdWeek')}` },
+            { value: 'every_fourth_week', label: `${t('bookings.formCourse.sessions.recurring.everyFourthWeek')}` },
+            { value: 'every_month', label: `${t('bookings.formCourse.sessions.recurring.everyMonth')}` },
         ]
     },
     steps: [
@@ -348,9 +437,9 @@ const state = reactive({
     ],
 })
 
-// watch(() => props.selectedEvent, (newValue: any) => {
+// watch(() => props.selectedCourse, (newValue: any) => {
 //     if (newValue != null) {
-//         state.formEvent = {
+//         state.formCourse = {
 //             date_time_start: newValue.date_time_start,
 //             date_time_end: newValue.date_time_end,
 //             recurring: newValue.recurring,
@@ -381,10 +470,23 @@ watch(() => props.isSuccessfullyCreated, (isSuccessfullyCreated: boolean) => {
 
 const rules = computed(() => {
     return {
-        formEvent: {
+        formCourse: {
             name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            sessions: {
+                $each: {
+                    name: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    date_time_start: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    date_time_end: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                }
+            }
         },
     }
 })
@@ -457,7 +559,7 @@ function triggerFileInput() {
 
 function onFileChange(event: any) {
     const file = event.target.files[0]
-    state.formEvent.image = event.target.files[0]
+    state.formCourse.image = event.target.files[0]
     if (file) {
         const reader = new FileReader()
         reader.onload = (e: any) => {
@@ -467,10 +569,25 @@ function onFileChange(event: any) {
     }
 }
 
+function addSession() {
+    state.formCourse.sessions.push({
+        name: '',
+        date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
+        date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
+        description: '',
+        recurring: false,
+        recurring_until: moment().format('YYYY-MM-DD'),
+    })
+}
+
+function removeSession(index: number) {
+    state.formCourse.sessions.splice(index, 1)
+}
+
 function validateSpotsQuantity(event: Event) {
     const input = event.target as HTMLInputElement
     input.value = input.value.replace(/[^1-9]/g, '').slice(0, 10)
-    state.formEvent.spots = input.value
+    state.formCourse.spots = input.value
 }
 
 function submitForm() {
@@ -478,7 +595,7 @@ function submitForm() {
         state.error = {}
         v$.value.$validate()
         if (!v$.value.$error) {
-            emit('submitForm', state.formEvent)
+            emit('submitForm', state.formCourse)
         }
     }
 }

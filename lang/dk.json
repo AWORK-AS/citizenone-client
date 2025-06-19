@@ -353,7 +353,8 @@
                 "addNewSession": "Tilføj ny session",
                 "courseSessions": "Kursus sessioner",
                 "courseSessionsLabel": "Sessioner er begivenheder, der hører til kurset. Her kan du oprette sessioner og tilføje dem til dit kursus",
-                "date": "Dato",
+                "dateTimeEnd": "Dato og tid slut",
+                "dateTimeStart": "Dato og tid start",
                 "description": "Beskrivelse",
                 "name": "Navn",
                 "recurring": {
@@ -366,9 +367,7 @@
                     "everyMonth": "Hver måned",
                     "repeat": "Gentag",
                     "until": "Indtil"
-                },
-                "timeEnd": "Tid slut",
-                "timeStart": "Tid start"
+                }
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tilgængelige pladser ved denne begivenhed",

@@ -353,7 +353,8 @@
                 "addNewSession": "AddNewSession",
                 "courseSessions": "Course sessions",
                 "courseSessionsLabel": "Sessions are events that belong to the course. Here you can create sessions and add them to your course",
-                "date": "Date",
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
                 "description": "Description",
                 "name": "Name",
                 "recurring": {
@@ -366,9 +367,7 @@
                     "everyMonth": "Every month",
                     "repeat": "Repeat",
                     "until": "Until"
-                },
-                "timeEnd": "Time end",
-                "timeStart": "Time start"
+                }
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Available spots at the event",

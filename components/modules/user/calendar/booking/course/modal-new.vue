@@ -3,10 +3,10 @@
         <Modal size="xl" :title="$t('bookings.course.createACourse')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserCalendarBookingCourseForm formType="create" :selectedEvent="state.formEvent"
+                    <ModulesUserCalendarBookingCourseForm formType="create" :selectedCourse="state.formCourse"
                         :isSuccessfullyCreated="state.isSuccessfullyCreated" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="saveUnit" />
+                        @submitForm="saveCourse" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { onlineBookingService } from '@/components/api/user/OnlineBookingService'
+import { bookCoursesEventsService } from '@/components/api/user/BookCoursesEventsService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -33,14 +33,33 @@ const emit = defineEmits(['close', 'refreshBookings'])
 
 const state = reactive({
     error: {} as Error,
-    formEvent: {
+    formCourse: {
         name: '',
         description: '',
         address: '',
         post_code: '',
         city: '',
         image: '',
-        sessions: [],
+        sessions: [
+            {
+                name: '',
+                date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
+                date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
+                description: '',
+                is_recurring: false,
+                recurring: '',
+                recurring_until: moment().format('YYYY-MM-DD'),
+            },
+            {
+                name: '',
+                date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
+                date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
+                description: '',
+                is_recurring: false,
+                recurring: '',
+                recurring_until: moment().format('YYYY-MM-DD'),
+            },
+        ],
         spots: '',
         tags: [],
         price: '',
@@ -62,30 +81,28 @@ function refreshBookings() {
     emit('refreshBookings')
 }
 
-async function saveUnit(eventDetails: any) {
+async function saveCourse(courseDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = new FormData()
-        params.append('date_time_start', eventDetails.date_time_start)
-        params.append('date_time_end', eventDetails.date_time_end)
-        params.append('recurring', eventDetails.recurring)
-        params.append('recurring_until', eventDetails.recurring_until)
-        params.append('name', eventDetails.name)
-        params.append('description', eventDetails.description)
-        params.append('address', eventDetails.address)
-        params.append('post_code', eventDetails.post_code)
-        params.append('city', eventDetails.city)
-        params.append('image', eventDetails.image)
-        params.append('spots', eventDetails.spots)
-        params.append('tags', JSON.stringify(eventDetails.tags))
-        params.append('price', eventDetails.price)
-        params.append('tax', eventDetails.tax)
-        params.append('show_spots_left', eventDetails.show_spots_left)
-        params.append('close_registration', eventDetails.close_registration)
-        params.append('is_online_booking', eventDetails.is_online_booking)
-        params.append('is_reminder_enabled', eventDetails.is_reminder_enabled)
-        const response = await onlineBookingService.saveOnlineBooking(params)
+        params.append('type', 'course')
+        params.append('name', courseDetails.name)
+        params.append('description', courseDetails.description)
+        params.append('address', courseDetails.address)
+        params.append('post_code', courseDetails.post_code)
+        params.append('city', courseDetails.city)
+        params.append('image', courseDetails.image)
+        params.append('sessions', JSON.stringify(courseDetails.sessions))
+        params.append('spots', courseDetails.spots)
+        params.append('tags', JSON.stringify(courseDetails.tags))
+        params.append('price', courseDetails.price)
+        params.append('tax', courseDetails.tax)
+        params.append('show_spots_left', courseDetails.show_spots_left)
+        params.append('close_registration', courseDetails.close_registration)
+        params.append('is_online_booking', courseDetails.is_online_booking)
+        params.append('is_reminder_enabled', courseDetails.is_reminder_enabled)
+        const response = await bookCoursesEventsService.saveEventCourse(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('bookings.alert.bookingSuccessfullyAdded')}.`)
             refreshBookings()

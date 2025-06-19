@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { onlineBookingService } from '@/components/api/user/OnlineBookingService'
+import { bookCoursesEventsService } from '@/components/api/user/BookCoursesEventsService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -70,6 +70,7 @@ async function saveUnit(eventDetails: any) {
     state.isPageLoading = true
     try {
         const params = new FormData()
+        params.append('type', 'single_event')
         params.append('date_time_start', eventDetails.date_time_start)
         params.append('date_time_end', eventDetails.date_time_end)
         params.append('recurring', eventDetails.recurring)
@@ -88,7 +89,7 @@ async function saveUnit(eventDetails: any) {
         params.append('close_registration', eventDetails.close_registration)
         params.append('is_online_booking', eventDetails.is_online_booking)
         params.append('is_reminder_enabled', eventDetails.is_reminder_enabled)
-        const response = await onlineBookingService.saveOnlineBooking(params)
+        const response = await bookCoursesEventsService.saveEventCourse(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('bookings.alert.bookingSuccessfullyAdded')}.`)
             refreshBookings()
