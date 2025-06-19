@@ -335,19 +335,18 @@
                         <p>{{ props.courseData?.uuid }}</p>
                     </div>
                 </div>
-                <!-- <div>
+                <div>
                     <p class="text-sm text-gray-600">
                         {{ $t('bookings.formCourse.summary.youCanFindAListOfAllFutureEvents') }}:
                     </p>
-                    <div class="text-sm flex items-start">
+                    <div class="flex items-start text-secondary underline cursor-pointer"
+                        @click="navigateToExternalLink(`${runtimeConfig.public.appBaseURL}/events/${state.bookingSettings?.link}`)">
                         <div>
-                            {{ runtimeConfig.public.appBaseURL }}/book/
+                            {{ runtimeConfig.public.appBaseURL }}/events/
                         </div>
-                        <p>
-                            asdasdsad
-                        </p>
+                        <p>{{ state.bookingSettings?.link }}</p>
                     </div>
-                </div> -->
+                </div>
             </div>
             <div class="mt-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="state.currentStep === 4">
@@ -382,6 +381,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { onlineBookingSettingsService } from '@/components/api/user/OnlineBookingSettingsService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -429,6 +429,7 @@ const image = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref(`/img/icons/asset-02.svg`)
 
 const state = reactive({
+    bookingSettings: {} as any,
     currentStep: 1,
     error: {} as Error,
     formCourse: {
@@ -497,6 +498,10 @@ watch(() => props.courseData, (courseData: object) => {
     }
 })
 
+onMounted(() => {
+    fetchBookingSettings()
+})
+
 const rules = computed(() => {
     return {
         formCourse: {
@@ -520,6 +525,18 @@ const rules = computed(() => {
     }
 })
 const v$ = useVuelidate(rules, state)
+
+async function fetchBookingSettings() {
+    state.error = {}
+    try {
+        const response = await onlineBookingSettingsService.getOnlineBookingSettings()
+        if (response?.data) {
+            state.bookingSettings = response?.data
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 function handleBack() {
     if (state.currentStep === 2) {
