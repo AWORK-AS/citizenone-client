@@ -4,8 +4,9 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCalendarBookingSingleEventForm formType="create" :selectedEvent="state.formEvent"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveUnit" />
+                        :isSuccessfullyCreated="state.isSuccessfullyCreated" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
+                        @submitForm="saveUnit" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -53,6 +54,7 @@ const state = reactive({
         is_reminder_enabled: false,
     },
     isPageLoading: false,
+    isSuccessfullyCreated: false,
 })
 
 function closeModal() {
@@ -91,6 +93,7 @@ async function saveUnit(eventDetails: any) {
             successAlert(`${t('alert.success')}!`, `${t('bookings.alert.bookingSuccessfullyAdded')}.`)
             refreshBookings()
             closeModal()
+            state.isSuccessfullyCreated = true
         }
     } catch (error: any) {
         state.error = error

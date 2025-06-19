@@ -384,7 +384,8 @@
                     "otherSettings": "Other settings"
                 },
                 "price": "Price",
-                "tags": "Tags"
+                "tags": "Tags",
+                "tax": "Tax"
             },
             "tabs": {
                 "information": "Information",
@@ -429,7 +430,8 @@
                     "otherSettings": "Other settings"
                 },
                 "price": "Price",
-                "tags": "Tags"
+                "tags": "Tags",
+                "tax": "Tax"
             },
             "tabs": {
                 "information": "Information",

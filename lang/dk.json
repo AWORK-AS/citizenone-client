@@ -384,7 +384,8 @@
                     "otherSettings": "Andre indstillinger"
                 },
                 "price": "Pris",
-                "tags": "Tags"
+                "tags": "Tags",
+                "tax": "Moms"
             },
             "tabs": {
                 "information": "Information",
@@ -429,7 +430,8 @@
                     "otherSettings": "Andre indstillinger"
                 },
                 "price": "Pris",
-                "tags": "Tags"
+                "tags": "Tags",
+                "tax": "Moms"
             },
             "tabs": {
                 "information": "Information",

@@ -72,10 +72,10 @@
                 </li>
             </ol>
         </nav>
-        <form @submit.prevent="submitForm()" class="mt-6">
+        <form @submit.prevent="handleNext()" class="mt-6">
             <Alert type="danger" :text="props?.error?.message"
                 v-if="props.error?.message && props.error.message.length > 0" />
-            <div class="space-y-3">
+            <div class="space-y-3" v-if="state.currentStep === 1">
                 <div class="flex items-center gap-x-2">
                     <div class="grow grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div class="space-y-1">
@@ -99,7 +99,7 @@
                     <div>
                         <Tooltip :text="$t('bookings.formEvent.information.createMultipleEvents')" position="left"
                             class="mt-7">
-                            <button @click="state.isCreateMultipleEvent = !state.isCreateMultipleEvent">
+                            <button type="button" @click="state.isCreateMultipleEvent = !state.isCreateMultipleEvent">
                                 <Icon name="ph:repeat" class="h-6 w-6" aria-hidden="true" />
                             </button>
                         </Tooltip>
@@ -139,7 +139,7 @@
                     </p>
                     <ckeditor :editor="editor" v-model="state.formEvent.description" :config="editorDescriptionConfig">
                     </ckeditor>
-                    <FormError :error="v$?.formBookingSettings?.description?.$errors[0]?.$message.toString()" />
+                    <FormError :error="v$?.formEvent?.description?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.description?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
@@ -189,15 +189,96 @@
                                     </div>
                                 </div>
                             </div>
-                            <FormError :error="v$?.formBookingSettings?.image?.$errors[0]?.$message.toString()"
+                            <FormError :error="v$?.formEvent?.image?.$errors[0]?.$message.toString()"
                                 class="text-center" />
                             <FormError :error="state?.error?.errors?.image?.[0]" class="text-center" />
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="space-y-3" v-if="state.currentStep === 2">
+                <div class="space-y-1">
+                    <FormLabel for="spots" :label="$t('bookings.formEvent.settings.availableSpotsAtThisEvent')" />
+                    <FormNumberField id="spots" name="spots" placeholder="1" v-model="state.formEvent.spots"
+                        @input="validateSpotsQuantity" />
+                    <FormError :error="v$?.formEvent?.spots?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.spots?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="tags" :label="$t('bookings.formEvent.settings.tags')" />
+                    <FormTags id="tags" name="tags" :placeholder="$t('bookings.formEvent.settings.tags')"
+                        v-model="state.formEvent.tags" />
+                    <FormError :error="v$?.formEvent?.tags?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.tags?.[0]" />
+                </div>
+                <div class="flex items-center gap-x-5">
+                    <div class="grow space-y-1">
+                        <FormLabel for="price" :label="$t('bookings.formEvent.settings.price')" />
+                        <FormTextField id="price" name="price" placeholder="1" v-model="state.formEvent.price" />
+                        <FormError :error="v$?.formEvent?.price?.$errors[0]?.$message.toString()" />
+                        <FormError :error="state?.error?.errors?.price?.[0]" />
+                    </div>
+                    <div class="mt-6 flex items-center">
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formEvent.tax"
+                                @toggleSwitch="state.formEvent.tax = !state.formEvent.tax" />
+                            <p>
+                                {{ $t('bookings.formEvent.settings.tax') }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">
+                        {{ $t('bookings.formEvent.settings.otherSettings.otherSettings') }}
+                    </h2>
+                    <div class="flex items-center gap-x-2">
+                        <FormSwitch :value="state.formEvent.show_spots_left"
+                            @toggleSwitch="state.formEvent.show_spots_left = !state.formEvent.show_spots_left" />
+                        <p>
+                            {{
+                                $t('bookings.formEvent.settings.otherSettings.dontShowTheNumberOfSpotsLeftOnTheSubmitForm')
+                            }}
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <FormSwitch :value="state.formEvent.close_registration"
+                            @toggleSwitch="state.formEvent.close_registration = !state.formEvent.close_registration" />
+                        <p>
+                            {{ $t('bookings.formEvent.settings.otherSettings.closeRegistration') }}
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <FormSwitch :value="state.formEvent.is_online_booking"
+                            @toggleSwitch="state.formEvent.is_online_booking = !state.formEvent.is_online_booking" />
+                        <p>
+                            {{ $t('bookings.formEvent.settings.otherSettings.dontShowInOnlineBooking') }}
+                        </p>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">
+                        {{ $t('bookings.formEvent.settings.notification.notification') }}
+                    </h2>
+                    <div class="flex items-center gap-x-2">
+                        <FormSwitch :value="state.formEvent.is_reminder_enabled"
+                            @toggleSwitch="state.formEvent.is_reminder_enabled = !state.formEvent.is_reminder_enabled" />
+                        <p>
+                            {{
+                                $t('bookings.formEvent.settings.notification.sendAnEmailToAllParticipants1DayBeforeTheEvent')
+                            }}
+                        </p>
+                    </div>
+                </div>
+            </div>
             <div class="mt-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="state.currentStep === 3">
+                    <FormButton type="button" buttonStyle="cancel" class="col-start-2 rounded-md"
+                        @click="emit('closeModal')">
+                        {{ $t('close') }}
+                    </FormButton>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-else>
                     <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')"
                         v-if="state.currentStep === 1">
                         {{ $t('cancel') }}
@@ -206,7 +287,7 @@
                         v-if="state.currentStep === 2">
                         {{ $t('back') }}
                     </FormButton>
-                    <FormButton type="button" buttonStyle="primary" class="rounded-md" @click="handleNext()"
+                    <FormButton type="submit" buttonStyle="primary" class="rounded-md" @click="handleNext()"
                         v-if="state.currentStep === 1">
                         {{ $t('next') }}
                     </FormButton>
@@ -238,6 +319,10 @@ const props = defineProps({
     },
     selectedEvent: {
         type: Object,
+        required: true,
+    },
+    isSuccessfullyCreated: {
+        type: Boolean,
         required: true,
     },
 })
@@ -329,6 +414,12 @@ const state = reactive({
 //     }
 // })
 
+watch(() => props.isSuccessfullyCreated, (isSuccessfullyCreated: boolean) => {
+    if (isSuccessfullyCreated) {
+        handleNext()
+    }
+})
+
 const rules = computed(() => {
     return {
         formEvent: {
@@ -369,6 +460,17 @@ function handleNext() {
             ]
         }
     }
+    else if (state.currentStep === 2 && !props.isSuccessfullyCreated) {
+        submitForm()
+    }
+    else if (state.currentStep === 2 && props.isSuccessfullyCreated) {
+        state.currentStep = 3
+        state.steps = [
+            { id: '01', name: 'Information', href: '#', status: 'completed' },
+            { id: '02', name: 'Settings', href: '#', status: 'completed' },
+            { id: '03', name: 'Summary', href: '#', status: 'current' },
+        ]
+    }
 }
 
 function triggerFileInput() {
@@ -389,11 +491,19 @@ function onFileChange(event: any) {
     }
 }
 
+function validateSpotsQuantity(event: Event) {
+    const input = event.target as HTMLInputElement
+    input.value = input.value.replace(/[^1-9]/g, '').slice(0, 10)
+    state.formEvent.spots = input.value
+}
+
 function submitForm() {
-    state.error = {}
-    v$.value.$validate()
-    if (!v$.value.$error) {
-        emit('submitForm', state.formEvent)
+    if (state.currentStep === 2) {
+        state.error = {}
+        v$.value.$validate()
+        if (!v$.value.$error) {
+            emit('submitForm', state.formEvent)
+        }
     }
 }
 </script>
