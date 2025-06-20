@@ -307,7 +307,7 @@
                                         </div>
                                         <div>
                                             <FormButton buttonStyle="primary"
-                                                @click="navigateTo(`/booking/${companyLink}/event/event-uuid`)"
+                                                @click="navigateTo(`/booking/${companyLink}/event/${courseEvent?.uuid}`)"
                                                 class="w-full rounded-md">
                                                 {{ $t('bookings.booking.signUp') }}
                                             </FormButton>
