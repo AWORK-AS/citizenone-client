@@ -61,7 +61,7 @@ const state = reactive({
                 recurring_until: moment().format('YYYY-MM-DD'),
             },
         ],
-        spots: 1,
+        spots: '1',
         tags: [],
         price: '',
         tax: false,
