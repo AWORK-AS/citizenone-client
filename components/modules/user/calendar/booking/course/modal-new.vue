@@ -106,8 +106,6 @@ async function saveCourse(courseDetails: any) {
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('bookings.alert.courseSuccessfullyAdded')}.`)
             refreshBookings()
-            closeModal()
-            emit('closeModalSelection')
             emit('refreshCoursesEvents')
             state.courseData = response.data
         }

@@ -284,31 +284,25 @@
                     <p class="text-gray-600">
                         {{ $t('bookings.formCourse.summary.signupForTheEventOnThisAddress') }}:
                     </p>
-                    <div class="flex items-start text-secondary underline cursor-pointer"
-                        @click="navigateToExternalLink(`${runtimeConfig.public.appBaseURL}/book/${props.eventData?.uuid}`)">
-                        <div>
-                            {{ runtimeConfig.public.appBaseURL }}/book/
-                        </div>
-                        <p>{{ props.eventData?.uuid }}</p>
+                    <div class="text-secondary underline cursor-pointer"
+                        @click="navigateToExternalLink(`${runtimeConfig.public.appBaseURL}/booking/${state.bookingSettings?.link}/event/${props.eventData?.uuid}`)">
+                        {{ runtimeConfig.public.appBaseURL }}/booking/{{ state.bookingSettings?.link }}/event/{{
+                            props.eventData?.uuid }}
                     </div>
                 </div>
                 <div>
                     <p class="text-sm text-gray-600">
                         {{ $t('bookings.formCourse.summary.youCanFindAListOfAllFutureEvents') }}:
                     </p>
-                    <div class="flex items-start text-secondary underline cursor-pointer"
-                        @click="navigateToExternalLink(`${runtimeConfig.public.appBaseURL}/events/${state.bookingSettings?.link}`)">
-                        <div>
-                            {{ runtimeConfig.public.appBaseURL }}/events/
-                        </div>
-                        <p>{{ state.bookingSettings?.link }}</p>
+                    <div class="text-secondary underline cursor-pointer"
+                        @click="navigateToExternalLink(`${runtimeConfig.public.appBaseURL}/booking/${state.bookingSettings?.link}/overview`)">
+                        {{ runtimeConfig.public.appBaseURL }}/booking/{{ state.bookingSettings?.link }}/overview
                     </div>
                 </div>
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="state.currentStep === 3">
-                    <FormButton type="button" buttonStyle="cancel" class="col-start-2 rounded-md"
-                        @click="emit('closeModal')">
+                    <FormButton type="button" buttonStyle="cancel" class="col-start-2 rounded-md" @click="closeForm()">
                         {{ $t('close') }}
                     </FormButton>
                 </div>
@@ -365,7 +359,7 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['isPageLoading', 'submitForm', 'closeModal'])
+const emit = defineEmits(['isPageLoading', 'submitForm', 'closeModal', 'closeModalSelection'])
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
@@ -489,6 +483,11 @@ const rules = computed(() => {
     }
 })
 const v$ = useVuelidate(rules, state)
+
+function closeForm() {
+    emit('closeModal')
+    emit('closeModalSelection')
+}
 
 async function fetchBookingSettings() {
     state.error = {}

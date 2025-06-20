@@ -6,7 +6,7 @@
                     <ModulesUserCalendarBookingSingleEventForm formType="create" :selectedEvent="state.formEvent"
                         :eventData="state.eventData" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="saveUnit" />
+                        @closeModalSelection="$emit('closeModalSelection')" @submitForm="saveEvent" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -66,7 +66,7 @@ function refreshBookings() {
     emit('refreshBookings')
 }
 
-async function saveUnit(eventDetails: any) {
+async function saveEvent(eventDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -94,8 +94,6 @@ async function saveUnit(eventDetails: any) {
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('bookings.alert.eventSuccessfullyAdded')}.`)
             refreshBookings()
-            closeModal()
-            emit('closeModalSelection')
             emit('refreshCoursesEvents')
             state.eventData = response.data
         }
