@@ -221,7 +221,8 @@
                 <div class="flex items-center gap-x-5">
                     <div class="grow space-y-1">
                         <FormLabel for="price" :label="$t('bookings.formEvent.settings.price')" />
-                        <FormTextField id="price" name="price" placeholder="1" v-model="state.formEvent.price" />
+                        <FormTextField id="price" name="price" :placeholder="$t('bookings.formEvent.settings.price')"
+                            v-model="state.formEvent.price" />
                         <FormError :error="v$?.formEvent?.price?.$errors[0]?.$message.toString()" />
                         <FormError :error="state?.error?.errors?.price?.[0]" />
                     </div>
