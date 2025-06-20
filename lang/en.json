@@ -553,6 +553,32 @@
             "phone": "Phone"
         }
     },
+    "bookingTags": {
+        "addNewBookingTag": "Add new booking tag",
+        "alert": {
+            "bookingTagSuccessfullyDeleted": "Booking tag successfully deleted"
+        },
+        "bookingTags": "Booking tags",
+        "editBookingTag": "Edit booking tag",
+        "form": {
+            "alert": {
+                "bookingTagSuccessfullyUpdated": "Booking tag successfully updated",
+                "newBookingTagSuccessfullySaved": "New booking tag successfully saved"
+            },
+            "name": "Name"
+        },
+        "newBookingTag": "New booking tag",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteBookingTagConfirmation": "Are you sure you want to delete this booking tag"
+            },
+            "name": "Name"
+        }
+    },
     "bulletBoard": {
         "bulletBoard": "Bullet board",
         "featured": "Featured"
@@ -3733,6 +3759,7 @@
             "activityLogs": "Activity logs",
             "addictions": "Addictions",
             "archived": "Archived",
+            "bookingTags": "Booking tags",
             "calendarTags": "Calendar tags",
             "catalog": "Catalog",
             "company": "Company",

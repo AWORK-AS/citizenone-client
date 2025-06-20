@@ -553,6 +553,32 @@
             "phone": "Telefon"
         }
     },
+    "bookingTags": {
+        "addNewBookingTag": "Tilføj ny booking tag",
+        "alert": {
+            "bookingTagSuccessfullyDeleted": "Booking tag slettet med succes"
+        },
+        "bookingTags": "Booking tags",
+        "editBookingTag": "Rediger booking tag",
+        "form": {
+            "alert": {
+                "bookingTagSuccessfullyUpdated": "Booking tag opdateret med succes",
+                "newBookingTagSuccessfullySaved": "Ny booking tag gemt med succes"
+            },
+            "name": "Navn"
+        },
+        "newBookingTag": "Ny booking tag",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteBookingTagConfirmation": "Er du sikker på, at du vil slette denne booking tag"
+            },
+            "name": "Navn"
+        }
+    },
     "bulletBoard": {
         "bulletBoard": "Opslagstavle",
         "featured": "Fremhævet"
@@ -3733,6 +3759,7 @@
             "activityLogs": "Aktivitetslogfiler",
             "addictions": "Afhængigheder",
             "archived": "Arkiveret",
+            "bookingTags": "Booking tags",
             "calendarTags": "Kalenderetiketter",
             "catalog": "Katalog",
             "company": "Virksomhed",

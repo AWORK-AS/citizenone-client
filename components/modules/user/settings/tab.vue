@@ -84,12 +84,20 @@ watch(() => userStore.getUser, (newValue: any) => {
                     href: `/settings/absences`,
                     routeNames: [
                         'settings-absences',
-                        'settings-departments',
                         'settings-addictions',
+                        'settings-booking-tags',
+                        'settings-calendar-tags',
+                        'settings-departments',
                         'settings-diagnoses',
+                        'settings-foreign-cities',
                         'settings-job-titles',
                         'settings-journal-note-tags',
-                        'settings-relationships'
+                        'settings-medicines',
+                        'settings-relationships',
+                        'settings-schedule-tags',
+                        'settings-sections',
+                        'settings-shifts',
+                        'settings-units',
                     ]
                 },
                 {

@@ -33,6 +33,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.bookingTags',
+                isTranslateName: true,
+                href: `/settings/booking-tags`,
+                routeNames: [
+                    'settings-booking-tags'
+                ]
+            },
+            {
                 name: 'settings.tabs.calendarTags',
                 isTranslateName: true,
                 href: `/settings/calendar-tags`,
