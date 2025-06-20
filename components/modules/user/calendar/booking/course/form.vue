@@ -651,6 +651,7 @@ function addSession() {
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
         description: '',
+        is_recurring: false,
         recurring: '',
         recurring_until: moment().format('YYYY-MM-DD'),
     })
