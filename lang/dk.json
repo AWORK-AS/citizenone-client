@@ -333,51 +333,34 @@
             "eventSuccessfullyAdded": "Begivenhed tilføjet med succes"
         },
         "booking": {
-            "course": {
-                "confirmation": {
-                    "confirmation": "Bekræftelse",
-                    "fullname": "Fuldt navn",
-                    "information": "Information",
-                    "price": "Pris",
-                    "time": "Tid"
-                },
-                "continue": "Fortsæt",
-                "continueToConfirmation": "Fortsæt til bekræftelse",
-                "eventDetails": {
-                    "eventDetails": "Begivenhedsdetaljer",
-                    "eventInformation": "Begivenhedsinformation"
-                },
-                "yourDetails": {
-                    "emailAddress": "E-mailadresse",
-                    "firstname": "Fornavn",
-                    "lastname": "Efternavn",
-                    "yourDetails": "Dine oplysninger"
-                }
+            "confirmation": {
+                "confirmation": "Bekræftelse",
+                "courseName": "Kursusnavn",
+                "eventName": "Begivenhedsnavn",
+                "goToOverview": "Gå til oversigt",
+                "information": "Information",
+                "price": "Pris",
+                "time": "Tid",
+                "youHaveSignedUpForTheCourse": "Du har tilmeldt dig kurset",
+                "youHaveSignedUpForTheEvent": "Du har tilmeldt dig begivenheden"
             },
-            "event": {
-                "confirmation": {
-                    "confirmation": "Bekræftelse",
-                    "fullname": "Fuldt navn",
-                    "information": "Information",
-                    "price": "Pris",
-                    "time": "Tid"
-                },
-                "continue": "Fortsæt",
-                "continueToConfirmation": "Fortsæt til bekræftelse",
-                "eventCourseInformation": {
-                    "eventCourseInformation": "Begivenhedskursus information",
-                    "eventDetails": "Begivenhedsdetaljer"
-                },
-                "yourDetails": {
-                    "emailAddress": "E-mailadresse",
-                    "firstname": "Fornavn",
-                    "lastname": "Efternavn",
-                    "yourDetails": "Dine oplysninger"
-                }
+            "continue": "Fortsæt",
+            "continueToConfirmation": "Fortsæt til bekræftelse",
+            "eventDetails": {
+                "eventDetails": "Begivenhedsdetaljer",
+                "eventInformation": "Begivenhedsinformation"
             },
             "spotLeft": "Plads tilbage",
             "spotsLeft": "Pladser tilbage",
-            "signUp": "Tilmeld"
+            "signUp": "Tilmeld",
+            "signUpForCourse": "Tilmeld dig kurset",
+            "signUpForEvent": "Tilmeld dig begivenheden",
+            "yourDetails": {
+                "emailAddress": "E-mailadresse",
+                "firstname": "Fornavn",
+                "lastname": "Efternavn",
+                "yourDetails": "Dine oplysninger"
+            }
         },
         "bookings": "Bookinger",
         "course": {

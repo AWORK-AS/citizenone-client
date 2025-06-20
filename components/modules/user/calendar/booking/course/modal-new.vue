@@ -64,7 +64,7 @@ const state = reactive({
         spots: '1',
         tags: [],
         price: '',
-        tax: false,
+        is_tax_included: false,
         show_spots_left: false,
         close_registration: false,
         is_online_booking: false,
@@ -97,7 +97,7 @@ async function saveCourse(courseDetails: any) {
         params.append('spots', courseDetails.spots)
         params.append('tag_uuid', JSON.stringify(courseDetails.tags))
         params.append('price', courseDetails.price)
-        params.append('tax', courseDetails.tax)
+        params.append('is_tax_included', courseDetails.is_tax_included)
         params.append('show_spots_left', courseDetails.show_spots_left)
         params.append('close_registration', courseDetails.close_registration)
         params.append('is_online_booking', courseDetails.is_online_booking)

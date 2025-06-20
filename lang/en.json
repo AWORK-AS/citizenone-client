@@ -333,51 +333,34 @@
             "eventSuccessfullyAdded": "Event successfully added"
         },
         "booking": {
-            "course": {
-                "confirmation": {
-                    "confirmation": "Confirmation",
-                    "fullname": "Full name",
-                    "information": "Information",
-                    "price": "Price",
-                    "time": "Time"
-                },
-                "continue": "Continue",
-                "continueToConfirmation": "Continue to confirmation",
-                "eventDetails": {
-                    "eventDetails": "Event details",
-                    "eventInformation": "Event Information"
-                },
-                "yourDetails": {
-                    "emailAddress": "Email address",
-                    "firstname": "First name",
-                    "lastname": "Last name",
-                    "yourDetails": "Your details"
-                }
+            "confirmation": {
+                "confirmation": "Confirmation",
+                "courseName": "Course name",
+                "eventName": "Event name",
+                "goToOverview": "Go to overview",
+                "information": "Information",
+                "price": "Price",
+                "time": "Time",
+                "youHaveSignedUpForTheCourse": "You have signed up for the course",
+                "youHaveSignedUpForTheEvent": "You have signed up for the event"
             },
-            "event": {
-                "confirmation": {
-                    "confirmation": "Confirmation",
-                    "fullname": "Full name",
-                    "information": "Information",
-                    "price": "Price",
-                    "time": "Time"
-                },
-                "continue": "Continue",
-                "continueToConfirmation": "Continue to confirmation",
-                "eventCourseInformation": {
-                    "eventCourseInformation": "Event course information",
-                    "eventDetails": "Event details"
-                },
-                "yourDetails": {
-                    "emailAddress": "Email address",
-                    "firstname": "First name",
-                    "lastname": "Last name",
-                    "yourDetails": "Your details"
-                }
+            "continue": "Continue",
+            "continueToConfirmation": "Continue to confirmation",
+            "eventDetails": {
+                "eventDetails": "Event details",
+                "eventInformation": "Event Information"
             },
             "spotLeft": "Spot left",
             "spotsLeft": "Spots left",
-            "signUp": "Sign up"
+            "signUp": "Sign up",
+            "signUpForCourse": "Sign up for course",
+            "signUpForEvent": "Sign up for event",
+            "yourDetails": {
+                "emailAddress": "Email address",
+                "firstname": "First name",
+                "lastname": "Last name",
+                "yourDetails": "Your details"
+            }
         },
         "bookings": "Bookings",
         "course": {

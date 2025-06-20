@@ -48,7 +48,7 @@ const state = reactive({
         spots: '1',
         tags: [],
         price: '',
-        tax: false,
+        is_tax_included: false,
         show_spots_left: false,
         close_registration: false,
         is_online_booking: false,

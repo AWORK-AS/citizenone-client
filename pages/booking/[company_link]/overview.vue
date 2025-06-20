@@ -125,9 +125,7 @@
                                 <div class="absolute inset-px rounded-lg bg-white"></div>
                                 <div
                                     class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
-                                    <img class="h-80 object-cover"
-                                        src="https://tailwindcss.com/plus-assets/img/component-images/bento-01-integrations.png"
-                                        alt="" />
+                                    <img class="h-80 object-cover" src="/img/icons/asset-02.svg" alt="" />
                                     <div class="px-5 pb-6 pt-10 space-y-2">
                                         <div class="flex gap-x-5">
                                             <div class="flex gap-x-3">
