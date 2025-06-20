@@ -401,7 +401,7 @@ const state = reactive({
         post_code: '',
         city: '',
         image: '',
-        spots: '',
+        spots: props.selectedEvent.spots || 1,
         tags: [],
         price: '',
         is_tax_included: false,

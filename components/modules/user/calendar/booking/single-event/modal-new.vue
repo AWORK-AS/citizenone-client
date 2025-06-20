@@ -45,7 +45,7 @@ const state = reactive({
         post_code: '',
         city: '',
         image: '',
-        spots: '',
+        spots: 1,
         tags: [],
         price: '',
         tax: false,
@@ -71,7 +71,7 @@ async function saveUnit(eventDetails: any) {
     state.isPageLoading = true
     try {
         const params = new FormData()
-        params.append('type', 'single_event')
+        params.append('type', 'event')
         params.append('date_time_start', eventDetails.date_time_start)
         params.append('date_time_end', eventDetails.date_time_end)
         params.append('recurring', eventDetails.recurring)

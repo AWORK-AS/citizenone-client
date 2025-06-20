@@ -449,7 +449,7 @@ const state = reactive({
         city: '',
         image: '',
         sessions: props.selectedCourse.sessions,
-        spots: '',
+        spots: props.selectedCourse.spots || 1,
         tags: [],
         price: '',
         is_tax_included: false,
