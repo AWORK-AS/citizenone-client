@@ -366,7 +366,8 @@
         "course": {
             "course": "Kursus",
             "createACourse": "Opret et kursus",
-            "createACourseByGroupingMultipleEvents": "Opret et kursus ved at gruppere flere begivenheder"
+            "createACourseByGroupingMultipleEvents": "Opret et kursus ved at gruppere flere begivenheder",
+            "sessions": "Sessioner"
         },
         "editBooking": "Rediger booking",
         "events": "Begivenheder",

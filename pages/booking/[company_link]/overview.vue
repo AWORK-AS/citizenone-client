@@ -24,75 +24,285 @@
                 <div class="mx-auto max-w-6xl px-4 py-8" v-if="Object.keys(state.bookingSettings).length > 0">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    {{ state.coursesEvents }}
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                        <div>
+                        <div v-for="(courseEvent, index) in state.coursesEvents?.data" :key="index">
                             <div class="relative">
                                 <div class="absolute inset-px rounded-lg bg-white"></div>
                                 <div
                                     class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
                                     <img class="h-80 object-cover"
-                                        src="https://tailwindcss.com/plus-assets/img/component-images/bento-01-integrations.png"
-                                        alt="" />
+                                        :src="courseEvent?.image_url || '/img/icons/asset-02.svg'" alt="" />
                                     <div class="px-5 pb-6 pt-10 space-y-2">
                                         <div class="flex gap-x-5">
                                             <div class="flex gap-x-3">
                                                 <div>
-                                                    <h3 class="text-lg font-semibold text-primary">20</h3>
-                                                    <h3 class="text-xs font-semibold text-primary">Jun</h3>
+                                                    <h3 class="text-lg font-semibold text-primary">
+                                                        {{
+                                                            moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('DD')
+                                                        }}
+                                                    </h3>
+                                                    <h3 class="text-xs font-semibold text-primary">
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('MM') === '01'">
+                                                            {{ $t('calendar.month.January') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('MM') === '02'">
+                                                            {{ $t('calendar.month.February') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('MM') === '03'">
+                                                            {{ $t('calendar.month.March') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('MM') === '04'">
+                                                            {{ $t('calendar.month.April') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('MM') === '05'">
+                                                            {{ $t('calendar.month.May') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('MM') === '06'">
+                                                            {{ $t('calendar.month.June') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('MM') === '07'">
+                                                            {{ $t('calendar.month.July') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('MM') === '08'">
+                                                            {{ $t('calendar.month.August') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('MM') === '09'">
+                                                            {{ $t('calendar.month.September') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('MM') === '10'">
+                                                            {{ $t('calendar.month.October') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('MM') === '11'">
+                                                            {{ $t('calendar.month.November') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('MM') === '12'">
+                                                            {{ $t('calendar.month.December') }}
+                                                        </span>
+                                                    </h3>
                                                 </div>
-                                                <div>
+                                                <div v-if="courseEvent?.type === 'course'">
                                                     -
                                                 </div>
-                                                <div>
-                                                    <h3 class="text-lg font-semibold text-primary">19</h3>
-                                                    <h3 class="text-xs font-semibold text-primary">Jun</h3>
+                                                <div v-if="courseEvent?.type === 'course'">
+                                                    <h3 class="text-lg font-semibold text-primary">
+                                                        {{
+                                                            moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length
+                                                                - 1]?.date_time_end)?.format('DD') }}
+                                                    </h3>
+                                                    <h3 class="text-xs font-semibold text-primary">
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_end)?.format('MM') === '01'">
+                                                            {{ $t('calendar.month.January') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_end)?.format('MM') === '02'">
+                                                            {{ $t('calendar.month.February') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_end)?.format('MM') === '03'">
+                                                            {{ $t('calendar.month.March') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_end)?.format('MM') === '04'">
+                                                            {{ $t('calendar.month.April') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_end)?.format('MM') === '05'">
+                                                            {{ $t('calendar.month.May') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_end)?.format('MM') === '06'">
+                                                            {{ $t('calendar.month.June') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_end)?.format('MM') === '07'">
+                                                            {{ $t('calendar.month.July') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_end)?.format('MM') === '08'">
+                                                            {{ $t('calendar.month.August') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_end)?.format('MM') === '09'">
+                                                            {{ $t('calendar.month.September') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_end)?.format('MM') === '10'">
+                                                            {{ $t('calendar.month.October') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_end)?.format('MM') === '11'">
+                                                            {{ $t('calendar.month.November') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_end)?.format('MM') === '12'">
+                                                            {{ $t('calendar.month.December') }}
+                                                        </span>
+                                                    </h3>
                                                 </div>
                                             </div>
                                             <div class="mt-1 text-sm">
-                                                <p>Friday 9:00AM</p>
-                                                <p>Sunday 5:00PM</p>
+                                                <div v-if="courseEvent?.type === 'event'">
+                                                    <p>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('dddd') === 'Monday'">
+                                                            {{ $t('calendar.days.Monday') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('dddd') === 'Tuesday'">
+                                                            {{ $t('calendar.days.Tuesday') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('dddd') === 'Wednesday'">
+                                                            {{ $t('calendar.days.Wednesday') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('dddd') === 'Thursday'">
+                                                            {{ $t('calendar.days.Thursday') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('dddd') === 'Friday'">
+                                                            {{ $t('calendar.days.Friday') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('dddd') === 'Saturday'">
+                                                            {{ $t('calendar.days.Saturday') }}
+                                                        </span>
+                                                        <span
+                                                            v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('dddd') === 'Sunday'">
+                                                            {{ $t('calendar.days.Sunday') }}
+                                                        </span>
+                                                    </p>
+                                                    <p>
+                                                        {{
+                                                            moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('HH:mm')
+                                                        }}
+                                                        -
+                                                        {{
+                                                            moment(courseEvent?.event_course_sessions?.[0]?.date_time_end)?.format('HH:mm')
+                                                        }}
+                                                    </p>
+                                                </div>
+                                                <div v-else>
+                                                    <div class="flex items-center gap-x-2">
+                                                        <p>
+                                                            <span
+                                                                v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('dddd') === 'Monday'">
+                                                                {{ $t('calendar.days.Monday') }}
+                                                            </span>
+                                                            <span
+                                                                v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('dddd') === 'Tuesday'">
+                                                                {{ $t('calendar.days.Tuesday') }}
+                                                            </span>
+                                                            <span
+                                                                v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('dddd') === 'Wednesday'">
+                                                                {{ $t('calendar.days.Wednesday') }}
+                                                            </span>
+                                                            <span
+                                                                v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('dddd') === 'Thursday'">
+                                                                {{ $t('calendar.days.Thursday') }}
+                                                            </span>
+                                                            <span
+                                                                v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('dddd') === 'Friday'">
+                                                                {{ $t('calendar.days.Friday') }}
+                                                            </span>
+                                                            <span
+                                                                v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('dddd') === 'Saturday'">
+                                                                {{ $t('calendar.days.Saturday') }}
+                                                            </span>
+                                                            <span
+                                                                v-if="moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('dddd') === 'Sunday'">
+                                                                {{ $t('calendar.days.Sunday') }}
+                                                            </span>
+                                                        </p>
+                                                        <p>
+                                                            {{
+                                                                moment(courseEvent?.event_course_sessions?.[0]?.date_time_start)?.format('HH:mm')
+                                                            }}
+                                                            -
+                                                            {{
+                                                                moment(courseEvent?.event_course_sessions?.[0]?.date_time_end)?.format('HH:mm')
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="flex items-center gap-x-2">
+                                                        <p>
+                                                            <span
+                                                                v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_start)?.format('dddd') === 'Monday'">
+                                                                {{ $t('calendar.days.Monday') }}
+                                                            </span>
+                                                            <span
+                                                                v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_start)?.format('dddd') === 'Tuesday'">
+                                                                {{ $t('calendar.days.Tuesday') }}
+                                                            </span>
+                                                            <span
+                                                                v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_start)?.format('dddd') === 'Wednesday'">
+                                                                {{ $t('calendar.days.Wednesday') }}
+                                                            </span>
+                                                            <span
+                                                                v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_start)?.format('dddd') === 'Thursday'">
+                                                                {{ $t('calendar.days.Thursday') }}
+                                                            </span>
+                                                            <span
+                                                                v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_start)?.format('dddd') === 'Friday'">
+                                                                {{ $t('calendar.days.Friday') }}
+                                                            </span>
+                                                            <span
+                                                                v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_start)?.format('dddd') === 'Saturday'">
+                                                                {{ $t('calendar.days.Saturday') }}
+                                                            </span>
+                                                            <span
+                                                                v-if="moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length - 1]?.date_time_start)?.format('dddd') === 'Sunday'">
+                                                                {{ $t('calendar.days.Sunday') }}
+                                                            </span>
+                                                        </p>
+                                                        <p>
+                                                            {{
+                                                                moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length
+                                                                    - 1]?.date_time_end)?.format('HH:mm')
+                                                            }}
+                                                            -
+                                                            {{
+                                                                moment(courseEvent?.event_course_sessions?.[courseEvent?.event_course_sessions?.length
+                                                                    - 1]?.date_time_end)?.format('HH:mm')
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div>
                                             <p class="text-lg font-medium tracking-tight">
-                                                Event Title
+                                                {{ courseEvent?.name }}
                                             </p>
-                                            <p class="max-w-lg text-xs text-gray-600">
-                                                Course - 10 sessions
+                                            <p class="max-w-lg text-xs text-gray-600 h-3">
+                                                <span v-if="courseEvent?.type === 'course'">
+                                                    {{ $t('bookings.course.course') }} -
+                                                    {{ courseEvent?.event_course_sessions?.length }}
+                                                    {{ $t('bookings.course.sessions') }}
+                                                </span>
                                             </p>
                                         </div>
-                                        <p class="max-w-lg text-sm text-gray-600">
-                                            Description goes here.
+                                        <p class="text-sm text-muted-400 h-7">
+                                            <div v-html="courseEvent?.description" class="content line-clamp-1" />
                                         </p>
-                                        <div class="flex flex-wrap items-center gap-x-1.5 gap-y-1">
-                                            <div
+                                        <div class="flex flex-wrap items-center gap-x-1.5 gap-y-1 h-5 line-clamp-1">
+                                            <div v-for="(tag, tagIndex) in courseEvent?.booking_setting?.tags"
+                                                :key="tagIndex"
                                                 class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                                Tag 1
-                                            </div>
-                                            <div
-                                                class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                                Tag 2
-                                            </div>
-                                            <div
-                                                class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                                Tag 3
-                                            </div>
-                                            <div
-                                                class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                                Tag 4
-                                            </div>
-                                            <div
-                                                class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                                Tag 5
-                                            </div>
-                                            <div
-                                                class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                                Tag 6
-                                            </div>
-                                            <div
-                                                class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                                Tag 7
+                                                {{ tag?.tag }}
                                             </div>
                                         </div>
                                         <div>
@@ -104,294 +314,20 @@
                                         </div>
                                         <div class="text-sm flex justify-between">
                                             <div>
-                                                DKK 100,00
+                                                {{ formatAmount(courseEvent?.booking_setting?.price) }}
                                             </div>
-                                            <div>
+                                            <!-- <div>
                                                 5 spots left
-                                            </div>
+                                            </div> -->
                                         </div>
-                                        <div class="text-sm">
-                                            Somewhere over the rainbow
+                                        <div class="text-sm h-3">
+                                            {{ courseEvent?.address }}
                                         </div>
                                     </div>
                                 </div>
                                 <div
                                     class="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5">
                                 </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="relative">
-                                <div class="absolute inset-px rounded-lg bg-white"></div>
-                                <div
-                                    class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
-                                    <img class="h-80 object-cover" src="/img/icons/asset-02.svg" alt="" />
-                                    <div class="px-5 pb-6 pt-10 space-y-2">
-                                        <div class="flex gap-x-5">
-                                            <div class="flex gap-x-3">
-                                                <div>
-                                                    <h3 class="text-lg font-semibold text-primary">20</h3>
-                                                    <h3 class="text-xs font-semibold text-primary">Jun</h3>
-                                                </div>
-                                                <div>
-                                                    -
-                                                </div>
-                                                <div>
-                                                    <h3 class="text-lg font-semibold text-primary">19</h3>
-                                                    <h3 class="text-xs font-semibold text-primary">Jun</h3>
-                                                </div>
-                                            </div>
-                                            <div class="mt-1 text-sm">
-                                                <p>Friday 9:00AM</p>
-                                                <p>Sunday 5:00PM</p>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <p class="text-lg font-medium tracking-tight">
-                                                Event Title
-                                            </p>
-                                            <p class="max-w-lg text-xs text-gray-600">
-                                                Course - 10 sessions
-                                            </p>
-                                        </div>
-                                        <p class="max-w-lg text-sm text-gray-600">
-                                            Description goes here.
-                                        </p>
-                                        <div class="flex flex-wrap items-center gap-x-1.5 gap-y-1">
-                                            <div
-                                                class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                                Tag 1
-                                            </div>
-                                            <div
-                                                class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                                Tag 2
-                                            </div>
-                                            <div
-                                                class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                                Tag 3
-                                            </div>
-                                            <div
-                                                class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                                Tag 4
-                                            </div>
-                                            <div
-                                                class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                                Tag 5
-                                            </div>
-                                            <div
-                                                class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                                Tag 6
-                                            </div>
-                                            <div
-                                                class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                                Tag 7
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <FormButton buttonStyle="primary"
-                                                @click="navigateTo(`/booking/${companyLink}/event/event-uuid`)"
-                                                class="w-full rounded-md">
-                                                {{ $t('bookings.booking.signUp') }}
-                                            </FormButton>
-                                        </div>
-                                        <div class="text-sm flex justify-between">
-                                            <div>
-                                                DKK 100,00
-                                            </div>
-                                            <div>
-                                                5 spots left
-                                            </div>
-                                        </div>
-                                        <div class="text-sm">
-                                            Somewhere over the rainbow
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="relative">
-                            <div class="absolute inset-px rounded-lg bg-white"></div>
-                            <div
-                                class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
-                                <img class="h-80 object-cover"
-                                    src="https://tailwindcss.com/plus-assets/img/component-images/bento-01-integrations.png"
-                                    alt="" />
-                                <div class="px-5 pb-6 pt-10 space-y-2">
-                                    <div class="flex gap-x-5">
-                                        <div class="flex gap-x-3">
-                                            <div>
-                                                <h3 class="text-lg font-semibold text-primary">20</h3>
-                                                <h3 class="text-xs font-semibold text-primary">Jun</h3>
-                                            </div>
-                                            <div>
-                                                -
-                                            </div>
-                                            <div>
-                                                <h3 class="text-lg font-semibold text-primary">19</h3>
-                                                <h3 class="text-xs font-semibold text-primary">Jun</h3>
-                                            </div>
-                                        </div>
-                                        <div class="mt-1 text-sm">
-                                            <p>Friday 9:00AM</p>
-                                            <p>Sunday 5:00PM</p>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p class="text-lg font-medium tracking-tight">
-                                            Event Title
-                                        </p>
-                                        <p class="max-w-lg text-xs text-gray-600">
-                                            Course - 10 sessions
-                                        </p>
-                                    </div>
-                                    <p class="max-w-lg text-sm text-gray-600">
-                                        Description goes here.
-                                    </p>
-                                    <div class="flex flex-wrap items-center gap-x-1.5 gap-y-1">
-                                        <div
-                                            class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                            Tag 1
-                                        </div>
-                                        <div
-                                            class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                            Tag 2
-                                        </div>
-                                        <div
-                                            class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                            Tag 3
-                                        </div>
-                                        <div
-                                            class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                            Tag 4
-                                        </div>
-                                        <div
-                                            class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                            Tag 5
-                                        </div>
-                                        <div
-                                            class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                            Tag 6
-                                        </div>
-                                        <div
-                                            class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                            Tag 7
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <FormButton buttonStyle="primary"
-                                            @click="navigateTo(`/booking/${companyLink}/event/event-uuid`)"
-                                            class="w-full rounded-md">
-                                            {{ $t('bookings.booking.signUp') }}
-                                        </FormButton>
-                                    </div>
-                                    <div class="text-sm flex justify-between">
-                                        <div>
-                                            DKK 100,00
-                                        </div>
-                                        <div>
-                                            5 spots left
-                                        </div>
-                                    </div>
-                                    <div class="text-sm">
-                                        Somewhere over the rainbow
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5">
-                            </div>
-                        </div>
-                        <div class="relative">
-                            <div class="absolute inset-px rounded-lg bg-white"></div>
-                            <div
-                                class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
-                                <img class="h-80 object-cover"
-                                    src="https://tailwindcss.com/plus-assets/img/component-images/bento-01-integrations.png"
-                                    alt="" />
-                                <div class="px-5 pb-6 pt-10 space-y-2">
-                                    <div class="flex gap-x-5">
-                                        <div class="flex gap-x-3">
-                                            <div>
-                                                <h3 class="text-lg font-semibold text-primary">20</h3>
-                                                <h3 class="text-xs font-semibold text-primary">Jun</h3>
-                                            </div>
-                                            <div>
-                                                -
-                                            </div>
-                                            <div>
-                                                <h3 class="text-lg font-semibold text-primary">19</h3>
-                                                <h3 class="text-xs font-semibold text-primary">Jun</h3>
-                                            </div>
-                                        </div>
-                                        <div class="mt-1 text-sm">
-                                            <p>Friday 9:00AM</p>
-                                            <p>Sunday 5:00PM</p>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p class="text-lg font-medium tracking-tight">
-                                            Event Title
-                                        </p>
-                                        <p class="max-w-lg text-xs text-gray-600">
-                                            Course - 10 sessions
-                                        </p>
-                                    </div>
-                                    <p class="max-w-lg text-sm text-gray-600">
-                                        Description goes here.
-                                    </p>
-                                    <div class="flex flex-wrap items-center gap-x-1.5 gap-y-1">
-                                        <div
-                                            class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                            Tag 1
-                                        </div>
-                                        <div
-                                            class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                            Tag 2
-                                        </div>
-                                        <div
-                                            class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                            Tag 3
-                                        </div>
-                                        <div
-                                            class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                            Tag 4
-                                        </div>
-                                        <div
-                                            class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                            Tag 5
-                                        </div>
-                                        <div
-                                            class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                            Tag 6
-                                        </div>
-                                        <div
-                                            class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
-                                            Tag 7
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <FormButton buttonStyle="primary"
-                                            @click="navigateTo(`/booking/${companyLink}/event/event-uuid`)"
-                                            class="w-full rounded-md">
-                                            {{ $t('bookings.booking.signUp') }}
-                                        </FormButton>
-                                    </div>
-                                    <div class="text-sm flex justify-between">
-                                        <div>
-                                            DKK 100,00
-                                        </div>
-                                        <div>
-                                            5 spots left
-                                        </div>
-                                    </div>
-                                    <div class="text-sm">
-                                        Somewhere over the rainbow
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5">
                             </div>
                         </div>
                     </div>
@@ -429,19 +365,22 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { onlineBookingSettingsService } from '@/components/api/user/OnlineBookingSettingsService'
 import { onlineBookingService } from '@/components/api/user/OnlineBookingService'
 import { useUserStore } from '@/store/user'
+import { useAmountFormatter } from '@/composables/amountFormatter'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const router = useRouter()
 const companyLink = router?.currentRoute?.value?.params?.company_link
+const { formatAmount } = useAmountFormatter()
 
 const state = reactive({
     bookingSettings: {} as any,
-    coursesEvents: [],
+    coursesEvents: [] as any,
     error: {} as Error,
     isPageLoading: false,
     slideOver: {

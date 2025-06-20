@@ -29,7 +29,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshBookings'])
+const emit = defineEmits(['close', 'closeModalSelection', 'refreshBookings'])
 
 const state = reactive({
     courseData: {},
@@ -104,8 +104,10 @@ async function saveCourse(courseDetails: any) {
         params.append('is_reminder_enabled', courseDetails.is_reminder_enabled)
         const response = await coursesEventsService.saveEventCourse(params)
         if (response.data) {
+            successAlert(`${t('alert.success')}!`, `${t('bookings.alert.courseSuccessfullyAdded')}.`)
             refreshBookings()
             closeModal()
+            emit('closeModalSelection')
             state.courseData = response.data
         }
     } catch (error: any) {

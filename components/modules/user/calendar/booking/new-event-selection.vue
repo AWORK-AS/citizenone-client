@@ -37,9 +37,9 @@
                     </div>
                 </div>
                 <ModulesUserCalendarBookingSingleEventModalNew :isModalOpen="state.modal.isNewSingleEventOpen"
-                    @close="state.modal.isNewSingleEventOpen = false" />
+                    @close="state.modal.isNewSingleEventOpen = false" @closeModalSelection="closeModal()" />
                 <ModulesUserCalendarBookingCourseModalNew :isModalOpen="state.modal.isNewCourseOpen"
-                    @close="state.modal.isNewCourseOpen = false" />
+                    @close="state.modal.isNewCourseOpen = false" @closeModalSelection="closeModal()" />
             </template>
         </Modal>
     </div>

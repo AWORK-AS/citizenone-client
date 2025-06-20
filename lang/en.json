@@ -366,7 +366,8 @@
         "course": {
             "course": "Course",
             "createACourse": "Create a course",
-            "createACourseByGroupingMultipleEvents": "Create a course by grouping multiple events"
+            "createACourseByGroupingMultipleEvents": "Create a course by grouping multiple events",
+            "sessions": "Sessions"
         },
         "editBooking": "Edit booking",
         "events": "Events",
