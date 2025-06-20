@@ -37,9 +37,11 @@
                     </div>
                 </div>
                 <ModulesUserCalendarBookingSingleEventModalNew :isModalOpen="state.modal.isNewSingleEventOpen"
-                    @close="state.modal.isNewSingleEventOpen = false" @closeModalSelection="closeModal()" />
+                    @close="state.modal.isNewSingleEventOpen = false" @closeModalSelection="closeModal()"
+                    @refreshCoursesEvents="$emit('refreshCoursesEvents')" />
                 <ModulesUserCalendarBookingCourseModalNew :isModalOpen="state.modal.isNewCourseOpen"
-                    @close="state.modal.isNewCourseOpen = false" @closeModalSelection="closeModal()" />
+                    @close="state.modal.isNewCourseOpen = false" @closeModalSelection="closeModal()"
+                    @refreshCoursesEvents="$emit('refreshCoursesEvents')" />
             </template>
         </Modal>
     </div>
@@ -52,7 +54,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshCoursesEvents'])
 
 const state = reactive({
     modal: {

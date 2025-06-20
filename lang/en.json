@@ -489,7 +489,8 @@
         "table": {
             "actions": {
                 "delete": "Delete",
-                "edit": "Edit"
+                "edit": "Edit",
+                "view": "View"
             },
             "alert": {
                 "bookingSuccessfullyDeleted": "Booking successfully deleted",
@@ -498,7 +499,11 @@
             "booking": "booking type",
             "dateTimeEnd": "Date and time end",
             "dateTimeStart": "Date and time start",
-            "name": "Name"
+            "name": "Name",
+            "type": {
+                "course": "Course",
+                "event": "Event"
+            }
         }
     },
     "bookingSettings": {

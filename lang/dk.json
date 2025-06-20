@@ -489,7 +489,8 @@
         "table": {
             "actions": {
                 "delete": "Slet",
-                "edit": "Rediger"
+                "edit": "Rediger",
+                "view": "Se"
             },
             "alert": {
                 "bookingSuccessfullyDeleted": "Booking slettet med succes",
@@ -498,7 +499,11 @@
             "booking": "Aftaletype",
             "dateTimeEnd": "Dato og tid slut",
             "dateTimeStart": "Dato og tid start",
-            "name": "Navn"
+            "name": "Navn",
+            "type": {
+                "course": "Kursus",
+                "event": "Begivenhed"
+            }
         }
     },
     "bookingSettings": {

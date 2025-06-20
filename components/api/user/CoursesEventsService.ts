@@ -1,8 +1,8 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class CoursesEventsService extends BaseAPIService {
-    async getCoursesEvents(): Promise<any> {
-        return await this.request(`/user/courses-events`, 'GET')
+    async getCoursesEvents(params: any): Promise<any> {
+        return await this.request(`/user/courses-events`, 'GET', params)
     }
 
     async getEventCourse(bookingUuid: any): Promise<any> {

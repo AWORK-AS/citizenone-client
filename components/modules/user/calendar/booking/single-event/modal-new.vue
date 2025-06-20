@@ -29,7 +29,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'closeModalSelection', 'refreshBookings'])
+const emit = defineEmits(['close', 'closeModalSelection', 'refreshBookings', 'refreshCoursesEvents'])
 
 const state = reactive({
     error: {} as Error,
@@ -96,6 +96,7 @@ async function saveUnit(eventDetails: any) {
             refreshBookings()
             closeModal()
             emit('closeModalSelection')
+            emit('refreshCoursesEvents')
             state.eventData = response.data
         }
     } catch (error: any) {
