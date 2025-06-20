@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { bookCoursesEventsService } from '@/components/api/user/BookCoursesEventsService'
+import { coursesEventsService } from '@/components/api/user/CoursesEventsService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -95,14 +95,14 @@ async function saveCourse(courseDetails: any) {
         params.append('image', courseDetails.image)
         params.append('sessions', JSON.stringify(courseDetails.sessions))
         params.append('spots', courseDetails.spots)
-        params.append('tags', JSON.stringify(courseDetails.tags))
+        params.append('tag_uuid', JSON.stringify(courseDetails.tags))
         params.append('price', courseDetails.price)
         params.append('tax', courseDetails.tax)
         params.append('show_spots_left', courseDetails.show_spots_left)
         params.append('close_registration', courseDetails.close_registration)
         params.append('is_online_booking', courseDetails.is_online_booking)
         params.append('is_reminder_enabled', courseDetails.is_reminder_enabled)
-        const response = await bookCoursesEventsService.saveEventCourse(params)
+        const response = await coursesEventsService.saveEventCourse(params)
         if (response.data) {
             refreshBookings()
             closeModal()

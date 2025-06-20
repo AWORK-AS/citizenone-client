@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { bookCoursesEventsService } from '@/components/api/user/BookCoursesEventsService'
+import { coursesEventsService } from '@/components/api/user/CoursesEventsService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -83,14 +83,14 @@ async function saveUnit(eventDetails: any) {
         params.append('city', eventDetails.city)
         params.append('image', eventDetails.image)
         params.append('spots', eventDetails.spots)
-        params.append('tags', JSON.stringify(eventDetails.tags))
+        params.append('tag_uuid', JSON.stringify(eventDetails.tags))
         params.append('price', eventDetails.price)
-        params.append('tax', eventDetails.tax)
+        params.append('is_tax_included', eventDetails.is_tax_included)
         params.append('show_spots_left', eventDetails.show_spots_left)
         params.append('close_registration', eventDetails.close_registration)
         params.append('is_online_booking', eventDetails.is_online_booking)
         params.append('is_reminder_enabled', eventDetails.is_reminder_enabled)
-        const response = await bookCoursesEventsService.saveEventCourse(params)
+        const response = await coursesEventsService.saveEventCourse(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('bookings.alert.bookingSuccessfullyAdded')}.`)
             refreshBookings()

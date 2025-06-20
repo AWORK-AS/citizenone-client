@@ -205,11 +205,17 @@
                     <FormError :error="state?.error?.errors?.spots?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="tags" :label="$t('bookings.formEvent.settings.tags')" />
-                    <FormTags id="tags" name="tags" :placeholder="$t('bookings.formEvent.settings.tags')"
-                        v-model="state.formEvent.tags" />
-                    <FormError :error="v$?.formEvent?.tags?.$errors[0]?.$message.toString()" />
-                    <FormError :error="state?.error?.errors?.tags?.[0]" />
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="schedule_tag_uuid" :label="$t('dutySchedules.form.tags')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.modal.isAddNewBookingTag = true">
+                            {{ $t('bookingTags.addNewBookingTag') }}
+                        </span>
+                    </div>
+                    <FormSelectMultiple id="schedule_tag_uuid" name="schedule_tag_uuid"
+                        :options="state.options.bookingTags" v-model="state.formEvent.tags" />
+                    <FormError :error="v$?.formEvent?.schedule_tag_uuid?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.schedule_tag_uuid?.[0]" />
                 </div>
                 <div class="flex items-center gap-x-5">
                     <div class="grow space-y-1">
@@ -220,8 +226,8 @@
                     </div>
                     <div class="mt-6 flex items-center">
                         <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formEvent.tax"
-                                @toggleSwitch="state.formEvent.tax = !state.formEvent.tax" />
+                            <FormSwitch :value="state.formEvent.is_tax_included"
+                                @toggleSwitch="state.formEvent.is_tax_included = !state.formEvent.is_tax_included" />
                             <p>
                                 {{ $t('bookings.formEvent.settings.tax') }}
                             </p>
@@ -325,12 +331,15 @@
                 </div>
             </div>
         </form>
+        <ModulesUserBookingTagModalNew :isModalOpen="state.modal.isAddNewBookingTag"
+            @close="state.modal.isAddNewBookingTag = false" @refreshBookingTags="fetchAllBookingTags" />
     </div>
 </template>
 
 <script setup lang="ts">
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { onlineBookingSettingsService } from '@/components/api/user/OnlineBookingSettingsService'
+import { bookingTagService } from '@/components/api/user/BookingTagService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -395,14 +404,19 @@ const state = reactive({
         spots: '',
         tags: [],
         price: '',
-        tax: false,
+        is_tax_included: false,
         show_spots_left: false,
         close_registration: false,
         is_online_booking: false,
         is_reminder_enabled: false,
     },
     isCreateMultipleEvent: false,
+    isPageLoading: false,
+    modal: {
+        isAddNewBookingTag: false,
+    },
     options: {
+        bookingTags: [],
         recurringSchedules: [
             { value: 'every_day', label: `${t('bookings.formEvent.information.recurring.everyDay')}` },
             { value: 'every_week', label: `${t('bookings.formEvent.information.recurring.everyWeek')}` },
@@ -435,7 +449,7 @@ const state = reactive({
 //             spots: newValue.spots,
 //             tags: newValue.tags,
 //             price: newValue.price,
-//             tax: newValue.tax,
+//             is_tax_included: newValue.is_tax_included,
 //             show_spots_left: newValue.show_spots_left,
 //             close_registration: newValue.close_registration,
 //             is_online_booking: newValue.is_online_booking,
@@ -452,6 +466,7 @@ watch(() => props.eventData, (eventData: object) => {
 
 onMounted(() => {
     fetchBookingSettings()
+    fetchAllBookingTags()
 })
 
 const rules = computed(() => {
@@ -473,6 +488,7 @@ const v$ = useVuelidate(rules, state)
 
 async function fetchBookingSettings() {
     state.error = {}
+    state.isPageLoading = true
     try {
         const response = await onlineBookingSettingsService.getOnlineBookingSettings()
         if (response?.data) {
@@ -481,6 +497,28 @@ async function fetchBookingSettings() {
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
+}
+
+async function fetchAllBookingTags() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await bookingTagService.getAllBookingTags()
+        if (response?.data) {
+            let options: any = []
+            response.data.forEach(
+                (tag: any) => options.push({
+                    value: tag?.uuid,
+                    label: tag?.tag,
+                })
+            )
+            state.options.bookingTags = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 function handleBack() {
@@ -506,10 +544,10 @@ function handleNext() {
             ]
         }
     }
-    else if (state.currentStep === 2 && !props.eventData) {
+    else if (state.currentStep === 2 && Object.keys(props.eventData)?.length === 0) {
         submitForm()
     }
-    else if (state.currentStep === 2 && props.eventData) {
+    else if (state.currentStep === 2 && Object.keys(props.eventData)?.length > 0) {
         state.currentStep = 3
         state.steps = [
             { id: '01', name: 'Information', href: '#', status: 'completed' },
