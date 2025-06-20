@@ -409,16 +409,18 @@ async function fetchBookingSettings() {
                 link: response.data?.link,
                 description: response.data?.description,
                 image: '',
-                is_address_enabled: response.data?.is_address_enabled,
-                is_phone_enabled: response.data?.is_phone_enabled,
+                is_address_enabled: response.data?.is_address_enabled ?? false,
+                is_phone_enabled: response.data?.is_phone_enabled ?? false,
                 language_uuid: response.data?.language?.uuid,
                 fields: response.data?.fields ? JSON.parse(response.data?.fields) : [],
-                has_calendar: response.data?.has_calendar,
-                is_booking_limit: response.data?.is_booking_limit,
-                enable_odd_even_times: response.data?.enable_odd_even_times,
-                is_private_calendar: response.data?.is_private_calendar,
+                has_calendar: response.data?.has_calendar ?? false,
+                is_booking_limit: response.data?.is_booking_limit ?? false,
+                enable_odd_even_times: response.data?.enable_odd_even_times ?? false,
+                is_private_calendar: response.data?.is_private_calendar ?? false,
             }
-            avatarUrl.value = response.data?.image_url
+            if (response.data?.image_url) {
+                avatarUrl.value = response.data?.image_url
+            }
         }
     } catch (error: any) {
         state.error = error
@@ -481,7 +483,9 @@ async function submitForm() {
             let params = new FormData()
             params.append('header', state.formBookingSettings.header)
             params.append('link', state.formBookingSettings.link)
-            params.append('description', state.formBookingSettings.description)
+            if (state.formBookingSettings.description) {
+                params.append('description', state.formBookingSettings.description)
+            }
             if (state.formBookingSettings.image) {
                 params.append('image', state.formBookingSettings.image)
             }
