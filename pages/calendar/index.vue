@@ -197,7 +197,9 @@ const state = reactive({
         description: '',
         start: '',
         end: '',
+        unit_uuid: '',
         is_private: false,
+        calendar_tags: [],
     },
     options: {
         citizens: [] as any,

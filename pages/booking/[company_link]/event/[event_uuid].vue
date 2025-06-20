@@ -110,7 +110,7 @@
                                                     </span>
                                                 </p>
                                                 <p class="col-span-3">
-                                                    Event name
+                                                    {{ state.courseEventDetails?.name }}
                                                 </p>
                                                 <p class="font-semibold text-right text-primary">
                                                     {{ $t('bookings.booking.confirmation.time') }}
@@ -179,7 +179,9 @@
                                                             $t('bookings.booking.confirmation.youHaveSignedUpForTheCourse')
                                                         }}
                                                     </span>
-                                                    Event/Course name goes here.
+                                                    <p v-if="state.courseEventDetails?.name">
+                                                        {{ state.courseEventDetails?.name }}.
+                                                    </p>
                                                 </h2>
                                             </div>
                                             <div class="mt-8">
