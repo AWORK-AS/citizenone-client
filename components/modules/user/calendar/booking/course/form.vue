@@ -248,8 +248,9 @@
             <div class="space-y-3" v-if="state.currentStep === 3">
                 <div class="space-y-1">
                     <FormLabel for="spots" :label="$t('bookings.formCourse.settings.availableSpotsAtThisEvent')" />
-                    <FormNumberField id="spots" name="spots" placeholder="1" v-model="state.formCourse.spots"
-                        @input="validateSpotsQuantity" />
+                    <FormNumberField id="spots" name="spots"
+                        :placeholder="$t('bookings.formCourse.settings.availableSpotsAtThisEvent')"
+                        v-model="state.formCourse.spots" @input="validateSpotsQuantity" />
                     <FormError :error="v$?.formCourse?.spots?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.spots?.[0]" />
                 </div>
@@ -523,19 +524,9 @@ const rules = computed(() => {
             name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            sessions: {
-                $each: {
-                    name: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
-                    date_time_start: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
-                    date_time_end: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
-                }
-            }
+            spots: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
         },
     }
 })
@@ -621,10 +612,10 @@ function handleNext() {
             ]
         }
     }
-    else if (state.currentStep === 3 && !props.courseData) {
+    else if (state.currentStep === 3 && Object.keys(props.courseData)?.length === 0) {
         submitForm()
     }
-    else if (state.currentStep === 3 && props.courseData) {
+    else if (state.currentStep === 3 && Object.keys(props.courseData)?.length > 0) {
         state.currentStep = 4
         state.steps = [
             { id: '01', name: 'Information', href: '#', status: 'completed' },
@@ -632,6 +623,8 @@ function handleNext() {
             { id: '03', name: 'Settings', href: '#', status: 'completed' },
             { id: '04', name: 'Summary', href: '#', status: 'current' },
         ]
+    } else {
+        console.log('not working')
     }
 }
 
@@ -670,7 +663,10 @@ function removeSession(index: number) {
 
 function validateSpotsQuantity(event: Event) {
     const input = event.target as HTMLInputElement
-    input.value = input.value.replace(/[^1-9]/g, '').slice(0, 10)
+    input.value = input.value.replace(/[^0-9]/g, '').slice(0, 10)
+    if (input.value === '0') {
+        input.value = '1'
+    }
     state.formCourse.spots = input.value
 }
 
@@ -685,7 +681,7 @@ async function navigateToExternalLink(link: string) {
 }
 
 function submitForm() {
-    if (state.currentStep === 2) {
+    if (state.currentStep === 3) {
         state.error = {}
         v$.value.$validate()
         if (!v$.value.$error) {

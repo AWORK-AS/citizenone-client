@@ -199,8 +199,9 @@
             <div class="space-y-3" v-if="state.currentStep === 2">
                 <div class="space-y-1">
                     <FormLabel for="spots" :label="$t('bookings.formEvent.settings.availableSpotsAtThisEvent')" />
-                    <FormNumberField id="spots" name="spots" placeholder="1" v-model="state.formEvent.spots"
-                        @input="validateSpotsQuantity" />
+                    <FormNumberField id="spots" name="spots"
+                        :placeholder="$t('bookings.formEvent.settings.availableSpotsAtThisEvent')"
+                        v-model="state.formEvent.spots" @input="validateSpotsQuantity" />
                     <FormError :error="v$?.formEvent?.spots?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.spots?.[0]" />
                 </div>
@@ -481,6 +482,9 @@ const rules = computed(() => {
             name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            spots: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
         },
     }
 })
@@ -577,7 +581,10 @@ function onFileChange(event: any) {
 
 function validateSpotsQuantity(event: Event) {
     const input = event.target as HTMLInputElement
-    input.value = input.value.replace(/[^1-9]/g, '').slice(0, 10)
+    input.value = input.value.replace(/[^0-9]/g, '').slice(0, 10)
+    if (input.value === '0') {
+        input.value = '1'
+    }
     state.formEvent.spots = input.value
 }
 
