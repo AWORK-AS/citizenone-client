@@ -3162,6 +3162,7 @@
     },
     "next": "Next",
     "noResultFound": "No result found",
+    "pageNotFound": "Page not found",
     "pagination": {
         "of": "of",
         "next": "Next",
@@ -3860,6 +3861,7 @@
     "showAll": "Show all",
     "showLess": "Show less",
     "showMore": "Show more",
+    "somethingWentWrong": "Something went wrong",
     "subscription": {
         "addOnDeals": {
             "addOnDeals": "Add-on deals",

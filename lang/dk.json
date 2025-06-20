@@ -3162,6 +3162,7 @@
     },
     "next": "Næste",
     "noResultFound": "Ingen resultater fundet",
+    "pageNotFound": "Side ikke fundet",
     "pagination": {
         "of": "af",
         "next": "Næste",
@@ -3860,6 +3861,7 @@
     "showAll": "Vis alle",
     "showLess": "Vis mindre",
     "showMore": "Vis mere",
+    "somethingWentWrong": "Noget gik galt",
     "subscription": {
         "addOnDeals": {
             "addOnDeals": "Ekstra brugere og afdelinger",
