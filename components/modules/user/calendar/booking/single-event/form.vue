@@ -413,7 +413,7 @@ const state = reactive({
     options: {
         bookingTags: [],
         recurringSchedules: [
-            { value: 'every_day', label: `${t('bookings.formEvent.information.recurring.everyDay')}` },
+            { value: 'everyday', label: `${t('bookings.formEvent.information.recurring.everyDay')}` },
             { value: 'every_week', label: `${t('bookings.formEvent.information.recurring.everyWeek')}` },
             { value: 'every_second_week', label: `${t('bookings.formEvent.information.recurring.everySecondWeek')}` },
             { value: 'every_third_week', label: `${t('bookings.formEvent.information.recurring.everyThirdWeek')}` },
