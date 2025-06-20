@@ -24,6 +24,18 @@
                     {{ $t('bookingSettings.bookingSettings') }}
                 </FormButton>
             </div>
+            <div>
+                <p>
+                    It looks like you haven't set up your booking settings yet. Click the button below to configure your
+                    settings so
+                    you can start creating events or courses.
+                </p>
+                <p>
+                    Det ser ud til, at du endnu ikke har opsat dine bookingindstillinger. Klik på knappen nedenfor for
+                    at
+                    konfigurere dine indstillinger, så du kan begynde at oprette begivenheder eller kurser.
+                </p>
+            </div>
             <ModulesUserCalendarBookingNewEventSelection :isModalOpen="state.modal.isNewEventOpen"
                 @close="state.modal.isNewEventOpen = false" />
         </NuxtLayout>

@@ -18,6 +18,8 @@
         </header>
         <div class="flex-grow">
             <div class="mx-auto max-w-6xl px-4 py-8 ">
+                <Alert type="danger" :text="state?.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     <div>
                         <div class="relative">
@@ -397,18 +399,26 @@
 </template>
 
 <script setup lang="ts">
+import { onlineBookingSettingsService } from '@/components/api/user/OnlineBookingSettingsService'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
+const router = useRouter()
+const companyLink = router?.currentRoute?.value?.params?.company_link
 
 const state = reactive({
+    bookingSettings: {},
     error: {} as Error,
     isPageLoading: false,
     slideOver: {
         isLanguageSwitcherOpen: false
     },
+})
+
+onMounted(() => {
+    fetchBookingSettings()
 })
 
 function identifyFlag() {
@@ -424,5 +434,17 @@ function identifyFlag() {
 
 function selectLanguage() {
     state.slideOver.isLanguageSwitcherOpen = true
+}
+
+async function fetchBookingSettings() {
+    state.error = {}
+    try {
+        const response = await onlineBookingSettingsService.getOnlineBookingSettingsPerLink(companyLink)
+        if (response?.data) {
+            state.bookingSettings = response?.data
+        }
+    } catch (error: any) {
+        state.error = error
+    }
 }
 </script>
