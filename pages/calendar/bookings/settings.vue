@@ -401,6 +401,7 @@ async function fetchLanguages() {
 
 async function fetchBookingSettings() {
     state.error = {}
+    state.isPageLoading = true
     try {
         const response = await onlineBookingSettingsService.getOnlineBookingSettings()
         if (response?.data) {
@@ -425,6 +426,7 @@ async function fetchBookingSettings() {
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
 }
 
 function triggerFileInput() {
