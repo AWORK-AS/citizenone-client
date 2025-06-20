@@ -5,8 +5,8 @@ class OnlineBookingSettingsService extends BaseAPIService {
         return await this.request(`/user/online-booking-settings`, 'GET')
     }
 
-    async getOnlineBookingSettingsPerLink(link: any): Promise<any> {
-        return await this.request(`/user/online-booking-settings/${link}`, 'GET')
+    async getOnlineBookingSettingsPerLink(onlineBookingSettingsLink: any): Promise<any> {
+        return await this.request(`/user/online-booking-settings/${onlineBookingSettingsLink}`, 'GET')
     }
 
     async saveOnlineBookingSettings(params: object): Promise<any> {

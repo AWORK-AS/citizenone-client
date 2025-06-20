@@ -1,0 +1,17 @@
+import BaseAPIService from '@/components/api/BaseAPIService'
+
+class OnlineBookingService extends BaseAPIService {
+    async getCoursesEvents(onlineBookingSettingsLink: any): Promise<any> {
+        return await this.request(`/user/online-booking/${onlineBookingSettingsLink}/courses-events`, 'GET')
+    }
+
+    async getCourseEvent(coureEventUuid: any): Promise<any> {
+        return await this.request(`/user/online-booking/courses-events/${coureEventUuid}`, 'GET')
+    }
+
+    async bookCourseEvent(coureEventUuid: any): Promise<any> {
+        return await this.request(`/user/online-booking/courses-events/${coureEventUuid}`, 'POST')
+    }
+}
+
+export const onlineBookingService = new OnlineBookingService()
