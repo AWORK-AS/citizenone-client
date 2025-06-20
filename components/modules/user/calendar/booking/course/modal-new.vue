@@ -6,7 +6,7 @@
                     <ModulesUserCalendarBookingCourseForm formType="create" :selectedCourse="state.formCourse"
                         :courseData="state.courseData" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="saveCourse" />
+                        @closeModalSelection="$emit('closeModalSelection')" @submitForm="saveCourse" />
                 </LoadingSpinner>
             </template>
         </Modal>
