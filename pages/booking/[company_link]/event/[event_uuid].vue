@@ -252,7 +252,6 @@ import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
-import type { first } from 'ckeditor5'
 const router = useRouter()
 const companyLink = router?.currentRoute?.value?.params?.company_link
 const eventUuid = router?.currentRoute?.value?.params?.event_uuid
@@ -368,7 +367,7 @@ async function signUpForCourseEvent() {
             lastname: state.formBooking.lastname,
             email: state.formBooking.email,
         }
-        const response = await onlineBookingService.bookCourseEvent(params)
+        const response = await onlineBookingService.bookCourseEvent(eventUuid, params)
         if (response.data) {
             state.successfullyBooked = true
         }

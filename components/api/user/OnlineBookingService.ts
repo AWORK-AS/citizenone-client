@@ -9,8 +9,8 @@ class OnlineBookingService extends BaseAPIService {
         return await this.request(`/user/online-booking/courses-events/${coureEventUuid}`, 'GET')
     }
 
-    async bookCourseEvent(coureEventUuid: any): Promise<any> {
-        return await this.request(`/user/online-booking/courses-events/${coureEventUuid}`, 'POST')
+    async bookCourseEvent(coureEventUuid: any, params: any): Promise<any> {
+        return await this.request(`/user/online-booking/courses-events/${coureEventUuid}`, 'POST', params)
     }
 }
 
