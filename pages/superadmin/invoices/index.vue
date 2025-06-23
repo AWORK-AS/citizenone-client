@@ -17,15 +17,15 @@
                         <Table :columnHeaders="state.columnHeaders" :data="state.invoices"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.invoices?.data?.length === 0))">
-                                <tr v-for="(data, index) in state.invoices?.data" :key="index">
-                                    <td width="20%">
+                                <tr v-for="(invoice, index) in state.invoices?.data" :key="index">
+                                    <td width="15%">
                                         <div>
-                                            {{ formatDateTimeToReadable(data?.created_at) }}
+                                            {{ formatDateTimeToReadable(invoice?.created_at) }}
                                         </div>
                                     </td>
                                     <td width="10%">
                                         <div>
-                                            <Badge type="primary" class="w-fit" v-if="data?.type === 'recurring'">
+                                            <Badge type="primary" class="w-fit" v-if="invoice?.type === 'recurring'">
                                                 {{ $t('superadmin.invoices.table.recurring') }}
                                             </Badge>
                                             <Badge type="active" class="w-fit" v-else>
@@ -35,25 +35,30 @@
                                     </td>
                                     <td width="15%">
                                         <div>
-                                            {{ data?.invoice_number }}
+                                            {{ invoice?.invoice_number }}
+                                        </div>
+                                    </td>
+                                    <td width="10%">
+                                        <div>
+                                            {{ formatAmount(invoice?.service_fee) }}
                                         </div>
                                     </td>
                                     <td width="15%">
                                         <p class="capitalize">
-                                            {{ formatAmount(data?.total_amount) }}
+                                            {{ formatAmount(invoice?.total_amount) }}
                                         </p>
                                     </td>
-                                    <td width="25%">
+                                    <td width="20%">
                                         <div>
                                             <p>
-                                                {{ data?.user?.company?.name }}
+                                                {{ invoice?.user?.company?.name }}
                                             </p>
                                         </div>
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/superadmin/invoices/${data.uuid}/invoice-details`)">
+                                                @click="navigateTo(`/superadmin/invoices/${invoice.uuid}/invoice-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('superadmin.invoices.table.actions.view') }}
                                             </FormButton>
@@ -91,6 +96,7 @@ const state = reactive({
         { name: 'superadmin.invoices.table.date', sorter: true, key: 'created_at' },
         { name: 'superadmin.invoices.table.status' },
         { name: 'superadmin.invoices.table.invoiceNumber', sorter: true, key: 'invoice_number' },
+        { name: 'invoices.table.serviceFee' },
         { name: 'superadmin.invoices.table.amount', sorter: true, key: 'total_amount' },
         { name: 'superadmin.invoices.table.company' },
         { name: '' },
