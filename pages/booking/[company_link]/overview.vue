@@ -4,7 +4,7 @@
             <div class="mx-auto max-w-6xl px-4 py-8 flex justify-between gap-x-5">
                 <div>
                     <div class="flex items-center gap-x-4 cursor-pointer"
-                        @click="navigateTo('/booking/company-link/overview')"
+                        @click="navigateTo(`/booking/${state.bookingSettings?.link}/overview`)"
                         v-if="Object.keys(state.bookingSettings).length > 0">
                         <p class="text-xl text-white font-semibold">
                             {{ state.bookingSettings?.header }}
