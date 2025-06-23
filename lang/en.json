@@ -2829,7 +2829,8 @@
             "invoiceNumber": "Invoice number",
             "new": "New",
             "recurring": "Recurring",
-            "status": "Status"
+            "status": "Status",
+            "serviceFee": "Service fee"
         }
     },
     "invoiceDetails": {

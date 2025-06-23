@@ -2829,7 +2829,8 @@
             "invoiceNumber": "Fakturanummer",
             "new": "Ny",
             "recurring": "Tilbagevendende",
-            "status": "Status"
+            "status": "Status",
+            "serviceFee": "Servicegebyr"
         }
     },
     "invoiceDetails": {
