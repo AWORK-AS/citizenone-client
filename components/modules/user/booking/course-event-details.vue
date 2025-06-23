@@ -281,9 +281,15 @@
                         <div>
                             {{ formatAmount(props.courseEventDetails?.booking_setting?.price) }}
                         </div>
-                        <!-- <div>
-                                                5 spots left
-                                            </div> -->
+                        <div>
+                            {{ props.courseEventDetails?.slots_available ?? 0 }}
+                            <span v-if="props.courseEventDetails?.slots_available > 1">
+                                {{ $t('bookings.booking.spotsLeft') }}
+                            </span>
+                            <span v-else>
+                                {{ $t('bookings.booking.spotLeft') }}
+                            </span>
+                        </div>
                     </div>
                     <div class="text-sm">
                         {{ props.courseEventDetails?.address }}

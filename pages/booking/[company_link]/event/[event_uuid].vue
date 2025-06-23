@@ -112,18 +112,18 @@
                                                 <p class="col-span-3">
                                                     {{ state.courseEventDetails?.name }}
                                                 </p>
-                                                <p class="font-semibold text-right text-primary">
+                                                <!-- <p class="font-semibold text-right text-primary">
                                                     {{ $t('bookings.booking.confirmation.time') }}
                                                 </p>
                                                 <p class="col-span-3">
                                                     Friday d. 20 June 2025, 9:00 to Sunday d. 29 June 2025, 17:00
                                                     (GMT+02:00)
-                                                </p>
+                                                </p> -->
                                                 <p class="font-semibold text-right text-primary">
                                                     {{ $t('bookings.booking.confirmation.price') }}
                                                 </p>
                                                 <p class="col-span-3">
-                                                    DKK 100
+                                                    {{ formatAmount(state?.courseEventDetails?.price) }}
                                                 </p>
                                                 <p class="font-semibold text-right text-primary">
                                                     {{ $t('bookings.booking.confirmation.information') }}
