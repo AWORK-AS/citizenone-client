@@ -251,6 +251,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import { useAmountFormatter } from '@/composables/amountFormatter'
 import type { Error } from '@/types'
 const router = useRouter()
 const companyLink = router?.currentRoute?.value?.params?.company_link
@@ -258,6 +259,7 @@ const eventUuid = router?.currentRoute?.value?.params?.event_uuid
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
+const { formatAmount } = useAmountFormatter()
 const { t } = useI18n()
 
 const state = reactive({
