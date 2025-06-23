@@ -17,9 +17,12 @@
                 </Tooltip>
             </template>
 
-            <ModulesUserCalendarTabs />
+            <ModulesUserCalendarTabs v-if="userStore.getUser?.has_booking_app_access" />
 
-            <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
+            <div :class="[
+                userStore.getUser?.has_booking_app_access && 'mt-8',
+                'flex justify-end items-center mb-5 gap-x-2'
+            ]">
                 <Menu as="div" class="relative inline-block text-left z-20">
                     <div>
                         <MenuButton>
@@ -148,6 +151,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCalendarStore } from '@/store/calendar'
 import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 // import { saveAs } from 'file-saver'
 
@@ -156,6 +160,7 @@ const router = useRouter()
 const departmentStore = useDepartmentStore()
 const calendarStore = useCalendarStore()
 const language = useI18n()
+const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const employeeUuid = router?.currentRoute?.value?.query?.employee_uuid

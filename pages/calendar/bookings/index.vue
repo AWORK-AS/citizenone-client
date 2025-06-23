@@ -107,10 +107,12 @@ import { coursesEventsService } from '@/components/api/user/CoursesEventsService
 import { onlineBookingSettingsService } from '@/components/api/user/OnlineBookingSettingsService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const language = useI18n()
+const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
@@ -149,6 +151,12 @@ const state = reactive({
 onMounted(() => {
     fetchBookingSettings()
     fetchCoursesEvents()
+})
+
+watch(() => userStore.user, (newValue) => {
+    if (!newValue?.has_booking_app_access) {
+        navigateTo('/calendar')
+    }
 })
 
 async function fetchBookingSettings() {
