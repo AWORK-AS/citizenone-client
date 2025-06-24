@@ -280,7 +280,9 @@
                 </div>
             </div>
             <div class="space-y-3" v-if="state.currentStep === 3">
-                <Alert type="success" :text="t('bookings.alert.eventSuccessfullyAdded')" />
+                <Alert type="success" :text="t('bookings.alert.eventSuccessfullyAdded')"
+                    v-if="props.formType === 'create'" />
+                <Alert type="success" :text="t('bookings.alert.eventSuccessfullyUpdate')" v-else />
                 <div>
                     <p class="text-gray-600">
                         {{ $t('bookings.formCourse.summary.signupForTheEventOnThisAddress') }}:
@@ -431,7 +433,6 @@ const state = reactive({
 
 watch(() => props.selectedEvent, (selectedEvent: any) => {
     if (selectedEvent) {
-        console.log('selectedEvent', selectedEvent)
         state.formEvent = {
             date_time_start: selectedEvent?.date_time_start,
             date_time_end: selectedEvent?.date_time_end,

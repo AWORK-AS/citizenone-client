@@ -85,6 +85,54 @@ function refreshBookings() {
     emit('refreshBookings')
 }
 
+watch(() => props.isModalOpen, (isModalOpen: boolean) => {
+    if (isModalOpen) {
+        fetchCourse()
+    }
+})
+
+async function fetchCourse() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const bookingUuid = props.selectedEvent.uuid
+        const response = await coursesEventsService.getEventCourse(bookingUuid)
+        if (response.data) {
+            console.log('selectedCourse', response.data)
+            const eventData = response.data
+            const sessions = response.data?.event_course_sessions
+            const bookingSetting = response.data?.booking_setting
+            state.formEvent = {
+                date_time_start: moment(sessions?.[0]?.date_time_start).format('YYYY-MM-DD H:mm'),
+                date_time_end: moment(sessions?.[0]?.date_time_end).format('YYYY-MM-DD H:mm'),
+                is_recurring: eventData?.is_recurring ?? false,
+                recurring: eventData?.recurring_type ?? false,
+                recurring_until: eventData?.recurring_end_date ?? '',
+                name: eventData?.name,
+                description: eventData?.description ?? '',
+                address: eventData?.address,
+                post_code: eventData?.post_code,
+                city: eventData?.city,
+                image: eventData?.image,
+                spots: eventData?.slots_available?.toString() ?? '1',
+                tags: [],
+                price: bookingSetting?.price,
+                is_tax_included: bookingSetting?.is_tax_included ?? false,
+                show_spots_left: bookingSetting?.show_spots_left ?? false,
+                close_registration: bookingSetting?.close_registration ?? false,
+                is_online_booking: bookingSetting?.is_online_booking ?? false,
+                is_reminder_enabled: bookingSetting?.is_reminder_enabled ?? false,
+            }
+            bookingSetting?.tags?.forEach((tag: any) => {
+                state.formEvent.tags.push(tag.uuid)
+            })
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 async function saveCourse(courseDetails: any) {
     state.error = {}
     state.isPageLoading = true

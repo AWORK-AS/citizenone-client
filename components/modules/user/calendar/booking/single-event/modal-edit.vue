@@ -84,7 +84,6 @@ async function fetchEvent() {
         const bookingUuid = props.selectedEvent.uuid
         const response = await coursesEventsService.getEventCourse(bookingUuid)
         if (response.data) {
-            console.log('response.data', response.data)
             const eventData = response.data
             const sessions = response.data?.event_course_sessions
             const bookingSetting = response.data?.booking_setting
