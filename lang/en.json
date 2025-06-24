@@ -519,9 +519,11 @@
         },
         "view": {
             "overview": {
+                "closed": "Closed",
                 "confirmedParticipants": "Confirmed participants",
                 "eventSignUpIs": "Event Sign up is",
                 "overview": "Overview",
+                "open": "Open",
                 "slotsAvailable": "Slots available"
             },
             "participants": {
@@ -534,6 +536,8 @@
                     "name": "Name"
                 }
             },
+            "viewCourse": "View course",
+            "viewEvent": "View event",
             "viewFutureEvents": "View future events",
             "viewSignUpForm": "View sign up form"
         }

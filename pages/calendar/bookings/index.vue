@@ -53,12 +53,15 @@
                                                 {{ courseEvent?.name }}
                                             </div>
                                         </td>
-                                        <td width="40%">
+                                        <td width="30%">
                                             <p class="text-primary underline cursor-pointer"
                                                 @click="navigateToExternalLink(`${runtimeConfig.public.appBaseURL}/booking/${state.bookingSettings?.link}/event/${courseEvent?.uuid}`)">
                                                 {{ runtimeConfig.public.appBaseURL }}/booking/{{
                                                     state.bookingSettings?.link }}/event/{{ courseEvent?.uuid }}
                                             </p>
+                                        </td>
+                                        <td width="10%">
+                                            <p>{{ courseEvent?.slots_available }}</p>
                                         </td>
                                         <td width="20%">
                                             <div class="flex items-center justify-end gap-2">
@@ -118,8 +121,9 @@
             <ModulesUserCalendarBookingModalNewEventSelection :isModalOpen="state.modal.isNewEventOpen"
                 @close="state.modal.isNewEventOpen = false" @refreshCoursesEvents="fetchCoursesEvents" />
 
-            <ModulesUserCalendarBookingSingleEventModalEdit :isModalOpen="state.modal.isViewEventCourse"
-                :selectedEvent="state.selectedCourseEvent" @close="state.modal.isViewEventCourse = false" />
+            <ModulesUserCalendarBookingModalView :isModalOpen="state.modal.isViewEventCourse"
+                :selectedCourseEvent="state.selectedCourseEvent" :bookingSettings="state.bookingSettings"
+                @close="state.modal.isViewEventCourse = false" />
 
             <ModulesUserCalendarBookingSingleEventModalEdit :isModalOpen="state.modal.isEditSingleEventOpen"
                 :selectedEvent="state.selectedCourseEvent" @close="state.modal.isEditSingleEventOpen = false"
@@ -166,6 +170,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'bookings.table.name', sorter: true, key: 'name' },
         { name: 'bookings.table.link' },
+        { name: 'bookings.table.availableSlots' },
         { name: '' },
     ],
     courseEvents: [] as any,

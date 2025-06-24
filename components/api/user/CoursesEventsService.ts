@@ -9,6 +9,10 @@ class CoursesEventsService extends BaseAPIService {
         return await this.request(`/user/courses-events/${eventCourseUuid}`, 'GET')
     }
 
+    async getEventCourseParticipants(eventCourseUuid: any, params: any): Promise<any> {
+        return await this.request(`/user/courses-events/${eventCourseUuid}/participants`, 'GET', params)
+    }
+
     async saveEventCourse(params: object): Promise<any> {
         return await this.request(`/user/courses-events`, 'POST', params)
     }

@@ -128,7 +128,7 @@ async function fetchCourse() {
                     date_time_start: moment(session.date_time_start).format('YYYY-MM-DD H:mm'),
                     date_time_end: moment(session.date_time_end).format('YYYY-MM-DD H:mm'),
                     description: session.description ?? '',
-                    is_recurring: session.is_recurring ?? false,
+                    is_recurring: session.is_recurring ? true : false,
                     recurring: session.recurring_type ?? 'everyday',
                     recurring_until: session.recurring_end_date ? moment(session.recurring_end_date).format('YYYY-MM-DD') : moment(session.date_time_end).format('YYYY-MM-DD'),
                 })

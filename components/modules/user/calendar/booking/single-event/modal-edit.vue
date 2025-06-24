@@ -91,7 +91,7 @@ async function fetchEvent() {
             state.formEvent = {
                 date_time_start: moment(eventSession?.date_time_start).format('YYYY-MM-DD H:mm'),
                 date_time_end: moment(eventSession?.date_time_end).format('YYYY-MM-DD H:mm'),
-                is_recurring: eventSession?.is_recurring ?? false,
+                is_recurring: eventSession?.is_recurring ? true : false,
                 recurring: eventSession?.recurring_type ?? 'everyday',
                 recurring_until: eventSession?.recurring_end_date ?? '',
                 name: eventData?.name ?? '',

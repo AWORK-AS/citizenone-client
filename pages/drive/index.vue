@@ -243,7 +243,7 @@ const state = reactive({
         isViewAccessOpen: false,
         isViewFolderStructureOpen: false,
     },
-    selectedDocument: [] as any,
+    selectedDocument: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',

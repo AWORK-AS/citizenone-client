@@ -519,9 +519,11 @@
         },
         "view": {
             "overview": {
+                "closed": "Lukket",
                 "confirmedParticipants": "Bekræftede deltagere",
                 "eventSignUpIs": "Begivenhedstilmelding er",
                 "overview": "Oversigt",
+                "open": "Åben",
                 "slotsAvailable": "Pladser tilgængelige"
             },
             "participants": {
@@ -534,6 +536,8 @@
                     "name": "Navn"
                 }
             },
+            "viewCourse": "Se kursus",
+            "viewEvent": "Se begivenhed",
             "viewFutureEvents": "Se fremtidige begivenheder",
             "viewSignUpForm": "Se tilmeldingsformular"
         }
