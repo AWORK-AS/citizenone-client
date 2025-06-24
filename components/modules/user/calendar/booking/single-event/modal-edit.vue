@@ -127,6 +127,7 @@ async function saveEvent(eventDetails: any) {
         params.append('type', 'event')
         params.append('date_time_start', eventDetails.date_time_start)
         params.append('date_time_end', eventDetails.date_time_end)
+        params.append('is_recurring', eventDetails.is_recurring)
         params.append('recurring', eventDetails.recurring)
         params.append('recurring_until', eventDetails.recurring_until)
         params.append('name', eventDetails.name)

@@ -99,13 +99,13 @@
                     <div>
                         <Tooltip :text="$t('bookings.formEvent.information.createMultipleEvents')" position="left"
                             class="mt-7">
-                            <button type="button" @click="state.isCreateMultipleEvent = !state.isCreateMultipleEvent">
+                            <button type="button" @click="state.formEvent.is_recurring = !state.formEvent.is_recurring">
                                 <Icon name="ph:repeat" class="h-6 w-6" aria-hidden="true" />
                             </button>
                         </Tooltip>
                     </div>
                 </div>
-                <div class="block md:flex items-center space-y-2 gap-x-2 py-2" v-if="state.isCreateMultipleEvent">
+                <div class="block md:flex items-center space-y-2 gap-x-2 py-2" v-if="state.formEvent.is_recurring">
                     <p>
                         {{ $t('bookings.formEvent.information.createThisEvent') }}
                     </p>
@@ -391,6 +391,7 @@ const state = reactive({
     formEvent: {
         date_time_start: props.selectedEvent.date_time_start,
         date_time_end: props.selectedEvent.date_time_end,
+        is_recurring: false,
         recurring: '',
         recurring_until: props.selectedEvent.date_time_end,
         name: '',
@@ -408,7 +409,6 @@ const state = reactive({
         is_online_booking: false,
         is_reminder_enabled: false,
     },
-    isCreateMultipleEvent: false,
     isPageLoading: false,
     modal: {
         isAddNewBookingTag: false,
@@ -436,6 +436,7 @@ watch(() => props.selectedEvent, (selectedEvent: any) => {
         state.formEvent = {
             date_time_start: selectedEvent?.date_time_start,
             date_time_end: selectedEvent?.date_time_end,
+            is_recurring: selectedEvent?.is_recurring,
             recurring: selectedEvent?.recurring,
             recurring_until: selectedEvent?.recurring_until,
             name: selectedEvent?.name,
@@ -453,7 +454,6 @@ watch(() => props.selectedEvent, (selectedEvent: any) => {
             is_online_booking: selectedEvent?.is_online_booking,
             is_reminder_enabled: selectedEvent?.is_reminder_enabled,
         }
-        state.isCreateMultipleEvent = selectedEvent?.is_recurring || false
         avatarUrl.value = selectedEvent?.image ? selectedEvent?.image : `/img/icons/asset-02.svg`
         selectedEvent?.tags?.forEach((tag: any) => {
             state.formEvent.tags.push(tag.uuid)

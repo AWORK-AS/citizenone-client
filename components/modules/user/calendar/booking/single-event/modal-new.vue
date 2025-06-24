@@ -37,6 +37,7 @@ const state = reactive({
     formEvent: {
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
+        is_recurring: false,
         recurring: '',
         recurring_until: '',
         name: '',
@@ -74,6 +75,7 @@ async function saveEvent(eventDetails: any) {
         params.append('type', 'event')
         params.append('date_time_start', eventDetails.date_time_start)
         params.append('date_time_end', eventDetails.date_time_end)
+        params.append('is_recurring', eventDetails.is_recurring)
         params.append('recurring', eventDetails.recurring)
         params.append('recurring_until', eventDetails.recurring_until)
         params.append('name', eventDetails.name)
