@@ -3,7 +3,7 @@
         <Modal size="xl" :title="$t('bookings.singleEvent.editEvent')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserCalendarBookingSingleEventForm formType="create" :selectedEvent="state.formEvent"
+                    <ModulesUserCalendarBookingSingleEventForm formType="update" :selectedEvent="state.formEvent"
                         :eventData="state.eventData" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveEvent" />
@@ -33,7 +33,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'closeModalSelection', 'refreshBookings', 'refreshCoursesEvents'])
+const emit = defineEmits(['close', 'refreshCoursesEvents'])
 
 const state = reactive({
     error: {} as Error,
@@ -67,13 +67,14 @@ function closeModal() {
     emit('close')
 }
 
-function refreshBookings() {
-    emit('refreshBookings')
+function refreshCoursesEvents() {
+    emit('refreshCoursesEvents')
 }
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
         fetchEvent()
+        state.eventData = {}
     }
 })
 
@@ -93,15 +94,15 @@ async function fetchEvent() {
                 is_recurring: eventSession?.is_recurring ?? false,
                 recurring: eventSession?.recurring_type ?? 'everyday',
                 recurring_until: eventSession?.recurring_end_date ?? '',
-                name: eventData?.name,
+                name: eventData?.name ?? '',
                 description: eventData?.description ?? '',
-                address: eventData?.address,
-                post_code: eventData?.post_code,
-                city: eventData?.city,
+                address: eventData?.address ?? '',
+                post_code: eventData?.post_code ?? '',
+                city: eventData?.city ?? '',
                 image: eventData?.image,
                 spots: eventData?.slots_available?.toString() ?? '1',
                 tags: [],
-                price: bookingSetting?.price,
+                price: bookingSetting?.price ?? '',
                 is_tax_included: bookingSetting?.is_tax_included ?? false,
                 show_spots_left: bookingSetting?.show_spots_left ?? false,
                 close_registration: bookingSetting?.close_registration ?? false,
@@ -146,9 +147,7 @@ async function saveEvent(eventDetails: any) {
         params.append('is_reminder_enabled', eventDetails.is_reminder_enabled)
         const response = await coursesEventsService.updateEventCourse(eventUuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('bookings.alert.eventSuccessfullyUpdated')}.`)
-            refreshBookings()
-            emit('refreshCoursesEvents')
+            refreshCoursesEvents()
             state.eventData = response.data
         }
     } catch (error: any) {

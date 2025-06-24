@@ -516,6 +516,26 @@
                 "course": "Kursus",
                 "event": "Begivenhed"
             }
+        },
+        "view": {
+            "overview": {
+                "confirmedParticipants": "Bekræftede deltagere",
+                "eventSignUpIs": "Begivenhedstilmelding er",
+                "overview": "Oversigt",
+                "slotsAvailable": "Pladser tilgængelige"
+            },
+            "participants": {
+                "actions": {
+                    "resendEmailConfirmation": "Send e-mailbekræftelse igen"
+                },
+                "participants": "Deltagere",
+                "table": {
+                    "emailAddress": "E-mailadresse",
+                    "name": "Navn"
+                }
+            },
+            "viewFutureEvents": "Se fremtidige begivenheder",
+            "viewSignUpForm": "Se tilmeldingsformular"
         }
     },
     "bookingSettings": {

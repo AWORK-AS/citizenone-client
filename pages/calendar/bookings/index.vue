@@ -115,8 +115,11 @@
                     </FormButton>
                 </div>
             </LoadingSpinner>
-            <ModulesUserCalendarBookingNewEventSelection :isModalOpen="state.modal.isNewEventOpen"
+            <ModulesUserCalendarBookingModalNewEventSelection :isModalOpen="state.modal.isNewEventOpen"
                 @close="state.modal.isNewEventOpen = false" @refreshCoursesEvents="fetchCoursesEvents" />
+
+            <ModulesUserCalendarBookingSingleEventModalEdit :isModalOpen="state.modal.isViewEventCourse"
+                :selectedEvent="state.selectedCourseEvent" @close="state.modal.isViewEventCourse = false" />
 
             <ModulesUserCalendarBookingSingleEventModalEdit :isModalOpen="state.modal.isEditSingleEventOpen"
                 :selectedEvent="state.selectedCourseEvent" @close="state.modal.isEditSingleEventOpen = false"

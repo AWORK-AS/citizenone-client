@@ -280,9 +280,9 @@
                 </div>
             </div>
             <div class="space-y-3" v-if="state.currentStep === 3">
-                <Alert type="success" :text="t('bookings.alert.eventSuccessfullyAdded')"
+                <Alert type="success" :text="`${t('bookings.alert.eventSuccessfullyAdded')}.`"
                     v-if="props.formType === 'create'" />
-                <Alert type="success" :text="t('bookings.alert.eventSuccessfullyUpdate')" v-else />
+                <Alert type="success" :text="`${t('bookings.alert.eventSuccessfullyUpdated')}.`" v-else />
                 <div>
                     <p class="text-gray-600">
                         {{ $t('bookings.formCourse.summary.signupForTheEventOnThisAddress') }}:

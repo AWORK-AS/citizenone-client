@@ -3,7 +3,7 @@
         <Modal size="xl" :title="$t('bookings.course.editCourse')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserCalendarBookingCourseForm formType="create" :selectedCourse="state.formCourse"
+                    <ModulesUserCalendarBookingCourseForm formType="update" :selectedCourse="state.formCourse"
                         :courseData="state.courseData" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveCourse" />
@@ -33,7 +33,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'closeModalSelection', 'refreshBookings', 'refreshCoursesEvents'])
+const emit = defineEmits(['close', 'refreshCoursesEvents'])
 
 const state = reactive({
     courseData: {},
@@ -81,13 +81,14 @@ function closeModal() {
     emit('close')
 }
 
-function refreshBookings() {
-    emit('refreshBookings')
+function refreshCoursesEvents() {
+    emit('refreshCoursesEvents')
 }
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
         fetchCourse()
+        state.courseData = {}
     }
 })
 
@@ -102,16 +103,16 @@ async function fetchCourse() {
             const sessions = response.data?.event_course_sessions
             const bookingSetting = response.data?.booking_setting
             state.formCourse = {
-                name: courseData?.name,
+                name: courseData?.name ?? '',
                 description: courseData?.description ?? '',
-                address: courseData?.address,
-                post_code: courseData?.post_code,
-                city: courseData?.city,
+                address: courseData?.address ?? '',
+                post_code: courseData?.post_code ?? '',
+                city: courseData?.city ?? '',
                 image: courseData?.image,
                 sessions: [],
                 spots: courseData?.slots_available?.toString() ?? '1',
                 tags: [],
-                price: bookingSetting?.price,
+                price: bookingSetting?.price ?? '',
                 is_tax_included: bookingSetting?.is_tax_included ?? false,
                 show_spots_left: bookingSetting?.show_spots_left ?? false,
                 close_registration: bookingSetting?.close_registration ?? false,
@@ -163,9 +164,7 @@ async function saveCourse(courseDetails: any) {
         params.append('is_reminder_enabled', courseDetails.is_reminder_enabled)
         const response = await coursesEventsService.updateEventCourse(courseUuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('bookings.alert.courseSuccessfullyUpdated')}.`)
-            refreshBookings()
-            emit('refreshCoursesEvents')
+            refreshCoursesEvents()
             state.courseData = response.data
         }
     } catch (error: any) {

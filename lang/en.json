@@ -516,6 +516,26 @@
                 "course": "Course",
                 "event": "Event"
             }
+        },
+        "view": {
+            "overview": {
+                "confirmedParticipants": "Confirmed participants",
+                "eventSignUpIs": "Event Sign up is",
+                "overview": "Overview",
+                "slotsAvailable": "Slots available"
+            },
+            "participants": {
+                "actions": {
+                    "resendEmailConfirmation": "Resend email confirmation"
+                },
+                "participants": "Participants",
+                "table": {
+                    "emailAddress": "Email address",
+                    "name": "Name"
+                }
+            },
+            "viewFutureEvents": "View future events",
+            "viewSignUpForm": "View sign up form"
         }
     },
     "bookingSettings": {
