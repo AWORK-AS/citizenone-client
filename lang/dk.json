@@ -498,7 +498,9 @@
             },
             "alert": {
                 "bookingSuccessfullyDeleted": "Booking slettet med succes",
-                "bookingSuccessfullyUpdated": "Booking opdateret med succes"
+                "bookingSuccessfullyUpdated": "Booking opdateret med succes",
+                "courseSuccessfullyDeleted": "Kursus slettet med succes",
+                "eventSuccessfullyDeleted": "Begivenhed slettet med succes"
             },
             "availableSlots": "Tilgængelige pladser",
             "confirmation": {

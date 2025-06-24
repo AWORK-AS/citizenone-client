@@ -61,11 +61,23 @@
                                             </p>
                                         </td>
                                         <td width="20%">
-                                            <div class="flex items-end gap-2">
+                                            <div class="flex items-center justify-end gap-2">
+                                                <Tooltip :text="$t('bookings.table.actions.view')">
+                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                        @click="viewCourseEvent(courseEvent)">
+                                                        <Icon name="ph:eye" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
                                                 <Tooltip :text="$t('bookings.table.actions.edit')">
                                                     <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                         @click="editCourseEvent(courseEvent)">
                                                         <Icon name="ph:pencil" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('bookings.table.actions.delete')">
+                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                        @click="deleteCourseEventConfirmation(courseEvent)">
+                                                        <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                             </div>
@@ -106,13 +118,20 @@
             <ModulesUserCalendarBookingNewEventSelection :isModalOpen="state.modal.isNewEventOpen"
                 @close="state.modal.isNewEventOpen = false" @refreshCoursesEvents="fetchCoursesEvents" />
 
-
             <ModulesUserCalendarBookingSingleEventModalEdit :isModalOpen="state.modal.isEditSingleEventOpen"
                 :selectedEvent="state.selectedCourseEvent" @close="state.modal.isEditSingleEventOpen = false"
                 @refreshCoursesEvents="fetchCoursesEvents" />
             <ModulesUserCalendarBookingCourseModalEdit :isModalOpen="state.modal.isEditCourseOpen"
                 :selectedCourse="state.selectedCourseEvent" @close="state.modal.isEditCourseOpen = false"
                 @refreshCoursesEvents="fetchCoursesEvents" />
+
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteCourseOpen"
+                :message="$t('bookings.table.confirmation.deleteCourseConfirmation') + '?'"
+                @close="state.modal.isDeleteCourseOpen = false" @confirm="deleteCourseEvent" />
+
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteEventOpen"
+                :message="$t('bookings.table.confirmation.deleteEventConfirmation') + '?'"
+                @close="state.modal.isDeleteEventOpen = false" @confirm="deleteCourseEvent" />
         </NuxtLayout>
     </div>
 </template>
@@ -155,9 +174,12 @@ const state = reactive({
     isPageLoading: false,
     isTableLoading: false,
     modal: {
+        isDeleteCourseOpen: false,
+        isDeleteEventOpen: false,
         isEditCourseOpen: false,
         isEditSingleEventOpen: false,
         isNewEventOpen: false,
+        isViewEventCourse: false,
     },
     selectedCourseEvent: {},
     sortData: {
@@ -245,6 +267,11 @@ async function navigateToExternalLink(link: any) {
     })
 }
 
+function viewCourseEvent(courseEvent) {
+    state.selectedCourseEvent = courseEvent
+    state.modal.isViewEventCourse = true
+}
+
 function editCourseEvent(courseEvent: any) {
     state.selectedCourseEvent = courseEvent
     if (courseEvent?.type === 'event') {
@@ -253,5 +280,34 @@ function editCourseEvent(courseEvent: any) {
         state.modal.isEditCourseOpen = true
 
     }
+}
+
+function deleteCourseEventConfirmation(courseEvent: any) {
+    state.selectedCourseEvent = courseEvent
+    if (courseEvent?.type === 'event') {
+        state.modal.isDeleteEventOpen = true
+    } else {
+        state.modal.isDeleteCourseOpen = true
+    }
+}
+
+async function deleteCourseEvent() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const courseEventUuid = state.selectedCourseEvent.uuid
+        const response = await coursesEventsService.deleteEventCourse(courseEventUuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchCoursesEvents()
+            if (state.selectedCourseEvent.type === 'event') {
+                successAlert(`${t('alert.success')}!`, `${t('bookings.table.alert.eventSuccessfullyDeleted')}.`)
+            } else {
+                successAlert(`${t('alert.success')}!`, `${t('bookings.table.alert.courseSuccessfullyDeleted')}.`)
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

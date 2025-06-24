@@ -498,7 +498,9 @@
             },
             "alert": {
                 "bookingSuccessfullyDeleted": "Booking successfully deleted",
-                "bookingSuccessfullyUpdated": "Booking successfully updated"
+                "bookingSuccessfullyUpdated": "Booking successfully updated",
+                "courseSuccessfullyDeleted": "Course successfully deleted",
+                "eventSuccessfullyDeleted": "Event successfully deleted"
             },
             "availableSlots": "Available slots",
             "confirmation": {
