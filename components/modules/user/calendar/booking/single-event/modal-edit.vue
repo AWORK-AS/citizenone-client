@@ -85,14 +85,14 @@ async function fetchEvent() {
         const response = await coursesEventsService.getEventCourse(bookingUuid)
         if (response.data) {
             const eventData = response.data
-            const sessions = response.data?.event_course_sessions
+            const eventSession = response.data?.event_course_sessions?.[0]
             const bookingSetting = response.data?.booking_setting
             state.formEvent = {
-                date_time_start: moment(sessions?.[0]?.date_time_start).format('YYYY-MM-DD H:mm'),
-                date_time_end: moment(sessions?.[0]?.date_time_end).format('YYYY-MM-DD H:mm'),
-                is_recurring: eventData?.is_recurring ?? false,
-                recurring: eventData?.recurring_type ?? false,
-                recurring_until: eventData?.recurring_end_date ?? '',
+                date_time_start: moment(eventSession?.date_time_start).format('YYYY-MM-DD H:mm'),
+                date_time_end: moment(eventSession?.date_time_end).format('YYYY-MM-DD H:mm'),
+                is_recurring: eventSession?.is_recurring ?? false,
+                recurring: eventSession?.recurring_type ?? 'everyday',
+                recurring_until: eventSession?.recurring_end_date ?? '',
                 name: eventData?.name,
                 description: eventData?.description ?? '',
                 address: eventData?.address,

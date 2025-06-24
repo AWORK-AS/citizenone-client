@@ -95,26 +95,21 @@ async function fetchCourse() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const bookingUuid = props.selectedEvent.uuid
-        const response = await coursesEventsService.getEventCourse(bookingUuid)
+        const courseUuid = props.selectedCourse.uuid
+        const response = await coursesEventsService.getEventCourse(courseUuid)
         if (response.data) {
-            console.log('selectedCourse', response.data)
-            const eventData = response.data
+            const courseData = response.data
             const sessions = response.data?.event_course_sessions
             const bookingSetting = response.data?.booking_setting
-            state.formEvent = {
-                date_time_start: moment(sessions?.[0]?.date_time_start).format('YYYY-MM-DD H:mm'),
-                date_time_end: moment(sessions?.[0]?.date_time_end).format('YYYY-MM-DD H:mm'),
-                is_recurring: eventData?.is_recurring ?? false,
-                recurring: eventData?.recurring_type ?? false,
-                recurring_until: eventData?.recurring_end_date ?? '',
-                name: eventData?.name,
-                description: eventData?.description ?? '',
-                address: eventData?.address,
-                post_code: eventData?.post_code,
-                city: eventData?.city,
-                image: eventData?.image,
-                spots: eventData?.slots_available?.toString() ?? '1',
+            state.formCourse = {
+                name: courseData?.name,
+                description: courseData?.description ?? '',
+                address: courseData?.address,
+                post_code: courseData?.post_code,
+                city: courseData?.city,
+                image: courseData?.image,
+                sessions: [],
+                spots: courseData?.slots_available?.toString() ?? '1',
                 tags: [],
                 price: bookingSetting?.price,
                 is_tax_included: bookingSetting?.is_tax_included ?? false,
@@ -125,6 +120,17 @@ async function fetchCourse() {
             }
             bookingSetting?.tags?.forEach((tag: any) => {
                 state.formEvent.tags.push(tag.uuid)
+            })
+            courseData?.event_course_sessions?.forEach((session: any) => {
+                state.formCourse.sessions.push({
+                    name: session.name,
+                    date_time_start: moment(session.date_time_start).format('YYYY-MM-DD H:mm'),
+                    date_time_end: moment(session.date_time_end).format('YYYY-MM-DD H:mm'),
+                    description: session.description ?? '',
+                    is_recurring: session.is_recurring ?? false,
+                    recurring: session.recurring_type ?? 'everyday',
+                    recurring_until: session.recurring_end_date ? moment(session.recurring_end_date).format('YYYY-MM-DD') : moment(session.date_time_end).format('YYYY-MM-DD'),
+                })
             })
         }
     } catch (error: any) {

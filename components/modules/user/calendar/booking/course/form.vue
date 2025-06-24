@@ -478,30 +478,31 @@ const state = reactive({
     ],
 })
 
-// watch(() => props.selectedCourse, (newValue: any) => {
-//     if (newValue != null) {
-//         state.formCourse = {
-//             date_time_start: newValue.date_time_start,
-//             date_time_end: newValue.date_time_end,
-//             recurring: newValue.recurring,
-//             recurring_until: newValue.recurring_until,
-//             name: newValue.name,
-//             description: newValue.description,
-//             address: newValue.address,
-//             post_code: newValue.post_code,
-//             city: newValue.city,
-//             image: newValue.image,
-//             spots: newValue.spots,
-//             tags: newValue.tags,
-//             price: newValue.price,
-//             is_tax_included: newValue.is_tax_included,
-//             show_spots_left: newValue.show_spots_left,
-//             close_registration: newValue.close_registration,
-//             is_online_booking: newValue.is_online_booking,
-//             is_reminder_enabled: newValue.is_reminder_enabled,
-//         }
-//     }
-// })
+watch(() => props.selectedCourse, (selectedCourse: any) => {
+    if (selectedCourse) {
+        state.formCourse = {
+            name: selectedCourse?.name,
+            description: selectedCourse?.description,
+            address: selectedCourse?.address,
+            post_code: selectedCourse?.post_code,
+            city: selectedCourse?.city,
+            image: '',
+            sessions: selectedCourse?.sessions,
+            spots: selectedCourse?.spots,
+            tags: selectedCourse?.tags,
+            price: selectedCourse?.price,
+            is_tax_included: selectedCourse?.is_tax_included,
+            show_spots_left: selectedCourse?.show_spots_left,
+            close_registration: selectedCourse?.close_registration,
+            is_online_booking: selectedCourse?.is_online_booking,
+            is_reminder_enabled: selectedCourse?.is_reminder_enabled,
+        }
+        avatarUrl.value = selectedCourse?.image ? selectedCourse?.image : `/img/icons/asset-02.svg`
+        selectedCourse?.tags?.forEach((tag: any) => {
+            state.formEvent.tags.push(tag.uuid)
+        })
+    }
+})
 
 watch(() => props.courseData, (courseData: object) => {
     if (courseData) {
