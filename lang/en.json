@@ -367,6 +367,7 @@
             "course": "Course",
             "createACourse": "Create a course",
             "createACourseByGroupingMultipleEvents": "Create a course by grouping multiple events",
+            "editCourse": "Edit course",
             "sessions": "Sessions"
         },
         "editBooking": "Edit booking",
@@ -484,6 +485,7 @@
         "singleEvent": {
             "createASingleEvent": "Create a single event",
             "createASingleEventLabel": "Create a single or recurring event",
+            "editEvent": "Edit event",
             "singleEvent": "Single event"
         },
         "table": {
@@ -496,9 +498,15 @@
                 "bookingSuccessfullyDeleted": "Booking successfully deleted",
                 "bookingSuccessfullyUpdated": "Booking successfully updated"
             },
+            "availableSlots": "Available slots",
+            "confirmation": {
+                "deleteCourseConfirmation": "Are you sure you want to delete this course",
+                "deleteEventConfirmation": "Are you sure you want to delete this event"
+            },
             "booking": "booking type",
             "dateTimeEnd": "Date and time end",
             "dateTimeStart": "Date and time start",
+            "link": "Link",
             "name": "Name",
             "type": {
                 "course": "Course",

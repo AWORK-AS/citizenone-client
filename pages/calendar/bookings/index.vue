@@ -37,7 +37,7 @@
                                 <template #body
                                     v-if="!(state.isTableLoading || (state.courseEvents?.data?.length === 0))">
                                     <tr v-for="(courseEvent, index) in state.courseEvents?.data" :key="index">
-                                        <td width="80%">
+                                        <td width="20%">
                                             <div class="flex items-center gap-2">
                                                 <Badge type="primary" class="text-xxs truncate w-fit"
                                                     v-if="courseEvent?.type === 'event'">
@@ -53,15 +53,22 @@
                                                 {{ courseEvent?.name }}
                                             </div>
                                         </td>
+                                        <td width="40%">
+                                            <p class="text-primary underline cursor-pointer"
+                                                @click="navigateToExternalLink(`${runtimeConfig.public.appBaseURL}/booking/${state.bookingSettings?.link}/event/${courseEvent?.uuid}`)">
+                                                {{ runtimeConfig.public.appBaseURL }}/booking/{{
+                                                    state.bookingSettings?.link }}/event/{{ courseEvent?.uuid }}
+                                            </p>
+                                        </td>
                                         <td width="20%">
-                                            <!-- <div class="flex items-end gap-2">
-                                                <Tooltip :text="$t('bookings.table.actions.view')">
+                                            <div class="flex items-end gap-2">
+                                                <Tooltip :text="$t('bookings.table.actions.edit')">
                                                     <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                        @click="navigateTo(`/calendar/bookings/${courseEvent.uuid}/overview`)">
-                                                        <Icon name="ph:eye" class="size-4" />
+                                                        @click="editCourseEvent(courseEvent)">
+                                                        <Icon name="ph:pencil" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
-                                            </div> -->
+                                            </div>
                                         </td>
                                     </tr>
                                 </template>
@@ -98,6 +105,12 @@
             </LoadingSpinner>
             <ModulesUserCalendarBookingNewEventSelection :isModalOpen="state.modal.isNewEventOpen"
                 @close="state.modal.isNewEventOpen = false" @refreshCoursesEvents="fetchCoursesEvents" />
+
+
+            <ModulesUserCalendarBookingSingleEventModalEdit :isModalOpen="state.modal.isEditSingleEventOpen"
+                @close="state.modal.isEditSingleEventOpen = false" @refreshCoursesEvents="fetchCoursesEvents" />
+            <ModulesUserCalendarBookingCourseModalEdit :isModalOpen="state.modal.isEditCourseOpen"
+                @close="state.modal.isEditCourseOpen = false" @refreshCoursesEvents="fetchCoursesEvents" />
         </NuxtLayout>
     </div>
 </template>
@@ -128,6 +141,7 @@ const breadcrumbLinks = [
 const state = reactive({
     columnHeaders: [
         { name: 'bookings.table.name', sorter: true, key: 'name' },
+        { name: 'bookings.table.link' },
         { name: '' },
     ],
     courseEvents: [] as any,
@@ -139,6 +153,8 @@ const state = reactive({
     isPageLoading: false,
     isTableLoading: false,
     modal: {
+        isEditCourseOpen: false,
+        isEditSingleEventOpen: false,
         isNewEventOpen: false,
     },
     selectedCourseEvent: {},
@@ -216,5 +232,24 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchCoursesEvents()
+}
+
+async function navigateToExternalLink(link: any) {
+    await navigateTo(link, {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
+}
+
+function editCourseEvent(courseEvent: any) {
+    state.selectedCourseEvent = courseEvent
+    if (courseEvent?.type === 'event') {
+        state.modal.isEditSingleEventOpen = true
+    } else {
+        state.modal.isEditCourseOpen = true
+
+    }
 }
 </script>

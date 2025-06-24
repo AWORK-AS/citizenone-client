@@ -392,6 +392,10 @@ const state = reactive({
     slideOver: {
         isLanguageSwitcherOpen: false
     },
+    sortData: {
+        sortField: 'id',
+        sortOrder: 'descend',
+    },
 })
 
 onMounted(() => {
@@ -432,7 +436,11 @@ async function fetchEventsCourses() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await onlineBookingService.getCoursesEvents(companyLink)
+        const params = {
+            sortField: state.sortData.sortField,
+            sortOrder: state.sortData.sortOrder,
+        }
+        const response = await onlineBookingService.getCoursesEvents(companyLink, params)
         if (response) {
             state.coursesEvents = response
         }

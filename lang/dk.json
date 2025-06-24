@@ -367,6 +367,7 @@
             "course": "Kursus",
             "createACourse": "Opret et kursus",
             "createACourseByGroupingMultipleEvents": "Opret et kursus ved at gruppere flere begivenheder",
+            "editCourse": "Rediger kursus",
             "sessions": "Sessioner"
         },
         "editBooking": "Rediger booking",
@@ -484,6 +485,7 @@
         "singleEvent": {
             "createASingleEvent": "Opret en enkelt begivenhed",
             "createASingleEventLabel": "Opret en enkelt eller tilbagevendende begivenhed",
+            "editEvent": "Rediger begivenhed",
             "singleEvent": "Enkelt begivenhed"
         },
         "table": {
@@ -496,9 +498,15 @@
                 "bookingSuccessfullyDeleted": "Booking slettet med succes",
                 "bookingSuccessfullyUpdated": "Booking opdateret med succes"
             },
+            "availableSlots": "Tilgængelige pladser",
+            "confirmation": {
+                "deleteCourseConfirmation": "Er du sikker på, at du vil slette dette kursus",
+                "deleteEventConfirmation": "Er du sikker på, at du vil slette denne begivenhed"
+            },
             "booking": "Aftaletype",
             "dateTimeEnd": "Dato og tid slut",
             "dateTimeStart": "Dato og tid start",
+            "link": "Link",
             "name": "Navn",
             "type": {
                 "course": "Kursus",
