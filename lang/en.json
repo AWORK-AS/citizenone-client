@@ -330,7 +330,9 @@
     "bookings": {
         "alert": {
             "courseSuccessfullyAdded": "Course successfully added",
-            "eventSuccessfullyAdded": "Event successfully added"
+            "courseSuccessfullyUpdated": "Course successfully updated",
+            "eventSuccessfullyAdded": "Event successfully added",
+            "eventSuccessfullyUpdated": "Event successfully updated"
         },
         "booking": {
             "confirmation": {

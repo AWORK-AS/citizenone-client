@@ -429,30 +429,36 @@ const state = reactive({
     ],
 })
 
-// watch(() => props.selectedEvent, (newValue: any) => {
-//     if (newValue != null) {
-//         state.formEvent = {
-//             date_time_start: newValue.date_time_start,
-//             date_time_end: newValue.date_time_end,
-//             recurring: newValue.recurring,
-//             recurring_until: newValue.recurring_until,
-//             name: newValue.name,
-//             description: newValue.description,
-//             address: newValue.address,
-//             post_code: newValue.post_code,
-//             city: newValue.city,
-//             image: newValue.image,
-//             spots: newValue.spots,
-//             tags: newValue.tags,
-//             price: newValue.price,
-//             is_tax_included: newValue.is_tax_included,
-//             show_spots_left: newValue.show_spots_left,
-//             close_registration: newValue.close_registration,
-//             is_online_booking: newValue.is_online_booking,
-//             is_reminder_enabled: newValue.is_reminder_enabled,
-//         }
-//     }
-// })
+watch(() => props.selectedEvent, (selectedEvent: any) => {
+    if (selectedEvent) {
+        console.log('selectedEvent', selectedEvent)
+        state.formEvent = {
+            date_time_start: selectedEvent?.date_time_start,
+            date_time_end: selectedEvent?.date_time_end,
+            recurring: selectedEvent?.recurring,
+            recurring_until: selectedEvent?.recurring_until,
+            name: selectedEvent?.name,
+            description: selectedEvent?.description,
+            address: selectedEvent?.address,
+            post_code: selectedEvent?.post_code,
+            city: selectedEvent?.city,
+            image: '',
+            spots: selectedEvent?.spots,
+            tags: selectedEvent?.tags,
+            price: selectedEvent?.price,
+            is_tax_included: selectedEvent?.is_tax_included,
+            show_spots_left: selectedEvent?.show_spots_left,
+            close_registration: selectedEvent?.close_registration,
+            is_online_booking: selectedEvent?.is_online_booking,
+            is_reminder_enabled: selectedEvent?.is_reminder_enabled,
+        }
+        state.isCreateMultipleEvent = selectedEvent?.is_recurring || false
+        avatarUrl.value = selectedEvent?.image ? selectedEvent?.image : `/img/icons/asset-02.svg`
+        selectedEvent?.tags?.forEach((tag: any) => {
+            state.formEvent.tags.push(tag.uuid)
+        })
+    }
+})
 
 watch(() => props.eventData, (eventData: object) => {
     if (eventData) {

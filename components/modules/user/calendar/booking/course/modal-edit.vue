@@ -28,6 +28,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    selectedCourse: {
+        type: Object,
+        required: true,
+    },
 })
 const emit = defineEmits(['close', 'closeModalSelection', 'refreshBookings', 'refreshCoursesEvents'])
 
@@ -85,6 +89,7 @@ async function saveCourse(courseDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
+        const courseUuid = props.selectedCourse.uuid
         const params = new FormData()
         params.append('type', 'course')
         params.append('name', courseDetails.name)
@@ -102,9 +107,9 @@ async function saveCourse(courseDetails: any) {
         params.append('close_registration', courseDetails.close_registration)
         params.append('is_online_booking', courseDetails.is_online_booking)
         params.append('is_reminder_enabled', courseDetails.is_reminder_enabled)
-        const response = await coursesEventsService.saveEventCourse(params)
+        const response = await coursesEventsService.updateEventCourse(courseUuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('bookings.alert.courseSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('bookings.alert.courseSuccessfullyUpdated')}.`)
             refreshBookings()
             emit('refreshCoursesEvents')
             state.courseData = response.data

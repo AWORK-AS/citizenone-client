@@ -108,9 +108,11 @@
 
 
             <ModulesUserCalendarBookingSingleEventModalEdit :isModalOpen="state.modal.isEditSingleEventOpen"
-                @close="state.modal.isEditSingleEventOpen = false" @refreshCoursesEvents="fetchCoursesEvents" />
+                :selectedEvent="state.selectedCourseEvent" @close="state.modal.isEditSingleEventOpen = false"
+                @refreshCoursesEvents="fetchCoursesEvents" />
             <ModulesUserCalendarBookingCourseModalEdit :isModalOpen="state.modal.isEditCourseOpen"
-                @close="state.modal.isEditCourseOpen = false" @refreshCoursesEvents="fetchCoursesEvents" />
+                :selectedCourse="state.selectedCourseEvent" @close="state.modal.isEditCourseOpen = false"
+                @refreshCoursesEvents="fetchCoursesEvents" />
         </NuxtLayout>
     </div>
 </template>

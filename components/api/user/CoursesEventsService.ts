@@ -5,20 +5,20 @@ class CoursesEventsService extends BaseAPIService {
         return await this.request(`/user/courses-events`, 'GET', params)
     }
 
-    async getEventCourse(bookingUuid: any): Promise<any> {
-        return await this.request(`/user/courses-events/${bookingUuid}`, 'GET')
+    async getEventCourse(eventCourseUuid: any): Promise<any> {
+        return await this.request(`/user/courses-events/${eventCourseUuid}`, 'GET')
     }
 
     async saveEventCourse(params: object): Promise<any> {
         return await this.request(`/user/courses-events`, 'POST', params)
     }
 
-    async updateEventCourse(bookingUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/courses-events/${bookingUuid}/update`, 'POST', params)
+    async updateEventCourse(eventCourseUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/courses-events/${eventCourseUuid}/update`, 'POST', params)
     }
 
-    async deleteEventCourse(bookingUuid: any): Promise<any> {
-        return await this.request(`/user/courses-events/${bookingUuid}`, 'DELETE')
+    async deleteEventCourse(eventCourseUuid: any): Promise<any> {
+        return await this.request(`/user/courses-events/${eventCourseUuid}`, 'DELETE')
     }
 }
 

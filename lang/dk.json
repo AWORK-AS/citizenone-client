@@ -330,7 +330,9 @@
     "bookings": {
         "alert": {
             "courseSuccessfullyAdded": "Kursus tilføjet med succes",
-            "eventSuccessfullyAdded": "Begivenhed tilføjet med succes"
+            "courseSuccessfullyUpdated": "Kursus opdateret med succes",
+            "eventSuccessfullyAdded": "Begivenhed tilføjet med succes",
+            "eventSuccessfullyUpdated": "Begivenhed opdateret med succes"
         },
         "booking": {
             "confirmation": {
