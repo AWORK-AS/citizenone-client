@@ -66,11 +66,11 @@
                         {{ $t('bookings.view.overview.eventSignUpIs') }}
                     </p>
                     <p class="text-xl text-center font-semibold">
-                        <span class="text-green-700"
+                        <span class="text-red-500"
                             v-if="props.selectedCourseEvent?.booking_setting?.close_registration">
                             {{ $t('bookings.view.overview.closed') }}
                         </span>
-                        <span class="text-red-500" v-else>
+                        <span class="text-green-700" v-else>
                             {{ $t('bookings.view.overview.open') }}
                         </span>
                     </p>
