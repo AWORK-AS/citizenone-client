@@ -444,7 +444,7 @@
                                                             }">
                                                             <div class="flex justify-between text-white"
                                                                 :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
-                                                                @click="editSchedule(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, shift, shiftIndex)">
+                                                                @click="isAdmin(userStore.getUser?.roles) && editSchedule(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, shift, shiftIndex)">
                                                                 <p
                                                                     class="w-full px-2 py-2 flex items-center justify-center border border-white rounded-tl-md rounded-bl-md">
                                                                     {{ moment(shift?.date_time_start).format('HH:mm') }}
@@ -1241,7 +1241,6 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
 async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: number, shift: any, shiftIndex: number) {
     state.isRemoveShift = true
     const scheduleUuid = shift.schedule_uuid
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.splice(shiftIndex, 1)
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
