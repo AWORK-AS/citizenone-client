@@ -10,8 +10,9 @@
                     <template #body v-if="!(state.isTableLoading || (state.participants?.data?.length === 0))">
                         <tr v-for="(participant, index) in state.participants?.data" :key="index">
                             <td width="50%">
-                                <span>{{ participant?.firstname }}</span>
-                                <span>{{ participant?.lastname }}</span>
+                                <p>
+                                    {{ participant?.firstname + ' ' + participant?.lastname }}
+                                </p>
                             </td>
                             <td width="50%">
                                 <p>{{ participant?.email }}</p>
