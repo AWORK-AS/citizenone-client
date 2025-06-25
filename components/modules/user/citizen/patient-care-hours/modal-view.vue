@@ -42,10 +42,11 @@
                                                 <Icon name="ph:pencil" class="size-4" />
                                                 {{ $t('citizens.patientCareHours.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md" @click=""
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="deletePatientCareHoursConfirmation(pch)"
                                                 v-if="pch?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('citizens.patientCareHours.table.actions.edit') }}
+                                                {{ $t('citizens.patientCareHours.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -62,6 +63,9 @@
                     :selectedPatientCareHours="state.selectedPatientCareHours"
                     @close="state.modal.isEditPatientCareHoursOpen = false"
                     @refreshPatientCareHours="refreshPatientCareHours()" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeletePatientCareHoursOpen"
+                    :message="$t('citizens.patientCareHours.table.confirmation.deletePatientCareHoursConfirmation') + '?'"
+                    @close="state.modal.isDeletePatientCareHoursOpen = false" @confirm="deletePatientCareHours" />
             </template>
         </Modal>
     </div>
@@ -70,6 +74,8 @@
 <script setup lang="ts">
 import { patientCareHoursService } from '@/components/api/user/PatientCareHoursService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 
 const props = defineProps({
     isModalOpen: {
@@ -80,6 +86,8 @@ const props = defineProps({
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { t } = useI18n()
+const { successAlert } = useAlert()
 const emit = defineEmits(['close', 'refreshCitizenDetails'])
 let currentTablePage = 1
 
@@ -174,5 +182,26 @@ function handleSearch(value: any) {
 function editPatientCareHours(pch: any) {
     state.selectedPatientCareHours = pch
     state.modal.isEditPatientCareHoursOpen = true
+}
+
+function deletePatientCareHoursConfirmation(pch: any) {
+    state.selectedPatientCareHours = pch
+    state.modal.isDeletePatientCareHoursOpen = true
+}
+
+async function deletePatientCareHours() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const patientCareHoursUuid = state.selectedPatientCareHours.uuid
+        const response = await patientCareHoursService.deletePatientCareHours(patientCareHoursUuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            successAlert(`${t('alert.success')}!`, `${t('citizens.patientCareHours.table.alert.patientCareHoursSuccessfullyDeleted')}.`)
+            refreshPatientCareHours()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>
