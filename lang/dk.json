@@ -1418,6 +1418,38 @@
             },
             "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal"
         },
+        "patientCareHours": {
+            "editPatientCareHours": "Rediger patientpleje timer",
+            "form": {
+                "alert": {
+                    "patientCareHoursSuccessfullyAdded": "Patientpleje timer tilføjet med succes",
+                    "patientCareHoursSuccessfullyUpdated": "Patientpleje timer opdateret med succes"
+                },
+                "datetimeEnd": "Dato og tid slut",
+                "datetimeStart": "Dato og tid start",
+                "note": "Bemærkning",
+                "totalHours": "Samlet timer"
+            },
+            "newPatientCareHours": "Ny patientpleje timer",
+            "patientCareHours": "Patientpleje timer",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "alert": {
+                    "patientCareHoursSuccessfullyDeleted": "Patientpleje timer slettet med succes"
+                },
+                "confirmation": {
+                    "deletePatientCareHoursConfirmation": "Er du sikker på, at du vil slette disse patientpleje timer"
+                },
+                "createdBy": "Oprettet af",
+                "datetimeEnd": "Dato og tid slut",
+                "datetimeStart": "Dato og tid start",
+                "note": "Bemærkning",
+                "totalHours": "Samlet timer"
+            }
+        },
         "purchaseEmail": {
             "purchaseEmail": "Køb e-mail",
             "youAreNowBeingRedirected": "Du bliver nu omdirigeret til en partner, hvor du kan købe en e-mail til borgeren"

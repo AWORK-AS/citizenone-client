@@ -1418,6 +1418,38 @@
             },
             "viewNursingProfessionalRecord": "View nursing professional record"
         },
+        "patientCareHours": {
+            "editPatientCareHours": "Edit patient care hours",
+            "form": {
+                "alert": {
+                    "patientCareHoursSuccessfullyAdded": "Patient care hours successfully added",
+                    "patientCareHoursSuccessfullyUpdated": "Patient care hours successfully updated"
+                },
+                "datetimeEnd": "Date time end",
+                "datetimeStart": "Date time start",
+                "note": "Note",
+                "totalHours": "Total hours"
+            },
+            "newPatientCareHours": "New patient care hours",
+            "patientCareHours": "Patient care hours",
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "alert": {
+                    "patientCareHoursSuccessfullyDeleted": "Patient care hours successfully deleted"
+                },
+                "confirmation": {
+                    "deletePatientCareHoursConfirmation": "Are you sure you want to delete this patient care hours"
+                },
+                "createdBy": "Created by",
+                "datetimeEnd": "Date time end",
+                "datetimeStart": "Date time start",
+                "note": "Note",
+                "totalHours": "Total hours"
+            }
+        },
         "purchaseEmail": {
             "purchaseEmail": "Purchase email",
             "youAreNowBeingRedirected": "You are now being redirected to a partner where you can purchase an e-mail for the citizen"
