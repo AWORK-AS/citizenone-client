@@ -2,7 +2,8 @@
     <div>
         <ul class="space-y-1">
             <li class="flex justify-end px-4 pt-4 pb-3">
-                <button class="bg-primary text-white text-xs p-2 rounded-md flex items-center justify-center gap-x-2"
+                <button
+                    class="bg-secondary text-white text-xs px-4 py-3 rounded-md flex items-center justify-center gap-x-2 outline-none"
                     @click="state.modal.isNewChatOpen = true">
                     <Icon name="mdi:square-edit-outline" class="w-4 h-4 text-white" aria-hidden="true" />
                     {{ $t('messages.newMessage') }}

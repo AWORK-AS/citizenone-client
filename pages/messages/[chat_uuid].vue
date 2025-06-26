@@ -135,7 +135,7 @@
                                             <div class="mr-2">
                                                 <Tooltip position="right"
                                                     :text="formatTimeToReadable(message?.created_at)">
-                                                    <div class="bg-primary text-white p-3 rounded-lg">
+                                                    <div class="bg-secondary text-white p-3 rounded-lg">
                                                         <div v-if="message?.chat_message_attachments?.length > 0"
                                                             class="space-y-3">
                                                             <div v-for="(attachment, index) in message?.chat_message_attachments"
@@ -156,6 +156,20 @@
                                                         </div>
                                                         <p v-else class="text-sm"
                                                             v-html="message?.message?.replace(/\n/g, '<br>')" />
+                                                        <!-- <div class="flex justify-end gap-x-2">
+                                                            <Tooltip position="top" :text="'Edit'">
+                                                                <button>
+                                                                    <Icon name="ph:pencil-simple" class="h-4 w-4"
+                                                                        aria-hidden="true" />
+                                                                </button>
+                                                            </Tooltip>
+                                                            <Tooltip position="top" :text="'Delete'">
+                                                                <button>
+                                                                    <Icon name="ph:trash" class="h-4 w-4"
+                                                                        aria-hidden="true" />
+                                                                </button>
+                                                            </Tooltip>
+                                                        </div> -->
                                                     </div>
                                                     <p class="text-xs text-gray-500 mt-1"
                                                         v-if="index === state.messages.length - 1 && message?.receipt?.created_at">
@@ -230,7 +244,7 @@
                                     class="text-sm flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                     placeholder="Type a message..." v-model="state.message" />
                                 <button type="button"
-                                    class="px-4 py-3 bg-primary text-white rounded-md hover:bg-primary-700 focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
+                                    class="px-4 py-3 bg-secondary text-white rounded-md hover:bg-secondary-600 focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
                                     @click="sendMessage" :disabled="state.isPageLoading">
                                     Send
                                 </button>
