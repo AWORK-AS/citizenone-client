@@ -133,7 +133,7 @@
                                     <div v-if="message?.sender?.id === userStore.getUser?.id">
                                         <div class="flex items-start justify-end mb-4">
                                             <div class="mr-2">
-                                                <Tooltip position="left"
+                                                <Tooltip position="right"
                                                     :text="formatTimeToReadable(message?.created_at)">
                                                     <div class="bg-primary text-white p-3 rounded-lg">
                                                         <div v-if="message?.chat_message_attachments?.length > 0"
@@ -154,7 +154,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <p v-else class="text-sm">{{ message?.message }}</p>
+                                                        <p v-else class="text-sm"
+                                                            v-html="message?.message?.replace(/\n/g, '<br>')" />
                                                     </div>
                                                     <p class="text-xs text-gray-500 mt-1"
                                                         v-if="index === state.messages.length - 1 && message?.receipt?.created_at">
@@ -185,7 +186,7 @@
                                                 <div v-else class="ml-10"></div>
                                             </div>
                                             <div class="ml-2">
-                                                <Tooltip position="right"
+                                                <Tooltip position="left"
                                                     :text="formatTimeToReadable(message?.created_at)">
                                                     <div class="bg-gray-200 p-3 rounded-lg">
                                                         <div v-if="message?.chat_message_attachments?.length > 0"
@@ -206,8 +207,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <p v-else class="text-gray-700 text-sm">{{ message?.message }}
-                                                        </p>
+                                                        <p v-else class="text-gray-700 text-sm"
+                                                            v-html="message?.message?.replace(/\n/g, '<br>')" />
                                                     </div>
                                                 </Tooltip>
                                             </div>
@@ -225,10 +226,9 @@
                                     :disabled="state.isPageLoading" @click="triggerFileInput">
                                     <Icon name="ph:paperclip" class="w-7 h-7 text-primary rounded-full" />
                                 </button>
-                                <input type="text"
-                                    class="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                    placeholder="Type a message..." v-model="state.message"
-                                    @keydown.enter="!state.isPageLoading && sendMessage()" />
+                                <textarea type="text"
+                                    class="text-sm flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                    placeholder="Type a message..." v-model="state.message" />
                                 <button type="button"
                                     class="px-4 py-3 bg-primary text-white rounded-md hover:bg-primary-700 focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
                                     @click="sendMessage" :disabled="state.isPageLoading">
