@@ -112,7 +112,8 @@
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserMyCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
-                        @changeDate="changeDate" @editMyCalendarEvent="editMyCalendarEvent"
+                        @changeDate="changeDate" @changeMonthYear="changeMonthYear"
+                        @editMyCalendarEvent="editMyCalendarEvent"
                         @openEventDeletionModal="state.modal.isDeleteScheduleOpen = true"
                         @deleteMyCalendarEvent="deleteMyCalendarEvent" v-if="state.calendarView === 'default'" />
                     <ModulesUserMyCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
@@ -217,6 +218,12 @@ onMounted(() => {
     fetchAllUsers()
     if (calendarStore.getCalendarView === 'default') {
         state.calendarView = 'default'
+        const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
+        const lastDayOfMonth = moment().endOf('month').format('Y-M-D')
+        state.selectedDate = {
+            end_date: lastDayOfMonth,
+            start_date: firstDayOfMonth,
+        }
     } else if (calendarStore.getCalendarView === 'week') {
         state.calendarView = 'week'
         const firstDayOfWeek = moment().startOf('isoWeek').format('Y-M-D')
@@ -226,9 +233,9 @@ onMounted(() => {
             start_date: firstDayOfWeek,
         }
     } else if (calendarStore.getCalendarView === 'month') {
+        state.calendarView = 'month'
         const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
         const lastDayOfMonth = moment().endOf('month').format('Y-M-D')
-        state.calendarView = 'month'
         state.selectedDate = {
             end_date: lastDayOfMonth,
             start_date: firstDayOfMonth,
@@ -405,6 +412,7 @@ function changeMonthYear(year: any, month: any) {
     }
     state.selectedYear = year
     state.selectedMonth = month
+    console.log('test', [month, year])
     fetchMyCalendarEvents()
 }
 
