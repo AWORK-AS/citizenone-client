@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                             <div v-html="state.secured_mail?.message"></div>
-                            <p class="flex items-center gap-x-1">
+                            <p class="flex items-center gap-x-1 text-xs">
                                 <span>
                                     {{ $t('mail.secured.sent.sentWith') }}
                                 </span>
@@ -93,13 +93,35 @@
                                 </span>
                             </p>
                         </div>
-                        <div class="space-y-2 px-6 sm:px-12 py-3 md:py-8"
-                            v-for="(history, historyIndex) in state.secured_mail?.secure_mail_replies">
-                            <p class="text-sm">
-                                {{ formatDateTimeToReadable(history?.created_at) }}
-                            </p>
+                        <div class="space-y-3 px-6 sm:px-12 py-3 md:py-8"
+                            v-for="(history, historyIndex) in state.secured_mail?.history">
+                            <div>
+                                <p class="text-sm">
+                                    {{ formatDateTimeToReadable(history?.created_at) }}
+                                </p>
+                                <p>
+                                    {{ $t('mail.secured.from') }}:
+                                    {{ state.secured_mail?.sender?.firstname }}
+                                    {{ state.secured_mail?.sender?.lastname }}
+                                    {{ state.secured_mail?.from }}
+                                </p>
+                                <div class="flex items-center gap-x-1">
+                                    <p>
+                                        {{ $t('mail.secured.to') }}:
+                                    </p>
+                                    <div class="text-xxs flex flex-wrap gap-1">
+                                        <span v-for="(receipient, index) in state.secured_mail?.receipient_emails"
+                                            :key=index class="bg-primary px-2 py-1 text-white rounded-md">
+                                            {{ receipient }}
+                                        </span>
+                                    </div>
+                                    <p>
+                                        {{ state.secured_mail?.to }}
+                                    </p>
+                                </div>
+                            </div>
                             <div v-html="history?.message"></div>
-                            <p class="flex items-center gap-x-1">
+                            <p class="flex items-center gap-x-1 text-xs">
                                 <span>
                                     {{ $t('mail.secured.sent.sentWith') }}
                                 </span>
@@ -111,23 +133,6 @@
                                 </span>
                             </p>
                         </div>
-                        <!-- <div class="space-y-2 px-6 sm:px-12 py-3 md:py-8" v-if="state.secured_mail?.encrypted_mail">
-                            <p class="text-sm">
-                                {{ formatDateTimeToReadable(state.secured_mail?.encrypted_mail?.created_at) }}
-                            </p>
-                            <div v-html="state.secured_mail?.encrypted_mail?.message"></div>
-                            <p class="flex items-center gap-x-1">
-                                <span>
-                                    {{ $t('mail.secured.sent.sentWith') }}
-                                </span>
-                                <span class="text-primary">
-                                    {{ $t('mail.secured.sent.citizenOneMail') }}
-                                </span>
-                                <span class="lowercase">
-                                    {{ $t('mail.secured.sent.viaSecuredMail') }}.
-                                </span>
-                            </p>
-                        </div> -->
                     </div>
                 </div>
             </div>
