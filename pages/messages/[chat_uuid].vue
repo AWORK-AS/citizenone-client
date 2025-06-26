@@ -240,7 +240,7 @@
                 </div>
                 <ModulesUserMessagesGroupChatModalEditName :isModalOpen="state.modal.isEditGroupNameOpen"
                     :selectedChat="state.selectChat" @close="state.modal.isEditGroupNameOpen = false"
-                    @refreshChatDetails="fetchChat" />
+                    @refreshChatDetails="refreshChatDetails" />
                 <ModulesUserMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
                     @close="state.modal.isManageGroupChatMembersOpen = false" @refreshChat="fetchChat" />
                 <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
@@ -321,6 +321,11 @@ window.setInterval(() => {
 function closeUpgradeStorageModal() {
     state.modal.isUpgradeStorageOpen = false
     state.error = {}
+}
+
+function refreshChatDetails() {
+    fetchChat()
+    fetchChats()
 }
 
 async function fetchChat() {
