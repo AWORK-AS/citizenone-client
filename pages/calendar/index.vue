@@ -112,8 +112,7 @@
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserMyCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
-                        @changeDate="changeDate" @changeMonthYear="changeMonthYear"
-                        @editMyCalendarEvent="editMyCalendarEvent"
+                        @changeMonthYear="changeMonthYear" @editMyCalendarEvent="editMyCalendarEvent"
                         @openEventDeletionModal="state.modal.isDeleteScheduleOpen = true"
                         @deleteMyCalendarEvent="deleteMyCalendarEvent" v-if="state.calendarView === 'default'" />
                     <ModulesUserMyCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
@@ -361,8 +360,8 @@ function setCalendarView(viewStyle: any) {
         state.calendarView = viewStyle
         calendarStore.setCalendarView(viewStyle)
         state.selectedDate = {
-            end_date: '',
-            start_date: '',
+            end_date: moment().endOf('month').format('Y-M-D'),
+            start_date: moment().startOf('month').format('Y-M-D'),
         }
         state.selectedYear = ''
         state.selectedMonth = ''

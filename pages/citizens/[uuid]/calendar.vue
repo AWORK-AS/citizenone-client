@@ -63,7 +63,7 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <LoadingSpinner :isActive="state.isPageLoading">
                         <ModulesUserCitizenCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
-                            @changeDate="changeDate" @deleteMyCalendarEvent="deleteMyCalendarEvent"
+                            @changeMonthYear="changeMonthYear" @deleteMyCalendarEvent="deleteMyCalendarEvent"
                             v-if="state.calendarView === 'default'" />
                         <ModulesUserCitizenCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
                             @changeDatePerWeek="changeDatePerWeek" v-if="state.calendarView === 'week'"
@@ -115,8 +115,8 @@ const state = reactive({
         isViewEventOpen: false,
     },
     selectedDate: {
-        end_date: moment().format('YYYY-MM-DD'),
-        start_date: moment().format('YYYY-MM-DD'),
+        end_date: moment().endOf('month').format('YYYY-MM-DD'),
+        start_date: moment().startOf('month').format('YYYY-MM-DD'),
     },
     selectedSchedule: {
         id: '',
@@ -168,8 +168,8 @@ function setCalendarView(viewStyle: any) {
         state.calendarView = viewStyle
         if (viewStyle === 'default') {
             state.selectedDate = {
-                end_date: moment().format('YYYY-MM-DD'),
-                start_date: moment().format('YYYY-MM-DD'),
+                end_date: moment().endOf('month').endOf('isoWeek').format('YYYY-MM-DD'),
+                start_date: moment().startOf('month').startOf('isoWeek').format('YYYY-MM-DD'),
             }
         } else if (viewStyle === 'week') {
             state.selectedDate = {

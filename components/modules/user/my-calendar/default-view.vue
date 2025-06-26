@@ -183,7 +183,7 @@
                                         <MenuItem v-slot="{ active }">
                                         <a href="#"
                                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
-                                            @click="setEventDeletion(myCalendarEvent)">
+                                            @click="deleteEventConfirmation(myCalendarEvent)">
                                             {{ $t('calendar.delete') }}
                                         </a>
                                         </MenuItem>
@@ -214,7 +214,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeDate', 'changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent'])
+const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent'])
 const userStore = useUserStore() as any
 
 const currentMonth = ref(moment().startOf('month'))
@@ -269,6 +269,7 @@ function setToday() {
     month.value = currentMonth.value.format('MMMM')
     year.value = currentMonth.value.format('YYYY')
     days.value = generateDays(currentMonth.value)
+    state.selectedDate = today.format('YYYY-MM-DD')
     emit('changeMonthYear', year.value, currentMonth.value.month())
 }
 
@@ -320,7 +321,7 @@ function editMyCalendarEvent(myCalendarEvent: any) {
     emit('editMyCalendarEvent', myCalendarEvent)
 }
 
-function setEventDeletion(myCalendarEvent: any) {
+function deleteEventConfirmation(myCalendarEvent: any) {
     state.selectedSchedule = myCalendarEvent
     state.modal.isDeleteScheduleOpen = true
 }
