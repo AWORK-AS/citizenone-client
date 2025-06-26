@@ -3136,7 +3136,18 @@
         }
     },
     "messages": {
+        "actions": {
+            "delete": "Slet",
+            "edit": "Rediger"
+        },
+        "alert": {
+            "messageSuccessfullyDeleted": "Besked slettet med succes",
+            "messageSuccessfullyUpdated": "Besked opdateret med succes"
+        },
         "allMessagesAreLoaded": "Alle beskeder er indlæst",
+        "confirmation": {
+            "deleteMessageConfirmation": "Er du sikker på, at du vil slette denne besked"
+        },
         "groupChat": {
             "alert": {
                 "groupNameSuccessfullyUpdated": "Gruppens navn opdateret med succes",

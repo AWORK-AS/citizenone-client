@@ -157,13 +157,14 @@
                                                         <p v-else class="text-sm"
                                                             v-html="message?.message?.replace(/\n/g, '<br>')" />
                                                         <!-- <div class="flex justify-end gap-x-2">
-                                                            <Tooltip position="top" :text="'Edit'">
+                                                            <Tooltip position="top" :text="$t('messages.actions.edit')">
                                                                 <button>
                                                                     <Icon name="ph:pencil-simple" class="h-4 w-4"
                                                                         aria-hidden="true" />
                                                                 </button>
                                                             </Tooltip>
-                                                            <Tooltip position="top" :text="'Delete'">
+                                                            <Tooltip position="top"
+                                                                :text="$t('messages.actions.delete')">
                                                                 <button>
                                                                     <Icon name="ph:trash" class="h-4 w-4"
                                                                         aria-hidden="true" />
@@ -240,13 +241,13 @@
                                     :disabled="state.isPageLoading" @click="triggerFileInput">
                                     <Icon name="ph:paperclip" class="w-7 h-7 text-primary rounded-full" />
                                 </button>
-                                <textarea type="text"
+                                <textarea type="text" rows="1"
                                     class="text-sm flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                     placeholder="Type a message..." v-model="state.message" />
                                 <button type="button"
                                     class="px-4 py-3 bg-secondary text-white rounded-md hover:bg-secondary-600 focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
                                     @click="sendMessage" :disabled="state.isPageLoading">
-                                    Send
+                                    {{ $t('messages.send') }}
                                 </button>
                             </div>
                         </div>

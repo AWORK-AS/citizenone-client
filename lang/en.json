@@ -3136,7 +3136,18 @@
         }
     },
     "messages": {
+        "actions": {
+            "delete": "Delete",
+            "edit": "Edit"
+        },
+        "alert": {
+            "messageSuccessfullyDeleted": "Message successfully deleted",
+            "messageSuccessfullyUpdated": "Message successfully updated"
+        },
         "allMessagesAreLoaded": "All messages are loaded",
+        "confirmation": {
+            "deleteMessageConfirmation": "Are you sure you want to delete this message"
+        },
         "groupChat": {
             "alert": {
                 "groupNameSuccessfullyUpdated": "Group name successfully updated",
