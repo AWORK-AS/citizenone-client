@@ -93,8 +93,8 @@
                                 </span>
                             </p>
                         </div>
-                        <div class="px-6 sm:px-12 py-3 md:py-8"
-                            v-for="(history, historyIndex) in state.secured_mail?.encrypted_mail?.secure_mail_replies.slice(1)">
+                        <div class="space-y-2 px-6 sm:px-12 py-3 md:py-8"
+                            v-for="(history, historyIndex) in state.secured_mail?.secure_mail_replies">
                             <p class="text-sm">
                                 {{ formatDateTimeToReadable(history?.created_at) }}
                             </p>
@@ -111,7 +111,7 @@
                                 </span>
                             </p>
                         </div>
-                        <div class="space-y-2 px-6 sm:px-12 py-3 md:py-8" v-if="state.secured_mail?.encrypted_mail">
+                        <!-- <div class="space-y-2 px-6 sm:px-12 py-3 md:py-8" v-if="state.secured_mail?.encrypted_mail">
                             <p class="text-sm">
                                 {{ formatDateTimeToReadable(state.secured_mail?.encrypted_mail?.created_at) }}
                             </p>
@@ -127,7 +127,7 @@
                                     {{ $t('mail.secured.sent.viaSecuredMail') }}.
                                 </span>
                             </p>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
