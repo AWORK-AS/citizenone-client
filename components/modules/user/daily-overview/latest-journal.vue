@@ -51,7 +51,8 @@
                         </div>
                     </div>
                 </div>
-                <div v-else class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100">
+                <div v-else class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100"
+                    @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)">
                     <div class="flex gap-x-2">
                         <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
                             :class="[
