@@ -123,7 +123,9 @@
                                                     {{ $t('bookings.booking.confirmation.price') }}
                                                 </p>
                                                 <p class="col-span-3">
-                                                    {{ formatAmount(state?.courseEventDetails?.price) }}
+                                                    {{
+                                                        formatAmount(state?.courseEventDetails?.booking_setting?.price)
+                                                    }}
                                                 </p>
                                                 <p class="font-semibold text-right text-primary">
                                                     {{ $t('bookings.booking.confirmation.information') }}
