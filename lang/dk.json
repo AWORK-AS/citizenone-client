@@ -3148,7 +3148,7 @@
         "confirmation": {
             "deleteMessageConfirmation": "Er du sikker på, at du vil slette denne besked"
         },
-        "editMessage": "Edit message",
+        "editMessage": "Rediger besked",
         "groupChat": {
             "alert": {
                 "groupNameSuccessfullyUpdated": "Gruppens navn opdateret med succes",
