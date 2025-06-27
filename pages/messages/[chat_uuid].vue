@@ -156,9 +156,9 @@
                                                         </div>
                                                         <p v-else class="text-sm"
                                                             v-html="message?.message?.replace(/\n/g, '<br>')" />
-                                                        <div class="flex justify-end gap-x-2">
+                                                        <div class="mt-2 flex justify-end gap-x-1">
                                                             <Tooltip position="top" :text="$t('messages.actions.edit')">
-                                                                <button @click="editChat(index, message)">
+                                                                <button @click="editChatMessage(index, message)">
                                                                     <Icon name="ph:pencil-simple" class="h-4 w-4"
                                                                         aria-hidden="true" />
                                                                 </button>
@@ -554,7 +554,7 @@ function chatGroupMembers(chat: any) {
         ?.join(', ')
 }
 
-function editChat(index: number, message: any) {
+function editChatMessage(index: number, message: any) {
     state.selectedChatIndex = index
     state.selectedChat = message
     state.modal.isEditChatMessageOpen = true
