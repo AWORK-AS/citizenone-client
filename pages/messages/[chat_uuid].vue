@@ -157,12 +157,12 @@
                                                         <p v-else class="text-sm"
                                                             v-html="message?.message?.replace(/\n/g, '<br>')" />
                                                         <div class="flex justify-end gap-x-2">
-                                                            <!-- <Tooltip position="top" :text="$t('messages.actions.edit')">
-                                                                <button>
+                                                            <Tooltip position="top" :text="$t('messages.actions.edit')">
+                                                                <button @click="editChat(index, message)">
                                                                     <Icon name="ph:pencil-simple" class="h-4 w-4"
                                                                         aria-hidden="true" />
                                                                 </button>
-                                                            </Tooltip> -->
+                                                            </Tooltip>
                                                             <Tooltip position="top"
                                                                 :text="$t('messages.actions.delete')">
                                                                 <button @click="deleteChatConfirmation(index, message)">
@@ -258,6 +258,9 @@
                     @refreshChatDetails="refreshChatDetails" />
                 <ModulesUserMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
                     @close="state.modal.isManageGroupChatMembersOpen = false" @refreshChat="fetchChat" />
+                <ModulesUserMessagesModalEditMessage :isModalOpen="state.modal.isEditChatMessageOpen"
+                    :selectedChat="state.selectedChat" @close="state.modal.isEditChatMessageOpen = false"
+                    @updateMessage="updateMessage" />
                 <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
                     :title="$t('citizens.documents.upgradeStorage')"
                     :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
@@ -314,6 +317,7 @@ const state = reactive({
     messages: [] as any,
     modal: {
         isDeleteConfirmationOpen: false,
+        isEditChatMessageOpen: false,
         isEditGroupNameOpen: false,
         isManageGroupChatMembersOpen: false,
         isUpgradeStorageOpen: false
@@ -548,6 +552,16 @@ function chatGroupMembers(chat: any) {
     return excludeCurrentUserFromChatMembers(chat?.chat_members)
         ?.map((chatMember: any) => `${chatMember?.user?.firstname} ${chatMember?.user?.lastname}`)
         ?.join(', ')
+}
+
+function editChat(index: number, message: any) {
+    state.selectedChatIndex = index
+    state.selectedChat = message
+    state.modal.isEditChatMessageOpen = true
+}
+
+function updateMessage(message: any) {
+    state.messages[state.selectedChatIndex].message = message
 }
 
 function deleteChatConfirmation(index: number, message: any) {

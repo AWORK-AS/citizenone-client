@@ -3148,6 +3148,7 @@
         "confirmation": {
             "deleteMessageConfirmation": "Are you sure you want to delete this message"
         },
+        "editMessage": "Edit message",
         "groupChat": {
             "alert": {
                 "groupNameSuccessfullyUpdated": "Group name successfully updated",
