@@ -156,21 +156,21 @@
                                                         </div>
                                                         <p v-else class="text-sm"
                                                             v-html="message?.message?.replace(/\n/g, '<br>')" />
-                                                        <!-- <div class="flex justify-end gap-x-2">
-                                                            <Tooltip position="top" :text="$t('messages.actions.edit')">
+                                                        <div class="flex justify-end gap-x-2">
+                                                            <!-- <Tooltip position="top" :text="$t('messages.actions.edit')">
                                                                 <button>
                                                                     <Icon name="ph:pencil-simple" class="h-4 w-4"
                                                                         aria-hidden="true" />
                                                                 </button>
-                                                            </Tooltip>
+                                                            </Tooltip> -->
                                                             <Tooltip position="top"
                                                                 :text="$t('messages.actions.delete')">
-                                                                <button>
+                                                                <button @click="deleteChatConfirmation(index, message)">
                                                                     <Icon name="ph:trash" class="h-4 w-4"
                                                                         aria-hidden="true" />
                                                                 </button>
                                                             </Tooltip>
-                                                        </div> -->
+                                                        </div>
                                                     </div>
                                                     <p class="text-xs text-gray-500 mt-1"
                                                         v-if="index === state.messages.length - 1 && message?.receipt?.created_at">
@@ -254,7 +254,7 @@
                     </LoadingSpinner>
                 </div>
                 <ModulesUserMessagesGroupChatModalEditName :isModalOpen="state.modal.isEditGroupNameOpen"
-                    :selectedChat="state.selectChat" @close="state.modal.isEditGroupNameOpen = false"
+                    :selectedChat="state.selectedChat" @close="state.modal.isEditGroupNameOpen = false"
                     @refreshChatDetails="refreshChatDetails" />
                 <ModulesUserMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
                     @close="state.modal.isManageGroupChatMembersOpen = false" @refreshChat="fetchChat" />
@@ -262,21 +262,28 @@
                     :title="$t('citizens.documents.upgradeStorage')"
                     :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
                     @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteConfirmationOpen"
+                    :message="$t('messages.confirmation.deleteMessageConfirmation') + '?'"
+                    @close="state.modal.isDeleteConfirmationOpen = false" @confirm="deleteChatMessage" />
             </div>
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import pusher from '@/services/pusher'
 import { messageService } from '@/components/api/user/MessageService'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatTimeToReadable } = useDatetimeFormatter()
+const { t } = useI18n()
+const { successAlert } = useAlert()
 const userStore = useUserStore() as any
 const router = useRouter()
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
@@ -306,11 +313,13 @@ const state = reactive({
     message: '',
     messages: [] as any,
     modal: {
+        isDeleteConfirmationOpen: false,
         isEditGroupNameOpen: false,
         isManageGroupChatMembersOpen: false,
         isUpgradeStorageOpen: false
     },
-    selectChat: {} as any,
+    selectedChat: {} as any,
+    selectedChatIndex: '',
 })
 
 onMounted(() => {
@@ -398,7 +407,7 @@ async function fetchChatHistory() {
 }
 
 function editGroupChatName() {
-    state.selectChat = state.chat?.data
+    state.selectedChat = state.chat?.data
     state.modal.isEditGroupNameOpen = true
 }
 
@@ -539,6 +548,31 @@ function chatGroupMembers(chat: any) {
     return excludeCurrentUserFromChatMembers(chat?.chat_members)
         ?.map((chatMember: any) => `${chatMember?.user?.firstname} ${chatMember?.user?.lastname}`)
         ?.join(', ')
+}
+
+function deleteChatConfirmation(index: number, message: any) {
+    state.selectedChatIndex = index
+    state.selectedChat = message
+    state.modal.isDeleteConfirmationOpen = true
+}
+
+async function deleteChatMessage() {
+    state.error = {}
+    state.isChatHistoryDividerLoading = true
+    try {
+        const chatIndex = state.selectedChatIndex
+        const chatUuid = state.selectedChat?.uuid
+        const response = await messageService.deleteChatMessage(chatUuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            successAlert(`${t('alert.success')}!`, `${t('messages.alert.messageSuccessfullyDeleted')}.`)
+            if (chatIndex !== undefined && chatIndex !== -1) {
+                state.messages.splice(chatIndex, 1)
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isChatHistoryDividerLoading = false
 }
 </script>
 

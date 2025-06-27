@@ -13,6 +13,10 @@ class MessageService extends BaseAPIService {
         return await this.request(`/user/chat-messages`, 'GET', params)
     }
 
+    async deleteChatMessage(chatUuid: any): Promise<any> {
+        return await this.request(`/user/chat-messages/${chatUuid}`, 'DELETE')
+    }
+
     async updateGroupChatName(chatUuid: any, params: object): Promise<any> {
         return await this.request(`/user/chats/${chatUuid}`, 'PUT', params)
     }
