@@ -28,27 +28,27 @@
         }
     },
     "addictions": {
-        "addNewAddiction": "Tilføj ny afhængighed",
-        "addictions": "Afhængigheder",
-        "editAddiction": "Rediger afhængighed",
+        "addNewAddiction": "Tilføj ny stofmisbrug",
+        "addictions": "Stofmisbrug",
+        "editAddiction": "Rediger stofmisbrug",
         "form": {
             "alert": {
-                "addictionSuccessfullyUpdated": "Afhængigheden er opdateret",
-                "newAddictionSuccessfullySaved": "Ny afhængighed er gemt"
+                "addictionSuccessfullyUpdated": "Stofmisbrug opdateret med succes",
+                "newAddictionSuccessfullySaved": "Ny stofmisbrug gemt med succes"
             },
             "name": "Navn"
         },
-        "newAddiction": "Ny afhængighed",
+        "newAddiction": "Ny stofmisbrug",
         "table": {
             "actions": {
-                "delete": "Delete",
+                "delete": "Slet",
                 "edit": "Rediger"
             },
             "alert": {
-                "addictionSuccessfullyDeleted": "Afhængighed slettet med succes"
+                "addictionSuccessfullyDeleted": "Stofmisbrug slettet med succes"
             },
             "confirmation": {
-                "deleteAddictionConfirmation": "Er du sikker på, at du vil slette denne afhængighed"
+                "deleteAddictionConfirmation": "Er du sikker på, at du vil slette dette stofmisbrug"
             },
             "name": "Navn"
         }
@@ -3829,7 +3829,7 @@
         "tabs": {
             "absences": "Fravær",
             "activityLogs": "Aktivitetslogfiler",
-            "addictions": "Afhængigheder",
+            "addictions": "Stofmisbrug",
             "archived": "Arkiveret",
             "bookingTags": "Booking tags",
             "calendarTags": "Kalenderetiketter",

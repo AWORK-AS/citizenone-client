@@ -28,27 +28,27 @@
         }
     },
     "addictions": {
-        "addNewAddiction": "Add new addiction",
-        "addictions": "Addictions",
-        "editAddiction": "Edit addiction",
+        "addNewAddiction": "Add new substance abuse",
+        "addictions": "Substance abuse",
+        "editAddiction": "Edit substance abuse",
         "form": {
             "alert": {
-                "addictionSuccessfullyUpdated": "Addiction successfully updated",
-                "newAddictionSuccessfullySaved": "New addiction successfully saved"
+                "addictionSuccessfullyUpdated": "Substance abuse successfully updated",
+                "newAddictionSuccessfullySaved": "New substance abuse successfully saved"
             },
             "name": "Name"
         },
-        "newAddiction": "New addiction",
+        "newAddiction": "New substance abuse",
         "table": {
             "actions": {
                 "delete": "Delete",
                 "edit": "Edit"
             },
             "alert": {
-                "addictionSuccessfullyDeleted": "Addiction successfully deleted"
+                "addictionSuccessfullyDeleted": "Substance abuse successfully deleted"
             },
             "confirmation": {
-                "deleteAddictionConfirmation": "Are you sure you want to delete this addiction"
+                "deleteAddictionConfirmation": "Are you sure you want to delete this substance abuse"
             },
             "name": "Name"
         }
@@ -3829,7 +3829,7 @@
         "tabs": {
             "absences": "Absences",
             "activityLogs": "Activity logs",
-            "addictions": "Addictions",
+            "addictions": "Substance abuse",
             "archived": "Archived",
             "bookingTags": "Booking tags",
             "calendarTags": "Calendar tags",
