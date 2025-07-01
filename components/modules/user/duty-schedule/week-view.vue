@@ -464,6 +464,16 @@
                                                                     {{ citizenSchedule?.citizen?.lastname }}
                                                                 </p>
                                                             </div>
+                                                            <div class="text-xxs text-white px-1 py-0.5">
+                                                                {{ $t('departments.departments') }}:
+                                                                <span
+                                                                    v-for="(department, departmentIndex) in weeklySchedule?.employee?.departments"
+                                                                    :key="departmentIndex">
+                                                                    {{ department?.name }}<span
+                                                                        v-if="departmentIndex < weeklySchedule.employee.departments.length - 1">,
+                                                                    </span><span v-else>.</span>
+                                                                </span>
+                                                            </div>
                                                             <div class="flex items-center flex-wrap gap-y-0.5 mt-1"
                                                                 v-if="shift?.tags?.length > 0">
                                                                 <Tooltip :text="tag?.tag"
@@ -936,7 +946,7 @@ function getSlotCount(dayName: string) {
         Fri: 'friday',
         Sat: 'saturday',
         Sun: 'sunday'
-    }
+    } as any
     const key = dayMap[dayName]
     return state.weeklySlots[key]?.total_slots || 0
 }
