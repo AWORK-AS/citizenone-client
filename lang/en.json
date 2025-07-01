@@ -698,7 +698,7 @@
     "cancel": "Cancel",
     "changeImage": "Change image",
     "citizens": {
-        "addictions": "Addictions",
+        "addictions": "Substance abuse",
         "alert": {
             "citizenSuccessfullyArchived": "Citizen successfully archived"
         },
@@ -1005,7 +1005,7 @@
         },
         "editCitizen": "Edit citizen",
         "form": {
-            "addictions": "Addictions",
+            "addictions": "Substance abuse",
             "alert": {
                 "successfullyAdded": "New citizens successfully saved",
                 "successfullyUpdate": "Citizen successfully updated"
@@ -1856,7 +1856,7 @@
         "addDailyEvents": "Add daily events",
         "bulletBoard": "Bullet board",
         "campaign": "Campaign",
-        "citizensAddictions": "Citizens addictions",
+        "citizensAddictions": "Citizens substance abuse",
         "citizensAdmissionAndDischarged": {
             "citizensAdmissionAndDischarged": "Citizens admission and discharged",
             "dateAdmitted": "Date admitted",
@@ -1880,7 +1880,7 @@
             "filterDailyOverview": "Filter daily overview",
             "items": {
                 "bulletBoard": "Bullet board",
-                "citizensAddictions": "Citizens addictions",
+                "citizensAddictions": "Citizens substance abuse",
                 "citizensAdmissionAndDischarged": "Citizens admission and discharged",
                 "citizensDailyEvents": "Citizens daily events",
                 "citizensDiagnoses": "Citizens diagnoses",

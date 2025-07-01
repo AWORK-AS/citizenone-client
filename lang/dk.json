@@ -698,7 +698,7 @@
     "cancel": "Annuller",
     "changeImage": "Skift billede",
     "citizens": {
-        "addictions": "Afhængigheder",
+        "addictions": "Stofmisbrug",
         "alert": {
             "citizenSuccessfullyArchived": "Borger arkiveret med succes"
         },
@@ -1005,7 +1005,7 @@
         },
         "editCitizen": "Rediger Borger",
         "form": {
-            "addictions": "Afhængigheder",
+            "addictions": "Stofmisbrug",
             "alert": {
                 "successfullyAdded": "Nye borgere gemt med succes",
                 "successfullyUpdate": "Borger opdateret med succes"
@@ -1856,7 +1856,7 @@
         "addDailyEvents": "Tilføj daglige begivenheder",
         "bulletBoard": "Opslagstavle",
         "campaign": "Kampagne",
-        "citizensAddictions": "Borgernes afhængigheder",
+        "citizensAddictions": "Borgers stofmisbrug",
         "citizensAdmissionAndDischarged": {
             "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
             "dateAdmitted": "Indskrivningsdato",
@@ -1880,7 +1880,7 @@
             "filterDailyOverview": "Filtrer dagligt overblik",
             "items": {
                 "bulletBoard": "Opslagstavle",
-                "citizensAddictions": "Borgernes afhængigheder",
+                "citizensAddictions": "Borgers stofmisbrug",
                 "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
                 "citizensDailyEvents": "Borgeres daglige begivenheder",
                 "citizensDiagnoses": "Borgernes diagnoser",
