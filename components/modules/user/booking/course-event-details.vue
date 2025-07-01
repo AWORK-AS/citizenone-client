@@ -244,7 +244,7 @@
                                     <p>
                                         {{
                                             moment(props.courseEventDetails?.event_course_sessions?.[props.courseEventDetails?.event_course_sessions?.length
-                                                - 1]?.date_time_end)?.format('HH:mm')
+                                                - 1]?.date_time_start)?.format('HH:mm')
                                         }}
                                         -
                                         {{
