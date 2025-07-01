@@ -159,7 +159,9 @@ watch(() => props.selectedNews, (newValue: any) => {
             audience: newValue.audience,
             department: newValue.department,
         }
-        avatarUrl.value = newValue.image
+        if (newValue.image) {
+            avatarUrl.value = newValue.image
+        }
     }
 })
 
