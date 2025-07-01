@@ -24,7 +24,7 @@
                                 </p>
                             </div>
                             <div :class="[
-                                !news?.image && 'pt-3',
+                                !news?.image ? 'pt-5' : 'mt-3',
                                 'pb-6 px-5 text-left'
                             ]">
                                 <h3 class="font-semibold text-lg">{{ news?.title }}</h3>
