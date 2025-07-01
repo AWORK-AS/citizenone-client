@@ -1464,7 +1464,8 @@
             "department": "Afdeling",
             "email": "E-mail",
             "name": "Navn",
-            "phone": "Telefon"
+            "phone": "Telefon",
+            "ssn": "CPR-nummer"
         },
         "tabs": {
             "attendance": "Fremmøde",

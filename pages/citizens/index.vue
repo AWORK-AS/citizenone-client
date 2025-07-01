@@ -71,18 +71,21 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="30%">
+                                    <td width="20%">
                                         <p v-if="citizen?.email">{{ citizen?.email }}</p>
                                         <p v-else class="text-primary hover:text-primary-hover cursor-pointer"
                                             @click="state.modal.showPurchaseEmail = true">
                                             {{ $t('citizens.purchaseEmail.purchaseEmail') }}
                                         </p>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
+                                        <span>{{ citizen?.social_security_number }}</span>
+                                    </td>
+                                    <td width="15%">
                                         <span>{{ citizen?.phone }}</span>
                                     </td>
                                     <td width="20%">
-                                        <div class="flex items-end gap-2">
+                                        <div class="flex items-end justify-end gap-2">
                                             <Tooltip :text="$t('citizens.table.actions.view')">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
@@ -155,6 +158,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'citizens.table.name', sorter: true, key: 'firstname' },
         { name: 'citizens.table.email', sorter: true, key: 'email' },
+        { name: 'citizens.table.ssn', sorter: true, key: 'ssn' },
         { name: 'citizens.table.phone', sorter: true, key: 'phone' },
         { name: '' },
     ],
