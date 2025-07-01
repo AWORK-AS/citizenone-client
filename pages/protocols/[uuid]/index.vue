@@ -57,7 +57,7 @@
                                     <span v-else>-</span>
                                 </td>
                                 <td width="25%">
-                                    <div class="flex items-center gap-2">
+                                    <div class="flex items-center justify-end gap-2">
                                         <Tooltip :text="$t('protocols.table.actions.markCitizenAsAttended')"
                                             @click="markAsPresent(citizenProtocol?.uuid)"
                                             v-if="disableIfFutureDate(citizenProtocol)">

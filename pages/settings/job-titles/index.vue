@@ -35,7 +35,7 @@
                                         <span>{{ jobTitle?.title }}</span>
                                     </td>
                                     <td width="50%">
-                                        <div class="flex items-end gap-2">
+                                        <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/job-titles/${jobTitle.uuid}`)">
                                                 <Icon name="ph:eye" class="size-4" />

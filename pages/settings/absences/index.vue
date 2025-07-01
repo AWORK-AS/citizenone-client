@@ -35,7 +35,7 @@
                                         <span>{{ absence?.name }}</span>
                                     </td>
                                     <td width="50%">
-                                        <div class="flex items-end gap-2">
+                                        <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/absences/${absence.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />

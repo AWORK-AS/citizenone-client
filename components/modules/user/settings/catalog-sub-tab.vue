@@ -27,9 +27,9 @@ watch(() => userStore.getUser, (newValue: any) => {
             {
                 name: 'settings.tabs.addictions',
                 isTranslateName: true,
-                href: `/settings/addictions`,
+                href: `/settings/substance-abuse`,
                 routeNames: [
-                    'settings-addictions'
+                    'settings-substance-abuse'
                 ]
             },
             {

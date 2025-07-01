@@ -210,7 +210,7 @@
                                         <span>{{ medicine?.current_stocks }}</span>
                                     </td>
                                     <td width="10%">
-                                        <div class="flex items-end gap-2">
+                                        <div class="flex items-end justify-end gap-2">
                                             <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.view')}`">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="viewMedicine(medicine)">

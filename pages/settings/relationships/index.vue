@@ -37,7 +37,7 @@
                                         <span>{{ relationship?.name }}</span>
                                     </td>
                                     <td width="30%">
-                                        <div class="flex items-end gap-2">
+                                        <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/relationships/${relationship.uuid}/edit`)">
                                                 <Icon name="ph:pencil" class="size-4" />

@@ -26,7 +26,7 @@
                             OneDrive
                         </FormButton>
                     </div>
-                    <div class="flex justify-end items-center gap-x-3">
+                    <div class="flex items-center justify-end gap-x-3">
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isAddDirectoryOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />

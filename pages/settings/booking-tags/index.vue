@@ -37,7 +37,7 @@
                                         <span>{{ bookingTag?.tag }}</span>
                                     </td>
                                     <td width="30%">
-                                        <div class="flex items-end gap-2">
+                                        <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/booking-tags/${bookingTag.uuid}/edit`)"
                                                 v-if="bookingTag?.is_editable">

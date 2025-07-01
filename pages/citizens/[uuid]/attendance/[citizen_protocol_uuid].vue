@@ -297,7 +297,7 @@ async function downloadProtocol() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const protocolUuid = citizenProtocolUuid
+        const protocolUuid = citizenProtocolUuid as string
         const params = {
             citizen_uuid: citizenUuid
         }

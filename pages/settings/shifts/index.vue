@@ -43,7 +43,7 @@
                                             class="inline-block w-8 h-8 rounded" />
                                     </td>
                                     <td width="30%">
-                                        <div class="flex items-end gap-2">
+                                        <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/shifts/${shift.uuid}/edit`)"
                                                 v-if="shift?.is_editable">
