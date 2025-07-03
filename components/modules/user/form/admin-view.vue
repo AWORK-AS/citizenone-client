@@ -80,7 +80,7 @@ const state = reactive({
     modal: {
         isDeleteFormOpen: false,
     },
-    selectedForm: {},
+    selectedForm: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -149,7 +149,7 @@ async function deleteForm() {
         const response = await formService.deleteForm(formUuid)
         if (response) {
             fetchForms()
-            successAlert(`${t('alert.success')}!`, `${t('forms.table.alert.formSuccessfullyDelete')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('forms.table.alert.formSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error

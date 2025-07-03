@@ -1409,7 +1409,8 @@
             "table": {
                 "actions": {
                     "edit": "Rediger",
-                    "statuses": "Statusser"
+                    "statuses": "Statusser",
+                    "view": "Se"
                 },
                 "data": "Data",
                 "date": "Dato",
@@ -2728,8 +2729,8 @@
                 "newFolderStructureSuccessfullyRequested": "Ny folderstruktur anmodet med succes"
             },
             "editFolderStructureRequest": "Rediger anmodning om folderstruktur",
-            "folderStructureModificationRequests": "Anmodninger om ændring af folderstruktur",
-            "newFolderStructureModificationRequest": "Ny anmodning om ændring af folderstruktur",
+            "folderStructureRequests": "Anmodninger om ændring af folderstruktur",
+            "newFolderStructureRequest": "Ny anmodning om ændring af folderstruktur",
             "table": {
                 "actions": {
                     "approve": "Godkend",

@@ -1391,7 +1391,8 @@
                 "table": {
                     "actions": {
                         "delete": "Delete",
-                        "edit": "Edit"
+                        "edit": "Edit",
+                        "view": "View"
                     },
                     "alert": {
                         "statusSuccessfullyDeleted": "Status successfully deleted"
@@ -2834,7 +2835,7 @@
                 "viewResponses": "View responses"
             },
             "alert": {
-                "formSuccessfullyDelete": "Form successfully deleted"
+                "formSuccessfullyDeleted": "Form successfully deleted"
             },
             "description": "Description",
             "title": "Title"
