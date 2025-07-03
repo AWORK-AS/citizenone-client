@@ -533,12 +533,14 @@
             },
             "participants": {
                 "actions": {
+                    "convertAsCitizen": "Konverter til borger",
                     "resendEmailConfirmation": "Send e-mailbekræftelse igen"
                 },
-                "participants": "Deltagere",
-                "table": {
-                    "emailAddress": "E-mailadresse",
-                    "name": "Navn"
+                "alert": {
+                    "participantToCitizenConvertedSuccessfully": "Deltager konverteret til borger med succes"
+                },
+                "confirmation": {
+                    "convertAsCitizenConfirmation": "Er du sikker på, at du vil konvertere denne deltager til borger?"
                 }
             },
             "viewCourse": "Se kursus",

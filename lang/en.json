@@ -533,7 +533,14 @@
             },
             "participants": {
                 "actions": {
+                    "convertAsCitizen": "Convert as citizen",
                     "resendEmailConfirmation": "Resend email confirmation"
+                },
+                "alert": {
+                    "participantToCitizenConvertedSuccessfully": "Participant successfully converted as citizen"
+                },
+                "confirmation": {
+                    "convertAsCitizenConfirmation": "Are you sure you want to convert this participant as citizen"
                 },
                 "participants": "Participants",
                 "table": {

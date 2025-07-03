@@ -13,6 +13,10 @@ class CoursesEventsService extends BaseAPIService {
         return await this.request(`/user/courses-events/${eventCourseUuid}/participants`, 'GET', params)
     }
 
+    async convertParticipantAsCitizen(participantUuid: any): Promise<any> {
+        return await this.request(`/user/courses-events/${participantUuid}/onboard-as-citizen`, 'POST')
+    }
+
     async saveEventCourse(params: object): Promise<any> {
         return await this.request(`/user/courses-events`, 'POST', params)
     }
