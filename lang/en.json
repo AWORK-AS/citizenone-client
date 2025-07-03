@@ -860,7 +860,7 @@
                 "alert": {
                     "templateSuccessfullyAdded": "Template successfully added"
                 },
-                "createTemplate": "Create template",
+                "createReport": "Create report",
                 "form": {
                     "folderName": "Folder name",
                     "form": "Form",

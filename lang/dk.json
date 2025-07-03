@@ -860,7 +860,7 @@
                 "alert": {
                     "templateSuccessfullyAdded": "Skabelon tilføjet med succes"
                 },
-                "createTemplate": "Opret skabelon",
+                "createReport": "Opret rapport",
                 "form": {
                     "folderName": "Mappenavn",
                     "form": "Formular",
@@ -2302,7 +2302,7 @@
             "alert": {
                 "templateSuccessfullyAdded": "Skabelon tilføjet med succes"
             },
-            "createTemplate": "Opret skabelon",
+            "createTemplate": "Opret rapport",
             "form": {
                 "folderName": "Mappenavn",
                 "form": "Formular",

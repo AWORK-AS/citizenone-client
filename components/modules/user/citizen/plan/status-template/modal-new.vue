@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('citizens.documents.createTemplate.createTemplate')" :show="props.isModalOpen"
+        <Modal size="xl" :title="$t('citizens.documents.createTemplate.createReport')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
