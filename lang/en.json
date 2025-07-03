@@ -3969,23 +3969,28 @@
         "currentSubscription": "Current subscription",
         "deal": {
             "additionalPurchaseFor": "Additional purchase for",
+            "admin": "Admin",
+            "admins": "Admins",
             "annually": "Annually",
             "automaticSynchronizationWithFMK": "Possibility of synchronization with FMK",
             "department": "Department",
             "departments": "departments",
             "forExtraDepartment": "For extra department",
             "forExtraUser": "For extra user",
-            "goodForTheSmallerSocialOffer": "Good for the smaller social offer",
+            "goodForASmallTeam": "Good for a small team",
+            "included": "Incl",
             "month": "Month",
             "monthly": "Monthly",
-            "perfectForTheLargerSocialOffer": "Perfect for the larger social offer",
+            "perfectForLargerCompanies": "Perfect for larger companies",
             "recommended": "Recommended",
             "storageSpace": "Storage space",
             "selectPackage": "Select package",
             "telephoneSupport": "Telephone support",
+            "unlimitedNumberOfCitizens": "Unlimited number of citizens",
             "user": "User",
             "users": "Users",
-            "year": "Year"
+            "year": "Year",
+            "youCanHaveMultipleAdmins": "You can have multiple admins"
         },
         "discount": {
             "discount": "Discount",
@@ -4213,17 +4218,22 @@
             "newCompany": "New company",
             "subscriptions": {
                 "deal": {
+                    "admin": "Admin",
+                    "admins": "Admins",
                     "automaticSynchronizationWithFMK": "Automatic synchronization with FMK",
                     "department": "Department",
                     "departments": "departments",
-                    "goodForTheSmallerSocialOffer": "Good for the smaller social offer",
+                    "goodForASmallTeam": "Good for a small team",
+                    "included": "Incl",
                     "month": "Month",
-                    "perfectForTheLargerSocialOffer": "Perfect for the larger social offer",
+                    "perfectForLargerCompanies": "Perfect for larger companies",
                     "storageSpace": "Storage space",
                     "telephoneSupport": "Telephone support",
+                    "unlimitedNumberOfCitizens": "Unlimited number of citizens",
                     "user": "User",
                     "users": "Users",
-                    "year": "Year"
+                    "year": "Year",
+                    "youCanHaveMultipleAdmins": "You can have multiple admins"
                 },
                 "noSubscription": {
                     "itLooksLikeThisCompanyDontHaveAnActiveSubscriptionAtTheMoment": "It looks like this company don't have an active subscription at the moment",

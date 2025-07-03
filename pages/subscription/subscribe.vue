@@ -85,10 +85,10 @@
 
                             <p :class="[index === 1 ? 'text-white' : 'text-gray-600', 'mt-6 text-base leading-7']">
                                 <span v-if="deal.name === 'Basis'">
-                                    {{ $t('subscription.deal.goodForTheSmallerSocialOffer') }}.
+                                    {{ $t('subscription.deal.goodForASmallTeam') }} 🤝
                                 </span>
                                 <span v-else>
-                                    {{ $t('subscription.deal.perfectForTheLargerSocialOffer') }}.
+                                    {{ $t('subscription.deal.perfectForLargerCompanies') }} 🚀
                                 </span>
                             </p>
 
@@ -99,12 +99,14 @@
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
                                     <span>
-                                        {{ deal?.users }}
-                                        {{ deal?.users > 1 ? $t('subscription.deal.users') :
-                                            $t('subscription.deal.user') }}
-                                        ({{ $t('subscription.deal.additionalPurchaseFor') }} {{
-                                            formatKrAmount(deal?.extra_users) }})
+                                        {{ deal?.admin }}
+                                        {{ deal?.admin > 1 ? $t('subscription.deal.admins') :
+                                            $t('subscription.deal.admin') }}
                                     </span>
+                                    <Tooltip :text="$t('subscription.deal.youCanHaveMultipleAdmins')"
+                                        class="cursor-help flex items-center">
+                                        <Icon name="ph:info" class="h-4 w-4" aria-hidden="true" />
+                                    </Tooltip>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
                                     <Icon name="ph:check"
@@ -112,11 +114,37 @@
                                         aria-hidden="true" />
                                     <span>
                                         {{ deal?.users }}
+                                        {{ deal?.users > 1 ? $t('subscription.deal.users') :
+                                            $t('subscription.deal.user') }}
+                                        {{ $t('subscription.deal.included') }}.
+                                    </span>
+                                    <Tooltip
+                                        :text="$t('subscription.deal.additionalPurchaseFor') + ' ' + formatKrAmount(deal?.extra_users) + ' /md'"
+                                        class="cursor-help flex items-center">
+                                        <Icon name="ph:info" class="h-4 w-4" aria-hidden="true" />
+                                    </Tooltip>
+                                </li>
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
+                                    <Icon name="ph:check"
+                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
+                                        aria-hidden="true" />
+                                    <span class="lowercase">
+                                        {{ deal?.users }}
                                         {{ deal?.departments > 1 ? $t('subscription.deal.departments') :
                                             $t('subscription.deal.department') }}
-                                        ({{ $t('subscription.deal.additionalPurchaseFor') }} {{
-                                            formatKrAmount(deal?.extra_departments) }})
+                                        {{ $t('subscription.deal.included') }}.
                                     </span>
+                                    <Tooltip
+                                        :text="$t('subscription.deal.additionalPurchaseFor') + ' ' + formatKrAmount(deal?.extra_departments) + ' /md'"
+                                        class="cursor-help flex items-center">
+                                        <Icon name="ph:info" class="h-4 w-4" aria-hidden="true" />
+                                    </Tooltip>
+                                </li>
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
+                                    <Icon name="ph:check"
+                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
+                                        aria-hidden="true" />
+                                    {{ $t('subscription.deal.unlimitedNumberOfCitizens') }}
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
@@ -154,6 +182,7 @@
                     </div>
                 </div>
                 <div v-else-if="state.deals?.data?.length === 2 && !state.isDealsHidden">
+                    <!-- Done here -->
                     <div
                         class="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
                         <div v-for="(deal, index) in state.deals?.data" :key="index"
@@ -187,14 +216,29 @@
 
                             <p :class="[index === 1 ? 'text-white' : 'text-gray-600', 'mt-6 text-base leading-7']">
                                 <span v-if="deal.name === 'Basis'">
-                                    {{ $t('subscription.deal.goodForTheSmallerSocialOffer') }}.
+                                    {{ $t('subscription.deal.goodForASmallTeam') }} 🤝
                                 </span>
                                 <span v-else>
-                                    {{ $t('subscription.deal.perfectForTheLargerSocialOffer') }}.
+                                    {{ $t('subscription.deal.perfectForLargerCompanies') }} 🚀
                                 </span>
                             </p>
+
                             <ul role="list"
                                 :class="[index === 1 ? 'text-gray-300' : 'text-gray-600', 'mt-8 space-y-3 text-sm leading-6 sm:mt-10']">
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
+                                    <Icon name="ph:check"
+                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
+                                        aria-hidden="true" />
+                                    <span>
+                                        {{ deal?.admin }}
+                                        {{ deal?.admin > 1 ? $t('subscription.deal.admins') :
+                                            $t('subscription.deal.admin') }}
+                                    </span>
+                                    <Tooltip :text="$t('subscription.deal.youCanHaveMultipleAdmins')"
+                                        class="cursor-help flex items-center">
+                                        <Icon name="ph:info" class="h-4 w-4" aria-hidden="true" />
+                                    </Tooltip>
+                                </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
@@ -203,21 +247,35 @@
                                         {{ deal?.users }}
                                         {{ deal?.users > 1 ? $t('subscription.deal.users') :
                                             $t('subscription.deal.user') }}
-                                        ({{ $t('subscription.deal.additionalPurchaseFor') }} {{
-                                            formatKrAmount(deal?.extra_users) }})
+                                        {{ $t('subscription.deal.included') }}.
                                     </span>
+                                    <Tooltip
+                                        :text="$t('subscription.deal.additionalPurchaseFor') + ' ' + formatKrAmount(deal?.extra_users) + ' /md'"
+                                        class="cursor-help flex items-center">
+                                        <Icon name="ph:info" class="h-4 w-4" aria-hidden="true" />
+                                    </Tooltip>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    <span>
+                                    <span class="lowercase">
                                         {{ deal?.users }}
                                         {{ deal?.departments > 1 ? $t('subscription.deal.departments') :
                                             $t('subscription.deal.department') }}
-                                        ({{ $t('subscription.deal.additionalPurchaseFor') }} {{
-                                            formatKrAmount(deal?.extra_departments) }})
+                                        {{ $t('subscription.deal.included') }}.
                                     </span>
+                                    <Tooltip
+                                        :text="$t('subscription.deal.additionalPurchaseFor') + ' ' + formatKrAmount(deal?.extra_departments) + ' /md'"
+                                        class="cursor-help flex items-center">
+                                        <Icon name="ph:info" class="h-4 w-4" aria-hidden="true" />
+                                    </Tooltip>
+                                </li>
+                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
+                                    <Icon name="ph:check"
+                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
+                                        aria-hidden="true" />
+                                    {{ $t('subscription.deal.unlimitedNumberOfCitizens') }}
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
                                     <Icon name="ph:check"
@@ -287,10 +345,10 @@
 
                             <p class="text-gray-600 mt-6 text-base leading-7">
                                 <span v-if="deal.name === 'Basis'">
-                                    {{ $t('subscription.deal.goodForTheSmallerSocialOffer') }}.
+                                    {{ $t('subscription.deal.goodForASmallTeam') }} 🤝
                                 </span>
                                 <span v-else>
-                                    {{ $t('subscription.deal.perfectForTheLargerSocialOffer') }}.
+                                    {{ $t('subscription.deal.perfectForLargerCompanies') }} 🚀
                                 </span>
                             </p>
 

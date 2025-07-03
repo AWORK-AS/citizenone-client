@@ -50,10 +50,10 @@
                             </div>
                             <p class="text-gray-600 mt-6 text-base leading-7">
                                 <span v-if="userStore.getUser?.user_subscription?.deal?.name === 'Basis'">
-                                    {{ $t('subscription.deal.perfectForTheLargerSocialOffer') }}.
+                                    {{ $t('subscription.deal.perfectForLargerCompanies') }} 🚀
                                 </span>
                                 <span v-else>
-                                    {{ $t('subscription.deal.goodForTheSmallerSocialOffer') }}.
+                                    {{ $t('subscription.deal.goodForASmallTeam') }} 🤝
                                 </span>
                             </p>
                             <p class="mt-4 flex items-baseline gap-x-2">
