@@ -451,6 +451,11 @@ async function signUpForCourseEvent() {
             firstname: state.formBooking.firstname,
             lastname: state.formBooking.lastname,
             email: state.formBooking.email,
+            phone: state.formBooking.phone,
+            address: state.formBooking.address,
+            notes: state.formBooking.notes,
+            social_security_number: state.formBooking.social_security_number,
+            date_of_birth: state.formBooking.date_of_birth,
         }
         const response = await onlineBookingService.bookCourseEvent(eventUuid, params)
         if (response.data) {
