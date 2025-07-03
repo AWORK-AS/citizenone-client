@@ -126,7 +126,7 @@
                                                     v-if="JSON.parse(state.bookingSettings?.fields)?.date_of_birth?.enabled">
                                                     <FormLabel for="date_of_birth"
                                                         :label="$t('bookings.booking.yourDetails.dateOfBirth')" />
-                                                    <FormTextField id="date_of_birth" name="date_of_birth"
+                                                    <FormDateField id="date_of_birth" name="date_of_birth"
                                                         :placeholder="$t('bookings.booking.yourDetails.dateOfBirth')"
                                                         v-model="state.formBooking.date_of_birth" />
                                                     <FormError
