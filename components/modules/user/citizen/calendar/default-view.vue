@@ -60,9 +60,9 @@
                             'mx-auto flex h-8 w-8 items-center justify-center rounded-full'
                         ]">
                             <div>
-                                <div class="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-tertiary"
-                                    v-if="!day.isSelected && hasSchedule(day)" />
                                 <time :datetime="day.date">{{ day.date.split('-').pop().replace(/^0/, '') }}</time>
+                                <div class="mx-0.5 mt-1 h-1.5 w-1.5 rounded-full bg-tertiary"
+                                    v-if="!day.isSelected && hasSchedule(day)" />
                             </div>
                         </button>
                     </div>
@@ -193,7 +193,7 @@ const year = ref(currentMonth.value.format('YYYY'))
 const days = ref(generateDays(currentMonth.value))
 
 const state = reactive({
-    filteredSchedules: [],
+    filteredSchedules: [] as any,
     modal: {
         isDeleteScheduleOpen: false,
     },
@@ -260,7 +260,7 @@ function selectDay(selectedDay: any) {
     filterBasedOnSelectedDate()
 }
 
-function hasSchedule(day) {
+function hasSchedule(day: any) {
     if (props.myCalendarEvents?.data) {
         const targetDate = moment(day?.date)
         const hasSchedule = props.myCalendarEvents?.data?.some((event: any) => {
