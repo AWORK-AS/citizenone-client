@@ -249,7 +249,7 @@
                                                     <Icon name="ph:check-square-offset" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.statuses')">
+                                            <Tooltip :text="$t('plansandgoals.table.actions.reports')">
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="viewStatuses(plan)">
                                                     <Icon name="ph:file" class="size-4" />

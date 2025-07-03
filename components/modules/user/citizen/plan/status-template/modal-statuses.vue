@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="4xl" :title="$t('plansandgoals.statuses')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="4xl" :title="$t('plansandgoals.reports')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="space-y-5">
