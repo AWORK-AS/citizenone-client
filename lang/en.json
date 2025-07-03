@@ -3298,7 +3298,7 @@
             "alert": {
                 "statusTemplateSuccessfullyAdded": "Status template successfully added"
             },
-            "createStatusTemplate": "Create status template",
+            "createReport": "Create report",
             "form": {
                 "answerForm": "Answer form",
                 "chooseLabel": "Choose whether you want to download the form for offline completion or create a response directly",

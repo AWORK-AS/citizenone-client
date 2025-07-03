@@ -56,7 +56,7 @@
                                 <FormButton buttonStyle="action" class="rounded-lg"
                                     @click="state.modal.isCreateStatusTemplateOpen = true">
                                     <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
-                                    {{ $t('plansandgoals.createStatusTemplate.createStatusTemplate') }}
+                                    {{ $t('plansandgoals.createStatusTemplate.createReport') }}
                                 </FormButton>
                                 <Menu as="div" class="w-full md:w-fit relative inline-block text-left z-20"
                                     v-if="hasCreatePlanAccess()">

@@ -3293,7 +3293,7 @@
             "alert": {
                 "statusTemplateSuccessfullyAdded": "Status skabelon tilføjet med succes"
             },
-            "createStatusTemplate": "Opret status skabelon",
+            "createReport": "Opret rapport",
             "form": {
                 "answerForm": "Svar formular",
                 "chooseLabel": "Vælg, om du vil downloade formularen for offline udfyldelse eller oprette et svar direkte",
