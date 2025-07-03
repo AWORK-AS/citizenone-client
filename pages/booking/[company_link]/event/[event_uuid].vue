@@ -40,6 +40,7 @@
                             <div v-if="state.currentStep === 2">
                                 <div class="relative">
                                     <div class="p-6">
+                                        {{ JSON.parse(state.bookingSettings?.fields) }}
                                         <form @submit.prevent="submitForm()">
                                             <div class="space-y-3">
                                                 <p class="text-lg font-medium tracking-tight">
@@ -65,7 +66,8 @@
                                                         :error="v$?.formBooking?.lastname?.$errors[0]?.$message.toString()" />
                                                     <FormError :error="state?.error?.errors?.lastname?.[0]" />
                                                 </div>
-                                                <div class="space-y-1">
+                                                <div class="space-y-1"
+                                                    v-if="JSON.parse(state.bookingSettings?.fields)?.email?.enabled">
                                                     <FormLabel for="email"
                                                         :label="$t('bookings.booking.yourDetails.emailAddress')" />
                                                     <FormTextField id="email" name="email"
@@ -74,6 +76,63 @@
                                                     <FormError
                                                         :error="v$?.formBooking?.email?.$errors[0]?.$message.toString()" />
                                                     <FormError :error="state?.error?.errors?.email?.[0]" />
+                                                </div>
+                                                <div class="space-y-1"
+                                                    v-if="JSON.parse(state.bookingSettings?.fields)?.phone?.enabled">
+                                                    <FormLabel for="phone"
+                                                        :label="$t('bookings.booking.yourDetails.phone')" />
+                                                    <FormTextField id="phone" name="phone"
+                                                        :placeholder="$t('bookings.booking.yourDetails.phone')"
+                                                        v-model="state.formBooking.phone" />
+                                                    <FormError
+                                                        :error="v$?.formBooking?.phone?.$errors[0]?.$message.toString()" />
+                                                    <FormError :error="state?.error?.errors?.phone?.[0]" />
+                                                </div>
+                                                <div class="space-y-1"
+                                                    v-if="JSON.parse(state.bookingSettings?.fields)?.address?.enabled">
+                                                    <FormLabel for="address"
+                                                        :label="$t('bookings.booking.yourDetails.address')" />
+                                                    <FormTextField id="address" name="address"
+                                                        :placeholder="$t('bookings.booking.yourDetails.address')"
+                                                        v-model="state.formBooking.address" />
+                                                    <FormError
+                                                        :error="v$?.formBooking?.address?.$errors[0]?.$message.toString()" />
+                                                    <FormError :error="state?.error?.errors?.address?.[0]" />
+                                                </div>
+                                                <div class="space-y-1"
+                                                    v-if="JSON.parse(state.bookingSettings?.fields)?.notes?.enabled">
+                                                    <FormLabel for="notes"
+                                                        :label="$t('bookings.booking.yourDetails.notes')" />
+                                                    <FormTextField id="notes" name="notes"
+                                                        :placeholder="$t('bookings.booking.yourDetails.notes')"
+                                                        v-model="state.formBooking.notes" />
+                                                    <FormError
+                                                        :error="v$?.formBooking?.notes?.$errors[0]?.$message.toString()" />
+                                                    <FormError :error="state?.error?.errors?.notes?.[0]" />
+                                                </div>
+                                                <div class="space-y-1"
+                                                    v-if="JSON.parse(state.bookingSettings?.fields)?.social_security_number?.enabled">
+                                                    <FormLabel for="social_security_number"
+                                                        :label="$t('bookings.booking.yourDetails.socialSecurityNumber')" />
+                                                    <FormTextField id="social_security_number"
+                                                        name="social_security_number"
+                                                        :placeholder="$t('bookings.booking.yourDetails.socialSecurityNumber')"
+                                                        v-model="state.formBooking.social_security_number" />
+                                                    <FormError
+                                                        :error="v$?.formBooking?.social_security_number?.$errors[0]?.$message.toString()" />
+                                                    <FormError
+                                                        :error="state?.error?.errors?.social_security_number?.[0]" />
+                                                </div>
+                                                <div class="space-y-1"
+                                                    v-if="JSON.parse(state.bookingSettings?.fields)?.date_of_birth?.enabled">
+                                                    <FormLabel for="date_of_birth"
+                                                        :label="$t('bookings.booking.yourDetails.dateOfBirth')" />
+                                                    <FormTextField id="date_of_birth" name="date_of_birth"
+                                                        :placeholder="$t('bookings.booking.yourDetails.dateOfBirth')"
+                                                        v-model="state.formBooking.date_of_birth" />
+                                                    <FormError
+                                                        :error="v$?.formBooking?.date_of_birth?.$errors[0]?.$message.toString()" />
+                                                    <FormError :error="state?.error?.errors?.date_of_birth?.[0]" />
                                                 </div>
                                             </div>
                                             <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -273,6 +332,11 @@ const state = reactive({
         firstname: '',
         lastname: '',
         email: '',
+        phone: '',
+        address: '',
+        notes: '',
+        social_security_number: '',
+        date_of_birth: '',
     },
     isPageLoading: false,
     slideOver: {
@@ -282,6 +346,8 @@ const state = reactive({
 })
 
 const rules = computed(() => {
+    const fields = JSON.parse(state.bookingSettings?.fields || '{}')
+
     return {
         formBooking: {
             firstname: {
@@ -290,9 +356,24 @@ const rules = computed(() => {
             lastname: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            email: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
+            email: fields?.email?.required
+                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                : {},
+            phone: fields?.phone?.required
+                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                : {},
+            address: fields?.address?.required
+                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                : {},
+            notes: fields?.notes?.required
+                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                : {},
+            social_security_number: fields?.social_security_number?.required
+                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                : {},
+            date_of_birth: fields?.date_of_birth?.required
+                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                : {},
         },
     }
 })

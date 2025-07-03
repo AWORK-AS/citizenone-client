@@ -358,9 +358,14 @@
             "signUpForCourse": "Tilmeld dig kurset",
             "signUpForEvent": "Tilmeld dig begivenheden",
             "yourDetails": {
+                "address": "Adresse",
+                "dateOfBirth": "Fødselsdato",
                 "emailAddress": "E-mailadresse",
                 "firstname": "Fornavn",
                 "lastname": "Efternavn",
+                "notes": "Bemærkninger",
+                "phone": "Telefon",
+                "socialSecurityNumber": "CPR-nummer",
                 "yourDetails": "Dine oplysninger"
             }
         },

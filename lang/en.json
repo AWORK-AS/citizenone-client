@@ -358,9 +358,14 @@
             "signUpForCourse": "Sign up for course",
             "signUpForEvent": "Sign up for event",
             "yourDetails": {
+                "address": "Address",
+                "dateOfBirth": "Date of Birth",
                 "emailAddress": "Email address",
                 "firstname": "First name",
                 "lastname": "Last name",
+                "notes": "Notes",
+                "phone": "Phone",
+                "socialSecurityNumber": "Social security number",
                 "yourDetails": "Your details"
             }
         },
