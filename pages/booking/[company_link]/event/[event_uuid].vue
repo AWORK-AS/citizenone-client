@@ -40,7 +40,6 @@
                             <div v-if="state.currentStep === 2">
                                 <div class="relative">
                                     <div class="p-6">
-                                        {{ JSON.parse(state.bookingSettings?.fields) }}
                                         <form @submit.prevent="submitForm()">
                                             <div class="space-y-3">
                                                 <p class="text-lg font-medium tracking-tight">
