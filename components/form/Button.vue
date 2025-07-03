@@ -10,7 +10,7 @@
             props.buttonStyle === 'incident-link' && 'text-red-600 hover:text-red-700 text-xxs',
             props.buttonStyle === 'link' && 'text-gray-800 hover:text-tertiary',
             props.buttonStyle === 'back' && 'text-tertiary hover:text-tertiary/90 pl-0',
-            props.buttonStyle === 'cancel' && 'bg-tertiary-50 hover:bg-tertiary-100/90',
+            props.buttonStyle === 'cancel' && 'bg-gray-200 hover:bg-gray-200/90',
             props.buttonStyle === 'white' && 'bg-white hover:hover:bg-tertiary-25',
             props.buttonStyle === 'get-started' && 'bg-upgrade border border-upgrade text-white hover:bg-green-600',
             props.buttonStyle === 'no-risk' && 'bg-green-700 border border-green-700 text-white',

@@ -27,11 +27,13 @@
                                 !news?.image ? 'pt-5' : 'mt-3',
                                 'pb-6 px-5 text-left'
                             ]">
-                                <h3 class="font-semibold text-lg">{{ news?.title }}</h3>
+                                <h3 class="font-semibold text-lg cursor-pointer" @click="viewSelectedNews(news)">
+                                    {{ news?.title }}
+                                </h3>
                                 <p :class="[
                                     news?.image && 'line-clamp-3',
-                                    'text-xs text-gray-400 mt-1'
-                                ]" v-html="news?.content?.replace(/\n/g, '<br>')"></p>
+                                    'text-xs text-gray-400 mt-1 cursor-pointer'
+                                ]" v-html="news?.content?.replace(/\n/g, '<br>')" @click="viewSelectedNews(news)" />
                                 <div class="mt-4" v-if="news?.link">
                                     <FormButton buttonStyle="primary" @click="navigateToExternalLink(news?.link)"
                                         class="w-full rounded-md">
@@ -49,14 +51,15 @@
                 </template>
             </Carousel>
         </div>
-
+        <ModulesUserDailyOverviewBulletBoardModalView :isModalOpen="state.modal.isViewSelectedNews"
+            :selectedNews="state.selectedNews" @close="state.modal.isViewSelectedNews = false" />
     </LoadingSpinner>
 </template>
 
 <script setup lang="ts">
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide, Pagination } from 'vue3-carousel'
-import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
+import { dailyOverviewService } from '@/components/api/citizen/DailyOverviewService'
 import type { Error } from '@/types'
 
 const state = reactive({
@@ -94,7 +97,11 @@ const state = reactive({
     },
     isPageLoading: false,
     error: {} as Error,
+    modal: {
+        isViewSelectedNews: false,
+    },
     news: [] as any,
+    selectedNews: {},
 })
 
 onMounted(() => {
@@ -119,6 +126,11 @@ async function fetchNews() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function viewSelectedNews(news: any) {
+    state.selectedNews = news
+    state.modal.isViewSelectedNews = true
 }
 
 async function navigateToExternalLink(link: any) {

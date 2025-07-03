@@ -10,7 +10,7 @@
 
             <div class="mt-2">
                 <div class="space-y-10">
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5">
                         <ModulesCitizenDailyOverviewBulletBoard />
                     </div>
                 </div>
