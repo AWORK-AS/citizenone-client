@@ -53,18 +53,13 @@
                                 </FormButton>
                             </div>
                             <div class="flex flex-col md:flex-row justify-end md:items-center gap-2">
-                                <FormButton buttonStyle="action" class="rounded-lg"
-                                    @click="state.modal.isCreateStatusTemplateOpen = true">
-                                    <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
-                                    {{ $t('plansandgoals.createStatusTemplate.createStatusTemplate') }}
-                                </FormButton>
                                 <Menu as="div" class="w-full md:w-fit relative inline-block text-left z-20"
                                     v-if="hasCreatePlanAccess()">
                                     <div>
                                         <MenuButton class="w-full md:w-fit">
                                             <FormButton buttonStyle="action" class="w-full md:w-fit rounded-lg">
                                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                                {{ $t('plansandgoals.new') }}
+                                                {{ $t('plansandgoals.newPlanOrGoal') }}
                                             </FormButton>
                                         </MenuButton>
                                     </div>
@@ -101,7 +96,11 @@
                                         </MenuItems>
                                     </transition>
                                 </Menu>
-
+                                <FormButton buttonStyle="action" class="rounded-lg"
+                                    @click="state.modal.isCreateStatusTemplateOpen = true">
+                                    <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
+                                    {{ $t('plansandgoals.createStatusTemplate.createReport') }}
+                                </FormButton>
                                 <FormButton buttonStyle="action" class="rounded-lg" @click="downloadPlansAndGoals">
                                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('plansandgoals.download') }}
@@ -250,7 +249,7 @@
                                                     <Icon name="ph:check-square-offset" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.statuses')">
+                                            <Tooltip :text="$t('plansandgoals.table.actions.reports')">
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="viewStatuses(plan)">
                                                     <Icon name="ph:file" class="size-4" />

@@ -812,9 +812,9 @@ const rules = computed(() => {
             birthday: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            phone: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
+            // phone: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
             // street: {
             //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             // },

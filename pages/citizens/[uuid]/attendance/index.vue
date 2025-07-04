@@ -52,7 +52,7 @@
                                             <span>{{ formatDateToReadable(protocol?.end_date) }}</span>
                                         </td>
                                         <td width="25%">
-                                            <div class="flex items-end gap-2">
+                                            <div class="flex items-end justify-end gap-2">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="navigateTo(`/citizens/${citizenUuid}/attendance/${protocol.uuid}`)">
                                                     <Icon name="ph:eye" class="size-4" />

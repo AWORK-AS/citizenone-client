@@ -53,13 +53,13 @@
                                         <p class="text-gray-600 mt-6 text-base leading-7">
                                             <span v-if="state?.subscriptions?.data?.deal?.name === 'Basis'">
                                                 {{
-                                                    $t('superadmin.companies.subscriptions.deal.perfectForTheLargerSocialOffer')
-                                                }}.
+                                                    $t('superadmin.companies.subscriptions.deal.perfectForLargerCompanies')
+                                                }} 🚀
                                             </span>
                                             <span v-else>
                                                 {{
-                                                    $t('superadmin.companies.subscriptions.deal.goodForTheSmallerSocialOffer')
-                                                }}.
+                                                    $t('superadmin.companies.subscriptions.deal.goodForASmallTeam')
+                                                }} 🤝
                                             </span>
                                         </p>
                                         <p class="mt-4 flex items-baseline gap-x-2">
@@ -100,6 +100,13 @@
                                                 <span v-else>
                                                     {{ $t('superadmin.companies.subscriptions.deal.department') }}
                                                 </span>
+                                            </li>
+                                            <li class="flex gap-x-2">
+                                                <Icon name="ph:check" class="h-6 w-5 flex-none text-primary"
+                                                    aria-hidden="true" />
+                                                {{
+                                                    $t('superadmin.companies.subscriptions.deal.unlimitedNumberOfCitizens')
+                                                }}
                                             </li>
                                             <li class="flex gap-x-2">
                                                 <Icon name="ph:check" class="h-6 w-5 flex-none text-primary"

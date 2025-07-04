@@ -21,9 +21,9 @@
             </div>
 
             <div class="md:mt-10 sm:mx-auto sm:w-full sm:max-w-3xl">
-                <div class="md:bg-white md:shadow-sm px-6 py-3 md:py-8 sm:rounded-lg sm:px-12">
-                    <form class="mt-5 space-y-3" method="POST" @submit.prevent="unlockMessage"
-                        v-if="!state.showMessage">
+                <div class="md:bg-white md:shadow-sm sm:rounded-lg">
+                    <form class="mt-5 px-6 py-3 sm:px-12 md:py-8 space-y-3" method="POST"
+                        @submit.prevent="unlockMessage" v-if="!state.showMessage">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <h3 class="font-medium text-lg md:text-xl">
@@ -42,46 +42,97 @@
                             </FormButton>
                         </div>
                     </form>
-                    <div v-else class="space-y-2">
-                        <div class="flex items-center justify-between">
-                            <h3 class="font-semibold text-lg">
-                                {{ state.secured_mail?.subject }}
-                            </h3>
+                    <div v-else class="divide-y divide-gray-100">
+                        <div class="space-y-3 px-6 sm:px-12 py-3 md:py-8">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-semibold text-lg">
+                                    {{ state.secured_mail?.subject }}
+                                </h3>
+                                <div>
+                                    <FormButton buttonStyle="primary" @click="state.modal.isReplySecuredMailOpen = true"
+                                        class="rounded-md">
+                                        {{ $t('mail.secured.replySecurely') }}
+                                    </FormButton>
+                                </div>
+                            </div>
                             <div>
-                                <FormButton buttonStyle="primary" @click="state.modal.isReplySecuredMailOpen = true"
-                                    class="rounded-md">
-                                    {{ $t('mail.secured.replySecurely') }}
-                                </FormButton>
+                                <p class="text-sm">
+                                    {{ formatDateTimeToReadable(state.secured_mail?.created_at) }}
+                                </p>
+                                <p>
+                                    {{ $t('mail.secured.from') }}:
+                                    {{ state.secured_mail?.sender?.firstname }}
+                                    {{ state.secured_mail?.sender?.lastname }}
+                                    {{ state.secured_mail?.from }}
+                                </p>
+                                <div class="flex items-center gap-x-1">
+                                    <p>
+                                        {{ $t('mail.secured.to') }}:
+                                    </p>
+                                    <div class="text-xxs flex flex-wrap gap-1">
+                                        <span v-for="(receipient, index) in state.secured_mail?.receipient_emails"
+                                            :key=index class="bg-primary px-2 py-1 text-white rounded-md">
+                                            {{ receipient }}
+                                        </span>
+                                    </div>
+                                    <p>
+                                        {{ state.secured_mail?.to }}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <p>
-                            {{ $t('mail.secured.from') }}:
-                            {{ state.secured_mail?.sender?.firstname }}
-                            {{ state.secured_mail?.sender?.lastname }}
-                        </p>
-                        <div class="flex items-center gap-x-1">
-                            <p>
-                                {{ $t('mail.secured.to') }}:
-                            </p>
-                            <div class="text-xxs flex flex-wrap gap-1">
-                                <span v-for="(receipient, index) in state.secured_mail?.receipient_emails" :key=index
-                                    class="bg-primary px-2 py-1 text-white rounded-md">
-                                    {{ receipient }}
+                            <div v-html="state.secured_mail?.message"></div>
+                            <p class="flex items-center gap-x-1 text-xs">
+                                <span>
+                                    {{ $t('mail.secured.sent.sentWith') }}
                                 </span>
-                            </div>
+                                <span class="text-primary">
+                                    {{ $t('mail.secured.sent.citizenOneMail') }}
+                                </span>
+                                <span class="lowercase">
+                                    {{ $t('mail.secured.sent.viaSecuredMail') }}.
+                                </span>
+                            </p>
                         </div>
-                        <div v-html="state.secured_mail?.message"></div>
-                        <p class="flex items-center gap-x-1">
-                            <span>
-                                {{ $t('mail.secured.sent.sentWith') }}
-                            </span>
-                            <span class="text-primary">
-                                {{ $t('mail.secured.sent.citizenOneMail') }}
-                            </span>
-                            <span class="lowercase">
-                                {{ $t('mail.secured.sent.viaSecuredMail') }}.
-                            </span>
-                        </p>
+                        <div class="space-y-3 px-6 sm:px-12 py-3 md:py-8"
+                            v-for="(history, historyIndex) in state.secured_mail?.history">
+                            <div>
+                                <p class="text-sm">
+                                    {{ formatDateTimeToReadable(history?.created_at) }}
+                                </p>
+                                <p>
+                                    {{ $t('mail.secured.from') }}:
+                                    {{ state.secured_mail?.sender?.firstname }}
+                                    {{ state.secured_mail?.sender?.lastname }}
+                                    {{ state.secured_mail?.from }}
+                                </p>
+                                <div class="flex items-center gap-x-1">
+                                    <p>
+                                        {{ $t('mail.secured.to') }}:
+                                    </p>
+                                    <div class="text-xxs flex flex-wrap gap-1">
+                                        <span v-for="(receipient, index) in state.secured_mail?.receipient_emails"
+                                            :key=index class="bg-primary px-2 py-1 text-white rounded-md">
+                                            {{ receipient }}
+                                        </span>
+                                    </div>
+                                    <p>
+                                        {{ state.secured_mail?.to }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div v-html="history?.message"></div>
+                            <p class="flex items-center gap-x-1 text-xs">
+                                <span>
+                                    {{ $t('mail.secured.sent.sentWith') }}
+                                </span>
+                                <span class="text-primary">
+                                    {{ $t('mail.secured.sent.citizenOneMail') }}
+                                </span>
+                                <span class="lowercase">
+                                    {{ $t('mail.secured.sent.viaSecuredMail') }}.
+                                </span>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,11 +151,13 @@ import { required, helpers } from '@vuelidate/validators'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const language = useI18n()
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { gtagReportConversion } = useGtag()
 const { t } = useI18n()

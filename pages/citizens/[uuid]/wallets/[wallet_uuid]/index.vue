@@ -95,12 +95,14 @@
                                         <p class="mt-2">{{ walletTransaction?.note }}</p>
                                     </td>
                                     <td width="15%">
-                                        <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                            @click="editWalletTransaction(walletTransaction)"
-                                            v-if="walletTransaction?.is_editable">
-                                            <Icon name="ph:pencil-simple" class="size-4" />
-                                            {{ $t('citizens.walletTransactions.table.actions.edit') }}
-                                        </FormButton>
+                                        <div class="flex items-end justify-end gap-2">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="editWalletTransaction(walletTransaction)"
+                                                v-if="walletTransaction?.is_editable">
+                                                <Icon name="ph:pencil-simple" class="size-4" />
+                                                {{ $t('citizens.walletTransactions.table.actions.edit') }}
+                                            </FormButton>
+                                        </div>
                                     </td>
                                 </tr>
                             </template>

@@ -59,7 +59,11 @@
                             (day.isSelected || day.isToday) && 'font-semibold',
                             'mx-auto flex h-8 w-8 items-center justify-center rounded-full'
                         ]">
-                            <time :datetime="day.date">{{ day.date.split('-').pop().replace(/^0/, '') }}</time>
+                            <div>
+                                <time :datetime="day.date">{{ day.date.split('-').pop().replace(/^0/, '') }}</time>
+                                <div class="mx-0.5 mt-1 h-1.5 w-1.5 rounded-full bg-tertiary"
+                                    v-if="!day.isSelected && hasSchedule(day)" />
+                            </div>
                         </button>
                     </div>
                 </div>
@@ -68,7 +72,7 @@
                 <p v-if="props.myCalendarEvents?.data?.length < 1" class="text-center py-28">
                     {{ $t('events.noEventFound') }}
                 </p>
-                <li v-for="(myCalendarEvent, index) in props.myCalendarEvents?.data" :key="index"
+                <li v-for="(myCalendarEvent, index) in state.filteredSchedules" :key="index"
                     class="relative flex space-x-6 py-6 xl:static">
                     <img :src="myCalendarEvent?.user?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${myCalendarEvent?.user?.firstname + ' ' + myCalendarEvent?.user?.lastname}`"
                         class="h-14 w-14 rounded-full bg-gray-50 object-cover" />
@@ -152,7 +156,7 @@
                                     <MenuItem v-slot="{ active }">
                                     <a href="#"
                                         :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
-                                        @click="setEventDeletion(myCalendarEvent)">
+                                        @click="deleteEventConfirmation(myCalendarEvent)">
                                         {{ $t('calendar.delete') }}
                                     </a>
                                     </MenuItem>
@@ -181,7 +185,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeDate', 'editMyCalendarEvent', 'deleteMyCalendarEvent'])
+const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent'])
 
 const currentMonth = ref(moment().startOf('month'))
 const month = ref(currentMonth.value.format('MMMM'))
@@ -189,10 +193,18 @@ const year = ref(currentMonth.value.format('YYYY'))
 const days = ref(generateDays(currentMonth.value))
 
 const state = reactive({
+    filteredSchedules: [] as any,
     modal: {
         isDeleteScheduleOpen: false,
     },
+    selectedDate: moment().format('YYYY-MM-DD'),
     selectedSchedule: {},
+})
+
+watch(() => props.myCalendarEvents, (myCalendarEvents: any) => {
+    if (myCalendarEvents) {
+        filterBasedOnSelectedDate()
+    }
 })
 
 function generateDays(month: any) {
@@ -218,6 +230,7 @@ function previousMonth() {
     month.value = currentMonth.value.format('MMMM')
     year.value = currentMonth.value.format('YYYY')
     days.value = generateDays(currentMonth.value)
+    emit('changeMonthYear', year.value, currentMonth.value.month())
 }
 
 function setToday() {
@@ -226,7 +239,8 @@ function setToday() {
     month.value = currentMonth.value.format('MMMM')
     year.value = currentMonth.value.format('YYYY')
     days.value = generateDays(currentMonth.value)
-    selectDay({ date: today.format('YYYY-MM-DD') })
+    state.selectedDate = today.format('YYYY-MM-DD')
+    emit('changeMonthYear', year.value, currentMonth.value.month())
 }
 
 function nextMonth() {
@@ -234,6 +248,7 @@ function nextMonth() {
     month.value = currentMonth.value.format('MMMM')
     year.value = currentMonth.value.format('YYYY')
     days.value = generateDays(currentMonth.value)
+    emit('changeMonthYear', year.value, currentMonth.value.month())
 }
 
 function selectDay(selectedDay: any) {
@@ -241,10 +256,38 @@ function selectDay(selectedDay: any) {
         ...day,
         isSelected: day.date === selectedDay.date,
     }))
-    emit('changeDate', selectedDay.date)
+    state.selectedDate = selectedDay.date
+    filterBasedOnSelectedDate()
 }
 
-function setEventDeletion(myCalendarEvent: any) {
+function hasSchedule(day: any) {
+    if (props.myCalendarEvents?.data) {
+        const targetDate = moment(day?.date)
+        const hasSchedule = props.myCalendarEvents?.data?.some((event: any) => {
+            const start = moment(event.date_time_start)
+            const end = moment(event.date_time_end)
+            return targetDate.isBetween(start, end, null, '[]')  // '[]' includes the boundaries
+        })
+        return hasSchedule
+    }
+    return false
+}
+
+function filterBasedOnSelectedDate() {
+    if (props.myCalendarEvents?.data) {
+        const targetDate = moment(state.selectedDate).format('YYYY-MM-DD')
+        const filteredEvents = props.myCalendarEvents.data.filter((event: any) => {
+            const start = moment(event.date_time_start).format('YYYY-MM-DD')
+            const end = moment(event.date_time_end).format('YYYY-MM-DD')
+            return targetDate >= start && targetDate <= end
+        })
+        state.filteredSchedules = filteredEvents
+    } else {
+        state.filteredSchedules = []
+    }
+}
+
+function deleteEventConfirmation(myCalendarEvent: any) {
     state.selectedSchedule = myCalendarEvent
     state.modal.isDeleteScheduleOpen = true
 }

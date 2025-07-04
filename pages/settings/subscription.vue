@@ -52,10 +52,10 @@
                             </div>
                             <p class="text-gray-600 mt-6 text-base leading-7">
                                 <span v-if="userStore.getUser?.user_subscription?.deal?.name === 'Basis'">
-                                    {{ $t('subscription.deal.perfectForTheLargerSocialOffer') }}.
+                                    {{ $t('subscription.deal.goodForASmallTeam') }} 🤝
                                 </span>
                                 <span v-else>
-                                    {{ $t('subscription.deal.goodForTheSmallerSocialOffer') }}.
+                                    {{ $t('subscription.deal.perfectForLargerCompanies') }} 🤝
                                 </span>
                             </p>
                             <p class="mt-4 flex items-baseline gap-x-2">
@@ -73,7 +73,7 @@
                                 </span>
                             </p>
                             <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-10">
-                                <li class="flex gap-x-2">
+                                <li class="flex gap-x-1">
                                     <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
                                     {{ userStore.getUser?.user_subscription?.deal?.users }}
                                     <span v-if="userStore.getUser?.user_subscription?.deal?.users > 1">
@@ -92,6 +92,10 @@
                                     <span v-else>
                                         {{ $t('subscription.deal.department') }}
                                     </span>
+                                </li>
+                                <li class="flex gap-x-2">
+                                    <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
+                                    {{ $t('subscription.deal.unlimitedNumberOfCitizens') }}
                                 </li>
                                 <li class="flex gap-x-2">
                                     <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />

@@ -17,7 +17,12 @@
                 </Tooltip>
             </template>
 
-            <div class="flex justify-end items-center mb-5 gap-x-2">
+            <ModulesUserCalendarTabs v-if="userStore.getUser?.has_booking_app_access" />
+
+            <div :class="[
+                userStore.getUser?.has_booking_app_access && 'mt-8',
+                'flex justify-end items-center mb-5 gap-x-2'
+            ]">
                 <Menu as="div" class="relative inline-block text-left z-20">
                     <div>
                         <MenuButton>
@@ -107,7 +112,7 @@
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserMyCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
-                        @changeDate="changeDate" @editMyCalendarEvent="editMyCalendarEvent"
+                        @changeMonthYear="changeMonthYear" @editMyCalendarEvent="editMyCalendarEvent"
                         @openEventDeletionModal="state.modal.isDeleteScheduleOpen = true"
                         @deleteMyCalendarEvent="deleteMyCalendarEvent" v-if="state.calendarView === 'default'" />
                     <ModulesUserMyCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
@@ -146,6 +151,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCalendarStore } from '@/store/calendar'
 import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 // import { saveAs } from 'file-saver'
 
@@ -154,6 +160,7 @@ const router = useRouter()
 const departmentStore = useDepartmentStore()
 const calendarStore = useCalendarStore()
 const language = useI18n()
+const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const employeeUuid = router?.currentRoute?.value?.query?.employee_uuid
@@ -195,7 +202,9 @@ const state = reactive({
         description: '',
         start: '',
         end: '',
+        unit_uuid: '',
         is_private: false,
+        calendar_tags: [],
     },
     options: {
         citizens: [] as any,
@@ -208,6 +217,12 @@ onMounted(() => {
     fetchAllUsers()
     if (calendarStore.getCalendarView === 'default') {
         state.calendarView = 'default'
+        const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
+        const lastDayOfMonth = moment().endOf('month').format('Y-M-D')
+        state.selectedDate = {
+            end_date: lastDayOfMonth,
+            start_date: firstDayOfMonth,
+        }
     } else if (calendarStore.getCalendarView === 'week') {
         state.calendarView = 'week'
         const firstDayOfWeek = moment().startOf('isoWeek').format('Y-M-D')
@@ -217,9 +232,9 @@ onMounted(() => {
             start_date: firstDayOfWeek,
         }
     } else if (calendarStore.getCalendarView === 'month') {
+        state.calendarView = 'month'
         const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
         const lastDayOfMonth = moment().endOf('month').format('Y-M-D')
-        state.calendarView = 'month'
         state.selectedDate = {
             end_date: lastDayOfMonth,
             start_date: firstDayOfMonth,
@@ -345,8 +360,8 @@ function setCalendarView(viewStyle: any) {
         state.calendarView = viewStyle
         calendarStore.setCalendarView(viewStyle)
         state.selectedDate = {
-            end_date: '',
-            start_date: '',
+            end_date: moment().endOf('month').format('Y-M-D'),
+            start_date: moment().startOf('month').format('Y-M-D'),
         }
         state.selectedYear = ''
         state.selectedMonth = ''
@@ -396,6 +411,7 @@ function changeMonthYear(year: any, month: any) {
     }
     state.selectedYear = year
     state.selectedMonth = month
+    console.log('test', [month, year])
     fetchMyCalendarEvents()
 }
 

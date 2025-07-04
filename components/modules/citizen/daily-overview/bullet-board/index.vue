@@ -17,22 +17,23 @@
                             <div class="bg-no-repeat w-full h-52 bg-cover rounded-t-md"
                                 :style="`background-image: url(${news?.image});`" v-if="news?.image">
                             </div>
-                            <div v-else class="px-8 pt-24">
-                                <div class="bg-no-repeat w-full h-52 rounded-t-md"
-                                    :style="`background-image: url('/img/logo.svg');`">
-                                </div>
-                            </div>
                             <div class="absolute top-3 right-0 bg-secondary px-3 py-1 rounded-tl-md rounded-bl-md"
                                 v-if="news?.is_featured">
                                 <p class="text-sm text-white">
                                     {{ $t('bulletBoard.featured') }}
                                 </p>
                             </div>
-                            <div class="pb-6 px-5 mt-3 text-left">
-                                <h3 class="font-semibold text-lg">{{ news?.title }}</h3>
-                                <p class="text-xs text-gray-400 line-clamp-3 mt-1">
-                                    {{ news?.content }}
-                                </p>
+                            <div :class="[
+                                !news?.image ? 'pt-5' : 'mt-3',
+                                'pb-6 px-5 text-left'
+                            ]">
+                                <h3 class="font-semibold text-lg cursor-pointer" @click="viewSelectedNews(news)">
+                                    {{ news?.title }}
+                                </h3>
+                                <p :class="[
+                                    news?.image && 'line-clamp-3',
+                                    'text-xs text-gray-400 mt-1 cursor-pointer'
+                                ]" v-html="news?.content?.replace(/\n/g, '<br>')" @click="viewSelectedNews(news)" />
                                 <div class="mt-4" v-if="news?.link">
                                     <FormButton buttonStyle="primary" @click="navigateToExternalLink(news?.link)"
                                         class="w-full rounded-md">
@@ -50,14 +51,15 @@
                 </template>
             </Carousel>
         </div>
-
+        <ModulesUserDailyOverviewBulletBoardModalView :isModalOpen="state.modal.isViewSelectedNews"
+            :selectedNews="state.selectedNews" @close="state.modal.isViewSelectedNews = false" />
     </LoadingSpinner>
 </template>
 
 <script setup lang="ts">
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide, Pagination } from 'vue3-carousel'
-import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
+import { dailyOverviewService } from '@/components/api/citizen/DailyOverviewService'
 import type { Error } from '@/types'
 
 const state = reactive({
@@ -95,7 +97,11 @@ const state = reactive({
     },
     isPageLoading: false,
     error: {} as Error,
+    modal: {
+        isViewSelectedNews: false,
+    },
     news: [] as any,
+    selectedNews: {},
 })
 
 onMounted(() => {
@@ -120,6 +126,11 @@ async function fetchNews() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function viewSelectedNews(news: any) {
+    state.selectedNews = news
+    state.modal.isViewSelectedNews = true
 }
 
 async function navigateToExternalLink(link: any) {

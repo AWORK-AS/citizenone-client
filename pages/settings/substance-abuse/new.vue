@@ -14,7 +14,7 @@
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    to="/settings/addictions">
+                    to="/settings/substance-abuse">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -41,12 +41,12 @@ const breadcrumbLinks = [
     {
         name: 'addictions.addictions',
         translate: true,
-        href: '/settings/addictions',
+        href: '/settings/substance-abuse',
     },
     {
         name: 'addictions.newAddiction',
         translate: true,
-        href: '/settings/addictions/new',
+        href: '/settings/substance-abuse/new',
     },
 ]
 
@@ -68,7 +68,7 @@ async function saveAddiction(addictionDetails: any) {
         const response = await addictionService.saveAddiction(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('addictions.form.alert.newAddictionSuccessfullySaved')}.`)
-            navigateTo('/settings/addictions')
+            navigateTo('/settings/substance-abuse')
         }
     } catch (error: any) {
         state.error = error

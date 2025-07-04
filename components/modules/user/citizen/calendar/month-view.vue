@@ -212,8 +212,8 @@
                     </div>
                     <div class="text-gray-500 text-xxs mt-1">
                         {{ $t('events.createdBy') }}
-                        {{ event.creator?.firstname }}
-                        {{ event.creator?.lastname }}
+                        {{ myCalendarEvent.creator?.firstname }}
+                        {{ myCalendarEvent.creator?.lastname }}
                     </div>
                 </div>
                 <Menu as="div" class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">

@@ -28,27 +28,27 @@
         }
     },
     "addictions": {
-        "addNewAddiction": "Tilføj ny afhængighed",
-        "addictions": "Afhængigheder",
-        "editAddiction": "Rediger afhængighed",
+        "addNewAddiction": "Tilføj ny stofmisbrug",
+        "addictions": "Stofmisbrug",
+        "editAddiction": "Rediger stofmisbrug",
         "form": {
             "alert": {
-                "addictionSuccessfullyUpdated": "Afhængigheden er opdateret",
-                "newAddictionSuccessfullySaved": "Ny afhængighed er gemt"
+                "addictionSuccessfullyUpdated": "Stofmisbrug opdateret med succes",
+                "newAddictionSuccessfullySaved": "Ny stofmisbrug gemt med succes"
             },
             "name": "Navn"
         },
-        "newAddiction": "Ny afhængighed",
+        "newAddiction": "Ny stofmisbrug",
         "table": {
             "actions": {
-                "delete": "Delete",
+                "delete": "Slet",
                 "edit": "Rediger"
             },
             "alert": {
-                "addictionSuccessfullyDeleted": "Afhængighed slettet med succes"
+                "addictionSuccessfullyDeleted": "Stofmisbrug slettet med succes"
             },
             "confirmation": {
-                "deleteAddictionConfirmation": "Er du sikker på, at du vil slette denne afhængighed"
+                "deleteAddictionConfirmation": "Er du sikker på, at du vil slette dette stofmisbrug"
             },
             "name": "Navn"
         }
@@ -327,6 +327,295 @@
         }
     },
     "back": "Tilbage",
+    "bookings": {
+        "alert": {
+            "courseSuccessfullyAdded": "Kursus tilføjet med succes",
+            "courseSuccessfullyUpdated": "Kursus opdateret med succes",
+            "eventSuccessfullyAdded": "Begivenhed tilføjet med succes",
+            "eventSuccessfullyUpdated": "Begivenhed opdateret med succes"
+        },
+        "booking": {
+            "confirmation": {
+                "confirmation": "Bekræftelse",
+                "courseName": "Kursusnavn",
+                "eventName": "Begivenhedsnavn",
+                "goToOverview": "Gå til oversigt",
+                "information": "Information",
+                "price": "Pris",
+                "time": "Tid",
+                "youHaveSignedUpForTheCourse": "Du har tilmeldt dig kurset",
+                "youHaveSignedUpForTheEvent": "Du har tilmeldt dig begivenheden"
+            },
+            "continue": "Fortsæt",
+            "continueToConfirmation": "Fortsæt til bekræftelse",
+            "eventDetails": {
+                "eventDetails": "Begivenhedsdetaljer",
+                "eventInformation": "Begivenhedsinformation"
+            },
+            "spotLeft": "Plads tilbage",
+            "spotsLeft": "Pladser tilbage",
+            "signUp": "Tilmeld",
+            "signUpForCourse": "Tilmeld dig kurset",
+            "signUpForEvent": "Tilmeld dig begivenheden",
+            "yourDetails": {
+                "address": "Adresse",
+                "dateOfBirth": "Fødselsdato",
+                "emailAddress": "E-mailadresse",
+                "firstname": "Fornavn",
+                "lastname": "Efternavn",
+                "notes": "Bemærkninger",
+                "phone": "Telefon",
+                "socialSecurityNumber": "CPR-nummer",
+                "yourDetails": "Dine oplysninger"
+            }
+        },
+        "bookings": "Bookinger",
+        "course": {
+            "course": "Kursus",
+            "createACourse": "Opret et kursus",
+            "createACourseByGroupingMultipleEvents": "Opret et kursus ved at gruppere flere begivenheder",
+            "editCourse": "Rediger kursus",
+            "sessions": "Sessioner"
+        },
+        "editBooking": "Rediger booking",
+        "events": "Begivenheder",
+        "formCourse": {
+            "information": {
+                "address": "Adresse",
+                "city": "By",
+                "course": "Kursus",
+                "description": "Beskrivelse",
+                "fillInTheInformationAboutTheCourse": "Udfyld oplysningerne om kurset",
+                "image": "Billede",
+                "name": "Navn",
+                "postcode": "Postnummer"
+            },
+            "sessions": {
+                "addNewSession": "Tilføj ny session",
+                "courseSessions": "Kursus sessioner",
+                "courseSessionsLabel": "Sessioner er begivenheder, der hører til kurset. Her kan du oprette sessioner og tilføje dem til dit kursus",
+                "dateTimeEnd": "Dato og tid slut",
+                "dateTimeStart": "Dato og tid start",
+                "description": "Beskrivelse",
+                "name": "Navn",
+                "recurring": {
+                    "addThisSessions": "Tilføj denne session",
+                    "everyDay": "Hver dag",
+                    "everyWeek": "Hver uge",
+                    "everySecondWeek": "Hver anden uge",
+                    "everyThirdWeek": "Hver tredje uge",
+                    "everyFourthWeek": "Hver fjerde uge",
+                    "everyMonth": "Hver måned",
+                    "repeat": "Gentag",
+                    "until": "Indtil"
+                }
+            },
+            "settings": {
+                "availableSpotsAtThisEvent": "Tilgængelige pladser ved denne begivenhed",
+                "moms": "Moms",
+                "notification": {
+                    "notification": "Notifikation",
+                    "sendAnEmailToAllParticipants1DayBeforeTheEvent": "Send en e-mail til alle deltagere 1 dag før begivenheden"
+                },
+                "otherSettings": {
+                    "closeRegistration": "Luk tilmelding",
+                    "dontShowInOnlineBooking": "Vis ikke i online booking",
+                    "dontShowTheNumberOfSpotsLeftOnTheSubmitForm": "Vis ikke antallet af pladser tilbage på tilmeldingsformularen",
+                    "otherSettings": "Andre indstillinger"
+                },
+                "price": "Pris",
+                "tags": "Tags",
+                "tax": "Moms"
+            },
+            "summary": {
+                "signupForTheEventOnThisAddress": "Tilmeld dig begivenheden på denne adresse",
+                "youCanFindAListOfAllFutureEvents": "Du kan finde en liste over alle fremtidige begivenheder på"
+            },
+            "tabs": {
+                "information": "Information",
+                "sessions": "Sessioner",
+                "settings": "Indstillinger",
+                "summary": "Opsummering"
+            }
+        },
+        "formEvent": {
+            "information": {
+                "address": "Adresse",
+                "city": "By",
+                "createMultipleEvents": "Opret flere begivenheder",
+                "createThisEvent": "Opret denne begivenhed",
+                "dateTimeEnd": "Dato og tid slut",
+                "dateTimeStart": "Dato og tid start",
+                "description": "Beskrivelse",
+                "image": "Billede",
+                "name": "Navn",
+                "postcode": "Postnummer",
+                "recurring": {
+                    "everyDay": "Hver dag",
+                    "everyWeek": "Hver uge",
+                    "everySecondWeek": "Hver anden uge",
+                    "everyThirdWeek": "Hver tredje uge",
+                    "everyFourthWeek": "Hver fjerde uge",
+                    "everyMonth": "Hver måned",
+                    "until": "Indtil"
+                }
+            },
+            "settings": {
+                "availableSpotsAtThisEvent": "Tilgængelige pladser ved denne begivenhed",
+                "moms": "Moms",
+                "notification": {
+                    "notification": "Notifikation",
+                    "sendAnEmailToAllParticipants1DayBeforeTheEvent": "Send en e-mail til alle deltagere 1 dag før begivenheden"
+                },
+                "otherSettings": {
+                    "closeRegistration": "Luk tilmelding",
+                    "dontShowInOnlineBooking": "Vis ikke i online booking",
+                    "dontShowTheNumberOfSpotsLeftOnTheSubmitForm": "Vis ikke antallet af pladser tilbage på tilmeldingsformularen",
+                    "otherSettings": "Andre indstillinger"
+                },
+                "price": "Pris",
+                "tags": "Tags",
+                "tax": "Moms"
+            },
+            "summary": {
+                "signupForTheEventOnThisAddress": "Tilmeld dig begivenheden på denne adresse",
+                "youCanFindAListOfAllFutureEvents": "Du kan finde en liste over alle fremtidige begivenheder på"
+            },
+            "tabs": {
+                "information": "Information",
+                "settings": "Indstillinger",
+                "summary": "Opsummering"
+            }
+        },
+        "newBooking": "Ny booking",
+        "newEvent": "Ny begivenhed",
+        "singleEvent": {
+            "createASingleEvent": "Opret en enkelt begivenhed",
+            "createASingleEventLabel": "Opret en enkelt eller tilbagevendende begivenhed",
+            "editEvent": "Rediger begivenhed",
+            "singleEvent": "Enkelt begivenhed"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger",
+                "view": "Se"
+            },
+            "alert": {
+                "bookingSuccessfullyDeleted": "Booking slettet med succes",
+                "bookingSuccessfullyUpdated": "Booking opdateret med succes",
+                "courseSuccessfullyDeleted": "Kursus slettet med succes",
+                "eventSuccessfullyDeleted": "Begivenhed slettet med succes"
+            },
+            "availableSlots": "Tilgængelige pladser",
+            "confirmation": {
+                "deleteCourseConfirmation": "Er du sikker på, at du vil slette dette kursus",
+                "deleteEventConfirmation": "Er du sikker på, at du vil slette denne begivenhed"
+            },
+            "booking": "Aftaletype",
+            "dateTimeEnd": "Dato og tid slut",
+            "dateTimeStart": "Dato og tid start",
+            "link": "Link",
+            "name": "Navn",
+            "type": {
+                "course": "Kursus",
+                "event": "Begivenhed"
+            }
+        },
+        "view": {
+            "overview": {
+                "closed": "Lukket",
+                "confirmedParticipants": "Bekræftede deltagere",
+                "eventSignUpIs": "Begivenhedstilmelding er",
+                "overview": "Oversigt",
+                "open": "Åben",
+                "slotsAvailable": "Pladser tilgængelige"
+            },
+            "participants": {
+                "actions": {
+                    "convertAsCitizen": "Konverter til borger",
+                    "resendEmailConfirmation": "Send e-mailbekræftelse igen"
+                },
+                "alert": {
+                    "participantToCitizenConvertedSuccessfully": "Deltager konverteret til borger med succes"
+                },
+                "confirmation": {
+                    "convertAsCitizenConfirmation": "Er du sikker på, at du vil konvertere denne deltager til borger?"
+                },
+                "participants": "Deltagere",
+                "table": {
+                    "emailAddress": "E-mailadresse",
+                    "name": "Navn"
+                }
+            },
+            "viewCourse": "Se kursus",
+            "viewEvent": "Se begivenhed",
+            "viewFutureEvents": "Se fremtidige begivenheder",
+            "viewSignUpForm": "Se tilmeldingsformular"
+        }
+    },
+    "bookingSettings": {
+        "alert": {
+            "bookingSettingsSuccessfullySaved": "Booking indstillinger gemt med succes"
+        },
+        "bookingSettings": "Booking indstillinger",
+        "form": {
+            "address": "Adresse",
+            "contactInformation": "Kontaktinformation",
+            "contactInformationLabel": "Vælg hvilken af dine kontaktinformationer, der vises på højre side af din Online Booking-side",
+            "description": "Beskrivelse",
+            "descriptionLabel": "Beskrivelsen vises på højre side af din bookingformular",
+            "fields": {
+                "address": "Adresse",
+                "conditions": "Betingelser",
+                "conditionsLabel": "Indtast et link til dine betingelser. Kunden skal acceptere disse betingelser før booking via Online Booking",
+                "dateOfBirth": "Fødselsdato",
+                "email": "E-mail",
+                "fields": "Felter",
+                "fieldsLabel": "Angiv hvilke felter en kunde kan udfylde, når de booker en booking",
+                "notes": "Bemærkninger",
+                "phone": "Telefon",
+                "required": "Påkrævet",
+                "socialSecurityNumber": "CPR-nummer"
+            },
+            "header": "Header",
+            "headerLabel": "Headeren vises øverst på din bookingformular",
+            "image": "Billede",
+            "imageLabel": "Hvis du vil vise et billede på din bookingformular, kan du uploade det her",
+            "information": "Information",
+            "language": "Sprog",
+            "languageLabel": "Standard sprog, som Online Booking vises på for nye kunder",
+            "onlineBookingLink": "Online Booking-link",
+            "onlineBookingLinkLabel": "Linket til din offentlige online booking-side",
+            "phone": "Telefon"
+        }
+    },
+    "bookingTags": {
+        "addNewBookingTag": "Tilføj ny booking tag",
+        "alert": {
+            "bookingTagSuccessfullyDeleted": "Booking tag slettet med succes"
+        },
+        "bookingTags": "Booking tags",
+        "editBookingTag": "Rediger booking tag",
+        "form": {
+            "alert": {
+                "bookingTagSuccessfullyUpdated": "Booking tag opdateret med succes",
+                "newBookingTagSuccessfullySaved": "Ny booking tag gemt med succes"
+            },
+            "name": "Navn"
+        },
+        "newBookingTag": "Ny booking tag",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteBookingTagConfirmation": "Er du sikker på, at du vil slette denne booking tag"
+            },
+            "name": "Navn"
+        }
+    },
     "bulletBoard": {
         "bulletBoard": "Opslagstavle",
         "featured": "Fremhævet"
@@ -356,6 +645,10 @@
             "October": "Oktober",
             "November": "November",
             "December": "December"
+        },
+        "tabs": {
+            "bookings": "Bookinger",
+            "events": "Begivenheder"
         },
         "today": "I dag",
         "view": {
@@ -417,7 +710,7 @@
     "cancel": "Annuller",
     "changeImage": "Skift billede",
     "citizens": {
-        "addictions": "Afhængigheder",
+        "addictions": "Stofmisbrug",
         "alert": {
             "citizenSuccessfullyArchived": "Borger arkiveret med succes"
         },
@@ -567,8 +860,9 @@
                 "alert": {
                     "templateSuccessfullyAdded": "Skabelon tilføjet med succes"
                 },
-                "createTemplate": "Opret skabelon",
+                "createReport": "Opret rapport",
                 "form": {
+                    "createNewForm": "Opret ny formular",
                     "folderName": "Mappenavn",
                     "form": "Formular",
                     "goal": "Mål",
@@ -724,7 +1018,7 @@
         },
         "editCitizen": "Rediger Borger",
         "form": {
-            "addictions": "Afhængigheder",
+            "addictions": "Stofmisbrug",
             "alert": {
                 "successfullyAdded": "Nye borgere gemt med succes",
                 "successfullyUpdate": "Borger opdateret med succes"
@@ -1116,7 +1410,8 @@
             "table": {
                 "actions": {
                     "edit": "Rediger",
-                    "statuses": "Statusser"
+                    "statuses": "Statusser",
+                    "view": "Se"
                 },
                 "data": "Data",
                 "date": "Dato",
@@ -1137,6 +1432,38 @@
             },
             "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal"
         },
+        "patientCareHours": {
+            "editPatientCareHours": "Rediger patientpleje timer",
+            "form": {
+                "alert": {
+                    "patientCareHoursSuccessfullyAdded": "Patientpleje timer tilføjet med succes",
+                    "patientCareHoursSuccessfullyUpdated": "Patientpleje timer opdateret med succes"
+                },
+                "datetimeEnd": "Dato og tid slut",
+                "datetimeStart": "Dato og tid start",
+                "note": "Bemærkning",
+                "totalHours": "Samlet timer"
+            },
+            "newPatientCareHours": "Ny patientpleje timer",
+            "patientCareHours": "Patientpleje timer",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "alert": {
+                    "patientCareHoursSuccessfullyDeleted": "Patientpleje timer slettet med succes"
+                },
+                "confirmation": {
+                    "deletePatientCareHoursConfirmation": "Er du sikker på, at du vil slette disse patientpleje timer"
+                },
+                "createdBy": "Oprettet af",
+                "datetimeEnd": "Dato og tid slut",
+                "datetimeStart": "Dato og tid start",
+                "note": "Bemærkning",
+                "totalHours": "Samlet timer"
+            }
+        },
         "purchaseEmail": {
             "purchaseEmail": "Køb e-mail",
             "youAreNowBeingRedirected": "Du bliver nu omdirigeret til en partner, hvor du kan købe en e-mail til borgeren"
@@ -1151,7 +1478,8 @@
             "department": "Afdeling",
             "email": "E-mail",
             "name": "Navn",
-            "phone": "Telefon"
+            "phone": "Telefon",
+            "ssn": "CPR-nummer"
         },
         "tabs": {
             "attendance": "Fremmøde",
@@ -1542,7 +1870,7 @@
         "addDailyEvents": "Tilføj daglige begivenheder",
         "bulletBoard": "Opslagstavle",
         "campaign": "Kampagne",
-        "citizensAddictions": "Borgernes afhængigheder",
+        "citizensAddictions": "Borgers stofmisbrug",
         "citizensAdmissionAndDischarged": {
             "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
             "dateAdmitted": "Indskrivningsdato",
@@ -1566,7 +1894,7 @@
             "filterDailyOverview": "Filtrer dagligt overblik",
             "items": {
                 "bulletBoard": "Opslagstavle",
-                "citizensAddictions": "Borgernes afhængigheder",
+                "citizensAddictions": "Borgers stofmisbrug",
                 "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
                 "citizensDailyEvents": "Borgeres daglige begivenheder",
                 "citizensDiagnoses": "Borgernes diagnoser",
@@ -1975,7 +2303,7 @@
             "alert": {
                 "templateSuccessfullyAdded": "Skabelon tilføjet med succes"
             },
-            "createTemplate": "Opret skabelon",
+            "createTemplate": "Opret rapport",
             "form": {
                 "folderName": "Mappenavn",
                 "form": "Formular",
@@ -2153,6 +2481,7 @@
             },
             "lastname": "Efternavn",
             "mediaRisks": {
+                "mediaRiskExplanation": "Marker de hændelsestyper, medarbejderen skal adviseres om - f.eks. magtanvendelse, hændelsesrapport eller medicinafvigelse. Det gør det muligt hurtigt at reagere, inden sagen evt. ville få opmærksomhed i offentligheden",
                 "mediaRisks": "Medierisici",
                 "incidentReport": "Hændelsesrapport",
                 "medicineDeviation": "Medicinafvigelse",
@@ -2402,8 +2731,8 @@
                 "newFolderStructureSuccessfullyRequested": "Ny folderstruktur anmodet med succes"
             },
             "editFolderStructureRequest": "Rediger anmodning om folderstruktur",
-            "folderStructureModificationRequests": "Anmodninger om ændring af folderstruktur",
-            "newFolderStructureModificationRequest": "Ny anmodning om ændring af folderstruktur",
+            "folderStructureRequests": "Anmodninger om ændring af folderstruktur",
+            "newFolderStructureRequest": "Ny anmodning om ændring af folderstruktur",
             "table": {
                 "actions": {
                     "approve": "Godkend",
@@ -2584,7 +2913,8 @@
             "invoiceNumber": "Fakturanummer",
             "new": "Ny",
             "recurring": "Tilbagevendende",
-            "status": "Status"
+            "status": "Status",
+            "serviceFee": "Servicegebyr"
         }
     },
     "invoiceDetails": {
@@ -2822,7 +3152,19 @@
         }
     },
     "messages": {
+        "actions": {
+            "delete": "Slet",
+            "edit": "Rediger"
+        },
+        "alert": {
+            "messageSuccessfullyDeleted": "Besked slettet med succes",
+            "messageSuccessfullyUpdated": "Besked opdateret med succes"
+        },
         "allMessagesAreLoaded": "Alle beskeder er indlæst",
+        "confirmation": {
+            "deleteMessageConfirmation": "Er du sikker på, at du vil slette denne besked"
+        },
+        "editMessage": "Rediger besked",
         "groupChat": {
             "alert": {
                 "groupNameSuccessfullyUpdated": "Gruppens navn opdateret med succes",
@@ -2906,6 +3248,7 @@
     },
     "next": "Næste",
     "noResultFound": "Ingen resultater fundet",
+    "pageNotFound": "Side ikke fundet",
     "pagination": {
         "of": "af",
         "next": "Næste",
@@ -2958,7 +3301,7 @@
             "alert": {
                 "statusTemplateSuccessfullyAdded": "Status skabelon tilføjet med succes"
             },
-            "createStatusTemplate": "Opret status skabelon",
+            "createReport": "Opret rapport",
             "form": {
                 "answerForm": "Svar formular",
                 "chooseLabel": "Vælg, om du vil downloade formularen for offline udfyldelse eller oprette et svar direkte",
@@ -3036,7 +3379,8 @@
         "new": "Ny",
         "newGoal": "Nyt mål",
         "newNote": "Ny note",
-        "newPlan": "Ny plan",
+        "newPlan": "Nyt plan",
+        "newPlanOrGoal": "Ny plan eller mål",
         "newSingleGoal": "Nyt enkeltmål",
         "newSubgoal": "Nyt delmål",
         "noAvailableSubgoals": "Der er ingen delmål tilgængelige at vise",
@@ -3072,6 +3416,7 @@
         },
         "plan": "Plan",
         "plans": "Planer",
+        "reports": "Rapporter",
         "statuses": "Statusser",
         "subgoal": "Delmål",
         "subgoals": "Delmål",
@@ -3084,6 +3429,7 @@
                 "graph": "Graf",
                 "notes": "Noter",
                 "notifications": "Notifikationer",
+                "reports": "Rapporter",
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
                 "statuses": "Statusser",
@@ -3501,8 +3847,9 @@
         "tabs": {
             "absences": "Fravær",
             "activityLogs": "Aktivitetslogfiler",
-            "addictions": "Afhængigheder",
+            "addictions": "Stofmisbrug",
             "archived": "Arkiveret",
+            "bookingTags": "Booking tags",
             "calendarTags": "Kalenderetiketter",
             "catalog": "Katalog",
             "company": "Virksomhed",
@@ -3603,6 +3950,7 @@
     "showAll": "Vis alle",
     "showLess": "Vis mindre",
     "showMore": "Vis mere",
+    "somethingWentWrong": "Noget gik galt",
     "subscription": {
         "addOnDeals": {
             "addOnDeals": "Ekstra brugere og afdelinger",
@@ -3627,23 +3975,28 @@
         "currentSubscription": "Nuværende abonnement",
         "deal": {
             "additionalPurchaseFor": "tilkøb ekstra for",
+            "admin": "Admin",
+            "admins": "Administratorer",
             "annually": "Årligt",
             "automaticSynchronizationWithFMK": "Mulighed for synkronisering med FMK",
             "department": "Afdeling",
             "departments": "Afdelinger",
             "forExtraDepartment": "For ekstra afdeling",
             "forExtraUser": "For ekstra bruger",
-            "goodForTheSmallerSocialOffer": "God til det mindre sociale tilbud",
+            "goodForASmallTeam": "God til et mindre team",
+            "included": "Inkl",
             "month": "Måned",
             "monthly": "Månedligt",
-            "perfectForTheLargerSocialOffer": "Perfekt til det større sociale tilbud",
+            "perfectForLargerCompanies": "Perfekt til større virksomheder",
             "recommended": "Anbefalet",
             "storageSpace": "lagerplads",
             "selectPackage": "Vælg pakke",
-            "telephoneSupport": "Telefonisk support",
+            "telephoneSupport": "Support via telefon, chat og mail",
+            "unlimitedNumberOfCitizens": "Ubegrænset antal borgere",
             "user": "Bruger",
             "users": "Brugere",
-            "year": "År"
+            "year": "År",
+            "youCanHaveMultipleAdmins": "Du kan godt have flere admins"
         },
         "discount": {
             "discount": "Rabat",
@@ -3871,17 +4224,22 @@
             "newCompany": "Ny virksomhed",
             "subscriptions": {
                 "deal": {
+                    "admin": "Admin",
+                    "admins": "Administratorer",
                     "automaticSynchronizationWithFMK": "Automatisk synkronisering med FMK",
                     "department": "Afdeling",
                     "departments": "Afdelinger",
-                    "goodForTheSmallerSocialOffer": "God til det mindre sociale tilbud",
+                    "goodForASmallTeam": "God til et mindre team",
+                    "included": "Inkl",
                     "month": "Måned",
-                    "perfectForTheLargerSocialOffer": "Perfekt til det større sociale tilbud",
+                    "perfectForLargerCompanies": "Perfekt til større virksomheder",
                     "storageSpace": "lagerplads",
-                    "telephoneSupport": "Telefonsupport",
+                    "telephoneSupport": "Support via telefon, chat og mail",
+                    "unlimitedNumberOfCitizens": " Ubegrænset antal borgere",
                     "user": "Bruger",
                     "users": "Brugere",
-                    "year": "År"
+                    "year": "År",
+                    "youCanHaveMultipleAdmins": "Du kan godt have flere admins"
                 },
                 "noSubscription": {
                     "itLooksLikeThisCompanyDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ud til, at denne virksomhed ikke har et aktivt abonnement i øjeblikket",

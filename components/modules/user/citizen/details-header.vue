@@ -28,6 +28,16 @@
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5">
                                 <div class="space-y-1">
+                                    <div class="flex items-center gap-x-1 cursor-pointer"
+                                        @click="state.modal.isViewPatienCareHoursOpen = true">
+                                        <Tooltip :text="$t('citizens.patientCareHours.patientCareHours')"
+                                            class="flex items-center">
+                                            <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ state.selectedCitizen?.data?.patient_care_hours }}
+                                        </p>
+                                    </div>
                                     <div class="flex items-center gap-x-1" v-if="state.selectedCitizen?.data?.birthday">
                                         <Tooltip :text="$t('citizens.form.birthday')" class="flex items-center">
                                             <Icon name="ph:cake" class="h-4 w-4" aria-hidden="true" />
@@ -192,6 +202,9 @@
                         v-if="$route.name === 'citizens-uuid-medicine-journals'" />
                     <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
                         v-if="$route.name === 'citizens-uuid-journals'" />
+                    <ModulesUserCitizenPatientCareHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
+                        @close="state.modal.isViewPatienCareHoursOpen = false"
+                        @refreshCitizenDetails="fetchCitizen()" />
                     <ModulesUserCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
                 </div>
             </div>
@@ -211,6 +224,9 @@ const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
+    modal: {
+        isViewPatienCareHoursOpen: false,
+    },
     selectedCitizen: {} as any,
     showExpandedNote: false,
 })

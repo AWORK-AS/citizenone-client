@@ -133,9 +133,9 @@
                                     <div v-if="message?.sender?.id === userStore.getUser?.id">
                                         <div class="flex items-start justify-end mb-4">
                                             <div class="mr-2">
-                                                <Tooltip position="left"
+                                                <Tooltip position="right"
                                                     :text="formatTimeToReadable(message?.created_at)">
-                                                    <div class="bg-primary text-white p-3 rounded-lg">
+                                                    <div class="bg-secondary text-white p-3 rounded-lg">
                                                         <div v-if="message?.chat_message_attachments?.length > 0"
                                                             class="space-y-3">
                                                             <div v-for="(attachment, index) in message?.chat_message_attachments"
@@ -154,7 +154,23 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <p v-else class="text-sm">{{ message?.message }}</p>
+                                                        <p v-else class="text-sm"
+                                                            v-html="message?.message?.replace(/\n/g, '<br>')" />
+                                                        <div class="mt-2 flex justify-end gap-x-1">
+                                                            <Tooltip position="top" :text="$t('messages.actions.edit')">
+                                                                <button @click="editChatMessage(index, message)">
+                                                                    <Icon name="ph:pencil-simple" class="h-4 w-4"
+                                                                        aria-hidden="true" />
+                                                                </button>
+                                                            </Tooltip>
+                                                            <Tooltip position="top"
+                                                                :text="$t('messages.actions.delete')">
+                                                                <button @click="deleteChatConfirmation(index, message)">
+                                                                    <Icon name="ph:trash" class="h-4 w-4"
+                                                                        aria-hidden="true" />
+                                                                </button>
+                                                            </Tooltip>
+                                                        </div>
                                                     </div>
                                                     <p class="text-xs text-gray-500 mt-1"
                                                         v-if="index === state.messages.length - 1 && message?.receipt?.created_at">
@@ -185,7 +201,7 @@
                                                 <div v-else class="ml-10"></div>
                                             </div>
                                             <div class="ml-2">
-                                                <Tooltip position="right"
+                                                <Tooltip position="left"
                                                     :text="formatTimeToReadable(message?.created_at)">
                                                     <div class="bg-gray-200 p-3 rounded-lg">
                                                         <div v-if="message?.chat_message_attachments?.length > 0"
@@ -206,8 +222,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <p v-else class="text-gray-700 text-sm">{{ message?.message }}
-                                                        </p>
+                                                        <p v-else class="text-gray-700 text-sm"
+                                                            v-html="message?.message?.replace(/\n/g, '<br>')" />
                                                     </div>
                                                 </Tooltip>
                                             </div>
@@ -225,43 +241,52 @@
                                     :disabled="state.isPageLoading" @click="triggerFileInput">
                                     <Icon name="ph:paperclip" class="w-7 h-7 text-primary rounded-full" />
                                 </button>
-                                <input type="text"
-                                    class="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                    placeholder="Type a message..." v-model="state.message"
-                                    @keydown.enter="!state.isPageLoading && sendMessage()" />
+                                <textarea type="text" rows="1"
+                                    class="text-sm flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                    placeholder="Type a message..." v-model="state.message" />
                                 <button type="button"
-                                    class="px-4 py-3 bg-primary text-white rounded-md hover:bg-primary-700 focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
+                                    class="px-4 py-3 bg-secondary text-white rounded-md hover:bg-secondary-600 focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
                                     @click="sendMessage" :disabled="state.isPageLoading">
-                                    Send
+                                    {{ $t('messages.send') }}
                                 </button>
                             </div>
                         </div>
                     </LoadingSpinner>
                 </div>
                 <ModulesUserMessagesGroupChatModalEditName :isModalOpen="state.modal.isEditGroupNameOpen"
-                    :selectedChat="state.selectChat" @close="state.modal.isEditGroupNameOpen = false"
-                    @refreshChatDetails="fetchChat" />
+                    :selectedChat="state.selectedChat" @close="state.modal.isEditGroupNameOpen = false"
+                    @refreshChatDetails="refreshChatDetails" />
                 <ModulesUserMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
                     @close="state.modal.isManageGroupChatMembersOpen = false" @refreshChat="fetchChat" />
+                <ModulesUserMessagesModalEditMessage :isModalOpen="state.modal.isEditChatMessageOpen"
+                    :selectedChat="state.selectedChat" @close="state.modal.isEditChatMessageOpen = false"
+                    @updateMessage="updateMessage" />
                 <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
                     :title="$t('citizens.documents.upgradeStorage')"
                     :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
                     @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteConfirmationOpen"
+                    :message="$t('messages.confirmation.deleteMessageConfirmation') + '?'"
+                    @close="state.modal.isDeleteConfirmationOpen = false" @confirm="deleteChatMessage" />
             </div>
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import pusher from '@/services/pusher'
 import { messageService } from '@/components/api/user/MessageService'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatTimeToReadable } = useDatetimeFormatter()
+const { t } = useI18n()
+const { successAlert } = useAlert()
 const userStore = useUserStore() as any
 const router = useRouter()
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
@@ -291,11 +316,14 @@ const state = reactive({
     message: '',
     messages: [] as any,
     modal: {
+        isDeleteConfirmationOpen: false,
+        isEditChatMessageOpen: false,
         isEditGroupNameOpen: false,
         isManageGroupChatMembersOpen: false,
         isUpgradeStorageOpen: false
     },
-    selectChat: {} as any,
+    selectedChat: {} as any,
+    selectedChatIndex: '',
 })
 
 onMounted(() => {
@@ -321,6 +349,11 @@ window.setInterval(() => {
 function closeUpgradeStorageModal() {
     state.modal.isUpgradeStorageOpen = false
     state.error = {}
+}
+
+function refreshChatDetails() {
+    fetchChat()
+    fetchChats()
 }
 
 async function fetchChat() {
@@ -378,7 +411,7 @@ async function fetchChatHistory() {
 }
 
 function editGroupChatName() {
-    state.selectChat = state.chat?.data
+    state.selectedChat = state.chat?.data
     state.modal.isEditGroupNameOpen = true
 }
 
@@ -519,6 +552,41 @@ function chatGroupMembers(chat: any) {
     return excludeCurrentUserFromChatMembers(chat?.chat_members)
         ?.map((chatMember: any) => `${chatMember?.user?.firstname} ${chatMember?.user?.lastname}`)
         ?.join(', ')
+}
+
+function editChatMessage(index: number, message: any) {
+    state.selectedChatIndex = index
+    state.selectedChat = message
+    state.modal.isEditChatMessageOpen = true
+}
+
+function updateMessage(message: any) {
+    state.messages[state.selectedChatIndex].message = message
+}
+
+function deleteChatConfirmation(index: number, message: any) {
+    state.selectedChatIndex = index
+    state.selectedChat = message
+    state.modal.isDeleteConfirmationOpen = true
+}
+
+async function deleteChatMessage() {
+    state.error = {}
+    state.isChatHistoryDividerLoading = true
+    try {
+        const chatIndex = state.selectedChatIndex
+        const chatUuid = state.selectedChat?.uuid
+        const response = await messageService.deleteChatMessage(chatUuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            successAlert(`${t('alert.success')}!`, `${t('messages.alert.messageSuccessfullyDeleted')}.`)
+            if (chatIndex !== undefined && chatIndex !== -1) {
+                state.messages.splice(chatIndex, 1)
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isChatHistoryDividerLoading = false
 }
 </script>
 

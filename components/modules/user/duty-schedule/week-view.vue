@@ -444,7 +444,7 @@
                                                             }">
                                                             <div class="flex justify-between text-white"
                                                                 :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
-                                                                @click="editSchedule(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, shift, shiftIndex)">
+                                                                @click="isAdmin(userStore.getUser?.roles) && editSchedule(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, shift, shiftIndex)">
                                                                 <p
                                                                     class="w-full px-2 py-2 flex items-center justify-center border border-white rounded-tl-md rounded-bl-md">
                                                                     {{ moment(shift?.date_time_start).format('HH:mm') }}
@@ -463,6 +463,16 @@
                                                                     {{ citizenSchedule?.citizen?.firstname }}
                                                                     {{ citizenSchedule?.citizen?.lastname }}
                                                                 </p>
+                                                            </div>
+                                                            <div class="text-xxs text-white px-1 py-0.5">
+                                                                {{ $t('departments.departments') }}:
+                                                                <span
+                                                                    v-for="(department, departmentIndex) in weeklySchedule?.employee?.departments"
+                                                                    :key="departmentIndex">
+                                                                    {{ department?.name }}<span
+                                                                        v-if="departmentIndex < weeklySchedule.employee.departments.length - 1">,
+                                                                    </span><span v-else>.</span>
+                                                                </span>
                                                             </div>
                                                             <div class="flex items-center flex-wrap gap-y-0.5 mt-1"
                                                                 v-if="shift?.tags?.length > 0">
@@ -814,32 +824,33 @@ function sortMultiDayShiftsFirst(shifts: any) {
 }
 
 function calculateShiftWidth(shift: any, weekIndex: string) {
-    const startDay = moment(shift?.date_time_start).startOf('day')
-    const endDay = moment(shift?.date_time_end).startOf('day')
-    const dayDifference = endDay.diff(startDay, 'days')
+    const shiftStart = moment(shift.date_time_start).startOf('day')
+    const shiftEnd = moment(shift.date_time_end).startOf('day')
 
-    if (weekIndex === 'sunday') {
-        return 'auto'
+    const weekStart = moment(currentDate.value).startOf('isoWeek')
+    const weekEnd = moment(currentDate.value).endOf('isoWeek')
+
+    // Clamp the shift range to the current week range
+    const visibleStart = shiftStart.isBefore(weekStart) ? weekStart : shiftStart
+    const visibleEnd = shiftEnd.isAfter(weekEnd) ? weekEnd : shiftEnd
+
+    let dayDifference = visibleEnd.diff(visibleStart, 'days')
+
+    // Special case: if shift ends at exactly 00:00, don't count the last day
+    const endsAtMidnight = moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+    if (endsAtMidnight) {
+        dayDifference--
     }
 
-    if (dayDifference === 1) {
-        if (moment(shift?.date_time_end).format('HH:mm:ss') === '00:00:00') {
-            return 'auto'
+    if (weekIndex === 'sunday') return 'auto'
 
-        } else {
-            return '17.5rem' // Width for shifts spanning 2 days
-        }
-    } else if (dayDifference === 2) {
-        return '27rem' // Width for shifts spanning 3 days
-    } else if (dayDifference === 3) {
-        return '36.5rem' // Width for shifts spanning 4 days
-    } else if (dayDifference === 4) {
-        return '46rem' // Width for shifts spanning 5 days
-    } else if (dayDifference === 5) {
-        return '55.5rem' // Width for shifts spanning 6 days
-    } else if (dayDifference >= 6) {
-        return '65rem' // Width for shifts spanning 7 days
-    }
+    if (dayDifference <= 0) return 'auto'
+    if (dayDifference === 1) return '17.5rem'
+    if (dayDifference === 2) return '27rem'
+    if (dayDifference === 3) return '36.5rem'
+    if (dayDifference === 4) return '46rem'
+    if (dayDifference === 5) return '55.5rem'
+    return '65rem'
 }
 
 function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: number) {
@@ -935,7 +946,7 @@ function getSlotCount(dayName: string) {
         Fri: 'friday',
         Sat: 'saturday',
         Sun: 'sunday'
-    }
+    } as any
     const key = dayMap[dayName]
     return state.weeklySlots[key]?.total_slots || 0
 }
@@ -1240,7 +1251,6 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
 async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: number, shift: any, shiftIndex: number) {
     state.isRemoveShift = true
     const scheduleUuid = shift.schedule_uuid
-    state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].shifts.splice(shiftIndex, 1)
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1

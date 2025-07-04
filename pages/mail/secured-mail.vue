@@ -116,43 +116,112 @@
                                         <div v-if="state.showOnFirstLoad" :class="[
                                             state.selectedEmail && 'slide-from-right',
                                             !state.selectedEmail && 'slide-to-right',
-                                            'absolute top-0 left-0 h-full w-full bg-white px-6 py-4 rounded-md overflow-x-scroll'
+                                            'absolute top-0 left-0 h-full w-full bg-white rounded-md overflow-x-scroll divide-y divide-gray-100'
                                         ]">
-                                            <button class="flex items-center gap-x-2"
-                                                @click="state.selectedEmail = null">
-                                                <Icon name="ph:arrow-left" size="20" class="text-black" />
-                                                <span>{{ $t('back') }}</span>
-                                            </button>
-                                            <div class="mt-3">
-                                                <p class="text-lg font-semibold">
-                                                    {{ state.selectedEmail?.subject }}
-                                                </p>
-                                                <div class="flex-wrap md:flex gap-1 text-sm">
-                                                    <p>
-                                                        {{ t('mail.content.from') }}
-                                                    </p>
-                                                    <p>
-                                                        {{ state?.selectedEmail?.email }}
-                                                    </p>
-                                                    <p class="lowercase">
-                                                        {{ t('mail.content.on') }}
-                                                    </p>
-                                                    <p>
-                                                        {{
-                                                            formatDateTimeToReadable(state.selectedEmail?.created_at)
-                                                        }}
+                                            <div class="px-6 py-4">
+                                                <button class="flex items-center gap-x-2"
+                                                    @click="state.selectedEmail = null">
+                                                    <Icon name="ph:arrow-left" size="20" class="text-black" />
+                                                    <span>{{ $t('back') }}</span>
+                                                </button>
+                                                <div class="mt-3 space-y-3">
+                                                    <div>
+                                                        <p class="text-sm">
+                                                            {{ formatDateTimeToReadable(state.secured_mail?.created_at)
+                                                            }}
+                                                        </p>
+                                                        <p class="text-lg font-semibold">
+                                                            {{ state.selectedEmail?.subject }}
+                                                        </p>
+                                                        <p>
+                                                            {{ $t('mail.secured.from') }}:
+                                                            {{ state?.selectedEmail?.sender?.firstname }}
+                                                            {{ state?.selectedEmail?.sender?.lastname }}
+                                                            {{ state?.selectedEmail?.from }}
+                                                        </p>
+                                                        <div class="flex items-center gap-x-1">
+                                                            <p>
+                                                                {{ $t('mail.secured.to') }}:
+                                                            </p>
+                                                            <div class="text-xxs flex flex-wrap gap-1">
+                                                                <span
+                                                                    v-for="(receipient, index) in state?.selectedEmail?.receipient_emails"
+                                                                    :key=index
+                                                                    class="bg-primary px-2 py-1 text-white rounded-md">
+                                                                    {{ receipient }}
+                                                                </span>
+                                                            </div>
+                                                            <p>
+                                                                {{ state?.selectedEmail?.to }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div v-html="state.selectedEmail?.message" />
+                                                    <p class="flex items-center gap-x-1 text-xs">
+                                                        <span>
+                                                            {{ $t('mail.secured.sent.sentWith') }}
+                                                        </span>
+                                                        <span class="text-primary">
+                                                            {{ $t('mail.secured.sent.citizenOneMail') }}
+                                                        </span>
+                                                        <span class="lowercase">
+                                                            {{ $t('mail.secured.sent.viaSecuredMail') }}.
+                                                        </span>
                                                     </p>
                                                 </div>
-                                                <div v-html="state.selectedEmail?.message" class="py-6" />
+                                                <ModulesUserMailReplySecuredMailForm
+                                                    :selectedEmail="state.selectedEmail"
+                                                    @close="state.showReplyForm = false" v-if="state.showReplyForm" />
+                                                <div class="mt-5 flex items-center" v-else>
+                                                    <FormButton buttonStyle="primary" class="w-fit rounded-md"
+                                                        @click="state.showReplyForm = !state.showReplyForm">
+                                                        <Icon name="ph:arrow-bend-up-left" size="w-10 h-10" />
+                                                        {{ $t('mail.reply') }}
+                                                    </FormButton>
+                                                </div>
                                             </div>
-                                            <ModulesUserMailReplySecuredMailForm :selectedEmail="state.selectedEmail"
-                                                @close="state.showReplyForm = false" v-if="state.showReplyForm" />
-                                            <div class="mt-5 flex items-center" v-else>
-                                                <FormButton buttonStyle="primary" class="w-fit rounded-md"
-                                                    @click="state.showReplyForm = !state.showReplyForm">
-                                                    <Icon name="ph:arrow-bend-up-left" size="w-10 h-10" />
-                                                    {{ $t('mail.reply') }}
-                                                </FormButton>
+                                            <div class="space-y-3 px-6 py-4"
+                                                v-for="(history, historyIndex) in state.selectedEmail?.encrypted_mail?.secure_mail_replies"
+                                                :key="historyIndex">
+                                                <div>
+                                                    <p class="text-sm">
+                                                        {{ formatDateTimeToReadable(history?.created_at) }}
+                                                    </p>
+                                                    <p>
+                                                        {{ $t('mail.secured.from') }}:
+                                                        {{ state?.selectedEmail?.sender?.firstname }}
+                                                        {{ state?.selectedEmail?.sender?.lastname }}
+                                                        {{ state?.selectedEmail?.from }}
+                                                    </p>
+                                                    <div class="flex items-center gap-x-1">
+                                                        <p>
+                                                            {{ $t('mail.secured.to') }}:
+                                                        </p>
+                                                        <div class="text-xxs flex flex-wrap gap-1">
+                                                            <span
+                                                                v-for="(receipient, index) in state?.selectedEmail?.receipient_emails"
+                                                                :key=index
+                                                                class="bg-primary px-2 py-1 text-white rounded-md">
+                                                                {{ receipient }}
+                                                            </span>
+                                                        </div>
+                                                        <p>
+                                                            {{ state?.selectedEmail?.to }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div v-html="history?.message"></div>
+                                                <p class="flex items-center gap-x-1 text-xs">
+                                                    <span>
+                                                        {{ $t('mail.secured.sent.sentWith') }}
+                                                    </span>
+                                                    <span class="text-primary">
+                                                        {{ $t('mail.secured.sent.citizenOneMail') }}
+                                                    </span>
+                                                    <span class="lowercase">
+                                                        {{ $t('mail.secured.sent.viaSecuredMail') }}.
+                                                    </span>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>

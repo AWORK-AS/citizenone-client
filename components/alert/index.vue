@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center px-4 py-3 mb-4 rounded-lg" role="alert" :class="[
         props.type === 'default' && 'bg-gray-100 text-black',
-        props.type === 'success' && 'bg-green-800 text-white',
+        props.type === 'success' && 'bg-green-700 text-white',
         props.type === 'danger' && 'bg-red-100 text-black',
     ]">
         <div v-if="props.type === 'danger'">
@@ -12,7 +12,7 @@
                     clip-rule="evenodd"></path>
             </svg>
         </div>
-        <div v-if="props.type === 'success'">
+        <div v-if="props.type === 'success'" class="flex items-center">
             <Icon name="heroicons:check-circle" class="w-5 h-5 text-white rounded-full" />
         </div>
         <div class="ml-3 text-sm font-medium" :class="[

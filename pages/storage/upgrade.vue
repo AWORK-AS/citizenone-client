@@ -54,6 +54,44 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="bg-white shadow-md p-6 rounded-md space-y-2">
+                                        <ul class="list-disc list-inside text-sm text-gray-600"
+                                            v-if="language.locale.value === 'en'">
+                                            <li>
+                                                1 GB is around 5,000 files
+                                            </li>
+                                            <li>
+                                                3 GB is around 15,000 files
+                                            </li>
+                                            <li>
+                                                5 GB is around 25,000 files
+                                            </li>
+                                            <li>
+                                                10 GB is around 50,000 files
+                                            </li>
+                                            <li>
+                                                20 GB is around 100,000 files
+                                            </li>
+                                        </ul>
+                                        <ul class="list-disc list-inside text-sm text-gray-600"
+                                            v-if="language.locale.value === 'dk'">
+                                            <li>
+                                                1 GB er omkring 5.000 filer
+                                            </li>
+                                            <li>
+                                                3 GB er omkring 15.000 filer
+                                            </li>
+                                            <li>
+                                                5 GB er omkring 25.000 filer
+                                            </li>
+                                            <li>
+                                                10 GB er omkring 50.000 filer
+                                            </li>
+                                            <li>
+                                                20 GB er omkring 100.000 filer
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
 
@@ -109,10 +147,12 @@ import { addOnDealsService } from '@/components/api/user/AddOnDealsService'
 import { userSubscriptionService } from '@/components/api/user/UserSubscriptionService'
 import { storageService } from '@/components/api/user/StorageService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
+const language = useI18n()
 let checkout = null as any
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined

@@ -3,23 +3,25 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('addictions.addictions') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('bookingTags.bookingTags') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('addictions.addictions') }}</template>
+            <template #header>{{ $t('bookingTags.bookingTags') }}</template>
 
             <ModulesUserSettingsTab />
+
             <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/addictions/new')">
+                    <FormButton buttonStyle="action" class="rounded-lg"
+                        @click="navigateTo('/settings/booking-tags/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('addictions.newAddiction') }}
+                        {{ $t('bookingTags.addNewBookingTag') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -27,24 +29,26 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.addictions"
+                        <Table :columnHeaders="state.columnHeaders" :data="state.bookingTags"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.addictions?.data?.length === 0))">
-                                <tr v-for="(addiction, index) in state.addictions?.data" :key="index">
-                                    <td width="50%">
-                                        <span>{{ addiction?.name }}</span>
+                            <template #body v-if="!(state.isTableLoading || (state.bookingTags?.data?.length === 0))">
+                                <tr v-for="(bookingTag, index) in state.bookingTags?.data" :key="index">
+                                    <td width="70%">
+                                        <span>{{ bookingTag?.tag }}</span>
                                     </td>
-                                    <td width="50%">
-                                        <div class="flex items-end gap-2">
+                                    <td width="30%">
+                                        <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/addictions/${addiction.uuid}/edit`)">
+                                                @click="navigateTo(`/settings/booking-tags/${bookingTag.uuid}/edit`)"
+                                                v-if="bookingTag?.is_editable">
                                                 <Icon name="ph:pencil" class="size-4" />
-                                                {{ $t('addictions.table.actions.edit') }}
+                                                {{ $t('bookingTags.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="deleteAddictionConfirmation(addiction)">
+                                                @click="deleteBookingTagConfirmation(bookingTag)"
+                                                v-if="bookingTag?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('addictions.table.actions.delete') }}
+                                                {{ $t('bookingTags.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -52,18 +56,19 @@
                             </template>
                         </Table>
                     </div>
-                    <Pagination :data="state.addictions" @previous="previous" @next="next" />
+                    <Pagination :data="state.bookingTags" @previous="previous" @next="next" />
                 </div>
             </div>
-            <DialogConfirmation :isModalOpen="state.modal.isDeleteAddictionOpen"
-                :message="$t('addictions.table.confirmation.deleteAddictionConfirmation') + '?'"
-                @close="state.modal.isDeleteAddictionOpen = false" @confirm="deleteAddiction" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteBookingTagOpen"
+                :message="$t('bookingTags.table.confirmation.deleteBookingTagConfirmation') + '?'"
+                @close="state.modal.isDeleteBookingTagOpen = false" @confirm="deleteBookingTag" />
         </NuxtLayout>
     </div>
 </template>
 
+
 <script setup lang="ts">
-import { addictionService } from '@/components/api/user/AddictionService'
+import { bookingTagService } from '@/components/api/user/BookingTagService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -74,20 +79,16 @@ const { t } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
-        name: 'addictions.addictions',
+        name: 'bookingTags.bookingTags',
         translate: true,
-        href: '/settings/addictions',
+        href: '/settings/bookingTags',
     },
 ]
 
 const state = reactive({
-    addictions: [] as any,
-    columnFilter: [
-        { column: 'name' },
-    ],
     columnHeaders: [
-        { name: 'addictions.table.name', sorter: true, key: 'name' },
-        { name: '' },
+        { name: 'bookingTags.table.name', sorter: true, key: 'tag' },
+        { name: '' }
     ],
     dataFilter: {
         search: ''
@@ -95,9 +96,15 @@ const state = reactive({
     error: {} as Error,
     isTableLoading: false,
     modal: {
-        isDeleteAddictionOpen: false,
+        isDeleteBookingTagOpen: false,
     },
-    selectedAddiction: {} as any,
+    pagination: {
+        current_page: 1,
+        last_page: 1,
+        total: 0,
+    },
+    bookingTags: [] as any,
+    selectedBookingTag: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -105,10 +112,10 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchAddictions()
+    fetchBookingTags()
 })
 
-async function fetchAddictions() {
+async function fetchBookingTags() {
     state.error = {}
     state.isTableLoading = true
     try {
@@ -118,9 +125,9 @@ async function fetchAddictions() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await addictionService.getAddictions(params)
+        const response = await bookingTagService.getBookingTags(params)
         if (response) {
-            state.addictions = response
+            state.bookingTags = response
         }
     } catch (error: any) {
         state.error = error
@@ -130,12 +137,12 @@ async function fetchAddictions() {
 
 function previous() {
     currentTablePage--
-    fetchAddictions()
+    fetchBookingTags()
 }
 
 function next() {
     currentTablePage++
-    fetchAddictions()
+    fetchBookingTags()
 }
 
 function sort(sortingData: any) {
@@ -144,28 +151,28 @@ function sort(sortingData: any) {
         sortField: sortingData.column,
         sortOrder: sortingData.sort,
     }
-    fetchAddictions()
+    fetchBookingTags()
 }
 
 function handleSearch(value: any) {
     currentTablePage = 1
-    state.dataFilter.search = value?.[0] == '' ? [] : value
-    fetchAddictions()
+    state.dataFilter.search = value?.[0] === '' ? [] : value
+    fetchBookingTags()
 }
 
-function deleteAddictionConfirmation(addiction: any) {
-    state.selectedAddiction = addiction
-    state.modal.isDeleteAddictionOpen = true
+function deleteBookingTagConfirmation(bookingTag: any) {
+    state.selectedBookingTag = bookingTag
+    state.modal.isDeleteBookingTagOpen = true
 }
 
-async function deleteAddiction() {
+async function deleteBookingTag() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await addictionService.deleteAddiction(state.selectedAddiction.uuid)
+        const response = await bookingTagService.deleteBookingTag(state.selectedBookingTag.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            fetchAddictions()
-            successAlert(`${t('alert.success')}!`, `${t('addictions.table.alert.addictionSuccessfullyDeleted')}.`)
+            fetchBookingTags()
+            successAlert(`${t('alert.success')}!`, `${t('bookingTags.alert.bookingTagSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error

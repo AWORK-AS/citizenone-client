@@ -33,7 +33,11 @@ class GoalService extends BaseAPIService {
         return await this.request(`/user/citizen-goals/${goalUuid}/toggle-archive`, 'PUT')
     }
 
-    async getAllGoals(planUuid: any): Promise<any> {
+    async getAllGoalsPerCitizen(citizenUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-goals/${citizenUuid}/all/goal-list`, 'GET')
+    }
+
+    async getAllGoalsPerPlan(planUuid: any): Promise<any> {
         return await this.request(`/user/citizen-goals/${planUuid}/all/list`, 'GET')
     }
 }

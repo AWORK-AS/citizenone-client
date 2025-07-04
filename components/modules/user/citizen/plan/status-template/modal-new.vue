@@ -1,13 +1,19 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('citizens.documents.createTemplate.createTemplate')" :show="props.isModalOpen"
+        <Modal size="xl" :title="$t('citizens.documents.createTemplate.createReport')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <form @submit.prevent="submitForm()" id="formStatusTemplate">
                         <div class="space-y-3">
                             <div class="space-y-1">
-                                <FormLabel for="form" :label="$t('citizens.documents.createTemplate.form.form')" />
+                                <div class="flex justify-between items-center py-0.5">
+                                    <FormLabel for="form" :label="$t('citizens.documents.createTemplate.form.form')" />
+                                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                        @click="navigateTo('/forms')">
+                                        {{ $t('citizens.documents.createTemplate.form.createNewForm') }}
+                                    </span>
+                                </div>
                                 <FormSelect id="form" :options="state.options.forms"
                                     v-model="state.formStatusTemplate.form_uuid" />
                                 <FormError
@@ -128,6 +134,7 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
     if (isModalOpen) {
         fetchAllForms()
         fetchAllPlans()
+        fetchAllGoals()
     }
 })
 
@@ -137,9 +144,9 @@ const rules = computed(() => {
             form_uuid: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            plan_uuid: {
+            plan_uuid: !(state.formStatusTemplate.goal_uuid || state.formStatusTemplate.subgoal_uuid) ? {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
+            } : {},
         },
     }
 })
@@ -188,11 +195,11 @@ async function fetchAllPlans() {
     state.isPageLoading = false
 }
 
-async function fetchAllGoalsPerPlan(planUuid: any) {
+async function fetchAllGoals() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await goalService.getAllGoals(planUuid)
+        const response = await goalService.getAllGoalsPerCitizen(citizenUuid)
         if (response.data) {
             let options: any = []
             response.data.forEach(
@@ -209,25 +216,63 @@ async function fetchAllGoalsPerPlan(planUuid: any) {
     state.isPageLoading = false
 }
 
-async function fetchAllSubgoalsPerGoal(goalUuid: any) {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const response = await subgoalService.getAllSubgoals(goalUuid)
-        if (response.data) {
-            let options: any = []
-            response.data.forEach(
-                (subgoal: any) => options.push({
-                    value: subgoal?.uuid,
-                    label: subgoal?.name,
-                })
-            )
-            state.options.subgoals = options
+async function fetchAllGoalsPerPlan(planUuid: any) {
+    if (planUuid) {
+        state.formStatusTemplate.goal_uuid = ''
+        state.formStatusTemplate.subgoal_uuid = ''
+        state.options.goals = []
+        state.options.subgoals = []
+        state.error = {}
+        state.isPageLoading = true
+        try {
+            const response = await goalService.getAllGoalsPerPlan(planUuid)
+            if (response.data) {
+                let options: any = []
+                response.data.forEach(
+                    (goal: any) => options.push({
+                        value: goal?.uuid,
+                        label: goal?.name,
+                    })
+                )
+                state.options.goals = options
+            }
+        } catch (error: any) {
+            state.error = error
         }
-    } catch (error: any) {
-        state.error = error
+        state.isPageLoading = false
+    } else {
+        fetchAllGoals()
+        state.formStatusTemplate.goal_uuid = ''
+        state.formStatusTemplate.subgoal_uuid = ''
+        state.options.goals = []
+        state.options.subgoals = []
     }
-    state.isPageLoading = false
+}
+
+async function fetchAllSubgoalsPerGoal(goalUuid: any) {
+    if (goalUuid) {
+        state.error = {}
+        state.isPageLoading = true
+        try {
+            const response = await subgoalService.getAllSubgoals(goalUuid)
+            if (response.data) {
+                let options: any = []
+                response.data.forEach(
+                    (subgoal: any) => options.push({
+                        value: subgoal?.uuid,
+                        label: subgoal?.name,
+                    })
+                )
+                state.options.subgoals = options
+            }
+        } catch (error: any) {
+            state.error = error
+        }
+        state.isPageLoading = false
+    } else {
+        state.formStatusTemplate.subgoal_uuid = ''
+        state.options.subgoals = []
+    }
 }
 
 async function submitForm() {
