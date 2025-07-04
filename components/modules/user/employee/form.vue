@@ -141,9 +141,15 @@
                     </div>
                 </div>
                 <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
-                    <p class="text-sm text-gray-600">
-                        {{ $t('employees.form.mediaRisks.mediaRisks') }}
-                    </p>
+                    <div class="flex items-center gap-x-2">
+                        <p class="text-sm text-gray-600">
+                            {{ $t('employees.form.mediaRisks.mediaRisks') }}
+                        </p>
+                        <div class="flex items-center cursor-help"
+                            @click="state.modal.isShowMediaRiskExplainationOpen = true">
+                            <Icon name="ph:question" class="size-4 cursor-pointer text-gray-700" aria-hidden="true" />
+                        </div>
+                    </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
                         <div class="w-fit flex items-center cursor-pointer"
                             v-for="(mediaRisk, index) in state.options.media_risks" :key="index"
@@ -434,6 +440,8 @@
                 </FormButton>
             </div>
         </div>
+        <ModulesUserEmployeeModalMediaRiskExplanation :isModalOpen="state.modal.isShowMediaRiskExplainationOpen"
+            @close="state.modal.isShowMediaRiskExplainationOpen = false" />
         <ModulesUserDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
             @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchDepartments" />
         <ModulesUserJobTitleModalNew :isModalOpen="state.modal.isAddJobTitleOpen"
@@ -538,6 +546,7 @@ const state = reactive({
         isAddDepartmentOpen: false,
         isAddJobSpecialtyOpen: false,
         isAddJobTitleOpen: false,
+        isShowMediaRiskExplainationOpen: false,
     },
     permissions: {
         read: false,

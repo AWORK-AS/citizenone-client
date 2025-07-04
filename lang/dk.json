@@ -2481,6 +2481,7 @@
             },
             "lastname": "Efternavn",
             "mediaRisks": {
+                "mediaRiskExplanation": "Marker de hændelsestyper, medarbejderen skal adviseres om - f.eks. magtanvendelse, hændelsesrapport eller medicinafvigelse. Det gør det muligt hurtigt at reagere, inden sagen evt. ville få opmærksomhed i offentligheden",
                 "mediaRisks": "Medierisici",
                 "incidentReport": "Hændelsesrapport",
                 "medicineDeviation": "Medicinafvigelse",

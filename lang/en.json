@@ -2481,6 +2481,7 @@
             },
             "lastname": "Last name",
             "mediaRisks": {
+                "mediaRiskExplanation": "Mark the types of incidents the employee should be notified about - e.g., use of force, incident report, or medication error. This makes it possible to respond quickly before the issue potentially gains public attention",
                 "mediaRisks": "Media Risks",
                 "incidentReport": "Incident Report",
                 "medicineDeviation": "Medicine Deviation",
