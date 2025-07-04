@@ -862,6 +862,7 @@
                 },
                 "createReport": "Opret rapport",
                 "form": {
+                    "createNewForm": "Opret ny formular",
                     "folderName": "Mappenavn",
                     "form": "Formular",
                     "goal": "Mål",

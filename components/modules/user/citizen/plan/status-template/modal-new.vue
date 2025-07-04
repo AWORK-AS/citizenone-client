@@ -7,7 +7,13 @@
                     <form @submit.prevent="submitForm()" id="formStatusTemplate">
                         <div class="space-y-3">
                             <div class="space-y-1">
-                                <FormLabel for="form" :label="$t('citizens.documents.createTemplate.form.form')" />
+                                <div class="flex justify-between items-center py-0.5">
+                                    <FormLabel for="form" :label="$t('citizens.documents.createTemplate.form.form')" />
+                                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                        @click="navigateTo('/forms')">
+                                        {{ $t('citizens.documents.createTemplate.form.createNewForm') }}
+                                    </span>
+                                </div>
                                 <FormSelect id="form" :options="state.options.forms"
                                     v-model="state.formStatusTemplate.form_uuid" />
                                 <FormError

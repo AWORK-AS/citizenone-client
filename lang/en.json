@@ -862,6 +862,7 @@
                 },
                 "createReport": "Create report",
                 "form": {
+                    "createNewForm": "Create new form",
                     "folderName": "Folder name",
                     "form": "Form",
                     "goal": "Goal",
