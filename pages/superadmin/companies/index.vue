@@ -58,13 +58,13 @@
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/superadmin/companies/${company.uuid}/edit`)">
-                                                <Icon name="ph:pencil" class="size-4" />
+                                                <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('superadmin.companies.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button"
                                                 :buttonStyle="company.is_active ? 'danger' : 'success'"
                                                 class="rounded-md" @click="activateDeactivateCompany(index, company)">
-                                                <Icon name="ph:pencil" class="size-4" />
+                                                <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ company.is_active ?
                                                     $t('superadmin.companies.table.actions.deactivate') :
                                                     $t('superadmin.companies.table.actions.activate') }}

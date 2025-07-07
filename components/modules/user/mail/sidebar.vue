@@ -3,7 +3,7 @@
         <div class="flex flex-col items-center gap-5 py-4">
             <Tooltip :text="$t('mail.compose')" @click="state.modal.isSendEmailOpen = true">
                 <button class="flex flex-col items-center justify-center p-5 rounded-full text-white bg-primary">
-                    <Icon name="ph:pencil" class="h-6 w-6" aria-hidden="true" />
+                    <Icon name="ph:pencil-simple" class="h-6 w-6" aria-hidden="true" />
                 </button>
             </Tooltip>
             <div class="relative">
@@ -44,7 +44,7 @@
     <!-- <div class="bg-white py-8 rounded-tl-md rounded-bl-md shadow-md">
         <div class="px-6">
             <FormButton buttonStyle="primary" class="px-16 w-full rounded-md">
-                <Icon name="ph:pencil" class="h-4 w-4" aria-hidden="true" />
+                <Icon name="ph:pencil-simple" class="h-4 w-4" aria-hidden="true" />
                 {{ $t('mail.compose') }}
             </FormButton>
         </div>
