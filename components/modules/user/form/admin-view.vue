@@ -23,11 +23,11 @@
                             </td>
                             <td width="20%">
                                 <div class="flex items-end justify-end gap-2">
-                                    <!-- <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                        @click="navigateTo(`/forms/${form.uuid}`)">
+                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                        @click="navigateTo(`/forms/${form.uuid}/edit`)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
-                                        {{ $t('forms.table.actions.delete') }}
-                                    </FormButton> -->
+                                        {{ $t('forms.table.actions.edit') }}
+                                    </FormButton>
                                     <FormButton type="button" buttonStyle="action" class="rounded-md"
                                         @click="deleteConfirmation(form)">
                                         <Icon name="ph:trash" class="size-4" />
