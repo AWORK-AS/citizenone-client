@@ -153,6 +153,7 @@ const state = reactive({
     error: {} as Error,
     formRegister: {
         name: '',
+        industry: '',
         firstname: '',
         lastname: '',
         phone: '',
@@ -260,6 +261,7 @@ async function register() {
         try {
             const params = {
                 name: state.formRegister.name,
+                industry_uuid: state.formRegister.industry,
                 firstname: state.formRegister.firstname,
                 lastname: state.formRegister.lastname,
                 phone: state.formRegister.phone,
