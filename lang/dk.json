@@ -2520,12 +2520,15 @@
             "actions": {
                 "calendar": "Kalender",
                 "edit": "Rediger",
+                "giveBookingAccess": "Giv booking adgang",
                 "giveSecureMailAccess": "Giv adgang til sikker mail",
                 "message": "Besked",
                 "removeSecureMailAccess": "Fjern adgang til sikker mail",
                 "view": "Se"
             },
             "alert": {
+                "bookingAccessGranted": "Booking adgang givet",
+                "bookingAccessRemoved": "Booking adgang fjernet",
                 "secureMailAccessGranted": "Adgang til sikker mail givet",
                 "secureMailAccessRemoved": "Adgang til sikker mail fjernet"
             },

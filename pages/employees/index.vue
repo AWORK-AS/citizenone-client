@@ -89,6 +89,12 @@
                                                     {{ $t('employees.table.actions.giveSecureMailAccess') }}
                                                 </span>
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="giveBookingAccess(employee)"
+                                                v-if="userStore.getUser?.has_booking_app_access && !employee?.has_booking_app_access">
+                                                <Icon name="ph:check" class="size-4" />
+                                                {{ $t('employees.table.actions.giveBookingAccess') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -234,6 +240,26 @@ async function giveRemoveSecureMailAccess(employee: any) {
                 successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.secureMailAccessGranted')}.`)
             } else {
                 successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.secureMailAccessRemoved')}.`)
+            }
+            fetchEmployees()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function giveBookingAccess(employee: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const employeeUuid = employee?.uuid
+        const response = await employeeService.toggleSecureMailLicense(employeeUuid)
+        if (response.data) {
+            if (response.data?.has_booking_app_access) {
+                successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.bookingAccessGranted')}.`)
+            } else {
+                successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.bookingAccessRemoved')}.`)
             }
             fetchEmployees()
         }
