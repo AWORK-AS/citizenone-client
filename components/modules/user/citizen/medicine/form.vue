@@ -349,9 +349,6 @@ const rules = computed(() => {
                     description: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    current_stocks: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
                 },
             }
         } else {
