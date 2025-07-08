@@ -2,23 +2,27 @@
     <div>
         <Modal size="xs" :title="`${$t('filterDate')}`" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <form @submit.prevent="filterDailyOverview" class="mt-3">
-                    <div class="space-y-3">
-                        <FormDateRangeField name="date_range" :placeholder="$t('filterDate')"
-                            v-model="state.filter.date_range" />
-                        <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
-                    </div>
-                    <div class="mt-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal">
-                                {{ $t('cancel') }}
-                            </FormButton>
-                            <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
-                                {{ $t('filter') }}
-                            </FormButton>
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <form @submit.prevent="filterDailyOverview" class="mt-3">
+                        <div class="space-y-3">
+                            <Alert type="danger" :text="state?.error?.message"
+                                v-if="state.error?.message && state.error.message.length > 0" />
+                            <FormDateRangeField name="date_range" :placeholder="$t('filterDate')"
+                                v-model="state.filter.date_range" />
+                            <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
                         </div>
-                    </div>
-                </form>
+                        <div class="mt-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal">
+                                    {{ $t('cancel') }}
+                                </FormButton>
+                                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                                    {{ $t('filter') }}
+                                </FormButton>
+                            </div>
+                        </div>
+                    </form>
+                </LoadingSpinner>
             </template>
         </Modal>
     </div>
@@ -26,6 +30,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import type { Error } from '@/types'
@@ -61,7 +66,15 @@ watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
         const startDate = moment(props?.dateRange?.formDateRange?.start_date).format('YYYY-MM-DD')
         const endDate = moment(props?.dateRange?.formDateRange?.end_date).format('YYYY-MM-DD')
+        state.error = {}
+        state.filter.date_range = [startDate, endDate]
+    }
+})
 
+watch(() => props.dateRange?.formDateRange, (formDateRange) => {
+    if (formDateRange) {
+        const startDate = moment(formDateRange?.start_date).format('YYYY-MM-DD')
+        const endDate = moment(formDateRange?.end_date).format('YYYY-MM-DD')
         state.error = {}
         state.filter.date_range = [startDate, endDate]
     }
@@ -88,11 +101,25 @@ function closeModal() {
     emit('close')
 }
 
-function filterDailyOverview() {
+async function filterDailyOverview() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('filterDate', state.formDateRange)
-        closeModal()
+        state.error = {}
+        state.isPageLoading = true
+        try {
+            const params = {
+                date_start: state.formDateRange.start_date,
+                date_end: state.formDateRange.end_date,
+            }
+            const response = await dailyOverviewService.updateDateFilter(params)
+            if (response.data) {
+                emit('filterDate', state.formDateRange)
+                closeModal()
+            }
+        } catch (error: any) {
+            state.error = error
+        }
+        state.isPageLoading = false
     }
 }
 </script>
