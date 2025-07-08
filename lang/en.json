@@ -711,6 +711,7 @@
     "changeImage": "Change image",
     "citizens": {
         "addictions": "Substance abuse",
+        "address": "Address",
         "alert": {
             "citizenSuccessfullyArchived": "Citizen successfully archived"
         },

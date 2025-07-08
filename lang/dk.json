@@ -711,6 +711,7 @@
     "changeImage": "Skift billede",
     "citizens": {
         "addictions": "Stofmisbrug",
+        "address": "Adresse",
         "alert": {
             "citizenSuccessfullyArchived": "Borger arkiveret med succes"
         },
