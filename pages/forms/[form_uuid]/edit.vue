@@ -75,7 +75,11 @@ async function fetchForm() {
                 fields: [],
             }
             response?.data?.form_fields?.forEach((field: any) => {
-                state.formForm.fields.push(JSON.parse(field?.field))
+                const parsedField = JSON.parse(field?.field)
+                state.formForm.fields.push({
+                    ...parsedField,
+                    uuid: field?.uuid,
+                })
             })
         }
     } catch (error: any) {

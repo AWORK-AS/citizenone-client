@@ -28,7 +28,7 @@
                                 <div v-if="field.type === 'textfield'" class="grow">
                                     <div class="p-5 space-y-3">
                                         <div class="flex items-center justify-end">
-                                            <button @click="removeField(fieldIndex)">
+                                            <button type="button" @click="removeField(fieldIndex)">
                                                 <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
                                             </button>
                                         </div>
