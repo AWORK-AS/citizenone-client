@@ -1518,6 +1518,7 @@
                 "completionDate": "Afslutningsdato",
                 "dateCompleted": "Dato afsluttet",
                 "description": "Beskrivelse",
+                "enableReminder": "Aktiver påmindelse",
                 "expectedLevels": {
                     "expectedLevel": "Forventet niveau",
                     "minorChallenges": "Mindre udfordringer",

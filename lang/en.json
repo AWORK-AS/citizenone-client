@@ -1518,6 +1518,7 @@
                 "completionDate": "Completion date",
                 "dateCompleted": "Date completed",
                 "description": "Description",
+                "enableReminder": "Enable reminder",
                 "expectedLevels": {
                     "expectedLevel": "Expected level",
                     "minorChallenges": "Minor challenges",
