@@ -47,7 +47,7 @@
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/shifts/${shift.uuid}/edit`)"
                                                 v-if="shift?.is_editable">
-                                                <Icon name="ph:pencil" class="size-4" />
+                                                <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('shifts.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"

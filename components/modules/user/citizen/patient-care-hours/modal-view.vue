@@ -39,7 +39,7 @@
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editPatientCareHours(pch)" v-if="pch?.is_editable">
-                                                <Icon name="ph:pencil" class="size-4" />
+                                                <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.patientCareHours.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"

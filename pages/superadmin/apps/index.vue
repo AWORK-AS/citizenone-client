@@ -70,7 +70,7 @@
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/superadmin/apps/${app.uuid}/edit`)">
-                                                <Icon name="ph:pencil" class="size-4" />
+                                                <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('superadmin.apps.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="primary" class="rounded-md"

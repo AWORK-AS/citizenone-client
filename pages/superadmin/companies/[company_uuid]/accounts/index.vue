@@ -56,13 +56,13 @@
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/${account.uuid}/edit`)">
-                                                <Icon name="ph:pencil" class="size-4" />
+                                                <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('superadmin.accounts.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button"
                                                 :buttonStyle="account.is_active ? 'danger' : 'success'"
                                                 class="rounded-md" @click="activateDeactivateAccount(index, account)">
-                                                <Icon name="ph:pencil" class="size-4" />
+                                                <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ account.is_active ?
                                                     $t('superadmin.accounts.table.actions.deactivate') :
                                                     $t('superadmin.accounts.table.actions.activate') }}

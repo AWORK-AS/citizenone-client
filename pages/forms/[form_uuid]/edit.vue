@@ -3,14 +3,14 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('forms.newForm') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('forms.editForm') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('forms.newForm') }}</template>
+            <template #header>{{ $t('forms.editForm') }}</template>
 
             <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/forms">
                 <Icon name="ph:arrow-left" size="20" class="text-black" />
@@ -18,8 +18,8 @@
             </NuxtLink>
 
             <LoadingSpinner :isActive="state.isPageLoading">
-                <ModulesUserForm formType="create" :selectedForm="state.formForm" :error="state.error"
-                    @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="saveForm" />
+                <ModulesUserForm formType="update" :selectedForm="state.formForm" :error="state.error"
+                    @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateForm" />
             </LoadingSpinner>
         </NuxtLayout>
     </div>
@@ -34,6 +34,8 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const router = useRouter()
+const formUuid = router?.currentRoute?.value?.params?.form_uuid
 const breadcrumbLinks = [
     {
         name: 'forms.forms',
@@ -41,9 +43,9 @@ const breadcrumbLinks = [
         href: '/forms',
     },
     {
-        name: 'forms.newForm',
+        name: 'forms.editForm',
         translate: true,
-        href: '/forms/new',
+        href: `/forms/${formUuid}/edit`,
     },
 ]
 
@@ -57,7 +59,36 @@ const state = reactive({
     isPageLoading: false,
 })
 
-async function saveForm(formDetails: any) {
+onMounted(() => {
+    fetchForm()
+})
+
+async function fetchForm() {
+    state.isPageLoading = true
+    state.error = {}
+    try {
+        const response = await formService.getForm(formUuid)
+        if (response) {
+            state.formForm = {
+                title: response.data?.title ?? '',
+                description: response.data?.description ?? '',
+                fields: [],
+            }
+            response?.data?.form_fields?.forEach((field: any) => {
+                const parsedField = JSON.parse(field?.field)
+                state.formForm.fields.push({
+                    ...parsedField,
+                    uuid: field?.uuid,
+                })
+            })
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function updateForm(formDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -67,9 +98,9 @@ async function saveForm(formDetails: any) {
             fields: formDetails.fields,
             is_active: true,
         }
-        const response = await formService.saveForm(params)
+        const response = await formService.updateForm(formUuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('forms.alert.formSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('forms.alert.formSuccessfullyUpdated')}.`)
             navigateTo('/forms')
         }
     } catch (error: any) {

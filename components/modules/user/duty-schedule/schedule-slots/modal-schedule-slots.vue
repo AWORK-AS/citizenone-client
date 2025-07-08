@@ -55,7 +55,7 @@
                                                 </FormButton>
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="editScheduleSlot(slot)">
-                                                    <Icon name="ph:pencil" class="size-4" />
+                                                    <Icon name="ph:pencil-simple" class="size-4" />
                                                     {{ $t('dutySchedules.scheduleSlots.table.actions.edit') }}
                                                 </FormButton>
                                                 <FormButton type="button" buttonStyle="primary" class="rounded-md"

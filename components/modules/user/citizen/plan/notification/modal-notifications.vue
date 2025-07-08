@@ -40,7 +40,7 @@
                                             <div class="flex items-end gap-2">
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="editNotification(notification)">
-                                                    <Icon name="ph:pencil" class="size-4" />
+                                                    <Icon name="ph:pencil-simple" class="size-4" />
                                                     {{ $t('plansandgoals.notifications.table.actions.edit') }}
                                                 </FormButton>
                                                 <FormButton class="rounded-md" buttonSize="sm"

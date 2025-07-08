@@ -45,7 +45,7 @@
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/calendar-tags/${calendarTag.uuid}/edit`)"
                                                 v-if="calendarTag?.is_editable">
-                                                <Icon name="ph:pencil" class="size-4" />
+                                                <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('calendarTags.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"

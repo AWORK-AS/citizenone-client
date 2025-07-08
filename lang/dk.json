@@ -2803,6 +2803,7 @@
         "confirmation": {
             "deleteFormConfirmation": "Er du sikker på, at du vil slette denne formular"
         },
+        "editForm": "Rediger formular",
         "fields": {
             "checkbox": "Afkrydsningsfelt",
             "choice": "Valg",
@@ -2834,6 +2835,7 @@
             "actions": {
                 "createResponse": "Opret svar",
                 "delete": "Slet",
+                "edit": "Rediger",
                 "viewResponses": "Se svar"
             },
             "alert": {

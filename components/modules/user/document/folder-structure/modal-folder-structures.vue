@@ -36,7 +36,7 @@
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editFolderStructure(folder_structure)">
-                                                <Icon name="ph:pencil" class="size-4" />
+                                                <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('folderStructure.table.actions.edit') }}
                                             </FormButton>
                                         </div>

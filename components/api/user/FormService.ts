@@ -14,7 +14,7 @@ class FormService extends BaseAPIService {
     }
 
     async updateForm(formUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/forms/${formUuid}/update`, 'POST', params)
+        return await this.request(`/user/forms/${formUuid}`, 'PUT', params)
     }
 
     async deleteForm(formUuid: any): Promise<any> {

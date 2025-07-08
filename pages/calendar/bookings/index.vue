@@ -74,7 +74,7 @@
                                                 <Tooltip :text="$t('bookings.table.actions.edit')">
                                                     <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                         @click="editCourseEvent(courseEvent)">
-                                                        <Icon name="ph:pencil" class="size-4" />
+                                                        <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('bookings.table.actions.delete')">

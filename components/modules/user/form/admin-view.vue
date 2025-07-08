@@ -22,7 +22,12 @@
                                 <p>{{ form?.description }}</p>
                             </td>
                             <td width="20%">
-                                <div class="flex items-end gap-2">
+                                <div class="flex items-end justify-end gap-2">
+                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                        @click="navigateTo(`/forms/${form.uuid}/edit`)">
+                                        <Icon name="ph:pencil-simple" class="size-4" />
+                                        {{ $t('forms.table.actions.edit') }}
+                                    </FormButton>
                                     <FormButton type="button" buttonStyle="action" class="rounded-md"
                                         @click="deleteConfirmation(form)">
                                         <Icon name="ph:trash" class="size-4" />
@@ -35,7 +40,7 @@
                                     </FormButton>
                                     <FormButton type="button" buttonStyle="action" class="rounded-md"
                                         @click="navigateTo(`/forms/${form.uuid}/respond`)">
-                                        <Icon name="ph:pencil" class="size-4" />
+                                        <Icon name="ph:pencil-simple" class="size-4" />
                                         {{ $t('forms.table.actions.createResponse') }}
                                     </FormButton> -->
                                 </div>

@@ -119,7 +119,7 @@
                                             <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                                 @click="sendEmail(contact)"
                                                 v-if="contact?.email && userStore.getUser?.has_secure_mail_access">
-                                                <Icon name="ph:pencil" class="size-4" />
+                                                <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.contacts.table.action.sendEmail') }}
                                             </FormButton>
                                         </div>

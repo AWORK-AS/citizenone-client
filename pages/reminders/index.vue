@@ -53,7 +53,7 @@
                                         {{ $t('reminders.table.actions.view') }}
                                     </FormButton>
                                     <FormButton class="rounded-md" buttonSize="sm" @click="editReminder(reminder)">
-                                        <Icon name="ph:pencil" class="h-4 w-4" aria-hidden="true" />
+                                        <Icon name="ph:pencil-simple" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('reminders.table.actions.edit') }}
                                     </FormButton>
                                     <FormButton class="rounded-md" buttonSize="sm"
