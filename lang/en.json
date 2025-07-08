@@ -1870,6 +1870,7 @@
     "dailyOverview": {
         "addDailyEvents": "Add daily events",
         "bulletBoard": "Bullet board",
+        "calendar": "Calendar",
         "campaign": "Campaign",
         "citizensAddictions": "Citizens substance abuse",
         "citizensAdmissionAndDischarged": {
@@ -1895,6 +1896,7 @@
             "filterDailyOverview": "Filter daily overview",
             "items": {
                 "bulletBoard": "Bullet board",
+                "calendar": "Calendar",
                 "citizensAddictions": "Citizens substance abuse",
                 "citizensAdmissionAndDischarged": "Citizens admission and discharged",
                 "citizensDailyEvents": "Citizens daily events",

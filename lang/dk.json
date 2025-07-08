@@ -1870,6 +1870,7 @@
     "dailyOverview": {
         "addDailyEvents": "Tilføj daglige begivenheder",
         "bulletBoard": "Opslagstavle",
+        "calendar": "Kalender",
         "campaign": "Kampagne",
         "citizensAddictions": "Borgers stofmisbrug",
         "citizensAdmissionAndDischarged": {
@@ -1895,6 +1896,7 @@
             "filterDailyOverview": "Filtrer dagligt overblik",
             "items": {
                 "bulletBoard": "Opslagstavle",
+                "calendar": "Kalender",
                 "citizensAddictions": "Borgers stofmisbrug",
                 "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
                 "citizensDailyEvents": "Borgeres daglige begivenheder",

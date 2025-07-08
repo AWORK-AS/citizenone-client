@@ -26,7 +26,7 @@
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowMyDailyEvents()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents" />
-                            {{ $t('dailyOverview.filter.items.myDailyEvents') }}
+                            {{ $t('dailyOverview.filter.items.calendar') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowBulletBoard()">

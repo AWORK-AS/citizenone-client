@@ -3,7 +3,7 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('dailyOverview.myDailyEvents') }}
+            {{ $t('dailyOverview.calendar') }}
         </h3>
 
         <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
@@ -38,9 +38,9 @@
                             </div>
                             <div>
                                 <p>
-                                    {{ formatTimeToReadable(myCalendarEvent.date_time_start) }}
+                                    {{ formatDateTimeToReadable(myCalendarEvent.date_time_start) }}
                                     -
-                                    {{ formatTimeToReadable(myCalendarEvent.date_time_end) }}
+                                    {{ formatDateTimeToReadable(myCalendarEvent.date_time_end) }}
                                 </p>
                             </div>
                         </div>
@@ -63,7 +63,7 @@ const props = defineProps({
     },
 })
 
-const { formatTimeToReadable } = useDatetimeFormatter()
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 
 const state = reactive({
     isPageLoading: false,
