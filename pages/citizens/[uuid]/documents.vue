@@ -60,7 +60,7 @@
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isCreateTemplateOpen = true">
                             <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.documents.createTemplate.createTemplate') }}
+                            {{ $t('citizens.documents.createTemplate.createReport') }}
                         </FormButton>
                     </div>
                 </div>

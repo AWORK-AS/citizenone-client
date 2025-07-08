@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('citizens.documents.createTemplate.createTemplate')" :show="props.isModalOpen"
+        <Modal size="xl" :title="$t('citizens.documents.createTemplate.createReport')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -223,7 +223,7 @@ async function fetchAllGoalsPerPlan(planUuid: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await goalService.getAllGoals(planUuid)
+        const response = await goalService.getAllGoalsPerPlan(planUuid)
         if (response.data) {
             let options: any = []
             response.data.forEach(
