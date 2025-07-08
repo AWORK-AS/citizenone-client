@@ -77,15 +77,15 @@ watch(() => props.isModalOpen, (isModalOpen) => {
             medicine: props.selectedMedicine?.medicine?.uuid,
             dosage: props.selectedMedicine?.dosage?.uuid,
             schedule_frequency: props.selectedMedicine?.schedule_frequency,
-            current_stocks: props.selectedMedicine?.current_stocks,
+            current_stocks: props.selectedMedicine?.current_stocks ?? '',
             strength: props.selectedMedicine?.strength,
             max_daily_dose: props.selectedMedicine?.max_daily_dose,
             max_dosage_per_time: props.selectedMedicine?.max_dosage_per_time,
             package_leaflet_link: props.selectedMedicine?.package_leaflet_link,
-            start_date: props.selectedMedicine?.start_date,
-            end_date: props.selectedMedicine?.end_date,
-            doctor: props.selectedMedicine?.doctor,
-            treatment_reason: props.selectedMedicine?.treatment_reason,
+            start_date: props.selectedMedicine?.start_date ?? '',
+            end_date: props.selectedMedicine?.end_date ?? '',
+            doctor: props.selectedMedicine?.doctor ?? '',
+            treatment_reason: props.selectedMedicine?.treatment_reason ?? '',
             medication_storage: props.selectedMedicine?.medication_storage,
             active_ingredients: props.selectedMedicine?.active_ingredients,
             description: props.selectedMedicine?.description,
@@ -114,7 +114,7 @@ async function updateMedicine(medicineDetails: any) {
         params.append('package_leaflet_link', medicineDetails.package_leaflet_link)
         params.append('start_date', medicineDetails.start_date)
         params.append('end_date', medicineDetails.end_date)
-        params.append('doctor_uuid', medicineDetails.doctor)
+        params.append('doctor_uuid', medicineDetails.doctor ?? '')
         params.append('treatment_reason', medicineDetails.treatment_reason)
         params.append('medication_storage', medicineDetails.medication_storage)
         params.append('active_ingredients', medicineDetails.active_ingredients)

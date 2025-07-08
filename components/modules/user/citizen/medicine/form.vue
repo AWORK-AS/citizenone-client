@@ -378,9 +378,6 @@ const rules = computed(() => {
                     schedule_frequency: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    current_stocks: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
                 },
             }
         }
@@ -407,9 +404,6 @@ const rules = computed(() => {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     description: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
-                    current_stocks: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                 },
@@ -439,9 +433,6 @@ const rules = computed(() => {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     schedule_frequency: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
-                    current_stocks: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                 },
