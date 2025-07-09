@@ -368,6 +368,16 @@
                                                                     {{ citizenSchedule?.citizen?.lastname }}
                                                                 </p>
                                                             </div>
+                                                            <div class="text-xxs text-white px-1 py-0.5">
+                                                                {{ $t('departments.departments') }}:
+                                                                <span
+                                                                    v-for="(department, departmentIndex) in shift?.departments"
+                                                                    :key="departmentIndex">
+                                                                    {{ department?.name }}<span
+                                                                        v-if="departmentIndex < weeklySchedule.employee.departments.length - 1">,
+                                                                    </span><span v-else>.</span>
+                                                                </span>
+                                                            </div>
                                                             <div class="flex items-center flex-wrap gap-y-0.5 mt-1"
                                                                 v-if="shift?.tags?.length > 0">
                                                                 <Tooltip :text="tag?.tag"
@@ -816,6 +826,7 @@ async function saveShift(shiftDetails: any) {
         user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
         citizen_uuid: shiftDetails?.citizens,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
+        department_uuid: shiftDetails.department_uuid,
         use_compensatory_time: shiftDetails.use_compensatory_time,
     }
     saveDutySchedule(params)
@@ -1074,6 +1085,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
         citizen_uuid: shiftDetails.citizens,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
+        department_uuid: shiftDetails.department_uuid,
     }
     updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
 }
