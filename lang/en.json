@@ -2095,6 +2095,7 @@
             "citizens": "Citizens",
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
+            "departments": "Departments",
             "description": "Description",
             "inMeeting": "In Meeting",
             "private": "Private",

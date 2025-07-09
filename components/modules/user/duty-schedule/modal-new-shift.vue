@@ -44,6 +44,7 @@ const state = reactive({
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
         citizens: [],
         schedule_tag_uuid: [],
+        department_uuid: [],
         use_compensatory_time: false,
     },
 })

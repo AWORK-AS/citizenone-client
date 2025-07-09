@@ -2095,6 +2095,7 @@
             "citizens": "Borgere",
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",
+            "departments": "Afdelinger",
             "description": "Beskrivelse",
             "inMeeting": "I møde",
             "private": "Privat",
