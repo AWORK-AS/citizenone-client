@@ -50,7 +50,7 @@
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('shifts.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                 @click="deleteShiftConfirmation(shift)" v-if="shift?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('shifts.table.actions.delete') }}

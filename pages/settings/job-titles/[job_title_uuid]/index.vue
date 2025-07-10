@@ -51,7 +51,7 @@
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('jobSpecialties.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                 @click="deleteJobSpecialtyConfirmation(jobSpecialty)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('jobSpecialties.table.actions.delete') }}

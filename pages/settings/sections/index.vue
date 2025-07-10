@@ -42,7 +42,7 @@
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('sections.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                 @click="deleteSectionConfirmation(section)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('sections.table.actions.delete') }}

@@ -41,7 +41,7 @@
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('absences.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                 @click="deleteAbsenceConfirmation(absence)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('absences.table.actions.delete') }}

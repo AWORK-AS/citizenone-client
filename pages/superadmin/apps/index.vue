@@ -73,7 +73,7 @@
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('superadmin.apps.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                 @click="deleteConfirmation(app)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('superadmin.apps.table.actions.delete') }}

@@ -257,7 +257,7 @@
                                                 v-if="medicine?.is_deletable">
                                                 <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                                     @click="confirmMedicineDeletion(medicine)">
-                                                    <Icon name="ph:trash-duotone" class="size-4" />
+                                                    <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                         </div>

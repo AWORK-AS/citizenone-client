@@ -66,7 +66,7 @@
                                                 <Icon name="ph:download" class="size-4" />
                                                 {{ $t('protocols.table.actions.download') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                 @click="deleteProtocolConfirmation(protocol)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('protocols.table.actions.delete') }}
