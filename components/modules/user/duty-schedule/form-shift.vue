@@ -101,6 +101,13 @@
                 <FormError :error="v$?.formShift?.department_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="state?.error?.errors?.department_uuid?.[0]" />
             </div>
+            <div class="space-y-1">
+                <FormLabel for="note" :label="`${$t('dutySchedules.form.note')}.`" />
+                <FormTextArea id="note" name="note" :placeholder="$t('dutySchedules.form.note')"
+                    v-model="state.formShift.note" />
+                <FormError :error="v$?.formShift?.note?.$errors[0]?.$message.toString()" />
+                <FormError :error="state?.error?.errors?.note?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -162,6 +169,7 @@ const state = reactive({
         schedule_tag_uuid: [],
         department_uuid: [],
         use_compensatory_time: false,
+        note: '',
     },
     modal: {
         isAddDepartmentOpen: false,
@@ -190,6 +198,7 @@ onMounted(() => {
     state.formShift.citizens = props.selectedShift.citizens
     state.formShift.schedule_tag_uuid = props.selectedShift.schedule_tag_uuid
     state.formShift.department_uuid = props.selectedShift.department_uuid
+    state.formShift.note = props.selectedShift.note
 })
 
 watch(() => state.formShift.shift_type, (newValue) => {

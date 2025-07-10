@@ -2105,6 +2105,7 @@
             "departments": "Departments",
             "description": "Description",
             "inMeeting": "In Meeting",
+            "note": "Note",
             "private": "Private",
             "tags": "Tags",
             "title": "Title",

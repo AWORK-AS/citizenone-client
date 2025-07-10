@@ -1062,6 +1062,7 @@ async function saveShift(shiftDetails: any) {
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
         department_uuid: shiftDetails.department_uuid,
         use_compensatory_time: shiftDetails.use_compensatory_time,
+        note: shiftDetails.note,
     }
     saveDutySchedule(params)
 }
@@ -1287,6 +1288,7 @@ function editSchedule(employee: any, weeklyScheduleIndex: number, weekIndex: any
         shift_type: shift?.type,
         tags: shift?.tags,
         departments: shift?.departments,
+        note: shift?.note,
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,
@@ -1308,6 +1310,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         citizen_uuid: shiftDetails.citizens,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
         department_uuid: shiftDetails.department_uuid,
+        note: shiftDetails.note,
     }
     updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
 }

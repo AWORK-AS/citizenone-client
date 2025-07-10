@@ -46,6 +46,7 @@ const state = reactive({
         schedule_tag_uuid: [],
         department_uuid: [],
         use_compensatory_time: false,
+        note: '',
     },
 })
 

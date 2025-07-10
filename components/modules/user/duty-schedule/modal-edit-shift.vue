@@ -46,6 +46,7 @@ const state = reactive({
         schedule_tag_uuid: [] as any,
         department_uuid: [] as any,
         use_compensatory_time: false,
+        note: '',
     },
 })
 
@@ -72,6 +73,7 @@ watch(() => props.selectedEmployeeSchedule, (selectedEmployeeSchedule: any) => {
         selectedEmployeeSchedule?.departments?.forEach((department: any) => {
             state.formShift.department_uuid.push(department.uuid)
         })
+        state.formShift.note = selectedEmployeeSchedule?.note
     }
 })
 
