@@ -1345,12 +1345,12 @@
                 "skinAndMucousMembranes": "Hud og slimhinder",
                 "communication": "Kommunikation",
                 "psychosocialConditions": "Psykosociale forhold",
-                "respirationAndCirculation": "Respiration og cirkulation",
+                "respirationAndCirculation": "Respiration og kredsløb",
                 "sexuality": "Seksualitet",
-                "painAndSensoryImpressions": "Smerter og sanseindtryk",
+                "painAndSensoryImpressions": "Smerte og sanseindtryk",
                 "sleepAndRest": "Søvn og hvile",
                 "knowledgeAndDevelopment": "Viden og udvikling",
-                "excretionOfWaste": "Udskillelse af affaldsstoffer"
+                "excretionOfWaste": "Affaldsudskillelse"
             },
             "newNursingProfessionalRecords": "Ny sundhedsfaglig optegnelse",
             "nursingProfessionalRecords": "Sundhedsfaglige optegnelser",
@@ -1361,8 +1361,8 @@
                 },
                 "areaTypes": {
                     "areaType": "Områdetype",
-                    "functionalLevel": "Funktionelt niveau",
-                    "musculoskeletalSystem": "Muskuloskeletalt system",
+                    "functionalLevel": "Funktionsniveau",
+                    "musculoskeletalSystem": "Bevægeapparat",
                     "nutrition": "Ernæring",
                     "skinAndMucousMembranes": "Hud og slimhinder",
                     "communication": "Kommunikation",
@@ -1430,12 +1430,12 @@
                 "skinAndMucousMembranes": "Hud og slimhinder",
                 "communication": "Kommunikation",
                 "psychosocialConditions": "Psykosociale forhold",
-                "respirationAndCirculation": "Respiration og cirkulation",
+                "respirationAndCirculation": "Respiration og kredsløb",
                 "sexuality": "Seksualitet",
-                "painAndSensoryImpressions": "Smerter og sanseindtryk",
+                "painAndSensoryImpressions": "Smerte og sanseindtryk",
                 "sleepAndRest": "Søvn og hvile",
                 "knowledgeAndDevelopment": "Viden og udvikling",
-                "excretionOfWaste": "Udskillelse af affaldsstoffer"
+                "excretionOfWaste": "Affaldsudskillelse"
             },
             "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal"
         },
@@ -1508,8 +1508,8 @@
             "form": {
                 "areaTypes": {
                     "areaType": "Områdetype",
-                    "functionalLevel": "Funktionelt niveau",
-                    "musculoskeletalSystem": "Muskuloskeletalt system",
+                    "functionalLevel": "Funktionsniveau",
+                    "musculoskeletalSystem": "Bevægeapparat",
                     "nutrition": "Ernæring",
                     "skinAndMucousMembranes": "Hud og slimhinder",
                     "communication": "Kommunikation",
@@ -1545,8 +1545,8 @@
                 },
                 "areaTypes": {
                     "areaType": "Områdetype",
-                    "functionalLevel": "Funktionelt niveau",
-                    "musculoskeletalSystem": "Muskuloskeletalt system",
+                    "functionalLevel": "Funktionsniveau",
+                    "musculoskeletalSystem": "Bevægeapparat",
                     "nutrition": "Ernæring",
                     "skinAndMucousMembranes": "Hud og slimhinder",
                     "communication": "Kommunikation",
@@ -1607,8 +1607,8 @@
                 },
                 "areaTypes": {
                     "healthProfessionalDocumentation": "Sundhedsfaglig dokumentation",
-                    "functionalLevel": "Funktionelt niveau",
-                    "musculoskeletalSystem": "Muskuloskeletalt system",
+                    "functionalLevel": "Funktionsniveau",
+                    "musculoskeletalSystem": "Bevægeapparat",
                     "nutrition": "Ernæring",
                     "skinAndMucousMembranes": "Hud og slimhinder",
                     "communication": "Kommunikation",
