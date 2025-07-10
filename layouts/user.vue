@@ -248,24 +248,28 @@
                         <ModulesUserNavbarSubscribeButton
                             v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null"
                             class="hidden md:block" />
-                        <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
-                            @click="navigateTo('/journal-notifications')">
+                        <button type="button" class="mr-2 p-2.5 relative text-primary hover:text-primary-700"
+                            @click="navigateTo('/journal-notifications')"
+                            v-if="userStore.getUser?.unread_notification_count > 0">
                             <Icon name="ph:bell" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
-                            <Badge type="notification" class="w-fit absolute -top-4 left-4">
+                            <Badge type="notification"
+                                class="w-5 h-5 flex items-center justify-center absolute -top-4 left-4">
                                 {{ userStore.getUser?.unread_notification_count ?? 0 }}
                             </Badge>
                         </button>
 
-                        <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
-                            @click="navigateTo('/messages')">
+                        <button type="button" class="mr-2 p-2.5 relative text-primary hover:text-primary-700"
+                            @click="navigateTo('/messages')" v-if="userStore.getUser?.unread_messages_count > 0">
                             <Icon name="ph:chat-circle" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
-                            <Badge type="notification" class="w-fit absolute -top-4 left-4">
+                            <Badge type="notification"
+                                class="w-5 h-5 flex items-center justify-center absolute -top-4 left-4">
                                 {{ userStore.getUser?.unread_messages_count ?? 0 }}
                             </Badge>
                         </button>
 
                         <!-- Separator -->
-                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
+                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true"
+                            v-if="userStore.getUser?.unread_notification_count > 0 || userStore.getUser?.unread_messages_count > 0" />
 
                         <button type="button"
                             class="-m-2.5 p-2.5 flex items-center gap-x-2 text-sm text-primary hover:text-primary-700"
