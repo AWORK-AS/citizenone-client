@@ -161,9 +161,6 @@ function changeTab(value: any) {
     else if (value === t('settings.tabs.company')) {
         navigateTo(`/settings/company`)
     }
-    else if (value === t('settings.tabs.customPages')) {
-        navigateTo(`/settings/custom-pages`)
-    }
     else if (value === t('settings.tabs.invoices')) {
         navigateTo(`/settings/invoices`)
     }
@@ -182,26 +179,14 @@ function changeTab(value: any) {
     else if (value === t('settings.tabs.catalog')) {
         navigateTo(`/settings/absences`)
     }
-    else if (value === t('settings.tabs.departments')) {
-        navigateTo(`/settings/departments`)
-    }
-    else if (value === t('settings.tabs.addictions')) {
-        navigateTo(`/settings/addictions`)
-    }
-    else if (value === t('settings.tabs.diagnoses')) {
-        navigateTo(`/settings/diagnoses`)
-    }
-    else if (value === t('settings.tabs.jobTitles')) {
-        navigateTo(`/settings/job-titles`)
-    }
     else if (value === t('settings.tabs.activityLogs')) {
         navigateTo(`/settings/activity-logs`)
     }
     else if (value === t('settings.tabs.timeLogs')) {
         navigateTo(`/settings/time-logs`)
     }
-    else if (value === t('settings.tabs.JournalNotes')) {
-        navigateTo(`/settings/journal-note-tags`)
+    else if (value === t('settings.tabs.other')) {
+        navigateTo(`/settings/custom-pages`)
     }
 }
 </script>

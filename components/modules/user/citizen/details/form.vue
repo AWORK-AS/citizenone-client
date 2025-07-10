@@ -169,10 +169,13 @@
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
-                    <FormLabel for="addictions" :label="$t('citizens.form.addictions')" />
+                    <FormLabel for="addictions" :label="customPagesStore.getCustomPagesName?.addictions" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                         @click="state.modal.isAddAddictionOpen = true">
-                        {{ $t('addictions.addNewAddiction') }}
+                        {{ $t('addictions.addNew') }}
+                        <span class="lowercase">
+                            {{ customPagesStore.getCustomPagesName?.addictions }}
+                        </span>
                     </span>
                 </div>
                 <FormSelectMultiple id="addictions" :options="state.options.addictions"
@@ -361,6 +364,7 @@ import { cityService } from '@/components/api/user/CityService'
 import { foreignCityService } from '@/components/api/user/ForeignCityService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 
 const userStore = useUserStore() as any
@@ -369,6 +373,7 @@ const language = useI18n()
 const citizenImage = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
 const router = useRouter()
+const customPagesStore = useCustomPagesStore() as any
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
 const props = defineProps({

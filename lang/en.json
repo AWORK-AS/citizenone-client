@@ -28,16 +28,22 @@
         }
     },
     "addictions": {
+        "addNew": "Add new",
         "addNewAddiction": "Add new substance abuse",
         "addictions": "Substance abuse",
+        "edit": "Edit",
         "editAddiction": "Edit substance abuse",
         "form": {
             "alert": {
                 "addictionSuccessfullyUpdated": "Substance abuse successfully updated",
-                "newAddictionSuccessfullySaved": "New substance abuse successfully saved"
+                "new": "New",
+                "newAddictionSuccessfullySaved": "New substance abuse successfully saved",
+                "successfullySaved": "Successfully saved",
+                "successfullyUpdated": "Successfully updated"
             },
             "name": "Name"
         },
+        "new": "New",
         "newAddiction": "New substance abuse",
         "table": {
             "actions": {
@@ -1873,6 +1879,7 @@
         "bulletBoard": "Bullet board",
         "calendar": "Calendar",
         "campaign": "Campaign",
+        "citizens": "Citizens",
         "citizensAddictions": "Citizens substance abuse",
         "citizensAdmissionAndDischarged": {
             "citizensAdmissionAndDischarged": "Citizens admission and discharged",

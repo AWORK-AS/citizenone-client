@@ -3,9 +3,11 @@
 </template>
 
 <script setup lang="ts">
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 
+const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore()
 const { t } = useI18n()
 
@@ -25,11 +27,11 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
-                name: 'settings.tabs.addictions',
-                isTranslateName: true,
-                href: `/settings/substance-abuse`,
+                name: customPagesStore.getCustomPagesName?.addictions,
+                isTranslateName: false,
+                href: `/settings/addictions`,
                 routeNames: [
-                    'settings-substance-abuse'
+                    'settings-addictions'
                 ]
             },
             {
@@ -150,8 +152,14 @@ function changeTab(value: any) {
     else if (value === t('settings.tabs.departments')) {
         navigateTo(`/settings/departments`)
     }
-    else if (value === t('settings.tabs.addictions')) {
+    else if (value === t('settings.tabs.bookingTags')) {
+        navigateTo(`/settings/booking-tags`)
+    }
+    else if (value === customPagesStore.getCustomPagesName?.addictions) {
         navigateTo(`/settings/addictions`)
+    }
+    else if (value === t('settings.tabs.calendarTags')) {
+        navigateTo(`/settings/calendar-tags`)
     }
     else if (value === t('settings.tabs.diagnoses')) {
         navigateTo(`/settings/diagnoses`)
@@ -170,6 +178,9 @@ function changeTab(value: any) {
     }
     else if (value === t('settings.tabs.medicines')) {
         navigateTo(`/settings/medicines`)
+    }
+    else if (value === t('settings.tabs.scheduleTags')) {
+        navigateTo(`/settings/schedule-tags`)
     }
     else if (value === t('settings.tabs.sections')) {
         navigateTo(`/settings/sections`)

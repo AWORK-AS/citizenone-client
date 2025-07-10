@@ -591,7 +591,7 @@ watch(() => userStore.getUser, (user: any) => {
     }
 })
 
-watch(() => language.locale.value, (newLanguage: value) => {
+watch(() => language.locale.value, (newLanguage: any) => {
     setCustomPageNames()
     if (newLanguage === 'en') {
         if (departmentStore.getSelectedDepartmentName === 'Alle afdelinger') {
@@ -706,14 +706,17 @@ function isAdmin(roles: any) {
 
 function setCustomPageNames() {
     const selectedLanguage = language.locale.value
+    const customPageAddictions = customPage('addictions')
     const customPageCitizens = customPage('citizens')
     const customPageDutySchedules = customPage('duty_schedules')
     const customPageRiskAssessment = customPage('risk_assessment')
     const customNameGiveMedicine = customPage('give_medicine')
+    const addictionsName = selectedLanguage === 'en' ? customPageAddictions?.en_name : customPageAddictions?.dk_name
     const citizensName = selectedLanguage === 'en' ? customPageCitizens?.en_name : customPageCitizens?.dk_name
     const dutySchedulesName = selectedLanguage === 'en' ? customPageDutySchedules?.en_name : customPageDutySchedules?.dk_name
     const riskAssessmentName = selectedLanguage === 'en' ? customPageRiskAssessment?.en_name : customPageRiskAssessment?.dk_name
     const giveMedicineName = selectedLanguage === 'en' ? customNameGiveMedicine?.en_name : customNameGiveMedicine?.dk_name
+    customPagesStore.setAddictionsNaming(addictionsName)
     customPagesStore.setCitizensNaming(citizensName)
     customPagesStore.setDutySchedulesNaming(dutySchedulesName)
     customPagesStore.setRiskAssessmentNaming(riskAssessmentName)

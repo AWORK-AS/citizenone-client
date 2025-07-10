@@ -28,16 +28,22 @@
         }
     },
     "addictions": {
+        "addNew": "Tilføj ny",
         "addNewAddiction": "Tilføj ny stofmisbrug",
         "addictions": "Stofmisbrug",
+        "edit": "Rediger",
         "editAddiction": "Rediger stofmisbrug",
         "form": {
             "alert": {
                 "addictionSuccessfullyUpdated": "Stofmisbrug opdateret med succes",
-                "newAddictionSuccessfullySaved": "Ny stofmisbrug gemt med succes"
+                "new": "Ny",
+                "newAddictionSuccessfullySaved": "Ny stofmisbrug gemt med succes",
+                "successfullySaved": "Gemt med succes",
+                "successfullyUpdated": "Opdateret med succes"
             },
             "name": "Navn"
         },
+        "new": "Ny",
         "newAddiction": "Ny stofmisbrug",
         "table": {
             "actions": {
@@ -1873,6 +1879,7 @@
         "bulletBoard": "Opslagstavle",
         "calendar": "Kalender",
         "campaign": "Kampagne",
+        "citizens": "Borgere",
         "citizensAddictions": "Borgers stofmisbrug",
         "citizensAdmissionAndDischarged": {
             "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",

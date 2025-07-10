@@ -4,6 +4,7 @@ export const useCustomPagesStore = defineStore('customPagesStore', {
     persist: true,
     state: () => ({
         customName: {
+            addictions: 'asdasda',
             citizens: '',
             dutySchedules: '',
             giveMedicine: '',
@@ -11,6 +12,9 @@ export const useCustomPagesStore = defineStore('customPagesStore', {
         },
     }),
     actions: {
+        setAddictionsNaming(name) {
+            this.customName.addictions = name
+        },
         setCitizensNaming(name) {
             this.customName.citizens = name
         },

@@ -1,7 +1,10 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
         <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('dailyOverview.citizensAddictions') }}
+            {{ $t('dailyOverview.citizens') }}
+            <span class="lowercase">
+                {{ customPagesStore.getCustomPagesName?.addictions }}
+            </span>
         </h3>
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
@@ -33,6 +36,7 @@
 
 <script setup lang="ts">
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
@@ -42,6 +46,7 @@ const state = reactive({
     error: {} as Error,
 })
 
+const customPagesStore = useCustomPagesStore() as any
 const departmentStore = useDepartmentStore()
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
