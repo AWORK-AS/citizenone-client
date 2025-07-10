@@ -2532,11 +2532,12 @@
                 "calendar": "Kalender",
                 "edit": "Rediger",
                 "giveBookingAccess": "Giv booking adgang",
-                "giveSecureMailAccess": "Giv adgang til sikker mail",
-                "message": "Besked",
+                "giveSecureMail": "Giv Sikker Mail",
+                "message": "Chat",
                 "removeSecureMailAccess": "Fjern adgang til sikker mail",
                 "view": "Se"
             },
+            "admin": "Administrator",
             "alert": {
                 "bookingAccessGranted": "Booking adgang givet",
                 "bookingAccessRemoved": "Booking adgang fjernet",
@@ -2546,7 +2547,8 @@
             "email": "E-mail",
             "name": "Navn",
             "phone": "Telefon",
-            "role": "Rolle"
+            "role": "Rolle",
+            "user": "Bruger"
         },
         "tabs": {
             "dutySchedule": "Vagtplan",

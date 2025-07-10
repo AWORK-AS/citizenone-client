@@ -2532,11 +2532,12 @@
                 "calendar": "Calendar",
                 "edit": "Edit",
                 "giveBookingAccess": "Give booking access",
-                "giveSecureMailAccess": "Give secure mail access",
+                "giveSecureMail": "Give secure mail",
                 "message": "Message",
                 "removeSecureMailAccess": "Remove secure mail access",
                 "view": "View"
             },
+            "admin": "Admin",
             "alert": {
                 "bookingAccessGranted": "Booking access granted",
                 "bookingAccessRemoved": "Booking access removed",
@@ -2546,7 +2547,8 @@
             "email": "Email",
             "name": "Name",
             "phone": "Phone",
-            "role": "Role"
+            "role": "Role",
+            "user": "User"
         },
         "tabs": {
             "dutySchedule": "Duty schedule",

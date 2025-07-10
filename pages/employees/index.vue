@@ -49,7 +49,12 @@
                                     <td width="15%">
                                         <div class="flex items-center gap-x-2" v-for="(role, index) in employee?.roles"
                                             :key="index">
-                                            <span>{{ role.name }}</span>
+                                            <span v-if="role.name === 'Admin'">
+                                                {{ $t('employees.table.admin') }}
+                                            </span>
+                                            <span v-if="role.name === 'User'">
+                                                {{ $t('employees.table.user') }}
+                                            </span>
                                         </div>
                                     </td>
                                     <td width="20%">
@@ -86,7 +91,7 @@
                                                     {{ $t('employees.table.actions.removeSecureMailAccess') }}
                                                 </span>
                                                 <span v-else>
-                                                    {{ $t('employees.table.actions.giveSecureMailAccess') }}
+                                                    {{ $t('employees.table.actions.giveSecureMail') }}
                                                 </span>
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
