@@ -2542,7 +2542,8 @@
                 "bookingAccessGranted": "Booking adgang givet",
                 "bookingAccessRemoved": "Booking adgang fjernet",
                 "secureMailAccessGranted": "Adgang til sikker mail givet",
-                "secureMailAccessRemoved": "Adgang til sikker mail fjernet"
+                "secureMailAccessRemoved": "Adgang til sikker mail fjernet",
+                "secureMailLicenseInstruction": "Du kan få flere Sikker Mail licenser ved at klikke her"
             },
             "email": "E-mail",
             "name": "Navn",

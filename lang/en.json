@@ -2542,7 +2542,8 @@
                 "bookingAccessGranted": "Booking access granted",
                 "bookingAccessRemoved": "Booking access removed",
                 "secureMailAccessGranted": "Secure mail access granted",
-                "secureMailAccessRemoved": "Secure mail access removed"
+                "secureMailAccessRemoved": "Secure mail access removed",
+                "secureMailLicenseInstruction": "You can get more Secure Mail licenses by clicking here"
             },
             "email": "Email",
             "name": "Name",
