@@ -1286,6 +1286,7 @@ function editSchedule(employee: any, weeklyScheduleIndex: number, weekIndex: any
         date: date,
         shift_type: shift?.type,
         tags: shift?.tags,
+        departments: shift?.departments,
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,

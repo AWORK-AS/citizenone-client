@@ -189,6 +189,7 @@ onMounted(() => {
     state.formShift.date_time_end = props.selectedShift.date_time_end
     state.formShift.citizens = props.selectedShift.citizens
     state.formShift.schedule_tag_uuid = props.selectedShift.schedule_tag_uuid
+    state.formShift.department_uuid = props.selectedShift.department_uuid
 })
 
 watch(() => state.formShift.shift_type, (newValue) => {
