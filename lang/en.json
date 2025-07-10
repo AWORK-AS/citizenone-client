@@ -1250,9 +1250,9 @@
                     },
                     "comment": "Comment",
                     "date": "Date",
-                    "dailyDose": "Daily dose",
+                    "dose": "Dose",
                     "evaluator": "Evaluator",
-                    "evaluationFrequency": "Evaluation frequency",
+                    "evaluationFrequency": "What time do you want to evaluate",
                     "time": "Time",
                     "type": {
                         "type": "Type",
@@ -1271,11 +1271,11 @@
                         "delete": "Delete"
                     },
                     "comment": "Comment",
-                    "dailyDose": "Daily dose",
+                    "dose": "Dose",
                     "date": "Date",
                     "dateCreated": "Date created",
                     "evaluator": "Evaluator",
-                    "evaluationFrequency": "Evaluation frequency",
+                    "evaluationFrequency": "What time do you want to evaluate",
                     "type": {
                         "type": "Type",
                         "delivered": "Delivered",

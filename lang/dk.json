@@ -1249,10 +1249,10 @@
                         "successfullyUpdated": "Medicinhistorik opdateret med succes"
                     },
                     "comment": "Kommentar",
-                    "dailyDose": "Daglig dosis",
+                    "dose": "Dosis",
                     "date": "Dato",
                     "evaluator": "Evaluator",
-                    "evaluationFrequency": "Evalueringsfrekvens",
+                    "evaluationFrequency": "Hvornår vil du evaluere",
                     "time": "Tid",
                     "type": {
                         "type": "Type",
@@ -1271,11 +1271,11 @@
                         "delete": "Slet"
                     },
                     "comment": "Kommentar",
-                    "dailyDose": "Daglig dosis",
+                    "dose": "Dosis",
                     "date": "Dato",
                     "dateCreated": "Oprettelsesdato",
                     "evaluator": "Evaluator",
-                    "evaluationFrequency": "Evalueringsfrekvens",
+                    "evaluationFrequency": "Hvornår vil du evaluere",
                     "type": {
                         "type": "Type",
                         "delivered": "Udleveret",
