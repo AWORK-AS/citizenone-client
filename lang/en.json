@@ -2275,6 +2275,15 @@
         "typeofShift": "Type of shift",
         "typeofShifts": "Type of shifts",
         "viewCalendar": "View calendar",
+        "viewSchedule": {
+            "citizens": "Citizens",
+            "datetimeStart": "Date time start",
+            "dateTimeEnd": "Date time end",
+            "departments": "Departments",
+            "note": "Note",
+            "typeofShift": "Type of shift",
+            "viewSchedule": "View schedule"
+        },
         "week": "Week",
         "yearToDate": "Year to date"
     },

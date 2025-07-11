@@ -442,9 +442,8 @@
                                                                 width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                                 marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
                                                             }">
-                                                            <div class="flex justify-between text-white"
-                                                                :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
-                                                                @click="isAdmin(userStore.getUser?.roles) && editSchedule(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, shift, shiftIndex)">
+                                                            <div class="flex justify-between text-white cursor-pointer"
+                                                                @click="isAdmin(userStore.getUser?.roles) ? editSchedule(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, shift, shiftIndex) : viewSchedule(weeklyScheduleIndex, weekIndex, shift, shiftIndex)">
                                                                 <p
                                                                     class="w-full px-2 py-2 flex items-center justify-center border border-white rounded-tl-md rounded-bl-md">
                                                                     {{ moment(shift?.date_time_start).format('HH:mm') }}
@@ -470,7 +469,7 @@
                                                                     v-for="(department, departmentIndex) in shift?.departments"
                                                                     :key="departmentIndex">
                                                                     {{ department?.name }}<span
-                                                                        v-if="departmentIndex < weeklySchedule.employee.departments.length - 1">,
+                                                                        v-if="departmentIndex < shift?.departments.length - 1">,
                                                                     </span><span v-else>.</span>
                                                                 </span>
                                                             </div>
@@ -611,6 +610,9 @@
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
                 @updateShift="updateSelectedSchedule" />
+            <ModulesUserDutyScheduleModalViewShift :isModalOpen="state.modal.isViewShiftOpen"
+                :selectedEmployeeSchedule="state.viewShift.selectedEmployeeSchedule"
+                @close="state.modal.isViewShiftOpen = false" />
             <ModulesUserDutyScheduleTimeRequestsModalRequests
                 :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
                 :selectedDate="state.manageTimeRequest.selectedDate"
@@ -709,6 +711,7 @@ const state = reactive({
         isManageSwapScheduleRequestsOpen: false,
         isRequestTimeAdjustmentOpen: false,
         isRequestSwapScheduleOpen: false,
+        isViewShiftOpen: false,
     } as any,
     newShift: {
         selectedDate: '',
@@ -733,6 +736,9 @@ const state = reactive({
     isRemoveShift: false,
     isUpdateShift: false,
     originalWeeklySchedules: [] as any,
+    viewShift: {
+        selectedEmployeeSchedule: {},
+    } as any,
     weeklySchedules: [] as any,
     weeklySlots: {} as any,
 })
@@ -1272,6 +1278,27 @@ async function removeShift(week: any, weeklyScheduleIndex: number, weekIndex: nu
     } finally {
         state.isRemoveShift = false
     }
+}
+
+function viewSchedule(weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
+    const date = state.weeklySchedules[weeklyScheduleIndex].weeks[weekIndex].date
+    const userUuid = state.weeklySchedules[weeklyScheduleIndex].employee.uuid
+    state.viewShift.selectedEmployeeSchedule = {
+        citizen_schedules: shift?.citizen_schedules,
+        scheduleUuid: shift?.schedule_uuid,
+        date_time_start: shift?.date_time_start,
+        date_time_end: shift?.date_time_end,
+        user_uuid: userUuid,
+        date: date,
+        shift_type: shift?.type,
+        tags: shift?.tags,
+        departments: shift?.departments,
+        note: shift?.note,
+        weeklyScheduleIndex: weeklyScheduleIndex,
+        weekIndex: weekIndex,
+        shiftIndex: shiftIndex,
+    }
+    state.modal.isViewShiftOpen = true
 }
 
 function editSchedule(employee: any, weeklyScheduleIndex: number, weekIndex: any, shift: any, shiftIndex: number) {

@@ -2275,6 +2275,15 @@
         "typeofShift": "Vagttyper",
         "typeofShifts": "Vagttyper",
         "viewCalendar": "Se kalender",
+        "viewSchedule": {
+            "citizens": "Borgere",
+            "datetimeStart": "Dato og tid start",
+            "dateTimeEnd": "Dato og tid slut",
+            "departments": "Afdelinger",
+            "note": "Bemærkning",
+            "typeofShift": "Type af vagt",
+            "viewSchedule": "Se tidsplan"
+        },
         "week": "Uge",
         "yearToDate": "År til dato"
     },

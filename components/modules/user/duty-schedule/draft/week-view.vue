@@ -374,7 +374,7 @@
                                                                     v-for="(department, departmentIndex) in shift?.departments"
                                                                     :key="departmentIndex">
                                                                     {{ department?.name }}<span
-                                                                        v-if="departmentIndex < weeklySchedule.employee.departments.length - 1">,
+                                                                        v-if="departmentIndex < shift?.departments.length - 1">,
                                                                     </span><span v-else>.</span>
                                                                 </span>
                                                             </div>
