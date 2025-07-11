@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { scheduleRequestService } from '@/components/api/user/ScheduleRequestService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
@@ -51,8 +52,8 @@ const state = reactive({
 
 watch(() => props.selectedSchedule, (selectedSchedule: any) => {
     if (selectedSchedule) {
-        state.formScheduleSlot.time_in = selectedSchedule?.time_in
-        state.formScheduleSlot.time_out = selectedSchedule?.time_out
+        state.formScheduleSlot.time_in = moment(selectedSchedule?.date_time_start).format('HH:mm')
+        state.formScheduleSlot.time_out = moment(selectedSchedule?.date_time_end).format('HH:mm')
         state.formScheduleSlot.note = selectedSchedule?.note
     }
 })
