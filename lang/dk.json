@@ -2143,7 +2143,7 @@
                         "requestSuccessfullySent": "Anmodning sendt med succes"
                     },
                     "note": "Bemærkning",
-                    "sendRequest": "Send request",
+                    "sendRequest": "Send anmodning",
                     "timeIn": "Tid ind",
                     "timeOut": "Tid ud",
                     "whatDoYouWantTheEndTimeToBeChangeTo": "Hvad onsker du sluttiden ændret til",
