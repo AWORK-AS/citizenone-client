@@ -27,7 +27,7 @@
                 <div class="space-y-5">
                     <div v-if="state.error?.message && state.error.message.length > 0">
                         <div v-if="state?.error?.message === 'There are not enough Secure Mail licenses available.' || state?.error?.message === 'Der er ikke nok Sikker Mail licenser tilgængelige.'"
-                            @click="navigateTo('/apps')">
+                            @click="navigateTo('/apps')" class="cursor-pointer">
                             <div class="flex items-center px-4 py-3 mb-4 rounded-lg bg-red-100 text-black">
                                 <div>
                                     <svg class="flex-shrink-0 w-5 h-5 text-red-700 dark:text-red-800"
