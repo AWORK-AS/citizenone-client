@@ -54,6 +54,9 @@
                                                         <span v-if="item.name === 'Duty schedules'">
                                                             {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                                                         </span>
+                                                        <span v-if="item.name === 'Messages'">
+                                                            {{ $t('sidebar.messages') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Procedures'">
                                                             {{ $t('sidebar.procedures') }}
                                                         </span>
@@ -155,6 +158,9 @@
                                         </span>
                                         <span v-if="item.name === 'Duty schedules'">
                                             {{ customPagesStore.getCustomPagesName?.dutySchedules }}
+                                        </span>
+                                        <span v-if="item.name === 'Messages'">
+                                            {{ $t('sidebar.messages') }}
                                         </span>
                                         <span v-if="item.name === 'Procedures'">
                                             {{ $t('sidebar.procedures') }}
@@ -659,6 +665,15 @@ function generateSidebarLinks(user: any) {
         activeRouteNames: [
             'schedules',
             'schedules-draft'
+        ]
+    })
+    navigation.push({
+        name: 'Messages',
+        href: '/messages',
+        icon: 'ph:chat-circle',
+        activeRouteNames: [
+            'messages',
+            'messages-chat_uuid'
         ]
     })
     if (userHasPageAttendanceAccess) {

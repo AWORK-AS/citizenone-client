@@ -42,7 +42,7 @@ class MessageService extends BaseAPIService {
     }
 
     async downloadAttachment(attachmentUuid: any): Promise<any> {
-        return await this.request(`/relative/chat_message_attachments/${attachmentUuid}/download`, 'POST')
+        return await this.request(`/relative/chat-message-attachments/${attachmentUuid}/download`, 'POST')
     }
 
 }
