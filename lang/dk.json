@@ -811,6 +811,7 @@
                 "relatives": "Pårørende"
             }
         },
+        "departments": "Afdelinger",
         "diagnoses": "Diagnoser",
         "doctor": {
             "addNewDoctor": "Tilføj ny læge",

@@ -811,6 +811,7 @@
                 "relatives": "Relatives"
             }
         },
+        "departments": "Departments",
         "diagnoses": "Diagnoses",
         "doctor": {
             "addNewDoctor": "Add new doctor",

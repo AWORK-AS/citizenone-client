@@ -196,6 +196,14 @@
                             </div>
                             <div class="space-y-1.5">
                                 <div class="text-xs flex items-center flex-wrap gap-1"
+                                    v-if="state.selectedCitizen?.data?.departments?.length > 0">
+                                    <p>{{ $t('citizens.departments') }}:</p>
+                                    <span v-for="(department, index) in state.selectedCitizen?.data?.departments"
+                                        :key=index class="bg-primary p-1 text-white rounded-md text-xxs">
+                                        {{ department?.name }}
+                                    </span>
+                                </div>
+                                <div class="text-xs flex items-center flex-wrap gap-1"
                                     v-if="state.selectedCitizen?.data?.addictions?.length > 0">
                                     <p>
                                         {{ customPagesStore.getCustomPagesName?.addictions }}:
