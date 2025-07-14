@@ -194,24 +194,24 @@ const rules = computed(() => {
             name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            cvr: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            street: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            region: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            municipality: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            city: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            post_code: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
+            // cvr: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // street: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // region: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // municipality: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // city: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // post_code: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
         },
     }
 })
