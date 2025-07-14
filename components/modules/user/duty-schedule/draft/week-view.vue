@@ -145,7 +145,7 @@
                                     </div>
                                 </div>
 
-                                <div class="relative mt-0.5"
+                                <div class="relative mt-0.5 overflow-y-auto" style="max-height: 82vh;"
                                     @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule(weekNumber)"
                                     :class="[
                                         isWeeklyScheduleCopied(weekNumber) && 'border-1.5 border-dashed border-gray-700',
