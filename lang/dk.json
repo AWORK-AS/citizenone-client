@@ -963,6 +963,7 @@
             "download": "Download",
             "downloadJournals": {
                 "downloadJournals": "Download journaler",
+                "include": "Inkluder",
                 "includeRiskAssessment": "Inkluder risikovurdering"
             },
             "editJournal": "Rediger Journal",
