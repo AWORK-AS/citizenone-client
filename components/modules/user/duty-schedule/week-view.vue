@@ -231,14 +231,17 @@
                                                                 {{ weeklySchedule?.employee?.lastname }}
                                                             </p>
                                                         </div>
-                                                        <Tooltip :text="$t('dutySchedules.copy.copyEmployeeSchedule')">
-                                                            <button
-                                                                class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                                @click="copyEmployeeWeeklySchedule(weeklySchedule)">
-                                                                <Icon name="mdi:content-copy" class="h-3 w-3"
-                                                                    aria-hidden="true" />
-                                                            </button>
-                                                        </Tooltip>
+                                                        <div>
+                                                            <Tooltip position="left"
+                                                                :text="$t('dutySchedules.copy.copyEmployeeSchedule')">
+                                                                <button
+                                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                                    @click="copyEmployeeWeeklySchedule(weeklySchedule)">
+                                                                    <Icon name="mdi:content-copy" class="h-3 w-3"
+                                                                        aria-hidden="true" />
+                                                                </button>
+                                                            </Tooltip>
+                                                        </div>
                                                     </div>
                                                     <div class="-mt-2 ml-12">
                                                         <p class="text-xxs">
@@ -371,7 +374,7 @@
                                                             <div>
                                                                 <MenuButton
                                                                     class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
-                                                                    <Tooltip :text="`
+                                                                    <Tooltip position="left" :text="`
                                                                         ${week?.additional_hour_requests} ${week?.additional_hour_requests <= 1 ? $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest') : $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')} | 
                                                                         ${week?.swap_requests} ${week?.swap_requests === 1 ? $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest') : $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')}
                                                                         `"
@@ -418,7 +421,7 @@
                                                                 </MenuItems>
                                                             </transition>
                                                         </Menu>
-                                                        <Tooltip :text="$t('dutySchedules.copy.copy')">
+                                                        <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
                                                             <button
                                                                 class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                                 @click="copyEmployeeDailySchedule(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
@@ -426,7 +429,8 @@
                                                                     aria-hidden="true" />
                                                             </button>
                                                         </Tooltip>
-                                                        <Tooltip :text="$t('dutySchedules.newSchedule')">
+                                                        <Tooltip position="left"
+                                                            :text="$t('dutySchedules.newSchedule')">
                                                             <button
                                                                 class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
                                                                 @click="openAddNewShiftModal(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, week)">
@@ -504,7 +508,7 @@
                                                                     <div>
                                                                         <MenuButton
                                                                             class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
-                                                                            <Tooltip
+                                                                            <Tooltip position="left"
                                                                                 :text="$t('dutySchedules.scheduleRequests.newRequest')">
                                                                                 <Icon name="ic:baseline-question-mark"
                                                                                     class="h-2.5 w-2.5"
