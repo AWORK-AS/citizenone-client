@@ -55,10 +55,18 @@
                                         <div class="flex items-center gap-3">
                                             <img :src="app.logo" alt="App logo" class="w-10" />
                                             <div class="leading-none">
-                                                <h4
-                                                    class="text-muted-800 dark:text-muted-100 font-sans text-sm font-medium">
+                                                <h4 class="text-muted-800 text-sm font-medium">
                                                     {{ app.name }}
                                                 </h4>
+                                                <p class="text-muted-800 text-xs">
+                                                    <span v-if="app?.is_one_time_fee">
+                                                        {{ formatAmount(app?.price) }}
+                                                    </span>
+                                                    <span v-else>
+                                                        {{ formatAmount(app?.monthly_price) }}
+                                                        <span class="lowercase">/{{ $t('apps.month') }}</span>
+                                                    </span>
+                                                </p>
                                             </div>
                                         </div>
                                         <Badge type="primary" class="text-xxs truncate w-fit h-fit"
@@ -129,6 +137,15 @@
                                                     class="text-muted-800 dark:text-muted-100 font-sans text-sm font-medium">
                                                     {{ app.name }}
                                                 </h4>
+                                                <p class="text-muted-800 text-xs">
+                                                    <span v-if="app?.is_one_time_fee">
+                                                        {{ formatAmount(app?.price) }}
+                                                    </span>
+                                                    <span v-else>
+                                                        {{ formatAmount(app?.monthly_price) }}
+                                                        <span class="lowercase">/{{ $t('apps.month') }}</span>
+                                                    </span>
+                                                </p>
                                             </div>
                                         </div>
                                         <Badge type="primary" class="text-xxs truncate w-fit h-fit"
@@ -199,6 +216,15 @@
                                                     class="text-muted-800 dark:text-muted-100 font-sans text-sm font-medium">
                                                     {{ app.name }}
                                                 </h4>
+                                                <p class="text-muted-800 text-xs">
+                                                    <span v-if="app?.is_one_time_fee">
+                                                        {{ formatAmount(app?.price) }}
+                                                    </span>
+                                                    <span v-else>
+                                                        {{ formatAmount(app?.monthly_price) }}
+                                                        <span class="lowercase">/{{ $t('apps.month') }}</span>
+                                                    </span>
+                                                </p>
                                             </div>
                                         </div>
                                         <Badge type="primary" class="text-xxs truncate w-fit h-fit"
@@ -261,10 +287,12 @@
 <script setup lang="ts">
 import { appService } from '@/components/api/user/AppService'
 import { useI18n } from "vue-i18n"
+import { useAmountFormatter } from '@/composables/amountFormatter'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const language = useI18n()
+const { formatAmount } = useAmountFormatter()
 let currentTablePage = 1
 let checkout = null as any
 const router = useRouter()

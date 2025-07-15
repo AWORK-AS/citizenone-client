@@ -25,6 +25,15 @@
                                     {{ $t('excludeVat') }}
                                 </div>
                             </div> -->
+                            <p class="text-muted-800 text-sm">
+                                <span v-if="props.selectedApp?.is_one_time_fee">
+                                    {{ formatAmount(props.selectedApp?.price) }}
+                                </span>
+                                <span v-else>
+                                    {{ formatAmount(props.selectedApp?.monthly_price) }}
+                                    <span class="lowercase">/{{ $t('apps.month') }}</span>
+                                </span>
+                            </p>
                             <p class="text-muted-800 dark:text-muted-100 font-sans text-sm">
                                 {{ props.selectedApp?.description }}
                             </p>
