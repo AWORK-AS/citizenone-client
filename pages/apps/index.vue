@@ -86,7 +86,15 @@
                                                 'w-full'
                                             ]" color="primary"
                                             @click="!app?.user_activated && confirmTACAcceptance(app)" v-else>
-                                            {{ app?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
+                                            <span v-if="app?.user_activated">
+                                                {{ $t('apps.activated') }}
+                                            </span>
+                                            <span v-if="!app?.user_activated && app?.is_one_time_fee">
+                                                {{ $t('apps.orderNow') }}
+                                            </span>
+                                            <span v-if="!app?.user_activated && !app?.is_one_time_fee">
+                                                {{ $t('apps.activate') }}
+                                            </span>
                                         </FormButton>
                                     </div>
                                 </div>
@@ -148,7 +156,15 @@
                                                 'w-full'
                                             ]" color="primary"
                                             @click="!app?.user_activated && confirmTACAcceptance(app)" v-else>
-                                            {{ app?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
+                                            <span v-if="app?.user_activated">
+                                                {{ $t('apps.activated') }}
+                                            </span>
+                                            <span v-if="!app?.user_activated && app?.is_one_time_fee">
+                                                {{ $t('apps.orderNow') }}
+                                            </span>
+                                            <span v-if="!app?.user_activated && !app?.is_one_time_fee">
+                                                {{ $t('apps.activate') }}
+                                            </span>
                                         </FormButton>
                                     </div>
                                 </div>
@@ -211,7 +227,15 @@
                                             ]" color="primary"
                                             @click="(!app?.user_activated || app?.is_quantifiable) && confirmTACAcceptance(app)"
                                             v-else>
-                                            {{ app?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
+                                            <span v-if="app?.user_activated">
+                                                {{ $t('apps.activated') }}
+                                            </span>
+                                            <span v-if="!app?.user_activated && app?.is_one_time_fee">
+                                                {{ $t('apps.orderNow') }}
+                                            </span>
+                                            <span v-if="!app?.user_activated && !app?.is_one_time_fee">
+                                                {{ $t('apps.activate') }}
+                                            </span>
                                         </FormButton>
                                     </div>
                                 </div>

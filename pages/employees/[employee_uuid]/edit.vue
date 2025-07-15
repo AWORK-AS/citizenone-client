@@ -148,13 +148,13 @@ async function fetchEmployee() {
                 media_risks: [],
                 pages: [],
                 employment: {
-                    employment_date: response?.data?.employee_detail?.date_of_employment,
-                    job_title_uuid: response?.data?.employee_detail?.job?.uuid,
+                    employment_date: response?.data?.employee_detail?.date_of_employment ?? '',
+                    job_title_uuid: response?.data?.employee_detail?.job?.uuid ?? '',
                     job_specialties: [],
-                    working_hours: response?.data?.employee_detail?.working_hours,
-                    employment_status: response?.data?.employee_detail?.status,
+                    working_hours: response?.data?.employee_detail?.working_hours ?? '',
+                    employment_status: response?.data?.employee_detail?.status ?? '',
                     annual_norm_hours: response?.data?.employee_detail?.annual_norm_hours?.toString() ?? '',
-                    vacation_days: response?.data?.employee_detail?.vacation_days?.toString(),
+                    vacation_days: response?.data?.employee_detail?.vacation_days?.toString() ?? '',
                 },
                 emergencyInfo: {
                     emergency_contacts: [],

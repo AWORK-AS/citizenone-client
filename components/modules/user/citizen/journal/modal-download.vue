@@ -23,7 +23,10 @@
                             <div class="w-fit flex items-center cursor-pointer"
                                 @click="state.downloadForm.include_risk_assessment = !state.downloadForm.include_risk_assessment">
                                 <FormCheckbox :value="state.downloadForm.include_risk_assessment" />
-                                {{ $t('citizens.citizenJournals.downloadJournals.includeRiskAssessment') }}
+                                {{ $t('citizens.citizenJournals.downloadJournals.include') }}
+                                <span class="lowercase ml-1">
+                                    {{ customPagesStore.getCustomPagesName?.riskAssessment }}
+                                </span>
                             </div>
                         </div>
                         <div class="mt-6">
@@ -51,6 +54,7 @@ import { journalNoteTagService } from '@/components/api/user/JournalNoteTagServi
 import { journalService } from '@/components/api/user/JournalService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { useI18n } from "vue-i18n"
@@ -64,6 +68,7 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const { t } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 

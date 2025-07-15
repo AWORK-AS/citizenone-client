@@ -3,24 +3,27 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('addictions.addictions') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ customPagesStore.getCustomPagesName?.addictions }} - {{ runtimeConfig?.public?.appName }}
+                </Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('addictions.addictions') }}</template>
+            <template #header>
+                {{ customPagesStore.getCustomPagesName?.addictions }}
+            </template>
 
             <ModulesUserSettingsTab />
             <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/settings/substance-abuse/new')">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/addictions/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('addictions.newAddiction') }}
+                        {{ $t('addictions.new') }}
+                        {{ customPagesStore.getCustomPagesName?.addictions?.toLowerCase() }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -38,11 +41,11 @@
                                     <td width="50%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/substance-abuse/${addiction.uuid}/edit`)">
+                                                @click="navigateTo(`/settings/addictions/${addiction.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('addictions.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                 @click="deleteAddictionConfirmation(addiction)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('addictions.table.actions.delete') }}
@@ -65,19 +68,21 @@
 
 <script setup lang="ts">
 import { addictionService } from '@/components/api/user/AddictionService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
-        name: 'addictions.addictions',
-        translate: true,
-        href: '/settings/substance-abuse',
+        name: customPagesStore.getCustomPagesName?.addictions,
+        translate: false,
+        href: '/settings/addictions',
     },
 ]
 

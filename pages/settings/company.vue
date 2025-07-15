@@ -69,7 +69,7 @@
                             <div class="space-y-1">
                                 <FormLabel for="municipality" :label="$t('settings.company.form.municipality')" />
                                 <FormSelect id="municipality" :options="state.options.municipalities"
-                                    v-model="state.formCompany.municipality" @change="changeSelectedMunicipality" />
+                                    v-model="state.formCompany.municipality" />
                                 <FormError :error="v$?.formCompany?.municipality?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.municipality_uuid?.[0]" />
                             </div>
@@ -77,10 +77,10 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div class="space-y-1">
                                 <FormLabel for="city" :label="$t('settings.company.form.city')" />
-                                <FormSelect id="city" :options="state.options.cities"
+                                <FormTextField id="city" name="city" :placeholder="$t('settings.company.form.city')"
                                     v-model="state.formCompany.city" />
                                 <FormError :error="v$?.formCompany?.city?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.city_uuid?.[0]" />
+                                <FormError :error="state?.error?.errors?.city?.[0]" />
                             </div>
                             <div class="space-y-1">
                                 <FormLabel for="post_code" :label="$t('settings.company.form.postCode')" />
@@ -194,24 +194,24 @@ const rules = computed(() => {
             name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            cvr: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            street: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            region: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            municipality: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            city: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            post_code: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
+            // cvr: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // street: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // region: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // municipality: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // city: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // post_code: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
         },
     }
 })
@@ -230,7 +230,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             street: newValue?.company?.company_address?.street,
             region: newValue?.company?.company_address?.region?.uuid,
             municipality: newValue?.company?.company_address?.municipality?.uuid,
-            city: newValue?.company?.company_address?.city?.uuid,
+            city: newValue?.company?.company_address?.city,
             post_code: newValue?.company?.company_address?.post_code,
             group_chat_enabled: newValue?.company?.group_chat_enabled ?? false,
             checkin_enabled: newValue?.company?.checkin_enabled ?? false,
@@ -239,7 +239,6 @@ watch(() => userStore.getUser, (newValue: any) => {
             subgoals_enabled: newValue?.company?.employee_create_subgoals_enabled ?? false,
         }
         fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
-        fetchCities(newValue?.company?.company_address?.municipality?.uuid)
     }
 })
 
@@ -288,39 +287,9 @@ async function fetchMunicipalitiesPerRegion(regionUuid: string) {
     state.isPageLoading = false
 }
 
-async function fetchCities(municipalityUuid: string) {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const params = {
-            municipality_uuid: municipalityUuid
-        }
-        const response = await cityService.getAllCities(params)
-        if (response.data) {
-            let options: any = []
-            response.data.forEach(
-                (item: any) => options.push({
-                    value: item.uuid,
-                    label: item.name,
-                })
-            )
-            state.options.cities = options
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
 function changeSelectedRegion(regionUuid: string) {
     if (regionUuid) {
         fetchMunicipalitiesPerRegion(regionUuid)
-    }
-}
-
-function changeSelectedMunicipality(municipalityUuid: string) {
-    if (municipalityUuid) {
-        fetchCities(municipalityUuid)
     }
 }
 
@@ -346,7 +315,7 @@ async function submitForm() {
                 street: state.formCompany.street,
                 region_uuid: state.formCompany.region,
                 municipality_uuid: state.formCompany.municipality,
-                city_uuid: state.formCompany.city,
+                city: state.formCompany.city,
                 post_code: state.formCompany.post_code,
                 group_chat_enabled: state.formCompany.group_chat_enabled,
                 checkin_enabled: state.formCompany.checkin_enabled,

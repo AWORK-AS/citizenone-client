@@ -663,50 +663,50 @@ const rules = computed(() => {
             firstname: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            lastname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            email: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            phone: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            birthday: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            street: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            region_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            municipality_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            city_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            post_code: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            role: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            employment: {
-                employment_date: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-                },
-                job_title_uuid: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-                },
-                working_hours: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-                },
-                employment_status: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-                },
-            }
+            // lastname: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // email: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // phone: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // birthday: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // street: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // region_uuid: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // municipality_uuid: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // city_uuid: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // post_code: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // role: {
+            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            // },
+            // employment: {
+            //     employment_date: {
+            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
+            //     },
+            //     job_title_uuid: {
+            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
+            //     },
+            //     working_hours: {
+            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
+            //     },
+            //     employment_status: {
+            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
+            //     },
+            // }
         },
     }
 })

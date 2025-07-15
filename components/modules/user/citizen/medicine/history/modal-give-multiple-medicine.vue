@@ -40,9 +40,9 @@
                                             <div class="space-y-3" v-if="selectedMedicine.is_pn_medicine">
                                                 <div class="space-y-1">
                                                     <FormLabel for="dosage"
-                                                        :label="$t('citizens.medicineJournals.history.form.dailyDose')" />
+                                                        :label="$t('citizens.medicineJournals.history.form.dose')" />
                                                     <FormTextField id="dosage" name="dosage"
-                                                        :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')"
+                                                        :placeholder="$t('citizens.medicineJournals.history.form.dose')"
                                                         v-model="state.formGiveMedicine.medicines[selecedMedicineIndex].dosage" />
                                                 </div>
                                                 <div class="space-y-1">
@@ -100,7 +100,7 @@
                                                 </div>
                                                 <div class="space-y-1">
                                                     <FormLabel for="evaluation_frequency"
-                                                        :label="$t('citizens.medicineJournals.history.form.evaluationFrequency')" />
+                                                        :label="`${$t('citizens.medicineJournals.history.form.evaluationFrequency')}?`" />
                                                     <FormSelectMultiple id="evaluation_frequency"
                                                         name="evaluation_frequency"
                                                         :options="state.options.evaluation_frequencies"
@@ -141,11 +141,11 @@
                                                                     <div class="space-y-1">
                                                                         <FormLabel
                                                                             :for="`quantity_${selecedMedicineIndex}_${dosageIndex}`"
-                                                                            :label="$t('citizens.medicineJournals.history.form.dailyDose')" />
+                                                                            :label="$t('citizens.medicineJournals.history.form.dose')" />
                                                                         <FormTextField
                                                                             :id="`quantity_${selecedMedicineIndex}_${dosageIndex}`"
                                                                             :name="`quantity_${selecedMedicineIndex}_${dosageIndex}`"
-                                                                            :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')"
+                                                                            :placeholder="$t('citizens.medicineJournals.history.form.dose')"
                                                                             :value="dosage.dosage"
                                                                             @keyup="(event: any) => handleQuantityInput(event, selecedMedicineIndex, dosageIndex)" />
                                                                     </div>

@@ -28,16 +28,22 @@
         }
     },
     "addictions": {
+        "addNew": "Tilføj ny",
         "addNewAddiction": "Tilføj ny stofmisbrug",
         "addictions": "Stofmisbrug",
+        "edit": "Rediger",
         "editAddiction": "Rediger stofmisbrug",
         "form": {
             "alert": {
                 "addictionSuccessfullyUpdated": "Stofmisbrug opdateret med succes",
-                "newAddictionSuccessfullySaved": "Ny stofmisbrug gemt med succes"
+                "new": "Ny",
+                "newAddictionSuccessfullySaved": "Ny stofmisbrug gemt med succes",
+                "successfullySaved": "Gemt med succes",
+                "successfullyUpdated": "Opdateret med succes"
             },
             "name": "Navn"
         },
+        "new": "Ny",
         "newAddiction": "Ny stofmisbrug",
         "table": {
             "actions": {
@@ -273,6 +279,7 @@
         "goToPartner": "Gå til partner",
         "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
         "month": "Måned",
+        "orderNow": "Bestil nu",
         "purchased": {
             "paymentSuccessful": "Betaling gennemført",
             "purchaseSuccessful": "Køb gennemført",
@@ -711,6 +718,7 @@
     "changeImage": "Skift billede",
     "citizens": {
         "addictions": "Stofmisbrug",
+        "address": "Adresse",
         "alert": {
             "citizenSuccessfullyArchived": "Borger arkiveret med succes"
         },
@@ -804,6 +812,7 @@
                 "relatives": "Pårørende"
             }
         },
+        "departments": "Afdelinger",
         "diagnoses": "Diagnoser",
         "doctor": {
             "addNewDoctor": "Tilføj ny læge",
@@ -955,6 +964,7 @@
             "download": "Download",
             "downloadJournals": {
                 "downloadJournals": "Download journaler",
+                "include": "Inkluder",
                 "includeRiskAssessment": "Inkluder risikovurdering"
             },
             "editJournal": "Rediger Journal",
@@ -1242,10 +1252,10 @@
                         "successfullyUpdated": "Medicinhistorik opdateret med succes"
                     },
                     "comment": "Kommentar",
-                    "dailyDose": "Daglig dosis",
+                    "dose": "Dosis",
                     "date": "Dato",
                     "evaluator": "Evaluator",
-                    "evaluationFrequency": "Evalueringsfrekvens",
+                    "evaluationFrequency": "Hvornår vil du evaluere",
                     "time": "Tid",
                     "type": {
                         "type": "Type",
@@ -1264,11 +1274,11 @@
                         "delete": "Slet"
                     },
                     "comment": "Kommentar",
-                    "dailyDose": "Daglig dosis",
+                    "dose": "Dosis",
                     "date": "Dato",
                     "dateCreated": "Oprettelsesdato",
                     "evaluator": "Evaluator",
-                    "evaluationFrequency": "Evalueringsfrekvens",
+                    "evaluationFrequency": "Hvornår vil du evaluere",
                     "type": {
                         "type": "Type",
                         "delivered": "Udleveret",
@@ -1338,12 +1348,12 @@
                 "skinAndMucousMembranes": "Hud og slimhinder",
                 "communication": "Kommunikation",
                 "psychosocialConditions": "Psykosociale forhold",
-                "respirationAndCirculation": "Respiration og cirkulation",
+                "respirationAndCirculation": "Respiration og kredsløb",
                 "sexuality": "Seksualitet",
-                "painAndSensoryImpressions": "Smerter og sanseindtryk",
+                "painAndSensoryImpressions": "Smerte og sanseindtryk",
                 "sleepAndRest": "Søvn og hvile",
                 "knowledgeAndDevelopment": "Viden og udvikling",
-                "excretionOfWaste": "Udskillelse af affaldsstoffer"
+                "excretionOfWaste": "Affaldsudskillelse"
             },
             "newNursingProfessionalRecords": "Ny sundhedsfaglig optegnelse",
             "nursingProfessionalRecords": "Sundhedsfaglige optegnelser",
@@ -1354,8 +1364,8 @@
                 },
                 "areaTypes": {
                     "areaType": "Områdetype",
-                    "functionalLevel": "Funktionelt niveau",
-                    "musculoskeletalSystem": "Muskuloskeletalt system",
+                    "functionalLevel": "Funktionsniveau",
+                    "musculoskeletalSystem": "Bevægeapparat",
                     "nutrition": "Ernæring",
                     "skinAndMucousMembranes": "Hud og slimhinder",
                     "communication": "Kommunikation",
@@ -1423,12 +1433,12 @@
                 "skinAndMucousMembranes": "Hud og slimhinder",
                 "communication": "Kommunikation",
                 "psychosocialConditions": "Psykosociale forhold",
-                "respirationAndCirculation": "Respiration og cirkulation",
+                "respirationAndCirculation": "Respiration og kredsløb",
                 "sexuality": "Seksualitet",
-                "painAndSensoryImpressions": "Smerter og sanseindtryk",
+                "painAndSensoryImpressions": "Smerte og sanseindtryk",
                 "sleepAndRest": "Søvn og hvile",
                 "knowledgeAndDevelopment": "Viden og udvikling",
-                "excretionOfWaste": "Udskillelse af affaldsstoffer"
+                "excretionOfWaste": "Affaldsudskillelse"
             },
             "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal"
         },
@@ -1501,8 +1511,8 @@
             "form": {
                 "areaTypes": {
                     "areaType": "Områdetype",
-                    "functionalLevel": "Funktionelt niveau",
-                    "musculoskeletalSystem": "Muskuloskeletalt system",
+                    "functionalLevel": "Funktionsniveau",
+                    "musculoskeletalSystem": "Bevægeapparat",
                     "nutrition": "Ernæring",
                     "skinAndMucousMembranes": "Hud og slimhinder",
                     "communication": "Kommunikation",
@@ -1518,6 +1528,7 @@
                 "completionDate": "Afslutningsdato",
                 "dateCompleted": "Dato afsluttet",
                 "description": "Beskrivelse",
+                "enableReminder": "Aktiver påmindelse",
                 "expectedLevels": {
                     "expectedLevel": "Forventet niveau",
                     "minorChallenges": "Mindre udfordringer",
@@ -1537,8 +1548,8 @@
                 },
                 "areaTypes": {
                     "areaType": "Områdetype",
-                    "functionalLevel": "Funktionelt niveau",
-                    "musculoskeletalSystem": "Muskuloskeletalt system",
+                    "functionalLevel": "Funktionsniveau",
+                    "musculoskeletalSystem": "Bevægeapparat",
                     "nutrition": "Ernæring",
                     "skinAndMucousMembranes": "Hud og slimhinder",
                     "communication": "Kommunikation",
@@ -1599,8 +1610,8 @@
                 },
                 "areaTypes": {
                     "healthProfessionalDocumentation": "Sundhedsfaglig dokumentation",
-                    "functionalLevel": "Funktionelt niveau",
-                    "musculoskeletalSystem": "Muskuloskeletalt system",
+                    "functionalLevel": "Funktionsniveau",
+                    "musculoskeletalSystem": "Bevægeapparat",
                     "nutrition": "Ernæring",
                     "skinAndMucousMembranes": "Hud og slimhinder",
                     "communication": "Kommunikation",
@@ -1869,7 +1880,9 @@
     "dailyOverview": {
         "addDailyEvents": "Tilføj daglige begivenheder",
         "bulletBoard": "Opslagstavle",
+        "calendar": "Kalender",
         "campaign": "Kampagne",
+        "citizens": "Borgere",
         "citizensAddictions": "Borgers stofmisbrug",
         "citizensAdmissionAndDischarged": {
             "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
@@ -1894,6 +1907,7 @@
             "filterDailyOverview": "Filtrer dagligt overblik",
             "items": {
                 "bulletBoard": "Opslagstavle",
+                "calendar": "Kalender",
                 "citizensAddictions": "Borgers stofmisbrug",
                 "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
                 "citizensDailyEvents": "Borgeres daglige begivenheder",
@@ -2091,8 +2105,10 @@
             "citizens": "Borgere",
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",
+            "departments": "Afdelinger",
             "description": "Beskrivelse",
             "inMeeting": "I møde",
+            "note": "Bemærkning",
             "private": "Privat",
             "tags": "Etiketter",
             "title": "Titel",
@@ -2130,7 +2146,7 @@
                         "requestSuccessfullySent": "Anmodning sendt med succes"
                     },
                     "note": "Bemærkning",
-                    "sendRequest": "Send request",
+                    "sendRequest": "Send anmodning",
                     "timeIn": "Tid ind",
                     "timeOut": "Tid ud",
                     "whatDoYouWantTheEndTimeToBeChangeTo": "Hvad onsker du sluttiden ændret til",
@@ -2262,6 +2278,15 @@
         "typeofShift": "Vagttyper",
         "typeofShifts": "Vagttyper",
         "viewCalendar": "Se kalender",
+        "viewSchedule": {
+            "citizens": "Borgere",
+            "datetimeStart": "Dato og tid start",
+            "dateTimeEnd": "Dato og tid slut",
+            "departments": "Afdelinger",
+            "note": "Bemærkning",
+            "typeofShift": "Type af vagt",
+            "viewSchedule": "Se tidsplan"
+        },
         "week": "Uge",
         "yearToDate": "År til dato"
     },
@@ -2519,19 +2544,25 @@
             "actions": {
                 "calendar": "Kalender",
                 "edit": "Rediger",
-                "giveSecureMailAccess": "Giv adgang til sikker mail",
-                "message": "Besked",
+                "giveBookingAccess": "Giv booking adgang",
+                "giveSecureMail": "Giv Sikker Mail",
+                "message": "Chat",
                 "removeSecureMailAccess": "Fjern adgang til sikker mail",
                 "view": "Se"
             },
+            "admin": "Administrator",
             "alert": {
+                "bookingAccessGranted": "Booking adgang givet",
+                "bookingAccessRemoved": "Booking adgang fjernet",
                 "secureMailAccessGranted": "Adgang til sikker mail givet",
-                "secureMailAccessRemoved": "Adgang til sikker mail fjernet"
+                "secureMailAccessRemoved": "Adgang til sikker mail fjernet",
+                "secureMailLicenseInstruction": "Du kan få flere Sikker Mail licenser ved at klikke her"
             },
             "email": "E-mail",
             "name": "Navn",
             "phone": "Telefon",
-            "role": "Rolle"
+            "role": "Rolle",
+            "user": "Bruger"
         },
         "tabs": {
             "dutySchedule": "Vagtplan",

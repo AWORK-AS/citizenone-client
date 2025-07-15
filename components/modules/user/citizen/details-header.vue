@@ -16,7 +16,7 @@
                                 <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
                             </div>
                         </div>
-                        <div class="w-full pt-1.5 space-y-4">
+                        <div class="w-full pt-1.5 space-y-3">
                             <div class="text-center md:text-left">
                                 <h1 class="text-2xl font-bold text-gray-900 gr">
                                     {{ state.selectedCitizen?.data?.firstname }}
@@ -25,6 +25,32 @@
                                 <p class="text-sm font-medium text-gray-700">
                                     {{ state.selectedCitizen?.data?.social_security_number }}
                                 </p>
+                                <div class="flex items-center gap-x-1" v-if="state.selectedCitizen?.data?.address?.street ||
+                                    state.selectedCitizen?.data?.address?.region ||
+                                    state.selectedCitizen?.data?.address?.municipality ||
+                                    state.selectedCitizen?.data?.address?.city ||
+                                    state.selectedCitizen?.data?.address?.post_code">
+                                    <Tooltip :text="$t('citizens.address')" class="flex items-center">
+                                        <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
+                                    </Tooltip>
+                                    <p class="text-sm font-medium text-gray-700">
+                                        <span v-if="state.selectedCitizen?.data?.address?.street">
+                                            {{ state.selectedCitizen?.data?.address?.street }},
+                                        </span>
+                                        <span v-if="state.selectedCitizen?.data?.address?.region?.name">
+                                            {{ state.selectedCitizen?.data?.address?.region?.name }},
+                                        </span>
+                                        <span v-if="state.selectedCitizen?.data?.address?.municipality">
+                                            {{ state.selectedCitizen?.data?.address?.municipality?.name }},
+                                        </span>
+                                        <span v-if="state.selectedCitizen?.data?.address?.city">
+                                            {{ state.selectedCitizen?.data?.address?.city?.name }},
+                                        </span>
+                                        <span v-if="state.selectedCitizen?.data?.address?.post_code">
+                                            {{ state.selectedCitizen?.data?.address?.post_code }}
+                                        </span>
+                                    </p>
+                                </div>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5">
                                 <div class="space-y-1">
@@ -170,8 +196,18 @@
                             </div>
                             <div class="space-y-1.5">
                                 <div class="text-xs flex items-center flex-wrap gap-1"
+                                    v-if="state.selectedCitizen?.data?.departments?.length > 0">
+                                    <p>{{ $t('citizens.departments') }}:</p>
+                                    <span v-for="(department, index) in state.selectedCitizen?.data?.departments"
+                                        :key=index class="bg-primary p-1 text-white rounded-md text-xxs">
+                                        {{ department?.name }}
+                                    </span>
+                                </div>
+                                <div class="text-xs flex items-center flex-wrap gap-1"
                                     v-if="state.selectedCitizen?.data?.addictions?.length > 0">
-                                    <p>{{ $t('citizens.addictions') }}:</p>
+                                    <p>
+                                        {{ customPagesStore.getCustomPagesName?.addictions }}:
+                                    </p>
                                     <span v-for="(addiction, index) in state.selectedCitizen?.data?.addictions"
                                         :key=index class="bg-primary p-1 text-white rounded-md text-xxs">
                                         {{ addiction?.name }}
@@ -215,10 +251,12 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 
 const router = useRouter()
 const { formatDateToReadable } = useDatetimeFormatter()
+const customPagesStore = useCustomPagesStore() as any
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({

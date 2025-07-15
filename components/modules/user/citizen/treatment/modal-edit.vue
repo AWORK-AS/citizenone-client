@@ -60,6 +60,7 @@ async function updateTreatment(treatmentDetails: any) {
             completion_date: treatmentDetails.completion_date,
             is_completed: treatmentDetails.is_completed,
             date_completed: treatmentDetails.date_completed,
+            enable_reminder: treatmentDetails.enable_reminder,
         }
         const response = await treatmentService.updateTreatment(treatmentUuid, params)
         if (response?.data) {

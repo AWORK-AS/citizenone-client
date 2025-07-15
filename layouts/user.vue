@@ -54,6 +54,9 @@
                                                         <span v-if="item.name === 'Duty schedules'">
                                                             {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                                                         </span>
+                                                        <span v-if="item.name === 'Messages'">
+                                                            {{ $t('sidebar.messages') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Procedures'">
                                                             {{ $t('sidebar.procedures') }}
                                                         </span>
@@ -156,6 +159,9 @@
                                         <span v-if="item.name === 'Duty schedules'">
                                             {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                                         </span>
+                                        <span v-if="item.name === 'Messages'">
+                                            {{ $t('sidebar.messages') }}
+                                        </span>
                                         <span v-if="item.name === 'Procedures'">
                                             {{ $t('sidebar.procedures') }}
                                         </span>
@@ -248,24 +254,28 @@
                         <ModulesUserNavbarSubscribeButton
                             v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null"
                             class="hidden md:block" />
-                        <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
-                            @click="navigateTo('/journal-notifications')">
+                        <button type="button" class="mr-2 p-2.5 relative text-primary hover:text-primary-700"
+                            @click="navigateTo('/journal-notifications')"
+                            v-if="userStore.getUser?.unread_notification_count > 0">
                             <Icon name="ph:bell" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
-                            <Badge type="notification" class="w-fit absolute -top-4 left-4">
+                            <Badge type="notification"
+                                class="w-5 h-5 flex items-center justify-center absolute -top-4 left-4">
                                 {{ userStore.getUser?.unread_notification_count ?? 0 }}
                             </Badge>
                         </button>
 
-                        <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
-                            @click="navigateTo('/messages')">
+                        <button type="button" class="mr-2 p-2.5 relative text-primary hover:text-primary-700"
+                            @click="navigateTo('/messages')" v-if="userStore.getUser?.unread_messages_count > 0">
                             <Icon name="ph:chat-circle" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
-                            <Badge type="notification" class="w-fit absolute -top-4 left-4">
+                            <Badge type="notification"
+                                class="w-5 h-5 flex items-center justify-center absolute -top-4 left-4">
                                 {{ userStore.getUser?.unread_messages_count ?? 0 }}
                             </Badge>
                         </button>
 
                         <!-- Separator -->
-                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
+                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true"
+                            v-if="userStore.getUser?.unread_notification_count > 0 || userStore.getUser?.unread_messages_count > 0" />
 
                         <button type="button"
                             class="-m-2.5 p-2.5 flex items-center gap-x-2 text-sm text-primary hover:text-primary-700"
@@ -591,7 +601,7 @@ watch(() => userStore.getUser, (user: any) => {
     }
 })
 
-watch(() => language.locale.value, (newLanguage: value) => {
+watch(() => language.locale.value, (newLanguage: any) => {
     setCustomPageNames()
     if (newLanguage === 'en') {
         if (departmentStore.getSelectedDepartmentName === 'Alle afdelinger') {
@@ -657,6 +667,15 @@ function generateSidebarLinks(user: any) {
             'schedules-draft'
         ]
     })
+    navigation.push({
+        name: 'Messages',
+        href: '/messages',
+        icon: 'ph:chat-circle',
+        activeRouteNames: [
+            'messages',
+            'messages-chat_uuid'
+        ]
+    })
     if (userHasPageAttendanceAccess) {
         navigation.push({
             name: 'Protocols',
@@ -706,14 +725,17 @@ function isAdmin(roles: any) {
 
 function setCustomPageNames() {
     const selectedLanguage = language.locale.value
+    const customPageAddictions = customPage('addictions')
     const customPageCitizens = customPage('citizens')
     const customPageDutySchedules = customPage('duty_schedules')
     const customPageRiskAssessment = customPage('risk_assessment')
     const customNameGiveMedicine = customPage('give_medicine')
+    const addictionsName = selectedLanguage === 'en' ? customPageAddictions?.en_name : customPageAddictions?.dk_name
     const citizensName = selectedLanguage === 'en' ? customPageCitizens?.en_name : customPageCitizens?.dk_name
     const dutySchedulesName = selectedLanguage === 'en' ? customPageDutySchedules?.en_name : customPageDutySchedules?.dk_name
     const riskAssessmentName = selectedLanguage === 'en' ? customPageRiskAssessment?.en_name : customPageRiskAssessment?.dk_name
     const giveMedicineName = selectedLanguage === 'en' ? customNameGiveMedicine?.en_name : customNameGiveMedicine?.dk_name
+    customPagesStore.setAddictionsNaming(addictionsName)
     customPagesStore.setCitizensNaming(citizensName)
     customPagesStore.setDutySchedulesNaming(dutySchedulesName)
     customPagesStore.setRiskAssessmentNaming(riskAssessmentName)

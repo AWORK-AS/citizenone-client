@@ -159,11 +159,13 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { useUserStore } from '@/store/user'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
 const runtimeConfig = useRuntimeConfig()
 const dailyOverviewStore = useDailyOverviewStore()
+const userStore = useUserStore()
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
@@ -177,6 +179,17 @@ const state = reactive({
         isDailyOverviewDateRangeOpen: false,
         isFilterDailyOverviewOpen: false,
         isGuidedTourDailyOverviewOpen: false,
+    }
+})
+
+watch(() => userStore.getUser, (user: any) => {
+    if (user) {
+        if (user?.overview_date_start && user?.overview_date_end) {
+            state.dateRange.formDateRange = {
+                start_date: moment(user?.overview_date_start).format('YYYY-MM-DD'),
+                end_date: moment(user?.overview_date_end).format('YYYY-MM-DD'),
+            }
+        }
     }
 })
 

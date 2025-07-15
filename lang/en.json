@@ -28,16 +28,22 @@
         }
     },
     "addictions": {
+        "addNew": "Add new",
         "addNewAddiction": "Add new substance abuse",
         "addictions": "Substance abuse",
+        "edit": "Edit",
         "editAddiction": "Edit substance abuse",
         "form": {
             "alert": {
                 "addictionSuccessfullyUpdated": "Substance abuse successfully updated",
-                "newAddictionSuccessfullySaved": "New substance abuse successfully saved"
+                "new": "New",
+                "newAddictionSuccessfullySaved": "New substance abuse successfully saved",
+                "successfullySaved": "Successfully saved",
+                "successfullyUpdated": "Successfully updated"
             },
             "name": "Name"
         },
+        "new": "New",
         "newAddiction": "New substance abuse",
         "table": {
             "actions": {
@@ -273,6 +279,7 @@
         "goToPartner": "Go to partner",
         "iHaveReadAndAcceptThe": "I have read and accept the",
         "month": "Month",
+        "orderNow": "Order now",
         "purchased": {
             "paymentSuccessful": "Payment successful",
             "purchaseSuccessful": "Purchase successful",
@@ -711,6 +718,7 @@
     "changeImage": "Change image",
     "citizens": {
         "addictions": "Substance abuse",
+        "address": "Address",
         "alert": {
             "citizenSuccessfullyArchived": "Citizen successfully archived"
         },
@@ -804,6 +812,7 @@
                 "relatives": "Relatives"
             }
         },
+        "departments": "Departments",
         "diagnoses": "Diagnoses",
         "doctor": {
             "addNewDoctor": "Add new doctor",
@@ -955,6 +964,7 @@
             "download": "Download",
             "downloadJournals": {
                 "downloadJournals": "Download journals",
+                "include": "Include",
                 "includeRiskAssessment": "Include risk assessment"
             },
             "editJournal": "Edit journal",
@@ -1243,9 +1253,9 @@
                     },
                     "comment": "Comment",
                     "date": "Date",
-                    "dailyDose": "Daily dose",
+                    "dose": "Dose",
                     "evaluator": "Evaluator",
-                    "evaluationFrequency": "Evaluation frequency",
+                    "evaluationFrequency": "What time do you want to evaluate",
                     "time": "Time",
                     "type": {
                         "type": "Type",
@@ -1264,11 +1274,11 @@
                         "delete": "Delete"
                     },
                     "comment": "Comment",
-                    "dailyDose": "Daily dose",
+                    "dose": "Dose",
                     "date": "Date",
                     "dateCreated": "Date created",
                     "evaluator": "Evaluator",
-                    "evaluationFrequency": "Evaluation frequency",
+                    "evaluationFrequency": "What time do you want to evaluate",
                     "type": {
                         "type": "Type",
                         "delivered": "Delivered",
@@ -1518,6 +1528,7 @@
                 "completionDate": "Completion date",
                 "dateCompleted": "Date completed",
                 "description": "Description",
+                "enableReminder": "Enable reminder",
                 "expectedLevels": {
                     "expectedLevel": "Expected level",
                     "minorChallenges": "Minor challenges",
@@ -1869,7 +1880,9 @@
     "dailyOverview": {
         "addDailyEvents": "Add daily events",
         "bulletBoard": "Bullet board",
+        "calendar": "Calendar",
         "campaign": "Campaign",
+        "citizens": "Citizens",
         "citizensAddictions": "Citizens substance abuse",
         "citizensAdmissionAndDischarged": {
             "citizensAdmissionAndDischarged": "Citizens admission and discharged",
@@ -1894,6 +1907,7 @@
             "filterDailyOverview": "Filter daily overview",
             "items": {
                 "bulletBoard": "Bullet board",
+                "calendar": "Calendar",
                 "citizensAddictions": "Citizens substance abuse",
                 "citizensAdmissionAndDischarged": "Citizens admission and discharged",
                 "citizensDailyEvents": "Citizens daily events",
@@ -2091,8 +2105,10 @@
             "citizens": "Citizens",
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
+            "departments": "Departments",
             "description": "Description",
             "inMeeting": "In Meeting",
+            "note": "Note",
             "private": "Private",
             "tags": "Tags",
             "title": "Title",
@@ -2130,7 +2146,7 @@
                         "requestSuccessfullySent": "Request successfully sent"
                     },
                     "note": "Note",
-                    "sendRequest": "Send anmodning",
+                    "sendRequest": "Send request",
                     "timeIn": "Time in",
                     "timeOut": "Time out",
                     "whatDoYouWantTheEndTimeToBeChangeTo": "What do you want the end time to be changed to",
@@ -2262,6 +2278,15 @@
         "typeofShift": "Type of shift",
         "typeofShifts": "Type of shifts",
         "viewCalendar": "View calendar",
+        "viewSchedule": {
+            "citizens": "Citizens",
+            "datetimeStart": "Date time start",
+            "dateTimeEnd": "Date time end",
+            "departments": "Departments",
+            "note": "Note",
+            "typeofShift": "Type of shift",
+            "viewSchedule": "View schedule"
+        },
         "week": "Week",
         "yearToDate": "Year to date"
     },
@@ -2519,19 +2544,25 @@
             "actions": {
                 "calendar": "Calendar",
                 "edit": "Edit",
-                "giveSecureMailAccess": "Give secure mail access",
+                "giveBookingAccess": "Give booking access",
+                "giveSecureMail": "Give secure mail",
                 "message": "Message",
                 "removeSecureMailAccess": "Remove secure mail access",
                 "view": "View"
             },
+            "admin": "Admin",
             "alert": {
+                "bookingAccessGranted": "Booking access granted",
+                "bookingAccessRemoved": "Booking access removed",
                 "secureMailAccessGranted": "Secure mail access granted",
-                "secureMailAccessRemoved": "Secure mail access removed"
+                "secureMailAccessRemoved": "Secure mail access removed",
+                "secureMailLicenseInstruction": "You can get more Secure Mail licenses by clicking here"
             },
             "email": "Email",
             "name": "Name",
             "phone": "Phone",
-            "role": "Role"
+            "role": "Role",
+            "user": "User"
         },
         "tabs": {
             "dutySchedule": "Duty schedule",

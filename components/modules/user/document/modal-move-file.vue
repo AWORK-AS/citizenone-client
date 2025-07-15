@@ -69,9 +69,10 @@ const state = reactive({
     }
 })
 
-
-onMounted(() => {
-    fetchAllFolders()
+watch(() => props.isModalOpen, (isModalOpen: any) => {
+    if (isModalOpen) {
+        fetchAllFolders()
+    }
 })
 
 async function fetchAllFolders() {

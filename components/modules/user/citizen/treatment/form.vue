@@ -56,6 +56,11 @@
                 <FormError :error="v$?.formTreatment?.date_completed?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date_completed?.[0]" />
             </div>
+            <div class="w-fit flex items-center cursor-pointer"
+                @click="state.formTreatment.enable_reminder = !state.formTreatment.enable_reminder">
+                <FormCheckbox :value="state.formTreatment.enable_reminder" />
+                {{ $t('citizens.treatments.form.enableReminder') }}
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -119,6 +124,7 @@ const state = reactive({
         date_completed: '',
         is_completed: false,
         score: '',
+        enable_reminder: false,
     },
     options: {
         area_types: [
@@ -156,6 +162,7 @@ onMounted(() => {
         date_completed: props.selectedTreatment.date_completed,
         is_completed: props.selectedTreatment.is_completed,
         score: props.selectedTreatment.score,
+        enable_reminder: props.selectedTreatment.enable_reminder,
     }
     if (props.selectedTreatment.date_completed) {
         state.formTreatment.is_completed = true
@@ -176,6 +183,7 @@ watch(() => props.selectedTreatment, (newValue: any) => {
             date_completed: newValue.date_completed,
             is_completed: newValue.is_completed,
             score: newValue.score,
+            enable_reminder: newValue.enable_reminder,
         }
     }
 })

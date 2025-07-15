@@ -48,6 +48,7 @@ const state = reactive({
         score: '',
         completion_date: '',
         date_completed: '',
+        enable_reminder: false,
     },
 })
 
@@ -69,7 +70,8 @@ async function saveTreatment(goalDetails: any) {
             name: goalDetails.name,
             description: goalDetails.description,
             score: goalDetails.score,
-            completion_date: goalDetails.completion_date
+            completion_date: goalDetails.completion_date,
+            enable_reminder: goalDetails.enable_reminder,
         }
         const response = await treatmentService.saveTreatment(params)
         if (response?.data) {

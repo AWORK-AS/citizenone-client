@@ -157,7 +157,8 @@
                                                         <p v-else class="text-sm"
                                                             v-html="message?.message?.replace(/\n/g, '<br>')" />
                                                         <div class="mt-2 flex justify-end gap-x-1">
-                                                            <Tooltip position="top" :text="$t('messages.actions.edit')">
+                                                            <Tooltip position="top" :text="$t('messages.actions.edit')"
+                                                                v-if="!(message?.chat_message_attachments?.length > 0)">
                                                                 <button @click="editChatMessage(index, message)">
                                                                     <Icon name="ph:pencil-simple" class="h-4 w-4"
                                                                         aria-hidden="true" />
@@ -554,7 +555,7 @@ function chatGroupMembers(chat: any) {
         ?.join(', ')
 }
 
-function editChatMessage(index: number, message: any) {
+function editChatMessage(index: any, message: any) {
     state.selectedChatIndex = index
     state.selectedChat = message
     state.modal.isEditChatMessageOpen = true
@@ -564,7 +565,7 @@ function updateMessage(message: any) {
     state.messages[state.selectedChatIndex].message = message
 }
 
-function deleteChatConfirmation(index: number, message: any) {
+function deleteChatConfirmation(index: any, message: any) {
     state.selectedChatIndex = index
     state.selectedChat = message
     state.modal.isDeleteConfirmationOpen = true
@@ -574,7 +575,7 @@ async function deleteChatMessage() {
     state.error = {}
     state.isChatHistoryDividerLoading = true
     try {
-        const chatIndex = state.selectedChatIndex
+        const chatIndex = state.selectedChatIndex as any
         const chatUuid = state.selectedChat?.uuid
         const response = await messageService.deleteChatMessage(chatUuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {

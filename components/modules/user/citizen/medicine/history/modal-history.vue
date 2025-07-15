@@ -71,7 +71,7 @@
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                     {{ $t('citizens.medicineJournals.table.actions.edit') }}
                                                 </FormButton>
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="confirmMedicineDeletion(medicineHistory)">
                                                     <Icon name="ph:trash-duotone" class="size-4" />
                                                     {{ $t('citizens.medicineJournals.table.actions.delete') }}
@@ -153,7 +153,7 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
         if (props.selectedMedicine?.is_pn_medicine) {
             state.columnHeaders = [
                 { name: 'citizens.medicineJournals.history.table.date', sorter: true, key: 'date' },
-                { name: 'citizens.medicineJournals.history.table.dailyDose', sorter: true, key: 'quantity' },
+                { name: 'citizens.medicineJournals.history.table.dose', sorter: true, key: 'quantity' },
                 { name: 'citizens.medicineJournals.history.table.type.type', sorter: true, key: 'type' },
                 { name: 'citizens.medicineJournals.history.table.evaluator' },
                 { name: 'citizens.medicineJournals.history.table.user' },
@@ -164,7 +164,7 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
         } else {
             state.columnHeaders = [
                 { name: 'citizens.medicineJournals.history.table.date', sorter: true, key: 'date' },
-                { name: 'citizens.medicineJournals.history.table.dailyDose', sorter: true, key: 'quantity' },
+                { name: 'citizens.medicineJournals.history.table.dose', sorter: true, key: 'quantity' },
                 { name: 'citizens.medicineJournals.history.table.type.type', sorter: true, key: 'type' },
                 { name: 'citizens.medicineJournals.history.table.user' },
                 { name: 'citizens.medicineJournals.history.table.comment' },

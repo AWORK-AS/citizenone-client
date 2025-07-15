@@ -1,6 +1,8 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('addictions.newAddiction')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs"
+            :title="`${$t('addictions.new')} ${customPagesStore.getCustomPagesName?.addictions?.toLowerCase()}`"
+            :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserAddictionModalForm formType="create" :selectedAddiction="state.formAddiction"
@@ -14,10 +16,12 @@
 
 <script setup lang="ts">
 import { addictionService } from '@/components/api/user/AddictionService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
+const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
@@ -54,7 +58,7 @@ async function saveAddiction(addictionDetails: any) {
         }
         const response = await addictionService.saveAddiction(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('addictions.form.alert.newAddictionSuccessfullySaved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('addictions.form.alert.new')} ${customPagesStore.getCustomPagesName?.addictions?.toLowerCase()} ${t('addictions.form.alert.successfullySaved')?.toLowerCase()}.`)
             refreshAddictions()
             closeModal()
         }

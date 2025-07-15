@@ -145,7 +145,7 @@
                                     </div>
                                 </div>
 
-                                <div class="relative mt-0.5"
+                                <div class="relative mt-0.5 overflow-y-auto" style="max-height: 82vh;"
                                     @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule(weekNumber)"
                                     :class="[
                                         isWeeklyScheduleCopied(weekNumber) && 'border-1.5 border-dashed border-gray-700',
@@ -367,6 +367,16 @@
                                                                     {{ citizenSchedule?.citizen?.firstname }}
                                                                     {{ citizenSchedule?.citizen?.lastname }}
                                                                 </p>
+                                                            </div>
+                                                            <div class="text-xxs text-white px-1 py-0.5">
+                                                                {{ $t('departments.departments') }}:
+                                                                <span
+                                                                    v-for="(department, departmentIndex) in shift?.departments"
+                                                                    :key="departmentIndex">
+                                                                    {{ department?.name }}<span
+                                                                        v-if="departmentIndex < shift?.departments.length - 1">,
+                                                                    </span><span v-else>.</span>
+                                                                </span>
                                                             </div>
                                                             <div class="flex items-center flex-wrap gap-y-0.5 mt-1"
                                                                 v-if="shift?.tags?.length > 0">
@@ -816,7 +826,9 @@ async function saveShift(shiftDetails: any) {
         user_uuid: state.weeklySchedules[weeklyScheduleIndex].employee.uuid,
         citizen_uuid: shiftDetails?.citizens,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
+        department_uuid: shiftDetails.department_uuid,
         use_compensatory_time: shiftDetails.use_compensatory_time,
+        note: shiftDetails.note,
     }
     saveDutySchedule(params)
 }
@@ -1054,6 +1066,8 @@ function editSchedule(employee: any, weeklyScheduleIndex: number, weekIndex: any
         date: date,
         shift_type: shift?.type,
         tags: shift?.tags,
+        departments: shift?.departments,
+        note: shift?.note,
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,
@@ -1074,6 +1088,8 @@ function updateSelectedSchedule(shiftDetails: any) {
         user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
         citizen_uuid: shiftDetails.citizens,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
+        department_uuid: shiftDetails.department_uuid,
+        note: shiftDetails.note,
     }
     updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
 }

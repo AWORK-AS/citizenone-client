@@ -49,7 +49,9 @@
                             <div class="space-y-1.5">
                                 <div class="text-xs flex items-center flex-wrap gap-1"
                                     v-if="state.selectedCitizen?.data?.addictions?.length > 0">
-                                    <p>{{ $t('citizens.addictions') }}:</p>
+                                    <p>
+                                        {{ customPagesStore.getCustomPagesName?.addictions }}:
+                                    </p>
                                     <span v-for="(addiction, index) in state.selectedCitizen?.data?.addictions"
                                         :key=index class="bg-primary p-1 text-white rounded-md text-xxs">
                                         {{ addiction?.name }}
@@ -90,10 +92,12 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const customPagesStore = useCustomPagesStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({

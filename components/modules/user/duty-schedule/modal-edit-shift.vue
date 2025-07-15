@@ -42,9 +42,11 @@ const state = reactive({
         shift_type: '',
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
-        citizens: [],
-        schedule_tag_uuid: [],
+        citizens: [] as any,
+        schedule_tag_uuid: [] as any,
+        department_uuid: [] as any,
         use_compensatory_time: false,
+        note: '',
     },
 })
 
@@ -64,9 +66,14 @@ watch(() => props.selectedEmployeeSchedule, (selectedEmployeeSchedule: any) => {
             state.formShift.citizens.push(citizenSchedule.citizen.uuid)
         })
         state.formShift.schedule_tag_uuid = []
+        state.formShift.department_uuid = []
         selectedEmployeeSchedule?.tags?.forEach((tag: any) => {
             state.formShift.schedule_tag_uuid.push(tag.uuid)
         })
+        selectedEmployeeSchedule?.departments?.forEach((department: any) => {
+            state.formShift.department_uuid.push(department.uuid)
+        })
+        state.formShift.note = selectedEmployeeSchedule?.note
     }
 })
 

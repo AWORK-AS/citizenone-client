@@ -60,7 +60,7 @@
                         <div class="bg-white rounded-md p-6 shadow-sm space-y-3">
                             <div class="space-y-1">
                                 <p class="text-sm text-primary font-semibold">
-                                    {{ $t('citizens.nursingAreas.form.functionalLevel') }}
+                                    {{ $t('citizens.nursingAreas.form.musculoskeletalSystem') }}
                                 </p>
                                 <div v-html="state.nursingProfessionalRecord.musculoskeletal_system"
                                     class="content table-responsive" />
@@ -77,7 +77,7 @@
                         <div class="bg-white rounded-md p-6 shadow-sm space-y-3">
                             <div class="space-y-1">
                                 <p class="text-sm text-primary font-semibold">
-                                    {{ $t('citizens.nursingAreas.form.functionalLevel') }}
+                                    {{ $t('citizens.nursingAreas.form.nutrition') }}
                                 </p>
                                 <div v-html="state.nursingProfessionalRecord.nutrition"
                                     class="content table-responsive" />
@@ -94,7 +94,7 @@
                         <div class="bg-white rounded-md p-6 shadow-sm space-y-3">
                             <div class="space-y-1">
                                 <p class="text-sm text-primary font-semibold">
-                                    {{ $t('citizens.nursingAreas.form.functionalLevel') }}
+                                    {{ $t('citizens.nursingAreas.form.skinAndMucousMembranes') }}
                                 </p>
                                 <div v-html="state.nursingProfessionalRecord.skin_and_mucous_membranes"
                                     class="content table-responsive" />
@@ -111,7 +111,7 @@
                         <div class="bg-white rounded-md p-6 shadow-sm space-y-3">
                             <div class="space-y-1">
                                 <p class="text-sm text-primary font-semibold">
-                                    {{ $t('citizens.nursingAreas.form.functionalLevel') }}
+                                    {{ $t('citizens.nursingAreas.form.communication') }}
                                 </p>
                                 <div v-html="state.nursingProfessionalRecord.communication"
                                     class="content table-responsive" />
@@ -128,7 +128,7 @@
                         <div class="bg-white rounded-md p-6 shadow-sm space-y-3">
                             <div class="space-y-1">
                                 <p class="text-sm text-primary font-semibold">
-                                    {{ $t('citizens.nursingAreas.form.functionalLevel') }}
+                                    {{ $t('citizens.nursingAreas.form.psychosocialConditions') }}
                                 </p>
                                 <div v-html="state.nursingProfessionalRecord.psychosocial_conditions"
                                     class="content table-responsive" />
@@ -145,7 +145,7 @@
                         <div class="bg-white rounded-md p-6 shadow-sm space-y-3">
                             <div class="space-y-1">
                                 <p class="text-sm text-primary font-semibold">
-                                    {{ $t('citizens.nursingAreas.form.functionalLevel') }}
+                                    {{ $t('citizens.nursingAreas.form.respirationAndCirculation') }}
                                 </p>
                                 <div v-html="state.nursingProfessionalRecord.respiration_and_circulation"
                                     class="content table-responsive" />
@@ -162,7 +162,7 @@
                         <div class="bg-white rounded-md p-6 shadow-sm space-y-3">
                             <div class="space-y-1">
                                 <p class="text-sm text-primary font-semibold">
-                                    {{ $t('citizens.nursingAreas.form.functionalLevel') }}
+                                    {{ $t('citizens.nursingAreas.form.sexuality') }}
                                 </p>
                                 <div v-html="state.nursingProfessionalRecord.sexuality"
                                     class="content table-responsive" />
@@ -179,7 +179,7 @@
                         <div class="bg-white rounded-md p-6 shadow-sm space-y-3">
                             <div class="space-y-1">
                                 <p class="text-sm text-primary font-semibold">
-                                    {{ $t('citizens.nursingAreas.form.functionalLevel') }}
+                                    {{ $t('citizens.nursingAreas.form.painAndSensoryImpressions') }}
                                 </p>
                                 <div v-html="state.nursingProfessionalRecord.pain_and_sensory_impressions"
                                     class="content table-responsive" />
@@ -196,7 +196,7 @@
                         <div class="bg-white rounded-md p-6 shadow-sm space-y-3">
                             <div class="space-y-1">
                                 <p class="text-sm text-primary font-semibold">
-                                    {{ $t('citizens.nursingAreas.form.functionalLevel') }}
+                                    {{ $t('citizens.nursingAreas.form.sleepAndRest') }}
                                 </p>
                                 <div v-html="state.nursingProfessionalRecord.sleep_and_rest"
                                     class="content table-responsive" />
@@ -213,7 +213,7 @@
                         <div class="bg-white rounded-md p-6 shadow-sm space-y-3">
                             <div class="space-y-1">
                                 <p class="text-sm text-primary font-semibold">
-                                    {{ $t('citizens.nursingAreas.form.functionalLevel') }}
+                                    {{ $t('citizens.nursingAreas.form.knowledgeAndDevelopment') }}
                                 </p>
                                 <div v-html="state.nursingProfessionalRecord.knowledge_and_development"
                                     class="content table-responsive" />
@@ -230,7 +230,7 @@
                         <div class="bg-white rounded-md p-6 shadow-sm space-y-3">
                             <div class="space-y-1">
                                 <p class="text-sm text-primary font-semibold">
-                                    {{ $t('citizens.nursingAreas.form.functionalLevel') }}
+                                    {{ $t('citizens.nursingAreas.form.excretionOfWaste') }}
                                 </p>
                                 <div v-html="state.nursingProfessionalRecord.excretion_of_waste"
                                     class="content table-responsive" />

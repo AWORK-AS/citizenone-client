@@ -59,22 +59,22 @@
                                 <td width="25%">
                                     <div class="flex items-center justify-end gap-2">
                                         <Tooltip :text="$t('protocols.table.actions.markCitizenAsAttended')"
-                                            @click="markAsPresent(citizenProtocol?.uuid)"
+                                            position="left" @click="markAsPresent(citizenProtocol?.uuid)"
                                             v-if="disableIfFutureDate(citizenProtocol)">
                                             <FormButton type="button" buttonStyle="primary" class="rounded-md">
                                                 <Icon name="material-symbols:event-available-outline" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
                                         <Tooltip :text="$t('protocols.table.actions.markCitizenAsAbent')"
-                                            @click="confirmMarkAsAbsent(citizenProtocol)"
+                                            position="left" @click="confirmMarkAsAbsent(citizenProtocol)"
                                             v-if="disableIfFutureDate(citizenProtocol)">
                                             <FormButton type="button" buttonStyle="warning" class="rounded-md">
                                                 <Icon name="material-symbols:event-busy-outline" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
                                         <Tooltip :text="$t('protocols.table.actions.removeCitizenForThisDate')"
-                                            @click="confirmRemoving(citizenProtocol)">
-                                            <FormButton type="button" buttonStyle="primary" class="rounded-md">
+                                            position="left" @click="confirmRemoving(citizenProtocol)">
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md">
                                                 <Icon name="ph:trash" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
@@ -108,7 +108,7 @@ const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
 const router = useRouter()
 const departmentStore = useDepartmentStore()
-const protocolUuid = router?.currentRoute?.value?.params?.uuid
+const protocolUuid = router?.currentRoute?.value?.params?.uuid as string
 let currentTablePage = 1
 
 const state = reactive({

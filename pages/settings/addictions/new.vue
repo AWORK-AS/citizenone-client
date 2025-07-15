@@ -3,18 +3,28 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('addictions.newAddiction') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>
+                    {{
+                        $t('addictions.new') + ' ' + customPagesStore.getCustomPagesName?.addictions?.toLowerCase()
+                    }} -
+                    {{
+                        runtimeConfig?.public?.appName }}
+                </Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('addictions.newAddiction') }}</template>
+            <template #header>
+                {{
+                    $t('addictions.new') + ' ' + customPagesStore.getCustomPagesName?.addictions?.toLowerCase()
+                }}
+            </template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    to="/settings/substance-abuse">
+                    to="/settings/addictions">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -30,23 +40,25 @@
 
 <script setup lang="ts">
 import { addictionService } from '@/components/api/user/AddictionService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const breadcrumbLinks = [
     {
-        name: 'addictions.addictions',
-        translate: true,
-        href: '/settings/substance-abuse',
+        name: customPagesStore.getCustomPagesName?.addictions,
+        translate: false,
+        href: '/settings/addictions',
     },
     {
-        name: 'addictions.newAddiction',
+        name: 'addictions.new',
         translate: true,
-        href: '/settings/substance-abuse/new',
+        href: '/settings/addictions/new',
     },
 ]
 
@@ -67,8 +79,8 @@ async function saveAddiction(addictionDetails: any) {
         }
         const response = await addictionService.saveAddiction(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('addictions.form.alert.newAddictionSuccessfullySaved')}.`)
-            navigateTo('/settings/substance-abuse')
+            successAlert(`${t('alert.success')}!`, `${t('addictions.form.alert.new')} ${customPagesStore.getCustomPagesName?.addictions?.toLowerCase()} ${t('addictions.form.alert.successfullySaved')?.toLowerCase()}.`)
+            navigateTo('/settings/addictions')
         }
     } catch (error: any) {
         state.error = error

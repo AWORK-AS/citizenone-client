@@ -12,9 +12,9 @@
             </div>
             <div class="space-y-3" v-if="props.selectedMedicine.is_pn_medicine">
                 <div class="space-y-1">
-                    <FormLabel for="dosage" :label="$t('citizens.medicineJournals.history.form.dailyDose')" />
+                    <FormLabel for="dosage" :label="$t('citizens.medicineJournals.history.form.dose')" />
                     <FormTextField id="dosage" name="dosage"
-                        :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')"
+                        :placeholder="$t('citizens.medicineJournals.history.form.dose')"
                         v-model="state.formMedicineHistory.dosage" />
                     <FormError :error="v$?.formMedicineHistory?.dosage?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.dosage?.[0]" />
@@ -70,7 +70,7 @@
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="evaluation_frequency"
-                        :label="$t('citizens.medicineJournals.history.form.evaluationFrequency')" />
+                        :label="`${$t('citizens.medicineJournals.history.form.evaluationFrequency')}?`" />
                     <FormSelectMultiple id="evaluation_frequency" name="evaluation_frequency"
                         :options="state.options.evaluation_frequencies"
                         v-model="state.formMedicineHistory.evaluation_frequency" />
@@ -105,9 +105,9 @@
                                 <div class="space-y-3">
                                     <div class="space-y-1">
                                         <FormLabel :for="`quantity_${index}`"
-                                            :label="$t('citizens.medicineJournals.history.form.dailyDose')" />
+                                            :label="$t('citizens.medicineJournals.history.form.dose')" />
                                         <FormTextField :id="`quantity_${index}`" :name="`quantity_${index}`"
-                                            :placeholder="$t('citizens.medicineJournals.history.form.dailyDose')"
+                                            :placeholder="$t('citizens.medicineJournals.history.form.dose')"
                                             :value="dosage.dosage"
                                             @keyup="(event: any) => handleQuantityInput(event, index)" />
                                     </div>

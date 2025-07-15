@@ -48,7 +48,7 @@
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('calendarTags.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                 @click="deleteCalendarTagConfirmation(calendarTag)"
                                                 v-if="calendarTag?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />
