@@ -18,13 +18,26 @@
                         </div>
                         <div class="w-full pt-1.5 space-y-3">
                             <div class="text-center md:text-left">
-                                <h1 class="text-2xl font-bold text-gray-900 gr">
-                                    {{ state.selectedCitizen?.data?.firstname }}
-                                    {{ state.selectedCitizen?.data?.lastname }}
-                                </h1>
-                                <p class="text-sm font-medium text-gray-700">
-                                    {{ state.selectedCitizen?.data?.social_security_number }}
-                                </p>
+                                <div class="flex justify-between">
+                                    <div>
+                                        <h1 class="text-2xl font-bold text-gray-900 gr">
+                                            {{ state.selectedCitizen?.data?.firstname }}
+                                            {{ state.selectedCitizen?.data?.lastname }}
+                                        </h1>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ state.selectedCitizen?.data?.social_security_number }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <FormButton type="button" buttonStyle="action" buttonSize="sm"
+                                            class="rounded-md"
+                                            @click="navigateTo(`/citizens/${state.selectedCitizen?.data?.uuid}/view-edit`)"
+                                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                            <Icon name="ph:pencil-simple" class="size-4" />
+                                            {{ $t('citizens.table.actions.edit') }}
+                                        </FormButton>
+                                    </div>
+                                </div>
                                 <div class="flex items-center gap-x-1" v-if="state.selectedCitizen?.data?.address?.street ||
                                     state.selectedCitizen?.data?.address?.region ||
                                     state.selectedCitizen?.data?.address?.municipality ||
@@ -252,11 +265,13 @@
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const router = useRouter()
 const { formatDateToReadable } = useDatetimeFormatter()
 const customPagesStore = useCustomPagesStore() as any
+const userStore = useUserStore() as any
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({
