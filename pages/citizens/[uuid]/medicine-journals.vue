@@ -187,9 +187,9 @@
                                                             case 'deviated':
                                                                 return $t('citizens.medicineJournals.history.form.type.deviated');
                                                             case 'given':
-                                                                return $t('citizens.medicineJournals.history.form.type.given');
+                                                                return customPagesStore.getCustomPagesName?.giveMedicine;
                                                             default:
-                                                                return $t('citizens.medicineJournals.history.form.type.notGiven');
+                                                                return $t('citizens.medicineJournals.history.form.type.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine.toLowerCase();
                                                         }
                                                     })()">
                                                         <span :class="[

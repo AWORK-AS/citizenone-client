@@ -57,9 +57,9 @@
                                             case 'deviated':
                                                 return $t('dailyOverview.dailyMedicineOverview.deviated');
                                             case 'given':
-                                                return $t('dailyOverview.dailyMedicineOverview.given');
+                                                return customPagesStore.getCustomPagesName?.giveMedicine;
                                             default:
-                                                return $t('dailyOverview.dailyMedicineOverview.notGiven');
+                                                return $t('dailyOverview.dailyMedicineOverview.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine.toLowerCase();
                                         }
                                     })()">
                                     <span :class="[
@@ -102,6 +102,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { useDepartmentStore } from '@/store/department'
 import { useI18n } from "vue-i18n"
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -112,6 +113,7 @@ const props = defineProps({
 })
 
 const { formatDateToReadable } = useDatetimeFormatter()
+const customPagesStore = useCustomPagesStore() as any
 const departmentStore = useDepartmentStore()
 const language = useI18n()
 

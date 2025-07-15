@@ -1262,6 +1262,7 @@
                         "delivered": "Udleveret",
                         "deviated": "Afvigelse",
                         "given": "Givet",
+                        "not": "Ikke",
                         "notGiven": "Ikke givet"
                     }
                 },
@@ -1283,7 +1284,9 @@
                         "type": "Type",
                         "delivered": "Udleveret",
                         "deviated": "Afvigelse",
-                        "given": "Givet"
+                        "given": "Givet",
+                        "not": "Ikke",
+                        "notGiven": "Ikke givet"
                     },
                     "user": "Bruger"
                 }
@@ -1898,6 +1901,7 @@
             "delivered": "Udleveret",
             "deviated": "Afvigelse",
             "given": "Givet",
+            "not": "Ikke",
             "notGiven": "Ikke givet"
         },
         "dailyOverview": "Daglig oversigt",
