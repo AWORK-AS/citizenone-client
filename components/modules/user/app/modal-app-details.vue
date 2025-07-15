@@ -33,6 +33,7 @@
                                     {{ formatAmount(props.selectedApp?.monthly_price) }}
                                     <span class="lowercase">/{{ $t('apps.month') }}</span>
                                 </span>
+                                {{ $t('excludeVat') }}
                             </p>
                             <p class="text-muted-800 dark:text-muted-100 font-sans text-sm">
                                 {{ props.selectedApp?.description }}

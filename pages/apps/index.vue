@@ -66,6 +66,7 @@
                                                         {{ formatAmount(app?.monthly_price) }}
                                                         <span class="lowercase">/{{ $t('apps.month') }}</span>
                                                     </span>
+                                                    {{ $t('excludeVat') }}
                                                 </p>
                                             </div>
                                         </div>
@@ -145,6 +146,7 @@
                                                         {{ formatAmount(app?.monthly_price) }}
                                                         <span class="lowercase">/{{ $t('apps.month') }}</span>
                                                     </span>
+                                                    {{ $t('excludeVat') }}
                                                 </p>
                                             </div>
                                         </div>
@@ -224,6 +226,7 @@
                                                         {{ formatAmount(app?.monthly_price) }}
                                                         <span class="lowercase">/{{ $t('apps.month') }}</span>
                                                     </span>
+                                                    {{ $t('excludeVat') }}
                                                 </p>
                                             </div>
                                         </div>
