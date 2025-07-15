@@ -188,14 +188,17 @@
                                                                 {{ weeklySchedule?.employee?.lastname }}
                                                             </p>
                                                         </div>
-                                                        <Tooltip :text="$t('dutySchedules.copy.copyEmployeeSchedule')">
-                                                            <button
-                                                                class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                                @click="copyEmployeeWeeklySchedule(weeklySchedule)">
-                                                                <Icon name="mdi:content-copy" class="h-3 w-3"
-                                                                    aria-hidden="true" />
-                                                            </button>
-                                                        </Tooltip>
+                                                        <div>
+                                                            <Tooltip position="left"
+                                                                :text="$t('dutySchedules.copy.copyEmployeeSchedule')">
+                                                                <button
+                                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                                    @click="copyEmployeeWeeklySchedule(weeklySchedule)">
+                                                                    <Icon name="mdi:content-copy" class="h-3 w-3"
+                                                                        aria-hidden="true" />
+                                                                </button>
+                                                            </Tooltip>
+                                                        </div>
                                                     </div>
                                                     <div class="-mt-2 ml-10">
                                                         <p class="text-xxs">
@@ -322,7 +325,7 @@
                                                     v-if="!isDailyScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber)">
                                                     <div class="flex justify-end gap-2"
                                                         v-if="isAdmin(userStore.getUser?.roles)">
-                                                        <Tooltip :text="$t('dutySchedules.copy.copy')">
+                                                        <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
                                                             <button
                                                                 class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                                 @click="copyEmployeeDailySchedule(weeklyScheduleIndex, weekIndex, weeklySchedule, weekNumber)">
@@ -330,7 +333,8 @@
                                                                     aria-hidden="true" />
                                                             </button>
                                                         </Tooltip>
-                                                        <Tooltip :text="$t('dutySchedules.newSchedule')">
+                                                        <Tooltip position="left"
+                                                            :text="$t('dutySchedules.newSchedule')">
                                                             <button
                                                                 class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
                                                                 @click="openAddNewShiftModal(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, week)">
