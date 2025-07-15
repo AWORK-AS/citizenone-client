@@ -134,7 +134,6 @@ import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const language = useI18n()
 
 const props = defineProps({
     isModalOpen: {
@@ -177,15 +176,11 @@ function refreshCaseworkers() {
     emit('refreshCaseworkers')
 }
 
-watch(() => props.isModalOpen, (newValue: any) => {
-    if (newValue) {
-        fetchRegions()
-        fetchMunicipalitiesPerRegion()
-        fetchCities()
-    }
+onMounted(() => {
+    fetchRegions()
+    fetchMunicipalitiesPerRegion()
+    fetchCities()
 })
-
-
 
 async function fetchRegions() {
     state.error = {}
