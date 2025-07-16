@@ -2529,6 +2529,7 @@
             "postCode": "Post Code",
             "region": "Region",
             "role": "Role",
+            "showDutySchedule": "Show duty schedule",
             "seniorityDate": "Seniority date",
             "street": "Street"
         },

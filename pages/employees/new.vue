@@ -67,6 +67,7 @@ const state = reactive({
         city_uuid: '',
         post_code: '',
         permissions: [],
+        show_duty_schedule: false,
         media_risks: [],
         pages: [],
         employment: {
@@ -100,6 +101,7 @@ async function saveEmployee(employeeDetails: any) {
         params.append('departments_uuid', JSON.stringify(employeeDetails.departments))
         params.append('role', employeeDetails.role)
         params.append('permission', JSON.stringify(employeeDetails.permissions))
+        params.append('show_duty_schedule', employeeDetails.show_duty_schedule)
         params.append('mediarisk_uuid', JSON.stringify(employeeDetails.media_risks))
         params.append('page_uuid', JSON.stringify(employeeDetails.pages))
         params.append('street', employeeDetails.street)

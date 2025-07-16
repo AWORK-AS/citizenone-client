@@ -2529,6 +2529,7 @@
             "postCode": "Postnummer",
             "region": "Region",
             "role": "Rolle",
+            "showDutySchedule": "Vis vagtplan",
             "seniorityDate": "Anciennitetsdato",
             "street": "Gade"
         },

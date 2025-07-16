@@ -170,10 +170,12 @@
                     <FormError :error="props?.error?.errors?.media_risk?.[0]" />
                 </div>
                 <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
-                    <FormLabel for="permissions" :label="$t('employees.form.permissions.permissions')" />
+                    <p class="text-sm text-gray-600">
+                        {{ $t('employees.form.permissions.permissions') }}
+                    </p>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
                         <div class="w-fit flex items-center cursor-pointer" @click="changePermissionRead()">
-                            <FormCheckbox id="permissions" :value="state.permissions.read" />
+                            <FormCheckbox id="permissions_read" :value="state.permissions.read" />
                             {{ $t('employees.form.permissions.read') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer" @click="changePermissionCreate()">
@@ -190,6 +192,13 @@
                         </div>
                     </div>
                     <FormError :error="props?.error?.errors?.permission?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formEmployee.show_duty_schedule = !state.formEmployee.show_duty_schedule">
+                        <FormCheckbox id="show_duty_schedule" :value="state.formEmployee.show_duty_schedule" />
+                        {{ $t('employees.form.showDutySchedule') }}
+                    </div>
                 </div>
                 <div class="space-y-1" v-if="props.formType === 'update' && isAdmin(userStore.getUser?.roles)">
                     <FormLabel for="pages" :label="$t('employees.form.pageAccess')" />
@@ -541,6 +550,7 @@ const state = reactive({
             emergency_contacts: [],
             trustees: [],
         },
+        show_duty_schedule: false,
     } as EmployeeForm,
     modal: {
         isAddDepartmentOpen: false,
@@ -635,7 +645,8 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 employment_status: newValue.employment.employment_status,
                 annual_norm_hours: newValue.employment.annual_norm_hours,
                 vacation_days: newValue.employment.vacation_days,
-            }
+            },
+            show_duty_schedule: newValue.show_duty_schedule,
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)
         fetchCities(newValue.municipality_uuid)
