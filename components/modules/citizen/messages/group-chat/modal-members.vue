@@ -28,6 +28,7 @@
                             </Tooltip>
                         </div>
                     </div>
+                    <Pagination :data="state.chatMembers" @previous="previous" @next="next" />
                 </LoadingSpinner>
                 <ModulesCitizenMessagesGroupChatModalNewMembers :isModalOpen="state.modal.isAddNewGroupChatMembersOpen"
                     @close="state.modal.isAddNewGroupChatMembersOpen = false"
@@ -58,6 +59,7 @@ const router = useRouter()
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
 const { t } = useI18n()
 const { successAlert } = useAlert()
+let currentTablePage = 1
 
 const state = reactive({
     error: {} as Error,
@@ -85,7 +87,8 @@ async function fetchGroupMembers() {
     state.isPageLoading = true
     try {
         const params = {
-            chat_uuid: chatUuid
+            chat_uuid: chatUuid,
+            page: currentTablePage,
         }
         const response = await messageService.getGroupMembers(params)
         if (response) {
@@ -95,6 +98,16 @@ async function fetchGroupMembers() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function previous() {
+    currentTablePage--
+    fetchGroupMembers()
+}
+
+function next() {
+    currentTablePage++
+    fetchGroupMembers()
 }
 
 function confirmUserRemoval(member: any) {
