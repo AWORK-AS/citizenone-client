@@ -2529,7 +2529,7 @@
             "postCode": "Postnummer",
             "region": "Region",
             "role": "Rolle",
-            "showDutySchedule": "Vis vagtplan",
+            "showWorkingHours": "Vis arbejdstimer",
             "seniorityDate": "Anciennitetsdato",
             "street": "Gade"
         },

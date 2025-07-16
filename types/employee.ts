@@ -16,7 +16,7 @@ export interface EmployeeForm {
     employment: any,
     emergencyInfo: any,
     permissions: Permission[]
-    show_duty_schedule: boolean,
+    show_working_hours: boolean,
     media_risks: any
     pages: any
 }

@@ -195,9 +195,9 @@
                 </div>
                 <div class="space-y-1">
                     <div class="w-fit flex items-center cursor-pointer"
-                        @click="state.formEmployee.show_duty_schedule = !state.formEmployee.show_duty_schedule">
-                        <FormCheckbox id="show_duty_schedule" :value="state.formEmployee.show_duty_schedule" />
-                        {{ $t('employees.form.showDutySchedule') }}
+                        @click="state.formEmployee.show_working_hours = !state.formEmployee.show_working_hours">
+                        <FormCheckbox id="show_working_hours" :value="state.formEmployee.show_working_hours" />
+                        {{ $t('employees.form.showWorkingHours') }}
                     </div>
                 </div>
                 <div class="space-y-1" v-if="props.formType === 'update' && isAdmin(userStore.getUser?.roles)">
@@ -550,7 +550,7 @@ const state = reactive({
             emergency_contacts: [],
             trustees: [],
         },
-        show_duty_schedule: false,
+        show_working_hours: false,
     } as EmployeeForm,
     modal: {
         isAddDepartmentOpen: false,
@@ -646,7 +646,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 annual_norm_hours: newValue.employment.annual_norm_hours,
                 vacation_days: newValue.employment.vacation_days,
             },
-            show_duty_schedule: newValue.show_duty_schedule,
+            show_working_hours: newValue.show_working_hours,
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)
         fetchCities(newValue.municipality_uuid)
