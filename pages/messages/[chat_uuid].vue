@@ -550,9 +550,15 @@ function excludeCurrentUserFromChatMembers(chatMembers: any) {
 }
 
 function chatGroupMembers(chat: any) {
-    return excludeCurrentUserFromChatMembers(chat?.chat_members)
-        ?.map((chatMember: any) => `${chatMember?.user?.firstname} ${chatMember?.user?.lastname}`)
-        ?.join(', ')
+    const members = excludeCurrentUserFromChatMembers(chat?.chat_members || [])
+        .map((chatMember: any) => `${chatMember?.user?.firstname} ${chatMember?.user?.lastname}`)
+
+    if (members.length === 0) return ''
+
+    if (members.length <= 3) return members.join(', ')
+
+    const remaining = members.length - 1
+    return `${members[0]}, ${members[1]}, ${t('messages.and').toLowerCase()} ${remaining} ${t('messages.more').toLowerCase()}`
 }
 
 function editChatMessage(index: any, message: any) {

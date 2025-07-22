@@ -3194,6 +3194,7 @@
             "delete": "Delete",
             "edit": "Edit"
         },
+        "and": "And",
         "alert": {
             "messageSuccessfullyDeleted": "Message successfully deleted",
             "messageSuccessfullyUpdated": "Message successfully updated"
@@ -3228,6 +3229,7 @@
         "looksLikeYouHaventInitiatedAConversation": "Looks like you haven't initiated a conversation",
         "message": "Message",
         "messages": "Messages",
+        "more": "More",
         "newMessage": "New message",
         "noMessagesYet": "No messages yet",
         "startTheConversation": "Start the conversation",
