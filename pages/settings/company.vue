@@ -116,21 +116,28 @@
                             <FormSwitch :value="state.formCompany.plans_enabled"
                                 @toggleSwitch="state.formCompany.plans_enabled = !state.formCompany.plans_enabled" />
                             <p>
-                                {{ $t('settings.company.form.AllowPlans') }}
+                                {{ $t('settings.company.form.allowPlans') }}
                             </p>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.goals_enabled"
                                 @toggleSwitch="state.formCompany.goals_enabled = !state.formCompany.goals_enabled" />
                             <p>
-                                {{ $t('settings.company.form.AllowGoals') }}
+                                {{ $t('settings.company.form.allowGoals') }}
                             </p>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.subgoals_enabled"
                                 @toggleSwitch="state.formCompany.subgoals_enabled = !state.formCompany.subgoals_enabled" />
                             <p>
-                                {{ $t('settings.company.form.AllowSubGoals') }}
+                                {{ $t('settings.company.form.allowSubGoals') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.is_lock_past_schedules"
+                                @toggleSwitch="state.formCompany.is_lock_past_schedules = !state.formCompany.is_lock_past_schedules" />
+                            <p>
+                                {{ $t('settings.company.form.lockPastSchedules') }}
                             </p>
                         </div>
                     </div>
@@ -187,6 +194,7 @@ const state = reactive({
         plans_enabled: false,
         goals_enabled: false,
         subgoals_enabled: false,
+        is_lock_past_schedules: false,
     },
     isPageLoading: false,
     options: {
@@ -246,6 +254,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             plans_enabled: newValue?.company?.employee_create_plans_enabled ?? false,
             goals_enabled: newValue?.company?.employee_create_goals_enabled ?? false,
             subgoals_enabled: newValue?.company?.employee_create_subgoals_enabled ?? false,
+            is_lock_past_schedules: newValue?.company?.is_lock_past_schedules ?? false,
         }
         fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
     }
@@ -332,6 +341,7 @@ async function submitForm() {
                 employee_create_plans_enabled: state.formCompany.plans_enabled,
                 employee_create_goals_enabled: state.formCompany.goals_enabled,
                 employee_create_subgoals_enabled: state.formCompany.subgoals_enabled,
+                is_lock_past_schedules: state.formCompany.is_lock_past_schedules,
             }
             const response = await userService.updateCompany(params)
             if (response.data) {
