@@ -498,9 +498,6 @@ watch(() => props.selectedCourse, (selectedCourse: any) => {
             is_reminder_enabled: selectedCourse?.is_reminder_enabled,
         }
         avatarUrl.value = selectedCourse?.image ? selectedCourse?.image : `/img/icons/asset-02.svg`
-        selectedCourse?.tags?.forEach((tag: any) => {
-            state.formEvent.tags.push(tag.uuid)
-        })
     }
 })
 

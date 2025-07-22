@@ -95,7 +95,13 @@
                         <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
                     </div>
                     <div class="space-y-1" ref="roleField" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
-                        <FormLabel for="role" :label="$t('employees.form.role')" />
+                        <div class="flex justify-between items-center py-0.5">
+                            <FormLabel for="departments" :label="$t('employees.form.role')" />
+                            <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                @click="state.modal.isAddRoleOpen = true">
+                                {{ $t('roles.addNewRole') }}
+                            </span>
+                        </div>
                         <FormSelect id="role" name="role" :options="state.options.roleOptions"
                             v-model="state.formEmployee.role" />
                         <FormError :error="v$?.formEmployee?.role?.$errors[0]?.$message.toString()" />
@@ -453,6 +459,8 @@
             @close="state.modal.isShowMediaRiskExplainationOpen = false" />
         <ModulesUserDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
             @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchDepartments" />
+        <ModulesUserRoleModalNew :isModalOpen="state.modal.isAddRoleOpen" @close="state.modal.isAddRoleOpen = false"
+            @refreshRoles="fetchRoles" />
         <ModulesUserJobTitleModalNew :isModalOpen="state.modal.isAddJobTitleOpen"
             @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitle="fetchJobTitles" />
         <ModulesUserJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
@@ -466,6 +474,7 @@
 import { jobTitleService } from '@/components/api/user/JobTitleService'
 import { jobSpecialtyService } from '@/components/api/user/JobSpecialtyService'
 import { departmentService } from '@/components/api/user/DepartmentService'
+import { roleService } from '@/components/api/user/RoleService'
 import { pageService } from '@/components/api/user/PageService'
 import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
@@ -556,6 +565,7 @@ const state = reactive({
         isAddDepartmentOpen: false,
         isAddJobSpecialtyOpen: false,
         isAddJobTitleOpen: false,
+        isAddRoleOpen: false,
         isShowMediaRiskExplainationOpen: false,
     },
     permissions: {
@@ -578,10 +588,7 @@ const state = reactive({
         municipalities: [],
         pages: [],
         regions: [],
-        roleOptions: [
-            { value: 'Admin', label: `${t('employees.roles.administrator')}` },
-            { value: 'User', label: `${t('employees.roles.user')}` },
-        ],
+        roleOptions: [],
         working_hours: [
             { value: 'full_time', label: `${t('employees.workingHours.fulltime')}` },
             { value: 'part_time', label: `${t('employees.workingHours.parttime')}` },
@@ -595,10 +602,6 @@ watch(() => language.locale.value, (newValue: any) => {
             { value: 'permanent', label: `${t('employees.employmentStatus.permanent')}` },
             { value: 'temporary', label: `${t('employees.employmentStatus.temporary')}` },
             { value: 'substitute', label: `${t('employees.employmentStatus.substitute')}` },
-        ]
-        state.options.roleOptions = [
-            { value: 'Admin', label: `${t('employees.roles.administrator')}` },
-            { value: 'User', label: `${t('employees.roles.user')}` },
         ]
         state.options.working_hours = [
             { value: 'full_time', label: `${t('employees.workingHours.fulltime')}` },
@@ -727,6 +730,7 @@ const v$ = useVuelidate(rules, state)
 onMounted(() => {
     fetchMediaRisks()
     fetchDepartments()
+    fetchRoles()
     fetchJobTitles()
     fetchPages()
     fetchRegions()
@@ -793,6 +797,27 @@ async function fetchDepartments() {
                 })
             )
             state.options.departments = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchRoles() {
+    emit('isPageLoading', true)
+    state.error = {}
+    try {
+        const response = await roleService.getAllRoles()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.name,
+                    label: item.name,
+                })
+            )
+            state.options.roleOptions = options
         }
     } catch (error: any) {
         state.error = error

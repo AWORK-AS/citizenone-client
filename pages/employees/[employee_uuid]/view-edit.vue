@@ -98,6 +98,7 @@ const state = reactive({
         city_uuid: '',
         post_code: '',
         permissions: [],
+        show_working_hours: false,
         media_risks: [],
         pages: [],
         employment: {
@@ -147,6 +148,7 @@ async function fetchEmployee() {
                 city_uuid: response?.data?.employee_address?.city?.uuid?.toString() ?? '',
                 post_code: response?.data?.employee_address?.post_code ?? '',
                 permissions: response?.data?.permissions ?? [],
+                show_working_hours: response?.data?.show_working_hours ?? false,
                 media_risks: [],
                 pages: [],
                 employment: {
