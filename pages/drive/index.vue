@@ -383,6 +383,7 @@ const resetFileInput = () => {
 }
 
 async function viewDirectory(document: any) {
+    currentTablePage = 1
     await navigateTo(`/drive?folder_uuid=${document.uuid}`)
 }
 

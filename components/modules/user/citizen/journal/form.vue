@@ -384,6 +384,8 @@ const state = reactive({
 
 onMounted(() => {
     fetchAllPlans()
+    fetchAllGoalsForJournalNote()
+    fetchAllGoalsForRiskAssessment()
     fetchAllJournalNoteTags()
     fetchAllTeeth()
     state.formJournal = {
@@ -745,11 +747,20 @@ async function fetchAllTeeth() {
     emit('isPageLoading', false)
 }
 
-async function fetchAllGoalsForJournalNote(planUuid: any) {
+async function fetchAllGoalsForJournalNote(planUuid: any = null) {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        const response = await goalService.getAllGoals(planUuid)
+        state.formJournal.journal_note_goal = ''
+        state.formJournal.journal_note_subgoal = ''
+        state.options.journal_note_goals = []
+        state.options.journal_note_subgoals = []
+        let response = {} as any
+        if (planUuid) {
+            response = await goalService.getAllGoalsPerPlan(planUuid)
+        } else {
+            response = await goalService.getAllGoalsPerCitizen(citizenUuid)
+        }
         if (response.data) {
             let options: any = []
             response.data.forEach(
@@ -770,6 +781,8 @@ async function fetchAllSubgoalsForJournalNote(goalUuid: any) {
     state.error = {}
     emit('isPageLoading', true)
     try {
+        state.formJournal.journal_note_subgoal = ''
+        state.options.journal_note_subgoals = []
         const response = await subgoalService.getAllSubgoals(goalUuid)
         if (response.data) {
             let options: any = []
@@ -787,11 +800,20 @@ async function fetchAllSubgoalsForJournalNote(goalUuid: any) {
     emit('isPageLoading', false)
 }
 
-async function fetchAllGoalsForRiskAssessment(planUuid: any) {
+async function fetchAllGoalsForRiskAssessment(planUuid: any = null) {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        const response = await goalService.getAllGoals(planUuid)
+        state.formJournal.risk_assessment_goal = ''
+        state.formJournal.risk_assessment_subgoal = ''
+        state.options.risk_assessment_goals = []
+        state.options.risk_assessment_subgoals = []
+        let response = {} as any
+        if (planUuid) {
+            response = await goalService.getAllGoalsPerPlan(planUuid)
+        } else {
+            response = await goalService.getAllGoalsPerCitizen(citizenUuid)
+        }
         if (response.data) {
             let options: any = []
             response.data.forEach(
@@ -812,6 +834,8 @@ async function fetchAllSubgoalsForRiskAssessment(goalUuid: any) {
     state.error = {}
     emit('isPageLoading', true)
     try {
+        state.formJournal.risk_assessment_subgoal = ''
+        state.options.risk_assessment_subgoals = []
         const response = await subgoalService.getAllSubgoals(goalUuid)
         if (response.data) {
             let options: any = []

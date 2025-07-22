@@ -1262,6 +1262,7 @@
                         "delivered": "Delivered",
                         "deviated": "Deviated",
                         "given": "Given",
+                        "not": "Not",
                         "notGiven": "Not given"
                     }
                 },
@@ -1283,7 +1284,9 @@
                         "type": "Type",
                         "delivered": "Delivered",
                         "deviated": "Deviated",
-                        "given": "Given"
+                        "given": "Given",
+                        "not": "Not",
+                        "notGiven": "Not given"
                     },
                     "user": "User"
                 }
@@ -1898,6 +1901,7 @@
             "delivered": "Delivered",
             "deviated": "Deviated",
             "given": "Given",
+            "not": "Not",
             "notGiven": "Not given"
         },
         "dailyOverview": "Daily overview",
@@ -2525,6 +2529,7 @@
             "postCode": "Post Code",
             "region": "Region",
             "role": "Role",
+            "showWorkingHours": "Show working hours",
             "seniorityDate": "Seniority date",
             "street": "Street"
         },

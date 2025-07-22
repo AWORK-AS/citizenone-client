@@ -405,6 +405,7 @@ const resetFileInput = () => {
 }
 
 async function viewDirectory(document: any) {
+    currentTablePage = 1
     await navigateTo(`/citizens/${citizenUuid}/documents?folder_uuid=${document.uuid}`)
 }
 

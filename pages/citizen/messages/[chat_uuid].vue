@@ -124,7 +124,7 @@
                                         <div class="flex items-start justify-end mb-4">
                                             <div class="mr-2">
                                                 <Tooltip position="left"
-                                                    :text="formatTimeToReadable(message?.created_at)">
+                                                    :text="formatDateTimeToReadable(message?.created_at)">
                                                     <div class="bg-primary text-white p-3 rounded-lg">
                                                         <div v-if="message?.chat_message_attachments?.length > 0"
                                                             class="space-y-3">
@@ -149,7 +149,7 @@
                                                     <p class="text-xs text-gray-500 mt-1"
                                                         v-if="index === state.messages.length - 1 && message?.receipt?.created_at">
                                                         {{ $t('messages.seen') }}
-                                                        {{ formatTimeToReadable(message?.receipt?.created_at) }}
+                                                        {{ formatDateTimeToReadable(message?.receipt?.created_at) }}
                                                     </p>
                                                 </Tooltip>
                                             </div>
@@ -176,7 +176,7 @@
                                             </div>
                                             <div class="ml-2">
                                                 <Tooltip position="right"
-                                                    :text="formatTimeToReadable(message?.created_at)">
+                                                    :text="formatDateTimeToReadable(message?.created_at)">
                                                     <div class="bg-gray-200 p-3 rounded-lg">
                                                         <div v-if="message?.chat_message_attachments?.length > 0"
                                                             class="space-y-3">
@@ -248,7 +248,7 @@ import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { formatTimeToReadable } = useDatetimeFormatter()
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 const userStore = useUserStore() as any
 const router = useRouter()
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid

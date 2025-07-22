@@ -133,8 +133,8 @@
                                     <div v-if="message?.sender?.id === userStore.getUser?.id">
                                         <div class="flex items-start justify-end mb-4">
                                             <div class="mr-2">
-                                                <Tooltip position="right"
-                                                    :text="formatTimeToReadable(message?.created_at)">
+                                                <Tooltip position="left"
+                                                    :text="formatDateTimeToReadable(message?.created_at)">
                                                     <div class="bg-secondary text-white p-3 rounded-lg">
                                                         <div v-if="message?.chat_message_attachments?.length > 0"
                                                             class="space-y-3">
@@ -176,7 +176,7 @@
                                                     <p class="text-xs text-gray-500 mt-1"
                                                         v-if="index === state.messages.length - 1 && message?.receipt?.created_at">
                                                         {{ $t('messages.seen') }}
-                                                        {{ formatTimeToReadable(message?.receipt?.created_at) }}
+                                                        {{ formatDateTimeToReadable(message?.receipt?.created_at) }}
                                                     </p>
                                                 </Tooltip>
                                             </div>
@@ -202,8 +202,8 @@
                                                 <div v-else class="ml-10"></div>
                                             </div>
                                             <div class="ml-2">
-                                                <Tooltip position="left"
-                                                    :text="formatTimeToReadable(message?.created_at)">
+                                                <Tooltip position="right"
+                                                    :text="formatDateTimeToReadable(message?.created_at)">
                                                     <div class="bg-gray-200 p-3 rounded-lg">
                                                         <div v-if="message?.chat_message_attachments?.length > 0"
                                                             class="space-y-3">
@@ -285,7 +285,7 @@ import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { formatTimeToReadable } = useDatetimeFormatter()
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const userStore = useUserStore() as any
