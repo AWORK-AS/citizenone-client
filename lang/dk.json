@@ -3793,10 +3793,12 @@
                 "delete": "Slet",
                 "edit": "Rediger"
             },
+            "admin": "Admin",
             "confirmation": {
                 "deleteRoleConfirmation": "Er du sikker på, at du vil slette denne rolle"
             },
-            "name": "Navn"
+            "name": "Navn",
+            "user": "Bruger"
         }
     },
     "save": "Gem",

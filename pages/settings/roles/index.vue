@@ -33,12 +33,20 @@
                             <template #body v-if="!(state.isTableLoading || (state.roles?.data?.length === 0))">
                                 <tr v-for="(role, index) in state.roles?.data" :key="index">
                                     <td width="70%">
-                                        <span>{{ role?.name }}</span>
+                                        <span v-if="role.name === 'Admin'">
+                                            {{ $t('roles.table.admin') }}
+                                        </span>
+                                        <span v-else-if="role.name === 'User'">
+                                            {{ $t('roles.table.user') }}
+                                        </span>
+                                        <span v-else>
+                                            {{ role?.name }}
+                                        </span>
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/roles/${role.uuid}/edit`)"
+                                                @click="navigateTo(`/settings/roles/${role.id}/edit`)"
                                                 v-if="role?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('roles.table.actions.edit') }}
@@ -167,7 +175,7 @@ async function deleteRole() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await roleService.deleteRole(state.selectedRole.uuid)
+        const response = await roleService.deleteRole(state.selectedRole.id)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchRoles()
             successAlert(`${t('alert.success')}!`, `${t('roles.alert.roleSuccessfullyDeleted')}.`)

@@ -3793,10 +3793,12 @@
                 "delete": "Delete",
                 "edit": "Edit"
             },
+            "admin": "Admin",
             "confirmation": {
                 "deleteRoleConfirmation": "Are you sure you want to delete this role"
             },
-            "name": "Name"
+            "name": "Name",
+            "user": "User"
         }
     },
     "save": "Save",

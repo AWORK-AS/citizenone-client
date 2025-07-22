@@ -34,7 +34,7 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
-const roleUuid = router?.currentRoute?.value?.params?.uuid
+const roleId = router?.currentRoute?.value?.params?.id
 const breadcrumbLinks = [
     {
         name: 'roles.roles',
@@ -44,7 +44,7 @@ const breadcrumbLinks = [
     {
         name: 'roles.editRole',
         translate: true,
-        href: `/settings/roles/${roleUuid}/edit`,
+        href: `/settings/roles/${roleId}/edit`,
     },
 ]
 
@@ -64,7 +64,7 @@ async function fetchRole() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await roleService.getRole(roleUuid)
+        const response = await roleService.getRole(roleId)
         if (response) {
             state.formRole = {
                 name: response?.data?.name ?? '',
@@ -83,7 +83,7 @@ async function updateRole(roleDetails: any) {
         const params = {
             name: roleDetails.name,
         }
-        const response = await roleService.updateRole(roleUuid, params)
+        const response = await roleService.updateRole(roleId, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('roles.form.alert.roleSuccessfullyUpdated')}.`)
             navigateTo('/settings/roles')

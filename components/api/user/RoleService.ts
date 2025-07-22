@@ -5,20 +5,20 @@ class RoleService extends BaseAPIService {
         return await this.request(`/user/roles`, 'GET', params)
     }
 
-    async getRole(roleUuid: any): Promise<any> {
-        return await this.request(`/user/roles/${roleUuid}`, 'GET')
+    async getRole(roleId: any): Promise<any> {
+        return await this.request(`/user/roles/${roleId}`, 'GET')
     }
 
     async saveRole(params: object): Promise<any> {
         return await this.request(`/user/roles`, 'POST', params)
     }
 
-    async updateRole(roleUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/roles/${roleUuid}`, 'PUT', params)
+    async updateRole(roleId: any, params: object): Promise<any> {
+        return await this.request(`/user/roles/${roleId}`, 'PUT', params)
     }
 
-    async deleteRole(roleUuid: any): Promise<any> {
-        return await this.request(`/user/roles/${roleUuid}`, 'DELETE')
+    async deleteRole(roleId: any): Promise<any> {
+        return await this.request(`/user/roles/${roleId}`, 'DELETE')
     }
 
     async getAllRoles(): Promise<any> {
