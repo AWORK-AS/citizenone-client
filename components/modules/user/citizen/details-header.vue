@@ -250,7 +250,7 @@
                     <ModulesUserCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
                         v-if="$route.name === 'citizens-uuid-medicine-journals'" />
                     <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
-                        v-if="$route.name === 'citizens-uuid-journals'" />
+                        v-if="$route.name === 'citizens-uuid-journals' && userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
                     <ModulesUserCitizenPatientCareHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
                         @close="state.modal.isViewPatienCareHoursOpen = false"
                         @refreshCitizenDetails="fetchCitizen()" />
