@@ -3773,6 +3773,32 @@
         "resetPassword": "Reset password",
         "or": "Or"
     },
+    "roles": {
+        "addNewRole": "Add new role",
+        "alert": {
+            "roleSuccessfullyDeleted": "Role successfully deleted"
+        },
+        "editRole": "Edit role",
+        "form": {
+            "alert": {
+                "roleSuccessfullyUpdated": "Role successfully updated",
+                "newRoleSuccessfullySaved": "New role successfully saved"
+            },
+            "name": "Name"
+        },
+        "newRole": "New role",
+        "roles": "Roles",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteRoleConfirmation": "Are you sure you want to delete this role"
+            },
+            "name": "Name"
+        }
+    },
     "save": "Save",
     "scheduleTags": {
         "addNewScheduleTag": "Add new schedule tag",
@@ -3903,6 +3929,7 @@
             "medicines": "Medicines",
             "profile": "Profile",
             "relationships": "Relationships",
+            "roles": "Roles",
             "sections": "Sections",
             "storage": "Storage",
             "subscription": "Subscription",
