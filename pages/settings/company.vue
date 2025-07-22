@@ -52,6 +52,13 @@
                             <FormError :error="state?.error?.errors?.accountant_email?.[0]" />
                         </div>
                         <div class="space-y-1">
+                            <FormLabel for="phone" :label="$t('settings.company.form.phone')" />
+                            <FormTextField id="phone" name="phone" :placeholder="$t('settings.company.form.phone')"
+                                v-model="state.formCompany.phone" />
+                            <FormError :error="v$?.formCompany?.phone?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.phone?.[0]" />
+                        </div>
+                        <div class="space-y-1">
                             <FormLabel for="street" :label="$t('settings.company.form.street')" />
                             <FormTextField id="street" name="street" :placeholder="$t('settings.company.form.street')"
                                 v-model="state.formCompany.street" />
@@ -169,6 +176,7 @@ const state = reactive({
         cvr: '',
         website: '',
         accountant_email: '',
+        phone: '',
         street: '',
         region: '',
         municipality: '',
@@ -227,6 +235,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             cvr: newValue?.company?.cvr,
             website: newValue?.company?.website,
             accountant_email: newValue?.company?.accountant_email,
+            phone: newValue?.company?.phone,
             street: newValue?.company?.company_address?.street,
             region: newValue?.company?.company_address?.region?.uuid,
             municipality: newValue?.company?.company_address?.municipality?.uuid,
@@ -312,6 +321,7 @@ async function submitForm() {
                 cvr: state.formCompany.cvr,
                 website: state.formCompany.website,
                 accountant_email: state.formCompany.accountant_email,
+                phone: state.formCompany.phone,
                 street: state.formCompany.street,
                 region_uuid: state.formCompany.region,
                 municipality_uuid: state.formCompany.municipality,

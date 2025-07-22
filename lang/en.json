@@ -3872,6 +3872,7 @@
                 "cvr": "CVR",
                 "groupChat": "Group chat",
                 "municipality": "Municipality",
+                "phone": "Phone",
                 "postCode": "Post code",
                 "region": "Region",
                 "street": "Street",
@@ -4323,6 +4324,7 @@
                 "inactive": "Inactive",
                 "cvr": "CVR",
                 "name": "Name",
+                "phone": "Phone",
                 "status": "Status",
                 "website": "Website"
             },

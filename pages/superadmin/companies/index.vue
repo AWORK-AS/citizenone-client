@@ -33,7 +33,10 @@
                                         <span>74312{{ company?.id }}</span>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ company?.name }}</span>
+                                        <p>{{ company?.name }}</p>
+                                        <p class="text-sm">
+                                            {{ company?.phone }}
+                                        </p>
                                     </td>
                                     <td width="15%">
                                         <span>{{ company?.cvr }}</span>

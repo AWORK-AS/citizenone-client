@@ -214,6 +214,7 @@ async function updateEmployee(employeeDetails: any) {
         params.append('departments_uuid', JSON.stringify(employeeDetails.departments))
         params.append('role', employeeDetails.role)
         params.append('permission', JSON.stringify(employeeDetails.permissions))
+        params.append('show_working_hours', employeeDetails.show_working_hours)
         params.append('media_risk_uuid', JSON.stringify(employeeDetails.media_risks))
         if (employeeDetails.pages) {
             params.append('page_uuid', JSON.stringify(employeeDetails.pages))

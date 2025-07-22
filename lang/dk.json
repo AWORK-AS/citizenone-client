@@ -3872,6 +3872,7 @@
                 "cvr": "CVR",
                 "groupChat": "Gruppechat",
                 "municipality": "Kommune",
+                "phone": "Telefon",
                 "postCode": "Postnummer",
                 "region": "Region",
                 "street": "Gade",
@@ -4323,6 +4324,7 @@
                 "inactive": "Inaktiv",
                 "cvr": "CVR",
                 "name": "Navn",
+                "phone": "Telefon",
                 "status": "Status",
                 "website": "Websted"
             },
