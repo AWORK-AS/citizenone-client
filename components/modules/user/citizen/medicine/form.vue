@@ -38,23 +38,23 @@
                     <FormError :error="v$?.formMedicine?.medicine?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.medicine_uuid?.[0]" />
                 </div>
-                <div class="space-y-1">
-                    <FormLabel for="dosage" :label="$t('citizens.medicineJournals.form.dosageForm')" />
-                    <FormSelect id="dosage" :options="state.options.dosage_form" v-model="state.formMedicine.dosage" />
-                    <FormError :error="v$?.formMedicine?.dosage?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
+                <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
+                    <FormLabel for="schedule_frequency"
+                        :label="`${$t('citizens.medicineJournals.form.scheduleFrequency')}?`" />
+                    <FormSelect id="schedule_frequency" name="schedule_frequency"
+                        :options="state.options.schedule_frequencies" v-model="state.formMedicine.schedule_frequency" />
+                    <FormError :error="v$?.formMedicine?.schedule_frequency?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.schedule_frequency?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 gap-3" :class="[
                     !state.formMedicine.is_pn_medicine && 'md:grid-cols-2'
                 ]">
-                    <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
-                        <FormLabel for="schedule_frequency"
-                            :label="$t('citizens.medicineJournals.form.scheduleFrequency')" />
-                        <FormSelect id="schedule_frequency" name="schedule_frequency"
-                            :options="state.options.schedule_frequencies"
-                            v-model="state.formMedicine.schedule_frequency" />
-                        <FormError :error="v$?.formMedicine?.schedule_frequency?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.schedule_frequency?.[0]" />
+                    <div class="space-y-1">
+                        <FormLabel for="dosage" :label="$t('citizens.medicineJournals.form.dosageForm')" />
+                        <FormSelect id="dosage" :options="state.options.dosage_form"
+                            v-model="state.formMedicine.dosage" />
+                        <FormError :error="v$?.formMedicine?.dosage?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="current_stocks" :label="$t('citizens.medicineJournals.form.currentStocks')" />

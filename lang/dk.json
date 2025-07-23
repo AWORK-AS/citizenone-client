@@ -1229,7 +1229,7 @@
                 "medicineStoragePlaceholder": "Hvor opbevarer I medicinen",
                 "packageLeafletLink": "Link til indlægsseddel",
                 "pnMedicine": "PN-medicin",
-                "scheduleFrequency": "Planlægningsfrekvens",
+                "scheduleFrequency": "Hvor tit skal borger have medicinen",
                 "selfAdminister": "Selvadministrerende medicin",
                 "startDate": "Startdato for seponering",
                 "strength": "Styrke",
