@@ -59,7 +59,7 @@
                                             case 'given':
                                                 return customPagesStore.getCustomPagesName?.giveMedicine;
                                             default:
-                                                return $t('dailyOverview.dailyMedicineOverview.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine.toLowerCase();
+                                                return $t('dailyOverview.dailyMedicineOverview.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine?.toLowerCase();
                                         }
                                     })()">
                                     <span :class="[

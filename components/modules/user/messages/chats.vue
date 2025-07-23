@@ -140,7 +140,7 @@ function chatGroupMembers(chat: any) {
     if (members.length <= 3) return members.join(', ')
 
     const remaining = members.length - 1
-    return `${members[0]}, ${members[1]}, ${t('messages.and').toLowerCase()} ${remaining} ${t('messages.more').toLowerCase()}`
+    return `${members[0]}, ${members[1]}, ${t('messages.and')?.toLowerCase()} ${remaining} ${t('messages.more')?.toLowerCase()}`
 }
 
 function openChat(chat: any) {

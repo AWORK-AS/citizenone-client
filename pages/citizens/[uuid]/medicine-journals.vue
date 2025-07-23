@@ -189,7 +189,7 @@
                                                             case 'given':
                                                                 return customPagesStore.getCustomPagesName?.giveMedicine;
                                                             default:
-                                                                return $t('citizens.medicineJournals.history.form.type.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine.toLowerCase();
+                                                                return $t('citizens.medicineJournals.history.form.type.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine?.toLowerCase();
                                                         }
                                                     })()">
                                                         <span :class="[
