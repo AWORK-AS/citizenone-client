@@ -1220,6 +1220,7 @@
                 "dosage": "Dosis",
                 "dosageForm": "Doseringsform",
                 "endDate": "Slutdato for seponering",
+                "findLeafletLinksHere": "Find links til indlægssedler her",
                 "image": "Billede",
                 "inactive": "Inaktiv",
                 "maxDosagePerTime": "Maksimal dosis pr. gang",

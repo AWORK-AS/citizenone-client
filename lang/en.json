@@ -1220,6 +1220,7 @@
                 "dosage": "Dosage",
                 "dosageForm": "Dosage form",
                 "endDate": "End date",
+                "findLeafletLinksHere": "Find leaflet links here",
                 "image": "Image",
                 "inactive": "Inactive",
                 "maxDosagePerTime": "Max dosage per time",

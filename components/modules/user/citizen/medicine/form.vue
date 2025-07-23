@@ -125,8 +125,15 @@
                     </div>
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="package_leaflet_link"
-                        :label="$t('citizens.medicineJournals.form.packageLeafletLink')" />
+                    <div class="flex items-center justify-between">
+                        <FormLabel for="package_leaflet_link"
+                            :label="$t('citizens.medicineJournals.form.packageLeafletLink')" />
+                        <div class="flex items-center gap-x-1 text-sm cursor-pointer text-primary hover:text-primary-700"
+                            @click="navigateToExternalLink('https://www.indlaegssedler.dk')">
+                            <Icon name="ph:link-simple" class="w-4 h-4" aria-hidden="true" />
+                            {{ $t('citizens.medicineJournals.form.findLeafletLinksHere') }}
+                        </div>
+                    </div>
                     <FormTextField id="package_leaflet_link" name="package_leaflet_link"
                         :placeholder="$t('citizens.medicineJournals.form.packageLeafletLink')"
                         v-model="state.formMedicine.package_leaflet_link" />
@@ -553,6 +560,15 @@ function addMaxDosagePerTime() {
 
 function removeMaxDosagePerTime(index: number) {
     state.formMedicine.max_dosage_per_time.splice(index, 1)
+}
+
+async function navigateToExternalLink(link: any) {
+    await navigateTo(link, {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 </script>
 
