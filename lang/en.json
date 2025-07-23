@@ -4666,6 +4666,9 @@
         }
     },
     "update": "Update",
+    "updates": {
+        "newUpdates": "New updates"
+    },
     "validation": {
         "thisFieldIsRequired": "This field is required"
     },

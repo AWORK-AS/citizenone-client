@@ -251,6 +251,7 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-3">
+                        <ModulesUserNavbarNewUpdates />
                         <ModulesUserNavbarSubscribeButton
                             v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null"
                             class="hidden md:block" />

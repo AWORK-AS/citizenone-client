@@ -4666,6 +4666,9 @@
         }
     },
     "update": "Opdater",
+    "updates": {
+        "newUpdates": "Ny opdateringer"
+    },
     "validation": {
         "thisFieldIsRequired": "Dette felt er påkrævet"
     },
