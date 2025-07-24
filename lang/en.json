@@ -3987,7 +3987,9 @@
             },
             "color": "Color",
             "nameDanish": "Name (danish)",
-            "nameEnglish": "Name (english)"
+            "nameEnglish": "Name (english)",
+            "standard": "Standard",
+            "standardShift": "Standard shift"
         }
     },
     "show": "Show",

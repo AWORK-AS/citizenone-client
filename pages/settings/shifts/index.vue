@@ -33,7 +33,17 @@
                             <template #body v-if="!(state.isTableLoading || (state.shifts?.data?.length === 0))">
                                 <tr v-for="(shift, index) in state.shifts?.data" :key="index">
                                     <td width="30%">
-                                        <span>{{ shift?.en_name }}</span>
+                                        <div class="flex items-center gap-x-1">
+                                            <Tooltip :text="$t('shifts.table.standard')" position="right"
+                                                @click="state.modal.isStandardShiftOpen = true"
+                                                v-if="shift?.is_standard">
+                                                <div class="flex items-center gap-x-1 text-sm cursor-pointer">
+                                                    <Icon name="ph:question" class="size-4 cursor-pointer text-gray-700"
+                                                        aria-hidden="true" />
+                                                </div>
+                                            </Tooltip>
+                                            <span>{{ shift?.en_name }}</span>
+                                        </div>
                                     </td>
                                     <td width="30%">
                                         <span>{{ shift?.dk_name }}</span>
@@ -43,7 +53,7 @@
                                             class="inline-block w-8 h-8 rounded" />
                                     </td>
                                     <td width="30%">
-                                        <div class="flex items-end justify-end gap-2">
+                                        <div class="flex items-center justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/shifts/${shift.uuid}/edit`)"
                                                 v-if="shift?.is_editable">
@@ -64,6 +74,8 @@
                     <Pagination :data="state.shifts" @previous="previous" @next="next" />
                 </div>
             </div>
+            <ModulesUserDutyScheduleShiftModalStandard :isModalOpen="state.modal.isStandardShiftOpen"
+                @close="state.modal.isStandardShiftOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteShiftOpen"
                 :message="$t('shifts.table.confirmation.deleteShiftConfirmation') + '?'"
                 @close="state.modal.isDeleteShiftOpen = false" @confirm="deleteShift" />
@@ -104,6 +116,7 @@ const state = reactive({
     isTableLoading: false,
     modal: {
         isDeleteShiftOpen: false,
+        isStandardShiftOpen: false,
     },
     pagination: {
         current_page: 1,

@@ -3987,7 +3987,9 @@
             },
             "color": "Farve",
             "nameDanish": "Navn (dansk)",
-            "nameEnglish": "Navn (engelsk)"
+            "nameEnglish": "Navn (engelsk)",
+            "standard": "Standard",
+            "standardShift": "Standard vagt"
         }
     },
     "show": "Vis",
