@@ -68,6 +68,7 @@
                                         <td width="20%">
                                             <div>
                                                 {{ data?.deal?.name }}
+                                                {{ data?.other }}
                                             </div>
                                         </td>
                                         <td width="20%">
@@ -107,6 +108,7 @@
 <script setup lang="ts">
 import { invoiceService } from '@/components/api/user/InvoiceService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -116,6 +118,7 @@ const { formatAmount } = useAmountFormatter()
 const { formatDateToReadable } = useDatetimeFormatter()
 const router = useRouter()
 const invoiceUuid = router?.currentRoute?.value?.params?.invoice_uuid
+const language = useI18n()
 const breadcrumbLinks = [
     {
         name: 'invoices.invoices',
@@ -144,6 +147,12 @@ const state = reactive({
 
 onMounted(() => {
     fetchInvoice()
+})
+
+watch(() => language.locale.value, (language: any) => {
+    if (language) {
+        fetchInvoice()
+    }
 })
 
 async function fetchInvoice() {

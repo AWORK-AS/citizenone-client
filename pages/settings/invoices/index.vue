@@ -34,7 +34,7 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.invoices?.data?.length === 0))">
                                 <tr v-for="(invoice, index) in state.invoices?.data" :key="index">
-                                    <td width="15%">
+                                    <td width="25%">
                                         <div>
                                             {{ formatDateTimeToReadable(invoice?.created_at) }}
                                         </div>
@@ -52,11 +52,6 @@
                                     <td width="15%">
                                         <div>
                                             {{ invoice?.invoice_number }}
-                                        </div>
-                                    </td>
-                                    <td width="10%">
-                                        <div>
-                                            {{ formatAmount(invoice?.service_fee) }}
                                         </div>
                                     </td>
                                     <td width="15%">
@@ -130,7 +125,6 @@ const state = reactive({
         { name: 'invoices.table.date', sorter: true, key: 'created_at' },
         { name: 'invoices.table.status' },
         { name: 'invoices.table.invoiceNumber', sorter: true, key: 'invoice_number' },
-        { name: 'invoices.table.serviceFee' },
         { name: 'invoices.table.amount', sorter: true, key: 'total_amount' },
         { name: 'invoices.table.company' },
         { name: '' },
