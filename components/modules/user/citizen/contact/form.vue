@@ -164,7 +164,8 @@
                         <FormError :error="props?.error?.errors?.post_code?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1" v-if="userStore.getUser?.has_relative_app">
+                <div class="space-y-1"
+                    v-if="userStore.getUser?.has_relative_app && state.formContact.title === 'relatives'">
                     <div class="w-fit flex items-center cursor-pointer"
                         @click="state.formContact.has_system_access = !state.formContact.has_system_access">
                         <FormCheckbox :value="state.formContact.has_system_access" />
