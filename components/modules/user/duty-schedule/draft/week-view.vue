@@ -418,7 +418,8 @@
                                                                 class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                                 @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 v-if="isAdmin(userStore.getUser?.roles)">
-                                                                <Tooltip :text="$t('dutySchedules.removeSchedule')">
+                                                                <Tooltip position="left"
+                                                                    :text="$t('dutySchedules.removeSchedule')">
                                                                     <Icon name="ph:x" class="h-2 w-2"
                                                                         aria-hidden="true" />
                                                                 </Tooltip>

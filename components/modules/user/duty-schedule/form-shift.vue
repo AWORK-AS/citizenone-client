@@ -60,15 +60,15 @@
                 </div>
             </div>
             <div class="space-y-1"
-                v-if="!([3, 4].includes(state.options.shifts.findIndex((shift: any) => shift.value === state.formShift.shift_type)))">
+                v-if="!(['vacation-leave', 'sick-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name))">
                 <FormLabel for="citizens" :label="$t('dutySchedules.form.citizens')" />
                 <FormSelectMultiple id="citizens" :options="state.options.citizens"
                     v-model="state.formShift.citizens" />
                 <FormError :error="v$?.formShift?.citizens?.$errors[0]?.$message.toString()" />
                 <FormError :error="state?.error?.errors?.citizen_uuid?.[0]" />
             </div>
-            <div v-if="[3, 4].includes(state.options.shifts.findIndex((shift: any) => shift.value ===
-                state.formShift.shift_type))">
+            <div
+                v-if="['vacation-leave', 'sick-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formShift.use_compensatory_time = !state.formShift.use_compensatory_time">
                     <FormCheckbox :value="state.formShift.use_compensatory_time" />
@@ -180,7 +180,7 @@ const state = reactive({
         citizens: [],
         departments: [],
         scheduleTags: [],
-        shifts: []
+        shifts: [] as any
     }
 })
 
@@ -242,6 +242,7 @@ async function fetchAllShifts() {
                 (shift: any) => options.push({
                     value: shift?.uuid,
                     label: language.locale.value === 'en' ? shift?.en_name : shift?.dk_name,
+                    system_name: shift?.system_name,
                 })
             )
             state.options.shifts = options
