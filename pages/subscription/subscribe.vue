@@ -465,6 +465,12 @@ onMounted(() => {
     fetchDeals()
 })
 
+watch(() => userStore.getUser, (user: any) => {
+    if (user.user_subscription?.type === 'yearly') {
+        frequency.value = frequencies.find(f => f.value === 'annually')!
+    }
+})
+
 onUnmounted(() => {
     // Cleanup checkout instance when component is unmounted
     if (checkout) {
