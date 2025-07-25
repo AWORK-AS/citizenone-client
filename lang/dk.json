@@ -4669,7 +4669,8 @@
     },
     "update": "Opdater",
     "updates": {
-        "newUpdates": "Nye opdateringer"
+        "newUpdates": "Nye opdateringer",
+        "newUpdatesFrom": "Nye opdateringer fra"
     },
     "validation": {
         "thisFieldIsRequired": "Dette felt er påkrævet"

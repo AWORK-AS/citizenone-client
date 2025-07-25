@@ -4669,7 +4669,8 @@
     },
     "update": "Update",
     "updates": {
-        "newUpdates": "New updates"
+        "newUpdates": "New updates",
+        "newUpdatesFrom": "New updates from"
     },
     "validation": {
         "thisFieldIsRequired": "This field is required"

@@ -1,6 +1,7 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('updates.newUpdates')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="`${$t('updates.newUpdatesFrom')} ${formatDateToReadable('2025-07-25')}`"
+            :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="space-y-5 text-sm text-gray-700">
                     <div v-for="(update, index) in state.updates" :key="index">
@@ -25,6 +26,7 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
 const props = defineProps({
     isModalOpen: {
@@ -35,6 +37,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 const language = useI18n()
+const { formatDateToReadable } = useDatetimeFormatter()
 
 function closeModal() {
     emit('close')
