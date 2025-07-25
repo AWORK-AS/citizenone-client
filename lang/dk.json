@@ -1205,7 +1205,7 @@
             },
             "editMedicine": "Rediger Medicin",
             "form": {
-                "activateMedicine": "Aktiver medicine",
+                "activateMedicine": "Aktivér medicin",
                 "active": "Aktiv",
                 "activeIngredients": "Indholdsstoffer",
                 "alert": {
@@ -4669,7 +4669,7 @@
     },
     "update": "Opdater",
     "updates": {
-        "newUpdates": "Ny opdateringer"
+        "newUpdates": "Nye opdateringer"
     },
     "validation": {
         "thisFieldIsRequired": "Dette felt er påkrævet"
