@@ -30,9 +30,15 @@
                 {{ customPagesStore.getCustomPagesName?.dutySchedules }}
             </template>
             <template #guided-tour>
-                <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
-                    <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
-                </Tooltip>
+                <div class="flex items-center gap-x-1">
+                    <Tooltip :text="$t('dutySchedules.activityLogs')" @click="openDutySchedulesActivityLogs()">
+                        <Icon name="ph:clock-counter-clockwise" class="size-6 cursor-pointer text-gray-700"
+                            aria-hidden="true" />
+                    </Tooltip>
+                    <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
+                        <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
+                    </Tooltip>
+                </div>
             </template>
 
             <!-- <div class="flex items-center gap-x-3">
@@ -54,6 +60,8 @@
                 <ModulesUserDutyScheduleWeekView v-if="state.calendarView === 'week'" />
             </div>
 
+            <ModulesUserDutyScheduleActivityLogsModalHistory :isModalOpen="state.modal.isActivityLogsOpen"
+                @close="state.modal.isActivityLogsOpen = false" />
             <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
                 :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
@@ -70,9 +78,14 @@ const customPagesStore = useCustomPagesStore() as any
 const state = reactive({
     calendarView: 'week',
     modal: {
+        isActivityLogsOpen: false,
         isGuidedTourDutyScheduleOpen: false,
     },
 })
+
+function openDutySchedulesActivityLogs() {
+    state.modal.isActivityLogsOpen = true
+}
 
 function openGuidedTour() {
     state.modal.isGuidedTourDutyScheduleOpen = true

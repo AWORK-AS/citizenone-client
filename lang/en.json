@@ -2059,6 +2059,7 @@
         }
     },
     "dutySchedules": {
+        "activityLogs": "Activity logs",
         "alert": {
             "newScheduleSuccessfullyAdded": "New schedule successfully added",
             "scheduleSuccessfullyCopied": "Schedule successfully copied",

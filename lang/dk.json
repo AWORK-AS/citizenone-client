@@ -2059,6 +2059,7 @@
         }
     },
     "dutySchedules": {
+        "activityLogs": "Aktivitetslogs",
         "alert": {
             "newScheduleSuccessfullyAdded": "Ny vagtplan tilføjet med succes",
             "scheduleSuccessfullyCopied": "Vagtplan kopieret med succes",
