@@ -86,14 +86,17 @@
                                         </span>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ document?.user?.firstname }}</span>
-                                        <span>{{ document?.user?.lastname }}</span>
+                                        <p class="truncate">
+                                            {{ document?.user?.firstname + ' ' + document?.user?.lastname }}
+                                        </p>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ formatDateTimeToReadable(document?.created_at) }}</span>
+                                        <span class="truncate">
+                                            {{ formatDateTimeToReadable(document?.created_at) }}
+                                        </span>
                                     </td>
                                     <td width="20%">
-                                        <span>
+                                        <span class="truncate">
                                             {{ document?.updated_at && formatDateTimeToReadable(document?.updated_at) }}
                                         </span>
                                     </td>
