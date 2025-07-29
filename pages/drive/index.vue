@@ -37,7 +37,7 @@
                                 <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('drive.uploadFile') }}
                             </FormButton>
-                            <input type="file" ref="documentFile" @change="uploadFile" class="hidden" />
+                            <input type="file" ref="documentFile" @change="uploadFile" class="hidden" multiple />
                         </LoadingSpinner>
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isViewFolderStructureOpen = true">
@@ -351,10 +351,19 @@ async function uploadFile(event: any) {
     state.isPageLoading = true
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid as any
-        let params = new FormData()
+        const files = event.target.files
+
+        if (!files || files.length === 0) return
+
+        const params = new FormData()
         params.append('type', 'file')
         params.append('is_admin_access', 'false')
-        params.append('file', event.target.files[0])
+
+        // Append all files with the same key, e.g., files[]
+        for (const file of files) {
+            params.append('files[]', file)
+        }
+
         if (folderUuid) {
             params.append('folder_uuid', folderUuid)
         }
