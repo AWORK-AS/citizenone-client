@@ -1208,6 +1208,7 @@
                 "activateMedicine": "Aktivér medicin",
                 "active": "Aktiv",
                 "activeIngredients": "Indholdsstoffer",
+                "activeIngredientsLabel": "Er der andre ingredienser, der er relevante at nævne",
                 "alert": {
                     "successfullyAdded": "Medicin tilføjet med succes",
                     "successfullyUpdated": "Medicin opdateret med succes"
@@ -1228,6 +1229,8 @@
                 "medicine": "Medicin",
                 "medicineStorage": "Medicinopbevaring",
                 "medicineStoragePlaceholder": "Hvor opbevarer I medicinen",
+                "otherInformation": "Andre oplysninger",
+                "otherInformationLabel": "Er der andre vigtige detaljer at fremhæve",
                 "packageLeafletLink": "Link til indlægsseddel",
                 "pnMedicine": "PN-medicin",
                 "scheduleFrequency": "Hvor tit skal borger have medicinen",

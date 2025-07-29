@@ -1208,6 +1208,7 @@
                 "activateMedicine": "Activate medicine",
                 "active": "Active",
                 "activeIngredients": "Active ingredients",
+                "activeIngredientsLabel": "Are there any other ingredients that are relevant to mention",
                 "alert": {
                     "successfullyAdded": "Medicine successfully added",
                     "successfullyUpdated": "Medicine successfully update"
@@ -1228,6 +1229,8 @@
                 "medicine": "Medicine",
                 "medicineStorage": "Medicine storage",
                 "medicineStoragePlaceholder": "Where do you store the medicine",
+                "otherInformation": "Other information",
+                "otherInformationLabel": "Are there any other important details to highlight",
                 "packageLeafletLink": "Package leaflet link",
                 "pnMedicine": "PN-medicine",
                 "scheduleFrequency": "How often should citizens take the medicine",

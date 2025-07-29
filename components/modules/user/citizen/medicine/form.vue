@@ -188,15 +188,15 @@
                     <FormLabel for="active_ingredients"
                         :label="$t('citizens.medicineJournals.form.activeIngredients')" />
                     <FormTextArea id="active_ingredients" name="active_ingredients"
-                        :placeholder="$t('citizens.medicineJournals.form.activeIngredients')"
+                        :placeholder="`${$t('citizens.medicineJournals.form.activeIngredientsLabel')}?`"
                         v-model="state.formMedicine.active_ingredients" />
                     <FormError :error="v$?.formMedicine?.active_ingredients?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.active_ingredients?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="description" :label="$t('citizens.medicineJournals.form.description')" />
+                    <FormLabel for="description" :label="$t('citizens.medicineJournals.form.otherInformation')" />
                     <FormTextArea id="description" name="description"
-                        :placeholder="$t('citizens.medicineJournals.form.description')"
+                        :placeholder="`${$t('citizens.medicineJournals.form.otherInformationLabel')}?`"
                         v-model="state.formMedicine.description" />
                     <FormError :error="v$?.formMedicine?.description?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.description?.[0]" />
