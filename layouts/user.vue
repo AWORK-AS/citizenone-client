@@ -281,7 +281,7 @@
                         <button type="button"
                             class="-m-2.5 p-2.5 flex items-center gap-x-2 text-sm text-primary hover:text-primary-700"
                             @click="openSupport">
-                            <Icon name="material-symbols:support" class="ml-2 h-8 w-8 md:w-6 md:h-6"
+                            <Icon name="material-symbols:support" class="md:ml-2 h-8 w-8 md:w-6 md:h-6"
                                 aria-hidden="true" />
                             <span class="hidden md:block">Support</span>
                         </button>
