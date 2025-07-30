@@ -54,6 +54,7 @@ const state = reactive({
         image: '',
         en_name: '',
         dk_name: '',
+        active_ingredients: '',
     },
     isPageLoading: false,
 })
@@ -72,6 +73,7 @@ async function fetchMedicine() {
                 image: response?.data?.image_url ?? '',
                 en_name: response?.data?.en_name ?? '',
                 dk_name: response?.data?.dk_name ?? '',
+                active_ingredients: response?.data?.ingredients ?? '',
             }
         }
     } catch (error: any) {
@@ -90,6 +92,7 @@ async function updateMedicine(medicineDetails: any) {
         }
         params.append('en_name', medicineDetails.en_name)
         params.append('dk_name', medicineDetails.dk_name)
+        params.append('ingredients', medicineDetails.active_ingredients)
         const response = await medicineService.updateMedicine(medicineUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('medicines.form.alert.medicineSuccessfullyUpdated')}.`)

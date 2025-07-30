@@ -35,13 +35,16 @@
                                     <td width="15%">
                                         <img :src="medicine?.image_url" class="h-24" v-if="medicine?.image_url" />
                                     </td>
-                                    <td width="30%">
+                                    <td width="20%">
                                         <span>{{ medicine?.en_name }}</span>
                                     </td>
-                                    <td width="30%">
+                                    <td width="20%">
                                         <span>{{ medicine?.dk_name }}</span>
                                     </td>
                                     <td width="25%">
+                                        <span>{{ medicine?.ingredients }}</span>
+                                    </td>
+                                    <td width="20%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/medicines/${medicine.uuid}/edit`)">
@@ -93,6 +96,7 @@ const state = reactive({
         { name: 'medicines.table.image' },
         { name: 'medicines.table.nameEnglish', sorter: true, key: 'en_name' },
         { name: 'medicines.table.nameDanish', sorter: true, key: 'dk_name' },
+        { name: 'medicines.table.activeIngredients' },
         { name: '' }
     ],
     dataFilter: {
