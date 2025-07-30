@@ -85,10 +85,10 @@
                                                     class="w-28" v-if="medicine?.medicine?.image_url">
                                             </div>
                                             <div class="space-y-1 ml-7">
-                                                <p v-if="language.locale.value === 'en'">
+                                                <p class="truncate" v-if="language.locale.value === 'en'">
                                                     {{ medicine?.medicine?.en_name }}
                                                 </p>
-                                                <p v-if="language.locale.value === 'dk'">
+                                                <p class="truncate" v-if="language.locale.value === 'dk'">
                                                     {{ medicine?.medicine?.dk_name }}
                                                 </p>
                                                 <div v-if="medicine.is_pn_medicine">
