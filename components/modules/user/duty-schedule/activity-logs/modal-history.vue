@@ -18,7 +18,211 @@
                                             <span>{{ log?.causer?.firstname + ' ' + log?.causer?.lastname }}</span>
                                         </td>
                                         <td width="50%">
-                                            <ModulesUserActivityLogsDescription :description="log?.description" />
+                                            <div class="space-y-2"
+                                                :class="expandedDescription[index] ? '' : 'line-clamp-2'">
+                                                <Badge type="primary" class="w-fit">
+                                                    <p class="text-xxs" v-if="log?.action_type === 'created'">
+                                                        {{ $t('activityLogs.table.actionTypes.created') }}
+                                                    </p>
+                                                    <p class="text-xxs" v-if="log?.action_type === 'deleted'">
+                                                        {{ $t('activityLogs.table.actionTypes.deleted') }}
+                                                    </p>
+                                                    <p class="text-xxs" v-if="log?.action_type === 'published'">
+                                                        {{ $t('activityLogs.table.actionTypes.published') }}
+                                                    </p>
+                                                    <p class="text-xxs" v-if="log?.action_type === 'updated'">
+                                                        {{ $t('activityLogs.table.actionTypes.updated') }}
+                                                    </p>
+                                                </Badge>
+                                                <div class="bg-green-200 rounded-md space-y-1 p-4"
+                                                    v-if="['created', 'published', 'updated'].includes(log?.action_type)">
+                                                    <p class="text-sm font-semibold">
+                                                        {{ $t('activityLogs.table.newData') }}
+                                                    </p>
+                                                    <div class="flex items-center gap-x-1 text-sm">
+                                                        <p class="font-semibold">
+                                                            {{ $t('activityLogs.table.data.typeOfShift') }}:
+                                                        </p>
+                                                        <p>
+                                                            <span v-if="language.locale.value === 'en'">
+                                                                {{ log?.new_data?.shift?.en_name }}
+                                                            </span>
+                                                            <span v-if="language.locale.value === 'dk'">
+                                                                {{ log?.new_data?.shift?.dk_name }}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="flex items-center gap-x-1 text-sm">
+                                                        <p class="font-semibold">
+                                                            {{ $t('activityLogs.table.data.dateTimeStart') }}:
+                                                        </p>
+                                                        <p>
+                                                            {{
+                                                                formatDateTimeToReadable(log?.new_data?.date_time_start)
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="flex items-center gap-x-1 text-sm">
+                                                        <p class="font-semibold">
+                                                            {{ $t('activityLogs.table.data.dateTimeEnd') }}:
+                                                        </p>
+                                                        <p>
+                                                            {{
+                                                                formatDateTimeToReadable(log?.new_data?.date_time_end)
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="flex items-start gap-x-1 text-sm">
+                                                        <p class="font-semibold">
+                                                            {{ $t('activityLogs.table.data.note') }}:
+                                                        </p>
+                                                        <p>
+                                                            {{ log?.new_data?.note }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="text-sm">
+                                                        <p class="font-semibold">
+                                                            {{ $t('activityLogs.table.data.citizens') }}:
+                                                        </p>
+                                                        <div>
+                                                            <span
+                                                                v-for="(citizenSchedule, citizenIndex) in log?.new_data?.citizen_schedules"
+                                                                :key="citizenIndex">
+                                                                {{ citizenSchedule?.citizen?.firstname + ' ' +
+                                                                    citizenSchedule?.citizen?.lastname }}<span
+                                                                    v-if="citizenIndex < log?.new_data?.citizen_schedules?.length - 1">,
+                                                                </span><span v-else>.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-sm">
+                                                        <p class="font-semibold">
+                                                            {{ $t('activityLogs.table.data.tags') }}:
+                                                        </p>
+                                                        <Tooltip :text="tag?.tag"
+                                                            v-for="(tag, tagIndex) in log?.new_data?.duty_schedule_tags"
+                                                            :key="tagIndex">
+                                                            <div class="text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center"
+                                                                :style="{ backgroundColor: tag?.color }">
+                                                                <span v-if="tag?.tag">
+                                                                    {{ tag?.tag?.charAt(0) }}
+                                                                </span>
+                                                            </div>
+                                                        </Tooltip>
+                                                    </div>
+                                                    <div class="text-sm">
+                                                        <p class="font-semibold">
+                                                            {{ $t('activityLogs.table.data.departments') }}:
+                                                        </p>
+                                                        <div>
+                                                            <span
+                                                                v-for="(department, departmentIndex) in log?.new_data?.departments"
+                                                                :key="departmentIndex">
+                                                                {{ department?.name }}<span
+                                                                    v-if="departmentIndex < log?.new_data?.departments.length - 1">,
+                                                                </span><span v-else>.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="bg-yellow-100 rounded-md space-y-1.5 p-4 mt-3"
+                                                    v-if="log?.old_data && ['deleted', 'published', 'updated'].includes(log?.action_type)">
+                                                    <p class="text-sm font-semibold">
+                                                        {{ $t('activityLogs.table.previousData') }}
+                                                    </p>
+                                                    <div class="flex items-center gap-x-1 text-sm">
+                                                        <p class="font-semibold">
+                                                            {{ $t('activityLogs.table.data.typeOfShift') }}:
+                                                        </p>
+                                                        <p>
+                                                            <span v-if="language.locale.value === 'en'">
+                                                                {{ log?.old_data?.shift?.en_name }}
+                                                            </span>
+                                                            <span v-if="language.locale.value === 'dk'">
+                                                                {{ log?.old_data?.shift?.dk_name }}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="flex items-center gap-x-1 text-sm">
+                                                        <p class="font-semibold">
+                                                            {{ $t('activityLogs.table.data.dateTimeStart') }}:
+                                                        </p>
+                                                        <p>
+                                                            {{
+                                                                formatDateTimeToReadable(log?.old_data?.date_time_start)
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="flex items-center gap-x-1 text-sm">
+                                                        <p class="font-semibold">
+                                                            {{ $t('activityLogs.table.data.dateTimeEnd') }}:
+                                                        </p>
+                                                        <p>
+                                                            {{
+                                                                formatDateTimeToReadable(log?.old_data?.date_time_end)
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="flex items-start gap-x-1 text-sm">
+                                                        <p class="font-semibold">
+                                                            {{ $t('activityLogs.table.data.note') }}:
+                                                        </p>
+                                                        <p>
+                                                            {{ log?.old_data?.note }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="text-sm">
+                                                        <p class="font-semibold">
+                                                            {{ $t('activityLogs.table.data.citizens') }}:
+                                                        </p>
+                                                        <div>
+                                                            <span
+                                                                v-for="(citizenSchedule, citizenIndex) in log?.old_data?.citizen_schedules"
+                                                                :key="citizenIndex">
+                                                                {{ citizenSchedule?.citizen?.firstname + ' ' +
+                                                                    citizenSchedule?.citizen?.lastname }}<span
+                                                                    v-if="citizenIndex < log?.old_data?.citizen_schedules?.length - 1">,
+                                                                </span><span v-else>.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-sm">
+                                                        <p class="font-semibold">
+                                                            {{ $t('activityLogs.table.data.tags') }}:
+                                                        </p>
+                                                        <Tooltip :text="tag?.tag"
+                                                            v-for="(tag, tagIndex) in log?.old_data?.duty_schedule_tags"
+                                                            :key="tagIndex">
+                                                            <div class="text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center"
+                                                                :style="{ backgroundColor: tag?.color }">
+                                                                <span v-if="tag?.tag">
+                                                                    {{ tag?.tag?.charAt(0) }}
+                                                                </span>
+                                                            </div>
+                                                        </Tooltip>
+                                                    </div>
+                                                    <div class="text-sm">
+                                                        <p class="font-semibold">
+                                                            {{ $t('activityLogs.table.data.departments') }}:
+                                                        </p>
+                                                        <div>
+                                                            <span
+                                                                v-for="(department, departmentIndex) in log?.old_data?.departments"
+                                                                :key="departmentIndex">
+                                                                {{ department?.name }}<span
+                                                                    v-if="departmentIndex < log?.old_data?.departments.length - 1">,
+                                                                </span><span v-else>.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button @click="toggleExpanded(index)"
+                                                class="mt-3 text-primary text-sm hover:text-primary-700">
+                                                {{ expandedDescription[index] ?
+                                                    $t('showLess') :
+                                                    $t('showMore') }}
+                                            </button>
                                         </td>
                                     </tr>
                                 </template>
@@ -35,6 +239,7 @@
 <script setup lang="ts">
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -45,6 +250,8 @@ const props = defineProps({
 })
 
 const { formatDateTimeToReadable } = useDatetimeFormatter()
+const language = useI18n()
+const expandedDescription = reactive([] as boolean[])
 let currentTablePage = 1
 const emit = defineEmits(['close'])
 
@@ -85,6 +292,7 @@ async function fetchActivityLogs() {
         const response = await dutyScheduleService.getDutySchedulesActivityLogs(params)
         if (response) {
             state.logs = response
+            expandedDescription.splice(0, expandedDescription.length, ...response.data.map(() => false))
         }
     } catch (error: any) {
         state.error = error
@@ -109,5 +317,9 @@ function sort(sortingData: any) {
         sortOrder: sortingData.sort,
     }
     fetchActivityLogs()
+}
+
+function toggleExpanded(index: number) {
+    expandedDescription[index] = !expandedDescription[index]
 }
 </script>

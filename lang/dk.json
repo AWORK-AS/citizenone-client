@@ -217,9 +217,26 @@
             "loggedOut": "Logget ud"
         },
         "table": {
+            "actionTypes": {
+                "created": "Oprettet",
+                "deleted": "Slettet",
+                "published": "Publiceret",
+                "updated": "Opdateret"
+            },
             "createdAt": "Oprettet den",
+            "data": {
+                "citizens": "Borgere",
+                "dateTimeEnd": "Dato og tid slut",
+                "dateTimeStart": "Dato og tid start",
+                "departments": "Afdelinger",
+                "note": "Bemærkning",
+                "tags": "Tags",
+                "typeOfShift": "Type af vagt"
+            },
             "description": "Beskrivelse",
             "ipAddress": "IP-adresse",
+            "newData": "Nye data",
+            "previousData": "Tidligere data",
             "user": "Bruger"
         }
     },

@@ -217,9 +217,26 @@
             "loggedOut": "Logged out"
         },
         "table": {
+            "actionTypes": {
+                "created": "Created",
+                "deleted": "Deleted",
+                "published": "Published",
+                "updated": "Updated"
+            },
             "createdAt": "Created at",
+            "data": {
+                "citizens": "Citizens",
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
+                "departments": "Departments",
+                "note": "Note",
+                "tags": "Tags",
+                "typeOfShift": "Type of shift"
+            },
             "description": "Description",
             "ipAddress": "Ip address",
+            "newData": "New data",
+            "previousData": "Previous data",
             "user": "User"
         }
     },
