@@ -185,13 +185,12 @@
                     <FormError :error="props?.error?.errors?.medication_storage?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="active_ingredients"
-                        :label="$t('citizens.medicineJournals.form.activeIngredients')" />
-                    <FormTextArea id="active_ingredients" name="active_ingredients"
-                        :placeholder="`${$t('citizens.medicineJournals.form.activeIngredientsLabel')}?`"
-                        v-model="state.formMedicine.active_ingredients" />
-                    <FormError :error="v$?.formMedicine?.active_ingredients?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.active_ingredients?.[0]" />
+                    <FormLabel for="ingredients" :label="$t('citizens.medicineJournals.form.ingredients')" />
+                    <FormTextArea id="ingredients" name="ingredients"
+                        :placeholder="`${$t('citizens.medicineJournals.form.ingredientsLabel')}?`"
+                        v-model="state.formMedicine.ingredients" />
+                    <FormError :error="v$?.formMedicine?.ingredients?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.ingredients?.[0]" />
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="description" :label="$t('citizens.medicineJournals.form.otherInformation')" />
@@ -271,7 +270,7 @@ const state = reactive({
         doctor: '',
         treatment_reason: '',
         medication_storage: '',
-        active_ingredients: '',
+        ingredients: '',
         description: '',
     } as any,
     modal: {
@@ -317,7 +316,7 @@ onMounted(() => {
         doctor: props.selectedMedicine.doctor?.uuid?.toString(),
         treatment_reason: props.selectedMedicine.treatment_reason,
         medication_storage: props.selectedMedicine.medication_storage,
-        active_ingredients: props.selectedMedicine.active_ingredients,
+        ingredients: props.selectedMedicine.ingredients,
         description: props.selectedMedicine.description,
         schedule_frequency: props.selectedMedicine.schedule_frequency,
         current_stocks: props.selectedMedicine.current_stocks?.toString(),
@@ -350,7 +349,7 @@ const rules = computed(() => {
                     max_daily_dose: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    active_ingredients: {
+                    ingredients: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     description: {
@@ -376,7 +375,7 @@ const rules = computed(() => {
                     max_daily_dose: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    active_ingredients: {
+                    ingredients: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     description: {
@@ -407,7 +406,7 @@ const rules = computed(() => {
                     max_daily_dose: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    active_ingredients: {
+                    ingredients: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     description: {
@@ -433,7 +432,7 @@ const rules = computed(() => {
                     max_daily_dose: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    active_ingredients: {
+                    ingredients: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     description: {

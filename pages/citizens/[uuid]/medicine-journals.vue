@@ -100,6 +100,9 @@
                                                         </p>
                                                     </Badge>
                                                 </div>
+                                                <p>
+                                                    {{ medicine?.medicine?.ingredients }}
+                                                </p>
                                             </div>
                                         </div>
                                     </td>

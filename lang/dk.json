@@ -1207,8 +1207,6 @@
             "form": {
                 "activateMedicine": "Aktivér medicin",
                 "active": "Aktiv",
-                "activeIngredients": "Indholdsstoffer",
-                "activeIngredientsLabel": "Er der andre ingredienser, der er relevante at nævne",
                 "alert": {
                     "successfullyAdded": "Medicin tilføjet med succes",
                     "successfullyUpdated": "Medicin opdateret med succes"
@@ -1224,6 +1222,8 @@
                 "findLeafletLinksHere": "Find links til indlægssedler her",
                 "image": "Billede",
                 "inactive": "Inaktiv",
+                "ingredients": "Indholdsstoffer",
+                "ingredientsLabel": "Er der andre ingredienser, der er relevante at nævne",
                 "maxDosagePerTime": "Maksimal dosis pr. gang",
                 "maxDailyDose": "Maksimal daglig dosis",
                 "medicine": "Medicin",

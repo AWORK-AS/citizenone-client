@@ -1207,8 +1207,6 @@
             "form": {
                 "activateMedicine": "Activate medicine",
                 "active": "Active",
-                "activeIngredients": "Active ingredients",
-                "activeIngredientsLabel": "Are there any other ingredients that are relevant to mention",
                 "alert": {
                     "successfullyAdded": "Medicine successfully added",
                     "successfullyUpdated": "Medicine successfully update"
@@ -1224,6 +1222,8 @@
                 "findLeafletLinksHere": "Find leaflet links here",
                 "image": "Image",
                 "inactive": "Inactive",
+                "ingredients": "Ingredients",
+                "ingredientsLabel": "Are there any other ingredients that are relevant to mention",
                 "maxDosagePerTime": "Max dosage per time",
                 "maxDailyDose": "Max daily dose",
                 "medicine": "Medicine",

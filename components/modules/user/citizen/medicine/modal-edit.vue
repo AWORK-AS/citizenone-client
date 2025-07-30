@@ -54,7 +54,7 @@ const state = reactive({
         doctor: '',
         treatment_reason: '',
         medication_storage: '',
-        active_ingredients: '',
+        ingredients: '',
         description: '',
     },
     isPageLoading: false,
@@ -87,7 +87,7 @@ watch(() => props.isModalOpen, (isModalOpen) => {
             doctor: props.selectedMedicine?.doctor ?? '',
             treatment_reason: props.selectedMedicine?.treatment_reason ?? '',
             medication_storage: props.selectedMedicine?.medication_storage,
-            active_ingredients: props.selectedMedicine?.active_ingredients,
+            ingredients: props.selectedMedicine?.ingredients,
             description: props.selectedMedicine?.description,
         }
     }
@@ -117,7 +117,7 @@ async function updateMedicine(medicineDetails: any) {
         params.append('doctor_uuid', medicineDetails.doctor ?? '')
         params.append('treatment_reason', medicineDetails.treatment_reason)
         params.append('medication_storage', medicineDetails.medication_storage)
-        params.append('active_ingredients', medicineDetails.active_ingredients)
+        params.append('ingredients', medicineDetails.ingredients)
         params.append('description', medicineDetails.description)
         const response = await medicineJournalService.updateMedicine(medicineUuid, params)
         if (response?.data) {
