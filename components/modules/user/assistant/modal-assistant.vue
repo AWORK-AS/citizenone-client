@@ -1,42 +1,45 @@
 <template>
     <div>
-        <!-- Modal for Chatbot -->
-        <Modal size="md" :title="$t('assistants.assistants')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xl" :title="$t('assistants.assistants')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <div class="space-y-5 text-sm text-gray-700">
-
-                    <!-- Chatbot Container -->
-                    <div class="flex flex-col h-[60vh] overflow-hidden border border-gray-300 rounded-lg">
-                        <!-- Chat messages -->
-                        <div class="flex-1 overflow-y-auto p-4 space-y-3">
-                            <div v-for="(message, index) in state.messages" :key="index"
-                                :class="message.type === 'user' ? 'text-right' : 'text-left'">
-                                <div
-                                    :class="message.type === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'">
-                                    <p class="px-4 py-2 rounded-lg inline-block max-w-xs">
-                                        {{ message.text }}
-                                    </p>
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
+                    <div class="space-y-5 text-sm text-gray-700">
+                        <!-- Chatbot Container -->
+                        <div class="flex flex-col h-[60vh] overflow-hidden border border-gray-300 rounded-lg">
+                            <!-- Chat messages -->
+                            <div class="flex-1 overflow-y-auto p-4 space-y-3">
+                                <div v-for="(message, index) in state.messages" :key="index"
+                                    :class="message.type === 'user' ? 'text-right' : 'text-left'">
+                                    <div
+                                        :class="message.type === 'user' ? 'bg-secondary text-white p-1 rounded-lg' : 'bg-gray-200 p-1 rounded-lg'">
+                                        <p class="px-4 py-2 rounded-lg inline-block max-w-xs"
+                                            v-html="formatMessage(message?.text)" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Chat Input -->
-                        <div class="flex items-center gap-x-2 p-2 border-t border-gray-300">
-                            <FormTextField id="prompt" name="prompt" :placeholder="$t('assistants.askAnything')"
-                                v-model="state.newMessage" @keydown.enter="sendMessage" />
-                            <FormButton buttonStyle="primary" @click="sendMessage">
-                                {{ $t('assistants.send') }}
-                            </FormButton>
+                            <!-- Chat Input -->
+                            <div class="flex items-center gap-x-2 p-2 border-t border-gray-300">
+                                <FormTextField id="prompt" name="prompt" :placeholder="$t('assistants.askAnything')"
+                                    v-model="state.newMessage" @keydown.enter="sendMessage" />
+                                <FormButton buttonStyle="primary" @click="sendMessage">
+                                    {{ $t('assistants.send') }}
+                                </FormButton>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </LoadingSpinner>
             </template>
         </Modal>
     </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { aIAssistantService } from '@/components/api/user/AIAssistantService'
+import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
 
 const props = defineProps({
     isModalOpen: {
@@ -46,6 +49,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close'])
+const { t } = useI18n()
 
 function closeModal() {
     emit('close')
@@ -53,21 +57,54 @@ function closeModal() {
 
 // Using reactive for the state
 const state = reactive({
-    messages: [
-        { type: 'bot', text: 'Hello, how can I assist you today?' },
-    ],
+    error: {} as Error,
+    isPageLoading: false,
+    messages: [] as any,
     newMessage: '',
 })
 
-// Send message function
-function sendMessage() {
-    if (state.newMessage.trim()) {
-        state.messages.push({ type: 'user', text: state.newMessage })
-        state.newMessage = ''
-        // Simulate bot response
-        setTimeout(() => {
-            state.messages.push({ type: 'bot', text: 'I am just a bot, but I received your message!' })
-        }, 1000)
+watch(() => props.isModalOpen, (isModalOpen: boolean) => {
+    if (isModalOpen) {
+        state.messages = []
+        state.messages.push({ type: 'bot', text: `${t('assistants.helloHowCanIAssistYouToday')}?` })
     }
+})
+
+async function sendMessage() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        state.messages.push({
+            type: 'user',
+            text: state.newMessage,
+        })
+        const params = {
+            prompt: state.newMessage,
+        }
+        state.newMessage = ''
+        const response = await aIAssistantService.sendMessage(params)
+        if (response) {
+            if (JSON.parse(response)?.output?.[0]?.content?.[0]?.text) {
+                state.messages.push({
+                    type: 'bot',
+                    text: JSON.parse(response)?.output?.[0]?.content?.[0]?.text,
+                })
+                console.log('test', state.messages)
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function formatMessage(messageText: string) {
+    // Example format: If the message contains a structured citizen list, format it
+    const formattedMessage = messageText.replace(/---/g, '<hr/>') // Replace "---" with horizontal line
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold the text wrapped in **
+        .replace(/\*\[(.*?)\]\(.*?\)/g, '<a href="#">$1</a>') // Make links clickable
+        .replace(/\n/g, '<br/>') // Replace newlines with <br/>
+
+    return formattedMessage
 }
 </script>
