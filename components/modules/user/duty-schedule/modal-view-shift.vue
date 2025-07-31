@@ -58,11 +58,11 @@
                                 </span>
                             </p>
                         </div>
-                        <div class="space-y-1">
-                            <p class="text-sm text-gray-600">
+                        <div class="space-y-1 text-sm">
+                            <p class="text-gray-600">
                                 {{ $t('dutySchedules.viewSchedule.note') }}:
                             </p>
-                            <p v-html="props?.selectedEmployeeSchedule?.note" />
+                            <p v-html="props?.selectedEmployeeSchedule?.note?.replace(/\n/g, '<br>')" />
                         </div>
                         <div class="flex items-center flex-wrap gap-y-0.5 mt-1"
                             v-if="props?.selectedEmployeeSchedule?.tags?.length > 0">
