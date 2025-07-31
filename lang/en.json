@@ -351,7 +351,10 @@
         }
     },
     "assistants": {
-        "assistants": "Assistants"
+        "assistants": "Assistants",
+        "askAnything": "Ask anything",
+        "helloHowCanIAssistYouToday": "Hello, how can I assist you today",
+        "send": "Send"
     },
     "back": "Back",
     "bookings": {
