@@ -350,6 +350,9 @@
             "archivedSubgoals": "Archived subgoals"
         }
     },
+    "assistants": {
+        "assistants": "Assistants"
+    },
     "back": "Back",
     "bookings": {
         "alert": {

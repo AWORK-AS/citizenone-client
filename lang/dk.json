@@ -350,6 +350,9 @@
             "archivedSubgoals": "Arkiverede delmål"
         }
     },
+    "assistants": {
+        "assistants": "Assistenten"
+    },
     "back": "Tilbage",
     "bookings": {
         "alert": {
