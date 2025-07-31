@@ -214,7 +214,7 @@
                                     <div class="ms-auto">
                                         <div class="flex items-center gap-x-2">
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.edit')">
-                                                <FormButton class="rounded-md" buttonSize="xs"
+                                                <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
                                                     @click="editJournal(journal)" v-if=journal?.is_editable>
                                                     <Icon name="ph:pencil-duotone" class="size-4" />
                                                 </FormButton>
@@ -239,13 +239,13 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.journalLogs')">
-                                                <FormButton class="rounded-md" buttonSize="xs"
+                                                <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
                                                     @click="viewJournalLogs(journal)">
                                                     <Icon name="ph:clock-clockwise" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.delete')">
-                                                <FormButton class="rounded-md" buttonSize="xs"
+                                                <FormButton class="rounded-md" buttonStyle="danger" buttonSize="xs"
                                                     @click="confirmJournalDeletion(journal)"
                                                     v-if="journal?.is_deletable">
                                                     <Icon name="ph:trash-duotone" class="size-4" />

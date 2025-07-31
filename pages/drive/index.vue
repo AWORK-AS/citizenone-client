@@ -137,13 +137,13 @@
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.delete')"
                                                 v-if="document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="deleteDirectoryConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.delete')" v-else>
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="deleteFileConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>

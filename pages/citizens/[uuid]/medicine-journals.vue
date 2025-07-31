@@ -258,7 +258,7 @@
                                             </Tooltip>
                                             <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.delete')}`"
                                                 v-if="medicine?.is_deletable">
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="confirmMedicineDeletion(medicine)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
