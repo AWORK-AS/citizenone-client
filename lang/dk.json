@@ -3690,6 +3690,7 @@
             "createAccount": "Opret konto",
             "alreadyHaveAnAccount": "Har du allerede en konto",
             "companyName": "Firmanavn",
+            "cvr": "CVR",
             "industry": "Industri",
             "firstname": "Fornavn",
             "lastname": "Efternavn",

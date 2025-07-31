@@ -3690,6 +3690,7 @@
             "createAccount": "Create account",
             "alreadyHaveAnAccount": "Already have an account",
             "companyName": "Company name",
+            "cvr": "CVR",
             "industry": "Industry",
             "firstname": "First name",
             "lastname": "Last name",
