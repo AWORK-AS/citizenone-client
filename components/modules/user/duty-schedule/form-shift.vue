@@ -68,7 +68,7 @@
                 <FormError :error="state?.error?.errors?.citizen_uuid?.[0]" />
             </div>
             <div
-                v-if="['vacation-leave', 'sick-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)">
+                v-if="['vacation-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formShift.use_compensatory_time = !state.formShift.use_compensatory_time">
                     <FormCheckbox :value="state.formShift.use_compensatory_time" />
