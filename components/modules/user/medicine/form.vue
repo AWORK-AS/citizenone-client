@@ -37,7 +37,7 @@
             </div>
             <div class="space-y-1">
                 <FormLabel for="active_ingredients" :label="$t('medicines.form.activeIngredients')" />
-                <FormTextArea id="active_ingredients" name="active_ingredients"
+                <FormTextField id="active_ingredients" name="active_ingredients"
                     :placeholder="$t('medicines.form.activeIngredients')"
                     v-model="state.formMedicine.active_ingredients" />
                 <FormError :error="v$?.formMedicine?.active_ingredients?.$errors[0]?.$message.toString()" />
