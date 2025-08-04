@@ -3194,7 +3194,7 @@
         },
         "editMedicine": "Rediger medicin",
         "form": {
-            "activeIngredients": "Aktive ingredienser",
+            "activeIngredients": "Indholdsstof",
             "alert": {
                 "medicineSuccessfullyUpdated": "Medicin opdateret med succes",
                 "newMedicineSuccessfullySaved": "Ny medicin gemt med succes"
@@ -3210,7 +3210,7 @@
                 "delete": "Slet",
                 "edit": "Rediger"
             },
-            "activeIngredients": "Aktive ingredienser",
+            "activeIngredients": "Indholdsstof",
             "confirmation": {
                 "deleteMedicineConfirmation": "Er du sikker på, at du vil slette denne medicin"
             },
