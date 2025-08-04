@@ -486,8 +486,10 @@ async function fetchAllMedicines() {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.uuid,
-                    label: language.locale.value === 'en' ? item.en_name : item.dk_name,
+                    value: item?.uuid,
+                    label: language.locale.value === 'en' ?
+                        item?.en_name + ', ' + item?.ingredients :
+                        item?.dk_name + ', ' + item?.ingredients,
                 })
             )
             state.options.medicines = options

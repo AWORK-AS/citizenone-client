@@ -27,10 +27,12 @@
                         </div>
                         <div class="flex items-center gap-x-2">
                             <p v-if="language.locale.value === 'en'">
-                                {{ state.selectedMedicine?.medicine?.en_name }}
+                                {{ state.selectedMedicine?.medicine?.en_name }},
+                                {{ state.selectedMedicine?.medicine?.ingredients }}
                             </p>
                             <p v-if="language.locale.value === 'dk'">
-                                {{ state.selectedMedicine?.medicine?.dk_name }}
+                                {{ state.selectedMedicine?.medicine?.dk_name }},
+                                {{ state.selectedMedicine?.medicine?.ingredients }}
                             </p>
                             <Badge :type="state.selectedMedicine?.is_active ? 'active' : 'inactive'"
                                 class="text-xxs truncate w-fit">
