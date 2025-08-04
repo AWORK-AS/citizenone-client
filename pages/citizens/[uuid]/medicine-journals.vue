@@ -91,6 +91,9 @@
                                                 <p class="truncate" v-if="language.locale.value === 'dk'">
                                                     {{ medicine?.medicine?.dk_name }}
                                                 </p>
+                                                <p>
+                                                    {{ medicine?.medicine?.ingredients }}
+                                                </p>
                                                 <div v-if="medicine.is_pn_medicine">
                                                     <Badge type="primary" class="w-fit">
                                                         <p class="text-xxs">
@@ -100,9 +103,6 @@
                                                         </p>
                                                     </Badge>
                                                 </div>
-                                                <p>
-                                                    {{ medicine?.medicine?.ingredients }}
-                                                </p>
                                             </div>
                                         </div>
                                     </td>
