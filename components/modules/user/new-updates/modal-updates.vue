@@ -47,73 +47,75 @@ const state = reactive({
     updates: [] as any,
 })
 
-onMounted(() => {
-    if (language.locale.value === 'en') {
-        state.updates = [
-            {
-                title: 'Online Calendar Booking',
-                description: [
-                    'Now available for purchase in the Apps section.',
-                    'After buying, go to Calendars to set it up and manage online bookings.',
-                ],
-            },
-            {
-                title: 'Departments in Duty Schedule',
-                description: ['You can now assign shifts to specific departments.'],
-            },
-            {
-                title: 'Shift Notes for Admins',
-                description: ['Admins can now attach notes to individual shifts.'],
-            },
-            {
-                title: 'Treatment Notifications Toggle',
-                description: ['Option to enable or disable notifications for treatments.'],
-            },
-            {
-                title: 'Edit & Delete Messages in Chats',
-                description: ['You can now edit or delete messages directly in chats for better control and communication.'],
-            },
-            {
-                title: 'Cleaner Navbar',
-                description: [
-                    'Notification and message badges are hidden when counts are zero.',
-                    'New feature announcements will also appear here going forward.',
-                ],
-            },
-        ]
-    } else if (language.locale.value === 'dk') {
-        state.updates = [
-            {
-                title: 'Online kalenderbooking',
-                description: [
-                    'Nu tilgængelig for køb i Apps-sektionen.',
-                    'Efter køb, gå til Kalendere for at opsætte og administrere online bookinger.',
-                ],
-            },
-            {
-                title: 'Afdelinger i vagtplanen',
-                description: ['Du kan nu tildele vagter til specifikke afdelinger.'],
-            },
-            {
-                title: 'Vagtnoter for administratorer',
-                description: ['Administratorer kan nu tilføje noter til enkelte vagter.'],
-            },
-            {
-                title: 'Behandlingsnotifikationer - til/fra',
-                description: ['Mulighed for at aktivere eller deaktivere notifikationer for behandlinger.'],
-            },
-            {
-                "title": "Rediger og slet beskeder i chats",
-                "description": ["Du kan nu redigere eller slette beskeder direkte i chats for bedre kontrol og kommunikation."]
-            },
-            {
-                title: 'Mere enkel navigationsbjælke',
-                description: [
-                    'Notifikations- og beskedikoner vises ikke, når antallet er nul.',
-                    'Nye funktionsopdateringer vil også blive vist her fremover.',
-                ],
-            },
-        ]
+watch(() => props.isModalOpen, (isModalOpen: any) => {
+    if (isModalOpen) {
+        if (language.locale.value === 'en') {
+            state.updates = [
+                {
+                    title: 'Online Calendar Booking',
+                    description: [
+                        'Now available for purchase in the Apps section.',
+                        'After buying, go to Calendars to set it up and manage online bookings.',
+                    ],
+                },
+                {
+                    title: 'Departments in Duty Schedule',
+                    description: ['You can now assign shifts to specific departments.'],
+                },
+                {
+                    title: 'Shift Notes for Admins',
+                    description: ['Admins can now attach notes to individual shifts.'],
+                },
+                {
+                    title: 'Treatment Notifications Toggle',
+                    description: ['Option to enable or disable notifications for treatments.'],
+                },
+                {
+                    title: 'Edit & Delete Messages in Chats',
+                    description: ['You can now edit or delete messages directly in chats for better control and communication.'],
+                },
+                {
+                    title: 'Cleaner Navbar',
+                    description: [
+                        'Notification and message badges are hidden when counts are zero.',
+                        'New feature announcements will also appear here going forward.',
+                    ],
+                },
+            ]
+        } else if (language.locale.value === 'dk') {
+            state.updates = [
+                {
+                    title: 'Online kalenderbooking',
+                    description: [
+                        'Nu tilgængelig for køb i Apps-sektionen.',
+                        'Efter køb, gå til Kalendere for at opsætte og administrere online bookinger.',
+                    ],
+                },
+                {
+                    title: 'Afdelinger i vagtplanen',
+                    description: ['Du kan nu tildele vagter til specifikke afdelinger.'],
+                },
+                {
+                    title: 'Vagtnoter for administratorer',
+                    description: ['Administratorer kan nu tilføje noter til enkelte vagter.'],
+                },
+                {
+                    title: 'Behandlingsnotifikationer - til/fra',
+                    description: ['Mulighed for at aktivere eller deaktivere notifikationer for behandlinger.'],
+                },
+                {
+                    "title": "Rediger og slet beskeder i chats",
+                    "description": ["Du kan nu redigere eller slette beskeder direkte i chats for bedre kontrol og kommunikation."]
+                },
+                {
+                    title: 'Mere enkel navigationsbjælke',
+                    description: [
+                        'Notifikations- og beskedikoner vises ikke, når antallet er nul.',
+                        'Nye funktionsopdateringer vil også blive vist her fremover.',
+                    ],
+                },
+            ]
+        }
     }
 })
 </script>
