@@ -217,9 +217,26 @@
             "loggedOut": "Logged out"
         },
         "table": {
+            "actionTypes": {
+                "created": "Created",
+                "deleted": "Deleted",
+                "published": "Published",
+                "updated": "Updated"
+            },
             "createdAt": "Created at",
+            "data": {
+                "citizens": "Citizens",
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
+                "departments": "Departments",
+                "note": "Note",
+                "tags": "Tags",
+                "typeOfShift": "Type of shift"
+            },
             "description": "Description",
             "ipAddress": "Ip address",
+            "newData": "New data",
+            "previousData": "Previous data",
             "user": "User"
         }
     },
@@ -332,6 +349,12 @@
             "archivedPlans": "Archived plans",
             "archivedSubgoals": "Archived subgoals"
         }
+    },
+    "assistants": {
+        "assistants": "Assistants",
+        "askAnything": "Ask anything",
+        "helloHowCanIAssistYouToday": "Hello, how can I assist you today",
+        "send": "Send"
     },
     "back": "Back",
     "bookings": {
@@ -1207,7 +1230,6 @@
             "form": {
                 "activateMedicine": "Activate medicine",
                 "active": "Active",
-                "activeIngredients": "Active ingredients",
                 "alert": {
                     "successfullyAdded": "Medicine successfully added",
                     "successfullyUpdated": "Medicine successfully update"
@@ -1220,16 +1242,21 @@
                 "dosage": "Dosage",
                 "dosageForm": "Dosage form",
                 "endDate": "End date",
+                "findLeafletLinksHere": "Find leaflet links here",
                 "image": "Image",
                 "inactive": "Inactive",
+                "ingredients": "Ingredients",
+                "ingredientsLabel": "Are there any other ingredients that are relevant to mention",
                 "maxDosagePerTime": "Max dosage per time",
                 "maxDailyDose": "Max daily dose",
                 "medicine": "Medicine",
                 "medicineStorage": "Medicine storage",
                 "medicineStoragePlaceholder": "Where do you store the medicine",
+                "otherInformation": "Other information",
+                "otherInformationLabel": "Are there any other important details to highlight",
                 "packageLeafletLink": "Package leaflet link",
                 "pnMedicine": "PN-medicine",
-                "scheduleFrequency": "Schedule frequency",
+                "scheduleFrequency": "How often should citizens take the medicine",
                 "selfAdminister": "Self-administer",
                 "startDate": "Start date",
                 "strength": "Strength",
@@ -2055,6 +2082,7 @@
         }
     },
     "dutySchedules": {
+        "activityLogs": "Activity logs",
         "alert": {
             "newScheduleSuccessfullyAdded": "New schedule successfully added",
             "scheduleSuccessfullyCopied": "Schedule successfully copied",
@@ -3166,6 +3194,7 @@
         },
         "editMedicine": "Edit medicine",
         "form": {
+            "activeIngredients": "Active ingredients",
             "alert": {
                 "medicineSuccessfullyUpdated": "Medicine successfully updated",
                 "newMedicineSuccessfullySaved": "New medicine successfully saved"
@@ -3181,6 +3210,7 @@
                 "delete": "Delete",
                 "edit": "Edit"
             },
+            "activeIngredients": "Active ingredients",
             "confirmation": {
                 "deleteMedicineConfirmation": "Are you sure you want to delete this medicine"
             },
@@ -3194,6 +3224,7 @@
             "delete": "Delete",
             "edit": "Edit"
         },
+        "and": "And",
         "alert": {
             "messageSuccessfullyDeleted": "Message successfully deleted",
             "messageSuccessfullyUpdated": "Message successfully updated"
@@ -3228,6 +3259,7 @@
         "looksLikeYouHaventInitiatedAConversation": "Looks like you haven't initiated a conversation",
         "message": "Message",
         "messages": "Messages",
+        "more": "More",
         "newMessage": "New message",
         "noMessagesYet": "No messages yet",
         "startTheConversation": "Start the conversation",
@@ -3661,6 +3693,7 @@
             "createAccount": "Create account",
             "alreadyHaveAnAccount": "Already have an account",
             "companyName": "Company name",
+            "cvr": "CVR",
             "industry": "Industry",
             "firstname": "First name",
             "lastname": "Last name",
@@ -3773,6 +3806,34 @@
         "resetPassword": "Reset password",
         "or": "Or"
     },
+    "roles": {
+        "addNewRole": "Add new role",
+        "alert": {
+            "roleSuccessfullyDeleted": "Role successfully deleted"
+        },
+        "editRole": "Edit role",
+        "form": {
+            "alert": {
+                "roleSuccessfullyUpdated": "Role successfully updated",
+                "newRoleSuccessfullySaved": "New role successfully saved"
+            },
+            "name": "Name"
+        },
+        "newRole": "New role",
+        "roles": "Roles",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "admin": "Admin",
+            "confirmation": {
+                "deleteRoleConfirmation": "Are you sure you want to delete this role"
+            },
+            "name": "Name",
+            "user": "User"
+        }
+    },
     "save": "Save",
     "scheduleTags": {
         "addNewScheduleTag": "Add new schedule tag",
@@ -3838,14 +3899,16 @@
                     "successfullyUpdated": "Company successfully updated"
                 },
                 "checkinReminder": "Check in reminder",
-                "AllowPlans": "Allow employees to create plans",
-                "AllowGoals": "Allow employees to create goals",
-                "AllowSubGoals": "Allow employees to create subgoals",
+                "allowPlans": "Allow employees to create plans",
+                "allowGoals": "Allow employees to create goals",
+                "allowSubGoals": "Allow employees to create subgoals",
                 "city": "City",
                 "companyName": "Company name",
                 "cvr": "CVR",
                 "groupChat": "Group chat",
+                "lockPastSchedules": "Lock past schedules",
                 "municipality": "Municipality",
+                "phone": "Phone",
                 "postCode": "Post code",
                 "region": "Region",
                 "street": "Street",
@@ -3903,6 +3966,7 @@
             "medicines": "Medicines",
             "profile": "Profile",
             "relationships": "Relationships",
+            "roles": "Roles",
             "sections": "Sections",
             "storage": "Storage",
             "subscription": "Subscription",
@@ -3953,7 +4017,9 @@
             },
             "color": "Color",
             "nameDanish": "Name (danish)",
-            "nameEnglish": "Name (english)"
+            "nameEnglish": "Name (english)",
+            "standard": "Standard",
+            "standardShift": "Standard shift"
         }
     },
     "show": "Show",
@@ -4296,6 +4362,7 @@
                 "inactive": "Inactive",
                 "cvr": "CVR",
                 "name": "Name",
+                "phone": "Phone",
                 "status": "Status",
                 "website": "Website"
             },
@@ -4631,6 +4698,10 @@
         }
     },
     "update": "Update",
+    "updates": {
+        "newUpdates": "New updates",
+        "newUpdatesFrom": "New updates from"
+    },
     "validation": {
         "thisFieldIsRequired": "This field is required"
     },

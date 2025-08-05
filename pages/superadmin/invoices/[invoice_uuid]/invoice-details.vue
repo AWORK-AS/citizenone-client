@@ -61,6 +61,7 @@
                                     <td width="20%">
                                         <div>
                                             {{ data?.deal?.name }}
+                                            {{ data?.other }}
                                         </div>
                                     </td>
                                     <td width="20%">
@@ -100,12 +101,14 @@
 import { invoiceService } from '@/components/api/superadmin/InvoiceService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const { formatDateToReadable } = useDatetimeFormatter()
+const language = useI18n()
 const router = useRouter()
 const invoiceUuid = router?.currentRoute?.value?.params?.invoice_uuid
 
@@ -123,10 +126,16 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchInvoices()
+    fetchInvoice()
 })
 
-async function fetchInvoices() {
+watch(() => language.locale.value, (language: any) => {
+    if (language) {
+        fetchInvoice()
+    }
+})
+
+async function fetchInvoice() {
     state.error = {}
     state.isPageLoading = true
     try {

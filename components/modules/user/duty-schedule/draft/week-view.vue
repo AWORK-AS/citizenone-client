@@ -353,14 +353,32 @@
                                                             <div class="flex justify-between text-white"
                                                                 :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
                                                                 @click="editSchedule(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, shift, shiftIndex)">
-                                                                <p
-                                                                    class="w-full px-2 py-2 flex items-center justify-center border border-white rounded-tl-md rounded-bl-md">
-                                                                    {{ moment(shift?.date_time_start).format('HH:mm') }}
-                                                                </p>
-                                                                <p
-                                                                    class="w-full px-2 py-2 flex items-center justify-center border border-white  rounded-tr-md rounded-br-md">
-                                                                    {{ moment(shift?.date_time_end).format('HH:mm') }}
-                                                                </p>
+                                                                <div class="relative w-full">
+                                                                    <div class="bg-white border-0.5 border-gray-300 w-4 h-4 rounded-full absolute -left-2 top-2.5 flex items-center justify-center"
+                                                                        v-if="shift?.is_from_lastweek">
+                                                                        <Icon name="ph:arrow-left"
+                                                                            class="w-3 h-3 text-gray-500" />
+                                                                    </div>
+                                                                    <p
+                                                                        class="w-full px-2 py-2 flex items-center justify-center border border-white rounded-tl-md rounded-bl-md">
+                                                                        {{
+                                                                            moment(shift?.date_time_start).format('HH:mm')
+                                                                        }}
+                                                                    </p>
+                                                                </div>
+                                                                <div class="relative w-full">
+                                                                    <p
+                                                                        class="w-full px-2 py-2 flex items-center justify-center border border-white  rounded-tr-md rounded-br-md">
+                                                                        {{
+                                                                            moment(shift?.date_time_end).format('HH:mm')
+                                                                        }}
+                                                                    </p>
+                                                                    <div class="bg-white border-0.5 border-gray-300 w-4 h-4 rounded-full absolute -right-2 top-2.5 flex items-center justify-center"
+                                                                        v-if="shift?.is_until_nextweek">
+                                                                        <Icon name="ph:arrow-right"
+                                                                            class="w-3 h-3 text-gray-500" />
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div :class="[
                                                                 shift?.citizen_schedules?.length > 0 && 'mt-1'
@@ -372,7 +390,8 @@
                                                                     {{ citizenSchedule?.citizen?.lastname }}
                                                                 </p>
                                                             </div>
-                                                            <div class="text-xxs text-white px-1 py-0.5">
+                                                            <div class="text-xxs text-white px-1 py-0.5"
+                                                                v-if="shift?.departments?.length > 0">
                                                                 {{ $t('departments.departments') }}:
                                                                 <span
                                                                     v-for="(department, departmentIndex) in shift?.departments"
@@ -399,7 +418,8 @@
                                                                 class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                                 @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
                                                                 v-if="isAdmin(userStore.getUser?.roles)">
-                                                                <Tooltip :text="$t('dutySchedules.removeSchedule')">
+                                                                <Tooltip position="left"
+                                                                    :text="$t('dutySchedules.removeSchedule')">
                                                                     <Icon name="ph:x" class="h-2 w-2"
                                                                         aria-hidden="true" />
                                                                 </Tooltip>

@@ -32,6 +32,10 @@ class DutyScheduleService extends BaseAPIService {
     async copyMultipleWeeklyDutySchedule(params: object): Promise<any> {
         return await this.request(`/user/duty-schedules/weekly/copy`, 'POST', params)
     }
+
+    async getDutySchedulesActivityLogs(params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules-activity-logs`, 'GET', params)
+    }
 }
 
 export const dutyScheduleService = new DutyScheduleService()

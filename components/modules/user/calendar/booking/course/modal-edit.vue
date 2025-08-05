@@ -66,7 +66,7 @@ const state = reactive({
             },
         ],
         spots: '1',
-        tags: [],
+        tags: [] as any,
         price: '',
         is_tax_included: false,
         show_spots_left: false,
@@ -120,7 +120,7 @@ async function fetchCourse() {
                 is_reminder_enabled: bookingSetting?.is_reminder_enabled ?? false,
             }
             bookingSetting?.tags?.forEach((tag: any) => {
-                state.formEvent.tags.push(tag.uuid)
+                state.formCourse.tags.push(tag.uuid)
             })
             courseData?.event_course_sessions?.forEach((session: any) => {
                 state.formCourse.sessions.push({

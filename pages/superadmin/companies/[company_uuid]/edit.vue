@@ -53,6 +53,14 @@
                                         <FormError :error="state?.error?.errors?.cvr?.[0]" />
                                     </div>
                                 </div>
+                                <div class="space-y-1">
+                                    <FormLabel for="phone" :label="$t('superadmin.companies.form.phone')" />
+                                    <FormTextField id="phone" name="phone"
+                                        :placeholder="$t('superadmin.companies.form.phone')"
+                                        v-model="state.formCompany.phone" />
+                                    <FormError :error="v$?.formCompany?.phone?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.phone?.[0]" />
+                                </div>
                             </div>
                             <div class="mt-6">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -95,6 +103,7 @@ const state = reactive({
         name: '',
         industry: '',
         cvr: '',
+        phone: '',
         website: '',
         is_active: '',
     } as any,
@@ -160,6 +169,7 @@ async function fetchCompany() {
                 name: response?.data?.name ?? '',
                 industry: response?.data?.industry?.uuid ?? '',
                 cvr: response?.data?.cvr ?? '',
+                phone: response?.data?.phone ?? '',
                 website: response?.data?.website ?? '',
                 is_active: response?.data?.is_active ?? '',
             }
@@ -180,6 +190,7 @@ async function updateCompany() {
                 name: state.formCompany.name,
                 industry_uuid: state.formCompany.industry,
                 cvr: state.formCompany.cvr,
+                phone: state.formCompany.phone,
                 website: state.formCompany.website,
                 is_active: state.formCompany.is_active,
             }

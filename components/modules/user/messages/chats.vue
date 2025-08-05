@@ -92,8 +92,10 @@
 
 <script setup lang="ts">
 import { useUserStore } from '@/store/user'
+import { useI18n } from "vue-i18n"
 
 const router = useRouter()
+const { t } = useI18n()
 const userUuid = router?.currentRoute?.value?.query?.user_uuid
 
 const props = defineProps({
@@ -130,9 +132,15 @@ function excludeCurrentUserFromChatMembers(chatMembers: any) {
 }
 
 function chatGroupMembers(chat: any) {
-    return excludeCurrentUserFromChatMembers(chat?.chat_members)
-        ?.map((chatMember: any) => `${chatMember?.user?.firstname} ${chatMember?.user?.lastname}`)
-        ?.join(', ')
+    const members = excludeCurrentUserFromChatMembers(chat?.chat_members || [])
+        .map((chatMember: any) => `${chatMember?.user?.firstname} ${chatMember?.user?.lastname}`)
+
+    if (members.length === 0) return ''
+
+    if (members.length <= 3) return members.join(', ')
+
+    const remaining = members.length - 1
+    return `${members[0]}, ${members[1]}, ${t('messages.and')?.toLowerCase()} ${remaining} ${t('messages.more')?.toLowerCase()}`
 }
 
 function openChat(chat: any) {

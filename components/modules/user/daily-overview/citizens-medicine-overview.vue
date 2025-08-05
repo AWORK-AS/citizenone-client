@@ -47,7 +47,10 @@
                                 {{ language.locale.value === 'en' ? medicine?.medicine?.en_name
                                     : medicine?.medicine?.dk_name }}
                             </h3>
-                            <div class="text-xxs flex flex-wrap gap-x-1 gap-y-3 py-1"
+                            <p>
+                                {{ medicine?.medicine?.ingredients }}
+                            </p>
+                            <div class="mt-1 text-xxs flex flex-wrap gap-x-1 gap-y-3 py-1"
                                 v-if="medicine.due_dates?.length > 0">
                                 <Tooltip v-for="(due_date, dueDateIndex) in medicine.due_dates" :key="dueDateIndex"
                                     :text="(() => {
@@ -59,7 +62,7 @@
                                             case 'given':
                                                 return customPagesStore.getCustomPagesName?.giveMedicine;
                                             default:
-                                                return $t('dailyOverview.dailyMedicineOverview.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine.toLowerCase();
+                                                return $t('dailyOverview.dailyMedicineOverview.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine?.toLowerCase();
                                         }
                                     })()">
                                     <span :class="[

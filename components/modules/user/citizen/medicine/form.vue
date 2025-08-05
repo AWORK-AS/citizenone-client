@@ -38,23 +38,23 @@
                     <FormError :error="v$?.formMedicine?.medicine?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.medicine_uuid?.[0]" />
                 </div>
-                <div class="space-y-1">
-                    <FormLabel for="dosage" :label="$t('citizens.medicineJournals.form.dosageForm')" />
-                    <FormSelect id="dosage" :options="state.options.dosage_form" v-model="state.formMedicine.dosage" />
-                    <FormError :error="v$?.formMedicine?.dosage?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
+                <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
+                    <FormLabel for="schedule_frequency"
+                        :label="`${$t('citizens.medicineJournals.form.scheduleFrequency')}?`" />
+                    <FormSelect id="schedule_frequency" name="schedule_frequency"
+                        :options="state.options.schedule_frequencies" v-model="state.formMedicine.schedule_frequency" />
+                    <FormError :error="v$?.formMedicine?.schedule_frequency?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.schedule_frequency?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 gap-3" :class="[
                     !state.formMedicine.is_pn_medicine && 'md:grid-cols-2'
                 ]">
-                    <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
-                        <FormLabel for="schedule_frequency"
-                            :label="$t('citizens.medicineJournals.form.scheduleFrequency')" />
-                        <FormSelect id="schedule_frequency" name="schedule_frequency"
-                            :options="state.options.schedule_frequencies"
-                            v-model="state.formMedicine.schedule_frequency" />
-                        <FormError :error="v$?.formMedicine?.schedule_frequency?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.schedule_frequency?.[0]" />
+                    <div class="space-y-1">
+                        <FormLabel for="dosage" :label="$t('citizens.medicineJournals.form.dosageForm')" />
+                        <FormSelect id="dosage" :options="state.options.dosage_form"
+                            v-model="state.formMedicine.dosage" />
+                        <FormError :error="v$?.formMedicine?.dosage?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="current_stocks" :label="$t('citizens.medicineJournals.form.currentStocks')" />
@@ -125,8 +125,15 @@
                     </div>
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="package_leaflet_link"
-                        :label="$t('citizens.medicineJournals.form.packageLeafletLink')" />
+                    <div class="flex items-center justify-between">
+                        <FormLabel for="package_leaflet_link"
+                            :label="$t('citizens.medicineJournals.form.packageLeafletLink')" />
+                        <div class="flex items-center gap-x-1 text-sm cursor-pointer text-primary hover:text-primary-700"
+                            @click="navigateToExternalLink('https://www.indlaegssedler.dk')">
+                            <Icon name="ph:link-simple" class="w-4 h-4" aria-hidden="true" />
+                            {{ $t('citizens.medicineJournals.form.findLeafletLinksHere') }}
+                        </div>
+                    </div>
                     <FormTextField id="package_leaflet_link" name="package_leaflet_link"
                         :placeholder="$t('citizens.medicineJournals.form.packageLeafletLink')"
                         v-model="state.formMedicine.package_leaflet_link" />
@@ -178,18 +185,17 @@
                     <FormError :error="props?.error?.errors?.medication_storage?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="active_ingredients"
-                        :label="$t('citizens.medicineJournals.form.activeIngredients')" />
-                    <FormTextArea id="active_ingredients" name="active_ingredients"
-                        :placeholder="$t('citizens.medicineJournals.form.activeIngredients')"
-                        v-model="state.formMedicine.active_ingredients" />
-                    <FormError :error="v$?.formMedicine?.active_ingredients?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.active_ingredients?.[0]" />
+                    <FormLabel for="ingredients" :label="$t('citizens.medicineJournals.form.ingredients')" />
+                    <FormTextArea id="ingredients" name="ingredients"
+                        :placeholder="`${$t('citizens.medicineJournals.form.ingredientsLabel')}?`"
+                        v-model="state.formMedicine.ingredients" />
+                    <FormError :error="v$?.formMedicine?.ingredients?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.ingredients?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="description" :label="$t('citizens.medicineJournals.form.description')" />
+                    <FormLabel for="description" :label="$t('citizens.medicineJournals.form.otherInformation')" />
                     <FormTextArea id="description" name="description"
-                        :placeholder="$t('citizens.medicineJournals.form.description')"
+                        :placeholder="`${$t('citizens.medicineJournals.form.otherInformationLabel')}?`"
                         v-model="state.formMedicine.description" />
                     <FormError :error="v$?.formMedicine?.description?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.description?.[0]" />
@@ -264,7 +270,7 @@ const state = reactive({
         doctor: '',
         treatment_reason: '',
         medication_storage: '',
-        active_ingredients: '',
+        ingredients: '',
         description: '',
     } as any,
     modal: {
@@ -310,7 +316,7 @@ onMounted(() => {
         doctor: props.selectedMedicine.doctor?.uuid?.toString(),
         treatment_reason: props.selectedMedicine.treatment_reason,
         medication_storage: props.selectedMedicine.medication_storage,
-        active_ingredients: props.selectedMedicine.active_ingredients,
+        ingredients: props.selectedMedicine.ingredients,
         description: props.selectedMedicine.description,
         schedule_frequency: props.selectedMedicine.schedule_frequency,
         current_stocks: props.selectedMedicine.current_stocks?.toString(),
@@ -343,7 +349,7 @@ const rules = computed(() => {
                     max_daily_dose: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    active_ingredients: {
+                    ingredients: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     description: {
@@ -369,7 +375,7 @@ const rules = computed(() => {
                     max_daily_dose: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    active_ingredients: {
+                    ingredients: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     description: {
@@ -400,7 +406,7 @@ const rules = computed(() => {
                     max_daily_dose: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    active_ingredients: {
+                    ingredients: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     description: {
@@ -426,7 +432,7 @@ const rules = computed(() => {
                     max_daily_dose: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    active_ingredients: {
+                    ingredients: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     description: {
@@ -480,8 +486,10 @@ async function fetchAllMedicines() {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
-                    value: item.uuid,
-                    label: language.locale.value === 'en' ? item.en_name : item.dk_name,
+                    value: item?.uuid,
+                    label: language.locale.value === 'en' ?
+                        item?.en_name + ', ' + item?.ingredients :
+                        item?.dk_name + ', ' + item?.ingredients,
                 })
             )
             state.options.medicines = options
@@ -553,6 +561,15 @@ function addMaxDosagePerTime() {
 
 function removeMaxDosagePerTime(index: number) {
     state.formMedicine.max_dosage_per_time.splice(index, 1)
+}
+
+async function navigateToExternalLink(link: any) {
+    await navigateTo(link, {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 </script>
 

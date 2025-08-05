@@ -217,9 +217,26 @@
             "loggedOut": "Logget ud"
         },
         "table": {
+            "actionTypes": {
+                "created": "Oprettet",
+                "deleted": "Slettet",
+                "published": "Publiceret",
+                "updated": "Opdateret"
+            },
             "createdAt": "Oprettet den",
+            "data": {
+                "citizens": "Borgere",
+                "dateTimeEnd": "Dato og tid slut",
+                "dateTimeStart": "Dato og tid start",
+                "departments": "Afdelinger",
+                "note": "Bemærkning",
+                "tags": "Tags",
+                "typeOfShift": "Type af vagt"
+            },
             "description": "Beskrivelse",
             "ipAddress": "IP-adresse",
+            "newData": "Nye data",
+            "previousData": "Tidligere data",
             "user": "Bruger"
         }
     },
@@ -332,6 +349,12 @@
             "archivedPlans": "Arkiverede planer",
             "archivedSubgoals": "Arkiverede delmål"
         }
+    },
+    "assistants": {
+        "assistants": "Assistance",
+        "askAnything": "Spørg om hvad som helst",
+        "helloHowCanIAssistYouToday": "Hej, hvordan kan jeg hjælpe dig i dag",
+        "send": "Send"
     },
     "back": "Tilbage",
     "bookings": {
@@ -1205,9 +1228,8 @@
             },
             "editMedicine": "Rediger Medicin",
             "form": {
-                "activateMedicine": "Aktiver medicine",
+                "activateMedicine": "Aktivér medicin",
                 "active": "Aktiv",
-                "activeIngredients": "Indholdsstoffer",
                 "alert": {
                     "successfullyAdded": "Medicin tilføjet med succes",
                     "successfullyUpdated": "Medicin opdateret med succes"
@@ -1220,16 +1242,21 @@
                 "dosage": "Dosis",
                 "dosageForm": "Doseringsform",
                 "endDate": "Slutdato for seponering",
+                "findLeafletLinksHere": "Find links til indlægssedler her",
                 "image": "Billede",
                 "inactive": "Inaktiv",
+                "ingredients": "Indholdsstoffer",
+                "ingredientsLabel": "Er der andre ingredienser, der er relevante at nævne",
                 "maxDosagePerTime": "Maksimal dosis pr. gang",
                 "maxDailyDose": "Maksimal daglig dosis",
                 "medicine": "Medicin",
                 "medicineStorage": "Medicinopbevaring",
                 "medicineStoragePlaceholder": "Hvor opbevarer I medicinen",
+                "otherInformation": "Andre oplysninger",
+                "otherInformationLabel": "Er der andre vigtige detaljer at fremhæve",
                 "packageLeafletLink": "Link til indlægsseddel",
                 "pnMedicine": "PN-medicin",
-                "scheduleFrequency": "Planlægningsfrekvens",
+                "scheduleFrequency": "Hvor tit skal borger have medicinen",
                 "selfAdminister": "Selvadministrerende medicin",
                 "startDate": "Startdato for seponering",
                 "strength": "Styrke",
@@ -2055,6 +2082,7 @@
         }
     },
     "dutySchedules": {
+        "activityLogs": "Aktivitetslogs",
         "alert": {
             "newScheduleSuccessfullyAdded": "Ny vagtplan tilføjet med succes",
             "scheduleSuccessfullyCopied": "Vagtplan kopieret med succes",
@@ -3166,6 +3194,7 @@
         },
         "editMedicine": "Rediger medicin",
         "form": {
+            "activeIngredients": "Indholdsstof",
             "alert": {
                 "medicineSuccessfullyUpdated": "Medicin opdateret med succes",
                 "newMedicineSuccessfullySaved": "Ny medicin gemt med succes"
@@ -3181,6 +3210,7 @@
                 "delete": "Slet",
                 "edit": "Rediger"
             },
+            "activeIngredients": "Indholdsstof",
             "confirmation": {
                 "deleteMedicineConfirmation": "Er du sikker på, at du vil slette denne medicin"
             },
@@ -3194,6 +3224,7 @@
             "delete": "Slet",
             "edit": "Rediger"
         },
+        "and": "Og",
         "alert": {
             "messageSuccessfullyDeleted": "Besked slettet med succes",
             "messageSuccessfullyUpdated": "Besked opdateret med succes"
@@ -3228,6 +3259,7 @@
         "looksLikeYouHaventInitiatedAConversation": "Det ser ud til, at du ikke har startet en samtale",
         "messages": "Beskeder",
         "message": "Besked",
+        "more": "Mere",
         "newMessage": "Ny besked",
         "noMessagesYet": "Ingen beskeder endnu",
         "startTheConversation": "Start samtalen",
@@ -3661,6 +3693,7 @@
             "createAccount": "Opret konto",
             "alreadyHaveAnAccount": "Har du allerede en konto",
             "companyName": "Firmanavn",
+            "cvr": "CVR",
             "industry": "Industri",
             "firstname": "Fornavn",
             "lastname": "Efternavn",
@@ -3773,6 +3806,34 @@
         "resetPassword": "Nulstil adgangskode",
         "or": "Eller"
     },
+    "roles": {
+        "addNewRole": "Tilføj ny rolle",
+        "alert": {
+            "roleSuccessfullyDeleted": "Rolle slettet med succes"
+        },
+        "editRole": "Rediger rolle",
+        "form": {
+            "alert": {
+                "roleSuccessfullyUpdated": "Rolle opdateret med succes",
+                "newRoleSuccessfullySaved": "Ny rolle gemt med succes"
+            },
+            "name": "Navn"
+        },
+        "newRole": "Ny rolle",
+        "roles": "Roller",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "admin": "Admin",
+            "confirmation": {
+                "deleteRoleConfirmation": "Er du sikker på, at du vil slette denne rolle"
+            },
+            "name": "Navn",
+            "user": "Bruger"
+        }
+    },
     "save": "Gem",
     "scheduleTags": {
         "addNewScheduleTag": "Tilføj ny vagtplan tag",
@@ -3838,14 +3899,16 @@
                     "successfullyUpdated": "Firma opdateret med succes"
                 },
                 "checkinReminder": "Påmindelse om check ind",
-                "AllowPlans": "Tillad medarbejdere at oprette planer",
-                "AllowGoals": "Tillad medarbejdere at oprette mål",
-                "AllowSubGoals": "Tillad medarbejdere at oprette delmål",
+                "allowPlans": "Tillad medarbejdere at oprette planer",
+                "allowGoals": "Tillad medarbejdere at oprette mål",
+                "allowSubGoals": "Tillad medarbejdere at oprette delmål",
                 "city": "By",
                 "companyName": "Firmanavn",
                 "cvr": "CVR",
                 "groupChat": "Gruppechat",
+                "lockPastSchedules": "Lås tidligere vagtplaner",
                 "municipality": "Kommune",
+                "phone": "Telefon",
                 "postCode": "Postnummer",
                 "region": "Region",
                 "street": "Gade",
@@ -3902,9 +3965,10 @@
             "licenses": "Licenser",
             "medicines": "Medicin",
             "profile": "Profil",
-            "storage": "Lager",
             "relationships": "Forhold",
+            "roles": "Roller",
             "sections": "Paragraffer",
+            "storage": "Lager",
             "subscription": "Abonnement",
             "timeLogs": "Tidslogfiler",
             "transactions": "Transaktioner",
@@ -3953,7 +4017,9 @@
             },
             "color": "Farve",
             "nameDanish": "Navn (dansk)",
-            "nameEnglish": "Navn (engelsk)"
+            "nameEnglish": "Navn (engelsk)",
+            "standard": "Standard",
+            "standardShift": "Standard vagt"
         }
     },
     "show": "Vis",
@@ -4296,6 +4362,7 @@
                 "inactive": "Inaktiv",
                 "cvr": "CVR",
                 "name": "Navn",
+                "phone": "Telefon",
                 "status": "Status",
                 "website": "Websted"
             },
@@ -4631,6 +4698,10 @@
         }
     },
     "update": "Opdater",
+    "updates": {
+        "newUpdates": "Nye opdateringer",
+        "newUpdatesFrom": "Nye opdateringer fra"
+    },
     "validation": {
         "thisFieldIsRequired": "Dette felt er påkrævet"
     },

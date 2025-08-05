@@ -52,6 +52,13 @@
                             <FormError :error="state?.error?.errors?.accountant_email?.[0]" />
                         </div>
                         <div class="space-y-1">
+                            <FormLabel for="phone" :label="$t('settings.company.form.phone')" />
+                            <FormTextField id="phone" name="phone" :placeholder="$t('settings.company.form.phone')"
+                                v-model="state.formCompany.phone" />
+                            <FormError :error="v$?.formCompany?.phone?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.phone?.[0]" />
+                        </div>
+                        <div class="space-y-1">
                             <FormLabel for="street" :label="$t('settings.company.form.street')" />
                             <FormTextField id="street" name="street" :placeholder="$t('settings.company.form.street')"
                                 v-model="state.formCompany.street" />
@@ -109,21 +116,28 @@
                             <FormSwitch :value="state.formCompany.plans_enabled"
                                 @toggleSwitch="state.formCompany.plans_enabled = !state.formCompany.plans_enabled" />
                             <p>
-                                {{ $t('settings.company.form.AllowPlans') }}
+                                {{ $t('settings.company.form.allowPlans') }}
                             </p>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.goals_enabled"
                                 @toggleSwitch="state.formCompany.goals_enabled = !state.formCompany.goals_enabled" />
                             <p>
-                                {{ $t('settings.company.form.AllowGoals') }}
+                                {{ $t('settings.company.form.allowGoals') }}
                             </p>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.subgoals_enabled"
                                 @toggleSwitch="state.formCompany.subgoals_enabled = !state.formCompany.subgoals_enabled" />
                             <p>
-                                {{ $t('settings.company.form.AllowSubGoals') }}
+                                {{ $t('settings.company.form.allowSubGoals') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.is_lock_past_schedules"
+                                @toggleSwitch="state.formCompany.is_lock_past_schedules = !state.formCompany.is_lock_past_schedules" />
+                            <p>
+                                {{ $t('settings.company.form.lockPastSchedules') }}
                             </p>
                         </div>
                     </div>
@@ -169,6 +183,7 @@ const state = reactive({
         cvr: '',
         website: '',
         accountant_email: '',
+        phone: '',
         street: '',
         region: '',
         municipality: '',
@@ -179,6 +194,7 @@ const state = reactive({
         plans_enabled: false,
         goals_enabled: false,
         subgoals_enabled: false,
+        is_lock_past_schedules: false,
     },
     isPageLoading: false,
     options: {
@@ -227,6 +243,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             cvr: newValue?.company?.cvr,
             website: newValue?.company?.website,
             accountant_email: newValue?.company?.accountant_email,
+            phone: newValue?.company?.phone,
             street: newValue?.company?.company_address?.street,
             region: newValue?.company?.company_address?.region?.uuid,
             municipality: newValue?.company?.company_address?.municipality?.uuid,
@@ -237,6 +254,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             plans_enabled: newValue?.company?.employee_create_plans_enabled ?? false,
             goals_enabled: newValue?.company?.employee_create_goals_enabled ?? false,
             subgoals_enabled: newValue?.company?.employee_create_subgoals_enabled ?? false,
+            is_lock_past_schedules: newValue?.company?.is_lock_past_schedules ?? false,
         }
         fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
     }
@@ -312,6 +330,7 @@ async function submitForm() {
                 cvr: state.formCompany.cvr,
                 website: state.formCompany.website,
                 accountant_email: state.formCompany.accountant_email,
+                phone: state.formCompany.phone,
                 street: state.formCompany.street,
                 region_uuid: state.formCompany.region,
                 municipality_uuid: state.formCompany.municipality,
@@ -322,6 +341,7 @@ async function submitForm() {
                 employee_create_plans_enabled: state.formCompany.plans_enabled,
                 employee_create_goals_enabled: state.formCompany.goals_enabled,
                 employee_create_subgoals_enabled: state.formCompany.subgoals_enabled,
+                is_lock_past_schedules: state.formCompany.is_lock_past_schedules,
             }
             const response = await userService.updateCompany(params)
             if (response.data) {

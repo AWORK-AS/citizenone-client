@@ -72,8 +72,11 @@
                                             <span v-if="role.name === 'Admin'">
                                                 {{ $t('employees.table.admin') }}
                                             </span>
-                                            <span v-if="role.name === 'User'">
+                                            <span v-else-if="role.name === 'User'">
                                                 {{ $t('employees.table.user') }}
+                                            </span>
+                                            <span v-else>
+                                                {{ role?.name }}
                                             </span>
                                         </div>
                                     </td>

@@ -251,6 +251,8 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-3">
+                        <ModulesUserNavbarNewUpdates />
+                        <ModulesUserNavbarAiAssistant />
                         <ModulesUserNavbarSubscribeButton
                             v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null"
                             class="hidden md:block" />
@@ -278,9 +280,9 @@
                             v-if="userStore.getUser?.unread_notification_count > 0 || userStore.getUser?.unread_messages_count > 0" />
 
                         <button type="button"
-                            class="-m-2.5 p-2.5 flex items-center gap-x-2 text-sm text-primary hover:text-primary-700"
+                            class="-m-2.5 p-2.5 flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
                             @click="openSupport">
-                            <Icon name="material-symbols:support" class="ml-2 h-8 w-8 md:w-6 md:h-6"
+                            <Icon name="material-symbols:support" class="md:ml-2 h-8 w-8 md:w-6 md:h-6"
                                 aria-hidden="true" />
                             <span class="hidden md:block">Support</span>
                         </button>

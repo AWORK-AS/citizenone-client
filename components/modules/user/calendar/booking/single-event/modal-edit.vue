@@ -51,7 +51,7 @@ const state = reactive({
         city: '',
         image: '',
         spots: '1',
-        tags: [],
+        tags: [] as any,
         price: '',
         is_tax_included: false,
         show_spots_left: false,

@@ -36,6 +36,13 @@
                             <FormError :error="state?.error?.errors?.name?.[0]" />
                         </div>
                         <div class="space-y-1">
+                            <FormLabel for="cvr" :label="$t('register.form.cvr')" />
+                            <FormTextField id="cvr" name="cvr" :placeholder="$t('register.form.cvr')"
+                                v-model="state.formRegister.cvr" />
+                            <FormError :error="v$?.formRegister?.cvr?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.cvr?.[0]" />
+                        </div>
+                        <div class="space-y-1">
                             <FormLabel for="industry" :label="$t('register.form.industry')" />
                             <FormSelect id="industry" :options="state.options.industries"
                                 v-model="state.formRegister.industry" />
@@ -154,6 +161,7 @@ const state = reactive({
     error: {} as Error,
     formRegister: {
         name: '',
+        cvr: '',
         industry: '',
         firstname: '',
         lastname: '',
@@ -268,6 +276,7 @@ async function register() {
         try {
             const params = {
                 name: state.formRegister.name,
+                cvr: state.formRegister.cvr,
                 industry_uuid: state.formRegister.industry,
                 firstname: state.formRegister.firstname,
                 lastname: state.formRegister.lastname,

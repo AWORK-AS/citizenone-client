@@ -37,7 +37,7 @@
                                 <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('drive.uploadFile') }}
                             </FormButton>
-                            <input type="file" ref="documentFile" @change="uploadFile" class="hidden" />
+                            <input type="file" ref="documentFile" @change="uploadFile" class="hidden" multiple />
                         </LoadingSpinner>
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isViewFolderStructureOpen = true">
@@ -86,14 +86,17 @@
                                         </span>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ document?.user?.firstname }}</span>
-                                        <span>{{ document?.user?.lastname }}</span>
+                                        <p class="truncate">
+                                            {{ document?.user?.firstname + ' ' + document?.user?.lastname }}
+                                        </p>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ formatDateTimeToReadable(document?.created_at) }}</span>
+                                        <span class="truncate">
+                                            {{ formatDateTimeToReadable(document?.created_at) }}
+                                        </span>
                                     </td>
                                     <td width="20%">
-                                        <span>
+                                        <span class="truncate">
                                             {{ document?.updated_at && formatDateTimeToReadable(document?.updated_at) }}
                                         </span>
                                     </td>
@@ -134,13 +137,13 @@
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.delete')"
                                                 v-if="document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="deleteDirectoryConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.delete')" v-else>
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="deleteFileConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
@@ -351,10 +354,19 @@ async function uploadFile(event: any) {
     state.isPageLoading = true
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid as any
-        let params = new FormData()
+        const files = event.target.files
+
+        if (!files || files.length === 0) return
+
+        const params = new FormData()
         params.append('type', 'file')
         params.append('is_admin_access', 'false')
-        params.append('file', event.target.files[0])
+
+        // Append all files with the same key, e.g., files[]
+        for (const file of files) {
+            params.append('files[]', file)
+        }
+
         if (folderUuid) {
             params.append('folder_uuid', folderUuid)
         }

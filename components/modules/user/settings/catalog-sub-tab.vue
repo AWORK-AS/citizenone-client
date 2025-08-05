@@ -108,6 +108,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.roles',
+                isTranslateName: true,
+                href: `/settings/roles`,
+                routeNames: [
+                    'settings-roles'
+                ]
+            },
+            {
                 name: 'settings.tabs.scheduleTags',
                 isTranslateName: true,
                 href: `/settings/schedule-tags`,

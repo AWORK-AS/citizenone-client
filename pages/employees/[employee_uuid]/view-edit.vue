@@ -98,6 +98,7 @@ const state = reactive({
         city_uuid: '',
         post_code: '',
         permissions: [],
+        show_working_hours: false,
         media_risks: [],
         pages: [],
         employment: {
@@ -147,6 +148,7 @@ async function fetchEmployee() {
                 city_uuid: response?.data?.employee_address?.city?.uuid?.toString() ?? '',
                 post_code: response?.data?.employee_address?.post_code ?? '',
                 permissions: response?.data?.permissions ?? [],
+                show_working_hours: response?.data?.show_working_hours ?? false,
                 media_risks: [],
                 pages: [],
                 employment: {
@@ -212,6 +214,7 @@ async function updateEmployee(employeeDetails: any) {
         params.append('departments_uuid', JSON.stringify(employeeDetails.departments))
         params.append('role', employeeDetails.role)
         params.append('permission', JSON.stringify(employeeDetails.permissions))
+        params.append('show_working_hours', employeeDetails.show_working_hours)
         params.append('media_risk_uuid', JSON.stringify(employeeDetails.media_risks))
         if (employeeDetails.pages) {
             params.append('page_uuid', JSON.stringify(employeeDetails.pages))

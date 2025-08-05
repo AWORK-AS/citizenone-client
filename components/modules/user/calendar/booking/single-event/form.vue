@@ -455,9 +455,6 @@ watch(() => props.selectedEvent, (selectedEvent: any) => {
             is_reminder_enabled: selectedEvent?.is_reminder_enabled,
         }
         avatarUrl.value = selectedEvent?.image ? selectedEvent?.image : `/img/icons/asset-02.svg`
-        selectedEvent?.tags?.forEach((tag: any) => {
-            state.formEvent.tags.push(tag.uuid)
-        })
     }
 })
 

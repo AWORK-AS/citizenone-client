@@ -65,7 +65,7 @@ onMounted(() => {
     fetchDepartments()
 })
 
-watch(() => language.locale.value, (newLanguage: value) => {
+watch(() => language.locale.value, (newLanguage: any) => {
     fetchDepartments()
 })
 
@@ -83,11 +83,11 @@ async function fetchDepartments() {
 
 function selectDepartment(event: any) {
     departmentStore.setSelectedDepartmentName(event.target.value)
-    successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${event.target.value === '' ? t('department.all').toLowerCase() : event.target.value}.`)
+    successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${event.target.value === '' ? t('department.all')?.toLowerCase() : event.target.value}.`)
 }
 
 function changeDepartment(departmentName: string) {
     departmentStore.setSelectedDepartmentName(departmentName)
-    successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${departmentName === '' ? t('department.all').toLowerCase() : departmentName}.`)
+    successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${departmentName === '' ? t('department.all')?.toLowerCase() : departmentName}.`)
 }
 </script>

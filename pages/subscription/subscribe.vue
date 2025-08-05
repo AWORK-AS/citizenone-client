@@ -19,7 +19,8 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                 </div>
                 <div id="subscribe-checkout"></div>
-                <div class="mx-auto max-w-sm md:max-w-md mt-16 relative" v-if="!state.isDealsHidden">
+                <div class="mx-auto max-w-sm md:max-w-md mt-16 relative"
+                    v-if="!state.isDealsHidden && userStore.getUser?.user_subscription?.type !== 'yearly'">
                     <div class="flex justify-center">
                         <fieldset aria-label="Payment frequency">
                             <RadioGroup v-model="frequency"
@@ -425,11 +426,13 @@ import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
 import { useCouponStore } from '@/store/coupon'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const couponStore = useCouponStore()
+const userStore = useUserStore() as any
 const language = useI18n()
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
@@ -462,6 +465,12 @@ onMounted(() => {
     fetchDeals()
 })
 
+watch(() => userStore.getUser, (user: any) => {
+    if (user.user_subscription?.type === 'yearly') {
+        frequency.value = frequencies.find(f => f.value === 'annually')!
+    }
+})
+
 onUnmounted(() => {
     // Cleanup checkout instance when component is unmounted
     if (checkout) {
@@ -492,9 +501,12 @@ async function subscribe(deal: any) {
     error = ''
     try {
         const params = {
-            'deal_uuid': deal.uuid,
-            'type': frequency.value.value === 'monthly' ? 'monthly' : 'yearly',
-            'coupon_code': couponStore.getDealCouponCode,
+            deal_uuid: deal.uuid,
+            type: frequency.value.value === 'monthly' ? 'monthly' : 'yearly',
+            coupon_code: couponStore.getDealCouponCode,
+        }
+        if (userStore.getUser?.user_subscription?.type === 'yearly') {
+            params.type = 'yearly'
         }
         const response = await userSubscriptionService.subscribe(params)
         if (response) {

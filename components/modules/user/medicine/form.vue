@@ -3,24 +3,6 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
-            <!-- <div class="space-y-1">
-                <FormLabel for="image" :label="$t('medicines.form.image')" />
-                <div class="h-36 w-36">
-                    <input type="file" ref="image" id="image" @change="onFileChange" class="hidden" />
-                    <div class="relative cursor-pointer" @click="triggerFileInput">
-                        <img :src="imageUrl" alt="Avatar" class="w-36 h-36 object-cover" v-if="imageUrl" />
-                        <Icon name="material-symbols-light:add-photo-alternate-outline" class="w-36 h-36" v-else />
-                        <div
-                            class="absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
-                            <div class="flex items-center w-full h-full justify-center text-xs">
-                                {{ $t('changeImage') }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <FormError :error="v$?.formMedicine?.image?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.image?.[0]" />
-            </div> -->
             <div class="space-y-1">
                 <div class="flex flex-col items-center">
                     <input type="file" ref="image" @change="onFileChange" class="hidden" />
@@ -52,6 +34,14 @@
                     v-model="state.formMedicine.dk_name" />
                 <FormError :error="v$?.formMedicine?.dk_name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.dk_name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="active_ingredients" :label="$t('medicines.form.activeIngredients')" />
+                <FormTextField id="active_ingredients" name="active_ingredients"
+                    :placeholder="$t('medicines.form.activeIngredients')"
+                    v-model="state.formMedicine.active_ingredients" />
+                <FormError :error="v$?.formMedicine?.active_ingredients?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.active_ingredients?.[0]" />
             </div>
         </div>
         <div class="mt-6">
@@ -91,7 +81,10 @@ const props = defineProps({
 })
 
 const image = ref<HTMLInputElement | null>(null)
-let imageUrl = ref(props.selectedMedicine?.image ?? '')
+let imageUrl = ref(props.selectedMedicine?.image && props.selectedMedicine.image.trim() !== ''
+    ? props.selectedMedicine.image
+    : '/img/icons/asset-02.svg'
+)
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 const { t } = useI18n()
 
@@ -101,6 +94,7 @@ const state = reactive({
         image: '',
         en_name: '',
         dk_name: '',
+        active_ingredients: '',
     },
 })
 
@@ -113,6 +107,7 @@ watch(() => props.selectedMedicine, (newValue: any) => {
             image: '',
             en_name: newValue.en_name,
             dk_name: newValue.dk_name,
+            active_ingredients: newValue.active_ingredients,
         }
     }
 })

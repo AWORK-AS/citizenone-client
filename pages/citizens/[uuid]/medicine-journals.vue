@@ -85,11 +85,13 @@
                                                     class="w-28" v-if="medicine?.medicine?.image_url">
                                             </div>
                                             <div class="space-y-1 ml-7">
-                                                <p v-if="language.locale.value === 'en'">
-                                                    {{ medicine?.medicine?.en_name }}
+                                                <p class="truncate" v-if="language.locale.value === 'en'">
+                                                    {{ medicine?.medicine?.en_name }},
+                                                    {{ medicine?.medicine?.ingredients }}
                                                 </p>
-                                                <p v-if="language.locale.value === 'dk'">
-                                                    {{ medicine?.medicine?.dk_name }}
+                                                <p class="truncate" v-if="language.locale.value === 'dk'">
+                                                    {{ medicine?.medicine?.dk_name }},
+                                                    {{ medicine?.medicine?.ingredients }}
                                                 </p>
                                                 <div v-if="medicine.is_pn_medicine">
                                                     <Badge type="primary" class="w-fit">
@@ -189,7 +191,7 @@
                                                             case 'given':
                                                                 return customPagesStore.getCustomPagesName?.giveMedicine;
                                                             default:
-                                                                return $t('citizens.medicineJournals.history.form.type.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine.toLowerCase();
+                                                                return $t('citizens.medicineJournals.history.form.type.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine?.toLowerCase();
                                                         }
                                                     })()">
                                                         <span :class="[
@@ -255,7 +257,7 @@
                                             </Tooltip>
                                             <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.delete')}`"
                                                 v-if="medicine?.is_deletable">
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="confirmMedicineDeletion(medicine)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>

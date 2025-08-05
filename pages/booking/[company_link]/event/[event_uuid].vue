@@ -260,7 +260,17 @@
                         </div>
                         <div>
                             <div class="relative">
-                                <div class="p-6">
+                                <div class="p-6 space-y-2">
+                                    <p class="text-muted-400" v-if="state.bookingSettings?.is_phone_enabled">
+                                        {{ state.bookingSettings?.company?.phone }}
+                                    </p>
+                                    <p class="text-muted-400" v-if="state.bookingSettings?.is_address_enabled">
+                                        {{ state.bookingSettings?.company?.company_address?.street }}
+                                        {{ state.bookingSettings?.company?.company_address?.region?.name }}
+                                        {{ state.bookingSettings?.company?.company_address?.municipality?.name }}
+                                        {{ state.bookingSettings?.company?.company_address?.city }}
+                                        {{ state.bookingSettings?.company?.company_address?.post_code }}
+                                    </p>
                                     <p class="text-sm text-muted-400">
                                         <div v-html="state.bookingSettings?.description" class="content" />
                                     </p>
