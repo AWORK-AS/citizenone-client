@@ -5,24 +5,24 @@
         <LoadingSpinner :isActive="state.isPageLoading">
             <div class="space-y-3">
                 <div class="space-y-1">
-                    <FormLabel for="date_time_start" :label="$t('citizens.patientCareHours.form.datetimeStart')" />
+                    <FormLabel for="date_time_start" :label="$t('citizens.interventionHours.form.datetimeStart')" />
                     <FormDateTimeField id="date_time_start" name="date_time_start"
-                        :placeholder="`${$t('citizens.patientCareHours.form.datetimeStart')}`"
-                        v-model="state.formPatientCareHours.date_time_start" />
-                    <FormError :error="v$?.formPatientCareHours.date_time_start?.$errors[0]?.$message.toString()" />
+                        :placeholder="`${$t('citizens.interventionHours.form.datetimeStart')}`"
+                        v-model="state.formInterventionHours.date_time_start" />
+                    <FormError :error="v$?.formInterventionHours.date_time_start?.$errors[0]?.$message.toString()" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="date_time_end" :label="$t('citizens.patientCareHours.form.datetimeEnd')" />
+                    <FormLabel for="date_time_end" :label="$t('citizens.interventionHours.form.datetimeEnd')" />
                     <FormDateTimeField id="date_time_end" name="date_time_end"
-                        :placeholder="`${$t('citizens.patientCareHours.form.datetimeEnd')}`"
-                        v-model="state.formPatientCareHours.date_time_end" />
-                    <FormError :error="v$?.formPatientCareHours.date_time_end?.$errors[0]?.$message.toString()" />
+                        :placeholder="`${$t('citizens.interventionHours.form.datetimeEnd')}`"
+                        v-model="state.formInterventionHours.date_time_end" />
+                    <FormError :error="v$?.formInterventionHours.date_time_end?.$errors[0]?.$message.toString()" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="note" :label="$t('citizens.patientCareHours.form.note')" />
-                    <FormTextArea id="note" name="note" :placeholder="$t('citizens.patientCareHours.form.note')"
-                        v-model="state.formPatientCareHours.note" />
-                    <FormError :error="v$?.formPatientCareHours?.note?.$errors[0]?.$message.toString()" />
+                    <FormLabel for="note" :label="$t('citizens.interventionHours.form.note')" />
+                    <FormTextArea id="note" name="note" :placeholder="$t('citizens.interventionHours.form.note')"
+                        v-model="state.formInterventionHours.note" />
+                    <FormError :error="v$?.formInterventionHours?.note?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.note?.[0]" />
                 </div>
             </div>
@@ -57,7 +57,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedPatientCareHours: {
+    selectedInterventionHours: {
         type: Object,
         required: true,
     },
@@ -68,7 +68,7 @@ const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
-    formPatientCareHours: {
+    formInterventionHours: {
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
         note: '',
@@ -77,26 +77,26 @@ const state = reactive({
 })
 
 onMounted(() => {
-    state.formPatientCareHours = {
-        date_time_start: props.selectedPatientCareHours?.date_time_start,
-        date_time_end: props.selectedPatientCareHours?.date_time_end,
-        note: props.selectedPatientCareHours?.note,
+    state.formInterventionHours = {
+        date_time_start: props.selectedInterventionHours?.date_time_start,
+        date_time_end: props.selectedInterventionHours?.date_time_end,
+        note: props.selectedInterventionHours?.note,
     }
 })
 
-watch(() => props.selectedPatientCareHours, (patientCareHours: any) => {
-    if (newValue != null) {
-        state.formPatientCareHours = {
-            date_time_start: props.patientCareHours?.date_time_start,
-            date_time_end: props.patientCareHours?.date_time_end,
-            note: props.patientCareHours?.note,
+watch(() => props.selectedInterventionHours, (interventionHours: any) => {
+    if (interventionHours != null) {
+        state.formInterventionHours = {
+            date_time_start: props.selectedInterventionHours?.date_time_start,
+            date_time_end: props.selectedInterventionHours?.date_time_end,
+            note: props.selectedInterventionHours?.note,
         }
     }
 })
 
 const rules = computed(() => {
     return {
-        formPatientCareHours: {
+        formInterventionHours: {
             date_time_start: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
@@ -112,7 +112,7 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formPatientCareHours)
+        emit('submitForm', state.formInterventionHours)
     }
 }
 </script>

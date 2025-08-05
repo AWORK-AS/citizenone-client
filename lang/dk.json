@@ -1214,6 +1214,38 @@
                 "title": "Titel"
             }
         },
+        "interventionHours": {
+            "editInterventionHours": "Rediger indsatstimer",
+            "form": {
+                "alert": {
+                    "interventionHoursSuccessfullyAdded": "Indsatstimer tilføjet med succes",
+                    "interventionHoursSuccessfullyUpdated": "Indsatstimer opdateret med succes"
+                },
+                "datetimeEnd": "Dato og tid slut",
+                "datetimeStart": "Dato og tid start",
+                "note": "Bemærkning",
+                "totalHours": "Samlet timer"
+            },
+            "newInterventionHours": "Nye indsatstimer",
+            "interventionHours": "Indsatstimer",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "alert": {
+                    "interventionHoursSuccessfullyDeleted": "Indsatstimer slettet med succes"
+                },
+                "confirmation": {
+                    "deleteInterventionHoursConfirmation": "Er du sikker på, at du vil slette disse indsatstimer"
+                },
+                "createdBy": "Oprettet af",
+                "datetimeEnd": "Dato og tid slut",
+                "datetimeStart": "Dato og tid start",
+                "note": "Bemærkning",
+                "totalHours": "Samlet timer"
+            }
+        },
         "medicineJournals": {
             "alert": {
                 "successfullyActivated": "Medicin aktiveret med succes",
@@ -1471,38 +1503,6 @@
                 "excretionOfWaste": "Affaldsudskillelse"
             },
             "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal"
-        },
-        "patientCareHours": {
-            "editPatientCareHours": "Rediger patientpleje timer",
-            "form": {
-                "alert": {
-                    "patientCareHoursSuccessfullyAdded": "Patientpleje timer tilføjet med succes",
-                    "patientCareHoursSuccessfullyUpdated": "Patientpleje timer opdateret med succes"
-                },
-                "datetimeEnd": "Dato og tid slut",
-                "datetimeStart": "Dato og tid start",
-                "note": "Bemærkning",
-                "totalHours": "Samlet timer"
-            },
-            "newPatientCareHours": "Ny patientpleje timer",
-            "patientCareHours": "Patientpleje timer",
-            "table": {
-                "actions": {
-                    "delete": "Slet",
-                    "edit": "Rediger"
-                },
-                "alert": {
-                    "patientCareHoursSuccessfullyDeleted": "Patientpleje timer slettet med succes"
-                },
-                "confirmation": {
-                    "deletePatientCareHoursConfirmation": "Er du sikker på, at du vil slette disse patientpleje timer"
-                },
-                "createdBy": "Oprettet af",
-                "datetimeEnd": "Dato og tid slut",
-                "datetimeStart": "Dato og tid start",
-                "note": "Bemærkning",
-                "totalHours": "Samlet timer"
-            }
         },
         "purchaseEmail": {
             "purchaseEmail": "Køb e-mail",
