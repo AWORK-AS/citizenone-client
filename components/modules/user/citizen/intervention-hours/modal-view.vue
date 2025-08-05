@@ -95,8 +95,8 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'citizens.interventionHours.table.datetimeEnd', sorter: true, key: 'date_time_start' },
-        { name: 'citizens.interventionHours.table.datetimeStart', sorter: true, key: 'date_time_end' },
+        { name: 'citizens.interventionHours.table.datetimeStart', sorter: true, key: 'date_time_start' },
+        { name: 'citizens.interventionHours.table.datetimeEnd', sorter: true, key: 'date_time_end' },
         { name: 'citizens.interventionHours.table.note' },
         { name: 'citizens.interventionHours.table.totalHours' },
         { name: 'citizens.interventionHours.table.createdBy' },
