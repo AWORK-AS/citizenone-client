@@ -30,7 +30,13 @@
                                         {{ inteventionHours?.note }}
                                     </td>
                                     <td width="10%">
-                                        {{ inteventionHours?.total_hours }}
+                                        <div class="truncate">
+                                            {{ inteventionHours?.total_hours }}
+                                            <Badge type="primary" class="text-xxs"
+                                                v-if="inteventionHours?.is_from_duty_schedule">
+                                                {{ $t('citizens.interventionHours.table.fromDutySchedule') }}
+                                            </Badge>
+                                        </div>
                                     </td>
                                     <td width="20%">
                                         {{ inteventionHours?.user?.firstname + ' ' + inteventionHours?.user?.lastname }}

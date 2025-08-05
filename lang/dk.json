@@ -1242,6 +1242,7 @@
                 "createdBy": "Oprettet af",
                 "datetimeEnd": "Dato og tid slut",
                 "datetimeStart": "Dato og tid start",
+                "fromDutySchedule": "Fra vagtplan",
                 "note": "Bemærkning",
                 "totalHours": "Samlet timer"
             }
