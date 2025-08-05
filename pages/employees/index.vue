@@ -118,7 +118,8 @@
                                                 </span>
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="giveAIAccessConfirmation(employee)">
+                                                @click="giveAIAccessConfirmation(employee)"
+                                                v-if="!employee?.has_ai_access">
                                                 <Icon name="ph:check" class="size-4" />
                                                 {{ $t('employees.table.actions.giveAIAccess') }}
                                             </FormButton>
