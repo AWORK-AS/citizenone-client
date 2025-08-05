@@ -2577,6 +2577,7 @@
             "actions": {
                 "calendar": "Calendar",
                 "edit": "Edit",
+                "giveAIAccess": "Give AI access",
                 "giveBookingAccess": "Give booking access",
                 "giveSecureMail": "Give secure mail",
                 "message": "Message",
@@ -2585,11 +2586,16 @@
             },
             "admin": "Admin",
             "alert": {
+                "aIAccessGranted": "AI access granted",
                 "bookingAccessGranted": "Booking access granted",
                 "bookingAccessRemoved": "Booking access removed",
                 "secureMailAccessGranted": "Secure mail access granted",
                 "secureMailAccessRemoved": "Secure mail access removed",
                 "secureMailLicenseInstruction": "You can get more Secure Mail licenses by clicking here"
+            },
+            "confirmation": {
+                "aiAccessConfirmation": "Are you sure you want to give this user an AI Access",
+                "bookingAccessConfirmation": "Are you sure you want to give this user a booking access"
             },
             "email": "Email",
             "name": "Name",

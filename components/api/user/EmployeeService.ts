@@ -33,6 +33,10 @@ class EmployeeService extends BaseAPIService {
         return await this.request(`/user/employees/${employeeUuid}`, 'DELETE')
     }
 
+    async toggleAILicense(employeeUuid: any): Promise<any> {
+        return await this.request(`/user/ai/${employeeUuid}/set-license`, 'PUT')
+    }
+
     async toggleSecureMailLicense(employeeUuid: any): Promise<any> {
         return await this.request(`/user/employees/${employeeUuid}/toggle/secure-mail-license`, 'PUT')
     }

@@ -2577,6 +2577,7 @@
             "actions": {
                 "calendar": "Kalender",
                 "edit": "Rediger",
+                "giveAIAccess": "Giv AI adgang",
                 "giveBookingAccess": "Giv booking adgang",
                 "giveSecureMail": "Giv Sikker Mail",
                 "message": "Chat",
@@ -2585,11 +2586,16 @@
             },
             "admin": "Administrator",
             "alert": {
+                "aIAccessGranted": "AI adgang givet",
                 "bookingAccessGranted": "Booking adgang givet",
                 "bookingAccessRemoved": "Booking adgang fjernet",
                 "secureMailAccessGranted": "Adgang til sikker mail givet",
                 "secureMailAccessRemoved": "Adgang til sikker mail fjernet",
                 "secureMailLicenseInstruction": "Du kan få flere Sikker Mail licenser ved at klikke her"
+            },
+            "confirmation": {
+                "aiAccessConfirmation": "Er du sikker på, at du vil give denne bruger AI-adgang?",
+                "bookingAccessConfirmation": "Er du sikker på, at du vil give denne bruger booking-adgang?"
             },
             "email": "E-mail",
             "name": "Navn",
