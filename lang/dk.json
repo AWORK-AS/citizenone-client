@@ -2651,7 +2651,10 @@
     "features": {
         "seeNewFeatures": "Se nye funktioner"
     },
-    "filterDate": "Filtrer dato",
+    "filterDate": {
+        "filterDate": "Filtrer dato",
+        "setToday": "Sæt til i dag"
+    },
     "findsocialetilbuddk": {
         "manageCompany": {
             "form": {
