@@ -261,16 +261,22 @@
                         <div>
                             <div class="relative">
                                 <div class="p-6 space-y-2">
-                                    <p class="text-muted-400" v-if="state.bookingSettings?.is_phone_enabled">
-                                        {{ state.bookingSettings?.company?.phone }}
-                                    </p>
-                                    <p class="text-muted-400" v-if="state.bookingSettings?.is_address_enabled">
-                                        {{ state.bookingSettings?.company?.company_address?.street }}
-                                        {{ state.bookingSettings?.company?.company_address?.region?.name }}
-                                        {{ state.bookingSettings?.company?.company_address?.municipality?.name }}
-                                        {{ state.bookingSettings?.company?.company_address?.city }}
-                                        {{ state.bookingSettings?.company?.company_address?.post_code }}
-                                    </p>
+                                    <div class="flex items-center gap-x-2">
+                                        <Icon name="ph:phone" class="h-5 w-5" aria-hidden="true" />
+                                        <p class="text-muted-400" v-if="state.bookingSettings?.is_phone_enabled">
+                                            {{ state.bookingSettings?.company?.phone }}
+                                        </p>
+                                    </div>
+                                    <div class="flex gap-x-2">
+                                        <Icon name="ph:map-pin" class="h-5 w-5" aria-hidden="true" />
+                                        <p class="text-muted-400" v-if="state.bookingSettings?.is_address_enabled">
+                                            {{ state.bookingSettings?.company?.company_address?.street }}
+                                            {{ state.bookingSettings?.company?.company_address?.region?.name }}
+                                            {{ state.bookingSettings?.company?.company_address?.municipality?.name }}
+                                            {{ state.bookingSettings?.company?.company_address?.city }}
+                                            {{ state.bookingSettings?.company?.company_address?.post_code }}
+                                        </p>
+                                    </div>
                                     <p class="text-sm text-muted-400">
                                         <div v-html="state.bookingSettings?.description" class="content" />
                                     </p>
