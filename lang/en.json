@@ -1215,6 +1215,13 @@
             }
         },
         "interventionHours": {
+            "download": {
+                "download": "Download",
+                "downloadInterventionHours": "Download intervention hours",
+                "filter": {
+                    "filterDate": "Filter date"
+                }
+            },
             "editInterventionHours": "Edit intervention hours",
             "form": {
                 "alert": {

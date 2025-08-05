@@ -16,6 +16,10 @@ class InterventionHoursService extends BaseAPIService {
     async deleteInterventionHours(interventionHoursUuid: any): Promise<any> {
         return await this.request(`/user/citizen-care-hours/${interventionHoursUuid}`, 'DELETE')
     }
+
+    async downloadInterventionHours(params: object): Promise<any> {
+        return await this.request(`/user/citizen-care-hours/download/reports`, 'GET', params)
+    }
 }
 
 export const interventionHoursService = new InterventionHoursService()

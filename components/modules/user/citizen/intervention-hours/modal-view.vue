@@ -3,14 +3,19 @@
         <Modal size="3xl" :title="$t('citizens.interventionHours.interventionHours')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
-                <div class="flex justify-end items-center mb-5">
+                <div class="flex items-center gap-x-2 justify-end">
                     <FormButton buttonStyle="action" class="rounded-lg"
                         @click="state.modal.isAddInterventionHoursOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.interventionHours.newInterventionHours') }}
                     </FormButton>
+                    <FormButton buttonStyle="action" class="rounded-lg"
+                        @click="state.modal.isDownloadInterventionHoursOpen = true">
+                        <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('citizens.interventionHours.download.download') }}
+                    </FormButton>
                 </div>
-                <div class="space-y-5">
+                <div class="mt-5 space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
@@ -70,6 +75,9 @@
                     :selectedInterventionHours="state.selectedInterventionHours"
                     @close="state.modal.isEditInterventionHoursOpen = false"
                     @refreshInterventionHours="refreshInterventionHours()" />
+                <ModulesUserCitizenInterventionHoursModalDownload
+                    :isModalOpen="state.modal.isDownloadInterventionHoursOpen"
+                    @close="state.modal.isDownloadInterventionHoursOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteInterventionHoursOpen"
                     :message="$t('citizens.interventionHours.table.confirmation.deleteInterventionHoursConfirmation') + '?'"
                     @close="state.modal.isDeleteInterventionHoursOpen = false" @confirm="deleteInterventionHours" />
@@ -116,6 +124,7 @@ const state = reactive({
     modal: {
         isAddInterventionHoursOpen: false,
         isDeleteInterventionHoursOpen: false,
+        isDownloadInterventionHoursOpen: false,
         isEditInterventionHoursOpen: false,
     },
     interventionHours: [] as any,
