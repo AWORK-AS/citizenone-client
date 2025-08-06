@@ -135,9 +135,10 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
             },
             {
                 title: 'Ændringslog i vagtplan',
-                "description": [
-                    "Vi har nu lanceret CitizenOne AI – din intelligente assistent, som for eksempel kan give dig et hurtigt overblik over, hvordan en borger har haft det den seneste måned, dele nyttig information om din organisation eller dine kolleger og meget mere. Alt sammen direkte i CitizenOne, så du kan arbejde smartere og hurtigere."
-                ]
+                description: [
+                    'Vagtplanen inkluderer nu en detaljeret ændringslog.',
+                    'Spor alle opdateringer og ændringer i vagtplaner nemt.',
+                ],
             },
         ],
         '2025-07-25': [
