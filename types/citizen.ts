@@ -21,7 +21,7 @@ export interface CitizenForm {
     date_discharged: string,
     is_discharge_reminded: boolean,
     section: string,
-    pricing: string,
+    pricing: any,
     pricing_start_date: string,
     primary_case_worker_uuid: string,
     paying_municipality: string,

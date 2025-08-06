@@ -353,6 +353,7 @@
     "assistants": {
         "assistants": "Assistance",
         "askAnything": "Spørg om hvad som helst",
+        "generatingResponse": "Genererer svar. Vent venligst",
         "helloHowCanIAssistYouToday": "Hej, hvordan kan jeg hjælpe dig i dag",
         "send": "Send"
     },

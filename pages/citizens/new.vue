@@ -49,6 +49,7 @@ const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const language = useI18n()
 const breadcrumbLinks = [
     {
         name: 'citizens.newCitizen',
@@ -103,6 +104,8 @@ async function saveCitizen(citizenDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
+        let pricingStr = citizenDetails.pricing
+
         let params = new FormData()
         params.append('image', citizenDetails.image)
         params.append('firstname', citizenDetails.firstname)
@@ -129,7 +132,19 @@ async function saveCitizen(citizenDetails: any) {
         params.append('date_discharged', citizenDetails.date_discharged != 'Invalid date' ? citizenDetails.date_discharged : '')
         params.append('is_discharge_reminded', citizenDetails.is_discharge_reminded)
         params.append('section', citizenDetails.section)
-        params.append('pricing', citizenDetails.pricing)
+
+        if (citizenDetails.pricing) {
+            if (language.locale.value === 'en') {
+                // Remove thousand separators (','), already has '.' as decimal
+                pricingStr = pricingStr.replace(/,/g, '')
+            } else if (language.locale.value === 'dk') {
+                // Remove thousand separators ('.'), and replace decimal separator (',') with '.'
+                pricingStr = pricingStr.replace(/\./g, '').replace(',', '.')
+            }
+            const normalizedPricing = parseFloat(pricingStr) as any
+            params.append('pricing', normalizedPricing)
+        }
+
         params.append('pricing_start_date', citizenDetails.pricing_start_date)
         params.append('primary_case_worker_uuid', citizenDetails.primary_case_worker_uuid)
         params.append('paying_municipality', citizenDetails.paying_municipality)
