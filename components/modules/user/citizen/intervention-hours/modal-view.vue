@@ -36,7 +36,7 @@
                                     </td>
                                     <td width="10%">
                                         <div class="truncate">
-                                            {{ inteventionHours?.total_hours }}
+                                            {{ formatNumber(language.locale.value, inteventionHours?.total_hours) }}
                                             <Badge type="primary" class="text-xxs"
                                                 v-if="inteventionHours?.is_from_duty_schedule">
                                                 {{ $t('citizens.interventionHours.table.fromDutySchedule') }}
@@ -89,6 +89,7 @@
 <script setup lang="ts">
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -103,6 +104,8 @@ const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
+const { formatNumber } = useNumberFormatter()
+const language = useI18n()
 const { successAlert } = useAlert()
 const emit = defineEmits(['close', 'refreshCitizenDetails'])
 let currentTablePage = 1
