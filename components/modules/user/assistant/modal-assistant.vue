@@ -14,7 +14,7 @@
                                     :class="message.type === 'user' ? 'text-right' : 'text-left'">
                                     <div
                                         :class="message.type === 'user' ? 'bg-secondary text-white p-1 rounded-lg' : 'bg-gray-200 p-1 rounded-lg'">
-                                        <p class="px-4 py-2 rounded-lg inline-block max-w-xs"
+                                        <p class="px-4 py-2 rounded-lg inline-block"
                                             v-html="formatMessage(message?.text)" />
                                     </div>
                                 </div>
