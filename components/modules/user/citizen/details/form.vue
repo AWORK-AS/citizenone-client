@@ -503,7 +503,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             date_discharged: selectedCitizen.date_discharged,
             is_discharge_reminded: selectedCitizen.is_discharge_reminded,
             section: selectedCitizen.section,
-            pricing: formatPrice(selectedCitizen.pricing, 'en'),
+            pricing: formatPrice(selectedCitizen.pricing, language.locale.value),
             pricing_start_date: selectedCitizen.pricing_start_date,
             primary_case_worker_uuid: selectedCitizen.primary_case_worker_uuid,
             paying_municipality: selectedCitizen.paying_municipality,
