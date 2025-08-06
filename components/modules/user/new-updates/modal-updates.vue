@@ -121,7 +121,7 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
     dk: {
         '2025-08-01': [
             {
-                title: 'Indsatstider i borgersiden',
+                title: 'Indsatstider på borger-siden',
                 description: [
                     'Borgere kan nu se tilgængelige indsatstider direkte i borgersiden.',
                     'Dette forbedrer gennemsigtighed og adgang til støttetjenester.',
