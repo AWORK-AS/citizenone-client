@@ -353,6 +353,7 @@
     "assistants": {
         "assistants": "Assistants",
         "askAnything": "Ask anything",
+        "generatingResponse": "Generating response. Please wait",
         "helloHowCanIAssistYouToday": "Hello, how can I assist you today",
         "send": "Send"
     },
