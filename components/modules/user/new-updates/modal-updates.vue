@@ -130,8 +130,7 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
             {
                 title: 'Ny app: CitizenOne AI',
                 description: [
-                    'Vi har nu lanceret CitizenOne AI.',
-                    'din intelligente assistent, som for eksempel kan give dig et hurtigt overblik over, hvordan en borger har haft det den seneste måned, dele nyttig information om din organisation eller dine kollegaer, og meget mere. Alt sammen direkte i CitizenOne, så du kan arbejde smartere og hurtigere.'
+                    'Vi har nu lanceret CitizenOne AI - din intelligente assistent, som for eksempel kan give dig et hurtigt overblik over, hvordan en borger har haft det den seneste måned, dele nyttig information om din organisation eller dine kollegaer, og meget mere. Alt sammen direkte i CitizenOne, så du kan arbejde smartere og hurtigere.'
                 ],
             },
             {
