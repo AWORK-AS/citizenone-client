@@ -151,7 +151,8 @@
                                         </Tooltip>
                                         <p class="text-sm font-medium text-gray-700">
                                             {{ $t('citizens.form.pricing') }}:
-                                            {{ state.selectedCitizen?.data?.pricing }}
+                                            {{ formatNumber(language.locale.value,
+                                                state.selectedCitizen?.data?.pricing) }}
                                         </p>
                                     </div>
                                     <div class="flex items-center gap-x-1"
