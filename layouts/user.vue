@@ -252,7 +252,7 @@
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-3">
                         <ModulesUserNavbarNewUpdates />
-                        <ModulesUserNavbarAiAssistant />
+                        <ModulesUserNavbarAiAssistant v-if="userStore.getUser?.has_ai_access" />
                         <ModulesUserNavbarSubscribeButton
                             v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null"
                             class="hidden md:block" />

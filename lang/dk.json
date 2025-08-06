@@ -1214,6 +1214,46 @@
                 "title": "Titel"
             }
         },
+        "interventionHours": {
+            "download": {
+                "download": "Download",
+                "downloadInterventionHours": "Download indsatstimer",
+                "filter": {
+                    "filterDate": "Filtrer dato"
+                }
+            },
+            "editInterventionHours": "Rediger indsatstimer",
+            "form": {
+                "alert": {
+                    "interventionHoursSuccessfullyAdded": "Indsatstimer tilføjet med succes",
+                    "interventionHoursSuccessfullyUpdated": "Indsatstimer opdateret med succes"
+                },
+                "datetimeEnd": "Dato og tid slut",
+                "datetimeStart": "Dato og tid start",
+                "note": "Bemærkning",
+                "totalHours": "Samlet timer"
+            },
+            "newInterventionHours": "Nye indsatstimer",
+            "interventionHours": "Indsatstimer",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "alert": {
+                    "interventionHoursSuccessfullyDeleted": "Indsatstimer slettet med succes"
+                },
+                "confirmation": {
+                    "deleteInterventionHoursConfirmation": "Er du sikker på, at du vil slette disse indsatstimer"
+                },
+                "createdBy": "Oprettet af",
+                "datetimeEnd": "Dato og tid slut",
+                "datetimeStart": "Dato og tid start",
+                "fromDutySchedule": "Fra vagtplan",
+                "note": "Bemærkning",
+                "totalHours": "Samlet timer"
+            }
+        },
         "medicineJournals": {
             "alert": {
                 "successfullyActivated": "Medicin aktiveret med succes",
@@ -1471,38 +1511,6 @@
                 "excretionOfWaste": "Affaldsudskillelse"
             },
             "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal"
-        },
-        "patientCareHours": {
-            "editPatientCareHours": "Rediger patientpleje timer",
-            "form": {
-                "alert": {
-                    "patientCareHoursSuccessfullyAdded": "Patientpleje timer tilføjet med succes",
-                    "patientCareHoursSuccessfullyUpdated": "Patientpleje timer opdateret med succes"
-                },
-                "datetimeEnd": "Dato og tid slut",
-                "datetimeStart": "Dato og tid start",
-                "note": "Bemærkning",
-                "totalHours": "Samlet timer"
-            },
-            "newPatientCareHours": "Ny patientpleje timer",
-            "patientCareHours": "Patientpleje timer",
-            "table": {
-                "actions": {
-                    "delete": "Slet",
-                    "edit": "Rediger"
-                },
-                "alert": {
-                    "patientCareHoursSuccessfullyDeleted": "Patientpleje timer slettet med succes"
-                },
-                "confirmation": {
-                    "deletePatientCareHoursConfirmation": "Er du sikker på, at du vil slette disse patientpleje timer"
-                },
-                "createdBy": "Oprettet af",
-                "datetimeEnd": "Dato og tid slut",
-                "datetimeStart": "Dato og tid start",
-                "note": "Bemærkning",
-                "totalHours": "Samlet timer"
-            }
         },
         "purchaseEmail": {
             "purchaseEmail": "Køb e-mail",
@@ -2577,6 +2585,7 @@
             "actions": {
                 "calendar": "Kalender",
                 "edit": "Rediger",
+                "giveAIAccess": "Giv AI adgang",
                 "giveBookingAccess": "Giv booking adgang",
                 "giveSecureMail": "Giv Sikker Mail",
                 "message": "Chat",
@@ -2585,11 +2594,16 @@
             },
             "admin": "Administrator",
             "alert": {
+                "aIAccessGranted": "AI adgang givet",
                 "bookingAccessGranted": "Booking adgang givet",
                 "bookingAccessRemoved": "Booking adgang fjernet",
                 "secureMailAccessGranted": "Adgang til sikker mail givet",
                 "secureMailAccessRemoved": "Adgang til sikker mail fjernet",
                 "secureMailLicenseInstruction": "Du kan få flere Sikker Mail licenser ved at klikke her"
+            },
+            "confirmation": {
+                "aiAccessConfirmation": "Er du sikker på, at du vil give denne bruger AI-adgang?",
+                "bookingAccessConfirmation": "Er du sikker på, at du vil give denne bruger booking-adgang?"
             },
             "email": "E-mail",
             "name": "Navn",
@@ -2645,7 +2659,10 @@
     "features": {
         "seeNewFeatures": "Se nye funktioner"
     },
-    "filterDate": "Filtrer dato",
+    "filterDate": {
+        "filterDate": "Filtrer dato",
+        "setToday": "Sæt til i dag"
+    },
     "findsocialetilbuddk": {
         "manageCompany": {
             "form": {
@@ -4700,7 +4717,8 @@
     "update": "Opdater",
     "updates": {
         "newUpdates": "Nye opdateringer",
-        "newUpdatesFrom": "Nye opdateringer fra"
+        "newUpdatesFrom": "Nye opdateringer fra",
+        "selectWeek": "Vælg uge"
     },
     "validation": {
         "thisFieldIsRequired": "Dette felt er påkrævet"

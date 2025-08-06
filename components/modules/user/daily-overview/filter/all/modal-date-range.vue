@@ -1,15 +1,23 @@
 <template>
     <div>
-        <Modal size="xs" :title="`${$t('filterDate')}`" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs" :title="`${$t('filterDate.filterDate')}`" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <form @submit.prevent="filterDailyOverview" class="mt-3">
                         <div class="space-y-3">
                             <Alert type="danger" :text="state?.error?.message"
                                 v-if="state.error?.message && state.error.message.length > 0" />
-                            <FormDateRangeField name="date_range" :placeholder="$t('filterDate')"
-                                v-model="state.filter.date_range" />
-                            <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
+                            <div class="space-y-1">
+                                <div class="flex justify-end">
+                                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                        @click="setToday">
+                                        {{ $t('filterDate.setToday') }}
+                                    </span>
+                                </div>
+                                <FormDateRangeField name="date_range" :placeholder="$t('filterDate.filterDate')"
+                                    v-model="state.filter.date_range" />
+                                <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
+                            </div>
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -99,6 +107,11 @@ const v$ = useVuelidate(rules, state)
 
 function closeModal() {
     emit('close')
+}
+
+function setToday() {
+    const today = moment().format('YYYY-MM-DD')
+    state.filter.date_range = [today, today]
 }
 
 async function filterDailyOverview() {

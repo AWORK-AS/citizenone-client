@@ -171,8 +171,8 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const state = reactive({
     dateRange: {
         formDateRange: {
-            start_date: moment().format('YYYY-MM-DD'),
-            end_date: moment().format('YYYY-MM-DD'),
+            start_date: moment().startOf('isoWeek').format('YYYY-MM-DD'),
+            end_date: moment().endOf('isoWeek').format('YYYY-MM-DD'),
         },
     } as any,
     modal: {

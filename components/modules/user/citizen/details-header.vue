@@ -69,7 +69,7 @@
                                 <div class="space-y-1">
                                     <div class="flex items-center gap-x-1 cursor-pointer"
                                         @click="state.modal.isViewPatienCareHoursOpen = true">
-                                        <Tooltip :text="$t('citizens.patientCareHours.patientCareHours')"
+                                        <Tooltip :text="$t('citizens.interventionHours.interventionHours')"
                                             class="flex items-center">
                                             <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
@@ -251,7 +251,7 @@
                         v-if="$route.name === 'citizens-uuid-medicine-journals'" />
                     <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
                         v-if="$route.name === 'citizens-uuid-journals' && userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
-                    <ModulesUserCitizenPatientCareHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
+                    <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
                         @close="state.modal.isViewPatienCareHoursOpen = false"
                         @refreshCitizenDetails="fetchCitizen()" />
                     <ModulesUserCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />

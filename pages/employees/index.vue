@@ -118,7 +118,13 @@
                                                 </span>
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="giveBookingAccess(employee)"
+                                                @click="giveAIAccessConfirmation(employee)"
+                                                v-if="!employee?.has_ai_access">
+                                                <Icon name="ph:check" class="size-4" />
+                                                {{ $t('employees.table.actions.giveAIAccess') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="giveBookingAccessConfirmation(employee)"
                                                 v-if="userStore.getUser?.has_booking_app_access && !employee?.has_booking_app_access">
                                                 <Icon name="ph:check" class="size-4" />
                                                 {{ $t('employees.table.actions.giveBookingAccess') }}
@@ -132,6 +138,13 @@
                     <Pagination :data="state.employees" @previous="previous" @next="next" />
                 </div>
             </div>
+
+            <DialogConfirmation :isModalOpen="state.modal.isGiveAIAccessOpen"
+                :message="$t('employees.table.confirmation.aiAccessConfirmation') + '?'"
+                @close="state.modal.isGiveAIAccessOpen = false" @confirm="giveAIAccess" />
+            <DialogConfirmation :isModalOpen="state.modal.isGiveBookingAccessOpen"
+                :message="$t('employees.table.confirmation.bookingAccessConfirmation') + '?'"
+                @close="state.modal.isGiveBookingAccessOpen = false" @confirm="giveBookingAccess" />
 
             <ModulesUserGuidedTourModalEmployees v-if="state.modal.isGuidedTourEmployeesOpen"
                 :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="false"
@@ -184,8 +197,11 @@ const state = reactive({
     error: {} as Error,
     isTableLoading: false,
     modal: {
+        isGiveAIAccessOpen: false,
+        isGiveBookingAccessOpen: false,
         isGuidedTourEmployeesOpen: false,
     },
+    selectedEmployee: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -277,17 +293,43 @@ async function giveRemoveSecureMailAccess(employee: any) {
     state.isTableLoading = false
 }
 
-async function giveBookingAccess(employee: any) {
+function giveAIAccessConfirmation(employee: any) {
+    state.selectedEmployee = employee
+    state.modal.isGiveAIAccessOpen = true
+}
+
+async function giveAIAccess() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const employeeUuid = employee?.uuid
+        const employeeUuid = state.selectedEmployee?.uuid
+        const response = await employeeService.toggleAILicense(employeeUuid)
+        if (response.data) {
+            if (response.data?.has_ai_access) {
+                successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.aIAccessGranted')}.`)
+            }
+            fetchEmployees()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function giveBookingAccessConfirmation(employee: any) {
+    state.selectedEmployee = employee
+    state.modal.isGiveBookingAccessOpen = true
+}
+
+async function giveBookingAccess() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const employeeUuid = state.selectedEmployee?.uuid
         const response = await employeeService.toggleSecureMailLicense(employeeUuid)
         if (response.data) {
             if (response.data?.has_booking_app_access) {
                 successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.bookingAccessGranted')}.`)
-            } else {
-                successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.bookingAccessRemoved')}.`)
             }
             fetchEmployees()
         }

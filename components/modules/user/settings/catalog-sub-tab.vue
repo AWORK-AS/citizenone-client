@@ -1,5 +1,15 @@
 <template>
-    <Tabs :tabs="state.tabs" :isJustifyBetween="false" @changeTab="changeTab" />
+    <div class="relative">
+        <Tabs :tabs="state.tabs" :isJustifyBetween="false" @changeTab="changeTab" />
+        <div
+            class="bg-white border-0.5 border-gray-300 w-6 h-6 rounded-full absolute -left-3 top-4 flex items-center justify-center">
+            <Icon name="ph:hand-swipe-left" class="h-4 w-4" aria-hidden="true" />
+        </div>
+        <div
+            class="bg-white border-0.5 border-gray-300 w-6 h-6 rounded-full absolute -right-3 top-4 flex items-center justify-center">
+            <Icon name="ph:hand-swipe-right" class="h-4 w-4" aria-hidden="true" />
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
