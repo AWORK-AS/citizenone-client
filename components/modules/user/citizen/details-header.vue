@@ -74,7 +74,8 @@
                                             <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
                                         <p class="text-sm font-medium text-gray-700">
-                                            {{ state.selectedCitizen?.data?.patient_care_hours }}
+                                            {{ formatNumber(language.locale.value,
+                                                state.selectedCitizen?.data?.patient_care_hours) }}
                                         </p>
                                     </div>
                                     <div class="flex items-center gap-x-1" v-if="state.selectedCitizen?.data?.birthday">
@@ -266,10 +267,14 @@ import { citizenService } from '@/components/api/user/CitizenService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import { useNumberFormatter } from '@/composables/numberFormatter'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const router = useRouter()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { formatNumber } = useNumberFormatter()
+const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
