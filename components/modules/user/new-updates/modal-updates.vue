@@ -74,8 +74,7 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
             {
                 title: 'New app: CitizenOne AI',
                 description: [
-                    'CitizenOne AI is now available in the Apps section.',
-                    'Purchase and activate it to enhance digital engagement with citizens.',
+                    'We have now launched CitizenOne AI - your intelligent assistant that for example can give you a quick overview of how a citizen has been doing over the past month, share useful information about your organization or colleagues, and much more. All directly in CitizenOne, so you can work smarter and faster.'
                 ],
             },
             {
@@ -122,7 +121,7 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
     dk: {
         '2025-08-01': [
             {
-                title: 'Indsatstider i borgersiden',
+                title: 'Indsatstider på borger-siden',
                 description: [
                     'Borgere kan nu se tilgængelige indsatstider direkte i borgersiden.',
                     'Dette forbedrer gennemsigtighed og adgang til støttetjenester.',
@@ -131,16 +130,15 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
             {
                 title: 'Ny app: CitizenOne AI',
                 description: [
-                    'CitizenOne AI er nu tilgængelig i Apps-sektionen.',
-                    'Køb og aktiver den for at styrke den digitale dialog med borgerne.',
+                    'Vi har nu lanceret CitizenOne AI.',
+                    'din intelligente assistent, som for eksempel kan give dig et hurtigt overblik over, hvordan en borger har haft det den seneste måned, dele nyttig information om din organisation eller dine kollegaer, og meget mere. Alt sammen direkte i CitizenOne, så du kan arbejde smartere og hurtigere.'
                 ],
             },
             {
                 title: 'Ændringslog i vagtplan',
-                description: [
-                    'Vagtplanen indeholder nu en detaljeret ændringslog.',
-                    'Følg nemt alle opdateringer og ændringer i vagtfordelingen.',
-                ],
+                "description": [
+                    "Vi har nu lanceret CitizenOne AI – din intelligente assistent, som for eksempel kan give dig et hurtigt overblik over, hvordan en borger har haft det den seneste måned, dele nyttig information om din organisation eller dine kolleger og meget mere. Alt sammen direkte i CitizenOne, så du kan arbejde smartere og hurtigere."
+                ]
             },
         ],
         '2025-07-25': [
