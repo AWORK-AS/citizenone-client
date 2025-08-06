@@ -24,5 +24,25 @@ export function useNumberFormatter() {
         }
     }
 
-    return { formatNumber }
+    function formatPrice(pricing: any, locale: any) {
+        const price = pricing
+        if (isNaN(price)) return '0' // Ensure it's a valid number
+
+        // Ensure two decimal places even for whole numbers
+        const [whole, fraction = '00'] = Number(price).toFixed(2).split('.')
+
+        if (locale === 'en') {
+            // English: thousands separator as ',' and decimal as '.'
+            const formattedWhole = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+            return `${formattedWhole}.${fraction}`
+        } else if (locale === 'dk') {
+            // Danish: thousands separator as '.' and decimal as ','
+            const formattedWhole = whole.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+            return `${formattedWhole},${fraction}`
+        } else {
+            return `${whole}.${fraction}`
+        }
+    }
+
+    return { formatNumber, formatPrice }
 }

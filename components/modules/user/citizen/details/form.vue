@@ -364,11 +364,13 @@ import { cityService } from '@/components/api/user/CityService'
 import { foreignCityService } from '@/components/api/user/ForeignCityService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
+import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 
 const userStore = useUserStore() as any
 const { t } = useI18n()
+const { formatPrice } = useNumberFormatter()
 const language = useI18n()
 const citizenImage = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
@@ -387,7 +389,7 @@ const props = defineProps({
     },
     selectedCitizen: {
         type: Object,
-        required: false,
+        required: true,
     },
 })
 const emit = defineEmits(['isPageLoading', 'submitForm'])
@@ -501,7 +503,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             date_discharged: selectedCitizen.date_discharged,
             is_discharge_reminded: selectedCitizen.is_discharge_reminded,
             section: selectedCitizen.section,
-            pricing: selectedCitizen.pricing,
+            pricing: formatPrice(selectedCitizen.pricing, 'en'),
             pricing_start_date: selectedCitizen.pricing_start_date,
             primary_case_worker_uuid: selectedCitizen.primary_case_worker_uuid,
             paying_municipality: selectedCitizen.paying_municipality,
@@ -514,6 +516,16 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             has_chat_access: selectedCitizen.has_chat_access,
             has_duty_schedule_access: selectedCitizen.has_duty_schedule_access,
             has_bullet_board_access: selectedCitizen.has_bullet_board_access,
+        }
+    }
+})
+
+watch(() => language.locale.value, (language: any) => {
+    if (language != null) {
+        if (language === 'en') {
+            state.formCitizen.pricing = formatPrice(props.selectedCitizen.pricing, 'en')
+        } else if (language === 'dk') {
+            state.formCitizen.pricing = formatPrice(props.selectedCitizen.pricing, 'dk')
         }
     }
 })
