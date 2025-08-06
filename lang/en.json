@@ -4717,7 +4717,8 @@
     "update": "Update",
     "updates": {
         "newUpdates": "New updates",
-        "newUpdatesFrom": "New updates from"
+        "newUpdatesFrom": "New updates from",
+        "selectWeek": "Select week"
     },
     "validation": {
         "thisFieldIsRequired": "This field is required"

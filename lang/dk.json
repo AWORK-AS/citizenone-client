@@ -4717,7 +4717,8 @@
     "update": "Opdater",
     "updates": {
         "newUpdates": "Nye opdateringer",
-        "newUpdatesFrom": "Nye opdateringer fra"
+        "newUpdatesFrom": "Nye opdateringer fra",
+        "selectWeek": "Vælg uge"
     },
     "validation": {
         "thisFieldIsRequired": "Dette felt er påkrævet"
