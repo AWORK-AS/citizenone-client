@@ -326,7 +326,7 @@ async function giveBookingAccess() {
     state.isTableLoading = true
     try {
         const employeeUuid = state.selectedEmployee?.uuid
-        const response = await employeeService.toggleSecureMailLicense(employeeUuid)
+        const response = await employeeService.toggleBookingLicense(employeeUuid)
         if (response.data) {
             if (response.data?.has_booking_app_access) {
                 successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.bookingAccessGranted')}.`)
