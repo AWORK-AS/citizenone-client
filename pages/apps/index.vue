@@ -334,14 +334,6 @@ onMounted(() => {
     fetchApps()
 })
 
-watch(() => userStore.getUser, (user: any) => {
-    if (user) {
-        if (!user?.user_subscription) {
-            navigateTo(`/subscription/subscribe?error=${t('apps.subscriptionRequired')}.`)
-        }
-    }
-})
-
 async function fetchApps() {
     state.error = {}
     state.isPageLoading = true
@@ -402,8 +394,12 @@ function readMore(app: any) {
 }
 
 function confirmTACAcceptance(app: any) {
-    state.selectedApp = app
-    state.modal.isAcceptTACOpen = true
+    if (!userStore.getUser?.user_subscription) {
+        navigateTo(`/subscription/subscribe?error=${t('apps.subscriptionRequired')}.`)
+    } else {
+        state.selectedApp = app
+        state.modal.isAcceptTACOpen = true
+    }
 }
 
 async function activateApp(formApp: any) {
