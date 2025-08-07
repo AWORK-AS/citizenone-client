@@ -291,11 +291,14 @@
 import { appService } from '@/components/api/user/AppService'
 import { useI18n } from "vue-i18n"
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const language = useI18n()
 const { formatAmount } = useAmountFormatter()
+const { t } = useI18n()
+const userStore = useUserStore() as any
 let currentTablePage = 1
 let checkout = null as any
 const router = useRouter()
@@ -329,6 +332,14 @@ const state = reactive({
 
 onMounted(() => {
     fetchApps()
+})
+
+watch(() => userStore.getUser, (user: any) => {
+    if (user) {
+        if (!user?.user_subscription) {
+            navigateTo(`/subscription/subscribe?error=${t('apps.subscriptionRequired')}.`)
+        }
+    }
 })
 
 async function fetchApps() {

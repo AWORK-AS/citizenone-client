@@ -338,7 +338,7 @@
                                         </div>
                                     </div>
                                     </MenuItem>
-                                    <MenuItem>
+                                    <MenuItem v-if="userStore.getUser?.user_subscription">
                                     <div @click="navigateTo('/apps')"
                                         class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
                                         <div class="flex items-center gap-x-3">

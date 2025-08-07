@@ -304,6 +304,7 @@
             "yourPaymentHasBeenSuccessfullyProcessed": "Your payment has been successfully processed"
         },
         "readMore": "Read more",
+        "subscriptionRequired": "You need to subscribe first in order to purchase an app",
         "termsAndConditions": "Terms and Conditions",
         "thirdPartyApp": "Third party app",
         "year": "Year"
