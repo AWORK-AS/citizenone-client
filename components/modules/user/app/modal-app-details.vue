@@ -72,6 +72,8 @@
 
 
 <script setup lang="ts">
+import { useI18n } from "vue-i18n"
+import { useUserStore } from '@/store/user'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import type { Error } from '@/types'
 
@@ -85,6 +87,8 @@ const props = defineProps({
         required: true,
     },
 })
+const userStore = useUserStore() as any
+const { t } = useI18n()
 const { formatAmount } = useAmountFormatter()
 const emit = defineEmits(['close', 'confirmAppActivation'])
 
@@ -131,7 +135,11 @@ async function navigateToExternalLink(link: any) {
 }
 
 function confirmTACAcceptance() {
-    state.modal.isAcceptTACOpen = true
+    if (!userStore.getUser?.user_subscription) {
+        navigateTo(`/subscription/subscribe?error=${t('apps.subscriptionRequired')}.`)
+    } else {
+        state.modal.isAcceptTACOpen = true
+    }
 }
 
 async function confirmAppActivation(formApp: any) {
