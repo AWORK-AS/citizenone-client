@@ -97,7 +97,6 @@ async function sendMessage() {
                     type: 'bot',
                     text: JSON.parse(response)?.output?.[0]?.content?.[0]?.text,
                 })
-                console.log('test', state.messages)
             }
         }
     } catch (error: any) {

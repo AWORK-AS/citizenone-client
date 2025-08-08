@@ -753,7 +753,9 @@ async function generateNoteForJournalContent() {
         }
         const response = await aIAssistantService.generateNote(params)
         if (response) {
-            console.log('response.data', response)
+            if (JSON.parse(response)?.output?.[0]?.content?.[0]?.text) {
+                state.formJournal.content = JSON.parse(response)?.output?.[0]?.content?.[0]?.text
+            }
         }
     } catch (error: any) {
         state.error = error
@@ -771,7 +773,9 @@ async function generateNoteForRiskAssessmentNote() {
         }
         const response = await aIAssistantService.generateNote(params)
         if (response) {
-            console.log('response.data', response)
+            if (JSON.parse(response)?.output?.[0]?.content?.[0]?.text) {
+                state.formJournal.note = JSON.parse(response)?.output?.[0]?.content?.[0]?.text
+            }
         }
     } catch (error: any) {
         state.error = error
