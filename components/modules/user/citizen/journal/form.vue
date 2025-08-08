@@ -751,8 +751,8 @@ async function generateNoteForJournalContent() {
             prompt: state.formJournal.content,
         }
         const response = await aIAssistantService.generateNote(params)
-        if (response.data) {
-            console.log('response.data', response.data)
+        if (response) {
+            console.log('response.data', response)
         }
     } catch (error: any) {
         state.error = error
@@ -768,8 +768,8 @@ async function generateNoteForRiskAssessmentNote() {
             prompt: state.formJournal.content,
         }
         const response = await aIAssistantService.generateNote(params)
-        if (response.data) {
-            console.log('response.data', response.data)
+        if (response) {
+            console.log('response.data', response)
         }
     } catch (error: any) {
         state.error = error
