@@ -748,6 +748,7 @@ async function generateNoteForJournalContent() {
     emit('isPageLoading', true)
     try {
         const params = {
+            citizen_uuid: citizenUuid,
             prompt: state.formJournal.content,
         }
         const response = await aIAssistantService.generateNote(params)
@@ -765,6 +766,7 @@ async function generateNoteForRiskAssessmentNote() {
     emit('isPageLoading', true)
     try {
         const params = {
+            citizen_uuid: citizenUuid,
             prompt: state.formJournal.content,
         }
         const response = await aIAssistantService.generateNote(params)
