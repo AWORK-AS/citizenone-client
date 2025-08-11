@@ -21,9 +21,9 @@
                                                 <div class="flex items-center gap-x-3 justify-between">
                                                     <div class="flex items-center gap-x-3">
                                                         <h3 class="text-md font-semibold">
-                                                            {{ getNewData(log)?.title }}
+                                                            {{ log?.new_data?.title }}
                                                         </h3>
-                                                        <div v-if="getNewData(log)?.is_draft">
+                                                        <div v-if="log?.new_data?.is_draft">
                                                             <Badge type="primary">
                                                                 <p class="text-xxs">
                                                                     {{ $t('citizens.citizenJournals.form.draft') }}
@@ -33,13 +33,13 @@
                                                     </div>
                                                     <div>
                                                         <Badge type="no-risk"
-                                                            v-if="getNewData(log)?.assessment === 'no risk'">
+                                                            v-if="log?.new_data?.assessment === 'no risk'">
                                                             <p class="text-xxs">
                                                                 {{ $t('citizens.citizenJournals.form.risk.noRisk') }}
                                                             </p>
                                                         </Badge>
                                                         <Badge type="increased-risk"
-                                                            v-if="getNewData(log)?.assessment === 'increased risk'">
+                                                            v-if="log?.new_data?.assessment === 'increased risk'">
                                                             <p class="text-xxs">
                                                                 {{
                                                                     $t('citizens.citizenJournals.form.risk.increasedRisk')
@@ -47,7 +47,7 @@
                                                             </p>
                                                         </Badge>
                                                         <Badge type="acute-increased-risk"
-                                                            v-if="getNewData(log)?.assessment === 'acute increased risk'">
+                                                            v-if="log?.new_data?.assessment === 'acute increased risk'">
                                                             <p class="text-xxs">
                                                                 {{
                                                                     $t('citizens.citizenJournals.form.risk.acuteIncreasedRisk')
@@ -57,33 +57,33 @@
                                                     </div>
                                                 </div>
                                                 <p class="mt-1 text-xs text-muted-400">
-                                                    <span>{{ formatDateToReadable(getNewData(log)?.date)
+                                                    <span>{{ formatDateToReadable(log?.new_data?.date)
                                                         }}</span>
                                                 </p>
                                             </div>
                                             <div class="mt-1">
-                                                <Badge type="primary" class="w-fit" v-if="getNewData(log)?.score">
-                                                    <p class="text-xxs" v-if="getNewData(log)?.score === 1">
+                                                <Badge type="primary" class="w-fit" v-if="log?.new_data?.score">
+                                                    <p class="text-xxs" v-if="log?.new_data?.score === 1">
                                                         {{
                                                             $t('plansandgoals.table.expectedLevels.minorChallenges')
                                                         }}
                                                     </p>
-                                                    <p class="text-xxs" v-if="getNewData(log)?.score === 2">
+                                                    <p class="text-xxs" v-if="log?.new_data?.score === 2">
                                                         {{
                                                             $t('plansandgoals.table.expectedLevels.moderateChallenges')
                                                         }}
                                                     </p>
-                                                    <p class="text-xxs" v-if="getNewData(log)?.score === 3">
+                                                    <p class="text-xxs" v-if="log?.new_data?.score === 3">
                                                         {{
                                                             $t('plansandgoals.table.expectedLevels.significantChallenges')
                                                         }}
                                                     </p>
-                                                    <p class="text-xxs" v-if="getNewData(log)?.score === 4">
+                                                    <p class="text-xxs" v-if="log?.new_data?.score === 4">
                                                         {{
                                                             $t('plansandgoals.table.expectedLevels.severeChallenges')
                                                         }}
                                                     </p>
-                                                    <p class="text-xxs" v-if="getNewData(log)?.score === 5">
+                                                    <p class="text-xxs" v-if="log?.new_data?.score === 5">
                                                         {{
                                                             $t('plansandgoals.table.expectedLevels.verySubstantialChallenges')
                                                         }}
@@ -91,12 +91,12 @@
                                                 </Badge>
                                             </div>
                                             <p class="text-sm text-muted-400">
-                                                <div v-html="getNewData(log)?.content" class="content" />
+                                                <div v-html="log?.new_data?.content" class="content" />
                                             </p>
                                             <div class="flex items-center gap-x-1">
                                                 <div class="px-2 py-1 rounded-full text-white text-xxs"
                                                     :style="`background:${journalTag?.color};`"
-                                                    v-for="(journalTag, index) in getNewData(log)?.journal_tags"
+                                                    v-for="(journalTag, index) in log?.new_data?.journal_tags"
                                                     :index="index">
                                                     {{ journalTag?.name }}
                                                 </div>
@@ -105,18 +105,17 @@
                                                 <p class="font-semibold">
                                                     {{ customPagesStore.getCustomPagesName?.riskAssessment }}:
                                                 </p>
-                                                <div v-html="getNewData(log)?.note" class="content" />
+                                                <div v-html="log?.new_data?.note" class="content" />
                                             </div>
                                             <div class="flex items-center gap-x-1">
                                                 <div class="px-2 py-1 rounded-full text-white text-xxs"
                                                     :style="`background:${riskTag?.color};`"
-                                                    v-for="(riskTag, index) in getNewData(log)?.risk_tags"
-                                                    :index="index">
+                                                    v-for="(riskTag, index) in log?.new_data?.risk_tags" :index="index">
                                                     {{ riskTag?.name }}
                                                 </div>
                                             </div>
                                             <div class="text-sm">
-                                                <p v-for="(tooth, index) in getNewData(log)?.teeth" :key="index">
+                                                <p v-for="(tooth, index) in log?.new_data?.teeth" :key="index">
                                                     {{ tooth?.number }}.
                                                     {{ language.locale.value === 'en' ? tooth?.en_name : tooth?.dk_name
                                                     }}
@@ -124,10 +123,10 @@
                                             </div>
                                             <p class="text-xs">
                                                 {{ $t('citizens.citizenJournals.createdBy') }}:
-                                                {{ getNewData(log)?.user?.firstname }} {{
-                                                    getNewData(log)?.user?.lastname }}
+                                                {{ log?.new_data?.user?.firstname }} {{
+                                                    log?.new_data?.user?.lastname }}
                                                 <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
-                                                {{ formatDateTimeToReadable(getNewData(log)?.created_at) }}
+                                                {{ formatDateTimeToReadable(log?.new_data?.created_at) }}
                                             </p>
                                         </div>
                                         <div class="bg-yellow-100 rounded-md space-y-1.5 p-4 mt-3">
@@ -138,9 +137,9 @@
                                                 <div class="flex items-center gap-x-3 justify-between">
                                                     <div class="flex items-center gap-x-3">
                                                         <h3 class="text-md font-semibold">
-                                                            {{ getOldData(log)?.title }}
+                                                            {{ log?.old_data?.title }}
                                                         </h3>
-                                                        <div v-if="getOldData(log)?.is_draft">
+                                                        <div v-if="log?.old_data?.is_draft">
                                                             <Badge type="primary">
                                                                 <p class="text-xxs">
                                                                     {{ $t('citizens.citizenJournals.form.draft') }}
@@ -150,13 +149,13 @@
                                                     </div>
                                                     <div>
                                                         <Badge type="no-risk"
-                                                            v-if="getOldData(log)?.assessment === 'no risk'">
+                                                            v-if="log?.old_data?.assessment === 'no risk'">
                                                             <p class="text-xxs">
                                                                 {{ $t('citizens.citizenJournals.form.risk.noRisk') }}
                                                             </p>
                                                         </Badge>
                                                         <Badge type="increased-risk"
-                                                            v-if="getOldData(log)?.assessment === 'increased risk'">
+                                                            v-if="log?.old_data?.assessment === 'increased risk'">
                                                             <p class="text-xxs">
                                                                 {{
                                                                     $t('citizens.citizenJournals.form.risk.increasedRisk')
@@ -164,7 +163,7 @@
                                                             </p>
                                                         </Badge>
                                                         <Badge type="acute-increased-risk"
-                                                            v-if="getOldData(log)?.assessment === 'acute increased risk'">
+                                                            v-if="log?.old_data?.assessment === 'acute increased risk'">
                                                             <p class="text-xxs">
                                                                 {{
                                                                     $t('citizens.citizenJournals.form.risk.acuteIncreasedRisk')
@@ -174,33 +173,33 @@
                                                     </div>
                                                 </div>
                                                 <p class="mt-1 text-xs text-muted-400">
-                                                    <span>{{ formatDateToReadable(getOldData(log)?.date)
+                                                    <span>{{ formatDateToReadable(log?.old_data?.date)
                                                         }}</span>
                                                 </p>
                                             </div>
                                             <div class="mt-1">
-                                                <Badge type="primary" class="w-fit" v-if="getOldData(log)?.score">
-                                                    <p class="text-xxs" v-if="getOldData(log)?.score === 1">
+                                                <Badge type="primary" class="w-fit" v-if="log?.old_data?.score">
+                                                    <p class="text-xxs" v-if="log?.old_data?.score === 1">
                                                         {{
                                                             $t('plansandgoals.table.expectedLevels.minorChallenges')
                                                         }}
                                                     </p>
-                                                    <p class="text-xxs" v-if="getOldData(log)?.score === 2">
+                                                    <p class="text-xxs" v-if="log?.old_data?.score === 2">
                                                         {{
                                                             $t('plansandgoals.table.expectedLevels.moderateChallenges')
                                                         }}
                                                     </p>
-                                                    <p class="text-xxs" v-if="getOldData(log)?.score === 3">
+                                                    <p class="text-xxs" v-if="log?.old_data?.score === 3">
                                                         {{
                                                             $t('plansandgoals.table.expectedLevels.significantChallenges')
                                                         }}
                                                     </p>
-                                                    <p class="text-xxs" v-if="getOldData(log)?.score === 4">
+                                                    <p class="text-xxs" v-if="log?.old_data?.score === 4">
                                                         {{
                                                             $t('plansandgoals.table.expectedLevels.severeChallenges')
                                                         }}
                                                     </p>
-                                                    <p class="text-xxs" v-if="getOldData(log)?.score === 5">
+                                                    <p class="text-xxs" v-if="log?.old_data?.score === 5">
                                                         {{
                                                             $t('plansandgoals.table.expectedLevels.verySubstantialChallenges')
                                                         }}
@@ -208,12 +207,12 @@
                                                 </Badge>
                                             </div>
                                             <p class="text-sm text-muted-400">
-                                                <div v-html="getOldData(log)?.content" class="content" />
+                                                <div v-html="log?.old_data?.content" class="content" />
                                             </p>
                                             <div class="flex items-center gap-x-1">
                                                 <div class="px-2 py-1 rounded-full text-white text-xxs"
                                                     :style="`background:${journalTag?.color};`"
-                                                    v-for="(journalTag, index) in getOldData(log)?.journal_tags"
+                                                    v-for="(journalTag, index) in log?.old_data?.journal_tags"
                                                     :index="index">
                                                     {{ journalTag?.name }}
                                                 </div>
@@ -222,18 +221,17 @@
                                                 <p class="font-semibold">
                                                     {{ customPagesStore.getCustomPagesName?.riskAssessment }}:
                                                 </p>
-                                                <div v-html="getOldData(log)?.note" class="content" />
+                                                <div v-html="log?.old_data?.note" class="content" />
                                             </div>
                                             <div class="flex items-center gap-x-1">
                                                 <div class="px-2 py-1 rounded-full text-white text-xxs"
                                                     :style="`background:${riskTag?.color};`"
-                                                    v-for="(riskTag, index) in getOldData(log)?.risk_tags"
-                                                    :index="index">
+                                                    v-for="(riskTag, index) in log?.old_data?.risk_tags" :index="index">
                                                     {{ riskTag?.name }}
                                                 </div>
                                             </div>
                                             <div class="text-sm">
-                                                <p v-for="(tooth, index) in getOldData(log)?.teeth" :key="index">
+                                                <p v-for="(tooth, index) in log?.old_data?.teeth" :key="index">
                                                     {{ tooth?.number }}.
                                                     {{ language.locale.value === 'en' ? tooth?.en_name : tooth?.dk_name
                                                     }}
@@ -241,10 +239,10 @@
                                             </div>
                                             <p class="text-xs">
                                                 {{ $t('citizens.citizenJournals.createdBy') }}:
-                                                {{ getOldData(log)?.user?.firstname }} {{
-                                                    getOldData(log)?.user?.lastname }}
+                                                {{ log?.old_data?.user?.firstname }} {{
+                                                    log?.old_data?.user?.lastname }}
                                                 <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
-                                                {{ formatDateTimeToReadable(getOldData(log)?.created_at) }}
+                                                {{ formatDateTimeToReadable(log?.old_data?.created_at) }}
                                             </p>
                                         </div>
                                     </div>
@@ -356,22 +354,6 @@ function sort(sortingData: any) {
         sortOrder: sortingData.sort,
     }
     fetchJournalLogs()
-}
-
-function getNewData(log: any) {
-    try {
-        return JSON.parse(log?.new_data || '{}')
-    } catch {
-        return {}
-    }
-}
-
-function getOldData(log: any) {
-    try {
-        return JSON.parse(log?.old_data || '{}')
-    } catch {
-        return {}
-    }
 }
 
 function toggleExpanded(index: number) {
