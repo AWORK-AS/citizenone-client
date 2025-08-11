@@ -65,6 +65,7 @@ export default defineNuxtConfig({
       apiBaseURL: process.env.API_BASE_URL,
       appBaseURL: process.env.APP_BASE_URL,
       checkoutKey: process.env.CHECKOUT_KEY,
+      cmp: process.env.API_SRC,
     },
   },
 
