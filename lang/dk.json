@@ -3131,6 +3131,11 @@
         }
     },
     "mail": {
+        "chooseYourEmailConfiguration": {
+            "chooseYourEmailConfiguration": "Vælg din e-mailkonfiguration",
+            "loginViaMicrosoft": "Log ind via Microsoft",
+            "loginViaSmtp": "Log ind via SMTP"
+        },
         "connectYourMessage": "Forbind din mail til systemet, så du kan se dine modtagne og sendte mails",
         "connectYourMail": "Forbind din mail",
         "compose": "Opret",

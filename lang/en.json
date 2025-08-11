@@ -3131,6 +3131,11 @@
         }
     },
     "mail": {
+        "chooseYourEmailConfiguration": {
+            "chooseYourEmailConfiguration": "Choose your email configuration",
+            "loginViaMicrosoft": "Login via Microsoft",
+            "loginViaSmtp": "Login via SMTP"
+        },
         "connectYourMessage": "Connect your mail to the system, so that you can see your received and sent mails",
         "connectYourMail": "Connect your mail",
         "compose": "Compose",
