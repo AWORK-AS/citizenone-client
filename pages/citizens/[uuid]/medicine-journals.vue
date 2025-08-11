@@ -75,32 +75,34 @@
                                 <tr v-for="(medicine, index) in state.medicines?.data" :key="index">
                                     <td width="30%">
                                         <div class="flex flex-col gap-2">
-                                            <div class="flex items-center">
+                                            <div class="flex">
                                                 <div>
                                                     <FormCheckbox :id="`medicine_${medicine?.uuid}`"
                                                         :value="citizenMedicineStore.getSelectedMedicines?.includes(medicine?.uuid)"
                                                         @click="addRemoveMedicine(medicine)" />
                                                 </div>
-                                                <img :src="medicine?.medicine?.image_url" alt="Image failed to load"
-                                                    class="w-28" v-if="medicine?.medicine?.image_url">
-                                            </div>
-                                            <div class="space-y-1 ml-7">
-                                                <p class="truncate" v-if="language.locale.value === 'en'">
-                                                    {{ medicine?.medicine?.en_name }},
-                                                    {{ medicine?.medicine?.ingredients }}
-                                                </p>
-                                                <p class="truncate" v-if="language.locale.value === 'dk'">
-                                                    {{ medicine?.medicine?.dk_name }},
-                                                    {{ medicine?.medicine?.ingredients }}
-                                                </p>
-                                                <div v-if="medicine.is_pn_medicine">
-                                                    <Badge type="primary" class="w-fit">
-                                                        <p class="text-xxs">
-                                                            {{
-                                                                $t('citizens.medicineJournals.table.pnMedicine')
-                                                            }}
+                                                <div>
+                                                    <img :src="medicine?.medicine?.image_url" alt="Image failed to load"
+                                                        class="w-28" v-if="medicine?.medicine?.image_url">
+                                                    <div class="space-y-1">
+                                                        <p class="truncate" v-if="language.locale.value === 'en'">
+                                                            {{ medicine?.medicine?.en_name }},
+                                                            {{ medicine?.medicine?.ingredients }}
                                                         </p>
-                                                    </Badge>
+                                                        <p class="truncate" v-if="language.locale.value === 'dk'">
+                                                            {{ medicine?.medicine?.dk_name }},
+                                                            {{ medicine?.medicine?.ingredients }}
+                                                        </p>
+                                                        <div v-if="medicine.is_pn_medicine">
+                                                            <Badge type="primary" class="w-fit">
+                                                                <p class="text-xxs">
+                                                                    {{
+                                                                        $t('citizens.medicineJournals.table.pnMedicine')
+                                                                    }}
+                                                                </p>
+                                                            </Badge>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

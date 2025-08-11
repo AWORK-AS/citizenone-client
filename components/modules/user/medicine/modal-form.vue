@@ -35,6 +35,14 @@
                 <FormError :error="v$?.formMedicine?.dk_name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.dk_name?.[0]" />
             </div>
+            <div class="space-y-1">
+                <FormLabel for="active_ingredients" :label="$t('medicines.form.activeIngredients')" />
+                <FormTextField id="active_ingredients" name="active_ingredients"
+                    :placeholder="$t('medicines.form.activeIngredients')"
+                    v-model="state.formMedicine.active_ingredients" />
+                <FormError :error="v$?.formMedicine?.active_ingredients?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.active_ingredients?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -82,6 +90,7 @@ const state = reactive({
         image: '',
         en_name: '',
         dk_name: '',
+        active_ingredients: '',
     },
 })
 
@@ -91,6 +100,7 @@ watch(() => props.selectedMedicine, (newValue: any) => {
             image: '',
             en_name: newValue.en_name,
             dk_name: newValue.dk_name,
+            active_ingredients: newValue.active_ingredients,
         }
         if (newValue?.image) {
             imageUrl.value = newValue?.image
