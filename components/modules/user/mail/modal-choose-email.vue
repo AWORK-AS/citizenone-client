@@ -42,19 +42,29 @@ function closeModal() {
 }
 
 function loginViaMicrosoft() {
-    const params = {
+    const state = generateState()
+    const params = new URLSearchParams()
+    params.append('client_id', runtimeConfig.public.azureClientId)
+    params.append('response_type', 'code')
+    params.append('redirect_uri', runtimeConfig.public.azureRedirectUri)
+    params.append('response_mode', 'query')
+    params.append('scope', runtimeConfig.public.azureScopes)
+    params.append('state', state)
+    const url = `https://login.microsoftonline.com/${runtimeConfig.public.azureTenantId}/oauth2/v2.0/authorize?${params.toString()}`
+    navigateToExternalLink(url)
+}
 
-    }
-    navigateToExternalLink(`https://login.microsoftonline.com/${runtimeConfig.public.azureTenantId}/oauth2/v2.0/authorize?${params}`)
+function generateState(): string {
+    // Generate a random 10-byte state and convert it to hexadecimal
+    const randomBytes = new Uint8Array(10)
+    crypto.getRandomValues(randomBytes)
+    return Array.from(randomBytes).map(byte => byte.toString(16).padStart(2, '0')).join('')
 }
 
 async function navigateToExternalLink(link: string) {
     await new Promise(resolve => setTimeout(resolve, 1000))
     await navigateTo(link, {
         external: true,
-        open: {
-            target: '_blank',
-        }
     })
 }
 </script>
