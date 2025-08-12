@@ -3131,6 +3131,10 @@
         }
     },
     "mail": {
+        "authentication": {
+            "pleaseWait": "Please wait",
+            "verifyingAccount": "Verifying account"
+        },
         "chooseYourEmailConfiguration": {
             "chooseYourEmailConfiguration": "Choose your email configuration",
             "loginViaMicrosoft": "Login via Microsoft",
