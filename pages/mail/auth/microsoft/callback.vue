@@ -59,8 +59,8 @@ async function verifyAuthentication() {
             code: code
         }
         const response = await mailSettingService.microsoftCallback(params)
-        if (response) {
-            console.log('response', response)
+        if (response?.data) {
+            navigateTo('/mail/inbox')
         }
     } catch (error: any) {
         state.error = error

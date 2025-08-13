@@ -39,8 +39,8 @@
                             <div class="space-y-6">
                                 <p>{{ $t('mail.connectYourMessage') }}.</p>
                                 <div class="flex justify-center">
-                                    <FormButton buttonStyle="primary" @click="state.modal.isConnectYourMailOpen = true"
-                                        class="rounded-md">
+                                    <FormButton buttonStyle="primary"
+                                        @click="state.modal.isChooseEmailConfiguration = true" class="rounded-md">
                                         {{ $t('mail.connectYourMail') }}
                                     </FormButton>
                                 </div>
@@ -156,8 +156,8 @@
                     </div>
                 </div>
             </div>
-            <ModulesUserMailModalConfigureEmail :isModalOpen="state.modal.isConnectYourMailOpen" formType="create"
-                @close="state.modal.isConnectYourMailOpen = false" />
+            <ModulesUserMailModalChooseEmail :isModalOpen="state.modal.isChooseEmailConfiguration" formType="create"
+                @close="state.modal.isChooseEmailConfiguration = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -187,7 +187,7 @@ const state = reactive({
         isUserLoading: true,
     },
     modal: {
-        isConnectYourMailOpen: false,
+        isChooseEmailConfiguration: false,
         isSendEmailOpen: false,
     },
     pagination: {} as any,
@@ -210,8 +210,8 @@ watch(() => userStore.getUser, (user: any) => {
     }
 })
 
-watch(() => state.modal.isConnectYourMailOpen, (isConnectYourMailOpen: boolean) => {
-    if (!isConnectYourMailOpen) {
+watch(() => state.modal.isChooseEmailConfiguration, (isChooseEmailConfiguration: boolean) => {
+    if (!isChooseEmailConfiguration) {
         fetchEmailConfiguration()
     }
 })
