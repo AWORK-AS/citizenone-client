@@ -13,7 +13,7 @@
                     </FormButton>
                 </div>
                 <ModulesUserMailModalConfigureSmtp :isModalOpen="state.modal.isConnectYourSmtpOpen" formType="create"
-                    @close="state.modal.isConnectYourSmtpOpen = false" />
+                    @close="state.modal.isConnectYourSmtpOpen = false" @closeChooseEmail="closeChooseEmail" />
             </template>
         </Modal>
     </div>
@@ -29,7 +29,7 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshEmailConfig'])
 
 const state = reactive({
     modal: {
@@ -39,6 +39,11 @@ const state = reactive({
 
 function closeModal() {
     emit('close')
+}
+
+function closeChooseEmail() {
+    emit('close')
+    emit('refreshEmailConfig')
 }
 
 function loginViaMicrosoft() {

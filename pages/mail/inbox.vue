@@ -51,26 +51,14 @@
                             <div class="flex bg-white rounded-tr-md rounded-br-md">
                                 <ModulesUserMailSidebar :unreadMessage="state.unreadEmails"
                                     :unreadSecuredMessage="state.unreadSecuredMessage" />
-                                <div class="grow flex items-center justify-center" v-if="state.loading.isEmailsLoading">
-                                    <span class="text-lg">
-                                        {{ t('mail.loading.loadingYourEmails') }}
-                                    </span>
-                                    <span class="dot1">.</span>
-                                    <span class="dot2">.</span>
-                                    <span class="dot3">.</span>
-                                    <span class="dot4">.</span>
-                                    <span class="dot5">.</span>
-                                </div>
-                                <div class="grow" v-else>
-                                    <ModulesUserMailSmtpInbox v-if="state.emailConfiguration?.data?.type === 'smtp'" />
-                                </div>
+                                <ModulesUserMailSmtpInbox v-if="state.emailConfiguration?.data?.type === 'smtp'" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <ModulesUserMailModalChooseEmail :isModalOpen="state.modal.isChooseEmailConfiguration" formType="create"
-                @close="state.modal.isChooseEmailConfiguration = false" />
+                @close="state.modal.isChooseEmailConfiguration = false" @refreshEmailConfig="fetchEmailConfiguration" />
             <ModulesUserMailModalSendEmail :isModalOpen="state.modal.isSendEmailOpen"
                 @close="state.modal.isSendEmailOpen = false" />
         </NuxtLayout>
@@ -95,19 +83,12 @@ const state = reactive({
     emailConfiguration: false,
     loading: {
         isEmailConfigurationLoading: false,
-        isEmailsLoading: false,
-        isEmailsLoadingMore: false,
         isUserLoading: true,
     },
     modal: {
         isChooseEmailConfiguration: false,
         isSendEmailOpen: false,
     },
-    pagination: {} as any,
-    selectedEmail: null as any,
-    showForwardForm: false,
-    showOnFirstLoad: false,
-    showReplyForm: false,
     unreadEmails: 0,
     unreadSecuredMessage: 0,
 })
