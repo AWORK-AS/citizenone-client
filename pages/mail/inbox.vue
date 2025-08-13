@@ -81,7 +81,7 @@ const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
-    emailConfiguration: false,
+    emailConfiguration: {} as any,
     loading: {
         isEmailConfigurationLoading: false,
         isUserLoading: true,
