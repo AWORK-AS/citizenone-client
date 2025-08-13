@@ -3145,7 +3145,8 @@
         "compose": "Compose",
         "content": {
             "from": "From",
-            "on": "On"
+            "on": "On",
+            "to": "To"
         },
         "draft": "Draft",
         "form": {

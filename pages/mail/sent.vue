@@ -52,6 +52,7 @@
                                 <ModulesUserMailSidebar :unreadMessage="state.unreadEmails"
                                     :unreadSecuredMessage="state.unreadSecuredMessage" />
                                 <ModulesUserMailSmtpSent v-if="state.emailConfiguration?.data?.type === 'smtp'" />
+                                <ModulesUserMailEntraSent v-if="state.emailConfiguration?.data?.type === 'entra'" />
                             </div>
                         </div>
                     </div>

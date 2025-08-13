@@ -3141,7 +3141,8 @@
         "compose": "Opret",
         "content": {
             "from": "Fra",
-            "on": "Den"
+            "on": "Den",
+            "to": "Til"
         },
         "draft": "Kladde",
         "form": {

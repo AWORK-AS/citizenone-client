@@ -1,7 +1,7 @@
 <template>
     <div class="grow flex items-center justify-center" v-if="state.loading.isEmailsLoading">
         <span class="text-lg">
-            {{ $t('mail.loading.loadingYourEmails') }}
+            {{ t('mail.loading.loadingYourEmails') }}
         </span>
         <span class="dot1">.</span>
         <span class="dot2">.</span>
@@ -12,22 +12,35 @@
     <div class="grow" v-else>
         <div class="relative">
             <div style="height: 80vh; overflow-y: auto;">
-                <div v-for="(email, emailIndex) in state.emails" :key="emailIndex" :class="[
-                    email?.flags?.seen === 'Seen' ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white hover:bg-gray-100',
-                    'px-4 py-3 cursor-pointer border-b-0.5 border-gray-300'
-
-                ]" @click="setSelectedEmail(emailIndex, email)">
+                <div v-for="(email, emailIndex) in state.sentEmails" :key="emailIndex"
+                    class="bg-white hover:bg-gray-100 px-4 py-3 cursor-pointer border-b-0.5 border-gray-300"
+                    @click="setSelectedEmail(email)">
                     <div>
-                        <div class="flex justify-end" v-if="!email?.isRead">
-                            <div class="w-2 h-2 rounded-full bg-[#D27B7B]"></div>
-                        </div>
                         <div class="flex items-center gap-x-2">
-                            <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.sender?.emailAddress?.name}`"
+                            <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.toRecipients?.[0]?.emailAddress?.name}`"
                                 class="rounded-full w-11 h-11 object-cover" />
                             <div class="grow">
-                                <p class="text-sm line-clamp-1">
-                                    {{ email?.subject }}
-                                </p>
+                                <div class="flex justify-between gap-3">
+                                    <div>
+                                        <div class="flex items-center text-xs line-clamp-1">
+                                            <p>
+                                                {{
+                                                    email?.toRecipients.map(receiver =>
+                                                        receiver?.emailAddress?.address).join('; ')
+                                                }}.
+                                            </p>
+                                        </div>
+                                        <p class="text-sm">
+                                            {{ email?.subject }}
+                                        </p>
+                                    </div>
+                                    <div class="flex justify-end">
+                                        <Tooltip :text="`Secured`" position="left">
+                                            <Icon name="ic:baseline-security" class="h-4 w-4 text-primary"
+                                                aria-hidden="true" />
+                                        </Tooltip>
+                                    </div>
+                                </div>
                                 <p class="text-xs line-clamp-1">
                                     {{ email?.bodyPreview }}
                                 </p>
@@ -47,7 +60,7 @@
                     <span class="dot5">.</span>
                 </div>
                 <div class="text-center py-3" v-else v-if="state.nextPageLink">
-                    <button class="text-sm" @click="fetchEmails(state.nextPageLink)">
+                    <button class="text-sm" @click="fetchSentMails(state.nextPageLink)">
                         {{ $t('mail.loadMore') }}
                     </button>
                 </div>
@@ -63,17 +76,20 @@
                 </button>
                 <div class="mt-3">
                     <p class="text-lg font-semibold">
-                        {{ state.selectedEmail?.subject }}
+                        {{ state.selectedEmail?.header?.subject }}
                     </p>
                     <div class="flex-wrap md:flex gap-1 text-sm">
                         <p>
-                            {{ $t('mail.content.from') }}
+                            {{ t('mail.content.to') }}
                         </p>
                         <p>
-                            {{ state.selectedEmail?.sender?.emailAddress?.address }}
+                            {{
+                                state.selectedEmail?.toRecipients.map(receiver =>
+                                    receiver?.emailAddress?.address).join(', ')
+                            }}
                         </p>
                         <p class="lowercase">
-                            {{ $t('mail.content.on') }}
+                            {{ t('mail.content.on') }}
                         </p>
                         <p>
                             {{
@@ -83,22 +99,6 @@
                     </div>
                     <div v-html="state.selectedEmail?.body?.content?.replace(/\n/g, '<br>')" class="py-6" />
                 </div>
-                <!-- <ModulesUserMailReplyRegularMailForm :selectedEmail="state.selectedEmail"
-                    @close="state.showReplyForm = false" v-if="state.showReplyForm" />
-                <ModulesUserMailForwardRegularMailForm :selectedEmail="state.selectedEmail"
-                    @close="state.showForwardForm = false" v-if="state.showForwardForm" />
-                <div class="mt-5 flex items-center gap-x-3" v-if="!state.showReplyForm && !state.showForwardForm">
-                    <FormButton buttonStyle="primary" class="w-fit rounded-md"
-                        @click="state.showReplyForm = !state.showReplyForm">
-                        <Icon name="ph:arrow-bend-up-left" size="w-10 h-10" />
-                        {{ $t('mail.reply') }}
-                    </FormButton>
-                    <FormButton buttonStyle="primary" class="w-fit rounded-md"
-                        @click="state.showForwardForm = !state.showForwardForm">
-                        <Icon name="ph:arrow-bend-up-right" size="w-10 h-10" />
-                        {{ $t('mail.forward') }}
-                    </FormButton>
-                </div> -->
             </div>
         </div>
     </div>
@@ -106,33 +106,36 @@
 
 <script setup lang="ts">
 import { mailEntraService } from "@/components/api/user/MailEntraService"
+import type { Error } from '@/types'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from "vue-i18n"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
+const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { errorAlert } = useAlert()
+const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
-    emails: [] as any,
     loading: {
         isEmailsLoading: false,
         isEmailsLoadingMore: false,
     },
     nextPageLink: '',
     selectedEmail: null as any,
-    showForwardForm: false,
+    sentEmails: [] as any,
     showOnFirstLoad: false,
-    showReplyForm: false,
     unreadEmails: 0,
     unreadSecuredMessage: 0,
 })
 
 onMounted(() => {
-    fetchEmails(null)
+    fetchSentMails(null)
 })
 
-async function fetchEmails(page: any) {
+async function fetchSentMails(page: any) {
     state.error = {}
-    state.nextPageLink = ''
     if (page === null) {
         state.loading.isEmailsLoading = true
     } else {
@@ -142,9 +145,9 @@ async function fetchEmails(page: any) {
         const params = {
             page: page,
         }
-        const response = await mailEntraService.getMails(params)
-        if (response?.value) {
-            state.emails.push(...response?.value)
+        const response = await mailEntraService.getSentMails(params)
+        if (response) {
+            state.sentEmails.push(...response?.value)
             state.nextPageLink = response['@odata.nextLink']
             // state.unreadEmails = response?.unread_emails ?? 0
             // state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
@@ -157,24 +160,9 @@ async function fetchEmails(page: any) {
     }
 }
 
-async function setSelectedEmail(emailIndex: any, email: any) {
+function setSelectedEmail(email: any) {
     state.selectedEmail = email
     state.showOnFirstLoad = true
-    // if (email?.flags?.seen !== 'Seen') {
-    //     state.error = {}
-    //     state.emails[emailIndex].flags.seen = 'Seen'
-    //     try {
-    //         const emailUid = email?.header?.uid
-    //         const response = await mailSMTPService.readMail(emailUid)
-    //         if (response) {
-    //             if (state.unreadEmails > 0) {
-    //                 state.unreadEmails--
-    //             }
-    //         }
-    //     } catch (error: any) {
-    //         state.error = error
-    //     }
-    // }
 }
 </script>
 

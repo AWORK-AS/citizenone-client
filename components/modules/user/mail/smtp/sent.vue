@@ -96,7 +96,6 @@
 
 <script setup lang="ts">
 import { mailSMTPService } from "@/components/api/user/MailSMTPService"
-import { mailSettingService } from "@/components/api/user/MailSettingService"
 import type { Error } from '@/types'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
@@ -109,12 +108,9 @@ const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
-    hasEmailConfiguration: false,
     loading: {
-        isEmailConfigurationLoading: false,
         isEmailsLoading: false,
         isEmailsLoadingMore: false,
-        isUserLoading: true,
     },
     pagination: {} as any,
     selectedEmail: null as any,
