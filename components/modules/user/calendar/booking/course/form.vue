@@ -622,8 +622,6 @@ function handleNext() {
             { id: '03', name: 'Settings', href: '#', status: 'completed' },
             { id: '04', name: 'Summary', href: '#', status: 'current' },
         ]
-    } else {
-        console.log('not working')
     }
 }
 

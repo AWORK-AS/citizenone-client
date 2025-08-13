@@ -58,7 +58,7 @@
                 </div>
             </div>
             <ModulesUserMailModalChooseEmail :isModalOpen="state.modal.isChooseEmailConfiguration" formType="create"
-                @close="state.modal.isChooseEmailConfiguration = false" />
+                @close="state.modal.isChooseEmailConfiguration = false" @refreshEmailConfig="fetchEmailConfiguration" />
         </NuxtLayout>
     </div>
 </template>

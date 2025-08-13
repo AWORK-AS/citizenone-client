@@ -411,7 +411,6 @@ function changeMonthYear(year: any, month: any) {
     }
     state.selectedYear = year
     state.selectedMonth = month
-    console.log('test', [month, year])
     fetchMyCalendarEvents()
 }
 
