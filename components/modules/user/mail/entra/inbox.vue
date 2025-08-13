@@ -46,9 +46,8 @@
                     <span class="dot4">.</span>
                     <span class="dot5">.</span>
                 </div>
-                <div class="text-center py-3" v-else
-                    v-if="parseInt(state.pagination?.current_page) < parseInt(state.pagination?.last_page)">
-                    <button class="text-sm" @click="fetchEmails(parseInt(state.pagination?.current_page) + 1)">
+                <div class="text-center py-3" v-else v-if="state.nextPageLink">
+                    <button class="text-sm" @click="fetchEmails(state.nextPageLink)">
                         {{ $t('mail.loadMore') }}
                     </button>
                 </div>
@@ -118,7 +117,7 @@ const state = reactive({
         isEmailsLoading: false,
         isEmailsLoadingMore: false,
     },
-    pagination: {} as any,
+    nextPageLink: '',
     selectedEmail: null as any,
     showForwardForm: false,
     showOnFirstLoad: false,
@@ -128,24 +127,25 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchEmails(1)
+    fetchEmails(null)
 })
 
-async function fetchEmails(pageNumber: number) {
+async function fetchEmails(page: any) {
     state.error = {}
-    if (pageNumber > 1) {
-        state.loading.isEmailsLoadingMore = true
-    } else {
+    state.nextPageLink = ''
+    if (page === null) {
         state.loading.isEmailsLoading = true
+    } else {
+        state.loading.isEmailsLoadingMore = true
     }
     try {
         const params = {
-            page: pageNumber,
+            page: page,
         }
         const response = await mailEntraService.getMails(params)
         if (response?.value) {
-            console.log('test', response?.value)
             state.emails.push(...response?.value)
+            state.nextPageLink = response['@odata.nextLink']
             // state.unreadEmails = response?.unread_emails ?? 0
             // state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
             // state.pagination = response?.data
@@ -161,21 +161,21 @@ async function fetchEmails(pageNumber: number) {
 async function setSelectedEmail(emailIndex: any, email: any) {
     state.selectedEmail = email
     state.showOnFirstLoad = true
-    if (email?.flags?.seen !== 'Seen') {
-        state.error = {}
-        state.emails[emailIndex].flags.seen = 'Seen'
-        try {
-            const emailUid = email?.header?.uid
-            const response = await mailSMTPService.readMail(emailUid)
-            if (response) {
-                if (state.unreadEmails > 0) {
-                    state.unreadEmails--
-                }
-            }
-        } catch (error: any) {
-            state.error = error
-        }
-    }
+    // if (email?.flags?.seen !== 'Seen') {
+    //     state.error = {}
+    //     state.emails[emailIndex].flags.seen = 'Seen'
+    //     try {
+    //         const emailUid = email?.header?.uid
+    //         const response = await mailSMTPService.readMail(emailUid)
+    //         if (response) {
+    //             if (state.unreadEmails > 0) {
+    //                 state.unreadEmails--
+    //             }
+    //         }
+    //     } catch (error: any) {
+    //         state.error = error
+    //     }
+    // }
 }
 </script>
 
