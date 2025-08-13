@@ -163,7 +163,7 @@
 </template>
 
 <script setup lang="ts">
-import { mailService } from "@/components/api/user/MailService"
+import { mailSMTPService } from "@/components/api/user/MailSMTPService"
 import { mailSettingService } from "@/components/api/user/MailSettingService"
 import type { Error } from '@/types'
 import { useUserStore } from '@/store/user'
@@ -246,7 +246,7 @@ async function fetchSentMails(pageNumber: number) {
         const params = {
             page: pageNumber,
         }
-        const response = await mailService.getSentMails(params)
+        const response = await mailSMTPService.getSentMails(params)
         if (response?.data) {
             state.sentEmails.push(...response?.data?.data?.sort((a: any, b: any) => new Date(b.header.date).getTime() - new Date(a.header.date).getTime()))
             state.unreadEmails = response?.unread_emails ?? 0

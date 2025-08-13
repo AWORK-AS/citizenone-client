@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { mailService } from "@/components/api/user/MailService"
+import { mailSMTPService } from "@/components/api/user/MailSMTPService"
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
@@ -85,7 +85,7 @@ async function sendEmail() {
         const params = {
             message: state.formEmail.content,
         }
-        const response = await mailService.replySecuredMail(emailUuid, params)
+        const response = await mailSMTPService.replySecuredMail(emailUuid, params)
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('mail.form.alert.emailSuccessfullySent')}.`)
             closeForm()

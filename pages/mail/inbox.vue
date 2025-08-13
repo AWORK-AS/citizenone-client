@@ -170,7 +170,7 @@
 </template>
 
 <script setup lang="ts">
-import { mailService } from "@/components/api/user/MailService"
+import { mailSMTPService } from "@/components/api/user/MailSMTPService"
 import { mailSettingService } from "@/components/api/user/MailSettingService"
 import type { Error } from '@/types'
 import { useUserStore } from '@/store/user'
@@ -233,7 +233,7 @@ async function fetchEmailConfiguration() {
         if (response) {
             if (response?.data?.id) {
                 state.hasEmailConfiguration = true
-                fetchEmails(1)
+                // fetchEmails(1)
             }
         }
     } catch (error: any) {
@@ -255,7 +255,7 @@ async function fetchEmails(pageNumber: number) {
         const params = {
             page: pageNumber,
         }
-        const response = await mailService.getMails(params)
+        const response = await mailSMTPService.getMails(params)
         if (response?.data) {
             state.emails.push(...response?.data?.data?.sort((a: any, b: any) => new Date(b.header.date).getTime() - new Date(a.header.date).getTime()))
             state.unreadEmails = response?.unread_emails ?? 0
@@ -278,7 +278,7 @@ async function setSelectedEmail(emailIndex: any, email: any) {
         state.emails[emailIndex].flags.seen = 'Seen'
         try {
             const emailUid = email?.header?.uid
-            const response = await mailService.readMail(emailUid)
+            const response = await mailSMTPService.readMail(emailUid)
             if (response) {
                 if (state.unreadEmails > 0) {
                     state.unreadEmails--

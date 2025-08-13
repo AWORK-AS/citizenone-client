@@ -127,7 +127,8 @@
                                                 <div class="mt-3 space-y-3">
                                                     <div>
                                                         <p class="text-sm">
-                                                            {{ formatDateTimeToReadable(state.secured_mail?.created_at)
+                                                            {{
+                                                                formatDateTimeToReadable(state.selectedEmail?.created_at)
                                                             }}
                                                         </p>
                                                         <p class="text-lg font-semibold">
@@ -240,7 +241,7 @@
 </template>
 
 <script setup lang="ts">
-import { mailService } from "@/components/api/user/MailService"
+import { mailSMTPService } from "@/components/api/user/MailSMTPService"
 import { mailSettingService } from "@/components/api/user/MailSettingService"
 import type { Error } from '@/types'
 import { useUserStore } from '@/store/user'
@@ -324,7 +325,7 @@ async function fetchEmails(pageNumber: number) {
         const params = {
             page: pageNumber,
         }
-        const response = await mailService.getSecuredMails(params)
+        const response = await mailSMTPService.getSecuredMails(params)
         if (response?.data) {
             state.emails.push(...response?.data?.data)
             state.unreadEmails = response?.unread_emails ?? 0
@@ -347,7 +348,7 @@ async function setSelectedEmail(emailIndex: any, email: any) {
         state.error = {}
         try {
             const emailUuid = email?.uuid
-            const response = await mailService.readSecuredMail(emailUuid)
+            const response = await mailSMTPService.readSecuredMail(emailUuid)
             if (response) {
                 if (state.unreadSecuredMessage > 0) {
                     state.unreadSecuredMessage--
