@@ -81,7 +81,7 @@ const state = reactive({
         schedule_uuid: props.selectedSchedule?.schedule_uuid,
         time_in: props.selectedSchedule?.time_in,
         time_out: props.selectedSchedule?.time_out,
-        note: props.selectedSchedule?.note,
+        note: '',
     }
 })
 

@@ -23,10 +23,11 @@
                                         class="w-11 h-11 rounded-full object-cover">
                                 </div>
                                 <div class="col-span-10">
-                                    <Tooltip :text="chatMember?.user?.firstname + ' ' + chatMember?.user?.lastname">
+                                    <Tooltip
+                                        :text="chatMember?.user?.firstname + ' ' + (chatMember?.user?.lastname ?? '')">
                                         <h4 class="font-semibold text-sm">
                                             {{ chatMember?.user?.firstname + " " +
-                                                chatMember?.user?.lastname }}
+                                                (chatMember?.user?.lastname ?? '') }}
                                         </h4>
                                     </Tooltip>
                                     <p class="text-xxs" v-if="chat?.unread_messages > 0">
@@ -43,10 +44,10 @@
                             </div>
                             <div class="col-span-10">
                                 <Tooltip :text="chatToSelf(chat?.chat_members)[0]?.user?.firstname + ' ' +
-                                    chatToSelf(chat?.chat_members)[0]?.user?.lastname">
+                                    (chatToSelf(chat?.chat_members)[0]?.user?.lastname ?? '')">
                                     <h4 class="font-semibold text-sm">
                                         {{ chatToSelf(chat?.chat_members)[0]?.user?.firstname + " " +
-                                            chatToSelf(chat?.chat_members)[0]?.user?.lastname }}
+                                            (chatToSelf(chat?.chat_members)[0]?.user?.lastname ?? '') }}
                                     </h4>
                                 </Tooltip>
                                 <p class="text-xxs" v-if="chat?.unread_messages > 0">

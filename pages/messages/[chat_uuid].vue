@@ -40,7 +40,7 @@
                                                 <div>
                                                     <h4 class="font-semibold text-sm">
                                                         {{ chatMember?.user?.firstname + " " +
-                                                            chatMember?.user?.lastname }}
+                                                            (chatMember?.user?.lastname ?? '') }}
                                                     </h4>
                                                 </div>
                                             </div>
@@ -52,7 +52,8 @@
                                                 <h4 class="font-semibold text-sm">
                                                     {{ chatToSelf(state.chat?.data?.chat_members)[0]?.user?.firstname +
                                                         " " +
-                                                        chatToSelf(state.chat?.data?.chat_members)[0]?.user?.lastname }}
+                                                        (chatToSelf(state.chat?.data?.chat_members)[0]?.user?.lastname ??
+                                                            '') }}
                                                 </h4>
                                             </div>
                                         </div>
@@ -192,7 +193,7 @@
                                     <div v-else>
                                         <p class="text-xs ml-12"
                                             v-if="index === 0 || message?.sender?.id !== state.messages[index - 1]?.sender?.id">
-                                            {{ message?.sender?.firstname + " " + message?.sender?.lastname }}
+                                            {{ message?.sender?.firstname + " " + (message?.sender?.lastname ?? '') }}
                                         </p>
                                         <div class="flex items-start mt-1 mb-4">
                                             <div class="flex-shrink-0">
@@ -551,7 +552,7 @@ function excludeCurrentUserFromChatMembers(chatMembers: any) {
 
 function chatGroupMembers(chat: any) {
     const members = excludeCurrentUserFromChatMembers(chat?.chat_members || [])
-        .map((chatMember: any) => `${chatMember?.user?.firstname} ${chatMember?.user?.lastname}`)
+        .map((chatMember: any) => `${chatMember?.user?.firstname} ${chatMember?.user?.lastname ?? ''}`)
 
     if (members.length === 0) return ''
 

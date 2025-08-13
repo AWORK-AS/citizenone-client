@@ -66,7 +66,7 @@ const state = reactive({
     formSwapScheduleRequest: {
         schedule_uuid: props.selectedSchedule?.schedule_uuid,
         recipient: props.selectedSchedule?.recipient,
-        note: props.selectedSchedule?.note,
+        note: '',
     },
     options: {
         recipients: [],
@@ -87,7 +87,7 @@ async function fetchAllAvailableChatUsers() {
             response.data.forEach(
                 (user: any) => options.push({
                     value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname,
+                    label: user?.firstname + " " + (user?.lastname ?? ''),
                 })
             )
             state.options.recipients = options
