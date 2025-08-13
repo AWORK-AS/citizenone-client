@@ -22,12 +22,14 @@
                             <div class="w-2 h-2 rounded-full bg-[#D27B7B]"></div>
                         </div>
                         <div class="flex items-center gap-x-2">
-                            <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.header?.from}`"
+                            <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.sender?.emailAddress?.name}`"
                                 class="rounded-full w-11 h-11 object-cover" />
                             <div class="grow">
-                                <p class="text-sm line-clamp-1"
-                                    v-if="email?.header?.subject && email?.header?.subject?.length > 0">
-                                    {{ email?.header?.subject }}
+                                <p class="text-sm line-clamp-1">
+                                    {{ email?.subject }}
+                                </p>
+                                <p class="text-xs line-clamp-1">
+                                    {{ email?.bodyPreview }}
                                 </p>
                             </div>
                         </div>
@@ -62,27 +64,27 @@
                 </button>
                 <div class="mt-3">
                     <p class="text-lg font-semibold">
-                        {{ state.selectedEmail?.header?.subject }}
+                        {{ state.selectedEmail?.subject }}
                     </p>
                     <div class="flex-wrap md:flex gap-1 text-sm">
                         <p>
                             {{ $t('mail.content.from') }}
                         </p>
                         <p>
-                            {{ state.selectedEmail?.header?.from }}
+                            {{ state.selectedEmail?.sender?.emailAddress?.address }}
                         </p>
                         <p class="lowercase">
                             {{ $t('mail.content.on') }}
                         </p>
                         <p>
                             {{
-                                formatDateTimeToReadable(state.selectedEmail?.header?.date)
+                                formatDateTimeToReadable(state.selectedEmail?.receivedDateTime)
                             }}
                         </p>
                     </div>
-                    <div v-html="state.selectedEmail?.bodies?.html" class="py-6" />
+                    <div v-html="state.selectedEmail?.body?.content?.replace(/\n/g, '<br>')" class="py-6" />
                 </div>
-                <ModulesUserMailReplyRegularMailForm :selectedEmail="state.selectedEmail"
+                <!-- <ModulesUserMailReplyRegularMailForm :selectedEmail="state.selectedEmail"
                     @close="state.showReplyForm = false" v-if="state.showReplyForm" />
                 <ModulesUserMailForwardRegularMailForm :selectedEmail="state.selectedEmail"
                     @close="state.showForwardForm = false" v-if="state.showForwardForm" />
@@ -97,14 +99,14 @@
                         <Icon name="ph:arrow-bend-up-right" size="w-10 h-10" />
                         {{ $t('mail.forward') }}
                     </FormButton>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { mailSMTPService } from "@/components/api/user/MailSMTPService"
+import { mailEntraService } from "@/components/api/user/MailEntraService"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
 const { formatDateTimeToReadable } = useDatetimeFormatter()
@@ -140,13 +142,13 @@ async function fetchEmails(pageNumber: number) {
         const params = {
             page: pageNumber,
         }
-        const response = await mailSMTPService.getMails(params)
-        console.log('test', response)
-        if (response?.data) {
-            state.emails.push(...response?.data?.data?.sort((a: any, b: any) => new Date(b.header.date).getTime() - new Date(a.header.date).getTime()))
-            state.unreadEmails = response?.unread_emails ?? 0
-            state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
-            state.pagination = response?.data
+        const response = await mailEntraService.getMails(params)
+        if (response?.value) {
+            console.log('test', response?.value)
+            state.emails.push(...response?.value)
+            // state.unreadEmails = response?.unread_emails ?? 0
+            // state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
+            // state.pagination = response?.data
         }
     } catch (error: any) {
         state.error = error
