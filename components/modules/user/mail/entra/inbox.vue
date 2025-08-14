@@ -174,6 +174,12 @@ async function setSelectedEmail(emailIndex: any, email: any) {
             if (response) {
                 if (state.unreadEmails > 0) {
                     state.unreadEmails--
+                    state.unreadEmails = response?.unread_emails ?? 0
+                    state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
+                    emit('setUnreadEmailsCount', {
+                        unreadEmails: state.unreadEmails,
+                        unreadSecuredMessage: state.unreadSecuredMessage,
+                    })
                 }
             }
         } catch (error: any) {
