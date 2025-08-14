@@ -57,7 +57,7 @@
                 !state.selectedEmail && 'slide-to-right',
                 'absolute top-0 left-0 h-full w-full bg-white px-6 py-4 rounded-md overflow-x-scroll'
             ]">
-                <button class="flex items-center gap-x-2" @click="state.selectedEmail = null">
+                <button class="flex items-center gap-x-2" @click="closeSelectedEmail">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </button>
@@ -83,9 +83,9 @@
                     </div>
                     <div v-html="state.selectedEmail?.body?.content?.replace(/\n/g, '<br>')" class="py-6" />
                 </div>
-                <!-- <ModulesUserMailReplyRegularMailForm :selectedEmail="state.selectedEmail"
+                <ModulesUserMailEntraReplyRegularMailForm :selectedEmail="state.selectedEmail"
                     @close="state.showReplyForm = false" v-if="state.showReplyForm" />
-                <ModulesUserMailForwardRegularMailForm :selectedEmail="state.selectedEmail"
+                <ModulesUserMailEntraForwardRegularMailForm :selectedEmail="state.selectedEmail"
                     @close="state.showForwardForm = false" v-if="state.showForwardForm" />
                 <div class="mt-5 flex items-center gap-x-3" v-if="!state.showReplyForm && !state.showForwardForm">
                     <FormButton buttonStyle="primary" class="w-fit rounded-md"
@@ -98,7 +98,7 @@
                         <Icon name="ph:arrow-bend-up-right" size="w-10 h-10" />
                         {{ $t('mail.forward') }}
                     </FormButton>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
@@ -186,6 +186,13 @@ async function setSelectedEmail(emailIndex: any, email: any) {
             state.error = error
         }
     }
+}
+
+function closeSelectedEmail() {
+    state.selectedEmail = null
+    state.showOnFirstLoad = false
+    state.showReplyForm = false
+    state.showForwardForm = false
 }
 </script>
 
