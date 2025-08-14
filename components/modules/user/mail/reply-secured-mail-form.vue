@@ -1,6 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <form @submit.prevent="submitForm()">
+        <form @submit.prevent="submitForm()" class="mt-5">
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
             <div class="space-y-3">
