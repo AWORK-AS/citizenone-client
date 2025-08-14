@@ -82,9 +82,9 @@
                     </div>
                     <div v-html="state.selectedEmail?.bodies?.html" class="py-6" />
                 </div>
-                <ModulesUserMailReplyRegularMailForm :selectedEmail="state.selectedEmail"
+                <ModulesUserMailSmtpReplyRegularMailForm :selectedEmail="state.selectedEmail"
                     @close="state.showReplyForm = false" v-if="state.showReplyForm" />
-                <ModulesUserMailForwardRegularMailForm :selectedEmail="state.selectedEmail"
+                <ModulesUserMailSmtpForwardRegularMailForm :selectedEmail="state.selectedEmail"
                     @close="state.showForwardForm = false" v-if="state.showForwardForm" />
                 <div class="mt-5 flex items-center gap-x-3" v-if="!state.showReplyForm && !state.showForwardForm">
                     <FormButton buttonStyle="primary" class="w-fit rounded-md"
