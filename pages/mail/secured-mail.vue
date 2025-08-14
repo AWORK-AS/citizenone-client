@@ -182,7 +182,7 @@
                                                 </div>
                                             </div>
                                             <div class="space-y-3 px-6 py-4"
-                                                v-for="(history, historyIndex) in state.selectedEmail?.encrypted_mail?.secure_mail_replies"
+                                                v-for="(history, historyIndex) in state.selectedEmail?.history"
                                                 :key="historyIndex">
                                                 <div>
                                                     <p class="text-sm">
