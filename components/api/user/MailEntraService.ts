@@ -8,5 +8,9 @@ class MailEntraService extends BaseAPIService {
     async getSentMails(params: object): Promise<any> {
         return await this.request(`/user/entra/fetch/sent-emails`, 'GET', params)
     }
+
+    async readMail(emailId: any): Promise<any> {
+        return await this.request(`/user/entra/${emailId}/mark-as-read`, 'PUT')
+    }
 }
 export const mailEntraService = new MailEntraService()

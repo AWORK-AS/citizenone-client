@@ -51,8 +51,10 @@
                             <div class="flex bg-white rounded-tr-md rounded-br-md">
                                 <ModulesUserMailSidebar :unreadMessage="state.unreadEmails"
                                     :unreadSecuredMessage="state.unreadSecuredMessage" />
-                                <ModulesUserMailSmtpInbox v-if="state.emailConfiguration?.data?.type === 'smtp'" />
-                                <ModulesUserMailEntraInbox v-if="state.emailConfiguration?.data?.type === 'entra'" />
+                                <ModulesUserMailSmtpInbox v-if="state.emailConfiguration?.data?.type === 'smtp'"
+                                    @setUnreadEmailsCount="setUnreadEmailsCount" />
+                                <ModulesUserMailEntraInbox v-if="state.emailConfiguration?.data?.type === 'entra'"
+                                    @setUnreadEmailsCount="setUnreadEmailsCount" />
                             </div>
                         </div>
                     </div>
@@ -126,5 +128,10 @@ async function fetchEmailConfiguration() {
     finally {
         state.loading.isEmailConfigurationLoading = false
     }
+}
+
+function setUnreadEmailsCount(count: object) {
+    state.unreadEmails = count.unreadEmails
+    state.unreadSecuredMessage = count.unreadSecuredMessage
 }
 </script>

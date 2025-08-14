@@ -107,6 +107,7 @@
 import { mailSMTPService } from "@/components/api/user/MailSMTPService"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
+const emit = defineEmits(['setUnreadEmailsCount'])
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 
 const state = reactive({
@@ -146,6 +147,10 @@ async function fetchEmails(pageNumber: number) {
             state.unreadEmails = response?.unread_emails ?? 0
             state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
             state.pagination = response?.data
+            emit('setUnreadEmailsCount', {
+                unreadEmails: state.unreadEmails,
+                unreadSecuredMessage: state.unreadSecuredMessage,
+            })
         }
     } catch (error: any) {
         state.error = error

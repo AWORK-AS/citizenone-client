@@ -108,6 +108,7 @@
 import { mailEntraService } from "@/components/api/user/MailEntraService"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
+const emit = defineEmits(['setUnreadEmailsCount'])
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 
 const state = reactive({
@@ -146,8 +147,12 @@ async function fetchEmails(page: any) {
         if (response?.value) {
             state.emails.push(...response?.value)
             state.nextPageLink = response['@odata.nextLink']
-            // state.unreadEmails = response?.unread_emails ?? 0
-            // state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
+            state.unreadEmails = response?.unread_emails ?? 0
+            state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
+            emit('setUnreadEmailsCount', {
+                unreadEmails: state.unreadEmails,
+                unreadSecuredMessage: state.unreadSecuredMessage,
+            })
         }
     } catch (error: any) {
         state.error = error
@@ -160,21 +165,21 @@ async function fetchEmails(page: any) {
 async function setSelectedEmail(emailIndex: any, email: any) {
     state.selectedEmail = email
     state.showOnFirstLoad = true
-    // if (email?.flags?.seen !== 'Seen') {
-    //     state.error = {}
-    //     state.emails[emailIndex].flags.seen = 'Seen'
-    //     try {
-    //         const emailUid = email?.header?.uid
-    //         const response = await mailSMTPService.readMail(emailUid)
-    //         if (response) {
-    //             if (state.unreadEmails > 0) {
-    //                 state.unreadEmails--
-    //             }
-    //         }
-    //     } catch (error: any) {
-    //         state.error = error
-    //     }
-    // }
+    if (!email?.isRead) {
+        state.error = {}
+        state.emails[emailIndex].isRead = true
+        try {
+            const emailId = email?.id
+            const response = await mailEntraService.readMail(emailId)
+            if (response) {
+                if (state.unreadEmails > 0) {
+                    state.unreadEmails--
+                }
+            }
+        } catch (error: any) {
+            state.error = error
+        }
+    }
 }
 </script>
 
