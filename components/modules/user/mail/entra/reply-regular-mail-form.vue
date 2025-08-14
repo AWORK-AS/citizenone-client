@@ -86,7 +86,7 @@ async function sendEmail() {
             message: state.formEmail.content,
         }
         const response = await mailEntraService.replyMail(emailId, params)
-        if (response?.message) {
+        if (response) {
             successAlert(`${t('alert.success')}!`, `${t('mail.form.alert.emailSuccessfullySent')}.`)
             closeForm()
             state.formEmail = {

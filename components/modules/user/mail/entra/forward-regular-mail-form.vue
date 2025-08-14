@@ -86,7 +86,7 @@ async function sendEmail() {
             email: state.formEmail.email,
         }
         const response = await mailEntraService.forwardMail(emailId, params)
-        if (response?.message) {
+        if (response) {
             successAlert(`${t('alert.success')}!`, `${t('mail.form.alert.emailSuccessfullyFowarded')}.`)
             closeForm()
             state.formEmail = {
