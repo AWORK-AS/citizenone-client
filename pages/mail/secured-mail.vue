@@ -190,25 +190,15 @@
                                                     </p>
                                                     <p>
                                                         {{ $t('mail.secured.from') }}:
-                                                        {{ state?.selectedEmail?.sender?.firstname }}
-                                                        {{ state?.selectedEmail?.sender?.lastname }}
-                                                        {{ state?.selectedEmail?.from }}
+                                                        {{ history?.from }}
                                                     </p>
                                                     <div class="flex items-center gap-x-1">
                                                         <p>
                                                             {{ $t('mail.secured.to') }}:
                                                         </p>
-                                                        <div class="text-xxs flex flex-wrap gap-1">
-                                                            <span
-                                                                v-for="(receipient, index) in state?.selectedEmail?.receipient_emails"
-                                                                :key=index
-                                                                class="bg-primary px-2 py-1 text-white rounded-md">
-                                                                {{ receipient }}
-                                                            </span>
+                                                        <div>
+                                                            {{ history?.receipient_emails.join('; ') }}
                                                         </div>
-                                                        <p>
-                                                            {{ state?.selectedEmail?.to }}
-                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div v-html="history?.message"></div>
