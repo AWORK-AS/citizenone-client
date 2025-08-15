@@ -197,7 +197,7 @@
                                                             {{ $t('mail.secured.to') }}:
                                                         </p>
                                                         <div>
-                                                            {{ history?.receipient_emails?.join('; ') }}
+                                                            {{ history?.recipient_emails?.join('; ') }}
                                                         </div>
                                                     </div>
                                                 </div>
