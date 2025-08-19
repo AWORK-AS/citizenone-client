@@ -101,6 +101,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                     'settings-journal-note-tags'
                 ]
             },
+            // {
+            //     name: 'settings.tabs.medicationAllergies',
+            //     isTranslateName: true,
+            //     href: `/settings/medication-allergies`,
+            //     routeNames: [
+            //         'settings-medication-allergies'
+            //     ]
+            // },
             {
                 name: 'settings.tabs.medicines',
                 isTranslateName: true,
@@ -194,6 +202,9 @@ function changeTab(value: any) {
     else if (value === t('settings.tabs.relationships')) {
         navigateTo(`/settings/relationships`)
     }
+    // else if (value === t('settings.tabs.medicationAllergies')) {
+    //     navigateTo(`/settings/medication-allergies`)
+    // }
     else if (value === t('settings.tabs.medicines')) {
         navigateTo(`/settings/medicines`)
     }
