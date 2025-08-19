@@ -3131,6 +3131,10 @@
         }
     },
     "mail": {
+        "authentication": {
+            "pleaseWait": "Vent venligst",
+            "verifyingAccount": "Verificerer konto"
+        },
         "chooseYourEmailConfiguration": {
             "chooseYourEmailConfiguration": "Vælg din e-mailkonfiguration",
             "loginViaMicrosoft": "Log ind via Microsoft",
@@ -3211,6 +3215,33 @@
             "smtpUsername": "SMTP brugernavn",
             "smtpPassword": "SMTP adgangskode",
             "smtpEncryption": "SMTP kryptering"
+        }
+    },
+    "medicationAllergies": {
+        "addNewMedicationAllergy": "Add new medication allergy",
+        "medicationAllergies": "Medication allergies",
+        "medicationAllergy": "Medication allergy",
+        "editMedicationAllergy": "Edit medication allergy",
+        "form": {
+            "alert": {
+                "medicationAllergySuccessfullyUpdated": "Medication allergy successfully updated",
+                "newMedicationAllergySuccessfullySaved": "New medication allergy successfully saved"
+            },
+            "name": "Name"
+        },
+        "newMedicationAllergy": "New medication allergy",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "medicationAllergySuccessfullyDeleted": "Medication allergy successfully deleted"
+            },
+            "confirmation": {
+                "deleteMedicationAllergyConfirmation": "Are you sure you want to delete this medication allergy"
+            },
+            "name": "Name"
         }
     },
     "medicines": {
@@ -3989,7 +4020,7 @@
             "journalNoteTags": "Journalnotetag",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
-            "medicationAllergy": "Medicinallergi",
+            "medicationAllergies": "Medicinallergier",
             "medicines": "Medicin",
             "profile": "Profil",
             "relationships": "Forhold",
