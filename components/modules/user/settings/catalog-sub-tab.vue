@@ -102,6 +102,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.medicationAllergy',
+                isTranslateName: true,
+                href: `/settings/medication-allergy`,
+                routeNames: [
+                    'settings-medication-allergy'
+                ]
+            },
+            {
                 name: 'settings.tabs.medicines',
                 isTranslateName: true,
                 href: `/settings/medicines`,
@@ -193,6 +201,9 @@ function changeTab(value: any) {
     }
     else if (value === t('settings.tabs.relationships')) {
         navigateTo(`/settings/relationships`)
+    }
+    else if (value === t('settings.tabs.medicationAllergy')) {
+        navigateTo(`/settings/medication-allergy`)
     }
     else if (value === t('settings.tabs.medicines')) {
         navigateTo(`/settings/medicines`)
