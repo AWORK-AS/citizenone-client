@@ -64,14 +64,24 @@
                     <p class="text-sm text-gray-600">
                         {{ $t('citizens.citizenJournals.form.content') }}
                     </p>
-                    <div class="flex-1 flex justify-end">
-                        <input ref="contentFileInput" type="file" @change="handleContentFileChange" class="hidden" />
+                    <div class="flex-1 flex items-center gap-x-2 justify-end">
                         <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
-                            @click="triggerContentFileInput">
-                            <div>
-                                <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
+                            v-if="userStore.getUser?.has_ai_access" @click="generateNoteForJournalContent">
+                            <div class="flex items-center">
+                                <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
                             </div>
-                            {{ $t('citizens.citizenJournals.form.attachFile') }}
+                            {{ $t('citizens.citizenJournals.form.generateNote') }}
+                        </div>
+                        <div>
+                            <input ref="contentFileInput" type="file" @change="handleContentFileChange"
+                                class="hidden" />
+                            <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
+                                @click="triggerContentFileInput">
+                                <div class="flex items-center">
+                                    <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
+                                </div>
+                                {{ $t('citizens.citizenJournals.form.attachFile') }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -139,12 +149,19 @@
                     <p class="text-sm text-gray-600">
                         {{ $t('citizens.citizenJournals.form.note') }}
                     </p>
-                    <div class="flex-1 flex justify-end">
+                    <div class="flex-1 flex items-center gap-x-2 justify-end">
+                        <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
+                            v-if="userStore.getUser?.has_ai_access" @click="generateNoteForRiskAssessmentNote">
+                            <div class="flex items-center">
+                                <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                            </div>
+                            {{ $t('citizens.citizenJournals.form.generateNote') }}
+                        </div>
                         <input ref="riskAssessmentFileInput" type="file" @change="handleRiskAssessmentFileChange"
                             class="hidden" />
                         <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
                             @click="triggerRiskAssessmentFileInput">
-                            <div>
+                            <div class="flex items-center">
                                 <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
                             </div>
                             {{ $t('citizens.citizenJournals.form.attachFile') }}
@@ -250,6 +267,7 @@
 </template>
 
 <script setup lang="ts">
+import { aIAssistantService } from '@/components/api/user/AIAssistantService'
 import { journalService } from '@/components/api/user/JournalService'
 import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
 import { teethService } from '@/components/api/user/TeethService'
@@ -718,6 +736,46 @@ async function fetchAllJournalNoteTags() {
             )
             state.options.journal_note_tags = options
             state.options.risk_assessment_tags = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function generateNoteForJournalContent() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const params = {
+            citizen_uuid: citizenUuid,
+            prompt: state.formJournal.content,
+        }
+        const response = await aIAssistantService.generateNote(params)
+        if (response) {
+            if (JSON.parse(response)?.output?.[0]?.content?.[0]?.text) {
+                state.formJournal.content = JSON.parse(response)?.output?.[0]?.content?.[0]?.text
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function generateNoteForRiskAssessmentNote() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const params = {
+            citizen_uuid: citizenUuid,
+            prompt: state.formJournal.content,
+        }
+        const response = await aIAssistantService.generateNote(params)
+        if (response) {
+            if (JSON.parse(response)?.output?.[0]?.content?.[0]?.text) {
+                state.formJournal.note = JSON.parse(response)?.output?.[0]?.content?.[0]?.text
+            }
         }
     } catch (error: any) {
         state.error = error

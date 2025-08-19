@@ -1017,6 +1017,7 @@
                 "date": "Date",
                 "draft": "Draft",
                 "forTeeth": "For teeth",
+                "generateNote": "Generate note",
                 "goal": "Goal",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
                 "journalNoteTags": "Journal note tags",
@@ -3130,12 +3131,22 @@
         }
     },
     "mail": {
+        "authentication": {
+            "pleaseWait": "Please wait",
+            "verifyingAccount": "Verifying account"
+        },
+        "chooseYourEmailConfiguration": {
+            "chooseYourEmailConfiguration": "Choose your email configuration",
+            "loginViaMicrosoft": "Login via Microsoft",
+            "loginViaSmtp": "Login via SMTP"
+        },
         "connectYourMessage": "Connect your mail to the system, so that you can see your received and sent mails",
         "connectYourMail": "Connect your mail",
         "compose": "Compose",
         "content": {
             "from": "From",
-            "on": "On"
+            "on": "On",
+            "to": "To"
         },
         "draft": "Draft",
         "form": {

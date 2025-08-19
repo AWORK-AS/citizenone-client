@@ -122,7 +122,7 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'closeChooseEmail'])
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
@@ -238,6 +238,7 @@ async function saveEmailConfiguration() {
         const response = await mailSettingService.saveUpdateMailSettings(params)
         if (response?.data) {
             closeModal()
+            emit('closeChooseEmail')
             successAlert(`${t('alert.success')}!`, `${t('mail.settings.alert.mailConfigurationSuccessfullySaved')}.`)
         }
     } catch (error: any) {

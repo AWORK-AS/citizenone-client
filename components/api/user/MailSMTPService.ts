@@ -1,6 +1,6 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
-class MailService extends BaseAPIService {
+class MailSMTPService extends BaseAPIService {
     async getMails(params: object): Promise<any> {
         return await this.request(`/user/emails`, 'GET', params)
     }
@@ -45,4 +45,4 @@ class MailService extends BaseAPIService {
         return await this.request(`/user/emails/${emailUid}/forward`, 'POST', params)
     }
 }
-export const mailService = new MailService()
+export const mailSMTPService = new MailSMTPService()

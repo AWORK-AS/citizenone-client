@@ -1,6 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <form @submit.prevent="submitForm()" class="mt-5">
+        <form @submit.prevent="submitForm()">
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
             <div class="space-y-3">
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { mailSMTPService } from "@/components/api/user/MailSMTPService"
+import { mailEntraService } from "@/components/api/user/MailEntraService"
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
@@ -81,11 +81,11 @@ async function sendEmail() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const emailUuid = props.selectedEmail?.uuid
+        const emailId = props.selectedEmail?.id
         const params = {
             message: state.formEmail.content,
         }
-        const response = await mailSMTPService.replySecuredMail(emailUuid, params)
+        const response = await mailEntraService.replyMail(emailId, params)
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('mail.form.alert.emailSuccessfullySent')}.`)
             closeForm()

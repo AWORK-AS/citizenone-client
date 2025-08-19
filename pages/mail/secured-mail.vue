@@ -39,8 +39,8 @@
                             <div class="space-y-6">
                                 <p>{{ $t('mail.connectYourMessage') }}.</p>
                                 <div class="flex justify-center">
-                                    <FormButton buttonStyle="primary" @click="state.modal.isConnectYourMailOpen = true"
-                                        class="rounded-md">
+                                    <FormButton buttonStyle="primary"
+                                        @click="state.modal.isChooseEmailConfiguration = true" class="rounded-md">
                                         {{ $t('mail.connectYourMail') }}
                                     </FormButton>
                                 </div>
@@ -127,7 +127,8 @@
                                                 <div class="mt-3 space-y-3">
                                                     <div>
                                                         <p class="text-sm">
-                                                            {{ formatDateTimeToReadable(state.secured_mail?.created_at)
+                                                            {{
+                                                                formatDateTimeToReadable(state.selectedEmail?.created_at)
                                                             }}
                                                         </p>
                                                         <p class="text-lg font-semibold">
@@ -181,7 +182,7 @@
                                                 </div>
                                             </div>
                                             <div class="space-y-3 px-6 py-4"
-                                                v-for="(history, historyIndex) in state.selectedEmail?.encrypted_mail?.secure_mail_replies"
+                                                v-for="(history, historyIndex) in state.selectedEmail?.history"
                                                 :key="historyIndex">
                                                 <div>
                                                     <p class="text-sm">
@@ -189,25 +190,15 @@
                                                     </p>
                                                     <p>
                                                         {{ $t('mail.secured.from') }}:
-                                                        {{ state?.selectedEmail?.sender?.firstname }}
-                                                        {{ state?.selectedEmail?.sender?.lastname }}
-                                                        {{ state?.selectedEmail?.from }}
+                                                        {{ history?.from }}
                                                     </p>
                                                     <div class="flex items-center gap-x-1">
                                                         <p>
                                                             {{ $t('mail.secured.to') }}:
                                                         </p>
-                                                        <div class="text-xxs flex flex-wrap gap-1">
-                                                            <span
-                                                                v-for="(receipient, index) in state?.selectedEmail?.receipient_emails"
-                                                                :key=index
-                                                                class="bg-primary px-2 py-1 text-white rounded-md">
-                                                                {{ receipient }}
-                                                            </span>
+                                                        <div>
+                                                            {{ history?.recipient_emails?.join('; ') }}
                                                         </div>
-                                                        <p>
-                                                            {{ state?.selectedEmail?.to }}
-                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div v-html="history?.message"></div>
@@ -231,8 +222,8 @@
                     </div>
                 </div>
             </div>
-            <ModulesUserMailModalConfigureEmail :isModalOpen="state.modal.isConnectYourMailOpen" formType="create"
-                @close="state.modal.isConnectYourMailOpen = false" />
+            <ModulesUserMailModalChooseEmail :isModalOpen="state.modal.isChooseEmailConfiguration" formType="create"
+                @close="state.modal.isChooseEmailConfiguration = false" />
             <ModulesUserMailModalSendEmail :isModalOpen="state.modal.isSendEmailOpen"
                 @close="state.modal.isSendEmailOpen = false" />
         </NuxtLayout>
@@ -240,7 +231,7 @@
 </template>
 
 <script setup lang="ts">
-import { mailService } from "@/components/api/user/MailService"
+import { mailSMTPService } from "@/components/api/user/MailSMTPService"
 import { mailSettingService } from "@/components/api/user/MailSettingService"
 import type { Error } from '@/types'
 import { useUserStore } from '@/store/user'
@@ -265,7 +256,7 @@ const state = reactive({
         isUserLoading: true,
     },
     modal: {
-        isConnectYourMailOpen: false,
+        isChooseEmailConfiguration: false,
         isSendEmailOpen: false,
     },
     pagination: {} as any,
@@ -288,8 +279,8 @@ watch(() => userStore.getUser, (user: any) => {
     }
 })
 
-watch(() => state.modal.isConnectYourMailOpen, (isConnectYourMailOpen: boolean) => {
-    if (!isConnectYourMailOpen) {
+watch(() => state.modal.isChooseEmailConfiguration, (isChooseEmailConfiguration: boolean) => {
+    if (!isChooseEmailConfiguration) {
         fetchEmailConfiguration()
     }
 })
@@ -324,7 +315,7 @@ async function fetchEmails(pageNumber: number) {
         const params = {
             page: pageNumber,
         }
-        const response = await mailService.getSecuredMails(params)
+        const response = await mailSMTPService.getSecuredMails(params)
         if (response?.data) {
             state.emails.push(...response?.data?.data)
             state.unreadEmails = response?.unread_emails ?? 0
@@ -347,7 +338,7 @@ async function setSelectedEmail(emailIndex: any, email: any) {
         state.error = {}
         try {
             const emailUuid = email?.uuid
-            const response = await mailService.readSecuredMail(emailUuid)
+            const response = await mailSMTPService.readSecuredMail(emailUuid)
             if (response) {
                 if (state.unreadSecuredMessage > 0) {
                     state.unreadSecuredMessage--

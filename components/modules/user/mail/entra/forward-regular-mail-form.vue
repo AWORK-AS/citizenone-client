@@ -1,15 +1,15 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <form @submit.prevent="submitForm()" class="mt-5">
+        <form @submit.prevent="submitForm()">
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
             <div class="space-y-3">
                 <div class="space-y-1">
-                    <FormLabel for="content" :label="$t('mail.form.message')" />
-                    <FormTextArea id="content" name="content" :placeholder="$t('mail.form.message')"
-                        v-model="state.formEmail.content" />
-                    <FormError :error="v$?.formEmail?.content?.$errors[0]?.$message.toString()" />
-                    <FormError :error="state?.error?.errors?.content?.[0]" />
+                    <FormLabel for="email" :label="$t('mail.form.to')" />
+                    <FormMultipleEmailAddresses id="email" name="email" :placeholder="$t('mail.form.to')"
+                        v-model="state.formEmail.email" />
+                    <FormError :error="v$?.formEmail?.email?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.email?.[0]" />
                 </div>
             </div>
             <div class="mt-6">
@@ -18,7 +18,7 @@
                         {{ $t('cancel') }}
                     </FormButton>
                     <FormButton type="submit" buttonStyle="primary" class="rounded-md">
-                        {{ $t('mail.form.send') }}
+                        {{ $t('mail.forward') }}
                     </FormButton>
                 </div>
             </div>
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { mailSMTPService } from "@/components/api/user/MailSMTPService"
+import { mailEntraService } from "@/components/api/user/MailEntraService"
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
@@ -49,14 +49,14 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formEmail: {
-        content: '',
+        email: [],
     },
 })
 
 const rules = computed(() => {
     return {
         formEmail: {
-            content: {
+            email: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
@@ -81,16 +81,16 @@ async function sendEmail() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const emailUuid = props.selectedEmail?.uuid
+        const emailId = props.selectedEmail?.id
         const params = {
-            message: state.formEmail.content,
+            email: state.formEmail.email,
         }
-        const response = await mailSMTPService.replySecuredMail(emailUuid, params)
+        const response = await mailEntraService.forwardMail(emailId, params)
         if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('mail.form.alert.emailSuccessfullySent')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('mail.form.alert.emailSuccessfullyFowarded')}.`)
             closeForm()
             state.formEmail = {
-                content: '',
+                email: [],
             }
             v$.value.$reset()
         }

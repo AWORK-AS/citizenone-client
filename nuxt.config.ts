@@ -64,7 +64,12 @@ export default defineNuxtConfig({
       appName: process.env.APP_NAME,
       apiBaseURL: process.env.API_BASE_URL,
       appBaseURL: process.env.APP_BASE_URL,
+      azureClientId: process.env.AZURE_CLIENT_ID,
+      azureRedirectUri: process.env.AZURE_REDIRECT_URI,
+      azureScopes: process.env.AZURE_SCOPES,
+      azureTenantId: process.env.AZURE_TENANT_ID,
       checkoutKey: process.env.CHECKOUT_KEY,
+      cmp: process.env.CMP_API_SRC,
     },
   },
 
