@@ -206,7 +206,7 @@
                         {{ $t('employees.form.showWorkingHours') }}
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
                     <div class="w-fit flex items-center cursor-pointer"
                         @click="state.formEmployee.count_sick_leave = !state.formEmployee.count_sick_leave">
                         <FormCheckbox id="count_sick_leave" :value="state.formEmployee.count_sick_leave" />
