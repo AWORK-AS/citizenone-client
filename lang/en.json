@@ -2516,6 +2516,7 @@
             "address": "Address",
             "birthday": "Birthday",
             "city": "City",
+            "countSickLeaveAsWorkedHours": "Count sick leave as worked hours",
             "department": "Department",
             "emailAddress": "Email address",
             "emergencyInfo": {

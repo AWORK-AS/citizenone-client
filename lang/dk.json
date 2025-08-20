@@ -2516,6 +2516,7 @@
             "address": "Adresse",
             "birthday": "Fødselsdag",
             "city": "By",
+            "countSickLeaveAsWorkedHours": "Tæl sygefravær som arbejdstimer",
             "department": "Afdeling",
             "emailAddress": "E-mail adresse",
             "emergencyInfo": {
