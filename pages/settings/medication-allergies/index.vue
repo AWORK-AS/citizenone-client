@@ -40,7 +40,7 @@
                                     <td width="50%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/medicationAllergies/${medicationAllergy.uuid}/edit`)">
+                                                @click="navigateTo(`/settings/medication-allergies/${medicationAllergy.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('medicationAllergies.table.actions.edit') }}
                                             </FormButton>
