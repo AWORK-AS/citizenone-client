@@ -1079,6 +1079,7 @@
             "firstname": "First name",
             "foreignCityOfOrigin": "Foreign city of origin",
             "lastname": "Last name",
+            "medicationAllergies": "Medication allergies",
             "municipality": "Municipality",
             "note": "Note",
             "payingMunicipality": "Paying municipality",

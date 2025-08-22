@@ -1,6 +1,7 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('diagnoses.newMedicationAllergy')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs" :title="$t('medicationAllergies.newMedicationAllergy')" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserMedicationAllergyModalForm formType="create"
@@ -55,7 +56,7 @@ async function saveMedicationAllergy(medicationAllergyDetails: any) {
         }
         const response = await medicationAllergyService.saveMedicationAllergy(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('diagnoses.form.alert.newMedicationAllergySuccessfullySaved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('medicationAllergies.form.alert.newMedicationAllergySuccessfullySaved')}.`)
             refreshMedicationAllergies()
             closeModal()
         }

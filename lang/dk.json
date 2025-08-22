@@ -1079,6 +1079,7 @@
             "firstname": "Fornavn",
             "foreignCityOfOrigin": "Udenlandsk oprindelsesby",
             "lastname": "Efternavn",
+            "medicationAllergies": "Medicinallergier",
             "municipality": "Kommune",
             "note": "Bemærkning",
             "payingMunicipality": "Betalingskommune",
@@ -3219,30 +3220,30 @@
         }
     },
     "medicationAllergies": {
-        "addNewMedicationAllergy": "Add new medication allergy",
-        "medicationAllergies": "Medication allergies",
-        "medicationAllergy": "Medication allergy",
-        "editMedicationAllergy": "Edit medication allergy",
+        "addNewMedicationAllergy": "Tilføj ny medicinallergi",
+        "medicationAllergies": "Medicinallergier",
+        "medicationAllergy": "Medicinallergi",
+        "editMedicationAllergy": "Rediger medicinallergi",
         "form": {
             "alert": {
-                "medicationAllergySuccessfullyUpdated": "Medication allergy successfully updated",
-                "newMedicationAllergySuccessfullySaved": "New medication allergy successfully saved"
+                "medicationAllergySuccessfullyUpdated": "Medicinallergi opdateret",
+                "newMedicationAllergySuccessfullySaved": "Ny medicinallergi gemt"
             },
-            "name": "Name"
+            "name": "Navn"
         },
-        "newMedicationAllergy": "New medication allergy",
+        "newMedicationAllergy": "Ny medicinallergi",
         "table": {
             "actions": {
-                "delete": "Delete",
-                "edit": "Edit"
+                "delete": "Slet",
+                "edit": "Rediger"
             },
             "alert": {
-                "medicationAllergySuccessfullyDeleted": "Medication allergy successfully deleted"
+                "medicationAllergySuccessfullyDeleted": "Medicinallergi slettet"
             },
             "confirmation": {
-                "deleteMedicationAllergyConfirmation": "Are you sure you want to delete this medication allergy"
+                "deleteMedicationAllergyConfirmation": "Er du sikker på, at du vil slette denne medicinallergi?"
             },
-            "name": "Name"
+            "name": "Navn"
         }
     },
     "medicines": {
