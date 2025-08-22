@@ -4063,7 +4063,9 @@
             },
             "color": "Farve",
             "nameDanish": "Navn (dansk)",
-            "nameEnglish": "Navn (engelsk)"
+            "nameEnglish": "Navn (engelsk)",
+            "timeIn": "Tid ind",
+            "timeOut": "Tid ud"
         },
         "newShift": "Ny vagt",
         "shifts": "Vagter",
@@ -4079,7 +4081,9 @@
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "standard": "Standard",
-            "standardShift": "Standard vagt"
+            "standardShift": "Standard vagt",
+            "timeIn": "Tid ind",
+            "timeOut": "Tid ud"
         }
     },
     "show": "Vis",

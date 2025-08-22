@@ -52,6 +52,8 @@ const state = reactive({
     formShift: {
         en_name: '',
         dk_name: '',
+        time_in: '',
+        time_out: '',
         color: '',
     },
     isPageLoading: false,
@@ -64,6 +66,8 @@ async function saveShift(shiftDetails: any) {
         const params = {
             en_name: shiftDetails.en_name,
             dk_name: shiftDetails.dk_name,
+            time_in: shiftDetails.color ?? '',
+            time_out: shiftDetails.color ?? '',
             color: shiftDetails.color,
         }
         const response = await shiftService.saveShift(params)

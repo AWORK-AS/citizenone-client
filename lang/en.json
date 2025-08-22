@@ -4063,7 +4063,9 @@
             },
             "color": "Color",
             "nameDanish": "Name (danish)",
-            "nameEnglish": "Name (english)"
+            "nameEnglish": "Name (english)",
+            "timeIn": "Time out",
+            "timeOut": "Time in"
         },
         "newShift": "New shift",
         "shifts": "Shifts",
@@ -4079,7 +4081,9 @@
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
             "standard": "Standard",
-            "standardShift": "Standard shift"
+            "standardShift": "Standard shift",
+            "timeIn": "Time out",
+            "timeOut": "Time in"
         }
     },
     "show": "Show",
