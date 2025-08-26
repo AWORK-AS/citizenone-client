@@ -75,9 +75,11 @@
                                 class="w-6 h-6 rounded-full object-cover absolute top-1.5 left-5">
                         </div>
                         <div class="col-span-10">
-                            <h4 class="font-semibold text-sm" v-if="chat?.name">
-                                {{ chat?.name }}
-                            </h4>
+                            <Tooltip :text="chat?.name" v-if="chat?.name">
+                                <h4 class="font-semibold text-sm">
+                                    {{ chat?.name }}
+                                </h4>
+                            </Tooltip>
                             <Tooltip :text="`${chatGroupMembers(chat)}.`" v-else>
                                 <h4 class="font-semibold text-sm line-clamp-1">
                                     {{ chatGroupMembers(chat) }}.

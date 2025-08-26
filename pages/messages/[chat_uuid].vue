@@ -80,9 +80,12 @@
                                         <div class="col-span-11 flex items-center">
                                             <div class="w-full flex items-center justify-between">
                                                 <div>
-                                                    <h4 class="font-semibold text-sm" v-if="state.chat?.data?.name">
-                                                        {{ state.chat?.data?.name }}
-                                                    </h4>
+                                                    <Tooltip :text="state.chat?.data?.name"
+                                                        v-if="state.chat?.data?.name">
+                                                        <h4 class="font-semibold text-sm" v-if="state.chat?.data?.name">
+                                                            {{ state.chat?.data?.name }}
+                                                        </h4>
+                                                    </Tooltip>
                                                     <Tooltip :text="`${chatGroupMembers(state.chat?.data)}.`" v-else>
                                                         <h4 class="font-semibold text-sm line-clamp-1">
                                                             {{ chatGroupMembers(state.chat?.data) }}.
