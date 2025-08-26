@@ -42,6 +42,9 @@
                                                         {{ chatMember?.user?.firstname + " " +
                                                             (chatMember?.user?.lastname ?? '') }}
                                                     </h4>
+                                                    <p class="text-xs line-clamp-1">
+                                                        {{ state.chat?.data?.subject }}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -55,6 +58,9 @@
                                                         (chatToSelf(state.chat?.data?.chat_members)[0]?.user?.lastname ??
                                                             '') }}
                                                 </h4>
+                                                <p class="text-xs line-clamp-1">
+                                                    {{ state.chat?.data?.subject }}
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -82,6 +88,9 @@
                                                             {{ chatGroupMembers(state.chat?.data) }}.
                                                         </h4>
                                                     </Tooltip>
+                                                    <p class="text-xs line-clamp-1">
+                                                        {{ state.chat?.data?.subject }}
+                                                    </p>
                                                     <p class="text-xxs" v-if="state.chat?.data?.unread_messages > 0">
                                                         {{ state.chat?.data?.unread_messages }}
                                                         <span class="lowercase">
