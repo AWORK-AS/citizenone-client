@@ -30,6 +30,9 @@
                                                 (chatMember?.user?.lastname ?? '') }}
                                         </h4>
                                     </Tooltip>
+                                    <p class="text-xs line-clamp-1">
+                                        {{ chat?.subject }}
+                                    </p>
                                     <p class="text-xxs" v-if="chat?.unread_messages > 0">
                                         {{ chat?.unread_messages }}
                                         <span class="lowercase">{{ $t('messages.unreadMessages') }}</span>
@@ -50,6 +53,9 @@
                                             (chatToSelf(chat?.chat_members)[0]?.user?.lastname ?? '') }}
                                     </h4>
                                 </Tooltip>
+                                <p class="text-xs line-clamp-1">
+                                    {{ chat?.subject }}
+                                </p>
                                 <p class="text-xxs" v-if="chat?.unread_messages > 0">
                                     {{ chat?.unread_messages }}
                                     <span class="lowercase">{{ $t('messages.unreadMessages') }}</span>
@@ -77,6 +83,9 @@
                                     {{ chatGroupMembers(chat) }}.
                                 </h4>
                             </Tooltip>
+                            <p class="text-xs line-clamp-1">
+                                {{ chat?.subject }}
+                            </p>
                             <p class="text-xxs" v-if="chat?.unread_messages > 0">
                                 {{ chat?.unread_messages }}
                                 <span class="lowercase">{{ $t('messages.unreadMessages') }}</span>
