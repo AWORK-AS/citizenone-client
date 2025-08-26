@@ -1427,7 +1427,19 @@
                 "painAndSensoryImpressions": "Smerte og sanseindtryk",
                 "sleepAndRest": "Søvn og hvile",
                 "knowledgeAndDevelopment": "Viden og udvikling",
-                "excretionOfWaste": "Affaldsudskillelse"
+                "excretionOfWaste": "Affaldsudskillelse",
+                "consentCompetenceOrCapacity": "Samtykkekompetence eller evne",
+                "illnessAndFunctionalImpairment": "Sygdom og funktionsnedsættelse",
+                "illnessAndFunctionalImpairment1": "Hvilken sygdom og funktionsnedsættelse har borgeren",
+                "illnessAndFunctionalImpairment2": "Hvem er den ansvarlige sundhedsprofessionelle",
+                "vitals": {
+                    "bloodPressure": "Blodtryk",
+                    "bloodSugar": "Blodsukker",
+                    "pulse": "Puls",
+                    "temperature": "Temperatur",
+                    "vitals": "Værdiskema",
+                    "weight": "Vægt"
+                }
             },
             "newNursingProfessionalRecords": "Ny sundhedsfaglig optegnelse",
             "nursingProfessionalRecords": "Sundhedsfaglige optegnelser",
