@@ -1370,7 +1370,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
         department_uuid: shiftDetails.department_uuid,
         note: shiftDetails.note,
-        count_sick_leavenote: shiftDetails.count_sick_leave,
+        count_sick_leave: shiftDetails.count_sick_leave,
     }
     updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
 }
