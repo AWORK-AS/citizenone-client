@@ -60,7 +60,7 @@
                                     </div>
                                     <div class="space-y-1">
                                         <FormLabel for="message" :label="$t('messages.message')" />
-                                        <FormTextField id="message" name="message" :placeholder="$t('messages.message')"
+                                        <FormTextArea id="message" name="message" :placeholder="$t('messages.message')"
                                             v-model="state.formChat.message" />
                                         <FormError :error="v$?.formChat?.message?.$errors[0]?.$message.toString()" />
                                         <FormError :error="state?.error?.errors?.message?.[0]" />
