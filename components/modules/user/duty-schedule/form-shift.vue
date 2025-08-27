@@ -108,6 +108,13 @@
                 <FormError :error="v$?.formShift?.note?.$errors[0]?.$message.toString()" />
                 <FormError :error="state?.error?.errors?.note?.[0]" />
             </div>
+            <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formShift.count_sick_leave = !state.formShift.count_sick_leave">
+                    <FormCheckbox id="count_sick_leave" :value="state.formShift.count_sick_leave" />
+                    {{ $t('dutySchedules.form.countSickLeaveAsWorkedHours') }}
+                </div>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -170,6 +177,7 @@ const state = reactive({
         department_uuid: [],
         use_compensatory_time: false,
         note: '',
+        count_sick_leave: false,
     },
     modal: {
         isAddDepartmentOpen: false,

@@ -206,13 +206,6 @@
                         {{ $t('employees.form.showWorkingHours') }}
                     </div>
                 </div>
-                <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
-                    <div class="w-fit flex items-center cursor-pointer"
-                        @click="state.formEmployee.count_sick_leave = !state.formEmployee.count_sick_leave">
-                        <FormCheckbox id="count_sick_leave" :value="state.formEmployee.count_sick_leave" />
-                        {{ $t('employees.form.countSickLeaveAsWorkedHours') }}
-                    </div>
-                </div>
                 <div class="space-y-1" v-if="props.formType === 'update' && isAdmin(userStore.getUser?.roles)">
                     <FormLabel for="pages" :label="$t('employees.form.pageAccess')" />
                     <FormSelectMultiple id="pages" :options="state.options.pages" v-model="state.formEmployee.pages" />
@@ -567,7 +560,6 @@ const state = reactive({
             trustees: [],
         },
         show_working_hours: false,
-        count_sick_leave: false,
     } as EmployeeForm,
     modal: {
         isAddDepartmentOpen: false,
@@ -658,7 +650,6 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 vacation_days: newValue.employment.vacation_days,
             },
             show_working_hours: newValue.show_working_hours,
-            count_sick_leave: newValue.count_sick_leave,
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)
         fetchCities(newValue.municipality_uuid)
