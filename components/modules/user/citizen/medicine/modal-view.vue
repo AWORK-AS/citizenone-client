@@ -1,10 +1,18 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('citizens.medicineJournals.viewMedicine')" :show="props.isModalOpen"
+        <Modal size="lg" :title="$t('citizens.medicineJournals.viewMedicine.viewMedicine')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="space-y-3" v-if="state.selectedMedicine">
+                        <Alert type="danger" :text="state?.error?.message"
+                            v-if="state.error?.message && state.error.message.length > 0" />
+                        <div class="flex justify-end">
+                            <FormButton buttonStyle="action" class="rounded-lg" @click="downloadAndPrintMedicine">
+                                <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('citizens.medicineJournals.viewMedicine.downloadAndPrintMedicine') }}
+                            </FormButton>
+                        </div>
                         <div class="flex items-center gap-x-2">
                             <div v-if="state.selectedMedicine.is_pn_medicine">
                                 <Badge type="primary" class="w-fit">
@@ -146,12 +154,11 @@
 
 <script setup lang="ts">
 import { medicineJournalService } from '@/components/api/user/MedicineJournalService'
-import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
+import { saveAs } from 'file-saver'
 
-const { successAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
 
@@ -211,41 +218,80 @@ async function fetchSelectedMedicine() {
     state.isPageLoading = false
 }
 
-async function updateMedicine(medicineDetails: any) {
+async function downloadAndPrintMedicine() {
     state.error = {}
     state.isPageLoading = true
+
     try {
         const medicineUuid = props.selectedMedicine?.uuid
-        let params = new FormData()
-        params.append('is_active', medicineDetails.is_active)
-        params.append('is_self_administered', medicineDetails.is_self_administered)
-        params.append('is_pn_medicine', medicineDetails.is_pn_medicine)
-        params.append('medicine_uuid', medicineDetails.medicine)
-        params.append('dosage_uuid', medicineDetails.dosage)
-        if (!medicineDetails.is_pn_medicine) {
-            params.append('schedule_frequency', medicineDetails.schedule_frequency)
-        }
-        params.append('current_stocks', medicineDetails.current_stocks)
-        params.append('strength', medicineDetails.strength)
-        params.append('max_daily_dose', medicineDetails.max_daily_dose.replace(',', '.'))
-        params.append('max_dosage_per_time', JSON.stringify(medicineDetails.max_dosage_per_time))
-        params.append('package_leaflet_link', medicineDetails.package_leaflet_link)
-        params.append('start_date', medicineDetails.start_date)
-        params.append('end_date', medicineDetails.end_date)
-        params.append('doctor_uuid', medicineDetails.doctor)
-        params.append('treatment_reason', medicineDetails.treatment_reason)
-        params.append('medication_storage', medicineDetails.medication_storage)
-        params.append('active_ingredients', medicineDetails.active_ingredients)
-        params.append('description', medicineDetails.description)
-        const response = await medicineJournalService.updateMedicine(medicineUuid, params)
-        if (response?.data) {
-            refreshMedicines()
-            closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.form.alert.successfullyUpdated')}.`)
+        const resp = await medicineJournalService.downloadMedicine(medicineUuid)
+
+        // Ensure we have a Blob (PDF)
+        const blob =
+            resp instanceof Blob
+                ? resp
+                : new Blob([resp], { type: 'application/pdf' })
+
+        // Localized filename with .pdf extension
+        const baseName =
+            language.locale.value === 'en'
+                ? state.selectedMedicine?.medicine?.en_name
+                : state.selectedMedicine?.medicine?.dk_name
+        const safeName = (baseName || 'medicine').replace(/[\\/:*?"<>|]+/g, '_')
+        const filename = safeName.endsWith('.pdf') ? safeName : `${safeName}.pdf`
+
+        // 1) Save to disk
+        saveAs(blob, filename)
+
+        // 2) Open and print (best effort)
+        const url = URL.createObjectURL(blob)
+
+        // Try popup window first (works well on desktop)
+        let win: Window | null = window.open(url)
+        if (win) {
+            const onWinLoad = () => {
+                try {
+                    win!.focus()
+                    win!.print()
+                } catch (e) {
+                    // ignore printing errors
+                } finally {
+                    // give the browser a moment before revoking
+                    setTimeout(() => URL.revokeObjectURL(url), 10_000)
+                    win!.removeEventListener('load', onWinLoad as any)
+                }
+            }
+            // Some browsers fire 'load' on the opened window; others need a short delay
+            win.addEventListener?.('load', onWinLoad)
+            // Fallback: if no load event, attempt print after a small delay
+            setTimeout(onWinLoad, 800)
+        } else {
+            // Popup blocked — use a hidden iframe as a fallback
+            const iframe = document.createElement('iframe')
+            iframe.style.position = 'fixed'
+            iframe.style.right = '0'
+            iframe.style.bottom = '0'
+            iframe.style.width = '0'
+            iframe.style.height = '0'
+            iframe.style.border = '0'
+            iframe.src = url
+            iframe.onload = () => {
+                try {
+                    iframe.contentWindow?.focus()
+                    iframe.contentWindow?.print()
+                } finally {
+                    setTimeout(() => {
+                        URL.revokeObjectURL(url)
+                        iframe.remove()
+                    }, 10_000)
+                }
+            }
+            document.body.appendChild(iframe)
         }
     } catch (error: any) {
         state.error = error
+    } finally {
+        state.isPageLoading = false
     }
-    state.isPageLoading = false
 }
 </script>

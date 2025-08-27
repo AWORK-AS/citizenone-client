@@ -1400,7 +1400,10 @@
                 "quantity": "Quantity",
                 "strength": "Strength"
             },
-            "viewMedicine": "View medicine"
+            "viewMedicine": {
+                "downloadAndPrintMedicine": "Download and print medicine",
+                "viewMedicine": "View medicine"
+            }
         },
         "newCitizen": "New citizen",
         "note": {

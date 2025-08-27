@@ -1400,7 +1400,10 @@
                 "quantity": "Mængde",
                 "strength": "Styrke"
             },
-            "viewMedicine": "Se medicin"
+            "viewMedicine": {
+                "downloadAndPrintMedicine": "Download og udskriv medicin",
+                "viewMedicine": "Se medicin"
+            }
         },
         "newCitizen": "Ny borger",
         "note": {
