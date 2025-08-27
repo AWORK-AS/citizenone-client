@@ -1267,6 +1267,7 @@
                 "totalHours": "Samlet timer"
             }
         },
+        "medicationAllergies": "Medicinallergier",
         "medicineJournals": {
             "alert": {
                 "successfullyActivated": "Medicin aktiveret med succes",

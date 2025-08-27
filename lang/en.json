@@ -1267,6 +1267,7 @@
                 "totalHours": "Total hours"
             }
         },
+        "medicationAllergies": "Medication allergies",
         "medicineJournals": {
             "alert": {
                 "successfullyActivated": "Medicine successfully activated",

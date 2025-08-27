@@ -169,7 +169,7 @@ async function fetchCitizen() {
             response?.data?.diagnoses?.forEach((diagnosis: any) => {
                 state.formCitizen.diagnoses.push(diagnosis?.uuid)
             })
-            response?.data?.medication_allergies?.forEach((medication_allergy: any) => {
+            response?.data?.allergies?.forEach((medication_allergy: any) => {
                 state.formCitizen.medication_allergies.push(medication_allergy?.uuid)
             })
             response?.data?.addictions?.forEach((addiction: any) => {

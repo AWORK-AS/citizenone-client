@@ -236,6 +236,14 @@
                                         {{ diagnosis?.name }}
                                     </span>
                                 </div>
+                                <div class="text-xs flex items-center flex-wrap gap-1"
+                                    v-if="state.selectedCitizen?.data?.allergies?.length > 0">
+                                    <p>{{ $t('citizens.medicationAllergies') }}:</p>
+                                    <span v-for="(allergy, index) in state.selectedCitizen?.data?.allergies" :key=index
+                                        class="bg-primary p-1 text-white rounded-md text-xxs">
+                                        {{ allergy?.name }}
+                                    </span>
+                                </div>
                             </div>
                             <div class="text-xs font-medium text-gray-700"
                                 :class="state.showExpandedNote ? '' : 'line-clamp-2'">
