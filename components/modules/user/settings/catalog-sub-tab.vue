@@ -1,6 +1,6 @@
 <template>
     <div class="relative">
-        <Tabs :tabs="state.tabs" :isJustifyBetween="false" @changeTab="changeTab" />
+        <Tabs :id="props?.id" :tabs="state.tabs" :isJustifyBetween="false" @changeTab="changeTab" />
         <div
             class="bg-white border-0.5 border-gray-300 w-6 h-6 rounded-full absolute -left-3 top-4 flex items-center justify-center">
             <Icon name="ph:hand-swipe-left" class="h-4 w-4" aria-hidden="true" />
@@ -16,6 +16,13 @@
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+
+const props = defineProps({
+    id: {
+        type: String,
+        required: false,
+    },
+})
 
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore()
