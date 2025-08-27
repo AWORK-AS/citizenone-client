@@ -209,13 +209,15 @@ onMounted(() => {
     state.formShift.note = props.selectedShift.note
 })
 
-watch(() => state.formShift.shift_type, (newValue) => {
-    const selectShiftIndex = state.options.shifts.findIndex((shift: any) => shift.value === newValue)
+watch(() => state.formShift.shift_type, (selectedShift) => {
+    const selectShiftIndex = state.options.shifts.findIndex((shift: any) => shift.value === selectedShift)
     if (![3, 4].includes(selectShiftIndex)) {
         state.showChildProtectionCertificateWarning = true
     } else {
         state.showChildProtectionCertificateWarning = false
     }
+    state.formShift.date_time_start = moment(moment().format('YYYY-MM-DD') + ' ' + state.options.shifts[selectShiftIndex]?.time_in, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD H:mm')
+    state.formShift.date_time_end = moment(moment().format('YYYY-MM-DD') + ' ' + state.options.shifts[selectShiftIndex]?.time_out, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD H:mm')
 })
 
 const rules = computed(() => {
@@ -251,6 +253,8 @@ async function fetchAllShifts() {
                     value: shift?.uuid,
                     label: language.locale.value === 'en' ? shift?.en_name : shift?.dk_name,
                     system_name: shift?.system_name,
+                    time_in: shift?.time_in,
+                    time_out: shift?.time_out,
                 })
             )
             state.options.shifts = options
