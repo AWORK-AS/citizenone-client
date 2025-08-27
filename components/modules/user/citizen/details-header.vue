@@ -267,6 +267,7 @@
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
@@ -277,6 +278,7 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
@@ -301,6 +303,7 @@ async function fetchCitizen() {
         const response = await citizenService.getCitizen(citizenUuid)
         if (response) {
             state.selectedCitizen = response
+            citizenStore.setSelectedCitizen(response?.data)
         }
     } catch (error: any) {
         state.error = error

@@ -1029,7 +1029,17 @@
                     "none": "Ingen",
                     "noRisk": "Ingen risiko"
                 },
-                "riskAssessment": "Risikovurdering",
+                "riskAssessment": {
+                    "acuteIncreasedRiskStatus": "har det ikke godt, er i betydelig risiko, og der er behov for hurtig intervention eller støtte",
+                    "colors": {
+                        "green": "Grøn",
+                        "red": "Rød",
+                        "yellow": "Gul"
+                    },
+                    "increasedRiskStatus": "viser tegn på udfordringer, har brug for overvågning, støtte eller mestringsstrategier",
+                    "noRiskStatus": "har det normalt godt, når status er grøn",
+                    "riskAssessment": "Risikovurdering"
+                },
                 "riskAssessmentTags": "Risikovurderingstag",
                 "showCurrentPlansGoalsAndSubgoals": "Vis nuværende planer, mål og delmål",
                 "subgoal": "Delmål",
@@ -1046,8 +1056,7 @@
                 "updatedBy": "Opdateret af"
             },
             "newJournal": "Ny Journal",
-            "on": "Den",
-            "riskAssessment": "Risikovurdering"
+            "on": "Den"
         },
         "confirmation": {
             "archiveConfirmation": "Er du sikker på, at du vil arkivere denne borger"

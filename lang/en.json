@@ -1029,7 +1029,17 @@
                     "none": "None",
                     "noRisk": "No risk"
                 },
-                "riskAssessment": "Risk assessment",
+                "riskAssessment": {
+                    "acuteIncreasedRiskStatus": "is not doing well, at significant risk, and urgent intervention or support is needed",
+                    "colors": {
+                        "green": "Green",
+                        "red": "Red",
+                        "yellow": "Yellow"
+                    },
+                    "increasedRiskStatus": "Is showing signs of struggle, needs monitoring, support, or coping strategies",
+                    "noRiskStatus": "Is usually doing well when in green",
+                    "riskAssessment": "Risk assessment"
+                },
                 "riskAssessmentTags": "Risk assessment tags",
                 "showCurrentPlansGoalsAndSubgoals": "Show current plans, goals, and subgoals",
                 "subgoal": "Subgoal",
@@ -1046,8 +1056,7 @@
                 "updatedBy": "Updated by"
             },
             "newJournal": "New journal",
-            "on": "On",
-            "riskAssessment": "Risk assessment"
+            "on": "On"
         },
         "confirmation": {
             "archiveConfirmation": "Are you sure you want to archive this citizen"

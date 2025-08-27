@@ -144,6 +144,32 @@
                     </RadioGroup>
                 </div>
             </div>
+            <div class="space-y-1 text-xs">
+                <div v-if="state.formJournal.assessment === 'no risk'"
+                    class="bg-green-700 text-white px-4 py-3 rounded-md">
+                    {{ citizenStore.getSelectedCitizen?.firstname }}
+                    {{ citizenStore.getSelectedCitizen?.lastname }}
+                    <span class="lowercase">
+                        {{ $t('citizens.citizenJournals.form.riskAssessment.noRiskStatus') }}.
+                    </span>
+                </div>
+                <div v-if="state.formJournal.assessment === 'increased risk'"
+                    class="bg-yellow-500 text-white px-4 py-3 rounded-md">
+                    {{ citizenStore.getSelectedCitizen?.firstname }}
+                    {{ citizenStore.getSelectedCitizen?.lastname }}
+                    <span class="lowercase">
+                        {{ $t('citizens.citizenJournals.form.riskAssessment.increasedRiskStatus') }}.
+                    </span>
+                </div>
+                <div v-if="state.formJournal.assessment === 'acute increased risk'"
+                    class="bg-red-600 text-white px-4 py-3 rounded-md">
+                    {{ citizenStore.getSelectedCitizen?.firstname }}
+                    {{ citizenStore.getSelectedCitizen?.lastname }}
+                    <span class="lowercase">
+                        {{ $t('citizens.citizenJournals.form.riskAssessment.acuteIncreasedRiskStatus') }}.
+                    </span>
+                </div>
+            </div>
             <div class="space-y-1" v-if="state.formJournal.assessment !== null">
                 <div class="flex items-center">
                     <p class="text-sm text-gray-600">
@@ -278,6 +304,7 @@ import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
+import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -298,6 +325,7 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
+const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
 const language = useI18n()
 
