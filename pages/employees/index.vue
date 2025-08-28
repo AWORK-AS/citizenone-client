@@ -50,7 +50,7 @@
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.employees"
-                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
+                            :isLoading="state.isTableLoading" :sortData="employeeStore.getSortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.employees?.data?.length === 0))">
                                 <tr v-for="(employee, index) in state.employees?.data" :key="index">
                                     <td width="25%">
@@ -168,7 +168,6 @@ const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
-let currentTablePage = 1
 const breadcrumbLinks = [
     {
         name: 'employees.employees',
@@ -202,10 +201,6 @@ const state = reactive({
         isGuidedTourEmployeesOpen: false,
     },
     selectedEmployee: {} as any,
-    sortData: {
-        sortField: 'id',
-        sortOrder: 'descend',
-    },
 })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
@@ -228,9 +223,9 @@ async function fetchEmployees() {
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,
-            page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
+            page: employeeStore.getCurrentPage,
+            sortField: employeeStore.getSortData.sortField,
+            sortOrder: employeeStore.getSortData.sortOrder,
             ...state.dataFilter
         }
         const response = await employeeService.getEmployees(params)
@@ -244,26 +239,27 @@ async function fetchEmployees() {
 }
 
 function previous() {
-    currentTablePage--
+    const currentTablePage = employeeStore.getCurrentPage - 1
+    employeeStore.setCurrentPage(currentTablePage)
     fetchEmployees()
 }
 
 function next() {
-    currentTablePage++
+    const currentTablePage = employeeStore.getCurrentPage + 1
+    employeeStore.setCurrentPage(currentTablePage)
     fetchEmployees()
 }
 
 function sort(sortingData: any) {
-    currentTablePage = 1
-    state.sortData = {
-        sortField: sortingData.column,
-        sortOrder: sortingData.sort,
-    }
+    employeeStore.setCurrentPage(1)
+    const sortField = sortingData.column
+    const sortOrder = sortingData.sort
+    employeeStore.setSortData(sortField, sortOrder)
     fetchEmployees()
 }
 
 function handleSearch(value: any) {
-    currentTablePage = 1
+    employeeStore.setCurrentPage(1)
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchEmployees()
 }
