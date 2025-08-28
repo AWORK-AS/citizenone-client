@@ -231,7 +231,7 @@
                                                 <div :class="[
                                                     expandedRecords[weeklyScheduleIndex] && 'hidden',
                                                     'text-xs grid grid-cols-7'
-                                                ]" v-if="weeklySchedule?.employee?.show_working_hours">
+                                                ]">
                                                     <div class="col-span-3 space-y-2" />
                                                     <div class="col-span-2 flex gap-2 flex-col items-end">
                                                         <p class="text-xxs py-2">
@@ -305,7 +305,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div v-if="weeklySchedule?.employee?.show_working_hours">
+                                                <div>
                                                     <button @click="toggleExpanded(weeklyScheduleIndex)"
                                                         class="text-primary text-xs hover:text-primary-700">
                                                         {{ !expandedRecords[weeklyScheduleIndex] ?
