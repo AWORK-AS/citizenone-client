@@ -216,8 +216,22 @@ watch(() => state.formShift.shift_type, (selectedShift) => {
     } else {
         state.showChildProtectionCertificateWarning = false
     }
-    state.formShift.date_time_start = moment(moment().format('YYYY-MM-DD') + ' ' + state.options.shifts[selectShiftIndex]?.time_in, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD H:mm')
-    state.formShift.date_time_end = moment(moment().format('YYYY-MM-DD') + ' ' + state.options.shifts[selectShiftIndex]?.time_out, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD H:mm')
+
+    if (props.formType === 'create') {
+        const startDate = moment(props.selectedShift.date_time_start, 'YYYY-MM-DD H:mm')
+        const endDate = moment(props.selectedShift.date_time_end, 'YYYY-MM-DD H:mm')
+
+        state.formShift.date_time_start = moment(
+            startDate.format('YYYY-MM-DD') + ' ' + state.options.shifts[selectShiftIndex]?.time_in,
+            'YYYY-MM-DD HH:mm'
+        ).format('YYYY-MM-DD H:mm')
+
+        state.formShift.date_time_end = moment(
+            endDate.format('YYYY-MM-DD') + ' ' + state.options.shifts[selectShiftIndex]?.time_out,
+            'YYYY-MM-DD HH:mm'
+        ).format('YYYY-MM-DD H:mm')
+    }
+
 })
 
 const rules = computed(() => {
