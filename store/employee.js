@@ -5,7 +5,7 @@ export const useEmployeeStore = defineStore('employeeStore',
         persist: true,
         state: () => ({
             currentPage: 1,
-            selectedEmployee: null,
+            selectedEmployee: {},
             sortData: {
                 sortField: 'firstname',
                 sortOrder: 'descend',
