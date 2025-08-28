@@ -208,6 +208,7 @@ onMounted(() => {
     state.formShift.schedule_tag_uuid = props.selectedShift.schedule_tag_uuid
     state.formShift.department_uuid = props.selectedShift.department_uuid
     state.formShift.note = props.selectedShift.note
+    state.formShift.count_sick_leave = props.selectedShift.count_sick_leave
 })
 
 watch(() => state.formShift.shift_type, (selectedShift) => {
