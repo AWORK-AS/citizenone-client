@@ -108,7 +108,8 @@
                 <FormError :error="v$?.formShift?.note?.$errors[0]?.$message.toString()" />
                 <FormError :error="state?.error?.errors?.note?.[0]" />
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1"
+                v-if="(['sick-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name))">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formShift.count_sick_leave = !state.formShift.count_sick_leave">
                     <FormCheckbox id="count_sick_leave" :value="state.formShift.count_sick_leave" />
