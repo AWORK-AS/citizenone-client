@@ -100,8 +100,8 @@ const state = reactive({
     },
     selectedDepartment: {} as any,
     sortData: {
-        sortField: 'id',
-        sortOrder: 'descend',
+        sortField: 'name',
+        sortOrder: 'ascend',
     },
 })
 

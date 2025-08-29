@@ -9,7 +9,7 @@ export const useCitizenStore = defineStore('citizenStore',
             selectedCitizen: {},
             sortData: {
                 sortField: 'firstname',
-                sortOrder: 'descend',
+                sortOrder: 'ascend',
             },
         }),
         actions: {

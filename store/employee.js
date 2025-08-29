@@ -8,7 +8,7 @@ export const useEmployeeStore = defineStore('employeeStore',
             selectedEmployee: {},
             sortData: {
                 sortField: 'firstname',
-                sortOrder: 'descend',
+                sortOrder: 'ascend',
             },
         }),
         actions: {
