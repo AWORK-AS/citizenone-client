@@ -18,7 +18,20 @@
             </template>
 
             <div>
-                <div class="flex justify-end items-center mb-5">
+                <div class="flex justify-between items-center mb-5">
+                    <div class="flex items-center gap-x-1">
+                        <span>{{ $t('entriesPerPage') }}:</span>
+                        <select class="focus:outline-none bg-transparent" @change="changePageLength"
+                            id="employeesPageLength">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                        </select>
+                    </div>
                     <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/employees/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('employees.newEmployee') }}
@@ -223,7 +236,8 @@ async function fetchEmployees() {
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,
-            page: employeeStore.getCurrentPage,
+            page: employeeStore.getCurrentPageNumber,
+            page_length: employeeStore.getCurrentPageLength,
             sortField: employeeStore.getSortData.sortField,
             sortOrder: employeeStore.getSortData.sortOrder,
             ...state.dataFilter
@@ -239,19 +253,19 @@ async function fetchEmployees() {
 }
 
 function previous() {
-    const currentTablePage = employeeStore.getCurrentPage - 1
-    employeeStore.setCurrentPage(currentTablePage)
+    const currentTablePage = employeeStore.getCurrentPageNumber - 1
+    employeeStore.setCurrentPageNumber(currentTablePage)
     fetchEmployees()
 }
 
 function next() {
-    const currentTablePage = employeeStore.getCurrentPage + 1
-    employeeStore.setCurrentPage(currentTablePage)
+    const currentTablePage = employeeStore.getCurrentPageNumber + 1
+    employeeStore.setCurrentPageNumber(currentTablePage)
     fetchEmployees()
 }
 
 function sort(sortingData: any) {
-    employeeStore.setCurrentPage(1)
+    employeeStore.setCurrentPageNumber(1)
     const sortField = sortingData.column
     const sortOrder = sortingData.sort
     employeeStore.setSortData(sortField, sortOrder)
@@ -259,8 +273,14 @@ function sort(sortingData: any) {
 }
 
 function handleSearch(value: any) {
-    employeeStore.setCurrentPage(1)
+    employeeStore.setCurrentPageNumber(1)
     state.dataFilter.search = value?.[0] == '' ? [] : value
+    fetchEmployees()
+}
+
+function changePageLength(event: any) {
+    employeeStore.setCurrentPageNumber(1)
+    employeeStore.setCurrentPageLength(event.target.value)
     fetchEmployees()
 }
 

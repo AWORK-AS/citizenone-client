@@ -4,7 +4,8 @@ export const useEmployeeStore = defineStore('employeeStore',
     {
         persist: true,
         state: () => ({
-            currentPage: 1,
+            currentPageLength: 10,
+            currentPageNumber: 1,
             selectedEmployee: {},
             sortData: {
                 sortField: 'firstname',
@@ -12,8 +13,11 @@ export const useEmployeeStore = defineStore('employeeStore',
             },
         }),
         actions: {
-            setCurrentPage(pageNumber) {
-                this.currentPage = pageNumber
+            setCurrentPageLength(pageLength) {
+                this.currentPageLength = pageLength
+            },
+            setCurrentPageNumber(pageNumber) {
+                this.currentPageNumber = pageNumber
             },
             setSelectedEmployee(employee) {
                 this.selectedEmployee = employee
@@ -24,7 +28,8 @@ export const useEmployeeStore = defineStore('employeeStore',
             },
         },
         getters: {
-            getCurrentPage: (state) => state.currentPage,
+            getCurrentPageLength: (state) => state.currentPageLength,
+            getCurrentPageNumber: (state) => state.currentPageNumber,
             getSelectedEmployee: (state) => state.selectedEmployee,
             getSortData: (state) => state.sortData,
         },

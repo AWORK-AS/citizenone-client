@@ -87,14 +87,14 @@ async function fetchDepartments() {
 
 function selectDepartment(event: any) {
     citizenStore.setCurrentPageNumber(1)
-    employeeStore.setCurrentPage(1)
+    employeeStore.setCurrentPageNumber(1)
     departmentStore.setSelectedDepartmentName(event.target.value)
     successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${event.target.value === '' ? t('department.all')?.toLowerCase() : event.target.value}.`)
 }
 
 function changeDepartment(departmentName: string) {
     citizenStore.setCurrentPageNumber(1)
-    employeeStore.setCurrentPage(1)
+    employeeStore.setCurrentPageNumber(1)
     departmentStore.setSelectedDepartmentName(departmentName)
     successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${departmentName === '' ? t('department.all')?.toLowerCase() : departmentName}.`)
 }

@@ -35,8 +35,7 @@
             </template>
 
             <div>
-                <div class="flex justify-between items-center mb-5"
-                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                <div class="flex justify-between items-center mb-5">
                     <div class="flex items-center gap-x-1">
                         <span>{{ $t('entriesPerPage') }}:</span>
                         <select class="focus:outline-none bg-transparent" @change="changePageLength"
@@ -50,7 +49,8 @@
                             <option value="500">500</option>
                         </select>
                     </div>
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')"
+                        v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.newCitizen') }}
                     </FormButton>
@@ -253,14 +253,14 @@ function handleSearch(value: any) {
     fetchCitizens()
 }
 
-function showCitizenNote(citizen: any) {
-    state.selectedCitizen = citizen
-    state.modal.showNote = true
-}
-
 function changePageLength(event: any) {
     citizenStore.setCurrentPageNumber(1)
     citizenStore.setCurrentPageLength(event.target.value)
     fetchCitizens()
+}
+
+function showCitizenNote(citizen: any) {
+    state.selectedCitizen = citizen
+    state.modal.showNote = true
 }
 </script>
