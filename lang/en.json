@@ -2651,6 +2651,7 @@
         },
         "viewEmployee": "View employee"
     },
+    "entriesPerPage": "Entries per page",
     "events": {
         "alert": {
             "successfullyAdded": "New event successfully added",

@@ -2651,6 +2651,7 @@
         },
         "viewEmployee": "Se medarbejder"
     },
+    "entriesPerPage": "Entries per page",
     "events": {
         "alert": {
             "successfullyAdded": "Ny begivenhed blev tilføjet med succes",

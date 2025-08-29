@@ -35,7 +35,21 @@
             </template>
 
             <div>
-                <div class="flex justify-end items-center mb-5" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                <div class="flex justify-between items-center mb-5"
+                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                    <div class="flex items-center gap-x-1">
+                        <span>{{ $t('entriesPerPage') }}:</span>
+                        <select class="focus:outline-none bg-transparent" @change="changePageLength"
+                            id="citizensPageLength">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                        </select>
+                    </div>
                     <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.newCitizen') }}
@@ -197,7 +211,8 @@ async function fetchCitizens() {
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,
-            page: citizenStore.getCurrentPage,
+            page: citizenStore.getCurrentPageNumber,
+            page_length: citizenStore.getCurrentPageLength,
             sortField: citizenStore.getSortData.sortField,
             sortOrder: citizenStore.getSortData.sortOrder,
             ...state.dataFilter
@@ -213,19 +228,19 @@ async function fetchCitizens() {
 }
 
 function previous() {
-    const currentTablePage = citizenStore.getCurrentPage - 1
-    citizenStore.setCurrentPage(currentTablePage)
+    const currentTablePage = citizenStore.getCurrentPageNumber - 1
+    citizenStore.setCurrentPageNumber(currentTablePage)
     fetchCitizens()
 }
 
 function next() {
-    const currentTablePage = citizenStore.getCurrentPage + 1
-    citizenStore.setCurrentPage(currentTablePage)
+    const currentTablePage = citizenStore.getCurrentPageNumber + 1
+    citizenStore.setCurrentPageNumber(currentTablePage)
     fetchCitizens()
 }
 
 function sort(sortingData: any) {
-    citizenStore.setCurrentPage(1)
+    citizenStore.setCurrentPageNumber(1)
     const sortField = sortingData.column
     const sortOrder = sortingData.sort
     citizenStore.setSortData(sortField, sortOrder)
@@ -233,7 +248,7 @@ function sort(sortingData: any) {
 }
 
 function handleSearch(value: any) {
-    citizenStore.setCurrentPage(1)
+    citizenStore.setCurrentPageNumber(1)
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchCitizens()
 }
@@ -241,5 +256,11 @@ function handleSearch(value: any) {
 function showCitizenNote(citizen: any) {
     state.selectedCitizen = citizen
     state.modal.showNote = true
+}
+
+function changePageLength(event: any) {
+    citizenStore.setCurrentPageNumber(1)
+    citizenStore.setCurrentPageLength(event.target.value)
+    fetchCitizens()
 }
 </script>

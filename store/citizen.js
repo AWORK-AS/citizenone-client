@@ -4,7 +4,8 @@ export const useCitizenStore = defineStore('citizenStore',
     {
         persist: true,
         state: () => ({
-            currentPage: 1,
+            currentPageLength: 10,
+            currentPageNumber: 1,
             selectedCitizen: {},
             sortData: {
                 sortField: 'firstname',
@@ -12,8 +13,11 @@ export const useCitizenStore = defineStore('citizenStore',
             },
         }),
         actions: {
-            setCurrentPage(pageNumber) {
-                this.currentPage = pageNumber
+            setCurrentPageLength(pageLength) {
+                this.currentPageLength = pageLength
+            },
+            setCurrentPageNumber(pageNumber) {
+                this.currentPageNumber = pageNumber
             },
             setSelectedCitizen(selectedCitizen) {
                 this.selectedCitizen = selectedCitizen
@@ -24,7 +28,8 @@ export const useCitizenStore = defineStore('citizenStore',
             },
         },
         getters: {
-            getCurrentPage: (state) => state.currentPage,
+            getCurrentPageLength: (state) => state.currentPageLength,
+            getCurrentPageNumber: (state) => state.currentPageNumber,
             getSelectedCitizen: (state) => state.selectedCitizen,
             getSortData: (state) => state.sortData,
         },
