@@ -49,11 +49,15 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import type { Error } from '@/types'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
+import { useCitizenStore } from '@/store/citizen'
+import { useEmployeeStore } from '@/store/employee'
 
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const language = useI18n()
 const departmentStore = useDepartmentStore()
+const citizenStore = useCitizenStore() as any
+const employeeStore = useEmployeeStore() as any
 
 const state = reactive({
     departments: [] as any,
@@ -82,11 +86,15 @@ async function fetchDepartments() {
 }
 
 function selectDepartment(event: any) {
+    citizenStore.setCurrentPage(1)
+    employeeStore.setCurrentPage(1)
     departmentStore.setSelectedDepartmentName(event.target.value)
     successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${event.target.value === '' ? t('department.all')?.toLowerCase() : event.target.value}.`)
 }
 
 function changeDepartment(departmentName: string) {
+    citizenStore.setCurrentPage(1)
+    employeeStore.setCurrentPage(1)
     departmentStore.setSelectedDepartmentName(departmentName)
     successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${departmentName === '' ? t('department.all')?.toLowerCase() : departmentName}.`)
 }
