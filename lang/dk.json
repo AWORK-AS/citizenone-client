@@ -1718,12 +1718,10 @@
                 "savedSuccessfully": "Magtanvendelse gemt med succes"
             },
             "confirmation": {
-                "byClickingYesText": "Ved at klikke ja, bliver du omdirigeret til formularerne på",
+                "byClickingYesText": "Ved at klikke ja bliver din leder nu informeret og din rapportering af magtanvendelse",
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne magtanvendelse",
                 "inAdditionText": "Derudover vil det blive logget i historikken for brug af magt, at du har rapporteret brugen af magt",
-                "reportConfirmation": "Er du sikker på, at du vil rapportere magtanvendelse",
-                "socialOfBoligstyrelsensWebsite": "Social- og Boligstyrelsens hjemmeside",
-                "whereYouCanDownloadText": "hvor du kan downloade det korrekte skema og dermed udfylde og sende til din leder"
+                "reportConfirmation": "Er du sikker på, at du vil rapportere magtanvendelse"
             },
             "form": {
                 "riskLevel": {
@@ -4792,7 +4790,7 @@
     "updates": {
         "newUpdates": "Nye opdateringer",
         "newUpdatesFrom": "Nye opdateringer fra",
-        "selectWeek": "Vælg uge"
+        "showUpdate": "Vis opdatering"
     },
     "validation": {
         "thisFieldIsRequired": "Dette felt er påkrævet"

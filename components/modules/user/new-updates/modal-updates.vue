@@ -6,7 +6,7 @@
                 <div class="space-y-5 text-sm text-gray-700">
                     <div class="flex items-center">
                         <label class="text-sm text-gray-500">
-                            {{ $t('updates.selectWeek') }}:
+                            {{ $t('updates.showUpdate') }}:
                         </label>
                         <select v-model="state.currentVersion" @change="loadUpdates(state.currentVersion)"
                             class="text-sm text-primary underline bg-transparent focus:outline-none">
@@ -58,10 +58,10 @@ function closeModal() {
 const state = reactive({
     currentVersion: '2025-08-29',
     availableVersions: [
+        '2025-08-29',
         '2025-08-15',
         '2025-08-01',
         '2025-07-25',
-        '2025-08-29',
     ],
     updates: [] as Array<{ title: string, description: string[] }>
 })
