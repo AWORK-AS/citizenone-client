@@ -70,7 +70,7 @@ async function saveMedicationAllergy(medicationAllergyDetails: any) {
         }
         const response = await medicationAllergyService.saveMedicationAllergy(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('medicationAllergies.form.alert.newMedicationAllergiesSuccessfullySaved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('medicationAllergies.form.alert.newMedicationAllergySuccessfullySaved')}.`)
             navigateTo('/settings/medication-allergies')
         }
     } catch (error: any) {
