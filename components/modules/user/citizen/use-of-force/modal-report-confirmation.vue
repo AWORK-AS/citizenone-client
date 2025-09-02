@@ -10,14 +10,7 @@
                     <div class="px-3 text-justify space-y-2">
                         <div class="text-sm">
                             <span>
-                                - {{ $t('citizens.useOfForce.confirmation.byClickingYesText') + ' ' }}
-                            </span>
-                            <span class="text-primary cursor-pointer hover:text-primary-700"
-                                @click="navigateToSocialForm()">
-                                {{ $t('citizens.useOfForce.confirmation.socialOfBoligstyrelsensWebsite') }},
-                            </span>
-                            <span class="lowercase">
-                                {{ $t('citizens.useOfForce.confirmation.whereYouCanDownloadText') }}.
+                                - {{ $t('citizens.useOfForce.confirmation.byClickingYesText') }}.
                             </span>
                         </div>
                         <p class="text-sm">
