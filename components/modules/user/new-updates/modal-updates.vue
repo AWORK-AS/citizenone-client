@@ -56,17 +56,41 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2025-08-15',
+    currentVersion: '2025-08-29',
     availableVersions: [
         '2025-08-15',
         '2025-08-01',
-        '2025-07-25'
+        '2025-07-25',
+        '2025-08-29',
     ],
     updates: [] as Array<{ title: string, description: string[] }>
 })
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2025-08-29': [
+            {
+                title: 'Default shift times in duty schedule',
+                description: [
+                    'You can now set default time in and time out for each shift in the duty schedule.',
+                    'This helps standardize work hours and reduces manual entry errors.',
+                ],
+            },
+            {
+                title: 'Medication allergy tracking',
+                description: [
+                    'Citizens’ medication allergies can now be recorded and tracked.',
+                    'This ensures better safety and informed decision-making for healthcare providers.',
+                ],
+            },
+            {
+                title: 'Sick leave counted as worked hours',
+                description: [
+                    'Sick leaves can now be counted as worked hours in the duty schedule.',
+                    'This provides more accurate reporting and fairer scheduling.',
+                ],
+            },
+        ],
         '2025-08-15': [
             {
                 title: 'Microsoft email management in the Mail App',
@@ -132,6 +156,29 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2025-08-29': [
+            {
+                title: 'Standard arbejdstider i vagtplan',
+                description: [
+                    'Du kan nu sætte standard ind- og udtjekningstider for hver vagt i vagtplanen.',
+                    'Dette hjælper med at standardisere arbejdstimer og reducerer manuelle fejlindtastninger.',
+                ],
+            },
+            {
+                title: 'Registrering af medicinallergi',
+                description: [
+                    'Borgernes medicinallergier kan nu registreres og spores.',
+                    'Dette sikrer bedre sikkerhed og mere informerede beslutninger for sundhedspersonale.',
+                ],
+            },
+            {
+                title: 'Sygefravær tæller som arbejdstimer',
+                description: [
+                    'Sygefravær kan nu tælles som arbejdstimer i vagtplanen.',
+                    'Dette giver mere præcis rapportering og en mere retfærdig planlægning.',
+                ],
+            },
+        ],
         '2025-08-15': [
             {
                 title: 'Microsoft e-mailhåndtering i Mail Appen',
