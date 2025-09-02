@@ -4790,7 +4790,7 @@
     "updates": {
         "newUpdates": "Nye opdateringer",
         "newUpdatesFrom": "Nye opdateringer fra",
-        "selectWeek": "Vælg uge"
+        "showUpdate": "Vis opdatering"
     },
     "validation": {
         "thisFieldIsRequired": "Dette felt er påkrævet"

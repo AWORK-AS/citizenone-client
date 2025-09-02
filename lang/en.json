@@ -4790,7 +4790,7 @@
     "updates": {
         "newUpdates": "New updates",
         "newUpdatesFrom": "New updates from",
-        "selectWeek": "Select week"
+        "showUpdate": "Show update"
     },
     "validation": {
         "thisFieldIsRequired": "This field is required"
