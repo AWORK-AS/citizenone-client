@@ -231,7 +231,7 @@
                                                 <div :class="[
                                                     expandedRecords[weeklyScheduleIndex] && 'hidden',
                                                     'text-xs grid grid-cols-7'
-                                                ]" v-if="weeklySchedule?.employee?.show_working_hours">
+                                                ]">
                                                     <div class="col-span-3 space-y-2" />
                                                     <div class="col-span-2 flex gap-2 flex-col items-end">
                                                         <p class="text-xxs py-2">
@@ -305,7 +305,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div v-if="weeklySchedule?.employee?.show_working_hours">
+                                                <div>
                                                     <button @click="toggleExpanded(weeklyScheduleIndex)"
                                                         class="text-primary text-xs hover:text-primary-700">
                                                         {{ !expandedRecords[weeklyScheduleIndex] ?
@@ -350,6 +350,10 @@
                                                                 width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                                 marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
                                                             }">
+                                                            <div class="absolute -left-1 -top-1 z-10 w-4 h-4 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-xxs"
+                                                                v-if="shift?.type?.system_name === 'sick-leave'">
+                                                                S
+                                                            </div>
                                                             <div class="flex justify-between text-white"
                                                                 :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
                                                                 @click="editSchedule(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, shift, shiftIndex)">
@@ -853,6 +857,7 @@ async function saveShift(shiftDetails: any) {
         department_uuid: shiftDetails.department_uuid,
         use_compensatory_time: shiftDetails.use_compensatory_time,
         note: shiftDetails.note,
+        count_sick_leave: shiftDetails.count_sick_leave,
     }
     saveDutySchedule(params)
 }
@@ -1092,6 +1097,7 @@ function editSchedule(employee: any, weeklyScheduleIndex: number, weekIndex: any
         tags: shift?.tags,
         departments: shift?.departments,
         note: shift?.note,
+        count_sick_leave: shift?.count_sick_leave,
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,
@@ -1114,6 +1120,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
         department_uuid: shiftDetails.department_uuid,
         note: shiftDetails.note,
+        count_sick_leave: shiftDetails.count_sick_leave,
     }
     updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
 }

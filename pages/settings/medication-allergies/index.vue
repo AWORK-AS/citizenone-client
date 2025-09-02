@@ -3,14 +3,15 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('departments.departments') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('medicationAllergies.medicationAllergies') }} - {{ runtimeConfig?.public?.appName }}
+                </Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('departments.departments') }}</template>
+            <template #header>{{ $t('medicationAllergies.medicationAllergies') }}</template>
 
             <ModulesUserSettingsTab />
             <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
@@ -18,9 +19,9 @@
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/settings/departments/new')">
+                        @click="navigateTo('/settings/medication-allergies/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('departments.newDepartment') }}
+                        {{ $t('medicationAllergies.newMedicationAllergy') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -28,24 +29,25 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.departments"
+                        <Table :columnHeaders="state.columnHeaders" :data="state.medicationAllergies"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.departments?.data?.length === 0))">
-                                <tr v-for="(department, index) in state.departments?.data" :key="index">
+                            <template #body
+                                v-if="!(state.isTableLoading || (state.medicationAllergies?.data?.length === 0))">
+                                <tr v-for="(medicationAllergy, index) in state.medicationAllergies?.data" :key="index">
                                     <td width="50%">
-                                        <span>{{ department?.name }}</span>
+                                        <span>{{ medicationAllergy?.name }}</span>
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/departments/${department.uuid}/edit`)">
+                                                @click="navigateTo(`/settings/medication-allergies/${medicationAllergy.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('departments.table.actions.edit') }}
+                                                {{ $t('medicationAllergies.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                @click="deleteDepartmentConfirmation(department)">
+                                                @click="deleteMedicationAllergyConfirmation(medicationAllergy)">
                                                 <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('departments.table.actions.delete') }}
+                                                {{ $t('medicationAllergies.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -53,63 +55,63 @@
                             </template>
                         </Table>
                     </div>
-                    <Pagination :data="state.departments" @previous="previous" @next="next" />
+                    <Pagination :data="state.medicationAllergies" @previous="previous" @next="next" />
                 </div>
             </div>
-            <DialogConfirmation :isModalOpen="state.modal.isDeleteDepartmentOpen"
-                :message="$t('departments.table.confirmation.deleteDepartmentConfirmation') + '?'"
-                @close="state.modal.isDeleteDepartmentOpen = false" @confirm="deleteDepartment" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicationAllergyOpen"
+                :message="$t('medicationAllergies.table.confirmation.deleteMedicationAllergyConfirmation') + '?'"
+                @close="state.modal.isDeleteMedicationAllergyOpen = false" @confirm="deleteMedicationAllergy" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
-import { departmentService } from '@/components/api/user/DepartmentService'
+import { medicationAllergyService } from '@/components/api/user/MedicationAllergyService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
+const breadcrumbLinks = [
+    {
+        name: 'medicationAllergies.medicationAllergies',
+        translate: true,
+        href: '/settings/medication-allergies',
+    },
+]
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
-const breadcrumbLinks = [
-    {
-        name: 'departments.departments',
-        translate: true,
-        href: '/settings/departments',
-    },
-]
 
 const state = reactive({
     columnFilter: [
         { column: 'name' },
     ],
     columnHeaders: [
-        { name: 'departments.table.name', sorter: true, key: 'name' },
+        { name: 'medicationAllergies.table.name', sorter: true, key: 'name' },
         { name: '' },
     ],
     dataFilter: {
         search: ''
     },
-    departments: [] as any,
+    medicationAllergies: [] as any,
     error: {} as Error,
-    isTableLoading: false,
     modal: {
-        isDeleteDepartmentOpen: false,
+        isDeleteMedicationAllergyOpen: false,
     },
-    selectedDepartment: {} as any,
+    isTableLoading: false,
+    selectedMedicationAllergy: {} as any,
     sortData: {
-        sortField: 'name',
-        sortOrder: 'ascend',
+        sortField: 'id',
+        sortOrder: 'descend',
     },
 })
 
 onMounted(() => {
-    fetchDepartments()
+    fetchMedicationAllergies()
 })
 
-async function fetchDepartments() {
+async function fetchMedicationAllergies() {
     state.error = {}
     state.isTableLoading = true
     try {
@@ -119,9 +121,9 @@ async function fetchDepartments() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await departmentService.getDepartments(params)
+        const response = await medicationAllergyService.getMedicationAllergies(params)
         if (response) {
-            state.departments = response
+            state.medicationAllergies = response
         }
     } catch (error: any) {
         state.error = error
@@ -131,12 +133,12 @@ async function fetchDepartments() {
 
 function previous() {
     currentTablePage--
-    fetchDepartments()
+    fetchMedicationAllergies()
 }
 
 function next() {
     currentTablePage++
-    fetchDepartments()
+    fetchMedicationAllergies()
 }
 
 function sort(sortingData: any) {
@@ -145,28 +147,28 @@ function sort(sortingData: any) {
         sortField: sortingData.column,
         sortOrder: sortingData.sort,
     }
-    fetchDepartments()
+    fetchMedicationAllergies()
 }
 
 function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
-    fetchDepartments()
+    fetchMedicationAllergies()
 }
 
-function deleteDepartmentConfirmation(department: any) {
-    state.selectedDepartment = department
-    state.modal.isDeleteDepartmentOpen = true
+function deleteMedicationAllergyConfirmation(medicationAllergy: any) {
+    state.selectedMedicationAllergy = medicationAllergy
+    state.modal.isDeleteMedicationAllergyOpen = true
 }
 
-async function deleteDepartment() {
+async function deleteMedicationAllergy() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await departmentService.deleteDepartment(state.selectedDepartment.uuid)
+        const response = await medicationAllergyService.deleteMedicationAllergy(state.selectedMedicationAllergy.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            fetchDepartments()
-            successAlert(`${t('alert.success')}!`, `${t('departments.table.alert.departmentSuccessfullyDeleted')}.`)
+            fetchMedicationAllergies()
+            successAlert(`${t('alert.success')}!`, `${t('medicationAllergies.table.alert.medicationAllergySuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error

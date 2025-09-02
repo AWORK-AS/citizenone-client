@@ -54,6 +54,8 @@ const state = reactive({
     formShift: {
         en_name: '',
         dk_name: '',
+        time_in: '',
+        time_out: '',
         color: '',
     },
     isPageLoading: false,
@@ -72,6 +74,8 @@ async function fetchShift() {
             state.formShift = {
                 en_name: response?.data?.en_name ?? '',
                 dk_name: response?.data?.dk_name ?? '',
+                time_in: response?.data?.time_in ?? '',
+                time_out: response?.data?.time_out ?? '',
                 color: response?.data?.color ?? '',
             }
         }
@@ -88,6 +92,8 @@ async function updateShift(shiftDetails: any) {
         const params = {
             en_name: shiftDetails.en_name,
             dk_name: shiftDetails.dk_name,
+            time_in: shiftDetails.time_in,
+            time_out: shiftDetails.time_out,
             color: shiftDetails.color,
         }
         const response = await shiftService.updateShift(shiftUuid, params)

@@ -19,8 +19,15 @@
                                 <FormError :error="state?.error?.errors?.receiver_uuid?.[0]" />
                             </div>
                             <div class="space-y-1">
+                                <FormLabel for="subject" :label="$t('messages.subject')" />
+                                <FormTextField id="subject" name="subject" :placeholder="$t('messages.subject')"
+                                    v-model="state.formChat.subject" />
+                                <FormError :error="v$?.formChat?.subject?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.subject?.[0]" />
+                            </div>
+                            <div class="space-y-1">
                                 <FormLabel for="message" :label="$t('messages.message')" />
-                                <FormTextField id="message" name="message" :placeholder="$t('messages.message')"
+                                <FormTextArea id="message" name="message" :placeholder="$t('messages.message')"
                                     v-model="state.formChat.message" />
                                 <FormError :error="v$?.formChat?.message?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.message?.[0]" />
@@ -64,6 +71,7 @@ const state = reactive({
     formChat: {
         message: '',
         receivers: [] as any,
+        subject: '',
     },
     isPageLoading: false,
     options: {
@@ -124,6 +132,7 @@ async function sendMessage() {
         state.isPageLoading = true
         try {
             const params = {
+                subject: state.formChat.subject,
                 message: state.formChat.message,
                 receiver_uuid: userStore.getUser?.company?.group_chat_enabled ?
                     state.formChat.receivers :

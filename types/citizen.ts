@@ -16,6 +16,7 @@ export interface CitizenForm {
     post_code: string,
     origin: string,
     diagnoses: string[],
+    medication_allergies: string[],
     addictions: string[],
     date_admitted: string,
     date_discharged: string,

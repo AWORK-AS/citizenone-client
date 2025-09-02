@@ -2,8 +2,6 @@
     <div class="space-y-5">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <Alert type="danger" :text="state?.errorUpdateShift?.message"
-            v-if="state.errorUpdateShift?.message && state.errorUpdateShift.message.length > 0" />
         <Alert type="danger" :text="state?.copyShiftError?.message"
             v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
@@ -449,6 +447,10 @@
                                                                 width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                                 marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
                                                             }">
+                                                            <div class="absolute -left-1 -top-1 z-10 w-4 h-4 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-xxs"
+                                                                v-if="shift?.type?.system_name === 'sick-leave'">
+                                                                S
+                                                            </div>
                                                             <div class="flex justify-between text-white cursor-pointer"
                                                                 @click="isAdmin(userStore.getUser?.roles) ? editSchedule(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, shift, shiftIndex) : viewSchedule(weeklyScheduleIndex, weekIndex, shift, shiftIndex)">
                                                                 <div class="relative w-full">
@@ -712,7 +714,6 @@ const state = reactive({
         selectedEmployeeSchedule: {},
     } as any,
     error: {} as Error,
-    errorUpdateShift: {} as Error,
     isPageLoading: false,
     manageScheduleSlot: {
         selectedDay: [],
@@ -1096,6 +1097,7 @@ async function saveShift(shiftDetails: any) {
         department_uuid: shiftDetails.department_uuid,
         use_compensatory_time: shiftDetails.use_compensatory_time,
         note: shiftDetails.note,
+        count_sick_leave: shiftDetails.count_sick_leave,
     }
     saveDutySchedule(params)
 }
@@ -1343,6 +1345,7 @@ function editSchedule(employee: any, weeklyScheduleIndex: number, weekIndex: any
         tags: shift?.tags,
         departments: shift?.departments,
         note: shift?.note,
+        count_sick_leave: shift?.count_sick_leave,
         weeklyScheduleIndex: weeklyScheduleIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,
@@ -1356,7 +1359,6 @@ function updateSelectedSchedule(shiftDetails: any) {
     const weekIndex = state.editShift.selectedEmployeeSchedule.weekIndex
     const shiftIndex = state.editShift.selectedEmployeeSchedule.shiftIndex
     const params = {
-        // date: state.editShift.selectedEmployeeSchedule.date,
         shift_type_uuid: shiftDetails.shift_type,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
@@ -1365,13 +1367,14 @@ function updateSelectedSchedule(shiftDetails: any) {
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
         department_uuid: shiftDetails.department_uuid,
         note: shiftDetails.note,
+        count_sick_leave: shiftDetails.count_sick_leave,
     }
     updateDutySchedule(scheduleUuid, params, weeklyScheduleIndex, weekIndex, shiftIndex)
 }
 
 async function updateDutySchedule(scheduleUuid: any, params: object, weeklyScheduleIndex: number, weekIndex: any, shiftIndex: number) {
     state.isUpdateShift = true
-    let errorUpdateShift = {}
+    state.editShiftError = {}
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -1385,12 +1388,11 @@ async function updateDutySchedule(scheduleUuid: any, params: object, weeklySched
             fetchDutySchedule()
         }
     } catch (error: any) {
-        errorUpdateShift = error
+        state.editShiftError = error
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
     } finally {
-        state.errorUpdateShift = errorUpdateShift
         state.isUpdateShift = false
         fetchDutySchedule()
     }

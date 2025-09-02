@@ -1,9 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="space-y-3">
-            <h3 class="font-semibold">
-                {{ $t('citizens.nursingAreas.nursingProfessionalRecords') }}
-            </h3>
             <div class="flex justify-end items-center mb-5 gap-x-2">
                 <FormButton buttonStyle="action" class="rounded-lg"
                     @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/new`)">

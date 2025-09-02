@@ -1029,7 +1029,17 @@
                     "none": "Ingen",
                     "noRisk": "Ingen risiko"
                 },
-                "riskAssessment": "Risikovurdering",
+                "riskAssessment": {
+                    "acuteIncreasedRiskStatus": "har det ikke godt, er i betydelig risiko, og der er behov for hurtig intervention eller støtte",
+                    "colors": {
+                        "green": "Grøn",
+                        "red": "Rød",
+                        "yellow": "Gul"
+                    },
+                    "increasedRiskStatus": "viser tegn på udfordringer, har brug for overvågning, støtte eller mestringsstrategier",
+                    "noRiskStatus": "har det normalt godt, når status er grøn",
+                    "riskAssessment": "Risikovurdering"
+                },
                 "riskAssessmentTags": "Risikovurderingstag",
                 "showCurrentPlansGoalsAndSubgoals": "Vis nuværende planer, mål og delmål",
                 "subgoal": "Delmål",
@@ -1046,8 +1056,7 @@
                 "updatedBy": "Opdateret af"
             },
             "newJournal": "Ny Journal",
-            "on": "Den",
-            "riskAssessment": "Risikovurdering"
+            "on": "Den"
         },
         "confirmation": {
             "archiveConfirmation": "Er du sikker på, at du vil arkivere denne borger"
@@ -1079,6 +1088,7 @@
             "firstname": "Fornavn",
             "foreignCityOfOrigin": "Udenlandsk oprindelsesby",
             "lastname": "Efternavn",
+            "medicationAllergies": "Medicinallergier",
             "municipality": "Kommune",
             "note": "Bemærkning",
             "payingMunicipality": "Betalingskommune",
@@ -1257,6 +1267,7 @@
                 "totalHours": "Samlet timer"
             }
         },
+        "medicationAllergies": "Medicinallergier",
         "medicineJournals": {
             "alert": {
                 "successfullyActivated": "Medicin aktiveret med succes",
@@ -1399,7 +1410,10 @@
                 "quantity": "Mængde",
                 "strength": "Styrke"
             },
-            "viewMedicine": "Se medicin"
+            "viewMedicine": {
+                "downloadAndPrintMedicine": "Download og udskriv medicin",
+                "viewMedicine": "Se medicin"
+            }
         },
         "newCitizen": "Ny borger",
         "note": {
@@ -1426,7 +1440,19 @@
                 "painAndSensoryImpressions": "Smerte og sanseindtryk",
                 "sleepAndRest": "Søvn og hvile",
                 "knowledgeAndDevelopment": "Viden og udvikling",
-                "excretionOfWaste": "Affaldsudskillelse"
+                "excretionOfWaste": "Affaldsudskillelse",
+                "consentCompetenceOrCapacity": "Samtykkekompetence eller evne",
+                "illnessAndFunctionalImpairment": "Sygdom og funktionsnedsættelse",
+                "illnessAndFunctionalImpairment1": "Hvilken sygdom og funktionsnedsættelse har borgeren",
+                "illnessAndFunctionalImpairment2": "Hvem er den ansvarlige sundhedsprofessionelle",
+                "vitals": {
+                    "bloodPressure": "Blodtryk",
+                    "bloodSugar": "Blodsukker",
+                    "pulse": "Puls",
+                    "temperature": "Temperatur",
+                    "vitals": "Værdiskema",
+                    "weight": "Vægt"
+                }
             },
             "newNursingProfessionalRecords": "Ny sundhedsfaglig optegnelse",
             "nursingProfessionalRecords": "Sundhedsfaglige optegnelser",
@@ -2146,6 +2172,7 @@
         "filterDate": "Filtrer dato",
         "form": {
             "citizens": "Borgere",
+            "countSickLeaveAsWorkedHours": "Tæl sygefravær som arbejdstimer",
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",
             "departments": "Afdelinger",
@@ -2624,6 +2651,7 @@
         },
         "viewEmployee": "Se medarbejder"
     },
+    "entriesPerPage": "Entries per page",
     "events": {
         "alert": {
             "successfullyAdded": "Ny begivenhed blev tilføjet med succes",
@@ -3218,30 +3246,30 @@
         }
     },
     "medicationAllergies": {
-        "addNewMedicationAllergy": "Add new medication allergy",
-        "medicationAllergies": "Medication allergies",
-        "medicationAllergy": "Medication allergy",
-        "editMedicationAllergy": "Edit medication allergy",
+        "addNewMedicationAllergy": "Tilføj ny medicinallergi",
+        "medicationAllergies": "Medicinallergier",
+        "medicationAllergy": "Medicinallergi",
+        "editMedicationAllergy": "Rediger medicinallergi",
         "form": {
             "alert": {
-                "medicationAllergySuccessfullyUpdated": "Medication allergy successfully updated",
-                "newMedicationAllergySuccessfullySaved": "New medication allergy successfully saved"
+                "medicationAllergySuccessfullyUpdated": "Medicinallergi opdateret",
+                "newMedicationAllergySuccessfullySaved": "Ny medicinallergi gemt"
             },
-            "name": "Name"
+            "name": "Navn"
         },
-        "newMedicationAllergy": "New medication allergy",
+        "newMedicationAllergy": "Ny medicinallergi",
         "table": {
             "actions": {
-                "delete": "Delete",
-                "edit": "Edit"
+                "delete": "Slet",
+                "edit": "Rediger"
             },
             "alert": {
-                "medicationAllergySuccessfullyDeleted": "Medication allergy successfully deleted"
+                "medicationAllergySuccessfullyDeleted": "Medicinallergi slettet"
             },
             "confirmation": {
-                "deleteMedicationAllergyConfirmation": "Are you sure you want to delete this medication allergy"
+                "deleteMedicationAllergyConfirmation": "Er du sikker på, at du vil slette denne medicinallergi?"
             },
-            "name": "Name"
+            "name": "Navn"
         }
     },
     "medicines": {
@@ -3322,6 +3350,7 @@
         "startTheConversation": "Start samtalen",
         "seen": "Sett",
         "send": "Send",
+        "subject": "Emne",
         "unreadMessages": "Ulæste beskeder",
         "users": "Brugere"
     },
@@ -4061,7 +4090,9 @@
             },
             "color": "Farve",
             "nameDanish": "Navn (dansk)",
-            "nameEnglish": "Navn (engelsk)"
+            "nameEnglish": "Navn (engelsk)",
+            "timeIn": "Tid ind",
+            "timeOut": "Tid ud"
         },
         "newShift": "Ny vagt",
         "shifts": "Vagter",
@@ -4077,7 +4108,9 @@
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "standard": "Standard",
-            "standardShift": "Standard vagt"
+            "standardShift": "Standard vagt",
+            "timeIn": "Tid ind",
+            "timeOut": "Tid ud"
         }
     },
     "show": "Vis",

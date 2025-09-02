@@ -18,7 +18,20 @@
             </template>
 
             <div>
-                <div class="flex justify-end items-center mb-5">
+                <div class="flex justify-between items-center mb-5">
+                    <div class="flex items-center gap-x-1">
+                        <span>{{ $t('entriesPerPage') }}:</span>
+                        <select class="focus:outline-none bg-transparent" @change="changePageLength"
+                            id="employeesPageLength">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                        </select>
+                    </div>
                     <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/employees/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('employees.newEmployee') }}
@@ -50,7 +63,7 @@
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.employees"
-                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
+                            :isLoading="state.isTableLoading" :sortData="employeeStore.getSortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.employees?.data?.length === 0))">
                                 <tr v-for="(employee, index) in state.employees?.data" :key="index">
                                     <td width="25%">
@@ -168,7 +181,6 @@ const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
-let currentTablePage = 1
 const breadcrumbLinks = [
     {
         name: 'employees.employees',
@@ -202,10 +214,6 @@ const state = reactive({
         isGuidedTourEmployeesOpen: false,
     },
     selectedEmployee: {} as any,
-    sortData: {
-        sortField: 'id',
-        sortOrder: 'descend',
-    },
 })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
@@ -228,9 +236,10 @@ async function fetchEmployees() {
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,
-            page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
+            page: employeeStore.getCurrentPageNumber,
+            page_length: employeeStore.getCurrentPageLength,
+            sortField: employeeStore.getSortData.sortField,
+            sortOrder: employeeStore.getSortData.sortOrder,
             ...state.dataFilter
         }
         const response = await employeeService.getEmployees(params)
@@ -244,27 +253,34 @@ async function fetchEmployees() {
 }
 
 function previous() {
-    currentTablePage--
+    const currentTablePage = employeeStore.getCurrentPageNumber - 1
+    employeeStore.setCurrentPageNumber(currentTablePage)
     fetchEmployees()
 }
 
 function next() {
-    currentTablePage++
+    const currentTablePage = employeeStore.getCurrentPageNumber + 1
+    employeeStore.setCurrentPageNumber(currentTablePage)
     fetchEmployees()
 }
 
 function sort(sortingData: any) {
-    currentTablePage = 1
-    state.sortData = {
-        sortField: sortingData.column,
-        sortOrder: sortingData.sort,
-    }
+    employeeStore.setCurrentPageNumber(1)
+    const sortField = sortingData.column
+    const sortOrder = sortingData.sort
+    employeeStore.setSortData(sortField, sortOrder)
     fetchEmployees()
 }
 
 function handleSearch(value: any) {
-    currentTablePage = 1
+    employeeStore.setCurrentPageNumber(1)
     state.dataFilter.search = value?.[0] == '' ? [] : value
+    fetchEmployees()
+}
+
+function changePageLength(event: any) {
+    employeeStore.setCurrentPageNumber(1)
+    employeeStore.setCurrentPageLength(event.target.value)
     fetchEmployees()
 }
 

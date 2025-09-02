@@ -18,6 +18,20 @@
                 <FormError :error="props?.error?.errors?.dk_name?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="time_in" :label="$t('shifts.form.timeIn')" />
+                <FormTimeField id="time_in" name="time_in" :placeholder="$t('shifts.form.timeIn')"
+                    v-model="state.formShift.time_in" />
+                <FormError :error="v$?.formShift?.time_in?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.time_in?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="time_out" :label="$t('shifts.form.timeOut')" />
+                <FormTimeField id="time_out" name="time_out" :placeholder="$t('shifts.form.timeOut')"
+                    v-model="state.formShift.time_out" />
+                <FormError :error="v$?.formShift?.time_out?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.time_out?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="color" :label="$t('shifts.form.color')" />
                 <FormColorPicker id="color" v-model="state.formShift.color" />
                 <FormError :error="v$?.formShift?.color?.$errors[0]?.$message.toString()" />
@@ -69,6 +83,8 @@ const state = reactive({
     formShift: {
         en_name: '',
         dk_name: '',
+        time_in: '',
+        time_out: '',
         color: '#000000',
     },
 })
@@ -78,6 +94,8 @@ watch(() => props.selectedShift, (newValue: any) => {
         state.formShift = {
             en_name: newValue.en_name,
             dk_name: newValue.dk_name,
+            time_in: newValue.time_in,
+            time_out: newValue.time_out,
             color: newValue.color,
         }
     }
@@ -90,6 +108,12 @@ const rules = computed(() => {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             dk_name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            time_in: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            time_out: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             color: {

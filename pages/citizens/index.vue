@@ -35,8 +35,22 @@
             </template>
 
             <div>
-                <div class="flex justify-end items-center mb-5" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')">
+                <div class="flex justify-between items-center mb-5">
+                    <div class="flex items-center gap-x-1">
+                        <span>{{ $t('entriesPerPage') }}:</span>
+                        <select class="focus:outline-none bg-transparent" @change="changePageLength"
+                            id="citizensPageLength">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                        </select>
+                    </div>
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')"
+                        v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.newCitizen') }}
                     </FormButton>
@@ -47,7 +61,7 @@
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.citizens"
-                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
+                            :isLoading="state.isTableLoading" :sortData="citizenStore.getSortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.citizens?.data?.length === 0))">
                                 <tr v-for="(citizen, index) in state.citizens?.data" :key="index">
                                     <td width="30%">
@@ -145,14 +159,15 @@
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useDepartmentStore } from '@/store/department'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const departmentStore = useDepartmentStore()
 const customPagesStore = useCustomPagesStore() as any
+const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
-let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
@@ -174,10 +189,6 @@ const state = reactive({
         showPurchaseEmail: false,
     },
     selectedCitizen: [],
-    sortData: {
-        sortField: 'id',
-        sortOrder: 'descend',
-    },
 })
 
 onMounted(() => {
@@ -200,9 +211,10 @@ async function fetchCitizens() {
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,
-            page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
+            page: citizenStore.getCurrentPageNumber,
+            page_length: citizenStore.getCurrentPageLength,
+            sortField: citizenStore.getSortData.sortField,
+            sortOrder: citizenStore.getSortData.sortOrder,
             ...state.dataFilter
         }
         const response = await citizenService.getCitizens(params)
@@ -216,27 +228,34 @@ async function fetchCitizens() {
 }
 
 function previous() {
-    currentTablePage--
+    const currentTablePage = citizenStore.getCurrentPageNumber - 1
+    citizenStore.setCurrentPageNumber(currentTablePage)
     fetchCitizens()
 }
 
 function next() {
-    currentTablePage++
+    const currentTablePage = citizenStore.getCurrentPageNumber + 1
+    citizenStore.setCurrentPageNumber(currentTablePage)
     fetchCitizens()
 }
 
 function sort(sortingData: any) {
-    currentTablePage = 1
-    state.sortData = {
-        sortField: sortingData.column,
-        sortOrder: sortingData.sort,
-    }
+    citizenStore.setCurrentPageNumber(1)
+    const sortField = sortingData.column
+    const sortOrder = sortingData.sort
+    citizenStore.setSortData(sortField, sortOrder)
     fetchCitizens()
 }
 
 function handleSearch(value: any) {
-    currentTablePage = 1
+    citizenStore.setCurrentPageNumber(1)
     state.dataFilter.search = value?.[0] == '' ? [] : value
+    fetchCitizens()
+}
+
+function changePageLength(event: any) {
+    citizenStore.setCurrentPageNumber(1)
+    citizenStore.setCurrentPageLength(event.target.value)
     fetchCitizens()
 }
 

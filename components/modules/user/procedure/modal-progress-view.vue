@@ -12,11 +12,13 @@
                                     <div class="flex items-center gap-x-2">
                                         <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
                                             class="rounded-full w-11" />
-                                        <span>{{ employee?.firstname + ' ' + employee?.lastname }}</span>
+                                        <div>
+                                            <span>{{ employee?.firstname + ' ' + employee?.lastname }}</span>
+                                            <p class="text-xs">{{ employee?.employee_detail?.job?.title }}</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p class="text-sm">{{ employee?.employee_detail?.job?.title }}</p>
-                                        <div class="flex gap-x-3 whitespace-nowrap">
+                                    <div class="flex flex-col justify-center">
+                                        <div class="flex items-center gap-x-3 whitespace-nowrap">
                                             <div class="mt-2 flex w-full h-2.5 bg-gray-200 rounded-full overflow-hidden"
                                                 role="progressbar" aria-valuenow="25" aria-valuemin="0"
                                                 aria-valuemax="100">
@@ -24,7 +26,7 @@
                                                     :style="`width: ${employee?.procedure_average ?? 0}%`"></div>
                                             </div>
                                             <div class="w-10 text-end">
-                                                <span class="text-sm text-gray-800">
+                                                <span class="text-xs text-gray-800">
                                                     {{ employee?.procedure_average ?? 0 }}%
                                                 </span>
                                             </div>

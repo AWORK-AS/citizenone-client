@@ -89,6 +89,7 @@ const state = reactive({
         post_code: '',
         origin: '',
         diagnoses: [],
+        medication_allergies: [],
         addictions: [],
         date_admitted: '',
         date_discharged: '',
@@ -142,6 +143,7 @@ async function fetchCitizen() {
                 post_code: response?.data?.address?.post_code ?? '',
                 origin: response?.data?.origin?.uuid.toString() ?? '',
                 diagnoses: [],
+                medication_allergies: [],
                 addictions: [],
                 date_admitted: response?.data?.date_admitted ?? '',
                 date_discharged: response?.data?.date_discharged ?? '',
@@ -166,6 +168,9 @@ async function fetchCitizen() {
             })
             response?.data?.diagnoses?.forEach((diagnosis: any) => {
                 state.formCitizen.diagnoses.push(diagnosis?.uuid)
+            })
+            response?.data?.allergies?.forEach((medication_allergy: any) => {
+                state.formCitizen.medication_allergies.push(medication_allergy?.uuid)
             })
             response?.data?.addictions?.forEach((addiction: any) => {
                 state.formCitizen.addictions.push(addiction?.uuid)
@@ -214,6 +219,7 @@ async function updateCitizen(citizenDetails: any) {
             params.append('origin_uuid', citizenDetails.origin)
         }
         params.append('diagnoses_uuid', JSON.stringify(citizenDetails.diagnoses))
+        params.append('medication_allergies_uuid', JSON.stringify(citizenDetails.medication_allergies))
         params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))
         params.append('date_admitted', citizenDetails.date_admitted != 'Invalid date' ? citizenDetails.date_admitted : '')
         params.append('date_discharged', citizenDetails.date_discharged != 'Invalid date' ? citizenDetails.date_discharged : '')

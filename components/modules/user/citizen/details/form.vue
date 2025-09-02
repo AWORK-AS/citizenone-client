@@ -169,6 +169,19 @@
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="medication_allergies" :label="$t('citizens.form.medicationAllergies')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddMedicationAllergyOpen = true">
+                        {{ $t('medicationAllergies.addNewMedicationAllergy') }}
+                    </span>
+                </div>
+                <FormSelectMultiple id="medication_allergies" :options="state.options.medicationAllergies"
+                    v-model="state.formCitizen.medication_allergies" />
+                <FormError :error="v$?.formCitizen?.medication_allergies?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.medication_allergies?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <div class="flex justify-between items-center py-0.5">
                     <FormLabel for="addictions" :label="customPagesStore.getCustomPagesName?.addictions" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                         @click="state.modal.isAddAddictionOpen = true">
@@ -340,6 +353,9 @@
             @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchDepartments" />
         <ModulesUserDiagnosisModalNew :isModalOpen="state.modal.isAddDiagnosisOpen"
             @close="state.modal.isAddDiagnosisOpen = false" @refreshDiagnoses="fetchDiagnoses" />
+        <ModulesUserMedicationAllergyModalNew :isModalOpen="state.modal.isAddMedicationAllergyOpen"
+            @close="state.modal.isAddMedicationAllergyOpen = false"
+            @refreshMedicationAllergies="fetchMedicationAllergies" />
         <ModulesUserAddictionModalNew :isModalOpen="state.modal.isAddAddictionOpen"
             @close="state.modal.isAddAddictionOpen = false" @refreshAddictions="fetchAddictions" />
         <ModulesUserSectionModalNew :isModalOpen="state.modal.isAddSectionOpen"
@@ -356,6 +372,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { citizenCaseworkerService } from '@/components/api/user/CitizenCaseworkerService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { diagnosisService } from '@/components/api/user/DiagnosisService'
+import { medicationAllergyService } from '@/components/api/user/MedicationAllergyService'
 import { addictionService } from '@/components/api/user/AddictionService'
 import { sectionService } from '@/components/api/user/SectionService'
 import { regionService } from '@/components/api/user/RegionService'
@@ -415,6 +432,7 @@ const state = reactive({
         post_code: '',
         origin: '',
         diagnoses: [],
+        medication_allergies: [],
         addictions: [],
         date_admitted: '',
         date_discharged: '',
@@ -442,6 +460,7 @@ const state = reactive({
         isAddDiagnosisOpen: false,
         isAddForeignCityOpen: false,
         isAddSectionOpen: false,
+        isAddMedicationAllergyOpen: false,
     },
     options: {
         addictions: [],
@@ -456,6 +475,7 @@ const state = reactive({
             { value: 'non_binary', label: `${t('gender.nonbinary')}`, },
             { value: 'will_not_disclose', label: `${t('gender.willNotDisclose')}`, },
         ],
+        medicationAllergies: [],
         municipalities: [],
         municipalitiesPerRegion: [],
         regions: [],
@@ -498,6 +518,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             post_code: selectedCitizen.post_code,
             origin: selectedCitizen.origin,
             diagnoses: selectedCitizen.diagnoses,
+            medication_allergies: selectedCitizen.medication_allergies,
             addictions: selectedCitizen.addictions,
             date_admitted: selectedCitizen.date_admitted,
             date_discharged: selectedCitizen.date_discharged,
@@ -571,6 +592,7 @@ onMounted(() => {
     fetchCitizenCaseWorkers()
     fetchDepartments()
     fetchDiagnoses()
+    fetchMedicationAllergies()
     fetchAddictions()
     fetchSections()
     fetchForeignCities()
@@ -639,6 +661,27 @@ async function fetchDiagnoses() {
                 })
             )
             state.options.diagnoses = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchMedicationAllergies() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await medicationAllergyService.getAllMedicationAllergies()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.medicationAllergies = options
         }
     } catch (error: any) {
         state.error = error

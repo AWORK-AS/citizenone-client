@@ -25,7 +25,7 @@
                     leave-active-class="transition ease-in duration-75"
                     leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
                     <MenuItems
-                        class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-96 overflow-y-auto">
                         <div class="py-1">
                             <MenuItem v-slot="{ active }" v-for="(department, index) in state.departments?.data"
                                 :key="index">
@@ -49,11 +49,15 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import type { Error } from '@/types'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
+import { useCitizenStore } from '@/store/citizen'
+import { useEmployeeStore } from '@/store/employee'
 
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const language = useI18n()
 const departmentStore = useDepartmentStore()
+const citizenStore = useCitizenStore() as any
+const employeeStore = useEmployeeStore() as any
 
 const state = reactive({
     departments: [] as any,
@@ -82,11 +86,15 @@ async function fetchDepartments() {
 }
 
 function selectDepartment(event: any) {
+    citizenStore.setCurrentPageNumber(1)
+    employeeStore.setCurrentPageNumber(1)
     departmentStore.setSelectedDepartmentName(event.target.value)
     successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${event.target.value === '' ? t('department.all')?.toLowerCase() : event.target.value}.`)
 }
 
 function changeDepartment(departmentName: string) {
+    citizenStore.setCurrentPageNumber(1)
+    employeeStore.setCurrentPageNumber(1)
     departmentStore.setSelectedDepartmentName(departmentName)
     successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${departmentName === '' ? t('department.all')?.toLowerCase() : departmentName}.`)
 }

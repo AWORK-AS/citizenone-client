@@ -236,6 +236,14 @@
                                         {{ diagnosis?.name }}
                                     </span>
                                 </div>
+                                <div class="text-xs flex items-center flex-wrap gap-1"
+                                    v-if="state.selectedCitizen?.data?.allergies?.length > 0">
+                                    <p>{{ $t('citizens.medicationAllergies') }}:</p>
+                                    <span v-for="(allergy, index) in state.selectedCitizen?.data?.allergies" :key=index
+                                        class="bg-primary p-1 text-white rounded-md text-xxs">
+                                        {{ allergy?.name }}
+                                    </span>
+                                </div>
                             </div>
                             <div class="text-xs font-medium text-gray-700"
                                 :class="state.showExpandedNote ? '' : 'line-clamp-2'">
@@ -267,6 +275,7 @@
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
@@ -277,6 +286,7 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
@@ -301,6 +311,7 @@ async function fetchCitizen() {
         const response = await citizenService.getCitizen(citizenUuid)
         if (response) {
             state.selectedCitizen = response
+            citizenStore.setSelectedCitizen(response?.data)
         }
     } catch (error: any) {
         state.error = error

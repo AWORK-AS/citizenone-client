@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 
-export const useEmployeeStore = defineStore('employeeStore',
+export const useCitizenStore = defineStore('citizenStore',
     {
         persist: true,
         state: () => ({
             currentPageLength: 10,
             currentPageNumber: 1,
-            selectedEmployee: {},
+            selectedCitizen: {},
             sortData: {
                 sortField: 'firstname',
                 sortOrder: 'ascend',
@@ -19,8 +19,8 @@ export const useEmployeeStore = defineStore('employeeStore',
             setCurrentPageNumber(pageNumber) {
                 this.currentPageNumber = pageNumber
             },
-            setSelectedEmployee(employee) {
-                this.selectedEmployee = employee
+            setSelectedCitizen(selectedCitizen) {
+                this.selectedCitizen = selectedCitizen
             },
             setSortData(sortField, sortOrder) {
                 this.sortData.sortField = sortField
@@ -30,7 +30,7 @@ export const useEmployeeStore = defineStore('employeeStore',
         getters: {
             getCurrentPageLength: (state) => state.currentPageLength,
             getCurrentPageNumber: (state) => state.currentPageNumber,
-            getSelectedEmployee: (state) => state.selectedEmployee,
+            getSelectedCitizen: (state) => state.selectedCitizen,
             getSortData: (state) => state.sortData,
         },
     },

@@ -108,6 +108,14 @@
                 <FormError :error="v$?.formShift?.note?.$errors[0]?.$message.toString()" />
                 <FormError :error="state?.error?.errors?.note?.[0]" />
             </div>
+            <div class="space-y-1"
+                v-if="(['sick-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name))">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formShift.count_sick_leave = !state.formShift.count_sick_leave">
+                    <FormCheckbox id="count_sick_leave" :value="state.formShift.count_sick_leave" />
+                    {{ $t('dutySchedules.form.countSickLeaveAsWorkedHours') }}
+                </div>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -170,6 +178,7 @@ const state = reactive({
         department_uuid: [],
         use_compensatory_time: false,
         note: '',
+        count_sick_leave: false,
     },
     modal: {
         isAddDepartmentOpen: false,
@@ -199,15 +208,32 @@ onMounted(() => {
     state.formShift.schedule_tag_uuid = props.selectedShift.schedule_tag_uuid
     state.formShift.department_uuid = props.selectedShift.department_uuid
     state.formShift.note = props.selectedShift.note
+    state.formShift.count_sick_leave = props.selectedShift.count_sick_leave
 })
 
-watch(() => state.formShift.shift_type, (newValue) => {
-    const selectShiftIndex = state.options.shifts.findIndex((shift: any) => shift.value === newValue)
+watch(() => state.formShift.shift_type, (selectedShift) => {
+    const selectShiftIndex = state.options.shifts.findIndex((shift: any) => shift.value === selectedShift)
     if (![3, 4].includes(selectShiftIndex)) {
         state.showChildProtectionCertificateWarning = true
     } else {
         state.showChildProtectionCertificateWarning = false
     }
+
+    if (props.formType === 'create') {
+        const startDate = moment(props.selectedShift.date_time_start, 'YYYY-MM-DD H:mm')
+        const endDate = moment(props.selectedShift.date_time_end, 'YYYY-MM-DD H:mm')
+
+        state.formShift.date_time_start = moment(
+            startDate.format('YYYY-MM-DD') + ' ' + state.options.shifts[selectShiftIndex]?.time_in,
+            'YYYY-MM-DD HH:mm'
+        ).format('YYYY-MM-DD H:mm')
+
+        state.formShift.date_time_end = moment(
+            endDate.format('YYYY-MM-DD') + ' ' + state.options.shifts[selectShiftIndex]?.time_out,
+            'YYYY-MM-DD HH:mm'
+        ).format('YYYY-MM-DD H:mm')
+    }
+
 })
 
 const rules = computed(() => {
@@ -243,6 +269,8 @@ async function fetchAllShifts() {
                     value: shift?.uuid,
                     label: language.locale.value === 'en' ? shift?.en_name : shift?.dk_name,
                     system_name: shift?.system_name,
+                    time_in: shift?.time_in,
+                    time_out: shift?.time_out,
                 })
             )
             state.options.shifts = options
