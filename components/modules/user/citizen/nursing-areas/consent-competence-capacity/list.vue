@@ -5,7 +5,7 @@
                 v-if="state.error?.message && state.error.message.length > 0" />
             <div class="flex justify-end items-center mb-5 gap-x-2">
                 <FormButton buttonStyle="action" class="rounded-lg"
-                    @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/new`)">
+                    @click="state.modal.isAddConsentCompetenceCapacityOpen = true">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('citizens.nursingAreas.consentCompetenceOrCapacity.newConsentCompetenceOrCapacity') }}
                 </FormButton>
@@ -53,6 +53,16 @@
                 <Pagination :data="state.records" @previous="previous" @next="next" />
             </div>
         </div>
+        <ModulesUserCitizenNursingAreasConsentCompetenceCapacityModalNew
+            :isModalOpen="state.modal.isAddConsentCompetenceCapacityOpen"
+            :selectedConsentCompetenceCapacity="state.selectedRecord"
+            @close="state.modal.isAddConsentCompetenceCapacityOpen = false"
+            @refreshConsentCompetenceCapacities="fetchConsentCompetenceOrCapacity" />
+        <ModulesUserCitizenNursingAreasConsentCompetenceCapacityModalEdit
+            :isModalOpen="state.modal.isEditConsentCompetenceCapacityOpen"
+            :selectedConsentCompetenceCapacity="state.selectedRecord"
+            @close="state.modal.isEditConsentCompetenceCapacityOpen = false"
+            @refreshConsentCompetenceCapacities="fetchConsentCompetenceOrCapacity" />
     </LoadingSpinner>
 </template>
 
@@ -73,7 +83,8 @@ const state = reactive({
     records: [] as any,
     selectedRecord: {},
     modal: {
-        isStatusOpen: false
+        isAddConsentCompetenceCapacityOpen: false,
+        isEditConsentCompetenceCapacityOpen: true,
     },
     sortData: {
         sortField: 'id',

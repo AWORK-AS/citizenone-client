@@ -1435,10 +1435,15 @@
                 "newConsentCompetenceOrCapacity": "New consent competence or capacity",
                 "table": {
                     "actions": {
-                        "edit": "Edit",
-                        "statuses": "Statuses",
-                        "view": "View"
+                        "delete": "Delete",
+                        "edit": "Edit"
                     },
+                    "alert": {
+                        "consentCompetenceOrCapacitySuccessfullyDeleted": "Consent competence or capacity successfully deleted"
+                    },
+                    "confirmation": {
+                        "deleteConsentCompetenceOrCapacityConfirmation": "Are you sure you want to delete this consent competence or capacity"
+                    }
                 }
             },
             "editNursingProfessionalRecord": "Edit nursing professional record",
