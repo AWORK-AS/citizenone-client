@@ -25,6 +25,7 @@
 import { useOfForceService } from '@/components/api/user/UseOfForceService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -36,6 +37,7 @@ const props = defineProps({
 
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
@@ -61,7 +63,9 @@ async function saveUseOfForce(useOfForceDetails: any) {
         const response = await useOfForceService.saveUseOfForce(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.useOfForce.alert.savedSuccessfully')}.`)
-            navigateToSocialForm()
+            if (userStore.getUser?.social_og_boligstyrelsen) {
+                navigateToSocialForm()
+            }
             state.modal.isReportUseOfForceOpen = false
         }
     } catch (error: any) {

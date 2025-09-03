@@ -139,13 +139,4 @@ function handleConfirmation() {
         emit('submitForm', state.formUseOfForce)
     }
 }
-
-async function navigateToSocialForm() {
-    await navigateTo('https://www.sbst.dk/tvaergaende-omrader/magtanvendelse/skemaer-til-indberetning', {
-        external: true,
-        open: {
-            target: '_blank',
-        }
-    })
-}
 </script>
