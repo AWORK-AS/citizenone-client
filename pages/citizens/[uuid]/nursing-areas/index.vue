@@ -91,7 +91,7 @@
                             </DisclosureButton>
 
                             <DisclosurePanel as="dd" class="px-5 pb-5">
-                                <ModulesUserCitizenNursingAreasNursingProfessionalRecordList />
+                                <ModulesUserCitizenNursingAreasConsentCompetenceCapacityList />
                             </DisclosurePanel>
                         </Disclosure>
 

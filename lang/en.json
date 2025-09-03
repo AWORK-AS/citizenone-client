@@ -1422,7 +1422,24 @@
         },
         "nursingAreas": {
             "consentCompetenceOrCapacity": {
-                "consentCompetenceOrCapacity": "Consent competence or capacity"
+                "consentCompetenceOrCapacity": "Consent competence or capacity",
+                "editConsentCompetenceOrCapacity": "Edit consent competence or capacity",
+                "form": {
+                    "alert": {
+                        "consentCompetenceOrCapacitySuccessfullyAdded": "Consent competence or capacity successfully added",
+                        "consentCompetenceOrCapacitySuccessfullyUpdated": "Consent competence or capacity successfully updated"
+                    },
+                    "date": "Date",
+                    "consentCompetenceOrCapacity": "Consent competence or capacity"
+                },
+                "newConsentCompetenceOrCapacity": "New consent competence or capacity",
+                "table": {
+                    "actions": {
+                        "edit": "Edit",
+                        "statuses": "Statuses",
+                        "view": "View"
+                    },
+                }
             },
             "editNursingProfessionalRecord": "Edit nursing professional record",
             "form": {

@@ -1422,7 +1422,29 @@
         },
         "nursingAreas": {
             "consentCompetenceOrCapacity": {
-                "consentCompetenceOrCapacity": "Samtykkekompetence eller evne"
+                "consentCompetenceOrCapacity": "Samtykkekompetence eller kapacitet",
+                "editConsentCompetenceOrCapacity": "Rediger samtykkekompetence eller kapacitet",
+                "form": {
+                    "alert": {
+                        "consentCompetenceOrCapacitySuccessfullyAdded": "Samtykkekompetence eller kapacitet er blevet tilføjet",
+                        "consentCompetenceOrCapacitySuccessfullyUpdated": "Samtykkekompetence eller kapacitet er blevet opdateret"
+                    },
+                    "date": "Dato",
+                    "consentCompetenceOrCapacity": "Samtykkekompetence eller kapacitet"
+                },
+                "newConsentCompetenceOrCapacity": "Ny samtykkekompetence eller kapacitet",
+                "table": {
+                    "actions": {
+                        "delete": "Slet",
+                        "edit": "Rediger"
+                    },
+                    "alert": {
+                        "consentCompetenceOrCapacitySuccessfullyDeleted": "Samtykkekompetence eller kapacitet er blevet slettet"
+                    },
+                    "confirmation": {
+                        "deleteConsentCompetenceOrCapacityConfirmation": "Er du sikker på, at du vil slette denne samtykkekompetence eller kapacitet?"
+                    }
+                }
             },
             "editNursingProfessionalRecord": "Rediger sundhedsfaglig optegnelse",
             "form": {
