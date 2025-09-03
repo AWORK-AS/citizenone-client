@@ -160,9 +160,9 @@ onMounted(() => {
         description: props.selectedTreatment.description ?? '',
         completion_date: props.selectedTreatment.completion_date,
         date_completed: props.selectedTreatment.date_completed,
-        is_completed: props.selectedTreatment.is_completed,
+        is_completed: props.selectedTreatment.is_completed ? true : false,
         score: props.selectedTreatment.score,
-        enable_reminder: props.selectedTreatment.enable_reminder,
+        enable_reminder: props.selectedTreatment.enable_reminder ? true : false,
     }
     if (props.selectedTreatment.date_completed) {
         state.formTreatment.is_completed = true

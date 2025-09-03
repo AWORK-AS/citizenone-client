@@ -1421,6 +1421,9 @@
             "noJournalToDisplay": "No journal to display"
         },
         "nursingAreas": {
+            "consentCompetenceOrCapacity": {
+                "consentCompetenceOrCapacity": "Consent competence or capacity"
+            },
             "editNursingProfessionalRecord": "Edit nursing professional record",
             "form": {
                 "alert": {
@@ -1440,19 +1443,12 @@
                 "painAndSensoryImpressions": "Pain and sensory impressions",
                 "sleepAndRest": "Sleep and rest",
                 "knowledgeAndDevelopment": "Knowledge and development",
-                "excretionOfWaste": "Excretion of waste",
-                "consentCompetenceOrCapacity": "Consent competence or capacity",
+                "excretionOfWaste": "Excretion of waste"
+            },
+            "illnessAndFunctionalImpairment": {
                 "illnessAndFunctionalImpairment": "Illness and functional impairment",
                 "illnessAndFunctionalImpairment1": "What is the illness and functional impairment the citizen has",
-                "illnessAndFunctionalImpairment2": "Who is the responsible healthcare provider",
-                "vitals": {
-                    "bloodPressure": "Blood pressure",
-                    "bloodSugar": "Blood sugar",
-                    "pulse": "Pulse",
-                    "temperature": "Temperature",
-                    "vitals": "Vitals",
-                    "weight": "Weight"
-                }
+                "illnessAndFunctionalImpairment2": "Who is the responsible healthcare provider"
             },
             "newNursingProfessionalRecords": "New nursing professional record",
             "nursingProfessionalRecords": "Nursing professional records",
@@ -1539,7 +1535,15 @@
                 "knowledgeAndDevelopment": "Knowledge and development",
                 "excretionOfWaste": "Excretion of waste"
             },
-            "viewNursingProfessionalRecord": "View nursing professional record"
+            "viewNursingProfessionalRecord": "View nursing professional record",
+            "vitals": {
+                "bloodPressure": "Blood pressure",
+                "bloodSugar": "Blood sugar",
+                "pulse": "Pulse",
+                "temperature": "Temperature",
+                "vitals": "Vitals",
+                "weight": "Weight"
+            }
         },
         "purchaseEmail": {
             "purchaseEmail": "Purchase email",

@@ -260,8 +260,9 @@
                 <Pagination :data="state.records" @previous="previous" @next="next" />
             </div>
         </div>
-        <ModulesUserCitizenNursingProfessionalRecordStatusModalStatuses :isModalOpen="state.modal.isStatusOpen"
-            :selectedRecord="state.selectedRecord" @close="state.modal.isStatusOpen = false" />
+        <ModulesUserCitizenNursingAreasNursingProfessionalRecordStatusModalStatuses
+            :isModalOpen="state.modal.isStatusOpen" :selectedRecord="state.selectedRecord"
+            @close="state.modal.isStatusOpen = false" />
     </LoadingSpinner>
 </template>
 

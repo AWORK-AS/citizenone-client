@@ -1,13 +1,13 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('citizens.nursingAreas.statuses.newStatus')" :show="props.isModalOpen"
+        <Modal size="sm" :title="$t('citizens.nursingAreas.statuses.editStatus')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserCitizenNursingProfessionalRecordStatusForm formType="create"
-                        :selectedStatus="state.formStatus" :error="state.error"
+                    <ModulesUserCitizenNursingAreasNursingProfessionalRecordStatusForm formType="update"
+                        :selectedStatus="props.selectedStatus" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="saveStatus" />
+                        @submitForm="updateStatus" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -28,23 +28,16 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedRecord: {
+    selectedStatus: {
         type: Object,
         required: true,
     },
 })
-
 const emit = defineEmits(['close', 'refreshStatuses'])
 
 const state = reactive({
     error: {} as Error,
-    isPageLoading: false,
-    formStatus: {
-        date: '',
-        area_type: '',
-        score: '',
-        status: '',
-    },
+    isPageLoading: false
 })
 
 function closeModal() {
@@ -55,22 +48,23 @@ function refreshStatuses() {
     emit('refreshStatuses')
 }
 
-async function saveStatus(statusDetails: any) {
+async function updateStatus(statusDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
+        const statusUuid = props.selectedStatus.uuid
+
         let params = {
-            model_uuid: props.selectedRecord?.uuid,
             date: statusDetails.date,
             area_type: statusDetails.area_type,
             score: statusDetails.score,
             status: statusDetails.status,
         }
-        const response = await statusService.saveStatus(params)
+        const response = await statusService.updateStatus(statusUuid, params)
         if (response?.data) {
             refreshStatuses()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.nursingAreas.statuses.alert.statusSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.nursingAreas.statuses.alert.statusSuccessfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error

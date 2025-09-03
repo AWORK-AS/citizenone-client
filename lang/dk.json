@@ -1421,6 +1421,9 @@
             "noJournalToDisplay": "Ingen journal at vise"
         },
         "nursingAreas": {
+            "consentCompetenceOrCapacity": {
+                "consentCompetenceOrCapacity": "Samtykkekompetence eller evne"
+            },
             "editNursingProfessionalRecord": "Rediger sundhedsfaglig optegnelse",
             "form": {
                 "alert": {
@@ -1440,19 +1443,12 @@
                 "painAndSensoryImpressions": "Smerte og sanseindtryk",
                 "sleepAndRest": "Søvn og hvile",
                 "knowledgeAndDevelopment": "Viden og udvikling",
-                "excretionOfWaste": "Affaldsudskillelse",
-                "consentCompetenceOrCapacity": "Samtykkekompetence eller evne",
+                "excretionOfWaste": "Affaldsudskillelse"
+            },
+            "illnessAndFunctionalImpairment": {
                 "illnessAndFunctionalImpairment": "Sygdom og funktionsnedsættelse",
                 "illnessAndFunctionalImpairment1": "Hvilken sygdom og funktionsnedsættelse har borgeren",
-                "illnessAndFunctionalImpairment2": "Hvem er den ansvarlige sundhedsprofessionelle",
-                "vitals": {
-                    "bloodPressure": "Blodtryk",
-                    "bloodSugar": "Blodsukker",
-                    "pulse": "Puls",
-                    "temperature": "Temperatur",
-                    "vitals": "Værdiskema",
-                    "weight": "Vægt"
-                }
+                "illnessAndFunctionalImpairment2": "Hvem er den ansvarlige sundhedsprofessionelle"
             },
             "newNursingProfessionalRecords": "Ny sundhedsfaglig optegnelse",
             "nursingProfessionalRecords": "Sundhedsfaglige optegnelser",
@@ -1539,7 +1535,15 @@
                 "knowledgeAndDevelopment": "Viden og udvikling",
                 "excretionOfWaste": "Affaldsudskillelse"
             },
-            "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal"
+            "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal",
+            "vitals": {
+                "bloodPressure": "Blodtryk",
+                "bloodSugar": "Blodsukker",
+                "pulse": "Puls",
+                "temperature": "Temperatur",
+                "vitals": "Værdiskema",
+                "weight": "Vægt"
+            }
         },
         "purchaseEmail": {
             "purchaseEmail": "Køb e-mail",
