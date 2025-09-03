@@ -992,7 +992,7 @@
                 "include": "Inkluder",
                 "includeRiskAssessment": "Inkluder risikovurdering"
             },
-            "editJournal": "Rediger Journal",
+            "editNote": "Rediger notat",
             "filter": {
                 "date": "Dato",
                 "filterDate": "Filtrer dato",
@@ -1055,7 +1055,7 @@
                 "previousData": "Tidligere data",
                 "updatedBy": "Opdateret af"
             },
-            "newJournal": "Ny Journal",
+            "newNote": "Nyt notat",
             "on": "Den"
         },
         "confirmation": {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ModalSideBySide sizeLeft="lg" sizeRight="xxs" :titleLeft="$t('citizens.citizenJournals.newJournal')"
+        <ModalSideBySide sizeLeft="lg" sizeRight="xxs" :titleLeft="$t('citizens.citizenJournals.newNote')"
             :titleRight="$t('plansandgoals.currentPlansAndGoals')" :show="props.isModalOpen"
             :showRightModal="state.modal.showCurrentPlansAndGoals" @close="closeModal"
             @closeRightModal="state.modal.showCurrentPlansAndGoals = false">
