@@ -62,6 +62,7 @@ async function saveConsentCompetenceCapacity(consentCompetenceCapacityDetails: a
     state.isPageLoading = true
     try {
         const params = {
+            citizen_uuid: citizenUuid,
             date: consentCompetenceCapacityDetails.date,
             consent_competence_capacity: consentCompetenceCapacityDetails.consent_competence_capacity,
         }
