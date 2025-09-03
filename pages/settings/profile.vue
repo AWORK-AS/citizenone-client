@@ -100,6 +100,16 @@
                         <div class="md:col-span-8 grid md:grid-cols-1">
                             <div class="space-y-1">
                                 <div class="w-fit flex items-center cursor-pointer"
+                                    @click="state.formProfile.social_og_boligstyrelsen = !state.formProfile.social_og_boligstyrelsen">
+                                    <FormCheckbox id="social_og_boligstyrelsen"
+                                        :value="state.formProfile.social_og_boligstyrelsen" />
+                                    Social- og Boligstyrelsen
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:col-span-8 grid md:grid-cols-1">
+                            <div class="space-y-1">
+                                <div class="w-fit flex items-center cursor-pointer"
                                     @click="state.isChangePassword = !state.isChangePassword">
                                     <FormCheckbox id="change_password" :value="state.isChangePassword" />
                                     {{ $t('settings.profile.form.changePassword') }}
@@ -164,6 +174,7 @@ const state = reactive({
         language_uuid: '',
         pages: [] as any,
         password: '',
+        social_og_boligstyrelsen: false,
     },
     isChangePassword: false,
     isPageLoading: false,
@@ -246,6 +257,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             language_uuid: newValue?.language?.uuid,
             pages: [],
             password: '',
+            social_og_boligstyrelsen: newValue?.social_og_boligstyrelsen ?? false,
         }
         newValue?.pages.forEach((page: any) => {
             state.formProfile.pages.push(page?.uuid)
@@ -317,6 +329,7 @@ async function submitForm() {
             if (state.formProfile.password) {
                 params.append('password', state.formProfile.password)
             }
+            params.append('social_og_boligstyrelsen', state.formProfile.social_og_boligstyrelsen?.toString())
             const response = await userService.updateUser(params)
             if (response.data) {
                 userStore.setLanguage(response?.data?.language?.code)
