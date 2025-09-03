@@ -84,7 +84,7 @@ const state = reactive({
     selectedRecord: {},
     modal: {
         isAddConsentCompetenceCapacityOpen: false,
-        isEditConsentCompetenceCapacityOpen: true,
+        isEditConsentCompetenceCapacityOpen: false,
     },
     sortData: {
         sortField: 'id',
