@@ -992,7 +992,7 @@
                 "include": "Include",
                 "includeRiskAssessment": "Include risk assessment"
             },
-            "editJournal": "Edit journal",
+            "editNote": "Edit note",
             "filter": {
                 "date": "Date",
                 "filterDate": "Filter date",
@@ -1055,7 +1055,7 @@
                 "previousData": "Previous data",
                 "updatedBy": "Updated by"
             },
-            "newJournal": "New journal",
+            "newNote": "New note",
             "on": "On"
         },
         "confirmation": {

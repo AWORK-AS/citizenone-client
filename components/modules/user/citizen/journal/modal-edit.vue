@@ -1,7 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('citizens.citizenJournals.editJournal')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="lg" :title="$t('citizens.citizenJournals.editNote')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCitizenJournalForm formType="update" :selectedJournal="props.selectedJournal"

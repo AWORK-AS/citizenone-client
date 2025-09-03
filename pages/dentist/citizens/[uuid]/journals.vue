@@ -50,7 +50,7 @@
                                 <FormButton buttonStyle="action" class="rounded-lg"
                                     @click="state.modal.isAddJournalOpen = true">
                                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                    {{ $t('citizens.citizenJournals.newJournal') }}
+                                    {{ $t('citizens.citizenJournals.newNote') }}
                                 </FormButton>
                                 <FormButton buttonStyle="action" class="rounded-lg" @click="showDownloadJournalModal">
                                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
