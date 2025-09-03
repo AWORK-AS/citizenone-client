@@ -65,7 +65,7 @@ const breadcrumbLinks = [
     {
         name: 'citizens.nursingAreas.editNursingProfessionalRecord',
         translate: true,
-        href: `/citizens/${citizenUuid}/nursing-areas/${recordUuid}/edit`,
+        href: `/citizens/${citizenUuid}/nursing-areas/nursing-professional-records/${recordUuid}/edit`,
     },
 ]
 
