@@ -257,7 +257,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             language_uuid: newValue?.language?.uuid,
             pages: [],
             password: '',
-            social_og_boligstyrelsen: newValue?.social_og_boligstyrelsen ?? false,
+            social_og_boligstyrelsen: newValue?.social_og_boligstyrelsen ? true : false,
         }
         newValue?.pages.forEach((page: any) => {
             state.formProfile.pages.push(page?.uuid)
