@@ -5,7 +5,7 @@
         <div class="space-y-3">
             <div class="space-y-1">
                 <FormLabel for="date" :label="$t('citizens.nursingAreas.consentCompetenceOrCapacity.form.date')" />
-                <FormDateField id="date" name="birthday"
+                <FormDateField id="date" name="date"
                     :placeholder="$t('citizens.nursingAreas.consentCompetenceOrCapacity.form.date')"
                     v-model="state.formConsentCompetenceCapacity.date" />
                 <FormError :error="v$?.formConsentCompetenceCapacity?.date?.$errors[0]?.$message.toString()" />

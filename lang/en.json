@@ -1579,12 +1579,45 @@
             },
             "viewNursingProfessionalRecord": "View nursing professional record",
             "vitals": {
-                "bloodPressure": "Blood pressure",
-                "bloodSugar": "Blood sugar",
-                "pulse": "Pulse",
-                "temperature": "Temperature",
-                "vitals": "Vitals",
-                "weight": "Weight"
+                "editVitals": "Edit vitals",
+                "form": {
+                    "alert": {
+                        "vitalsSuccessfullyAdded": "Vitals successfully added",
+                        "vitalsSuccessfullyUpdated": "Vitals successfully updated"
+                    },
+                    "bloodPressure": "Blood pressure",
+                    "bloodSugar": "Blood sugar",
+                    "date": "Date",
+                    "newFields": {
+                        "addNewField": "Add new field",
+                        "fieldName": "Field name",
+                        "removeField": "Remove field"
+                    },
+                    "pulse": "Pulse",
+                    "temperature": "Temperature",
+                    "vitals": "Vitals",
+                    "weight": "Weight"
+                },
+                "newVitals": "New Vitals",
+                "table": {
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit"
+                    },
+                    "alert": {
+                        "vitalsSuccessfullyDeleted": "Vitals successfully deleted"
+                    },
+                    "bloodPressure": "Blood pressure",
+                    "bloodSugar": "Blood sugar",
+                    "confirmation": {
+                        "deleteVitalsConfirmation": "Are you sure you want to delete this vitals"
+                    },
+                    "pulse": "Pulse",
+                    "temperature": "Temperature",
+                    "vitals": "Vitals",
+                    "weight": "Weight"
+                },
+                "vitals": "Vitals"
             }
         },
         "purchaseEmail": {

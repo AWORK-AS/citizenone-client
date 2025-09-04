@@ -4,10 +4,9 @@
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
             <div class="flex justify-end items-center mb-5 gap-x-2">
-                <FormButton buttonStyle="action" class="rounded-lg"
-                    @click="state.modal.isAddConsentCompetenceCapacityOpen = true">
+                <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddVitalOpen = true">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                    {{ $t('citizens.nursingAreas.consentCompetenceOrCapacity.newConsentCompetenceOrCapacity') }}
+                    {{ $t('citizens.nursingAreas.vitals.newVitals') }}
                 </FormButton>
             </div>
             <div class="space-y-5">
@@ -27,14 +26,14 @@
                             <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
                                 <Tooltip :text="$t('citizens.nursingAreas.table.actions.edit')">
                                     <FormButton class="rounded-md" buttonSize="sm"
-                                        @click="editConsentCompetenceCapacity(record)">
+                                        @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/${record.uuid}/edit`)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
                             </div>
                         </div>
                     </div>
-                    <div class="space-y-1">
+                    <div class="mt-2 space-y-1">
                         <div :class="expandedRecords[index] ? '' : 'line-clamp-2'">
                             <div v-html="record?.consent_competence_capacity" class="content" />
                         </div>
@@ -53,22 +52,18 @@
                 <Pagination :data="state.records" @previous="previous" @next="next" />
             </div>
         </div>
-        <ModulesUserCitizenNursingAreasConsentCompetenceCapacityModalNew
-            :isModalOpen="state.modal.isAddConsentCompetenceCapacityOpen"
-            :selectedConsentCompetenceCapacity="state.selectedRecord"
-            @close="state.modal.isAddConsentCompetenceCapacityOpen = false"
-            @refreshConsentCompetenceCapacities="fetchConsentCompetenceOrCapacity" />
-        <ModulesUserCitizenNursingAreasConsentCompetenceCapacityModalEdit
-            :isModalOpen="state.modal.isEditConsentCompetenceCapacityOpen"
-            :selectedConsentCompetenceCapacity="state.selectedRecord"
-            @close="state.modal.isEditConsentCompetenceCapacityOpen = false"
-            @refreshConsentCompetenceCapacities="fetchConsentCompetenceOrCapacity" />
+        <ModulesUserCitizenNursingAreasVitalModalNew :isModalOpen="state.modal.isAddVitalOpen"
+            :selectedVitals="state.selectedRecord" @close="state.modal.isAddVitalOpen = false"
+            @refreshVitals="fetchVitals" />
+        <ModulesUserCitizenNursingAreasVitalModalEdit :isModalOpen="state.modal.isEditVitalOpen"
+            :selectedVitals="state.selectedRecord" @close="state.modal.isEditVitalOpen = false"
+            @refreshVitals="fetchVitals" />
     </LoadingSpinner>
 </template>
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { consentCompetenceCapacityService } from '@/components/api/user/ConsentCompetenceCapacityService'
+import { vitalService } from '@/components/api/user/VitalService'
 import type { Error } from '@/types'
 
 const router = useRouter()
@@ -83,8 +78,8 @@ const state = reactive({
     records: [] as any,
     selectedRecord: {},
     modal: {
-        isAddConsentCompetenceCapacityOpen: false,
-        isEditConsentCompetenceCapacityOpen: false,
+        isAddVitalOpen: false,
+        isEditVitalOpen: false,
     },
     sortData: {
         sortField: 'id',
@@ -93,10 +88,10 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchConsentCompetenceOrCapacity()
+    fetchVitals()
 })
 
-async function fetchConsentCompetenceOrCapacity() {
+async function fetchVitals() {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -106,7 +101,7 @@ async function fetchConsentCompetenceOrCapacity() {
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
         }
-        const response = await consentCompetenceCapacityService.getConsentCompetenceCapacities(params)
+        const response = await vitalService.getVitals(params)
         if (response) {
             state.records = response
             expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => false))
@@ -119,20 +114,15 @@ async function fetchConsentCompetenceOrCapacity() {
 
 function previous() {
     currentTablePage--
-    fetchConsentCompetenceOrCapacity()
+    fetchVitals()
 }
 
 function next() {
     currentTablePage++
-    fetchConsentCompetenceOrCapacity()
+    fetchVitals()
 }
 
 function toggleExpanded(index: number) {
     expandedRecords[index] = !expandedRecords[index]
-}
-
-function editConsentCompetenceCapacity(consentCompetenceCapacity: any) {
-    state.selectedRecord = consentCompetenceCapacity
-    state.modal.isEditConsentCompetenceCapacityOpen = true
 }
 </script>
