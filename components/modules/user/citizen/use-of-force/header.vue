@@ -63,7 +63,7 @@ async function saveUseOfForce(useOfForceDetails: any) {
         const response = await useOfForceService.saveUseOfForce(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.useOfForce.alert.savedSuccessfully')}.`)
-            if (userStore.getUser?.social_og_boligstyrelsen) {
+            if (userStore.getUser?.company?.social_og_boligstyrelsen) {
                 navigateToSocialForm()
             }
             state.modal.isReportUseOfForceOpen = false
