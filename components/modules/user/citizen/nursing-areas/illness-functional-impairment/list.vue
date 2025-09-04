@@ -27,7 +27,7 @@
                             <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
                                 <Tooltip :text="$t('citizens.nursingAreas.table.actions.edit')">
                                     <FormButton class="rounded-md" buttonSize="sm"
-                                        @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/${record.uuid}/edit`)">
+                                        @click="editIllnessFunctionalImpairment(record)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
@@ -129,5 +129,10 @@ function next() {
 
 function toggleExpanded(index: number) {
     expandedRecords[index] = !expandedRecords[index]
+}
+
+function editIllnessFunctionalImpairment(illnessFunctionalImpairment: any) {
+    state.selectedRecord = illnessFunctionalImpairment
+    state.modal.isEditIllnessFunctionalImpairmentOpen = true
 }
 </script>
