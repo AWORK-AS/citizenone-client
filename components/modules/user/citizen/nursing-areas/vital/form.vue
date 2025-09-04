@@ -48,6 +48,38 @@
                 <FormError :error="v$?.formVitals?.temperature?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.temperature?.[0]" />
             </div>
+            <div class="space-y-1" v-for="(field, index) in state.formVitals.additional_fields" :key="index">
+                <div class="flex gap-2">
+                    <div class="grow">
+                        <FormLabel :for="'additional_field_' + index"
+                            :label="$t('citizens.nursingAreas.vitals.form.newFields.fieldName')" />
+                        <FormTextField :id="'additional_field_' + index" :name="'additional_field_' + index"
+                            v-model="field.name"
+                            :placeholder="$t('citizens.nursingAreas.vitals.form.newFields.fieldName')" />
+                    </div>
+                    <div class="grow">
+                        <FormLabel :for="'additional_value_' + index"
+                            :label="$t('citizens.nursingAreas.vitals.form.newFields.fieldValue')" />
+                        <FormTextField :id="'additional_value_' + index" :name="'additional_value_' + index"
+                            v-model="field.value"
+                            :placeholder="$t('citizens.nursingAreas.vitals.form.newFields.fieldValue')" />
+                    </div>
+                    <div class="flex items-center justify-end col-span-2">
+                        <button type="button" @click="removeAdditionalField(index)" class="text-red-500 mt-6">
+                            <Tooltip :text="$t('citizens.nursingAreas.vitals.form.newFields.removeField')"
+                                position="left">
+                                <Icon name="ph:x" class="h-6 w-6" aria-hidden="true" />
+                            </Tooltip>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-center mt-3">
+                <FormButton type="button" buttonStyle="primary" @click="addAdditionalField" class="rounded-md">
+                    {{ $t('citizens.nursingAreas.vitals.form.newFields.addNewField') }}
+                </FormButton>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -95,7 +127,7 @@ const state = reactive({
         weight: '',
         blood_sugar: '',
         temperature: '',
-        additional_fields: [],
+        additional_fields: [] as any,
     },
 })
 
@@ -155,6 +187,14 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+function addAdditionalField() {
+    state.formVitals.additional_fields.push({ name: '', value: '' })
+}
+
+function removeAdditionalField(index: number) {
+    state.formVitals.additional_fields.splice(index, 1)
+}
 
 function submitForm() {
     v$.value.$validate()

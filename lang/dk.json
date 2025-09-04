@@ -1591,6 +1591,7 @@
                     "newFields": {
                         "addNewField": "Tilføj nyt felt",
                         "fieldName": "Feltnavn",
+                        "fieldValue": "Feltværdi",
                         "removeField": "Fjern felt"
                     },
                     "pulse": "Puls",

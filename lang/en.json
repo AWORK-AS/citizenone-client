@@ -1591,6 +1591,7 @@
                     "newFields": {
                         "addNewField": "Add new field",
                         "fieldName": "Field name",
+                        "fieldValue": "Field value",
                         "removeField": "Remove field"
                     },
                     "pulse": "Pulse",
