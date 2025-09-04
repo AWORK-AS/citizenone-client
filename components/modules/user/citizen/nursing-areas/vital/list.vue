@@ -34,7 +34,46 @@
                     </div>
                     <div class="mt-2 space-y-1">
                         <div :class="expandedRecords[index] ? '' : 'line-clamp-2'">
-                            <div v-html="record?.consent_competence_capacity" class="content" />
+                            <div>
+                                <p>
+                                    {{ $t('citizens.nursingAreas.vitals.form.bloodPressure') }}:
+                                </p>
+                                <p>
+                                    {{ record?.blood_pressure }}
+                                </p>
+                            </div>
+                            <div>
+                                <p>
+                                    {{ $t('citizens.nursingAreas.vitals.form.pulse') }}:
+                                </p>
+                                <p>
+                                    {{ record?.pulse }}
+                                </p>
+                            </div>
+                            <div>
+                                <p>
+                                    {{ $t('citizens.nursingAreas.vitals.form.weight') }}:
+                                </p>
+                                <p>
+                                    {{ record?.weight }}
+                                </p>
+                            </div>
+                            <div>
+                                <p>
+                                    {{ $t('citizens.nursingAreas.vitals.form.bloodSugar') }}:
+                                </p>
+                                <p>
+                                    {{ record?.blood_sugar }}
+                                </p>
+                            </div>
+                            <div>
+                                <p>
+                                    {{ $t('citizens.nursingAreas.vitals.form.temperature') }}:
+                                </p>
+                                <p>
+                                    {{ record?.temperature }}
+                                </p>
+                            </div>
                         </div>
                         <button @click="toggleExpanded(index)" class="mt-3 text-primary text-sm hover:text-primary-700">
                             {{ expandedRecords[index] ?
