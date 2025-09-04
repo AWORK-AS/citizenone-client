@@ -31,12 +31,15 @@
                 </div>
                 <div class="space-y-1">
                     <div class="w-fit flex items-center cursor-pointer"
-                        @click="state.chooseFromOurContactPerson = !state.chooseFromOurContactPerson">
-                        <FormCheckbox id="choose_from_our_contact_person" :value="state.chooseFromOurContactPerson" />
-                        {{ $t('citizens.nursingAreas.illnessAndFunctionalImpairment.form.chooseFromOurContactPerson') }}
+                        @click="state.formIllnessFunctionalImpairment.choose_from_our_contact_person = !state.formIllnessFunctionalImpairment.choose_from_our_contact_person">
+                        <FormCheckbox id="choose_from_our_contact_person"
+                            :value="state.formIllnessFunctionalImpairment.choose_from_our_contact_person" />
+                        {{
+                            $t('citizens.nursingAreas.illnessAndFunctionalImpairment.form.chooseFromOurContactPerson')
+                        }}
                     </div>
                 </div>
-                <div class="space-y-1" v-if="state.chooseFromOurContactPerson">
+                <div class="space-y-1" v-if="state.formIllnessFunctionalImpairment.choose_from_our_contact_person">
                     <FormLabel for="our_contact_person_uuid"
                         :label="$t('citizens.nursingAreas.illnessAndFunctionalImpairment.form.whoIsTheResponsibleHealthcareProvider')" />
                     <FormSelect id="our_contact_person_uuid" :options="state.options.ourContactPersons"
@@ -113,13 +116,13 @@ const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 
 const state = reactive({
-    chooseFromOurContactPerson: false,
     error: {} as Error,
     formIllnessFunctionalImpairment: {
         id: '',
         uuid: '',
         date: '',
         illness_functional_impairment: '',
+        choose_from_our_contact_person: false,
         healthcare_provider: '',
         our_contact_person_uuid: '',
     },
@@ -136,8 +139,14 @@ onMounted(() => {
         uuid: props.selectedIllnessFunctionalImpairment.uuid,
         date: props.selectedIllnessFunctionalImpairment.date,
         illness_functional_impairment: props.selectedIllnessFunctionalImpairment.illness_functional_impairment,
+        choose_from_our_contact_person: false,
         healthcare_provider: props.selectedIllnessFunctionalImpairment.healthcare_provider,
-        our_contact_person_uuid: props.selectedIllnessFunctionalImpairment.our_contact_person_uuid,
+        our_contact_person_uuid: props.selectedIllnessFunctionalImpairment?.healthcare?.uuid ?? '',
+    }
+    if (props.selectedIllnessFunctionalImpairment?.healthcare_provider) {
+        state.formIllnessFunctionalImpairment.choose_from_our_contact_person = false
+    } else {
+        state.formIllnessFunctionalImpairment.choose_from_our_contact_person = true
     }
 })
 
@@ -148,14 +157,20 @@ watch(() => props.selectedIllnessFunctionalImpairment, (newValue: any) => {
             uuid: newValue.uuid,
             date: newValue.date,
             illness_functional_impairment: newValue.illness_functional_impairment,
+            choose_from_our_contact_person: false,
             healthcare_provider: newValue.healthcare_provider,
-            our_contact_person_uuid: newValue.our_contact_person_uuid,
+            our_contact_person_uuid: props.selectedIllnessFunctionalImpairment?.healthcare?.uuid ?? '',
+        }
+        if (newValue?.healthcare_provider) {
+            state.formIllnessFunctionalImpairment.choose_from_our_contact_person = false
+        } else {
+            state.formIllnessFunctionalImpairment.choose_from_our_contact_person = true
         }
     }
 })
 
 const rules = computed(() => {
-    if (state.chooseFromOurContactPerson) {
+    if (state.formIllnessFunctionalImpairment.choose_from_our_contact_person) {
         return {
             formIllnessFunctionalImpairment: {
                 date: {

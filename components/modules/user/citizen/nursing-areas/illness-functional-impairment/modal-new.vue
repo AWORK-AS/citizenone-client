@@ -37,7 +37,7 @@ const props = defineProps({
         required: true,
     }
 })
-const emit = defineEmits(['close', 'refreshIllnessFunctionalImpairment'])
+const emit = defineEmits(['close', 'refreshIllnessAndFunctionalImpairment'])
 
 const state = reactive({
     error: {} as Error,
@@ -56,8 +56,8 @@ function closeModal() {
     emit('close')
 }
 
-function refreshIllnessFunctionalImpairment() {
-    emit('refreshIllnessFunctionalImpairment')
+function refreshIllnessAndFunctionalImpairment() {
+    emit('refreshIllnessAndFunctionalImpairment')
 }
 
 async function saveIllnessFunctionalImpairment(illnessFunctionalImpairmentDetails: any) {
@@ -69,14 +69,14 @@ async function saveIllnessFunctionalImpairment(illnessFunctionalImpairmentDetail
             date: illnessFunctionalImpairmentDetails.date,
             illness_functional_impairment: illnessFunctionalImpairmentDetails.illness_functional_impairment,
         } as any
-        if (illnessFunctionalImpairmentDetails.healthcare_provider) {
-            params.healthcare_provider = illnessFunctionalImpairmentDetails.healthcare_provider
-        } else {
+        if (illnessFunctionalImpairmentDetails.choose_from_our_contact_person) {
             params.our_contact_person_uuid = illnessFunctionalImpairmentDetails.our_contact_person_uuid
+        } else {
+            params.healthcare_provider = illnessFunctionalImpairmentDetails.healthcare_provider
         }
         const response = await illnessFunctionalImpairmentService.saveIllnessFunctionalImpairment(params)
         if (response?.data) {
-            refreshIllnessFunctionalImpairment()
+            refreshIllnessAndFunctionalImpairment()
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t('citizens.nursingAreas.illnessAndFunctionalImpairment.form.alert.illnessAndFunctionalImpairmentSucessfullyAdded')}.`)
         }

@@ -34,15 +34,39 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-2 space-y-1">
-                        <div :class="expandedRecords[index] ? '' : 'line-clamp-2'">
-                            <div v-html="record?.consent_competence_capacity" class="content" />
+                    <div class="mt-2">
+                        <div class="space-y-1">
+                            <div :class="expandedRecords[index] ? 'space-y-3' : 'space-y-3 line-clamp-2'">
+                                <div>
+                                    <p class="font-medium text-sm">
+                                        {{
+                                            $t('citizens.nursingAreas.illnessAndFunctionalImpairment.illnessAndFunctionalImpairment')
+                                        }}:
+                                    </p>
+                                    <div v-html="record?.illness_functional_impairment" class="content py-0" />
+                                </div>
+                                <div>
+                                    <p class="font-medium text-sm">
+                                        {{
+                                            $t('citizens.nursingAreas.illnessAndFunctionalImpairment.table.healthcareProvider')
+                                        }}:
+                                    </p>
+                                    <p v-if="record?.healthcare_provider">
+                                        {{ record?.healthcare_provider }}
+                                    </p>
+                                    <p v-if="record?.healthcare">
+                                        {{ record?.healthcare?.firstname + ' ' +
+                                            (record?.healthcare?.lastname ?? '') }}
+                                    </p>
+                                </div>
+                            </div>
+                            <button @click="toggleExpanded(index)"
+                                class="mt-3 text-primary text-sm hover:text-primary-700">
+                                {{ expandedRecords[index] ?
+                                    $t('showLess') :
+                                    $t('showMore') }}
+                            </button>
                         </div>
-                        <button @click="toggleExpanded(index)" class="mt-3 text-primary text-sm hover:text-primary-700">
-                            {{ expandedRecords[index] ?
-                                $t('showLess') :
-                                $t('showMore') }}
-                        </button>
                     </div>
                 </div>
                 <div v-if="state.records?.data?.length === 0">

@@ -1482,14 +1482,17 @@
                 },
                 "newIllnessAndFunctionalImpairment": "Ny sygdom og funktionelle nedsættelser",
                 "table": {
-                    "delete": "Slet",
-                    "edit": "Rediger"
-                },
-                "alert": {
-                    "consentIllnessAndFunctionalImpairmentSuccessfullyDeleted": "Sygdom og funktionelle nedsættelser er blevet slettet"
-                },
-                "confirmation": {
-                    "deleteIllnessAndFunctionalImpairmentConfirmation": "Er du sikker på, at du vil slette denne sygdom og funktionelle nedsættelser?"
+                    "actions": {
+                        "delete": "Slet",
+                        "edit": "Rediger"
+                    },
+                    "alert": {
+                        "consentIllnessAndFunctionalImpairmentSuccessfullyDeleted": "Sygdom og funktionelle nedsættelser er blevet slettet"
+                    },
+                    "confirmation": {
+                        "deleteIllnessAndFunctionalImpairmentConfirmation": "Er du sikker på, at du vil slette denne sygdom og funktionelle nedsættelser?"
+                    },
+                    "healthcareProvider": "Sundhedsudbyder"
                 }
             },
             "newNursingProfessionalRecords": "Ny sundhedsfaglig optegnelse",

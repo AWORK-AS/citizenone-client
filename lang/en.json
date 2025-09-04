@@ -1482,14 +1482,17 @@
                 },
                 "newIllnessAndFunctionalImpairment": "New illness and functional impairment",
                 "table": {
-                    "delete": "Delete",
-                    "edit": "Edit"
-                },
-                "alert": {
-                    "consentIllnessAndFunctionalImpairmentSuccessfullyDeleted": "Illness and functional impairment successfully deleted"
-                },
-                "confirmation": {
-                    "deleteIllnessAndFunctionalImpairmentConfirmation": "Are you sure you want to delete this illness and functional impairment"
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit"
+                    },
+                    "alert": {
+                        "consentIllnessAndFunctionalImpairmentSuccessfullyDeleted": "Illness and functional impairment successfully deleted"
+                    },
+                    "confirmation": {
+                        "deleteIllnessAndFunctionalImpairmentConfirmation": "Are you sure you want to delete this illness and functional impairment"
+                    },
+                    "healthcareProvider": "Healthcare provider"
                 }
             },
             "newNursingProfessionalRecords": "New nursing professional record",
