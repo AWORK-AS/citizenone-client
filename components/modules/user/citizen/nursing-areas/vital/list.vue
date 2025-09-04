@@ -34,44 +34,53 @@
                     </div>
                     <div class="mt-2 space-y-1">
                         <div :class="expandedRecords[index] ? '' : 'line-clamp-2'">
-                            <div>
-                                <p>
+                            <div class="flex items-center gap-x-1">
+                                <p class="font-medium">
                                     {{ $t('citizens.nursingAreas.vitals.form.bloodPressure') }}:
                                 </p>
                                 <p>
                                     {{ record?.blood_pressure }}
                                 </p>
                             </div>
-                            <div>
-                                <p>
+                            <div class="flex items-center gap-x-1">
+                                <p class="font-medium">
                                     {{ $t('citizens.nursingAreas.vitals.form.pulse') }}:
                                 </p>
                                 <p>
                                     {{ record?.pulse }}
                                 </p>
                             </div>
-                            <div>
-                                <p>
+                            <div class="flex items-center gap-x-1">
+                                <p class="font-medium">
                                     {{ $t('citizens.nursingAreas.vitals.form.weight') }}:
                                 </p>
                                 <p>
                                     {{ record?.weight }}
                                 </p>
                             </div>
-                            <div>
-                                <p>
+                            <div class="flex items-center gap-x-1">
+                                <p class="font-medium">
                                     {{ $t('citizens.nursingAreas.vitals.form.bloodSugar') }}:
                                 </p>
                                 <p>
                                     {{ record?.blood_sugar }}
                                 </p>
                             </div>
-                            <div>
-                                <p>
+                            <div class="flex items-center gap-x-1">
+                                <p class="font-medium">
                                     {{ $t('citizens.nursingAreas.vitals.form.temperature') }}:
                                 </p>
                                 <p>
                                     {{ record?.temperature }}
+                                </p>
+                            </div>
+                            <div v-for="(field, fieldIndex) in JSON.parse(record?.additional_fields)" :key="fieldIndex"
+                                class="flex items-center gap-x-1">
+                                <p class="font-medium">
+                                    {{ field?.name }}:
+                                </p>
+                                <p>
+                                    {{ field?.value }}
                                 </p>
                             </div>
                         </div>
