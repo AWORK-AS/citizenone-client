@@ -1468,9 +1468,29 @@
                 "excretionOfWaste": "Excretion of waste"
             },
             "illnessAndFunctionalImpairment": {
+                "editIllnessAndFunctionalImpairment": "Edit illness and functional impairment",
                 "illnessAndFunctionalImpairment": "Illness and functional impairment",
-                "illnessAndFunctionalImpairment1": "What is the illness and functional impairment the citizen has",
-                "illnessAndFunctionalImpairment2": "Who is the responsible healthcare provider"
+                "form": {
+                    "alert": {
+                        "illnessAndFunctionalImpairmentSucessfullyAdded": "Illness and functional impairment successfully added",
+                        "illnessAndFunctionalImpairmentSucessfullyUpdated": "Illness and functional impairment successfully updated"
+                    },
+                    "chooseFromOurContactPerson": "Choose from contact person",
+                    "date": "Date",
+                    "illnessAndFunctionalImpairment1": "What is the illness and functional impairment the citizen has",
+                    "whoIsTheResponsibleHealthcareProvider": "Who is the responsible healthcare provider"
+                },
+                "newIllnessAndFunctionalImpairment": "New illness and functional impairment",
+                "table": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "alert": {
+                    "consentIllnessAndFunctionalImpairmentSuccessfullyDeleted": "Illness and functional impairment successfully deleted"
+                },
+                "confirmation": {
+                    "deleteIllnessAndFunctionalImpairmentConfirmation": "Are you sure you want to delete this illness and functional impairment"
+                }
             },
             "newNursingProfessionalRecords": "New nursing professional record",
             "nursingProfessionalRecords": "Nursing professional records",

@@ -1468,9 +1468,29 @@
                 "excretionOfWaste": "Affaldsudskillelse"
             },
             "illnessAndFunctionalImpairment": {
-                "illnessAndFunctionalImpairment": "Sygdom og funktionsnedsættelse",
-                "illnessAndFunctionalImpairment1": "Hvilken sygdom og funktionsnedsættelse har borgeren",
-                "illnessAndFunctionalImpairment2": "Hvem er den ansvarlige sundhedsprofessionelle"
+                "editIllnessAndFunctionalImpairment": "Rediger sygdom og funktionelle nedsættelser",
+                "illnessAndFunctionalImpairment": "Sygdom og funktionelle nedsættelser",
+                "form": {
+                    "alert": {
+                        "illnessAndFunctionalImpairmentSucessfullyAdded": "Sygdom og funktionelle nedsættelser er blevet tilføjet",
+                        "illnessAndFunctionalImpairmentSucessfullyUpdated": "Sygdom og funktionelle nedsættelser er blevet opdateret"
+                    },
+                    "chooseFromOurContactPerson": "Vælg fra kontaktperson",
+                    "date": "Dato",
+                    "illnessAndFunctionalImpairment1": "Hvad er sygdommen og de funktionelle nedsættelser borgeren har?",
+                    "whoIsTheResponsibleHealthcareProvider": "Hvem er den ansvarlige sundhedsudbyder?"
+                },
+                "newIllnessAndFunctionalImpairment": "Ny sygdom og funktionelle nedsættelser",
+                "table": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "alert": {
+                    "consentIllnessAndFunctionalImpairmentSuccessfullyDeleted": "Sygdom og funktionelle nedsættelser er blevet slettet"
+                },
+                "confirmation": {
+                    "deleteIllnessAndFunctionalImpairmentConfirmation": "Er du sikker på, at du vil slette denne sygdom og funktionelle nedsættelser?"
+                }
             },
             "newNursingProfessionalRecords": "Ny sundhedsfaglig optegnelse",
             "nursingProfessionalRecords": "Sundhedsfaglige optegnelser",
