@@ -250,6 +250,7 @@ watch(() => language.locale.value, () => {
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
+        fetchAllCitizens()
         fetchMyCalendarEvents()
     }
 })
