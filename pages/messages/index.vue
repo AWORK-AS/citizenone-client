@@ -89,9 +89,11 @@ import { messageService } from '@/components/api/user/MessageService'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
+import { useDepartmentStore } from '@/store/department'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
+const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
 const { t } = useI18n()
@@ -146,7 +148,10 @@ async function fetchAllAvailableChatUsers() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await userService.getAllUsers()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+        const response = await userService.getAllUsers(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(

@@ -310,7 +310,10 @@ async function fetchAllUsers() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await userService.getAllUsers()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+        const response = await userService.getAllUsers(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(

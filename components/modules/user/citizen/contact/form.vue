@@ -202,6 +202,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -221,6 +222,7 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
 const language = useI18n()
+const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 
 const state = reactive({
@@ -420,7 +422,10 @@ async function fetchAllUsers() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await userService.getAllUsers()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+        const response = await userService.getAllUsers(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(

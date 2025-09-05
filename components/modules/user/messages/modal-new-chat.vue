@@ -53,6 +53,7 @@ import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { userService } from '@/components/api/user/UserService'
+import { useDepartmentStore } from '@/store/department'
 
 const props = defineProps({
     isModalOpen: {
@@ -62,6 +63,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 const { t } = useI18n()
+const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const router = useRouter()
 const userUuid = router?.currentRoute?.value?.query?.user_uuid
@@ -109,7 +111,10 @@ async function fetchAllAvailableChatUsers() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await userService.getAllUsers()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+        const response = await userService.getAllUsers(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
