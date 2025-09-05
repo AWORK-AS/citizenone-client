@@ -74,7 +74,7 @@
                                     {{ record?.temperature }}
                                 </p>
                             </div>
-                            <div v-for="(field, fieldIndex) in JSON.parse(record?.additional_fields)" :key="fieldIndex"
+                            <div v-for="(field, fieldIndex) in record?.additional_fields" :key="fieldIndex"
                                 class="flex items-center gap-x-1">
                                 <p class="font-medium">
                                     {{ field?.name }}:
