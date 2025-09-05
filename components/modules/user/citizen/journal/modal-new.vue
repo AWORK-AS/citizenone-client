@@ -6,9 +6,10 @@
             @closeRightModal="state.modal.showCurrentPlansAndGoals = false">
             <template #modal-left>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="flex justify-end" v-if="state.plans?.data?.length > 0">
+                    <div class="flex justify-end">
                         <button class="text-sm text-primary hover:text-primary-700"
-                            @click="state.modal.showCurrentPlansAndGoals = !state.modal.showCurrentPlansAndGoals">
+                            @click="state.modal.showCurrentPlansAndGoals = !state.modal.showCurrentPlansAndGoals"
+                            v-if="state.plans?.data?.length > 0">
                             <span v-if="state.modal.showCurrentPlansAndGoals">
                                 {{ $t('citizens.citizenJournals.form.hideCurrentPlansGoalsAndSubgoals') }}
                             </span>

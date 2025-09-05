@@ -1016,6 +1016,7 @@
                 },
                 "date": "Dato",
                 "draft": "Udkast",
+                "enterJournalTitleManually": "Indtast journal titel manuelt",
                 "forTeeth": "Til tænder",
                 "goal": "Mål",
                 "generateNote": "Generer note",
@@ -1045,7 +1046,8 @@
                 "subgoal": "Delmål",
                 "tags": "Etiketter",
                 "teeth": "Tænder",
-                "title": "Titel"
+                "title": "Titel",
+                "usePredefinedJournalTitle": "Brug foruddefineret journal titel"
             },
             "journalLogs": {
                 "date": "Dato",
