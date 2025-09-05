@@ -797,7 +797,7 @@ async function generateNoteForRiskAssessmentNote() {
     try {
         const params = {
             citizen_uuid: citizenUuid,
-            prompt: state.formJournal.content,
+            prompt: state.formJournal.note,
         }
         const response = await aIAssistantService.generateNote(params)
         if (response) {
