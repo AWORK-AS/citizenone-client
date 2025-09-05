@@ -269,9 +269,9 @@ async function fetchAllCitizens() {
         if (response.data) {
             let options: any = []
             response.data.forEach(
-                (user: any) => options.push({
-                    value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname,
+                (citizen: any) => options.push({
+                    value: citizen?.uuid,
+                    label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
                 })
             )
             state.options.citizens = options
