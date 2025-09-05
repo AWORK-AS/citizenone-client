@@ -3,25 +3,25 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('departments.newDepartment') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('journalTitles.newJournalTitle') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('departments.newDepartment') }}</template>
+            <template #header>{{ $t('journalTitles.newJournalTitle') }}</template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    to="/settings/departments">
+                    to="/settings/journal-titles">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserDepartmentForm formType="create" :selectedDepartment="state.formDepartment"
+                    <ModulesUserJournalTitleForm formType="create" :selectedJournalTitle="state.formJournalTitle"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @submitForm="saveDepartment" />
+                        @submitForm="saveJournalTitle" />
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { departmentService } from '@/components/api/user/DepartmentService'
+import { journalTitleService } from '@/components/api/user/JournalTitleService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -39,44 +39,39 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const breadcrumbLinks = [
     {
-        name: 'departments.departments',
+        name: 'journalTitles.journalTitles',
         translate: true,
-        href: '/settings/departments',
+        href: '/settings/journal-titles',
     },
     {
-        name: 'departments.newDepartment',
+        name: 'journalTitles.newJournalTitle',
         translate: true,
-        href: '/settings/departments/new',
+        href: '/settings/journal-titles/new',
     },
 ]
 
 const state = reactive({
     error: {} as Error,
-    formDepartment: {
-        name: '',
+    formJournalTitle: {
+        title: '',
     },
     isPageLoading: false,
 })
 
-async function saveDepartment(departmentDetails: any) {
+async function saveJournalTitle(journalTitleDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            name: departmentDetails.name,
+            title: journalTitleDetails.title,
         }
-        const response = await departmentService.saveDepartment(params)
+        const response = await journalTitleService.saveJournalTitle(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('departments.form.alert.newDepartmentSuccessfullySaved')}.`)
-            navigateTo('/settings/departments')
+            successAlert(`${t('alert.success')}!`, `${t('journalTitles.form.alert.newJournalTitleSuccessfullySaved')}.`)
+            navigateTo('/settings/journal-titles')
         }
     } catch (error: any) {
         state.error = error
-        if (error?.message === 'You have no available user license to create a new department.') {
-            navigateTo(`/subscription?error=${error?.message}`)
-        } else if (error?.message === 'Du har ingen tilgængelige brugerlicenser til at oprette en ny afdeling.') {
-            navigateTo(`/subscription?error=${error?.message}`)
-        }
     }
     state.isPageLoading = false
 }

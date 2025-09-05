@@ -3,25 +3,25 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('departments.editDepartment') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('journalTitles.editJournalTitle') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('departments.editDepartment') }}</template>
+            <template #header>{{ $t('journalTitles.editJournalTitle') }}</template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    to="/settings/departments">
+                    to="/settings/journal-titles">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserDepartmentForm formType="update" :selectedDepartment="state.formDepartment"
+                    <ModulesUserJournalTitleForm formType="update" :selectedJournalTitle="state.formJournalTitle"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @submitForm="updateDepartment" />
+                        @submitForm="updateJournalTitle" />
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { departmentService } from '@/components/api/user/DepartmentService'
+import { journalTitleService } from '@/components/api/user/JournalTitleService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -38,40 +38,40 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
-const departmentUuid = router?.currentRoute?.value?.params?.uuid
+const journalTitleUuid = router?.currentRoute?.value?.params?.uuid
 const breadcrumbLinks = [
     {
-        name: 'departments.departments',
+        name: 'journalTitles.journalTitles',
         translate: true,
-        href: '/settings/departments',
+        href: '/settings/journal-titles',
     },
     {
-        name: 'departments.editDepartment',
+        name: 'journalTitles.editJournalTitle',
         translate: true,
-        href: `/settings/departments/${departmentUuid}/edit`,
+        href: `/settings/journal-titles/${journalTitleUuid}/edit`,
     },
 ]
 
 const state = reactive({
     error: {} as Error,
-    formDepartment: {
-        name: '',
+    formJournalTitle: {
+        title: '',
     },
     isPageLoading: false,
 })
 
 onMounted(() => {
-    fetchDepartment()
+    fetchJournalTitle()
 })
 
-async function fetchDepartment() {
+async function fetchJournalTitle() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await departmentService.getDepartment(departmentUuid)
+        const response = await journalTitleService.getJournalTitle(journalTitleUuid)
         if (response) {
-            state.formDepartment = {
-                name: response?.data?.name ?? '',
+            state.formJournalTitle = {
+                title: response?.data?.title ?? '',
             }
         }
     } catch (error: any) {
@@ -80,17 +80,17 @@ async function fetchDepartment() {
     state.isPageLoading = false
 }
 
-async function updateDepartment(departmentDetails: any) {
+async function updateJournalTitle(journalTitleDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            name: departmentDetails.name,
+            title: journalTitleDetails.title,
         }
-        const response = await departmentService.updateDepartment(departmentUuid, params)
+        const response = await journalTitleService.updateJournalTitle(journalTitleUuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('departments.form.alert.departmentSuccessfullyUpdated')}.`)
-            navigateTo('/settings/departments')
+            successAlert(`${t('alert.success')}!`, `${t('journalTitles.form.alert.journalTitleSuccessfullyUpdated')}.`)
+            navigateTo('/settings/journal-titles')
         }
     } catch (error: any) {
         state.error = error

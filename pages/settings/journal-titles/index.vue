@@ -3,14 +3,14 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('departments.departments') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('journalTitles.journalTitles') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('departments.departments') }}</template>
+            <template #header>{{ $t('journalTitles.journalTitles') }}</template>
 
             <ModulesUserSettingsTab />
             <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
@@ -18,9 +18,9 @@
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/settings/departments/new')">
+                        @click="navigateTo('/settings/journal-titles/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('departments.newDepartment') }}
+                        {{ $t('journalTitles.newJournalTitle') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -28,24 +28,24 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.departments"
+                        <Table :columnHeaders="state.columnHeaders" :data="state.journalTitles"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.departments?.data?.length === 0))">
-                                <tr v-for="(department, index) in state.departments?.data" :key="index">
+                            <template #body v-if="!(state.isTableLoading || (state.journalTitles?.data?.length === 0))">
+                                <tr v-for="(journalTitle, index) in state.journalTitles?.data" :key="index">
                                     <td width="50%">
-                                        <span>{{ department?.name }}</span>
+                                        <span>{{ journalTitle?.title }}</span>
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/departments/${department.uuid}/edit`)">
+                                                @click="navigateTo(`/settings/journal-titles/${journalTitle.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('departments.table.actions.edit') }}
+                                                {{ $t('journalTitles.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                @click="deleteDepartmentConfirmation(department)">
+                                                @click="deleteJournalTitleConfirmation(journalTitle)">
                                                 <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('departments.table.actions.delete') }}
+                                                {{ $t('journalTitles.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -53,18 +53,18 @@
                             </template>
                         </Table>
                     </div>
-                    <Pagination :data="state.departments" @previous="previous" @next="next" />
+                    <Pagination :data="state.journalTitles" @previous="previous" @next="next" />
                 </div>
             </div>
-            <DialogConfirmation :isModalOpen="state.modal.isDeleteDepartmentOpen"
-                :message="$t('departments.table.confirmation.deleteDepartmentConfirmation') + '?'"
-                @close="state.modal.isDeleteDepartmentOpen = false" @confirm="deleteDepartment" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalTitleOpen"
+                :message="$t('journalTitles.table.confirmation.deleteJournalTitleConfirmation') + '?'"
+                @close="state.modal.isDeleteJournalTitleOpen = false" @confirm="deleteJournalTitle" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
-import { departmentService } from '@/components/api/user/DepartmentService'
+import { journalTitleService } from '@/components/api/user/JournalTitleService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -75,41 +75,41 @@ const { t } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
-        name: 'departments.departments',
+        name: 'journalTitles.journalTitles',
         translate: true,
-        href: '/settings/departments',
+        href: '/settings/journal-titles',
     },
 ]
 
 const state = reactive({
     columnFilter: [
-        { column: 'name' },
+        { column: 'title' },
     ],
     columnHeaders: [
-        { name: 'departments.table.name', sorter: true, key: 'name' },
+        { name: 'journalTitles.table.title', sorter: true, key: 'title' },
         { name: '' },
     ],
     dataFilter: {
         search: ''
     },
-    departments: [] as any,
     error: {} as Error,
     isTableLoading: false,
+    journalTitles: [] as any,
     modal: {
-        isDeleteDepartmentOpen: false,
+        isDeleteJournalTitleOpen: false,
     },
-    selectedDepartment: {} as any,
+    selectedJournalTitle: {} as any,
     sortData: {
-        sortField: 'name',
+        sortField: 'title',
         sortOrder: 'ascend',
     },
 })
 
 onMounted(() => {
-    fetchDepartments()
+    fetchJournalTitles()
 })
 
-async function fetchDepartments() {
+async function fetchJournalTitles() {
     state.error = {}
     state.isTableLoading = true
     try {
@@ -119,9 +119,9 @@ async function fetchDepartments() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await departmentService.getDepartments(params)
+        const response = await journalTitleService.getJournalTitles(params)
         if (response) {
-            state.departments = response
+            state.journalTitles = response
         }
     } catch (error: any) {
         state.error = error
@@ -131,12 +131,12 @@ async function fetchDepartments() {
 
 function previous() {
     currentTablePage--
-    fetchDepartments()
+    fetchJournalTitles()
 }
 
 function next() {
     currentTablePage++
-    fetchDepartments()
+    fetchJournalTitles()
 }
 
 function sort(sortingData: any) {
@@ -145,28 +145,28 @@ function sort(sortingData: any) {
         sortField: sortingData.column,
         sortOrder: sortingData.sort,
     }
-    fetchDepartments()
+    fetchJournalTitles()
 }
 
 function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
-    fetchDepartments()
+    fetchJournalTitles()
 }
 
-function deleteDepartmentConfirmation(department: any) {
-    state.selectedDepartment = department
-    state.modal.isDeleteDepartmentOpen = true
+function deleteJournalTitleConfirmation(department: any) {
+    state.selectedJournalTitle = department
+    state.modal.isDeleteJournalTitleOpen = true
 }
 
-async function deleteDepartment() {
+async function deleteJournalTitle() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await departmentService.deleteDepartment(state.selectedDepartment.uuid)
+        const response = await journalTitleService.deleteJournalTitle(state.selectedJournalTitle.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            fetchDepartments()
-            successAlert(`${t('alert.success')}!`, `${t('departments.table.alert.departmentSuccessfullyDeleted')}.`)
+            fetchJournalTitles()
+            successAlert(`${t('alert.success')}!`, `${t('journalTitles.table.alert.journalTitleSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error

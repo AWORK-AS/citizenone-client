@@ -3224,7 +3224,7 @@
                 "journalTitleSuccessfullyUpdated": "Journal titel opdateret succesfuldt",
                 "newJournalTitleSuccessfullySaved": "Ny journal titel gemt succesfuldt"
             },
-            "name": "Navn"
+            "title": "Titel"
         },
         "journalTitles": "Journal titler",
         "newJournalTitle": "Ny journal titel",
@@ -3239,7 +3239,7 @@
             "confirmation": {
                 "deleteJournalTitleConfirmation": "Er du sikker på, at du vil slette denne journal titel?"
             },
-            "name": "Navn"
+            "title": "Titel"
         }
     },
     "languageSwitcher": {

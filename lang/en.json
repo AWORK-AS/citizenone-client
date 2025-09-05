@@ -3224,7 +3224,7 @@
                 "journalTitleSuccessfullyUpdated": "Journal title successfully updated",
                 "newJournalTitleSuccessfullySaved": "New journal title successfully saved"
             },
-            "name": "Name"
+            "title": "Title"
         },
         "journalTitles": "Journal titles",
         "newJournalTitle": "New journal title",
@@ -3239,7 +3239,7 @@
             "confirmation": {
                 "deleteJournalTitleConfirmation": "Are you sure you want to delete this journal title"
             },
-            "name": "Name"
+            "title": "Title"
         }
     },
     "languageSwitcher": {
