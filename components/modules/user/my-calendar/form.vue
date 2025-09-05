@@ -97,6 +97,8 @@
                 </FormButton>
             </div>
         </div>
+        <ModulesUserUnitModalNew :isModalOpen="state.modal.isAddUnitOpen" @close="state.modal.isAddUnitOpen = false"
+            @refreshUnits="fetchAllUnits" />
         <ModulesUserCalendarTagModalNew :isModalOpen="state.modal.isAddNewCalendarTag"
             @close="state.modal.isAddNewCalendarTag = false" @refreshCalendarTags="fetchAllCalendarTags" />
     </form>
@@ -110,6 +112,7 @@ import { userService } from '@/components/api/user/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -128,6 +131,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
+const departmentStore = useDepartmentStore()
 
 interface Option {
     value: string
@@ -148,11 +152,12 @@ const state = reactive({
         is_private: false,
         citizens_uuid: [],
         users_uuid: [],
-        calendar_tag_uuid: [],
+        calendar_tag_uuid: [] as any,
         send_invitation: false,
     },
     modal: {
         isAddNewCalendarTag: false,
+        isAddUnitOpen: false,
     },
     options: {
         citizens: [] as Option[],
@@ -281,7 +286,10 @@ async function fetchAllCitizens() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await citizenService.getAllCitizens()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+        const response = await citizenService.getAllCitizens(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(

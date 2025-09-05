@@ -51,10 +51,12 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const departmentStore = useDepartmentStore()
 
 const props = defineProps({
     isModalOpen: {
@@ -108,7 +110,10 @@ async function fetchAllCitizens() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await citizenService.getAllCitizens()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+        const response = await citizenService.getAllCitizens(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
