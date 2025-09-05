@@ -22,7 +22,7 @@
                         <FormLabel for="predefined_title" :label="$t('citizens.citizenJournals.form.title')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                             @click="state.modal.isAddJournalTitleOpen = true">
-                            {{ $t('journalTitles.addJournalTitle') }}
+                            {{ $t('journalTitles.addNewJournalTitle') }}
                         </span>
                     </div>
                     <FormSelect id="predefined_title" v-model="state.formJournal.title"
