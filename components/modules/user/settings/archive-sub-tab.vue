@@ -27,16 +27,16 @@ watch(() => userStore.getUser, (newValue: any) => {
 })
 
 function changeTab(value: any) {
-    if (value === t('archived.tabs.archivedCitizens')) {
+    if (value === '/settings/archived/citizens') {
         navigateTo(`/settings/archived/citizens`)
     }
-    else if (value === t('archived.tabs.archivedEmployees')) {
+    else if (value === '/settings/archived/employees') {
         navigateTo(`/settings/archived/employees`)
     }
-    else if (value === t('archived.tabs.archivedDocuments')) {
+    else if (value === '/settings/archived/documents') {
         navigateTo(`/settings/archived/documents`)
     }
-    // else if (value === t('archived.tabs.archivedPlans')) {
+    // else if (value === '/settings/archived/plans') {
     //     navigateTo(`/settings/archived/plans`)
     // }
     // else if (value === t('archived.tabs.archivedGoals')) {

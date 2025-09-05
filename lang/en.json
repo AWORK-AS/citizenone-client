@@ -3216,6 +3216,32 @@
             "name": "Name"
         }
     },
+    "journalTitles": {
+        "addNewJournalTitle": "Add new journal title",
+        "editJournalTitle": "Edit journal title",
+        "form": {
+            "alert": {
+                "journalTitleSuccessfullyUpdated": "Journal title successfully updated",
+                "newJournalTitleSuccessfullySaved": "New journal title successfully saved"
+            },
+            "name": "Name"
+        },
+        "journalTitles": "Journal titles",
+        "newJournalTitle": "New journal title",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "journalTitleSuccessfullyDeleted": "Journal title successfully deleted"
+            },
+            "confirmation": {
+                "deleteJournalTitleConfirmation": "Are you sure you want to delete this journal title"
+            },
+            "name": "Name"
+        }
+    },
     "languageSwitcher": {
         "selectLanguage": "Select language"
     },
@@ -4128,6 +4154,7 @@
             "invoices": "Invoices",
             "jobTitles": "Job titles",
             "journalNoteTags": "Journal note tags",
+            "journalTitles": "Journal titles",
             "licenseOverview": "License overview",
             "licenses": "Licenses",
             "medicationAllergies": "Medication allergies",

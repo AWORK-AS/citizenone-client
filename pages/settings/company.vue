@@ -257,13 +257,13 @@ watch(() => userStore.getUser, (newValue: any) => {
             municipality: newValue?.company?.company_address?.municipality?.uuid,
             city: newValue?.company?.company_address?.city,
             post_code: newValue?.company?.company_address?.post_code,
-            group_chat_enabled: newValue?.company?.group_chat_enabled ?? false,
-            checkin_enabled: newValue?.company?.checkin_enabled ?? false,
-            plans_enabled: newValue?.company?.employee_create_plans_enabled ?? false,
-            goals_enabled: newValue?.company?.employee_create_goals_enabled ?? false,
-            subgoals_enabled: newValue?.company?.employee_create_subgoals_enabled ?? false,
-            is_lock_past_schedules: newValue?.company?.is_lock_past_schedules ?? false,
-            social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ?? false,
+            group_chat_enabled: newValue?.company?.group_chat_enabled ? true : false,
+            checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
+            plans_enabled: newValue?.company?.employee_create_plans_enabled ? true : false,
+            goals_enabled: newValue?.company?.employee_create_goals_enabled ? true : false,
+            subgoals_enabled: newValue?.company?.employee_create_subgoals_enabled ? true : false,
+            is_lock_past_schedules: newValue?.company?.is_lock_past_schedules ? true : false,
+            social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
         }
         fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
     }

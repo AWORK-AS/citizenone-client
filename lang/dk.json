@@ -3216,6 +3216,32 @@
             "name": "Navn"
         }
     },
+    "journalTitles": {
+        "addNewJournalTitle": "Tilføj ny journal titel",
+        "editJournalTitle": "Rediger journal titel",
+        "form": {
+            "alert": {
+                "journalTitleSuccessfullyUpdated": "Journal titel opdateret succesfuldt",
+                "newJournalTitleSuccessfullySaved": "Ny journal titel gemt succesfuldt"
+            },
+            "name": "Navn"
+        },
+        "journalTitles": "Journal titler",
+        "newJournalTitle": "Ny journal titel",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "journalTitleSuccessfullyDeleted": "Journal titel slettet succesfuldt"
+            },
+            "confirmation": {
+                "deleteJournalTitleConfirmation": "Er du sikker på, at du vil slette denne journal titel?"
+            },
+            "name": "Navn"
+        }
+    },
     "languageSwitcher": {
         "selectLanguage": "Vælg sprog"
     },
@@ -4128,6 +4154,7 @@
             "invoices": "Fakturaer",
             "jobTitles": "Jobtitler",
             "journalNoteTags": "Journalnotetag",
+            "journalTitles": "Journal titler",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
             "medicationAllergies": "Medicinallergier",
