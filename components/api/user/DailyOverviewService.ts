@@ -6,31 +6,31 @@ class DailyOverviewService extends BaseAPIService {
     }
 
     async getCitizensRiskAssessment(params: object): Promise<any> {
-        return await this.request(`user/citizen-journals/risk-assessments/count`, 'GET', params)
+        return await this.request(`/user/citizen-journals/risk-assessments/count`, 'GET', params)
     }
 
     async getCitizensGender(params: object): Promise<any> {
-        return await this.request(`user/citizens/all/gender-count`, 'GET', params)
+        return await this.request(`/user/citizens/all/gender-count`, 'GET', params)
     }
 
     async getCitizensOrigin(params: object): Promise<any> {
-        return await this.request(`user/citizens/all/with-origin`, 'GET', params)
+        return await this.request(`/user/citizens/all/with-origin`, 'GET', params)
     }
 
     async getCitizensAddictions(params: object): Promise<any> {
-        return await this.request(`user/citizens/all/with-addictions`, 'GET', params)
+        return await this.request(`/user/citizens/all/with-addictions`, 'GET', params)
     }
 
     async getCitizensAddictionsCount(params: object): Promise<any> {
-        return await this.request(`user/citizens/all/addiction-count`, 'GET', params)
+        return await this.request(`/user/citizens/all/addiction-count`, 'GET', params)
     }
 
     async getCitizensDiagnoses(params: object): Promise<any> {
-        return await this.request(`user/citizens/all/with-diagnoses`, 'GET', params)
+        return await this.request(`/user/citizens/all/with-diagnoses`, 'GET', params)
     }
 
     async getCitizensDiagnosesCount(params: object): Promise<any> {
-        return await this.request(`user/citizens/all/diagnosis-count`, 'GET', params)
+        return await this.request(`/user/citizens/all/diagnosis-count`, 'GET', params)
     }
 
     async getMyDailyEvents(params: object): Promise<any> {
