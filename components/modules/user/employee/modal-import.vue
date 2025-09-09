@@ -1,16 +1,16 @@
 <template>
     <div>
-        <Modal size="xs" :title="`${$t('citizens.importCitizens.importCitizens')}`" :show="props.isModalOpen"
+        <Modal size="xs" :title="`${$t('employees.importEmployees.importEmployees')}`" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="flex justify-end">
                         <button type="button" class="text-sm text-right text-primary hover:text-primary-700"
                             @click="downloadTemplate">
-                            {{ $t('citizens.importCitizens.downloadTemplate') }}
+                            {{ $t('employees.importEmployees.downloadTemplate') }}
                         </button>
                     </div>
-                    <form @submit.prevent="importCitizens" class="mt-3">
+                    <form @submit.prevent="importEmployees" class="mt-3">
                         <Alert v-if="state.error?.message" type="danger" :text="state.error.message" />
                         <div class="space-y-3">
                             <div>
@@ -37,7 +37,7 @@
                                     {{ $t('cancel') }}
                                 </FormButton>
                                 <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
-                                    {{ $t('citizens.importCitizens.importCitizens') }}
+                                    {{ $t('employees.importEmployees.importEmployees') }}
                                 </FormButton>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { citizenService } from '@/components/api/user/CitizenService'
+import { employeeService } from '@/components/api/user/EmployeeService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import { saveAs } from 'file-saver'
@@ -100,9 +100,9 @@ async function downloadTemplate() {
     state.isPageLoading = true
     state.error = {}
     try {
-        const response = await citizenService.downloadImportCitizensTemplate()
+        const response = await employeeService.downloadImportEmployeesTemplate()
         if (response) {
-            saveAs(response, `${t('citizens.importCitizens.importTemplate')}`)
+            saveAs(response, `${t('employees.importEmployees.importTemplate')}`)
         }
     } catch (error: any) {
         state.error.message = error?.message || 'An error occurred during the download.'
@@ -110,9 +110,9 @@ async function downloadTemplate() {
     state.isPageLoading = false
 }
 
-async function importCitizens() {
+async function importEmployees() {
     if (!state.formImport.file) {
-        state.error.message = `${t('citizens.importCitizens.noFileSelected')}`
+        state.error.message = `${t('employees.importEmployees.noFileSelected')}`
         return
     }
 
@@ -121,7 +121,7 @@ async function importCitizens() {
     try {
         const params = new FormData()
         params.append('file', state.formImport.file)
-        const response = await citizenService.importCitizens(params)
+        const response = await employeeService.importEmployees(params)
         if (response) {
             closeModal()
             successAlert(`${t('alert.success')}!`, response?.message)

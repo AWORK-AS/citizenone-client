@@ -1108,7 +1108,7 @@
         },
         "importCitizens": {
             "alert": {
-                "companiesSuccessfullyImported": "Virksomheder importeret med succes"
+                "citizensSuccessfullyImported": "Borgere importeret med succes"
             },
             "downloadTemplate": "Download skabelon",
             "importCitizens": "Importer borgere",
@@ -2690,6 +2690,15 @@
             "showWorkingHours": "Vis arbejdstimer",
             "seniorityDate": "Anciennitetsdato",
             "street": "Gade"
+        },
+        "importEmployees": {
+            "alert": {
+                "employeesSuccessfullyImported": "Medarbejdere importeret med succes"
+            },
+            "downloadTemplate": "Download skabelon",
+            "importEmployees": "Importer medarbejdere",
+            "importTemplate": "Importer skabelon",
+            "noFileSelected": "Ingen fil valgt"
         },
         "newEmployee": "Ny medarbejder",
         "permissions": {

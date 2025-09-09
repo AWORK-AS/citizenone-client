@@ -1108,7 +1108,7 @@
         },
         "importCitizens": {
             "alert": {
-                "companiesSuccessfullyImported": "Companies successfully successfully imported"
+                "citizensSuccessfullyImported": "Citizens successfully successfully imported"
             },
             "downloadTemplate": "Download template",
             "importCitizens": "Import citizens",
@@ -2690,6 +2690,15 @@
             "showWorkingHours": "Show working hours",
             "seniorityDate": "Seniority date",
             "street": "Street"
+        },
+        "importEmployees": {
+            "alert": {
+                "employeesSuccessfullyImported": "Employees successfully successfully imported"
+            },
+            "downloadTemplate": "Download template",
+            "importEmployees": "Import employees",
+            "importTemplate": "Import template",
+            "noFileSelected": "No file selected"
         },
         "newEmployee": "New employee",
         "permissions": {

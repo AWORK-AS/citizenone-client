@@ -44,6 +44,14 @@ class EmployeeService extends BaseAPIService {
     async toggleBookingLicense(employeeUuid: any): Promise<any> {
         return await this.request(`/user/employees/${employeeUuid}/toggle/booking-license`, 'PUT')
     }
+
+    async importEmployees(params: object): Promise<any> {
+        return await this.request(`/user/employees/imports/template`, 'POST', params)
+    }
+
+    async downloadImportEmployeesTemplate(): Promise<any> {
+        return await this.request(`/user/employees/imports/download/template`, 'GET')
+    }
 }
 
 export const employeeService = new EmployeeService()
