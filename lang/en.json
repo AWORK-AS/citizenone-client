@@ -4087,6 +4087,18 @@
     "selectADate": "Select a date",
     "selectADateAndTime": "Select a date and time",
     "settings": {
+        "2fa": {
+            "alert": {
+                "google2FASuccessfullyDisabled": "Google 2FA successfully disabled",
+                "google2FASuccessfullyEnabled": "Google 2FA successfully enabled"
+            },
+            "form": {
+                "code": "Code",
+                "verify": "Verify",
+                "verifyCode": "Verify code"
+            },
+            "google2FactorAuthentication": "Google 2 factor authentication"
+        },
         "company": {
             "form": {
                 "accountantEmail": "Auditor or accounting e-mail (citizens' wallet transactions)",
@@ -4134,7 +4146,8 @@
                 "pageAccess": "Page access",
                 "password": "Password",
                 "phone": "Phone"
-            }
+            },
+            "profile": "Profile"
         },
         "settings": "Settings",
         "subscription": {
