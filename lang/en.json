@@ -1106,6 +1106,15 @@
             "street": "Street",
             "transportation": "Transportation"
         },
+        "importCitizens": {
+            "alert": {
+                "companiesSuccessfullyImported": "Companies successfully successfully imported"
+            },
+            "downloadTemplate": "Download template",
+            "importCitizens": "Import citizens",
+            "importTemplate": "Import template",
+            "noFileSelected": "No file selected"
+        },
         "statuses": {
             "alert": {
                 "statusSuccessfullyAdded": "Status successfully added",

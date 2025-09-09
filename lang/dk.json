@@ -1106,6 +1106,15 @@
             "street": "Gade",
             "transportation": "Transport"
         },
+        "importCitizens": {
+            "alert": {
+                "companiesSuccessfullyImported": "Virksomheder importeret med succes"
+            },
+            "downloadTemplate": "Download skabelon",
+            "importCitizens": "Importer borgere",
+            "importTemplate": "Importskabelon",
+            "noFileSelected": "Ingen fil valgt"
+        },
         "statuses": {
             "alert": {
                 "statusSuccessfullyAdded": "Status tilføjet med succes",

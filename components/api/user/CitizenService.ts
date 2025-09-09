@@ -56,6 +56,14 @@ class CitizenService extends BaseAPIService {
     async deleteCitizenCalendarEvent(scheduleUuid: any, params: object): Promise<any> {
         return await this.request(`/user/citizen-calendars/${scheduleUuid}`, 'DELETE', params)
     }
+
+    async importCitizens(params: object): Promise<any> {
+        return await this.request(`/user/citizens/imports/template`, 'POST', params)
+    }
+
+    async downloadImportantCitizenTemplate(): Promise<any> {
+        return await this.request(`/user/citizens/imports/download/template`, 'GET')
+    }
 }
 
 export const citizenService = new CitizenService()
