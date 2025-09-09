@@ -17,7 +17,7 @@
                                         state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
                                         state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'increased risk' && 'border-yellow-500',
                                         state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'acute increased risk' && 'border-red-600',
-                                        'rounded-full w-28 h-28 object-cover'
+                                        'rounded-full w-28 h-28 object-cover border-2'
                                     ]" />
                                 <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
                             </div>
