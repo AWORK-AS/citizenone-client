@@ -45,6 +45,10 @@ const userStore = useUserStore()
 const language = useI18n()
 
 const props = defineProps({
+    formLogin: {
+        type: Object,
+        required: true,
+    },
     isModalOpen: {
         type: Boolean,
         required: true,
@@ -90,6 +94,8 @@ async function verifyCode() {
     try {
         const params = {
             code: state.form2fa.code,
+            email: props.formLogin.email,
+            password: props.formLogin.password,
         }
         const response = await authService.verify2faCode(params)
         if (response.data) {
