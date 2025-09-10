@@ -88,7 +88,7 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
-    if (isModalOpen && !props.google2fa?.google_2fa) {
+    if (isModalOpen && !props.google2fa?.is_google_2fa_enabled) {
         fetchGoogle2faQR()
     }
 })
@@ -129,7 +129,7 @@ async function verifyCode() {
         }
         const response = await google2FAService.verifyCode(params)
         if (response.data) {
-            if (response.data?.google_2fa) {
+            if (response.data?.is_google_2fa_enabled) {
                 successAlert(`${t('alert.success')}!`, `${t('2fa.alert.google2FASuccessfullyEnabled')}.`)
                 emit('setGoogle2faStatus', true)
             } else {
