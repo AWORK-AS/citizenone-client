@@ -73,8 +73,28 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
+watch(() => props.isModalOpen, (isModalOpen: boolean) => {
+    if (isModalOpen && !props.google2fa?.google_2fa) {
+        fetchGoogle2faQR()
+    }
+})
+
 function closeModal() {
     emit('close')
+}
+
+async function fetchGoogle2faQR() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await google2FAService.generateQR()
+        if (response.data) {
+            console.log('response', response.data)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 function submitForm() {
