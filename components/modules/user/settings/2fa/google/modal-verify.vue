@@ -6,6 +6,15 @@
                     <form @submit.prevent="submitForm()">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
+                        <div class="space-y-1 w-1/3 mx-auto">
+                            <QRCodeVue3 :value="state.qrCodeUrl" :width="800" :height="800" image="/img/logo.svg"
+                                :qrOptions="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
+                                :imageOptions="{ hideBackgroundDots: true, imageSize: 10, margin: 2 }"
+                                :dotsOptions="{ type: 'classy', color: '#205E77' }"
+                                :cornersSquareOptions="{ type: 'extra-rounded', color: '#41ADD8' }"
+                                :cornersDotOptions="{ type: 'square', color: '#205E77' }"
+                                :key="state.qrCodeComponentKey" />
+                        </div>
                         <div class="space-y-1">
                             <FormLabel for="code" :label="$t('settings.2fa.form.code')" />
                             <FormTextField id="code" name="code" :placeholder="$t('settings.2fa.form.code')"
@@ -40,6 +49,9 @@ import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const QRCodeVue3 = defineAsyncComponent(() =>
+    import('qrcode-vue3')
+)
 
 const props = defineProps({
     google2fa: {
@@ -59,6 +71,8 @@ const state = reactive({
         code: '',
     },
     isPageLoading: false,
+    qrCodeComponentKey: 0,
+    qrCodeUrl: '',
 })
 
 const rules = computed(() => {
@@ -88,8 +102,9 @@ async function fetchGoogle2faQR() {
     state.isPageLoading = true
     try {
         const response = await google2FAService.generateQR()
-        if (response.data) {
-            console.log('response', response.data)
+        if (response.data?.qr_code) {
+            state.qrCodeUrl = response.data?.qr_code
+            state.qrCodeComponentKey += 1
         }
     } catch (error: any) {
         state.error = error
