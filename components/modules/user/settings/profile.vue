@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="md:col-span-8 grid md:grid-cols-1"
-                    v-if="userStore.getUser?.roles.some((role: any) => role.name === 'Admin')">
+                    v-if="userStore.getUser?.roles?.some((role: any) => role.name === 'Admin')">
                     <div class="space-y-1">
                         <FormLabel for="pages" :label="$t('settings.profile.form.pageAccess')" />
                         <FormSelectMultiple id="pages" :options="state.options.pages"

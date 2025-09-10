@@ -16,7 +16,7 @@ const state = reactive({
 
 watch(() => userStore.getUser, (newValue: any) => {
     if (newValue != null) {
-        const hasAdmin = newValue.roles.some((role: any) => role.name === 'Admin')
+        const hasAdmin = newValue?.roles?.some((role: any) => role.name === 'Admin')
         if (hasAdmin) {
             state.tabs = [
                 {
