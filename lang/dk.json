@@ -1,4 +1,16 @@
 {
+    "2fa": {
+        "alert": {
+            "google2FASuccessfullyDisabled": "Google 2FA blev deaktiveret med succes",
+            "google2FASuccessfullyEnabled": "Google 2FA blev aktiveret med succes"
+        },
+        "form": {
+            "code": "Kode",
+            "verify": "Bekræft",
+            "verifyCode": "Bekræft kode"
+        },
+        "google2FactorAuthentication": "Google 2-faktor autentifikation"
+    },
     "absences": {
         "addNewAbsence": "Tilføj nyt fravær",
         "absences": "Fravær",
@@ -4105,18 +4117,6 @@
     "selectADate": "Vælg en dato",
     "selectADateAndTime": "Vælg en dato og tid",
     "settings": {
-        "2fa": {
-            "alert": {
-                "google2FASuccessfullyDisabled": "Google 2FA blev deaktiveret med succes",
-                "google2FASuccessfullyEnabled": "Google 2FA blev aktiveret med succes"
-            },
-            "form": {
-                "code": "Kode",
-                "verify": "Bekræft",
-                "verifyCode": "Bekræft kode"
-            },
-            "google2FactorAuthentication": "Google 2-faktor autentifikation"
-        },
         "company": {
             "form": {
                 "accountantEmail": "Revisor eller regnskabs e-mail (borgernes wallet transaktioner)",

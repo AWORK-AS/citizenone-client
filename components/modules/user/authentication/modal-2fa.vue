@@ -6,15 +6,6 @@
                     <form @submit.prevent="submitForm()">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
-                        <div class="space-y-1 w-1/3 mx-auto">
-                            <QRCodeVue3 :value="state.qrCodeUrl" :width="800" :height="800" image="/img/logo.svg"
-                                :qrOptions="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
-                                :imageOptions="{ hideBackgroundDots: true, imageSize: 10, margin: 2 }"
-                                :dotsOptions="{ type: 'classy', color: '#205E77' }"
-                                :cornersSquareOptions="{ type: 'extra-rounded', color: '#41ADD8' }"
-                                :cornersDotOptions="{ type: 'square', color: '#205E77' }"
-                                :key="state.qrCodeComponentKey" />
-                        </div>
                         <div class="space-y-1">
                             <FormLabel for="code" :label="$t('2fa.form.code')" />
                             <FormTextField id="code" name="code" :placeholder="$t('2fa.form.code')"
@@ -40,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { google2FAService } from "@/components/api/user/Google2FAService"
+// import { google2FAService } from "@/components/api/user/Google2FAService"
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useVuelidate } from "@vuelidate/core"
@@ -49,21 +40,14 @@ import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const QRCodeVue3 = defineAsyncComponent(() =>
-    import('qrcode-vue3')
-)
 
 const props = defineProps({
-    google2fa: {
-        type: Object,
-        required: false,
-    },
     isModalOpen: {
         type: Boolean,
         required: true,
     },
 })
-const emit = defineEmits(['close', 'setGoogle2faStatus'])
+const emit = defineEmits(['close'])
 
 const state = reactive({
     error: {} as Error,
@@ -71,8 +55,6 @@ const state = reactive({
         code: '',
     },
     isPageLoading: false,
-    qrCodeComponentKey: 0,
-    qrCodeUrl: '',
 })
 
 const rules = computed(() => {
@@ -87,29 +69,8 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
-watch(() => props.isModalOpen, (isModalOpen: boolean) => {
-    if (isModalOpen && !props.google2fa?.google_2fa) {
-        fetchGoogle2faQR()
-    }
-})
-
 function closeModal() {
     emit('close')
-}
-
-async function fetchGoogle2faQR() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const response = await google2FAService.generateQR()
-        if (response.data?.qr_code) {
-            state.qrCodeUrl = response.data?.qr_code
-            state.qrCodeComponentKey += 1
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
 }
 
 function submitForm() {
@@ -127,17 +88,17 @@ async function verifyCode() {
         const params = {
             code: state.form2fa.code,
         }
-        const response = await google2FAService.verifyCode(params)
-        if (response.data) {
-            if (response.data?.google_2fa) {
-                successAlert(`${t('alert.success')}!`, `${t('2fa.alert.google2FASuccessfullyEnabled')}.`)
-                emit('setGoogle2faStatus', true)
-            } else {
-                successAlert(`${t('alert.success')}!`, `${t('2fa.alert.google2FASuccessfullyEnabled')}.`)
-                emit('setGoogle2faStatus', false)
-            }
-            closeModal()
-        }
+        // const response = await google2FAService.verifyCode(params)
+        // if (response.data) {
+        //     if (response.data?.google_2fa) {
+        //         successAlert(`${t('alert.success')}!`, `${t('2fa.alert.google2FASuccessfullyEnabled')}.`)
+        //         emit('setGoogle2faStatus', true)
+        //     } else {
+        //         successAlert(`${t('alert.success')}!`, `${t('2fa.alert.google2FASuccessfullyEnabled')}.`)
+        //         emit('setGoogle2faStatus', false)
+        //     }
+        //     closeModal()
+        // }
     } catch (error: any) {
         state.error = error
     }

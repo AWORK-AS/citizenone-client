@@ -3,7 +3,7 @@
         <div class="space-y-1 flex items-center gap-x-2">
             <FormSwitch :value="state.form2fa.google_2fa" @toggleSwitch="state.modal.isVerify2faOpen = true" />
             <p>
-                {{ $t('settings.2fa.google2FactorAuthentication') }}
+                {{ $t('2fa.google2FactorAuthentication') }}
             </p>
         </div>
         <ModulesUserSettings2faGoogleModalVerify :isModalOpen="state.modal.isVerify2faOpen" :google2fa="state.form2fa"

@@ -37,7 +37,7 @@
                     <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
                         <div class="flex items-center gap-x-2">
                             <h3 class="font-semibold text-sm">
-                                {{ $t('settings.2fa.google2FactorAuthentication') }}
+                                {{ $t('2fa.google2FactorAuthentication') }}
                             </h3>
                         </div>
                         <Icon :name="open ? 'ic:round-keyboard-arrow-up' : 'ic:round-keyboard-arrow-down'"
