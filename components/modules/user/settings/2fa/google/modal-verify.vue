@@ -6,7 +6,7 @@
                     <form @submit.prevent="submitForm()">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
-                        <div class="space-y-1 w-1/3 mx-auto">
+                        <div class="space-y-1 w-1/3 mx-auto" v-if="!props.google2fa?.is_google_2fa_enabled">
                             <QRCodeVue3 :value="state.qrCodeUrl" :width="800" :height="800" image="/img/logo.svg"
                                 :qrOptions="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
                                 :imageOptions="{ hideBackgroundDots: true, imageSize: 10, margin: 2 }"
@@ -136,6 +136,7 @@ async function verifyCode() {
                 successAlert(`${t('alert.success')}!`, `${t('2fa.alert.google2FASuccessfullyEnabled')}.`)
                 emit('setGoogle2faStatus', false)
             }
+            state.form2fa.code = ''
             closeModal()
         }
     } catch (error: any) {
