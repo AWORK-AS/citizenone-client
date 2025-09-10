@@ -95,6 +95,8 @@
                 </div>
             </div>
         </div>
+        <ModulesUserAuthenticationModal2fa :isModalOpen="state.modal.isGoogle2faVerificationOpen"
+            @close="state.modal.isGoogle2faVerificationOpen = false" v-if="state.modal.isGoogle2faVerificationOpen" />
         <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
     </LoadingSpinner>
@@ -122,6 +124,9 @@ const state = reactive({
     email: null as any,
     error: {} as Error,
     isPageLoading: false,
+    modal: {
+        isGoogle2faVerificationOpen: false
+    },
     password: null as any,
     remember_me: false,
     slideOver: {
@@ -183,17 +188,22 @@ async function login() {
                 } else {
                     localStorage.removeItem("remember_me")
                 }
-                localStorage.setItem("_token", response.data?.token)
-                departmentStore.resetSelectedDepartmentName()
-                userStore.setUser(response?.data?.user)
-                userStore.setLanguage(response?.data?.user?.language?.code)
-                language.locale.value = response?.data?.user?.language?.code
-                if (['Admin', 'User'].includes(response.data.user?.role)) {
-                    navigateTo('/daily-overview')
-                } else if (response.data.user?.role === 'Citizen') {
-                    navigateTo('/citizen/daily-overview')
-                } else if (response.data.user?.role === 'Relative') {
-                    navigateTo('/relative/citizens')
+
+                if (response.data?.user?.is_google_2fa_enabled) {
+                    state.modal.isGoogle2faVerificationOpen = true
+                } else {
+                    localStorage.setItem("_token", response.data?.token)
+                    departmentStore.resetSelectedDepartmentName()
+                    userStore.setUser(response?.data?.user)
+                    userStore.setLanguage(response?.data?.user?.language?.code)
+                    language.locale.value = response?.data?.user?.language?.code
+                    if (['Admin', 'User'].includes(response.data.user?.role)) {
+                        navigateTo('/daily-overview')
+                    } else if (response.data.user?.role === 'Citizen') {
+                        navigateTo('/citizen/daily-overview')
+                    } else if (response.data.user?.role === 'Relative') {
+                        navigateTo('/relative/citizens')
+                    }
                 }
             }
         } catch (error: any) {

@@ -31,15 +31,18 @@
 </template>
 
 <script setup lang="ts">
-// import { google2FAService } from "@/components/api/user/Google2FAService"
-import { useAlert } from '@/composables/alert'
+import { authService } from "@/components/api/user/AuthService"
 import { useI18n } from "vue-i18n"
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
+import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
-const { successAlert } = useAlert()
 const { t } = useI18n()
+const departmentStore = useDepartmentStore()
+const userStore = useUserStore()
+const language = useI18n()
 
 const props = defineProps({
     isModalOpen: {
@@ -88,17 +91,21 @@ async function verifyCode() {
         const params = {
             code: state.form2fa.code,
         }
-        // const response = await google2FAService.verifyCode(params)
-        // if (response.data) {
-        //     if (response.data?.google_2fa) {
-        //         successAlert(`${t('alert.success')}!`, `${t('2fa.alert.google2FASuccessfullyEnabled')}.`)
-        //         emit('setGoogle2faStatus', true)
-        //     } else {
-        //         successAlert(`${t('alert.success')}!`, `${t('2fa.alert.google2FASuccessfullyEnabled')}.`)
-        //         emit('setGoogle2faStatus', false)
-        //     }
-        //     closeModal()
-        // }
+        const response = await authService.verify2faCode(params)
+        if (response.data) {
+            localStorage.setItem("_token", response.data?.token)
+            departmentStore.resetSelectedDepartmentName()
+            userStore.setUser(response?.data?.user)
+            userStore.setLanguage(response?.data?.user?.language?.code)
+            language.locale.value = response?.data?.user?.language?.code
+            if (['Admin', 'User'].includes(response.data.user?.role)) {
+                navigateTo('/daily-overview')
+            } else if (response.data.user?.role === 'Citizen') {
+                navigateTo('/citizen/daily-overview')
+            } else if (response.data.user?.role === 'Relative') {
+                navigateTo('/relative/citizens')
+            }
+        }
     } catch (error: any) {
         state.error = error
     }

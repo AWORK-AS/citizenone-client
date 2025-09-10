@@ -5,6 +5,10 @@ class AuthService extends BaseAPIService {
         return await this.request(`/auth/login`, 'POST', params)
     }
 
+    async verify2faCode(params: object): Promise<any> {
+        return await this.request(`/auth/2fa/verify/code`, 'POST', params)
+    }
+
     async register(params: object): Promise<any> {
         return await this.request(`/auth/register`, 'POST', params)
     }
