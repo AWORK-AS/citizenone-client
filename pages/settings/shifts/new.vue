@@ -66,8 +66,8 @@ async function saveShift(shiftDetails: any) {
         const params = {
             en_name: shiftDetails.en_name,
             dk_name: shiftDetails.dk_name,
-            time_in: shiftDetails.color ?? '',
-            time_out: shiftDetails.color ?? '',
+            time_in: shiftDetails.time_in ?? '',
+            time_out: shiftDetails.time_out ?? '',
             color: shiftDetails.color,
         }
         const response = await shiftService.saveShift(params)
