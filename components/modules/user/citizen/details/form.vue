@@ -307,6 +307,30 @@
                 <FormError :error="v$?.formCitizen?.note?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.note?.[0]" />
             </div>
+            <div class="space-y-1">
+                <p class="text-sm text-gray-600">
+                    {{ $t('citizens.form.trafficLights.trafficLights') }}
+                </p>
+                <FormLabel for="green" :label="$t('citizens.form.trafficLights.green')" />
+                <FormTextArea id="green" name="green" :placeholder="$t('citizens.form.trafficLights.green')"
+                    v-model="state.formCitizen.green" />
+                <FormError :error="v$?.formCitizen?.green?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.green?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="yellow" :label="$t('citizens.form.trafficLights.yellow')" />
+                <FormTextArea id="yellow" name="green" :placeholder="$t('citizens.form.trafficLights.yellow')"
+                    v-model="state.formCitizen.yellow" />
+                <FormError :error="v$?.formCitizen?.yellow?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.yellow?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="red" :label="$t('citizens.form.trafficLights.red')" />
+                <FormTextArea id="red" name="red" :placeholder="$t('citizens.form.trafficLights.red')"
+                    v-model="state.formCitizen.red" />
+                <FormError :error="v$?.formCitizen?.red?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.red?.[0]" />
+            </div>
             <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1 flex items-center gap-x-2">
                 <FormSwitch :value="state.formCitizen.has_system_access"
                     @toggleSwitch="state.formCitizen.has_system_access = !state.formCitizen.has_system_access" />
@@ -447,6 +471,9 @@ const state = reactive({
         ean_number: '',
         transportation: '',
         note: '',
+        green: '',
+        yellow: '',
+        red: '',
         has_system_access: false,
         has_chat_access: false,
         has_duty_schedule_access: false,
@@ -533,6 +560,9 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             ean_number: selectedCitizen.ean_number,
             transportation: selectedCitizen.transportation,
             note: selectedCitizen.note,
+            green: selectedCitizen.green,
+            yellow: selectedCitizen.yellow,
+            red: selectedCitizen.red,
             has_system_access: selectedCitizen.has_system_access,
             has_chat_access: selectedCitizen.has_chat_access,
             has_duty_schedule_access: selectedCitizen.has_duty_schedule_access,

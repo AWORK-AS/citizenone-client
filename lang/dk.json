@@ -1116,6 +1116,12 @@
             "section": "Paragraf",
             "ssn": "CPR-nummer",
             "street": "Gade",
+            "trafficLights": {
+                "green": "Grøn",
+                "red": "Rød",
+                "trafficLights": "Trafiklys",
+                "yellow": "Gul"
+            },
             "transportation": "Transport"
         },
         "importCitizens": {

@@ -174,7 +174,7 @@
                     {{ citizenStore.getSelectedCitizen?.firstname }}
                     {{ citizenStore.getSelectedCitizen?.lastname }}
                     <span class="lowercase">
-                        {{ $t('citizens.citizenJournals.form.riskAssessment.noRiskStatus') }}.
+                        {{ citizenStore.getSelectedCitizen?.green }}.
                     </span>
                 </div>
                 <div v-if="state.formJournal.assessment === 'increased risk'"
@@ -182,7 +182,7 @@
                     {{ citizenStore.getSelectedCitizen?.firstname }}
                     {{ citizenStore.getSelectedCitizen?.lastname }}
                     <span class="lowercase">
-                        {{ $t('citizens.citizenJournals.form.riskAssessment.increasedRiskStatus') }}.
+                        {{ citizenStore.getSelectedCitizen?.yellow }}.
                     </span>
                 </div>
                 <div v-if="state.formJournal.assessment === 'acute increased risk'"
@@ -190,7 +190,7 @@
                     {{ citizenStore.getSelectedCitizen?.firstname }}
                     {{ citizenStore.getSelectedCitizen?.lastname }}
                     <span class="lowercase">
-                        {{ $t('citizens.citizenJournals.form.riskAssessment.acuteIncreasedRiskStatus') }}.
+                        {{ citizenStore.getSelectedCitizen?.red }}.
                     </span>
                 </div>
             </div>

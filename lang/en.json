@@ -1116,6 +1116,12 @@
             "section": "Section",
             "ssn": "Social security number",
             "street": "Street",
+            "trafficLights": {
+                "green": "Green",
+                "red": "Red",
+                "trafficLights": "Traffic lights",
+                "yellow": "Yellow"
+            },
             "transportation": "Transportation"
         },
         "importCitizens": {
