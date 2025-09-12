@@ -169,7 +169,7 @@
                 </div>
             </div>
             <div class="space-y-1 text-xs">
-                <div v-if="state.formJournal.assessment === 'no risk'"
+                <div v-if="state.formJournal.assessment === 'no risk' && citizenStore.getSelectedCitizen?.green"
                     class="bg-green-700 text-white px-4 py-3 rounded-md">
                     {{ citizenStore.getSelectedCitizen?.firstname }}
                     {{ citizenStore.getSelectedCitizen?.lastname }}
@@ -177,7 +177,7 @@
                         {{ citizenStore.getSelectedCitizen?.green }}.
                     </span>
                 </div>
-                <div v-if="state.formJournal.assessment === 'increased risk'"
+                <div v-if="state.formJournal.assessment === 'increased risk' && citizenStore.getSelectedCitizen?.yellow"
                     class="bg-yellow-500 text-white px-4 py-3 rounded-md">
                     {{ citizenStore.getSelectedCitizen?.firstname }}
                     {{ citizenStore.getSelectedCitizen?.lastname }}
@@ -185,7 +185,7 @@
                         {{ citizenStore.getSelectedCitizen?.yellow }}.
                     </span>
                 </div>
-                <div v-if="state.formJournal.assessment === 'acute increased risk'"
+                <div v-if="state.formJournal.assessment === 'acute increased risk' && citizenStore.getSelectedCitizen?.red"
                     class="bg-red-600 text-white px-4 py-3 rounded-md">
                     {{ citizenStore.getSelectedCitizen?.firstname }}
                     {{ citizenStore.getSelectedCitizen?.lastname }}
