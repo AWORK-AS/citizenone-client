@@ -49,11 +49,19 @@
                             <option value="500">500</option>
                         </select>
                     </div>
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')"
-                        v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
-                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('citizens.newCitizen') }}
-                    </FormButton>
+                    <div class="flex items-center gap-x-3">
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')"
+                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.newCitizen') }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-lg"
+                            @click="state.modal.isImportCitizensOpen = true"
+                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                            <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.importCitizens.importCitizens') }}
+                        </FormButton>
+                    </div>
                 </div>
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
@@ -143,6 +151,8 @@
                 </div>
             </div>
 
+            <ModulesUserCitizenModalImport :isModalOpen="state.modal.isImportCitizensOpen"
+                @close="state.modal.isImportCitizensOpen = false" />
             <ModulesUserCitizenModalPurchaseEmail :isModalOpen="state.modal.showPurchaseEmail"
                 @close="state.modal.showPurchaseEmail = false" />
             <ModulesUserCitizenModalLatestJournal :isModalOpen="state.modal.showNote"
@@ -185,6 +195,7 @@ const state = reactive({
     citizens: [] as any,
     modal: {
         isGuidedTourCitizensOverviewOpen: false,
+        isImportCitizensOpen: false,
         showNote: false,
         showPurchaseEmail: false,
     },

@@ -183,13 +183,16 @@ async function fetchAllCitizens() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await citizenService.getAllCitizens()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+        const response = await citizenService.getAllCitizens(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
                 (citizen: any) => options.push({
                     value: citizen?.id,
-                    label: citizen?.firstname + " " + citizen?.lastname,
+                    label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
                 })
             )
             state.citizenOptions = options

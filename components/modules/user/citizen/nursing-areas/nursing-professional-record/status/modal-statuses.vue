@@ -145,12 +145,13 @@
                         <Pagination :data="state.statuses" @previous="previous" @next="next" />
                     </div>
                 </div>
-                <ModulesUserCitizenNursingProfessionalRecordStatusModalNew :isModalOpen="state.modal.isAddStatusOpen"
-                    :selectedRecord="props.selectedRecord" :selectedStatus="state.selectedStatus"
-                    @close="state.modal.isAddStatusOpen = false" @refreshStatuses="fetchStatuses" />
-                <ModulesUserCitizenNursingProfessionalRecordStatusModalEdit :isModalOpen="state.modal.isEditStatusOpen"
-                    :selectedStatus="state.selectedStatus" @close="state.modal.isEditStatusOpen = false"
+                <ModulesUserCitizenNursingAreasNursingProfessionalRecordStatusModalNew
+                    :isModalOpen="state.modal.isAddStatusOpen" :selectedRecord="props.selectedRecord"
+                    :selectedStatus="state.selectedStatus" @close="state.modal.isAddStatusOpen = false"
                     @refreshStatuses="fetchStatuses" />
+                <ModulesUserCitizenNursingAreasNursingProfessionalRecordStatusModalEdit
+                    :isModalOpen="state.modal.isEditStatusOpen" :selectedStatus="state.selectedStatus"
+                    @close="state.modal.isEditStatusOpen = false" @refreshStatuses="fetchStatuses" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
                     :message="`${$t('citizens.nursingAreas.statuses.table.confirmation.deleteStatusConfirmation')}?`"
                     @close="state.modal.isDeleteStatusOpen = false" @confirm="deleteStatus" />

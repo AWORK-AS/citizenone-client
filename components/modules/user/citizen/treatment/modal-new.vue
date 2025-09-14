@@ -60,18 +60,18 @@ function refreshTreatments() {
     emit('refreshTreatments')
 }
 
-async function saveTreatment(goalDetails: any) {
+async function saveTreatment(treatmentDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
             citizen_uuid: citizenUuid,
-            area_type: goalDetails.area_type,
-            name: goalDetails.name,
-            description: goalDetails.description,
-            score: goalDetails.score,
-            completion_date: goalDetails.completion_date,
-            enable_reminder: goalDetails.enable_reminder,
+            area_type: treatmentDetails.area_type,
+            name: treatmentDetails.name,
+            description: treatmentDetails.description,
+            score: treatmentDetails.score,
+            completion_date: treatmentDetails.completion_date,
+            enable_reminder: treatmentDetails.enable_reminder,
         }
         const response = await treatmentService.saveTreatment(params)
         if (response?.data) {

@@ -619,7 +619,7 @@ watch(() => language.locale.value, (newLanguage: any) => {
 function generateSidebarLinks(user: any) {
     navigation = []
     const userHasSecuredMailAccess = user?.is_secure_mail_active
-    const userHasPageAttendanceAccess = user?.pages.some((page: any) => page.name === "Attendance")
+    const userHasPageAttendanceAccess = user?.pages?.some((page: any) => page.name === "Attendance")
     navigation.push({
         name: 'Daily overview',
         href: '/daily-overview',
@@ -722,7 +722,7 @@ function generateSidebarLinks(user: any) {
 }
 
 function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
+    return roles && roles?.some((role: any) => role.name === 'Admin')
 }
 
 function setCustomPageNames() {
@@ -881,7 +881,6 @@ async function logout() {
         if (response) {
             localStorage.removeItem("_token")
             localStorage.removeItem("remember_me")
-            userStore.resetUser()
             navigateTo('/')
         }
     } catch (error: any) {

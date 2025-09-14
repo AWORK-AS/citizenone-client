@@ -32,10 +32,17 @@
                             <option value="500">500</option>
                         </select>
                     </div>
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/employees/new')">
-                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('employees.newEmployee') }}
-                    </FormButton>
+                    <div class="flex items-center gap-x-3">
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/employees/new')">
+                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('employees.newEmployee') }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-lg"
+                            @click="state.modal.isImportEmployeesOpen = true">
+                            <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('employees.importEmployees.importEmployees') }}
+                        </FormButton>
+                    </div>
                 </div>
                 <div class="space-y-5">
                     <div v-if="state.error?.message && state.error.message.length > 0">
@@ -159,6 +166,9 @@
                 :message="$t('employees.table.confirmation.bookingAccessConfirmation') + '?'"
                 @close="state.modal.isGiveBookingAccessOpen = false" @confirm="giveBookingAccess" />
 
+            <ModulesUserEmployeeModalImport :isModalOpen="state.modal.isImportEmployeesOpen"
+                @close="state.modal.isImportEmployeesOpen = false" />
+
             <ModulesUserGuidedTourModalEmployees v-if="state.modal.isGuidedTourEmployeesOpen"
                 :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourEmployeesOpen = false" />
@@ -209,6 +219,7 @@ const state = reactive({
     error: {} as Error,
     isTableLoading: false,
     modal: {
+        isImportEmployeesOpen: false,
         isGiveAIAccessOpen: false,
         isGiveBookingAccessOpen: false,
         isGuidedTourEmployeesOpen: false,

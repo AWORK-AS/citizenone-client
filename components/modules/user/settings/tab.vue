@@ -16,7 +16,7 @@ const state = reactive({
 
 watch(() => userStore.getUser, (newValue: any) => {
     if (newValue != null) {
-        const hasAdmin = newValue.roles.some((role: any) => role.name === 'Admin')
+        const hasAdmin = newValue?.roles?.some((role: any) => role.name === 'Admin')
         if (hasAdmin) {
             state.tabs = [
                 {
@@ -155,37 +155,37 @@ watch(() => userStore.getUser, (newValue: any) => {
 })
 
 function changeTab(value: any) {
-    if (value === t('settings.tabs.profile')) {
+    if (value === '/settings/profile') {
         navigateTo(`/settings/profile`)
     }
-    else if (value === t('settings.tabs.company')) {
+    else if (value === '/settings/company') {
         navigateTo(`/settings/company`)
     }
-    else if (value === t('settings.tabs.invoices')) {
+    else if (value === '/settings/invoices') {
         navigateTo(`/settings/invoices`)
     }
-    else if (value === t('settings.tabs.storage')) {
+    else if (value === '/settings/storage') {
         navigateTo(`/settings/storage`)
     }
-    else if (value === t('settings.tabs.licenses')) {
+    else if (value === '/settings/license-overview') {
         navigateTo(`/settings/license-overview`)
     }
-    else if (value === t('settings.tabs.subscription')) {
+    else if (value === '/settings/subscription') {
         navigateTo(`/settings/subscription`)
     }
-    else if (value === t('settings.tabs.archived')) {
+    else if (value === '/settings/archived/citizens') {
         navigateTo(`/settings/archived/citizens`)
     }
-    else if (value === t('settings.tabs.catalog')) {
+    else if (value === '/settings/absences') {
         navigateTo(`/settings/absences`)
     }
-    else if (value === t('settings.tabs.activityLogs')) {
+    else if (value === '/settings/activity-logs') {
         navigateTo(`/settings/activity-logs`)
     }
-    else if (value === t('settings.tabs.timeLogs')) {
+    else if (value === '/settings/time-logs') {
         navigateTo(`/settings/time-logs`)
     }
-    else if (value === t('settings.tabs.other')) {
+    else if (value === '/settings/custom-pages') {
         navigateTo(`/settings/custom-pages`)
     }
 }

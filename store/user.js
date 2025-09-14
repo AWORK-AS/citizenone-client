@@ -13,7 +13,7 @@ export const useUserStore = defineStore('userStore', {
             minutes: 0,
             seconds: 0,
         },
-        user: null,
+        user: {},
     }),
     actions: {
         minusUserNotificationCount() {
@@ -72,7 +72,7 @@ export const useUserStore = defineStore('userStore', {
             this.user.unread_notification_count = 0
         },
         resetUser() {
-            this.user = null
+            this.user = {}
         },
     },
     getters: {

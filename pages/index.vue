@@ -45,15 +45,15 @@
                         <div class="space-y-1">
                             <FormLabel for="email" :label="$t('login.form.emailAddress')" />
                             <FormTextField id="email" name="email" :placeholder="$t('login.form.emailAddress')"
-                                v-model="state.email" />
-                            <FormError :error="v$?.email?.$errors[0]?.$message.toString()" />
+                                v-model="state.formLogin.email" />
+                            <FormError :error="v$?.formLogin?.email?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.email?.[0]" />
                         </div>
                         <div class="space-y-1">
                             <FormLabel for="password" :label="$t('login.form.password')" />
                             <FormPasswordField id="password" name="password" :placeholder="$t('login.form.password')"
-                                v-model="state.password" />
-                            <FormError :error="v$?.password?.$errors[0]?.$message.toString()" />
+                                v-model="state.formLogin.password" />
+                            <FormError :error="v$?.formLogin?.password?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.password?.[0]" />
                         </div>
                         <div class="flex items-center justify-between">
@@ -95,6 +95,9 @@
                 </div>
             </div>
         </div>
+        <ModulesUserAuthenticationModal2fa :isModalOpen="state.modal.isGoogle2faVerificationOpen"
+            :formLogin="state.formLogin" @close="state.modal.isGoogle2faVerificationOpen = false"
+            v-if="state.modal.isGoogle2faVerificationOpen" />
         <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
     </LoadingSpinner>
@@ -119,10 +122,15 @@ const { t } = useI18n()
 language.locale.value = userStore.getLanguage
 
 const state = reactive({
-    email: null as any,
     error: {} as Error,
+    formLogin: {
+        email: null as any,
+        password: null as any,
+    },
     isPageLoading: false,
-    password: null as any,
+    modal: {
+        isGoogle2faVerificationOpen: false
+    },
     remember_me: false,
     slideOver: {
         isLanguageSwitcherOpen: false
@@ -131,12 +139,14 @@ const state = reactive({
 
 const rules = computed(() => {
     return {
-        email: {
-            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-        },
-        password: {
-            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-        },
+        formLogin: {
+            email: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            password: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+        }
     }
 })
 const v$ = useVuelidate(rules, state)
@@ -173,8 +183,8 @@ async function login() {
         state.isPageLoading = true
         try {
             const params = {
-                email: state.email,
-                password: state.password,
+                email: state.formLogin.email,
+                password: state.formLogin.password,
             }
             const response = await authService.login(params)
             if (response.data) {
@@ -183,17 +193,22 @@ async function login() {
                 } else {
                     localStorage.removeItem("remember_me")
                 }
-                localStorage.setItem("_token", response.data?.token)
-                departmentStore.resetSelectedDepartmentName()
-                userStore.setUser(response?.data?.user)
-                userStore.setLanguage(response?.data?.user?.language?.code)
-                language.locale.value = response?.data?.user?.language?.code
-                if (['Admin', 'User'].includes(response.data.user?.role)) {
-                    navigateTo('/daily-overview')
-                } else if (response.data.user?.role === 'Citizen') {
-                    navigateTo('/citizen/daily-overview')
-                } else if (response.data.user?.role === 'Relative') {
-                    navigateTo('/relative/citizens')
+
+                if (response.data?.user?.is_google_2fa_enabled) {
+                    state.modal.isGoogle2faVerificationOpen = true
+                } else {
+                    localStorage.setItem("_token", response.data?.token)
+                    departmentStore.resetSelectedDepartmentName()
+                    userStore.setUser(response?.data?.user)
+                    userStore.setLanguage(response?.data?.user?.language?.code)
+                    language.locale.value = response?.data?.user?.language?.code
+                    if (['Admin', 'User'].includes(response.data.user?.role)) {
+                        navigateTo('/daily-overview')
+                    } else if (response.data.user?.role === 'Citizen') {
+                        navigateTo('/citizen/daily-overview')
+                    } else if (response.data.user?.role === 'Relative') {
+                        navigateTo('/relative/citizens')
+                    }
                 }
             }
         } catch (error: any) {

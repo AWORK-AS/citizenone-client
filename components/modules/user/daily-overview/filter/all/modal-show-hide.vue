@@ -57,9 +57,11 @@ const state = reactive({
 })
 
 watch(() => userStore.getUser, (user: any) => {
-    dailyOverviewStore.setViewAllShowCitizenDailyEvents(JSON.parse(user?.view_all_filter)?.showCitizenDailyEvents)
-    dailyOverviewStore.setViewAllShowCitizenMedicineOverview(JSON.parse(user?.view_all_filter)?.showCitizenMedicineOverview)
-    dailyOverviewStore.setViewAllShowLatestJournalNotes(JSON.parse(user?.view_all_filter)?.showLatestJournalNotes)
+    if (Object.keys(user)?.length > 0) {
+        dailyOverviewStore.setViewAllShowCitizenDailyEvents(JSON.parse(user?.view_all_filter)?.showCitizenDailyEvents)
+        dailyOverviewStore.setViewAllShowCitizenMedicineOverview(JSON.parse(user?.view_all_filter)?.showCitizenMedicineOverview)
+        dailyOverviewStore.setViewAllShowLatestJournalNotes(JSON.parse(user?.view_all_filter)?.showLatestJournalNotes)
+    }
 })
 
 function closeModal() {

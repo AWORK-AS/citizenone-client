@@ -64,6 +64,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { userService } from '@/components/api/user/UserService'
 import type { Error } from '@/types'
+import { useDepartmentStore } from '@/store/department'
 
 const props = defineProps({
     error: {
@@ -81,6 +82,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
+const departmentStore = useDepartmentStore()
 const editor = ref(ClassicEditor)
 const editorStatusConfig = ref({
     toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
@@ -144,7 +146,10 @@ async function fetchAllEmployees() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await userService.getAllUsers()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+        const response = await userService.getAllUsers(params)
         if (response) {
             state.options.employees = response
             let options: any = []

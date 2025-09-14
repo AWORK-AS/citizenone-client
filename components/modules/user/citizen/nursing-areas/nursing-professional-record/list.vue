@@ -1,9 +1,11 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="space-y-3">
+            <Alert type="danger" :text="state?.error?.message"
+                v-if="state.error?.message && state.error.message.length > 0" />
             <div class="flex justify-end items-center mb-5 gap-x-2">
                 <FormButton buttonStyle="action" class="rounded-lg"
-                    @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/new`)">
+                    @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/nursing-professional-records/new`)">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('citizens.nursingAreas.newNursingProfessionalRecords') }}
                 </FormButton>
@@ -25,7 +27,7 @@
                             <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
                                 <Tooltip :text="$t('citizens.nursingAreas.table.actions.view')">
                                     <FormButton class="rounded-md" buttonSize="sm"
-                                        @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/${record.uuid}/view`)">
+                                        @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/nursing-professional-records/${record.uuid}/view`)">
                                         <Icon name="ph:eye" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
@@ -36,7 +38,7 @@
                                 </Tooltip>
                                 <Tooltip :text="$t('citizens.nursingAreas.table.actions.edit')">
                                     <FormButton class="rounded-md" buttonSize="sm"
-                                        @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/${record.uuid}/edit`)">
+                                        @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/nursing-professional-records/${record.uuid}/edit`)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
@@ -260,8 +262,9 @@
                 <Pagination :data="state.records" @previous="previous" @next="next" />
             </div>
         </div>
-        <ModulesUserCitizenNursingProfessionalRecordStatusModalStatuses :isModalOpen="state.modal.isStatusOpen"
-            :selectedRecord="state.selectedRecord" @close="state.modal.isStatusOpen = false" />
+        <ModulesUserCitizenNursingAreasNursingProfessionalRecordStatusModalStatuses
+            :isModalOpen="state.modal.isStatusOpen" :selectedRecord="state.selectedRecord"
+            @close="state.modal.isStatusOpen = false" />
     </LoadingSpinner>
 </template>
 

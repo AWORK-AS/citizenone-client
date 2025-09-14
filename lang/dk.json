@@ -1,4 +1,16 @@
 {
+    "2fa": {
+        "alert": {
+            "google2FASuccessfullyDisabled": "Google 2FA blev deaktiveret med succes",
+            "google2FASuccessfullyEnabled": "Google 2FA blev aktiveret med succes"
+        },
+        "form": {
+            "code": "Kode",
+            "verify": "Bekræft",
+            "verifyCode": "Bekræft kode"
+        },
+        "google2FactorAuthentication": "Google 2-faktor autentifikation"
+    },
     "absences": {
         "addNewAbsence": "Tilføj nyt fravær",
         "absences": "Fravær",
@@ -1016,6 +1028,7 @@
                 },
                 "date": "Dato",
                 "draft": "Udkast",
+                "enterJournalTitleManually": "Indtast journal titel manuelt",
                 "forTeeth": "Til tænder",
                 "goal": "Mål",
                 "generateNote": "Generer note",
@@ -1045,7 +1058,8 @@
                 "subgoal": "Delmål",
                 "tags": "Etiketter",
                 "teeth": "Tænder",
-                "title": "Titel"
+                "title": "Titel",
+                "usePredefinedJournalTitle": "Brug foruddefineret journal titel"
             },
             "journalLogs": {
                 "date": "Dato",
@@ -1102,7 +1116,22 @@
             "section": "Paragraf",
             "ssn": "CPR-nummer",
             "street": "Gade",
+            "trafficLights": {
+                "green": "Grøn",
+                "red": "Rød",
+                "trafficLights": "Trafiklys",
+                "yellow": "Gul"
+            },
             "transportation": "Transport"
+        },
+        "importCitizens": {
+            "alert": {
+                "citizensSuccessfullyImported": "Borgere importeret med succes"
+            },
+            "downloadTemplate": "Download skabelon",
+            "importCitizens": "Importer borgere",
+            "importTemplate": "Importskabelon",
+            "noFileSelected": "Ingen fil valgt"
         },
         "statuses": {
             "alert": {
@@ -1421,6 +1450,31 @@
             "noJournalToDisplay": "Ingen journal at vise"
         },
         "nursingAreas": {
+            "consentCompetenceOrCapacity": {
+                "consentCompetenceOrCapacity": "Samtykkekompetence eller kapacitet",
+                "editConsentCompetenceOrCapacity": "Rediger samtykkekompetence eller kapacitet",
+                "form": {
+                    "alert": {
+                        "consentCompetenceOrCapacitySuccessfullyAdded": "Samtykkekompetence eller kapacitet er blevet tilføjet",
+                        "consentCompetenceOrCapacitySuccessfullyUpdated": "Samtykkekompetence eller kapacitet er blevet opdateret"
+                    },
+                    "date": "Dato",
+                    "consentCompetenceOrCapacity": "Samtykkekompetence eller kapacitet"
+                },
+                "newConsentCompetenceOrCapacity": "Ny samtykkekompetence eller kapacitet",
+                "table": {
+                    "actions": {
+                        "delete": "Slet",
+                        "edit": "Rediger"
+                    },
+                    "alert": {
+                        "consentCompetenceOrCapacitySuccessfullyDeleted": "Samtykkekompetence eller kapacitet er blevet slettet"
+                    },
+                    "confirmation": {
+                        "deleteConsentCompetenceOrCapacityConfirmation": "Er du sikker på, at du vil slette denne samtykkekompetence eller kapacitet?"
+                    }
+                }
+            },
             "editNursingProfessionalRecord": "Rediger sundhedsfaglig optegnelse",
             "form": {
                 "alert": {
@@ -1440,18 +1494,34 @@
                 "painAndSensoryImpressions": "Smerte og sanseindtryk",
                 "sleepAndRest": "Søvn og hvile",
                 "knowledgeAndDevelopment": "Viden og udvikling",
-                "excretionOfWaste": "Affaldsudskillelse",
-                "consentCompetenceOrCapacity": "Samtykkekompetence eller evne",
-                "illnessAndFunctionalImpairment": "Sygdom og funktionsnedsættelse",
-                "illnessAndFunctionalImpairment1": "Hvilken sygdom og funktionsnedsættelse har borgeren",
-                "illnessAndFunctionalImpairment2": "Hvem er den ansvarlige sundhedsprofessionelle",
-                "vitals": {
-                    "bloodPressure": "Blodtryk",
-                    "bloodSugar": "Blodsukker",
-                    "pulse": "Puls",
-                    "temperature": "Temperatur",
-                    "vitals": "Værdiskema",
-                    "weight": "Vægt"
+                "excretionOfWaste": "Affaldsudskillelse"
+            },
+            "illnessAndFunctionalImpairment": {
+                "editIllnessAndFunctionalImpairment": "Rediger sygdom og funktionelle nedsættelser",
+                "illnessAndFunctionalImpairment": "Sygdom og funktionelle nedsættelser",
+                "form": {
+                    "alert": {
+                        "illnessAndFunctionalImpairmentSucessfullyAdded": "Sygdom og funktionelle nedsættelser er blevet tilføjet",
+                        "illnessAndFunctionalImpairmentSucessfullyUpdated": "Sygdom og funktionelle nedsættelser er blevet opdateret"
+                    },
+                    "chooseFromOurContactPerson": "Vælg fra kontaktperson",
+                    "date": "Dato",
+                    "illnessAndFunctionalImpairment1": "Hvad er sygdommen og de funktionelle nedsættelser borgeren har?",
+                    "whoIsTheResponsibleHealthcareProvider": "Hvem er den ansvarlige sundhedsudbyder?"
+                },
+                "newIllnessAndFunctionalImpairment": "Ny sygdom og funktionelle nedsættelser",
+                "table": {
+                    "actions": {
+                        "delete": "Slet",
+                        "edit": "Rediger"
+                    },
+                    "alert": {
+                        "consentIllnessAndFunctionalImpairmentSuccessfullyDeleted": "Sygdom og funktionelle nedsættelser er blevet slettet"
+                    },
+                    "confirmation": {
+                        "deleteIllnessAndFunctionalImpairmentConfirmation": "Er du sikker på, at du vil slette denne sygdom og funktionelle nedsættelser?"
+                    },
+                    "healthcareProvider": "Sundhedsudbyder"
                 }
             },
             "newNursingProfessionalRecords": "Ny sundhedsfaglig optegnelse",
@@ -1539,7 +1609,49 @@
                 "knowledgeAndDevelopment": "Viden og udvikling",
                 "excretionOfWaste": "Affaldsudskillelse"
             },
-            "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal"
+            "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal",
+            "vitals": {
+                "editVitals": "Rediger vitale tegn",
+                "form": {
+                    "alert": {
+                        "vitalsSuccessfullyAdded": "Vitale tegn er blevet tilføjet",
+                        "vitalsSuccessfullyUpdated": "Vitale tegn er blevet opdateret"
+                    },
+                    "bloodPressure": "Blodtryk",
+                    "bloodSugar": "Blodsukker",
+                    "date": "Dato",
+                    "newFields": {
+                        "addNewField": "Tilføj nyt felt",
+                        "fieldName": "Feltnavn",
+                        "fieldValue": "Feltværdi",
+                        "removeField": "Fjern felt"
+                    },
+                    "pulse": "Puls",
+                    "temperature": "Temperatur",
+                    "vitals": "Vitale tegn",
+                    "weight": "Vægt"
+                },
+                "newVitals": "Nye vitale tegn",
+                "table": {
+                    "actions": {
+                        "delete": "Slet",
+                        "edit": "Rediger"
+                    },
+                    "alert": {
+                        "vitalsSuccessfullyDeleted": "Vitale tegn er blevet slettet"
+                    },
+                    "bloodPressure": "Blodtryk",
+                    "bloodSugar": "Blodsukker",
+                    "confirmation": {
+                        "deleteVitalsConfirmation": "Er du sikker på, at du vil slette disse vitale tegn?"
+                    },
+                    "pulse": "Puls",
+                    "temperature": "Temperatur",
+                    "vitals": "Vitale tegn",
+                    "weight": "Vægt"
+                },
+                "vitals": "Vitale tegn"
+            }
         },
         "purchaseEmail": {
             "purchaseEmail": "Køb e-mail",
@@ -2597,6 +2709,15 @@
             "seniorityDate": "Anciennitetsdato",
             "street": "Gade"
         },
+        "importEmployees": {
+            "alert": {
+                "employeesSuccessfullyImported": "Medarbejdere importeret med succes"
+            },
+            "downloadTemplate": "Download skabelon",
+            "importEmployees": "Importer medarbejdere",
+            "importTemplate": "Importer skabelon",
+            "noFileSelected": "Ingen fil valgt"
+        },
         "newEmployee": "Ny medarbejder",
         "permissions": {
             "create": "Opret",
@@ -3131,6 +3252,32 @@
             },
             "color": "Farve",
             "name": "Navn"
+        }
+    },
+    "journalTitles": {
+        "addNewJournalTitle": "Tilføj ny journal titel",
+        "editJournalTitle": "Rediger journal titel",
+        "form": {
+            "alert": {
+                "journalTitleSuccessfullyUpdated": "Journal titel opdateret succesfuldt",
+                "newJournalTitleSuccessfullySaved": "Ny journal titel gemt succesfuldt"
+            },
+            "title": "Titel"
+        },
+        "journalTitles": "Journal titler",
+        "newJournalTitle": "Ny journal titel",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "journalTitleSuccessfullyDeleted": "Journal titel slettet succesfuldt"
+            },
+            "confirmation": {
+                "deleteJournalTitleConfirmation": "Er du sikker på, at du vil slette denne journal titel?"
+            },
+            "title": "Titel"
         }
     },
     "languageSwitcher": {
@@ -4023,7 +4170,8 @@
                 "pageAccess": "Sideadgang",
                 "password": "Adgangskode",
                 "phone": "Telefon"
-            }
+            },
+            "profile": "Profil"
         },
         "settings": "Indstillinger",
         "subscription": {
@@ -4045,6 +4193,7 @@
             "invoices": "Fakturaer",
             "jobTitles": "Jobtitler",
             "journalNoteTags": "Journalnotetag",
+            "journalTitles": "Journal titler",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
             "medicationAllergies": "Medicinallergier",

@@ -93,6 +93,9 @@ const state = reactive({
         ean_number: '',
         transportation: '',
         note: '',
+        green: '',
+        yellow: '',
+        red: '',
         has_system_access: false,
         has_chat_access: false,
         has_duty_schedule_access: false,
@@ -155,6 +158,9 @@ async function saveCitizen(citizenDetails: any) {
         params.append('ean_number', citizenDetails.ean_number)
         params.append('transportation', citizenDetails.transportation)
         params.append('note', citizenDetails.note)
+        params.append('green', citizenDetails.green)
+        params.append('yellow', citizenDetails.yellow)
+        params.append('red', citizenDetails.red)
         const response = await citizenService.saveCitizen(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyAdded')}.`)

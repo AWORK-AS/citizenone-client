@@ -50,7 +50,11 @@ async function saveShift(shiftDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
-            name: shiftDetails.name,
+            en_name: shiftDetails.en_name,
+            dk_name: shiftDetails.dk_name,
+            time_in: shiftDetails.time_in ?? '',
+            time_out: shiftDetails.time_out ?? '',
+            color: shiftDetails.color,
         }
         const response = await shiftService.saveShift(params)
         if (response.data) {

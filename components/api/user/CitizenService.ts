@@ -29,8 +29,8 @@ class CitizenService extends BaseAPIService {
         return await this.request(`/user/citizens/archived/list`, 'GET', params)
     }
 
-    async getAllCitizens(): Promise<any> {
-        return await this.request(`/user/citizens/all/list`, 'GET')
+    async getAllCitizens(params: object): Promise<any> {
+        return await this.request(`/user/citizens/all/list`, 'GET', params)
     }
 
     async getAllCitizensPerUserDepartment(params: object): Promise<any> {
@@ -55,6 +55,14 @@ class CitizenService extends BaseAPIService {
 
     async deleteCitizenCalendarEvent(scheduleUuid: any, params: object): Promise<any> {
         return await this.request(`/user/citizen-calendars/${scheduleUuid}`, 'DELETE', params)
+    }
+
+    async importCitizens(params: object): Promise<any> {
+        return await this.request(`/user/citizens/imports/template`, 'POST', params)
+    }
+
+    async downloadImportCitizensTemplate(): Promise<any> {
+        return await this.request(`/user/citizens/imports/download/template`, 'GET')
     }
 }
 

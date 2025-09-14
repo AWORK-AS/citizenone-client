@@ -12,7 +12,13 @@
                         <div class="flex justify-center flex-shrink-0">
                             <div class="relative">
                                 <img :src="state.selectedCitizen?.data?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${state.selectedCitizen?.data?.firstname + ' ' + state.selectedCitizen?.data?.lastname}`"
-                                    class="rounded-full w-28 h-28 object-cover" />
+                                    :class="[
+                                        state.selectedCitizen?.data?.latest_risk_assessment === null && 'border-secondary',
+                                        state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
+                                        state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'increased risk' && 'border-yellow-500',
+                                        state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'acute increased risk' && 'border-red-600',
+                                        'rounded-full w-28 h-28 object-cover border-2'
+                                    ]" />
                                 <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
                             </div>
                         </div>

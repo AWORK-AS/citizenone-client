@@ -16,6 +16,10 @@ class CitizenContactService extends BaseAPIService {
     async deleteContact(contactUuid: any): Promise<any> {
         return await this.request(`/user/citizen-contacts/${contactUuid}`, 'DELETE')
     }
+
+    async getAllCitizenContactPersons(params: object): Promise<any> {
+        return await this.request(`/user/citizen-contact-persons/all/list`, 'GET', params)
+    }
 }
 
 export const citizenContactService = new CitizenContactService()

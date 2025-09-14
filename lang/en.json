@@ -1,4 +1,16 @@
 {
+    "2fa": {
+        "alert": {
+            "google2FASuccessfullyDisabled": "Google 2FA successfully disabled",
+            "google2FASuccessfullyEnabled": "Google 2FA successfully enabled"
+        },
+        "form": {
+            "code": "Code",
+            "verify": "Verify",
+            "verifyCode": "Verify code"
+        },
+        "google2FactorAuthentication": "Google 2 factor authentication"
+    },
     "absences": {
         "addNewAbsence": "Add new absence",
         "absences": "Absences",
@@ -1016,6 +1028,7 @@
                 },
                 "date": "Date",
                 "draft": "Draft",
+                "enterJournalTitleManually": "Enter journal title manually",
                 "forTeeth": "For teeth",
                 "generateNote": "Generate note",
                 "goal": "Goal",
@@ -1045,7 +1058,8 @@
                 "subgoal": "Subgoal",
                 "tags": "Tags",
                 "teeth": "Teeth",
-                "title": "Title"
+                "title": "Title",
+                "usePredefinedJournalTitle": "Use predefined journal title"
             },
             "journalLogs": {
                 "date": "Date",
@@ -1102,7 +1116,22 @@
             "section": "Section",
             "ssn": "Social security number",
             "street": "Street",
+            "trafficLights": {
+                "green": "Green",
+                "red": "Red",
+                "trafficLights": "Traffic lights",
+                "yellow": "Yellow"
+            },
             "transportation": "Transportation"
+        },
+        "importCitizens": {
+            "alert": {
+                "citizensSuccessfullyImported": "Citizens successfully successfully imported"
+            },
+            "downloadTemplate": "Download template",
+            "importCitizens": "Import citizens",
+            "importTemplate": "Import template",
+            "noFileSelected": "No file selected"
         },
         "statuses": {
             "alert": {
@@ -1421,6 +1450,31 @@
             "noJournalToDisplay": "No journal to display"
         },
         "nursingAreas": {
+            "consentCompetenceOrCapacity": {
+                "consentCompetenceOrCapacity": "Consent competence or capacity",
+                "editConsentCompetenceOrCapacity": "Edit consent competence or capacity",
+                "form": {
+                    "alert": {
+                        "consentCompetenceOrCapacitySuccessfullyAdded": "Consent competence or capacity successfully added",
+                        "consentCompetenceOrCapacitySuccessfullyUpdated": "Consent competence or capacity successfully updated"
+                    },
+                    "date": "Date",
+                    "consentCompetenceOrCapacity": "Consent competence or capacity"
+                },
+                "newConsentCompetenceOrCapacity": "New consent competence or capacity",
+                "table": {
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit"
+                    },
+                    "alert": {
+                        "consentCompetenceOrCapacitySuccessfullyDeleted": "Consent competence or capacity successfully deleted"
+                    },
+                    "confirmation": {
+                        "deleteConsentCompetenceOrCapacityConfirmation": "Are you sure you want to delete this consent competence or capacity"
+                    }
+                }
+            },
             "editNursingProfessionalRecord": "Edit nursing professional record",
             "form": {
                 "alert": {
@@ -1440,18 +1494,34 @@
                 "painAndSensoryImpressions": "Pain and sensory impressions",
                 "sleepAndRest": "Sleep and rest",
                 "knowledgeAndDevelopment": "Knowledge and development",
-                "excretionOfWaste": "Excretion of waste",
-                "consentCompetenceOrCapacity": "Consent competence or capacity",
+                "excretionOfWaste": "Excretion of waste"
+            },
+            "illnessAndFunctionalImpairment": {
+                "editIllnessAndFunctionalImpairment": "Edit illness and functional impairment",
                 "illnessAndFunctionalImpairment": "Illness and functional impairment",
-                "illnessAndFunctionalImpairment1": "What is the illness and functional impairment the citizen has",
-                "illnessAndFunctionalImpairment2": "Who is the responsible healthcare provider",
-                "vitals": {
-                    "bloodPressure": "Blood pressure",
-                    "bloodSugar": "Blood sugar",
-                    "pulse": "Pulse",
-                    "temperature": "Temperature",
-                    "vitals": "Vitals",
-                    "weight": "Weight"
+                "form": {
+                    "alert": {
+                        "illnessAndFunctionalImpairmentSucessfullyAdded": "Illness and functional impairment successfully added",
+                        "illnessAndFunctionalImpairmentSucessfullyUpdated": "Illness and functional impairment successfully updated"
+                    },
+                    "chooseFromOurContactPerson": "Choose from contact person",
+                    "date": "Date",
+                    "illnessAndFunctionalImpairment1": "What is the illness and functional impairment the citizen has",
+                    "whoIsTheResponsibleHealthcareProvider": "Who is the responsible healthcare provider"
+                },
+                "newIllnessAndFunctionalImpairment": "New illness and functional impairment",
+                "table": {
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit"
+                    },
+                    "alert": {
+                        "consentIllnessAndFunctionalImpairmentSuccessfullyDeleted": "Illness and functional impairment successfully deleted"
+                    },
+                    "confirmation": {
+                        "deleteIllnessAndFunctionalImpairmentConfirmation": "Are you sure you want to delete this illness and functional impairment"
+                    },
+                    "healthcareProvider": "Healthcare provider"
                 }
             },
             "newNursingProfessionalRecords": "New nursing professional record",
@@ -1539,7 +1609,49 @@
                 "knowledgeAndDevelopment": "Knowledge and development",
                 "excretionOfWaste": "Excretion of waste"
             },
-            "viewNursingProfessionalRecord": "View nursing professional record"
+            "viewNursingProfessionalRecord": "View nursing professional record",
+            "vitals": {
+                "editVitals": "Edit vitals",
+                "form": {
+                    "alert": {
+                        "vitalsSuccessfullyAdded": "Vitals successfully added",
+                        "vitalsSuccessfullyUpdated": "Vitals successfully updated"
+                    },
+                    "bloodPressure": "Blood pressure",
+                    "bloodSugar": "Blood sugar",
+                    "date": "Date",
+                    "newFields": {
+                        "addNewField": "Add new field",
+                        "fieldName": "Field name",
+                        "fieldValue": "Field value",
+                        "removeField": "Remove field"
+                    },
+                    "pulse": "Pulse",
+                    "temperature": "Temperature",
+                    "vitals": "Vitals",
+                    "weight": "Weight"
+                },
+                "newVitals": "New Vitals",
+                "table": {
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit"
+                    },
+                    "alert": {
+                        "vitalsSuccessfullyDeleted": "Vitals successfully deleted"
+                    },
+                    "bloodPressure": "Blood pressure",
+                    "bloodSugar": "Blood sugar",
+                    "confirmation": {
+                        "deleteVitalsConfirmation": "Are you sure you want to delete this vitals"
+                    },
+                    "pulse": "Pulse",
+                    "temperature": "Temperature",
+                    "vitals": "Vitals",
+                    "weight": "Weight"
+                },
+                "vitals": "Vitals"
+            }
         },
         "purchaseEmail": {
             "purchaseEmail": "Purchase email",
@@ -2597,6 +2709,15 @@
             "seniorityDate": "Seniority date",
             "street": "Street"
         },
+        "importEmployees": {
+            "alert": {
+                "employeesSuccessfullyImported": "Employees successfully successfully imported"
+            },
+            "downloadTemplate": "Download template",
+            "importEmployees": "Import employees",
+            "importTemplate": "Import template",
+            "noFileSelected": "No file selected"
+        },
         "newEmployee": "New employee",
         "permissions": {
             "create": "Create",
@@ -3131,6 +3252,32 @@
             },
             "color": "Color",
             "name": "Name"
+        }
+    },
+    "journalTitles": {
+        "addNewJournalTitle": "Add new journal title",
+        "editJournalTitle": "Edit journal title",
+        "form": {
+            "alert": {
+                "journalTitleSuccessfullyUpdated": "Journal title successfully updated",
+                "newJournalTitleSuccessfullySaved": "New journal title successfully saved"
+            },
+            "title": "Title"
+        },
+        "journalTitles": "Journal titles",
+        "newJournalTitle": "New journal title",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "journalTitleSuccessfullyDeleted": "Journal title successfully deleted"
+            },
+            "confirmation": {
+                "deleteJournalTitleConfirmation": "Are you sure you want to delete this journal title"
+            },
+            "title": "Title"
         }
     },
     "languageSwitcher": {
@@ -4023,7 +4170,8 @@
                 "pageAccess": "Page access",
                 "password": "Password",
                 "phone": "Phone"
-            }
+            },
+            "profile": "Profile"
         },
         "settings": "Settings",
         "subscription": {
@@ -4045,6 +4193,7 @@
             "invoices": "Invoices",
             "jobTitles": "Job titles",
             "journalNoteTags": "Journal note tags",
+            "journalTitles": "Journal titles",
             "licenseOverview": "License overview",
             "licenses": "Licenses",
             "medicationAllergies": "Medication allergies",

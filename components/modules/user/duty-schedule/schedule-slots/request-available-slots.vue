@@ -4,14 +4,8 @@
             {{ $t('dutySchedules.scheduleSlots.opportunityForAShift') }}
         </p>
         <div class="space-y-2 mt-1">
-            <div v-for="(slot, index) in props?.week?.slots" :key="index" :class="[
-                slot?.shift_type === 'regular_shift', 'bg-shifts-regular',
-                slot?.shift_type === 'awake_night_shift', 'bg-shifts-awake_night',
-                slot?.shift_type === 'sleeping_night_shift', 'bg-shifts-sleeping_night',
-                slot?.shift_type === 'vacation_leave', 'bg-shifts-vacation',
-                slot?.shift_type === 'sick_leave', 'bg-shifts-sickleave',
-                'rounded-md p-1 cursor-pointer'
-            ]" @click="confirmSlotRequest(slot)">
+            <div v-for="(slot, index) in props?.week?.slots" :key="index" class="rounded-md p-1 cursor-pointer"
+                :style="{ backgroundColor: slot?.shift?.color }" @click="confirmSlotRequest(slot)">
                 <div class="border border-white rounded-md p-2 text-white">
                     {{ slot?.time_in + ' - ' + slot?.time_out }}
                 </div>

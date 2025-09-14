@@ -6,7 +6,31 @@
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="space-y-3">
             <div class="grid md:grid-cols-2 gap-x-3">
-                <div class="space-y-1">
+                <div class="md:col-span-2">
+                    <button type="button" class="text-sm text-primary hover:text-primary-700"
+                        @click="state.usePredefinedJournalTitle = !state.usePredefinedJournalTitle">
+                        <span v-if="state.usePredefinedJournalTitle">
+                            {{ $t('citizens.citizenJournals.form.enterJournalTitleManually') }}
+                        </span>
+                        <span v-else>
+                            {{ $t('citizens.citizenJournals.form.usePredefinedJournalTitle') }}
+                        </span>
+                    </button>
+                </div>
+                <div class="space-y-1" v-if="state.usePredefinedJournalTitle">
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="predefined_title" :label="$t('citizens.citizenJournals.form.title')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.modal.isAddJournalTitleOpen = true">
+                            {{ $t('journalTitles.addNewJournalTitle') }}
+                        </span>
+                    </div>
+                    <FormSelect id="predefined_title" v-model="state.formJournal.title"
+                        :options="state.options.journal_titles" />
+                    <FormError :error="v$?.formJournal?.title?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.title?.[0]" />
+                </div>
+                <div class="space-y-1" v-else>
                     <FormLabel for="title" :label="$t('citizens.citizenJournals.form.title')" />
                     <FormTextField id="title" name="title" :placeholder="$t('citizens.citizenJournals.form.title')"
                         v-model="state.formJournal.title" />
@@ -145,28 +169,28 @@
                 </div>
             </div>
             <div class="space-y-1 text-xs">
-                <div v-if="state.formJournal.assessment === 'no risk'"
+                <div v-if="state.formJournal.assessment === 'no risk' && citizenStore.getSelectedCitizen?.green"
                     class="bg-green-700 text-white px-4 py-3 rounded-md">
                     {{ citizenStore.getSelectedCitizen?.firstname }}
                     {{ citizenStore.getSelectedCitizen?.lastname }}
                     <span class="lowercase">
-                        {{ $t('citizens.citizenJournals.form.riskAssessment.noRiskStatus') }}.
+                        {{ citizenStore.getSelectedCitizen?.green }}.
                     </span>
                 </div>
-                <div v-if="state.formJournal.assessment === 'increased risk'"
+                <div v-if="state.formJournal.assessment === 'increased risk' && citizenStore.getSelectedCitizen?.yellow"
                     class="bg-yellow-500 text-white px-4 py-3 rounded-md">
                     {{ citizenStore.getSelectedCitizen?.firstname }}
                     {{ citizenStore.getSelectedCitizen?.lastname }}
                     <span class="lowercase">
-                        {{ $t('citizens.citizenJournals.form.riskAssessment.increasedRiskStatus') }}.
+                        {{ citizenStore.getSelectedCitizen?.yellow }}.
                     </span>
                 </div>
-                <div v-if="state.formJournal.assessment === 'acute increased risk'"
+                <div v-if="state.formJournal.assessment === 'acute increased risk' && citizenStore.getSelectedCitizen?.red"
                     class="bg-red-600 text-white px-4 py-3 rounded-md">
                     {{ citizenStore.getSelectedCitizen?.firstname }}
                     {{ citizenStore.getSelectedCitizen?.lastname }}
                     <span class="lowercase">
-                        {{ $t('citizens.citizenJournals.form.riskAssessment.acuteIncreasedRiskStatus') }}.
+                        {{ citizenStore.getSelectedCitizen?.red }}.
                     </span>
                 </div>
             </div>
@@ -283,6 +307,8 @@
                 </FormButton>
             </div>
         </div>
+        <ModulesUserJournalTitleModalNew :isModalOpen="state.modal.isAddJournalTitleOpen"
+            @close="state.modal.isAddJournalTitleOpen = false" @refreshJournalTitles="fetchAllJournalTitles" />
         <ModulesUserJournalNoteTagModalNew :isModalOpen="state.modal.isAddJournalNoteTagsOpen"
             @close="state.modal.isAddJournalNoteTagsOpen = false" @refreshJournalNoteTags="fetchAllJournalNoteTags" />
         <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
@@ -296,6 +322,7 @@
 import { aIAssistantService } from '@/components/api/user/AIAssistantService'
 import { journalService } from '@/components/api/user/JournalService'
 import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
+import { journalTitleService } from '@/components/api/user/JournalTitleService'
 import { teethService } from '@/components/api/user/TeethService'
 import { planService } from '@/components/api/user/PlanService'
 import { goalService } from '@/components/api/user/GoalService'
@@ -393,6 +420,7 @@ const state = reactive({
     } as any,
     modal: {
         isAddJournalNoteTagsOpen: false,
+        isAddJournalTitleOpen: false,
         isUpgradeStorageOpen: false,
     },
     options: {
@@ -412,6 +440,7 @@ const state = reactive({
         journal_note_plans: [],
         journal_note_goals: [],
         journal_note_subgoals: [],
+        journal_titles: [],
         risk_assessment_plans: [],
         risk_assessment_goals: [],
         risk_assessment_subgoals: [],
@@ -425,7 +454,8 @@ const state = reactive({
             { value: 5, label: 5 },
         ],
         teeth: [],
-    }
+    },
+    usePredefinedJournalTitle: false,
 })
 
 onMounted(() => {
@@ -433,6 +463,7 @@ onMounted(() => {
     fetchAllGoalsForJournalNote()
     fetchAllGoalsForRiskAssessment()
     fetchAllJournalNoteTags()
+    fetchAllJournalTitles()
     fetchAllTeeth()
     state.formJournal = {
         id: props.selectedJournal.id,
@@ -771,6 +802,29 @@ async function fetchAllJournalNoteTags() {
     emit('isPageLoading', false)
 }
 
+
+
+async function fetchAllJournalTitles() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await journalTitleService.getAllJournalTitles()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item?.title,
+                    label: item?.title,
+                })
+            )
+            state.options.journal_titles = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
 async function generateNoteForJournalContent() {
     state.error = {}
     emit('isPageLoading', true)
@@ -797,7 +851,7 @@ async function generateNoteForRiskAssessmentNote() {
     try {
         const params = {
             citizen_uuid: citizenUuid,
-            prompt: state.formJournal.content,
+            prompt: state.formJournal.note,
         }
         const response = await aIAssistantService.generateNote(params)
         if (response) {

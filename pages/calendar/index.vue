@@ -250,6 +250,8 @@ watch(() => language.locale.value, () => {
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
+        fetchAllCitizens()
+        fetchAllUsers()
         fetchMyCalendarEvents()
     }
 })
@@ -262,13 +264,16 @@ async function fetchAllCitizens() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await citizenService.getAllCitizens()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+        const response = await citizenService.getAllCitizens(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
-                (user: any) => options.push({
-                    value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname,
+                (citizen: any) => options.push({
+                    value: citizen?.uuid,
+                    label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
                 })
             )
             state.options.citizens = options
@@ -283,7 +288,10 @@ async function fetchAllUsers() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await userService.getAllUsers()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+        const response = await userService.getAllUsers(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(

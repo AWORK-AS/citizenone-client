@@ -37,10 +37,10 @@ watch(() => userStore.getUser, (newValue: any) => {
 })
 
 function changeTab(value: any) {
-    if (value === t('settings.tabs.customPages')) {
+    if (value === '/settings/custom-pages') {
         navigateTo(`/settings/custom-pages`)
     }
-    else if (value === t('settings.tabs.transactions')) {
+    else if (value === '/settings/transactions') {
         navigateTo(`/settings/transactions`)
     }
 }

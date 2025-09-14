@@ -37,7 +37,9 @@ import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { useDepartmentStore } from '@/store/department'
 
+const departmentStore = useDepartmentStore()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
@@ -96,7 +98,10 @@ async function fetchAllEmployees() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await userService.getAllUsers()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+        const response = await userService.getAllUsers(params)
         if (response) {
             state.options.employees = response
             let options: any = []

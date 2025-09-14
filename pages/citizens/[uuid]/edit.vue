@@ -104,6 +104,9 @@ const state = reactive({
         ean_number: '',
         transportation: '',
         note: '',
+        green: '',
+        yellow: '',
+        red: '',
         has_system_access: false,
         has_chat_access: false,
         has_duty_schedule_access: false,
@@ -158,6 +161,9 @@ async function fetchCitizen() {
                 ean_number: response?.data?.ean_number ?? '',
                 transportation: response?.data?.transportation ?? '',
                 note: response?.data?.note ?? '',
+                green: response?.data?.green ?? '',
+                yellow: response?.data?.yellow ?? '',
+                red: response?.data?.red ?? '',
                 has_system_access: response?.data?.has_system_access ?? '',
                 has_chat_access: response?.data?.has_chat_access ?? '',
                 has_duty_schedule_access: response?.data?.has_duty_schedule_access ?? '',
@@ -248,6 +254,9 @@ async function updateCitizen(citizenDetails: any) {
         params.append('ean_number', citizenDetails.ean_number)
         params.append('transportation', citizenDetails.transportation)
         params.append('note', citizenDetails.note)
+        params.append('green', citizenDetails.green)
+        params.append('yellow', citizenDetails.yellow)
+        params.append('red', citizenDetails.red)
         params.append('has_system_access', citizenDetails.has_system_access)
         params.append('has_chat_access', citizenDetails.has_chat_access)
         params.append('has_duty_schedule_access', citizenDetails.has_duty_schedule_access)

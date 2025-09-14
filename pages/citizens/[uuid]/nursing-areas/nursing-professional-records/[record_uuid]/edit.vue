@@ -33,7 +33,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserCitizenNursingProfessionalRecordForm formType="update"
+                    <ModulesUserCitizenNursingAreasNursingProfessionalRecordForm formType="update"
                         :selectedRecord="state.formNursingProfessionalRecord" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateRecord" />
                 </LoadingSpinner>
@@ -65,7 +65,7 @@ const breadcrumbLinks = [
     {
         name: 'citizens.nursingAreas.editNursingProfessionalRecord',
         translate: true,
-        href: `/citizens/${citizenUuid}/nursing-areas/${recordUuid}/edit`,
+        href: `/citizens/${citizenUuid}/nursing-areas/nursing-professional-records/${recordUuid}/edit`,
     },
 ]
 

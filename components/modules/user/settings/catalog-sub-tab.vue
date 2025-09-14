@@ -109,6 +109,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.journalTitles',
+                isTranslateName: true,
+                href: `/settings/journal-titles`,
+                routeNames: [
+                    'settings-journal-titles'
+                ]
+            },
+            {
                 name: 'settings.tabs.medicationAllergies',
                 isTranslateName: true,
                 href: `/settings/medication-allergies`,
@@ -179,52 +187,55 @@ watch(() => userStore.getUser, (newValue: any) => {
 
 
 function changeTab(value: any) {
-    if (value === t('settings.tabs.absences')) {
+    if (value === '/settings/absences') {
         navigateTo(`/settings/absences`)
     }
-    else if (value === t('settings.tabs.departments')) {
+    else if (value === '/settings/departments') {
         navigateTo(`/settings/departments`)
     }
-    else if (value === t('settings.tabs.bookingTags')) {
+    else if (value === '/settings/booking-tags') {
         navigateTo(`/settings/booking-tags`)
     }
-    else if (value === customPagesStore.getCustomPagesName?.addictions) {
+    else if (value === '/settings/addictions') {
         navigateTo(`/settings/addictions`)
     }
-    else if (value === t('settings.tabs.calendarTags')) {
+    else if (value === '/settings/calendar-tags') {
         navigateTo(`/settings/calendar-tags`)
     }
-    else if (value === t('settings.tabs.diagnoses')) {
+    else if (value === '/settings/diagnoses') {
         navigateTo(`/settings/diagnoses`)
     }
-    else if (value === t('settings.tabs.foreignCities')) {
+    else if (value === '/settings/foreign-cities') {
         navigateTo(`/settings/foreign-cities`)
     }
-    else if (value === t('settings.tabs.jobTitles')) {
+    else if (value === '/settings/job-titles') {
         navigateTo(`/settings/job-titles`)
     }
-    else if (value === t('settings.tabs.journalNoteTags')) {
+    else if (value === '/settings/journal-note-tags') {
         navigateTo(`/settings/journal-note-tags`)
     }
-    else if (value === t('settings.tabs.relationships')) {
+    else if (value === '/settings/journal-titles') {
+        navigateTo(`/settings/journal-titles`)
+    }
+    else if (value === '/settings/relationships') {
         navigateTo(`/settings/relationships`)
     }
-    else if (value === t('settings.tabs.medicationAllergies')) {
+    else if (value === '/settings/medication-allergies') {
         navigateTo(`/settings/medication-allergies`)
     }
-    else if (value === t('settings.tabs.medicines')) {
+    else if (value === '/settings/medicines') {
         navigateTo(`/settings/medicines`)
     }
-    else if (value === t('settings.tabs.scheduleTags')) {
+    else if (value === '/settings/schedule-tags') {
         navigateTo(`/settings/schedule-tags`)
     }
-    else if (value === t('settings.tabs.sections')) {
+    else if (value === '/settings/sections') {
         navigateTo(`/settings/sections`)
     }
-    else if (value === t('settings.tabs.shifts')) {
+    else if (value === '/settings/shifts') {
         navigateTo(`/settings/shifts`)
     }
-    else if (value === t('settings.tabs.units')) {
+    else if (value === '/settings/units') {
         navigateTo(`/settings/units`)
     }
 }

@@ -140,6 +140,13 @@
                                 {{ $t('settings.company.form.lockPastSchedules') }}
                             </p>
                         </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.social_og_boligstyrelsen"
+                                @toggleSwitch="state.formCompany.social_og_boligstyrelsen = !state.formCompany.social_og_boligstyrelsen" />
+                            <p>
+                                Social- og Boligstyrelsen
+                            </p>
+                        </div>
                     </div>
                     <div class="mt-6">
                         <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
@@ -195,6 +202,7 @@ const state = reactive({
         goals_enabled: false,
         subgoals_enabled: false,
         is_lock_past_schedules: false,
+        social_og_boligstyrelsen: false,
     },
     isPageLoading: false,
     options: {
@@ -249,12 +257,13 @@ watch(() => userStore.getUser, (newValue: any) => {
             municipality: newValue?.company?.company_address?.municipality?.uuid,
             city: newValue?.company?.company_address?.city,
             post_code: newValue?.company?.company_address?.post_code,
-            group_chat_enabled: newValue?.company?.group_chat_enabled ?? false,
-            checkin_enabled: newValue?.company?.checkin_enabled ?? false,
-            plans_enabled: newValue?.company?.employee_create_plans_enabled ?? false,
-            goals_enabled: newValue?.company?.employee_create_goals_enabled ?? false,
-            subgoals_enabled: newValue?.company?.employee_create_subgoals_enabled ?? false,
-            is_lock_past_schedules: newValue?.company?.is_lock_past_schedules ?? false,
+            group_chat_enabled: newValue?.company?.group_chat_enabled ? true : false,
+            checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
+            plans_enabled: newValue?.company?.employee_create_plans_enabled ? true : false,
+            goals_enabled: newValue?.company?.employee_create_goals_enabled ? true : false,
+            subgoals_enabled: newValue?.company?.employee_create_subgoals_enabled ? true : false,
+            is_lock_past_schedules: newValue?.company?.is_lock_past_schedules ? true : false,
+            social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
         }
         fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
     }
@@ -342,6 +351,7 @@ async function submitForm() {
                 employee_create_goals_enabled: state.formCompany.goals_enabled,
                 employee_create_subgoals_enabled: state.formCompany.subgoals_enabled,
                 is_lock_past_schedules: state.formCompany.is_lock_past_schedules,
+                social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
             }
             const response = await userService.updateCompany(params)
             if (response.data) {
