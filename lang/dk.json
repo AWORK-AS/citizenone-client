@@ -4129,7 +4129,7 @@
                 "alert": {
                     "successfullyUpdated": "Firma opdateret med succes"
                 },
-                "checkinReminder": "Påmindelse om check ind",
+                "checkinOut": "Check ind/ud",
                 "allowPlans": "Tillad medarbejdere at oprette planer",
                 "allowGoals": "Tillad medarbejdere at oprette mål",
                 "allowSubGoals": "Tillad medarbejdere at oprette delmål",

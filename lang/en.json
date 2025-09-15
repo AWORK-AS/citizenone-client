@@ -4129,7 +4129,7 @@
                 "alert": {
                     "successfullyUpdated": "Company successfully updated"
                 },
-                "checkinReminder": "Check in reminder",
+                "checkinOut": "Check in/out",
                 "allowPlans": "Allow employees to create plans",
                 "allowGoals": "Allow employees to create goals",
                 "allowSubGoals": "Allow employees to create subgoals",

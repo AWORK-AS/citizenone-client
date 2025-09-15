@@ -113,7 +113,8 @@
                                             </ul>
                                         </li>
                                         <li class="mt-auto space-y-2">
-                                            <ModulesUserTimeRegistrationCheckInOut />
+                                            <ModulesUserTimeRegistrationCheckInOut
+                                                v-if="userStore.getUser?.checkin_enabled" />
                                             <ModulesUserSidebarSubscribeButton
                                                 v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null" />
                                             <ModulesUserSidebarCompanyId />
@@ -221,7 +222,7 @@
                             </ul>
                         </li>
                         <li class="mt-auto space-y-2">
-                            <ModulesUserTimeRegistrationCheckInOut />
+                            <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" />
                             <ModulesUserSidebarCompanyId />
                         </li>
                     </ul>
@@ -804,9 +805,7 @@ function checkInReminderModalVisibility(response: any) {
 
     if (lastHidden !== today && checkinEnabled) {
         userStore.resetIsCheckInNow()
-        if (localStorage.getItem('isFirstTime') !== null) {
-            state.modal.isCheckinReminderOpen = true
-        }
+        state.modal.isCheckinReminderOpen = true
     }
 }
 

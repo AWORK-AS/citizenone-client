@@ -109,7 +109,7 @@
                             <FormSwitch :value="state.formCompany.checkin_enabled"
                                 @toggleSwitch="state.formCompany.checkin_enabled = !state.formCompany.checkin_enabled" />
                             <p>
-                                {{ $t('settings.company.form.checkinReminder') }}
+                                {{ $t('settings.company.form.checkinOut') }}
                             </p>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
@@ -355,6 +355,7 @@ async function submitForm() {
             }
             const response = await userService.updateCompany(params)
             if (response.data) {
+                userStore.setUserCheckinStatus(state.formCompany.checkin_enabled)
                 successAlert(`${t('alert.success')}!`, `${t('settings.company.form.alert.successfullyUpdated')}.`)
             }
         } catch (error: any) {
