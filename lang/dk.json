@@ -2770,7 +2770,7 @@
         },
         "viewEmployee": "Se medarbejder"
     },
-    "entriesPerPage": "Entries per page",
+    "entriesPerPage": "Indlæg pr. side",
     "events": {
         "alert": {
             "successfullyAdded": "Ny begivenhed blev tilføjet med succes",
