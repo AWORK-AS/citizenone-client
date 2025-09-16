@@ -78,6 +78,9 @@
                         </div>
                     </div>
                 </header>
+                <div class="my-5">
+                    <TableSearch @search="handleSearch" />
+                </div>
                 <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
                     :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
                 <div class="isolate flex flex-auto flex-col bg-white">
@@ -624,6 +627,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="mt-5">
+                    <Pagination :data="state.weeklySchedules" @previous="previous" @next="next" />
+                </div>
             </div>
             <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
                 @close="state.modal.isDownloadOpen = false" />
@@ -695,6 +701,7 @@ const selectedDay = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 const expandedRecords = reactive([] as boolean[])
+let currentTablePage = 1
 
 const state = reactive({
     addShift: {
@@ -708,6 +715,9 @@ const state = reactive({
     } as any,
     copyShiftError: {} as Error,
     customWeekLabel: 'week',
+    dataFilter: {
+        search: ''
+    },
     editShiftError: {} as Error,
     editShift: {
         selectedEmployee: {},
@@ -953,6 +963,8 @@ async function fetchDutySchedule() {
             filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
             filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
+            page: currentTablePage,
+            ...state.dataFilter,
         }
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
@@ -969,6 +981,22 @@ async function fetchDutySchedule() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function handleSearch(value: any) {
+    currentTablePage = 1
+    state.dataFilter.search = value?.[0] == '' ? [] : value
+    fetchDutySchedule()
+}
+
+function previous() {
+    currentTablePage--
+    fetchDutySchedule()
+}
+
+function next() {
+    currentTablePage++
+    fetchDutySchedule()
 }
 
 function getSlotCount(dayName: string) {
