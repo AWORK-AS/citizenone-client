@@ -6,21 +6,56 @@
                     <form @submit.prevent="submitForm()">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
-                        <div class="space-y-1 w-1/3 mx-auto" v-if="!props.google2fa?.is_google_2fa_enabled">
-                            <QRCodeVue3 :value="state.qrCodeUrl" :width="800" :height="800" image="/img/logo.svg"
-                                :qrOptions="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
-                                :imageOptions="{ hideBackgroundDots: true, imageSize: 10, margin: 2 }"
-                                :dotsOptions="{ type: 'classy', color: '#205E77' }"
-                                :cornersSquareOptions="{ type: 'extra-rounded', color: '#41ADD8' }"
-                                :cornersDotOptions="{ type: 'square', color: '#205E77' }"
-                                :key="state.qrCodeComponentKey" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="code" :label="$t('2fa.form.code')" />
-                            <FormTextField id="code" name="code" :placeholder="$t('2fa.form.code')"
-                                v-model="state.form2fa.code" />
-                            <FormError :error="v$?.form2fa?.code?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.code?.[0]" />
+                        <div class="space-y-3">
+                            <p class="text-sm">
+                                {{ $t('2fa.form.scanTheQR') }}
+                            </p>
+                            <div class="flex items-center justify-center gap-x-2">
+                                <div>
+                                    <FormButton buttonStyle="primary"
+                                        @click="navigateToExternalLink('https://apps.apple.com/us/app/google-authenticator/id388497605')">
+                                        <Icon name="simple-icons:apple" class="w-6 h-6" aria-hidden="true" />
+                                        <div class="text-left">
+                                            <p class="text-xxs">
+                                                {{ $t('2fa.form.downloadOnThe') }}
+                                            </p>
+                                            <p class="text-sm">
+                                                App Store
+                                            </p>
+                                        </div>
+                                    </FormButton>
+                                </div>
+                                <div>
+                                    <FormButton buttonStyle="primary"
+                                        @click="navigateToExternalLink('https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en&pli=1')">
+                                        <Icon name="simple-icons:googleplay" class="w-6 h-6" aria-hidden="true" />
+                                        <div class="text-left">
+                                            <p class="text-xxs">
+                                                {{ $t('2fa.form.getItOn') }}
+                                            </p>
+                                            <p class="text-sm">
+                                                Google Play
+                                            </p>
+                                        </div>
+                                    </FormButton>
+                                </div>
+                            </div>
+                            <div class="space-y-1 w-1/3 mx-auto" v-if="!props.google2fa?.is_google_2fa_enabled">
+                                <QRCodeVue3 :value="state.qrCodeUrl" :width="800" :height="800" image="/img/logo.svg"
+                                    :qrOptions="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
+                                    :imageOptions="{ hideBackgroundDots: true, imageSize: 10, margin: 2 }"
+                                    :dotsOptions="{ type: 'classy', color: '#205E77' }"
+                                    :cornersSquareOptions="{ type: 'extra-rounded', color: '#41ADD8' }"
+                                    :cornersDotOptions="{ type: 'square', color: '#205E77' }"
+                                    :key="state.qrCodeComponentKey" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="code" :label="$t('2fa.form.code')" />
+                                <FormTextField id="code" name="code" :placeholder="$t('2fa.form.code')"
+                                    v-model="state.form2fa.code" />
+                                <FormError :error="v$?.form2fa?.code?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.code?.[0]" />
+                            </div>
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -143,5 +178,14 @@ async function verifyCode() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function navigateToExternalLink(link: any) {
+    await navigateTo(link, {
+        external: true,
+        open: {
+            target: '_blank',
+        }
+    })
 }
 </script>

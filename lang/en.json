@@ -6,10 +6,14 @@
         },
         "form": {
             "code": "Code",
+            "downloadOnThe": "Download on the",
+            "getItOn": "Get it on",
+            "scanTheQR": "Scan the QR image, and enter the code generated on your Google Authenticator App",
             "verify": "Verify",
             "verifyCode": "Verify code"
         },
-        "google2FactorAuthentication": "Google 2 factor authentication"
+        "google2FactorAuthentication": "Google 2 factor authentication",
+        "useYour2faCodeFromGoogleAuthenticatorAppOnYourPhone": "Use your 2FA code from Google Authenticator app on your phone"
     },
     "absences": {
         "addNewAbsence": "Add new absence",
