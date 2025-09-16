@@ -18,7 +18,7 @@
                 </FormButton>
             </div>
             <div class="flex h-full flex-col">
-                <header class="grid grid-cols-1 md:grid-cols-3 md:items-center justify-between py-4 gap-3">
+                <header class="grid grid-cols-1 xl:grid-cols-3 xl:items-center justify-between py-4 gap-3">
                     <div>
                         <div class="font-medium mt-2">
                             {{ $t('dutySchedules.typeofShifts') }}:
