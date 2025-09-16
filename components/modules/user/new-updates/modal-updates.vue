@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2025-08-29',
+    currentVersion: '2025-09-12',
     availableVersions: [
+        '2025-09-12',
         '2025-08-29',
         '2025-08-15',
         '2025-08-01',
@@ -68,6 +69,29 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2025-09-12': [
+            {
+                title: 'Import citizens via CSV template file',
+                description: [
+                    'Citizens can now be imported using a CSV template file.',
+                    'This streamlines the data entry process and ensures consistency in citizen records.',
+                ],
+            },
+            {
+                title: 'Users\' 2FA',
+                description: [
+                    'Two-factor authentication (2FA) is now available for users.',
+                    'This adds an extra layer of security to user accounts and protects sensitive information.',
+                ],
+            },
+            {
+                title: 'New fields in the citizen\'s form: Traffic lights (Green, Yellow, and Red)',
+                description: [
+                    'New fields for traffic light status (Green, Yellow, and Red) have been added to the citizen\'s form.',
+                    'Provide a description of the citizen\'s condition when they are in Green, Yellow, or Red status in creating a journal note.',
+                ],
+            },
+        ],
         '2025-08-29': [
             {
                 title: 'Default shift times in duty schedule',
@@ -156,6 +180,29 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2025-09-12': [
+            {
+                title: 'Importer borgere via CSV-skabelonfil',
+                description: [
+                    'Borgere kan nu importeres ved hjælp af en CSV-skabelonfil.',
+                    'Dette strømline dataindtastningsprocessen og sikrer konsistens i borgeroptegnelser.',
+                ],
+            },
+            {
+                title: 'Brugerens 2FA',
+                description: [
+                    'To-faktor-godkendelse (2FA) er nu tilgængelig for brugere.',
+                    'Dette tilføjer et ekstra lag af sikkerhed til brugerens konti og beskytter følsomme oplysninger.',
+                ],
+            },
+            {
+                title: 'Nye felter i borgerens formular: Trafiklys (Grøn, Gul og Rød)',
+                description: [
+                    'Der er tilføjet nye felter for trafiklysstatus (Grøn, Gul og Rød) i borgerens formular.',
+                    'Angiv en beskrivelse af borgerens tilstand, når de er i Grøn, Gul eller Rød status, når der oprettes en journalnotat.',
+                ],
+            },
+        ],
         '2025-08-29': [
             {
                 title: 'Standard arbejdstider i vagtplan',
