@@ -1080,6 +1080,7 @@
             "archiveConfirmation": "Are you sure you want to archive this citizen"
         },
         "editCitizen": "Edit citizen",
+        "exportCitizens": "Export citizens",
         "form": {
             "addictions": "Substance abuse",
             "alert": {
@@ -2649,6 +2650,7 @@
             "substitute": "​Substitute",
             "temporary": "​Temporary"
         },
+        "exportEmployees": "Export employees",
         "form": {
             "alert": {
                 "employeeSuccessfullyUpdated": "Employee successfully updated",

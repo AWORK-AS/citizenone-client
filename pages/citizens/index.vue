@@ -61,6 +61,11 @@
                             <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.importCitizens.importCitizens') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="exportCitizens"
+                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                            <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.exportCitizens') }}
+                        </FormButton>
                     </div>
                 </div>
                 <div class="space-y-5">
@@ -172,6 +177,7 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
+import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
 const departmentStore = useDepartmentStore()
@@ -273,5 +279,22 @@ function changePageLength(event: any) {
 function showCitizenNote(citizen: any) {
     state.selectedCitizen = citizen
     state.modal.showNote = true
+}
+
+async function exportCitizens() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await citizenService.exportCitizens(params)
+        if (response) {
+            saveAs(response, customPagesStore.getCustomPagesName?.citizens)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>

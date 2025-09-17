@@ -1080,6 +1080,7 @@
             "archiveConfirmation": "Er du sikker på, at du vil arkivere denne borger"
         },
         "editCitizen": "Rediger Borger",
+        "exportCitizens": "Eksporter borgere",
         "form": {
             "addictions": "Stofmisbrug",
             "alert": {
@@ -2649,6 +2650,7 @@
             "substitute": "Vikar​",
             "temporary": "Tidsbestemt​"
         },
+        "exportEmployees": "Eksporter medarbejdere",
         "form": {
             "alert": {
                 "employeeSuccessfullyUpdated": "Medarbejder opdateret med succes",
