@@ -5,6 +5,7 @@
             "google2FASuccessfullyDisabled": "Google 2FA blev deaktiveret med succes",
             "google2FASuccessfullyEnabled": "Google 2FA blev aktiveret med succes"
         },
+        "enable": "Aktivér",
         "form": {
             "code": "Kode",
             "downloadOnThe": "Download på",

@@ -5,6 +5,7 @@
             "google2FASuccessfullyDisabled": "Google 2FA successfully disabled",
             "google2FASuccessfullyEnabled": "Google 2FA successfully enabled"
         },
+        "enable": "Enable",
         "form": {
             "code": "Code",
             "downloadOnThe": "Download on the",

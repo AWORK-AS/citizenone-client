@@ -430,6 +430,8 @@
         </div>
         <ModulesUserReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen"
             @close="state.modal.isCheckinReminderOpen = false" />
+        <ModulesUserSettings2faGoogleModalRequire2fa :isModalOpen="state.modal.is2faRequiredOpen"
+            @close="state.modal.is2faRequiredOpen = false" />
         <ModulesUserCitizenPlanModalCompletionReminder
             :isModalOpen="state.modal.isPlanGoalSubgoalCompletionReminderOpen" @close="closeCompletionReminder" />
         <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
@@ -574,6 +576,7 @@ const state = reactive({
     isPageLoading: false,
     isSidebarLoading: true,
     modal: {
+        is2faRequiredOpen: false,
         isCheckinReminderOpen: false,
         isGuidedTourCalendarOpen: false,
         isGuidedTourCitizensOverviewOpen: false,
@@ -601,6 +604,9 @@ watch(() => userStore.getUser, (user: any) => {
         setCustomPageNames()
         state.showSubscribeButton = true
         generateSidebarLinks(user)
+    }
+    if (user?.company?.is_2fa_enabled && !user?.is_2fa_enabled) {
+        state.modal.is2faRequiredOpen = true
     }
 })
 
