@@ -99,6 +99,13 @@
                             </div>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.is_2fa_enabled"
+                                @toggleSwitch="state.formCompany.is_2fa_enabled = !state.formCompany.is_2fa_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.2fa') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.group_chat_enabled"
                                 @toggleSwitch="state.formCompany.group_chat_enabled = !state.formCompany.group_chat_enabled" />
                             <p>
@@ -196,6 +203,7 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
+        is_2fa_enabled: false,
         group_chat_enabled: false,
         checkin_enabled: false,
         plans_enabled: false,
@@ -257,6 +265,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             municipality: newValue?.company?.company_address?.municipality?.uuid,
             city: newValue?.company?.company_address?.city,
             post_code: newValue?.company?.company_address?.post_code,
+            is_2fa_enabled: newValue?.company?.is_2fa_enabled ? true : false,
             group_chat_enabled: newValue?.company?.group_chat_enabled ? true : false,
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
             plans_enabled: newValue?.company?.employee_create_plans_enabled ? true : false,
@@ -345,6 +354,7 @@ async function submitForm() {
                 municipality_uuid: state.formCompany.municipality,
                 city: state.formCompany.city,
                 post_code: state.formCompany.post_code,
+                is_2fa_enabled: state.formCompany.is_2fa_enabled,
                 group_chat_enabled: state.formCompany.group_chat_enabled,
                 checkin_enabled: state.formCompany.checkin_enabled,
                 employee_create_plans_enabled: state.formCompany.plans_enabled,

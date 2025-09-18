@@ -1,5 +1,6 @@
 {
     "2fa": {
+        "2fa": "Two factor authentication",
         "alert": {
             "google2FASuccessfullyDisabled": "Google 2FA successfully disabled",
             "google2FASuccessfullyEnabled": "Google 2FA successfully enabled"
@@ -4131,6 +4132,7 @@
     "settings": {
         "company": {
             "form": {
+                "2fa": "Two factor authentication",
                 "accountantEmail": "Auditor or accounting e-mail (citizens' wallet transactions)",
                 "alert": {
                     "successfullyUpdated": "Company successfully updated"

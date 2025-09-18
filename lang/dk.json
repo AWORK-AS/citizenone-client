@@ -1,5 +1,6 @@
 {
     "2fa": {
+        "2fa": "To-faktor-godkendelse",
         "alert": {
             "google2FASuccessfullyDisabled": "Google 2FA blev deaktiveret med succes",
             "google2FASuccessfullyEnabled": "Google 2FA blev aktiveret med succes"
@@ -4131,6 +4132,7 @@
     "settings": {
         "company": {
             "form": {
+                "2fa": "To-faktor-godkendelse",
                 "accountantEmail": "Revisor eller regnskabs e-mail (borgernes wallet transaktioner)",
                 "alert": {
                     "successfullyUpdated": "Firma opdateret med succes"
