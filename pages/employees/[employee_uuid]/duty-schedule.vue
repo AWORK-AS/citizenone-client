@@ -267,9 +267,7 @@
                                                                         width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                                         marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
                                                                     }">
-                                                                    <div class="flex justify-between text-white" @click=" editSchedule(weeklySchedule?.employee,
-                                                                        weeklyScheduleIndex, weekIndex, shift,
-                                                                        shiftIndex)">
+                                                                    <div class="flex justify-between text-white">
                                                                         <p
                                                                             class="w-full px-2 py-2 flex items-center justify-center border border-white rounded-tl-md rounded-bl-md">
                                                                             {{
@@ -537,7 +535,7 @@ async function fetchDutySchedule() {
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
             state.weeklySchedules = response?.data
-            state.weeklySlots = response?.week_slots
+            state.weeklySlots = response?.week_data
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
             if (state.isFirstLoad) {
                 expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
