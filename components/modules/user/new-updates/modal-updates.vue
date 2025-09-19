@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2025-09-12',
+    currentVersion: '2025-09-19',
     availableVersions: [
+        '2025-09-19',
         '2025-09-12',
         '2025-08-29',
         '2025-08-15',
@@ -69,6 +70,29 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2025-09-19': [
+            {
+                title: 'Import and export employees via CSV template file',
+                description: [
+                    'Employees can now be imported and exported using a CSV template file.',
+                    'This simplifies employee data management and ensures consistency across records.',
+                ],
+            },
+            {
+                title: 'Export citizens',
+                description: [
+                    'Citizen records can now be exported.',
+                    'This allows for easier reporting, sharing, and data backup.',
+                ],
+            },
+            {
+                title: 'Listing of holidays in the duty schedule',
+                description: [
+                    'Holidays are now displayed within the duty schedule.',
+                    'This helps improve planning and ensures accurate scheduling around holidays.',
+                ],
+            },
+        ],
         '2025-09-12': [
             {
                 title: 'Import citizens via CSV template file',
@@ -180,6 +204,29 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2025-09-19': [
+            {
+                title: 'Importer og eksporter medarbejdere via CSV-skabelonfil',
+                description: [
+                    'Medarbejdere kan nu importeres og eksporteres ved hjælp af en CSV-skabelonfil.',
+                    'Dette forenkler håndteringen af medarbejderdata og sikrer ensartethed på tværs af registrene.',
+                ],
+            },
+            {
+                title: 'Eksporter borgere',
+                description: [
+                    'Borgerregistre kan nu eksporteres.',
+                    'Dette muliggør nemmere rapportering, deling og sikkerhedskopiering af data.',
+                ],
+            },
+            {
+                title: 'Visning af helligdage i vagtplanen',
+                description: [
+                    'Helligdage vises nu i vagtplanen.',
+                    'Dette hjælper med bedre planlægning og sikrer korrekt skemalægning omkring helligdage.',
+                ],
+            },
+        ],
         '2025-09-12': [
             {
                 title: 'Importer borgere via CSV-skabelonfil',
