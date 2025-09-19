@@ -2455,6 +2455,10 @@
             "sickLeave": "Sygefravær",
             "vacationLeave": "Ferie"
         },
+        "sort": {
+            "sortNamesInAscendingOrder": "Sorter navne i stigende rækkefølge",
+            "sortNamesInDescendingOrder": "Sorter navne i faldende rækkefølge"
+        },
         "table": {
             "awakeNightShiftHours": "Vågen nattevagt",
             "holidayHours": "Ferietimer",

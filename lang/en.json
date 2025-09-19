@@ -2455,6 +2455,10 @@
             "sickLeave": "Sick leave",
             "vacationLeave": "Vacation leave"
         },
+        "sort": {
+            "sortNamesInAscendingOrder": "Sort names in ascending order",
+            "sortNamesInDescendingOrder": "Sort names in descending order"
+        },
         "table": {
             "awakeNightShiftHours": "Awake night shift",
             "holidayHours": "Holiday hours",
