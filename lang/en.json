@@ -2302,6 +2302,7 @@
             "useCompensatoryTime": "Use compensatory time",
             "users": "Users"
         },
+        "holidays": "Holidays",
         "month": "Month",
         "newSchedule": "New schedule",
         "noScheduleFound": "No schedule found",

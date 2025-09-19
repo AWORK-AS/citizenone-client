@@ -87,7 +87,7 @@
                     <div class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
                         <div>
                             <div>
-                                <div class="shadow grid grid-cols-9">
+                                <div class="grid grid-cols-9">
                                     <div class="col-span-2 border-0.5">
                                         <div class="flex items-center gap-x-3 px-3 pt-3">
                                             <p class="text-sm font-medium">
@@ -187,6 +187,56 @@
                                                 {{ day.date }}
                                             </span>
                                         </span>
+                                    </div>
+                                </div>
+
+                                <div class="shadow grid grid-cols-9">
+                                    <div class="col-span-2 border-0.5">
+                                        <p class="flex items-center justify-end px-4 py-2 text-xs">
+                                            {{ $t('dutySchedules.holidays') }}:
+                                        </p>
+                                    </div>
+                                    <div class="border-0.5 py-2 flex items-center justify-center">
+                                        <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
+                                            v-if="state?.weeklyData?.monday?.holiday">
+                                            {{ state?.weeklyData?.monday?.holiday?.name }}
+                                        </p>
+                                    </div>
+                                    <div class="border-0.5 py-2 flex items-center justify-center">
+                                        <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
+                                            v-if="state?.weeklyData?.tuesday?.holiday">
+                                            {{ state?.weeklyData?.tuesday?.holiday?.name }}
+                                        </p>
+                                    </div>
+                                    <div class="border-0.5 py-2 flex items-center justify-center">
+                                        <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
+                                            v-if="state?.weeklyData?.wednesday?.holiday">
+                                            {{ state?.weeklyData?.wednesday?.holiday?.name }}
+                                        </p>
+                                    </div>
+                                    <div class="border-0.5 py-2 flex items-center justify-center">
+                                        <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
+                                            v-if="state?.weeklyData?.thursday?.holiday">
+                                            {{ state?.weeklyData?.thursday?.holiday?.name }}
+                                        </p>
+                                    </div>
+                                    <div class="border-0.5 py-2 flex items-center justify-center">
+                                        <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
+                                            v-if="state?.weeklyData?.friday?.holiday">
+                                            {{ state?.weeklyData?.friday?.holiday?.name }}
+                                        </p>
+                                    </div>
+                                    <div class="border-0.5 py-2 flex items-center justify-center">
+                                        <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
+                                            v-if="state?.weeklyData?.saturday?.holiday">
+                                            {{ state?.weeklyData?.saturday?.holiday?.name }}
+                                        </p>
+                                    </div>
+                                    <div class="border-0.5 py-2 flex items-center justify-center">
+                                        <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
+                                            v-if="state?.weeklyData?.sunday?.holiday">
+                                            {{ state?.weeklyData?.sunday?.holiday?.name }}
+                                        </p>
                                     </div>
                                 </div>
 
@@ -778,7 +828,7 @@ const state = reactive({
         selectedEmployeeSchedule: {},
     } as any,
     weeklySchedules: [] as any,
-    weeklySlots: {} as any,
+    weeklyData: {} as any,
 })
 
 watch(() => state.progress.percentage, (newPercentage: any) => {
@@ -969,7 +1019,7 @@ async function fetchDutySchedule() {
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
             state.weeklySchedules = response?.data
-            state.weeklySlots = response?.week_data
+            state.weeklyData = response?.week_data
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
             fetchDutySchedulePercentage()
             if (state.isFirstLoad) {
@@ -1010,7 +1060,7 @@ function getSlotCount(dayName: string) {
         Sun: 'sunday'
     } as any
     const key = dayMap[dayName]
-    return state.weeklySlots[key]?.total_slots || 0
+    return state.weeklyData[key]?.total_slots || 0
 }
 
 function toggleShowHideAllShifts() {
