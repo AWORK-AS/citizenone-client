@@ -74,8 +74,22 @@
                         </div>
                     </div>
                 </header>
-                <div class="my-5">
-                    <TableSearch @search="handleSearch" />
+                <div class="my-5 flex items-center gap-x-2">
+                    <Tooltip
+                        :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
+                        position="right">
+                        <button
+                            class="flex items-center justify-center gap-x-2 outline-none rounded-md text-xs truncate font-semibold bg-tertiary border border-tertiary text-white hover:bg-tertiary-800 px-3 py-3.5"
+                            @click="sortDutySchedule">
+                            <Icon name="heroicons:arrow-down" class="h-4 w-4" aria-hidden="true"
+                                v-show="state.sortData?.sortOrder === 'ascend'" />
+                            <Icon name="heroicons:arrow-up" class="h-4 w-4" aria-hidden="true"
+                                v-show="state.sortData?.sortOrder === 'descend'" />
+                        </button>
+                    </Tooltip>
+                    <div class="grow">
+                        <TableSearch @search="handleSearch" />
+                    </div>
                 </div>
                 <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
                     :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
@@ -583,6 +597,10 @@ const state = reactive({
             end_date: moment().startOf('week').add(7, 'day'),
         },
     } as any,
+    sortData: {
+        sortField: 'firstname',
+        sortOrder: 'ascend',
+    },
     isFirstLoad: true,
     isRemoveShift: false,
     isUpdateShift: false,
@@ -772,6 +790,8 @@ async function fetchDutySchedule() {
             filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
             page: currentTablePage,
+            sortField: state.sortData.sortField,
+            sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
         }
         const response = await draftScheduleService.getDraftDutySchedules(params)
@@ -788,6 +808,15 @@ async function fetchDutySchedule() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function sortDutySchedule() {
+    if (state.sortData.sortOrder === 'ascend') {
+        state.sortData.sortOrder = 'descend'
+    } else {
+        state.sortData.sortOrder = 'ascend'
+    }
+    fetchDutySchedule()
 }
 
 function handleSearch(value: any) {
