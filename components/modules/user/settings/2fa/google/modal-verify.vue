@@ -168,7 +168,7 @@ async function verifyCode() {
                 successAlert(`${t('alert.success')}!`, `${t('2fa.alert.google2FASuccessfullyEnabled')}.`)
                 emit('setGoogle2faStatus', true)
             } else {
-                successAlert(`${t('alert.success')}!`, `${t('2fa.alert.google2FASuccessfullyEnabled')}.`)
+                successAlert(`${t('alert.success')}!`, `${t('2fa.alert.google2FASuccessfullyDisabled')}.`)
                 emit('setGoogle2faStatus', false)
             }
             state.form2fa.code = ''

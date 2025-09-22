@@ -605,7 +605,7 @@ watch(() => userStore.getUser, (user: any) => {
         state.showSubscribeButton = true
         generateSidebarLinks(user)
     }
-    if (user?.company?.is_2fa_enabled && !user?.is_2fa_enabled) {
+    if (user?.company?.is_2fa_enabled && !user?.is_google_2fa_enabled) {
         state.modal.is2faRequiredOpen = true
     }
 })
