@@ -13,6 +13,10 @@
                 <div class="w-3 h-3 rounded-sm bg-yellow-500"></div>
                 <span>{{ $t('events.citizens') }}</span>
             </div>
+            <div class="flex items-center gap-x-2">
+                <div class="w-3 h-3 rounded-sm bg-secondary"></div>
+                <span>{{ $t('events.holidays') }}</span>
+            </div>
         </div>
         <div class="flex h-full flex-col">
             <header class="flex flex-none items-center justify-between border-b border-gray-200 py-4">
@@ -56,7 +60,7 @@
                     <div class="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8">
                         <div class="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
                             <button v-for="day in weekDays" :key="day.date" type="button"
-                                class="flex flex-col items-center pb-3 pt-2" @click="setSelectedDay(day)">
+                                class="flex flex-col items-center pb-3 pt-2">
                                 <span v-if="day.longName === 'Mon'">
                                     {{ $t('calendar.week.oneLetter.Monday') }}
                                 </span>
@@ -118,6 +122,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="hidden md:flex flex-auto">
                         <div class="sticky left-0 z-10 w-14 flex-none bg-white ring-1 ring-gray-100" />
                         <div class="grid flex-auto grid-cols-1 grid-rows-1">
@@ -127,9 +132,16 @@
                             </div>
                             <div
                                 class="col-start-1 col-end-2 row-start-1 hidden grid-cols-7 grid-rows-1 divide-x divide-gray-100 sm:grid sm:grid-cols-7">
-                                <div v-for="(events, index) in eventsByDay" :key="index"
+                                <div v-for="(events, eventsByDayIndex) in eventsByDay" :key="eventsByDayIndex"
                                     class="col-start-{{ index + 1 }}">
                                     <div class="p-3 space-y-2">
+                                        <div v-for="(holiday, holidayIndex) in holidaysByDay[eventsByDayIndex]"
+                                            :key="holidayIndex"
+                                            class="bg-gray-200 p-2 rounded-md cursor-pointer border-l-4 border-secondary">
+                                            <p class="text-xs">
+                                                {{ holiday?.name }}
+                                            </p>
+                                        </div>
                                         <div v-for="myCalendarEvent in events" :key="myCalendarEvent.id"
                                             class="bg-gray-200 p-2 rounded-md cursor-pointer" :class="[
                                                 myCalendarEvent?.type === 'citizens' && 'border-yellow-500',
@@ -369,7 +381,6 @@ const eventsByDay = computed(() => {
     if (!props.myCalendarEvents?.data) return Array.from({ length: 7 }).map(() => [])
 
     const startOfWeek = moment(currentDate.value).startOf('isoWeek')
-    const endOfWeek = moment(currentDate.value).endOf('isoWeek')
 
     return Array.from({ length: 7 }).map((_, i) => {
         const dayStart = moment(startOfWeek).add(i, 'day').startOf('day')
@@ -378,6 +389,23 @@ const eventsByDay = computed(() => {
         return props.myCalendarEvents.data.filter((event: any) => {
             const eventStart = moment(event.date_time_start)
             const eventEnd = moment(event.date_time_end)
+            return isWithinRange(eventStart, eventEnd, dayStart, dayEnd)
+        })
+    })
+})
+
+const holidaysByDay = computed(() => {
+    if (!props.myCalendarEvents?.holidays) return Array.from({ length: 7 }).map(() => [])
+
+    const startOfWeek = moment(currentDate.value).startOf('isoWeek')
+
+    return Array.from({ length: 7 }).map((_, i) => {
+        const dayStart = moment(startOfWeek).add(i, 'days').startOf('day')
+        const dayEnd = moment(dayStart).endOf('day')
+
+        return props.myCalendarEvents.holidays.filter((holiday: any) => {
+            const eventStart = moment(holiday.date).startOf('day')
+            const eventEnd = moment(holiday.date).endOf('day')
             return isWithinRange(eventStart, eventEnd, dayStart, dayEnd)
         })
     })
