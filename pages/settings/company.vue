@@ -154,6 +154,13 @@
                                 Social- og Boligstyrelsen
                             </p>
                         </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.quick_risk_assessment_enabled"
+                                @toggleSwitch="state.formCompany.quick_risk_assessment_enabled = !state.formCompany.quick_risk_assessment_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.quickRiskAssessment') }}
+                            </p>
+                        </div>
                     </div>
                     <div class="mt-6">
                         <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
@@ -211,6 +218,7 @@ const state = reactive({
         subgoals_enabled: false,
         is_lock_past_schedules: false,
         social_og_boligstyrelsen: false,
+        quick_risk_assessment_enabled: false,
     },
     isPageLoading: false,
     options: {
@@ -273,6 +281,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             subgoals_enabled: newValue?.company?.employee_create_subgoals_enabled ? true : false,
             is_lock_past_schedules: newValue?.company?.is_lock_past_schedules ? true : false,
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
+            quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
         }
         fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
     }
@@ -362,6 +371,7 @@ async function submitForm() {
                 employee_create_subgoals_enabled: state.formCompany.subgoals_enabled,
                 is_lock_past_schedules: state.formCompany.is_lock_past_schedules,
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
+                quick_risk_assessment_enabled: state.formCompany.quick_risk_assessment_enabled,
             }
             const response = await userService.updateCompany(params)
             if (response.data) {

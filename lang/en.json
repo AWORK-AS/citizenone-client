@@ -4156,6 +4156,7 @@
                 "municipality": "Municipality",
                 "phone": "Phone",
                 "postCode": "Post code",
+                "quickRiskAssessment": "Quick risk assessment",
                 "region": "Region",
                 "street": "Street",
                 "website": "Website"

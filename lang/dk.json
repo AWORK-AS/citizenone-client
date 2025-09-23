@@ -4156,6 +4156,7 @@
                 "municipality": "Kommune",
                 "phone": "Telefon",
                 "postCode": "Postnummer",
+                "quickRiskAssessment": "Hurtig risikovurdering",
                 "region": "Region",
                 "street": "Gade",
                 "website": "Hjemmeside"
