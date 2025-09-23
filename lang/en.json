@@ -2811,6 +2811,7 @@
             "tags": "Tags",
             "title": "Title"
         },
+        "holidays": "Holidays",
         "myself": "Myself",
         "newEvent": "New event",
         "noEventFound": "No event found",
