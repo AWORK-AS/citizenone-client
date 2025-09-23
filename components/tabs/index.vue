@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="relative">
         <!-- Mobile: Dropdown -->
         <div class="block md:hidden">
             <label :for="`selected-tab${props.id && '-' + props.id}`" class="sr-only">Select a tab</label>
@@ -24,7 +24,7 @@
             'bg-white ring-1 ring-gray-200 rounded-md pl-5 pr-5 border-l-4 border-secondary',
             'hidden md:block'
         ]">
-            <div class="border-b border-gray-200 overflow-x-auto touch-auto scrollbar-hide">
+            <div ref="tabContainer" class="border-b border-gray-200 overflow-x-auto touch-auto scrollbar-hide">
                 <nav :class="[
                     props.isJustifyBetween ? 'xl:justify-between' : '',
                     'flex space-x-2 min-w-max whitespace-nowrap'
@@ -45,6 +45,18 @@
                 </nav>
             </div>
         </div>
+
+        <!-- Swipe Left -->
+        <div class="bg-white border-0.5 border-gray-300 w-6 h-6 rounded-full absolute -left-3 top-4 flex items-center justify-center cursor-pointer"
+            v-if="props?.isSwipeable" @click="swipeLeft">
+            <Icon name="ph:hand-swipe-left" class="h-4 w-4" aria-hidden="true" />
+        </div>
+
+        <!-- Swipe Right -->
+        <div class="bg-white border-0.5 border-gray-300 w-6 h-6 rounded-full absolute -right-3 top-4 flex items-center justify-center cursor-pointer"
+            v-if="props?.isSwipeable" @click="swipeRight">
+            <Icon name="ph:hand-swipe-right" class="h-4 w-4" aria-hidden="true" />
+        </div>
     </div>
 </template>
 
@@ -57,6 +69,11 @@ const props = defineProps({
     isJustifyBetween: {
         type: Boolean,
         required: false,
+    },
+    isSwipeable: {
+        type: Boolean,
+        required: false,
+        default: false,
     },
     tabs: {
         type: Object,
@@ -72,6 +89,23 @@ const emit = defineEmits(['changeTab'])
 
 function changeTab(event) {
     emit('changeTab', event.target.value)
+}
+
+// Reference to the tab container
+const tabContainer = ref(null)
+
+function swipeLeft() {
+    if (tabContainer.value) {
+        // Scroll to the left by a fixed amount (adjust as needed)
+        tabContainer.value.scrollBy({ left: -200, behavior: 'smooth' })
+    }
+}
+
+function swipeRight() {
+    if (tabContainer.value) {
+        // Scroll to the right by a fixed amount (adjust as needed)
+        tabContainer.value.scrollBy({ left: 200, behavior: 'smooth' })
+    }
 }
 </script>
 
