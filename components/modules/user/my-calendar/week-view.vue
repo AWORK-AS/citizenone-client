@@ -207,7 +207,7 @@
                                 </dt>
                                 <dd>
                                     <time :datetime="holiday.date">
-                                        {{ formatDateTimeToReadable(holiday.date) }}
+                                        {{ formatDateToReadable(holiday.date) }}
                                     </time>
                                 </dd>
                             </div>
@@ -320,7 +320,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { useUserStore } from '@/store/user'
 
-const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const props = defineProps({
     myCalendarEvents: {
         type: Object,
