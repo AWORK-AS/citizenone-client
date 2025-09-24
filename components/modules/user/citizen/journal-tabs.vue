@@ -72,7 +72,7 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.tabs.push({
             name: 'citizens.tabs.health',
             isTranslateName: true,
-            href: `/citizens/${citizenUuid}/nursing-areas`,
+            href: `/citizens/${citizenUuid}/nursing-areas?open=nursing-professional-records`,
             routeNames: [
                 'citizens-uuid-nursing-areas',
                 'citizens-uuid-nursing-areas-new',
@@ -134,7 +134,7 @@ watch(() => userStore.getUser, (newValue: any) => {
 
     // Check if current route is allowed
     const currentRouteName = route.name as string
-    const isCurrentRouteAccessible = state.tabs.some(tab =>
+    const isCurrentRouteAccessible = state.tabs.some((tab: any) =>
         tab.routeNames.some((name: string) => currentRouteName.startsWith(name))
     )
 

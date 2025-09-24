@@ -39,7 +39,7 @@
                     <div class="mt-8 space-y-5">
                         <Disclosure as="div" v-slot="{ open }"
                             class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary"
-                            :defaultOpen="true">
+                            :defaultOpen="open === 'nursing-professional-records' ? true : false">
                             <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
                                 <div class="flex items-center gap-x-2">
                                     <h3 class="font-semibold text-sm">
@@ -56,7 +56,8 @@
                         </Disclosure>
 
                         <Disclosure as="div" v-slot="{ open }"
-                            class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary">
+                            class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary"
+                            :defaultOpen="open === 'treatments' ? true : false">
                             <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
                                 <div class="flex items-center gap-x-2">
                                     <h3 class="font-semibold text-sm">
@@ -152,6 +153,7 @@ const customPagesStore = useCustomPagesStore() as any
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const open = router?.currentRoute?.value?.query?.open
 const breadcrumbLinks = [
     {
         name: 'citizens.nursingAreas.nursingProfessionalRecords',
