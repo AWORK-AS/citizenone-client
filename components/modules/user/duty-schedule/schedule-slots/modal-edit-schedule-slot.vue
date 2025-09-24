@@ -53,6 +53,7 @@ async function updateScheduleSlot(scheduleSlotDetails: any) {
         const scheduleSlotUuid = props.selectedScheduleSlot?.uuid
         const params = {
             date: scheduleSlotDetails.date,
+            department_uuid: scheduleSlotDetails.department_uuid,
             job_title_uuid: scheduleSlotDetails.job_title_uuid,
             job_specialty_uuid: scheduleSlotDetails.job_specialty_uuid,
             available_slots: scheduleSlotDetails.available_slots,

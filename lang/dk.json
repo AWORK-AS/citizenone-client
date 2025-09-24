@@ -2460,6 +2460,7 @@
                     "scheduleSlotSuccessfullyUpdated": "Tidspunkt opdateret med succes"
                 },
                 "date": "Dato",
+                "department": "Afdelinger",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitel",
                 "numberOfShifts": "Antal vagter",
@@ -2481,6 +2482,7 @@
                     "viewRequesters": "Se anmodere"
                 },
                 "date": "Dato",
+                "department": "Afdelinger",
                 "inactive": "Inaktiv",
                 "jobTitle": "Jobtitel",
                 "numberOfShifts": "Antal vagter",

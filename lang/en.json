@@ -2460,6 +2460,7 @@
                     "scheduleSlotSuccessfullyUpdated": "Schedule slot successfully updated"
                 },
                 "date": "Date",
+                "department": "Department",
                 "jobSpecialty": "Job specialty",
                 "jobTitle": "Job title",
                 "numberOfShifts": "Number of shifts",
@@ -2481,6 +2482,7 @@
                     "viewRequesters": "View requesters"
                 },
                 "date": "Date",
+                "department": "Department",
                 "inactive": "Inactive",
                 "jobTitle": "Job title",
                 "numberOfShifts": "Number of shifts",
