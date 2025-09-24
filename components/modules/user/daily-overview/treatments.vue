@@ -13,7 +13,33 @@
 
         <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
             v-else>
-            {{ state.treatments?.data }}
+            <div v-for="(treatment, treatmentIndex) in state.treatments?.data" :key="treatmentIndex"
+                class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100"
+                @click="navigateTo(`/citizens/${treatment?.citizen?.uuid}/treatments`)">
+                <div class="flex gap-x-2">
+                    <img :src="treatment?.citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${treatment?.citizen?.firstname + ' ' + treatment?.citizen?.lastname}`"
+                        class="rounded-full w-12 h-12 object-cover border-2 border-secondary" />
+                    <div>
+                        <p class="text-sm font-medium text-primary">
+                            {{ treatment?.citizen?.firstname + ' ' + treatment?.citizen?.lastname }}
+                        </p>
+                        <p class="text-xxs" v-if="treatment?.user?.firstname || treatment?.user?.lastname">
+                            {{ $t('dailyOverview.createdBy') }}
+                            {{ treatment?.user?.firstname + ' ' +
+                                treatment?.user?.lastname }}
+                        </p>
+                        <div class="px-1">
+                            <h3 class="text-base font-semibold">
+                                {{ treatment?.name }}
+                            </h3>
+                            <p v-html="treatment?.description" class="text-xs" />
+                            <p class="content text-xs text-muted-400 mt-1">
+                                <span>{{ formatDateToReadable(treatment?.completion_date) }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
