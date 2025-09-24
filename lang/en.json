@@ -2158,6 +2158,30 @@
             "poll": "Poll",
             "sentBy": "Sent by"
         },
+        "quickRiskAssessment": {
+            "alert": {
+                "quickRiskAssessmentSuccessfullyAdded": "Quick risk assessment successfully added"
+            },
+            "form": {
+                "addNewJournalTitle": "Add new journal title",
+                "attachFile": "Attach file",
+                "citizen": "Citizen",
+                "date": "Date",
+                "draft": "Draft",
+                "enterJournalTitleManually": "Enter journal title manually",
+                "generateNote": "Generate note",
+                "note": "Note",
+                "risk": {
+                    "acuteIncreasedRisk": "Acute increased risk",
+                    "increasedRisk": "Increased risk",
+                    "none": "None",
+                    "noRisk": "No risk"
+                },
+                "title": "Title",
+                "usePredefinedJournalTitle": "Use predefined journal title"
+            },
+            "quickRiskAssessment": "Quick risk assessment"
+        },
         "riskAssessment": {
             "risk": {
                 "acuteIncreasedRisk": "Acute increased risk",

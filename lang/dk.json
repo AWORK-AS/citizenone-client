@@ -2158,6 +2158,30 @@
             "poll": "Afstemning",
             "sentBy": "Sendt af"
         },
+        "quickRiskAssessment": {
+            "alert": {
+                "quickRiskAssessmentSuccessfullyAdded": "Hurtig risikovurdering blev tilføjet"
+            },
+            "form": {
+                "addNewJournalTitle": "Tilføj ny journaltitel",
+                "attachFile": "Vedhæft fil",
+                "citizen": "Borger",
+                "date": "Dato",
+                "draft": "Udkast",
+                "enterJournalTitleManually": "Indtast journaltitel manuelt",
+                "generateNote": "Generer note",
+                "note": "Note",
+                "title": "Titel",
+                "risk": {
+                    "acuteIncreasedRisk": "Akut øget risiko",
+                    "increasedRisk": "Øget risiko",
+                    "none": "Ingen",
+                    "noRisk": "Ingen risiko"
+                },
+                "usePredefinedJournalTitle": "Brug foruddefineret journaltitel"
+            },
+            "quickRiskAssessment": "Hurtig risikovurdering"
+        },
         "riskAssessment": {
             "risk": {
                 "acuteIncreasedRisk": "Akut øget risiko",
