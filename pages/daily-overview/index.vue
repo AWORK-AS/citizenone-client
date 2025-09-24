@@ -54,8 +54,13 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5" v-if="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents ||
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5" v-if="dailyOverviewStore.getDailyOverviewFilter.showTreatments ||
+                        dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents ||
                         dailyOverviewStore.getDailyOverviewFilter.showBulletBoard">
+                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showTreatments">
+                            <!-- <ModulesUserDailyOverviewMyEventToday :dateRange="state.dateRange.formDateRange" /> -->
+                            Treatments goes here
+                        </div>
                         <div v-if="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents">
                             <ModulesUserDailyOverviewMyEventToday :dateRange="state.dateRange.formDateRange" />
                         </div>

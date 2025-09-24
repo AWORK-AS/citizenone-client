@@ -2109,6 +2109,7 @@
                 "riskAssessment": "Risikovurdering",
                 "subgoalsStatistics": "Delmålsstatistik",
                 "statusesStatistics": "Statusstatistik",
+                "treatments": "Behandlinger",
                 "useOfForceStatistics": "Brug af magt statistik"
             },
             "show": "Vis",
