@@ -1089,7 +1089,7 @@ function getSlotCount(dayName: string) {
         Sun: 'sunday'
     } as any
     const key = dayMap[dayName]
-    return state.weeklyData[key]?.total_slots || 0
+    return state.weeklyData?.[key]?.total_slots || 0
 }
 
 function toggleShowHideAllShifts() {
