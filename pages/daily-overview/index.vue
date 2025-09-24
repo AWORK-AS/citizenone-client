@@ -58,8 +58,7 @@
                         dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents ||
                         dailyOverviewStore.getDailyOverviewFilter.showBulletBoard">
                         <div v-if="dailyOverviewStore.getDailyOverviewFilter.showTreatments">
-                            <!-- <ModulesUserDailyOverviewMyEventToday :dateRange="state.dateRange.formDateRange" /> -->
-                            Treatments goes here
+                            <ModulesUserDailyOverviewTreatments :dateRange="state.dateRange.formDateRange" />
                         </div>
                         <div v-if="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents">
                             <ModulesUserDailyOverviewMyEventToday :dateRange="state.dateRange.formDateRange" />

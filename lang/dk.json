@@ -2192,6 +2192,10 @@
             },
             "riskAssessment": "Risikovurdering"
         },
+        "treatments": {
+            "noTreatmentsToShow": "Ingen behandlinger at vise",
+            "treatments": "Behandlinger"
+        },
         "useForceStatistics": {
             "useForceStatistics": "Brug af magt statistik",
             "harmless": "Harmløs",

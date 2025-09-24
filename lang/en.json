@@ -2192,6 +2192,10 @@
             },
             "riskAssessment": "Risk assessment"
         },
+        "treatments": {
+            "noTreatmentsToShow": "No treatments to show",
+            "treatments": "Treatments"
+        },
         "useForceStatistics": {
             "useForceStatistics": "Use of force statistics",
             "harmless": "Harmless",
