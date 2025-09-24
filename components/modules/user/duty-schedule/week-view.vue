@@ -7,7 +7,7 @@
         <LoadingSpinner :isActive="state.isPageLoading">
             <div class="flex justify-end gap-x-3">
                 <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft')"
-                    v-if="isAdmin(userStore.getUser?.roles)">
+                    v-if="isAdmin(userStore.getUser?.role)">
                     <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
                     {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                     {{ $t('dutySchedules.draft.draft')?.toLowerCase() }}
@@ -115,7 +115,7 @@
                                                 </button>
                                             </Tooltip>
                                             <div class="flex-1 flex justify-end gap-x-2"
-                                                v-if="isAdmin(userStore.getUser?.roles)">
+                                                v-if="isAdmin(userStore.getUser?.role)">
                                                 <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')">
                                                     <button
                                                         class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
@@ -127,7 +127,7 @@
                                             </div>
                                         </div>
                                         <div class="px-3 pb-2"
-                                            v-if="isAdmin(userStore.getUser?.roles) || (!isAdmin(userStore.getUser?.roles) && userStore.getUser?.show_working_hours)">
+                                            v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
                                             <button @click="toggleShowHideAllShifts()"
                                                 class="text-primary text-xs hover:text-primary-700">
                                                 {{ state.showAllShifts ?
@@ -140,7 +140,7 @@
                                         v-for="day in weekDays" :key="day.date"
                                         class="relative cursor-pointer hover:bg-gray-200 flex items-center justify-center py-4 border-0.5"
                                         @click="openManageScheduleSlotModal(day)"
-                                        v-if="isAdmin(userStore.getUser?.roles)">
+                                        v-if="isAdmin(userStore.getUser?.role)">
                                         <span class="flex gap-x-1 text-sm">
                                             <span v-if="day.longName === 'Mon'">
                                                 {{ $t('calendar.week.short.Monday') }}
@@ -174,7 +174,7 @@
                                     </Tooltip>
                                     <div :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" v-for="day in weekDays"
                                         :key="day.date" class="flex items-center justify-center py-4 border-0.5"
-                                        v-if="!isAdmin(userStore.getUser?.roles)">
+                                        v-if="!isAdmin(userStore.getUser?.role)">
                                         <span class="flex gap-x-1 text-sm">
                                             <span v-if="day.longName === 'Mon'">
                                                 {{ $t('calendar.week.short.Monday') }}
@@ -341,7 +341,7 @@
                                                     expandedRecords[weeklyScheduleIndex] && 'hidden',
                                                     'text-xs grid grid-cols-7'
                                                 ]"
-                                                    v-if="isAdmin(userStore.getUser?.roles) || (!isAdmin(userStore.getUser?.roles) && userStore.getUser?.show_working_hours)">
+                                                    v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
                                                     <div class="col-span-3 space-y-2" />
                                                     <div class="col-span-2 flex gap-2 flex-col items-end">
                                                         <p class="text-xxs py-2">
@@ -417,7 +417,7 @@
                                                     </div>
                                                 </div>
                                                 <div
-                                                    v-if="isAdmin(userStore.getUser?.roles) || (!isAdmin(userStore.getUser?.roles) && userStore.getUser?.show_working_hours)">
+                                                    v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
                                                     <button @click="toggleExpanded(weeklyScheduleIndex)"
                                                         class="text-primary text-xs hover:text-primary-700">
                                                         {{ !expandedRecords[weeklyScheduleIndex] ?
@@ -436,7 +436,7 @@
                                                 <div class="space-y-2"
                                                     v-if="!isDailyScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber)">
                                                     <div class="flex justify-end gap-2"
-                                                        v-if="isAdmin(userStore.getUser?.roles)">
+                                                        v-if="isAdmin(userStore.getUser?.role)">
                                                         <Menu as="div"
                                                             class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
                                                             <div>
@@ -519,7 +519,7 @@
                                                                 S
                                                             </div>
                                                             <div class="flex justify-between text-white cursor-pointer"
-                                                                @click="isAdmin(userStore.getUser?.roles) ? editSchedule(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, shift, shiftIndex) : viewSchedule(weeklyScheduleIndex, weekIndex, shift, shiftIndex)">
+                                                                @click="isAdmin(userStore.getUser?.role) ? editSchedule(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, shift, shiftIndex) : viewSchedule(weeklyScheduleIndex, weekIndex, shift, shiftIndex)">
                                                                 <div class="relative w-full">
                                                                     <div class="bg-white border-0.5 border-gray-300 w-4 h-4 rounded-full absolute -left-2 top-2.5 flex items-center justify-center"
                                                                         v-if="shift?.is_from_lastweek">
@@ -584,7 +584,7 @@
                                                             <button
                                                                 class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                                 @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
-                                                                v-if="isAdmin(userStore.getUser?.roles)">
+                                                                v-if="isAdmin(userStore.getUser?.role)">
                                                                 <Tooltip position="left"
                                                                     :text="$t('dutySchedules.removeSchedule')">
                                                                     <Icon name="ph:x" class="h-2 w-2"
@@ -881,8 +881,8 @@ function handleKeyDown(event: KeyboardEvent) {
     }
 }
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
+function isAdmin(role: any) {
+    return role && role === 'Admin'
 }
 
 function filterDutyScheduleDate(formDateRange: any) {

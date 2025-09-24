@@ -111,7 +111,7 @@
                                                 </button>
                                             </Tooltip>
                                             <div class="flex-1 flex justify-end gap-x-2"
-                                                v-if="isAdmin(userStore.getUser?.roles)">
+                                                v-if="isAdmin(userStore.getUser?.role)">
                                                 <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')">
                                                     <button
                                                         class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
@@ -341,7 +341,7 @@
                                                 <div class="space-y-2"
                                                     v-if="!isDailyScheduleCopied(weeklyScheduleIndex, weekIndex, weekNumber)">
                                                     <div class="flex justify-end gap-2"
-                                                        v-if="isAdmin(userStore.getUser?.roles)">
+                                                        v-if="isAdmin(userStore.getUser?.role)">
                                                         <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
                                                             <button
                                                                 class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
@@ -372,7 +372,7 @@
                                                                 S
                                                             </div>
                                                             <div class="flex justify-between text-white"
-                                                                :class="isAdmin(userStore.getUser?.roles) ? 'cursor-pointer' : 'cursor-not-allowed'"
+                                                                :class="isAdmin(userStore.getUser?.role) ? 'cursor-pointer' : 'cursor-not-allowed'"
                                                                 @click="editSchedule(weeklySchedule?.employee, weeklyScheduleIndex, weekIndex, shift, shiftIndex)">
                                                                 <div class="relative w-full">
                                                                     <div class="bg-white border-0.5 border-gray-300 w-4 h-4 rounded-full absolute -left-2 top-2.5 flex items-center justify-center"
@@ -438,7 +438,7 @@
                                                             <button
                                                                 class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                                 @click="removeShift(week, weeklyScheduleIndex, weekIndex, shift, shiftIndex)"
-                                                                v-if="isAdmin(userStore.getUser?.roles)">
+                                                                v-if="isAdmin(userStore.getUser?.role)">
                                                                 <Tooltip position="left"
                                                                     :text="$t('dutySchedules.removeSchedule')">
                                                                     <Icon name="ph:x" class="h-2 w-2"
@@ -640,8 +640,8 @@ function handleKeyDown(event: KeyboardEvent) {
     }
 }
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
+function isAdmin(role: any) {
+    return role && role === 'Admin'
 }
 
 function filterDutyScheduleDate(formDateRange: any) {
