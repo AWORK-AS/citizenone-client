@@ -212,44 +212,44 @@
                                     </div>
                                     <div class="border-0.5 py-2 flex items-center justify-center">
                                         <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
-                                            v-if="state?.weeklyData?.monday?.holiday">
-                                            {{ state?.weeklyData?.monday?.holiday?.name }}
+                                            v-if="state.weeklySchedules?.week_data?.monday?.holiday">
+                                            {{ state.weeklySchedules?.week_data?.monday?.holiday?.name }}
                                         </p>
                                     </div>
                                     <div class="border-0.5 py-2 flex items-center justify-center">
                                         <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
-                                            v-if="state?.weeklyData?.tuesday?.holiday">
-                                            {{ state?.weeklyData?.tuesday?.holiday?.name }}
+                                            v-if="state.weeklySchedules?.week_data?.tuesday?.holiday">
+                                            {{ state.weeklySchedules?.week_data?.tuesday?.holiday?.name }}
                                         </p>
                                     </div>
                                     <div class="border-0.5 py-2 flex items-center justify-center">
                                         <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
-                                            v-if="state?.weeklyData?.wednesday?.holiday">
-                                            {{ state?.weeklyData?.wednesday?.holiday?.name }}
+                                            v-if="state.weeklySchedules?.week_data?.wednesday?.holiday">
+                                            {{ state.weeklySchedules?.week_data?.wednesday?.holiday?.name }}
                                         </p>
                                     </div>
                                     <div class="border-0.5 py-2 flex items-center justify-center">
                                         <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
-                                            v-if="state?.weeklyData?.thursday?.holiday">
-                                            {{ state?.weeklyData?.thursday?.holiday?.name }}
+                                            v-if="state.weeklySchedules?.week_data?.thursday?.holiday">
+                                            {{ state.weeklySchedules?.week_data?.thursday?.holiday?.name }}
                                         </p>
                                     </div>
                                     <div class="border-0.5 py-2 flex items-center justify-center">
                                         <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
-                                            v-if="state?.weeklyData?.friday?.holiday">
-                                            {{ state?.weeklyData?.friday?.holiday?.name }}
+                                            v-if="state.weeklySchedules?.week_data?.friday?.holiday">
+                                            {{ state.weeklySchedules?.week_data?.friday?.holiday?.name }}
                                         </p>
                                     </div>
                                     <div class="border-0.5 py-2 flex items-center justify-center">
                                         <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
-                                            v-if="state?.weeklyData?.saturday?.holiday">
-                                            {{ state?.weeklyData?.saturday?.holiday?.name }}
+                                            v-if="state.weeklySchedules?.week_data?.saturday?.holiday">
+                                            {{ state.weeklySchedules?.week_data?.saturday?.holiday?.name }}
                                         </p>
                                     </div>
                                     <div class="border-0.5 py-2 flex items-center justify-center">
                                         <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
-                                            v-if="state?.weeklyData?.sunday?.holiday">
-                                            {{ state?.weeklyData?.sunday?.holiday?.name }}
+                                            v-if="state.weeklySchedules?.week_data?.sunday?.holiday">
+                                            {{ state.weeklySchedules?.week_data?.sunday?.holiday?.name }}
                                         </p>
                                     </div>
                                 </div>
@@ -845,7 +845,6 @@ const state = reactive({
         selectedEmployeeSchedule: {},
     } as any,
     weeklySchedules: [] as any,
-    weeklyData: {} as any,
 })
 
 watch(() => state.progress.percentage, (newPercentage: any) => {
@@ -1038,7 +1037,6 @@ async function fetchDutySchedule() {
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
             state.weeklySchedules = response
-            state.weeklyData = response?.week_data
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
             fetchDutySchedulePercentage()
             if (state.isFirstLoad) {
@@ -1088,7 +1086,7 @@ function getSlotCount(dayName: string) {
         Sun: 'sunday'
     } as any
     const key = dayMap[dayName]
-    return state.weeklyData?.[key]?.total_slots || 0
+    return state.weeklySchedules?.week_data?.[key]?.total_slots || 0
 }
 
 function toggleShowHideAllShifts() {
