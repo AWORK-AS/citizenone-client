@@ -420,8 +420,8 @@ async function fetchAllCitizens() {
                     red: citizen?.red,
                 })
             )
+            options.shift()
             state.options.citizens = options
-            console.log('test', options)
         }
     } catch (error: any) {
         state.error = error
