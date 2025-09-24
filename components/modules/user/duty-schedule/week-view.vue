@@ -1135,11 +1135,6 @@ const weekDays = computed(() => {
     })
 })
 
-function setSelectedDay(day: any) {
-    selectedDay.value = day.fullDate
-    stopCopying()
-}
-
 function isPastWeek() {
     return moment(currentDate.value).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')
 }
