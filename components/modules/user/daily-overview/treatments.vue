@@ -28,12 +28,77 @@
                             {{ treatment?.user?.firstname + ' ' +
                                 treatment?.user?.lastname }}
                         </p>
+                        <Badge type="primary" class="w-fit" v-if="treatment?.area_type">
+                            <p class="text-xxs truncate">
+                                <span v-if="treatment?.area_type === 'functional_level'">
+                                    {{
+                                        $t('dailyOverview.treatments.areaTypes.functionalLevel')
+                                    }}
+                                </span>
+                                <span v-if="treatment?.area_type === 'musculoskeletal_system'">
+                                    {{
+                                        $t('dailyOverview.treatments.areaTypes.musculoskeletalSystem')
+                                    }}
+                                </span>
+                                <span v-if="treatment?.area_type === 'nutrition'">
+                                    {{
+                                        $t('dailyOverview.treatments.areaTypes.nutrition')
+                                    }}
+                                </span>
+                                <span v-if="treatment?.area_type === 'skin_and_mucous_membranes'">
+                                    {{
+                                        $t('dailyOverview.treatments.areaTypes.skinAndMucousMembranes')
+                                    }}
+                                </span>
+                                <span v-if="treatment?.area_type === 'communication'">
+                                    {{
+                                        $t('dailyOverview.treatments.areaTypes.communication')
+                                    }}
+                                </span>
+                                <span v-if="treatment?.area_type === 'psychosocial_conditions'">
+                                    {{
+                                        $t('dailyOverview.treatments.areaTypes.psychosocialConditions')
+                                    }}
+                                </span>
+                                <span v-if="treatment?.area_type === 'respiration_and_circulation'">
+                                    {{
+                                        $t('dailyOverview.treatments.areaTypes.respirationAndCirculation')
+                                    }}
+                                </span>
+                                <span v-if="treatment?.area_type === 'sexuality'">
+                                    {{
+                                        $t('dailyOverview.treatments.areaTypes.sexuality')
+                                    }}
+                                </span>
+                                <span v-if="treatment?.area_type === 'pain_and_sensory_impressions'">
+                                    {{
+                                        $t('dailyOverview.treatments.areaTypes.painAndSensoryImpressions')
+                                    }}
+                                </span>
+                                <span v-if="treatment?.area_type === 'sleep_and_rest'">
+                                    {{
+                                        $t('dailyOverview.treatments.areaTypes.sleepAndRest')
+                                    }}
+                                </span>
+                                <span v-if="treatment?.area_type === 'knowledge_and_development'">
+                                    {{
+                                        $t('dailyOverview.treatments.areaTypes.knowledgeAndDevelopment')
+                                    }}
+                                </span>
+                                <span v-if="treatment?.area_type === 'excretion_of_waste'">
+                                    {{
+                                        $t('dailyOverview.treatments.areaTypes.excretionOfWaste')
+                                    }}
+                                </span>
+                            </p>
+                        </Badge>
                         <div class="px-1">
                             <h3 class="text-base font-semibold">
                                 {{ treatment?.name }}
                             </h3>
                             <p v-html="treatment?.description" class="text-xs" />
                             <p class="content text-xs text-muted-400 mt-1">
+                                {{ $t('dailyOverview.treatments.completionDate') }}:
                                 <span>{{ formatDateToReadable(treatment?.completion_date) }}</span>
                             </p>
                         </div>

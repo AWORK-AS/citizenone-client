@@ -2193,6 +2193,21 @@
             "riskAssessment": "Risikovurdering"
         },
         "treatments": {
+            "areaTypes": {
+                "functionalLevel": "Functional level",
+                "musculoskeletalSystem": "Musculoskeletal system",
+                "nutrition": "Nutrition",
+                "skinAndMucousMembranes": "Skin and mucous membranes",
+                "communication": "Communication",
+                "psychosocialConditions": "Psychosocial conditions",
+                "respirationAndCirculation": "Respiration and circulation",
+                "sexuality": "Sexuality",
+                "painAndSensoryImpressions": "Pain and sensory impressions",
+                "sleepAndRest": "Sleep and rest",
+                "knowledgeAndDevelopment": "Knowledge and development",
+                "excretionOfWaste": "Excretion of waste"
+            },
+            "completionDate": "Afslutningsdato",
             "noTreatmentsToShow": "Ingen behandlinger at vise",
             "treatments": "Behandlinger"
         },
