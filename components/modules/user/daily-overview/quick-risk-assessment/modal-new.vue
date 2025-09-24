@@ -85,6 +85,7 @@ async function saveQuickRiskAssessment(quickRiskAssessmentDetails: any) {
             citizen_uuid: quickRiskAssessmentDetails.citizen_uuid,
             title: quickRiskAssessmentDetails.title,
             date: quickRiskAssessmentDetails.date,
+            assessment: quickRiskAssessmentDetails.assessment,
             note: quickRiskAssessmentDetails.note,
             is_draft: quickRiskAssessmentDetails.is_draft,
         }
