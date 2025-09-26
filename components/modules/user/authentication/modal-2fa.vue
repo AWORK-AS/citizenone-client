@@ -6,12 +6,16 @@
                     <form @submit.prevent="submitForm()">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
-                        <div class="space-y-1">
-                            <FormLabel for="code" :label="$t('2fa.form.code')" />
-                            <FormTextField id="code" name="code" :placeholder="$t('2fa.form.code')"
-                                v-model="state.form2fa.code" />
-                            <FormError :error="v$?.form2fa?.code?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.code?.[0]" />
+                        <div class="space-y-3">
+                            <Alert type="default"
+                                :text="$t('2fa.useYour2faCodeFromGoogleAuthenticatorAppOnYourPhone')" />
+                            <div class="space-y-1">
+                                <FormLabel for="code" :label="$t('2fa.form.code')" />
+                                <FormTextField id="code" name="code" :placeholder="$t('2fa.form.code')"
+                                    v-model="state.form2fa.code" />
+                                <FormError :error="v$?.form2fa?.code?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.code?.[0]" />
+                            </div>
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">

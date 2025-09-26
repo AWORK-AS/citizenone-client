@@ -12,6 +12,9 @@
                     clip-rule="evenodd"></path>
             </svg>
         </div>
+        <div v-if="props.type === 'default'" class="flex items-center">
+            <Icon name="ph:warning-circle" class="w-5 h-5 text-primary rounded-full" />
+        </div>
         <div v-if="props.type === 'success'" class="flex items-center">
             <Icon name="heroicons:check-circle" class="w-5 h-5 text-white rounded-full" />
         </div>

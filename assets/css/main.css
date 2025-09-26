@@ -27,8 +27,7 @@ input:disabled {
 }
 
 #cmp-icon {
-    bottom: 75px !important;
-    left: 48px !important;
+    @apply left-auto right-4 bottom-16 lg:bottom-20 lg:left-12 !important;
 }
 
 /* ----------------------------------------------------------------------------------------------------

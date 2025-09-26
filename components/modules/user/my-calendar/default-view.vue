@@ -82,11 +82,42 @@
                         <div class="w-3 h-3 rounded-sm bg-yellow-500"></div>
                         <span>{{ $t('events.citizens') }}</span>
                     </div>
+                    <div class="flex items-center gap-x-2">
+                        <div class="w-3 h-3 rounded-sm bg-secondary"></div>
+                        <span>{{ $t('events.holidays') }}</span>
+                    </div>
                 </div>
                 <p v-if="props.myCalendarEvents?.data?.length < 1" class="text-center py-28">
                     {{ $t('events.noEventFound') }}
                 </p>
-                <li v-for="(myCalendarEvent, index) in state.filteredSchedules" :key="index" :class="[
+                <li v-for="(holiday, index) in state.filteredCalendarHolidays" :key="index"
+                    class="border-secondary mt-6 pl-4 border-l-4">
+                    <div class="py-4">
+                        <div class="flex items-center gap-x-2">
+                            <dt class="flex items-center">
+                                <span class="sr-only">Title</span>
+                                <Icon name="ph:clipboard" class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                            </dt>
+                            <dd class="font-semibold text-gray-900 xl:pr-0">
+                                {{ holiday?.name }}
+                            </dd>
+                        </div>
+                        <dl class="text-gray-500">
+                            <div class="flex items-center space-x-3 text-xs">
+                                <dt class="flex items-center">
+                                    <span class="sr-only">Date</span>
+                                    <Icon name="ph:calendar" class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                </dt>
+                                <dd>
+                                    <time :datetime="holiday.date">
+                                        {{ formatDateToReadable(holiday.date) }}
+                                    </time>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </li>
+                <li v-for="(myCalendarEvent, index) in state.filteredCalendarEvents" :key="index" :class="[
                     myCalendarEvent?.type === 'citizens' && 'border-yellow-500',
                     myCalendarEvent?.type === 'employees' && 'border-green-700',
                     myCalendarEvent?.type === 'my_self' && 'border-primary',
@@ -207,7 +238,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { useUserStore } from '@/store/user'
 
-const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const props = defineProps({
     myCalendarEvents: {
         type: Object,
@@ -223,7 +254,8 @@ const year = ref(currentMonth.value.format('YYYY'))
 const days = ref(generateDays(currentMonth.value))
 
 const state = reactive({
-    filteredSchedules: [] as any,
+    filteredCalendarEvents: [] as any,
+    filteredCalendarHolidays: [] as any,
     modal: {
         isDeleteScheduleOpen: false,
     },
@@ -311,9 +343,21 @@ function filterBasedOnSelectedDate() {
             const end = moment(event.date_time_end).format('YYYY-MM-DD')
             return targetDate >= start && targetDate <= end
         })
-        state.filteredSchedules = filteredEvents
+        state.filteredCalendarEvents = filteredEvents
     } else {
-        state.filteredSchedules = []
+        state.filteredCalendarEvents = []
+    }
+
+    if (props.myCalendarEvents?.holidays) {
+        const targetDate = moment(state.selectedDate).format('YYYY-MM-DD')
+        const filteredHolidays = props.myCalendarEvents.holidays.filter((holiday: any) => {
+            const start = moment(holiday.date).format('YYYY-MM-DD')
+            const end = moment(holiday.date).format('YYYY-MM-DD')
+            return targetDate >= start && targetDate <= end
+        })
+        state.filteredCalendarHolidays = filteredHolidays
+    } else {
+        state.filteredCalendarHolidays = []
     }
 }
 

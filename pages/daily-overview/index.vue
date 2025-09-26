@@ -30,12 +30,14 @@
 
             <div class="mt-2">
                 <div class="space-y-10">
-                    <div class="flex justify-end">
-                        <div class="w-fit cursor-pointer">
-                            <FormButton buttonStyle="primary" @click="navigateTo('/daily-overview/view')">
-                                {{ $t('dailyOverview.viewAll') }}
-                            </FormButton>
-                        </div>
+                    <div class="flex gap-x-3 justify-end">
+                        <FormButton buttonStyle="primary" @click="navigateTo('/daily-overview/view')">
+                            {{ $t('dailyOverview.viewAll') }}
+                        </FormButton>
+                        <FormButton buttonStyle="primary" @click="state.modal.isQuickRiskAssessmentOpen = true"
+                            v-if="userStore.getUser?.company?.quick_risk_assessment_enabled">
+                            {{ $t('dailyOverview.quickRiskAssessment.quickRiskAssessment') }}
+                        </FormButton>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
@@ -52,8 +54,12 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5" v-if="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents ||
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5" v-if="dailyOverviewStore.getDailyOverviewFilter.showTreatments ||
+                        dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents ||
                         dailyOverviewStore.getDailyOverviewFilter.showBulletBoard">
+                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showTreatments">
+                            <ModulesUserDailyOverviewTreatments :dateRange="state.dateRange.formDateRange" />
+                        </div>
                         <div v-if="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents">
                             <ModulesUserDailyOverviewMyEventToday :dateRange="state.dateRange.formDateRange" />
                         </div>
@@ -149,6 +155,8 @@
             <ModulesUserDailyOverviewFilterModalDateRange :isModalOpen="state.modal.isDailyOverviewDateRangeOpen"
                 :dateRange="state.dateRange" @close="state.modal.isDailyOverviewDateRangeOpen = false"
                 @filterDate="filterDailyOverviewByDate" />
+            <ModulesUserDailyOverviewQuickRiskAssessmentModalNew :isModalOpen="state.modal.isQuickRiskAssessmentOpen"
+                @close="state.modal.isQuickRiskAssessmentOpen = false" />
 
             <ModulesUserGuidedTourModalDailyOverview v-if="state.modal.isGuidedTourDailyOverviewOpen"
                 :isModalOpen="state.modal.isGuidedTourDailyOverviewOpen" :isGuidedTour="false"
@@ -165,7 +173,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
 const runtimeConfig = useRuntimeConfig()
 const dailyOverviewStore = useDailyOverviewStore()
-const userStore = useUserStore()
+const userStore = useUserStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
@@ -179,6 +187,7 @@ const state = reactive({
         isDailyOverviewDateRangeOpen: false,
         isFilterDailyOverviewOpen: false,
         isGuidedTourDailyOverviewOpen: false,
+        isQuickRiskAssessmentOpen: false,
     }
 })
 

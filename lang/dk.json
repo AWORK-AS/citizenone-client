@@ -1,15 +1,21 @@
 {
     "2fa": {
+        "2fa": "To-faktor-godkendelse",
         "alert": {
             "google2FASuccessfullyDisabled": "Google 2FA blev deaktiveret med succes",
             "google2FASuccessfullyEnabled": "Google 2FA blev aktiveret med succes"
         },
+        "enable": "Aktivér",
         "form": {
             "code": "Kode",
+            "downloadOnThe": "Download på",
+            "getItOn": "Få det på",
+            "scanTheQR": "Scan QR-billedet, og indtast koden genereret i din Google Authenticator-app",
             "verify": "Bekræft",
             "verifyCode": "Bekræft kode"
         },
-        "google2FactorAuthentication": "Google 2-faktor autentifikation"
+        "google2FactorAuthentication": "Google 2-faktor autentifikation",
+        "useYour2faCodeFromGoogleAuthenticatorAppOnYourPhone": "Brug din 2FA-kode fra Google Authenticator appen på din telefon"
     },
     "absences": {
         "addNewAbsence": "Tilføj nyt fravær",
@@ -1076,6 +1082,7 @@
             "archiveConfirmation": "Er du sikker på, at du vil arkivere denne borger"
         },
         "editCitizen": "Rediger Borger",
+        "exportCitizens": "Eksporter borgere",
         "form": {
             "addictions": "Stofmisbrug",
             "alert": {
@@ -2102,6 +2109,7 @@
                 "riskAssessment": "Risikovurdering",
                 "subgoalsStatistics": "Delmålsstatistik",
                 "statusesStatistics": "Statusstatistik",
+                "treatments": "Behandlinger",
                 "useOfForceStatistics": "Brug af magt statistik"
             },
             "show": "Vis",
@@ -2151,6 +2159,30 @@
             "poll": "Afstemning",
             "sentBy": "Sendt af"
         },
+        "quickRiskAssessment": {
+            "alert": {
+                "quickRiskAssessmentSuccessfullyAdded": "Hurtig risikovurdering blev tilføjet"
+            },
+            "form": {
+                "addNewJournalTitle": "Tilføj ny journaltitel",
+                "attachFile": "Vedhæft fil",
+                "citizen": "Borger",
+                "date": "Dato",
+                "draft": "Udkast",
+                "enterJournalTitleManually": "Indtast journaltitel manuelt",
+                "generateNote": "Generer note",
+                "note": "Note",
+                "title": "Titel",
+                "risk": {
+                    "acuteIncreasedRisk": "Akut øget risiko",
+                    "increasedRisk": "Øget risiko",
+                    "none": "Ingen",
+                    "noRisk": "Ingen risiko"
+                },
+                "usePredefinedJournalTitle": "Brug foruddefineret journaltitel"
+            },
+            "quickRiskAssessment": "Hurtig risikovurdering"
+        },
         "riskAssessment": {
             "risk": {
                 "acuteIncreasedRisk": "Akut øget risiko",
@@ -2159,6 +2191,25 @@
                 "noRisk": "Ingen risiko"
             },
             "riskAssessment": "Risikovurdering"
+        },
+        "treatments": {
+            "areaTypes": {
+                "functionalLevel": "Functional level",
+                "musculoskeletalSystem": "Musculoskeletal system",
+                "nutrition": "Nutrition",
+                "skinAndMucousMembranes": "Skin and mucous membranes",
+                "communication": "Communication",
+                "psychosocialConditions": "Psychosocial conditions",
+                "respirationAndCirculation": "Respiration and circulation",
+                "sexuality": "Sexuality",
+                "painAndSensoryImpressions": "Pain and sensory impressions",
+                "sleepAndRest": "Sleep and rest",
+                "knowledgeAndDevelopment": "Knowledge and development",
+                "excretionOfWaste": "Excretion of waste"
+            },
+            "completionDate": "Afslutningsdato",
+            "noTreatmentsToShow": "Ingen behandlinger at vise",
+            "treatments": "Behandlinger"
         },
         "useForceStatistics": {
             "useForceStatistics": "Brug af magt statistik",
@@ -2295,6 +2346,7 @@
             "useCompensatoryTime": "Brug afspadseringstid",
             "users": "Brugere"
         },
+        "holidays": "Helligdage",
         "month": "Måned",
         "newSchedule": "Ny vagtplan",
         "noScheduleFound": "Ingen tidsplan fundet",
@@ -2408,6 +2460,7 @@
                     "scheduleSlotSuccessfullyUpdated": "Tidspunkt opdateret med succes"
                 },
                 "date": "Dato",
+                "department": "Afdelinger",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitel",
                 "numberOfShifts": "Antal vagter",
@@ -2429,6 +2482,7 @@
                     "viewRequesters": "Se anmodere"
                 },
                 "date": "Dato",
+                "department": "Afdelinger",
                 "inactive": "Inaktiv",
                 "jobTitle": "Jobtitel",
                 "numberOfShifts": "Antal vagter",
@@ -2446,6 +2500,10 @@
             "regularShift": "Almindelig vagt",
             "sickLeave": "Sygefravær",
             "vacationLeave": "Ferie"
+        },
+        "sort": {
+            "sortNamesInAscendingOrder": "Sorter navne i stigende rækkefølge",
+            "sortNamesInDescendingOrder": "Sorter navne i faldende rækkefølge"
         },
         "table": {
             "awakeNightShiftHours": "Vågen nattevagt",
@@ -2645,6 +2703,7 @@
             "substitute": "Vikar​",
             "temporary": "Tidsbestemt​"
         },
+        "exportEmployees": "Eksporter medarbejdere",
         "form": {
             "alert": {
                 "employeeSuccessfullyUpdated": "Medarbejder opdateret med succes",
@@ -2770,7 +2829,7 @@
         },
         "viewEmployee": "Se medarbejder"
     },
-    "entriesPerPage": "Entries per page",
+    "entriesPerPage": "Indlæg pr. side",
     "events": {
         "alert": {
             "successfullyAdded": "Ny begivenhed blev tilføjet med succes",
@@ -2798,6 +2857,7 @@
             "tags": "Etiketter",
             "title": "Titel"
         },
+        "holidays": "Helligdage",
         "myself": "Mig selv",
         "newEvent": "Ny begivenhed",
         "noEventFound": "Ingen begivenhed fundet",
@@ -4125,11 +4185,12 @@
     "settings": {
         "company": {
             "form": {
+                "2fa": "To-faktor-godkendelse",
                 "accountantEmail": "Revisor eller regnskabs e-mail (borgernes wallet transaktioner)",
                 "alert": {
                     "successfullyUpdated": "Firma opdateret med succes"
                 },
-                "checkinReminder": "Påmindelse om check ind",
+                "checkinOut": "Check ind/ud",
                 "allowPlans": "Tillad medarbejdere at oprette planer",
                 "allowGoals": "Tillad medarbejdere at oprette mål",
                 "allowSubGoals": "Tillad medarbejdere at oprette delmål",
@@ -4141,6 +4202,7 @@
                 "municipality": "Kommune",
                 "phone": "Telefon",
                 "postCode": "Postnummer",
+                "quickRiskAssessment": "Hurtig risikovurdering",
                 "region": "Region",
                 "street": "Gade",
                 "website": "Hjemmeside"

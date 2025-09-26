@@ -13,6 +13,10 @@
                 <div class="w-3 h-3 rounded-sm bg-yellow-500"></div>
                 <span>{{ $t('events.citizens') }}</span>
             </div>
+            <div class="flex items-center gap-x-2">
+                <div class="w-3 h-3 rounded-sm bg-secondary"></div>
+                <span>{{ $t('events.holidays') }}</span>
+            </div>
         </div>
         <div class="lg:flex lg:h-full lg:flex-col">
             <header class="flex items-center justify-between border-b border-gray-200 py-4 lg:flex-none">
@@ -109,6 +113,14 @@
                                 :class="day.isToday ? 'flex h-6 w-6 items-center justify-center rounded-full bg-tertiary font-semibold text-white' : undefined">
                                 {{ day.date?.split('-').pop()?.replace(/^0/, '') }}
                             </time>
+                            <ol v-if="day.holidays.length > 0" class="mt-2 space-y-2">
+                                <li v-for="(holiday, holidayIndex) in day.holidays" :key="holidayIndex">
+                                    <div
+                                        class="bg-gray-200 p-2 rounded-md text-xxs space-y-1 border-l-4 border-secondary">
+                                        {{ holiday?.name }}
+                                    </div>
+                                </li>
+                            </ol>
                             <ol v-if="day.events.length > 0" class="mt-2 space-y-2">
                                 <li v-for="(myCalendarEvent, index) in day.events" :key="index">
                                     <div class="group cursor-pointer bg-gray-200 p-2 rounded-md text-xxs space-y-1"
@@ -180,6 +192,33 @@
                 </div>
             </div>
             <ol class="lg:hidden mt-4 space-y-2 text-sm leading-6 lg:col-span-7 xl:col-span-8" v-if=state.selectedDay>
+                <li v-for="(holiday, index) in state.days.find(day => day.date === state.selectedDay?.date)?.holidays || []"
+                    :key="index" class="border-secondary pl-4 border-l-4">
+                    <div class="py-4">
+                        <div class="flex items-center gap-x-2">
+                            <dt class="flex items-center">
+                                <span class="sr-only">Title</span>
+                                <Icon name="ph:clipboard" class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                            </dt>
+                            <dd class="font-semibold text-gray-900 xl:pr-0">
+                                {{ holiday?.name }}
+                            </dd>
+                        </div>
+                        <dl class="text-gray-500">
+                            <div class="flex items-center space-x-3 text-xs">
+                                <dt class="flex items-center">
+                                    <span class="sr-only">Date</span>
+                                    <Icon name="ph:calendar" class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                </dt>
+                                <dd>
+                                    <time :datetime="holiday.date">
+                                        {{ formatDateToReadable(holiday.date) }}
+                                    </time>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </li>
                 <li v-for="(myCalendarEvent, index) in state.days.find(day => day.date === state.selectedDay?.date)?.events || []"
                     :key="index" :class="[
                         myCalendarEvent?.type === 'citizens' && 'border-yellow-500',
@@ -287,7 +326,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { useUserStore } from '@/store/user'
 
-const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const props = defineProps({
     myCalendarEvents: {
         type: Object,
@@ -367,6 +406,9 @@ function generateDays(year: any, month: any, myCalendarEvents: any) {
                 ...event,
                 time_start: moment(event.date_time_start).format('HH:mm'),
                 time_end: moment(event.date_time_end).format('HH:mm'),
+            })) || [],
+            holidays: myCalendarEvents?.holidays?.filter((holiday: any) => isWithinRange(dateStr, holiday.date, holiday.date)).map((holiday: any) => ({
+                ...holiday
             })) || [],
         })
         day.add(1, 'day')

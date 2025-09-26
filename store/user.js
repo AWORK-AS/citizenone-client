@@ -46,6 +46,9 @@ export const useUserStore = defineStore('userStore', {
         setUser(user) {
             this.user = user
         },
+        setUserCheckinStatus(status) {
+            this.user.checkin_enabled = status
+        },
         resetIsCheckInNow() {
             this.isCheckInNow = false
         },

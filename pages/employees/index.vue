@@ -42,6 +42,10 @@
                             <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.importEmployees.importEmployees') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="exportEmployees">
+                            <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('employees.exportEmployees') }}
+                        </FormButton>
                     </div>
                 </div>
                 <div class="space-y-5">
@@ -184,6 +188,7 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
+import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
 const employeeStore = useEmployeeStore()
@@ -359,6 +364,23 @@ async function giveBookingAccess() {
                 successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.bookingAccessGranted')}.`)
             }
             fetchEmployees()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function exportEmployees() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await employeeService.exportEmployees(params)
+        if (response) {
+            saveAs(response, `${t('employees.employees')}`)
         }
     } catch (error: any) {
         state.error = error

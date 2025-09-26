@@ -99,6 +99,13 @@
                             </div>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.is_2fa_enabled"
+                                @toggleSwitch="state.formCompany.is_2fa_enabled = !state.formCompany.is_2fa_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.2fa') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.group_chat_enabled"
                                 @toggleSwitch="state.formCompany.group_chat_enabled = !state.formCompany.group_chat_enabled" />
                             <p>
@@ -109,7 +116,7 @@
                             <FormSwitch :value="state.formCompany.checkin_enabled"
                                 @toggleSwitch="state.formCompany.checkin_enabled = !state.formCompany.checkin_enabled" />
                             <p>
-                                {{ $t('settings.company.form.checkinReminder') }}
+                                {{ $t('settings.company.form.checkinOut') }}
                             </p>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
@@ -145,6 +152,13 @@
                                 @toggleSwitch="state.formCompany.social_og_boligstyrelsen = !state.formCompany.social_og_boligstyrelsen" />
                             <p>
                                 Social- og Boligstyrelsen
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.quick_risk_assessment_enabled"
+                                @toggleSwitch="state.formCompany.quick_risk_assessment_enabled = !state.formCompany.quick_risk_assessment_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.quickRiskAssessment') }}
                             </p>
                         </div>
                     </div>
@@ -196,6 +210,7 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
+        is_2fa_enabled: false,
         group_chat_enabled: false,
         checkin_enabled: false,
         plans_enabled: false,
@@ -203,6 +218,7 @@ const state = reactive({
         subgoals_enabled: false,
         is_lock_past_schedules: false,
         social_og_boligstyrelsen: false,
+        quick_risk_assessment_enabled: false,
     },
     isPageLoading: false,
     options: {
@@ -257,6 +273,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             municipality: newValue?.company?.company_address?.municipality?.uuid,
             city: newValue?.company?.company_address?.city,
             post_code: newValue?.company?.company_address?.post_code,
+            is_2fa_enabled: newValue?.company?.is_2fa_enabled ? true : false,
             group_chat_enabled: newValue?.company?.group_chat_enabled ? true : false,
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
             plans_enabled: newValue?.company?.employee_create_plans_enabled ? true : false,
@@ -264,6 +281,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             subgoals_enabled: newValue?.company?.employee_create_subgoals_enabled ? true : false,
             is_lock_past_schedules: newValue?.company?.is_lock_past_schedules ? true : false,
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
+            quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
         }
         fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
     }
@@ -345,6 +363,7 @@ async function submitForm() {
                 municipality_uuid: state.formCompany.municipality,
                 city: state.formCompany.city,
                 post_code: state.formCompany.post_code,
+                is_2fa_enabled: state.formCompany.is_2fa_enabled,
                 group_chat_enabled: state.formCompany.group_chat_enabled,
                 checkin_enabled: state.formCompany.checkin_enabled,
                 employee_create_plans_enabled: state.formCompany.plans_enabled,
@@ -352,9 +371,11 @@ async function submitForm() {
                 employee_create_subgoals_enabled: state.formCompany.subgoals_enabled,
                 is_lock_past_schedules: state.formCompany.is_lock_past_schedules,
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
+                quick_risk_assessment_enabled: state.formCompany.quick_risk_assessment_enabled,
             }
             const response = await userService.updateCompany(params)
             if (response.data) {
+                userStore.setUserCheckinStatus(state.formCompany.checkin_enabled)
                 successAlert(`${t('alert.success')}!`, `${t('settings.company.form.alert.successfullyUpdated')}.`)
             }
         } catch (error: any) {

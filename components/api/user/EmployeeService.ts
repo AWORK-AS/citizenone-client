@@ -49,6 +49,10 @@ class EmployeeService extends BaseAPIService {
         return await this.request(`/user/employees/imports/template`, 'POST', params)
     }
 
+    async exportEmployees(params: object): Promise<any> {
+        return await this.request(`/user/employees/export/download`, 'GET', params)
+    }
+
     async downloadImportEmployeesTemplate(): Promise<any> {
         return await this.request(`/user/employees/imports/download/template`, 'GET')
     }

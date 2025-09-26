@@ -40,6 +40,7 @@ const state = reactive({
     error: {} as Error,
     formScheduleSlot: {
         date: '',
+        department_uuid: '',
         job_title_uuid: '',
         job_specialty_uuid: '',
         available_slots: '',
@@ -62,6 +63,7 @@ async function saveScheduleSlot(scheduleSlotDetails: any) {
     try {
         const params = {
             date: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
+            department_uuid: scheduleSlotDetails.department_uuid,
             job_title_uuid: scheduleSlotDetails.job_title_uuid,
             job_specialty_uuid: scheduleSlotDetails.job_specialty_uuid,
             available_slots: scheduleSlotDetails.available_slots,

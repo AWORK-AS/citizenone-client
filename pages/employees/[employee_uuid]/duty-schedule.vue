@@ -64,8 +64,6 @@
                                 </div>
                             </div>
                         </header>
-                        <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
-                            :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
                         <div class="isolate flex flex-auto flex-col bg-white">
                             <div class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
                                 <div>
@@ -112,60 +110,60 @@
                                         </div>
 
                                         <div class="relative mt-0.5">
-                                            <div v-for="(weeklySchedule, weeklyScheduleIndex) in state.weeklySchedules"
-                                                :key="weeklyScheduleIndex" class="grid grid-cols-9">
+                                            <div v-for="(employee, employeeIndex) in state.weeklySchedules?.data"
+                                                :key="employeeIndex" class="grid grid-cols-9">
                                                 <div class="col-span-9 grid grid-cols-9">
                                                     <div class="p-3 col-span-2 border-0.5">
                                                         <div class="relative">
                                                             <div class="flex justify-between">
                                                                 <div class="flex items-center gap-x-2">
-                                                                    <img :src="weeklySchedule?.employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`"
+                                                                    <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
                                                                         :class="[
-                                                                            weeklySchedule?.employee?.shift_threshold === 'high' && 'border-green-700',
-                                                                            weeklySchedule?.employee?.shift_threshold === 'moderate' && 'border-yellow-500',
-                                                                            weeklySchedule?.employee?.shift_threshold === 'low' && 'border-red-600',
+                                                                            employee?.shift_threshold === 'high' && 'border-green-700',
+                                                                            employee?.shift_threshold === 'moderate' && 'border-yellow-500',
+                                                                            employee?.shift_threshold === 'low' && 'border-red-600',
                                                                             'h-10 w-10 rounded-full bg-gray-50 object-cover border-2'
                                                                         ]" />
                                                                     <p class="text-sm font-medium">
-                                                                        {{ weeklySchedule?.employee?.firstname }}
-                                                                        {{ weeklySchedule?.employee?.lastname }}
+                                                                        {{ employee?.firstname }}
+                                                                        {{ employee?.lastname }}
                                                                     </p>
                                                                 </div>
                                                             </div>
                                                             <div class="-mt-2 ml-12">
                                                                 <p class="text-xxs">
                                                                     {{
-                                                                        weeklySchedule?.employee?.employee_detail?.job?.title
+                                                                        employee?.employee_detail?.job?.title
                                                                     }}
                                                                 </p>
                                                                 <div class="text-xxs">
                                                                     {{ $t('departments.departments') }}:
                                                                     <span
-                                                                        v-for="(department, departmentIndex) in weeklySchedule?.employee?.departments"
+                                                                        v-for="(department, departmentIndex) in employee?.departments"
                                                                         :key="departmentIndex">
                                                                         {{ department?.name }}<span
-                                                                            v-if="departmentIndex < weeklySchedule.employee.departments.length - 1">,
+                                                                            v-if="departmentIndex < employee.departments.length - 1">,
                                                                         </span><span v-else>.</span>
                                                                     </span>
                                                                 </div>
                                                                 <p class="text-xxs">
                                                                     {{ $t('dutySchedules.annualNormHours') }}:
                                                                     {{
-                                                                        weeklySchedule?.employee?.annual_norm_hours ?? 0
+                                                                        employee?.annual_norm_hours ?? 0
                                                                     }}
                                                                 </p>
                                                                 <p class="text-xxs">
                                                                     {{ $t('dutySchedules.totalHours') }}:
-                                                                    {{ weeklySchedule?.employee?.total_hours ?? 0 }}
+                                                                    {{ employee?.total_hours ?? 0 }}
                                                                 </p>
                                                                 <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
-                                                                    @click="navigateTo(`/calendar?employee_uuid=${weeklySchedule?.employee?.uuid}`)">
+                                                                    @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
                                                                     {{ $t('dutySchedules.viewCalendar') }}
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div :class="[
-                                                            expandedRecords[weeklyScheduleIndex] && 'hidden',
+                                                            expandedRecords[employeeIndex] && 'hidden',
                                                             'text-xs grid grid-cols-7'
                                                         ]">
                                                             <div class="col-span-3 space-y-2" />
@@ -189,7 +187,7 @@
                                                                 </p>
                                                             </div>
                                                             <div class="col-span-3 space-y-2">
-                                                                <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                                <p v-for="(time, timeIndex) in employee?.hours"
                                                                     :key="timeIndex">
                                                                     {{ language.locale.value === 'en' ?
                                                                         time?.shift?.en_name :
@@ -197,14 +195,14 @@
                                                                 </p>
                                                             </div>
                                                             <div class="col-span-2 flex gap-2 flex-col items-end">
-                                                                <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                                <p v-for="(time, timeIndex) in employee?.hours"
                                                                     :key="timeIndex">
                                                                     {{ time?.weekly_hours }}
                                                                 </p>
                                                             </div>
                                                             <div
                                                                 class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200 ml-3">
-                                                                <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
+                                                                <p v-for="(time, timeIndex) in employee?.hours"
                                                                     :key="timeIndex">
                                                                     {{ time?.yearly_hours }}
                                                                 </p>
@@ -212,7 +210,7 @@
                                                             <div
                                                                 class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
                                                                 <div :class="[
-                                                                    weeklySchedule?.employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                                    employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                                     'flex items-center gap-1'
                                                                 ]">
                                                                     <Icon name="ph:clock" class="h-3 w-3"
@@ -222,15 +220,13 @@
                                                                     }}:
                                                                     {{
                                                                         formatNumber(language.locale.value,
-                                                                            weeklySchedule?.employee?.compensatory_hours?.total_in_hours)
-                                                                        ??
-                                                                        0
+                                                                            employee?.compensatory_hours?.total_in_hours) ?? 0
                                                                     }}
                                                                 </div>
                                                             </div>
                                                             <div class="col-span-7 space-y-2 mt-1">
                                                                 <div :class="[
-                                                                    weeklySchedule?.employee?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                                    employee?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                                     'flex items-center gap-1'
                                                                 ]">
                                                                     <Icon name="ph:clock" class="h-3 w-3"
@@ -240,24 +236,22 @@
                                                                     }}:
                                                                     {{
                                                                         formatNumber(language.locale.value,
-                                                                            weeklySchedule?.employee?.available_vacation_hours)
-                                                                        ?? 0
+                                                                            employee?.available_vacation_hours) ?? 0
                                                                     }}
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div>
-                                                            <button @click="toggleExpanded(weeklyScheduleIndex)"
+                                                            <button @click="toggleExpanded(employeeIndex)"
                                                                 class="text-primary text-xs hover:text-primary-700">
-                                                                {{ !expandedRecords[weeklyScheduleIndex] ?
+                                                                {{ !expandedRecords[employeeIndex] ?
                                                                     $t('showLess') :
                                                                     $t('showMore') }}
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div class="p-3 border-0.5"
-                                                        v-for="(week, weekIndex) in weeklySchedule?.weeks"
-                                                        :key="weekIndex">
+                                                        v-for="(week, weekIndex) in employee?.weeks" :key="weekIndex">
                                                         <div class="space-y-2">
                                                             <div class="text-xs">
                                                                 <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
@@ -265,11 +259,9 @@
                                                                     class="rounded-md p-1 relative mb-2.5" :style="{
                                                                         backgroundColor: `${shift?.type?.color}`,
                                                                         width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
-                                                                        marginTop: `${calculateMarginTop(weeklySchedule?.weeks, weekIndex.toString(), shiftIndex)}rem`
+                                                                        marginTop: `${calculateMarginTop(employee?.weeks, weekIndex.toString(), shiftIndex)}rem`
                                                                     }">
-                                                                    <div class="flex justify-between text-white" @click=" editSchedule(weeklySchedule?.employee,
-                                                                        weeklyScheduleIndex, weekIndex, shift,
-                                                                        shiftIndex)">
+                                                                    <div class="flex justify-between text-white">
                                                                         <p
                                                                             class="w-full px-2 py-2 flex items-center justify-center border border-white rounded-tl-md rounded-bl-md">
                                                                             {{
@@ -328,18 +320,12 @@
 import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { useDepartmentStore } from '@/store/department'
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { useCustomPagesStore } from '@/store/custom-pages'
 import { useNumberFormatter } from '@/composables/numberFormatter'
-import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const language = useI18n()
-const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
-const customPagesStore = useCustomPagesStore() as any
-const { formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const currentDate = ref(moment())
 const selectedDay = ref(moment())
@@ -364,62 +350,9 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
-    addShift: {
-        selectedEmployeeSchedule: {}
-    } as any,
-    copy: {
-        allEmployeeSchedules: {},
-        selectedEmployeeDailySchedule: {},
-        selectedEmployeeWeeklySchedule: {},
-        selectedWeekNumber: null,
-    } as any,
-    copyShiftError: {} as Error,
     customWeekLabel: 'week',
-    editShiftError: {} as Error,
-    editShift: {
-        selectedEmployee: {},
-        selectedEmployeeSchedule: {},
-    } as any,
     error: {} as Error,
-    errorUpdateShift: {} as Error,
     isPageLoading: false,
-    manageScheduleSlot: {
-        selectedDay: [],
-    },
-    manageTimeRequest: {
-        selectedDate: '',
-        selectedEmployee: {},
-        selectedSchedule: {},
-    },
-    manageSwapScheduleRequest: {
-        selectedDate: '',
-        selectedEmployee: {},
-        selectedSchedule: {},
-    },
-    modal: {
-        isAddShiftOpen: false,
-        isCopyMultipleWeeklyScheduleOpen: false,
-        isDepartmentSickLeaveDateRangeOpen: false,
-        isDownloadOpen: false,
-        isEditShiftOpen: false,
-        isManageScheduleSlotOpen: false,
-        isManageTimeAdjustmentRequestsOpen: false,
-        isManageSwapScheduleRequestsOpen: false,
-        isRequestTimeAdjustmentOpen: false,
-        isRequestSwapScheduleOpen: false,
-    } as any,
-    newShift: {
-        selectedDate: '',
-        selectedEmployee: {},
-    },
-    newShiftError: {} as Error,
-    progress: {
-        percentage: 100,
-        pendingRequests: 0,
-        showProgressBar: false,
-        totalRequests: 0,
-    },
-    shiftPercentage: {} as any,
     shiftDateRange: {
         formDateRange: {
             start_date: moment().startOf('week').add(1, 'day'),
@@ -427,11 +360,7 @@ const state = reactive({
         },
     } as any,
     isFirstLoad: true,
-    isRemoveShift: false,
-    isUpdateShift: false,
-    originalWeeklySchedules: [] as any,
     weeklySchedules: [] as any,
-    weeklySlots: {} as any,
 })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
@@ -518,7 +447,6 @@ function getMultiDayShift(shifts: any) {
 async function fetchDutySchedule() {
     state.error = {}
     state.weeklySchedules = []
-    state.originalWeeklySchedules = []
     state.isPageLoading = true
     try {
         const dateMoment = moment(currentDate.value)
@@ -536,9 +464,7 @@ async function fetchDutySchedule() {
         }
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
-            state.weeklySchedules = response?.data
-            state.weeklySlots = response?.week_slots
-            state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
+            state.weeklySchedules = response
             if (state.isFirstLoad) {
                 expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
             }
@@ -588,8 +514,4 @@ const weekDays = computed(() => {
         }
     })
 })
-
-function setSelectedDay(day: any) {
-    selectedDay.value = day.fullDate
-}
 </script>

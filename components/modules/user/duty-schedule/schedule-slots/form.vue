@@ -3,6 +3,19 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
+            <div class="space-y-1">
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="departments" :label="$t('dutySchedules.scheduleSlots.form.department')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.isAddDepartmentOpen = true">
+                        {{ $t('departments.addNewDepartment') }}
+                    </span>
+                </div>
+                <FormSelectMultiple id="departments" :options="state.options.departments"
+                    v-model="state.formScheduleSlot.department_uuid" />
+                <FormError :error="v$?.formScheduleSlot?.department_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.departments_uuid?.[0]" />
+            </div>
             <div class="space-y-1" v-if="formType === 'update'">
                 <FormLabel for="date" :label="$t('dutySchedules.scheduleSlots.form.date')" />
                 <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.scheduleSlots.form.date')"
@@ -80,6 +93,8 @@
                 </FormButton>
             </div>
         </div>
+        <ModulesUserDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
+            @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchDepartments" />
         <ModulesUserJobTitleModalNew :isModalOpen="state.modal.isAddJobTitleOpen"
             @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitle="fetchJobTitles" />
         <ModulesUserJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
@@ -90,6 +105,7 @@
 </template>
 
 <script setup lang="ts">
+import { departmentService } from '@/components/api/user/DepartmentService'
 import { jobTitleService } from '@/components/api/user/JobTitleService'
 import { jobSpecialtyService } from '@/components/api/user/JobSpecialtyService'
 import { shiftService } from '@/components/api/user/ShiftService'
@@ -126,6 +142,7 @@ const state = reactive({
     error: {} as Error,
     formScheduleSlot: {
         date: props.selectedScheduleSlot?.date,
+        department_uuid: [],
         job_title_uuid: props.selectedScheduleSlot?.job?.uuid,
         job_specialty_uuid: [],
         available_slots: props.selectedScheduleSlot?.available_slots.toString(),
@@ -134,10 +151,12 @@ const state = reactive({
         shift_type: props.selectedScheduleSlot?.shift?.uuid,
     } as any,
     modal: {
+        isAddDepartmentOpen: false,
         isAddJobSpecialtyOpen: false,
         isAddJobTitleOpen: false,
     },
     options: {
+        departments: [],
         jobSpecialties: [],
         jobTitles: [],
         shifts: []
@@ -145,10 +164,16 @@ const state = reactive({
 })
 
 onMounted(() => {
+    fetchDepartments()
     fetchAllShifts()
     fetchJobTitles()
     if (props.selectedScheduleSlot?.job?.uuid) {
         fetchJobSpecialties(props.selectedScheduleSlot?.job?.uuid)
+    }
+    if (props.selectedScheduleSlot?.departments) {
+        props.selectedScheduleSlot.departments.forEach((department: any) => {
+            state.formScheduleSlot.department_uuid.push(department?.uuid)
+        })
     }
     if (props.selectedScheduleSlot?.schedule_specialties) {
         props.selectedScheduleSlot.schedule_specialties.forEach((job_specialty: any) => {
@@ -159,6 +184,29 @@ onMounted(() => {
 
 function closeModal() {
     emit('closeModal')
+}
+
+
+
+async function fetchDepartments() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await departmentService.getAllDepartments()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.departments = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
 }
 
 async function fetchAllShifts() {

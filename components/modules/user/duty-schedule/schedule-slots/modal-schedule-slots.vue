@@ -23,7 +23,15 @@
                                     v-if="!(state.isTableLoading || (state.scheduleSlots?.data?.length === 0))">
                                     <tr v-for="(slot, index) in state.scheduleSlots?.data" :key="index">
                                         <td width="15%">
-                                            <p>
+                                            <div class="text-xxs flex flex-wrap gap-1">
+                                                <span v-for="(department, index) in slot?.departments" :key=index
+                                                    class="bg-primary px-2 py-1 text-white rounded-md">
+                                                    {{ department?.name }}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td width="20%">
+                                            <p class="truncate">
                                                 {{ language.locale.value === 'en' ? slot?.shift?.en_name :
                                                     slot?.shift?.dk_name }}
                                             </p>
@@ -39,30 +47,36 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td width="20%">
-                                            <span>{{ moment(slot?.time_in, "HH:mm").format('HH:mm') }}</span> -
-                                            <span>{{ moment(slot?.time_out, "HH:mm").format('HH:mm') }}</span>
+                                        <td width="25%">
+                                            <div class="truncate">
+                                                <span>{{ moment(slot?.time_in, "HH:mm").format('HH:mm') }}</span> -
+                                                <span>{{ moment(slot?.time_out, "HH:mm").format('HH:mm') }}</span>
+                                            </div>
                                         </td>
                                         <td width="5%">
                                             <span>{{ slot?.available_slots }}</span>
                                         </td>
-                                        <td width="40%">
+                                        <td width="15%">
                                             <div class="flex items-end gap-2">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="viewScheduleSlotRequesters(slot)">
-                                                    <Icon name="ph:eye" class="size-4" />
-                                                    {{ $t('dutySchedules.scheduleSlots.table.actions.viewRequesters') }}
-                                                </FormButton>
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="editScheduleSlot(slot)">
-                                                    <Icon name="ph:pencil-simple" class="size-4" />
-                                                    {{ $t('dutySchedules.scheduleSlots.table.actions.edit') }}
-                                                </FormButton>
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
-                                                    @click="confirmScheduleSlotDeletion(slot)">
-                                                    <Icon name="ph:trash" class="size-4" />
-                                                    {{ $t('dutySchedules.scheduleSlots.table.actions.delete') }}
-                                                </FormButton>
+                                                <Tooltip
+                                                    :text="$t('dutySchedules.scheduleSlots.table.actions.viewRequesters')">
+                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                        @click="viewScheduleSlotRequesters(slot)">
+                                                        <Icon name="ph:eye" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('dutySchedules.scheduleSlots.table.actions.edit')">
+                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                        @click="editScheduleSlot(slot)">
+                                                        <Icon name="ph:pencil-simple" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('dutySchedules.scheduleSlots.table.actions.delete')">
+                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                        @click="confirmScheduleSlotDeletion(slot)">
+                                                        <Icon name="ph:trash" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
                                             </div>
                                         </td>
                                     </tr>
@@ -125,6 +139,7 @@ const state = reactive({
         { column: 'available_slots' },
     ],
     columnHeaders: [
+        { name: 'dutySchedules.scheduleSlots.table.department' },
         { name: 'dutySchedules.scheduleSlots.table.shiftType' },
         { name: 'dutySchedules.scheduleSlots.table.jobTitle' },
         { name: 'dutySchedules.scheduleSlots.table.time' },

@@ -1,15 +1,21 @@
 {
     "2fa": {
+        "2fa": "Two factor authentication",
         "alert": {
             "google2FASuccessfullyDisabled": "Google 2FA successfully disabled",
             "google2FASuccessfullyEnabled": "Google 2FA successfully enabled"
         },
+        "enable": "Enable",
         "form": {
             "code": "Code",
+            "downloadOnThe": "Download on the",
+            "getItOn": "Get it on",
+            "scanTheQR": "Scan the QR image, and enter the code generated on your Google Authenticator App",
             "verify": "Verify",
             "verifyCode": "Verify code"
         },
-        "google2FactorAuthentication": "Google 2 factor authentication"
+        "google2FactorAuthentication": "Google 2 factor authentication",
+        "useYour2faCodeFromGoogleAuthenticatorAppOnYourPhone": "Use your 2FA code from Google Authenticator app on your phone"
     },
     "absences": {
         "addNewAbsence": "Add new absence",
@@ -1076,6 +1082,7 @@
             "archiveConfirmation": "Are you sure you want to archive this citizen"
         },
         "editCitizen": "Edit citizen",
+        "exportCitizens": "Export citizens",
         "form": {
             "addictions": "Substance abuse",
             "alert": {
@@ -2102,6 +2109,7 @@
                 "riskAssessment": "Risk assessment",
                 "statusesStatistics": "Statuses statistics",
                 "subgoalsStatistics": "Subgoals statistics",
+                "treatments": "Treatments",
                 "useOfForceStatistics": "Use of force statistics"
             },
             "show": "Show",
@@ -2151,6 +2159,30 @@
             "poll": "Poll",
             "sentBy": "Sent by"
         },
+        "quickRiskAssessment": {
+            "alert": {
+                "quickRiskAssessmentSuccessfullyAdded": "Quick risk assessment successfully added"
+            },
+            "form": {
+                "addNewJournalTitle": "Add new journal title",
+                "attachFile": "Attach file",
+                "citizen": "Citizen",
+                "date": "Date",
+                "draft": "Draft",
+                "enterJournalTitleManually": "Enter journal title manually",
+                "generateNote": "Generate note",
+                "note": "Note",
+                "risk": {
+                    "acuteIncreasedRisk": "Acute increased risk",
+                    "increasedRisk": "Increased risk",
+                    "none": "None",
+                    "noRisk": "No risk"
+                },
+                "title": "Title",
+                "usePredefinedJournalTitle": "Use predefined journal title"
+            },
+            "quickRiskAssessment": "Quick risk assessment"
+        },
         "riskAssessment": {
             "risk": {
                 "acuteIncreasedRisk": "Acute increased risk",
@@ -2159,6 +2191,25 @@
                 "noRisk": "No risk"
             },
             "riskAssessment": "Risk assessment"
+        },
+        "treatments": {
+            "areaTypes": {
+                "functionalLevel": "Functional level",
+                "musculoskeletalSystem": "Musculoskeletal system",
+                "nutrition": "Nutrition",
+                "skinAndMucousMembranes": "Skin and mucous membranes",
+                "communication": "Communication",
+                "psychosocialConditions": "Psychosocial conditions",
+                "respirationAndCirculation": "Respiration and circulation",
+                "sexuality": "Sexuality",
+                "painAndSensoryImpressions": "Pain and sensory impressions",
+                "sleepAndRest": "Sleep and rest",
+                "knowledgeAndDevelopment": "Knowledge and development",
+                "excretionOfWaste": "Excretion of waste"
+            },
+            "completionDate": "Completion date",
+            "noTreatmentsToShow": "No treatments to show",
+            "treatments": "Treatments"
         },
         "useForceStatistics": {
             "useForceStatistics": "Use of force statistics",
@@ -2295,6 +2346,7 @@
             "useCompensatoryTime": "Use compensatory time",
             "users": "Users"
         },
+        "holidays": "Holidays",
         "month": "Month",
         "newSchedule": "New schedule",
         "noScheduleFound": "No schedule found",
@@ -2408,6 +2460,7 @@
                     "scheduleSlotSuccessfullyUpdated": "Schedule slot successfully updated"
                 },
                 "date": "Date",
+                "department": "Department",
                 "jobSpecialty": "Job specialty",
                 "jobTitle": "Job title",
                 "numberOfShifts": "Number of shifts",
@@ -2429,6 +2482,7 @@
                     "viewRequesters": "View requesters"
                 },
                 "date": "Date",
+                "department": "Department",
                 "inactive": "Inactive",
                 "jobTitle": "Job title",
                 "numberOfShifts": "Number of shifts",
@@ -2446,6 +2500,10 @@
             "regularShift": "Regular shift",
             "sickLeave": "Sick leave",
             "vacationLeave": "Vacation leave"
+        },
+        "sort": {
+            "sortNamesInAscendingOrder": "Sort names in ascending order",
+            "sortNamesInDescendingOrder": "Sort names in descending order"
         },
         "table": {
             "awakeNightShiftHours": "Awake night shift",
@@ -2645,6 +2703,7 @@
             "substitute": "​Substitute",
             "temporary": "​Temporary"
         },
+        "exportEmployees": "Export employees",
         "form": {
             "alert": {
                 "employeeSuccessfullyUpdated": "Employee successfully updated",
@@ -2798,6 +2857,7 @@
             "tags": "Tags",
             "title": "Title"
         },
+        "holidays": "Holidays",
         "myself": "Myself",
         "newEvent": "New event",
         "noEventFound": "No event found",
@@ -4125,11 +4185,12 @@
     "settings": {
         "company": {
             "form": {
+                "2fa": "Two factor authentication",
                 "accountantEmail": "Auditor or accounting e-mail (citizens' wallet transactions)",
                 "alert": {
                     "successfullyUpdated": "Company successfully updated"
                 },
-                "checkinReminder": "Check in reminder",
+                "checkinOut": "Check in/out",
                 "allowPlans": "Allow employees to create plans",
                 "allowGoals": "Allow employees to create goals",
                 "allowSubGoals": "Allow employees to create subgoals",
@@ -4141,6 +4202,7 @@
                 "municipality": "Municipality",
                 "phone": "Phone",
                 "postCode": "Post code",
+                "quickRiskAssessment": "Quick risk assessment",
                 "region": "Region",
                 "street": "Street",
                 "website": "Website"
