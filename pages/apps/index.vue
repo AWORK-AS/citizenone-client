@@ -412,6 +412,7 @@ async function activateApp(formApp: any) {
             const response = await appService.activateLeadsApp()
             if (response) {
                 successAlert(`${t('alert.success')}!`, `${t('apps.alert.appSuccessfullyActivated')}.`)
+                fetchApps()
             }
         } else {
             const params = {} as any
