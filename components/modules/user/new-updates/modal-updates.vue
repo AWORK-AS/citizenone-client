@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2025-09-19',
+    currentVersion: '2025-09-26',
     availableVersions: [
+        '2025-09-26',
         '2025-09-19',
         '2025-09-12',
         '2025-08-29',
@@ -70,6 +71,29 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2025-09-26': [
+            {
+                title: 'Listing of holidays in the calendar',
+                description: [
+                    'Holidays are now displayed directly in the calendar.',
+                    'This provides better visibility for planning and coordination.',
+                ],
+            },
+            {
+                title: '"Quick risk assessment" in the daily overview',
+                description: [
+                    'If enabled in the admin settings, a quick risk assessment is now shown in the daily overview.',
+                    'This allows for faster identification of potential risks during daily operations.',
+                ],
+            },
+            {
+                title: 'Current citizen treatments in the daily overview',
+                description: [
+                    'Ongoing citizen treatments are now visible in the daily overview.',
+                    'This gives staff a clear and immediate overview of current care activities.',
+                ],
+            },
+        ],
         '2025-09-19': [
             {
                 title: 'Import and export employees via CSV template file',
@@ -204,6 +228,29 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2025-09-26': [
+            {
+                title: 'Visning af helligdage i kalenderen',
+                description: [
+                    'Helligdage vises nu direkte i kalenderen.',
+                    'Dette giver bedre overblik til planlægning og koordinering.',
+                ],
+            },
+            {
+                title: '"Hurtig risikovurdering" i dagsoversigten',
+                description: [
+                    'Hvis aktiveret i admin-indstillingerne, vises en hurtig risikovurdering nu i dagsoversigten.',
+                    'Dette gør det muligt hurtigt at identificere potentielle risici i den daglige drift.',
+                ],
+            },
+            {
+                title: 'Aktuelle borgerbehandlinger i dagsoversigten',
+                description: [
+                    'Igangværende borgerbehandlinger vises nu i dagsoversigten.',
+                    'Dette giver medarbejderne et klart og øjeblikkeligt overblik over aktuelle plejeaktiviteter.',
+                ],
+            },
+        ],
         '2025-09-19': [
             {
                 title: 'Importer og eksporter medarbejdere via CSV-skabelonfil',
