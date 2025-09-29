@@ -290,6 +290,7 @@
         "activated": "Aktiveret",
         "agreetoTAC": "Du skal acceptere vilkårene og betingelserne",
         "alert": {
+            "appSuccessfullyActivated": "App aktiveret med succes",
             "messageSuccessfullySent": "Besked sendt med succes"
         },
         "apps": "Apps",

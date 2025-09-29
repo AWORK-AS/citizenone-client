@@ -4,7 +4,8 @@
             @close="closeModal">
             <template #modal-body>
                 <div>
-                    <div class="mx-auto max-w-sm md:max-w-md mt-16 relative" v-if="!props.selectedApp?.is_one_time_fee">
+                    <div class="mx-auto max-w-sm md:max-w-md mt-16 relative"
+                        v-if="!props.selectedApp?.is_one_time_fee && props.selectedApp?.generic_name === null">
                         <div class="flex justify-center">
                             <fieldset aria-label="Payment frequency">
                                 <RadioGroup v-model="state.formApp.frequency"
@@ -38,7 +39,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="text-muted-400" :class="!props.selectedApp?.is_one_time_fee && 'mt-5'">
+                    <div class="text-muted-400" :class="!props.selectedApp?.is_one_time_fee && 'mt-5'"
+                        v-if="props.selectedApp?.generic_name === null">
                         <div class="font-san" v-if="props.selectedApp?.is_one_time_fee">
                             {{ formatAmount(props.selectedApp?.price) }}
                             {{ $t('excludeVat') }}

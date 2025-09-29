@@ -9,6 +9,10 @@ class AppService extends BaseAPIService {
         return await this.request(`/user/apps/${appUuid}/purchase`, 'POST', params)
     }
 
+    async activateLeadsApp(): Promise<any> {
+        return await this.request(`/user/company/activate/web-leads`, 'PUT')
+    }
+
     async validatePurchase(paymentId: any): Promise<any> {
         return await this.request(`/user/apps/${paymentId}/verify-payment`, 'POST')
     }

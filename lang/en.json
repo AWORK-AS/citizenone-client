@@ -290,6 +290,7 @@
         "activated": "Activated",
         "agreetoTAC": "You must agree to the terms and conditions",
         "alert": {
+            "appSuccessfullyActivated": "App successfully activated",
             "messageSuccessfullySent": "Message successfully sent"
         },
         "apps": "Apps",
