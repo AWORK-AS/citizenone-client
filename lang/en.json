@@ -1859,6 +1859,10 @@
                 }
             },
             "missingAttachmentToOneOrMoreRecord": "Missing attachment to one or more record",
+            "relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports": {
+                "hereYouWillFindRelevantLinks": "Here you will find relevant links that can help you in your work with medicine",
+                "relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports": "Relevant help links for working with use of force and incident reports"
+            },
             "reportUseOfForce": "Report use of force",
             "seePreviousUseOfForce": "See previous use of force",
             "statuses": {

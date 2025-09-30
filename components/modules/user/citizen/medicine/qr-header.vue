@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col items-center gap-y-10">
+    <div class="flex flex-col items-center gap-y-3 md:gap-y-10">
         <div class="space-y-1 flex flex-col items-center">
             <div class="w-fit flex items-center gap-x-2 cursor-pointer text-sm text-primary hover:text-primary-700"
                 @click=downloadQRCode>

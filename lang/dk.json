@@ -1859,6 +1859,10 @@
                 }
             },
             "missingAttachmentToOneOrMoreRecord": "Mangler vedhæftning til en eller flere poster",
+            "relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports": {
+                "hereYouWillFindRelevantLinks": "Her finder du relevante links, der kan hjælpe dig i dit arbejde med medicin",
+                "relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports": "Relevante hjælpelinks til arbejde med magtanvendelse og hændelsesrapporter"
+            },
             "reportUseOfForce": "Rapporter magtanvendelse",
             "seePreviousUseOfForce": "Se tidligere magtanvendelse",
             "statuses": {
