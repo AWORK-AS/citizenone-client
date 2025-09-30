@@ -857,7 +857,6 @@ async function setDailyOverviewFilterShowMedicineDeviationStatistics() {
 }
 
 async function setDailyOverviewFilterShowTreatments() {
-    console.log('test', dailyOverviewStore.getDailyOverviewFilter.showTreatments)
     state.error = {}
     state.isPageLoading = true
     try {
