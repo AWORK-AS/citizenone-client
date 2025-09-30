@@ -263,26 +263,14 @@
                     </div>
                 </div>
                 <div class="col-span-12 lg:col-span-3 flex flex-col justify-center lg:gap-8">
-                    <div class="flex flex-col items-center gap-y-10"
-                        v-if="$route.name === 'citizens-uuid-medicine-journals'">
-                        <ModulesUserCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen" />
-                        <p class="w-52 text-center text-xs text-primary hover:text-secondary-700 cursor-pointer"
-                            @click="state.modal.isViewRelevantHelpLinksOpen = true">
-                            {{
-                                $t('citizens.medicineJournals.relevantHelpLinksForWorkingWithMedicine.relevantHelpLinksForWorkingWithMedicine')
-                            }}
-                        </p>
-                    </div>
-                    <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
-                        v-if="$route.name === 'citizens-uuid-journals' && userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
-                    <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
-                        @close="state.modal.isViewPatienCareHoursOpen = false"
-                        @refreshCitizenDetails="fetchCitizen()" />
-                    <ModulesUserCitizenMedicineModalRelevantHelpLinks
-                        :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
-                        @close="state.modal.isViewRelevantHelpLinksOpen = false" />
-                    <ModulesUserCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
+                    <ModulesUserCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
+                        v-if="$route.name === 'citizens-uuid-medicine-journals'" />
                 </div>
+                <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
+                    v-if="$route.name === 'citizens-uuid-journals' && userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
+                <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
+                    @close="state.modal.isViewPatienCareHoursOpen = false" @refreshCitizenDetails="fetchCitizen()" />
+                <ModulesUserCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
             </div>
         </LoadingSpinner>
     </div>
@@ -312,7 +300,6 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isViewPatienCareHoursOpen: false,
-        isViewRelevantHelpLinksOpen: false,
     },
     selectedCitizen: {} as any,
     showExpandedNote: false,
