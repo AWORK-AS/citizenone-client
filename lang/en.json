@@ -2846,6 +2846,7 @@
         "delete": "Delete",
         "editEvent": "Edit event",
         "employees": "Employees",
+        "eventOwner": "Event owner",
         "form": {
             "citizens": "Citizens",
             "datetimeStart": "Date time start",
@@ -2859,6 +2860,7 @@
             "title": "Title"
         },
         "holidays": "Holidays",
+        "invitees": "Invitees",
         "myself": "Myself",
         "newEvent": "New event",
         "noEventFound": "No event found",

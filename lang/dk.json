@@ -2846,6 +2846,7 @@
         "delete": "Slet",
         "editEvent": "Rediger begivenhed",
         "employees": "Medarbejdere",
+        "eventOwner": "Begivenhedsejer",
         "form": {
             "citizens": "Borgere",
             "datetimeStart": "Start dato og tid",
@@ -2859,6 +2860,7 @@
             "title": "Titel"
         },
         "holidays": "Helligdage",
+        "invitees": "Inviterede",
         "myself": "Mig selv",
         "newEvent": "Ny begivenhed",
         "noEventFound": "Ingen begivenhed fundet",
