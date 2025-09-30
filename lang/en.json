@@ -1410,6 +1410,10 @@
                 }
             },
             "newMedicine": "New medicine",
+            "relevantHelpLinksForWorkingWithMedicine": {
+                "hereYouWillFindRelevantLinks": "Here you will find relevant links that can help you in your work with medicine",
+                "relevantHelpLinksForWorkingWithMedicine": "Relevant help links for working with medicine"
+            },
             "scheduleFrequencies": {
                 "everyday": "Everyday",
                 "every2Days": "Every Other Day",

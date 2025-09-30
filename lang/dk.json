@@ -1410,6 +1410,10 @@
                 }
             },
             "newMedicine": "Ny medicin",
+            "relevantHelpLinksForWorkingWithMedicine": {
+                "hereYouWillFindRelevantLinks": "Her finder du relevante links, der kan hjælpe dig i dit arbejde med medicin",
+                "relevantHelpLinksForWorkingWithMedicine": "Relevante hjælpelinks til arbejde med medicin"
+            },
             "scheduleFrequencies": {
                 "everyday": "Hver dag",
                 "every2Days": "Hver anden dag",
