@@ -24,12 +24,6 @@
             v-else>
             <div v-for="(event, index) in state.citizenCalendarEvents?.data" :key="index" class="py-3">
                 <div class="space-y-1">
-                    <div class="text-xxs flex flex-wrap gap-1" v-if="event.calendar_users?.length > 0">
-                        <span v-for="(citizen, index) in event.calendar_users" :key=index
-                            class="bg-primary px-2 py-1 text-white rounded-md">
-                            {{ citizen?.user?.firstname + ' ' + citizen?.user?.lastname }}
-                        </span>
-                    </div>
                     <p class="text-base font-semibold text-gray-700 xl:pr-0">
                         {{ event?.title }}
                     </p>
@@ -43,7 +37,7 @@
                             {{ event?.description }}
                         </dd>
                     </div>
-                    <div class="flex gap-x-2 text-xs text-gray-500">
+                    <div class="flex gap-x-2 text-xs text-gray-500" v-if="event?.unit?.name">
                         <p>
                             {{ $t('units.unit') }}:
                         </p>
@@ -72,12 +66,24 @@
                             {{ calendarTag?.tag }}
                         </span>
                     </div>
-                    <p class="text-xs">
-                        {{ $t('dailyOverview.createdBy') }}
-                        <span v-if="event?.creator">
-                            {{ event?.creator?.firstname + ' ' + event?.creator?.lastname }}
-                        </span>
-                    </p>
+                    <div class="text-gray-500 text-xxs mt-1">
+                        <p>{{ $t('events.eventOwner') }}:</p>
+                        <div class="flex flex-wrap gap-1 mt-1">
+                            <div v-for="(owner, index) in event.calendar_owners" :key="index"
+                                class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                {{ owner?.owner?.firstname }} {{ owner?.owner?.lastname }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-gray-500 text-xxs mt-1">
+                        <p>{{ $t('events.invitees') }}:</p>
+                        <div class="flex flex-wrap gap-1 mt-1">
+                            <div v-for="(invitee, index) in event.calendar_users" :key="index"
+                                class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                {{ invitee?.user?.firstname }} {{ invitee?.user?.lastname }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

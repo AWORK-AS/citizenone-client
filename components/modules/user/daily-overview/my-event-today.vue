@@ -27,8 +27,23 @@
                     <p class="text-base font-semibold text-gray-700 xl:pr-0">
                         {{ myCalendarEvent?.title }}
                     </p>
-                    <div class="text-gray-700 xl:pr-0 text-xs line-clamp-2">
-                        {{ myCalendarEvent?.description }}
+                    <div class="flex gap-x-2">
+                        <dt class="flex mt-1">
+                            <span class="sr-only">Description</span>
+                            <Icon name="heroicons:bars-3-bottom-left" class="h-4 w-4 text-gray-400"
+                                aria-hidden="true" />
+                        </dt>
+                        <dd class="text-gray-900 xl:pr-0">
+                            {{ myCalendarEvent?.description }}
+                        </dd>
+                    </div>
+                    <div class="flex gap-x-2 text-xs text-gray-500" v-if="myCalendarEvent?.unit?.name">
+                        <p>
+                            {{ $t('units.unit') }}:
+                        </p>
+                        <p>
+                            {{ myCalendarEvent?.unit?.name }}
+                        </p>
                     </div>
                     <div class="me-auto max-w-full">
                         <div class="flex items-center gap-x-2 text-xs ">
@@ -45,6 +60,30 @@
                             </div>
                         </div>
                     </div>
+                    <div class="text-xxs flex flex-wrap gap-1 mt-1" v-if="myCalendarEvent?.calendar_tags?.length > 0">
+                        <span v-for="(calendarTag, index) in myCalendarEvent?.calendar_tags" :key=index
+                            class="p-1 text-white rounded-md" :style="{ backgroundColor: calendarTag?.color }">
+                            {{ calendarTag?.tag }}
+                        </span>
+                    </div>
+                    <div class="text-gray-500 text-xxs mt-1">
+                        <p>{{ $t('events.eventOwner') }}:</p>
+                        <div class="flex flex-wrap gap-1 mt-1">
+                            <div v-for="(owner, index) in myCalendarEvent.calendar_owners" :key="index"
+                                class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                {{ owner?.owner?.firstname }} {{ owner?.owner?.lastname }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-gray-500 text-xxs mt-1">
+                        <p>{{ $t('events.invitees') }}:</p>
+                        <div class="flex flex-wrap gap-1 mt-1">
+                            <div v-for="(invitee, index) in myCalendarEvent.calendar_users" :key="index"
+                                class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                {{ invitee?.user?.firstname }} {{ invitee?.user?.lastname }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -54,7 +93,7 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
-import type { CalendarEventResponse, Error } from '@/types'
+import type { Error } from '@/types'
 
 const props = defineProps({
     dateRange: {
@@ -67,7 +106,7 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 
 const state = reactive({
     isPageLoading: false,
-    myCalendarEvents: {} as CalendarEventResponse,
+    myCalendarEvents: [] as any,
     error: {} as Error,
 })
 
