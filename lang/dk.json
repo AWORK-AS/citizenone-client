@@ -3344,6 +3344,16 @@
     "languageSwitcher": {
         "selectLanguage": "Vælg sprog"
     },
+    "leads": {
+        "leads": "Leads",
+        "table": {
+            "company": "Firma",
+            "email": "Email",
+            "message": "Besked",
+            "name": "Navn",
+            "phone": "Telefon"
+        }
+    },
     "login": {
         "doYouNeedHelp": "Har du brug for hjælp",
         "login": "Log ind",
@@ -4348,6 +4358,7 @@
         "citizens": "Borgere",
         "documents": "Dokumenter",
         "dutySchedules": "Vagtskema",
+        "leads": "Leads",
         "mail": "Mail",
         "messages": "Beskeder",
         "protocols": "Protokol"

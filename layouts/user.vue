@@ -75,6 +75,9 @@
                                                         <span v-if="item.name === 'Documents'">
                                                             {{ $t('sidebar.documents') }}
                                                         </span>
+                                                        <span v-if="item.name === 'Leads'">
+                                                            {{ $t('sidebar.leads') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Bullet Board'">
                                                             {{ $t('sidebar.bulletBoard') }}
                                                         </span>
@@ -179,6 +182,9 @@
                                         </div>
                                         <span v-if="item.name === 'Documents'">
                                             {{ $t('sidebar.documents') }}
+                                        </span>
+                                        <span v-if="item.name === 'Leads'">
+                                            {{ $t('sidebar.leads') }}
                                         </span>
                                         <span v-if="item.name === 'Bullet Board'">
                                             {{ $t('sidebar.bulletBoard') }}
@@ -626,6 +632,7 @@ watch(() => language.locale.value, (newLanguage: any) => {
 function generateSidebarLinks(user: any) {
     navigation = []
     const userHasSecuredMailAccess = user?.is_secure_mail_active
+    const userHasLeadsActive = user?.company?.is_leads_active
     const userHasPageAttendanceAccess = user?.pages?.some((page: any) => page.name === "Attendance")
     navigation.push({
         name: 'Daily overview',
@@ -712,6 +719,16 @@ function generateSidebarLinks(user: any) {
             icon: 'ph:envelope-open',
             activeRouteNames: [
                 'mail'
+            ]
+        })
+    }
+    if (userHasLeadsActive) {
+        navigation.push({
+            name: 'Leads',
+            href: '/leads',
+            icon: 'ph:nuclear-plant-duotone',
+            activeRouteNames: [
+                'leads',
             ]
         })
     }

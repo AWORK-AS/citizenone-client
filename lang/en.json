@@ -3344,6 +3344,16 @@
     "languageSwitcher": {
         "selectLanguage": "Select language"
     },
+    "leads": {
+        "leads": "Leads",
+        "table": {
+            "company": "Company",
+            "email": "Email",
+            "message": "Message",
+            "name": "Name",
+            "phone": "Phone"
+        }
+    },
     "login": {
         "doYouNeedHelp": "Do you need help",
         "login": "Login",
@@ -4348,6 +4358,7 @@
         "citizens": "Citizens",
         "documents": "Documents",
         "dutySchedules": "Duty schedules",
+        "leads": "Leads",
         "mail": "Mail",
         "messages": "Messages",
         "protocols": "Protocols"
