@@ -225,6 +225,7 @@
 import { citizenDoctorService } from '@/components/api/user/CitizenDoctorService'
 import { dosageService } from '@/components/api/user/DosageService'
 import { medicineService } from '@/components/api/user/MedicineService'
+import { timeIntervalService } from '@/components/api/user/TimeIntervalService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -324,6 +325,7 @@ onMounted(() => {
     fetchDosageForm()
     fetchAllMedicines()
     fetchCitizenDoctors()
+    fetchTimeIntervals()
     if (props?.selectedMedicine?.max_dosage_per_time === null) {
         addMaxDosagePerTime()
     }
@@ -521,19 +523,25 @@ async function fetchCitizenDoctors() {
     emit('isPageLoading', false)
 }
 
-generateTimeIntervals()
-
-function generateTimeIntervals() {
-    const times = []
-    for (let hour = 0; hour < 24; hour++) {
-        for (let minute = 0; minute < 60; minute += 15) {
-            const hourStr = String(hour).padStart(2, '0')
-            const minuteStr = String(minute).padStart(2, '0')
-            const time = `${hourStr}:${minuteStr}`
-            times.push({ value: time, label: time })
+async function fetchTimeIntervals() {
+    emit('error', {})
+    emit('isPageLoading', true)
+    try {
+        const response = await timeIntervalService.getAllTimeIntervals()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item?.time,
+                    label: item?.time,
+                })
+            )
+            state.options.time = options
         }
+    } catch (error: any) {
+        emit('error', error)
     }
-    state.options.time = times
+    emit('isPageLoading', false)
 }
 
 function handleMaxDailyDoseInput(event: Event) {
@@ -572,9 +580,3 @@ async function navigateToExternalLink(link: any) {
     })
 }
 </script>
-
-<style>
-#formMedicine .multiselect-dropdown {
-    max-height: 5rem !important;
-}
-</style>
