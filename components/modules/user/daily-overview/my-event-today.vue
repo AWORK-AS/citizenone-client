@@ -75,7 +75,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="text-gray-500 text-xxs mt-1">
+                    <div class="text-gray-500 text-xxs mt-1" v-if="myCalendarEvent.calendar_users?.length > 0">
                         <p>{{ $t('events.invitees') }}:</p>
                         <div class="flex flex-wrap gap-1 mt-1">
                             <div v-for="(invitee, index) in myCalendarEvent.calendar_users" :key="index"
