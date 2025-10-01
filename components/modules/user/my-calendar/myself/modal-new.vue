@@ -64,7 +64,7 @@ async function saveSchedule(scheduleDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
-            calendar_type: 'myself',
+            calendar_type: 'my_self',
             employee_uuid: [userStore.getUser?.uuid],
             title: scheduleDetails.title,
             description: scheduleDetails.description,
