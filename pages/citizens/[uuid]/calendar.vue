@@ -73,6 +73,7 @@
                             @viewMyCalendarEvent="viewMyCalendarEvent" />
                     </LoadingSpinner>
                 </div>
+
                 <ModulesUserCitizenCalendarModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen"
                     @close="state.modal.isAddEventForCitizenOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
                 <ModulesUserCitizenCalendarModalView :isModalOpen="state.modal.isViewEventOpen"
