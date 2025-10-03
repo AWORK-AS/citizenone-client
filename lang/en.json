@@ -290,6 +290,7 @@
         "activated": "Activated",
         "agreetoTAC": "You must agree to the terms and conditions",
         "alert": {
+            "appSuccessfullyActivated": "App successfully activated",
             "messageSuccessfullySent": "Message successfully sent"
         },
         "apps": "Apps",
@@ -1409,6 +1410,10 @@
                 }
             },
             "newMedicine": "New medicine",
+            "relevantHelpLinksForWorkingWithMedicine": {
+                "hereYouWillFindRelevantLinks": "Here you will find relevant links that can help you in your work with medicine",
+                "relevantHelpLinksForWorkingWithMedicine": "Relevant help links for working with medicine"
+            },
             "scheduleFrequencies": {
                 "everyday": "Everyday",
                 "every2Days": "Every Other Day",
@@ -1854,6 +1859,10 @@
                 }
             },
             "missingAttachmentToOneOrMoreRecord": "Missing attachment to one or more record",
+            "relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports": {
+                "hereYouWillFindRelevantLinks": "Here you will find relevant links that can help you in your work with medicine",
+                "relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports": "Relevant help links for working with use of force and incident reports"
+            },
             "reportUseOfForce": "Report use of force",
             "seePreviousUseOfForce": "See previous use of force",
             "statuses": {
@@ -2845,6 +2854,7 @@
         "delete": "Delete",
         "editEvent": "Edit event",
         "employees": "Employees",
+        "eventOwner": "Event owner",
         "form": {
             "citizens": "Citizens",
             "datetimeStart": "Date time start",
@@ -2858,6 +2868,7 @@
             "title": "Title"
         },
         "holidays": "Holidays",
+        "invitees": "Invitees",
         "myself": "Myself",
         "newEvent": "New event",
         "noEventFound": "No event found",
@@ -3342,6 +3353,16 @@
     },
     "languageSwitcher": {
         "selectLanguage": "Select language"
+    },
+    "leads": {
+        "leads": "Leads",
+        "table": {
+            "company": "Company",
+            "email": "Email",
+            "message": "Message",
+            "name": "Name",
+            "phone": "Phone"
+        }
     },
     "login": {
         "doYouNeedHelp": "Do you need help",
@@ -4347,6 +4368,7 @@
         "citizens": "Citizens",
         "documents": "Documents",
         "dutySchedules": "Duty schedules",
+        "leads": "Leads",
         "mail": "Mail",
         "messages": "Messages",
         "protocols": "Protocols"

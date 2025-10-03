@@ -265,14 +265,25 @@
                 <div class="col-span-12 lg:col-span-3 flex flex-col justify-center lg:gap-8">
                     <ModulesUserCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
                         v-if="$route.name === 'citizens-uuid-medicine-journals'" />
-                    <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
-                        v-if="$route.name === 'citizens-uuid-journals' && userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
-                    <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
-                        @close="state.modal.isViewPatienCareHoursOpen = false"
-                        @refreshCitizenDetails="fetchCitizen()" />
-                    <ModulesUserCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
+                    <div class="flex flex-col items-center gap-y-3 md:gap-y-10">
+                        <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
+                            v-if="$route.name === 'citizens-uuid-journals' && userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
+                        <ModulesUserCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
+                        <p class="w-60 text-center text-xs text-primary hover:text-secondary-700 cursor-pointer"
+                            @click="state.modal.isViewRelevantHelpLinksOpen = true"
+                            v-if="$route.name === 'citizens-uuid-journals'">
+                            {{
+                                $t('citizens.useOfForce.relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports.relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports')
+                            }}
+                        </p>
+                    </div>
                 </div>
             </div>
+
+            <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
+                @close="state.modal.isViewPatienCareHoursOpen = false" @refreshCitizenDetails="fetchCitizen()" />
+            <ModulesUserCitizenUseOfForceModalRelevantHelpLinks :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
+                @close="state.modal.isViewRelevantHelpLinksOpen = false" />
         </LoadingSpinner>
     </div>
 </template>
@@ -301,6 +312,7 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isViewPatienCareHoursOpen: false,
+        isViewRelevantHelpLinksOpen: false,
     },
     selectedCitizen: {} as any,
     showExpandedNote: false,

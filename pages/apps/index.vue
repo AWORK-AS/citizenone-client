@@ -290,6 +290,7 @@
 <script setup lang="ts">
 import { appService } from '@/components/api/user/AppService'
 import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
@@ -297,6 +298,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const language = useI18n()
 const { formatAmount } = useAmountFormatter()
+const { successAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
 let currentTablePage = 1
@@ -406,30 +408,38 @@ async function activateApp(formApp: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {} as any
-        if (!state.selectedApp?.is_one_time_fee) {
-            params.terms = formApp?.frequency.value === 'monthly' ? 'monthly' : 'yearly'
-        }
-        params.quantity = formApp?.quantity
-        const appUuid = state.selectedApp?.uuid
-        const response = await appService.activateApp(appUuid, params)
-        if (response) {
-            const checkoutOptions = {
-                checkoutKey: runtimeConfig?.public?.checkoutKey,
-                paymentId: response?.paymentId,
-                containerId: "apps-checkout",
-                language: "da-DK",
-                theme: {
-                    buttonRadius: "5px"
-                }
+        if (state.selectedApp?.generic_name === 'leads') {
+            const response = await appService.activateLeadsApp()
+            if (response) {
+                successAlert(`${t('alert.success')}!`, `${t('apps.alert.appSuccessfullyActivated')}.`)
+                fetchApps()
             }
-            checkout = new Dibs.Checkout(checkoutOptions)
-            checkout.on('payment-completed', function (response: any) {
-                checkout.cleanup()
-                const paymentId = response['paymentId']
-                navigateTo(`/apps/purchased-successfully?paymentId=${paymentId}`)
-            })
-            state.isAppsHidden = true
+        } else {
+            const params = {} as any
+            if (!state.selectedApp?.is_one_time_fee) {
+                params.terms = formApp?.frequency.value === 'monthly' ? 'monthly' : 'yearly'
+            }
+            params.quantity = formApp?.quantity
+            const appUuid = state.selectedApp?.uuid
+            const response = await appService.activateApp(appUuid, params)
+            if (response) {
+                const checkoutOptions = {
+                    checkoutKey: runtimeConfig?.public?.checkoutKey,
+                    paymentId: response?.paymentId,
+                    containerId: "apps-checkout",
+                    language: "da-DK",
+                    theme: {
+                        buttonRadius: "5px"
+                    }
+                }
+                checkout = new Dibs.Checkout(checkoutOptions)
+                checkout.on('payment-completed', function (response: any) {
+                    checkout.cleanup()
+                    const paymentId = response['paymentId']
+                    navigateTo(`/apps/purchased-successfully?paymentId=${paymentId}`)
+                })
+                state.isAppsHidden = true
+            }
         }
     } catch (error: any) {
         state.error = error

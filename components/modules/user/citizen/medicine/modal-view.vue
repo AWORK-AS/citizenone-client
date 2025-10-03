@@ -119,9 +119,9 @@
                         </p>
                         <p class="break-words">
                             <span class="font-semibold">
-                                {{ $t('citizens.medicineJournals.form.activeIngredients') }}:
+                                {{ $t('citizens.medicineJournals.form.ingredients') }}:
                             </span>
-                            {{ state.selectedMedicine?.active_ingredients }}
+                            {{ state.selectedMedicine?.ingredients }}
                         </p>
                         <p class="break-words">
                             <span class="font-semibold">

@@ -154,10 +154,26 @@
                                                 {{ calendarTag?.tag }}
                                             </span>
                                         </div>
-                                        <div class="text-gray-500 text-xxs group-hover:text-tertiary">
-                                            {{ $t('events.createdBy') }}
-                                            {{ myCalendarEvent.creator?.firstname }}
-                                            {{ myCalendarEvent.creator?.lastname }}
+                                        <div class="text-gray-500 text-xxs mt-1">
+                                            <p>{{ $t('events.eventOwner') }}:</p>
+                                            <div class="flex flex-wrap gap-1 mt-1">
+                                                <div v-for="(owner, index) in myCalendarEvent.calendar_owners"
+                                                    :key="index"
+                                                    class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                                    {{ owner?.owner?.firstname }} {{ owner?.owner?.lastname }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-gray-500 text-xxs mt-1"
+                                            v-if="myCalendarEvent.calendar_users?.length > 0">
+                                            <p>{{ $t('events.invitees') }}:</p>
+                                            <div class="flex flex-wrap gap-1 mt-1">
+                                                <div v-for="(invitee, index) in myCalendarEvent.calendar_users"
+                                                    :key="index"
+                                                    class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                                    {{ invitee?.user?.firstname }} {{ invitee?.user?.lastname }}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </li>
@@ -227,7 +243,7 @@
                         'pl-4 border-l-4'
                     ]">
                     <div class="relative flex space-x-6 py-6">
-                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${myCalendarEvent?.user?.firstname + ' ' + myCalendarEvent?.user?.lastname}`"
+                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${myCalendarEvent?.title}`"
                             alt="Image" class="h-14 w-14 flex-none rounded-full" />
                         <div class="flex-auto">
                             <h3 class="pr-10 font-semibold text-gray-900 xl:pr-0">
@@ -275,10 +291,23 @@
                                     {{ calendarTag?.tag }}
                                 </span>
                             </div>
-                            <div class="text-gray-500 text-xxs group-hover:text-tertiary mt-1">
-                                {{ $t('events.createdBy') }}
-                                {{ myCalendarEvent.creator?.firstname }}
-                                {{ myCalendarEvent.creator?.lastname }}
+                            <div class="text-gray-500 text-xxs mt-1">
+                                <p>{{ $t('events.eventOwner') }}:</p>
+                                <div class="flex flex-wrap gap-1 mt-1">
+                                    <div v-for="(owner, index) in myCalendarEvent.calendar_owners" :key="index"
+                                        class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                        {{ owner?.owner?.firstname }} {{ owner?.owner?.lastname }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-gray-500 text-xxs mt-1" v-if="myCalendarEvent.calendar_users?.length > 0">
+                                <p>{{ $t('events.invitees') }}:</p>
+                                <div class="flex flex-wrap gap-1 mt-1">
+                                    <div v-for="(invitee, index) in myCalendarEvent.calendar_users" :key="index"
+                                        class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                        {{ invitee?.user?.firstname }} {{ invitee?.user?.lastname }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <Menu as="div"

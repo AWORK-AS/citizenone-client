@@ -106,7 +106,7 @@
                                         {{ moment(myCalendarEvent.date_time_start).format('HH:mm') }} -
                                         {{ moment(myCalendarEvent.date_time_end).format('HH:mm') }}
                                     </p>
-                                    <div class="flex gap-x-2 text-xxs">
+                                    <div class="flex gap-x-2 text-xxs" v-if="myCalendarEvent?.unit?.name">
                                         <p>
                                             {{ $t('units.unit') }}:
                                         </p>
@@ -122,10 +122,24 @@
                                             {{ calendarTag?.tag }}
                                         </span>
                                     </div>
-                                    <div class="text-gray-500 text-xxs">
-                                        {{ $t('events.createdBy') }}
-                                        {{ myCalendarEvent.creator?.firstname }}
-                                        {{ myCalendarEvent.creator?.lastname }}
+                                    <div class="text-gray-500 text-xxs mt-1">
+                                        <p>{{ $t('events.eventOwner') }}:</p>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <div v-for="(owner, index) in myCalendarEvent.calendar_owners" :key="index"
+                                                class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                                {{ owner?.owner?.firstname }} {{ owner?.owner?.lastname }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-gray-500 text-xxs mt-1"
+                                        v-if="myCalendarEvent.calendar_users?.length > 0">
+                                        <p>{{ $t('events.invitees') }}:</p>
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <div v-for="(invitee, index) in myCalendarEvent.calendar_users" :key="index"
+                                                class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                                {{ invitee?.user?.firstname }} {{ invitee?.user?.lastname }}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
@@ -211,9 +225,22 @@
                         </span>
                     </div>
                     <div class="text-gray-500 text-xxs mt-1">
-                        {{ $t('events.createdBy') }}
-                        {{ myCalendarEvent.creator?.firstname }}
-                        {{ myCalendarEvent.creator?.lastname }}
+                        <p>{{ $t('events.eventOwner') }}:</p>
+                        <div class="flex flex-wrap gap-1 mt-1">
+                            <div v-for="(owner, index) in myCalendarEvent.calendar_owners" :key="index"
+                                class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                {{ owner?.owner?.firstname }} {{ owner?.owner?.lastname }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-gray-500 text-xxs mt-1" v-if="myCalendarEvent.calendar_users?.length > 0">
+                        <p>{{ $t('events.invitees') }}:</p>
+                        <div class="flex flex-wrap gap-1 mt-1">
+                            <div v-for="(invitee, index) in myCalendarEvent.calendar_users" :key="index"
+                                class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                {{ invitee?.user?.firstname }} {{ invitee?.user?.lastname }}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <Menu as="div" class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">

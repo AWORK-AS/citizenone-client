@@ -1,7 +1,6 @@
 export * from './account'
 export * from './app'
 export * from './citizen'
-export * from './daily-overview'
 export * from './employee'
 export * from './error'
 export * from './news'

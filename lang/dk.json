@@ -290,6 +290,7 @@
         "activated": "Aktiveret",
         "agreetoTAC": "Du skal acceptere vilkårene og betingelserne",
         "alert": {
+            "appSuccessfullyActivated": "App aktiveret med succes",
             "messageSuccessfullySent": "Besked sendt med succes"
         },
         "apps": "Apps",
@@ -1409,6 +1410,10 @@
                 }
             },
             "newMedicine": "Ny medicin",
+            "relevantHelpLinksForWorkingWithMedicine": {
+                "hereYouWillFindRelevantLinks": "Her finder du relevante links, der kan hjælpe dig i dit arbejde med medicin",
+                "relevantHelpLinksForWorkingWithMedicine": "Relevante hjælpelinks til arbejde med medicin"
+            },
             "scheduleFrequencies": {
                 "everyday": "Hver dag",
                 "every2Days": "Hver anden dag",
@@ -1854,6 +1859,10 @@
                 }
             },
             "missingAttachmentToOneOrMoreRecord": "Mangler vedhæftning til en eller flere poster",
+            "relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports": {
+                "hereYouWillFindRelevantLinks": "Her finder du relevante links, der kan hjælpe dig i dit arbejde med medicin",
+                "relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports": "Relevante hjælpelinks til arbejde med magtanvendelse og hændelsesrapporter"
+            },
             "reportUseOfForce": "Rapporter magtanvendelse",
             "seePreviousUseOfForce": "Se tidligere magtanvendelse",
             "statuses": {
@@ -2845,6 +2854,7 @@
         "delete": "Slet",
         "editEvent": "Rediger begivenhed",
         "employees": "Medarbejdere",
+        "eventOwner": "Begivenhedsejer",
         "form": {
             "citizens": "Borgere",
             "datetimeStart": "Start dato og tid",
@@ -2858,6 +2868,7 @@
             "title": "Titel"
         },
         "holidays": "Helligdage",
+        "invitees": "Inviterede",
         "myself": "Mig selv",
         "newEvent": "Ny begivenhed",
         "noEventFound": "Ingen begivenhed fundet",
@@ -3342,6 +3353,16 @@
     },
     "languageSwitcher": {
         "selectLanguage": "Vælg sprog"
+    },
+    "leads": {
+        "leads": "Leads",
+        "table": {
+            "company": "Firma",
+            "email": "Email",
+            "message": "Besked",
+            "name": "Navn",
+            "phone": "Telefon"
+        }
     },
     "login": {
         "doYouNeedHelp": "Har du brug for hjælp",
@@ -4347,6 +4368,7 @@
         "citizens": "Borgere",
         "documents": "Dokumenter",
         "dutySchedules": "Vagtskema",
+        "leads": "Leads",
         "mail": "Mail",
         "messages": "Beskeder",
         "protocols": "Protokol"

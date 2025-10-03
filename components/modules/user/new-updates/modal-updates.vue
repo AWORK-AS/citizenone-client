@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2025-09-26',
+    currentVersion: '2025-10-03',
     availableVersions: [
+        '2025-10-03',
         '2025-09-26',
         '2025-09-19',
         '2025-09-12',
@@ -71,6 +72,43 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2025-10-03': [
+            {
+                title: 'Web leads',
+                description: [
+                    'The leads app can now be activated and used to view leads.',
+                    'This provides enhanced management and tracking of potential leads in the system.',
+                ],
+            },
+            {
+                title: 'Download and print specific medicine of the citizen',
+                description: [
+                    'A feature has been added to allow downloading and printing specific medicine details for citizens.',
+                    'This improves the efficiency of handling and sharing medication information.',
+                ],
+            },
+            {
+                title: 'Additional fixed time intervals',
+                description: [
+                    'Additional fixed time intervals for maximum dosage per time have been added.',
+                    'This ensures more flexibility and accuracy in scheduling medication dosages.',
+                ],
+            },
+            {
+                title: 'Helping link for medicine',
+                description: [
+                    'A new helping link for medicine has been added.',
+                    'This link provides relevant resources to assist staff in their work with medication.',
+                ],
+            },
+            {
+                title: 'Helping link for use of force and incident reports',
+                description: [
+                    'A helping link has been introduced for the use of force and incident reports.',
+                    'This link offers useful information and guidelines for handling these sensitive situations.',
+                ],
+            },
+        ],
         '2025-09-26': [
             {
                 title: 'Listing of holidays in the calendar',
@@ -228,6 +266,43 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2025-10-03': [
+            {
+                title: 'Web leads',
+                description: [
+                    'Leads-appen kan nu aktiveres og bruges til at se leads.',
+                    'Dette giver bedre styring og opfølgning på potentielle leads i systemet.',
+                ],
+            },
+            {
+                title: 'Download og print specifik medicin for borgeren',
+                description: [
+                    'En funktion er blevet tilføjet, som giver mulighed for at downloade og printe specifikke medicindetaljer for borgeren.',
+                    'Dette forbedrer effektiviteten i håndtering og deling af medicinformation.',
+                ],
+            },
+            {
+                title: 'Yderligere faste tidsintervaller',
+                description: [
+                    'Yderligere faste tidsintervaller for maksimal dosis pr. tid er blevet tilføjet.',
+                    'Dette sikrer mere fleksibilitet og nøjagtighed i planlægning af medicindoseringer.',
+                ],
+            },
+            {
+                title: 'Hjælpelink til medicin',
+                description: [
+                    'En ny hjælpelink til medicin er blevet tilføjet.',
+                    'Denne link giver relevante ressourcer til at hjælpe personalet i arbejdet med medicin.',
+                ],
+            },
+            {
+                title: 'Hjælpelink til brug af magt og hændelsesrapporter',
+                description: [
+                    'En hjælpelink er blevet introduceret for brug af magt og hændelsesrapporter.',
+                    'Denne link giver nyttige oplysninger og retningslinjer til håndtering af disse følsomme situationer.',
+                ],
+            },
+        ],
         '2025-09-26': [
             {
                 title: 'Visning af helligdage i kalenderen',
