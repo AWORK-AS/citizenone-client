@@ -94,7 +94,7 @@
                             </p>
                         </div>
                         <div class="space-y-3 px-6 sm:px-12 py-3 md:py-8"
-                            v-for="(history, historyIndex) in state.secured_mail?.history">
+                            v-for="(history, historyIndex) in state.secured_mail?.history" :index="historyIndex">
                             <div>
                                 <p class="text-sm">
                                     {{ formatDateTimeToReadable(history?.created_at) }}
