@@ -76,7 +76,8 @@ watch(() => language.locale.value, (newLanguage: any) => {
 async function fetchDepartments() {
     state.error = {}
     try {
-        const response = await departmentService.getAllDepartments()
+        const params = {}
+        const response = await departmentService.getAllDepartments(params)
         if (response) {
             state.departments = response
         }

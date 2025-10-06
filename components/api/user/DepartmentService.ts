@@ -21,8 +21,8 @@ class DepartmentService extends BaseAPIService {
         return await this.request(`/user/departments/${departmentUuid}`, 'DELETE')
     }
 
-    async getAllDepartments(): Promise<any> {
-        return await this.request(`/user/departments/all/list`, 'GET')
+    async getAllDepartments(params: object): Promise<any> {
+        return await this.request(`/user/departments/all/list`, 'GET', params)
     }
 }
 

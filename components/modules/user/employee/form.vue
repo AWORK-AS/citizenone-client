@@ -787,7 +787,8 @@ async function fetchDepartments() {
     emit('isPageLoading', true)
     state.error = {}
     try {
-        const response = await departmentService.getAllDepartments()
+        const params = {}
+        const response = await departmentService.getAllDepartments(params)
         if (response) {
             let options: any = []
             response.data.forEach(
