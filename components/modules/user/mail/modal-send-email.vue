@@ -50,6 +50,30 @@
                                 <FormError :error="v$?.formEmail?.password_hint?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.password_hint?.[0]" />
                             </div>
+                            <div class="space-y-1">
+                                <div class="flex flex-col items-center">
+                                    <input type="file" ref="file" @change="onFileChange" class="hidden" multiple />
+                                    <div class="relative cursor-pointer" @click="triggerFileInput">
+                                        <Icon name="ic:outline-drive-folder-upload" class="h-36 w-36"
+                                            aria-hidden="true" />
+                                        <div
+                                            class="rounded-full absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
+                                            <div class="flex items-center w-full h-full justify-center text-xs">
+                                                {{ $t('selectFiles') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="state.formEmail.files && state.formEmail.files.length"
+                                    class="mt-2 text-sm text-gray-700">
+                                    <ul class="list-disc pl-5">
+                                        <li v-for="(file, fileIndex) in state.formEmail.files" :key="fileIndex">
+                                            {{ file.name }} ({{ (file.size / 1024).toFixed(1) }} KB)
+                                        </li>
+                                    </ul>
+                                </div>
+                                <FormError :error="state?.error?.errors?.files?.[0]" class="text-center" />
+                            </div>
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -70,11 +94,12 @@
 </template>
 
 <script setup lang="ts">
-import { mailSMTPService } from "@/components/api/user/MailSMTPService"
-import { useVuelidate } from "@vuelidate/core"
+import { ref, reactive, computed, watch } from 'vue'
+import { mailSMTPService } from '@/components/api/user/MailSMTPService'
+import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
-import { useI18n } from "vue-i18n"
+import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -91,22 +116,24 @@ const props = defineProps({
 const emit = defineEmits(['close', 'refreshSentEmails'])
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const file = ref<HTMLInputElement | null>(null)
 
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formEmail: {
-        recipient: [],
+        recipient: [] as any,
         subject: '',
         content: '',
         encrypt_message: false,
         password: '',
         password_hint: '',
+        files: [] as File[],
     },
 })
 
 watch(() => props.selectedContact, (selectedContact: any) => {
-    if (selectedContact.email) {
+    if (selectedContact?.email) {
         state.formEmail.recipient = [selectedContact.email]
     }
 })
@@ -152,6 +179,18 @@ function closeModal() {
     emit('close')
 }
 
+function triggerFileInput() {
+    if (file.value) {
+        file.value.click()
+    }
+}
+
+function onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement
+    const files = input.files ? Array.from(input.files) : []
+    state.formEmail.files = files
+}
+
 function submitForm() {
     state.error = {}
     v$.value.$validate()
@@ -164,17 +203,17 @@ async function sendEmail() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            recipient: state.formEmail.recipient,
-            subject: state.formEmail.subject,
-            content: state.formEmail.content,
-        } as any
+        const formData = new FormData()
+        formData.append('recipient', JSON.stringify(state.formEmail.recipient))
+        formData.append('subject', state.formEmail.subject)
+        formData.append('content', state.formEmail.content)
         if (state.formEmail.encrypt_message) {
-            params.is_encrypted = state.formEmail.encrypt_message
-            params.password = state.formEmail.password
-            params.password_hint = state.formEmail.password_hint
+            formData.append('is_encrypted', String(state.formEmail.encrypt_message))
+            formData.append('password', state.formEmail.password)
+            formData.append('password_hint', state.formEmail.password_hint)
         }
-        const response = await mailSMTPService.sendMail(params)
+        state.formEmail.files.forEach((f) => formData.append('files[]', f))
+        const response = await mailSMTPService.sendMail(formData)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t('mail.form.alert.emailSuccessfullySent')}.`)
@@ -186,6 +225,7 @@ async function sendEmail() {
                 encrypt_message: false,
                 password: '',
                 password_hint: '',
+                files: [],
             }
             v$.value.$reset()
         }
