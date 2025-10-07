@@ -131,6 +131,15 @@
                             <div class="space-y-1"
                                 v-if="state.formEmail.fileOption === 'Attach file from organization\'s folder'">
                                 <div class="space-y-1">
+                                    <div class="space-y-1">
+                                        <FormLabel for="company_files"
+                                            :label="$t('mail.form.attachFiles.organizationFiles')" />
+                                        <FormSelectMultiple id="company_files" v-model="state.formEmail.company_files"
+                                            :options="state.options.company_files" />
+                                        <FormError
+                                            :error="v$?.formEmail?.company_files?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="state?.error?.errors?.company_files?.[0]" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -155,6 +164,7 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
 import { citizenDocumentService } from '@/components/api/user/CitizenDocumentService'
+import { documentService } from '@/components/api/user/DocumentService'
 import { mailSMTPService } from '@/components/api/user/MailSMTPService'
 import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
@@ -192,6 +202,7 @@ const state = reactive({
         files: [] as File[],
         citizens_uuid: [],
         citizen_files: [],
+        company_files: [],
     },
     options: {
         attachFilesOptions: [
@@ -201,6 +212,7 @@ const state = reactive({
         ],
         citizens: [] as any,
         citizen_files: [] as any,
+        company_files: [] as any,
     }
 })
 
@@ -250,6 +262,9 @@ const v$ = useVuelidate(rules, state)
 watch(() => state.formEmail.fileOption, (fileOption: any) => {
     if (fileOption === 'Attach file from citizen\'s folder') {
         fetchAllCitizens()
+        state.formEmail.citizen_files = []
+    } else if (fileOption === 'Attach file from organization\'s folder') {
+        fetchAllCompanyFiles()
     }
 })
 
@@ -319,6 +334,27 @@ async function fetchAllCitizenFiles() {
     state.isPageLoading = false
 }
 
+async function fetchAllCompanyFiles() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await documentService.getAllFiles()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.company_files = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 function submitForm() {
     state.error = {}
     v$.value.$validate()
@@ -340,7 +376,9 @@ async function sendEmail() {
             formData.append('password', state.formEmail.password)
             formData.append('password_hint', state.formEmail.password_hint)
         }
-        state.formEmail.files.forEach((f) => formData.append('files[]', f))
+        state.formEmail.files.forEach((file: any) => formData.append('files[]', file))
+        state.formEmail.citizen_files.forEach((file: any) => formData.append('citizen_files[]', file))
+        state.formEmail.company_files.forEach((file: any) => formData.append('company_files[]', file))
         const response = await mailSMTPService.sendMail(formData)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             closeModal()
@@ -357,6 +395,7 @@ async function sendEmail() {
                 files: [],
                 citizens_uuid: [],
                 citizen_files: [],
+                company_files: [],
             }
             v$.value.$reset()
         }

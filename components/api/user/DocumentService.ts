@@ -44,6 +44,10 @@ class DocumentService extends BaseAPIService {
     async getAllFolders(): Promise<any> {
         return await this.request(`/user/company-file-folders/all/list`, 'GET')
     }
+
+    async getAllFiles(): Promise<any> {
+        return await this.request(`/user/company-file-folders/all/file-list`, 'GET')
+    }
 }
 
 export const documentService = new DocumentService()
