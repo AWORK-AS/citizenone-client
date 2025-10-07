@@ -108,7 +108,7 @@ async function fetchAllEmployees() {
             response.data.forEach(
                 (item: any) => options.push({
                     value: item.uuid,
-                    label: item.firstname + " " + item.lastname,
+                    label: item.firstname + " " + (item.lastname ? item.lastname : ''),
                 })
             )
             state.options.employees = options

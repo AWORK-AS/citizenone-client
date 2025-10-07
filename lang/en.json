@@ -3408,6 +3408,15 @@
                 "emailSuccessfullyFowarded": "Email successfully forwarded",
                 "emailSuccessfullySent": "Email successfully sent"
             },
+            "attachFiles": {
+                "attachFiles": "Attach files",
+                "attachFileFromCitizensFolder": "Attach file from citizen's folder",
+                "attachFileFromComputer": "Attach file from computer",
+                "attachFileFromOrganizationsFolder": "Attach file from organization's folder",
+                "citizen": "Citizen",
+                "citizenFiles": "Citizen files",
+                "organizationFiles": "Organization files"
+            },
             "encryptMessage": "Encrypt message",
             "message": "Message",
             "password": "Password",

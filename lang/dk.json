@@ -3408,6 +3408,15 @@
                 "emailSuccessfullyFowarded": "E-mail videresendt med succes",
                 "emailSuccessfullySent": "E-mail sendt med succes"
             },
+            "attachFiles": {
+                "attachFiles": "Vedhæft filer",
+                "attachFileFromCitizensFolder": "Vedhæft fil fra borgerens mappe",
+                "attachFileFromComputer": "Vedhæft fil fra computeren",
+                "attachFileFromOrganizationsFolder": "Vedhæft fil fra organisationens mappe",
+                "citizen": "Borger",
+                "citizenFiles": "Borgerfiler",
+                "organizationFiles": "Organisationsfiler"
+            },
             "encryptMessage": "Krypter besked",
             "message": "Besked",
             "password": "Adgangskode",
