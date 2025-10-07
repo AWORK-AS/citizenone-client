@@ -253,7 +253,7 @@ watch(() => state.formEmail.fileOption, (fileOption: any) => {
     }
 })
 
-watch(() => state.formEmail.citizens_uuid, (fileOption: any) => {
+watch(() => state.formEmail.citizens_uuid, () => {
     fetchAllCitizenFiles()
 })
 
@@ -300,7 +300,7 @@ async function fetchAllCitizenFiles() {
     state.isPageLoading = true
     try {
         const params = {
-            citizens_uuid: state.formEmail.citizens_uuid,
+            citizens_uuid: Array(state.formEmail.citizens_uuid),
         }
         const response = await citizenDocumentService.getAllFilesPerCitizen(params)
         if (response) {
