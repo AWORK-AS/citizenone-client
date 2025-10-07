@@ -509,7 +509,8 @@
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
                 @updateShift="updateSelectedSchedule" />
-            <ModulesUserDutyScheduleModalCopyMultipleWeeks :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
+            <ModulesUserDutyScheduleDraftModalCopyMultipleWeeks
+                :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
                 @refreshDutySchedules="fetchDraftDutySchedule()" />
             <DialogConfirmation :isModalOpen="state.modal.isPublishScheduleOpen"
