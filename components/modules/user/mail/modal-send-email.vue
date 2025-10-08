@@ -130,17 +130,11 @@
                             </div>
                             <div class="space-y-1"
                                 v-if="state.formEmail.fileOption === 'Attach file from organization\'s folder'">
-                                <div class="space-y-1">
-                                    <div class="space-y-1">
-                                        <FormLabel for="company_files"
-                                            :label="$t('mail.form.attachFiles.organizationFiles')" />
-                                        <FormSelectMultiple id="company_files" v-model="state.formEmail.company_files"
-                                            :options="state.options.company_files" />
-                                        <FormError
-                                            :error="v$?.formEmail?.company_files?.$errors[0]?.$message.toString()" />
-                                        <FormError :error="state?.error?.errors?.company_files?.[0]" />
-                                    </div>
-                                </div>
+                                <FormLabel for="company_files" :label="$t('mail.form.attachFiles.organizationFiles')" />
+                                <FormSelectMultiple id="company_files" v-model="state.formEmail.company_files"
+                                    :options="state.options.company_files" />
+                                <FormError :error="v$?.formEmail?.company_files?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.company_files?.[0]" />
                             </div>
                         </div>
                         <div class="mt-6">
@@ -216,12 +210,6 @@ const state = reactive({
     }
 })
 
-watch(() => props.selectedContact, (selectedContact: any) => {
-    if (selectedContact?.email) {
-        state.formEmail.recipient = [selectedContact.email]
-    }
-})
-
 const rules = computed(() => {
     if (state.formEmail.encrypt_message) {
         return {
@@ -258,6 +246,12 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+watch(() => props.selectedContact, (selectedContact: any) => {
+    if (selectedContact?.email) {
+        state.formEmail.recipient = [selectedContact.email]
+    }
+})
 
 watch(() => state.formEmail.fileOption, (fileOption: any) => {
     if (fileOption === 'Attach file from citizen\'s folder') {

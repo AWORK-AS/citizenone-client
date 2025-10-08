@@ -40,16 +40,30 @@
                                     </label>
                                 </div>
                             </fieldset>
-                            <div class="space-y-1"
+                            <div class="space-y-3"
                                 v-if="state.formDownload.fileOption === 'Download file to citizen\'s folder'">
+                                <div class="space-y-1">
+                                    <FormLabel for="citizen_uuid" :label="$t('mail.downloadFile.citizen')" />
+                                    <FormSelectMultiple id="citizen_uuid" v-model="state.formDownload.citizens_uuid"
+                                        :options="state.options.citizens" />
+                                    <FormError :error="state?.error?.errors?.citizens_uuid?.[0]" />
+                                </div>
+                                <div class="space-y-1">
+                                    <FormLabel for="citizen_folder_uuid"
+                                        :label="$t('mail.downloadFile.citizenFolder')" />
+                                    <FormSelect id="citizen_folder_uuid"
+                                        v-model="state.formDownload.citizen_folder_uuid"
+                                        :options="state.options.citizen_folders" />
+                                    <FormError :error="state?.error?.errors?.citizen_folder_uuid?.[0]" />
+                                </div>
                             </div>
                             <div class="space-y-1"
                                 v-if="state.formDownload.fileOption === 'Download file to organization\'s folder'">
-                                <FormLabel for="company_folder"
-                                    :label="$t('mail.downloadFile.downloadFileToOrganizationsFolder')" />
-                                <FormSelect id="company_folders" v-model="state.formDownload.company_folder_uuid"
+                                <FormLabel for="company_folder_uuid"
+                                    :label="$t('mail.downloadFile.organizationFolder')" />
+                                <FormSelect id="company_folder_uuid" v-model="state.formDownload.company_folder_uuid"
                                     :options="state.options.company_folders" />
-                                <FormError :error="state?.error?.errors?.company_folder?.[0]" />
+                                <FormError :error="state?.error?.errors?.company_folder_uuid?.[0]" />
                             </div>
                         </div>
                         <div class="mt-6">
@@ -71,6 +85,9 @@
 </template>
 
 <script setup lang="ts">
+import { citizenService } from '@/components/api/user/CitizenService'
+import { citizenDocumentService } from '@/components/api/user/CitizenDocumentService'
+import { documentService } from '@/components/api/user/DocumentService'
 import { securedMailService } from '@/components/api/user/SecuredMailService'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
@@ -89,12 +106,16 @@ const emit = defineEmits(['close'])
 
 const state = reactive({
     formDownload: {
+        citizens_uuid: [],
+        citizen_folder_uuid: '',
         company_folder_uuid: '',
         fileOption: 'Download file to my computer',
     },
     error: {} as Error,
     isPageLoading: false,
     options: {
+        citizens: [] as any,
+        citizen_folders: [] as any,
         company_folders: [] as any,
         downloadFileOptions: [
             { id: 'Download file to my computer', title: 'Download file to my computer' },
@@ -106,6 +127,85 @@ const state = reactive({
 
 function closeModal() {
     emit('close')
+}
+
+watch(() => state.formDownload.fileOption, (fileOption: any) => {
+    if (fileOption === 'Download file to citizen\'s folder') {
+        fetchAllCitizens()
+    } else if (fileOption === 'Download file to organization\'s folder') {
+        fetchAllCompanyFolders()
+    }
+})
+
+watch(() => state.formDownload.citizens_uuid, () => {
+    fetchAllCitizenFolders()
+})
+
+async function fetchAllCitizens() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {}
+        const response = await citizenService.getAllCitizensPerCurrentUserAssignment(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item?.uuid,
+                    label: item.firstname + " " + (item.lastname ? item.lastname : ''),
+                })
+            )
+            state.options.citizens = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllCitizenFolders() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            citizens_uuid: Array(state.formDownload.citizens_uuid),
+        }
+        const response = await citizenDocumentService.getAllFoldersPerCitizen(params)
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.citizen_folders = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllCompanyFolders() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await documentService.getAllFolders()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.company_folders = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function downloadFile() {

@@ -38,7 +38,11 @@ class CitizenDocumentService extends BaseAPIService {
     }
 
     async getAllFilesPerCitizen(params: object): Promise<any> {
-        return await this.request(`/user/citizen-file-folders/multiple/citizens/all/list`, 'GET', params)
+        return await this.request(`/user/citizen-file-folders/multiple/citizens/files/all/list`, 'GET', params)
+    }
+
+    async getAllFoldersPerCitizen(params: object): Promise<any> {
+        return await this.request(`/user/citizen-file-folders/multiple/citizens/folders/all/list`, 'GET', params)
     }
 }
 

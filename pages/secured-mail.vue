@@ -20,12 +20,12 @@
                 </button>
             </div>
 
-            <div class="md:mt-10 sm:mx-auto sm:w-full sm:max-w-3xl">
-                <div class="md:bg-white md:shadow-sm sm:rounded-lg">
+            <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-3xl">
+                <Alert type="danger" :text="state?.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
+                <div class="space-y-3 md:bg-white md:shadow-sm sm:rounded-lg">
                     <form class="mt-5 px-6 py-3 sm:px-12 md:py-8 space-y-3" method="POST"
                         @submit.prevent="unlockMessage" v-if="!state.showMessage">
-                        <Alert type="danger" :text="state?.error?.message"
-                            v-if="state.error?.message && state.error.message.length > 0" />
                         <h3 class="font-medium text-lg md:text-xl">
                             {{ $t('mail.secured.unlockMessage') }}
                         </h3>
@@ -82,7 +82,7 @@
                             </div>
                             <div v-html="state.secured_mail?.message"></div>
                             <div class="flex flex-wrap items-center gap-2">
-                                <div v-for="(attachment, attachmentIndex) in JSON.parse(state.secured_mail?.attachments)"
+                                <div v-for="(attachment, attachmentIndex) in state.secured_mail?.attachments"
                                     :index="attachmentIndex" class="border border-gray-200 rounded-sm">
                                     <div class="cursor-pointer flex items-center gap-x-2 p-2"
                                         @click="downloadAttachment(attachment)">
@@ -171,8 +171,8 @@
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesUserSecuredMailModalReply :isModalOpen="state.modal.isReplySecuredMailOpen"
             @close="state.modal.isReplySecuredMailOpen = false" v-if="state.modal.isReplySecuredMailOpen" />
-        <ModulesUserSecuredMailModalDownloadFile :isModalOpen="state.modal.isDownloadFileOpen"
-            :selectedAttachment="state.selectedAttachment" @close="state.modal.isDownloadFileOpen = false" />
+        <!-- <ModulesUserSecuredMailModalDownloadFile :isModalOpen="state.modal.isDownloadFileOpen"
+            :selectedAttachment="state.selectedAttachment" @close="state.modal.isDownloadFileOpen = false" /> -->
     </LoadingSpinner>
 </template>
 
@@ -184,6 +184,7 @@ import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -206,11 +207,9 @@ const state = reactive({
     },
     isPageLoading: false,
     modal: {
-        isDownloadFileOpen: false,
         isReplySecuredMailOpen: false,
     },
     secured_mail: {} as any,
-    selectedAttachment: '',
     showMessage: false,
     slideOver: {
         isLanguageSwitcherOpen: false
@@ -318,8 +317,20 @@ function isImage(url: string): boolean {
     return ['jpg', 'jpeg', 'png', 'gif'].includes(ext)
 }
 
-function downloadAttachment(attachment: any) {
-    state.modal.isDownloadFileOpen = true
-    state.selectedAttachment = attachment
+async function downloadAttachment(attachment: any) {
+    state.isPageLoading = true
+    state.error = {}
+    try {
+        const params = {
+            file_url: attachment
+        }
+        const response = await securedMailService.downloadAttachment(params)
+        if (response) {
+            saveAs(response, attachment?.split('/').pop())
+        }
+    } catch (error: any) {
+        state.error.message = error?.message || 'An error occurred during the download.'
+    }
+    state.isPageLoading = false
 }
 </script>
