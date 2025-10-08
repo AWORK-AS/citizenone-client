@@ -203,7 +203,7 @@
                                                 </div>
                                                 <div v-html="history?.message"></div>
                                                 <div class="flex flex-wrap items-center gap-2">
-                                                    <div v-for="(attachment, attachmentIndex) in JSON.parse(history?.attachments)"
+                                                    <div v-for="(attachment, attachmentIndex) in history?.attachments"
                                                         :index="attachmentIndex"
                                                         class="border border-gray-200 rounded-sm">
                                                         <div class="cursor-pointer flex items-center gap-x-2 p-2"
