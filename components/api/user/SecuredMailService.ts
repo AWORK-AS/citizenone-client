@@ -12,6 +12,10 @@ class SecuredMailService extends BaseAPIService {
     async downloadAttachment(params: object): Promise<any> {
         return await this.request(`/user/encrypted-email/attachment/download`, 'GET', params)
     }
+
+    async downloadAttachmentWithoutAuthentication(params: object): Promise<any> {
+        return await this.request(`/encrypted-email/attachment/download`, 'GET', params)
+    }
 }
 
 export const securedMailService = new SecuredMailService()

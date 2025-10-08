@@ -171,8 +171,6 @@
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesUserSecuredMailModalReply :isModalOpen="state.modal.isReplySecuredMailOpen"
             @close="state.modal.isReplySecuredMailOpen = false" v-if="state.modal.isReplySecuredMailOpen" />
-        <!-- <ModulesUserSecuredMailModalDownloadFile :isModalOpen="state.modal.isDownloadFileOpen"
-            :selectedAttachment="state.selectedAttachment" @close="state.modal.isDownloadFileOpen = false" /> -->
     </LoadingSpinner>
 </template>
 
@@ -324,7 +322,7 @@ async function downloadAttachment(attachment: any) {
         const params = {
             file_url: attachment
         }
-        const response = await securedMailService.downloadAttachment(params)
+        const response = await securedMailService.downloadAttachmentWithoutAuthentication(params)
         if (response) {
             saveAs(response, attachment?.split('/').pop())
         }
