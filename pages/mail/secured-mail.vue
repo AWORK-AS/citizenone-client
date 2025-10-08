@@ -430,6 +430,7 @@ function isImage(url: string): boolean {
 
 function downloadAttachment(attachment: any) {
     state.modal.isDownloadAttachment = true
+    state.selectedAttachment = attachment
 }
 </script>
 

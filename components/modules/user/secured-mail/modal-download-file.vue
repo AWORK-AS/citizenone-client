@@ -3,7 +3,7 @@
         <Modal size="md" :title="$t('mail.download')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <form id="formDownloadFile">
+                    <form @submit.prevent="downloadAttachment()" id="formDownloadFile">
                         <div class="space-y-3">
                             <Alert type="danger" :text="state?.error?.message"
                                 v-if="state.error?.message && state.error.message.length > 0" />
@@ -208,21 +208,28 @@ async function fetchAllCompanyFolders() {
     state.isPageLoading = false
 }
 
-async function downloadFile() {
-    // state.isPageLoading = true
-    // state.error = {}
-    // try {
-    //     const params = {
-    //         file_url: props?.attachment
-    //     }
-    //     const response = await securedMailService.downloadFile(params)
-    //     if (response) {
-    //         saveAs(response)
-    //     }
-    // } catch (error: any) {
-    //     state.error.message = error?.message || 'An error occurred during the download.'
-    // }
-    // state.isPageLoading = false
+async function downloadAttachment() {
+    state.isPageLoading = true
+    state.error = {}
+    try {
+        const params = {
+            file_url: props?.selectedAttachment
+        } as any
+        if (state.formDownload.citizen_folder_uuid) {
+            params.citizen_folder_uuid = state.formDownload.citizen_folder_uuid
+        }
+        else if (state.formDownload.company_folder_uuid) {
+            params.company_folder_uuid = state.formDownload.company_folder_uuid
+        }
+        const response = await securedMailService.downloadAttachment(params)
+        if (response) {
+            saveAs(response)
+            closeModal()
+        }
+    } catch (error: any) {
+        state.error.message = error?.message || 'An error occurred during the download.'
+    }
+    state.isPageLoading = false
 }
 </script>
 
