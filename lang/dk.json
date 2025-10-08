@@ -3402,6 +3402,16 @@
             "on": "Den",
             "to": "Til"
         },
+        "download": "Download",
+        "downloadFile": {
+            "downloadFile": "Download fil",
+            "downloadFileToCitizensFolder": "Download fil til borgerens mappe",
+            "downloadFileToMyComputer": "Download fil til min computer",
+            "downloadFileToOrganizationsFolder": "Download fil til organisationens mappe",
+            "citizen": "Borger",
+            "citizenFolder": "Borger mappe",
+            "organizationFolder": "Organisationsmappe"
+        },
         "draft": "Kladde",
         "form": {
             "alert": {

@@ -3402,6 +3402,16 @@
             "on": "On",
             "to": "To"
         },
+        "download": "Download",
+        "downloadFile": {
+            "downloadFile": "download file",
+            "downloadFileToCitizensFolder": "Download file to citizen's folder",
+            "downloadFileToMyComputer": "Download file to my computer",
+            "downloadFileToOrganizationsFolder": "Download file to organization's folder",
+            "citizen": "Citizen",
+            "citizenFolder": "Citizen folder",
+            "organizationFolder": "Organization folder"
+        },
         "draft": "Draft",
         "form": {
             "alert": {
