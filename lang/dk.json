@@ -3405,6 +3405,10 @@
         },
         "download": "Download",
         "downloadFile": {
+            "alert": {
+                "fileSuccessfullyDownloadedToCitizensFolder": "Filen er blevet downloadet til borgerens mappe",
+                "fileSuccessfullyDownloadedToOrganizationsFolder": "Filen er blevet downloadet til organisationens mappe"
+            },
             "downloadFile": "Download fil",
             "downloadFileToCitizensFolder": "Download fil til borgerens mappe",
             "downloadFileToMyComputer": "Download fil til min computer",

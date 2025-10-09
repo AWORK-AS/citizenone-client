@@ -46,6 +46,8 @@
                                     <FormLabel for="citizen_uuid" :label="$t('mail.downloadFile.citizen')" />
                                     <FormSelectMultiple id="citizen_uuid" v-model="state.formDownload.citizens_uuid"
                                         :options="state.options.citizens" />
+                                    <FormError
+                                        :error="v$?.formDownload?.citizens_uuid?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.citizens_uuid?.[0]" />
                                 </div>
                                 <div class="space-y-1">
@@ -54,6 +56,8 @@
                                     <FormSelect id="citizen_folder_uuid"
                                         v-model="state.formDownload.citizen_folder_uuid"
                                         :options="state.options.citizen_folders" />
+                                    <FormError
+                                        :error="v$?.formDownload?.citizen_folder_uuid?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.citizen_folder_uuid?.[0]" />
                                 </div>
                             </div>
@@ -63,6 +67,8 @@
                                     :label="$t('mail.downloadFile.organizationFolder')" />
                                 <FormSelect id="company_folder_uuid" v-model="state.formDownload.company_folder_uuid"
                                     :options="state.options.company_folders" />
+                                <FormError
+                                    :error="v$?.formDownload?.company_folder_uuid?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.company_folder_uuid?.[0]" />
                             </div>
                         </div>
@@ -85,10 +91,14 @@
 </template>
 
 <script setup lang="ts">
+import { useVuelidate } from "@vuelidate/core"
+import { required, helpers } from '@vuelidate/validators'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { citizenDocumentService } from '@/components/api/user/CitizenDocumentService'
 import { documentService } from '@/components/api/user/DocumentService'
 import { securedMailService } from '@/components/api/user/SecuredMailService'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
@@ -103,6 +113,8 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['close'])
+const { t } = useI18n()
+const { successAlert } = useAlert()
 
 const state = reactive({
     formDownload: {
@@ -129,17 +141,52 @@ function closeModal() {
     emit('close')
 }
 
+watch(() => props.isModalOpen, (isModalOpen: boolean) => {
+    state.formDownload.fileOption = 'Download file to my computer'
+})
+
 watch(() => state.formDownload.fileOption, (fileOption: any) => {
     if (fileOption === 'Download file to citizen\'s folder') {
         fetchAllCitizens()
+        state.formDownload.citizens_uuid = []
+        state.formDownload.citizen_folder_uuid = ''
+        state.formDownload.company_folder_uuid = ''
     } else if (fileOption === 'Download file to organization\'s folder') {
         fetchAllCompanyFolders()
+        state.formDownload.citizens_uuid = []
+        state.formDownload.citizen_folder_uuid = ''
+        state.formDownload.company_folder_uuid = ''
     }
 })
 
 watch(() => state.formDownload.citizens_uuid, () => {
     fetchAllCitizenFolders()
 })
+
+const rules = computed(() => {
+    if (state.formDownload.fileOption === 'Download file to citizen\'s folder') {
+        return {
+            formDownload: {
+                citizens_uuid: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                citizen_folder_uuid: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            },
+        }
+    } else if (state.formDownload.fileOption === 'Download file to organization\'s folder') {
+        return {
+            formDownload: {
+                company_folder_uuid: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            },
+        }
+    }
+})
+
+const v$ = useVuelidate(rules, state)
 
 async function fetchAllCitizens() {
     state.error = {}
@@ -209,27 +256,35 @@ async function fetchAllCompanyFolders() {
 }
 
 async function downloadAttachment() {
-    state.isPageLoading = true
-    state.error = {}
-    try {
-        const params = {
-            file_url: props?.selectedAttachment
-        } as any
-        if (state.formDownload.citizen_folder_uuid) {
-            params.citizen_folder_uuid = state.formDownload.citizen_folder_uuid
+    v$.value.$validate()
+    if (!v$.value.$error) {
+        state.isPageLoading = true
+        state.error = {}
+        try {
+            const params = {
+                file_url: props?.selectedAttachment
+            } as any
+            if (state.formDownload.citizen_folder_uuid) {
+                params.citizen_folder_uuid = state.formDownload.citizen_folder_uuid
+            }
+            else if (state.formDownload.company_folder_uuid) {
+                params.company_folder_uuid = state.formDownload.company_folder_uuid
+            }
+            const response = await securedMailService.downloadAttachment(params)
+            if (response) {
+                if (state.formDownload.fileOption === 'Download file to my computer') {
+                    saveAs(response, props?.selectedAttachment?.split('/').pop())
+                } else if (state.formDownload.fileOption === 'Download file to citizen\'s folder') {
+                    successAlert(`${t('alert.success')}!`, `${t('mail.downloadFile.alert.fileSuccessfullyDownloadedToCitizensFolder')}.`)
+                } if (state.formDownload.fileOption === 'Download file to organization\'s folder') {
+                    successAlert(`${t('alert.success')}!`, `${t('mail.downloadFile.alert.fileSuccessfullyDownloadedToOrganizationsFolder')}.`)
+                }
+            }
+        } catch (error: any) {
+            state.error.message = error?.message || 'An error occurred during the download.'
         }
-        else if (state.formDownload.company_folder_uuid) {
-            params.company_folder_uuid = state.formDownload.company_folder_uuid
-        }
-        const response = await securedMailService.downloadAttachment(params)
-        if (response) {
-            saveAs(response)
-            closeModal()
-        }
-    } catch (error: any) {
-        state.error.message = error?.message || 'An error occurred during the download.'
+        state.isPageLoading = false
     }
-    state.isPageLoading = false
 }
 </script>
 

@@ -3405,6 +3405,10 @@
         },
         "download": "Download",
         "downloadFile": {
+            "alert": {
+                "fileSuccessfullyDownloadedToCitizensFolder": "File successfully downloaded to citizen's folder",
+                "fileSuccessfullyDownloadedToOrganizationsFolder": "File successfully downloaded to organization's folder"
+            },
             "downloadFile": "download file",
             "downloadFileToCitizensFolder": "Download file to citizen's folder",
             "downloadFileToMyComputer": "Download file to my computer",
