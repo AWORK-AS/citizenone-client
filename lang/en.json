@@ -2321,6 +2321,7 @@
         "departmentSickLeaves": "Department sick leaves",
         "download": {
             "date": "Date",
+            "department": "Department",
             "download": "Download",
             "downloadType": "Download type",
             "downloadHoursInExcel": "Download hours in excel",

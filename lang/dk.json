@@ -2321,6 +2321,7 @@
         "departmentSickLeaves": "Afdelingens sygefravær",
         "download": {
             "date": "Dato",
+            "department": "Afdelinger",
             "download": "Download",
             "downloadType": "Downloadtype",
             "downloadHoursInExcel": "Download timer i Excel",

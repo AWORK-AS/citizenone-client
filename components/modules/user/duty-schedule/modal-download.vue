@@ -18,10 +18,25 @@
                                 </div>
                                 <div class="space-y-1">
                                     <FormLabel for="date" :label="$t('dutySchedules.download.date')" />
-                                    <FormDateRangeField name="date_range"
+                                    <FormDateRangeField id="date" name="date_range"
                                         :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
                                         v-model="state.filter.date_range" />
                                     <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="flex justify-between items-center py-0.5">
+                                        <p class="text-sm text-gray-600">
+                                            {{ $t('dutySchedules.download.department') }}
+                                        </p>
+                                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                            @click="state.modal.isAddDepartmentOpen = true">
+                                            {{ $t('departments.addNewDepartment') }}
+                                        </span>
+                                    </div>
+                                    <FormSelectMultiple id="departments" :options="state.options.departments"
+                                        v-model="state.formDownload.departments" />
+                                    <FormError :error="v$?.formCitizen?.departments?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.departments_uuid?.[0]" />
                                 </div>
                             </div>
                             <div class="mt-6">
@@ -38,12 +53,15 @@
                         </form>
                     </div>
                 </LoadingSpinner>
+                <ModulesUserDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
+                    @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchDepartments" />
             </template>
         </Modal>
     </div>
 </template>
 
 <script setup lang="ts">
+import { departmentService } from '@/components/api/user/DepartmentService'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import type { Error } from '@/types'
 import { useVuelidate } from "@vuelidate/core"
@@ -67,11 +85,16 @@ const state = reactive({
     },
     isPageLoading: false,
     formDownload: {
+        departments: [],
         download_type: '',
         date_start: '',
         date_end: '',
     },
+    modal: {
+        isAddDepartmentOpen: false,
+    },
     options: {
+        departments: [],
         downloadType: [
             { value: 'excel', label: 'Download hours in excel' },
             { value: 'overview', label: 'Download duty schedule overview' }
@@ -84,6 +107,7 @@ watch(() => props.isModalOpen, () => {
     state.formDownload.download_type = ''
     state.options.downloadType[0].label = `${t('dutySchedules.download.downloadHoursInExcel')}`
     state.options.downloadType[1].label = `${t('dutySchedules.download.downloadOverview')}`
+    fetchDepartments()
 })
 
 const rules = computed(() => {
@@ -118,11 +142,34 @@ async function handleDownload() {
     }
 }
 
+async function fetchDepartments() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {}
+        const response = await departmentService.getAllDepartments(params)
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.departments = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 async function downloadDutySchedule() {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
+            deparment_uuid: Array(state.formDownload.departments),
             download_type: state.formDownload.download_type,
             date_start: state.formDownload.date_start,
             date_end: state.formDownload.date_end,
