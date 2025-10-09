@@ -123,7 +123,7 @@ const state = reactive({
         isDeleteRequestOpen: false,
         isDisapproveRequestOpen: false,
     },
-    selectedFolderStructureRequest: {},
+    selectedFolderStructureRequest: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',

@@ -220,7 +220,7 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
-        citizen_display_uuid: [],
+        citizen_display_uuid: [] as any,
         is_2fa_enabled: false,
         group_chat_enabled: false,
         checkin_enabled: false,
@@ -246,24 +246,6 @@ const rules = computed(() => {
             name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            // cvr: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // street: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // region: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // municipality: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // city: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // post_code: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
         },
     }
 })
@@ -304,6 +286,9 @@ watch(() => userStore.getUser, (newValue: any) => {
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
         }
         fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
+        newValue?.company?.citizen_displays?.forEach((item: any) => {
+            state.formCompany.citizen_display_uuid.push(item.uuid)
+        })
     }
 })
 
