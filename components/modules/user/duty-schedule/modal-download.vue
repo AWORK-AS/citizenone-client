@@ -35,7 +35,8 @@
                                     </div>
                                     <FormSelectMultiple id="departments" :options="state.options.departments"
                                         v-model="state.formDownload.departments" />
-                                    <FormError :error="v$?.formCitizen?.departments?.$errors[0]?.$message.toString()" />
+                                    <FormError
+                                        :error="v$?.formDownload?.departments?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.departments_uuid?.[0]" />
                                 </div>
                             </div>
@@ -118,6 +119,9 @@ const rules = computed(() => {
             },
         },
         formDownload: {
+            departments: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
             download_type: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
