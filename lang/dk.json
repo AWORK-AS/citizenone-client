@@ -4235,6 +4235,7 @@
                 "allowGoals": "Tillad medarbejdere at oprette mål",
                 "allowSubGoals": "Tillad medarbejdere at oprette delmål",
                 "city": "By",
+                "citizensDisplay": "Borgerens visning",
                 "companyName": "Firmanavn",
                 "cvr": "CVR",
                 "groupChat": "Gruppechat",

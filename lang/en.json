@@ -4235,6 +4235,7 @@
                 "allowGoals": "Allow employees to create goals",
                 "allowSubGoals": "Allow employees to create subgoals",
                 "city": "City",
+                "citizensDisplay": "Citizen's display",
                 "companyName": "Company name",
                 "cvr": "CVR",
                 "groupChat": "Group chat",
