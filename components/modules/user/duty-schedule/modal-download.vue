@@ -173,7 +173,7 @@ async function downloadDutySchedule() {
     state.isPageLoading = true
     try {
         const params = {
-            deparment_uuid: Array(state.formDownload.departments),
+            department_uuid: Array(state.formDownload.departments),
             download_type: state.formDownload.download_type,
             date_start: state.formDownload.date_start,
             date_end: state.formDownload.date_end,
