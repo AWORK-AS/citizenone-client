@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2025-10-03',
+    currentVersion: '2025-10-10',
     availableVersions: [
+        '2025-10-10',
         '2025-10-03',
         '2025-09-26',
         '2025-09-19',
@@ -72,6 +73,36 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2025-10-10': [
+            {
+                title: 'Files attachment on sending of email',
+                description: [
+                    'A feature has been introduced to allow attachments to be added when sending emails.',
+                    'This enhances the capability to send documents and files along with emails, improving communication efficiency.'
+                ],
+            },
+            {
+                title: 'Downloading of attachment for the secured mail',
+                description: [
+                    'A functionality has been added to allow downloading of attachments from secured emails.',
+                    'This improves secure access to important files and documents sent through encrypted email channels.'
+                ],
+            },
+            {
+                title: 'Exporting of duty schedule per department',
+                description: [
+                    'A new feature has been added to export duty schedules specific to each department.',
+                    'This allows for easier distribution and management of departmental duty rosters, enhancing organizational efficiency.'
+                ],
+            },
+            {
+                title: 'Admin-defined citizen information display',
+                description: [
+                    'Admins can now determine and define what information should be displayed in the specific citizen box when viewing a single citizen.',
+                    'This allows for more customized access to citizen details, ensuring that only relevant information is shown to regular users.'
+                ],
+            }
+        ],
         '2025-10-03': [
             {
                 title: 'Web leads',
@@ -266,6 +297,36 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2025-10-10': [
+            {
+                title: 'Filvedhæftning ved afsendelse af e-mail',
+                description: [
+                    'En funktion er blevet introduceret, der gør det muligt at vedhæfte filer ved afsendelse af e-mails.',
+                    'Dette forbedrer muligheden for at sende dokumenter og filer sammen med e-mails og øger kommunikationseffektiviteten.'
+                ],
+            },
+            {
+                title: 'Download af vedhæftning fra sikret e-mail',
+                description: [
+                    'En funktionalitet er blevet tilføjet, som gør det muligt at downloade vedhæftede filer fra sikre e-mails.',
+                    'Dette forbedrer sikker adgang til vigtige filer og dokumenter sendt via krypterede e-mailkanaler.'
+                ],
+            },
+            {
+                title: 'Eksport af vagtplan pr. afdeling',
+                description: [
+                    'En ny funktion er blevet tilføjet, der gør det muligt at eksportere vagtplaner for hver afdeling.',
+                    'Dette gør det lettere at distribuere og administrere afdelingsspecifikke vagtplaner og forbedrer den organisatoriske effektivitet.'
+                ],
+            },
+            {
+                title: 'Admin-defineret visning af borgerinformation',
+                description: [
+                    'Administratorer kan nu bestemme og definere, hvilken information der skal vises i den specifikke borgerboks, når der ses på en enkelt borger.',
+                    'Dette muliggør en mere tilpasset adgang til borgeroplysninger og sikrer, at kun relevant information vises for almindelige brugere.'
+                ],
+            }
+        ],
         '2025-10-03': [
             {
                 title: 'Web leads',
