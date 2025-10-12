@@ -35,7 +35,6 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
-import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
 const router = useRouter()
@@ -105,7 +104,7 @@ async function fetchAvailableCitizens() {
             response.data.forEach(
                 (item: any) => options.push({
                     value: item.uuid,
-                    label: item.firstname + " " + item.lastname,
+                    label: item.firstname + " " + (item.lastname ? item.lastname : ''),
                 })
             )
             state.options.citizens = options

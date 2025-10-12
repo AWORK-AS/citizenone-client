@@ -10,6 +10,8 @@
         <span class="dot5">.</span>
     </div>
     <div class="grow" v-else>
+        <Alert type="danger" :text="state?.error?.message"
+            v-if="state.error?.message && state.error.message.length > 0" />
         <div class="relative">
             <div style="height: 80vh; overflow-y: auto;">
                 <div v-for="(email, emailIndex) in state.emails" :key="emailIndex" :class="[
@@ -56,11 +58,11 @@
                 !state.selectedEmail && 'slide-to-right',
                 'absolute top-0 left-0 h-full w-full bg-white px-6 py-4 rounded-md overflow-x-scroll'
             ]">
-                <button class="flex items-center gap-x-2" @click="state.selectedEmail = null">
+                <button class="flex items-center gap-x-2 text-gray-900" @click="state.selectedEmail = null">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </button>
-                <div class="mt-3">
+                <div class="mt-3 text-gray-900">
                     <p class="text-lg font-semibold">
                         {{ state.selectedEmail?.header?.subject }}
                     </p>
@@ -106,6 +108,7 @@
 <script setup lang="ts">
 import { mailSMTPService } from "@/components/api/user/MailSMTPService"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import type { Error } from '@/types'
 
 const emit = defineEmits(['setUnreadEmailsCount'])
 const { formatDateTimeToReadable } = useDatetimeFormatter()

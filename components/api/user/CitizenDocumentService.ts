@@ -36,6 +36,14 @@ class CitizenDocumentService extends BaseAPIService {
     async getAllFolders(citizenUuid: any): Promise<any> {
         return await this.request(`/user/citizen-file-folders/${citizenUuid}/all/list`, 'GET')
     }
+
+    async getAllFilesPerCitizen(params: object): Promise<any> {
+        return await this.request(`/user/citizen-file-folders/multiple/citizens/files/all/list`, 'GET', params)
+    }
+
+    async getAllFoldersPerCitizen(params: object): Promise<any> {
+        return await this.request(`/user/citizen-file-folders/multiple/citizens/folders/all/list`, 'GET', params)
+    }
 }
 
 export const citizenDocumentService = new CitizenDocumentService()

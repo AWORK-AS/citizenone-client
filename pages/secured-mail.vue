@@ -20,12 +20,12 @@
                 </button>
             </div>
 
-            <div class="md:mt-10 sm:mx-auto sm:w-full sm:max-w-3xl">
-                <div class="md:bg-white md:shadow-sm sm:rounded-lg">
+            <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-3xl">
+                <Alert type="danger" :text="state?.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
+                <div class="space-y-3 md:bg-white md:shadow-sm sm:rounded-lg">
                     <form class="mt-5 px-6 py-3 sm:px-12 md:py-8 space-y-3" method="POST"
                         @submit.prevent="unlockMessage" v-if="!state.showMessage">
-                        <Alert type="danger" :text="state?.error?.message"
-                            v-if="state.error?.message && state.error.message.length > 0" />
                         <h3 class="font-medium text-lg md:text-xl">
                             {{ $t('mail.secured.unlockMessage') }}
                         </h3>
@@ -81,6 +81,38 @@
                                 </div>
                             </div>
                             <div v-html="state.secured_mail?.message"></div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <div v-for="(attachment, attachmentIndex) in state.secured_mail?.attachments"
+                                    :index="attachmentIndex" class="border border-gray-200 rounded-sm">
+                                    <div class="cursor-pointer flex items-center gap-x-2 p-2"
+                                        @click="downloadAttachment(attachment)">
+                                        <div class="flex items-center" v-if="isPdf(attachment)">
+                                            <Icon name="ph:file-pdf" class="h-5 w-5 text-red-600" aria-hidden="true" />
+                                        </div>
+                                        <div class="flex items-center" v-else-if="isWord(attachment)">
+                                            <Icon name="ph:file-doc" class="h-5 w-5 text-blue-600" aria-hidden="true" />
+                                        </div>
+                                        <div class="flex items-center" v-else-if="isExcel(attachment)">
+                                            <Icon name="ph:file-xls" class="h-5 w-5 text-green-600"
+                                                aria-hidden="true" />
+                                        </div>
+                                        <div class="flex items-center" v-else-if="isPpt(attachment)">
+                                            <Icon name="ph:file-ppt" class="h-5 w-5 text-purple-600"
+                                                aria-hidden="true" />
+                                        </div>
+                                        <div class="flex items-center" v-else-if="isImage(attachment)">
+                                            <Icon name="ph:file-image" class="h-5 w-5 text-yellow-600"
+                                                aria-hidden="true" />
+                                        </div>
+                                        <div class="flex items-center" v-else>
+                                            <Icon name="ph:file" class="h-5 w-5 text-gray-600" aria-hidden="true" />
+                                        </div>
+                                        <p class="text-xs">
+                                            {{ attachment?.split('/').pop() }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                             <p class="flex items-center gap-x-1 text-xs">
                                 <span>
                                     {{ $t('mail.secured.sent.sentWith') }}
@@ -94,7 +126,7 @@
                             </p>
                         </div>
                         <div class="space-y-3 px-6 sm:px-12 py-3 md:py-8"
-                            v-for="(history, historyIndex) in state.secured_mail?.history">
+                            v-for="(history, historyIndex) in state.secured_mail?.history" :index="historyIndex">
                             <div>
                                 <p class="text-sm">
                                     {{ formatDateTimeToReadable(history?.created_at) }}
@@ -150,6 +182,7 @@ import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -247,5 +280,55 @@ function identifyFlag() {
             return '/img/icons/flags/denmark.svg'
         }
     }
+}
+
+function getFileExtension(url: string): string {
+    const fileName = url.split('/').pop() // Extract file name from URL
+    if (fileName) {
+        const ext = fileName.split('.').pop()?.toLowerCase() // Get the file extension
+        return ext || ''
+    }
+    return ''
+}
+
+function isPdf(url: string): boolean {
+    return getFileExtension(url) === 'pdf'
+}
+
+function isWord(url: string): boolean {
+    const ext = getFileExtension(url)
+    return ext === 'docx' || ext === 'doc'
+}
+
+function isExcel(url: string): boolean {
+    const ext = getFileExtension(url)
+    return ext === 'xlsx' || ext === 'xls'
+}
+
+function isPpt(url: string): boolean {
+    const ext = getFileExtension(url)
+    return ext === 'pptx' || ext === 'ppt'
+}
+
+function isImage(url: string): boolean {
+    const ext = getFileExtension(url)
+    return ['jpg', 'jpeg', 'png', 'gif'].includes(ext)
+}
+
+async function downloadAttachment(attachment: any) {
+    state.isPageLoading = true
+    state.error = {}
+    try {
+        const params = {
+            file_url: attachment
+        }
+        const response = await securedMailService.downloadAttachmentWithoutAuthentication(params)
+        if (response) {
+            saveAs(response, attachment?.split('/').pop())
+        }
+    } catch (error: any) {
+        state.error.message = error?.message || 'An error occurred during the download.'
+    }
+    state.isPageLoading = false
 }
 </script>

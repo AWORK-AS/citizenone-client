@@ -195,7 +195,8 @@ async function fetchAllDepartments() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await departmentService.getAllDepartments()
+        const params = {}
+        const response = await departmentService.getAllDepartments(params)
         if (response) {
             let options: any = []
             response.data.forEach(

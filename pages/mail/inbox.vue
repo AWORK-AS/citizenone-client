@@ -69,12 +69,11 @@
 </template>
 
 <script setup lang="ts">
-import { mailSMTPService } from "@/components/api/user/MailSMTPService"
 import { mailSettingService } from "@/components/api/user/MailSettingService"
-import type { Error } from '@/types'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
@@ -130,7 +129,7 @@ async function fetchEmailConfiguration() {
     }
 }
 
-function setUnreadEmailsCount(count: object) {
+function setUnreadEmailsCount(count: any) {
     state.unreadEmails = count.unreadEmails
     state.unreadSecuredMessage = count.unreadSecuredMessage
 }

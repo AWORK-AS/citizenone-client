@@ -25,7 +25,7 @@
                                         <div class="flex items-center text-xs line-clamp-1">
                                             <p>
                                                 {{
-                                                    email?.toRecipients.map(receiver =>
+                                                    email?.toRecipients.map((receiver: any) =>
                                                         receiver?.emailAddress?.address).join('; ')
                                                 }}.
                                             </p>
@@ -70,11 +70,11 @@
                 !state.selectedEmail && 'slide-to-right',
                 'absolute top-0 left-0 h-full w-full bg-white px-6 py-4 rounded-md overflow-x-scroll'
             ]">
-                <button class="flex items-center gap-x-2" @click="state.selectedEmail = null">
+                <button class="flex items-center gap-x-2 text-gray-900" @click="state.selectedEmail = null">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </button>
-                <div class="mt-3">
+                <div class="mt-3 text-gray-900">
                     <p class="text-lg font-semibold">
                         {{ state.selectedEmail?.header?.subject }}
                     </p>
@@ -84,7 +84,7 @@
                         </p>
                         <p>
                             {{
-                                state.selectedEmail?.toRecipients.map(receiver =>
+                                state.selectedEmail?.toRecipients.map((receiver: any) =>
                                     receiver?.emailAddress?.address).join(', ')
                             }}
                         </p>
@@ -106,10 +106,10 @@
 
 <script setup lang="ts">
 import { mailEntraService } from "@/components/api/user/MailEntraService"
-import type { Error } from '@/types'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()

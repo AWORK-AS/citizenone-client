@@ -2321,6 +2321,7 @@
         "departmentSickLeaves": "Department sick leaves",
         "download": {
             "date": "Date",
+            "department": "Department",
             "download": "Download",
             "downloadType": "Download type",
             "downloadHoursInExcel": "Download hours in excel",
@@ -3402,11 +3403,34 @@
             "on": "On",
             "to": "To"
         },
+        "download": "Download",
+        "downloadFile": {
+            "alert": {
+                "fileSuccessfullyDownloadedToCitizensFolder": "File successfully downloaded to citizen's folder",
+                "fileSuccessfullyDownloadedToOrganizationsFolder": "File successfully downloaded to organization's folder"
+            },
+            "downloadFile": "download file",
+            "downloadFileToCitizensFolder": "Download file to citizen's folder",
+            "downloadFileToMyComputer": "Download file to my computer",
+            "downloadFileToOrganizationsFolder": "Download file to organization's folder",
+            "citizen": "Citizen",
+            "citizenFolder": "Citizen folder",
+            "organizationFolder": "Organization folder"
+        },
         "draft": "Draft",
         "form": {
             "alert": {
                 "emailSuccessfullyFowarded": "Email successfully forwarded",
                 "emailSuccessfullySent": "Email successfully sent"
+            },
+            "attachFiles": {
+                "attachFiles": "Attach files",
+                "attachFileFromCitizensFolder": "Attach file from citizen's folder",
+                "attachFileFromComputer": "Attach file from computer",
+                "attachFileFromOrganizationsFolder": "Attach file from organization's folder",
+                "citizen": "Citizen",
+                "citizenFiles": "Citizen files",
+                "organizationFiles": "Organization files"
             },
             "encryptMessage": "Encrypt message",
             "message": "Message",
@@ -4216,6 +4240,7 @@
                 "allowGoals": "Allow employees to create goals",
                 "allowSubGoals": "Allow employees to create subgoals",
                 "city": "City",
+                "citizensDisplay": "Citizen's display",
                 "companyName": "Company name",
                 "cvr": "CVR",
                 "groupChat": "Group chat",
@@ -4347,6 +4372,7 @@
     "showHide": "Show / hide",
     "search": "Search",
     "selectFile": "Select file",
+    "selectFiles": "Select files",
     "selectedFile": "Selected file",
     "selectedFiles": "Selected file(s)",
     "setupPassword": {

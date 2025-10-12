@@ -30,7 +30,8 @@
                                             {{ state.selectedCitizen?.data?.firstname }}
                                             {{ state.selectedCitizen?.data?.lastname }}
                                         </h1>
-                                        <p class="text-sm font-medium text-gray-700">
+                                        <p class="text-sm font-medium text-gray-700"
+                                            v-if="hasSocialSecurityNumberAccess()">
                                             {{ state.selectedCitizen?.data?.social_security_number }}
                                         </p>
                                     </div>
@@ -44,11 +45,11 @@
                                         </FormButton>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-x-1" v-if="state.selectedCitizen?.data?.address?.street ||
+                                <div class="flex items-center gap-x-1" v-if="(state.selectedCitizen?.data?.address?.street ||
                                     state.selectedCitizen?.data?.address?.region ||
                                     state.selectedCitizen?.data?.address?.municipality ||
                                     state.selectedCitizen?.data?.address?.city ||
-                                    state.selectedCitizen?.data?.address?.post_code">
+                                    state.selectedCitizen?.data?.address?.post_code) && hasAddressAccess()">
                                     <Tooltip :text="$t('citizens.address')" class="flex items-center">
                                         <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
                                     </Tooltip>
@@ -74,7 +75,8 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5">
                                 <div class="space-y-1">
                                     <div class="flex items-center gap-x-1 cursor-pointer"
-                                        @click="state.modal.isViewPatienCareHoursOpen = true">
+                                        @click="state.modal.isViewPatienCareHoursOpen = true"
+                                        v-if="hasInterventionHoursAccess()">
                                         <Tooltip :text="$t('citizens.interventionHours.interventionHours')"
                                             class="flex items-center">
                                             <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
@@ -84,7 +86,8 @@
                                                 state.selectedCitizen?.data?.patient_care_hours) }}
                                         </p>
                                     </div>
-                                    <div class="flex items-center gap-x-1" v-if="state.selectedCitizen?.data?.birthday">
+                                    <div class="flex items-center gap-x-1"
+                                        v-if="state.selectedCitizen?.data?.birthday && hasBirthdayAccess()">
                                         <Tooltip :text="$t('citizens.form.birthday')" class="flex items-center">
                                             <Icon name="ph:cake" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
@@ -92,7 +95,8 @@
                                             {{ formatDateToReadable(state.selectedCitizen?.data?.birthday) }}
                                         </p>
                                     </div>
-                                    <div class="flex items-center gap-x-1" v-if="state.selectedCitizen?.data?.email">
+                                    <div class="flex items-center gap-x-1"
+                                        v-if="state.selectedCitizen?.data?.email && hasEmailAddressAccess()">
                                         <Tooltip :text="$t('citizens.form.emailAddress')" class="flex items-center">
                                             <Icon name="ph:envelope-open" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
@@ -120,7 +124,7 @@
                                         </p>
                                     </div>
                                     <div class="flex items-center gap-x-1"
-                                        v-if="state.selectedCitizen?.data?.date_admitted">
+                                        v-if="state.selectedCitizen?.data?.date_admitted && hasDateAdmittedAccess()">
                                         <Tooltip :text="$t('citizens.form.dateAdmitted')" class="flex items-center">
                                             <Icon name="ph:calendar" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
@@ -130,7 +134,7 @@
                                         </p>
                                     </div>
                                     <div class="flex items-center gap-x-1"
-                                        v-if="state.selectedCitizen?.data?.date_discharged">
+                                        v-if="state.selectedCitizen?.data?.date_discharged && hasDateDischargedAccess()">
                                         <Tooltip :text="$t('citizens.form.dateDischarged')" class="flex items-center">
                                             <Icon name="ph:calendar" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
@@ -142,7 +146,7 @@
                                 </div>
                                 <div class="space-y-1">
                                     <div class="flex items-center gap-x-1"
-                                        v-if="state.selectedCitizen?.data?.ean_number">
+                                        v-if="state.selectedCitizen?.data?.ean_number && hasEANNumberAccess()">
                                         <Tooltip :text="$t('citizens.form.eanNumber')" class="flex items-center">
                                             <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
@@ -151,7 +155,8 @@
                                             {{ state.selectedCitizen?.data?.ean_number }}
                                         </p>
                                     </div>
-                                    <div class="flex items-center gap-x-1" v-if="state.selectedCitizen?.data?.pricing">
+                                    <div class="flex items-center gap-x-1"
+                                        v-if="state.selectedCitizen?.data?.pricing && hasPricingAccess()">
                                         <Tooltip :text="$t('citizens.form.pricing')" class="flex items-center">
                                             <Icon name="ph:money" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
@@ -172,7 +177,7 @@
                                         </p>
                                     </div>
                                     <div class="flex items-center gap-x-1"
-                                        v-if="state.selectedCitizen?.data?.paying_municipality">
+                                        v-if="state.selectedCitizen?.data?.paying_municipality && hasPayingMunicipalityAccess()">
                                         <Tooltip :text="$t('citizens.form.payingMunicipality')"
                                             class="flex items-center">
                                             <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
@@ -183,7 +188,7 @@
                                         </p>
                                     </div>
                                     <div class="flex items-center gap-x-1"
-                                        v-if="state.selectedCitizen?.data?.assessment_municipality">
+                                        v-if="state.selectedCitizen?.data?.assessment_municipality && hasAssessmentMunicipalityAccess()">
                                         <Tooltip :text="$t('citizens.form.assessmentMunicipality')"
                                             class="flex items-center">
                                             <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
@@ -194,7 +199,7 @@
                                         </p>
                                     </div>
                                     <div class="flex items-center gap-x-1"
-                                        v-if="state.selectedCitizen?.data?.responsible_municipality">
+                                        v-if="state.selectedCitizen?.data?.responsible_municipality && hasResponsibleMunicipalityAccess()">
                                         <Tooltip :text="$t('citizens.form.responsibleMunicipality')"
                                             class="flex items-center">
                                             <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
@@ -205,7 +210,7 @@
                                         </p>
                                     </div>
                                     <div class="flex items-center gap-x-1"
-                                        v-if="state.selectedCitizen?.data?.transportation">
+                                        v-if="state.selectedCitizen?.data?.transportation && hasTransportationAccess()">
                                         <Tooltip :text="$t('citizens.form.transportation')" class="flex items-center">
                                             <Icon name="ph:bus" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
@@ -217,7 +222,7 @@
                             </div>
                             <div class="space-y-1.5">
                                 <div class="text-xs flex items-center flex-wrap gap-1"
-                                    v-if="state.selectedCitizen?.data?.departments?.length > 0">
+                                    v-if="state.selectedCitizen?.data?.departments?.length > 0 && hasDepartmentAccess()">
                                     <p>{{ $t('citizens.departments') }}:</p>
                                     <span v-for="(department, index) in state.selectedCitizen?.data?.departments"
                                         :key=index class="bg-primary p-1 text-white rounded-md text-xxs">
@@ -225,7 +230,7 @@
                                     </span>
                                 </div>
                                 <div class="text-xs flex items-center flex-wrap gap-1"
-                                    v-if="state.selectedCitizen?.data?.addictions?.length > 0">
+                                    v-if="state.selectedCitizen?.data?.addictions?.length > 0 && hasAddictionsAccess()">
                                     <p>
                                         {{ customPagesStore.getCustomPagesName?.addictions }}:
                                     </p>
@@ -235,7 +240,7 @@
                                     </span>
                                 </div>
                                 <div class="text-xs flex items-center flex-wrap gap-1"
-                                    v-if="state.selectedCitizen?.data?.diagnoses?.length > 0">
+                                    v-if="state.selectedCitizen?.data?.diagnoses?.length > 0 && hasDiagnosesAccess()">
                                     <p>{{ $t('citizens.diagnoses') }}:</p>
                                     <span v-for="(diagnosis, index) in state.selectedCitizen?.data?.diagnoses"
                                         :key=index class="bg-primary p-1 text-white rounded-md text-xxs">
@@ -243,7 +248,7 @@
                                     </span>
                                 </div>
                                 <div class="text-xs flex items-center flex-wrap gap-1"
-                                    v-if="state.selectedCitizen?.data?.allergies?.length > 0">
+                                    v-if="state.selectedCitizen?.data?.allergies?.length > 0 && hasMedicationAllergiesAccess()">
                                     <p>{{ $t('citizens.medicationAllergies') }}:</p>
                                     <span v-for="(allergy, index) in state.selectedCitizen?.data?.allergies" :key=index
                                         class="bg-primary p-1 text-white rounded-md text-xxs">
@@ -252,11 +257,11 @@
                                 </div>
                             </div>
                             <div class="text-xs font-medium text-gray-700"
-                                :class="state.showExpandedNote ? '' : 'line-clamp-2'">
+                                :class="state.showExpandedNote ? '' : 'line-clamp-2'" v-if="hasNoteAccess()">
                                 {{ state.selectedCitizen?.data?.note }}
                             </div>
                             <button @click="state.showExpandedNote = !state.showExpandedNote"
-                                class="text-primary text-xs hover:text-primary-700">
+                                class="text-primary text-xs hover:text-primary-700" v-if="hasNoteAccess()">
                                 {{ state.showExpandedNote ? $t('showLess') : $t('showMore') }}
                             </button>
                         </div>
@@ -335,5 +340,99 @@ async function fetchCitizen() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
+}
+
+function hasSocialSecurityNumberAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Social security number')
+}
+
+function hasAddressAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Address')
+}
+
+function hasInterventionHoursAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Intervention hours')
+}
+
+function hasBirthdayAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Birthday')
+}
+
+function hasEmailAddressAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Email address')
+}
+
+function hasDateAdmittedAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Date admitted')
+}
+
+function hasDateDischargedAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Date discharged')
+}
+
+function hasEANNumberAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'EAN number')
+}
+
+function hasPricingAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Pricing')
+}
+
+function hasPayingMunicipalityAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Paying municipality')
+}
+
+function hasAssessmentMunicipalityAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Assessment municipality')
+}
+
+function hasResponsibleMunicipalityAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Responsible municipality')
+}
+
+function hasTransportationAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Transportation')
+}
+
+function hasDepartmentAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Department')
+}
+
+function hasAddictionsAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Addictions')
+}
+
+function hasDiagnosesAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Diagnoses')
+}
+
+function hasMedicationAllergiesAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Medication allergies')
+}
+
+function hasNoteAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Note')
 }
 </script>

@@ -98,6 +98,15 @@
                                 <FormError :error="state?.error?.errors?.post_code?.[0]" />
                             </div>
                         </div>
+                        <div class="space-y-1">
+                            <FormLabel for="citizen_display_uuid"
+                                :label="$t('settings.company.form.citizensDisplay')" />
+                            <FormSelectMultiple id="citizen_display_uuid" :options="state.options.citizen_displays"
+                                v-model="state.formCompany.citizen_display_uuid" />
+                            <FormError
+                                :error="v$?.formCompany?.citizen_display_uuid?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.citizen_display_uuid?.[0]" />
+                        </div>
                         <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.is_2fa_enabled"
                                 @toggleSwitch="state.formCompany.is_2fa_enabled = !state.formCompany.is_2fa_enabled" />
@@ -179,7 +188,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { userService } from "@/components/api/user/UserService";
 import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
-import { cityService } from '@/components/api/user/CityService'
+import { citizenDisplayService } from '@/components/api/user/CitizenDisplayService'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
@@ -187,6 +196,7 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
+const language = useI18n()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const breadcrumbLinks = [
@@ -210,6 +220,7 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
+        citizen_display_uuid: [] as any,
         is_2fa_enabled: false,
         group_chat_enabled: false,
         checkin_enabled: false,
@@ -223,6 +234,7 @@ const state = reactive({
     isPageLoading: false,
     options: {
         cities: [],
+        citizen_displays: [],
         municipalities: [],
         regions: [],
     }
@@ -234,30 +246,19 @@ const rules = computed(() => {
             name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            // cvr: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // street: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // region: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // municipality: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // city: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // post_code: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
         },
     }
 })
 
 onMounted(() => {
+    fetchAllCitizenDisplays()
     fetchRegions()
+})
+
+watch(() => language.locale.value, (newValue: any) => {
+    if (newValue != null) {
+        fetchAllCitizenDisplays()
+    }
 })
 
 watch(() => userStore.getUser, (newValue: any) => {
@@ -273,6 +274,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             municipality: newValue?.company?.company_address?.municipality?.uuid,
             city: newValue?.company?.company_address?.city,
             post_code: newValue?.company?.company_address?.post_code,
+            citizen_display_uuid: [],
             is_2fa_enabled: newValue?.company?.is_2fa_enabled ? true : false,
             group_chat_enabled: newValue?.company?.group_chat_enabled ? true : false,
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
@@ -284,8 +286,32 @@ watch(() => userStore.getUser, (newValue: any) => {
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
         }
         fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
+        newValue?.company?.citizen_displays?.forEach((item: any) => {
+            state.formCompany.citizen_display_uuid.push(item.uuid)
+        })
     }
 })
+
+async function fetchAllCitizenDisplays() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await citizenDisplayService.getAllCitizenDisplay()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: language.locale.value === 'en' ? item.en_name : item.dk_name,
+                })
+            )
+            state.options.citizen_displays = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 
 async function fetchRegions() {
     state.error = {}
@@ -363,6 +389,7 @@ async function submitForm() {
                 municipality_uuid: state.formCompany.municipality,
                 city: state.formCompany.city,
                 post_code: state.formCompany.post_code,
+                citizen_display_uuid: state.formCompany.citizen_display_uuid,
                 is_2fa_enabled: state.formCompany.is_2fa_enabled,
                 group_chat_enabled: state.formCompany.group_chat_enabled,
                 checkin_enabled: state.formCompany.checkin_enabled,

@@ -2321,6 +2321,7 @@
         "departmentSickLeaves": "Afdelingens sygefravær",
         "download": {
             "date": "Dato",
+            "department": "Afdelinger",
             "download": "Download",
             "downloadType": "Downloadtype",
             "downloadHoursInExcel": "Download timer i Excel",
@@ -3402,11 +3403,34 @@
             "on": "Den",
             "to": "Til"
         },
+        "download": "Download",
+        "downloadFile": {
+            "alert": {
+                "fileSuccessfullyDownloadedToCitizensFolder": "Filen er blevet downloadet til borgerens mappe",
+                "fileSuccessfullyDownloadedToOrganizationsFolder": "Filen er blevet downloadet til organisationens mappe"
+            },
+            "downloadFile": "Download fil",
+            "downloadFileToCitizensFolder": "Download fil til borgerens mappe",
+            "downloadFileToMyComputer": "Download fil til min computer",
+            "downloadFileToOrganizationsFolder": "Download fil til organisationens mappe",
+            "citizen": "Borger",
+            "citizenFolder": "Borger mappe",
+            "organizationFolder": "Organisationsmappe"
+        },
         "draft": "Kladde",
         "form": {
             "alert": {
                 "emailSuccessfullyFowarded": "E-mail videresendt med succes",
                 "emailSuccessfullySent": "E-mail sendt med succes"
+            },
+            "attachFiles": {
+                "attachFiles": "Vedhæft filer",
+                "attachFileFromCitizensFolder": "Vedhæft fil fra borgerens mappe",
+                "attachFileFromComputer": "Vedhæft fil fra computeren",
+                "attachFileFromOrganizationsFolder": "Vedhæft fil fra organisationens mappe",
+                "citizen": "Borger",
+                "citizenFiles": "Borgerfiler",
+                "organizationFiles": "Organisationsfiler"
             },
             "encryptMessage": "Krypter besked",
             "message": "Besked",
@@ -4216,6 +4240,7 @@
                 "allowGoals": "Tillad medarbejdere at oprette mål",
                 "allowSubGoals": "Tillad medarbejdere at oprette delmål",
                 "city": "By",
+                "citizensDisplay": "Borgerens visning",
                 "companyName": "Firmanavn",
                 "cvr": "CVR",
                 "groupChat": "Gruppechat",
@@ -4347,6 +4372,7 @@
     "showHide": "Vis / skjul",
     "search": "Søg",
     "selectFile": "Vælg fil",
+    "selectFiles": "Vælg filer",
     "selectedFile": "Valgt fil",
     "selectedFiles": "Valgte fil(er)",
     "setupPassword": {
