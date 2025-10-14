@@ -290,6 +290,9 @@
             <ModulesUserCitizenJournalModalCopy :isModalOpen="state.modal.isCopyJournalOpen"
                 :selectedJournal="state.selectedJournal" @close="state.modal.isCopyJournalOpen = false"
                 @refreshJournal="fetchJournals" />
+            <ModulesUserCitizenJournalModalMove :isModalOpen="state.modal.isMoveJournalOpen"
+                :selectedJournal="state.selectedJournal" @close="state.modal.isMoveJournalOpen = false"
+                @refreshJournal="fetchJournals" />
             <ModulesUserCitizenJournalModalLogs :isModalOpen="state.modal.isViewLogsOpen"
                 :selectedJournal="state.selectedJournal" @close="state.modal.isViewLogsOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalOpen"
@@ -491,7 +494,6 @@ function moveJournal(journal: any) {
     state.selectedJournal = journal
     state.modal.isMoveJournalOpen = true
 }
-
 
 function closeEditJournalModal() {
     state.modal.isEditJournalOpen = false
