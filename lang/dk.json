@@ -1081,6 +1081,8 @@
             },
             "journalLogs": {
                 "date": "Dato",
+                "deletedNotes": "Slettede noter",
+                "deletedBy": "Slettet af",
                 "description": "Beskrivelse",
                 "journalLogs": "Journallogs",
                 "newData": "Nye data",
