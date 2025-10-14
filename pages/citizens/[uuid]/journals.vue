@@ -213,10 +213,23 @@
                                     </div>
                                     <div class="ms-auto">
                                         <div class="flex items-center gap-x-2">
-                                            <Tooltip :text="$t('citizens.citizenJournals.actions.edit')">
+                                            <Tooltip :text="$t('citizens.citizenJournals.actions.edit')"
+                                                v-if="journal?.is_editable">
                                                 <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
-                                                    @click="editJournal(journal)" v-if=journal?.is_editable>
+                                                    @click="editJournal(journal)">
                                                     <Icon name="ph:pencil-duotone" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.citizenJournals.actions.copy')">
+                                                <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
+                                                    @click="copyJournal(journal)">
+                                                    <Icon name="ph:copy" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.citizenJournals.actions.move')">
+                                                <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
+                                                    @click="moveJournal(journal)">
+                                                    <Icon name="ph:arrows-out-cardinal" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip
@@ -274,6 +287,9 @@
                 @refreshJournal="fetchJournals" />
             <ModulesUserCitizenJournalModalDownload :isModalOpen="state.modal.isDownloadJournalOpen"
                 @close="state.modal.isDownloadJournalOpen = false" />
+            <ModulesUserCitizenJournalModalCopy :isModalOpen="state.modal.isCopyJournalOpen"
+                :selectedJournal="state.selectedJournal" @close="state.modal.isCopyJournalOpen = false"
+                @refreshJournal="fetchJournals" />
             <ModulesUserCitizenJournalModalLogs :isModalOpen="state.modal.isViewLogsOpen"
                 :selectedJournal="state.selectedJournal" @close="state.modal.isViewLogsOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalOpen"
@@ -323,10 +339,12 @@ const state = reactive({
     journals: [] as any,
     modal: {
         isAddJournalOpen: false,
+        isCopyJournalOpen: false,
         isDeleteJournalOpen: false,
         isDownloadJournalOpen: false,
         isEditJournalOpen: false,
         isFilterJournalOpen: false,
+        isMoveJournalOpen: false,
         isViewLogsOpen: false,
     },
     selectedJournal: [] as any,
@@ -463,6 +481,17 @@ function editJournal(journal: any) {
     state.selectedJournal = journal
     state.modal.isEditJournalOpen = true
 }
+
+function copyJournal(journal: any) {
+    state.selectedJournal = journal
+    state.modal.isCopyJournalOpen = true
+}
+
+function moveJournal(journal: any) {
+    state.selectedJournal = journal
+    state.modal.isMoveJournalOpen = true
+}
+
 
 function closeEditJournalModal() {
     state.modal.isEditJournalOpen = false
