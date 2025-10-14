@@ -52,9 +52,14 @@
                                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.newNote') }}
                                 </FormButton>
-                                <FormButton buttonStyle="action" class="rounded-lg" @click="showDownloadJournalModal">
+                                <FormButton buttonStyle="action" class="rounded-lg" @click="showDownloadJournal">
                                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.download') }}
+                                </FormButton>
+                                <FormButton buttonStyle="action" class="rounded-lg"
+                                    @click="showDeletedJournalHistories">
+                                    <Icon name="ph:clock-clockwise" class="h-4 w-4" aria-hidden="true" />
+                                    {{ $t('citizens.citizenJournals.journalLogs.deleletedNotes') }}
                                 </FormButton>
                             </div>
                         </div>
@@ -287,13 +292,15 @@
                 @refreshJournal="fetchJournals" />
             <ModulesUserCitizenJournalModalDownload :isModalOpen="state.modal.isDownloadJournalOpen"
                 @close="state.modal.isDownloadJournalOpen = false" />
+            <ModulesUserCitizenJournalModalDeletedLogs :isModalOpen="state.modal.isDeletedJournalHistoriesOpen"
+                @close="state.modal.isDeletedJournalHistoriesOpen = false" />
             <ModulesUserCitizenJournalModalCopy :isModalOpen="state.modal.isCopyJournalOpen"
                 :selectedJournal="state.selectedJournal" @close="state.modal.isCopyJournalOpen = false"
                 @refreshJournal="fetchJournals" />
             <ModulesUserCitizenJournalModalMove :isModalOpen="state.modal.isMoveJournalOpen"
                 :selectedJournal="state.selectedJournal" @close="state.modal.isMoveJournalOpen = false"
                 @refreshJournal="fetchJournals" />
-            <ModulesUserCitizenJournalModalLogs :isModalOpen="state.modal.isViewLogsOpen"
+            <ModulesUserCitizenJournalModalIndividualLogs :isModalOpen="state.modal.isViewLogsOpen"
                 :selectedJournal="state.selectedJournal" @close="state.modal.isViewLogsOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalOpen"
                 :message="$t('citizens.citizenJournals.confirmation.deleteConfirmation') + '?'"
@@ -344,6 +351,7 @@ const state = reactive({
         isAddJournalOpen: false,
         isCopyJournalOpen: false,
         isDeleteJournalOpen: false,
+        isDeletedJournalHistoriesOpen: false,
         isDownloadJournalOpen: false,
         isEditJournalOpen: false,
         isFilterJournalOpen: false,
@@ -413,8 +421,12 @@ async function fetchJournals() {
     state.isPageLoading = false
 }
 
-function showDownloadJournalModal() {
+function showDownloadJournal() {
     state.modal.isDownloadJournalOpen = true
+}
+
+function showDeletedJournalHistories() {
+    state.modal.isDeletedJournalHistoriesOpen = true
 }
 
 function filterJournal() {

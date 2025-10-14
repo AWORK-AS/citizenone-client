@@ -1082,7 +1082,7 @@
             "journalLogs": {
                 "date": "Date",
                 "deleletedNotes": "Deleted notes",
-                "deleletedBy": "Deleted by",
+                "deletedBy": "Deleted by",
                 "description": "Description",
                 "journalLogs": "Journal logs",
                 "newData": "New data",
