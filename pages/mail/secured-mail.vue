@@ -276,15 +276,17 @@
 <script setup lang="ts">
 import { mailSMTPService } from "@/components/api/user/MailSMTPService"
 import { mailSettingService } from "@/components/api/user/MailSettingService"
-import type { Error } from '@/types'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { fileHelper } from '@/composables/fileHelper'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
 const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { isImage, isExcel, isPdf, isPpt, isWord } = fileHelper()
 const { errorAlert } = useAlert()
 const { t } = useI18n()
 
@@ -393,39 +395,6 @@ async function setSelectedEmail(emailIndex: any, email: any) {
             state.error = error
         }
     }
-}
-
-function getFileExtension(url: string): string {
-    const fileName = url.split('/').pop() // Extract file name from URL
-    if (fileName) {
-        const ext = fileName.split('.').pop()?.toLowerCase() // Get the file extension
-        return ext || ''
-    }
-    return ''
-}
-
-function isPdf(url: string): boolean {
-    return getFileExtension(url) === 'pdf'
-}
-
-function isWord(url: string): boolean {
-    const ext = getFileExtension(url)
-    return ext === 'docx' || ext === 'doc'
-}
-
-function isExcel(url: string): boolean {
-    const ext = getFileExtension(url)
-    return ext === 'xlsx' || ext === 'xls'
-}
-
-function isPpt(url: string): boolean {
-    const ext = getFileExtension(url)
-    return ext === 'pptx' || ext === 'ppt'
-}
-
-function isImage(url: string): boolean {
-    const ext = getFileExtension(url)
-    return ['jpg', 'jpeg', 'png', 'gif'].includes(ext)
 }
 
 function downloadAttachment(attachment: any) {
