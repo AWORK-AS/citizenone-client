@@ -44,5 +44,9 @@ class MailSMTPService extends BaseAPIService {
     async forwardMail(emailUid: any, params: object): Promise<any> {
         return await this.request(`/user/emails/${emailUid}/forward`, 'POST', params)
     }
+
+    async downloadAttachment(params: object): Promise<any> {
+        return await this.request(`/user/emails/attachment/download`, 'GET', params)
+    }
 }
 export const mailSMTPService = new MailSMTPService()
