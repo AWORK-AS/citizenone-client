@@ -225,13 +225,15 @@
                                                     <Icon name="ph:pencil-duotone" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.citizenJournals.actions.copy')">
+                                            <Tooltip :text="$t('citizens.citizenJournals.actions.copy')"
+                                                v-if="journal?.is_copyable">
                                                 <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
                                                     @click="copyJournal(journal)">
                                                     <Icon name="ph:copy" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.citizenJournals.actions.move')">
+                                            <Tooltip :text="$t('citizens.citizenJournals.actions.move')"
+                                                v-if="journal?.is_movable">
                                                 <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
                                                     @click="moveJournal(journal)">
                                                     <Icon name="ph:arrows-out-cardinal" class="size-4" />
