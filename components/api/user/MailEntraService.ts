@@ -20,5 +20,9 @@ class MailEntraService extends BaseAPIService {
     async forwardMail(emailId: any, params: object): Promise<any> {
         return await this.request(`/user/entra/${emailId}/forward`, 'POST', params)
     }
+
+    async downloadAttachment(params: object): Promise<any> {
+        return await this.request(`/user/entra/attachment/download`, 'GET', params)
+    }
 }
 export const mailEntraService = new MailEntraService()
