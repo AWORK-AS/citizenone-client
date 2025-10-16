@@ -73,7 +73,7 @@
                     </p>
                     <div class="flex-wrap md:flex gap-1 text-sm">
                         <p>
-                            {{ $t('mail.content.from') }}
+                            {{ $t('mail.content.to') }}
                         </p>
                         <p>
                             {{ state.selectedEmail?.header?.to }}
