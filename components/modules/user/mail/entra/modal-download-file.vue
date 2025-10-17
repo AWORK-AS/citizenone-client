@@ -96,7 +96,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { citizenDocumentService } from '@/components/api/user/CitizenDocumentService'
 import { documentService } from '@/components/api/user/DocumentService'
-import { securedMailService } from '@/components/api/user/SecuredMailService'
+import { mailEntraService } from "@/components/api/user/MailEntraService"
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { saveAs } from 'file-saver'
@@ -274,7 +274,7 @@ async function downloadAttachment() {
             else if (state.formDownload.company_folder_uuid) {
                 params.company_folder_uuid = state.formDownload.company_folder_uuid
             }
-            const response = await securedMailService.downloadAttachment(params)
+            const response = await mailEntraService.downloadAttachment(params)
             if (response) {
                 if (state.formDownload.fileOption === 'Download file to my computer') {
                     saveAs(response, props?.selectedAttachment?.split('/').pop())

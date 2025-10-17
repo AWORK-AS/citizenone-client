@@ -179,9 +179,9 @@ import { securedMailService } from '@/components/api/user/SecuredMailService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useUserStore } from '@/store/user'
-import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { fileHelper } from '@/composables/fileHelper'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
@@ -189,8 +189,7 @@ const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const language = useI18n()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
-const { successAlert } = useAlert()
-const { gtagReportConversion } = useGtag()
+const { isImage, isExcel, isPdf, isPpt, isWord } = fileHelper()
 const { t } = useI18n()
 const router = useRouter()
 const emailUuid = router?.currentRoute?.value?.query?.token
@@ -280,39 +279,6 @@ function identifyFlag() {
             return '/img/icons/flags/denmark.svg'
         }
     }
-}
-
-function getFileExtension(url: string): string {
-    const fileName = url.split('/').pop() // Extract file name from URL
-    if (fileName) {
-        const ext = fileName.split('.').pop()?.toLowerCase() // Get the file extension
-        return ext || ''
-    }
-    return ''
-}
-
-function isPdf(url: string): boolean {
-    return getFileExtension(url) === 'pdf'
-}
-
-function isWord(url: string): boolean {
-    const ext = getFileExtension(url)
-    return ext === 'docx' || ext === 'doc'
-}
-
-function isExcel(url: string): boolean {
-    const ext = getFileExtension(url)
-    return ext === 'xlsx' || ext === 'xls'
-}
-
-function isPpt(url: string): boolean {
-    const ext = getFileExtension(url)
-    return ext === 'pptx' || ext === 'ppt'
-}
-
-function isImage(url: string): boolean {
-    const ext = getFileExtension(url)
-    return ['jpg', 'jpeg', 'png', 'gif'].includes(ext)
 }
 
 async function downloadAttachment(attachment: any) {

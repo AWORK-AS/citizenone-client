@@ -83,6 +83,35 @@
                         </p>
                     </div>
                     <div v-html="state.selectedEmail?.bodies?.html" class="py-6" />
+                    <div class="flex flex-wrap items-center gap-2">
+                        <div v-for="(attachment, attachmentIndex) in state.selectedEmail?.attachments"
+                            :index="attachmentIndex" class="border border-gray-200 rounded-sm">
+                            <div class="cursor-pointer flex items-center gap-x-2 p-2"
+                                @click="downloadAttachment(attachment?.url)">
+                                <div class="flex items-center" v-if="isPdf(attachment?.url)">
+                                    <Icon name="ph:file-pdf" class="h-5 w-5 text-red-600" aria-hidden="true" />
+                                </div>
+                                <div class="flex items-center" v-else-if="isWord(attachment?.url)">
+                                    <Icon name="ph:file-doc" class="h-5 w-5 text-blue-600" aria-hidden="true" />
+                                </div>
+                                <div class="flex items-center" v-else-if="isExcel(attachment?.url)">
+                                    <Icon name="ph:file-xls" class="h-5 w-5 text-green-600" aria-hidden="true" />
+                                </div>
+                                <div class="flex items-center" v-else-if="isPpt(attachment?.url)">
+                                    <Icon name="ph:file-ppt" class="h-5 w-5 text-purple-600" aria-hidden="true" />
+                                </div>
+                                <div class="flex items-center" v-else-if="isImage(attachment?.url)">
+                                    <Icon name="ph:file-image" class="h-5 w-5 text-yellow-600" aria-hidden="true" />
+                                </div>
+                                <div class="flex items-center" v-else>
+                                    <Icon name="ph:file" class="h-5 w-5 text-gray-600" aria-hidden="true" />
+                                </div>
+                                <p class="text-xs">
+                                    {{ attachment?.filename }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <ModulesUserMailSmtpReplyRegularMailForm :selectedEmail="state.selectedEmail"
                     @close="state.showReplyForm = false" v-if="state.showReplyForm" />
@@ -102,16 +131,20 @@
                 </div>
             </div>
         </div>
+        <ModulesUserMailSmtpModalDownloadFile :isModalOpen="state.modal.isDownloadAttachment"
+            :selectedAttachment="state.selectedAttachment" @close="state.modal.isDownloadAttachment = false" />
     </div>
 </template>
 
 <script setup lang="ts">
 import { mailSMTPService } from "@/components/api/user/MailSMTPService"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { fileHelper } from '@/composables/fileHelper'
 import type { Error } from '@/types'
 
 const emit = defineEmits(['setUnreadEmailsCount'])
 const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { isImage, isExcel, isPdf, isPpt, isWord } = fileHelper()
 
 const state = reactive({
     error: {} as Error,
@@ -120,7 +153,11 @@ const state = reactive({
         isEmailsLoading: false,
         isEmailsLoadingMore: false,
     },
+    modal: {
+        isDownloadAttachment: false,
+    },
     pagination: {} as any,
+    selectedAttachment: '' as any,
     selectedEmail: null as any,
     showForwardForm: false,
     showOnFirstLoad: false,
@@ -185,6 +222,11 @@ async function setSelectedEmail(emailIndex: any, email: any) {
             state.error = error
         }
     }
+}
+
+function downloadAttachment(attachment: any) {
+    state.modal.isDownloadAttachment = true
+    state.selectedAttachment = attachment
 }
 </script>
 

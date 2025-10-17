@@ -1,7 +1,7 @@
 <template>
     <div class="grow flex items-center justify-center" v-if="state.loading.isEmailsLoading">
         <span class="text-lg">
-            {{ t('mail.loading.loadingYourEmails') }}
+            {{ $t('mail.loading.loadingYourEmails') }}
         </span>
         <span class="dot1">.</span>
         <span class="dot2">.</span>
@@ -80,7 +80,7 @@
                     </p>
                     <div class="flex-wrap md:flex gap-1 text-sm">
                         <p>
-                            {{ t('mail.content.to') }}
+                            {{ $t('mail.content.to') }}
                         </p>
                         <p>
                             {{
@@ -89,7 +89,7 @@
                             }}
                         </p>
                         <p class="lowercase">
-                            {{ t('mail.content.on') }}
+                            {{ $t('mail.content.on') }}
                         </p>
                         <p>
                             {{
@@ -98,23 +98,51 @@
                         </p>
                     </div>
                     <div v-html="state.selectedEmail?.body?.content?.replace(/\n/g, '<br>')" class="py-6" />
+                    <div class="flex flex-wrap items-center gap-2">
+                        <div v-for="(attachment, attachmentIndex) in state.selectedEmail?.attachments"
+                            :index="attachmentIndex" class="border border-gray-200 rounded-sm">
+                            <div class="cursor-pointer flex items-center gap-x-2 p-2"
+                                @click="downloadAttachment(attachment?.url)">
+                                <div class="flex items-center" v-if="isPdf(attachment?.url)">
+                                    <Icon name="ph:file-pdf" class="h-5 w-5 text-red-600" aria-hidden="true" />
+                                </div>
+                                <div class="flex items-center" v-else-if="isWord(attachment?.url)">
+                                    <Icon name="ph:file-doc" class="h-5 w-5 text-blue-600" aria-hidden="true" />
+                                </div>
+                                <div class="flex items-center" v-else-if="isExcel(attachment?.url)">
+                                    <Icon name="ph:file-xls" class="h-5 w-5 text-green-600" aria-hidden="true" />
+                                </div>
+                                <div class="flex items-center" v-else-if="isPpt(attachment?.url)">
+                                    <Icon name="ph:file-ppt" class="h-5 w-5 text-purple-600" aria-hidden="true" />
+                                </div>
+                                <div class="flex items-center" v-else-if="isImage(attachment?.url)">
+                                    <Icon name="ph:file-image" class="h-5 w-5 text-yellow-600" aria-hidden="true" />
+                                </div>
+                                <div class="flex items-center" v-else>
+                                    <Icon name="ph:file" class="h-5 w-5 text-gray-600" aria-hidden="true" />
+                                </div>
+                                <p class="text-xs">
+                                    {{ attachment?.filename }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <ModulesUserMailEntraModalDownloadFile :isModalOpen="state.modal.isDownloadAttachment"
+            :selectedAttachment="state.selectedAttachment" @close="state.modal.isDownloadAttachment = false" />
     </div>
 </template>
 
 <script setup lang="ts">
 import { mailEntraService } from "@/components/api/user/MailEntraService"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { useAlert } from '@/composables/alert'
-import { useI18n } from "vue-i18n"
+import { fileHelper } from '@/composables/fileHelper'
 import type { Error } from '@/types'
 
-const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
-const { errorAlert } = useAlert()
-const { t } = useI18n()
+const { isImage, isExcel, isPdf, isPpt, isWord } = fileHelper()
 
 const state = reactive({
     error: {} as Error,
@@ -122,7 +150,11 @@ const state = reactive({
         isEmailsLoading: false,
         isEmailsLoadingMore: false,
     },
+    modal: {
+        isDownloadAttachment: false,
+    },
     nextPageLink: '',
+    selectedAttachment: '' as any,
     selectedEmail: null as any,
     sentEmails: [] as any,
     showOnFirstLoad: false,
@@ -163,6 +195,11 @@ async function fetchSentMails(page: any) {
 function setSelectedEmail(email: any) {
     state.selectedEmail = email
     state.showOnFirstLoad = true
+}
+
+function downloadAttachment(attachment: any) {
+    state.modal.isDownloadAttachment = true
+    state.selectedAttachment = attachment
 }
 </script>
 

@@ -977,10 +977,12 @@
         "citizenJournals": {
             "actions": {
                 "addToFavorite": "Add to favorite",
+                "copy": "Copy",
                 "delete": "Delete",
                 "edit": "Edit",
                 "journalLogs": "Journal logs",
                 "lock": "Lock journal",
+                "move": "Move",
                 "removeFromFavorite": "Remove from favorite",
                 "unlock": "Unlock journal"
             },
@@ -990,11 +992,20 @@
                 "lockJournal": "Journal successfully locked",
                 "removedToFavorites": "Journal successfully removed from favorites",
                 "successfullyAdded": "New journal successfully saved",
+                "successfullyCopied": "Journal successfully copied",
+                "successfullyMoved": "Journal successfully moved",
                 "successfullyUpdated": "Journal successfully updated",
                 "unlockJournal": "Journal successfully unlocked"
             },
             "confirmation": {
-                "deleteConfirmation": "Are you sure you want to delete this journal"
+                "copyConfirmation": "Are you sure you want to copy this journal to the selected citizen",
+                "deleteConfirmation": "Are you sure you want to delete this journal",
+                "moveConfirmation": "Are you sure you want to move this journal to the selected citizen"
+            },
+            "copy": {
+                "citizen": "Citizen",
+                "copy": "Copy",
+                "copyJournal": "Copy journal"
             },
             "createdBy": "Created by",
             "currentLevels": {
@@ -1070,11 +1081,18 @@
             },
             "journalLogs": {
                 "date": "Date",
+                "deleletedNotes": "Deleted notes",
+                "deletedBy": "Deleted by",
                 "description": "Description",
                 "journalLogs": "Journal logs",
                 "newData": "New data",
                 "previousData": "Previous data",
                 "updatedBy": "Updated by"
+            },
+            "move": {
+                "citizen": "Citizen",
+                "move": "Move",
+                "moveJournal": "Move journal"
             },
             "newNote": "New note",
             "on": "On"

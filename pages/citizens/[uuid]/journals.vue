@@ -52,9 +52,14 @@
                                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.newNote') }}
                                 </FormButton>
-                                <FormButton buttonStyle="action" class="rounded-lg" @click="showDownloadJournalModal">
+                                <FormButton buttonStyle="action" class="rounded-lg" @click="showDownloadJournal">
                                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.download') }}
+                                </FormButton>
+                                <FormButton buttonStyle="action" class="rounded-lg"
+                                    @click="showDeletedJournalHistories">
+                                    <Icon name="ph:clock-clockwise" class="h-4 w-4" aria-hidden="true" />
+                                    {{ $t('citizens.citizenJournals.journalLogs.deleletedNotes') }}
                                 </FormButton>
                             </div>
                         </div>
@@ -213,10 +218,25 @@
                                     </div>
                                     <div class="ms-auto">
                                         <div class="flex items-center gap-x-2">
-                                            <Tooltip :text="$t('citizens.citizenJournals.actions.edit')">
+                                            <Tooltip :text="$t('citizens.citizenJournals.actions.edit')"
+                                                v-if="journal?.is_editable">
                                                 <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
-                                                    @click="editJournal(journal)" v-if=journal?.is_editable>
+                                                    @click="editJournal(journal)">
                                                     <Icon name="ph:pencil-duotone" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.citizenJournals.actions.copy')"
+                                                v-if="journal?.is_copyable">
+                                                <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
+                                                    @click="copyJournal(journal)">
+                                                    <Icon name="ph:copy" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.citizenJournals.actions.move')"
+                                                v-if="journal?.is_movable">
+                                                <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
+                                                    @click="moveJournal(journal)">
+                                                    <Icon name="ph:arrows-out-cardinal" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip
@@ -274,7 +294,15 @@
                 @refreshJournal="fetchJournals" />
             <ModulesUserCitizenJournalModalDownload :isModalOpen="state.modal.isDownloadJournalOpen"
                 @close="state.modal.isDownloadJournalOpen = false" />
-            <ModulesUserCitizenJournalModalLogs :isModalOpen="state.modal.isViewLogsOpen"
+            <ModulesUserCitizenJournalModalDeletedLogs :isModalOpen="state.modal.isDeletedJournalHistoriesOpen"
+                @close="state.modal.isDeletedJournalHistoriesOpen = false" />
+            <ModulesUserCitizenJournalModalCopy :isModalOpen="state.modal.isCopyJournalOpen"
+                :selectedJournal="state.selectedJournal" @close="state.modal.isCopyJournalOpen = false"
+                @refreshJournal="fetchJournals" />
+            <ModulesUserCitizenJournalModalMove :isModalOpen="state.modal.isMoveJournalOpen"
+                :selectedJournal="state.selectedJournal" @close="state.modal.isMoveJournalOpen = false"
+                @refreshJournal="fetchJournals" />
+            <ModulesUserCitizenJournalModalIndividualLogs :isModalOpen="state.modal.isViewLogsOpen"
                 :selectedJournal="state.selectedJournal" @close="state.modal.isViewLogsOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalOpen"
                 :message="$t('citizens.citizenJournals.confirmation.deleteConfirmation') + '?'"
@@ -323,10 +351,13 @@ const state = reactive({
     journals: [] as any,
     modal: {
         isAddJournalOpen: false,
+        isCopyJournalOpen: false,
         isDeleteJournalOpen: false,
+        isDeletedJournalHistoriesOpen: false,
         isDownloadJournalOpen: false,
         isEditJournalOpen: false,
         isFilterJournalOpen: false,
+        isMoveJournalOpen: false,
         isViewLogsOpen: false,
     },
     selectedJournal: [] as any,
@@ -392,8 +423,12 @@ async function fetchJournals() {
     state.isPageLoading = false
 }
 
-function showDownloadJournalModal() {
+function showDownloadJournal() {
     state.modal.isDownloadJournalOpen = true
+}
+
+function showDeletedJournalHistories() {
+    state.modal.isDeletedJournalHistoriesOpen = true
 }
 
 function filterJournal() {
@@ -462,6 +497,16 @@ function next() {
 function editJournal(journal: any) {
     state.selectedJournal = journal
     state.modal.isEditJournalOpen = true
+}
+
+function copyJournal(journal: any) {
+    state.selectedJournal = journal
+    state.modal.isCopyJournalOpen = true
+}
+
+function moveJournal(journal: any) {
+    state.selectedJournal = journal
+    state.modal.isMoveJournalOpen = true
 }
 
 function closeEditJournalModal() {

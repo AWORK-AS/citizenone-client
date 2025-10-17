@@ -914,9 +914,12 @@ async function saveShift(shiftDetails: any) {
     saveDutySchedule(params)
 }
 
-async function publishSchedule(params: object) {
+async function publishSchedule() {
     try {
-        const response = await draftScheduleService.publishSchedule()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+        const response = await draftScheduleService.publishSchedule(params)
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.draft.alert.successfullyPublished')}.`)
             navigateTo('/schedules')
