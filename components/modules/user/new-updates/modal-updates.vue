@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2025-10-10',
+    currentVersion: '2025-10-17',
     availableVersions: [
+        '2025-10-17',
         '2025-10-10',
         '2025-10-03',
         '2025-09-26',
@@ -73,6 +74,43 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2025-10-17': [
+            {
+                title: 'Attachment of file in SMTP and Entra emails (both inbox and sent mails)',
+                description: [
+                    'A feature has been introduced to allow file attachments in both SMTP and Entra emails, covering inbox and sent mails.',
+                    'This enhancement enables users to attach and access files more efficiently in both incoming and outgoing email communications.'
+                ],
+            },
+            {
+                title: 'App and web notification to employees upon publishing a duty schedule from draft',
+                description: [
+                    'Employees will now receive app and web notifications when a duty schedule, which includes them, is published from draft.',
+                    'This improves communication and ensures employees are promptly notified about changes to their duty schedules.'
+                ],
+            },
+            {
+                title: 'View a log of deleted notes in Journal notes area',
+                description: [
+                    'A log feature has been added to allow users to view deleted notes in the journal notes area.',
+                    'This provides an audit trail for note deletions, improving transparency and tracking within the system.'
+                ],
+            },
+            {
+                title: 'Move a note from one citizen to another (Admin functionality)',
+                description: [
+                    'Admins can now move notes from one citizen’s record to another.',
+                    'This ensures that notes are accurately associated with the correct citizen, improving data management and organization.'
+                ],
+            },
+            {
+                title: 'Copy a note to another citizen (Admin functionality)',
+                description: [
+                    'Admins can now copy notes from one citizen’s record to another.',
+                    'This enables easy sharing of relevant information between citizens, ensuring efficient note management.'
+                ],
+            }
+        ],
         '2025-10-10': [
             {
                 title: 'Files attachment on sending of email',
@@ -297,6 +335,43 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2025-10-17': [
+            {
+                title: 'Vedhæftning af fil i SMTP og Entra e-mails (både indbakke og sendt mails)',
+                description: [
+                    'En funktion er blevet introduceret for at tillade vedhæftning af filer i både SMTP- og Entra-e-mails, der dækker både indbakke og sendte mails.',
+                    'Denne forbedring gør det muligt for brugere at vedhæfte og få adgang til filer mere effektivt i både indgående og udgående e-mailkommunikation.'
+                ],
+            },
+            {
+                title: 'App- og webnotifikation til medarbejdere ved offentliggørelse af arbejdsplan fra udkast',
+                description: [
+                    'Medarbejdere vil nu modtage app- og webnotifikationer, når en arbejdsplan, som de er inkluderet i, bliver offentliggjort fra udkast.',
+                    'Dette forbedrer kommunikationen og sikrer, at medarbejdere hurtigt bliver underrettet om ændringer i deres arbejdsplan.'
+                ],
+            },
+            {
+                title: 'Vis en log over slettede noter i journalnotearia',
+                description: [
+                    'En logfunktion er blevet tilføjet, så brugere kan se slettede noter i journalnotearia.',
+                    'Dette giver en revisionsspor for sletning af noter, hvilket forbedrer gennemsigtighed og sporbarhed i systemet.'
+                ],
+            },
+            {
+                title: 'Flyt en note fra én borger til en anden (Admin-funktionalitet)',
+                description: [
+                    'Administratorer kan nu flytte noter fra én borgers optegnelse til en anden.',
+                    'Dette sikrer, at noter er korrekt tilknyttet den rette borger, hvilket forbedrer datastyring og organisation.'
+                ],
+            },
+            {
+                title: 'Kopier en note til en anden borger (Admin-funktionalitet)',
+                description: [
+                    'Administratorer kan nu kopiere noter fra én borgers optegnelse til en anden.',
+                    'Dette gør det muligt nemt at dele relevant information mellem borgere, hvilket sikrer effektiv håndtering af noter.'
+                ],
+            }
+        ],
         '2025-10-10': [
             {
                 title: 'Filvedhæftning ved afsendelse af e-mail',
