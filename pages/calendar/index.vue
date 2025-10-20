@@ -82,8 +82,7 @@
                 <div class="flex items-center gap-x-3 lg:col-span-3">
                     <button class="flex items-center gap-x-1 text-sm text-primary group"
                         @click="state.modal.isFilterCalendarOpen = true">
-                        <Icon name="ic:outline-filter-list"
-                            class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                        <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
                         <span class="group-hover:text-primary-700">
                             {{ $t('filter') }}
                         </span>
@@ -171,10 +170,11 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
-    dataFilter: [] as any,
     calendarView: 'default',
-    myCalendarEvents: [] as any,
     error: {} as Error,
+    filter: {
+        tags_uuid: [] as any,
+    },
     formCalendar: {
         citizens_uuid: [],
         users_uuid: employeeUuid ? [employeeUuid] : [],
@@ -189,6 +189,7 @@ const state = reactive({
         isGuidedTourCalendarOpen: false,
         isFilterCalendarOpen: false
     },
+    myCalendarEvents: [] as any,
     selectedDate: {
         end_date: '',
         start_date: '',
@@ -330,9 +331,7 @@ async function fetchMyCalendarEvents() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params: any = {
-            ...state.dataFilter
-        }
+        const params = {} as any
         params.department = departmentStore.getSelectedDepartmentName
         if (state.selectedDate.start_date && state.selectedDate.end_date) {
             params.date = state.selectedDate
@@ -353,6 +352,10 @@ async function fetchMyCalendarEvents() {
         }
         if (state.formCalendar.users_uuid) {
             params.employee_uuid = Array(state.formCalendar.users_uuid)
+        }
+
+        if (state.filter.tags_uuid) {
+            params.tags_uuid = JSON.stringify(state.filter.tags_uuid)
         }
 
         const response = await myCalendarService.getSchedules(params)
@@ -469,8 +472,7 @@ async function subscribe() {
 
 function setFilter(filter: any) {
     setCalendarView(filter.selectedView.title)
-    state.dataFilter.tags_uuid = JSON.stringify(filter.tags)
-
+    state.filter.tags_uuid = filter.tags
     fetchMyCalendarEvents()
 }
 </script>
