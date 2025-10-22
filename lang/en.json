@@ -1108,6 +1108,11 @@
                 "successfullyAdded": "New citizens successfully saved",
                 "successfullyUpdate": "Citizen successfully updated"
             },
+            "allocatedHours": {
+                "allocatedDailyHours": "Allocated daily hours",
+                "allocatedMonthlyHours": "Allocated monthly hours",
+                "allocatedWeeklyHours": "Allocated weekly hours"
+            },
             "allowSystemAccess": "Allow system access",
             "allowChatAccess": "Allow chat access",
             "allowDutyScheduleAccess": "Allow duty schedule access",

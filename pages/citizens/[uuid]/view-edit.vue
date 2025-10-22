@@ -103,6 +103,9 @@ const state = reactive({
         responsible_municipality: '',
         ean_number: '',
         transportation: '',
+        allocated_daily_hours: '',
+        allocated_weekly_hours: '',
+        allocated_monthly_hours: '',
         note: '',
         green: '',
         yellow: '',
@@ -160,6 +163,9 @@ async function fetchCitizen() {
                 responsible_municipality: response?.data?.responsible_municipality?.uuid.toString() ?? '',
                 ean_number: response?.data?.ean_number ?? '',
                 transportation: response?.data?.transportation ?? '',
+                allocated_daily_hours: response?.data?.allocated_daily_hours ?? '',
+                allocated_weekly_hours: response?.data?.allocated_weekly_hours ?? '',
+                allocated_monthly_hours: response?.data?.allocated_monthly_hours ?? '',
                 note: response?.data?.note ?? '',
                 green: response?.data?.green ?? '',
                 yellow: response?.data?.yellow ?? '',
@@ -239,6 +245,9 @@ async function updateCitizen(citizenDetails: any) {
         params.append('responsible_municipality', citizenDetails.responsible_municipality)
         params.append('ean_number', citizenDetails.ean_number)
         params.append('transportation', citizenDetails.transportation)
+        params.append('allocated_daily_hours', citizenDetails.allocated_daily_hours)
+        params.append('allocated_weekly_hours', citizenDetails.allocated_weekly_hours)
+        params.append('allocated_monthly_hours', citizenDetails.allocated_monthly_hours)
         params.append('note', citizenDetails.note)
         params.append('green', citizenDetails.green)
         params.append('yellow', citizenDetails.yellow)
