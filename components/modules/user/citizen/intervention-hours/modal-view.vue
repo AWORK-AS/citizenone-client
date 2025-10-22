@@ -3,7 +3,47 @@
         <Modal size="3xl" :title="$t('citizens.interventionHours.interventionHours')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
-                <div class="flex items-center gap-x-2 justify-end">
+                <button class="text-sm text-primary hover:text-primary-700 hover:underline"
+                    @click="state.modal.isTimeAccountDateRangeOpen = true">
+                    {{ $t('citizens.interventionHours.timeAccount.date') }}:
+                    {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_start) }} -
+                    {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_end) }}
+                </button>
+                <div class="mt-1 grid grid-cols-1 md:grid-cols-4 gap-3">
+                    <div class="bg-primary text-white rounded-md px-4 py-3">
+                        <p class="text-xs">
+                            {{ $t('citizens.interventionHours.timeAccount.timeAccount') }}
+                        </p>
+                        <p class="text-base">
+                            {{ state.timeAccount?.total_hours || 0 }}
+                        </p>
+                    </div>
+                    <div class="bg-primary text-white rounded-md px-4 py-3">
+                        <p class="text-xs">
+                            {{ $t('citizens.interventionHours.timeAccount.dailyAllocation') }}
+                        </p>
+                        <p class="text-base">
+                            {{ state.timeAccount?.daily || 0 }}
+                        </p>
+                    </div>
+                    <div class="bg-primary text-white rounded-md px-4 py-3">
+                        <p class="text-xs">
+                            {{ $t('citizens.interventionHours.timeAccount.weeklyAllocation') }}
+                        </p>
+                        <p class="text-base">
+                            {{ state.timeAccount?.weekly || 0 }}
+                        </p>
+                    </div>
+                    <div class="bg-primary text-white rounded-md px-4 py-3">
+                        <p class="text-xs">
+                            {{ $t('citizens.interventionHours.timeAccount.monthlyAllocation') }}
+                        </p>
+                        <p class="text-base">
+                            {{ state.timeAccount?.monthly || 0 }}
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 flex items-center gap-x-2 justify-end">
                     <FormButton buttonStyle="action" class="rounded-lg"
                         @click="state.modal.isAddInterventionHoursOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -78,6 +118,9 @@
                 <ModulesUserCitizenInterventionHoursModalDownload
                     :isModalOpen="state.modal.isDownloadInterventionHoursOpen"
                     @close="state.modal.isDownloadInterventionHoursOpen = false" />
+                <ModulesUserCitizenInterventionHoursModalDateRange :isModalOpen="state.modal.isTimeAccountDateRangeOpen"
+                    :dateRange="state.timeAccountFilter.formDateRange"
+                    @close="state.modal.isTimeAccountDateRangeOpen = false" @filterDate="filterTimeAccountByDate" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteInterventionHoursOpen"
                     :message="$t('citizens.interventionHours.table.confirmation.deleteInterventionHoursConfirmation') + '?'"
                     @close="state.modal.isDeleteInterventionHoursOpen = false" @confirm="deleteInterventionHours" />
@@ -87,6 +130,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
@@ -102,7 +146,7 @@ const props = defineProps({
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
-const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
@@ -123,18 +167,27 @@ const state = reactive({
         search: ''
     },
     error: {} as Error,
+    isPageLoading: false,
     isTableLoading: false,
     modal: {
         isAddInterventionHoursOpen: false,
         isDeleteInterventionHoursOpen: false,
         isDownloadInterventionHoursOpen: false,
         isEditInterventionHoursOpen: false,
+        isTimeAccountDateRangeOpen: false,
     },
     interventionHours: [] as any,
     selectedInterventionHours: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
+    },
+    timeAccount: {} as any,
+    timeAccountFilter: {
+        formDateRange: {
+            date_start: moment().startOf('month').format('YYYY-MM-DD'),
+            date_end: moment().endOf('month').format('YYYY-MM-DD'),
+        }
     },
 })
 
@@ -149,9 +202,34 @@ function refreshInterventionHours() {
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
+        fetchTimeAccount()
         fetchInterventionHours()
     }
 })
+
+async function fetchTimeAccount() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            date_start: state.timeAccountFilter.formDateRange.date_start,
+            date_end: state.timeAccountFilter.formDateRange.date_end,
+        }
+        const response = await interventionHoursService.getTimeAccount(citizenUuid, params)
+        if (response) {
+            state.timeAccount = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function filterTimeAccountByDate(formDateRange: any) {
+    state.timeAccountFilter.formDateRange.date_start = formDateRange.date_start
+    state.timeAccountFilter.formDateRange.date_end = formDateRange.date_end
+    fetchTimeAccount()
+}
 
 async function fetchInterventionHours() {
     state.error = {}

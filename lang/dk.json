@@ -1325,6 +1325,13 @@
                 "fromDutySchedule": "Fra vagtplan",
                 "note": "Bemærkning",
                 "totalHours": "Samlet timer"
+            },
+            "timeAccount": {
+                "dailyAllocation": "Daglig tildeling",
+                "date": "Dato",
+                "monthlyAllocation": "Månedlig tildeling",
+                "timeAccount": "Tidskonto",
+                "weeklyAllocation": "Ugentlig tildeling"
             }
         },
         "medicationAllergies": "Medicinallergier",

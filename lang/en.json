@@ -1325,6 +1325,13 @@
                 "fromDutySchedule": "From duty schedule",
                 "note": "Note",
                 "totalHours": "Total hours"
+            },
+            "timeAccount": {
+                "dailyAllocation": "Daily allocation",
+                "date": "Date",
+                "monthlyAllocation": "Monthly allocation",
+                "timeAccount": "Time account",
+                "weeklyAllocation": "Weekly allocation"
             }
         },
         "medicationAllergies": "Medication allergies",
