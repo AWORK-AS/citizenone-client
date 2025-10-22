@@ -3,44 +3,46 @@
         <Modal size="3xl" :title="$t('citizens.interventionHours.interventionHours')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
-                <button class="text-sm text-primary hover:text-primary-700 hover:underline"
-                    @click="state.modal.isTimeAccountDateRangeOpen = true">
-                    {{ $t('citizens.interventionHours.timeAccount.date') }}:
-                    {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_start) }} -
-                    {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_end) }}
-                </button>
-                <div class="mt-1 grid grid-cols-1 md:grid-cols-4 gap-3">
-                    <div class="bg-primary text-white rounded-md px-4 py-3">
-                        <p class="text-xs">
-                            {{ $t('citizens.interventionHours.timeAccount.timeAccount') }}
-                        </p>
-                        <p class="text-base">
-                            {{ state.timeAccount?.total_hours || 0 }}
-                        </p>
-                    </div>
-                    <div class="bg-primary text-white rounded-md px-4 py-3">
-                        <p class="text-xs">
-                            {{ $t('citizens.interventionHours.timeAccount.dailyAllocation') }}
-                        </p>
-                        <p class="text-base">
-                            {{ state.timeAccount?.daily || 0 }}
-                        </p>
-                    </div>
-                    <div class="bg-primary text-white rounded-md px-4 py-3">
-                        <p class="text-xs">
-                            {{ $t('citizens.interventionHours.timeAccount.weeklyAllocation') }}
-                        </p>
-                        <p class="text-base">
-                            {{ state.timeAccount?.weekly || 0 }}
-                        </p>
-                    </div>
-                    <div class="bg-primary text-white rounded-md px-4 py-3">
-                        <p class="text-xs">
-                            {{ $t('citizens.interventionHours.timeAccount.monthlyAllocation') }}
-                        </p>
-                        <p class="text-base">
-                            {{ state.timeAccount?.monthly || 0 }}
-                        </p>
+                <div class="space-y-2">
+                    <button class="text-sm text-primary hover:text-primary-700 hover:underline"
+                        @click="state.modal.isTimeAccountDateRangeOpen = true">
+                        {{ $t('citizens.interventionHours.timeAccount.date') }}:
+                        {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_start) }} -
+                        {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_end) }}
+                    </button>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                        <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                            <p class="text-xs">
+                                {{ $t('citizens.interventionHours.timeAccount.timeAccount') }}
+                            </p>
+                            <p class="text-sm">
+                                {{ state.timeAccount?.data?.total_hours || 0 }}
+                            </p>
+                        </div>
+                        <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                            <p class="text-xs">
+                                {{ $t('citizens.interventionHours.timeAccount.dailyAllocation') }}
+                            </p>
+                            <p class="text-sm">
+                                {{ state.timeAccount?.data?.daily }}
+                            </p>
+                        </div>
+                        <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                            <p class="text-xs">
+                                {{ $t('citizens.interventionHours.timeAccount.weeklyAllocation') }}
+                            </p>
+                            <p class="text-sm">
+                                {{ state.timeAccount?.data?.weekly }}
+                            </p>
+                        </div>
+                        <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                            <p class="text-xs">
+                                {{ $t('citizens.interventionHours.timeAccount.monthlyAllocation') }}
+                            </p>
+                            <p class="text-sm">
+                                {{ state.timeAccount?.data?.monthly }}
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-6 flex items-center gap-x-2 justify-end">
