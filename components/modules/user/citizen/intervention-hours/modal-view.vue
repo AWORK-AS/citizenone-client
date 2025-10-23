@@ -11,38 +11,46 @@
                         {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_end) }}
                     </button>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-                        <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
-                            <p class="text-xs">
-                                {{ $t('citizens.interventionHours.timeAccount.timeAccount') }}
-                            </p>
-                            <p class="text-sm">
-                                {{ state.timeAccount?.data?.total_hours || 0 }}
-                            </p>
-                        </div>
-                        <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
-                            <p class="text-xs">
-                                {{ $t('citizens.interventionHours.timeAccount.dailyAllocation') }}
-                            </p>
-                            <p class="text-sm">
-                                {{ state.timeAccount?.data?.daily ?? '-' }}
-                            </p>
-                        </div>
-                        <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
-                            <p class="text-xs">
-                                {{ $t('citizens.interventionHours.timeAccount.weeklyAllocation') }}
-                            </p>
-                            <p class="text-sm">
-                                {{ state.timeAccount?.data?.weekly ?? '-' }}
-                            </p>
-                        </div>
-                        <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
-                            <p class="text-xs">
-                                {{ $t('citizens.interventionHours.timeAccount.monthlyAllocation') }}
-                            </p>
-                            <p class="text-sm">
-                                {{ state.timeAccount?.data?.monthly ?? '-' }}
-                            </p>
-                        </div>
+                        <LoadingSpinner :isActive="state.isTimeAccountLoading">
+                            <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.timeAccount.timeAccount') }}
+                                </p>
+                                <p class="text-sm">
+                                    {{ state.timeAccount?.data?.total_hours || 0 }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
+                        <LoadingSpinner :isActive="state.isTimeAccountLoading">
+                            <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.timeAccount.dailyAllocation') }}
+                                </p>
+                                <p class="text-sm">
+                                    {{ state.timeAccount?.data?.daily ?? '-' }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
+                        <LoadingSpinner :isActive="state.isTimeAccountLoading">
+                            <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.timeAccount.weeklyAllocation') }}
+                                </p>
+                                <p class="text-sm">
+                                    {{ state.timeAccount?.data?.weekly ?? '-' }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
+                        <LoadingSpinner :isActive="state.isTimeAccountLoading">
+                            <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.timeAccount.monthlyAllocation') }}
+                                </p>
+                                <p class="text-sm">
+                                    {{ state.timeAccount?.data?.monthly ?? '-' }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
                     </div>
                 </div>
                 <div class="mt-6 flex items-center gap-x-2 justify-end">
@@ -68,10 +76,12 @@
                                 v-if="!(state.isTableLoading || (state.interventionHours?.data?.length === 0))">
                                 <tr v-for="(inteventionHours, index) in state.interventionHours?.data" :key="index">
                                     <td width="15%">
-                                        {{ formatDateTimeToReadable(inteventionHours?.date_time_start) }}
+                                        {{ inteventionHours?.date_time_start ?
+                                            formatDateTimeToReadable(inteventionHours?.date_time_start) : '' }}
                                     </td>
                                     <td width="15%">
-                                        {{ formatDateTimeToReadable(inteventionHours?.date_time_end) }}
+                                        {{ inteventionHours?.date_time_end ?
+                                            formatDateTimeToReadable(inteventionHours?.date_time_end) : '' }}
                                     </td>
                                     <td width="20%">
                                         {{ inteventionHours?.note }}
@@ -169,7 +179,7 @@ const state = reactive({
         search: ''
     },
     error: {} as Error,
-    isPageLoading: false,
+    isTimeAccountLoading: false,
     isTableLoading: false,
     modal: {
         isAddInterventionHoursOpen: false,
@@ -211,7 +221,7 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
 
 async function fetchTimeAccount() {
     state.error = {}
-    state.isPageLoading = true
+    state.isTimeAccountLoading = true
     try {
         const params = {
             date_start: state.timeAccountFilter.formDateRange.date_start,
@@ -224,7 +234,7 @@ async function fetchTimeAccount() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
+    state.isTimeAccountLoading = false
 }
 
 function filterTimeAccountByDate(formDateRange: any) {
@@ -298,6 +308,7 @@ async function deleteInterventionHours() {
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             successAlert(`${t('alert.success')}!`, `${t('citizens.interventionHours.table.alert.interventionHoursSuccessfullyDeleted')}.`)
             refreshInterventionHours()
+            fetchTimeAccount()
         }
     } catch (error: any) {
         state.error = error

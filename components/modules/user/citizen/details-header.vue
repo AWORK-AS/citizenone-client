@@ -26,23 +26,51 @@
                             <div class="text-center md:text-left">
                                 <div class="flex justify-between">
                                     <div>
-                                        <h1 class="text-2xl font-bold text-gray-900 gr">
-                                            {{ state.selectedCitizen?.data?.firstname }}
-                                            {{ state.selectedCitizen?.data?.lastname }}
-                                        </h1>
+                                        <div class="flex items-center gap-x-1">
+                                            <h1 class="text-2xl font-bold text-gray-900 gr">
+                                                {{ state.selectedCitizen?.data?.firstname }}
+                                                {{ state.selectedCitizen?.data?.lastname }}
+                                            </h1>
+                                            <Tooltip :text="$t('citizens.table.actions.edit')">
+                                                <Icon name="ph:pencil-simple"
+                                                    class="w-6 h-6 cursor-pointer text-primary"
+                                                    @click="navigateTo(`/citizens/${state.selectedCitizen?.data?.uuid}/view-edit`)"
+                                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'" />
+                                            </Tooltip>
+                                        </div>
                                         <p class="text-sm font-medium text-gray-700"
                                             v-if="hasSocialSecurityNumberAccess()">
                                             {{ state.selectedCitizen?.data?.social_security_number }}
                                         </p>
                                     </div>
                                     <div>
-                                        <FormButton type="button" buttonStyle="action" buttonSize="sm"
-                                            class="rounded-md"
-                                            @click="navigateTo(`/citizens/${state.selectedCitizen?.data?.uuid}/view-edit`)"
-                                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
-                                            <Icon name="ph:pencil-simple" class="size-4" />
-                                            {{ $t('citizens.table.actions.edit') }}
-                                        </FormButton>
+                                        <LoadingSpinner :isActive="state.isPageLoading">
+                                            <div
+                                                class="bg-white rounded-md flex items-center justify-between gap-x-2 px-4">
+                                                <p class="text-sm text-primary font-bold">
+                                                    {{ state.selectedCitizen?.data?.is_checked_in ?
+                                                        $t('timeRegistration.checkOut') :
+                                                        $t('timeRegistration.checkIn') }}
+                                                </p>
+                                                <div class="flex items-center gap-x-1">
+                                                    <FormSwitch
+                                                        :value="state.selectedCitizen?.data?.is_checked_in ?? false"
+                                                        @toggleSwitch="toggleLogin" />
+                                                </div>
+                                            </div>
+                                            <div class="w-fit flex items-center gap-x-1 cursor-pointer px-4"
+                                                @click="state.modal.isViewPatienCareHoursOpen = true"
+                                                v-if="hasInterventionHoursAccess()">
+                                                <Tooltip :text="$t('citizens.interventionHours.interventionHours')"
+                                                    class="flex items-center">
+                                                    <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
+                                                </Tooltip>
+                                                <p class="text-sm font-medium text-gray-700">
+                                                    {{ formatNumber(language.locale.value,
+                                                        state.selectedCitizen?.data?.patient_care_hours) }}
+                                                </p>
+                                            </div>
+                                        </LoadingSpinner>
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-x-1" v-if="(state.selectedCitizen?.data?.address?.street ||
@@ -74,18 +102,6 @@
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5">
                                 <div class="space-y-1">
-                                    <div class="w-fit flex items-center gap-x-1 cursor-pointer"
-                                        @click="state.modal.isViewPatienCareHoursOpen = true"
-                                        v-if="hasInterventionHoursAccess()">
-                                        <Tooltip :text="$t('citizens.interventionHours.interventionHours')"
-                                            class="flex items-center">
-                                            <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm font-medium text-gray-700">
-                                            {{ formatNumber(language.locale.value,
-                                                state.selectedCitizen?.data?.patient_care_hours) }}
-                                        </p>
-                                    </div>
                                     <div class="flex items-center gap-x-1"
                                         v-if="state.selectedCitizen?.data?.birthday && hasBirthdayAccess()">
                                         <Tooltip :text="$t('citizens.form.birthday')" class="flex items-center">
@@ -295,6 +311,7 @@
 
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
+import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
@@ -335,6 +352,27 @@ async function fetchCitizen() {
         if (response) {
             state.selectedCitizen = response
             citizenStore.setSelectedCitizen(response?.data)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function toggleLogin() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        if (!state.selectedCitizen?.data?.is_checked_in) {
+            const response = await interventionHoursService.checkin(citizenUuid)
+            if (response?.data) {
+                fetchCitizen()
+            }
+        } else {
+            const response = await interventionHoursService.checkout(citizenUuid)
+            if (response?.data) {
+                fetchCitizen()
+            }
         }
     } catch (error: any) {
         state.error = error

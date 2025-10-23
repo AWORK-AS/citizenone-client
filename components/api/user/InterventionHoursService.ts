@@ -25,11 +25,11 @@ class InterventionHoursService extends BaseAPIService {
         return await this.request(`/user/citizen-care-hours/${citizenUuid}/summary-hours`, 'GET', params)
     }
 
-    async timeIn(citizenUuid: any): Promise<any> {
+    async checkin(citizenUuid: any): Promise<any> {
         return await this.request(`/user/citizen-care-hours/${citizenUuid}/time-in`, 'POST')
     }
 
-    async timeOut(citizenUuid: any): Promise<any> {
+    async checkout(citizenUuid: any): Promise<any> {
         return await this.request(`/user/citizen-care-hours/${citizenUuid}/time-out`, 'POST')
     }
 }
