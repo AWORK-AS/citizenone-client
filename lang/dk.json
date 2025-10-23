@@ -1330,6 +1330,7 @@
             "timeAccount": {
                 "dailyAllocation": "Daglig tildeling",
                 "date": "Dato",
+                "hourlyRate": "Timepris",
                 "monthlyAllocation": "Månedlig tildeling",
                 "timeAccount": "Tidskonto",
                 "weeklyAllocation": "Ugentlig tildeling"

@@ -11,6 +11,20 @@
                         {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_end) }}
                     </button>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+                        <LoadingSpinner :isActive="state.isTimeAccountLoading">
+                            <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.timeAccount.hourlyRate') }}
+                                </p>
+                                <p class="text-sm">
+                                    {{
+                                        formatNumber(language.locale.value, citizenStore.getSelectedCitizen?.hourly_rate)
+                                    }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
                         <LoadingSpinner :isActive="state.isTimeAccountLoading">
                             <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
                                 <p class="text-xs">
@@ -22,31 +36,67 @@
                             </div>
                         </LoadingSpinner>
                         <LoadingSpinner :isActive="state.isTimeAccountLoading">
-                            <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                            <div :class="[
+                                state.timeAccount?.data?.daily_flag === 1 && 'border-orange-400',
+                                state.timeAccount?.data?.daily_flag === 2 && 'border-secondary',
+                                state.timeAccount?.data?.daily_flag === 3 && 'border-red-600',
+                                'border-l-4 shadow-md rounded-md px-4 py-3'
+                            ]">
                                 <p class="text-xs">
                                     {{ $t('citizens.interventionHours.timeAccount.dailyAllocation') }}
+                                    ({{ formatNumber(language.locale.value,
+                                        citizenStore.getSelectedCitizen?.allocated_daily_hours) }})
                                 </p>
-                                <p class="text-sm">
+                                <p :class="[
+                                    state.timeAccount?.data?.daily_flag === 1 && 'text-orange-400',
+                                    state.timeAccount?.data?.daily_flag === 2 && 'text-secondary',
+                                    state.timeAccount?.data?.daily_flag === 3 && 'text-red-600',
+                                    'text-sm'
+                                ]">
                                     {{ state.timeAccount?.data?.daily ?? '-' }}
                                 </p>
                             </div>
                         </LoadingSpinner>
                         <LoadingSpinner :isActive="state.isTimeAccountLoading">
-                            <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                            <div :class="[
+                                state.timeAccount?.data?.weekly_flag === 1 && 'border-orange-400',
+                                state.timeAccount?.data?.weekly_flag === 2 && 'border-secondary',
+                                state.timeAccount?.data?.weekly_flag === 3 && 'border-red-600',
+                                'border-l-4 border-secondary shadow-md rounded-md px-4 py-3'
+                            ]">
                                 <p class="text-xs">
                                     {{ $t('citizens.interventionHours.timeAccount.weeklyAllocation') }}
+                                    ({{ formatNumber(language.locale.value,
+                                        citizenStore.getSelectedCitizen?.allocated_weekly_hours) }})
                                 </p>
-                                <p class="text-sm">
+                                <p :class="[
+                                    state.timeAccount?.data?.weekly_flag === 1 && 'text-orange-400',
+                                    state.timeAccount?.data?.weekly_flag === 2 && 'text-secondary',
+                                    state.timeAccount?.data?.weekly_flag === 3 && 'text-red-600',
+                                    'text-sm'
+                                ]">
                                     {{ state.timeAccount?.data?.weekly ?? '-' }}
                                 </p>
                             </div>
                         </LoadingSpinner>
                         <LoadingSpinner :isActive="state.isTimeAccountLoading">
-                            <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                            <div :class="[
+                                state.timeAccount?.data?.monthly_flag === 1 && 'border-orange-400',
+                                state.timeAccount?.data?.monthly_flag === 2 && 'border-secondary',
+                                state.timeAccount?.data?.monthly_flag === 3 && 'border-red-600',
+                                'border-l-4 border-secondary shadow-md rounded-md px-4 py-3'
+                            ]">
                                 <p class="text-xs">
                                     {{ $t('citizens.interventionHours.timeAccount.monthlyAllocation') }}
+                                    ({{ formatNumber(language.locale.value,
+                                        citizenStore.getSelectedCitizen?.allocated_monthly_hours) }})
                                 </p>
-                                <p class="text-sm">
+                                <p :class="[
+                                    state.timeAccount?.data?.monthly_flag === 1 && 'text-orange-400',
+                                    state.timeAccount?.data?.monthly_flag === 2 && 'text-secondary',
+                                    state.timeAccount?.data?.monthly_flag === 3 && 'text-red-600',
+                                    'text-sm'
+                                ]">
                                     {{ state.timeAccount?.data?.monthly ?? '-' }}
                                 </p>
                             </div>
@@ -146,6 +196,7 @@ import moment from 'moment'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
+import { useCitizenStore } from '@/store/citizen'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -158,6 +209,7 @@ const props = defineProps({
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const citizenStore = useCitizenStore() as any
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const { formatNumber } = useNumberFormatter()

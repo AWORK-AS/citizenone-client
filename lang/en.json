@@ -1330,6 +1330,7 @@
             "timeAccount": {
                 "dailyAllocation": "Daily allocation",
                 "date": "Date",
+                "hourlyRate": "Hourly rate",
                 "monthlyAllocation": "Monthly allocation",
                 "timeAccount": "Time account",
                 "weeklyAllocation": "Weekly allocation"
