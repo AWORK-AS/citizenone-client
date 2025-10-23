@@ -74,7 +74,7 @@
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5">
                                 <div class="space-y-1">
-                                    <div class="flex items-center gap-x-1 cursor-pointer"
+                                    <div class="w-fit flex items-center gap-x-1 cursor-pointer"
                                         @click="state.modal.isViewPatienCareHoursOpen = true"
                                         v-if="hasInterventionHoursAccess()">
                                         <Tooltip :text="$t('citizens.interventionHours.interventionHours')"

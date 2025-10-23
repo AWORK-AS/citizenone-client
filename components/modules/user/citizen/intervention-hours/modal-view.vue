@@ -24,7 +24,7 @@
                                 {{ $t('citizens.interventionHours.timeAccount.dailyAllocation') }}
                             </p>
                             <p class="text-sm">
-                                {{ state.timeAccount?.data?.daily }}
+                                {{ state.timeAccount?.data?.daily ?? '-' }}
                             </p>
                         </div>
                         <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
@@ -32,7 +32,7 @@
                                 {{ $t('citizens.interventionHours.timeAccount.weeklyAllocation') }}
                             </p>
                             <p class="text-sm">
-                                {{ state.timeAccount?.data?.weekly }}
+                                {{ state.timeAccount?.data?.weekly ?? '-' }}
                             </p>
                         </div>
                         <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
@@ -40,7 +40,7 @@
                                 {{ $t('citizens.interventionHours.timeAccount.monthlyAllocation') }}
                             </p>
                             <p class="text-sm">
-                                {{ state.timeAccount?.data?.monthly }}
+                                {{ state.timeAccount?.data?.monthly ?? '-' }}
                             </p>
                         </div>
                     </div>
