@@ -17,7 +17,7 @@ import { userService } from '@/components/api/user/UserService'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
-const userStore = useUserStore()
+const userStore = useUserStore() as any
 
 const hours = ref<number>(0)
 const seconds = ref<number>(0)
@@ -32,6 +32,25 @@ const state = reactive({
 const formattedTime = computed<string>(() => {
     const formatTime = (num: number): string => String(num).padStart(2, '0')
     return `${formatTime(hours.value)}:${formatTime(minutes.value)}:${formatTime(seconds.value)}`
+})
+
+onMounted(() => {
+    if (userStore.getUser != null) {
+        if (userStore.getUser?.time_summary) {
+            const totalTime = userStore.getUser?.time_summary.split(":")
+            hours.value = totalTime[0]
+            minutes.value = totalTime[1]
+            seconds.value = totalTime[2]
+        }
+        if (userStore.getUser?.is_checked_in) {
+            userStore.setIsLoggedIn(true)
+        } else {
+            userStore.setIsLoggedIn(false)
+        }
+        if (userStore.getIsLoggedIn) {
+            startTimer()
+        }
+    }
 })
 
 watch(() => userStore.getUser, (newValue: any) => {
