@@ -30,6 +30,7 @@ export interface CitizenForm {
     responsible_municipality: string,
     ean_number: string,
     transportation: string,
+    hourly_rate: string,
     allocated_daily_hours: string,
     allocated_weekly_hours: string,
     allocated_monthly_hours: string,

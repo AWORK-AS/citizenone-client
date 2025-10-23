@@ -300,6 +300,13 @@
                 <FormError :error="v$?.formCitizen?.transportation?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.transportation?.[0]" />
             </div>
+            <div class="space-y-1">
+                <FormLabel for="hourly_rate" :label="$t('citizens.form.hourlyRate')" />
+                <FormTextField id="hourly_rate" name="hourly_rate" :placeholder="$t('citizens.form.hourlyRate')"
+                    v-model="state.formCitizen.hourly_rate" />
+                <FormError :error="v$?.formCitizen?.hourly_rate?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.hourly_rate?.[0]" />
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div class="space-y-1">
                     <FormLabel for="allocated_daily_hours"
@@ -499,6 +506,7 @@ const state = reactive({
         responsible_municipality: '',
         ean_number: '',
         transportation: '',
+        hourly_rate: '',
         allocated_daily_hours: '',
         allocated_weekly_hours: '',
         allocated_monthly_hours: '',
@@ -591,6 +599,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             responsible_municipality: selectedCitizen.responsible_municipality,
             ean_number: selectedCitizen.ean_number,
             transportation: selectedCitizen.transportation,
+            hourly_rate: selectedCitizen.hourly_rate,
             allocated_daily_hours: selectedCitizen.allocated_daily_hours,
             allocated_weekly_hours: selectedCitizen.allocated_weekly_hours,
             allocated_monthly_hours: selectedCitizen.allocated_monthly_hours,
