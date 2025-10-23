@@ -59,7 +59,7 @@
                                 <FormButton buttonStyle="action" class="rounded-lg"
                                     @click="showDeletedJournalHistories">
                                     <Icon name="ph:clock-clockwise" class="h-4 w-4" aria-hidden="true" />
-                                    {{ $t('citizens.citizenJournals.journalLogs.deleletedNotes') }}
+                                    {{ $t('citizens.citizenJournals.journalLogs.deletedNotes') }}
                                 </FormButton>
                             </div>
                         </div>

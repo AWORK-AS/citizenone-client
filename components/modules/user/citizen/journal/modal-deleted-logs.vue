@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="3xl" :title="$t('citizens.citizenJournals.journalLogs.deleletedNotes')" :show="props.isModalOpen"
+        <Modal size="3xl" :title="$t('citizens.citizenJournals.journalLogs.deletedNotes')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div class="table-responsive">
@@ -208,7 +208,6 @@ async function fetchJournalLogs() {
         const response = await journalService.getDeletedJournalLogs(params)
         if (response) {
             state.journalLogs = response
-            console.log('test', response)
             expandedDescription.splice(0, expandedDescription.length, ...response.data.map(() => false))
         }
     } catch (error: any) {

@@ -1081,7 +1081,7 @@
             },
             "journalLogs": {
                 "date": "Date",
-                "deleletedNotes": "Deleted notes",
+                "deletedNotes": "Deleted notes",
                 "deletedBy": "Deleted by",
                 "description": "Description",
                 "journalLogs": "Journal logs",
