@@ -15,7 +15,9 @@ class BaseAPIService {
                 },
                 async onRequest({ request, options }: { request: any, options: any }) {
                     options.params = params
-                    options.params.company_uuid = localStorage.getItem('company_uuid')
+                    if (localStorage.getItem('company_uuid')) {
+                        options.params.company_uuid = localStorage.getItem('company_uuid')
+                    }
                 },
             }
         } else {
