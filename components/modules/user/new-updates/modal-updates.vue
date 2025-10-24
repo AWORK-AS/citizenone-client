@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2025-10-17',
+    currentVersion: '2025-10-24',
     availableVersions: [
+        '2025-10-24',
         '2025-10-17',
         '2025-10-10',
         '2025-10-03',
@@ -74,6 +75,43 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2025-10-24': [
+            {
+                title: 'Ability to create multiple duty schedule drafts for a single department or for the entire organization',
+                description: [
+                    'Clients can now create multiple duty schedule drafts for either a single department or the entire organization during the planning phase of shift scheduling.',
+                    'This feature allows for greater flexibility in planning and scheduling, with a clear indication of which department the draft is being published for when it is finalized.'
+                ],
+            },
+            {
+                title: 'Ability to switch between organizations using a single user account',
+                description: [
+                    'Users can now seamlessly switch between organizations using a single user account, making it easier for individuals who work across multiple organizations to manage their responsibilities.',
+                    'This improves user experience and reduces the need for multiple logins or account management.'
+                ],
+            },
+            {
+                title: 'Calculation of contribution margin on the citizen (viewable for admins or authorized users)',
+                description: [
+                    'A feature has been introduced to calculate the contribution margin per citizen, which is only viewable by admins or users with the necessary permissions.',
+                    'This allows for better financial tracking and analysis, providing key insights into the contribution margin of individual citizens.'
+                ],
+            },
+            {
+                title: 'Check-in and check-out on the citizen',
+                description: [
+                    'A new check-in and check-out functionality has been added for citizens, allowing users to record attendance or activity times.',
+                    'This feature is useful for tracking citizen engagement and ensuring accurate records of their involvement.'
+                ],
+            },
+            {
+                title: 'Time schedule: allocation and summary of time usage',
+                description: [
+                    'Users can now enter the allocated hours/minutes per day, week, or month for a citizen, and view a summary (time account) showing how much time has been used during the selected period.',
+                    'This ensures that it is clear whether the allocated time is being used efficiently and whether one is over or under the allocated time.'
+                ],
+            }
+        ],
         '2025-10-17': [
             {
                 title: 'Attachment of file in SMTP and Entra emails (both inbox and sent mails)',
@@ -335,6 +373,43 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2025-10-24': [
+            {
+                title: 'Mulighed for at oprette flere udkast af vagtplaner for en enkelt afdeling eller for hele organisationen',
+                description: [
+                    'Kunder kan nu oprette flere udkast af vagtplaner for enten en enkelt afdeling eller hele organisationen under planlægningsfasen af skiftplanlægning.',
+                    'Denne funktion giver større fleksibilitet i planlægning og tidsplanlægning, med en tydelig angivelse af, hvilken afdeling udkastet publiceres for, når det bliver afsluttet.'
+                ],
+            },
+            {
+                title: 'Mulighed for at skifte mellem organisationer med én brugerprofil',
+                description: [
+                    'Brugere kan nu nemt skifte mellem organisationer med én brugerprofil, hvilket gør det lettere for personer, der arbejder på tværs af flere organisationer, at håndtere deres ansvar.',
+                    'Denne funktion forbedrer brugeroplevelsen og reducerer behovet for flere login eller konto-håndtering.'
+                ],
+            },
+            {
+                title: 'Beregnings af bidragsmargen på borgeren (kun synlig for administratorer eller autoriserede brugere)',
+                description: [
+                    'En funktion er blevet introduceret til at beregne bidragsmargen per borger, som kun er synlig for administratorer eller brugere med de nødvendige rettigheder.',
+                    'Denne funktion giver bedre økonomisk sporing og analyse, og giver vigtig indsigt i bidragsmargenen for den enkelte borger.'
+                ],
+            },
+            {
+                title: 'Tjek-ind og tjek-ud på borgeren',
+                description: [
+                    'En ny funktion til tjek-ind og tjek-ud er blevet tilføjet for borgere, som giver brugerne mulighed for at registrere tidspunkter for deltagelse eller aktivitet.',
+                    'Denne funktion er nyttig til at spore borgernes engagement og sikre præcise optegnelser af deres deltagelse.'
+                ],
+            },
+            {
+                title: 'Tidsplan: allokering og opsummering af tidsforbrug',
+                description: [
+                    'Brugere kan nu indtaste de tildelte timer/minutter pr. dag, uge eller måned for en borger, og se en opsummering (tidskonto), der viser, hvor meget tid der er brugt i den valgte periode.',
+                    'Dette sikrer, at det er klart, om den tildelte tid bruges effektivt, og om man er over eller under den tildelte tid.'
+                ],
+            }
+        ],
         '2025-10-17': [
             {
                 title: 'Vedhæftning af fil i SMTP og Entra e-mails (både indbakke og sendt mails)',
