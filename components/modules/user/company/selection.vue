@@ -93,13 +93,15 @@ function selectCompany(event: any) {
     citizenStore.setCurrentPageNumber(1)
     employeeStore.setCurrentPageNumber(1)
     companyStore.setSelectedCompany(JSON.parse(event.target.value))
+    localStorage.setItem('company_uuid', JSON.parse(event.target.value).uuid)
     state.modal.isSwitchAnnouncementModalOpen = true
 }
 
-function changeCompany(company: object) {
+function changeCompany(company: any) {
     citizenStore.setCurrentPageNumber(1)
     employeeStore.setCurrentPageNumber(1)
     companyStore.setSelectedCompany(company)
+    localStorage.setItem('company_uuid', company.uuid)
     state.modal.isSwitchAnnouncementModalOpen = true
 }
 </script>
