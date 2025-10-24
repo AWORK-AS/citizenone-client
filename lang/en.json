@@ -3201,7 +3201,11 @@
     "hideAll": "Hide all",
     "home": "Home",
     "invitation": {
+        "alert": {
+            "invalidInvitationLink": "Invalid invitation link"
+        },
         "invitationAccepted": "Invitation accepted",
+        "loginToContinue": "Login to continue",
         "youHaveSuccessfullyAcceptedTheInvitation": "You have successfully accepted the invitation"
     },
     "invoices": {

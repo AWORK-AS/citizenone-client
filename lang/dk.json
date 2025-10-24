@@ -3201,7 +3201,11 @@
     "home": "Hjem",
     "guidedTour": "Guidet tur",
     "invitation": {
+        "alert": {
+            "invalidInvitationLink": "Ugyldigt invitationslink"
+        },
         "invitationAccepted": "Invitation accepteret",
+        "loginToContinue": "Log ind for at fortsætte",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har med succes accepteret invitationen"
     },
     "invoices": {
