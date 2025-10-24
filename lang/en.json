@@ -4088,7 +4088,9 @@
             "loginHere": "Login here",
             "agreetoTAC": "You must agree to the terms and conditions"
         },
-        "register": "Register"
+        "noCommitment": "There's no commitment, and you don't need to link a payment card",
+        "register": "Register",
+        "youCanExplore": "You can explore CitizenOne's features for free after signing up"
     },
     "relationships": {
         "addNewRelationship": "Add new relationship",

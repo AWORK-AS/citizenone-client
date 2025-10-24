@@ -4088,7 +4088,9 @@
             "loginHere": "Log ind her",
             "agreetoTAC": "Du skal acceptere vilkårene og betingelserne"
         },
-        "register": "Registrer"
+        "noCommitment": "Der er ingen binding, og du behøver ikke at tilknytte et betalingskort",
+        "register": "Registrer",
+        "youCanExplore": "Du kan udforske CitizenOnes funktioner gratis efter tilmelding"
     },
     "relationships": {
         "addNewRelationship": "Tilføj nyt forhold",
