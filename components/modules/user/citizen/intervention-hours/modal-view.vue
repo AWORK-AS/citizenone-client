@@ -62,7 +62,7 @@
                                 state.timeAccount?.data?.weekly_flag === 1 && 'border-orange-400',
                                 state.timeAccount?.data?.weekly_flag === 2 && 'border-secondary',
                                 state.timeAccount?.data?.weekly_flag === 3 && 'border-red-600',
-                                'border-l-4 border-secondary shadow-md rounded-md px-4 py-3'
+                                'border-l-4 shadow-md rounded-md px-4 py-3'
                             ]">
                                 <p class="text-xs">
                                     {{ $t('citizens.interventionHours.timeAccount.weeklyAllocation') }}
@@ -84,7 +84,7 @@
                                 state.timeAccount?.data?.monthly_flag === 1 && 'border-orange-400',
                                 state.timeAccount?.data?.monthly_flag === 2 && 'border-secondary',
                                 state.timeAccount?.data?.monthly_flag === 3 && 'border-red-600',
-                                'border-l-4 border-secondary shadow-md rounded-md px-4 py-3'
+                                'border-l-4 shadow-md rounded-md px-4 py-3'
                             ]">
                                 <p class="text-xs">
                                     {{ $t('citizens.interventionHours.timeAccount.monthlyAllocation') }}
