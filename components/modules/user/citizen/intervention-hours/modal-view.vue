@@ -3,16 +3,14 @@
         <Modal size="3xl" :title="$t('citizens.interventionHours.interventionHours')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
-                <div class="space-y-2">
+                <div class="space-y-3">
                     <button class="text-sm text-primary hover:text-primary-700 hover:underline"
                         @click="state.modal.isTimeAccountDateRangeOpen = true">
                         {{ $t('citizens.interventionHours.timeAccount.date') }}:
                         {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_start) }} -
                         {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_end) }}
                     </button>
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <LoadingSpinner :isActive="state.isTimeAccountLoading">
                             <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
                                 <p class="text-xs">
@@ -21,6 +19,18 @@
                                 <p class="text-sm">
                                     {{
                                         formatNumber(language.locale.value, citizenStore.getSelectedCitizen?.hourly_rate)
+                                    }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
+                        <LoadingSpinner :isActive="state.isContributionMarginLoading">
+                            <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.contributionMargin') }}
+                                </p>
+                                <p class="text-sm">
+                                    {{
+                                        state.contributionMargin?.data?.contribution_margin
                                     }}
                                 </p>
                             </div>
@@ -35,6 +45,8 @@
                                 </p>
                             </div>
                         </LoadingSpinner>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <LoadingSpinner :isActive="state.isTimeAccountLoading">
                             <div :class="[
                                 state.timeAccount?.data?.daily_flag === 1 && 'border-orange-400',
@@ -227,10 +239,12 @@ const state = reactive({
         { name: 'citizens.interventionHours.table.createdBy' },
         { name: '' },
     ],
+    contributionMargin: {} as any,
     dataFilter: {
         search: ''
     },
     error: {} as Error,
+    isContributionMarginLoading: false,
     isTimeAccountLoading: false,
     isTableLoading: false,
     modal: {
@@ -266,10 +280,29 @@ function refreshInterventionHours() {
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
+        fetchContributionMargin()
         fetchTimeAccount()
         fetchInterventionHours()
     }
 })
+
+async function fetchContributionMargin() {
+    state.error = {}
+    state.isContributionMarginLoading = true
+    try {
+        const params = {
+            date_start: state.timeAccountFilter.formDateRange.date_start,
+            date_end: state.timeAccountFilter.formDateRange.date_end,
+        }
+        const response = await interventionHoursService.getContributionMargin(citizenUuid, params)
+        if (response) {
+            state.contributionMargin = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isContributionMarginLoading = false
+}
 
 async function fetchTimeAccount() {
     state.error = {}

@@ -1289,6 +1289,7 @@
             }
         },
         "interventionHours": {
+            "contributionMargin": "Dækningsgrad",
             "download": {
                 "download": "Download",
                 "downloadInterventionHours": "Download indsatstimer",

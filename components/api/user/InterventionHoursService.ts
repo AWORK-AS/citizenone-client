@@ -21,6 +21,10 @@ class InterventionHoursService extends BaseAPIService {
         return await this.request(`/user/citizen-care-hours/download/reports`, 'GET', params)
     }
 
+    async getContributionMargin(citizenUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-care-hours/${citizenUuid}/contribution-margin`, 'GET', params)
+    }
+
     async getTimeAccount(citizenUuid: any, params: object): Promise<any> {
         return await this.request(`/user/citizen-care-hours/${citizenUuid}/summary-hours`, 'GET', params)
     }

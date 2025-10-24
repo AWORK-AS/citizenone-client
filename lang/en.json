@@ -1289,6 +1289,7 @@
             }
         },
         "interventionHours": {
+            "contributionMargin": "Contribution margin",
             "download": {
                 "download": "Download",
                 "downloadInterventionHours": "Download intervention hours",
