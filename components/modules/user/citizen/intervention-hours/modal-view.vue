@@ -10,7 +10,7 @@
                         {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_start) }} -
                         {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_end) }}
                     </button>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <LoadingSpinner :isActive="state.isTimeAccountLoading">
                             <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
                                 <p class="text-xs">
@@ -35,6 +35,8 @@
                                 </p>
                             </div>
                         </LoadingSpinner>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
                         <LoadingSpinner :isActive="state.isTimeAccountLoading">
                             <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
                                 <p class="text-xs">
@@ -45,8 +47,6 @@
                                 </p>
                             </div>
                         </LoadingSpinner>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <LoadingSpinner :isActive="state.isTimeAccountLoading">
                             <div :class="[
                                 state.timeAccount?.data?.daily_flag === 1 && 'border-orange-400',
