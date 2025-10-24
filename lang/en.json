@@ -2072,6 +2072,14 @@
             "tax": "Tax"
         }
     },
+    "company": {
+        "company": "Company",
+        "switchCompany": {
+            "companySwitchDescription": "Please wait while we reload the page to switch to your selected company",
+            "companySwitchTitle": "Company Switch in Progress",
+            "switchCompany": "Switch company"
+        }
+    },
     "customPages": {
         "editCustomPage": "Edit custom page",
         "form": {

@@ -2072,6 +2072,14 @@
             "tax": "Moms"
         }
     },
+    "company": {
+        "company": "Virksomhed",
+        "switchCompany": {
+            "companySwitchDescription": "Vent venligst, mens vi genindlæser siden for at skifte til det valgte firma",
+            "companySwitchTitle": "Firmaskift i gang",
+            "switchCompany": "Skift firma"
+        }
+    },
     "customPages": {
         "editCustomPage": "Rediger brugerdefineret side",
         "form": {
