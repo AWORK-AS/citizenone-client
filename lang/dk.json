@@ -2748,6 +2748,7 @@
         "exportEmployees": "Eksporter medarbejdere",
         "form": {
             "alert": {
+                "employeeSuccessfullyInvited": "Medarbejder inviteret med succes",
                 "employeeSuccessfullyUpdated": "Medarbejder opdateret med succes",
                 "newEmployeeSuccessfullySaved": "Ny medarbejder gemt med succes"
             },
@@ -2820,6 +2821,7 @@
             "noFileSelected": "Ingen fil valgt"
         },
         "newEmployee": "Ny medarbejder",
+        "inviteEmployee": "Inviter medarbejder",
         "permissions": {
             "create": "Opret",
             "delete": "Slet",

@@ -2748,6 +2748,7 @@
         "exportEmployees": "Export employees",
         "form": {
             "alert": {
+                "employeeSuccessfullyInvited": "Employee successfully invited",
                 "employeeSuccessfullyUpdated": "Employee successfully updated",
                 "newEmployeeSuccessfullySaved": "New employee successfully saved"
             },
@@ -2819,6 +2820,7 @@
             "importTemplate": "Import template",
             "noFileSelected": "No file selected"
         },
+        "inviteEmployee": "Invite employee",
         "newEmployee": "New employee",
         "permissions": {
             "create": "Create",
