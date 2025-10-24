@@ -40,6 +40,10 @@ class UserService extends BaseAPIService {
     async getAllUsersWithoutMyself(): Promise<any> {
         return await this.request(`/user/my-calendars/employee/list`, 'GET')
     }
+
+    async switchCompany(params: object): Promise<any> {
+        return await this.request(`/user/switch-company`, 'PUT', params)
+    }
 }
 
 export const userService = new UserService()

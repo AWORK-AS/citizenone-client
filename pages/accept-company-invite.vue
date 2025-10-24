@@ -52,51 +52,17 @@
                                             {{ $t('invitation.youHaveSuccessfullyAcceptedTheInvitation') }}.
                                         </p>
                                     </div>
-                                    <div class="space-y-2 mt-4">
-                                        <div class="flex items-center gap-x-2">
-                                            <dt class="flex items-center">
-                                                <span class="sr-only">Title</span>
-                                                <Icon name="ph:clipboard" class="h-4 w-4 text-gray-400"
-                                                    aria-hidden="true" />
-                                            </dt>
-                                            <dd class="font-semibold text-gray-900 xl:pr-0">
-                                                {{ state.event?.data?.my_calendar?.title }}
-                                            </dd>
-                                        </div>
-                                        <div class="flex gap-x-2">
-                                            <dt class="flex mt-1">
-                                                <span class="sr-only">Description</span>
-                                                <Icon name="heroicons:bars-3-bottom-left" class="h-4 w-4 text-gray-400"
-                                                    aria-hidden="true" />
-                                            </dt>
-                                            <dd class="text-gray-900 xl:pr-0">
-                                                {{ state.event?.data?.my_calendar?.description }}
-                                            </dd>
-                                        </div>
-                                        <div>
-                                            <div class="flex items-center space-x-3 text-xs">
-                                                <div class="flex items-center">
-                                                    <span class="sr-only">Date</span>
-                                                    <Icon name="ph:calendar" class="h-4 w-4 text-gray-400"
-                                                        aria-hidden="true" />
-                                                </div>
-                                                <div>
-                                                    {{
-                                                        formatDateTimeToReadable(state.event?.data?.my_calendar?.description.date_time_start)
-                                                    }}
-                                                    -
-                                                    {{
-                                                        formatDateTimeToReadable(state.event?.data?.my_calendar?.description.date_time_end)
-                                                    }}
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="mt-6">
+                                        <FormButton type="button" buttonStyle="primary" class="w-full"
+                                            @click="navigateTo('/')">
+                                            {{ $t('invitation.loginToContinue') }}
+                                        </FormButton>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>>
+                </div>
                 <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
                     @close="state.slideOver.isLanguageSwitcherOpen = false" />
             </LoadingSpinner>
@@ -105,27 +71,25 @@
 </template>
 
 <script setup lang="ts">
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { invitationService } from '@/components/api/user/InvitationService'
+import { companyInvitationService } from '@/components/api/user/CompanyInvitationService'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { errorAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore()
 const language = useI18n()
 const router = useRouter()
-const calendarUserUuid = router?.currentRoute?.value?.query?.uuid
+const companyUuid = router?.currentRoute?.value?.query?.company
+const userUuid = router?.currentRoute?.value?.query?.user
 
 // Set language
 language.locale.value = userStore.getLanguage
 
 const state = reactive({
-    event: [] as any,
     error: {} as Error,
     isPageLoading: false,
     slideOver: {
@@ -159,14 +123,15 @@ async function acceptInvitation() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await invitationService.acceptCalendarInvitation(calendarUserUuid)
-        if (response) {
-            state.event = response
+        const params = {
+            company_uuid: companyUuid,
+            user_uuid: userUuid,
         }
+        await companyInvitationService.acceptInvitation(params)
     } catch (error: any) {
         state.error = error
-        if (error?.message === 'Calendar event not found.') {
-            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('alert.invitation.calendarEventNotFound')}.`)
+        if (error?.message) {
+            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('invitation.alert.invalidInvitationLink')}.`)
             navigateTo(`/`)
         }
     }

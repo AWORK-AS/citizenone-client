@@ -1108,6 +1108,11 @@
                 "successfullyAdded": "Nye borgere gemt med succes",
                 "successfullyUpdate": "Borger opdateret med succes"
             },
+            "allocatedHours": {
+                "allocatedDailyHours": "Tildelte daglige timer",
+                "allocatedMonthlyHours": "Tildelte månedlige timer",
+                "allocatedWeeklyHours": "Tildelte ugentlige timer"
+            },
             "allowSystemAccess": "Tillad systemadgang",
             "allowChatAccess": "Tillad chatadgang",
             "allowDutyScheduleAccess": "Tillad adgang til vagtplan",
@@ -1124,9 +1129,10 @@
             "diagnoses": "Diagnoser",
             "eanNumber": "EAN-nummer",
             "emailAddress": "E-mail adresse",
-            "gender": "Køn",
             "firstname": "Fornavn",
             "foreignCityOfOrigin": "Udenlandsk oprindelsesby",
+            "gender": "Køn",
+            "hourlyRate": "Timepris",
             "lastname": "Efternavn",
             "medicationAllergies": "Medicinallergier",
             "municipality": "Kommune",
@@ -1283,6 +1289,7 @@
             }
         },
         "interventionHours": {
+            "contributionMargin": "Dækningsgrad",
             "download": {
                 "download": "Download",
                 "downloadInterventionHours": "Download indsatstimer",
@@ -1320,6 +1327,14 @@
                 "fromDutySchedule": "Fra vagtplan",
                 "note": "Bemærkning",
                 "totalHours": "Samlet timer"
+            },
+            "timeAccount": {
+                "dailyAllocation": "Daglig tildeling",
+                "date": "Dato",
+                "hourlyRate": "Timepris",
+                "monthlyAllocation": "Månedlig tildeling",
+                "timeAccount": "Tidskonto",
+                "weeklyAllocation": "Ugentlig tildeling"
             }
         },
         "medicationAllergies": "Medicinallergier",
@@ -2058,6 +2073,14 @@
             "tax": "Moms"
         }
     },
+    "company": {
+        "company": "Virksomhed",
+        "switchCompany": {
+            "companySwitchDescription": "Vent venligst, mens vi genindlæser siden for at skifte til det valgte firma",
+            "companySwitchTitle": "Firmaskift i gang",
+            "switchCompany": "Skift firma"
+        }
+    },
     "customPages": {
         "editCustomPage": "Rediger brugerdefineret side",
         "form": {
@@ -2734,6 +2757,7 @@
         "exportEmployees": "Eksporter medarbejdere",
         "form": {
             "alert": {
+                "employeeSuccessfullyInvited": "Medarbejder inviteret med succes",
                 "employeeSuccessfullyUpdated": "Medarbejder opdateret med succes",
                 "newEmployeeSuccessfullySaved": "Ny medarbejder gemt med succes"
             },
@@ -2806,6 +2830,7 @@
             "noFileSelected": "Ingen fil valgt"
         },
         "newEmployee": "Ny medarbejder",
+        "inviteEmployee": "Inviter medarbejder",
         "permissions": {
             "create": "Opret",
             "delete": "Slet",
@@ -3185,7 +3210,11 @@
     "home": "Hjem",
     "guidedTour": "Guidet tur",
     "invitation": {
+        "alert": {
+            "invalidInvitationLink": "Ugyldigt invitationslink"
+        },
         "invitationAccepted": "Invitation accepteret",
+        "loginToContinue": "Log ind for at fortsætte",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har med succes accepteret invitationen"
     },
     "invoices": {
@@ -4060,7 +4089,9 @@
             "loginHere": "Log ind her",
             "agreetoTAC": "Du skal acceptere vilkårene og betingelserne"
         },
-        "register": "Registrer"
+        "noCommitment": "Der er ingen binding, og du behøver ikke at tilknytte et betalingskort",
+        "register": "Registrer",
+        "youCanExplore": "Du kan udforske CitizenOnes funktioner gratis efter tilmelding"
     },
     "relationships": {
         "addNewRelationship": "Tilføj nyt forhold",

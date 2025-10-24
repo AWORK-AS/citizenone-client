@@ -18,7 +18,7 @@
             </template>
 
             <div>
-                <div class="flex justify-between items-center mb-5">
+                <div class="flex-none lg:flex justify-between items-center space-y-3 mb-5">
                     <div class="flex items-center gap-x-1">
                         <span>{{ $t('entriesPerPage') }}:</span>
                         <select class="focus:outline-none bg-transparent" @change="changePageLength"
@@ -32,10 +32,15 @@
                             <option value="500">500</option>
                         </select>
                     </div>
-                    <div class="flex items-center gap-x-3">
+                    <div class="flex flex-wrap items-center gap-3">
                         <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/employees/new')">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.newEmployee') }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-lg"
+                            @click="state.modal.isInviteEmployeeOpen = true">
+                            <Icon name="ph:envelope" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('employees.inviteEmployee') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-lg"
                             @click="state.modal.isImportEmployeesOpen = true">
@@ -170,6 +175,8 @@
                 :message="$t('employees.table.confirmation.bookingAccessConfirmation') + '?'"
                 @close="state.modal.isGiveBookingAccessOpen = false" @confirm="giveBookingAccess" />
 
+            <ModulesUserEmployeeInviteModalNew :isModalOpen="state.modal.isInviteEmployeeOpen"
+                @close="state.modal.isInviteEmployeeOpen = false" @refreshEmployees="fetchEmployees" />
             <ModulesUserEmployeeModalImport :isModalOpen="state.modal.isImportEmployeesOpen"
                 @close="state.modal.isImportEmployeesOpen = false" />
 
@@ -225,6 +232,7 @@ const state = reactive({
     isTableLoading: false,
     modal: {
         isImportEmployeesOpen: false,
+        isInviteEmployeeOpen: false,
         isGiveAIAccessOpen: false,
         isGiveBookingAccessOpen: false,
         isGuidedTourEmployeesOpen: false,

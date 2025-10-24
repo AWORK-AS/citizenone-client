@@ -3,7 +3,119 @@
         <Modal size="3xl" :title="$t('citizens.interventionHours.interventionHours')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
-                <div class="flex items-center gap-x-2 justify-end">
+                <div class="space-y-3">
+                    <button class="text-sm text-primary hover:text-primary-700 hover:underline"
+                        @click="state.modal.isTimeAccountDateRangeOpen = true">
+                        {{ $t('citizens.interventionHours.timeAccount.date') }}:
+                        {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_start) }} -
+                        {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_end) }}
+                    </button>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <LoadingSpinner :isActive="state.isTimeAccountLoading">
+                            <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.timeAccount.hourlyRate') }}
+                                </p>
+                                <p class="text-sm">
+                                    {{
+                                        formatNumber(language.locale.value, citizenStore.getSelectedCitizen?.hourly_rate)
+                                    }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
+                        <LoadingSpinner :isActive="state.isContributionMarginLoading">
+                            <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.contributionMargin') }}
+                                </p>
+                                <p class="text-sm">
+                                    {{
+                                        state.contributionMargin?.data?.contribution_margin
+                                    }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                        <LoadingSpinner :isActive="state.isTimeAccountLoading">
+                            <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.timeAccount.timeAccount') }}
+                                </p>
+                                <p class="text-sm">
+                                    {{ state.timeAccount?.data?.total_hours || 0 }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
+                        <LoadingSpinner :isActive="state.isTimeAccountLoading">
+                            <div :class="[
+                                state.timeAccount?.data?.daily_flag === 1 && 'border-orange-400',
+                                state.timeAccount?.data?.daily_flag === 2 && 'border-secondary',
+                                state.timeAccount?.data?.daily_flag === 3 && 'border-red-600',
+                                'border-l-4 shadow-md rounded-md px-4 py-3'
+                            ]">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.timeAccount.dailyAllocation') }}
+                                    ({{ formatNumber(language.locale.value,
+                                        citizenStore.getSelectedCitizen?.allocated_daily_hours) }})
+                                </p>
+                                <p :class="[
+                                    state.timeAccount?.data?.daily_flag === 1 && 'text-orange-400',
+                                    state.timeAccount?.data?.daily_flag === 2 && 'text-secondary',
+                                    state.timeAccount?.data?.daily_flag === 3 && 'text-red-600',
+                                    'text-sm'
+                                ]">
+                                    {{ state.timeAccount?.data?.daily ?? '-' }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
+                        <LoadingSpinner :isActive="state.isTimeAccountLoading">
+                            <div :class="[
+                                state.timeAccount?.data?.weekly_flag === 1 && 'border-orange-400',
+                                state.timeAccount?.data?.weekly_flag === 2 && 'border-secondary',
+                                state.timeAccount?.data?.weekly_flag === 3 && 'border-red-600',
+                                'border-l-4 shadow-md rounded-md px-4 py-3'
+                            ]">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.timeAccount.weeklyAllocation') }}
+                                    ({{ formatNumber(language.locale.value,
+                                        citizenStore.getSelectedCitizen?.allocated_weekly_hours) }})
+                                </p>
+                                <p :class="[
+                                    state.timeAccount?.data?.weekly_flag === 1 && 'text-orange-400',
+                                    state.timeAccount?.data?.weekly_flag === 2 && 'text-secondary',
+                                    state.timeAccount?.data?.weekly_flag === 3 && 'text-red-600',
+                                    'text-sm'
+                                ]">
+                                    {{ state.timeAccount?.data?.weekly ?? '-' }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
+                        <LoadingSpinner :isActive="state.isTimeAccountLoading">
+                            <div :class="[
+                                state.timeAccount?.data?.monthly_flag === 1 && 'border-orange-400',
+                                state.timeAccount?.data?.monthly_flag === 2 && 'border-secondary',
+                                state.timeAccount?.data?.monthly_flag === 3 && 'border-red-600',
+                                'border-l-4 shadow-md rounded-md px-4 py-3'
+                            ]">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.timeAccount.monthlyAllocation') }}
+                                    ({{ formatNumber(language.locale.value,
+                                        citizenStore.getSelectedCitizen?.allocated_monthly_hours) }})
+                                </p>
+                                <p :class="[
+                                    state.timeAccount?.data?.monthly_flag === 1 && 'text-orange-400',
+                                    state.timeAccount?.data?.monthly_flag === 2 && 'text-secondary',
+                                    state.timeAccount?.data?.monthly_flag === 3 && 'text-red-600',
+                                    'text-sm'
+                                ]">
+                                    {{ state.timeAccount?.data?.monthly ?? '-' }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
+                    </div>
+                </div>
+                <div class="mt-6 flex items-center gap-x-2 justify-end">
                     <FormButton buttonStyle="action" class="rounded-lg"
                         @click="state.modal.isAddInterventionHoursOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -26,10 +138,12 @@
                                 v-if="!(state.isTableLoading || (state.interventionHours?.data?.length === 0))">
                                 <tr v-for="(inteventionHours, index) in state.interventionHours?.data" :key="index">
                                     <td width="15%">
-                                        {{ formatDateTimeToReadable(inteventionHours?.date_time_start) }}
+                                        {{ inteventionHours?.date_time_start ?
+                                            formatDateTimeToReadable(inteventionHours?.date_time_start) : '' }}
                                     </td>
                                     <td width="15%">
-                                        {{ formatDateTimeToReadable(inteventionHours?.date_time_end) }}
+                                        {{ inteventionHours?.date_time_end ?
+                                            formatDateTimeToReadable(inteventionHours?.date_time_end) : '' }}
                                     </td>
                                     <td width="20%">
                                         {{ inteventionHours?.note }}
@@ -78,6 +192,9 @@
                 <ModulesUserCitizenInterventionHoursModalDownload
                     :isModalOpen="state.modal.isDownloadInterventionHoursOpen"
                     @close="state.modal.isDownloadInterventionHoursOpen = false" />
+                <ModulesUserCitizenInterventionHoursModalDateRange :isModalOpen="state.modal.isTimeAccountDateRangeOpen"
+                    :dateRange="state.timeAccountFilter.formDateRange"
+                    @close="state.modal.isTimeAccountDateRangeOpen = false" @filterDate="filterTimeAccountByDate" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteInterventionHoursOpen"
                     :message="$t('citizens.interventionHours.table.confirmation.deleteInterventionHoursConfirmation') + '?'"
                     @close="state.modal.isDeleteInterventionHoursOpen = false" @confirm="deleteInterventionHours" />
@@ -87,9 +204,11 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
+import { useCitizenStore } from '@/store/citizen'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -102,7 +221,8 @@ const props = defineProps({
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
-const { formatDateTimeToReadable } = useDatetimeFormatter()
+const citizenStore = useCitizenStore() as any
+const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
@@ -119,22 +239,33 @@ const state = reactive({
         { name: 'citizens.interventionHours.table.createdBy' },
         { name: '' },
     ],
+    contributionMargin: {} as any,
     dataFilter: {
         search: ''
     },
     error: {} as Error,
+    isContributionMarginLoading: false,
+    isTimeAccountLoading: false,
     isTableLoading: false,
     modal: {
         isAddInterventionHoursOpen: false,
         isDeleteInterventionHoursOpen: false,
         isDownloadInterventionHoursOpen: false,
         isEditInterventionHoursOpen: false,
+        isTimeAccountDateRangeOpen: false,
     },
     interventionHours: [] as any,
     selectedInterventionHours: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
+    },
+    timeAccount: {} as any,
+    timeAccountFilter: {
+        formDateRange: {
+            date_start: moment().startOf('month').format('YYYY-MM-DD'),
+            date_end: moment().endOf('month').format('YYYY-MM-DD'),
+        }
     },
 })
 
@@ -149,9 +280,53 @@ function refreshInterventionHours() {
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
+        fetchContributionMargin()
+        fetchTimeAccount()
         fetchInterventionHours()
     }
 })
+
+async function fetchContributionMargin() {
+    state.error = {}
+    state.isContributionMarginLoading = true
+    try {
+        const params = {
+            date_start: state.timeAccountFilter.formDateRange.date_start,
+            date_end: state.timeAccountFilter.formDateRange.date_end,
+        }
+        const response = await interventionHoursService.getContributionMargin(citizenUuid, params)
+        if (response) {
+            state.contributionMargin = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isContributionMarginLoading = false
+}
+
+async function fetchTimeAccount() {
+    state.error = {}
+    state.isTimeAccountLoading = true
+    try {
+        const params = {
+            date_start: state.timeAccountFilter.formDateRange.date_start,
+            date_end: state.timeAccountFilter.formDateRange.date_end,
+        }
+        const response = await interventionHoursService.getTimeAccount(citizenUuid, params)
+        if (response) {
+            state.timeAccount = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTimeAccountLoading = false
+}
+
+function filterTimeAccountByDate(formDateRange: any) {
+    state.timeAccountFilter.formDateRange.date_start = formDateRange.date_start
+    state.timeAccountFilter.formDateRange.date_end = formDateRange.date_end
+    fetchTimeAccount()
+}
 
 async function fetchInterventionHours() {
     state.error = {}
@@ -218,6 +393,7 @@ async function deleteInterventionHours() {
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             successAlert(`${t('alert.success')}!`, `${t('citizens.interventionHours.table.alert.interventionHoursSuccessfullyDeleted')}.`)
             refreshInterventionHours()
+            fetchTimeAccount()
         }
     } catch (error: any) {
         state.error = error

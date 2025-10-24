@@ -250,10 +250,10 @@
                 <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                     <div
                         class="flex-1 flex flex-col justify-center gap-x-2 md:flex-row md:items-center md:justify-start">
-                        <p class="text-sm md:text-base font-medium truncate max-w-24 md:max-w-fit">
-                            {{ userStore.getUser?.company?.name }}
-                        </p>
-                        <div class="text-xs">
+                        <div>
+                            <ModulesUserCompanySelection />
+                        </div>
+                        <div>
                             <ModulesUserDepartmentSelection />
                         </div>
                     </div>

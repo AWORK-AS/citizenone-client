@@ -29,6 +29,24 @@
                             {{ $t('register.form.createAccount') }}
                         </h3>
                         <div class="space-y-1">
+                            <div class="flex items-center gap-x-1">
+                                <div class="bg-secondary rounded-full flex items-center p-0.5">
+                                    <Icon name="ph:check" class="w-3 h-3 text-white" />
+                                </div>
+                                <p class="text-sm">
+                                    {{ $t('register.noCommitment') }}
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-x-1">
+                                <div class="bg-secondary rounded-full flex items-center p-0.5">
+                                    <Icon name="ph:check" class="w-3 h-3 text-white" />
+                                </div>
+                                <p class="text-sm">
+                                    {{ $t('register.youCanExplore') }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
                             <FormLabel for="name" :label="$t('register.form.companyName')" />
                             <FormTextField id="name" name="name" :placeholder="$t('register.form.companyName')"
                                 v-model="state.formRegister.name" />

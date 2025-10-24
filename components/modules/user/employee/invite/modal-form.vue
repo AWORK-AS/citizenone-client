@@ -3,10 +3,11 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-1">
-            <FormLabel for="name" :label="$t('roles.form.name')" />
-            <FormTextField id="name" name="name" :placeholder="$t('roles.form.name')" v-model="state.formRole.name" />
-            <FormError :error="v$?.formRole?.name?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.name?.[0]" />
+            <FormLabel for="email" :label="$t('employees.form.emailAddress')" />
+            <FormTextField id="email" name="email" :placeholder="$t('employees.form.emailAddress')"
+                v-model="state.formInvite.email" />
+            <FormError :error="v$?.formInvite?.email?.$errors[0]?.$message.toString()" />
+            <FormError :error="props?.error?.errors?.email?.[0]" />
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -37,10 +38,6 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedRole: {
-        type: Object,
-        required: false,
-    },
 })
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 
@@ -48,23 +45,15 @@ const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
-    formRole: {
-        name: '',
+    formInvite: {
+        email: '',
     },
-})
-
-watch(() => props.selectedRole, (newValue: any) => {
-    if (newValue != null) {
-        state.formRole = {
-            name: newValue.name,
-        }
-    }
 })
 
 const rules = computed(() => {
     return {
-        formRole: {
-            name: {
+        formInvite: {
+            email: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
@@ -77,7 +66,7 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formRole)
+        emit('submitForm', state.formInvite)
     }
 }
 </script>

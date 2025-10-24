@@ -45,6 +45,10 @@ class EmployeeService extends BaseAPIService {
         return await this.request(`/user/employees/${employeeUuid}/toggle/booking-license`, 'PUT')
     }
 
+    async inviteEmployee(params: object): Promise<any> {
+        return await this.request(`/user/employees/company/send-admin-invitation`, 'POST', params)
+    }
+
     async importEmployees(params: object): Promise<any> {
         return await this.request(`/user/employees/imports/template`, 'POST', params)
     }

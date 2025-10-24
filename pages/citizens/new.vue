@@ -92,6 +92,10 @@ const state = reactive({
         responsible_municipality: '',
         ean_number: '',
         transportation: '',
+        hourly_rate: '',
+        allocated_daily_hours: '',
+        allocated_weekly_hours: '',
+        allocated_monthly_hours: '',
         note: '',
         green: '',
         yellow: '',
@@ -157,6 +161,10 @@ async function saveCitizen(citizenDetails: any) {
         params.append('responsible_municipality', citizenDetails.responsible_municipality)
         params.append('ean_number', citizenDetails.ean_number)
         params.append('transportation', citizenDetails.transportation)
+        params.append('hourly_rate', citizenDetails.hourly_rate)
+        params.append('allocated_daily_hours', citizenDetails.allocated_daily_hours)
+        params.append('allocated_weekly_hours', citizenDetails.allocated_weekly_hours)
+        params.append('allocated_monthly_hours', citizenDetails.allocated_monthly_hours)
         params.append('note', citizenDetails.note)
         params.append('green', citizenDetails.green)
         params.append('yellow', citizenDetails.yellow)

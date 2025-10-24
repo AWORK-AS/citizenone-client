@@ -1081,7 +1081,7 @@
             },
             "journalLogs": {
                 "date": "Date",
-                "deleletedNotes": "Deleted notes",
+                "deletedNotes": "Deleted notes",
                 "deletedBy": "Deleted by",
                 "description": "Description",
                 "journalLogs": "Journal logs",
@@ -1108,6 +1108,11 @@
                 "successfullyAdded": "New citizens successfully saved",
                 "successfullyUpdate": "Citizen successfully updated"
             },
+            "allocatedHours": {
+                "allocatedDailyHours": "Allocated daily hours",
+                "allocatedMonthlyHours": "Allocated monthly hours",
+                "allocatedWeeklyHours": "Allocated weekly hours"
+            },
             "allowSystemAccess": "Allow system access",
             "allowChatAccess": "Allow chat access",
             "allowDutyScheduleAccess": "Allow duty schedule access",
@@ -1124,9 +1129,10 @@
             "diagnoses": "Diagnoses",
             "eanNumber": "EAN number",
             "emailAddress": "Email address",
-            "gender": "Gender",
             "firstname": "First name",
             "foreignCityOfOrigin": "Foreign city of origin",
+            "gender": "Gender",
+            "hourlyRate": "Hourly rate",
             "lastname": "Last name",
             "medicationAllergies": "Medication allergies",
             "municipality": "Municipality",
@@ -1283,6 +1289,7 @@
             }
         },
         "interventionHours": {
+            "contributionMargin": "Contribution margin",
             "download": {
                 "download": "Download",
                 "downloadInterventionHours": "Download intervention hours",
@@ -1320,6 +1327,14 @@
                 "fromDutySchedule": "From duty schedule",
                 "note": "Note",
                 "totalHours": "Total hours"
+            },
+            "timeAccount": {
+                "dailyAllocation": "Daily allocation",
+                "date": "Date",
+                "hourlyRate": "Hourly rate",
+                "monthlyAllocation": "Monthly allocation",
+                "timeAccount": "Time account",
+                "weeklyAllocation": "Weekly allocation"
             }
         },
         "medicationAllergies": "Medication allergies",
@@ -2058,6 +2073,14 @@
             "tax": "Tax"
         }
     },
+    "company": {
+        "company": "Company",
+        "switchCompany": {
+            "companySwitchDescription": "Please wait while we reload the page to switch to your selected company",
+            "companySwitchTitle": "Company Switch in Progress",
+            "switchCompany": "Switch company"
+        }
+    },
     "customPages": {
         "editCustomPage": "Edit custom page",
         "form": {
@@ -2734,6 +2757,7 @@
         "exportEmployees": "Export employees",
         "form": {
             "alert": {
+                "employeeSuccessfullyInvited": "Employee successfully invited",
                 "employeeSuccessfullyUpdated": "Employee successfully updated",
                 "newEmployeeSuccessfullySaved": "New employee successfully saved"
             },
@@ -2805,6 +2829,7 @@
             "importTemplate": "Import template",
             "noFileSelected": "No file selected"
         },
+        "inviteEmployee": "Invite employee",
         "newEmployee": "New employee",
         "permissions": {
             "create": "Create",
@@ -3185,7 +3210,11 @@
     "hideAll": "Hide all",
     "home": "Home",
     "invitation": {
+        "alert": {
+            "invalidInvitationLink": "Invalid invitation link"
+        },
         "invitationAccepted": "Invitation accepted",
+        "loginToContinue": "Login to continue",
         "youHaveSuccessfullyAcceptedTheInvitation": "You have successfully accepted the invitation"
     },
     "invoices": {
@@ -4060,7 +4089,9 @@
             "loginHere": "Login here",
             "agreetoTAC": "You must agree to the terms and conditions"
         },
-        "register": "Register"
+        "noCommitment": "There's no commitment, and you don't need to link a payment card",
+        "register": "Register",
+        "youCanExplore": "You can explore CitizenOne's features for free after signing up"
     },
     "relationships": {
         "addNewRelationship": "Add new relationship",

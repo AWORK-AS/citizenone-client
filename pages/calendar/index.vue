@@ -80,18 +80,13 @@
 
             <div class="grid lg:grid-cols-6 gap-3">
                 <div class="flex items-center gap-x-3 lg:col-span-3">
-                    <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
-                        @click="setCalendarView('default')" class="rounded-md">
-                        {{ $t('calendar.view.defaultView') }}
-                    </FormButton>
-                    <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
-                        @click="setCalendarView('week')" class="rounded-md">
-                        {{ $t('calendar.view.weekView') }}
-                    </FormButton>
-                    <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
-                        @click="setCalendarView('month')" class="rounded-md">
-                        {{ $t('calendar.view.monthView') }}
-                    </FormButton>
+                    <button class="flex items-center gap-x-1 text-sm text-primary group"
+                        @click="state.modal.isFilterCalendarOpen = true">
+                        <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                        <span class="group-hover:text-primary-700">
+                            {{ $t('filter') }}
+                        </span>
+                    </button>
                 </div>
                 <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 items-center gap-x-3">
                     <div>
@@ -124,6 +119,8 @@
                 </LoadingSpinner>
             </div>
 
+            <ModulesUserCitizenCalendarModalFilter :isModalOpen="state.modal.isFilterCalendarOpen"
+                @close="state.modal.isFilterCalendarOpen = false" @setFilter="setFilter" />
             <ModulesUserMyCalendarMyselfModalNew :isModalOpen="state.modal.isAddEventForMyselfOpen"
                 @close="state.modal.isAddEventForMyselfOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
             <ModulesUserMyCalendarCitizenModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen"
@@ -174,8 +171,10 @@ const breadcrumbLinks = [
 
 const state = reactive({
     calendarView: 'default',
-    myCalendarEvents: [] as any,
     error: {} as Error,
+    filter: {
+        tags_uuid: [] as any,
+    },
     formCalendar: {
         citizens_uuid: [],
         users_uuid: employeeUuid ? [employeeUuid] : [],
@@ -188,7 +187,9 @@ const state = reactive({
         isDeleteScheduleOpen: false,
         isEditEventOpen: false,
         isGuidedTourCalendarOpen: false,
+        isFilterCalendarOpen: false
     },
+    myCalendarEvents: [] as any,
     selectedDate: {
         end_date: '',
         start_date: '',
@@ -330,7 +331,7 @@ async function fetchMyCalendarEvents() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params: any = {}
+        const params = {} as any
         params.department = departmentStore.getSelectedDepartmentName
         if (state.selectedDate.start_date && state.selectedDate.end_date) {
             params.date = state.selectedDate
@@ -351,6 +352,10 @@ async function fetchMyCalendarEvents() {
         }
         if (state.formCalendar.users_uuid) {
             params.employee_uuid = Array(state.formCalendar.users_uuid)
+        }
+
+        if (state.filter.tags_uuid) {
+            params.tags_uuid = JSON.stringify(state.filter.tags_uuid)
         }
 
         const response = await myCalendarService.getSchedules(params)
@@ -388,7 +393,6 @@ function setCalendarView(viewStyle: any) {
                 start_date: firstDayOfMonth,
             }
         }
-        fetchMyCalendarEvents()
     }
 }
 
@@ -464,5 +468,11 @@ async function subscribe() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function setFilter(filter: any) {
+    setCalendarView(filter.selectedView.title)
+    state.filter.tags_uuid = filter.tags
+    fetchMyCalendarEvents()
 }
 </script>

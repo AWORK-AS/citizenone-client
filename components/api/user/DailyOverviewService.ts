@@ -86,7 +86,7 @@ class DailyOverviewService extends BaseAPIService {
     }
 
     async getNews(): Promise<any> {
-        return await this.request(`/user/news/daily/overview `, 'GET')
+        return await this.request(`/user/news/daily/overview`, 'GET')
     }
 
     async getPolls(): Promise<any> {
