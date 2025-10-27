@@ -3,7 +3,7 @@
         <Modal size="xs" :title="$t('bookingTags.newBookingTag')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserBookingTagForm formType="create" :selectedTag="state.formTag" :error="state.error"
+                    <ModulesUserBookingTagModalForm formType="create" :selectedTag="state.formTag" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveBookingTag" />
                 </LoadingSpinner>
