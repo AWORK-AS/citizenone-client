@@ -20,7 +20,25 @@
             </div>
         </header>
         <div class="flex-grow">
-            <LoadingSpinner :isActive="state.isPageLoading">
+            <div class="mx-auto max-w-6xl text-center px-4 py-40 space-y-5" v-if="state.isPageLoading">
+                <div class="flex justify-center items-center">
+                    <img src="/img/undraw/warning.svg" class="w-48 cursor-pointer" />
+                </div>
+                <div>
+                    <h2 class="text-balance text-2xl font-semibold tracking-tight text-gray-900">
+                        {{ $t('bookings.loading.loadingEventDetails') }}.
+                    </h2>
+                    <p class="text-pretty text-lg text-gray-600">
+                        {{ $t('bookings.loading.theSystemIsRetrievening') }}
+                        <span class="dot1">.</span>
+                        <span class="dot2">.</span>
+                        <span class="dot3">.</span>
+                        <span class="dot4">.</span>
+                        <span class="dot5">.</span>
+                    </p>
+                </div>
+            </div>
+            <div v-else>
                 <div class="mx-auto max-w-6xl px-4 py-8" v-if="Object.keys(state.bookingSettings).length > 0">
                     <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
                         :to="`/booking/${companyLink}/overview`">
@@ -170,13 +188,6 @@
                                                 <p class="col-span-3">
                                                     {{ state.courseEventDetails?.name }}
                                                 </p>
-                                                <!-- <p class="font-semibold text-right text-primary">
-                                                    {{ $t('bookings.booking.confirmation.time') }}
-                                                </p>
-                                                <p class="col-span-3">
-                                                    Friday d. 20 June 2025, 9:00 to Sunday d. 29 June 2025, 17:00
-                                                    (GMT+02:00)
-                                                </p> -->
                                                 <p class="font-semibold text-right text-primary">
                                                     {{ $t('bookings.booking.confirmation.price') }}
                                                 </p>
@@ -306,7 +317,7 @@
                         </FormButton>
                     </div>
                 </div>
-            </LoadingSpinner>
+            </div>
         </div>
         <footer class="bg-gray-50">
             <div class="mx-auto max-w-6xl px-4 py-6">

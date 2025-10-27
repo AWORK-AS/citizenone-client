@@ -538,6 +538,12 @@
                 "summary": "Summary"
             }
         },
+        "loading": {
+            "fetchingUpcomingEvents": "Fetching upcoming events",
+            "loadingEventDetails": "Loading event details",
+            "theSystemIsRetrievening": "The system is retrieving and loading the event information. Please wait while we prepare the event details for display",
+            "wereGatheringAllTheExcitingEvents": "We're gathering all the exciting events for you. Hang tight - it won't take long"
+        },
         "newBooking": "New booking",
         "newEvent": "New event",
         "singleEvent": {
