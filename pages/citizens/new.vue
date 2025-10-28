@@ -104,6 +104,21 @@ const state = reactive({
         has_chat_access: false,
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
+        inquiryData: {
+            inquiry_date: '',
+            inquirer_name: '',
+            outcome: '',
+            purpose: '',
+        },
+        stayData: {
+            accommodation_end_date: '',
+            accommodation_start_date: '',
+            journal_number: '',
+            accompanying_children: [],
+            residence_before_uuid: '',
+            residence_after_uuid: '',
+            discharge_reason: '',
+        },
     } as CitizenForm,
     isPageLoading: false,
 })
@@ -169,6 +184,17 @@ async function saveCitizen(citizenDetails: any) {
         params.append('green', citizenDetails.green)
         params.append('yellow', citizenDetails.yellow)
         params.append('red', citizenDetails.red)
+        params.append('inquiry_date', citizenDetails.inquiryData.inquiry_date)
+        params.append('inquirer_name', citizenDetails.inquiryData.inquirer_name)
+        params.append('outcome', citizenDetails.inquiryData.outcome)
+        params.append('purpose', citizenDetails.inquiryData.purpose)
+        params.append('end_date', citizenDetails.stayData.accommodation_end_date)
+        params.append('start_date', citizenDetails.stayData.accommodation_start_date)
+        params.append('journal_number', citizenDetails.stayData.journal_number)
+        params.append('accompanying_children', JSON.stringify(citizenDetails.stayData.accompanying_children))
+        params.append('residence_before_uuid', citizenDetails.stayData.residence_before_uuid)
+        params.append('residence_after_uuid', citizenDetails.stayData.residence_after_uuid)
+        params.append('discharge_reason', citizenDetails.stayData.discharge_reason)
         const response = await citizenService.saveCitizen(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyAdded')}.`)

@@ -115,6 +115,21 @@ const state = reactive({
         has_chat_access: false,
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
+        inquiryData: {
+            inquiry_date: '',
+            inquirer_name: '',
+            outcome: '',
+            purpose: '',
+        },
+        stayData: {
+            accommodation_end_date: '',
+            accommodation_start_date: '',
+            journal_number: '',
+            accompanying_children: [],
+            residence_before_uuid: '',
+            residence_after_uuid: '',
+            discharge_reason: '',
+        },
     } as CitizenForm,
     isPageLoading: false,
     modal: {
@@ -176,6 +191,21 @@ async function fetchCitizen() {
                 has_chat_access: response?.data?.has_chat_access ?? '',
                 has_duty_schedule_access: response?.data?.has_duty_schedule_access ?? '',
                 has_bullet_board_access: response?.data?.has_bullet_board_access ?? '',
+                inquiryData: {
+                    inquiry_date: response?.data?.inquiry_data?.inquiry_date ?? '',
+                    inquirer_name: response?.data?.inquiry_data?.inquirer_name ?? '',
+                    outcome: response?.data?.inquiry_data?.outcome ?? '',
+                    purpose: response?.data?.inquiry_data?.purpose ?? '',
+                },
+                stayData: {
+                    accommodation_end_date: response?.data?.stay_data?.end_date ?? '',
+                    accommodation_start_date: response?.data?.stay_data?.start_date ?? '',
+                    journal_number: response?.data?.stay_data?.journal_number ?? '',
+                    accompanying_children: response?.data?.stay_data?.accompanying_children ?? [],
+                    residence_before_uuid: response?.data?.stay_data?.residence_before_uuid ?? '',
+                    residence_after_uuid: response?.data?.stay_data?.residence_after_uuid ?? '',
+                    discharge_reason: response?.data?.stay_data?.discharge_reason ?? '',
+                },
             }
             response?.data?.departments?.forEach((department: any) => {
                 state.formCitizen.departments.push(department?.uuid)
@@ -273,6 +303,17 @@ async function updateCitizen(citizenDetails: any) {
         params.append('has_chat_access', citizenDetails.has_chat_access)
         params.append('has_duty_schedule_access', citizenDetails.has_duty_schedule_access)
         params.append('has_bullet_board_access', citizenDetails.has_bullet_board_access)
+        params.append('inquiry_date', citizenDetails.inquiryData.inquiry_date)
+        params.append('inquirer_name', citizenDetails.inquiryData.inquirer_name)
+        params.append('outcome', citizenDetails.inquiryData.outcome)
+        params.append('purpose', citizenDetails.inquiryData.purpose)
+        params.append('end_date', citizenDetails.stayData.accommodation_end_date)
+        params.append('start_date', citizenDetails.stayData.accommodation_start_date)
+        params.append('journal_number', citizenDetails.stayData.journal_number)
+        params.append('accompanying_children', JSON.stringify(citizenDetails.stayData.accompanying_children))
+        params.append('residence_before_uuid', citizenDetails.stayData.residence_before_uuid)
+        params.append('residence_after_uuid', citizenDetails.stayData.residence_after_uuid)
+        params.append('discharge_reason', citizenDetails.stayData.discharge_reason)
         const response = await citizenService.updateCitizen(citizenUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyUpdate')}.`)

@@ -1139,6 +1139,12 @@
             "foreignCityOfOrigin": "Foreign city of origin",
             "gender": "Gender",
             "hourlyRate": "Hourly rate",
+            "inquiryData": {
+                "dateOfInquiry": "Date of inquiry",
+                "inquirerName": "Inquirer name",
+                "outcome": "Outcome (e.g. offered a place, rejection, referral)",
+                "purpose": "Purpose"
+            },
             "lastname": "Last name",
             "medicationAllergies": "Medication allergies",
             "municipality": "Municipality",
@@ -1153,6 +1159,20 @@
             "responsibleMunicipality": "Responsible municipality",
             "section": "Section",
             "ssn": "Social security number",
+            "stayData": {
+                "accommodationEndDate": "Accommodation end date",
+                "accommodationStartDate": "Accommodation start date",
+                "accompanyingChildren": {
+                    "accompanyingChildren": "Accompanying children",
+                    "age": "Age",
+                    "gender": "Gender",
+                    "origin": "Origin"
+                },
+                "dischargeReason": "Discharge reason",
+                "journalNumber": "Journal number",
+                "municipalityOfResidenceAfter": "Municipality of residence after",
+                "municipalityOfResidenceBefore": "Municipality of residence before"
+            },
             "street": "Street",
             "trafficLights": {
                 "green": "Green",
@@ -1170,6 +1190,11 @@
             "importCitizens": "Import citizens",
             "importTemplate": "Import template",
             "noFileSelected": "No file selected"
+        },
+        "sections": {
+            "citizenDetails": "Citizen details",
+            "inquiryData": "Inquiry data",
+            "stayData": "Stay data"
         },
         "statuses": {
             "alert": {

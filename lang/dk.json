@@ -1139,6 +1139,12 @@
             "foreignCityOfOrigin": "Udenlandsk oprindelsesby",
             "gender": "Køn",
             "hourlyRate": "Timepris",
+            "inquiryData": {
+                "dateOfInquiry": "Dato for henvendelse",
+                "inquirerName": "Navn på henvender",
+                "outcome": "Udfald (f.eks. tilbudt plads, afslag, henvisning)",
+                "purpose": "Formål"
+            },
             "lastname": "Efternavn",
             "medicationAllergies": "Medicinallergier",
             "municipality": "Kommune",
@@ -1153,6 +1159,20 @@
             "responsibleMunicipality": "Handlekommune",
             "section": "Paragraf",
             "ssn": "CPR-nummer",
+            "stayData": {
+                "accommodationEndDate": "Opholdets slutdato",
+                "accommodationStartDate": "Opholdets startdato",
+                "accompanyingChildren": {
+                    "accompanyingChildren": "Medfølgende børn",
+                    "age": "Alder",
+                    "gender": "Køn",
+                    "origin": "Oprindelse"
+                },
+                "dischargeReason": "Udskrivningsårsag",
+                "journalNumber": "Journalnummer",
+                "municipalityOfResidenceAfter": "Bopælskommune efter ophold",
+                "municipalityOfResidenceBefore": "Bopælskommune før ophold"
+            },
             "street": "Gade",
             "trafficLights": {
                 "green": "Grøn",
@@ -1170,6 +1190,11 @@
             "importCitizens": "Importer borgere",
             "importTemplate": "Importskabelon",
             "noFileSelected": "Ingen fil valgt"
+        },
+        "sections": {
+            "citizenDetails": "Borgeroplysninger",
+            "inquiryData": "Henvendelsesdata",
+            "stayData": "Opholdsdata"
         },
         "statuses": {
             "alert": {

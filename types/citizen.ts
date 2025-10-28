@@ -42,4 +42,6 @@ export interface CitizenForm {
     has_chat_access: boolean,
     has_duty_schedule_access: boolean,
     has_bullet_board_access: boolean,
+    inquiryData: any,
+    stayData: any,
 }
