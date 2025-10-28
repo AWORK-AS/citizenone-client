@@ -53,7 +53,8 @@
                             <FormError :error="v$?.formRegister?.industry?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.industry?.[0]" />
                         </div>
-                        <div class="space-y-1" v-if="state.formRegister.industry?.system_name === 'social_welfare'">
+                        <div class="space-y-1"
+                            v-if="state.options.industries.find((industry: any) => industry.value === state.formRegister.industry)?.system_name === 'social_welfare'">
                             <FormLabel for="facilty_type" :label="$t('register.form.typeOfFacility.typeOfFacility')" />
                             <FormSelect id="facilty_type" :options="state.options.typeOfFacilities"
                                 v-model="state.formRegister.facilty_type" />
