@@ -4092,6 +4092,11 @@
             "phone": "Phone",
             "iHaveReadAndAcceptThe": "I have read and accept the",
             "termsAndConditions": "Terms and Conditions",
+            "typeOfFacility": {
+                "crisisCenter": "Crisis center",
+                "homelessShelter": "Homeless shelter",
+                "typeOfFacility": "Type of facility"
+            },
             "loginHere": "Login here",
             "agreetoTAC": "You must agree to the terms and conditions"
         },

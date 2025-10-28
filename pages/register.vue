@@ -47,25 +47,18 @@
                             </div>
                         </div>
                         <div class="space-y-1">
-                            <FormLabel for="name" :label="$t('register.form.companyName')" />
-                            <FormTextField id="name" name="name" :placeholder="$t('register.form.companyName')"
-                                v-model="state.formRegister.name" />
-                            <FormError :error="v$?.formRegister?.name?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.name?.[0]" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="cvr" :label="$t('register.form.cvr')" />
-                            <FormTextField id="cvr" name="cvr" :placeholder="$t('register.form.cvr')"
-                                v-model="state.formRegister.cvr" />
-                            <FormError :error="v$?.formRegister?.cvr?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.cvr?.[0]" />
-                        </div>
-                        <div class="space-y-1">
                             <FormLabel for="industry" :label="$t('register.form.industry')" />
                             <FormSelect id="industry" :options="state.options.industries"
                                 v-model="state.formRegister.industry" />
                             <FormError :error="v$?.formRegister?.industry?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.industry?.[0]" />
+                        </div>
+                        <div class="space-y-1" v-if="state.formRegister.industry?.system_name === 'social_welfare'">
+                            <FormLabel for="facilty_type" :label="$t('register.form.typeOfFacility.typeOfFacility')" />
+                            <FormSelect id="facilty_type" :options="state.options.typeOfFacilities"
+                                v-model="state.formRegister.facilty_type" />
+                            <FormError :error="v$?.formRegister?.facilty_type?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.facilty_type?.[0]" />
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div class="space-y-1">
@@ -97,24 +90,6 @@
                                 v-model="state.formRegister.email" />
                             <FormError :error="v$?.formRegister?.email?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.email?.[0]" />
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div class="space-y-1">
-                                <FormLabel for="password" :label="$t('register.form.password')" />
-                                <FormPasswordField id="password" name="password"
-                                    :placeholder="$t('register.form.password')" v-model="state.formRegister.password" />
-                                <FormError :error="v$?.formRegister?.password?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.password?.[0]" />
-                            </div>
-                            <div class="space-y-1">
-                                <FormLabel for="confirm_password" :label="$t('register.form.confirmPassword')" />
-                                <FormPasswordField id="confirm_password" name="confirm_password"
-                                    :placeholder="$t('register.form.confirmPassword')"
-                                    v-model="state.formRegister.confirm_password" />
-                                <FormError
-                                    :error="v$?.formRegister?.confirm_password?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.confirm_password?.[0]" />
-                            </div>
                         </div>
                         <div class="space-y-1">
                             <div class="w-fit flex items-center cursor-pointer"
@@ -178,19 +153,26 @@ const state = reactive({
     agreeToTermsValidation: false,
     error: {} as Error,
     formRegister: {
-        name: '',
-        cvr: '',
         industry: '',
+        facilty_type: '',
         firstname: '',
         lastname: '',
         phone: '',
         email: '',
-        password: '',
-        confirm_password: '',
         agreeToTerms: false
-    },
+    } as any,
     isPageLoading: false,
     options: {
+        typeOfFacilities: [
+            {
+                value: 'crisis_center',
+                label: t('register.form.typeOfFacility.crisisCenter')
+            },
+            {
+                value: 'homeless_shelter',
+                label: t('register.form.typeOfFacility.homelessShelter')
+            }
+        ] as any,
         industries: [] as any,
     },
     slideOver: {
@@ -201,9 +183,6 @@ const state = reactive({
 const rules = computed(() => {
     return {
         formRegister: {
-            name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
             industry: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
@@ -219,14 +198,6 @@ const rules = computed(() => {
             email: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            password: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                minLength: helpers.withMessage(`${t('alert.resetPassword.required8Characters')}.`, minLength(8))
-            },
-            confirm_password: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                sameAsPassword: helpers.withMessage(`${t('alert.resetPassword.confirmPasswordNotTheSame')}.`, sameAs(state.formRegister.password)),
-            },
         }
     }
 })
@@ -240,6 +211,16 @@ onMounted(() => {
 watch(() => language.locale.value, (newValue: any) => {
     if (newValue != null) {
         fetchAllIndustries()
+        state.options.typeOfFacilities = [
+            {
+                value: 'crisis_center',
+                label: t('register.form.typeOfFacility.crisisCenter')
+            },
+            {
+                value: 'homeless_shelter',
+                label: t('register.form.typeOfFacility.homelessShelter')
+            }
+        ]
     }
 })
 
@@ -271,6 +252,7 @@ async function fetchAllIndustries() {
                 (industry: any) => options.push({
                     value: industry?.uuid,
                     label: language.locale.value === 'en' ? industry.en_name : industry.dk_name,
+                    system_name: industry.system_name,
                 })
             )
             state.options.industries = options
@@ -293,14 +275,12 @@ async function register() {
         state.isPageLoading = true
         try {
             const params = {
-                name: state.formRegister.name,
-                cvr: state.formRegister.cvr,
                 industry_uuid: state.formRegister.industry,
+                facilty_type: state.formRegister.facilty_type,
                 firstname: state.formRegister.firstname,
                 lastname: state.formRegister.lastname,
                 phone: state.formRegister.phone,
                 email: state.formRegister.email,
-                password: state.formRegister.password,
             }
             const response = await authService.register(params)
             if (response.data) {
