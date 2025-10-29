@@ -96,6 +96,18 @@
                     </div>
                 </div>
                 <div class="space-y-1">
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="rooms" :label="$t('citizens.form.room')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.modal.isAddRoomOpen = true">
+                            {{ $t('rooms.addNewRoom') }}
+                        </span>
+                    </div>
+                    <FormSelectMultiple id="rooms" :options="state.options.rooms" v-model="state.formCitizen.rooms" />
+                    <FormError :error="v$?.formCitizen?.rooms?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.room_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
                     <FormLabel for="street" :label="$t('citizens.form.street')" />
                     <FormTextField id="street" name="street" :placeholder="$t('citizens.form.street')"
                         v-model="state.formCitizen.street" />
@@ -590,6 +602,8 @@
             @close="state.modal.isAddForeignCityOpen = false" @refreshForeignCities="fetchForeignCities" />
         <ModulesUserDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
             @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchDepartments" />
+        <ModulesUserRoomModalNew :isModalOpen="state.modal.isAddRoomOpen" @close="state.modal.isAddRoomOpen = false"
+            @refreshRooms="fetchRooms" />
         <ModulesUserDiagnosisModalNew :isModalOpen="state.modal.isAddDiagnosisOpen"
             @close="state.modal.isAddDiagnosisOpen = false" @refreshDiagnoses="fetchDiagnoses" />
         <ModulesUserMedicationAllergyModalNew :isModalOpen="state.modal.isAddMedicationAllergyOpen"
@@ -610,6 +624,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { citizenCaseworkerService } from '@/components/api/user/CitizenCaseworkerService'
 import { departmentService } from '@/components/api/user/DepartmentService'
+import { roomService } from '@/components/api/user/RoomService'
 import { diagnosisService } from '@/components/api/user/DiagnosisService'
 import { medicationAllergyService } from '@/components/api/user/MedicationAllergyService'
 import { addictionService } from '@/components/api/user/AddictionService'
@@ -727,6 +742,7 @@ const state = reactive({
         isAddForeignCityOpen: false,
         isAddSectionOpen: false,
         isAddMedicationAllergyOpen: false,
+        isAddRoomOpen: false,
     },
     options: {
         addictions: [],
@@ -745,6 +761,7 @@ const state = reactive({
         municipalities: [],
         municipalitiesPerRegion: [],
         regions: [],
+        rooms: [],
         sections: [],
     }
 })
@@ -879,6 +896,7 @@ watch(() => state.formCitizen.social_security_number, (ssn) => {
 onMounted(() => {
     fetchCitizenCaseWorkers()
     fetchDepartments()
+    fetchRooms()
     fetchDiagnoses()
     fetchMedicationAllergies()
     fetchAddictions()
@@ -929,6 +947,28 @@ async function fetchDepartments() {
                 })
             )
             state.options.departments = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchRooms() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const params = {}
+        const response = await roomService.getAllRooms(params)
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.rooms = options
         }
     } catch (error: any) {
         state.error = error

@@ -1157,6 +1157,7 @@
             "postCode": "Post Code",
             "region": "Region",
             "responsibleMunicipality": "Responsible municipality",
+            "room": "Room",
             "section": "Section",
             "ssn": "Social security number",
             "stayData": {

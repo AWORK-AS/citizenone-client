@@ -1157,6 +1157,7 @@
             "postCode": "Postnummer",
             "region": "Region",
             "responsibleMunicipality": "Handlekommune",
+            "room": "Værelse",
             "section": "Paragraf",
             "ssn": "CPR-nummer",
             "stayData": {

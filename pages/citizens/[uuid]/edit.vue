@@ -81,6 +81,7 @@ const state = reactive({
         birthday: '',
         phone: '',
         departments: [],
+        rooms: [],
         street: '',
         foreign_city_uuid: '',
         region_uuid: '',
@@ -162,6 +163,7 @@ async function fetchCitizen() {
                 birthday: response?.data?.birthday ?? '',
                 phone: response?.data?.phone ?? '',
                 departments: [],
+                rooms: [],
                 street: response?.data?.address?.street ?? '',
                 foreign_city_uuid: response?.data?.foreign_city?.uuid?.toString() ?? '',
                 region_uuid: response?.data?.address?.region?.uuid?.toString() ?? '',
@@ -220,6 +222,9 @@ async function fetchCitizen() {
             response?.data?.departments?.forEach((department: any) => {
                 state.formCitizen.departments.push(department?.uuid)
             })
+            response?.data?.rooms?.forEach((room: any) => {
+                state.formCitizen.rooms.push(room?.uuid)
+            })
             response?.data?.diagnoses?.forEach((diagnosis: any) => {
                 state.formCitizen.diagnoses.push(diagnosis?.uuid)
             })
@@ -252,6 +257,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))
+        params.append('room_uuid', JSON.stringify(citizenDetails.rooms))
         params.append('street', citizenDetails.street)
         if (citizenDetails.region) {
             params.append('region_uuid', citizenDetails.region)

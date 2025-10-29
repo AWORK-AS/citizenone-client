@@ -8,6 +8,7 @@ export interface CitizenForm {
     birthday: string,
     phone: string,
     departments: string[],
+    rooms: string[],
     street: string,
     foreign_city_uuid: string,
     region_uuid: string,
