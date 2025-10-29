@@ -145,7 +145,9 @@ async function saveCitizen(citizenDetails: any) {
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))
-        params.append('room_uuid', JSON.stringify(citizenDetails.rooms))
+        if (citizenDetails.rooms) {
+            params.append('room_uuid', JSON.stringify(citizenDetails.rooms))
+        }
         params.append('street', citizenDetails.street)
         params.append('region_uuid', citizenDetails.region)
         params.append('municipality_uuid', citizenDetails.municipality)
