@@ -458,7 +458,7 @@
                         :placeholder="$t('citizens.form.stayData.journalNumber')"
                         v-model="state.formCitizen.stayData.journal_number" />
                     <FormError :error="v$?.formCitizen?.stayData?.journal_number?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.journal_number?.[0]" />
+                    <FormError :error="props?.error?.errors?.journal_number?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
@@ -469,7 +469,7 @@
                             v-model="state.formCitizen.stayData.accommodation_start_date" />
                         <FormError
                             :error="v$?.formCitizen?.stayData?.accommodation_start_date?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.accommodation_start_date?.[0]" />
+                        <FormError :error="props?.error?.errors?.start_date?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="accommodation_end_date"
@@ -479,7 +479,7 @@
                             v-model="state.formCitizen.stayData.accommodation_end_date" />
                         <FormError
                             :error="v$?.formCitizen?.stayData?.accommodation_end_date?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.accommodation_end_date?.[0]" />
+                        <FormError :error="props?.error?.errors?.end_date?.[0]" />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -508,7 +508,70 @@
                         :placeholder="$t('citizens.form.stayData.dischargeReason')"
                         v-model="state.formCitizen.stayData.discharge_reason" />
                     <FormError :error="v$?.formCitizen?.stayData?.discharge_reason?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.discharge_reason?.[0]" />
+                    <FormError :error="props?.error?.errors?.discharge_reason?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <p class="text-sm text-gray-600">
+                        {{ $t('citizens.form.stayData.accompanyingChildren.accompanyingChildren') }}
+                    </p>
+                    <div class="space-y-6">
+                        <div v-for="(child, accompanyingChildenIndex) in state.formCitizen.stayData.accompanying_children"
+                            :key="accompanyingChildenIndex" class="relative">
+                            <div
+                                class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg space-y-3 px-4 py-6 sm:p-8">
+                                <div class="flex items-center gap-x-2">
+                                    <div class="grow grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <div class="space-y-1">
+                                            <FormLabel :for="`name_${accompanyingChildenIndex}`"
+                                                :label="$t('citizens.form.stayData.accompanyingChildren.name')" />
+                                            <FormTextField :id="`name_${accompanyingChildenIndex}`"
+                                                :name="`name_${accompanyingChildenIndex}`"
+                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.name')"
+                                                :value="child.name"
+                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].name = event.target.value" />
+                                        </div>
+                                        <div class="space-y-1">
+                                            <FormLabel for="gender"
+                                                :label="$t('citizens.form.stayData.accompanyingChildren.gender')" />
+                                            <FormSelect :id="`gender_${accompanyingChildenIndex}`"
+                                                :options="state.options.genders"
+                                                v-model="state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].gender" />
+                                        </div>
+                                        <div class="space-y-1">
+                                            <FormLabel :for="`age_${accompanyingChildenIndex}`"
+                                                :label="$t('citizens.form.stayData.accompanyingChildren.age')" />
+                                            <FormTextField :id="`age_${accompanyingChildenIndex}`"
+                                                :name="`age_${accompanyingChildenIndex}`"
+                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.age')"
+                                                :value="child.age"
+                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].age = event.target.value" />
+                                        </div>
+                                        <div class="space-y-1">
+                                            <FormLabel :for="`origin_${accompanyingChildenIndex}`"
+                                                :label="$t('citizens.form.stayData.accompanyingChildren.origin')" />
+                                            <FormTextField :id="`origin_${accompanyingChildenIndex}`"
+                                                :name="`origin_${accompanyingChildenIndex}`"
+                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.origin')"
+                                                :value="child.origin"
+                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].origin = event.target.value" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button"
+                                class="absolute -top-3 -right-3 bg-red-700 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"
+                                @click="removeAccompanyingChild(accompanyingChildenIndex)"
+                                v-if="state.formCitizen.stayData.accompanying_children.length > 1">
+                                <Icon name="ph:trash" class="h-4 w-4 text-white" aria-hidden="true" />
+                            </button>
+                            <button type="button"
+                                class="absolute -bottom-4 inset-x-1/2 shadow-md bg-secondary hover:bg-secondary-800 rounded-full w-8 h-8 flex items-center justify-center"
+                                @click="addAccompanyingChild()"
+                                v-if="accompanyingChildenIndex === state.formCitizen.stayData.accompanying_children.length - 1">
+                                <Icon name="ph:plus" class="h-4 w-4 text-white" aria-hidden="true" />
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -644,11 +707,16 @@ const state = reactive({
             accommodation_end_date: '',
             accommodation_start_date: '',
             journal_number: '',
-            accompanying_children: [],
+            accompanying_children: [{
+                name: '',
+                gender: '',
+                age: '',
+                origin: '',
+            }],
             residence_before_uuid: '',
             residence_after_uuid: '',
             discharge_reason: '',
-        },
+        } as any,
     },
     formattedSocialSecurityNumber: '',
     modal: {
@@ -1137,5 +1205,18 @@ const formattedSocialSecurityNumber = computed<string>({
 function updateSocialSecurityNumber(event: Event) {
     const target = event.target as HTMLInputElement
     state.formCitizen.social_security_number = target.value.replace(/-/g, '')
+}
+
+function addAccompanyingChild() {
+    state.formCitizen.stayData.accompanying_children.push({
+        name: '',
+        gender: '',
+        age: '',
+        origin: '',
+    })
+}
+
+function removeAccompanyingChild(index: number) {
+    state.formCitizen.stayData.accompanying_children.splice(index, 1)
 }
 </script>

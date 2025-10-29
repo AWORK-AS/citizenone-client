@@ -1166,6 +1166,7 @@
                     "accompanyingChildren": "Medfølgende børn",
                     "age": "Alder",
                     "gender": "Køn",
+                    "name": "Navn",
                     "origin": "Oprindelse"
                 },
                 "dischargeReason": "Udskrivningsårsag",

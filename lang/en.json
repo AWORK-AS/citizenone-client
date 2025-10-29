@@ -1166,6 +1166,7 @@
                     "accompanyingChildren": "Accompanying children",
                     "age": "Age",
                     "gender": "Gender",
+                    "name": "Name",
                     "origin": "Origin"
                 },
                 "dischargeReason": "Discharge reason",

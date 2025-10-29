@@ -114,7 +114,12 @@ const state = reactive({
             accommodation_end_date: '',
             accommodation_start_date: '',
             journal_number: '',
-            accompanying_children: [],
+            accompanying_children: [{
+                name: '',
+                gender: '',
+                age: '',
+                origin: '',
+            }],
             residence_before_uuid: '',
             residence_after_uuid: '',
             discharge_reason: '',
