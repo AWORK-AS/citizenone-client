@@ -47,6 +47,7 @@ const state = reactive({
         city: '',
         image: '',
         spots: '1',
+        slots: [],
         tags: [],
         price: '',
         is_tax_included: false,
@@ -92,6 +93,13 @@ async function saveEvent(eventDetails: any) {
         params.append('close_registration', eventDetails.close_registration)
         params.append('is_online_booking', eventDetails.is_online_booking)
         params.append('is_reminder_enabled', eventDetails.is_reminder_enabled)
+
+        eventDetails.slots.forEach((slot: any, i: number) => {
+            params.append(`slots[${i}][start_time]`, slot.start_time)
+            params.append(`slots[${i}][end_time]`, slot.end_time)
+            params.append(`slots[${i}][capacity]`, slot.capacity)
+        })
+
         const response = await coursesEventsService.saveEventCourse(params)
         if (response.data) {
             refreshCoursesEvents()

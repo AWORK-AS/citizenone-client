@@ -265,6 +265,25 @@
                         </div>
                     </div>
 
+                    <div class="mt-5 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+                        <div>
+                            <h2 class="text-base font-semibold leading-7 text-gray-900">
+                                Slots
+                            </h2>
+                            <p class="text-sm leading-6 text-gray-600">
+                                Manage available slots that clients can book
+                            </p>
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="language" :label="$t('bookingSettings.form.language')" />
+                            <FormSelect id="language" :options="state.options.languages"
+                                v-model="state.formBookingSettings.language_uuid" />
+                            <FormError
+                                :error="v$?.formBookingSettings?.language_uuid?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.language_uuid?.[0]" />
+                        </div>
+                    </div>
+
                     <div class="mt-6">
                         <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
                             {{ $t('save') }}
