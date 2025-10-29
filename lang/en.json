@@ -4256,6 +4256,32 @@
             "user": "User"
         }
     },
+    "rooms": {
+        "addNewRoom": "Add new room",
+        "rooms": "Rooms",
+        "editRoom": "Edit room",
+        "form": {
+            "alert": {
+                "roomSuccessfullyUpdated": "Room successfully updated",
+                "newRoomSuccessfullySaved": "New room successfully saved"
+            },
+            "name": "Name"
+        },
+        "newRoom": "New room",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "roomSuccessfullyDeleted": "Room successfully deleted"
+            },
+            "confirmation": {
+                "deleteRoomConfirmation": "Are you sure you want to delete this room"
+            },
+            "name": "Name"
+        }
+    },
     "save": "Save",
     "scheduleTags": {
         "addNewScheduleTag": "Add new schedule tag",
@@ -4395,6 +4421,7 @@
             "profile": "Profile",
             "relationships": "Relationships",
             "roles": "Roles",
+            "rooms": "Rooms",
             "sections": "Sections",
             "storage": "Storage",
             "subscription": "Subscription",

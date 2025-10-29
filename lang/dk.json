@@ -4256,6 +4256,32 @@
             "user": "Bruger"
         }
     },
+    "rooms": {
+        "addNewRoom": "Tilføj nyt værelse",
+        "rooms": "Værelser",
+        "editRoom": "Rediger værelse",
+        "form": {
+            "alert": {
+                "roomSuccessfullyUpdated": "Værelse opdateret",
+                "newRoomSuccessfullySaved": "Nyt værelse gemt"
+            },
+            "name": "Navn"
+        },
+        "newRoom": "Nyt værelse",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "roomSuccessfullyDeleted": "Værelse slettet"
+            },
+            "confirmation": {
+                "deleteRoomConfirmation": "Er du sikker på, at du vil slette dette værelse"
+            },
+            "name": "Navn"
+        }
+    },
     "save": "Gem",
     "scheduleTags": {
         "addNewScheduleTag": "Tilføj ny vagtplan tag",
@@ -4395,6 +4421,7 @@
             "profile": "Profil",
             "relationships": "Forhold",
             "roles": "Roller",
+            "rooms": "Værelser",
             "sections": "Paragraffer",
             "storage": "Lager",
             "subscription": "Abonnement",
