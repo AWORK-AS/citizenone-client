@@ -158,7 +158,7 @@
                     <FormSelect id="origin" :options="state.options.municipalities" v-model="state.formCitizen.origin"
                         @change="changeSelectedMunicipality" />
                     <FormError :error="v$?.formCitizen?.origin?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.origin?.[0]" />
+                    <FormError :error="props?.error?.errors?.origin_uuid?.[0]" />
                 </div>
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
