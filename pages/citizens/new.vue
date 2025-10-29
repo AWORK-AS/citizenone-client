@@ -197,8 +197,12 @@ async function saveCitizen(citizenDetails: any) {
         params.append('start_date', citizenDetails.stayData.accommodation_start_date)
         params.append('journal_number', citizenDetails.stayData.journal_number)
         params.append('accompanying_children', JSON.stringify(citizenDetails.stayData.accompanying_children))
-        params.append('residence_before_uuid', citizenDetails.stayData.residence_before_uuid)
-        params.append('residence_after_uuid', citizenDetails.stayData.residence_after_uuid)
+        if (citizenDetails.stayData.residence_before_uuid) {
+            params.append('residence_before_uuid', citizenDetails.stayData.residence_before_uuid)
+        }
+        if (citizenDetails.stayData.residence_after_uuid) {
+            params.append('residence_after_uuid', citizenDetails.stayData.residence_after_uuid)
+        }
         params.append('discharge_reason', citizenDetails.stayData.discharge_reason)
         const response = await citizenService.saveCitizen(params)
         if (response.data) {
