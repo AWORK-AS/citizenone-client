@@ -536,6 +536,14 @@
                 "information": "Information",
                 "settings": "Indstillinger",
                 "summary": "Opsummering"
+            },
+            "slots": {
+                "startTime": "Starttid",
+                "endTime": "Sluttid",
+                "capacity": "Kapacitet",
+                "remove": "Fjern",
+                "removeSlot": "Fjern dette bookingtidspunkt",
+                "validationError": "Bookingtidspunkt og kapacitet er påkrævet"
             }
         },
         "loading": {

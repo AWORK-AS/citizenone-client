@@ -536,6 +536,14 @@
                 "information": "Information",
                 "settings": "Settings",
                 "summary": "Summary"
+            },
+            "slots": {
+                "startTime": "Start time",
+                "endTime": "End time",
+                "capacity": "Capacity",
+                "remove": "Remove",
+                "removeSlot": "Remove this booking slot",
+                "validationError": "Booking slot and capacity is required"
             }
         },
         "loading": {
