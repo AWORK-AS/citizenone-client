@@ -1201,6 +1201,7 @@
             "importTemplate": "Importskabelon",
             "noFileSelected": "Ingen fil valgt"
         },
+        "rooms": "Værelser",
         "sections": {
             "citizenDetails": "Borgeroplysninger",
             "inquiryData": "Henvendelsesdata",

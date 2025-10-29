@@ -1201,6 +1201,7 @@
             "importTemplate": "Import template",
             "noFileSelected": "No file selected"
         },
+        "rooms": "Rooms",
         "sections": {
             "citizenDetails": "Citizen details",
             "inquiryData": "Inquiry data",

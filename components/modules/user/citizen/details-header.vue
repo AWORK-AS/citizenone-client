@@ -271,6 +271,14 @@
                                         {{ allergy?.name }}
                                     </span>
                                 </div>
+                                <div class="text-xs flex items-center flex-wrap gap-1"
+                                    v-if="state.selectedCitizen?.data?.rooms?.length > 0 && hasRoomsAccess()">
+                                    <p>{{ $t('citizens.rooms') }}:</p>
+                                    <span v-for="(room, index) in state.selectedCitizen?.data?.rooms" :key=index
+                                        class="bg-primary p-1 text-white rounded-md text-xxs">
+                                        {{ room?.name }}
+                                    </span>
+                                </div>
                             </div>
                             <div class="text-xs font-medium text-gray-700"
                                 :class="state.showExpandedNote ? '' : 'line-clamp-2'" v-if="hasNoteAccess()">
@@ -467,6 +475,11 @@ function hasDiagnosesAccess() {
 function hasMedicationAllergiesAccess() {
     return isAdmin(userStore.getUser?.roles) ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Medication allergies')
+}
+
+function hasRoomsAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Rooms')
 }
 
 function hasNoteAccess() {
