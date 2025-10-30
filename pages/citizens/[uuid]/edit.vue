@@ -117,6 +117,7 @@ const state = reactive({
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
         inquiryData: {
+            conversation_summary: '',
             inquiry_date: '',
             inquirer_name: '',
             outcome: '',
@@ -199,6 +200,7 @@ async function fetchCitizen() {
                 has_duty_schedule_access: response?.data?.has_duty_schedule_access ?? '',
                 has_bullet_board_access: response?.data?.has_bullet_board_access ?? '',
                 inquiryData: {
+                    conversation_summary: response?.data?.conversation_summary ?? '',
                     inquiry_date: response?.data?.inquiry_data?.inquiry_date ?? '',
                     inquirer_name: response?.data?.inquiry_data?.inquirer_name ?? '',
                     outcome: response?.data?.inquiry_data?.outcome ?? '',
@@ -215,7 +217,7 @@ async function fetchCitizen() {
                         origin: '',
                     }],
                     residence_before_uuid: response?.data?.stay_data?.residence_before_municipality?.uuid?.toString() ?? '',
-                    residence_after_uuid: response?.data?.stay_data?.residence_after_municiaplity?.uuid?.toString() ?? '',
+                    residence_after_uuid: response?.data?.stay_data?.residence_after_municipality?.uuid?.toString() ?? '',
                     discharge_reason: response?.data?.stay_data?.discharge_reason ?? '',
                 },
             }
@@ -321,6 +323,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('has_chat_access', citizenDetails.has_chat_access)
         params.append('has_duty_schedule_access', citizenDetails.has_duty_schedule_access)
         params.append('has_bullet_board_access', citizenDetails.has_bullet_board_access)
+        params.append('conversation_summary', citizenDetails.inquiryData.conversation_summary)
         params.append('inquiry_date', citizenDetails.inquiryData.inquiry_date)
         params.append('inquirer_name', citizenDetails.inquiryData.inquirer_name)
         params.append('outcome', citizenDetails.inquiryData.outcome)

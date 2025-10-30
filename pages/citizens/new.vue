@@ -106,6 +106,7 @@ const state = reactive({
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
         inquiryData: {
+            conversation_summary: '',
             inquiry_date: '',
             inquirer_name: '',
             outcome: '',
@@ -193,6 +194,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('green', citizenDetails.green)
         params.append('yellow', citizenDetails.yellow)
         params.append('red', citizenDetails.red)
+        params.append('conversation_summary', citizenDetails.inquiryData.conversation_summary)
         params.append('inquiry_date', citizenDetails.inquiryData.inquiry_date)
         params.append('inquirer_name', citizenDetails.inquiryData.inquirer_name)
         params.append('outcome', citizenDetails.inquiryData.outcome)

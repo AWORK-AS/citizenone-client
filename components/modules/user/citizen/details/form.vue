@@ -425,6 +425,16 @@
             </div>
             <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
                 <div class="space-y-1">
+                    <FormLabel for="conversation_summary"
+                        :label="$t('citizens.form.inquiryData.conversationSummary')" />
+                    <FormTextArea id="conversation_summary" name="conversation_summary"
+                        :placeholder="$t('citizens.form.inquiryData.conversationSummary')"
+                        v-model="state.formCitizen.inquiryData.conversation_summary" />
+                    <FormError
+                        :error="v$?.formCitizen?.inquiryData.conversation_summary?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.conversation_summary?.[0]" />
+                </div>
+                <div class="space-y-1">
                     <FormLabel for="inquiry_date" :label="$t('citizens.form.inquiryData.dateOfInquiry')" />
                     <FormDateField id="inquiry_date" name="inquiry_date"
                         :placeholder="$t('citizens.form.inquiryData.dateOfInquiry')"
@@ -714,6 +724,7 @@ const state = reactive({
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
         inquiryData: {
+            conversation_summary: '',
             inquiry_date: '',
             inquirer_name: '',
             outcome: '',
@@ -830,6 +841,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             has_duty_schedule_access: selectedCitizen.has_duty_schedule_access,
             has_bullet_board_access: selectedCitizen.has_bullet_board_access,
             inquiryData: {
+                conversation_summary: selectedCitizen.inquiryData.conversation_summary,
                 inquiry_date: selectedCitizen.inquiryData.inquiry_date,
                 inquirer_name: selectedCitizen.inquiryData.inquirer_name,
                 outcome: selectedCitizen.inquiryData.outcome,

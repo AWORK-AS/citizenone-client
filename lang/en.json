@@ -1148,6 +1148,7 @@
             "gender": "Gender",
             "hourlyRate": "Hourly rate",
             "inquiryData": {
+                "conversationSummary": "Conversation summary",
                 "dateOfInquiry": "Date of inquiry",
                 "inquirerName": "Inquirer name",
                 "outcome": "Outcome (e.g. offered a place, rejection, referral)",
