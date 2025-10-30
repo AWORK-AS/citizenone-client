@@ -1201,6 +1201,32 @@
             "importTemplate": "Importskabelon",
             "noFileSelected": "Ingen fil valgt"
         },
+        "inquiryStayData": {
+            "inquiryAndStayData": "Henvendelses- og opholdsdata",
+            "inquiryData": {
+                "dateOfInquiry": "Dato for henvendelse",
+                "inquiryData": "Henvendelsesdata",
+                "inquirerName": "Navn på henvender",
+                "outcome": "Resultat",
+                "purpose": "Formål"
+            },
+            "stayData": {
+                "accommodationEndDate": "Opholdets slutdato",
+                "accommodationStartDate": "Opholdets startdato",
+                "accompanyingChildren": {
+                    "accompanyingChildren": "Medfølgende børn",
+                    "age": "Alder",
+                    "gender": "Køn",
+                    "name": "Navn",
+                    "origin": "Oprindelse"
+                },
+                "dischargeReason": "Udskrivningsårsag",
+                "journalNumber": "Journalnummer",
+                "municipalityOfResidenceAfter": "Bopælskommune efter ophold",
+                "municipalityOfResidenceBefore": "Bopælskommune før ophold",
+                "stayData": "Opholdsdata"
+            }
+        },
         "rooms": "Værelser",
         "sections": {
             "citizenDetails": "Borgeroplysninger",

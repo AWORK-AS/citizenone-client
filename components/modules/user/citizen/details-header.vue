@@ -159,6 +159,14 @@
                                             {{ formatDateToReadable(state.selectedCitizen?.data?.date_discharged) }}
                                         </p>
                                     </div>
+                                    <button
+                                        class="flex items-center gap-x-1 text-sm font-medium text-gray-700 outline-none hover:text-primary"
+                                        @click="state.modal.isInquiryStayDataOpen = true">
+                                        <div class="flex items-center">
+                                            <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
+                                        </div>
+                                        {{ $t('citizens.inquiryStayData.inquiryAndStayData') }}
+                                    </button>
                                 </div>
                                 <div class="space-y-1">
                                     <div class="flex items-center gap-x-1"
@@ -309,6 +317,8 @@
                 </div>
             </div>
 
+            <ModulesUserCitizenInquiryStayDataModalView :isModalOpen="state.modal.isInquiryStayDataOpen"
+                @close="state.modal.isInquiryStayDataOpen = false" :selectedCitizen="state.selectedCitizen" />
             <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
                 @close="state.modal.isViewPatienCareHoursOpen = false" @refreshCitizenDetails="fetchCitizen()" />
             <ModulesUserCitizenUseOfForceModalRelevantHelpLinks :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
@@ -341,6 +351,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     modal: {
+        isInquiryStayDataOpen: false,
         isViewPatienCareHoursOpen: false,
         isViewRelevantHelpLinksOpen: false,
     },

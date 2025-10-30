@@ -1201,6 +1201,32 @@
             "importTemplate": "Import template",
             "noFileSelected": "No file selected"
         },
+        "inquiryStayData": {
+            "inquiryAndStayData": "Inquiry and stay data",
+            "inquiryData": {
+                "dateOfInquiry": "Date of inquiry",
+                "inquiryData": "Inquiry data",
+                "inquirerName": "Inquirer name",
+                "outcome": "Outcome",
+                "purpose": "Purpose"
+            },
+            "stayData": {
+                "accommodationEndDate": "Accommodation end date",
+                "accommodationStartDate": "Accommodation start date",
+                "accompanyingChildren": {
+                    "accompanyingChildren": "Accompanying children",
+                    "age": "Age",
+                    "gender": "Gender",
+                    "name": "Name",
+                    "origin": "Origin"
+                },
+                "dischargeReason": "Discharge reason",
+                "journalNumber": "Journal number",
+                "municipalityOfResidenceAfter": "Municipality of residence after",
+                "municipalityOfResidenceBefore": "Municipality of residence before",
+                "stayData": "Stay data"
+            }
+        },
         "rooms": "Rooms",
         "sections": {
             "citizenDetails": "Citizen details",
