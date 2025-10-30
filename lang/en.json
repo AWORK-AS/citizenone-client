@@ -1155,7 +1155,7 @@
                 "purpose": "Purpose"
             },
             "lastname": "Last name",
-            "medicationAllergies": "Medication allergies",
+            "medicationAllergies": "Medication allergies (CAVE)",
             "municipality": "Municipality",
             "note": "Note",
             "payingMunicipality": "Paying municipality",
@@ -1406,7 +1406,7 @@
                 "weeklyAllocation": "Weekly allocation"
             }
         },
-        "medicationAllergies": "Medication allergies",
+        "medicationAllergies": "Medication allergies (CAVE)",
         "medicineJournals": {
             "alert": {
                 "successfullyActivated": "Medicine successfully activated",
@@ -3613,7 +3613,7 @@
     },
     "medicationAllergies": {
         "addNewMedicationAllergy": "Add new medication allergy",
-        "medicationAllergies": "Medication allergies",
+        "medicationAllergies": "Medication allergies (CAVE)",
         "medicationAllergy": "Medication allergy",
         "editMedicationAllergy": "Edit medication allergy",
         "form": {
@@ -4453,7 +4453,7 @@
             "journalTitles": "Journal titles",
             "licenseOverview": "License overview",
             "licenses": "Licenses",
-            "medicationAllergies": "Medication allergies",
+            "medicationAllergies": "Medication allergies (CAVE)",
             "medicines": "Medicines",
             "profile": "Profile",
             "relationships": "Relationships",

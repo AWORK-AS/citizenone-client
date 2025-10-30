@@ -1155,7 +1155,7 @@
                 "purpose": "Formål"
             },
             "lastname": "Efternavn",
-            "medicationAllergies": "Medicinallergier",
+            "medicationAllergies": "Medicinallergier (CAVE)",
             "municipality": "Kommune",
             "note": "Bemærkning",
             "payingMunicipality": "Betalingskommune",
@@ -1406,7 +1406,7 @@
                 "weeklyAllocation": "Ugentlig tildeling"
             }
         },
-        "medicationAllergies": "Medicinallergier",
+        "medicationAllergies": "Medicinallergier (CAVE)",
         "medicineJournals": {
             "alert": {
                 "successfullyActivated": "Medicin aktiveret med succes",
@@ -3613,7 +3613,7 @@
     },
     "medicationAllergies": {
         "addNewMedicationAllergy": "Tilføj ny medicinallergi",
-        "medicationAllergies": "Medicinallergier",
+        "medicationAllergies": "Medicinallergier (CAVE)",
         "medicationAllergy": "Medicinallergi",
         "editMedicationAllergy": "Rediger medicinallergi",
         "form": {
@@ -4453,7 +4453,7 @@
             "journalTitles": "Journal titler",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
-            "medicationAllergies": "Medicinallergier",
+            "medicationAllergies": "Medicinallergier (CAVE)",
             "medicines": "Medicin",
             "profile": "Profil",
             "relationships": "Forhold",
