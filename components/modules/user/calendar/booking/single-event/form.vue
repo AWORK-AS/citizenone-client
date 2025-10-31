@@ -239,7 +239,7 @@
                             <Tooltip :text="$t('bookings.formEvent.slots.removeSlot')" position="left"
                                 class="mt-7">
                                 <button type="button" @click="removeSlot(idx)">
-                                    <Icon name="ph:trash" class="h-6 w-6" aria-hidden="true" />
+                                    <Icon name="ph:trash" class="h-6 w-6 text-red-700 hover:text-red-600" aria-hidden="true" />
                                 </button>
                             </Tooltip>
                         </div>
