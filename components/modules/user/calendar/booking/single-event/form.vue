@@ -503,7 +503,7 @@ watch(() => props.selectedEvent, (selectedEvent: any) => {
             city: selectedEvent?.city,
             image: '',
             spots: selectedEvent?.spots,
-            slots: selectedEvent?.slots,
+            slots: formatExistingTimeSlots(selectedEvent?.slots),
             tags: selectedEvent?.tags,
             price: selectedEvent?.price,
             is_tax_included: selectedEvent?.is_tax_included,
@@ -662,6 +662,27 @@ function addMinutesToTime(time: string, minsToAdd: number) {
     const newHours = String(date.getHours()).padStart(2, "0")
     const newMinutes = String(date.getMinutes()).padStart(2, "0")
     return `${newHours}:${newMinutes}`
+}
+
+function formatExistingTimeSlots(data: any) {
+    const slots = data
+
+    const uniqueSlots = []
+    const seen = new Set()
+
+    for (const slot of slots) {
+        const key = `${slot.start_time}-${slot.end_time}-${slot.capacity}`
+        if (!seen.has(key)) {
+            seen.add(key)
+            uniqueSlots.push({
+                start_time: slot.start_time,
+                end_time: slot.end_time,
+                capacity: slot.capacity
+            })
+        }
+    }
+    console.log(uniqueSlots)
+    return uniqueSlots
 }
 
 function addSlot() {

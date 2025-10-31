@@ -65,8 +65,7 @@
                                                         <FormLabel for="date_time_end" :label="$t('bookings.formEvent.appointment.selectDate')" />
                                                         <FormCalendarDatePicker id="selected_date" name="selected_date"
                                                             :placeholder="$t('bookings.formEvent.appointment.dateSelected')"
-                                                            :min-date="state.courseEventDetails?.event_course_sessions[0]?.date_time_start.split(' ')[0]"
-                                                            :max-date="state.courseEventDetails?.event_course_sessions[0]?.date_time_end.split(' ')[0]"
+                                                            :available-dates="availableDates"
                                                             v-model="state.selected_date" />
                                                         <FormError :error="''" />
                                                         <FormError :error="''" />
@@ -485,6 +484,11 @@ const v$ = useVuelidate(rules, state)
 onMounted(() => {
     fetchBookingSettings()
     fetchCourseEvent()
+})
+
+const availableDates = computed(() => {
+    const dates = state.courseEventDetails?.booking_setting?.time_slots.map((i: any) => i.date)
+    return dates
 })
 
 function identifyFlag() {

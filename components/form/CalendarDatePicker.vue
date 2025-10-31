@@ -25,7 +25,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    minDate: {
+    availableDates: {
         type: String,
         required: false,
     },
@@ -38,10 +38,9 @@ const props = defineProps({
 const state = reactive({
     dateValue: props.modelValue ? new Date(props.modelValue) : '',
     datePickerConfig: {
+        enable: props.availableDates || [],
         enableTime: false,
         dateFormat: 'd. F Y',
-        minDate: props.minDate ? new Date(props.minDate + 'T00:00:00') : null,
-        maxDate: props.maxDate ? new Date(props.maxDate + 'T23:59:59') : null,
         disableMobile: true,
         locale: {
             firstDayOfWeek: 1, // Set Monday as the first day of the week
