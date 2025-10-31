@@ -53,28 +53,39 @@ const props = defineProps({
 
 let steps = [
     { id: '01', name: 'Event details', href: '#', status: 'current' },
-    { id: '02', name: 'Your details', href: '#', status: 'upcoming' },
-    { id: '03', name: 'Confirmation', href: '#', status: 'upcoming' },
+    { id: '02', name: 'Select Schedule', href: '#', status: 'upcoming' },
+    { id: '03', name: 'Your details', href: '#', status: 'upcoming' },
+    { id: '04', name: 'Confirmation', href: '#', status: 'upcoming' },
 ]
 
 watch(() => props.currentStep, (currentStep: number) => {
     if (currentStep === 1) {
         steps = [
             { id: '01', name: 'Event details', href: '#', status: 'current' },
-            { id: '02', name: 'Your details', href: '#', status: 'upcoming' },
-            { id: '03', name: 'Confirmation', href: '#', status: 'upcoming' },
+            { id: '02', name: 'Select Schedule', href: '#', status: 'upcoming' },
+            { id: '03', name: 'Your details', href: '#', status: 'upcoming' },
+            { id: '04', name: 'Confirmation', href: '#', status: 'upcoming' },
         ]
     } else if (currentStep === 2) {
         steps = [
             { id: '01', name: 'Event details', href: '#', status: 'completed' },
-            { id: '02', name: 'Your details', href: '#', status: 'current' },
-            { id: '03', name: 'Confirmation', href: '#', status: 'upcoming' },
+            { id: '02', name: 'Select Schedule', href: '#', status: 'current' },
+            { id: '03', name: 'Your details', href: '#', status: 'upcoming' },
+            { id: '04', name: 'Confirmation', href: '#', status: 'upcoming' },
         ]
     } else if (currentStep === 3) {
         steps = [
             { id: '01', name: 'Event details', href: '#', status: 'completed' },
-            { id: '02', name: 'Your details', href: '#', status: 'completed' },
-            { id: '03', name: 'Confirmation', href: '#', status: 'current' },
+            { id: '02', name: 'Select Schedule', href: '#', status: 'completed' },
+            { id: '03', name: 'Your details', href: '#', status: 'current' },
+            { id: '04', name: 'Confirmation', href: '#', status: 'upcoming' },
+        ]
+    } else if (currentStep === 4) {
+        steps = [
+            { id: '01', name: 'Event details', href: '#', status: 'completed' },
+            { id: '02', name: 'Select Schedule', href: '#', status: 'completed' },
+            { id: '03', name: 'Your details', href: '#', status: 'completed' },
+            { id: '04', name: 'Confirmation', href: '#', status: 'current' },
         ]
     }
 })

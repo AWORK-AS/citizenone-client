@@ -58,6 +58,69 @@
                             <div v-if="state.currentStep === 2">
                                 <div class="relative">
                                     <div class="p-6">
+                                        <form>
+                                            <div class="grow grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-6">
+                                                <div class="w-full">
+                                                    <div class="space-y-1 w-[308px]">
+                                                        <FormLabel for="date_time_end" :label="'Pick a date'" />
+                                                        <FormCalendarDatePicker id="selected_date" name="selected_date"
+                                                            :placeholder="`${$t('bookings.formEvent.information.dateTimeEnd')}`"
+                                                            :min-date="state.courseEventDetails?.event_course_sessions[0]?.date_time_start.split(' ')[0]"
+                                                            :max-date="state.courseEventDetails?.event_course_sessions[0]?.date_time_end.split(' ')[0]"
+                                                            v-model="state.formBooking.selected_date" />
+                                                        <FormError :error="''" />
+                                                        <FormError :error="''" />
+                                                    </div>
+                                                </div>
+                                                <div class="space-y-1">
+                                                    <FormLabel for="select_timeslot" :label="'Select timeslot'" />
+                                                    <fieldset>
+                                                        <RadioGroup v-model="state.formBooking.selected_time_slot"
+                                                            class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-1 sm:gap-x-4 max-h-96 overflow-y-auto pl-1 pr-3 py-3 space-y-1">
+                                                            <RadioGroupOption as="template" v-for="timeSlot in state.courseEventDetails?.booking_setting?.time_slots || []"
+                                                                :key="timeSlot.id" :value="timeSlot" :aria-label="`${timeSlot.start_time} - ${timeSlot.end_time}`"
+                                                                v-slot="{ active, checked }">
+                                                                <div
+                                                                    :class="[active ? 'border-primary ring-1 ring-primary' : 'border-gray-300', 'relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-xs focus:outline-hidden']">
+                                                                    <span class="flex flex-1">
+                                                                        <span class="flex flex-col">
+                                                                            <p class="block text-sm font-medium text-gray-900">
+                                                                                <span>
+                                                                                    {{ `${timeSlot.start_time} - ${timeSlot.end_time}` }}
+                                                                                </span>
+                                                                                
+                                                                            </p>
+                                                                        </span>
+                                                                    </span>
+                                                                    <Icon name="ph:check-circle"
+                                                                        :class="[!checked ? 'invisible' : '', 'size-5 text-primary']"
+                                                                        aria-hidden="true" />
+                                                                    <span
+                                                                        :class="[active ? 'border' : 'border-1', checked ? 'border-primary' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-lg']"
+                                                                        aria-hidden="true" />
+                                                                </div>
+                                                            </RadioGroupOption>
+                                                        </RadioGroup>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
+                                                    @click="handleBackStep()">
+                                                    {{ $t('back') }}
+                                                </FormButton>
+                                                <FormButton type="button" buttonStyle="primary"
+                                                    class="rounded-md w-full" @click="handleNextStep()">
+                                                    {{ $t('next') }}
+                                                </FormButton>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-if="state.currentStep === 3">
+                                <div class="relative">
+                                    <div class="p-6">
                                         <form @submit.prevent="submitForm()">
                                             <div class="space-y-3">
                                                 <p class="text-lg font-medium tracking-tight">
@@ -169,7 +232,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="state.currentStep === 3">
+                            <div v-if="state.currentStep === 4">
                                 <div v-if="!state.successfullyBooked">
                                     <div class="relative">
                                         <div class="p-6">
@@ -339,6 +402,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import type { Error } from '@/types'
 const router = useRouter()
 const companyLink = router?.currentRoute?.value?.params?.company_link
@@ -363,6 +427,8 @@ const state = reactive({
         notes: '',
         social_security_number: '',
         date_of_birth: '',
+        selected_date: '',
+        selected_time_slot: ''
     },
     isPageLoading: false,
     slideOver: {
