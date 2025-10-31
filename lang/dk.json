@@ -542,6 +542,7 @@
                 "endTime": "Sluttid",
                 "capacity": "Kapacitet",
                 "remove": "Fjern",
+                "addSlot": "Tilføj tidsrum",
                 "removeSlot": "Fjern dette bookingtidspunkt",
                 "validationError": "Bookingtidspunkt og kapacitet er påkrævet"
             },

@@ -542,6 +542,7 @@
                 "endTime": "End time",
                 "capacity": "Capacity",
                 "remove": "Remove",
+                "addSlot": "Add slot",
                 "removeSlot": "Remove this booking slot",
                 "validationError": "Booking slot and capacity is required"
             },

@@ -209,7 +209,7 @@
                 <div class="space-y-1">
                     <FormButton type="button" buttonStyle="cancel" class="col-start-2 rounded-md" @click="addSlot()">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        Add slot
+                        {{ $t('bookings.formEvent.slots.addSlot') }}
                     </FormButton>
                 </div>
                 <div class="space-y-1">
