@@ -8,7 +8,7 @@
                         <p class="text-lg font-semibold">
                             {{ $t('bookings.singleEvent.singleEvent') }}
                         </p>
-                        <p class="text-sm">
+                        <p class="text-sm text-center">
                             {{ $t('bookings.singleEvent.createASingleEventLabel') }}
                         </p>
                         <div class="mt-4">
@@ -24,7 +24,7 @@
                         <p class="text-lg font-semibold">
                             {{ $t('bookings.course.course') }}
                         </p>
-                        <p class="text-sm">
+                        <p class="text-sm text-center">
                             {{ $t('bookings.course.createACourseByGroupingMultipleEvents') }}
                         </p>
                         <div class="mt-4">
